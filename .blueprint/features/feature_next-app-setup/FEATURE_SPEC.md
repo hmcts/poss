@@ -57,3 +57,22 @@ Provides a testable configuration module (`src/next-app-setup/index.ts`) exposin
 - `app/layout.tsx` exists with root layout structure
 - `tailwind.config.ts` defines dark mode class strategy and state colour tokens
 - Existing 194 tests remain green
+
+---
+
+## Actual Implementation (deviations from spec)
+
+The following changes were made during vibe coding:
+
+| Spec | Actual |
+|------|--------|
+| Next.js 15 | Next.js 16.2.1 |
+| React 19 | React 19 (as specified) |
+| Tailwind CSS 4, `@tailwindcss/postcss` | Tailwind CSS 3.4.19, `postcss` + `autoprefixer` |
+| `@tailwind` v4 syntax | `@tailwind base/components/utilities` (v3 syntax) |
+| Dark/light theme provider | Dark-only (theme toggle removed) |
+| Path alias `@/src/*` | Path alias `@/*` (broader, set by Next.js) |
+| `postcss.config.js` with `@tailwindcss/postcss` | `postcss.config.js` with `tailwindcss` + `autoprefixer` plugins |
+| CSS custom properties for state colours | CSS custom properties for theme + Inter font `@import` |
+
+The `src/next-app-setup/index.ts` logic module remains unchanged — deviations are in the framework files only.
