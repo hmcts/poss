@@ -43,3 +43,12 @@ export const ClaimTypeSchema = z.object({
 });
 
 export type ClaimType = z.infer<typeof ClaimTypeSchema>;
+
+export const BreathingSpaceEntrySchema = z.object({
+  stateFrom: z.string(),
+  stateTo: z.string(),
+  isConditional: z.boolean(),
+  conditions: z.array(z.string()),
+});
+
+export type BreathingSpaceEntry = z.infer<typeof BreathingSpaceEntrySchema>;

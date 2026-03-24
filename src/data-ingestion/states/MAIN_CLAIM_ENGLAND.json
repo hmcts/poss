@@ -1,0 +1,33 @@
+{
+  "states": [
+    {
+      "id": "MCE_DRAFT",
+      "technicalName": "DRAFT",
+      "uiLabel": "Draft",
+      "claimType": "MAIN_CLAIM_ENGLAND",
+      "isDraftLike": true,
+      "isLive": false,
+      "isEndState": false,
+      "completeness": 10
+    },
+    {
+      "id": "MCE_ISSUED",
+      "technicalName": "ISSUED",
+      "uiLabel": "Issued",
+      "claimType": "MAIN_CLAIM_ENGLAND",
+      "isDraftLike": false,
+      "isLive": true,
+      "isEndState": false,
+      "completeness": 50
+    }
+  ],
+  "transitions": [
+    {
+      "from": "DRAFT",
+      "to": "ISSUED",
+      "condition": null,
+      "isSystemTriggered": false,
+      "isTimeBased": false
+    }
+  ]
+}
