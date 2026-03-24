@@ -28,9 +28,6 @@
 
 | Status | P | E | Slug | Description |
 |--------|---|---|------|-------------|
-| Ready | P1 | XL | state-explorer | Interactive React Flow state diagram per claim type with node/edge rendering and inspection |
-| Ready | P1 | L | event-matrix | Filterable, searchable event table with actor icon grid and CSV export |
-| Ready | P1 | XL | case-walk | Step-through case simulation: select claim type, walk events, history trail, dead-end detection |
 | Ready | P2 | XL | scenario-analysis | Toggle events/roles/states on/off, see micro/meso/macro impact with visual output |
 | Ready | P2 | M | model-health | Model health panel: open questions count, low-completeness states, unreachable end states |
 | Ready | P2 | M | uncertainty-display | Visual uncertainty indicators (hasOpenQuestions, completeness badges) across all modes |
@@ -38,43 +35,6 @@
 ---
 
 ## Details
-
-### state-explorer
-
-Interactive flowchart visualisation per claim type using React Flow:
-- Nodes represent states with colour coding: draft/amber, live/green, end/dark, uncertain/muted-striped
-- Edges represent transitions with condition labels and type coding: system/dashed, time-based/dotted, user/solid
-- Completeness badge on each state node
-- Click state node to open detail drawer: UI label, technical name, events list, actor permissions
-- Claim type switcher to navigate between diagrams
-- Layout should mirror the structure of the PDF source diagrams where practical
-
-Depends on: data-model, data-ingestion, app-shell.
-
-### event-matrix
-
-Filterable table replacing the Excel spreadsheet:
-- Filters: claim type, state, actor/role, system vs user events
-- Search: event name or notes keyword
-- Columns: State, Event, System?, Notes, actor columns (toggle-able)
-- Actor columns rendered as icon grid (not raw Y/N text)
-- Rows with hasOpenQuestions flagged with visual indicator (amber dot)
-- CSV export of current filtered view
-
-Depends on: data-model, data-ingestion, app-shell.
-
-### case-walk
-
-Step-through simulation of a single case journey:
-- Select claim type; case starts at the initial state (AWAITING_SUBMISSION_TO_HMCTS or equivalent)
-- Display available events for current state, optionally filtered by a selected actor/role
-- User selects an event; case transitions to the next state per the transition model
-- History trail shown as breadcrumb on the left
-- Dead-end detection: if no available events and not in a valid end state, flag the case as stuck
-- Handle cross-cutting states: when entering BREATHING_SPACE or CASE_STAYED, show return options per the matrix; if conditional, present both with "conditional" label
-
-Depends on: data-model, data-ingestion, app-shell.
-Clarify: How to handle conditional return states from BREATHING_SPACE/CASE_STAYED in simulation -- present both options as user choice is the current approach per spec.md gap table.
 
 ### scenario-analysis
 
