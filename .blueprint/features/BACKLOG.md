@@ -52,8 +52,8 @@ All 9 logic-layer features are implemented with 194 passing tests:
 | Done | P1 | XL | ui-state-explorer | React Flow graph visualisation of state diagrams per claim type |
 | Done | P1 | L | ui-event-matrix | Filterable, searchable event table with actor grid and CSV export |
 | Done | P1 | L | ui-case-walk | Step-through case simulation with history trail and role filter |
-| Ready | P2 | L | ui-scenario-analysis | What-if toggle panel with micro/meso/macro impact display |
-| Ready | P2 | M | ui-model-health | Model health dashboard with open questions and completeness metrics |
+| Done | P2 | L | ui-scenario-analysis | What-if toggle panel with micro/meso/macro impact display |
+| Done | P2 | M | ui-model-health | Model health dashboard with open questions and completeness metrics |
 
 ---
 
