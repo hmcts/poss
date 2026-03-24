@@ -46,3 +46,18 @@ Provides a testable logic module (`src/ui-app-shell/index.ts`) exposing pure fun
 - No DOM or React dependencies
 - All functions are pure (no side effects)
 - Existing tests remain green
+
+---
+
+## React Component Layer (implemented via vibe coding)
+
+The React components in `app/` consume this module's exports:
+
+- **Sidebar** (`app/components/Sidebar.tsx`) — Uses `getNavigationItems()` for nav links with active highlighting, `getClaimTypeSelectorOptions()` for dropdown. Responsive: collapses to hamburger on mobile.
+- **Header** (`app/components/Header.tsx`) — Uses `getHealthBadge()` for model health indicator with colour-coded dot and label. Theme toggle was removed (dark-only).
+- **Layout** (`app/layout.tsx`) — Uses `getLayoutConfig()` dimensions implicitly. Dark-only slate/indigo theme with Inter font.
+
+**Deviations from original spec:**
+- Dark/light theme toggle removed — UI is dark-only
+- `getThemeToggleState()` is no longer used by the React layer
+- Indigo accent colour (not blue) with slate palette (not gray)

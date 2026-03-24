@@ -155,7 +155,7 @@ The tool must support all seven claim types with a uniform data model while resp
 BREATHING_SPACE and CASE_STAYED affect all claim types. Their return logic must be consistently modelled and visually surfaced, including conditional return paths and unresolved questions.
 
 ### Accessibility
-ASSUMPTION: As an internal tool for a small group, WCAG AA compliance is a goal but not a hard launch blocker. Dark mode support is specified.
+ASSUMPTION: As an internal tool for a small group, WCAG AA compliance is a goal but not a hard launch blocker. The UI is dark-only (slate/indigo theme with Inter font). Light mode was considered and removed as unnecessary for this user group.
 
 ---
 
@@ -166,7 +166,7 @@ ASSUMPTION: As an internal tool for a small group, WCAG AA compliance is a goal 
 - **Storage:** No database. JSON data parsed from Excel at build time. State transition data hand-coded from PDFs.
 - **Scalability:** Not a concern — designed for a small internal team.
 - **Security:** Internal tool. ASSUMPTION: No authentication required; network-level access control is sufficient.
-- **Deployment:** Next.js 15 static/hybrid deployment. Port 3000 for development.
+- **Deployment:** Next.js 16 static/hybrid deployment. Port 3000 for development.
 
 ---
 
@@ -183,8 +183,25 @@ ASSUMPTION: As an internal tool for a small group, WCAG AA compliance is a goal 
 
 ---
 
-## 11. Change Log (System-Level)
+## 11. Architecture
+
+
+
+### Architecture Layers
+
+The system is built in three layers:
+
+1. **Logic Layer** (`src/`) — 9 pure TypeScript modules with 194 tests. Domain logic: schemas, parsing, graph building, simulation, scenario analysis, health metrics, uncertainty display.
+2. **UI Helper Layer** (`src/ui-*/`) — 8 pure TypeScript modules with 145 tests. View-model functions that compose logic modules into UI-ready data structures. No DOM or React dependencies.
+3. **React Component Layer** (`app/`) — Next.js 16 App Router pages and components. Consumes UI helper modules. Tailwind CSS 3, React Flow for graph visualisation. Dark-only slate/indigo theme with Inter font.
+
+All three layers are TypeScript. Layers 1 and 2 are tested with `node:test` (339 tests total). Layer 3 uses sample data for prototyping; real data integration via the ingestion pipeline is pending.
+
+---
+
+## 12. Change Log (System-Level)
 
 | Date | Change | Reason | Approved By |
 |------|--------|--------|-------------|
 | 2026-03-24 | Initial system specification created from spec.md v0.3 | Project inception | Alex (System Spec Agent) |
+| 2026-03-24 | Updated tech stack (Next.js 16, Tailwind 3, dark-only), added architecture layers section | React component layer built | Manual update |

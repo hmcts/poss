@@ -57,6 +57,21 @@ All 9 logic-layer features are implemented with 194 passing tests:
 
 ---
 
+## Completed (React Component Layer)
+
+Built via vibe coding (not agent pipeline). Consumes UI helper modules from `src/ui-*/`. Uses sample data per claim type for prototyping.
+
+| Status | P | E | Slug | Description |
+|--------|---|---|------|-------------|
+| Done | P1 | L | react-app-shell | Sidebar, header, claim type selector, health badge, Inter/slate/indigo theme |
+| Done | P1 | XL | react-state-explorer | React Flow graph with auto-layout, node badges, detail panel, legends |
+| Done | P1 | L | react-event-matrix | Filterable/searchable table with actor grid, CSV export, open question indicators |
+| Done | P1 | L | react-case-walk | Case simulation with event toggling, auto-replay, timeline, expandable event details |
+
+Files: `app/layout.tsx`, `app/providers.tsx`, `app/components/`, `app/state-explorer/`, `app/event-matrix/`, `app/digital-twin/`
+
+---
+
 ## Feature Details
 
 ### next-app-setup (P0, XL)

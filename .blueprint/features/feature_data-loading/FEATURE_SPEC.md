@@ -42,3 +42,20 @@ Convenience function. Creates a new Possessions store via `createPossessionsStor
 - This is a pure-logic module. No React/DOM.
 - `getModelDataForClaimType` filters transitions by checking if `transition.from` matches any state ID in the filtered states set. This ensures transitions are scoped to the correct claim type.
 - `loadModelData` is async; all other functions are synchronous.
+
+---
+
+## React Integration (implemented via vibe coding)
+
+The React component layer does NOT use the Zustand store or `loadModelData` for data loading. Instead:
+
+- **`app/providers.tsx`** implements a React Context (`AppProvider`) with `useState`
+- **Sample data generator** (`createSampleData`) produces distinct process models per claim type with realistic states, transitions, and events
+- **No `useModelData` hook** — components access data via `useApp()` context hook returning `{ modelData, activeClaimType, setActiveClaimType }`
+- Switching claim types regenerates sample data and re-renders all consuming components
+
+### Why the deviation
+The real ingestion pipeline (`loadStatesAndTransitions`) depends on JSON fixtures from Excel/PDF parsing. For rapid prototyping, sample data per claim type was more practical. The Zustand store and `loadModelData`/`populateStore` functions remain available for future integration with real data.
+
+### To connect real data
+Replace `createSampleData()` in `app/providers.tsx` with calls to `loadModelData()` + `getModelDataForClaimType()`, or wire the Zustand store via `useSyncExternalStore`.

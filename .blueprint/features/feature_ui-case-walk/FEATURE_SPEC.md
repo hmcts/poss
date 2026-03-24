@@ -97,3 +97,31 @@ export function getBreathingSpaceInfo(simulation, breathingSpaceEntries): Breath
 - AC-6: Status correctly identifies active, dead-end, and completed states
 - AC-7: getRoleFilterOptions extracts unique roles sorted alphabetically
 - AC-8: getBreathingSpaceInfo detects breathing space and return states
+
+---
+
+## React Component Layer (implemented via vibe coding)
+
+The React page at `app/digital-twin/page.tsx` consumes this module and adds interactive features beyond the original spec:
+
+### Event Toggling with Auto-Replay
+- All events start checked (enabled) when simulation begins
+- Unchecking an event removes it from the available event pool
+- The simulation auto-replays from the initial state using only enabled events, advancing through the first available event at each state
+- Timeline and terminal state detection recalculate immediately
+- Disabled events shown with strikethrough, red border, reduced opacity
+- Amber banner shows count of disabled events
+
+### Expandable Event Details
+- Events panel below Reset button shows all events grouped by state
+- Current state highlighted with indigo indicator
+- Each event row has: checkbox, name, SYS badge (if system), amber dot (if open questions), expand chevron
+- Expanded view shows: Notes, Actors (as tags), Type (System/User), Open Questions (Yes/No)
+
+### Completeness Tooltips
+- Percentage badges in the timeline have a `title` tooltip explaining model completeness
+
+### Deviations from Original Spec
+- Combines case-walk and scenario-analysis concepts (event toggling drives simulation replay)
+- No manual step-through — simulation auto-walks the path
+- No role filter on the main simulation (events panel replaces this)
