@@ -47,7 +47,7 @@ All 9 logic-layer features are implemented with 194 passing tests:
 | Status | P | E | Slug | Description |
 |--------|---|---|------|-------------|
 | Done | P0 | XL | next-app-setup | Initialise Next.js 15 with App Router, Tailwind CSS, React Flow, dark/light theme |
-| Ready | P0 | M | data-loading | Wire ingestion JSON output into Zustand store, load at app startup |
+| Done | P0 | M | data-loading | Wire ingestion JSON output into Zustand store, load at app startup |
 | Ready | P1 | L | ui-app-shell | Layout, sidebar navigation, claim type selector, theme toggle, health badge |
 | Ready | P1 | XL | ui-state-explorer | React Flow graph visualisation of state diagrams per claim type |
 | Ready | P1 | L | ui-event-matrix | Filterable, searchable event table with actor grid and CSV export |
