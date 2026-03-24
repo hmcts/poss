@@ -28,7 +28,6 @@
 
 | Status | P | E | Slug | Description |
 |--------|---|---|------|-------------|
-| Ready | P0 | L | data-ingestion | Parse Excel event model and hand-coded state/transition JSON into unified data layer |
 | Ready | P0 | L | app-shell | Next.js 15 app shell with layout, navigation, dark mode, Tailwind + shadcn/ui setup |
 | Ready | P1 | XL | state-explorer | Interactive React Flow state diagram per claim type with node/edge rendering and inspection |
 | Ready | P1 | L | event-matrix | Filterable, searchable event table with actor icon grid and CSV export |
@@ -40,18 +39,6 @@
 ---
 
 ## Details
-
-### data-ingestion
-
-Build the data pipeline that produces the static JSON consumed at runtime:
-- Parse `Event Model Possession Service V0.1.xlsx` into Event records per claim type
-- Hand-code state/transition JSON for each of the 7 claim types from PDF diagrams (see `.business_context/pdf_images/`)
-- Parse or hand-code the breathing space/stayed matrix from `Breathing space and stayed matrix.xlsx`
-- Auto-detect hasOpenQuestions from notes containing "?", "TBC", placeholder patterns
-- Compute completeness percentages per state
-- Output: typed JSON files importable at build time
-
-ASSUMPTION: Excel parsing happens at build time via a script (e.g. using xlsx library), not at runtime.
 
 ### app-shell
 
