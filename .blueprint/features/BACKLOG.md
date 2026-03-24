@@ -28,7 +28,6 @@
 
 | Status | P | E | Slug | Description |
 |--------|---|---|------|-------------|
-| Ready | P0 | L | app-shell | Next.js 15 app shell with layout, navigation, dark mode, Tailwind + shadcn/ui setup |
 | Ready | P1 | XL | state-explorer | Interactive React Flow state diagram per claim type with node/edge rendering and inspection |
 | Ready | P1 | L | event-matrix | Filterable, searchable event table with actor icon grid and CSV export |
 | Ready | P1 | XL | case-walk | Step-through case simulation: select claim type, walk events, history trail, dead-end detection |
@@ -39,18 +38,6 @@
 ---
 
 ## Details
-
-### app-shell
-
-Set up the foundational application structure:
-- Next.js 15 with App Router, TypeScript
-- Tailwind CSS + shadcn/ui component library
-- Three-mode navigation: State Explorer, Event Matrix, Digital Twin
-- Claim type selector (sidebar or top nav) shared across modes
-- Dark mode toggle (Linear/Raycast aesthetic: sharp typography, high information density)
-- Monospace for technical state names, sans-serif for UI labels
-- Port 3000 for development
-- Zustand store provider
 
 ### state-explorer
 
