@@ -28,7 +28,6 @@
 
 | Status | P | E | Slug | Description |
 |--------|---|---|------|-------------|
-| Ready | P0 | L | data-model | Core TypeScript types and JSON schema for ClaimType, State, Transition, Event, Role |
 | Ready | P0 | L | data-ingestion | Parse Excel event model and hand-coded state/transition JSON into unified data layer |
 | Ready | P0 | L | app-shell | Next.js 15 app shell with layout, navigation, dark mode, Tailwind + shadcn/ui setup |
 | Ready | P1 | XL | state-explorer | Interactive React Flow state diagram per claim type with node/edge rendering and inspection |
@@ -41,19 +40,6 @@
 ---
 
 ## Details
-
-### data-model
-
-Define the canonical TypeScript interfaces and types that all features consume:
-- `ClaimType` with id, name, description
-- `State` with technicalName, uiLabel, isDraftLike, isLive, isEndState, completeness, claimType reference
-- `Transition` with from/to State references, condition, isSystemTriggered, isTimeBased
-- `Event` with name, state, isSystemEvent, notes, hasOpenQuestions, actors map (~30 roles)
-- `Role` type extracted from Excel column headers
-- JSON schema for validation of hand-coded data files
-- Zustand store skeleton for shared state
-
-Source: `.business_context/spec.md` core data model section.
 
 ### data-ingestion
 
