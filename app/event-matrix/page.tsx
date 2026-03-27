@@ -3,6 +3,13 @@
 import { useState, useMemo, useCallback } from 'react';
 import { useApp } from '../providers';
 import { getFilterOptions, applyFiltersAndSearch, prepareTableData, prepareCsvDownload, getEventMatrixSummary } from '../../src/ui-event-matrix/index';
+import { getEventMatrixWaColumn, getWaTaskFilterOptions, filterEventsByWaTask } from '../../src/ui-wa-tasks/state-overlay-helpers';
+
+// ── Static WA data ─────────────────────────────────────────────────
+import waTasksData from '../../data/wa-tasks.json';
+import waMappingsData from '../../data/wa-mappings.json';
+const waTasks = waTasksData as any[];
+const waMappings = waMappingsData as any[];
 
 export default function EventMatrixPage() {
   const { modelData } = useApp();
@@ -11,15 +18,18 @@ export default function EventMatrixPage() {
   const [roleFilter, setRoleFilter] = useState('');
   const [systemOnly, setSystemOnly] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
+  const [waTaskFilter, setWaTaskFilter] = useState('');
 
   const filterOptions = useMemo(() => getFilterOptions(events), [events]);
-  const filteredEvents = useMemo(() =>
-    applyFiltersAndSearch(events, {
+  const waFilterOptions = useMemo(() => getWaTaskFilterOptions(waTasks), []);
+  const filteredEvents = useMemo(() => {
+    const baseFiltered = applyFiltersAndSearch(events, {
       ...(stateFilter ? { state: stateFilter } : {}),
       ...(roleFilter ? { role: roleFilter } : {}),
       ...(systemOnly ? { systemOnly: true } : {}),
-    }, searchQuery),
-  [events, stateFilter, roleFilter, systemOnly, searchQuery]);
+    }, searchQuery);
+    return waTaskFilter ? filterEventsByWaTask(baseFiltered, waTaskFilter, waTasks, waMappings) : baseFiltered;
+  }, [events, stateFilter, roleFilter, systemOnly, searchQuery, waTaskFilter]);
   const tableData = useMemo(() => prepareTableData(filteredEvents, filterOptions.roles), [filteredEvents, filterOptions.roles]);
   const summary = useMemo(() => getEventMatrixSummary(events, filteredEvents), [events, filteredEvents]);
 
@@ -32,7 +42,7 @@ export default function EventMatrixPage() {
     URL.revokeObjectURL(url);
   }, [filteredEvents]);
 
-  const hasFilters = stateFilter || roleFilter || systemOnly || searchQuery;
+  const hasFilters = stateFilter || roleFilter || systemOnly || searchQuery || waTaskFilter;
 
   return (
     <div className="space-y-5">
@@ -67,8 +77,13 @@ export default function EventMatrixPage() {
           <input type="checkbox" checked={systemOnly} onChange={(e) => setSystemOnly(e.target.checked)} className="rounded bg-slate-800 border-slate-600 text-indigo-500" />
           System only
         </label>
+        <select value={waTaskFilter} onChange={(e) => setWaTaskFilter(e.target.value)}
+          className="px-3 py-2 text-[13px] bg-slate-800/50 text-slate-200 border border-slate-700/40 rounded-lg focus:outline-none focus:border-indigo-500/50">
+          <option value="">All WA Tasks</option>
+          {waFilterOptions.map((opt) => <option key={opt.value} value={opt.value}>{opt.label}</option>)}
+        </select>
         {hasFilters && (
-          <button onClick={() => { setStateFilter(''); setRoleFilter(''); setSystemOnly(false); setSearchQuery(''); }}
+          <button onClick={() => { setStateFilter(''); setRoleFilter(''); setSystemOnly(false); setSearchQuery(''); setWaTaskFilter(''); }}
             className="text-[12px] text-indigo-400 hover:text-indigo-300 transition-colors">Clear</button>
         )}
       </div>
@@ -81,6 +96,7 @@ export default function EventMatrixPage() {
               <th className="text-left px-4 py-3 text-slate-500 font-medium">Event</th>
               <th className="text-center px-3 py-3 text-slate-500 font-medium">Sys</th>
               <th className="text-left px-4 py-3 text-slate-500 font-medium max-w-xs">Notes</th>
+              <th className="text-left px-4 py-3 text-slate-500 font-medium">WA Task</th>
               {tableData.headers.map((h) => (
                 <th key={h} className="text-center px-3 py-3 text-slate-500 font-medium whitespace-nowrap">{h}</th>
               ))}
@@ -102,6 +118,18 @@ export default function EventMatrixPage() {
                   {row.event.isSystemEvent && <span className="text-[9px] px-1.5 py-0.5 rounded bg-indigo-500/15 text-indigo-400 font-medium">SYS</span>}
                 </td>
                 <td className="px-4 py-2.5 text-slate-600 max-w-xs truncate">{row.event.notes}</td>
+                <td className="px-4 py-2.5 whitespace-nowrap">
+                  {(() => {
+                    const waCol = getEventMatrixWaColumn(row.event.name, waTasks, waMappings);
+                    if (!waCol) return <span className="text-slate-600">--</span>;
+                    return (
+                      <div className="flex items-center gap-1.5">
+                        <span className="w-2 h-2 rounded-full shrink-0" style={{ backgroundColor: waCol.colourDot }} />
+                        <span className="text-[12px] text-slate-300">{waCol.taskName}</span>
+                      </div>
+                    );
+                  })()}
+                </td>
                 {row.actors.map((active, i) => (
                   <td key={tableData.headers[i]} className="text-center px-3 py-2.5">
                     {active && <span className="text-emerald-400">&#10003;</span>}
@@ -110,7 +138,7 @@ export default function EventMatrixPage() {
               </tr>
             ))}
             {tableData.rows.length === 0 && (
-              <tr><td colSpan={4 + tableData.headers.length} className="text-center py-12 text-slate-600">No events match the current filters</td></tr>
+              <tr><td colSpan={5 + tableData.headers.length} className="text-center py-12 text-slate-600">No events match the current filters</td></tr>
             )}
           </tbody>
         </table>

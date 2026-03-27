@@ -5,6 +5,13 @@ import { ReactFlow, Background, Controls, type Node, type Edge } from '@xyflow/r
 import '@xyflow/react/dist/style.css';
 import { useApp } from '../providers';
 import { prepareGraphData, prepareNodeWithBadge, prepareStateDetailPanel, getGraphLegend, getEdgeLegend } from '../../src/ui-state-explorer/index';
+import { getNodeWaBadge, getStateDetailWaTasks } from '../../src/ui-wa-tasks/state-overlay-helpers';
+
+// ── Static WA data ─────────────────────────────────────────────────
+import waTasksData from '../../data/wa-tasks.json';
+import waMappingsData from '../../data/wa-mappings.json';
+const waTasks = waTasksData as any[];
+const waMappings = waMappingsData as any[];
 
 export default function StateExplorerPage() {
   const { modelData } = useApp();
@@ -16,6 +23,7 @@ export default function StateExplorerPage() {
     graphData.nodes.map((n) => {
       const state = modelData.states.find((s) => s.id === n.id);
       const badge = state ? prepareNodeWithBadge(state) : null;
+      const waBadge = getNodeWaBadge(n.id, modelData.events, waTasks, waMappings);
       return {
         id: n.id,
         position: n.position,
@@ -27,6 +35,12 @@ export default function StateExplorerPage() {
                 <div className="text-[9px] mt-1 px-1.5 py-0.5 rounded-full inline-block font-medium"
                   style={{ backgroundColor: badge.badge.color.background, color: badge.badge.color.text, border: `1px solid ${badge.badge.color.border}` }}>
                   {badge.badge.label}
+                </div>
+              )}
+              {waBadge && (
+                <div className="text-[9px] mt-1 px-1.5 py-0.5 rounded-full inline-block font-medium ml-1"
+                  style={{ backgroundColor: waBadge.colour + '20', color: waBadge.colour, border: `1px solid ${waBadge.colour}40` }}>
+                  {waBadge.label}
                 </div>
               )}
             </div>
@@ -60,6 +74,7 @@ export default function StateExplorerPage() {
   }, []);
 
   const detail = selectedStateId ? prepareStateDetailPanel(selectedStateId, modelData.states, modelData.events) : null;
+  const waDetailTasks = selectedStateId ? getStateDetailWaTasks(selectedStateId, modelData.events, waTasks, waMappings) : [];
   const graphLegend = getGraphLegend();
   const edgeLegend = getEdgeLegend();
 
@@ -132,6 +147,23 @@ export default function StateExplorerPage() {
                     <span key={actor} className="text-[11px] px-2 py-0.5 rounded-md bg-slate-700/50 text-slate-400">{actor}: {count}</span>
                   ))}
                 </div>
+              </>
+            )}
+            {waDetailTasks.length > 0 && (
+              <>
+                <div className="h-px bg-slate-700/30 my-3" />
+                <h4 className="text-[11px] font-semibold text-slate-500 uppercase tracking-wider mb-2">Work Allocation Tasks</h4>
+                <ul className="space-y-2">
+                  {waDetailTasks.map((wt) => (
+                    <li key={wt.taskName} className="flex items-start gap-2">
+                      <span className="text-[9px] mt-0.5 px-1.5 py-0.5 rounded-full font-medium shrink-0"
+                        style={{ backgroundColor: wt.badge.colour + '20', color: wt.badge.colour, border: `1px solid ${wt.badge.colour}40` }}>
+                        {wt.badge.label}
+                      </span>
+                      <span className="text-[12px] text-slate-300" title={wt.tooltip}>{wt.taskName}</span>
+                    </li>
+                  ))}
+                </ul>
               </>
             )}
           </div>
