@@ -7,6 +7,13 @@ import {
   getSimulationTimeline, getSimulationStatus, getRoleFilterOptions,
   type EnrichedSimulation,
 } from '../../src/ui-case-walk/index';
+import {
+  shouldShowWaToggle, getEventTaskCards, getTimelineChips,
+  getAlignmentWarning, isPaymentRelatedState, getEmptyStateMessage,
+} from '../../src/ui-wa-tasks/digital-twin-helpers';
+import { getUnmappedTasks } from '../../src/wa-task-engine/index';
+import waTasks from '../../data/wa-tasks.json';
+import waMappings from '../../data/wa-mappings.json';
 
 function autoWalk(claimTypeId: string, states: any[], transitions: any[], allEvents: any[], enabledIds: Set<string>): EnrichedSimulation | null {
   const events = allEvents.filter((e: any) => enabledIds.has(e.id));
@@ -28,6 +35,10 @@ export default function CaseWalkPage() {
   const [enabledEvents, setEnabledEvents] = useState<Set<string>>(new Set());
   const [expandedEvent, setExpandedEvent] = useState<string | null>(null);
   const [started, setStarted] = useState(false);
+  const [showWaTasks, setShowWaTasks] = useState(false);
+  const [expandedCards, setExpandedCards] = useState<Set<string>>(new Set());
+
+  const waToggleVisible = shouldShowWaToggle(waTasks, waMappings);
 
   const handleStart = useCallback(() => {
     const allIds = new Set(modelData.events.map((e: any) => e.id));
@@ -90,6 +101,19 @@ export default function CaseWalkPage() {
                 style={{ backgroundColor: entry.badge.color.background, color: entry.badge.color.text, border: `1px solid ${entry.badge.color.border}` }}>
                 {entry.badge.label}
               </span>
+              {showWaTasks && entry.eventName && (() => {
+                const chips = getTimelineChips(entry.eventName, waTasks as any, waMappings as any);
+                if (chips.length === 0) return null;
+                return (
+                  <div className="flex flex-wrap gap-1 mt-1">
+                    {chips.map((chip, ci) => (
+                      <span key={ci} className="text-[9px] px-1.5 py-0.5 rounded-md font-medium" style={{ backgroundColor: `${chip.colour}20`, color: chip.colour, border: `1px solid ${chip.colour}40` }}>
+                        {chip.taskName}
+                      </span>
+                    ))}
+                  </div>
+                );
+              })()}
             </div>
           </div>
         ))}
@@ -124,9 +148,43 @@ export default function CaseWalkPage() {
           </div>
         )}
 
-        <button onClick={handleReset} className="px-4 py-2 text-[12px] font-medium bg-slate-800/50 text-slate-400 border border-slate-700/40 rounded-lg hover:bg-slate-700/50 hover:text-slate-300 transition-all">
-          Reset Simulation
-        </button>
+        <div className="flex items-center gap-3">
+          <button onClick={handleReset} className="px-4 py-2 text-[12px] font-medium bg-slate-800/50 text-slate-400 border border-slate-700/40 rounded-lg hover:bg-slate-700/50 hover:text-slate-300 transition-all">
+            Reset Simulation
+          </button>
+          {waToggleVisible && (
+            <label className="flex items-center gap-2 text-[12px] text-slate-400 cursor-pointer select-none">
+              <input type="checkbox" checked={showWaTasks} onChange={(e) => setShowWaTasks(e.target.checked)}
+                className="rounded bg-slate-800 border-slate-600 text-indigo-500 w-3.5 h-3.5 cursor-pointer" />
+              Show WA Tasks
+            </label>
+          )}
+        </div>
+
+        {showWaTasks && enrichedSim && isPaymentRelatedState(enrichedSim.currentState.technicalName) && (() => {
+          const gapTasks = getUnmappedTasks(waTasks as any, waMappings as any);
+          if (gapTasks.length === 0) return null;
+          return (
+            <div className="text-[12px] text-red-300 bg-red-500/10 border border-red-500/20 rounded-xl px-4 py-3">
+              WA task &apos;{gapTasks[0].taskName}&apos; has no corresponding event in the model
+            </div>
+          );
+        })()}
+
+        {showWaTasks && enrichedSim && (() => {
+          const emptyMsg = getEmptyStateMessage(
+            enrichedSim.simulation.currentStateId,
+            modelData.events.map((e: any) => ({ state: e.state, name: e.name })),
+            waTasks as any,
+            waMappings as any,
+          );
+          if (!emptyMsg) return null;
+          return (
+            <div className="text-[12px] text-slate-400 bg-slate-800/40 border border-slate-700/30 rounded-xl px-4 py-3">
+              {emptyMsg}
+            </div>
+          );
+        })()}
 
         {/* Events panel */}
         <div className="pt-5 border-t border-slate-700/30 pb-8">
@@ -135,16 +193,18 @@ export default function CaseWalkPage() {
             {disabledCount > 0 && <span className="text-[10px] px-2 py-0.5 rounded-full bg-amber-500/15 text-amber-300 font-medium">{disabledCount} disabled</span>}
           </div>
           <EventsList events={modelData.events} states={modelData.states} enabledEvents={enabledEvents} onToggle={handleToggleEvent}
-            expandedEvent={expandedEvent} setExpandedEvent={setExpandedEvent} currentStateId={enrichedSim?.simulation.currentStateId ?? ''} />
+            expandedEvent={expandedEvent} setExpandedEvent={setExpandedEvent} currentStateId={enrichedSim?.simulation.currentStateId ?? ''}
+            showWaTasks={showWaTasks} expandedCards={expandedCards} setExpandedCards={setExpandedCards} />
         </div>
       </div>
     </div>
   );
 }
 
-function EventsList({ events, states, enabledEvents, onToggle, expandedEvent, setExpandedEvent, currentStateId }: {
+function EventsList({ events, states, enabledEvents, onToggle, expandedEvent, setExpandedEvent, currentStateId, showWaTasks, expandedCards, setExpandedCards }: {
   events: any[]; states: any[]; enabledEvents: Set<string>; onToggle: (id: string) => void;
   expandedEvent: string | null; setExpandedEvent: (id: string | null) => void; currentStateId: string;
+  showWaTasks: boolean; expandedCards: Set<string>; setExpandedCards: (s: Set<string>) => void;
 }) {
   const stateMap = new Map(states.map((s: any) => [s.id, s.uiLabel]));
   const grouped = new Map<string, any[]>();
@@ -198,6 +258,57 @@ function EventsList({ events, states, enabledEvents, onToggle, expandedEvent, se
                         </div>
                       </div>
                     )}
+                    {showWaTasks && (() => {
+                      const cards = getEventTaskCards(evt.name, waTasks as any, waMappings as any);
+                      const warning = getAlignmentWarning(evt.name, waTasks as any, waMappings as any);
+                      if (cards.length === 0) return null;
+                      return (
+                        <div className="mx-3.5 mb-2.5 space-y-1.5">
+                          {warning && (
+                            <div className="text-[10px] text-amber-300 bg-amber-500/10 border border-amber-500/20 rounded-md px-2.5 py-1.5">
+                              {warning.message}
+                            </div>
+                          )}
+                          {cards.map((card, ci) => {
+                            const cardKey = `${evt.id}-${ci}`;
+                            const isCardExpanded = expandedCards.has(cardKey);
+                            return (
+                              <div key={ci} className="rounded-md border border-slate-700/20 bg-slate-800/20">
+                                <button
+                                  onClick={() => {
+                                    const next = new Set(expandedCards);
+                                    if (isCardExpanded) next.delete(cardKey); else next.add(cardKey);
+                                    setExpandedCards(next);
+                                  }}
+                                  className="w-full flex items-center gap-2 px-2.5 py-1.5 text-left"
+                                  aria-expanded={isCardExpanded}
+                                >
+                                  <span className="text-[10px] px-1.5 py-0.5 rounded-md font-medium"
+                                    style={{ backgroundColor: `${card.badge.colour}20`, color: card.badge.colour, border: `1px solid ${card.badge.colour}40` }}>
+                                    {card.badge.label}
+                                  </span>
+                                  <span className="text-[11px] text-slate-400 truncate flex-1">{card.taskName}</span>
+                                  <svg className={`w-2.5 h-2.5 text-slate-600 shrink-0 transition-transform ${isCardExpanded ? 'rotate-180' : ''}`} fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                                  </svg>
+                                </button>
+                                {isCardExpanded && (
+                                  <div className="px-2.5 pb-2 space-y-1.5 border-t border-slate-700/15 pt-1.5">
+                                    <div><span className="text-[9px] text-slate-600 uppercase font-medium">Trigger</span><p className="text-[11px] text-slate-400">{card.triggerDescription}</p></div>
+                                    <div><span className="text-[9px] text-slate-600 uppercase font-medium">Context</span><p className="text-[11px] text-slate-400">{card.context}</p></div>
+                                    {card.notes && card.badge.label === 'Partial' && (
+                                      <div className="text-[10px] text-amber-300 bg-amber-500/10 border border-amber-500/20 rounded-md px-2 py-1.5">
+                                        {card.notes}
+                                      </div>
+                                    )}
+                                  </div>
+                                )}
+                              </div>
+                            );
+                          })}
+                        </div>
+                      );
+                    })()}
                   </div>
                 );
               })}
