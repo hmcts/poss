@@ -7,6 +7,7 @@ export const ROUTES = [
   { path: '/state-explorer', label: 'State Explorer', icon: 'map' },
   { path: '/event-matrix', label: 'Event Matrix', icon: 'grid' },
   { path: '/digital-twin', label: 'Digital Twin', icon: 'cpu' },
+  { path: '/work-allocation', label: 'Work Allocation', icon: 'clipboard' },
 ] as const;
 
 // -- Claim Types --------------------------------------------------------------
