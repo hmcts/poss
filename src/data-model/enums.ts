@@ -10,6 +10,24 @@ export const ClaimTypeId = {
 
 export type ClaimTypeIdValue = (typeof ClaimTypeId)[keyof typeof ClaimTypeId];
 
+export const WaTaskContext = Object.freeze({
+  CLAIM: 'claim',
+  COUNTERCLAIM: 'counterclaim',
+  GEN_APP: 'gen-app',
+  CLAIM_COUNTERCLAIM: 'claim-counterclaim',
+  GENERAL: 'general',
+} as const);
+
+export type WaTaskContextValue = (typeof WaTaskContext)[keyof typeof WaTaskContext];
+
+export const WaAlignmentStatus = Object.freeze({
+  ALIGNED: 'aligned',
+  PARTIAL: 'partial',
+  GAP: 'gap',
+} as const);
+
+export type WaAlignmentStatusValue = (typeof WaAlignmentStatus)[keyof typeof WaAlignmentStatus];
+
 export const KNOWN_ROLES: string[] = [
   'Judge',
   'Caseworker',
