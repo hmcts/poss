@@ -1,0 +1,87 @@
+[
+  {
+    "waTaskId": "wa-task-01",
+    "eventIds": ["Case Issued"],
+    "alignmentNotes": "Case Issued is a system event that triggers post-payment; hearing centre allocation exists in CASE_ISSUED state"
+  },
+  {
+    "waTaskId": "wa-task-02",
+    "eventIds": ["Allocate hearing centre"],
+    "alignmentNotes": "Explicit caseworker event exists for manual hearing centre assignment"
+  },
+  {
+    "waTaskId": "wa-task-03",
+    "eventIds": ["Respond to Claim", "Paper Response - Admission", "Paper Response - Reviewed"],
+    "alignmentNotes": "Event exists across multiple states; paper channel variants also available"
+  },
+  {
+    "waTaskId": "wa-task-04",
+    "eventIds": ["Respond to Claim", "Respond to counter claim", "Update Counter Claim"],
+    "alignmentNotes": "Response and counterclaim are modelled as separate events in the event model, not a single combined event. The WA task treats them as one action"
+  },
+  {
+    "waTaskId": "wa-task-05",
+    "eventIds": ["Update Counter Claim", "Respond to counter claim"],
+    "alignmentNotes": "Counterclaim events exist on Sheet 2 but there is no single 'Submit Counterclaim' event. The counterclaim lifecycle is modelled separately from main claim"
+  },
+  {
+    "waTaskId": "wa-task-06",
+    "eventIds": ["Make an application"],
+    "alignmentNotes": "Make an application is a generic event. The event model does not distinguish adjournment, set-aside, or other gen app types as separate events"
+  },
+  {
+    "waTaskId": "wa-task-07",
+    "eventIds": ["Make an application"],
+    "alignmentNotes": "Same issue as adjournment; no sub-typed gen app events in the model for set-aside orders"
+  },
+  {
+    "waTaskId": "wa-task-08",
+    "eventIds": ["Make an application"],
+    "alignmentNotes": "Generic catch-all general application maps directly to Make an application"
+  },
+  {
+    "waTaskId": "wa-task-09",
+    "eventIds": ["Upload your documents"],
+    "alignmentNotes": "Upload your documents exists but is not sub-typed by claim vs counterclaim vs gen app. Note: citizen uploads only -- WA tasks for further evidence are only created when documents are uploaded by citizens via the citizen dashboard"
+  },
+  {
+    "waTaskId": "wa-task-10",
+    "eventIds": ["Upload your documents"],
+    "alignmentNotes": "Upload your documents is not sub-typed by document context. Note: citizen uploads only -- WA tasks for further evidence are only created when documents are uploaded by citizens via the citizen dashboard"
+  },
+  {
+    "waTaskId": "wa-task-11",
+    "eventIds": ["Upload your documents"],
+    "alignmentNotes": "Upload your documents is not sub-typed by document context for gen app. Note: citizen uploads only -- WA tasks for further evidence are only created when documents are uploaded by citizens via the citizen dashboard"
+  },
+  {
+    "waTaskId": "wa-task-12",
+    "eventIds": ["Upload your documents"],
+    "alignmentNotes": "Upload your documents is not sub-typed by document context for counterclaim. Note: citizen uploads only -- WA tasks for further evidence are only created when documents are uploaded by citizens via the citizen dashboard"
+  },
+  {
+    "waTaskId": "wa-task-13",
+    "eventIds": ["Create case flags", "Manage case flags"],
+    "alignmentNotes": "Events exist; WA task triggers on the professional-user variant"
+  },
+  {
+    "waTaskId": "wa-task-14",
+    "eventIds": ["Create case flags"],
+    "alignmentNotes": "Specific case flag type (Welsh Language); event model supports it via case flags events"
+  },
+  {
+    "waTaskId": "wa-task-15",
+    "eventIds": ["Upload translated document"],
+    "alignmentNotes": "Dedicated HMCTS-only event exists in the model across nearly all states"
+  },
+  {
+    "waTaskId": "wa-task-16",
+    "eventIds": ["Issue order", "Directions Order Drawn", "Make an order", "Seal the order"],
+    "alignmentNotes": "Multiple order events exist but the judicial order workflow (Make/Draft/Amend/Seal/Notify order) is still marked as 'to be determined' in the event model"
+  },
+  {
+    "waTaskId": "wa-task-17",
+    "eventIds": [],
+    "alignmentNotes": "No 'Failed Payment' event exists in the event model. Payment is implied in Submit and Pay / Case Issued flow but failure handling is not modelled. A new event is needed"
+  }
+]
