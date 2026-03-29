@@ -14,6 +14,14 @@ import {
 import { getUnmappedTasks } from '../../src/wa-task-engine/index';
 import waTasks from '../../data/wa-tasks.json';
 import waMappings from '../../data/wa-mappings.json';
+import {
+  ABOUT_WHAT_PAGE_DOES,
+  ABOUT_AVAILABLE_EVENTS,
+  ABOUT_DEAD_END_DETECTION,
+  ABOUT_AUTO_WALK,
+  ABOUT_WA_TASK_CARDS,
+  ABOUT_ROLE_FILTER,
+} from '../../src/ui-about-digital-twin/index.js';
 
 function autoWalk(claimTypeId: string, states: any[], transitions: any[], allEvents: any[], enabledIds: Set<string>): EnrichedSimulation | null {
   const events = allEvents.filter((e: any) => enabledIds.has(e.id));
@@ -66,14 +74,19 @@ export default function CaseWalkPage() {
 
   if (!started) {
     return (
-      <div className="max-w-lg mx-auto mt-20 text-center">
-        <h2 className="text-xl font-semibold text-slate-100 mb-2 tracking-tight">Case Walk Simulation</h2>
-        <p className="text-[13px] text-slate-500 mb-8 leading-relaxed">
-          Step through a possession case journey event by event.<br />Toggle events on/off to see how the reachable path changes.
-        </p>
-        <button onClick={handleStart} className="px-6 py-2.5 bg-indigo-600 text-white text-[13px] font-medium rounded-lg hover:bg-indigo-500 transition-all shadow-lg shadow-indigo-500/20">
-          Start Simulation
-        </button>
+      <div className="max-w-lg mx-auto mt-20 space-y-6">
+        <div className="text-center">
+          <h2 className="text-xl font-semibold text-slate-100 mb-2 tracking-tight">Case Walk Simulation</h2>
+          <p className="text-[13px] text-slate-500 mb-4 leading-relaxed">
+            Step through a possession case journey event by event.<br />Toggle events on/off to see how the reachable path changes.
+          </p>
+        </div>
+        <AboutPanel />
+        <div className="text-center">
+          <button onClick={handleStart} className="px-6 py-2.5 bg-indigo-600 text-white text-[13px] font-medium rounded-lg hover:bg-indigo-500 transition-all shadow-lg shadow-indigo-500/20">
+            Start Simulation
+          </button>
+        </div>
       </div>
     );
   }
@@ -197,6 +210,54 @@ export default function CaseWalkPage() {
             showWaTasks={showWaTasks} expandedCards={expandedCards} setExpandedCards={setExpandedCards} />
         </div>
       </div>
+    </div>
+  );
+}
+
+function AboutPanel() {
+  const [open, setOpen] = useState(false);
+  return (
+    <div className="bg-slate-900/40 border border-slate-700/30 rounded-xl overflow-hidden">
+      <button
+        onClick={() => setOpen((o) => !o)}
+        className="w-full flex items-center justify-between px-4 py-3 text-sm text-slate-400 hover:text-slate-200 hover:bg-slate-800/30 transition-colors"
+      >
+        <span className="font-medium">About this page — how the simulation works and how to interpret results</span>
+        <svg
+          className={`w-4 h-4 shrink-0 transition-transform ${open ? 'rotate-180' : ''}`}
+          fill="none" viewBox="0 0 24 24" stroke="currentColor"
+        >
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M19 9l-7 7-7-7" />
+        </svg>
+      </button>
+      {open && (
+        <div className="px-4 pb-4 space-y-4 text-sm text-slate-400 border-t border-slate-700/30 pt-4">
+          <div>
+            <h3 className="text-slate-200 font-medium mb-1">What this page does</h3>
+            <p>{ABOUT_WHAT_PAGE_DOES}</p>
+          </div>
+          <div>
+            <h3 className="text-slate-200 font-medium mb-1">Available events assumption</h3>
+            <p>{ABOUT_AVAILABLE_EVENTS}</p>
+          </div>
+          <div>
+            <h3 className="text-slate-200 font-medium mb-1">Dead-end detection assumption</h3>
+            <p>{ABOUT_DEAD_END_DETECTION}</p>
+          </div>
+          <div>
+            <h3 className="text-slate-200 font-medium mb-1">Auto-walk assumption</h3>
+            <p>{ABOUT_AUTO_WALK}</p>
+          </div>
+          <div>
+            <h3 className="text-slate-200 font-medium mb-1">WA task cards assumption</h3>
+            <p>{ABOUT_WA_TASK_CARDS}</p>
+          </div>
+          <div>
+            <h3 className="text-slate-200 font-medium mb-1">Role filter assumption</h3>
+            <p>{ABOUT_ROLE_FILTER}</p>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
