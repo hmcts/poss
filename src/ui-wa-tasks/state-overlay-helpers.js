@@ -4,4 +4,5 @@ export {
   getEventMatrixWaColumn,
   getWaTaskFilterOptions,
   filterEventsByWaTask,
+  getTransitionWaTasks,
 } from './state-overlay-helpers.ts';

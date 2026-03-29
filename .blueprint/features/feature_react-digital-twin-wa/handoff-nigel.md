@@ -20,7 +20,7 @@ Create `src/ui-wa-tasks/digital-twin-helpers.js` exporting 6 pure functions:
 | `getTimelineChips(eventName, waTasks, waMappings)` | Returns array of chip objects { taskName, alignment, colour } |
 | `getAlignmentWarning(eventName, waTasks, waMappings)` | Returns { type: 'partial', message } if any mapped task is partial; null otherwise |
 | `isPaymentRelatedState(technicalName)` | Returns true if name contains PAYMENT (case-insensitive) or equals PENDING_CASE_ISSUED |
-| `getEmptyStateMessage(stateId, events, waTasks, waMappings)` | Returns "No caseworker tasks at this state" when no events at state trigger WA tasks and data is available; null otherwise |
+| `getEmptyStateMessage(stateId, events, waTasks, waMappings, stateLabel?)` | Returns "No caseworker tasks at [stateLabel or stateId]" when no events at state trigger WA tasks and data is available; null otherwise |
 
 ## Key contract notes
 

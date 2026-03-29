@@ -9,7 +9,7 @@ As a business analyst, I want to see WA task count badges on State Explorer grap
 ## Context / scope
 
 - Layer 3 (React component) modification to `app/state-explorer/page.tsx`
-- New helper functions in `src/ui-wa-tasks/state-overlay-helpers.ts`: `getNodeWaBadge`, `getStateDetailWaTasks`
+- Helper functions in `src/ui-wa-tasks/state-overlay-helpers.ts`: `getNodeWaBadge`, `getStateDetailWaTasks`, `getTransitionWaTasks`
 - WA data loaded from `data/wa-tasks.json` and `data/wa-mappings.json`
 - Badge colours follow existing convention: green (#22C55E) aligned, amber (#F59E0B) partial, red (#EF4444) gap
 - Delegates to existing `getTasksForState`, `getAlignmentSummary`, `getWaTaskBadge` from upstream modules
@@ -34,15 +34,20 @@ As a business analyst, I want to see WA task count badges on State Explorer grap
 - When the graph renders,
 - Then no WA task badge appears on that node.
 
-**AC-4 -- State detail panel shows Work Allocation Tasks section**
-- Given the analyst clicks a state node that has WA tasks,
+**AC-4 -- State detail panel shows "Next States & WA Tasks" section**
+- Given the analyst clicks a state node that has outgoing transitions,
 - When the detail panel opens,
-- Then a "Work Allocation Tasks" section appears listing each task with its name and alignment badge.
+- Then a "Next States & WA Tasks" section appears showing each outgoing transition as a card with: target state name, transition condition, system/timed indicators, and any WA tasks triggered by events at the current state.
 
-**AC-5 -- State detail panel WA section is empty for states without WA tasks**
-- Given the analyst clicks a state node that has no WA tasks,
+**AC-4a -- Each transition card shows WA tasks with alignment badges**
+- Given a transition card is displayed and events at the current state trigger WA tasks,
+- Then each WA task is listed with its alignment badge (Aligned/Partial/Gap) and tooltip.
+- Transitions where no events trigger WA tasks show "No WA tasks for this transition".
+
+**AC-5 -- No "Next States & WA Tasks" section for states with no outgoing transitions**
+- Given the analyst clicks a state node that has no outgoing transitions (e.g. end state),
 - When the detail panel opens,
-- Then no "Work Allocation Tasks" section appears (or it shows "No WA tasks at this state").
+- Then no "Next States & WA Tasks" section appears.
 
 **AC-6 -- Badge text always accompanies colour for accessibility**
 - All badge elements include a text label (e.g. "Aligned", "Partial", "Gap") alongside the colour, ensuring meaning is not conveyed by colour alone.
@@ -50,7 +55,7 @@ As a business analyst, I want to see WA task count badges on State Explorer grap
 ---
 
 ## Dependencies
-- `src/ui-wa-tasks/state-overlay-helpers.ts` (new, created by this feature)
-- `src/ui-wa-tasks/index.ts` (existing: `getWaTaskBadge`, `getStateWaTaskCount`, `prepareWaTaskPanel`)
-- `src/wa-task-engine/index.ts` (existing: `getTasksForState`)
+- `src/ui-wa-tasks/state-overlay-helpers.ts` (`getNodeWaBadge`, `getStateDetailWaTasks`, `getTransitionWaTasks`)
+- `src/ui-wa-tasks/index.ts` (existing: `getWaTaskBadge`, `getWaTaskTooltip`)
+- `src/wa-task-engine/index.ts` (existing: `getTasksForState`, `getTasksForEvent`)
 - `data/wa-tasks.json`, `data/wa-mappings.json`

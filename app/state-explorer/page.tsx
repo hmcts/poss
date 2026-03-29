@@ -5,7 +5,7 @@ import { ReactFlow, Background, Controls, type Node, type Edge } from '@xyflow/r
 import '@xyflow/react/dist/style.css';
 import { useApp } from '../providers';
 import { prepareGraphData, prepareNodeWithBadge, prepareStateDetailPanel, getGraphLegend, getEdgeLegend } from '../../src/ui-state-explorer/index';
-import { getNodeWaBadge, getStateDetailWaTasks } from '../../src/ui-wa-tasks/state-overlay-helpers';
+import { getNodeWaBadge, getStateDetailWaTasks, getTransitionWaTasks } from '../../src/ui-wa-tasks/state-overlay-helpers';
 import { getAboutSections } from '../../src/ui-about-state-explorer/index.js';
 
 // ── Static WA data ─────────────────────────────────────────────────
@@ -76,6 +76,9 @@ export default function StateExplorerPage() {
 
   const detail = selectedStateId ? prepareStateDetailPanel(selectedStateId, modelData.states, modelData.events) : null;
   const waDetailTasks = selectedStateId ? getStateDetailWaTasks(selectedStateId, modelData.events, waTasks, waMappings) : [];
+  const transitionWaTasks = selectedStateId
+    ? getTransitionWaTasks(selectedStateId, modelData.states, modelData.transitions, modelData.events, waTasks, waMappings)
+    : [];
   const graphLegend = getGraphLegend();
   const edgeLegend = getEdgeLegend();
 
@@ -162,21 +165,44 @@ export default function StateExplorerPage() {
                 </div>
               </>
             )}
-            {waDetailTasks.length > 0 && (
+            {transitionWaTasks.length > 0 && (
               <>
                 <div className="h-px bg-slate-700/30 my-3" />
-                <h4 className="text-[11px] font-semibold text-slate-500 uppercase tracking-wider mb-2">Work Allocation Tasks</h4>
-                <ul className="space-y-2">
-                  {waDetailTasks.map((wt) => (
-                    <li key={wt.taskName} className="flex items-start gap-2">
-                      <span className="text-[9px] mt-0.5 px-1.5 py-0.5 rounded-full font-medium shrink-0"
-                        style={{ backgroundColor: wt.badge.colour + '20', color: wt.badge.colour, border: `1px solid ${wt.badge.colour}40` }}>
-                        {wt.badge.label}
-                      </span>
-                      <span className="text-[12px] text-slate-300" title={wt.tooltip}>{wt.taskName}</span>
-                    </li>
+                <h4 className="text-[11px] font-semibold text-slate-500 uppercase tracking-wider mb-2">Next States &amp; WA Tasks</h4>
+                <div className="space-y-3">
+                  {transitionWaTasks.map((tw) => (
+                    <div key={tw.targetStateId} className="rounded-lg border border-slate-700/20 bg-slate-900/30 p-3">
+                      <div className="flex items-center gap-1.5 mb-1.5">
+                        <svg className="w-3 h-3 text-slate-500 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
+                        </svg>
+                        <span className="text-[12px] font-medium text-slate-200">{tw.targetStateLabel}</span>
+                      </div>
+                      <div className="text-[10px] text-slate-500 mb-2 ml-[18px]">
+                        {tw.condition}
+                        {tw.isSystemTriggered && <span className="ml-1 text-slate-600">(system)</span>}
+                        {tw.isTimeBased && <span className="ml-1 text-slate-600">(timed)</span>}
+                      </div>
+                      {tw.events.length > 0 ? (
+                        <ul className="space-y-1.5 ml-[18px]">
+                          {tw.events.map((evt) =>
+                            evt.waTasks.map((wt) => (
+                              <li key={`${evt.eventName}-${wt.taskName}`} className="flex items-start gap-1.5">
+                                <span className="text-[9px] mt-0.5 px-1.5 py-0.5 rounded-full font-medium shrink-0"
+                                  style={{ backgroundColor: wt.badge.colour + '20', color: wt.badge.colour, border: `1px solid ${wt.badge.colour}40` }}>
+                                  {wt.badge.label}
+                                </span>
+                                <span className="text-[11px] text-slate-300" title={wt.tooltip}>{wt.taskName}</span>
+                              </li>
+                            ))
+                          )}
+                        </ul>
+                      ) : (
+                        <p className="text-[10px] text-slate-600 ml-[18px]">No WA tasks for this transition</p>
+                      )}
+                    </div>
                   ))}
-                </ul>
+                </div>
               </>
             )}
           </div>
