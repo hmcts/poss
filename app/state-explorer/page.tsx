@@ -6,6 +6,7 @@ import '@xyflow/react/dist/style.css';
 import { useApp } from '../providers';
 import { prepareGraphData, prepareNodeWithBadge, prepareStateDetailPanel, getGraphLegend, getEdgeLegend } from '../../src/ui-state-explorer/index';
 import { getNodeWaBadge, getStateDetailWaTasks } from '../../src/ui-wa-tasks/state-overlay-helpers';
+import { getAboutSections } from '../../src/ui-about-state-explorer/index.js';
 
 // ── Static WA data ─────────────────────────────────────────────────
 import waTasksData from '../../data/wa-tasks.json';
@@ -79,7 +80,19 @@ export default function StateExplorerPage() {
   const edgeLegend = getEdgeLegend();
 
   return (
-    <div className="flex gap-5" style={{ height: 'calc(100vh - 104px)' }}>
+    <div className="space-y-4">
+      {/* Page Header */}
+      <div className="space-y-3">
+        <div>
+          <h1 className="text-2xl font-semibold text-slate-100">State Explorer</h1>
+          <p className="text-sm text-slate-400 mt-1">
+            Interactive graph of possession case states and transitions
+          </p>
+        </div>
+        <AboutPanel />
+      </div>
+
+    <div className="flex gap-5" style={{ height: 'calc(100vh - 180px)' }}>
       <div className="flex-1 rounded-xl border border-slate-700/30 bg-slate-900/40 overflow-hidden relative shadow-lg shadow-black/20">
         <ReactFlow nodes={nodes} edges={edges} onNodeClick={onNodeClick} fitView proOptions={{ hideAttribution: true }}>
           <Background color="#1e293b" gap={24} size={1} />
@@ -173,6 +186,38 @@ export default function StateExplorerPage() {
           </div>
         )}
       </div>
+    </div>
+    </div>
+  );
+}
+
+function AboutPanel() {
+  const [open, setOpen] = useState(false);
+  const sections = getAboutSections();
+  return (
+    <div className="bg-slate-900/40 border border-slate-700/30 rounded-xl overflow-hidden">
+      <button
+        onClick={() => setOpen((o) => !o)}
+        className="w-full flex items-center justify-between px-4 py-3 text-sm text-slate-400 hover:text-slate-200 hover:bg-slate-800/30 transition-colors"
+      >
+        <span className="font-medium">About this page — how to read the graph and what each visual means</span>
+        <svg
+          className={`w-4 h-4 shrink-0 transition-transform ${open ? 'rotate-180' : ''}`}
+          fill="none" viewBox="0 0 24 24" stroke="currentColor"
+        >
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M19 9l-7 7-7-7" />
+        </svg>
+      </button>
+      {open && (
+        <div className="px-4 pb-4 space-y-4 text-sm text-slate-400 border-t border-slate-700/30 pt-4">
+          {sections.map((section) => (
+            <div key={section.key}>
+              <h3 className="text-slate-200 font-medium mb-1">{section.heading}</h3>
+              <p>{section.body}</p>
+            </div>
+          ))}
+        </div>
+      )}
     </div>
   );
 }
