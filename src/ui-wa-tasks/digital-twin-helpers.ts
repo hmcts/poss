@@ -92,6 +92,104 @@ export function getAlignmentWarning(
   };
 }
 
+// ── isEventBlockedByTasks ────────────────────────────────────────────
+
+export function isEventBlockedByTasks(
+  eventName: string,
+  disabledTasks: Set<string>,
+  waTasks: WaTask[],
+  waMappings: WaTaskMapping[],
+): boolean {
+  const tasks = getTasksForEvent(eventName, waMappings, waTasks);
+  if (tasks.length === 0) return false;
+  return tasks.every((t) => disabledTasks.has(t.id));
+}
+
+// ── computeEffectiveEnabledEvents ───────────────────────────────────
+
+export function computeEffectiveEnabledEvents(
+  enabledEvents: Set<string>,
+  disabledTasks: Set<string>,
+  events: Array<{ id: string; name: string }>,
+  waTasks: WaTask[],
+  waMappings: WaTaskMapping[],
+  showWaTasks: boolean,
+): Set<string> {
+  if (!showWaTasks || disabledTasks.size === 0) return enabledEvents;
+  const result = new Set(enabledEvents);
+  for (const evt of events) {
+    if (!result.has(evt.id)) continue;
+    if (isEventBlockedByTasks(evt.name, disabledTasks, waTasks, waMappings)) {
+      result.delete(evt.id);
+    }
+  }
+  return result;
+}
+
+// ── getDisabledTaskCount ────────────────────────────────────────────
+
+export function getDisabledTaskCount(disabledTasks: Set<string>): number {
+  return disabledTasks.size;
+}
+
+// ── getTaskToggleState ──────────────────────────────────────────────
+
+export function getTaskToggleState(
+  taskId: string,
+  disabledTasks: Set<string>,
+  enabledEvents: Set<string>,
+  waTasks?: WaTask[],
+  waMappings?: WaTaskMapping[],
+  events?: Array<{ id: string; name: string }>,
+): { checked: boolean; interactive: boolean } {
+  const checked = !disabledTasks.has(taskId);
+  if (waTasks && waMappings && events) {
+    const taskEventNames = waMappings
+      .filter((m) => m.waTaskId === taskId)
+      .flatMap((m) => m.eventIds);
+    const parentIds = events
+      .filter((e) => taskEventNames.includes(e.name))
+      .map((e) => e.id);
+    const interactive = parentIds.some((id) => enabledEvents.has(id));
+    return { checked, interactive };
+  }
+  const interactive = enabledEvents.size > 1;
+  return { checked, interactive };
+}
+
+// ── getEventBlockedReason ───────────────────────────────────────────
+
+export function getEventBlockedReason(
+  eventId: string,
+  eventName: string,
+  enabledEvents: Set<string>,
+  disabledTasks: Set<string>,
+  waTasks: WaTask[],
+  waMappings: WaTaskMapping[],
+): 'event-disabled' | 'all-tasks-disabled' | null {
+  if (!enabledEvents.has(eventId)) return 'event-disabled';
+  if (isEventBlockedByTasks(eventName, disabledTasks, waTasks, waMappings)) {
+    return 'all-tasks-disabled';
+  }
+  return null;
+}
+
+// ── getEffectiveDisabledCount ───────────────────────────────────────
+
+export function getEffectiveDisabledCount(
+  enabledEvents: Set<string>,
+  disabledTasks: Set<string>,
+  allEvents: Array<{ id: string; name: string }>,
+  waTasks: WaTask[],
+  waMappings: WaTaskMapping[],
+  showWaTasks: boolean,
+): number {
+  const effective = computeEffectiveEnabledEvents(
+    enabledEvents, disabledTasks, allEvents, waTasks, waMappings, showWaTasks,
+  );
+  return allEvents.length - effective.size;
+}
+
 // ── isPaymentRelatedState ───────────────────────────────────────────
 
 export function isPaymentRelatedState(
@@ -109,6 +207,7 @@ export function getEmptyStateMessage(
   events: Array<{ state: string; name: string }>,
   waTasks: WaTask[],
   waMappings: WaTaskMapping[],
+  stateLabel?: string,
 ): string | null {
   if (!waTasks || waTasks.length === 0 || !waMappings || waMappings.length === 0) {
     return null;
@@ -118,5 +217,6 @@ export function getEmptyStateMessage(
     const tasks = getTasksForEvent(evt.name, waMappings, waTasks);
     if (tasks.length > 0) return null;
   }
-  return 'No caseworker tasks at this state';
+  const label = stateLabel ?? stateId;
+  return `No caseworker tasks at ${label}`;
 }

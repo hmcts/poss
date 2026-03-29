@@ -176,13 +176,22 @@ Dashboard panel surfacing model completeness and quality metrics.
 
 | Status | P | E | Slug | Description |
 |--------|---|---|------|-------------|
-| Ready | P0 | M | wa-data-model | Zod schemas for WA tasks, event-to-task mapping types |
-| Ready | P0 | M | wa-ingestion | Parse R1A WA Task Names doc into structured JSON, map to event model |
-| Ready | P1 | M | wa-task-engine | Pure functions: resolve tasks per event, query tasks by state, alignment status |
-| Ready | P1 | M | ui-wa-tasks | UI orchestration: enrich events with WA task metadata for display |
-| Ready | P1 | L | react-digital-twin-wa | Integrate WA task cards into Digital Twin event steps |
-| Ready | P2 | M | react-wa-state-overlay | WA task badges on State Explorer nodes and event matrix rows |
-| Ready | P2 | L | react-wa-dashboard | Dedicated WA task alignment dashboard with gap/partial/aligned views |
+| Done | P0 | M | wa-data-model | Zod schemas for WA tasks, event-to-task mapping types |
+| Done | P0 | M | wa-ingestion | Parse R1A WA Task Names doc into structured JSON, map to event model |
+| Done | P1 | M | wa-task-engine | Pure functions: resolve tasks per event, query tasks by state, alignment status |
+| Done | P1 | M | ui-wa-tasks | UI orchestration: enrich events with WA task metadata for display |
+| Done | P1 | L | react-digital-twin-wa | Integrate WA task cards into Digital Twin event steps |
+| Done | P2 | M |   | WA task badges on State Explorer nodes and event matrix rows |
+| Done | P2 | L | react-wa-dashboard | Dedicated WA task alignment dashboard with gap/partial/aligned views |
+| Ready | P1 | L | wa-task-toggles | Toggle WA tasks on/off in Digital Twin to block events and affect reachability |
+| Ready | P1 | XL | react-action-items | Consolidated action items page: model gaps + WA alignment issues with resolution suggestions and export |
+| Done | P2 | L | react-caseman-comparison | Legacy Caseman vs new service comparison page — States, Events, Tasks tabs with auto-match baseline and BA-editable mappings |
+| Done | P3 | S | react-caseman-comparison-tooltips | Add contextual tooltips to Caseman Comparison page to explain coverage scores, auto-match methodology, and BA editing workflow |
+| Ready | P2 | S | react-about-state-explorer | Expandable about panel on State Explorer explaining graph layout, node colour/completeness scoring, WA badge logic, and edge style conventions |
+| Ready | P2 | S | react-about-digital-twin | Expandable about panel on Digital Twin explaining available events, dead-end detection, auto-walk behaviour, WA task card assumptions, and role filter behaviour |
+| Ready | P2 | S | react-about-event-matrix | Expandable about panel on Event Matrix explaining open question indicators, actor grid gaps, system flag, and WA task column derivation |
+| Ready | P2 | S | react-about-work-allocation | Expandable about panel on Work Allocation explaining aligned/partial/gap classification methodology, R1A scope, and source of the 17 tasks |
+| Ready | P2 | S | react-about-action-items | Expandable about panel on Action Items explaining the two data sources, priority algorithm, model health score formula, and that suggestions are auto-generated |
 
 ---
 
@@ -258,11 +267,11 @@ Integrate WA task information directly into the Digital Twin (Case Walk) so case
 
 Add WA task indicators to the State Explorer graph and Event Matrix table.
 
-- State Explorer: on each graph node, show a small WA task count badge (e.g. "3 tasks") using `getStateWaTaskCount`; colour the badge by worst alignment (red if any gap, amber if any partial, green if all aligned)
-- State Explorer: in the state detail panel (opened on node click), add a "Work Allocation Tasks" section listing all WA tasks for that state with alignment badges
+- State Explorer: on each graph node, show a small WA task count badge (e.g. "3 tasks") using `getNodeWaBadge`; colour the badge by worst alignment (red if any gap, amber if any partial, green if all aligned)
+- State Explorer: in the state detail panel (opened on node click), show a "Next States & WA Tasks" section using `getTransitionWaTasks` -- groups outgoing transitions by target state, showing the transition condition and any WA tasks triggered by events at the current state, with alignment badges and tooltips
 - Event Matrix: add a "WA Task" column to the event table showing the task name (or "--" if no task) and an alignment colour dot
 - Event Matrix: add a "WA Task" filter dropdown to filter events by their associated WA task name, or filter to "events with no WA task" / "events with WA gaps"
-- **Consumes:** ui-wa-tasks module (getStateWaTaskCount, prepareWaTaskPanel, enrichEventWithWaTask, getWaTaskBadge), ui-state-explorer module (extends state detail panel), ui-event-matrix module (extends table columns)
+- **Consumes:** ui-wa-tasks module (getNodeWaBadge, getStateDetailWaTasks, getTransitionWaTasks, getEventMatrixWaColumn, getWaTaskFilterOptions, filterEventsByWaTask, getWaTaskBadge), ui-state-explorer module (extends state detail panel), ui-event-matrix module (extends table columns)
 
 ### react-wa-dashboard (P2, L)
 
@@ -278,6 +287,71 @@ Dedicated Work Allocation alignment dashboard accessible from the sidebar naviga
 - Link from each task row to the relevant state in State Explorer or event in Event Matrix
 - CSV export of the full alignment table
 - **Consumes:** wa-task-engine module (all query functions), ui-wa-tasks module (badges, tooltips, panel data), app-shell module (ROUTES, extends navigation)
+
+### wa-task-toggles (P1, L)
+
+Toggle individual WA tasks on/off in the Digital Twin simulation to model caseworker availability and see its effect on case reachability.
+
+**Core logic:**
+- Each WA task displayed under an event gets a checkbox (checked by default)
+- An event that has WA task mappings requires **at least one active (checked) task** to be considered available. If all WA tasks for an event are unchecked, the event is effectively blocked — equivalent to disabling the event itself
+- Events with **no WA tasks** are unaffected by task toggles and remain always available
+- The existing auto-walk and reachability calculation consumes the derived enabled/disabled event set, so blocked events naturally prevent transitions and affect terminal state reachability
+- WA task checkboxes are only visible when the "Show WA Tasks" toggle is on
+- When a parent event is disabled via its own event checkbox, the WA task checkboxes beneath it are greyed out (visually muted, not interactive) since the event is already blocked at a higher level
+
+**UI behaviour:**
+- Task checkboxes appear inside the WA task cards beneath each event in the events panel
+- When unchecking a task causes an event to become blocked: the event visually transitions to the disabled style (same as manually unchecking the event), and the disabled-events count banner updates
+- When re-checking a task restores an event: the event returns to enabled style and auto-walk recalculates
+- A summary indicator shows how many WA tasks are currently disabled (e.g. "3 tasks disabled")
+- Reset Simulation clears all task toggles back to checked
+
+**Example:** Main Claim (England), state "Submitted" has event "Respond to Claim" which maps to 2 WA tasks (wa-task-03: "Review Defendant response", wa-task-04: "Review Defendant response and counterclaim"). Unchecking both tasks blocks "Respond to Claim", which removes the caseworker pathway from Submitted → With Judge via "Refer to judge" is unaffected (no WA tasks), but the respond-to-claim event can no longer fire at that state.
+
+- **Consumes:** wa-task-engine module (getTasksForEvent), ui-wa-tasks module (digital-twin-helpers), react-digital-twin-wa (extends existing WA task cards and simulation logic)
+- **Scope:** Digital Twin only
+
+### react-action-items (P1, XL)
+
+Consolidated action items page that surfaces all outstanding information gaps from both the process model and WA task alignment, with prioritised resolution suggestions and CSV export.
+
+**Route:** `/action-items` added to sidebar navigation (between Work Allocation and Digital Twin)
+
+**Two sources of action items:**
+
+1. **Model completeness gaps** (from `model-health` and `uncertainty-display` modules):
+   - Open questions on events (`hasOpenQuestions === true`) — items where the business needs to clarify rules, actors, or behaviour
+   - Low-completeness states (below 50%) — states where the model is underspecified
+   - Unreachable states — states with no incoming transitions (except initial states)
+   - End-state reachability — whether the model can reach a terminal state from the initial state
+
+2. **WA task alignment gaps** (from `wa-task-engine` module):
+   - Gap tasks (`alignment === 'gap'`) — WA tasks with no corresponding event in the model (e.g. Failed Payment)
+   - Partial tasks (`alignment === 'partial'`) — WA tasks where the event model is at a coarser granularity than WA expects, with explanation of what's missing
+   - Events with no WA task — events that exist in the model but have no caseworker task mapped (may indicate missing WA coverage)
+
+**Each action item includes:**
+- **Priority** — derived from impact: gaps/unreachable = high, partial/low-completeness = medium, informational = low
+- **Category** — "Model Completeness" or "WA Task Alignment"
+- **Title** — concise description (e.g. "Open question: Validate event at Submitted state")
+- **Detail** — the notes, alignment notes, or completeness data explaining the gap
+- **Suggestion** — a generated resolution hint (e.g. "Add a 'Failed Payment' event to the CASE_ISSUED state to cover WA task 'Review Failed Payment'", "Clarify whether Strike Out is available after Listed for Hearing — event has open questions", "Increase state completeness by defining missing transitions/events for 'With Judge' (currently 60%)")
+- **Links** — deep links to the relevant state in State Explorer or event in Event Matrix
+
+**UI layout:**
+- Summary cards at the top: total items, high/medium/low counts, model health score, WA alignment percentage
+- Filterable/sortable table of action items: filter by category, priority, state, claim type
+- Each row expandable to show full detail, suggestion, and navigation links
+- "Export CSV" button exports the full action items list with all fields
+
+**Resolution suggestions logic:**
+- `getActionItems(states, transitions, events, waTasks, waMappings): ActionItem[]` — pure function that collects all gaps from both sources, assigns priorities, and generates suggestion text
+- `getActionItemSummary(items): { total, high, medium, low, modelScore, waAlignmentPct }` — summary counts
+- `exportActionItemsCsv(items): { content, filename, mimeType }` — CSV export
+
+- **Consumes:** model-health module (getModelHealthSummary, getLowCompletenessStates, getUnreachableStates, canReachEndState), ui-model-health module (getOpenQuestionsList, getHealthSummaryCard), wa-task-engine module (getAlignmentSummary, getUnmappedTasks, getPartialTasks), ui-wa-tasks module (getWaTaskBadge), app-shell module (ROUTES, extends navigation)
+- **Follows the 4-layer pattern:** logic helpers → UI orchestration → React page
 
 ---
 
@@ -318,12 +392,105 @@ P1 (WA Core -- requires wa-ingestion + ui-case-walk):
   react-digital-twin-wa
     |
     v
+P1 (WA Simulation -- requires react-digital-twin-wa):
+  wa-task-toggles
+    |
+    v
+P1 (Consolidated View -- requires model-health + wa-task-engine + ui layers):
+  react-action-items
+    |
+    v
 P2 (WA Enhancements -- requires ui-wa-tasks + react component layer):
   react-wa-state-overlay
   react-wa-dashboard
 ```
 
 WA foundation features (wa-data-model, wa-ingestion) can begin immediately in parallel with UI work. The WA core features (wa-task-engine, ui-wa-tasks, react-digital-twin-wa) require both the WA data and the existing Digital Twin to be in place. WA enhancements (state overlay, dashboard) can run in parallel once ui-wa-tasks is complete.
+
+### react-caseman-comparison-tooltips (P3, S)
+
+Contextual tooltips across the Caseman Comparison page to help both technical and non-technical users understand what the numbers mean and how to act on them.
+
+**High priority (carry meaning a cold reader won't know):**
+- **Summary cards — Covered / Partial / Gap**: hover tooltip explaining the similarity threshold for each. Covered: >0.8 (near-identical); Partial: 0.5–0.8 (related but different granularity); Gap: <0.5 (no equivalent found)
+- **Coverage % figure**: tooltip explaining formula — `(covered + partial × 0.5) / 497`. Partial counts as half.
+- **Italic rows in Events table**: no legend currently. Add `ⓘ` icon near the "497 events" count — *"Italic rows are auto-derived by name similarity. Normal weight = manually curated by a BA. Click any row to edit."*
+- **"Export Mappings JSON" button**: tooltip explaining the BA workflow — *"Downloads in-session edits as caseman-mappings.json. Commit to repo to make curated mappings the new team baseline."*
+
+**Medium priority:**
+- **States tab — "New (Amber)" badge**: *"Exists in new service model only — may be new functionality or a finer-grained breakdown of a Caseman status."*
+- **States tab — "No match" badge**: *"No similar-named new service state found. May be a genuine gap or a naming difference — check the Events tab."*
+- **Tasks tab — domain blocks on hover**: show domain name, event count, and which WA tasks cover it
+- **Tasks tab — "Unclassified" block**: *"413 of 497 Caseman events have no BMS task code in the source data and cannot be classified by domain. This is a known data quality issue in Caseman, not a gap in the new service."*
+
+**Lower priority:**
+- **Expanded row — "Source: auto"**: *"Classification derived by name similarity. May be inaccurate — click Edit to override."*
+- **Domain filter — "Unclassified" option**: *"Events with no BMS task code. Represents 83% of all events."*
+
+- **Consumes:** `app/caseman-comparison/` (all four components)
+- **Pattern:** CSS `title` attributes for simple cases; a lightweight Tooltip component (div with absolute positioning) for richer content on badges and buttons
+
+---
+
+## Feature Details (Explanatory About Panels)
+
+All five features follow the same pattern: an expandable `<AboutPanel>` component beneath the page subtitle, collapsed by default, containing plain-English sections explaining what the user is looking at and what assumptions underlie any scores or assessments. No new logic, no new data files. The shared `AboutPanel` component lives in `app/components/AboutPanel.tsx` (created as part of `react-about-state-explorer`); subsequent features reuse it.
+
+### react-about-state-explorer (P2, S)
+
+Add an expandable about panel to the State Explorer page (`/state-explorer`) and extract the shared `AboutPanel` component.
+
+- **Create** `app/components/AboutPanel.tsx` — extract and generalise the inline `AboutPanel` from `app/caseman-comparison/page.tsx`; update Caseman Comparison to use it
+- **What this page does:** interactive graph of states and transitions for the selected claim type; nodes = states, directed edges = transitions triggered by events
+- **Graph layout assumption:** positions are auto-generated by the dagre algorithm — layout is readable but not semantically meaningful; relative positions carry no information
+- **Node colour assumption:** amber = draft/uncertain state; green = live/confirmed state; dark = terminal end state; muted/striped = low completeness (<50%). Colours derived from `uncertaintyLevel` in the model data, which is hand-authored per state
+- **Completeness badge assumption:** percentage of expected model fields populated (events defined, actors assigned, rules documented) — threshold for "low" is below 50%; states at 0% may simply not yet have been modelled
+- **WA task badge assumption:** count of WA tasks associated with events reachable from this state; badge colour = worst alignment at that state (red if any gap task, amber if any partial, green if all aligned). Based on `wa-mappings.json` — incomplete mappings will undercount
+- **Edge style assumption:** solid line = user-initiated event; dashed = system-triggered; dotted/animated = time-based. Derived from `systemTriggered` flag in model data
+
+### react-about-digital-twin (P2, S)
+
+Add an expandable about panel to the Digital Twin page (`/digital-twin`).
+
+- **What this page does:** step-through simulation of a case journey through the state machine for the selected claim type; user selects events to advance the simulation
+- **Available events assumption:** only events modelled for the current state appear; events that exist in reality but are not yet modelled are invisible. The model is a work in progress — dead ends may reflect model gaps, not real process dead ends
+- **Dead-end detection assumption:** a state is flagged as a dead end when `getAvailableEvents()` returns empty and `isEndState()` is false. This is a model-completeness signal, not a definitive statement about the real process
+- **Auto-walk assumption:** auto-walk selects the first available event at each step — this is an arbitrary traversal path used for quick testing, not representative of any typical or expected case journey
+- **WA task cards assumption:** cards are derived from `wa-mappings.json`; only the 17 R1A tasks are modelled. Partial and gap tasks appear with amber/red indicators. Tasks not in R1A scope are not shown
+- **Role filter assumption:** filtering by role hides events not assigned to that role in the model — it does not mean those events cannot occur in practice; role assignment in the model may be incomplete
+
+### react-about-event-matrix (P2, S)
+
+Add an expandable about panel to the Event Matrix page (`/event-matrix`).
+
+- **What this page does:** all events for the selected claim type, grouped and filterable by state, actor role, and WA task; each row is one event with its actor grid and open question status
+- **Open question indicator assumption:** the ⚠ icon appears when `hasOpenQuestions` is true for an event — this flag is hand-authored in the source data. Absence of the flag does not mean the event is fully resolved; it may simply not have been reviewed yet
+- **Actor grid assumption:** a filled cell means that role is assigned to this event in the model. An empty cell means the role is not defined — not necessarily that the role is uninvolved in practice. Actor assignments may be incomplete
+- **System flag assumption:** marks events that are system-triggered (no human actor initiates them). Set by the `systemTriggered` field in the model data; may not be exhaustive
+- **WA task column assumption:** derived from `wa-mappings.json`. Shows the WA task name and alignment status for each event. Events with no WA mapping show "—"; this may indicate either no task is needed or the mapping has not yet been authored
+
+### react-about-work-allocation (P2, S)
+
+Add an expandable about panel to the Work Allocation page (`/work-allocation`).
+
+- **What this page does:** maps the 17 R1A Work Allocation tasks against the new service event model to show alignment status for each task
+- **Scope assumption:** only the 17 tasks defined in the R1A Work Allocation Task Names document are covered. Future phases may define additional tasks; this view does not represent full caseworker task coverage
+- **Aligned (7 tasks) assumption:** a direct event model counterpart exists with matching context and granularity. Manual cross-reference documented in `R1A_WA_Tasks_vs_Event_Model_Analysis.md`
+- **Partial (9 tasks) assumption:** a related event exists in the model but at a different granularity (e.g. WA expects sub-typed adjournment; the model has a generic "make an application" event), or context differs (e.g. citizen vs professional upload)
+- **Gap (1 task) assumption:** "Review Failed Payment" — no failed payment event is modelled. Payment outcome is implied in the Submit and Pay / Case Issued flow; explicit failure handling has not been designed yet
+- **By Context view assumption:** context classification (claim / counterclaim / gen-app / general) is from the R1A document, not derived from the event model
+
+### react-about-action-items (P2, S)
+
+Add an expandable about panel to the Action Items page (`/action-items`).
+
+- **What this page does:** consolidated list of outstanding issues drawn from two sources — model completeness checks (from the state/event model) and WA task alignment gaps. Intended to help prioritise analytical and design work
+- **Two source assumption:** model completeness items come from `model-health` and `uncertainty-display` logic modules applied to the live model data. WA alignment items come from `wa-task-engine` applied to `wa-mappings.json`. Neither source is exhaustive — they surface what is currently modelled
+- **Priority algorithm:** High = gap tasks with no event mapping, unreachable states, or end-state not reachable (blocking issues); Medium = partial alignment, low-completeness states (<50%), open questions (need resolution); Low = informational items unlikely to block delivery
+- **Model health score assumption:** composite of four factors — open question count, low-completeness state count, unreachable state count, end-state reachability. Score bands: Good (≥80%), Fair (50–79%), Poor (<50%). Thresholds are heuristic; the score is a rough guide, not a precise measure
+- **WA alignment % assumption:** `(aligned + partial × 0.5) / 17`. Partial counts as half-aligned. Same formula as Caseman Comparison coverage %
+- **Suggestions assumption:** resolution suggestion text is auto-generated from templates based on item type. Text is a starting point — it may not capture the full context or the correct resolution approach for every item
+- **Items are not persisted:** action items are recalculated on every page load from the current model and mapping data. There is no "mark as resolved" — an item disappears when the underlying data changes (e.g. a mapping is updated or a state is fully modelled)
 
 ---
 

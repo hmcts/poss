@@ -55,8 +55,7 @@ react-digital-twin-wa integrates WA task cards directly into the Digital Twin Re
 7. The process repeats at each state.
 
 **Alternative -- no WA tasks at current state:**
-1. If the simulation is at a state where no available events trigger WA tasks, an info note appears: "No caseworker tasks at this state".
-2. This only shows when the WA toggle is on.
+Removed. The empty-state info note was confusing when WA task cards were visible under events from other states in the events panel. Individual events already show WA tasks (or not) inline, making a separate state-level message redundant.
 
 **Alternative -- partial alignment:**
 1. For events with `alignment === 'partial'`, the expanded task card includes an amber info box explaining what the event model is missing (sourced from `alignmentNotes` via `getWaTaskTooltip`).
@@ -197,7 +196,7 @@ This feature **reinforces** existing system assumptions:
 1. **WA toggle and task cards:** The "Show WA Tasks" toggle and collapsible task cards beneath events in the available events panel. Core interaction pattern.
 2. **Timeline WA chips:** WA task tag/chip on timeline entries when the applied event triggered a task.
 3. **Alignment warnings:** Amber info box for partial alignment within task cards, and red banner for Failed Payment gap at payment-related states.
-4. **Empty state and graceful degradation:** "No caseworker tasks at this state" info note, and behaviour when WA data is unavailable.
+4. **Graceful degradation:** Behaviour when WA data is unavailable (empty-state info note removed as redundant).
 
 ### Expected story boundaries
 - Toggle + task cards (collapsed/expanded) form a natural first story -- the core integration.

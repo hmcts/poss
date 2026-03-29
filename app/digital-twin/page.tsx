@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useMemo, useCallback } from 'react';
+import { useState, useMemo, useCallback, useEffect } from 'react';
 import { useApp } from '../providers';
 import {
   initializeSimulation, getAvailableActionsPanel, advanceSimulation,
@@ -9,9 +9,10 @@ import {
 } from '../../src/ui-case-walk/index';
 import {
   shouldShowWaToggle, getEventTaskCards, getTimelineChips,
-  getAlignmentWarning, isPaymentRelatedState, getEmptyStateMessage,
+  getAlignmentWarning, isPaymentRelatedState,
+  computeEffectiveEnabledEvents, getTaskToggleState, getEffectiveDisabledCount,
 } from '../../src/ui-wa-tasks/digital-twin-helpers';
-import { getUnmappedTasks } from '../../src/wa-task-engine/index';
+import { getUnmappedTasks, getTasksForEvent } from '../../src/wa-task-engine/index';
 import waTasks from '../../data/wa-tasks.json';
 import waMappings from '../../data/wa-mappings.json';
 import {
@@ -45,8 +46,14 @@ export default function CaseWalkPage() {
   const [started, setStarted] = useState(false);
   const [showWaTasks, setShowWaTasks] = useState(false);
   const [expandedCards, setExpandedCards] = useState<Set<string>>(new Set());
+  const [disabledTasks, setDisabledTasks] = useState<Set<string>>(new Set());
 
   const waToggleVisible = shouldShowWaToggle(waTasks, waMappings);
+
+  const effectiveEnabled = useMemo(() =>
+    computeEffectiveEnabledEvents(enabledEvents, disabledTasks, modelData.events, waTasks as any, waMappings as any, showWaTasks),
+    [enabledEvents, disabledTasks, modelData.events, showWaTasks],
+  );
 
   const handleStart = useCallback(() => {
     const allIds = new Set(modelData.events.map((e: any) => e.id));
@@ -57,7 +64,7 @@ export default function CaseWalkPage() {
   }, [activeClaimType, modelData]);
 
   const handleReset = useCallback(() => {
-    setEnrichedSim(null); setStarted(false); setRoleFilter(''); setEnabledEvents(new Set()); setExpandedEvent(null);
+    setEnrichedSim(null); setStarted(false); setRoleFilter(''); setEnabledEvents(new Set()); setExpandedEvent(null); setDisabledTasks(new Set());
   }, []);
 
   const handleToggleEvent = useCallback((eventId: string) => {
@@ -68,6 +75,20 @@ export default function CaseWalkPage() {
       return next;
     });
   }, [activeClaimType, modelData]);
+
+  const handleToggleTask = useCallback((taskId: string) => {
+    setDisabledTasks(prev => {
+      const next = new Set(prev);
+      if (next.has(taskId)) next.delete(taskId); else next.add(taskId);
+      return next;
+    });
+  }, []);
+
+  useEffect(() => {
+    if (started) {
+      setEnrichedSim(autoWalk(activeClaimType, modelData.states, modelData.transitions, modelData.events, effectiveEnabled));
+    }
+  }, [effectiveEnabled, started, activeClaimType, modelData]);
 
   const timeline = useMemo(() => enrichedSim ? getSimulationTimeline(enrichedSim.simulation) : [], [enrichedSim]);
   const simStatus = useMemo(() => enrichedSim ? getSimulationStatus(enrichedSim.simulation) : null, [enrichedSim]);
@@ -91,7 +112,7 @@ export default function CaseWalkPage() {
     );
   }
 
-  const disabledCount = modelData.events.length - enabledEvents.size;
+  const disabledCount = getEffectiveDisabledCount(enabledEvents, disabledTasks, modelData.events, waTasks as any, waMappings as any, showWaTasks);
 
   return (
     <div className="flex gap-8 pb-20" style={{ minHeight: 'calc(100vh - 104px)' }}>
@@ -184,20 +205,6 @@ export default function CaseWalkPage() {
           );
         })()}
 
-        {showWaTasks && enrichedSim && (() => {
-          const emptyMsg = getEmptyStateMessage(
-            enrichedSim.simulation.currentStateId,
-            modelData.events.map((e: any) => ({ state: e.state, name: e.name })),
-            waTasks as any,
-            waMappings as any,
-          );
-          if (!emptyMsg) return null;
-          return (
-            <div className="text-[12px] text-slate-400 bg-slate-800/40 border border-slate-700/30 rounded-xl px-4 py-3">
-              {emptyMsg}
-            </div>
-          );
-        })()}
 
         {/* Events panel */}
         <div className="pt-5 border-t border-slate-700/30 pb-8">
@@ -207,7 +214,8 @@ export default function CaseWalkPage() {
           </div>
           <EventsList events={modelData.events} states={modelData.states} enabledEvents={enabledEvents} onToggle={handleToggleEvent}
             expandedEvent={expandedEvent} setExpandedEvent={setExpandedEvent} currentStateId={enrichedSim?.simulation.currentStateId ?? ''}
-            showWaTasks={showWaTasks} expandedCards={expandedCards} setExpandedCards={setExpandedCards} />
+            showWaTasks={showWaTasks} expandedCards={expandedCards} setExpandedCards={setExpandedCards}
+            disabledTasks={disabledTasks} onToggleTask={handleToggleTask} />
         </div>
       </div>
     </div>
@@ -262,10 +270,11 @@ function AboutPanel() {
   );
 }
 
-function EventsList({ events, states, enabledEvents, onToggle, expandedEvent, setExpandedEvent, currentStateId, showWaTasks, expandedCards, setExpandedCards }: {
+function EventsList({ events, states, enabledEvents, onToggle, expandedEvent, setExpandedEvent, currentStateId, showWaTasks, expandedCards, setExpandedCards, disabledTasks, onToggleTask }: {
   events: any[]; states: any[]; enabledEvents: Set<string>; onToggle: (id: string) => void;
   expandedEvent: string | null; setExpandedEvent: (id: string | null) => void; currentStateId: string;
   showWaTasks: boolean; expandedCards: Set<string>; setExpandedCards: (s: Set<string>) => void;
+  disabledTasks: Set<string>; onToggleTask: (taskId: string) => void;
 }) {
   const stateMap = new Map(states.map((s: any) => [s.id, s.uiLabel]));
   const grouped = new Map<string, any[]>();
@@ -321,6 +330,7 @@ function EventsList({ events, states, enabledEvents, onToggle, expandedEvent, se
                     )}
                     {showWaTasks && (() => {
                       const cards = getEventTaskCards(evt.name, waTasks as any, waMappings as any);
+                      const tasks = getTasksForEvent(evt.name, waMappings as any, waTasks as any);
                       const warning = getAlignmentWarning(evt.name, waTasks as any, waMappings as any);
                       if (cards.length === 0) return null;
                       return (
@@ -333,26 +343,35 @@ function EventsList({ events, states, enabledEvents, onToggle, expandedEvent, se
                           {cards.map((card, ci) => {
                             const cardKey = `${evt.id}-${ci}`;
                             const isCardExpanded = expandedCards.has(cardKey);
+                            const task = tasks[ci];
+                            const toggleState = task ? getTaskToggleState(task.id, disabledTasks, enabledEvents, waTasks as any, waMappings as any, events) : null;
                             return (
-                              <div key={ci} className="rounded-md border border-slate-700/20 bg-slate-800/20">
-                                <button
-                                  onClick={() => {
-                                    const next = new Set(expandedCards);
-                                    if (isCardExpanded) next.delete(cardKey); else next.add(cardKey);
-                                    setExpandedCards(next);
-                                  }}
-                                  className="w-full flex items-center gap-2 px-2.5 py-1.5 text-left"
-                                  aria-expanded={isCardExpanded}
-                                >
-                                  <span className="text-[10px] px-1.5 py-0.5 rounded-md font-medium"
-                                    style={{ backgroundColor: `${card.badge.colour}20`, color: card.badge.colour, border: `1px solid ${card.badge.colour}40` }}>
-                                    {card.badge.label}
-                                  </span>
-                                  <span className="text-[11px] text-slate-400 truncate flex-1">{card.taskName}</span>
-                                  <svg className={`w-2.5 h-2.5 text-slate-600 shrink-0 transition-transform ${isCardExpanded ? 'rotate-180' : ''}`} fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                                  </svg>
-                                </button>
+                              <div key={ci} className={`rounded-md border border-slate-700/20 bg-slate-800/20 ${toggleState && !toggleState.checked ? 'opacity-50' : ''}`}>
+                                <div className="flex items-center gap-2 px-2.5 py-1.5">
+                                  {task && toggleState && (
+                                    <input type="checkbox" checked={toggleState.checked} disabled={!toggleState.interactive}
+                                      onChange={() => onToggleTask(task.id)}
+                                      className={`rounded bg-slate-800 border-slate-600 text-indigo-500 w-3 h-3 shrink-0 ${toggleState.interactive ? 'cursor-pointer' : 'cursor-not-allowed opacity-40'}`} />
+                                  )}
+                                  <button
+                                    onClick={() => {
+                                      const next = new Set(expandedCards);
+                                      if (isCardExpanded) next.delete(cardKey); else next.add(cardKey);
+                                      setExpandedCards(next);
+                                    }}
+                                    className="flex-1 flex items-center gap-2 text-left min-w-0"
+                                    aria-expanded={isCardExpanded}
+                                  >
+                                    <span className="text-[10px] px-1.5 py-0.5 rounded-md font-medium"
+                                      style={{ backgroundColor: `${card.badge.colour}20`, color: card.badge.colour, border: `1px solid ${card.badge.colour}40` }}>
+                                      {card.badge.label}
+                                    </span>
+                                    <span className="text-[11px] text-slate-400 truncate flex-1">{card.taskName}</span>
+                                    <svg className={`w-2.5 h-2.5 text-slate-600 shrink-0 transition-transform ${isCardExpanded ? 'rotate-180' : ''}`} fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                                    </svg>
+                                  </button>
+                                </div>
                                 {isCardExpanded && (
                                   <div className="px-2.5 pb-2 space-y-1.5 border-t border-slate-700/15 pt-1.5">
                                     <div><span className="text-[9px] text-slate-600 uppercase font-medium">Trigger</span><p className="text-[11px] text-slate-400">{card.triggerDescription}</p></div>

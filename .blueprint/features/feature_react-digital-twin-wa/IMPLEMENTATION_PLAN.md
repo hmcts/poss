@@ -17,7 +17,7 @@ Six exported functions, all pure, delegating to upstream modules:
 | `getTimelineChips(eventName, waTasks, waMappings)` | `getTasksForEvent` (wa-task-engine), `getWaTaskBadge` (ui-wa-tasks) | For each task, return { taskName, alignment, colour } where colour comes from getWaTaskBadge |
 | `getAlignmentWarning(eventName, waTasks, waMappings)` | `getTasksForEvent` (wa-task-engine) | If any matched task has alignment === 'partial', return { type: 'partial', message } with a descriptive message; otherwise null |
 | `isPaymentRelatedState(technicalName)` | None | Return true if technicalName contains 'PAYMENT' (case-insensitive) OR equals 'PENDING_CASE_ISSUED'; handle null/undefined/empty safely |
-| `getEmptyStateMessage(stateId, events, waTasks, waMappings)` | `getTasksForEvent` (wa-task-engine) | If data arrays are empty, return null (graceful degradation). Otherwise check if any event at the state triggers WA tasks; if none do, return the message string |
+| `getEmptyStateMessage(stateId, events, waTasks, waMappings, stateLabel?)` | `getTasksForEvent` (wa-task-engine) | If data arrays are empty, return null (graceful degradation). Otherwise check if any event at the state triggers WA tasks; if none do, return "No caseworker tasks at [stateLabel or stateId]" |
 
 ### 2. `src/ui-wa-tasks/digital-twin-helpers.js` (bridge)
 

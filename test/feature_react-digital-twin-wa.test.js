@@ -209,7 +209,12 @@ describe('getEmptyStateMessage — info note for states with no WA tasks', () =>
   it('T-6.1: returns message when no events at state trigger WA tasks', () => {
     const msg = getEmptyStateMessage('STATE_NO_WA', emptyStateEvents, waTasks, waMappings);
     assert.ok(typeof msg === 'string', 'Must return a string');
-    assert.equal(msg, 'No caseworker tasks at this state');
+    assert.equal(msg, 'No caseworker tasks at STATE_NO_WA');
+  });
+
+  it('T-6.1a: message uses state label when provided', () => {
+    const msg = getEmptyStateMessage('STATE_NO_WA', emptyStateEvents, waTasks, waMappings, 'Draft');
+    assert.equal(msg, 'No caseworker tasks at Draft');
   });
 
   it('T-6.2: returns null when events at state trigger WA tasks', () => {
@@ -227,6 +232,6 @@ describe('getEmptyStateMessage — info note for states with no WA tasks', () =>
       { state: 'STATE_UNMAPPED', name: 'Completely Unknown Event' },
     ];
     const msg = getEmptyStateMessage('STATE_UNMAPPED', eventsNoMapping, waTasks, waMappings);
-    assert.equal(msg, 'No caseworker tasks at this state');
+    assert.equal(msg, 'No caseworker tasks at STATE_UNMAPPED');
   });
 });

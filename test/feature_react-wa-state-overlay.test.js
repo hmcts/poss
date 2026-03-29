@@ -8,6 +8,7 @@ import {
   getEventMatrixWaColumn,
   getWaTaskFilterOptions,
   filterEventsByWaTask,
+  getTransitionWaTasks,
 } from '../src/ui-wa-tasks/state-overlay-helpers.js';
 
 const require = createRequire(import.meta.url);
@@ -224,5 +225,60 @@ describe('filterEventsByWaTask — filter events by WA task association', () => 
   it('T-5.4: empty string filter returns all events (no filter)', () => {
     const filtered = filterEventsByWaTask(testEvents, '', waTasks, waMappings);
     assert.equal(filtered.length, testEvents.length, 'Empty filter returns all events');
+  });
+});
+
+// ── 6. getTransitionWaTasks ──────────────────────────────────────
+
+describe('getTransitionWaTasks — WA tasks grouped by outgoing transitions', () => {
+  const states = [
+    { id: 'case-issued', uiLabel: 'Case Issued' },
+    { id: 'response', uiLabel: 'Response' },
+    { id: 'hearing', uiLabel: 'Hearing' },
+  ];
+  const transitions = [
+    { from: 'case-issued', to: 'response', condition: 'Defendant responds', isSystemTriggered: false, isTimeBased: false },
+    { from: 'case-issued', to: 'hearing', condition: 'Auto-list', isSystemTriggered: true, isTimeBased: true },
+  ];
+
+  it('T-6.1: returns one entry per outgoing transition', () => {
+    const events = makeEvents('case-issued', ['Case Issued', 'Allocate hearing centre']);
+    const result = getTransitionWaTasks('case-issued', states, transitions, events, waTasks, waMappings);
+    assert.equal(result.length, 2, 'Should return 2 transition entries');
+    assert.equal(result[0].targetStateId, 'response');
+    assert.equal(result[1].targetStateId, 'hearing');
+  });
+
+  it('T-6.2: each entry includes target state label and condition', () => {
+    const events = makeEvents('case-issued', ['Case Issued']);
+    const result = getTransitionWaTasks('case-issued', states, transitions, events, waTasks, waMappings);
+    assert.equal(result[0].targetStateLabel, 'Response');
+    assert.equal(result[0].condition, 'Defendant responds');
+    assert.equal(result[1].isSystemTriggered, true);
+    assert.equal(result[1].isTimeBased, true);
+  });
+
+  it('T-6.3: events with WA tasks appear in each transition entry', () => {
+    // Case Issued maps to wa-task-01 (aligned)
+    const events = makeEvents('case-issued', ['Case Issued']);
+    const result = getTransitionWaTasks('case-issued', states, transitions, events, waTasks, waMappings);
+    // Both transitions should show the same WA tasks (events at the state)
+    assert.ok(result[0].events.length > 0, 'First transition should have events with WA tasks');
+    const firstTask = result[0].events[0].waTasks[0];
+    assert.ok(firstTask.taskName.length > 0, 'Task should have a name');
+    assert.ok(firstTask.badge, 'Task should have a badge');
+  });
+
+  it('T-6.4: returns empty array for state with no outgoing transitions', () => {
+    const events = makeEvents('hearing', ['Record Outcome']);
+    const result = getTransitionWaTasks('hearing', states, transitions, events, waTasks, waMappings);
+    assert.equal(result.length, 0, 'No transitions from hearing state');
+  });
+
+  it('T-6.5: events without WA tasks are excluded from transition entries', () => {
+    // 'Transfer Case' has no WA mapping
+    const events = makeEvents('case-issued', ['Transfer Case']);
+    const result = getTransitionWaTasks('case-issued', states, transitions, events, waTasks, waMappings);
+    assert.equal(result[0].events.length, 0, 'No WA task events for unmapped event');
   });
 });

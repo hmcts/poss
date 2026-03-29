@@ -16,6 +16,18 @@ export interface StateDetailTask {
   tooltip: string;
 }
 
+export interface TransitionWaTask {
+  targetStateId: string;
+  targetStateLabel: string;
+  condition: string;
+  isSystemTriggered: boolean;
+  isTimeBased: boolean;
+  events: Array<{
+    eventName: string;
+    waTasks: StateDetailTask[];
+  }>;
+}
+
 export interface EventMatrixWaColumn {
   taskName: string;
   alignment: string;
@@ -116,6 +128,45 @@ export function getWaTaskFilterOptions(
 }
 
 // ── filterEventsByWaTask ────────────────────────────────────────────
+
+// ── getTransitionWaTasks ─────────────────────────────────────────────
+
+export function getTransitionWaTasks(
+  stateId: string,
+  states: Array<{ id: string; uiLabel: string }>,
+  transitions: Array<{ from: string; to: string; condition: string | null; isSystemTriggered: boolean; isTimeBased: boolean }>,
+  events: Array<{ state: string; name: string }>,
+  waTasks: WaTask[],
+  waMappings: WaTaskMapping[],
+): TransitionWaTask[] {
+  const outgoing = transitions.filter((t) => t.from === stateId);
+  const eventsAtState = events.filter((e) => e.state === stateId);
+
+  return outgoing.map((transition) => {
+    const targetState = states.find((s) => s.id === transition.to);
+
+    // For each event at this state, resolve its WA tasks
+    const eventEntries = eventsAtState.map((event) => {
+      const tasks = getTasksForEvent(event.name, waMappings, waTasks);
+      const detailTasks: StateDetailTask[] = tasks.map((task) => {
+        const badge = getWaTaskBadge(task.alignment);
+        const mapping = waMappings.find((m) => m.waTaskId === task.id);
+        const tooltip = mapping ? getWaTaskTooltip(task, mapping) : task.taskName;
+        return { taskName: task.taskName, alignment: task.alignment, badge, tooltip };
+      });
+      return { eventName: event.name, waTasks: detailTasks };
+    });
+
+    return {
+      targetStateId: transition.to,
+      targetStateLabel: targetState?.uiLabel ?? transition.to,
+      condition: transition.condition ?? '',
+      isSystemTriggered: transition.isSystemTriggered,
+      isTimeBased: transition.isTimeBased,
+      events: eventEntries.filter((e) => e.waTasks.length > 0),
+    };
+  });
+}
 
 export function filterEventsByWaTask(
   events: Array<{ state: string; name: string; [key: string]: unknown }>,
