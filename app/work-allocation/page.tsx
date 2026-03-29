@@ -11,6 +11,9 @@ import {
   groupTasksByContext,
   exportAlignmentCsv,
 } from '../../src/ui-wa-tasks/dashboard-helpers';
+import {
+  getAboutSection,
+} from '../../src/ui-about-work-allocation/index.js';
 
 type ViewMode = 'tables' | 'by-context';
 
@@ -47,19 +50,22 @@ export default function WorkAllocationPage() {
   return (
     <div className="space-y-8">
       {/* Page Header */}
-      <div className="flex items-center justify-between">
-        <div>
-          <h1 className="text-2xl font-semibold text-slate-100">Work Allocation Dashboard</h1>
-          <p className="text-sm text-slate-400 mt-1">
-            Alignment of R1A WA tasks against the possession event model
-          </p>
+      <div className="space-y-3">
+        <div className="flex items-center justify-between">
+          <div>
+            <h1 className="text-2xl font-semibold text-slate-100">Work Allocation Dashboard</h1>
+            <p className="text-sm text-slate-400 mt-1">
+              Alignment of R1A WA tasks against the possession event model
+            </p>
+          </div>
+          <button
+            onClick={handleExportCsv}
+            className="px-4 py-2 text-sm font-medium text-slate-200 bg-slate-800/60 border border-slate-700/40 rounded-lg hover:bg-slate-700/60 transition-colors"
+          >
+            Export CSV
+          </button>
         </div>
-        <button
-          onClick={handleExportCsv}
-          className="px-4 py-2 text-sm font-medium text-slate-200 bg-slate-800/60 border border-slate-700/40 rounded-lg hover:bg-slate-700/60 transition-colors"
-        >
-          Export CSV
-        </button>
+        <AboutPanel />
       </div>
 
       {/* Summary Cards */}
@@ -209,6 +215,42 @@ export default function WorkAllocationPage() {
                   </div>
                 ))}
               </div>
+            </div>
+          ))}
+        </div>
+      )}
+    </div>
+  );
+}
+
+function AboutPanel() {
+  const [open, setOpen] = useState(false);
+  const sections = [
+    getAboutSection('whatItDoes'),
+    getAboutSection('alignmentCategories'),
+    getAboutSection('scopeAssumption'),
+    getAboutSection('byContextAssumption'),
+  ];
+  return (
+    <div className="bg-slate-900/40 border border-slate-700/30 rounded-xl overflow-hidden">
+      <button
+        onClick={() => setOpen((o) => !o)}
+        className="w-full flex items-center justify-between px-4 py-3 text-sm text-slate-400 hover:text-slate-200 hover:bg-slate-800/30 transition-colors"
+      >
+        <span className="font-medium">About this page — how alignment is assessed and what scope is covered</span>
+        <svg
+          className={`w-4 h-4 shrink-0 transition-transform ${open ? 'rotate-180' : ''}`}
+          fill="none" viewBox="0 0 24 24" stroke="currentColor"
+        >
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M19 9l-7 7-7-7" />
+        </svg>
+      </button>
+      {open && (
+        <div className="px-4 pb-4 space-y-4 text-sm text-slate-400 border-t border-slate-700/30 pt-4">
+          {sections.map((section) => section && (
+            <div key={section.key}>
+              <h3 className="text-slate-200 font-medium mb-1">{section.heading}</h3>
+              <p>{section.body}</p>
             </div>
           ))}
         </div>
