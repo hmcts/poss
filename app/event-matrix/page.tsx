@@ -4,6 +4,14 @@ import { useState, useMemo, useCallback } from 'react';
 import { useApp } from '../providers';
 import { getFilterOptions, applyFiltersAndSearch, prepareTableData, prepareCsvDownload, getEventMatrixSummary } from '../../src/ui-event-matrix/index';
 import { getEventMatrixWaColumn, getWaTaskFilterOptions, filterEventsByWaTask } from '../../src/ui-wa-tasks/state-overlay-helpers';
+import {
+  PANEL_TITLE,
+  SECTION_WHAT_IT_DOES,
+  SECTION_OPEN_QUESTIONS,
+  SECTION_ACTOR_GRID,
+  SECTION_SYSTEM_FLAG,
+  SECTION_WA_TASK,
+} from '../../src/ui-about-event-matrix/index';
 
 // ── Static WA data ─────────────────────────────────────────────────
 import waTasksData from '../../data/wa-tasks.json';
@@ -59,6 +67,8 @@ export default function EventMatrixPage() {
           Export CSV
         </button>
       </div>
+
+      <AboutPanel />
 
       <div className="flex flex-wrap gap-3 items-center">
         <input type="text" placeholder="Search events..." value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)}
@@ -143,6 +153,50 @@ export default function EventMatrixPage() {
           </tbody>
         </table>
       </div>
+    </div>
+  );
+}
+
+function AboutPanel() {
+  const [open, setOpen] = useState(false);
+  return (
+    <div className="bg-slate-900/40 border border-slate-700/30 rounded-xl overflow-hidden">
+      <button
+        onClick={() => setOpen((o) => !o)}
+        className="w-full flex items-center justify-between px-4 py-3 text-sm text-slate-400 hover:text-slate-200 hover:bg-slate-800/30 transition-colors"
+      >
+        <span className="font-medium">{PANEL_TITLE}</span>
+        <svg
+          className={`w-4 h-4 shrink-0 transition-transform ${open ? 'rotate-180' : ''}`}
+          fill="none" viewBox="0 0 24 24" stroke="currentColor"
+        >
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M19 9l-7 7-7-7" />
+        </svg>
+      </button>
+      {open && (
+        <div className="px-4 pb-4 space-y-4 text-sm text-slate-400 border-t border-slate-700/30 pt-4">
+          <div>
+            <h3 className="text-slate-200 font-medium mb-1">What this page does</h3>
+            <p>{SECTION_WHAT_IT_DOES}</p>
+          </div>
+          <div>
+            <h3 className="text-slate-200 font-medium mb-1">Open question indicator</h3>
+            <p>{SECTION_OPEN_QUESTIONS}</p>
+          </div>
+          <div>
+            <h3 className="text-slate-200 font-medium mb-1">Actor grid</h3>
+            <p>{SECTION_ACTOR_GRID}</p>
+          </div>
+          <div>
+            <h3 className="text-slate-200 font-medium mb-1">System flag</h3>
+            <p>{SECTION_SYSTEM_FLAG}</p>
+          </div>
+          <div>
+            <h3 className="text-slate-200 font-medium mb-1">WA task column</h3>
+            <p>{SECTION_WA_TASK}</p>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
