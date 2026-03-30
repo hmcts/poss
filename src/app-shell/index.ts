@@ -10,6 +10,8 @@ export const ROUTES = [
   { path: '/action-items', label: 'Action Items', icon: 'list' },
   { path: '/digital-twin', label: 'Digital Twin', icon: 'cpu' },
   { path: '/caseman-comparison', label: 'Caseman Comparison', icon: 'compare' },
+  { path: '/product-catalogue', label: 'Product Catalogue', icon: 'catalogue' },
+  { path: '/coverage-map', label: 'Coverage Map', icon: 'coverage' },
 ] as const;
 
 // -- Claim Types --------------------------------------------------------------
