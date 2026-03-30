@@ -19,6 +19,7 @@ import {
   buildCoverageSummaryCards,
 } from '../../src/ui-catalogue-coverage-map/index.js';
 import { getExpandedDetail } from '../../src/ui-product-catalogue/index';
+import { getAboutSections } from '../../src/ui-about-coverage-map/index.js';
 import catalogueData from '../../data/product-catalogue.json';
 
 const catalogue = catalogueData as any[];
@@ -143,9 +144,12 @@ export default function CoverageMapPage() {
 
   return (
     <div className="space-y-4">
-      <div>
-        <h1 className="text-2xl font-semibold text-slate-100">Coverage Map</h1>
-        <p className="text-sm text-slate-400 mt-1">Catalogue-to-state coverage with gap analysis</p>
+      <div className="space-y-3">
+        <div>
+          <h1 className="text-2xl font-semibold text-slate-100">Coverage Map</h1>
+          <p className="text-sm text-slate-400 mt-1">Catalogue-to-state coverage with gap analysis</p>
+        </div>
+        <AboutPanel />
       </div>
 
       <div className="flex gap-5" style={{ height: 'calc(100vh - 160px)' }}>
@@ -323,6 +327,35 @@ export default function CoverageMapPage() {
           </div>
         )}
       </div>
+    </div>
+  );
+}
+
+function AboutPanel() {
+  const [open, setOpen] = useState(false);
+  const sections = getAboutSections();
+  return (
+    <div className="bg-slate-900/40 border border-slate-700/30 rounded-xl overflow-hidden">
+      <button
+        onClick={() => setOpen((o) => !o)}
+        className="w-full flex items-center justify-between px-4 py-3 text-sm text-slate-400 hover:text-slate-200 hover:bg-slate-800/30 transition-colors"
+      >
+        <span className="font-medium">About this page — how coverage is identified and what the assumptions are</span>
+        <svg className={`w-4 h-4 shrink-0 transition-transform ${open ? 'rotate-180' : ''}`}
+          fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M19 9l-7 7-7-7" />
+        </svg>
+      </button>
+      {open && (
+        <div className="px-4 pb-4 space-y-4 text-sm text-slate-400 border-t border-slate-700/30 pt-4">
+          {sections.map((section: any) => (
+            <div key={section.key}>
+              <h3 className="text-slate-200 font-medium mb-1">{section.heading}</h3>
+              <p>{section.body}</p>
+            </div>
+          ))}
+        </div>
+      )}
     </div>
   );
 }
