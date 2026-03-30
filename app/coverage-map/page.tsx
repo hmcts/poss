@@ -122,6 +122,11 @@ export default function CoverageMapPage() {
   const selectedState = selectedStateId ? modelData.states.find((s) => s.id === selectedStateId) : null;
   const selectedEvents = selectedStateId ? modelData.events.filter((e) => e.state === selectedStateId) : [];
   const mappedEventIds = new Set(allMappings.filter((m: any) => m.stateId === selectedStateId && m.eventId).map((m: any) => m.eventId));
+  const selectedFeatures = useMemo(() => {
+    if (!selectedStateId) return [];
+    const refs = [...new Set(allMappings.filter((m: any) => m.stateId === selectedStateId).map((m: any) => m.catalogueRef))];
+    return refs.map((ref) => scopedItems.find((i: any) => i.ref === ref)).filter(Boolean);
+  }, [selectedStateId, allMappings, scopedItems]);
 
   const crossGroups = useMemo(() => groupByCrossGroup(crossCuttingItems), [crossCuttingItems]);
 
@@ -213,7 +218,7 @@ export default function CoverageMapPage() {
                   const covered = mappedEventIds.has(evt.id);
                   return (
                     <li key={evt.id} className="flex items-start gap-2">
-                      <span className={`mt-0.5 shrink-0 w-1.5 h-1.5 rounded-full`}
+                      <span className="mt-0.5 shrink-0 w-1.5 h-1.5 rounded-full"
                         style={{ backgroundColor: covered ? '#16a34a' : '#dc2626' }} />
                       <div>
                         <div className="text-[12px] text-slate-300">{evt.name}</div>
@@ -223,6 +228,37 @@ export default function CoverageMapPage() {
                   );
                 })}
               </ul>
+              {selectedFeatures.length > 0 && (
+                <>
+                  <div className="h-px bg-slate-700/30 my-3" />
+                  <h4 className="text-[11px] font-semibold text-slate-500 uppercase tracking-wider mb-2">
+                    Features ({selectedFeatures.length})
+                  </h4>
+                  <ul className="space-y-2">
+                    {selectedFeatures.map((item: any) => (
+                      <li key={item.ref} className="flex items-start gap-2">
+                        <span className="mt-0.5 shrink-0 text-[9px] px-1.5 py-0.5 rounded font-medium"
+                          style={{ backgroundColor: '#1e3a5f', color: '#93c5fd' }}>
+                          {item.ref}
+                        </span>
+                        <div>
+                          <div className="text-[12px] text-slate-300">{item.feature}</div>
+                          {item.moscow && (
+                            <span className="text-[10px] text-slate-600">{item.moscow} · {item.domainGroup}</span>
+                          )}
+                        </div>
+                      </li>
+                    ))}
+                  </ul>
+                </>
+              )}
+              {selectedFeatures.length === 0 && selectedEvents.length > 0 && (
+                <>
+                  <div className="h-px bg-slate-700/30 my-3" />
+                  <h4 className="text-[11px] font-semibold text-slate-500 uppercase tracking-wider mb-1">Features</h4>
+                  <p className="text-[11px] text-slate-600">No catalogue items mapped to this state.</p>
+                </>
+              )}
             </div>
           ) : (
             <div className="rounded-xl border border-slate-700/30 bg-slate-800/40 p-5 text-center">
