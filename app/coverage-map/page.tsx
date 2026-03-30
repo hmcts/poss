@@ -18,6 +18,7 @@ import {
   groupByCrossGroup,
   buildCoverageSummaryCards,
 } from '../../src/ui-catalogue-coverage-map/index.js';
+import { getExpandedDetail } from '../../src/ui-product-catalogue/index';
 import catalogueData from '../../data/product-catalogue.json';
 
 const catalogue = catalogueData as any[];
@@ -28,6 +29,7 @@ export default function CoverageMapPage() {
   const [releaseScope, setReleaseScope] = useState<'r1' | 'r1+tbc' | 'all'>('r1+tbc');
   const [selectedStateId, setSelectedStateId] = useState<string | null>(null);
   const [featuresExpanded, setFeaturesExpanded] = useState(false);
+  const [selectedFeature, setSelectedFeature] = useState<any>(null);
 
   const graphData = useMemo(() => prepareGraphData(modelData.states, modelData.transitions), [modelData.states, modelData.transitions]);
 
@@ -119,6 +121,7 @@ export default function CoverageMapPage() {
   const onNodeClick = useCallback((_: unknown, node: Node) => {
     setSelectedStateId((prev) => (prev === node.id ? null : node.id));
     setFeaturesExpanded(false);
+    setSelectedFeature(null);
   }, []);
 
   const selectedState = selectedStateId ? modelData.states.find((s) => s.id === selectedStateId) : null;
@@ -246,20 +249,45 @@ export default function CoverageMapPage() {
                   {selectedFeatures.length === 0 && (
                     <li className="text-[11px] text-slate-600">No catalogue items mapped to this state.</li>
                   )}
-                  {selectedFeatures.map((item: any) => (
-                    <li key={item.ref} className="flex items-start gap-2">
-                      <span className="mt-0.5 shrink-0 text-[9px] px-1.5 py-0.5 rounded font-medium"
-                        style={{ backgroundColor: '#1e3a5f', color: '#93c5fd' }}>
-                        {item.ref}
-                      </span>
-                      <div>
-                        <div className="text-[12px] text-slate-300">{item.feature}</div>
-                        {item.moscow && (
-                          <span className="text-[10px] text-slate-600">{item.moscow} · {item.domainGroup}</span>
+                  {selectedFeatures.map((item: any) => {
+                    const isOpen = selectedFeature?.ref === item.ref;
+                    const detail = isOpen ? getExpandedDetail(item) : null;
+                    return (
+                      <li key={item.ref}>
+                        <button
+                          onClick={() => setSelectedFeature(isOpen ? null : item)}
+                          className="w-full flex items-start gap-2 text-left hover:bg-slate-700/20 rounded-lg p-1 -mx-1 transition-colors"
+                        >
+                          <span className="mt-0.5 shrink-0 text-[9px] px-1.5 py-0.5 rounded font-medium"
+                            style={{ backgroundColor: isOpen ? '#1e40af' : '#1e3a5f', color: '#93c5fd' }}>
+                            {item.ref}
+                          </span>
+                          <div className="flex-1 min-w-0">
+                            <div className="text-[12px] text-slate-300">{item.feature}</div>
+                            {item.moscow && (
+                              <span className="text-[10px] text-slate-600">{item.moscow} · {item.domainGroup}</span>
+                            )}
+                          </div>
+                          <svg className={`w-3 h-3 mt-0.5 shrink-0 text-slate-600 transition-transform ${isOpen ? 'rotate-180' : ''}`}
+                            fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                          </svg>
+                        </button>
+                        {isOpen && detail && (
+                          <div className="mt-1 ml-1 pl-3 border-l border-slate-700/40 space-y-2 pb-1">
+                            {detail.hlFunction && <DetailRow label="Function" value={detail.hlFunction} />}
+                            {detail.userStory && <DetailRow label="User story" value={detail.userStory} />}
+                            {detail.expectedOutcomes && <DetailRow label="Outcomes" value={detail.expectedOutcomes} />}
+                            {detail.eventTrigger && <DetailRow label="Event trigger" value={detail.eventTrigger} />}
+                            {detail.personas?.length > 0 && <DetailRow label="Personas" value={detail.personas.join(', ')} />}
+                            {detail.tshirtSize && <DetailRow label="Size" value={detail.tshirtSize} />}
+                            {detail.ucdRequired && <DetailRow label="UCD required" value={detail.ucdRequired} />}
+                            {detail.notes && <DetailRow label="Notes" value={detail.notes} />}
+                          </div>
                         )}
-                      </div>
-                    </li>
-                  ))}
+                      </li>
+                    );
+                  })}
                 </ul>
               )}
             </div>
@@ -295,6 +323,15 @@ export default function CoverageMapPage() {
           </div>
         )}
       </div>
+    </div>
+  );
+}
+
+function DetailRow({ label, value }: { label: string; value: string }) {
+  return (
+    <div>
+      <span className="text-[10px] text-slate-500 uppercase tracking-wider">{label}</span>
+      <p className="text-[11px] text-slate-300 mt-0.5">{value}</p>
     </div>
   );
 }
