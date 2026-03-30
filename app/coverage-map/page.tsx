@@ -27,6 +27,7 @@ export default function CoverageMapPage() {
   const [selectedPersona, setSelectedPersona] = useState<string | null>(null);
   const [releaseScope, setReleaseScope] = useState<'r1' | 'r1+tbc' | 'all'>('r1+tbc');
   const [selectedStateId, setSelectedStateId] = useState<string | null>(null);
+  const [featuresExpanded, setFeaturesExpanded] = useState(false);
 
   const graphData = useMemo(() => prepareGraphData(modelData.states, modelData.transitions), [modelData.states, modelData.transitions]);
 
@@ -117,6 +118,7 @@ export default function CoverageMapPage() {
 
   const onNodeClick = useCallback((_: unknown, node: Node) => {
     setSelectedStateId((prev) => (prev === node.id ? null : node.id));
+    setFeaturesExpanded(false);
   }, []);
 
   const selectedState = selectedStateId ? modelData.states.find((s) => s.id === selectedStateId) : null;
@@ -228,36 +230,37 @@ export default function CoverageMapPage() {
                   );
                 })}
               </ul>
-              {selectedFeatures.length > 0 && (
-                <>
-                  <div className="h-px bg-slate-700/30 my-3" />
-                  <h4 className="text-[11px] font-semibold text-slate-500 uppercase tracking-wider mb-2">
-                    Features ({selectedFeatures.length})
-                  </h4>
-                  <ul className="space-y-2">
-                    {selectedFeatures.map((item: any) => (
-                      <li key={item.ref} className="flex items-start gap-2">
-                        <span className="mt-0.5 shrink-0 text-[9px] px-1.5 py-0.5 rounded font-medium"
-                          style={{ backgroundColor: '#1e3a5f', color: '#93c5fd' }}>
-                          {item.ref}
-                        </span>
-                        <div>
-                          <div className="text-[12px] text-slate-300">{item.feature}</div>
-                          {item.moscow && (
-                            <span className="text-[10px] text-slate-600">{item.moscow} · {item.domainGroup}</span>
-                          )}
-                        </div>
-                      </li>
-                    ))}
-                  </ul>
-                </>
-              )}
-              {selectedFeatures.length === 0 && selectedEvents.length > 0 && (
-                <>
-                  <div className="h-px bg-slate-700/30 my-3" />
-                  <h4 className="text-[11px] font-semibold text-slate-500 uppercase tracking-wider mb-1">Features</h4>
-                  <p className="text-[11px] text-slate-600">No catalogue items mapped to this state.</p>
-                </>
+              <div className="h-px bg-slate-700/30 my-3" />
+              <button
+                onClick={() => setFeaturesExpanded((x) => !x)}
+                className="w-full flex items-center justify-between text-[11px] font-semibold text-slate-500 uppercase tracking-wider hover:text-slate-300 transition-colors"
+              >
+                <span>Features ({selectedFeatures.length})</span>
+                <svg className={`w-3 h-3 transition-transform ${featuresExpanded ? 'rotate-180' : ''}`}
+                  fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                </svg>
+              </button>
+              {featuresExpanded && (
+                <ul className="space-y-2 mt-2">
+                  {selectedFeatures.length === 0 && (
+                    <li className="text-[11px] text-slate-600">No catalogue items mapped to this state.</li>
+                  )}
+                  {selectedFeatures.map((item: any) => (
+                    <li key={item.ref} className="flex items-start gap-2">
+                      <span className="mt-0.5 shrink-0 text-[9px] px-1.5 py-0.5 rounded font-medium"
+                        style={{ backgroundColor: '#1e3a5f', color: '#93c5fd' }}>
+                        {item.ref}
+                      </span>
+                      <div>
+                        <div className="text-[12px] text-slate-300">{item.feature}</div>
+                        {item.moscow && (
+                          <span className="text-[10px] text-slate-600">{item.moscow} · {item.domainGroup}</span>
+                        )}
+                      </div>
+                    </li>
+                  ))}
+                </ul>
               )}
             </div>
           ) : (
