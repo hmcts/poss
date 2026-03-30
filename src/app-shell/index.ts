@@ -12,6 +12,7 @@ export const ROUTES = [
   { path: '/caseman-comparison', label: 'Caseman Comparison', icon: 'compare' },
   { path: '/product-catalogue', label: 'Product Catalogue', icon: 'catalogue' },
   { path: '/coverage-map', label: 'Coverage Map', icon: 'coverage' },
+  { path: '/journey', label: 'Journey Explorer', icon: 'journey' },
 ] as const;
 
 // -- Claim Types --------------------------------------------------------------
