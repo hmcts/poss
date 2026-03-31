@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: CaseEvents
+	Method:  markLastCaseEventDeleted()
+	File:    mark_last_case_event_deleted.xml
+	Author:  Phil Haferer (EDS)
+	Created: 05 October 2005
+	Description: 
+		Marks the Last Case Event for a given Event Id, relating to a particular Case as deleted.
+-->
+<service-method>
+	<pipeline>
+		<SQLLite output="input">
+			<DataSource id="java:OracleDS"/>
+			<Param name="param.caseNumber" xpath="/params/param[@name='caseNumber']"/>
+			<Param name="param.partyRoleCode" xpath="/params/param[@name='partyRoleCode']"/>
+			<Param name="param.casePartyNumber" xpath="/params/param[@name='casePartyNumber']"/>
+			<Param name="param.stdEventId" xpath="/params/param[@name='stdEventId']"/>
+			<SQL type="update" tables="CE">
+				UPDATE CASE_EVENTS CE
+				SET    CE.DELETED_FLAG = 'Y'
+				WHERE  CE.EVENT_SEQ = (
+					   SELECT MAX(CE2.EVENT_SEQ) 
+					   FROM   CASE_EVENTS CE2
+					   WHERE  CE2.CASE_NUMBER = ${param.caseNumber}
+					   AND    CE2.PARTY_ROLE_CODE = ${param.partyRoleCode}
+					   AND    CE2.CASE_PARTY_NO = ${param.casePartyNumber}
+					   AND    CE2.STD_EVENT_ID = ${param.stdEventId}
+					   AND    CE2.DELETED_FLAG = 'N')
+			</SQL>
+		</SQLLite>
+	</pipeline>
+	<Security roles="user"/>
+</service-method>

@@ -1,0 +1,125 @@
+<project name="Caseman_OC4J_Management" default="oc4j__bind-ear-web-modules" basedir=".">
+
+    <description> 
+        DELETE THIS FILE ONCE WE'VE MOVED TO FRMWK 9.0.7
+    </description>
+
+
+    <target name="-init_oc4j_properties" description="carries out some housekeeping tasks and attempts to ensure the environment is configured correctly">
+		<echo message="Inside target -init_oc4j_properties"/>
+		
+        <!-- define some global messages -->
+        <property name="oc4j.build.error.title" value="SUPS-BUILD-ERROR: "/>
+
+        <echo>application_base: ${application_base}</echo>
+        <property environment="env" />
+
+        <property file="${user.home}/sups_antuser.properties"/>
+        
+        <!-- 
+            properties are immutable, so try and set ones we require 
+            and may not have been set in the oc4j.properties file 
+        -->      
+        <condition property="application_base" value="${env.PROJECT_BASE}">
+                <isset property="env.PROJECT_BASE}"/>
+        </condition>   
+
+        <fail unless="application_base"
+            message="${oc4j.build.error.title}You have not defined the application_base property, preventing us from managing the oc4j deployment.If you are using eclipse, set a property in the main tab of the external tool runner for ant" />
+        
+        <available file="${application_base}/application.properties" type="file" property="application_properties_file"  value="${application_base}/application.properties"/>      
+        <available file="${application_base}/oc4j.properties" type="file" property="oc4j_properties_file" value="${application_base}/oc4j.properties"/>
+            
+        <fail unless="application_properties_file"
+            message="${oc4j.build.error.title}Unable to find application.properties file in application_base=${application_base}" />
+        <fail unless="oc4j_properties_file"
+            message="${oc4j.build.error.title}Unable to find oc4j.properties file in application_base=${application_base}"/>        
+
+        
+        <property file="${application_properties_file}" />
+        <property file="${oc4j_properties_file}" />
+
+        <echo level="debug">ant-contrib-jar: ${ant-contrib-jar}</echo>
+        <condition property="ant.contrib.jar"
+            value="${framework.release}/lib/ant-contrib/ant-contrib-1.0b1.jar">
+            <not>
+                <isset property="ant.contrib.jar" />
+            </not>
+        </condition>
+        <echo level="debug">ant-contrib-jar: ${ant-contrib-jar}</echo>
+        <!-- Ant contrib stuff -->
+        <taskdef resource="net/sf/antcontrib/antcontrib.properties">
+            <classpath>
+                <pathelement location="${framework.release}/lib/ant-contrib/ant-contrib-1.0b1.jar" />
+            </classpath>
+        </taskdef>
+    </target>
+
+    <target name="oc4j__bind-ear-web-modules"
+        depends="-init_oc4j_properties">
+
+        <if>
+            <socket server="${oc4j.check.server}"
+                port="${oc4j.check.port}" />
+            <then>   
+			<echo message="Binding sups-invoker-${application.name} to ${ocj4.https.site}"/>
+            <java description="Binds (HTTPS) the sups-invoker-${applications_name}.war file to /${application.name}_invoker, this application holds the AJAX Servlet"
+                fork="true" dir="${oc4j.home.dir}"
+                jar="${oc4j.home.dir}/j2ee/home/admin.jar">
+                <arg value="${oc4j.admin.url}" />
+                <arg value="admin" />
+                <arg value="${oc4j.admin.password}" />
+                <arg value="-bindWebApp" />
+                <arg value="${application.name}_server" />
+                <arg value="sups-invoker-${application.name}" />
+                <arg value="${ocj4.https.site}" />
+                <arg value="/${application.name}_invoker" />
+            </java>			
+			<echo message="Binding sups-invoker-${application.name} to ${ocj4.http.site}"/>			
+            <java description="Binds (HTTP) the sups-invoker-${applications_name}.war file to the secure website as the invoker servlet requires login to be SSL /${application.name}_invoker, this application holds the AJAX Servlet"
+                fork="true" dir="${oc4j.home.dir}"
+                jar="${oc4j.home.dir}/j2ee/home/admin.jar">
+                <arg value="${oc4j.admin.url}" />
+                <arg value="admin" />
+                <arg value="${oc4j.admin.password}" />
+                <arg value="-bindWebApp" />
+                <arg value="${application.name}_server" />
+                <arg value="sups-invoker-${application.name}" />
+                <arg value="${ocj4.http.site}" />
+                <arg value="/${application.name}_invoker" />
+            </java>        
+			<echo message="Binding sups-content-${application.name} to ${ocj4.http.site}"/>						
+            <java description="Binds the sups-content-${applications_name}.war file to /${application.name}_content"
+                fork="true" dir="${oc4j.home.dir}"
+                jar="${oc4j.home.dir}/j2ee/home/admin.jar">
+                <arg value="${oc4j.admin.url}" />
+                <arg value="admin" />
+                <arg value="${oc4j.admin.password}" />
+                <arg value="-bindWebApp" />
+                <arg value="${application.name}_server" />
+                <arg value="sups-content-${application.name}" />
+                <arg value="${ocj4.http.site}" />
+                <arg value="/${application.name}_content" />
+            </java>    
+<!--			       
+            <java description="Binds the WebserviceAssmbler web application for the OASURLBuilder. This is a legacy webservice but is there to cater for non refactored JUnit tests"
+                fork="true" dir="${oc4j.home.dir}"
+                jar="${oc4j.home.dir}/j2ee/home/admin.jar">
+                <arg value="${oc4j.admin.url}" />
+                <arg value="admin" />
+                <arg value="${oc4j.admin.password}" />
+                <arg value="-bindWebApp" />
+                <arg value="${application.name}_server" />
+                <arg value="${application.name}_web" />
+                <arg value="${ocj4.http.site}" />
+                <arg value="/${application.name}_server" />
+            </java>
+-->			
+            </then>   
+           <else>
+               <fail message="OC4J is not running!!! Please start OC4J and try binding the war again"/>
+           </else>   
+        </if>
+   
+    </target>
+</project>

@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>9202</Id>
+	<Label>Date payable order sent</Label>
+	<ObjectName>PayableOrderSent</ObjectName>
+	<Html>	
+		<script type="text/javascript">WP_DatePickerRenderer.createInline("PayableOrderSent", false);</script>
+		</Html>			
+	<Javascript>
+		<XPath>/ds/EnterVariableData/payableOrderSent</XPath>
+		<HintText>Enter the date the payable order was sent</HintText>
+            <Context ScreenId="L_6_1_2_3_4_7">
+    
+                <mandatoryOn>PayableOrderNumber.dataBinding</mandatoryOn>
+                <isMandatory> return return9202()</isMandatory>
+                <enableOn>PayableOrderNumber.dataBinding</enableOn>
+                <isEnabled>return return9202();</isEnabled>
+                <logicOn>PayableOrderNumber.dataBinding</logicOn>
+                <logic>if(!return9202())
+                    {
+                        Services.setValue(PayableOrderSent.dataBinding, "");
+                    }
+                </logic>
+                <miscCode>
+                    function return9202(){
+                        var n9202 = false;
+                        if(
+                            PayableOrderNumber.isEnabled() 
+                            
+                        ){
+                            n9202 = true;
+                        }
+                        return n9202;
+                    }
+                </miscCode>
+        
+        </Context>
+		<!--// PayableOrderSent  will not be validated as it is unspecified at the moment
+        <validateOn>PayableOrderSent.dataBinding</validateOn>
+		<validate>
+            //no validation specified .... using norminal validation for date
+            isValidDate(PayableOrderSent.dataBinding,false);
+        
+		</validate> //-->
+        
+	</Javascript>		
+</Question>

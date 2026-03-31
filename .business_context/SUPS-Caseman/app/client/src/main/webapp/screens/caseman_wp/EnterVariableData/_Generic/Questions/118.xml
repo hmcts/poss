@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>118</Id>
+	<Label>Hearing type</Label>
+	<ObjectName>HearingType</ObjectName>
+	<Html>		
+		<select id="HearingType">
+			<option value=""></option>			
+			<option value="SCH">Small claim hearing</option>
+			<option value="FTH">Fast track hearing</option>
+			<option value="MTH">Multi track hearing</option>
+			<option value="DAH">Disposal/Assessment Hearing</option>
+		</select>
+	</Html>
+	<Javascript>
+		<XPath>/ds/EnterVariableData/TrialNotice/hearingType</XPath>
+		<HintText>Select a hearing type - list available</HintText>
+		<isMandatory>return true;</isMandatory>
+	</Javascript>
+</Question>

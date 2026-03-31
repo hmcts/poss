@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>390</Id>
+	<Label>Officer Address line 2</Label>
+	<ObjectName>OfficerAddLn2</ObjectName>
+	<Html>	
+		<input type="text" id="OfficerAddLn2" size="50"></input>
+	</Html>			
+	<Javascript>
+		<XPath>/ds/EnterVariableData/AttendForQuestion/Officer/Address/Line[2]</XPath>
+		<componentName>##label##</componentName>
+		<isMandatory>return true;</isMandatory>
+		<HintText>Enter second line of officers address</HintText>
+		<enableOn>QuestionWho.dataBinding</enableOn>
+		<isEnabled>
+			var val = Services.getValue(QuestionWho.dataBinding);
+			return('COM' == val || 'CORP' == val);
+		</isEnabled>
+		<logicOn>QuestionWho.dataBinding</logicOn>
+		<logic>
+			var val = Services.getValue(QuestionWho.dataBinding);
+			if('COM' != val &amp;&amp; 'CORP' != val)
+			{	Services.setValue(OfficerAddLn2.dataBinding, "");
+			}
+		</logic>	
+		
+		<Context ScreenId="CJR081">
+			<enableOn>IsAgainstCoOfficer.dataBinding</enableOn>
+			<isEnabled>return('Y' == Services.getValue(IsAgainstCoOfficer.dataBinding));</isEnabled>
+			<logicOn>IsAgainstCoOfficer.dataBinding</logicOn>
+			<logic>
+				if('Y' != Services.getValue(IsAgainstCoOfficer.dataBinding))
+				{	Services.setValue(OfficerAddLn2.dataBinding, "");
+				}			
+			</logic>
+		</Context>
+		
+		<Context ScreenId="CJR082">
+			<enableOn>IsAgainstCoOfficer.dataBinding</enableOn>
+			<isEnabled>return('Y' == Services.getValue(IsAgainstCoOfficer.dataBinding));</isEnabled>
+			<logicOn>IsAgainstCoOfficer.dataBinding</logicOn>
+			<logic>
+				if('Y' != Services.getValue(IsAgainstCoOfficer.dataBinding))
+				{	Services.setValue(OfficerAddLn2.dataBinding, "");
+				}			
+			</logic>	
+		</Context>
+		
+		<Context ScreenId="CJR083">
+			<enableOn>IsAgainstCoOfficer.dataBinding</enableOn>
+			<isEnabled>return('Y' == Services.getValue(IsAgainstCoOfficer.dataBinding));</isEnabled>
+			<logicOn>IsAgainstCoOfficer.dataBinding</logicOn>
+			<logic>
+				if('Y' != Services.getValue(IsAgainstCoOfficer.dataBinding))
+				{	Services.setValue(OfficerAddLn2.dataBinding, "");
+				}			
+			</logic>	
+		</Context>
+	</Javascript>
+</Question>

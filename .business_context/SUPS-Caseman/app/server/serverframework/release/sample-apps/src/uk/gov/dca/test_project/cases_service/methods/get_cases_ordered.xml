@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<service-method>
+	<pipeline>
+		<Query>
+			<QueryDef location="uk/gov/dca/test_project/cases_service/cases_query_def.xml"/>
+			<QueryExtension pivotNode="/Cases/Case">
+				<OrderBy>C.CASE_NUMBER DESC</OrderBy>
+			</QueryExtension>
+		</Query>
+	</pipeline>
+	<Security roles="user"/>
+</service-method>

@@ -1,0 +1,22 @@
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>580</Id>
+	<Label>Is there notice of a further hearing?</Label>
+	<ObjectName>NoticeOfFurtherHearing</ObjectName>
+	<Html>	
+		<input type="checkbox" id="NoticeOfFurtherHearing"></input>
+	</Html>			
+	<Javascript>
+		<XPath>/ds/EnterVariableData/Interlocutory/noticeOfFurtherHearing</XPath>
+		<componentName>##label##</componentName>
+		<modelValue>checked: "Y", unchecked: "N"</modelValue>
+		<HintText>Check box if there is notice of a further hearing?</HintText>	
+		<enableOn>OrderToProduce.dataBinding</enableOn>
+		<isEnabled>return( 'N16' == Services.getValue(OrderToProduce.dataBinding));</isEnabled>
+		<logicOn>OrderToProduce.dataBinding</logicOn>
+		<logic>
+			if( 'N16' != Services.getValue(OrderToProduce.dataBinding))
+			{	Services.setValue(NoticeOfFurtherHearing.dataBinding, "N");
+			}
+		</logic>			
+	</Javascript>
+</Question>

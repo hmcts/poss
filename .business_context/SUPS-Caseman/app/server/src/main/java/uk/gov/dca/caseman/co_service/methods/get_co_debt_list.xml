@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: Co
+	Method:  getCoDebtList()
+	File:    get_co_debt_list.xml
+	Author:  Phil Haferer (EDS)
+	Created: 17 August 2005
+	Description: 
+		Retrieve the list of Debts associated with a Consolidated Order.
+	
+	Amended:24 November 2005
+	Amended By: MGG
+	Description: 
+		Added roles to security tag
+-->
+<service-method>
+	<pipeline>
+		<Query>
+			<QueryDef location="uk/gov/dca/caseman/co_service/query_def_get_co_debt_list.xml"/>
+			<QueryExtension pivotNode="/ds/MaintainCO/Debts/Debt">
+				<Param name="param.coNumber" xpath="/params/param[@name = 'coNumber']"/>
+				<Constraint>AD.DEBT_CO_NUMBER = ${param.coNumber}</Constraint>
+			</QueryExtension>
+		</Query>
+	</pipeline>
+	<Security roles="viewOnly medium high wcSuper scSuper bmsSuper aeSuper dmSuper cpSuper"/>
+</service-method>

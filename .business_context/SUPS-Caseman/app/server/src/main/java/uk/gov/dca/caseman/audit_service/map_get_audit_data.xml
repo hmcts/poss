@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<DBMapDef>
+  <DataSource id="java:OracleDS"/>
+  <Tables>
+    <Table alias="A" name="SUPS_AMENDMENTS"/>
+    <Table alias="U" name="DCA_USER"/>
+  </Tables>  
+  <Mapping>
+  	<ds>
+  		<AuditList>
+  			<Audit>
+  				<Date>${A.DATE_OF_CHANGE}</Date>
+  				<Column>${A.COLUMN_NAME}</Column>
+  				<OldValue>${A.OLD_VALUE}</OldValue>
+  				<UserName>${U.USER_SHORT_NAME}</UserName>
+  				<Comment>${A.AMENDMENT_TYPE}</Comment>
+  			</Audit>
+  		</AuditList>
+  	</ds>
+  </Mapping>
+</DBMapDef>

@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: Judgment
+	Method:  getJudgmentForMcolData()
+	Author:  Chris Vincent
+	Created: 4 Oct 2013
+	Description: 
+		Use SQLLite to retrieve Judgment data for an MCOL insert.  Required for CCBC SDT.
+	Change History:
+		04/02/2015, Chris Vincent - Trac 5473. Query now returns JudgmentReference
+		22/04/2015, Chris Vincent - Trac 5573. Query now returns PaidInFullDate
+-->
+<service-method>
+	<pipeline>
+		<SQLLite format-output="true"
+				 resultset-element="ds"
+				 row-element="Judgment"
+				 field-name-as="element" >
+			<DataSource id="java:OracleDS"/>
+			<Param name="param.judgSeq" xpath="/params/param[@name='judgSeq']"/>
+			<SQL>
+				SELECT  J.JUDGMENT_TYPE AS "Type"
+						,NVL(J.JOINT_JUDGMENT,'N') AS "JointJudgment"
+						,J.TOTAL AS "Total"
+						,J.INSTALMENT_AMOUNT AS "InstalmentAmount"
+						,J.INSTALMENT_PERIOD AS "Frequency"
+						,J.FIRST_PAYMENT_DATE AS "FirstPaymentDate"
+						,J.JUDGMENT_DATE AS "JudgmentDate"
+						,NVL(J.MCOL_JUDG_REF, 'CJ' || TO_CHAR(J.JUDG_SEQ)) AS "JudgmentReference"
+						,J.DATE_OF_FINAL_PAYMENT As "PaidInFullDate"
+				FROM  	JUDGMENTS J
+				WHERE   J.JUDG_SEQ = ${param.judgSeq}
+			</SQL>
+		</SQLLite>
+  	</pipeline>
+	<Security roles="user"/>
+</service-method>

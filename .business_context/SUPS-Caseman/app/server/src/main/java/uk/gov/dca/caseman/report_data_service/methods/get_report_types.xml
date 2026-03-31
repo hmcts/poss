@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: ReportData
+	Method:  getReportTypes()
+	File:    get_report_types.xml
+	Description: Gets all records from the REPORT_DATA table that aren't of type
+			CVER.
+	Change History:
+	05/05/2011, Chris Vincent.  Added courtId parameter and it's use in the SQL Query.  Trac 3313.
+-->
+<service-method>
+	<pipeline>		
+		<SQLLite format-output="true"
+			resultset-element="ReportTypes"
+			row-element="ReportData"
+			field-name-as="element" >
+			<DataSource id="java:OracleDS" />
+			<Param name="param.courtId" xpath="/params/param[@name = 'courtId']" />
+			<SQL>
+				SELECT	RD.REPORT_TYPE AS "ReportType",
+							RD.REPORT_NUMBER AS "ReportNumber",
+							RD.REPORT_DATE AS "ReportDate",
+							RD.USER_ID AS "UserID",
+							RD.ADMIN_COURT_CODE AS "CourtCode",
+							RD.ADMIN_COURT_CODE AS "EnforcementCourtCode",
+							RD.REPORT_TYPE || RD.REPORT_DATE || RD.USER_ID AS "Key"
+				FROM	REPORT_DATA RD
+				WHERE	RD.REPORT_TYPE != 'CVER'
+				AND		RD.ADMIN_COURT_CODE = ${param.courtId}
+			</SQL>
+		</SQLLite>
+	</pipeline>
+	<Security roles="medium high wcSuper scSuper bmsSuper aeSuper dmSuper" />
+</service-method>

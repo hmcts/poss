@@ -1,0 +1,91 @@
+/*-------------------------------------------------------------------------------
+|
+| TITLE    : dbup_0486 Release Note for CaseMan
+|
+| FILENAME : dbup_0486_release_note.txt
+|
+| SYNOPSIS : Summarises DDL actions to implement RFC 0486 changes to the
+|            CaseMan schema.   
+|
+| AUTHOR   : Mark West
+|
+| VERSION  : 1.01
+|
+| PROJECT   : SUPS Development
+|
+| COPYRIGHT : (c) 2008 Logica UK Ltd.
+|             This file contains information which is confidential and of
+|             value to Logica. It may be used only for the specific purpose for
+|             which it has been provided. Logica's prior written consent is
+|             required before any part is reproduced.
+|
+| COMMENTS  : Release Notes for RFC 0486
+|
+|---------------------------------------------------------------------------------
+|
+| 
+--------------------------------------------------------------------------------*/
+
+Summary
+
+The database changes are in two parts, one part applies schema changes to facilitate 
+the requirement, the other performs a data migration to be run at any time after the
+schema changes (as part of the overnight schedule).   
+
+Operation
+
+Script(s) run from a SQL*Plus session as the CaseMan user.
+
+Script execution stops immediately at the first sign of an Oracle 
+or Operating System error.  
+
+A corresponding Log file is produced, with the naming convention 
+<script name>.log (unless otherwise stated).  The file contains 
+both progress (at best) and error information (at worst) and will 
+reside in the directory where the script was invoked 
+(unless otherwise specified).
+
+NB. For dbup_0486_b.sql a REPORTS directory object must exist for the 
+    script to function.  
+    Where a REPORTS object does not exist, it is suggested the object 
+    is assigned the path where the script resides.
+
+Items
+
+The table below lists scripts and purpose.  Script listing indicates 
+order of application.
+  
+Script              Description
+dbup_0486_a.sql     Applies schema updates to the Cases table and drops and creates the 
+                    MV_CMAN_PARTY_ADDRESSES
+                    
+                    New Column INSOLVENCY_NUMBER added to table.
+                    New Index CASES_INSOLVENCY_NUMBER, based on the column above is added to schema.
+
+                    No parameters are required to run this script.
+                    
+dbup_0486_b.sql     Performs a data migration to set the insolvency number for each SUPS court.
+                    The script requires the court code, i.e. 180, 282 or 378 for COVENTRY, NORTHAMPTON	
+                    and WOLVERHAMPTON courts respectively.  The script needs to be executed for each of 
+                    these courts.
+
+                    The log for this script is written to a directory specified by the REPORTS 
+                    directory object.  
+                    It is assumed that this exists in the production database. The file naming convention 
+                    for log file is... 
+
+                    dbup_0486_b_output_for_court_code_<court code>_at_<TIMESTAMP>.log.
+
+                    Where there are file write failures such as a missing REPORTS object then
+                    these errors are written to a file with a *.err extension.  This file will 
+                    appear in the same directory as the script and will have this file naming 
+                    convention...
+
+                    dbup_0486_b_output_for_court_code_<court code>_at_<TIMESTAMP>.err
+
+                    The log file produced for each court execution should be returned to the 
+                    SUPS Development team for Authority reporting.
+
+
+
+

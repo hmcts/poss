@@ -1,0 +1,216 @@
+<!--                                              -->
+<!-- Word Processing Controller Configuration XML -->
+<!--                                              -->
+<configuration>
+	<!-- 
+		This section of the configuration contains the specification
+		of the context xml used to invokve wp 
+	-->
+	<context><WordProcessing><Final/><Request/><Case><CaseNumber/><CaseType/></Case><Event><StandardEventId/><CaseEventSeq/></Event><OutputId/></WordProcessing></context>
+	<!-- 
+		This section of the configuration contains the xpaths into the context
+		xml that allow the controller to parse the required information from the
+		context xml
+	-->
+	<xpaths>
+		<CaseManWPXPath-defaultPrinter>/params/param/ds/UserDetails/ds/MaintainUser/DefaultPrinter</CaseManWPXPath-defaultPrinter>
+		<CaseManWPXPath-FAPServer>/params/param/FAP/Court/CourtDetails/FAPId</CaseManWPXPath-FAPServer>
+		
+		
+		<CaseManWPXPath-ProgressBar>/ds/var/subform/progressBarSubForm/progresbarvalue</CaseManWPXPath-ProgressBar>
+		<CaseManWPXPath-ctxStdEvtId></CaseManWPXPath-ctxStdEvtId>
+		<CaseManWPXPath-ctxCaseNo></CaseManWPXPath-ctxCaseNo>
+		<CaseManWPXPath-ctxCoNo></CaseManWPXPath-ctxCoNo>
+		<CaseManWPXPath-FinalFlag>WordProcessing/Final</CaseManWPXPath-FinalFlag>
+		<CaseManWPXPath-ctxWPOutputId>WordProcessing/OutputId</CaseManWPXPath-ctxWPOutputId>
+		<CaseManWPXPath-Request>WordProcessing/Request</CaseManWPXPath-Request>
+		<CaseManWPXPath-CaseNumber>WordProcessing/Case/CaseNumber</CaseManWPXPath-CaseNumber>
+		<CaseManWPXPath-CaseType>WordProcessing/Case/CaseType</CaseManWPXPath-CaseType>
+		<CaseManWPXPath-TransferReason>WordProcessing/Case/TransferReason</CaseManWPXPath-TransferReason>
+		<CaseManWPXPath-ctxTrack>WordProcessing/Case/Track</CaseManWPXPath-ctxTrack>
+
+		<CaseManWPXPath-AENumber>WordProcessing/Event/AENumber</CaseManWPXPath-AENumber>
+
+		<CaseManWPXPath-CONumber>WordProcessing/Event/CONumber</CaseManWPXPath-CONumber>		
+		<CaseManWPXPath-DebtSequence>WordProcessing/Event/DebtSeqNumber</CaseManWPXPath-DebtSequence>
+		
+		<CaseManWPXPath-EventPK>WordProcessing/Event/CaseEventSeq</CaseManWPXPath-EventPK>
+		<CaseManWPXPath-EventStandardId>WordProcessing/Event/StandardEventId</CaseManWPXPath-EventStandardId>
+
+		<CaseManWPXPath-COEventStandardId>WordProcessing/Event/StandardEventId</CaseManWPXPath-COEventStandardId>
+		<CaseManWPXPath-COEventPK>WordProcessing/Event/COEventSeq</CaseManWPXPath-COEventPK>
+		<CaseManWPXPath-COEventCode>WordProcessing/Event/COEventCode</CaseManWPXPath-COEventCode>
+		
+		<CaseManWPXPath-dsDOM_ManageCase>/params/param/ds/ManageCase</CaseManWPXPath-dsDOM_ManageCase>
+		<CaseManWPXPath-dsDOM_CaseNumber>CaseNumber</CaseManWPXPath-dsDOM_CaseNumber>
+		<CaseManWPXPath-dsDOM_CaseParties>Parties/LitigiousParty</CaseManWPXPath-dsDOM_CaseParties>
+		<CaseManWPXPath-dsDOM_MaintainCO>/params/param/ds/MaintainCO</CaseManWPXPath-dsDOM_MaintainCO>
+		<CaseManWPXPath-dsDOM_CONumber>CONumber</CaseManWPXPath-dsDOM_CONumber>
+		<CaseManWPXPath-dsDOM_CODebtor>Debtor</CaseManWPXPath-dsDOM_CODebtor>
+		<CaseManWPXPath-dsDOM_CODebtorName>DebtorName</CaseManWPXPath-dsDOM_CODebtorName>
+		<CaseManWPXPath-dsDOM_CODebtorId>PartyId</CaseManWPXPath-dsDOM_CODebtorId>
+		<CaseManWPXPath-dsDOM_COEmployer>Employer</CaseManWPXPath-dsDOM_COEmployer>
+		<CaseManWPXPath-dsDOM_COEmployerName>Name</CaseManWPXPath-dsDOM_COEmployerName>
+		<CaseManWPXPath-dsDOM_COEmployerId>PartyId</CaseManWPXPath-dsDOM_COEmployerId>
+		<CaseManWPXPath-dsDOM_COCreditor>Debts/Debt/Creditor</CaseManWPXPath-dsDOM_COCreditor>
+		
+		<CaseManWPXPath-dsDOM_MaintainWarrant>/params/param/ds/Warrant</CaseManWPXPath-dsDOM_MaintainWarrant>
+		<CaseManWPXPath-dsDOM_WarrantNumber>/params/param/ds/Warrant/WarrantNumber</CaseManWPXPath-dsDOM_WarrantNumber>>
+		<CaseManWPXPath-dsDOM_WarrantCaseNumber>/params/param/ds/Warrant/CaseNumber</CaseManWPXPath-dsDOM_WarrantCaseNumber>>
+		<CaseManWPXPath-dsDOM_WarrantClaimant>/params/param/ds/Warrant/Claimant</CaseManWPXPath-dsDOM_WarrantClaimant>
+		<CaseManWPXPath-dsDOM_WarrantClaimantName>/params/param/ds/Warrant/Claimant/Name</CaseManWPXPath-dsDOM_WarrantClaimantName>
+		<CaseManWPXPath-dsDOM_WarrantClaimantId>/params/param/ds/Warrant/Claimant/Number</CaseManWPXPath-dsDOM_WarrantClaimantId>
+		<CaseManWPXPath-dsDOM_WarrantDefendant1>/params/param/ds/Warrant/Defendant1</CaseManWPXPath-dsDOM_WarrantDefendant1>
+		<CaseManWPXPath-dsDOM_WarrantDefendant1Name>/params/param/ds/Warrant/Defendant1/Name</CaseManWPXPath-dsDOM_WarrantDefendant1Name>
+		<CaseManWPXPath-dsDOM_WarrantDefendant1Id>/params/param/ds/Warrant/Defendant1/Number</CaseManWPXPath-dsDOM_WarrantDefendant1Id>
+		<CaseManWPXPath-dsDOM_WarrantDefendant2>/params/param/ds/Warrant/Defendant2</CaseManWPXPath-dsDOM_WarrantDefendant2>
+		<CaseManWPXPath-dsDOM_WarrantDefendant2Name>/params/param/ds/Warrant/Defendant2/Name</CaseManWPXPath-dsDOM_WarrantDefendant2Name>
+		<CaseManWPXPath-dsDOM_WarrantDefendant2Id>/params/param/ds/Warrant/Defendant2/Number</CaseManWPXPath-dsDOM_WarrantDefendant2Id>
+		
+		<CaseManWPXPath-OutputServerIDAfterCreation>savedOutput</CaseManWPXPath-OutputServerIDAfterCreation>
+		
+		<CaseManWPXPath-FindOutputForEvent>configuration/events/event[@id='?']/Output</CaseManWPXPath-FindOutputForEvent>
+		<CaseManWPXPath-FindOutputForEventAndCode>configuration/events/event[@id='?' and @code= ?]/Output</CaseManWPXPath-FindOutputForEventAndCode>
+		<CaseManWPXPath-FindOutputForEventAndCaseType>configuration/events/event[@id='?' and ./CaseTypes/CaseType='?']/Output</CaseManWPXPath-FindOutputForEventAndCaseType>		
+		<CaseManWPXPath-FindOutputWithId>configuration/outputs/output[Id=?]</CaseManWPXPath-FindOutputWithId>
+		<CaseManWPXPath-FindFormWithRef>configurations/forms/form[ref=?]/name</CaseManWPXPath-FindFormWithRef>
+		<CaseManWPXPath-FindEventOutputCreationCondition>configuration/events/event[@id='?' and @code= ?]/@condition</CaseManWPXPath-FindEventOutputCreationCondition>
+		<CaseManWPXPath-OutputCJR>Id</CaseManWPXPath-OutputCJR>
+		<CaseManWPXPath-OutputN>NReference</CaseManWPXPath-OutputN>
+		<CaseManWPXPath-OutputDescription>Description</CaseManWPXPath-OutputDescription>
+		<CaseManWPXPath-OutputLocation>Location</CaseManWPXPath-OutputLocation>
+		<CaseManWPXPath-OutputFinalLocation>FinalLocation</CaseManWPXPath-OutputFinalLocation>
+		<CaseManWPXPath-OutputQA>QA</CaseManWPXPath-OutputQA>
+		<CaseManWPXPath-OutputWP>WP</CaseManWPXPath-OutputWP>
+		<CaseManWPXPath-OutputReload>Reload</CaseManWPXPath-OutputReload>
+		<CaseManWPXPath-AltProcess>AltProcess</CaseManWPXPath-AltProcess>
+		<CaseManWPXPath-OutputDuplex>printDuplex</CaseManWPXPath-OutputDuplex>
+		<CaseManWPXPath-OutputTray>printTray</CaseManWPXPath-OutputTray>
+		<CaseManWPXPath-OutputCopies>printCopies</CaseManWPXPath-OutputCopies>
+
+		<CaseManWPXPath-ctxApplicantParty>/WordProcessing/Judgment/Applicant</CaseManWPXPath-ctxApplicantParty>
+		<CaseManWPXPath-ctxJudgmentId>/WordProcessing/Judgment/JudgmentId</CaseManWPXPath-ctxJudgmentId>
+		
+		<!-- these two urls become obsolete as the SUPSReporting server is being phased in. -->
+		<CaseManWPXPath-URLXSLFOPDFCreation>http://localhost:7070/casemanwp/Notice</CaseManWPXPath-URLXSLFOPDFCreation>
+		<CaseManWPXPath-URLPDFCreation>http://localhost:7070/casemanwp/servicenoticeofissuefop</CaseManWPXPath-URLPDFCreation>
+	</xpaths>
+	<!-- 
+		This section lists & configures the processes the controller handles
+	-->
+	<processes>
+		<process>
+			<name>Create</name>
+			<steps>
+				<step>LoadData</step>
+				<step>LoadQA</step>
+				<step>ReLoadData</step>
+				<step>TransformData</step>
+				<step>LoadXHTML4Editor</step>
+				<step>PollXHTML</step>			
+				<step>LoadCreatedXHTML</step>	
+				<step>LoadEditor</step>
+				<step>SaveEditor</step>
+				<step>StoreData</step>
+				<step>CreateReport</step>
+				<step>PollReport</step>
+				<step>SetDocument</step>
+				<!--<step>ViewPDF</step>-->
+				<step>CleanUp</step>
+			</steps>
+		</process>
+		<process>
+			<name>Open</name>
+			<steps>
+				<step>OpenOutput</step>
+				<step>LoadXHTML4EditorPreviouslyCreated</step>
+				<step>LoadOldData</step>
+				<step>LoadEditor</step>
+				<step>SaveEditor</step>
+				<step>CreateReport</step>
+				<step>PollReport</step>
+				<step>SetDocument</step>
+				<step>ViewPDF</step>
+				<step>CleanUp</step>
+			</steps>
+		</process>
+		<process>
+			<name>Print</name>
+			<steps>
+				<step>ViewPDF</step>
+				<step>CleanUp</step>
+			</steps>
+		</process>
+
+		<process>
+			<name>PrintSingleOutput</name>
+			<steps>
+				<step>ViewPDF</step>
+				<step>CleanUp</step>
+			</steps>
+		</process>
+
+		<process>
+			<name>QAOnly</name>
+			<steps>
+				<step>LoadData</step>
+				<step>LoadQA</step>
+				<step>CleanUp</step>
+			</steps>
+		</process>
+	</processes>
+	<!-- this section lists forms used by word processing - other than the entervariable data forms -->
+	<forms>
+		<form>
+			<ref>wpeditor</ref>
+			<name>WP</name>
+		</form>
+	</forms>
+	<!--
+		This section of the configuration configures how the controller
+		processes a requests/context xml.
+		This configuration links the context xml with the xpaths to the process to run
+	-->
+	<triggers>
+		<trigger>
+			<process>Create</process>
+			<filter>
+				<xpath>CaseManWPXPath-Request</xpath>
+				<value>Create</value>
+			</filter>
+			<!--filter>
+				<xpath>CaseManWPXPath-EventStandardId</xpath>
+			</filter-->
+		</trigger>
+		<!--trigger> 
+			<process>Create</process>
+			<filter>
+				<xpath>CaseManWPXPath-Request</xpath>
+				<value>CreateCO</value>
+			</filter>
+			<filter>
+				<xpath>CaseManWPXPath-COEventStandardId</xpath>
+			</filter>
+		</trigger-->
+		<trigger>
+			<process>Open</process>
+			<filter>
+				<xpath>CaseManWPXPath-Request</xpath>
+				<value>Open</value>
+			</filter>
+			<!--filter>
+				<xpath>CaseManWPXPath-EventStandardId</xpath>
+			</filter-->
+		</trigger>
+		<trigger>
+			<process>Print</process>
+			<filter>
+				<xpath>CaseManWPXPath-Request</xpath>
+				<value>Print</value>
+			</filter>
+			<!--filter>
+				<xpath>CaseManWPXPath-EventStandardId</xpath>
+			</filter-->
+		</trigger>
+	</triggers>
+</configuration>

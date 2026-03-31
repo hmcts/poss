@@ -1,0 +1,1 @@
+FCKLang.PrintDocumentBtn			= 'Print Document' ;

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<service-method>
+	<pipeline>
+		<Add>
+			<QueryDef location="uk/gov/dca/test_project/cases_service/hearingtype_query_def.xml"/>
+			<DataSource xpath="/params/param[@name='hearingtypes']"/>
+			<QueryExtension pivotNode="/HearingTypes/HearingType">
+			</QueryExtension>
+		</Add>
+	</pipeline>
+	<Security roles="user"/>
+</service-method>

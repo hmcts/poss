@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<DBMapDef>
+  <DataSource id="java:OracleDS"/>
+  <Tables>
+    <Table alias="CRC" name="CCBC_REF_CODES" uniqueClause="CRC.RV_DOMAIN = 'CURRENT_WARRANT_TYPE'"/>
+  </Tables>
+  <Mapping>
+    <WarrantTypes>
+    	<WarrantType>
+    		<Type>${CRC.RV_LOW_VALUE}</Type>
+    		<Description>${CRC.RV_MEANING}</Description>	
+    	</WarrantType>
+    </WarrantTypes>	
+  </Mapping>
+</DBMapDef>

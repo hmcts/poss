@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: Payments
+	Method: getRetentionTypes()
+	File: query_def_retention_types.xml
+	Author: Steve Blair
+-->
+<QueryDef>
+	<DBMapDef location="uk/gov/dca/caseman/payments_service/map_retention_types.xml" />
+	<Query pivotNode="/RetentionTypes/RetentionType" tables="CRC">
+		<Modify notModifiable="true" />
+	</Query>
+</QueryDef>

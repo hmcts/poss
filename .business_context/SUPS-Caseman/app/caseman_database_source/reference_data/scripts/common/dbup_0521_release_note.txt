@@ -1,0 +1,71 @@
+/*-------------------------------------------------------------------------------
+|
+| TITLE    : dbup_0521 Release Note for CaseMan
+|
+| FILENAME : $Source$
+|
+| SYNOPSIS : Summarises DDL actions to implement RFC 0521 changes to the
+|            CaseMan schema.   
+|
+| AUTHOR   : $username$
+|
+| VERSION  : $Revision$
+|
+| PROJECT   : SUPS Development
+|
+| COPYRIGHT : (c) 2008 Logica UK Ltd.
+|             This file contains information which is confidential and of
+|             value to Logica. It may be used only for the specific purpose for
+|             which it has been provided. Logica's prior written consent is
+|             required before any part is reproduced.
+|
+| COMMENTS  : Release Notes for RFC 0521
+|
+|---------------------------------------------------------------------------------
+|
+| $Log$
+--------------------------------------------------------------------------------*/
+
+Summary
+
+The database changes are contained in one script which is to be executed out of 
+system operating hours.   
+
+Operation
+
+Script runs from a SQL*Plus session as the CaseMan user.
+
+Script execution stops immediately on the first sign of an Oracle 
+or Operating System error.  
+
+A corresponding Log file is produced, with the naming convention 
+<script name>.log (unless otherwise specified), and will appear
+in the same location as the sql script, post execution. 
+ 
+Items
+
+The table below lists scripts and purpose.  Script listing indicates 
+order of application.
+
+Script              Description
+dbup_0521_a.sql     Applies schema updates to the USER_ROLES table and drops and creates the 
+                    Primary Key and Unique Index against the table. 
+                    No parameters are required to run this script.
+                    
+                    
+dbup_0521_b.sql     Applies the View Only role to Admin Users for a specified court.
+
+                    The script requires the court code, i.e. 180, 282 or 378 for COVENTRY, NORTHAMPTON	
+                    and WOLVERHAMPTON courts respectively.  The script needs to be executed for each of 
+                    these courts.
+
+                    A log file is produce with the following filename 
+                    convention...
+
+                    dbup_0521_b_for_Court_code_<Court Code>.log
+
+schemascripts_update.sql  
+	
+                    Sets schema version to 8.14.0 		
+
+

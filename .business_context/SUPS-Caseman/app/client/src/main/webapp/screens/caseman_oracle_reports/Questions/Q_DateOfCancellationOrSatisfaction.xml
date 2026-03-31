@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Change History -->
+<!-- 15 Nov 2006 - UCT TD672 Dave Wright (EDS) - Changed field from conditional to mandatory -->
+<!--Question xmlns="http://eds.com/questionxhtml" xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd"-->
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>Q_DateOfCancellationOrSatisfaction</Id>
+	<Label>Date of Cancellation/Satisfaction</Label>
+	<ObjectName>DateOfCancellationOrSatisfaction</ObjectName>
+	<Html>
+		<script type="text/javascript">
+			DatePickerRenderer.createInline("DateOfCancellationOrSatisfaction", false);
+		</script>
+	</Html>
+	<Javascript>
+		<XPath>/ds/var/page/OracleReportForm/DateOfCancellationOrSatisfaction</XPath>
+		<ReportVariableName>DATE_SATISFIED</ReportVariableName>
+		<ReportVariableValue>CaseManUtils.convertDateToDisplay(Services.getValue(DateOfCancellationOrSatisfaction.dataBinding))</ReportVariableValue>
+		<ReportVariableCode>12520</ReportVariableCode>
+		<HintText>Enter the Date the Order was cancelled or satisfied (format DD-MON-YYYY)</HintText>
+		<isMandatory>return true;</isMandatory>
+		<initialise></initialise>
+		<setDefault></setDefault>
+		<validateOn></validateOn>
+		<validate></validate>
+		<miscCode></miscCode>
+	</Javascript>
+</Question>

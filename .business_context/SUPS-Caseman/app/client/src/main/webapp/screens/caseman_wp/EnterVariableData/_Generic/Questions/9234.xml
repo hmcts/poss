@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>9234</Id>
+	<Label>Are Goods to be Returned</Label>
+	<ObjectName>ReturnGoods</ObjectName>
+	<Html>		
+		<input id="ReturnGoods" type="checkbox"></input>
+	</Html>
+	
+	<Context screenId="O_5_5"><isVisible>false</isVisible></Context>
+	<Javascript>
+		<XPath>/ds/EnterVariableData/ReturnGoods</XPath>
+		<HintText>Check box if goods to be returned</HintText>		
+		<modelValue>checked: "Y", unchecked: "N"</modelValue>
+		<initialise>
+			Services.setValue( ReturnGoods.dataBinding, "Y");
+		</initialise>
+	</Javascript>
+</Question>

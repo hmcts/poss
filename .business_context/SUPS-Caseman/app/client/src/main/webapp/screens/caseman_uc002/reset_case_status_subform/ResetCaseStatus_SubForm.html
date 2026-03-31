@@ -1,0 +1,41 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3c.org/TR/html4/strict.dtd">
+<html>
+
+	<head>
+		<title>ResetCaseStatus_SubForm</title>
+		<link href="ResetCaseStatus_SubForm.css" type="text/css" rel="stylesheet">
+		<script type="text/javascript" src="../../../Framework.js"></script>
+    	<script type="text/javascript" src="../../../CaseManSubFormIncludeFiles.js"></script>
+		<script type="text/javascript" src="ResetCaseStatus_SubForm.js"></script>
+  	</head>
+
+	<body>
+	
+    	<form id="resetCaseStatusSubform" class="subform">
+
+			<div class="panel">
+				<table class="content" style="height:22px;">
+					<tr>
+						<td align="center">
+							<label>Are you sure you want to reset the case status?</label>
+						</td>
+					</tr>
+				</table>
+			</div>
+			
+			<!-- Subform action bar -->
+			<script type="text/javascript">
+				ActionBarRenderer.createInlineNoStatusBar(
+					"resetCaseStatus_statusbar",
+					[
+						{id: "ResetCaseStatus_OkButton", label: "Ok"},	
+						{id: "ResetCaseStatus_CancelButton", label: "Cancel"}
+					]
+				);
+			</script>
+
+		</form>
+    
+    </body>
+    
+</html>

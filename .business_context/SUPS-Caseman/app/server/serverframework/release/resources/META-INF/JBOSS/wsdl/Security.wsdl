@@ -1,0 +1,248 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<definitions name="Security" targetNamespace="http://localhost:8080/test_project/xmlquery2/SecurityServiceServicePort" xmlns:tns="http://localhost:8080/test_project/xmlquery2/SecurityServiceServicePort" xmlns="http://schemas.xmlsoap.org/wsdl/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/">
+  <types/>
+  <message name="SecurityServiceService_getAllRoles">
+    <part name="String_1" type="xsd:string"/>
+    <part name="String_2" type="xsd:string"/>
+    <part name="String_3" type="xsd:string"/></message>
+  <message name="SecurityServiceService_getAllRolesResponse">
+    <part name="result" type="xsd:string"/></message>
+  <message name="SecurityServiceService_getFullUsername">
+    <part name="String_1" type="xsd:string"/></message>
+  <message name="SecurityServiceService_getFullUsernameResponse">
+    <part name="result" type="xsd:string"/></message>
+  <message name="SecurityServiceService_getHomeCourt">
+    <part name="String_1" type="xsd:string"/>
+    <part name="String_2" type="xsd:string"/>
+    <part name="String_3" type="xsd:string"/></message>
+  <message name="SecurityServiceService_getHomeCourtResponse">
+    <part name="result" type="xsd:string"/></message>
+
+  <message name="SecurityServiceService_getADUserDetails">
+    <part name="String_1" type="xsd:string"/>
+    <part name="String_2" type="xsd:string"/>
+    <part name="String_3" type="xsd:string"/></message>   
+  <message name="SecurityServiceService_getADUserDetailsResponse">
+    <part name="result" type="xsd:string"/></message>
+
+  <message name="SecurityServiceService_getUserDetails">
+    <part name="String_1" type="xsd:string"/>
+    <part name="String_2" type="xsd:string"/>
+    <part name="String_3" type="xsd:string"/></message>   
+  <message name="SecurityServiceService_getUserDetailsResponse">
+    <part name="result" type="xsd:string"/></message>
+
+  <message name="SecurityServiceService_createUser">
+    <part name="String_1" type="xsd:string"/>
+    <part name="String_2" type="xsd:string"/>
+    <part name="String_3" type="xsd:string"/></message>   
+  <message name="SecurityServiceService_createUserResponse">
+    <part name="result" type="xsd:string"/></message>
+
+  <message name="SecurityServiceService_updateUser">
+    <part name="String_1" type="xsd:string"/>
+    <part name="String_2" type="xsd:string"/>
+    <part name="String_3" type="xsd:string"/></message>   
+  <message name="SecurityServiceService_updateUserResponse">
+    <part name="result" type="xsd:string"/></message>
+
+  <message name="SecurityServiceService_insertUserCourt">
+    <part name="String_1" type="xsd:string"/>
+    <part name="String_2" type="xsd:string"/>
+    <part name="String_3" type="xsd:string"/></message>   
+  <message name="SecurityServiceService_insertUserCourtResponse">
+    <part name="result" type="xsd:string"/></message>
+
+  <message name="SecurityServiceService_updateUserCourt">
+    <part name="String_1" type="xsd:string"/>
+    <part name="String_2" type="xsd:string"/>
+    <part name="String_3" type="xsd:string"/></message>   
+  <message name="SecurityServiceService_updateUserCourtResponse">
+    <part name="result" type="xsd:string"/></message>
+
+  <message name="SecurityServiceService_getDefaultPrinter">
+    <part name="String_1" type="xsd:string"/>
+    <part name="String_2" type="xsd:string"/>
+    <part name="String_3" type="xsd:string"/></message>   
+  <message name="SecurityServiceService_getDefaultPrinterResponse">
+    <part name="result" type="xsd:string"/></message>
+
+  <message name="SecurityServiceService_setDefaultPrinter">
+    <part name="String_1" type="xsd:string"/>
+    <part name="String_2" type="xsd:string"/>
+    <part name="String_3" type="xsd:string"/></message>   
+  <message name="SecurityServiceService_setDefaultPrinterResponse">
+    <part name="result" type="xsd:string"/></message>
+
+  <message name="SecurityServiceService_getPrintersList">
+    <part name="String_1" type="xsd:string"/>
+    <part name="String_2" type="xsd:string"/>
+    <part name="String_3" type="xsd:string"/></message>   
+  <message name="SecurityServiceService_getPrintersListResponse">
+    <part name="result" type="xsd:string"/></message>
+    
+  <message name="SecurityServiceService_getRoles">
+    <part name="String_1" type="xsd:string"/>
+    <part name="String_2" type="xsd:string"/>
+    <part name="String_3" type="xsd:string"/></message>
+  <message name="SecurityServiceService_getRolesResponse">
+    <part name="result" type="xsd:string"/></message>
+  <message name="SecurityServiceService_updateUserRoles">
+    <part name="String_1" type="xsd:string"/>
+    <part name="String_2" type="xsd:string"/>
+    <part name="String_3" type="xsd:string"/></message>
+  <message name="SecurityServiceService_updateUserRolesResponse">
+    <part name="result" type="xsd:string"/></message>
+  <portType name="SecurityServiceService">
+    <operation name="getAllRoles" parameterOrder="String_1 String_2 String_3">
+      <input message="tns:SecurityServiceService_getAllRoles"/>
+      <output message="tns:SecurityServiceService_getAllRolesResponse"/></operation>
+    <operation name="getFullUsername" parameterOrder="String_1">
+      <input message="tns:SecurityServiceService_getFullUsername"/>
+      <output message="tns:SecurityServiceService_getFullUsernameResponse"/></operation>
+    <operation name="getHomeCourt" parameterOrder="String_1 String_2 String_3">
+      <input message="tns:SecurityServiceService_getHomeCourt"/>
+      <output message="tns:SecurityServiceService_getHomeCourtResponse"/></operation>
+
+    <operation name="getADUserDetails" parameterOrder="String_1 String_2 String_3">
+      <input message="tns:SecurityServiceService_getADUserDetails"/>
+      <output message="tns:SecurityServiceService_getADUserDetailsResponse"/></operation>
+
+    <operation name="getUserDetails" parameterOrder="String_1 String_2 String_3">
+      <input message="tns:SecurityServiceService_getUserDetails"/>
+      <output message="tns:SecurityServiceService_getUserDetailsResponse"/></operation>
+
+    <operation name="createUser" parameterOrder="String_1 String_2 String_3">
+      <input message="tns:SecurityServiceService_createUser"/>
+      <output message="tns:SecurityServiceService_createUserResponse"/></operation>
+
+    <operation name="updateUser" parameterOrder="String_1 String_2 String_3">
+      <input message="tns:SecurityServiceService_updateUser"/>
+      <output message="tns:SecurityServiceService_updateUserResponse"/></operation>
+
+    <operation name="insertUserCourt" parameterOrder="String_1 String_2 String_3">
+      <input message="tns:SecurityServiceService_insertUserCourt"/>
+      <output message="tns:SecurityServiceService_insertUserCourtResponse"/></operation>
+
+    <operation name="updateUserCourt" parameterOrder="String_1 String_2 String_3">
+      <input message="tns:SecurityServiceService_updateUserCourt"/>
+      <output message="tns:SecurityServiceService_updateUserCourtResponse"/></operation>
+
+    <operation name="getDefaultPrinter" parameterOrder="String_1 String_2 String_3">
+      <input message="tns:SecurityServiceService_getDefaultPrinter"/>
+      <output message="tns:SecurityServiceService_getDefaultPrinterResponse"/></operation>
+
+    <operation name="setDefaultPrinter" parameterOrder="String_1 String_2 String_3">
+      <input message="tns:SecurityServiceService_setDefaultPrinter"/>
+      <output message="tns:SecurityServiceService_setDefaultPrinterResponse"/></operation>
+      
+    <operation name="getPrintersList" parameterOrder="String_1 String_2 String_3">
+      <input message="tns:SecurityServiceService_getPrintersList"/>
+      <output message="tns:SecurityServiceService_getPrintersListResponse"/></operation>      
+      
+    <operation name="getRoles" parameterOrder="String_1 String_2 String_3">
+      <input message="tns:SecurityServiceService_getRoles"/>
+      <output message="tns:SecurityServiceService_getRolesResponse"/></operation>
+    <operation name="updateUserRoles" parameterOrder="String_1 String_2 String_3">
+      <input message="tns:SecurityServiceService_updateUserRoles"/>
+      <output message="tns:SecurityServiceService_updateUserRolesResponse"/></operation></portType>
+  <binding name="SecurityServiceServiceBinding" type="tns:SecurityServiceService">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" style="rpc"/>
+    <operation name="getAllRoles">
+      <soap:operation soapAction=""/>
+      <input>
+        <soap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" use="encoded" namespace="http://localhost:8080/test_project/xmlquery2/SecurityServiceServicePort"/></input>
+      <output>
+        <soap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" use="encoded" namespace="http://localhost:8080/test_project/xmlquery2/SecurityServiceServicePort"/></output></operation>
+    <operation name="getFullUsername">
+      <soap:operation soapAction=""/>
+      <input>
+        <soap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" use="encoded" namespace="http://localhost:8080/test_project/xmlquery2/SecurityServiceServicePort"/></input>
+      <output>
+        <soap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" use="encoded" namespace="http://localhost:8080/test_project/xmlquery2/SecurityServiceServicePort"/></output></operation>
+    <operation name="getHomeCourt">
+      <soap:operation soapAction=""/>
+      <input>
+        <soap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" use="encoded" namespace="http://localhost:8080/test_project/xmlquery2/SecurityServiceServicePort"/></input>
+      <output>
+        <soap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" use="encoded" namespace="http://localhost:8080/test_project/xmlquery2/SecurityServiceServicePort"/></output></operation>
+
+    <operation name="getADUserDetails">
+      <soap:operation soapAction=""/>
+      <input>
+        <soap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" use="encoded" namespace="http://localhost:8080/test_project/xmlquery2/SecurityServiceServicePort"/></input>
+      <output>
+        <soap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" use="encoded" namespace="http://localhost:8080/test_project/xmlquery2/SecurityServiceServicePort"/></output></operation>        
+
+    <operation name="getUserDetails">
+      <soap:operation soapAction=""/>
+      <input>
+        <soap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" use="encoded" namespace="http://localhost:8080/test_project/xmlquery2/SecurityServiceServicePort"/></input>
+      <output>
+        <soap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" use="encoded" namespace="http://localhost:8080/test_project/xmlquery2/SecurityServiceServicePort"/></output></operation>        
+
+    <operation name="createUser">
+      <soap:operation soapAction=""/>
+      <input>
+        <soap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" use="encoded" namespace="http://localhost:8080/test_project/xmlquery2/SecurityServiceServicePort"/></input>
+      <output>
+        <soap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" use="encoded" namespace="http://localhost:8080/test_project/xmlquery2/SecurityServiceServicePort"/></output></operation>        
+
+    <operation name="updateUser">
+      <soap:operation soapAction=""/>
+      <input>
+        <soap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" use="encoded" namespace="http://localhost:8080/test_project/xmlquery2/SecurityServiceServicePort"/></input>
+      <output>
+        <soap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" use="encoded" namespace="http://localhost:8080/test_project/xmlquery2/SecurityServiceServicePort"/></output></operation>        
+
+    <operation name="insertUserCourt">
+      <soap:operation soapAction=""/>
+      <input>
+        <soap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" use="encoded" namespace="http://localhost:8080/test_project/xmlquery2/SecurityServiceServicePort"/></input>
+      <output>
+        <soap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" use="encoded" namespace="http://localhost:8080/test_project/xmlquery2/SecurityServiceServicePort"/></output></operation>        
+
+    <operation name="updateUserCourt">
+      <soap:operation soapAction=""/>
+      <input>
+        <soap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" use="encoded" namespace="http://localhost:8080/test_project/xmlquery2/SecurityServiceServicePort"/></input>
+      <output>
+        <soap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" use="encoded" namespace="http://localhost:8080/test_project/xmlquery2/SecurityServiceServicePort"/></output></operation>        
+
+    <operation name="getDefaultPrinter">
+      <soap:operation soapAction=""/>
+      <input>
+        <soap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" use="encoded" namespace="http://localhost:8080/test_project/xmlquery2/SecurityServiceServicePort"/></input>
+      <output>
+        <soap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" use="encoded" namespace="http://localhost:8080/test_project/xmlquery2/SecurityServiceServicePort"/></output></operation>        
+
+    <operation name="setDefaultPrinter">
+      <soap:operation soapAction=""/>
+      <input>
+        <soap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" use="encoded" namespace="http://localhost:8080/test_project/xmlquery2/SecurityServiceServicePort"/></input>
+      <output>
+        <soap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" use="encoded" namespace="http://localhost:8080/test_project/xmlquery2/SecurityServiceServicePort"/></output></operation>        
+
+    <operation name="getPrintersList">
+      <soap:operation soapAction=""/>
+      <input>
+        <soap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" use="encoded" namespace="http://localhost:8080/test_project/xmlquery2/SecurityServiceServicePort"/></input>
+      <output>
+        <soap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" use="encoded" namespace="http://localhost:8080/test_project/xmlquery2/SecurityServiceServicePort"/></output></operation>        
+
+    <operation name="getRoles">
+      <soap:operation soapAction=""/>
+      <input>
+        <soap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" use="encoded" namespace="http://localhost:8080/test_project/xmlquery2/SecurityServiceServicePort"/></input>
+      <output>
+        <soap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" use="encoded" namespace="http://localhost:8080/test_project/xmlquery2/SecurityServiceServicePort"/></output></operation>
+    <operation name="updateUserRoles">
+      <soap:operation soapAction=""/>
+      <input>
+        <soap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" use="encoded" namespace="http://localhost:8080/test_project/xmlquery2/SecurityServiceServicePort"/></input>
+      <output>
+        <soap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" use="encoded" namespace="http://localhost:8080/test_project/xmlquery2/SecurityServiceServicePort"/></output></operation></binding>
+  <service name="Security">
+    <port name="SecurityServiceServicePort" binding="tns:SecurityServiceServiceBinding">
+      <soap:address location="REPLACE_WITH_ACTUAL_URL"/></port></service></definitions>

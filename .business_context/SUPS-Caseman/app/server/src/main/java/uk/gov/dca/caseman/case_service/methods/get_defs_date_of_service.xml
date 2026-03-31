@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<service-method>
+	<pipeline>
+		<Query>
+			<QueryDef location="uk/gov/dca/caseman/case_service/query_def_defs_date_of_service.xml"/>
+			<QueryExtension pivotNode="/Case/Parties/Party">
+				<Param name="param.caseNumber" xpath="/params/param[@name = 'caseNumber']"/>
+				<Constraint>CPR.CASE_NUMBER like ${param.caseNumber}</Constraint>
+			</QueryExtension>
+		</Query>
+	</pipeline>
+	<Security roles="user"/>
+</service-method>

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--Question xmlns="http://eds.com/questionxhtml" xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd"-->
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>691</Id>
+	<Label>Claimant or Respondent</Label>
+	<ObjectName>ClaimantRespondent</ObjectName>
+	<Html>
+		<select id="ClaimantRespondent">
+			<option value=""></option>
+			<option value="claimant">Claimant</option>
+			<option value="respondent">Respondent</option>
+		</select>
+	</Html>
+	<Javascript>
+		<XPath>/ds/EnterVariableData/ClaimantRespondent</XPath>
+		<HintText>Select claimant or respondent</HintText>
+		<isMandatory>return true;</isMandatory>
+		<mandatoryOn>ClaimantRespondent.dataBinding</mandatoryOn>
+	</Javascript>
+</Question>

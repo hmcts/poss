@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>309</Id>
+	<Label>Are witness statements to be included?</Label>
+	<ObjectName>IsWitnessStatementsInc</ObjectName>
+	<Html>
+		<input type="checkbox" id="IsWitnessStatementsInc"></input>
+	</Html>
+	
+	<Javascript>
+		<XPath>/ds/EnterVariableData/SmallTrack/isWitnessStatementsInc</XPath>
+		<HintText>Check box if signed witness statements are to be included in the documents?</HintText>
+		<modelValue>checked: "Y", unchecked: "N"</modelValue>
+		<enableOn>DirectionsTypeReqd.dataBinding, PartiesAgressCostNature2.dataBinding, PartiesAgressCostNature2.dataBinding, IsPartiesToAgreeRepairs.dataBinding</enableOn>
+		<isEnabled>
+			var val1 = Services.getValue(DirectionsTypeReqd.dataBinding);
+			return( 'SPEC' != val1  &amp;&amp; 'SD' != val1 &amp;&amp; 'HW' == val1 ||PartiesAgreeCostNature.isEnabled() || PartiesAgressCostNature2.isEnabled()||IsPartiesToAgreeRepairs.isEnabled()) ;
+		</isEnabled>
+		<logicOn>DirectionsTypeReqd.dataBinding, BringOrigDocs.dataBinding, PartiesAgreeCostNature.dataBinding, PartiesAgressCostNature2.dataBinding, IsPartiesToAgreeRepairs.dataBinding</logicOn>
+		<logic>
+			var val1 = Services.getValue(DirectionsTypeReqd.dataBinding);
+			if( 'SPEC' == val1  || 'SD' == val1 || 'HW' != val1 &amp;&amp; !PartiesAgreeCostNature.isEnabled() &amp;&amp; !PartiesAgressCostNature2.isEnabled() &amp;&amp; !IsPartiesToAgreeRepairs.isEnabled())
+			{	Services.setValue(IsWitnessStatementsInc.dataBinding, "N");
+			}
+		</logic>		
+	</Javascript>
+</Question>

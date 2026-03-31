@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: Co
+	Method:  getCosOnReviewDate()
+	File:    get_cos_on_review_date.xml
+	Author:  Kevin Gichohi (EDS)
+	Created: 14 October 2005
+	Description: 
+		gets the consolidated orders with a given status for a given review date.
+-->
+<service-method>
+	<pipeline>
+		<SQLLite format-output="true"
+				 resultset-element="ds"
+				 row-element="Co"
+				 field-name-as="element" >
+			<DataSource id="java:OracleDS"/>
+			<Param name="param.reviewDate" xpath="/params/param[@name='reviewDate']"/>
+			<Param name="param.adminCourtCode" xpath="/params/param[@name='adminCourtCode']"/>
+			
+			<SQL>
+				SELECT 	DISTINCT CO.CO_NUMBER AS "coNumber"
+				,      	CO.ADMIN_COURT_CODE  AS "AdminCourtCode" 
+				FROM 	CONSOLIDATED_ORDERS CO
+				WHERE 	CO.CO_STATUS IN ('LIVE' ,'APPLN', 'SET ASIDE', 'SUSPENDED', 'DEBTR PAYNG')
+				AND 	CO.REVIEW_DATE = TO_DATE (${param.reviewDate}, 'YYYY-MM-DD')
+				AND 	CO.ADMIN_COURT_CODE = ${param.adminCourtCode}
+			</SQL>
+		</SQLLite>
+	</pipeline>
+	<Security roles="viewOnly medium high wcSuper scSuper bmsSuper aeSuper dmSuper edsAdmin cpSuper"/>
+</service-method>

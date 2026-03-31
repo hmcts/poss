@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: Co
+	Method:  updateCoDebtList()
+	File:    query_def_modify_co_debt_list.xml
+	Author:  Phil Haferer (EDS)
+	Created: 19 August 2005
+	Description: 
+		Update the Debts associated with a Consolidated Order.
+-->
+<QueryDef>
+  <DBMapDef location="uk/gov/dca/caseman/co_service/map_modify_co_debt_list.xml"/>
+  <Query pivotNode="/ds/MaintainCO/Debts/Debt" tables="AD">
+	<Join/>
+    <Modify>
+		<CheckExists table="AD" fields="DEBT_SEQ" onNotExist="add" onExist="update"/>
+		<Field name="AD.DEBT_SEQ"       sequenceTable="ALD_SEQUENCE"/>
+		<Field name="AD.DEBT_CO_NUMBER" xpath="../../CONumber"/>
+    </Modify>
+  </Query>
+  <Query pivotNode="/ds/MaintainCO/Debts/Debt/Creditor/Party" tables="P">
+	<Join/>
+    <Modify>
+		<CheckExists 
+			condition="../../CPCreditorId = ''"
+			onConditionTrue="continue" onConditionFalse="skip"
+			table="P" fields="PARTY_ID" onNotExist="add" onExist="update"/>
+		<Field name="P.PARTY_ID" sequenceTable="PARTIES_SEQUENCE"/>
+    </Modify>
+  </Query>
+  <Query pivotNode="/ds/MaintainCO/Debts/Debt/Creditor/AddressHistory/Address" tables="GA">
+	<Join/>
+    <Modify>
+		<CheckExists 
+			condition="Status != 'EXISTING'"
+			onConditionTrue="continue" onConditionFalse="skip"
+			table="GA" fields="ADDRESS_ID" onNotExist="add" onExist="update"/>
+		<Field name="GA.ADDRESS_ID"        sequenceTable="ADDR_SEQUENCE"/>
+		<Field name="GA.ADDRESS_TYPE_CODE" value="CO CRED"/>
+		<Field name="GA.ALD_SEQ"           property="AD.DEBT_SEQ"/>
+		<Field name="GA.PARTY_ID"          xpath="../../Party/PartyId"/>
+	</Modify>
+  </Query>
+  <Query pivotNode="/ds/MaintainCO/Debts/Debt/Creditor/Address" tables="GA">
+	<Join/>
+    <Modify>
+		<CheckExists 
+			condition="Status != 'EXISTING' and ../../CPCreditorId = ''"
+			onConditionTrue="continue" onConditionFalse="skip"
+			table="GA" fields="ADDRESS_ID" onNotExist="add" onExist="update"/>
+		<Field name="GA.ADDRESS_ID"        sequenceTable="ADDR_SEQUENCE"/>
+		<Field name="GA.ADDRESS_TYPE_CODE" value="CO CRED"/>
+		<Field name="GA.ALD_SEQ"           property="AD.DEBT_SEQ"/>
+		<Field name="GA.PARTY_ID"          xpath="../Party/PartyId"/>
+    </Modify>
+  </Query>
+  <Query pivotNode="/ds/MaintainCO/Debts/Debt/Payee/Party" tables="P">
+	<Join/>
+    <Modify>
+		<CheckExists 
+			condition="../../CPPayeeId = ''"
+			onConditionTrue="continue" onConditionFalse="skip"
+			table="P" fields="PARTY_ID" onNotExist="add" onExist="update"/>
+		<Field name="P.PARTY_ID" sequenceTable="PARTIES_SEQUENCE"/>
+    </Modify>
+  </Query>
+  <Query pivotNode="/ds/MaintainCO/Debts/Debt/Payee/AddressHistory/Address" tables="GA">
+	<Join/>
+    <Modify>
+		<CheckExists 
+			condition="Status != 'EXISTING'"
+			onConditionTrue="continue" onConditionFalse="skip"
+			table="GA" fields="ADDRESS_ID" onNotExist="add" onExist="update"/>
+		<Field name="GA.ADDRESS_ID"        sequenceTable="ADDR_SEQUENCE"/>
+		<Field name="GA.ADDRESS_TYPE_CODE" value="CO PAYEE"/>
+		<Field name="GA.ALD_SEQ"           property="AD.DEBT_SEQ"/>
+		<Field name="GA.PARTY_ID"          xpath="../../Party/PartyId"/>
+	</Modify>
+  </Query>
+  <Query pivotNode="/ds/MaintainCO/Debts/Debt/Payee/Address" tables="GA">
+	<Join/>
+    <Modify>
+		<CheckExists 
+			condition="Status != 'EXISTING' and ../../CPPayeeId = ''"
+			onConditionTrue="continue" onConditionFalse="skip"
+			table="GA" fields="ADDRESS_ID" onNotExist="add" onExist="update"/>
+		<Field name="GA.ADDRESS_ID"        sequenceTable="ADDR_SEQUENCE"/>
+		<Field name="GA.ADDRESS_TYPE_CODE" value="CO PAYEE"/>
+		<Field name="GA.ALD_SEQ"           property="AD.DEBT_SEQ"/>
+		<Field name="GA.PARTY_ID"          xpath="../Party/PartyId"/>
+    </Modify>
+  </Query>
+</QueryDef>

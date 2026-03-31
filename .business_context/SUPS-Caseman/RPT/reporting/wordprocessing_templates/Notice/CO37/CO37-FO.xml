@@ -1,0 +1,246 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- ====================================================================== -->
+<!--  -->
+<!-- FILENAME: $Source: C:/CVSRepository/serveroas/src/uk/gov/dca/caseman/wordprocessing_templates/Notice/CO37/CO37-FO.xml,v $ -->
+<!--  -->
+<!-- AUTHOR: $Author: ian $-->
+<!--  -->
+<!-- DATE: $Date: 2006/06/02 12:16:49 $ -->
+<!--  -->
+<!-- Version: $Revision: 1.13 $ -->
+<!--  -->
+<!-- DESCRIPTION: This stylesheet is used to create an XSL:FO document that -->
+<!-- can be processed into a PDF version.  Business logic -->
+<!-- is embedded to generate the correct document text for the order -->
+<!-- required. -->
+<!--  -->
+<!-- INPUTS: XML document containing: the answers to questions asked of the -->
+<!-- user; case data retrieved from the database; HTML representing the  -->
+<!-- body of the document content (already edited by the user). -->
+<!--  -->
+<!-- OUTPUTS: XML document with FO tags containing instructions for the -->
+<!-- creation of a PDF document. -->
+<!--  -->
+<!-- ====================================================================== -->
+<root xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:fo="http://www.w3.org/1999/XSL/Format" xmlns="http://eds.com/supsfo">
+	<variables>@word.processing.url.xsl@supsfo.xsl</variables>
+	<duplex/>
+	<addressee copies="2">
+			<debtor/>
+	</addressee>
+	<header>
+		<fo:block font-size="16pt" font-weight="bold">Suspended Committal Order</fo:block>
+		<fo:block font-size="16pt" font-weight="bold">(attachment of earnings)</fo:block>
+	</header>
+	<courtcase>
+		<court>
+			<xsl:copy-of select="$vdCourtHeaderBlock"/>
+		</court>
+		<caseparameters>
+			<parameter>
+				<name>
+					<fo:block font-weight="bold">AO/CAEO No.</fo:block>
+				</name>
+				<value>
+					<fo:block>
+						<xsl:value-of select="$vdCONumber"/>
+					</fo:block>
+				</value>
+			</parameter>
+			<parameter>
+				<name>
+					<fo:block font-weight="bold">Creditor</fo:block>
+				</name>
+				<value>
+					<fo:block>
+						Various
+					</fo:block>
+				</value>
+			</parameter>				
+		</caseparameters>
+	</courtcase>
+	
+	<body>
+	<editable useid="N1007F">
+		<fo:block space-after="0.8cm"/>
+		<fo:block font-weight="bold" space-after="0.4cm">
+			Before <xsl:value-of select="$vdJudge"/> sitting at <xsl:value-of select="$vdHearingAtCourtNameDescription"/>, <xsl:value-of select="$vdHearingAtCourtAddress"/>
+		</fo:block>
+		<fo:block space-after="0.4cm">
+			<xsl:value-of select="$vdCOHearingAttendees"/>
+		</fo:block>
+		<fo:block space-after="0.4cm">
+			<fo:inline font-weight="bold">Take notice </fo:inline>that today the judge made a committal order for your imprisonment for <xsl:value-of select="$vdCOCommitalPeriod"/> days
+		</fo:block>
+		<fo:block space-after="0.4cm">
+			This order will not be put into force so long as you attend this court
+		</fo:block>
+		<fo:block space-after="0.4cm">
+			<fo:inline font-weight="bold">on </fo:inline><xsl:value-of select="$vdHearingDate"/>
+		</fo:block>
+		<fo:block space-after="0.4cm">
+			<fo:inline font-weight="bold">at </fo:inline><xsl:value-of select="$vdHearingCourtNameDescription"/>, <xsl:value-of select="$vdHearingCourtAddress"/>
+		</fo:block>
+		<fo:block space-after="0.4cm">
+			<fo:inline font-weight="bold">at </fo:inline><xsl:value-of select="$vdHearingTime"/>
+		</fo:block>
+		<fo:block space-after="0.4cm">
+			You must also complete the enclosed form of reply and statement of means and send it to reach the court office within <xsl:value-of select="$vdCOResponseTime"/> days after you receive this order
+		</fo:block>
+		<fo:block text-align="right" space-after="0.4cm">
+			<fo:inline font-weight="bold">Dated </fo:inline><xsl:value-of select="$vdEventDate"/>
+		</fo:block>
+	</editable>
+
+
+		<fo:block break-before="page" space-after="0.4cm" font-weight="bold">
+			Important notes
+		</fo:block>
+		<fo:block>
+			<list type="bullet">
+				<list-item>
+					<fo:block space-after="0.4cm">
+						The Court has the power to send you to prison if it finds that any of the allegations made against you are true.
+					</fo:block>
+				</list-item>
+				<list-item>
+					<fo:block space-after="0.4cm">
+						You must attend court on the day shown on the front of this form.  It is in your own interests to do so.  At the hearing, the judge will explain to you why this summons has been issued and why the Court is considering fining you or sending you to prison.  You will then have the opportunity to put your case.  You should bring any witnesses and documents with you which you think will help you put your side of the case.
+					</fo:block>
+				</list-item>
+				<list-item>
+					<fo:block space-after="1.2cm">
+						If you need advice you should show this document at once to your solicitor or go to a Citizens' Advice Bureau.  If you do not already have a solicitor acting for you the Court can give details of local solicitors.  You may be entitled to help towards the cost of legal advice.
+					</fo:block>
+				</list-item>
+			</list>
+		</fo:block>
+		<fo:block>
+			<fo:table table-layout="fixed">
+				<fo:table-column column-width="19.28cm"/>
+				<fo:table-body>
+					<fo:table-row>
+						<fo:table-cell padding-left="0.2cm" padding-right="0.2cm" border-top-style="solid" border-top-width="0.1cm">
+							<fo:block>
+								&#xa0;
+							</fo:block>
+						</fo:table-cell>
+					</fo:table-row>
+				</fo:table-body>
+			</fo:table>
+		</fo:block>
+
+		<fo:block space-after="0.4cm">
+			<fo:inline font-weight="bold" font-size="12pt">Certificate of Service </fo:inline><fo:inline font-style="italic">(to be completed by the court)</fo:inline>
+		</fo:block>
+		<fo:block space-after="0.4cm">
+			AO/CAEO Number: <xsl:value-of select="$vdCONumber"/>
+		</fo:block>
+		<fo:block>
+			I certify that the summons of which this is a true copy, was served by me on&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;.&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;
+			on the&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;
+		</fo:block>
+		<fo:block>
+			personally, at the address stated in the summons, or at
+		</fo:block>
+		<fo:block space-after="0.8cm">
+			<fo:inline font-style="italic">or in accordance with an order for substituted service.</fo:inline>  
+		</fo:block>
+		<fo:block space-after="0.8cm" text-align="right">
+			Bailiff/Officer of the Court
+		</fo:block>
+		<fo:block space-after="0.4cm" font-weight="bold">
+			NOTICE OF NON-SERVICE
+		</fo:block>
+		<fo:block space-after="0.8cm">
+			I certify that the summons has not been served for the following reasons:
+		</fo:block>
+		<fo:block space-after="0.4cm" text-align="right">
+			Bailiff/Officer of the Court 
+		</fo:block>
+
+	</body>
+
+	<footnote noteextent="7.0">
+		<fo:block font-size="9pt" font-family="Times" text-align="justify">
+			<fo:block space-after="0.2cm">
+			<fo:table table-layout="fixed">
+				<fo:table-column column-width="9.64cm"/>
+				<fo:table-column column-width="9.64cm"/>
+				<fo:table-body>
+					<fo:table-row>
+						<fo:table-cell number-columns-spanned="2" padding-left="0.2cm" padding-right="0.2cm" border-top-style="solid" border-top-width="0.02cm" border-left-style="solid" border-left-width="0.02cm" border-right-style="solid" border-right-width="0.02cm">
+							<fo:block font-weight="bold" space-after="0.4cm" text-align="center">
+								Take Notice
+							</fo:block>
+						</fo:table-cell>
+					</fo:table-row>
+					<fo:table-row>
+						<fo:table-cell padding-left="0.2cm" padding-right="0.2cm" border-bottom-style="solid" border-bottom-width="0.02cm" border-left-style="solid" border-left-width="0.02cm">
+							<fo:block space-after="0.4cm" font-weight="bold">
+								To the Debtor
+							</fo:block>
+							<fo:block font-weight="bold">
+								If you do not comply with this order, a warrant for your committal may be issued without further notice and you may be imprisoned for the period shown above.
+							</fo:block>
+						</fo:table-cell>
+						<fo:table-cell padding-left="0.2cm" padding-right="0.2cm" border-bottom-style="solid" border-bottom-width="0.02cm" border-right-style="solid" border-right-width="0.02cm">
+							<fo:block font-weight="bold">
+								If you cannot attend on the specified date, you should write or go to the court office immediately, stating the reasons why you cannot attend.  The court will send you notice of a day and time to attend before the judge.
+							</fo:block>
+						</fo:table-cell>
+					</fo:table-row>
+				</fo:table-body>
+			</fo:table>		
+			</fo:block>
+			<fo:table table-layout="fixed">
+				<fo:table-column column-width="9.64cm"/>
+				<fo:table-column column-width="9.64cm"/>
+				<fo:table-body>
+					<fo:table-row>
+						<fo:table-cell number-columns-spanned="2" padding-left="0.2cm" padding-right="0.2cm" border-top-style="solid" border-top-width="0.02cm" border-left-style="solid" border-left-width="0.02cm" border-right-style="solid" border-right-width="0.02cm">
+							<fo:block font-weight="bold" space-after="0.4cm" text-align="center">
+								Notes to help you complete the form of reply
+							</fo:block>
+						</fo:table-cell>
+					</fo:table-row>
+					<fo:table-row>
+						<fo:table-cell padding-left="0.2cm" padding-right="0.2cm" border-bottom-style="solid" border-bottom-width="0.02cm" border-left-style="solid" border-left-width="0.02cm">
+							<fo:block>
+								<list type="bullet">
+									<list-item>
+										<fo:block font-weight="bold" space-after="0.4cm">
+											If you are unemployed or self employed, you should say so on the form of reply and answer as many questions as you can.
+										</fo:block>
+									</list-item>
+									<list-item>
+										<fo:block font-weight="bold" space-after="0.4cm">
+											Read the notes on the form of reply before giving the details asked for.
+										</fo:block>
+									</list-item>
+								</list>
+							</fo:block>
+						</fo:table-cell>
+						<fo:table-cell padding-left="0.2cm" padding-right="0.2cm" border-bottom-style="solid" border-bottom-width="0.02cm" border-right-style="solid" border-right-width="0.02cm">
+							<fo:block>
+								<list type="bullet">
+									<list-item>
+										<fo:block font-weight="bold" space-after="0.4cm">
+											If you want an opportunity to pay voluntarily without your employer being ordered to make deductions from your pay, you should ask for a suspended order on the form of reply. You should also enclose a copy of your most recent pay slip.
+										</fo:block>
+									</list-item>
+									<list-item>
+										<fo:block font-weight="bold" space-after="0.4cm">
+											You can obtain help in completing the form of reply at any County Court hearing centre or citizens' advice bureau.
+										</fo:block>
+									</list-item>
+								</list>
+							</fo:block>
+						</fo:table-cell>
+					</fo:table-row>
+				</fo:table-body>
+			</fo:table>
+		</fo:block>
+	</footnote>
+	<defaultFooter id="CO37" CO="true"/>
+</root>

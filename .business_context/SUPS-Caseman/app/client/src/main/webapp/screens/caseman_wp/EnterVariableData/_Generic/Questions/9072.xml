@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>9072</Id>
+	<Label>Description/Occupation of Applicant</Label>
+	<ObjectName>DescriptionApplicant</ObjectName>
+	<Html>		
+		<input type="text" id="DescriptionApplicant"></input>
+	</Html>
+	<Javascript>
+        <XPath>/ds/EnterVariableData/descriptionApplicant</XPath>
+		<HintText>Enter description/occupation of applicant</HintText>
+        <isEnabled>return true;</isEnabled> 
+        <mandatoryOn>DescriptionApplicant.dataBinding</mandatoryOn>  				
+        <isMandatory>return true;</isMandatory>
+	</Javascript>
+</Question>  

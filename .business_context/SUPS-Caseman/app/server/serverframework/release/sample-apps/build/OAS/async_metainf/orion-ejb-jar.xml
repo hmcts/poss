@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE orion-ejb-jar PUBLIC "-//Evermind//DTD Enterprise JavaBeans 1.1 runtime//EN" "http://xmlns.oracle.com/ias/dtds/orion-ejb-jar.dtd">
+
+<orion-ejb-jar deployment-version="9.0.3.0.0">
+  <enterprise-beans>
+    <message-driven-deployment name="TestQueueProcessor" destination-location="jms/sups_test_queue" connection-factory-location="jms/QueueConnectionFactory" listener-threads="10">
+      <env-entry-mapping name="uk.gov.dca.db.SupsConfig">uk/gov/dca/test_project/project_config.xml</env-entry-mapping>
+      <ejb-ref-mapping name="ejb/CasesServiceLocal" location="CasesService" />
+      <ejb-ref-mapping name="ejb/EchoServiceLocal" location="EchoService" />
+      <ejb-ref-mapping name="ejb/LinkedServiceLocal" location="LinkedService" />
+      <ejb-ref-mapping name="ejb/TestdataServiceLocal" location="TestdataService" />
+      <ejb-ref-mapping name="ejb/TestServiceLocal" location="TestService" />
+      <ejb-ref-mapping name="ejb/CommandProcessorLocal" location="CommandProcessor" />
+      <ejb-ref-mapping name="ejb/SecurityServiceLocal" location="SecurityService" />
+      <resource-ref-mapping name="jms/sups_test_queue" location="jms/sups_test_queue" />
+      <resource-ref-mapping name="jms/QueueConnectionFactory" location="jms/QueueConnectionFactory" />
+    </message-driven-deployment>
+  </enterprise-beans>
+</orion-ejb-jar>
+

@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>393</Id>
+	<Label>Officer postcode</Label>
+	<ObjectName>OfficerPostcode</ObjectName>
+	<Html>	
+		<input type="text" id="OfficerPostcode" size="8"></input>
+	</Html>			
+	<Javascript>
+		<XPath>/ds/EnterVariableData/AttendForQuestion/Officer/Address/PostCode</XPath>
+		<componentName>##label##</componentName>
+		<isMandatory>return false;</isMandatory>
+		<HintText>Enter officers postcode</HintText>	
+		<enableOn>QuestionWho.dataBinding</enableOn>
+		<isEnabled>
+			var val = Services.getValue(QuestionWho.dataBinding);
+			return('COM' == val || 'CORP' == val);
+		</isEnabled>
+		<logicOn>QuestionWho.dataBinding</logicOn>
+		<logic>
+			var val = Services.getValue(QuestionWho.dataBinding);
+			if('COM' != val &amp;&amp; 'CORP' != val)
+			{	Services.setValue(OfficerPostcode.dataBinding, "");
+			}
+		</logic>
+		<validateOn>OfficerPostcode.dataBinding</validateOn>
+		<validate>return WPU.validatePostcode(Services.getValue(OfficerPostcode.dataBinding));</validate>
+		
+		<Context ScreenId="CJR081">
+			<enableOn>IsAgainstCoOfficer.dataBinding</enableOn>
+			<isEnabled>return('Y' == Services.getValue(IsAgainstCoOfficer.dataBinding));</isEnabled>
+			<logicOn>IsAgainstCoOfficer.dataBinding</logicOn>
+			<logic>
+				if('Y' != Services.getValue(IsAgainstCoOfficer.dataBinding))
+				{	Services.setValue(OfficerPostcode.dataBinding, "");
+				}			
+			</logic>
+		</Context>
+		
+		<Context ScreenId="CJR082">
+			<enableOn>IsAgainstCoOfficer.dataBinding</enableOn>
+			<isEnabled>return('Y' == Services.getValue(IsAgainstCoOfficer.dataBinding));</isEnabled>
+			<logicOn>IsAgainstCoOfficer.dataBinding</logicOn>
+			<logic>
+				if('Y' != Services.getValue(IsAgainstCoOfficer.dataBinding))
+				{	Services.setValue(OfficerPostcode.dataBinding, "");
+				}			
+			</logic>	
+		</Context>
+		
+		<Context ScreenId="CJR083">
+			<enableOn>IsAgainstCoOfficer.dataBinding</enableOn>
+			<isEnabled>return('Y' == Services.getValue(IsAgainstCoOfficer.dataBinding));</isEnabled>
+			<logicOn>IsAgainstCoOfficer.dataBinding</logicOn>
+			<logic>
+				if('Y' != Services.getValue(IsAgainstCoOfficer.dataBinding))
+				{	Services.setValue(OfficerPostcode.dataBinding, "");
+				}			
+			</logic>	
+		</Context>
+	</Javascript>
+</Question>

@@ -1,0 +1,23 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: CaseEvent
+	Method:  getCaseEventValidationData()
+	File:    getCaseEventValidationData.xml
+	Author:  Chris Hutt 
+	Created: 03-Feb-2005
+	Description: 
+        Return the rules associated with the specified event along with associated case-specific configuration data 
+        which is retrieved via service calls to the database.  
+-->
+<service-method>
+	<pipeline>
+		<Java callStyle="new">
+			<Source class="uk.gov.dca.caseman.case_event_service.java.GetCaseEventValidationData"/>
+		</Java>
+	</pipeline>
+	<Dependencies>
+		<Dependency serviceName="Case"/>
+		<Dependency serviceName="Judgment"/>		
+	</Dependencies>			
+	<Security roles="viewOnly medium high wcSuper scSuper bmsSuper aeSuper dmSuper cpSuper ccbcMan ccbcUser ccbcSGB2"/>	
+</service-method>

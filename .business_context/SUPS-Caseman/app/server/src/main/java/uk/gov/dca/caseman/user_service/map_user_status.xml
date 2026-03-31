@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<DBMapDef>
+	<DataSource id="java:OracleDS"/>
+	<Tables>
+		<Table alias="DU" name="DCA_USER"/>
+		<Table alias="UC" name="USER_COURT"/>				
+	</Tables>
+	<Mapping>
+	  <Users>
+		<User>  
+          <Active>${DU.ACTIVE_USER_FLAG}</Active>
+          <HomeCourt>${UC.COURT_CODE}</HomeCourt>
+		</User>
+	  </Users>		
+	</Mapping>
+</DBMapDef>

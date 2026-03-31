@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>686</Id>
+	<Label>Who is to pay the hearing fee?</Label>
+	<ObjectName>PartyToPayFee686</ObjectName>
+	<Html>		
+		<script type="text/javascript">Grid.createInline("PartyToPayFee686", ["Party Type", "Number", "Name"] , 2, 1);</script>
+	</Html>
+	
+	<Context screenId="CJR060"><isVisible>false</isVisible></Context>
+	
+	<Javascript>
+		<XPath>/ds/EnterVariableData/LQAndHearing/PartyToPayFees</XPath>
+		<HintText>Select the party who is to pay the hearing fee</HintText>
+		<miscCode>		 
+			PartyToPayFee686.srcData = DATA_XPATH + "/Parties";
+			PartyToPayFee686.rowXPath = "LitigiousParty";			                                     
+			PartyToPayFee686.keyXPath = "PartyId";
+			PartyToPayFee686.columns = [
+				{xpath: "Type"},
+				{xpath: "Number", sort: "numerical", defaultSort:"true", defaultSortOrder:"ascending"},
+				{xpath: "Name"}
+			];
+			PartyToPayFee686.multipleSelection = false;	
+		</miscCode>
+		
+		<Context ScreenId="CJR023A">
+			<enableOn>HearingDateReqd.dataBinding</enableOn>
+			<isEnabled>
+				return( 'Y' == Services.getValue(HearingDateReqd.dataBinding));
+			</isEnabled>
+			<mandatoryOn>HearingDateReqd.dataBinding</mandatoryOn>
+			<isMandatory>
+				return( 'Y' == Services.getValue(HearingDateReqd.dataBinding));
+			</isMandatory>
+			<logicOn>HearingDateReqd.dataBinding</logicOn>
+			<logic>
+				 if( 'Y' != Services.getValue(HearingDateReqd.dataBinding))
+				 {	Services.setValue(PartyToPayFee686.dataBinding, "");
+				 }
+			</logic>
+		</Context>
+		
+		<Context ScreenId="CJR023C">
+			<enableOn>HearingDateReqd.dataBinding</enableOn>
+			<isEnabled>
+				return( 'Y' == Services.getValue(HearingDateReqd.dataBinding));
+			</isEnabled>
+			<mandatoryOn>HearingDateReqd.dataBinding</mandatoryOn>
+			<isMandatory>
+				return( 'Y' == Services.getValue(HearingDateReqd.dataBinding));
+			</isMandatory>
+			<logicOn>HearingDateReqd.dataBinding</logicOn>
+			<logic>
+				 if( 'Y' != Services.getValue(HearingDateReqd.dataBinding))
+				 {	Services.setValue(PartyToPayFee686.dataBinding, "");
+				 }
+			</logic>
+		</Context>
+		
+		<Context ScreenId="CJR020">
+			<mandatoryOn>IsLQADirnMade.dataBinding</mandatoryOn>		
+			<isMandatory>
+				return( 'Y' == Services.getValue(IsLQADirnMade.dataBinding));
+			</isMandatory>
+			<enableOn>IsLQADirnMade.dataBinding</enableOn>
+			<isEnabled>
+				return( 'Y' == Services.getValue(IsLQADirnMade.dataBinding));
+			</isEnabled>
+			<logicOn>IsLQADirnMade.dataBinding</logicOn>
+			<logic>
+				if ( 'Y' != Services.getValue(IsLQADirnMade.dataBinding) ) { Services.setValue(PartyToPayFee686.dataBinding, ""); }
+			</logic>
+		</Context>
+		
+	</Javascript>
+</Question>

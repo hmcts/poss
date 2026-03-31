@@ -1,0 +1,543 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>9198</Id>
+	<Label>Select court</Label>
+	<ObjectName>JudgmentCourtName</ObjectName>
+	<Html>	
+	    <table>
+            <tr>                
+                <td><input id="JudgmentCourtCode" type="text" size="5"></input></td>
+                <td><input id="JudgmentCourtName" type="text" size="40"></input></td>
+                <td><input id="JudgmentCourtLOVBtn" type="button" value="Select"></input></td>
+            </tr>
+        </table>    
+        
+        <div class="popup" align="center" id="JudgmentCourt_Popup">
+            <table class="content">
+                <tr><td>
+                        <table>
+                            <tr><td><label for="JudgmentCourt_VenueCode">Venue</label></td>
+                                <td><input type="text" id="JudgmentCourt_VenueCode" size="3" maxlength="3"></input></td>
+                                <td><script type="text/javascript">AutoCompletionRenderer.createInline("JudgmentCourt_VenueName");</script></td>
+                                <td><input id="JudgmentCourt_VenueLOVBtn" type="button" value="LOV"></input></td>
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+              
+                <tr style="height: 2px;"><td></td></tr>
+                <tr><td colspan="2" align="right">
+                        <input type="button" value="OK" id="JudgmentCourt_OKBtn"></input>
+                        <input type="button" value="Cancel" id="JudgmentCourt_CancelBtn"></input>
+                    </td>
+                </tr>
+                
+                 <!-- // End button hide//-->
+            </table>
+        </div>
+        
+        <script type="text/javascript">               
+            LOVPopupRenderer.createInline( "JudgmentCourtCourtsLOVGrid", "Courts", ["Code", "Court"], 12, 1, true );
+        </script>
+   
+	</Html>			
+	<Javascript>
+		<XPath>/ds/EnterVariableData/courtSelection</XPath>
+		<HintText>Select the local court </HintText>
+		<initialise>WPU.loadCourt();</initialise>
+		<isReadOnly>return true;</isReadOnly>
+		<mandatoryOn>RequestFor.dataBinding</mandatoryOn>
+        <isMandatory>return true;</isMandatory>
+        <enableOn>RequestFor.dataBinding</enableOn>
+        <isEnabled>return true;</isEnabled>
+       <miscCode>  
+
+
+		//--------------------------------------  Variables -------------------------------------------------
+		    
+		    var REF_DATA_XPATH = "/ds/var/form/ReferenceData";  
+		    var NEW_HEARING_VENUE_TMP_PATH = "/ds/var/page/Tmp/JudgmentCourt";
+		    
+		
+		    
+		    
+		    
+		//---------------------------------------   JudgmentCourt_Popup  ---------------------------------------
+		    
+		    function JudgmentCourt_Popup(){}
+		    JudgmentCourt_Popup.nextFocusedAdaptorId = function()
+		    { return 'JudgmentCourt_VenueLOVBtn';   //force framework to move to next available field
+		    }
+		   
+			JudgmentCourt_Popup.lower = {
+				eventBinding: {
+					singleClicks: [ {element: "JudgmentCourt_CancelBtn"} ],
+					keys: [ { key: Key.F4, element: "JudgmentCourt_Popup" } ]
+				}
+			};
+		    
+		    
+		//-------------------------------------
+		
+		        //helper function
+		        function setOwningCrtDetails()
+		        {               
+		                
+		                var hcrtcode  =  WPU.getCaseOwningCourt();             
+		                 var xpathName = REF_DATA_XPATH + "/Courts/Court[./Code='"+hcrtcode+"']/Name";
+		                                 
+		                 Services.setValue(JudgmentCourtCode.dataBinding, hcrtcode);
+		                 Services.setValue(JudgmentCourt_VenueCode.dataBinding, hcrtcode);
+		                 
+		                 Services.setValue( JudgmentCourtName.dataBinding, Services.getValue(xpathName));   
+		                                             
+		                                          
+		        }                   
+		        
+		             
+		        
+		        // Insert Logic here
+		//--------------------------------------  JudgmentCourtName  -------------------------------------------
+		        
+		   //   function JudgmentCourtName(){}
+		   //     JudgmentCourtName.dataBinding = "/ds/EnterVariableData/judgmentCourtName";
+		   //     JudgmentCourtName.maxLength = 70;
+		   //     JudgmentCourtName.isReadOnly = function(){ return true; }
+		   //     JudgmentCourtName.helpText = "Enter The Court Name ";
+		   //     JudgmentCourtName.mandatoryOn = [RequestFor.dataBinding];
+		   //     JudgmentCourtName.isMandatory = function() {return true;} 
+		       
+		        
+		//--------------------------------------  JudgmentCourtCode  -------------------------------------------
+		
+		    function JudgmentCourtCode(){}
+		    JudgmentCourtCode.dataBinding = "/ds/EnterVariableData/judgmentCourtCode";
+		   	JudgmentCourtCode.tabIndex = __tabIdx++;
+		    JudgmentCourtCode.maxLength = 3;
+			JudgmentCourtCode.isReadOnly = function(){ return true; }
+		    JudgmentCourtCode.helpText = "Unique LCD three digit court location code – list available";
+		    JudgmentCourtCode.mandatoryOn = [RequestFor.dataBinding];
+		    JudgmentCourtCode.isMandatory = function() { return true; } 
+		
+		    
+		//--------------------------------------  JudgmentCourtLOVBtn  -----------------------------------------
+		
+		    function JudgmentCourtLOVBtn() {}
+		    JudgmentCourtLOVBtn.actionBinding = function() 
+		    {   Services.dispatchEvent("JudgmentCourt_Popup", PopupGUIAdaptor.EVENT_RAISE); 
+				var venueCode = Services.getValue(JudgmentCourtCode.dataBinding);
+				Services.setValue(JudgmentCourt_VenueCode.dataBinding, venueCode);
+		    }
+		    JudgmentCourtLOVBtn.tabIndex = __tabIdx++;
+		    
+		    JudgmentCourtLOVBtn.mandatoryOn = [RequestFor.dataBinding];
+		    JudgmentCourtLOVBtn.isMandatory = function()
+		    {   return true;
+		    }
+	   
+            JudgmentCourtLOVBtn.additionalBindings = {
+	            eventBinding: {
+		           keys: [ { key: Key.F6, element: "JudgmentCourtCode" }, { key: Key.F6, element: "JudgmentCourtName" } ]
+	            }
+            };
+		    
+		// ------------------------------------ THE POP_UP ---------------------------------------------------
+		//                                            |
+		//                                            |
+		//                                            V
+		                                              
+		//-------------------------------------  JudgmentCourt_OKBtn  ------------------------------------------
+		
+		    function JudgmentCourt_OKBtn(){}
+		    JudgmentCourt_OKBtn.actionBinding = function()
+		    {       
+		        var venueCode = Services.getValue(JudgmentCourt_VenueCode.dataBinding);
+		        var venueName = Services.getValue(JudgmentCourt_VenueName.dataBinding);
+		        //var addressId = Services.getValue(selectVenue_Address_Grid.dataBinding);
+		    
+		        // Need to ensure all mandatory data is entered and all data is valid
+		        // If a venue has been selected the address fields are populated automatically.
+		        // Just need to ensure that the first address line has detail in and 
+		        // therefore no need to validate the other address field   s.
+		        var screenValid = true;
+		        if((venueCode == null || venueCode == "") || (venueName == null || venueName == ""))
+		        {
+		            screenValid = false;    
+		        }
+		    
+		        if(screenValid)
+		        {
+		        //if (confirm("feel like debugging?")) debugger;
+		        //something buggy? going on with autocomplete gui: returns a code instead of name
+		        
+		        //check venue name is a code
+		        var xpathName = REF_DATA_XPATH + "/Courts/Court[./Code = " + JudgmentCourt_VenueName.dataBinding + "]/Name";     
+		        var checkVenueName = Services.getValue(xpathName);
+		        if( null != checkVenueName &amp;&amp; checkVenueName.length > 0)   
+		        {  //value of checkVenueName is actually a code
+		            //replace code with venuename
+		            venueName = checkVenueName;
+		        }
+		            
+		        // Set the data in the business part of the model       
+		        Services.setValue(JudgmentCourtCode.dataBinding, venueCode);        
+		        Services.setValue(JudgmentCourtName.dataBinding, venueName);
+		        
+		        
+		        Services.setValue(JudgmentCourtName.dataBinding, venueName);
+		        
+		        
+		        
+		        FormController.getInstance().hideFormExtensionPopup("JudgmentCourt");       
+		        }      
+		        else{
+					alert("Please ensure you have selected valid venue details.");
+				} 
+		        
+		    }
+			JudgmentCourt_OKBtn.tabIndex = __tabIdx++;
+
+		
+		
+		//-------------------------------------  JudgmentCourt_CancelBtn  --------------------------------------    
+		
+		    function JudgmentCourt_CancelBtn(){}
+			JudgmentCourt_CancelBtn.tabIndex = __tabIdx++;
+
+		//------------------------------------  JudgmentCourt_VenueCode  ---------------------------------------
+		
+		    function JudgmentCourt_VenueCode(){}
+		    JudgmentCourt_VenueCode.dataBinding = "/ds/EnterVariableData/FastTrack/JudgmentCourt_VenueCode";
+		   	JudgmentCourt_VenueCode.tabIndex = __tabIdx++;
+		    JudgmentCourt_VenueCode.helpText = "Unique three digit court location code - list available.";
+		    JudgmentCourt_VenueCode.maxLength = 3;
+		    JudgmentCourt_VenueCode.logicOn = [JudgmentCourt_VenueCode.dataBinding];
+		    JudgmentCourt_VenueCode.logic = function()
+		    {   
+		        var code = Services.getValue(JudgmentCourt_VenueCode.dataBinding);
+		        var xpathName = REF_DATA_XPATH + "/Courts/Court[./Code = " + JudgmentCourt_VenueCode.dataBinding + "]/Name";
+		        var xpathId = REF_DATA_XPATH + "/Courts/Court[./Code = " + JudgmentCourt_VenueCode.dataBinding + "]/Id";
+		        var venueName = Services.getValue(xpathName);
+		        var venueId = Services.getValue(xpathId);
+		    
+		        // Set the data in the business part of the model
+		        if(venueName != null &amp;&amp; venueName != ""){
+		            // set the description field appropriately
+		            Services.setValue(JudgmentCourt_VenueName.dataBinding, code);      
+		            Services.setValue(JudgmentCourtCourtsLOVGrid.dataBinding, code);     
+		        }
+		        else{
+		            // Clear the fields
+		            Services.setValue(JudgmentCourt_VenueName.dataBinding, "");
+		            Services.setValue(JudgmentCourt_VenueCode.dataBinding, "");
+		            Services.setValue(JudgmentCourtCourtsLOVGrid.dataBinding, "");  
+		        }               
+		    }
+		//  JudgmentCourt_VenueCode.validateOn = [JudgmentCourt_VenueCode.dataBinding, JudgmentCourt_VenueName.dataBinding];
+		//  JudgmentCourt_VenueCode.validate = function(){ return null;}
+		    
+		    
+		    
+		//-----------------------------------  JudgmentCourt_VenueName  ----------------------------------------
+		
+		    function JudgmentCourt_VenueName(){}
+		    JudgmentCourt_VenueName.dataBinding = "/ds/EnterVariableData/FastTrack/JudgmentCourt_VenueName";
+		    JudgmentCourt_VenueName.tabIndex = __tabIdx++;
+		    JudgmentCourt_VenueName.isReadOnly = function(){ return false; }
+		    JudgmentCourt_VenueName.isTemporary = function(){ return true; }
+		    JudgmentCourt_VenueName.maxLength = 30;
+		    JudgmentCourt_VenueName.helpText = "Name of the Court.";
+		    JudgmentCourt_VenueName.isMandatory = function(){ return true; }
+		    JudgmentCourt_VenueName.validate = function(){ return null; }
+		    JudgmentCourt_VenueName.srcData = REF_DATA_XPATH + "/Courts";
+		    JudgmentCourt_VenueName.rowXPath = "Court";
+		    JudgmentCourt_VenueName.keyXPath = "Code";
+		    JudgmentCourt_VenueName.displayXPath = "Name";
+		    JudgmentCourt_VenueName.logicOn  = [JudgmentCourt_VenueName.dataBinding];
+		    JudgmentCourt_VenueName.logic = function()
+		    {
+		        var codeOrName = Services.getValue(JudgmentCourt_VenueName.dataBinding);      
+		        var xpathId = REF_DATA_XPATH + "/Courts/Court[Code = " + JudgmentCourt_VenueName.dataBinding + "]/Code";
+		        var code = Services.getValue(xpathId);
+		        if(code == null || "" == code)
+		        {
+		        	var name = Services.getValue(JudgmentCourt_VenueName.dataBinding);     
+					code = Services.getValue(REF_DATA_XPATH + "/Courts/Court[Name = " + JudgmentCourt_VenueName.dataBinding + "]/Code");	
+		        }
+				if( code != null &amp;&amp; code != "")
+				{ 	
+					Services.setValue(JudgmentCourt_VenueCode.dataBinding, code);  		
+				}
+				else
+				{
+					Services.setValue(JudgmentCourt_VenueName.dataBinding, "");
+					Services.setValue(JudgmentCourt_VenueCode.dataBinding, "");
+					Services.setValue(JudgmentCourt_ContactDetails_Address_Line1.dataBinding, "");
+					Services.setValue(JudgmentCourt_ContactDetails_Address_Line2.dataBinding, "");
+					Services.setValue(JudgmentCourt_ContactDetails_Address_Line3.dataBinding, "");
+					Services.setValue(JudgmentCourt_ContactDetails_Address_Line4.dataBinding, "");
+					Services.setValue(JudgmentCourt_ContactDetails_Address_Line5.dataBinding, "");
+					Services.setValue(JudgmentCourt_ContactDetails_Address_Postcode.dataBinding, "");
+					Services.setValue(JudgmentCourt_ContactDetails_Address_DXNumber.dataBinding, "");
+					Services.setValue(JudgmentCourt_ContactDetails_Address_TelephoneNumber.dataBinding, "");
+					Services.setValue(JudgmentCourt_ContactDetails_Address_FaxNumber.dataBinding, "");
+					Services.setValue(JudgmentCourtCourtsLOVGrid.dataBinding, ""); 
+				}
+
+		    }
+		    /**
+		    JudgmentCourt_VenueName.validateOn = [JudgmentCourt_VenueName.dataBinding];
+		    JudgmentCourt_VenueName.validate = function()
+		    {
+		        var venueCode = Services.getValue(JudgmentCourt_VenueCode.dataBinding);
+		        var venueDesc = Services.getValue(JudgmentCourt_VenueName.dataBinding); 
+		        var errCode = null;
+		        if(venueCode != null &amp;&amp; venueCode != ""){               
+		            // need to ensure that correct value has been entered.  
+		            // If a one has there will be a corresponding Description
+		            // &amp;&amp;&amp; NB Will need to look at this in future when auto complete is implemented
+		            if(venueDesc == null || venueDesc ==""){
+		                errCode = ErrorCode.getErrorCode('CaseMan_invalidCourtCode_Msg');
+		            }   
+		        }// end of if(typeCode != null &amp;&amp; typeCode != ""){  
+		        return errCode;     
+		    }
+			**/
+			
+		
+		//------------------------------------- JudgmentCourt_ContactDetails_Address_Line1 ------------------------------------
+		
+		
+			function JudgmentCourt_ContactDetails_Address_Line1() {}
+			JudgmentCourt_ContactDetails_Address_Line1.dataBinding = NEW_HEARING_VENUE_TMP_PATH + "/Address/Line[1]";
+			JudgmentCourt_ContactDetails_Address_Line1.tabIndex = __tabIdx++;
+			JudgmentCourt_ContactDetails_Address_Line1.isReadOnly = function(){ return true;}
+			JudgmentCourt_ContactDetails_Address_Line1.isTemporary = function(){return true;}
+			JudgmentCourt_ContactDetails_Address_Line1.isMandatory = function(){return true;}
+			JudgmentCourt_ContactDetails_Address_Line1.transformToDisplay = function(value){    return (null != value) ? value.toUpperCase() : null;}
+			JudgmentCourt_ContactDetails_Address_Line1.transformToModel = function(value){  return (null != value) ? value.toUpperCase() : null;}   
+		
+		//----------------------------------------- JudgmentCourt_ContactDetails_Address_Line2 -----------------------------------
+		
+		
+			function JudgmentCourt_ContactDetails_Address_Line2() {}
+			JudgmentCourt_ContactDetails_Address_Line2.dataBinding = NEW_HEARING_VENUE_TMP_PATH + "/Address/Line[2]";
+			JudgmentCourt_ContactDetails_Address_Line2.tabIndex = __tabIdx++;
+			JudgmentCourt_ContactDetails_Address_Line2.isReadOnly = function(){ return true;}
+			JudgmentCourt_ContactDetails_Address_Line2.isTemporary = function(){    return true;}
+			JudgmentCourt_ContactDetails_Address_Line2.isMandatory = function(){    return true;}
+			JudgmentCourt_ContactDetails_Address_Line2.transformToDisplay = function(value){    return (null != value) ? value.toUpperCase() : null;}
+			JudgmentCourt_ContactDetails_Address_Line2.transformToModel = function(value){  return (null != value) ? value.toUpperCase() : null;}   
+		
+		
+		
+		//-------------------------------------  JudgmentCourt_ContactDetails_Address_Line3 ---------------------------------------
+		
+			function JudgmentCourt_ContactDetails_Address_Line3() {}
+			JudgmentCourt_ContactDetails_Address_Line3.dataBinding = NEW_HEARING_VENUE_TMP_PATH + "/Address/Line[3]";
+			JudgmentCourt_ContactDetails_Address_Line3.tabIndex = __tabIdx++;
+			JudgmentCourt_ContactDetails_Address_Line3.isReadOnly = function(){ return true; }
+			JudgmentCourt_ContactDetails_Address_Line3.isMandatory = function(){    return false;}
+			JudgmentCourt_ContactDetails_Address_Line3.transformToDisplay = function(value){    return (null != value) ? value.toUpperCase() : null;}
+			JudgmentCourt_ContactDetails_Address_Line3.transformToModel = function(value){  return (null != value) ? value.toUpperCase() : null;}
+		
+		
+		//--------------------------------------- JudgmentCourt_ContactDetails_Address_Line4 --------------------------------------------
+		
+			function JudgmentCourt_ContactDetails_Address_Line4() {}
+			JudgmentCourt_ContactDetails_Address_Line4.dataBinding = NEW_HEARING_VENUE_TMP_PATH + "/Address/Line[4]";
+			JudgmentCourt_ContactDetails_Address_Line4.tabIndex = __tabIdx++;
+			JudgmentCourt_ContactDetails_Address_Line4.isReadOnly = function(){ return true;}
+			JudgmentCourt_ContactDetails_Address_Line4.isMandatory = function(){    return false;}
+			JudgmentCourt_ContactDetails_Address_Line4.transformToDisplay = function(value){    return (null != value) ? value.toUpperCase() : null;}
+			JudgmentCourt_ContactDetails_Address_Line4.transformToModel = function(value){  return (null != value) ? value.toUpperCase() : null;}
+			
+		
+		//-------------------------------------  JudgmentCourt_ContactDetails_Address_Line5 ---------------------------------------------
+		
+			function JudgmentCourt_ContactDetails_Address_Line5() {}
+			JudgmentCourt_ContactDetails_Address_Line5.dataBinding = NEW_HEARING_VENUE_TMP_PATH + "/Address/Line[5]";
+			JudgmentCourt_ContactDetails_Address_Line5.tabIndex = __tabIdx++;
+			JudgmentCourt_ContactDetails_Address_Line5.isReadOnly = function(){ return true;}
+			JudgmentCourt_ContactDetails_Address_Line5.isMandatory = function(){    return false;}
+			JudgmentCourt_ContactDetails_Address_Line5.transformToDisplay = function(value){    return (null != value) ? value.toUpperCase() : null;}
+			JudgmentCourt_ContactDetails_Address_Line5.transformToModel = function(value){  return (null != value) ? value.toUpperCase() : null;}
+				
+		
+		//----------------------------------------- JudgmentCourt_ContactDetails_Address_Postcode ----------------------------------------
+		
+			function JudgmentCourt_ContactDetails_Address_Postcode() {}
+			JudgmentCourt_ContactDetails_Address_Postcode.dataBinding = NEW_HEARING_VENUE_TMP_PATH + "/Address/PostCode";
+			JudgmentCourt_ContactDetails_Address_Postcode.tabIndex = __tabIdx++;
+			JudgmentCourt_ContactDetails_Address_Postcode.isReadOnly = function(){  return true;}
+			JudgmentCourt_ContactDetails_Address_Postcode.isMandatory = function(){ return false;}
+			JudgmentCourt_ContactDetails_Address_Postcode.transformToDisplay = function(value){ return (null != value) ? value.toUpperCase() : null;}
+			JudgmentCourt_ContactDetails_Address_Postcode.transformToModel = function(value){   return (null != value) ? value.toUpperCase() : null;}
+		
+		
+		//------------------------------------------ JudgmentCourt_ContactDetails_Address_DXNumber ----------------------------------------
+		
+			function JudgmentCourt_ContactDetails_Address_DXNumber() {}
+			JudgmentCourt_ContactDetails_Address_DXNumber.dataBinding = NEW_HEARING_VENUE_TMP_PATH + "/DXNumber";
+			JudgmentCourt_ContactDetails_Address_DXNumber.tabIndex = __tabIdx++;
+			JudgmentCourt_ContactDetails_Address_DXNumber.isReadOnly = function(){  return true;}
+			JudgmentCourt_ContactDetails_Address_DXNumber.isMandatory = function(){ return false;}
+			function JudgmentCourt_ContactDetails_Address_DXNumber() {}
+			JudgmentCourt_ContactDetails_Address_DXNumber.tabIndex = __tabIdx++;
+			JudgmentCourt_ContactDetails_Address_DXNumber.isReadOnly = function(){  return true;}
+			JudgmentCourt_ContactDetails_Address_DXNumber.isMandatory = function(){ return false;}		
+		
+		
+		//--------------------------------------------- JudgmentCourt_ContactDetails_Address_TelephoneNumber -----------------------------
+		
+			function JudgmentCourt_ContactDetails_Address_TelephoneNumber() {}
+			JudgmentCourt_ContactDetails_Address_TelephoneNumber.dataBinding = NEW_HEARING_VENUE_TMP_PATH + "/TelephoneNumber";
+			JudgmentCourt_ContactDetails_Address_TelephoneNumber.tabIndex = __tabIdx++;
+			JudgmentCourt_ContactDetails_Address_TelephoneNumber.isReadOnly = function(){   return true;}
+			JudgmentCourt_ContactDetails_Address_TelephoneNumber.isMandatory = function(){  return false;}
+			JudgmentCourt_ContactDetails_Address_TelephoneNumber.transformToDisplay = function(value){  return (null != value) ? value.toUpperCase() : null;}
+			JudgmentCourt_ContactDetails_Address_TelephoneNumber.transformToModel = function(value){    return (null != value) ? value.toUpperCase() : null;}
+			
+		
+		//--------------------------------------------- JudgmentCourt_ContactDetails_Address_FaxNumber -------------------------------------
+		
+			function JudgmentCourt_ContactDetails_Address_FaxNumber() {}
+			JudgmentCourt_ContactDetails_Address_FaxNumber.dataBinding = NEW_HEARING_VENUE_TMP_PATH + "/FaxNumber";
+			JudgmentCourt_ContactDetails_Address_FaxNumber.tabIndex = __tabIdx++;
+			JudgmentCourt_ContactDetails_Address_FaxNumber.isReadOnly = function(){ return true;}
+			JudgmentCourt_ContactDetails_Address_FaxNumber.isMandatory = function(){    return false;}
+			
+		
+		//------------------------------------  JudgmentCourtCourtsLOVGrid  ----------------------------------------------
+		
+		
+			function JudgmentCourtCourtsLOVGrid() {};
+			JudgmentCourtCourtsLOVGrid.dataBinding = "/ds/var/page/SelectedLOVRow/OwningCourt";
+			JudgmentCourtCourtsLOVGrid.srcData = REF_DATA_XPATH + "/Courts";
+			JudgmentCourtCourtsLOVGrid.rowXPath = "Court";
+			JudgmentCourtCourtsLOVGrid.keyXPath = "Code";
+			JudgmentCourtCourtsLOVGrid.columns = [
+			    {xpath: "Code"},
+			    {xpath: "Name"}
+			];
+			
+			// Configure the location in the model which will generate data change events
+			JudgmentCourtCourtsLOVGrid.logicOn = [JudgmentCourtCourtsLOVGrid.dataBinding];
+			// Implement the callback
+			JudgmentCourtCourtsLOVGrid.logic = function()
+			{
+			    var id = Services.getValue(JudgmentCourtCourtsLOVGrid.dataBinding);
+			   
+			    if (id != null &amp;&amp; "" != id)
+			    {
+			        // Lookup the hearing type in ref data from the code that is stored in value
+			        var xpathCode = REF_DATA_XPATH + "/Courts/Court[Code = " + id + "]/Code";     
+			        var xpathName = REF_DATA_XPATH + "/Courts/Court[Code = " + id + "]/Name";     
+			        var courtCode = Services.getValue(xpathCode);
+			        var courtName = Services.getValue(xpathName);
+			        
+			        // Set the data in the business part of the model
+			        Services.setValue(JudgmentCourt_VenueCode.dataBinding, id);
+			        Services.setValue(JudgmentCourt_VenueName.dataBinding, id);         
+			        //write here
+		  		}
+		  		else
+		  		{
+			        Services.setValue(JudgmentCourt_VenueCode.dataBinding, "");
+			        Services.setValue(JudgmentCourt_VenueName.dataBinding, ""); 
+		  		}
+			} // end of logic()
+		
+		
+		//--------------------------------  JudgmentCourt_Address_Grid --------------------------------------------
+		
+		function JudgmentCourt_Address_Grid(){};
+		JudgmentCourt_Address_Grid.dataBinding = "/ds/var/page/SelectedGridRow/SelectedAddress"; 
+		JudgmentCourt_Address_Grid.srcData = REF_DATA_XPATH + "/Courts/Court[./Code = " + JudgmentCourtCourtsLOVGrid.dataBinding + "]/ContactDetails"; 
+		JudgmentCourt_Address_Grid.rowXPath = "Address";        // Individual Court/venue
+		JudgmentCourt_Address_Grid.keyXPath = "AddressId";      // Unique identifier for a Court/venue
+		JudgmentCourt_Address_Grid.columns = [                  // column bindings
+		    {xpath: "Line[1]", sort: function(a,b){if(a &lt; b){return 1;};if(a &gt; b){return -1;};return 0;}},
+		    {xpath: "Line[2]", sort: function(a,b){if(a &lt; b){return 1;};if(a &gt; b){return -1;};return 0;}}
+		];
+		
+		JudgmentCourt_Address_Grid.retrieveOn = [JudgmentCourtCourtsLOVGrid.dataBinding];
+		JudgmentCourt_Address_Grid.srcDataOn = [JudgmentCourtCourtsLOVGrid.dataBinding];
+		
+		// When  a different Address row is selected
+		JudgmentCourt_Address_Grid.logicOn = [JudgmentCourt_Address_Grid.dataBinding,
+		                                    JudgmentCourtCourtsLOVGrid.dataBinding];
+		
+		// Get the associated Address Data
+		JudgmentCourt_Address_Grid.logic = function()
+		{
+		    var courtId = Services.getValue(JudgmentCourtCourtsLOVGrid.dataBinding);
+		    var addressId = Services.getValue(JudgmentCourt_Address_Grid.dataBinding);
+		    if (courtId != null &amp;&amp; addressId != null &amp;&amp; "" != courtId  &amp;&amp; "" != addressId){
+		        // Set the address details as necessary.
+		        // Set up xpaths
+		        var b11 = REF_DATA_XPATH + "/Courts/Court[./Code = ";
+		        var b13 = "]/ContactDetails/";
+		        var b12 = b13 + "Address[./AddressId = ";
+		        var xpathAdd1 = b11 + courtId + b12 + addressId + "]/Line[1]";  
+		        var xpathAdd2 = b11  + courtId + b12 + addressId + "]/Line[2]"; 
+		        var xpathAdd3 = b11  + courtId + b12 + addressId + "]/Line[3]"; 
+		        var xpathAdd4 = b11  + courtId + b12 + addressId + "]/Line[4]"; 
+		        var xpathAdd5 = b11  + courtId + b12 + addressId + "]/Line[5]"; 
+		        var xpathPostcode = b11  + courtId + b12 + addressId + "]/PostCode";    
+		        var xpathDXNo  = b11 + courtId + b13 +"DX"; 
+		        var xpathTelNo = b11 + courtId + b13 +"TelephoneNumber";    
+		        var xpathFaxNo = b11 + courtId + b13 +"FaxNumber";  
+		        
+		        // retrieve values from the DOM
+		        var add1 = Services.getValue(xpathAdd1);
+		        var add2 = Services.getValue(xpathAdd2);
+		        // ensure not adding a null - as these fields are not mandatory     
+		        var add3 = Services.getValue(xpathAdd3);
+		        if(add3 == null){add3 = ""; }   
+		        var add4 = Services.getValue(xpathAdd4);
+		        if(add3 == null){add4 = "";}
+		        var add5 = Services.getValue(xpathAdd5);
+		        if(add3 == null){add5 = ""; }
+		        var postcode = Services.getValue(xpathPostcode);        
+		        var dxNo = Services.getValue(xpathDXNo);
+		        if(dxNo == null){dxNo = ""; }
+		        var telNo = Services.getValue(xpathTelNo);
+		        if(telNo == null){  telNo = ""; }
+		        var faxNo = Services.getValue(xpathFaxNo);
+		        if(telNo == null){telNo= "";}
+		        
+		        // Set the data in the tmp part of the model
+		        Services.setValue(JudgmentCourt_ContactDetails_Address_Line1.dataBinding, add1);
+		        Services.setValue(JudgmentCourt_ContactDetails_Address_Line2.dataBinding, add2);
+		        Services.setValue(JudgmentCourt_ContactDetails_Address_Line3.dataBinding, add3);
+		        Services.setValue(JudgmentCourt_ContactDetails_Address_Line4.dataBinding, add4);
+		        Services.setValue(JudgmentCourt_ContactDetails_Address_Line5.dataBinding, add5);
+		        Services.setValue(JudgmentCourt_ContactDetails_Address_Postcode.dataBinding, postcode);     
+		        Services.setValue(JudgmentCourt_ContactDetails_Address_DXNumber.dataBinding, dxNo);
+		        Services.setValue(JudgmentCourt_ContactDetails_Address_TelephoneNumber.dataBinding, telNo);
+		        Services.setValue(JudgmentCourt_ContactDetails_Address_FaxNumber.dataBinding, faxNo);       
+		    }
+		} 
+		
+		// end of logic()
+				
+		
+		//---------------------------------- JudgmentCourt_VenueLOVBtn ------------------------------
+		
+		
+		function JudgmentCourt_VenueLOVBtn() {}
+		JudgmentCourt_VenueLOVBtn.tabIndex = __tabIdx++;
+		
+		/** PostBuildX 15a **/
+		JudgmentCourtCourtsLOVGrid.raise = {
+			eventBinding: {
+				singleClicks: [ {element: "JudgmentCourt_VenueLOVBtn"} ],
+				keys: [ { key: Key.F6, element: "JudgmentCourt_VenueCode" }, { key: Key.F6, element: "JudgmentCourt_VenueName" } ]
+			}
+		};	
+		
+        </miscCode>                             
+ 	</Javascript>	
+	
+</Question>

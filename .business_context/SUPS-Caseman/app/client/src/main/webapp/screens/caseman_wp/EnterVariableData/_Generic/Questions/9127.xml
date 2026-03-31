@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>9127</Id>
+	<Label>Court is satisfied that</Label>
+	<ObjectName>CourtSatisfied</ObjectName>
+	<Html>
+		<select id="CourtSatisfied">
+			<option value=""></option>
+			<option value="C">Conduct consists/includes use of violence</option>
+			<option value="R">Risk of harm to person named in section 153A(4)</option>
+		</select>
+	</Html>			
+	<Javascript>
+        <XPath>/ds/EnterVariableData/courtSatisfied</XPath>
+		<HintText>Select from the following</HintText>
+        <Context ScreenId="O_2_6">
+    	    <mandatoryOn>CourtSatisfied.dataBinding</mandatoryOn> 
+        	<isMandatory>return true;</isMandatory>	
+        </Context>
+        <isEnabled>return true;</isEnabled> 
+        
+	</Javascript>
+</Question>  

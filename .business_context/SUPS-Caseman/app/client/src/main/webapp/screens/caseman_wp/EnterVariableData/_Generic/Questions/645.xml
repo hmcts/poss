@@ -1,0 +1,16 @@
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>645</Id>
+	<Label>CFO Account Number</Label>
+	<ObjectName>CFOAccNumber</ObjectName>
+	<Html>	
+		<input type="text" id="CFOAccNumber"></input>
+	</Html>		
+	
+	<Javascript>
+		<XPath>/ds/EnterVariableData/InvestmentSchedule/cFOAccNumber</XPath>
+		<componentName>##label##</componentName>
+		<maxLength>20</maxLength>	
+		<isMandatory>return true;</isMandatory>
+		<HintText>Enter the CFO Account Number</HintText>			
+	</Javascript>
+</Question>

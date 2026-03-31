@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- 
+	14/08/2006 - MGG - defect 4215 - Default value not being set correctly. 
+	Moved from the setDefault method - as setDefault needs a setDefaultOn and use an initialise tag
+-->
+<!--Question xmlns="http://eds.com/questionxhtml" xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd"-->
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>CM_OSWF_QUESTION_5</Id>
+	<Label>Return Class</Label>
+	<ObjectName>ReturnClass</ObjectName>
+	<Html>
+		<input id="ReturnClass" type="text" size="1"></input>
+	</Html>
+	<Javascript>
+		<XPath>/ds/var/page/OracleReportForm/ReturnClass</XPath>
+		<ReportVariableName>P_RETURN_CLASS</ReportVariableName>
+		<ReportVariableValue>Services.getValue(ReturnClass.dataBinding)</ReportVariableValue>
+		<HintText>Enter (1)-held by bailiff or (2)-held in office. Press % for all.</HintText>
+		<isMandatory>return true;</isMandatory>
+		<maxLength>1</maxLength>		
+		<initialise>
+			Services.setValue(ReturnClass.dataBinding, "%");
+		</initialise>
+		<validate>
+			var value = Services.getValue(this.dataBinding);
+			if (value == "%")
+			{
+				return null;
+			}
+			var errCode = null;
+			if (!CaseManUtils.isBlank(value)) {
+				errCode = CaseManValidationHelper.validatePattern(value, CaseManValidationHelper.NUMERIC_PATTERN, "CaseMan_returnClassInvalid_Msg");
+			}
+			if ((value &gt; 2) || (value &lt; 1))
+			{
+				errCode = ErrorCode.getErrorCode("CaseMan_returnClassInvalid_Msg");
+			}
+			return errCode;
+		</validate>
+	</Javascript>
+</Question>

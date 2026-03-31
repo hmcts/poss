@@ -1,0 +1,27 @@
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>564</Id>
+	<Label>Type of evidence given</Label>
+	<ObjectName>EvidenceType</ObjectName>
+	<Html>	
+		<select id="EvidenceType">
+			<option value=""></option>
+			<option value="O">Oral</option>
+			<option value="W">Written</option>
+			<option value="B">Both</option>
+		</select>
+	</Html>			
+	<Javascript>
+		<XPath>/ds/EnterVariableData/Remand/evidenceType</XPath>
+		<componentName>##label##</componentName>
+		<isMandatory>return true;</isMandatory>
+		<HintText>Select if oral or written evidence, or both</HintText>
+		<enableOn>IsMPEvidenceGiven.dataBinding</enableOn>
+		<isEnabled>return('Y' == Services.getValue(IsMPEvidenceGiven.dataBinding));</isEnabled>
+		<logicOn>IsMPEvidenceGiven.dataBinding</logicOn>
+		<logic>
+			if('Y' != Services.getValue(IsMPEvidenceGiven.dataBinding))
+			{	Services.setValue(EvidenceType.dataBinding, "");
+			}
+		</logic>			
+	</Javascript>
+</Question>

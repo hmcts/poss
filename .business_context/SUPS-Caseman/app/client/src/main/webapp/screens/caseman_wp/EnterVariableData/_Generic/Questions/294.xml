@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>294</Id>
+	<Label>Date list should be served and filed?</Label>
+	<ObjectName>ListServedFiledDate</ObjectName>
+	<Html>
+		<script type="text/javascript">
+			WP_DatePickerRenderer.createInline("ListServedFiledDate");
+		</script>
+	</Html>
+	
+	<Javascript>
+		<XPath>/ds/EnterVariableData/SmallTrack/listServedFiledDate</XPath>
+		<HintText>Enter date list should be served and filed by in format DD-MON-YYYY</HintText>
+		<isMandatory>return true;</isMandatory>
+		
+		
+		<mandatoryOn>IsListFiledWithCopy.dataBinding, IsComplaintsFiledList.dataBinding</mandatoryOn>
+		<enableOn>IsListFiledWithCopy.dataBinding, IsComplaintsFiledList.dataBinding</enableOn>
+		<isEnabled>
+			return( 'Y' != Services.getValue(IsListFiledWithCopy.dataBinding) &amp;&amp;
+					'Y' == Services.getValue(IsComplaintsFiledList.dataBinding) );
+		</isEnabled>
+		<logicOn>IsListFiledWithCopy.dataBinding, IsComplaintsFiledList.dataBinding</logicOn>
+		<logic>
+			if('Y' == Services.getValue(IsListFiledWithCopy.dataBinding) || 
+				'Y' != Services.getValue(IsComplaintsFiledList.dataBinding))
+			{	Services.setValue(ListServedFiledDate.dataBinding, "");
+			}
+		</logic>
+		
+	
+		<validateOn>ListServedFiledDate.dataBinding</validateOn>
+		<validate>
+			//cannot be in past : working day only
+			
+			var checkDate = Services.getValue(ListServedFiledDate.dataBinding); 
+			var err = null;
+			
+			if( false == isFutureDate(checkDate))
+			{ 	err = ErrorCode.getErrorCode("CaseMan_dateCannotBeInThePast_Msg");
+			}
+			else if( isNonWorkingDate(checkDate))
+		    {   err = ErrorCode.getErrorCode("CaseMan_dateNonWorkingDay_Msg"); 
+		    }
+			
+			return err;
+		</validate>	
+		<!--initialise>		  	
+		  	loadNonWorkingDays();
+		</initialise-->
+		<miscCode>
+		    ListServedFiledDate.weekends = false;
+		</miscCode>	
+		
+		<Context ScreenId="CJR023C">
+			<isMandatory>return false;</isMandatory>
+			<mandatoryOn>ListServedFiledDate.dataBinding</mandatoryOn>
+			<validate>return null;</validate>
+			<miscCode>
+		    	ListServedFiledDate.weekends = true;
+			</miscCode>	
+		</Context>
+	
+	</Javascript>
+</Question>

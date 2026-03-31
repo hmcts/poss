@@ -1,0 +1,39 @@
+Mon Oct 02 12:01:06 BST 2006  [debug] AvalonLogSystem initialized using logfile 'velocity.log'
+Mon Oct 02 12:01:06 BST 2006   [info] ************************************************************** 
+Mon Oct 02 12:01:06 BST 2006   [info] Starting Jakarta Velocity v1.3.1
+Mon Oct 02 12:01:06 BST 2006   [info] RuntimeInstance initializing.
+Mon Oct 02 12:01:06 BST 2006   [info] Default Properties File: org\apache\velocity\runtime\defaults\velocity.properties
+Mon Oct 02 12:01:06 BST 2006   [info] Trying to use logger class org.apache.velocity.runtime.log.AvalonLogSystem
+Mon Oct 02 12:01:06 BST 2006   [info] Using logger class org.apache.velocity.runtime.log.AvalonLogSystem
+Mon Oct 02 12:01:06 BST 2006   [info] Default ResourceManager initializing. (class org.apache.velocity.runtime.resource.ResourceManagerImpl)
+Mon Oct 02 12:01:06 BST 2006   [info] Resource Loader Instantiated: org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader
+Mon Oct 02 12:01:06 BST 2006   [info] ClasspathResourceLoader : initialization starting.
+Mon Oct 02 12:01:06 BST 2006   [info] ClasspathResourceLoader : initialization complete.
+Mon Oct 02 12:01:06 BST 2006   [info] ResourceCache : initialized. (class org.apache.velocity.runtime.resource.ResourceCacheImpl)
+Mon Oct 02 12:01:06 BST 2006   [info] Default ResourceManager initialization complete.
+Mon Oct 02 12:01:06 BST 2006   [info] Loaded System Directive: org.apache.velocity.runtime.directive.Literal
+Mon Oct 02 12:01:06 BST 2006   [info] Loaded System Directive: org.apache.velocity.runtime.directive.Macro
+Mon Oct 02 12:01:06 BST 2006   [info] Loaded System Directive: org.apache.velocity.runtime.directive.Parse
+Mon Oct 02 12:01:06 BST 2006   [info] Loaded System Directive: org.apache.velocity.runtime.directive.Include
+Mon Oct 02 12:01:06 BST 2006   [info] Loaded System Directive: org.apache.velocity.runtime.directive.Foreach
+Mon Oct 02 12:01:06 BST 2006   [info] Created: 20 parsers.
+Mon Oct 02 12:01:06 BST 2006   [info] Velocimacro : initialization starting.
+Mon Oct 02 12:01:06 BST 2006   [info] Velocimacro : adding VMs from VM library template : VM_global_library.vm
+Mon Oct 02 12:01:06 BST 2006  [error] ResourceManager : unable to find resource 'VM_global_library.vm' in any resource loader.
+Mon Oct 02 12:01:06 BST 2006   [info] Velocimacro : error using  VM library template VM_global_library.vm : org.apache.velocity.exception.ResourceNotFoundException: Unable to find resource 'VM_global_library.vm'
+Mon Oct 02 12:01:06 BST 2006   [info] Velocimacro :  VM library template macro registration complete.
+Mon Oct 02 12:01:06 BST 2006   [info] Velocimacro : allowInline = true : VMs can be defined inline in templates
+Mon Oct 02 12:01:06 BST 2006   [info] Velocimacro : allowInlineToOverride = false : VMs defined inline may NOT replace previous VM definitions
+Mon Oct 02 12:01:06 BST 2006   [info] Velocimacro : allowInlineLocal = false : VMs defined inline will be  global in scope if allowed.
+Mon Oct 02 12:01:06 BST 2006   [info] Velocimacro : messages on  : VM system will output logging messages
+Mon Oct 02 12:01:06 BST 2006   [info] Velocimacro : autoload off  : VM system will not automatically reload global library macros
+Mon Oct 02 12:01:06 BST 2006   [info] Velocimacro : initialization complete.
+Mon Oct 02 12:01:06 BST 2006   [info] Velocity successfully started.
+Mon Oct 02 12:01:06 BST 2006   [info] Velocimacro : added new VM : #formatElement( indent context ) : source = com/polarlake/platform/nonxml/schemabuilder/schema.vm
+Mon Oct 02 12:01:06 BST 2006   [info] Velocimacro : added new VM : #typeReference( indent context ) : source = com/polarlake/platform/nonxml/schemabuilder/schema.vm
+Mon Oct 02 12:01:06 BST 2006   [info] Velocimacro : added new VM : #simpleType( indent context ) : source = com/polarlake/platform/nonxml/schemabuilder/schema.vm
+Mon Oct 02 12:01:06 BST 2006   [info] Velocimacro : added new VM : #complexType( indent context ) : source = com/polarlake/platform/nonxml/schemabuilder/schema.vm
+Mon Oct 02 12:01:06 BST 2006  [error] VM #typeReference: error : too few arguments to macro. Wanted 2 got 0
+Mon Oct 02 12:01:06 BST 2006  [error] VM #simpleType: error : too few arguments to macro. Wanted 2 got 0
+Mon Oct 02 12:01:06 BST 2006  [error] VM #complexType: error : too few arguments to macro. Wanted 2 got 0
+Mon Oct 02 12:01:06 BST 2006   [info] ResourceManager : found com/polarlake/platform/nonxml/schemabuilder/schema.vm with loader org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader

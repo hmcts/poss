@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: CO
+	Method:  updateCoPayeeLocalCodedParty()
+	File:    update_co_payee_local_coded_party_list.xml
+	Author:  Chris Vincent
+	Created: 15 February 2011
+	Description: 
+		Update the details of the Payee Local Coded Parties that are linked into a Consolidated Order, 
+		either updating the Allowed Debt to point to a different Local Coded Party or converting them
+		into non coded parties.  Created as part of Trac 4215.
+-->
+<service-method>
+	<pipeline>
+		<Update>
+			<QueryDef location="uk/gov/dca/caseman/co_service/query_def_co_payee_local_coded_party_list.xml"/>
+			<DataSource xpath="/params/param[@name='partyList']"/>
+			<QueryExtension pivotNode="/COLocalCodedPartyList/COLocalCodedParty">
+			</QueryExtension>
+		</Update>
+	</pipeline>
+	<Security roles="user"/>
+</service-method>

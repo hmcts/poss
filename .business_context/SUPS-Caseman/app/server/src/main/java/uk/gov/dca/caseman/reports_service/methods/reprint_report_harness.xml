@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: Reports
+	Method:  reprintReportHarness()
+	File:    reprint_report_harness.xml
+	Author:  Anoop Sehdev (Valtech)
+	Created: 25 January 2006
+	Description: 
+		Call ReprintReportHarnessCustomProcessor custom processor to submit 
+		a report for reprinting to SUPSReporting. This method should be called only for unit testing purposes.
+		Currently called by caseman_oracle_reports/test/PrintDocument.html only.
+-->
+<service-method>
+	<pipeline> 
+		<Java callStyle="new">
+			<Source class="uk.gov.dca.caseman.reports_service.classes.ReprintReportHarnessCustomProcessor"/>
+		</Java>
+	</pipeline>
+	<Security roles="scSuper"/>		
+</service-method>

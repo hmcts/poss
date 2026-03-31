@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+Change History
+ 16-Oct-2007 Chris Hutt	
+			   Defect Prog testing 114 : 
+  			   Remodelled to support method call per event.
+ 
+-->
+
+<DBMapDef>
+  <DataSource id="java:OracleDS"/>
+  <Tables>
+    <Table alias="CE" name="CASE_EVENTS"/>
+  </Tables>
+  <Mapping>
+	<WarrantEvent>
+		<CaseEventSeq>${CE.EVENT_SEQ}</CaseEventSeq>
+		<Error>${CE.DELETED_FLAG}</Error>
+	</WarrantEvent>		
+  </Mapping>
+</DBMapDef>
+
+

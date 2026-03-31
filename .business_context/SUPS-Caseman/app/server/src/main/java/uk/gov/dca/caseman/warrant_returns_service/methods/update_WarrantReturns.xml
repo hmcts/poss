@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: WarrantReturns
+	Method:  updateWarrantReturns()
+	File:    update_WarrantReturns.xml
+	Author:  Chris Vincent
+	Created: 
+	Description: 
+		Update service for the existing warrant returns on a particular warrant record.  Custom
+		processor called to handle further processing of a warrant record if returns are marked in
+		error.
+	Change History:
+		18/10/2013 - Chris Vincent, Trac 4997.  Added dependencies now that custom processor invoking CCBC
+					 MCOL inserts.  Required for CCBC SDT.
+-->
+<service-method>
+  <pipeline>
+    <Update>
+      <QueryDef location="uk/gov/dca/caseman/warrant_returns_service/query_def_update_WarrantReturns.xml"/>
+      <DataSource xpath="/params/param[@name='NewReturn']"/>
+      <QueryExtension pivotNode="/ds/WarrantReturns/WarrantEvents/WarrantEvent">
+        <CheckExists table="WR" fields="WARRANT_RETURNS_ID" onNotExist="fail" onExist="update"/>
+      </QueryExtension>
+    </Update>
+    <Java callStyle="new">
+      <Source class="uk.gov.dca.caseman.warrant_returns_service.java.UpdateEventsErrorIndicatorCustomProcessor"/>
+    </Java>
+  </pipeline>
+	<Dependencies>
+		<Dependency serviceName="Warrant"/>
+		<Dependency serviceName="CaseEvent"/>
+		<Dependency serviceName="Ccbc"/>
+		<Dependency serviceName="SystemDate"/>
+		<Dependency serviceName="WpOutput"/>
+	</Dependencies>
+  <Security roles="medium high wcSuper scSuper bmsSuper aeSuper dmSuper cpSuper ccbcMan ccbcUser ccbcSGB2"/>		    
+</service-method>

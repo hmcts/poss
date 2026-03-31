@@ -1,0 +1,14 @@
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>518</Id>
+	<Label>Is Interim order modified</Label>
+	<ObjectName>IsInterimModified</ObjectName>
+	<Html>	
+		<input type="checkbox" id="IsInterimModified"></input>
+	</Html>			
+	<Javascript>
+		<XPath>/ds/EnterVariableData/FinalChargeOrder/isInterimModified</XPath>
+		<componentName>##label##</componentName>
+		<modelValue>checked: "Y", unchecked: "N"</modelValue>
+		<HintText>Check box if the interim order has been modified</HintText>			
+	</Javascript>
+</Question>

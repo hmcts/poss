@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>453</Id>
+	<Label>Judge's title making N40B</Label>
+	<ObjectName>N40BJudgeTitle</ObjectName>
+	<Html>		
+			<select id="N40BJudgeTitle" >
+			<option value=""></option>			
+			<option value="Circuit Judge">Circuit Judge</option>
+			<option value="Deputy Circuit Judge">Deputy Circuit Judge</option>
+			<option value="District Judge">District Judge</option>
+			<option value="Deputy District Judge">Deputy District Judge</option>
+			<option value="Her Honour Judge">Her Honour Judge</option>
+			<option value="His Honour Judge">His Honour Judge</option>
+			<option value="High Court Judge">High Court Judge</option>
+			<option value="Mr Justice">Mr Justice</option>
+			<option value="Mrs Justice">Mrs Justice</option>
+			<option value="Recorder">Recorder</option>
+	</select>							
+	</Html>		
+	
+	<Context screenId="CJR083">
+		<isVisible>true</isVisible>
+		<Label>Judge's title</Label>
+	</Context>
+		
+	<Javascript>
+		<XPath>/ds/EnterVariableData/DisobedienceCommit/n40BJudgeTitle</XPath>
+		<componentName>##label##</componentName>		
+		<isMandatory>return true;</isMandatory>
+		<HintText>Select the Judge's title</HintText>	
+		
+		<Context ScreenId="CJR083">
+			<isEnabled>return('J' == Services.getValue(NonAttendanceCertBy.dataBinding));</isEnabled>
+			<enableOn>NonAttendanceCertBy.dataBinding</enableOn>
+			<logicOn>NonAttendanceCertBy.dataBinding</logicOn>
+			<logic>
+				if('J' != Services.getValue(NonAttendanceCertBy.dataBinding))
+				{	Services.setValue(N40BJudgeTitle.dataBinding, "");
+				}
+			</logic>
+		</Context>		
+	</Javascript>
+</Question>

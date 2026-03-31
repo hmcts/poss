@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- 
+	15/08/2006 - MGG - defect 4251 - Default value not being set correctly. 
+	Moved from the setDefault method - as setDefault needs a setDefaultOn. Now use an initialise tag
+	21/09/2006 - PEH - defect 5320 - Pass the Court Code to checkBailiffIdExists().
+-->
+<!--Question xmlns="http://eds.com/questionxhtml" xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd"-->
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>CM_BEFF_QUESTION_1</Id>
+	<Label>Bailiff Id</Label>
+	<ObjectName>BailiffId</ObjectName>
+	<Html>
+		<input id="BailiffId" type="text" size="2"></input>
+	</Html>
+	<Javascript>
+		<XPath>/ds/var/page/OracleReportForm/BailiffId</XPath>
+		<ReportVariableName>P_BAILIFF_ID</ReportVariableName>
+		<ReportVariableValue>Services.getValue(BailiffId.dataBinding)</ReportVariableValue>
+		<HintText>Enter the bailiff identifier. Use % for all areas</HintText>
+		<isMandatory>return true;</isMandatory>
+		<maxLength>2</maxLength>
+		<initialise>
+			Services.setValue(BailiffId.dataBinding, "%");
+		</initialise>
+		<logicOn>BailiffId.dataBinding</logicOn>
+		<logic>
+			var bailiffId = Services.getValue(this.dataBinding);
+			if(BailiffId.validate() == null) {
+				if(bailiffId != "%") {
+					var currentlyOwnedBy = Services.getValue(OwningCourt_Code.dataBinding);
+					checkBailiffIdExists(currentlyOwnedBy, bailiffId);
+				}
+				else {
+					Services.setValue(_bailiffIdExistsXPath, "true");
+				}
+			}
+		</logic>
+		<validateOn>BailiffId.dataBinding</validateOn>
+		<validate>
+			var value = Services.getValue(this.dataBinding);
+			var errCode = null;
+			if (value == "%")
+			{
+				return null;
+			}
+			if (!CaseManUtils.isBlank(value)) 
+			{
+				errCode = CaseManValidationHelper.validatePattern(value, CaseManValidationHelper.NUMERIC_PATTERN, "CaseMan_NotNumericValue_Msg");
+			}
+			if (value == "99")
+			{
+				errCode = ErrorCode.getErrorCode("CaseMan_BailiffCannotBe99_Msg");
+			}
+			return errCode;
+		</validate>
+		<miscCode>
+			var _bailiffIdExistsXPath = "/ds/var/page/OracleReportForm/BailiffIdExists";
+			
+			Status_RunReportButton.validationList = ["BailiffId", "Params_StartDate_Txt", "Params_EndDate_Txt"];
+			
+			function checkBailiffIdExists(currentlyOwnedBy, bailiffId)
+			{
+				var params = new ServiceParams();
+				params.addSimpleParameter("currentlyOwnedBy", currentlyOwnedBy);
+				params.addSimpleParameter("bailiffId", bailiffId);
+				Services.callService("checkBailiffIdExists", params, checkBailiffIdExists, true);
+			}
+			checkBailiffIdExists.onSuccess = function(dom)
+			{
+				if(dom != null) {
+					var results = dom.selectSingleNode("/BailiffFound");
+					if(results != null) {
+						if(XML.getNodeTextContent(results) == 0) {
+							Services.setValue(_bailiffIdExistsXPath, "false");
+							alert("No Warrants Identified For Bailiff " + Services.getValue(BailiffId.dataBinding) + ",\nPlease Enter Another Bailiff");
+						}
+						else {
+							Services.setValue(_bailiffIdExistsXPath, "true");
+						}
+					}
+					else {
+						this.onError();
+					}
+				}
+				else {
+					this.onError();
+				}
+			}
+			checkBailiffIdExists.onError = function()
+			{
+				alert("Error querying database to check Bailiff ID");
+			}
+			
+			Status_RunReportButton.enableOn = [_bailiffIdExistsXPath];
+			Status_RunReportButton.isEnabled = function()
+			{
+				if(Services.getValue(_bailiffIdExistsXPath) == "true") {
+					return true;
+				}
+				return false;
+			}
+		</miscCode>
+	</Javascript>
+</Question>

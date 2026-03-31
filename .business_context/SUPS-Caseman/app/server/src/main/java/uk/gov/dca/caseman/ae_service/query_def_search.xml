@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<QueryDef>
+    <DBMapDef location="uk/gov/dca/caseman/ae_service/map_search.xml"/>
+    <Query pivotNode="/Results/AERecord" tables="AEA PR P CPR GA">
+		<LinkedJoin type="root" key="AEA.AE_NUMBER">
+			<Join>
+				CPR.CASE_NUMBER     = AEA.CASE_NUMBER
+				AND CPR.PARTY_ROLE_CODE = AEA.PARTY_AGAINST_PARTY_ROLE_CODE
+				AND CPR.CASE_PARTY_NO   = AEA.PARTY_AGAINST_CASE_PARTY_NO 
+				AND P.PARTY_ID          = CPR.PARTY_ID
+				AND PR.PARTY_ROLE_CODE  = CPR.PARTY_ROLE_CODE 
+				AND GA.ADDRESS_ID IN (
+					SELECT GA2.ADDRESS_ID
+					FROM   GIVEN_ADDRESSES GA2
+					WHERE (GA2.CASE_NUMBER      = CPR.CASE_NUMBER
+					AND    GA2.PARTY_ROLE_CODE  = CPR.PARTY_ROLE_CODE
+					AND    GA2.CASE_PARTY_NO    = CPR.CASE_PARTY_NO
+					AND	   GA2.VALID_TO     IS NULL 	
+					AND    GA2.ADDRESS_TYPE_CODE = 'SERVICE'		
+					) OR  (GA2.CASE_NUMBER      IS NULL
+					AND    GA2.PARTY_ROLE_CODE  IS NULL
+					AND    GA2.CASE_PARTY_NO    IS NULL
+					AND    GA2.PARTY_ID         = CPR.PARTY_ID
+					AND	   GA2.ADDRESS_TYPE_CODE = 'CODED PARTY'
+					)
+				)	   
+			</Join>
+		</LinkedJoin>
+		<Alias name="P.PARTY_KEY" select="AEA.PARTY_AGAINST_PARTY_ROLE_CODE || '_' || AEA.PARTY_AGAINST_CASE_PARTY_NO"/>
+    </Query>
+	
+	<Query pivotNode="/Results/AERecord/AEEvents/Event" tables="E">
+		<LinkedJoin type="query" key="E.AE_EVENT_SEQ">
+			<Parent key="AEA.AE_NUMBER" tables="AEA"/>
+			<Join>
+				E.AE_NUMBER = AEA.AE_NUMBER AND
+				E.ERROR_INDICATOR = 'N' AND
+				E.STD_EVENT_ID IN (888, 889, 890, 900)
+			</Join>
+		</LinkedJoin>
+		<OrderBy>E.DATE_ENTERED DESC, E.AE_EVENT_SEQ DESC</OrderBy>
+		<Modify notModifiable="true"/>
+	</Query>
+</QueryDef>

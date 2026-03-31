@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>459</Id>
+	<Label>Date of affidavit of service</Label>
+	<ObjectName>AffidavitOfServiceDate</ObjectName>
+	<Html>	
+		<script type="text/javascript">
+			WP_DatePickerRenderer.createInline("AffidavitOfServiceDate");
+		</script>
+	</Html>			
+	<Javascript>
+		<XPath>/ds/EnterVariableData/SuspCOforDisobedience/affidavitOfServiceDate</XPath>
+		<componentName>##label##</componentName>
+		<isMandatory>return true;</isMandatory>
+		<HintText>Enter the date affidavit sworn, in format DD-MMM-YYYY</HintText>	
+		<validateOn>AffidavitOfServiceDate.dataBinding</validateOn>
+		<validate>
+			var future = isFutureDate(Services.getValue(AffidavitOfServiceDate.dataBinding));
+			var err = null;
+			if( future )
+			{	err = ErrorCode.getErrorCode("CaseMan_dateCannotBeInTheFuture_Msg");
+			}
+			return err;
+		</validate>		
+		<!--
+		<Context ScreenId="CJR083">
+			<enableOn>IsNewN79AsReqd.dataBinding, N39ServedBy.dataBinding</enableOn>
+			<isEnabled>				
+				if(IsNewN79AsReqd.isEnabled())
+				{  	if( 'Y' == Services.getValue(IsNewN79AsReqd.dataBinding))
+					{	return true;
+					}
+					return false;
+				}
+				return ('A' == Services.getValue(N39ServedBy.dataBinding));
+			</isEnabled>
+			<logicOn>IsNewN79AsReqd.dataBinding, N39ServedBy.dataBinding</logicOn>
+			<logic>
+				if( IsNewN79AsReqd.isEnabled() &amp;&amp; 'Y' != Services.getValue(IsNewN79AsReqd.dataBinding) 
+						|| ('A' != Services.getValue(N39ServedBy.dataBinding)))
+				{	Services.setValue(AffidavitOfServiceDate.dataBinding, "");
+				}
+			</logic>
+		</Context>	
+		-->
+		<Context ScreenId="CJR083">
+			<enableOn>N39ServedBy.dataBinding</enableOn>
+			<isEnabled>				
+				return ('A' == Services.getValue(N39ServedBy.dataBinding));
+			</isEnabled>
+			<logicOn>N39ServedBy.dataBinding</logicOn>
+			<logic>
+				if('A' != Services.getValue(N39ServedBy.dataBinding))
+				{
+					Services.setValue(AffidavitOfServiceDate.dataBinding, "");
+				}
+			</logic>
+		</Context>	
+	</Javascript>
+</Question>

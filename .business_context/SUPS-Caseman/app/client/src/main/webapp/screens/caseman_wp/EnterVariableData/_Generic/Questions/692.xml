@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>692</Id>
+	<Label>Bill Return Date</Label>
+	<ObjectName>BillReturnDate</ObjectName>
+	<Html>
+	    <script type="text/javascript">WP_DatePickerRenderer.createInline("BillReturnDate", false);</script>	                                  
+	</Html>
+	
+	<Javascript>
+		<XPath>/ds/EnterVariableData/BillReturnDate</XPath>
+		<componentName>Bill Return Date</componentName>
+		<HintText>Enter the bill return date</HintText>
+		<isMandatory>return true;</isMandatory>
+		<transformToModel>
+			return transformDateToModel(value);
+		</transformToModel>
+		<transformToDisplay>
+			if (value != null)
+			{
+				if (value.search(CaseManValidationHelper.YYYYMMDD_DATE_PATTERN) != -1)
+				{
+					return CaseManUtils.convertDateToDisplay(value);
+				}
+			}
+			return value;
+		</transformToDisplay>
+		<validateOn>BillReturnDate.dataBinding</validateOn>
+		<validate>		    
+			return isWorkingDayInFuture(Services.getValue(BillReturnDate.dataBinding));			 
+		</validate>
+		<miscCode>
+			BillReturnDate.weekends = false;
+		</miscCode>		  
+		<initialise>		  	
+			loadNonWorkingDays();
+			Services.setValue(BillReturnDate.dataBinding, WPU.daysInFuture(23, false) );
+		</initialise>
+	</Javascript>
+</Question>

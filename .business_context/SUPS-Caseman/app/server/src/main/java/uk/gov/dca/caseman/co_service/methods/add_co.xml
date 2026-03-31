@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: Co
+	Method:  addCo()
+	File:    add_co.xml
+	Author:  Phil Haferer (EDS)
+	Created: 04 August 2005
+	Description: 
+		Add a Consolidated Order.
+
+		This will involve creating a new CO Number.
+		CO Numbers are of the format: YYnnnnXX
+		Where YY   = Current year (eg 05).
+		      nnnn = Next sequence for the current Court.
+		      XX   = Court Id.
+		The 'GetSequenceNumber' pipeline step retrieves a value for the 'nnnn' part of the CO Number.
+		The CreateCONumberCustomerProcessor pipeline step adds the 'YY' and 'XX'' to the CO Number.
+
+	Change History:
+	17-Nov-2005 Phil Haferer: Added call to UpdateCoCaseEventsCustomProcessor in response to 
+	            TD 1803: MAINTAIN CO: No automatic Case Event 705 created for selected Case/Creditor during CO creation.
+    29-Nov-2006 Phil Haferer (EDS): Added Dependency on 'Payout' for UpdateCoCaseEventsCustomProcessor.
+ 			   (TD UCT_CASEMAN 783: CO event transfer from SUPS to legacy).              
+-->
+<service-method>
+	<pipeline>
+		<!-- Calculate the next CO Sequence Number for the given Court. -->
+		<Java callStyle="new">
+			<Source class="uk.gov.dca.caseman.co_service.java.CreateCONumberCustomProcessor"/>
+		</Java>
+		<Add>
+			<QueryDef location="uk/gov/dca/caseman/co_service/query_def_modify_co.xml"/>
+			<DataSource xpath="/params/param[@name='co']"/>
+			<QueryExtension pivotNode="/ds/MaintainCO">
+				<CheckExists table="CO" fields="CO_NUMBER" onNotExist="add" onExist="fail"/>
+			</QueryExtension>
+		</Add>
+		<Java callStyle="new">
+			<Source class="uk.gov.dca.caseman.co_service.java.UpdateCoDebtListCustomProcessor"/>
+		</Java>
+		<Java>
+			<Source class="uk.gov.dca.caseman.co_event_service.java.InsertAutoCoEventsCustomProcessor"/>
+		</Java>
+		<Java callStyle="new">
+			<Source class="uk.gov.dca.caseman.co_service.java.UpdateCoCaseEventsCustomProcessor"/>
+		</Java>
+		<Java callStyle="new">
+			<Source class="uk.gov.dca.caseman.co_service.java.ReturnCoNumberCustomProcessor"/>
+		</Java>
+	</pipeline>
+	<Dependencies>
+		<Dependency serviceName="SystemData"/>		
+		<Dependency serviceName="SystemDate"/>		
+		<Dependency serviceName="Court"/>		
+		<Dependency serviceName="CoEvent"/>		
+		<Dependency serviceName="UserCourt"/>	
+		<Dependency serviceName="Payout"/>	
+	</Dependencies>		
+	<Security roles="medium high wcSuper scSuper bmsSuper aeSuper dmSuper cpSuper"/>		
+</service-method>

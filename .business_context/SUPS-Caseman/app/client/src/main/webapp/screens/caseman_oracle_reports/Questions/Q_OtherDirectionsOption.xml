@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- 
+	31/08/2006 - MGG - defect 4944 - Change spelling in component name from diractions to directions
+	19/12/2006 - CV - Added F6 keybinding to LOV via OtherDirectionsOptionLOVGrid.raise configuration.
+	Temp_Caseman defects 299/334.
+	29/01/2007 - CV: Updated zoom field logic function to clear LOV value.  Temp_Caseman defect 428.
+--> 
+<!--Question xmlns="http://eds.com/questionxhtml" xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd"-->
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>Q_OtherDirectionsOption</Id>
+	<Label>Select other directions options</Label>
+	<ObjectName>OtherDirectionsOption</ObjectName>
+	<Html>
+		<table>
+			<tr>
+				<td>
+					<script type="text/javascript">
+						ZoomFieldRenderer.createInline("OtherDirectionsOption", 10, 70);
+					</script>				
+				</td>
+				<td>
+					<input id="OtherDirectionsOptionLOVButton" type="Button" value="LOV"/>
+				</td>
+			</tr>
+		</table>		
+		<script type="text/javascript">
+			LOVPopupRenderer.createInline( "OtherDirectionsOptionLOVGrid", "Types", ["Description"], 10, 1, true );
+        </script>      
+	</Html>
+	<Javascript>
+		<XPath>/ds/var/page/OracleReportForm/OtherDirectionsOption</XPath>
+		<ReportVariableName>REPORT_VALUE_3</ReportVariableName>
+		<ReportVariableValue>Services.getValue(OtherDirectionsOption.dataBinding)</ReportVariableValue>
+		<ReportVariableCode>1066</ReportVariableCode>
+		<HintText>Offence Details - LOV available - update allowed</HintText>
+		<mandatoryOn></mandatoryOn>
+		<isMandatory>return true;</isMandatory>
+		<setDefault></setDefault>
+		<validateOn></validateOn>
+		<validate>
+		</validate>
+		<readOnlyOn></readOnlyOn>
+		<isReadOnly></isReadOnly>
+		<maxLength></maxLength>
+		<transformToDisplay>
+			var description = Services.getValue( REF_DATA_XPATH + "/OtherDirectionsOptionList/OtherDirectionsOption[./Value = " + OtherDirectionsOption.dataBinding + "]/Description" );
+			if (description != null)
+			{
+				return description;
+			}
+			else
+			{
+				return value;
+			}
+		</transformToDisplay>
+		<initialise>
+			dom = getList("../LOV/OtherDirectionsOptionList.xml"); 
+			Services.addNode(dom, REF_DATA_XPATH);
+		</initialise>
+		<logicOn>
+			"/ds/var/page/OracleReportForm/Dummy"
+		</logicOn>
+		<logic>
+			var lovValue = Services.getValue(OtherDirectionsOptionLOVGrid.dataBinding);
+			if ( !CaseManUtils.isBlank(lovValue) )
+			{
+				Services.setValue(OtherDirectionsOption.dataBinding, lovValue);
+				FormController.getInstance().processEvents();
+				Services.getAdaptorById("OtherDirectionsOption")._raisePopup();
+				Services.setValue(OtherDirectionsOptionLOVGrid.dataBinding, "");
+			}
+		</logic>
+		<miscCode>
+			OtherDirectionsOption.componentName 	=		"Other Directions Option";
+			OtherDirectionsOption.srcData 		= 		REF_DATA_XPATH + "/OtherDirectionsOptionList";
+			OtherDirectionsOption.rowXPath 		= 		"OtherDirectionsOption";
+			OtherDirectionsOption.keyXPath 		=		"Description";
+			
+			function OtherDirectionsOptionLOVButton() {};
+			OtherDirectionsOptionLOVButton.tabIndex = __tabIdx++;
+			
+			function OtherDirectionsOptionLOVGrid() {};
+			
+			OtherDirectionsOptionLOVGrid.dataBinding = "/ds/var/page/OracleReportForm/Dummy";
+			OtherDirectionsOptionLOVGrid.srcData = REF_DATA_XPATH + "/OtherDirectionsOptionList";
+			OtherDirectionsOptionLOVGrid.rowXPath = "OtherDirectionsOption";
+			OtherDirectionsOptionLOVGrid.keyXPath = "Description";
+			OtherDirectionsOptionLOVGrid.columns = [
+				{xpath: "Description"}
+			];
+			
+			OtherDirectionsOptionLOVGrid.raise = {
+				eventBinding: {
+					singleClicks: [ {element: "OtherDirectionsOptionLOVButton"} ],
+					keys: [ { key: Key.F6, element: "OtherDirectionsOption" } ]
+				}
+			};
+
+		</miscCode>
+		<IsQuestion></IsQuestion>
+	</Javascript>
+</Question>

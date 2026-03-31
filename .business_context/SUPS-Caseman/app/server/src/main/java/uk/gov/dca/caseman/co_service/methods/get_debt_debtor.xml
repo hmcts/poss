@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: Co
+	Method:  getDebtDebtor
+	Author:  Chris Hutt (EDS) 
+	Created: 3 oct 2006
+	Description: 
+		Use SQLLite to retrieve debtor of individual debts associated with a
+                consolidated order. Introduced as part of fixing TD Caseman-5404
+
+	Change History
+	
+		24 Oct 2006 TD:5704: Court Code writen to the Case/Co_Case event should be
+							 the admin_court_code of the case referred to by the debt
+							 and NOT the co's court. This means that the debt's admin court
+							 code must be retrieved by this service
+
+-->
+<service-method>
+	<pipeline>
+		<SQLLite format-output="true"
+				 resultset-element="Debts"
+				 row-element="Debt"
+				 field-name-as="element" >
+			<DataSource id="java:OracleDS"/>
+			<Param name="param.coNumber" xpath="/params/param[@name='coNumber']"/>
+			<SQL>
+				SELECT  AD.DEBT_SEQ 				As 	"DebtSeq"
+				 	,	AD.DEBT_ADMIN_COURT_CODE 	As 	"DebtAdminCourtCode"
+					,	AD.DEBT_STATUS 				As 	"Status"
+					, 	AD.DEBT_CASE_NUMBER 		As 	"DebtCaseNumber"
+					, 	AD.DEFT_PARTY_ROLE_CODE 	As 	"PartyRoleCode"
+					, 	AD.DEFT_CASE_PARTY_NO 		As	"CasePartyNumber"
+				FROM 	ALLOWED_DEBTS AD
+				WHERE 	AD.DEBT_CO_NUMBER = ${param.coNumber}
+			</SQL>
+		</SQLLite>
+  	</pipeline>
+	<Security roles="viewOnly medium high wcSuper scSuper bmsSuper aeSuper dmSuper"/>
+</service-method>

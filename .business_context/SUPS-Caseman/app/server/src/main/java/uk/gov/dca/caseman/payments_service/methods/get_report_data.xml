@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: Payments
+	Method: getReportData()
+	File: get_report_data.xml
+	Author: Steve Blair
+	Description:
+		Get a record from REPORT_DATA table.
+-->
+<service-method>
+	<pipeline>
+		<Query>
+			<QueryDef location="uk/gov/dca/caseman/payments_service/query_def_report_data.xml" />
+			<QueryExtension pivotNode="/Results/ReportData">
+				<Param name="param.reportType" xpath="/params/param[@name = 'reportType']" />
+				<Param name="param.reportDate" xpath="/params/param[@name = 'reportDate']" />
+				<Param name="param.userId" xpath="/params/param[@name = 'userId']" />
+				<Param name="param.courtId" xpath="/params/param[@name = 'courtId']" />
+				<Constraint>
+					RD.REPORT_TYPE = ${param.reportType} AND
+					RD.REPORT_DATE = TO_DATE(${param.reportDate}, 'YYYY-MM-DD') AND
+					RD.USER_ID = ${param.userId} AND
+					RD.ADMIN_COURT_CODE = ${param.courtId}
+				</Constraint>
+			</QueryExtension>
+		</Query>
+	</pipeline>
+	<Security roles="medium high wcSuper scSuper bmsSuper aeSuper dmSuper cpSuper" />
+</service-method>

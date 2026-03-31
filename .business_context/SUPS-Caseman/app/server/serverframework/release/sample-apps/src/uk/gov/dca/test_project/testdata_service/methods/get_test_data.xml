@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<service-method>
+	<pipeline>
+		<Query>
+			<QueryDef location="uk/gov/dca/test_project/testdata_service/test_query_def.xml"/>
+			<QueryExtension pivotNode="/Test">
+				<Param name="param.Id" xpath="/params/param[@name='id']"/>
+				<Constraint>TD.ID = ${param.Id}</Constraint>
+			</QueryExtension>
+		</Query>
+	</pipeline>
+	<Security roles="user"/>
+</service-method>

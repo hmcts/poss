@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: Obligation
+	Method:  getObligationDetails()
+	File:    get_obligation_details.xml
+	Author:  Amjad Khan
+	Created: 03 Mar 2005
+	Description:
+		Retrieves the Obligation Details for the Event around Default Days and if you can have more than one obligation type for the event
+-->
+<service-method>
+	<pipeline>
+		<Java>
+			<Source class="uk.gov.dca.caseman.obligation_service.java.ObligationDetailsHelperCustomProcessor"/>
+		</Java>
+	</pipeline>
+	<Security roles="viewOnly medium high wcSuper scSuper bmsSuper aeSuper dmSuper cpSuper ccbcMan ccbcUser ccbcSGB2"/> 	
+</service-method>

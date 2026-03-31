@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>440</Id>
+	<Label>Is the debtor male or female?</Label>
+	<ObjectName>MorFDebtor</ObjectName>
+	<Html>	
+		<select id="MorFDebtor">
+			<option value=""></option>
+			<option value="M">Male</option>
+			<option value="F">Female</option>
+		</select>
+	</Html>			
+	<Javascript>
+		<XPath>/ds/EnterVariableData/DisobedienceArrest/morFDebtor</XPath>
+		<componentName>##label##</componentName>
+		<isMandatory>return true;</isMandatory>
+		<HintText>Select sex of the debtor e.g. male or female</HintText>	
+	</Javascript>
+</Question>
+     
+     

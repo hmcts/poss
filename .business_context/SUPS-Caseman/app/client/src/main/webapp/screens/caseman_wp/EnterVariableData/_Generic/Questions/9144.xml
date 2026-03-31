@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>9144</Id>
+	<Label>Select from the following</Label>
+	<ObjectName>CostInstructions</ObjectName>
+	<Html>
+		<select id="CostInstructions">
+			<option value=""></option>
+			<option value="CAPC">Costs awarded to Petitioner Creditor</option>
+			<option value="CASC">Costs awarded to Supporting Creditor</option>
+			<option value="CR">Costs reserved</option>
+			<option value="NOC">No order as to costs</option>
+			<option value="CPOA">Costs of the Pet. Creditor be paid out of the assets of the company to be assessed if not agreed</option>
+			<option value="CPONA">Costs of the Pet. Creditor to be paid by the company to be assessed if not agreed</option>
+			<option value=""></option>
+		</select>
+	</Html>			
+	<Javascript>
+		<XPath>/ds/EnterVariableData/costInstructions</XPath>
+		<HintText>Select from the following</HintText>
+		<isEnabled>return true</isEnabled>
+		<mandatoryOn>CostInstructions.dataBinding</mandatoryOn>
+		<isMandatory>return true;</isMandatory>
+	</Javascript>
+</Question>  

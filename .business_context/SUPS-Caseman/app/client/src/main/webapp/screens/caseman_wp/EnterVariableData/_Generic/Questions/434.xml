@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>434</Id>
+	<Label>What issue is expert required on?</Label>
+	<ObjectName>ExpertIssueReqd</ObjectName>
+	<Html>
+		<input type="text" id="ExpertIssueReqd"></input>
+	</Html>
+	
+	<Javascript>
+		<XPath>/ds/EnterVariableData/SmallTrack/expertIssueReqd</XPath>
+		<HintText>Enter details of the issue that expert evidence is required on</HintText>
+		<isMandatory>return true;</isMandatory>
+		<enableOn>IsExpertEvidenceNec.dataBinding</enableOn>
+		<isEnabled>return('Y' == Services.getValue(IsExpertEvidenceNec.dataBinding));</isEnabled>
+		<logicOn>IsExpertEvidenceNec.dataBinding</logicOn>
+		<logic>
+			if('Y' != Services.getValue(IsExpertEvidenceNec.dataBinding))
+			{	Services.setValue(ExpertIssueReqd.dataBinding, "");
+			}
+		</logic>
+	</Javascript>
+</Question>

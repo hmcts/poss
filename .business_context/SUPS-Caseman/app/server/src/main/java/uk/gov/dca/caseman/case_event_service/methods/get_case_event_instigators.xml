@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: CaseEvent
+	Method:  getCaseEventInstigators
+	Author:  Chris Hutt
+	Created: 19 jan 2006
+	Description: 
+		Rerieve instigators for specified stdEventId on specified Case
+-->
+<service-method>
+	<pipeline>
+		<SQLLite format-output="true"
+				 resultset-element="Parties"
+				 row-element="Party"
+				 field-name-as="element" >
+			<DataSource id="java:OracleDS"/>
+			<Param name="param.eventId" xpath="/params/param[@name='eventId']"/>
+			<Param name="param.caseNumber" xpath="/params/param[@name='caseNumber']"/>
+			<SQL>
+				SELECT
+					CEI.PARTY_ROLE_CODE				AS "CasePartyNumber"
+				, 	CEI.CASE_PARTY_NO				AS "PartyRoleCode"
+				, 	CEI.PARTY_ROLE_CODE || '_' || CEI.CASE_PARTY_NO	AS "SubjectPartyKey"
+				FROM 
+					CASE_EVENT_INSTIGATORS CEI
+				, 	CASE_EVENTS CE
+				WHERE 	
+					CE.CASE_NUMBER 			= 	${param.caseNumber}
+				AND	CE.STD_EVENT_ID 		= 	${param.eventId}
+				AND 	CEI.EVENT_SEQ 		= 	CE.EVENT_SEQ
+				AND 	CEI.DELETE_FLAG 	IS NOT 	NULL
+				AND 	CEI.DELETE_FLAG 	!= 	'Y'
+				AND 	CE.DELETED_FLAG 	IS NOT 	NULL
+				AND 	CE.DELETED_FLAG 	!= 	'Y'
+				AND 	CE.EVENT_SEQ = (SELECT 
+								MAX(EVENT_SEQ) 
+							FROM 	
+								CASE_EVENT_INSTIGATORS
+							WHERE 	CASE_NUMBER 	= 	CEI.CASE_NUMBER
+							AND 	DELETE_FLAG 	IS 	NOT NULL
+							AND 	DELETE_FLAG 	!= 	'Y'
+							AND 	CASE_PARTY_NO 	= 	CEI.CASE_PARTY_NO
+							AND 	PARTY_ROLE_CODE = 	CEI.PARTY_ROLE_CODE)
+			</SQL>
+		</SQLLite>
+  	</pipeline>
+	<Security roles="user"/>
+</service-method>

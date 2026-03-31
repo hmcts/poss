@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<service-method>
+	<pipeline>
+		<Query>
+			<QueryDef location="uk/gov/dca/caseman/rejectedJudgments_service/details_rejected_judgments_query_def.xml"/>
+			
+			<QueryExtension pivotNode="/RejectedJudgments/RejectedJudgment">
+				<Param name="param.RowId" xpath="/params/param[@name='Rejected_Details_RowId']"/>
+				
+				<Constraint>
+					RJ.ROWID = ${param.RowId}
+				</Constraint>
+			</QueryExtension>
+			
+		</Query>
+	</pipeline>
+	<Security roles="ccbcMan ccbcUser"/>
+</service-method>

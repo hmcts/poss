@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:fo="http://www.w3.org/1999/XSL/Format" xmlns="http://eds.com/supsfo">
+	<variables>@word.processing.url.xsl@supsfo.xsl</variables>
+	<addressee>
+			<blank/>
+			<creditor/>
+			<debtor/>
+			<employer sic="true"/>
+	</addressee>
+	<header>
+		<fo:block font-size="16pt" font-weight="bold">Notice of Hearing</fo:block>
+	</header>
+	<courtcase>
+		<court>
+			<xsl:copy-of select="$vdCourtHeaderBlock"/>
+		</court>
+		<caseparameters>
+			<parameter>
+				<name>
+					<fo:block font-weight="bold">AO/CAEO Number</fo:block>
+				</name>
+				<value>
+					<fo:block>
+						<xsl:value-of select="$vdCONumber"/>
+					</fo:block>
+				</value>
+			</parameter>
+			<parameter>
+				<name>
+					<fo:block font-weight="bold">Creditor</fo:block>
+					<fo:block font-size="9pt">(including ref.)</fo:block>
+				</name>
+				<value>
+					<xsl:call-template name="display-creditor-name-and-reference-template">
+						<xsl:with-param name="addressee">
+							<xsl:value-of select="$addressee"/>
+						</xsl:with-param>
+					</xsl:call-template>					
+				</value>
+			</parameter>				
+			<parameter>
+				<name>
+					<fo:block font-weight="bold">Debtor</fo:block>
+				</name>
+				<value>
+					<fo:block hyphenate="true">
+						<xsl:value-of select="$vdCODebtorName"/>
+					</fo:block>
+				</value>
+			</parameter>
+			<parameter>
+				<name>
+					<fo:block font-weight="bold">Date</fo:block>
+				</name>
+				<value>
+					<fo:block>
+						<xsl:value-of select="$vdEventDate"/>
+					</fo:block>
+				</value>
+			</parameter>
+		</caseparameters>
+	</courtcase>
+	<bodyintroleft/>
+	<bodyintroright><fo:block space-before="0.4cm"><fo:inline text-align="center"><seal/></fo:inline></fo:block></bodyintroright>
+	<body>
+	<editable useid="N100B1">
+		<fo:block font-size="12pt">
+			<fo:block space-after="0.8cm"/>	
+			<fo:block space-after="0.6cm">
+				<fo:inline font-weight="bold">TAKE NOTICE </fo:inline>that the <xsl:value-of select="$vdHearingTypeR5"/>&#xa0;<xsl:value-of select="$vdHearingWordingR5"/>
+			</fo:block>
+			<fo:block space-after="0.6cm">
+				<xsl:value-of select="$vdHearingDate"/> at <xsl:value-of select="$vdHearingTime"/>
+			</fo:block>
+			<fo:block space-after="0.6cm">
+				at <xsl:value-of select="$vdHearingCourtNameDescription"/>, <xsl:value-of select="$vdHearingCourtAddress"/>
+			</fo:block>
+			<fo:block space-after="0.6cm">
+				When you should attend
+			</fo:block>
+			<xsl:if test="string-length($vdHearingDurationWording) > 0">
+				<fo:block space-after="0.6cm">
+					<xsl:value-of select="$vdHearingDurationWording"/><xsl:value-of select="$vdHearingTypeR5"/>
+				</fo:block>
+			</xsl:if>
+		</fo:block>
+	</editable>
+	<fo:block font-size="12pt">
+		<fo:block space-after="0.6cm"/>
+				<fo:block>
+			<fo:inline font-weight="bold">Please note: </fo:inline>This case may be released to another Judge, possibly at a different Court
+		</fo:block>
+	</fo:block>
+	</body>
+	<defaultFooter id="CO02" CO="true"/>
+</root>

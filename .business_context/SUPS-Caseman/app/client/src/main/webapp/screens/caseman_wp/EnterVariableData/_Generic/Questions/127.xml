@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>127</Id>
+	<Label>Time allowed for submission of each party</Label>
+	<ObjectName>PartySubmissionTime</ObjectName>
+	<Html>		
+		<input type="text" id="PartySubmissionTime" size="5"></input>
+		<select id="PartySubmissionTimeUnits">
+			<option value=""></option>
+			<option value="MIN">Minutes</option>
+			<option value="HR">Hours</option>			
+			<option value="DAYS">Days</option>
+		</select>
+	</Html>
+	<Javascript>
+		<XPath>/ds/EnterVariableData/TrialNotice/partySubmissionTime</XPath>
+		<HintText>Enter the time allowed for submission of each party (e.g. 2 hours)</HintText>
+		<isMandatory>return false;</isMandatory>
+		<enableOn>SelectItemLsA.dataBinding</enableOn>
+		<isEnabled>return('STA'==Services.getValue(SelectItemLsA.dataBinding));</isEnabled>
+		<logicOn>SelectItemLsA.dataBinding</logicOn>
+		<logic>
+			if('STA'!=Services.getValue(SelectItemLsA.dataBinding))
+			{	Services.setValue(PartySubmissionTime.dataBinding);
+			}
+		</logic>
+		<validateOn>PartySubmissionTime.dataBinding</validateOn>
+		<validate>return WPU.validateInteger(Services.getValue(PartySubmissionTime.dataBinding));</validate>
+		<miscCode>			
+			function PartySubmissionTimeUnits() {}
+			PartySubmissionTimeUnits.dataBinding = "/ds/EnterVariableData/TrialNotice/partySubmissionTimeUnits";
+			PartySubmissionTimeUnits.tabIndex = __tabIdx++;
+			PartySubmissionTimeUnits.helpText = "Select unit time";
+			PartySubmissionTimeUnits.mandatoryOn = [PartySubmissionTime.dataBinding];
+			PartySubmissionTimeUnits.isMandatory = function()
+			{	var val = Services.getValue(PartySubmissionTime.dataBinding);
+				return( null != val &amp;&amp; "" != val );
+			}	
+			PartySubmissionTimeUnits.isTemporary = function(){  return true; }	
+			PartySubmissionTimeUnits.enableOn = [PartySubmissionTime.dataBinding];
+			PartySubmissionTimeUnits.isEnabled = function(){ return PartySubmissionTime.isEnabled();}
+			PartySubmissionTimeUnits.logicOn = [PartySubmissionTime.dataBinding];
+			PartySubmissionTimeUnits.logic = function()
+			{	if(!PartySubmissionTime.isEnabled())
+				Services.setValue(PartySubmissionTimeUnits.dataBinding,"");			
+			}											
+		</miscCode>
+		
+		<Context ScreenId="CJR199">
+			<enableOn>TimeTableAgreed.dataBinding</enableOn>
+			<isEnabled>return('Y' != Services.getValue(TimeTableAgreed.dataBinding));</isEnabled>
+			<logicOn>TimeTableAgreed.dataBinding</logicOn>
+			<logic>
+				if('Y' == Services.getValue(TimeTableAgreed.dataBinding))
+				{	Services.setValue(PartySubmissionTime.dataBinding, "");
+					Services.setValue(PartySubmissionTimeUnits.dataBinding, "");
+				}
+			</logic>
+			<isMandatory>return true;</isMandatory>
+		</Context>
+	</Javascript>
+</Question>

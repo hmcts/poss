@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>131</Id>
+	<Label>Name of witness</Label>
+	<ObjectName>WitnessName</ObjectName>
+	<Html>	
+		<input type="text" id="WitnessName" size="50"></input>	
+	</Html>
+	<Javascript>
+		<XPath>/ds/EnterVariableData/Service/witnessName</XPath>
+		<HintText>Enter the full name of the witness</HintText>
+		<isMandatory>return true;</isMandatory>
+		<Context ScreenId="CJR030">
+			<logicOn>WitnessName.dataBinding</logicOn>
+			<logic>
+				<!-- UCT_Group2 Defect 1586: an addditional copy is required -->
+				Services.setValue("/ds/EnterVariableData/Print/additionalcopies", 1);
+			</logic>
+		</Context>
+	</Javascript>
+</Question>

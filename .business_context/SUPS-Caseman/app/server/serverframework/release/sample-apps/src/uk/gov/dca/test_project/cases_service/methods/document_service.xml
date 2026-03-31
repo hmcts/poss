@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<service-method>
+	<pipeline>
+		<DocumentService get="/params/param[@name='document-id']"
+  						save="/params/param[@name='xml-document']">
+ 			<DocumentManager>DocumentManager</DocumentManager>
+ 			<ContentStore>ContentStore</ContentStore>
+  		</DocumentService>
+	</pipeline>
+	<Security roles="user"/>
+</service-method>

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>9174</Id>
+	<Label>Examination No</Label>
+	<ObjectName>ExamNumber</ObjectName>
+	<Html>
+		<input type="text" size="10" id="ExamNumber"/>
+	</Html>
+	<Javascript>
+		<XPath>/ds/EnterVariableData/examNumber</XPath>
+		<HintText>Enter the Examination Number for the letter</HintText>
+		<isMandatory>return true;</isMandatory> 
+		<!--
+		<enableOn>Salutation.dataBinding, WordsFollowingDear.dataBinding</enableOn>
+		<isEnabled>
+			var val1 = Services.getValue(Salutation.dataBinding);	
+			return ("1" == val1 || "2" == val1 || WordsFollowingDear.isEnabled());
+		</isEnabled>
+		<logicOn>Salutation.dataBinding</logicOn>
+		<logic>
+			var val1 = Services.getValue(Salutation.dataBinding);	
+			if("1" != val1 &amp;&amp;  "2" != val1 &amp;&amp; !WordsFollowingDear.isEnabled() )
+			{	
+				Services.setValue(ExamNumber.dataBinding, "");
+			}
+		</logic>
+		-->
+
+	</Javascript>
+</Question>

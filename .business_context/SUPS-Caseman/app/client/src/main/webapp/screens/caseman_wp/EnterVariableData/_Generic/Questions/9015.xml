@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>9015</Id>
+	<Label>Meeting postcode</Label>
+	<ObjectName>MeetingPostcode</ObjectName>
+	<Html>		
+	<input id="MeetingPostcode" type="text" size="8"></input>
+	</Html>
+	<Javascript>
+    <XPath>/ds/EnterVariableData/Meeting/Address/PostCode</XPath>
+		<HintText>Enter the postcode of the meeting address</HintText>
+		<isMandatory>return false;</isMandatory>
+        <mandatoryOn>MeetingPostcode.dataBinding</mandatoryOn>
+        <isEnabled>return true;</isEnabled>
+		<validate>
+			var value = Services.getValue(MeetingPostcode.dataBinding);
+	
+			if(!CaseManValidationHelper.validatePostCode(value)) {
+				return ErrorCode.getErrorCode("CaseMan_invalidPostcodeFormat_Msg");
+			}
+			return null;					
+		</validate>
+  </Javascript>
+</Question>

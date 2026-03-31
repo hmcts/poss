@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>804</Id>
+	<Label>Enter text</Label>
+	<ObjectName>EnterText</ObjectName>
+	<Html>
+		<textarea id="EnterText" cols="30" rows="3">
+		</textarea>
+	</Html>
+	<Javascript>
+		<XPath>/ds/EnterVariableData/EnterText</XPath>
+		<componentName>##label##</componentName>
+		<HintText>Enter the text of the Order</HintText>
+		<isMandatory>return false;</isMandatory>
+		<mandatoryOn>EnterText.dataBinding</mandatoryOn>
+		<transformToModel>return WPU.encodeLineBreaks( this, value );</transformToModel>
+		<transformToDisplay>return WPU.decodeLineBreaks( this, value );</transformToDisplay>
+		
+		<Context ScreenId="CO03">
+			<isMandatory>return true;</isMandatory>
+		</Context>
+	</Javascript>
+</Question>

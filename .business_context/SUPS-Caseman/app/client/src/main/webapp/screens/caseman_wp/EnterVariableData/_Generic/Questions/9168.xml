@@ -1,0 +1,47 @@
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>9168</Id>
+	<Label>Unable to trace fee or payment</Label>
+	<ObjectName>TraveFeePayment</ObjectName>
+	<Html>
+		<select id="TraveFeePayment">
+			<option value=""></option>
+			<option value="P">Payment</option>
+			<option value="F">Fee</option>
+		</select>
+	</Html>			
+	<Javascript>
+		<XPath>/ds/EnterVariableData/traveFeePayment</XPath>
+		<HintText>Select fee or payment</HintText>		
+	
+     <Context ScreenId="L_6_1_2_3_4_7">
+    
+    	<enableOn>SelectLetter3.dataBinding,LetterDate.dataBinding,Salutation.dataBinding</enableOn>
+		<isEnabled>return return9168();</isEnabled>
+        <logicOn>SelectLetter3.dataBinding,LetterDate.dataBinding,Salutation.dataBinding</logicOn>
+        <logic>if(!return9168())
+            {
+                Services.setValue(TraveFeePayment.dataBinding, "");
+            }
+        </logic>
+     	<mandatoryOn>SelectLetter3.dataBinding,LetterDate.dataBinding,Salutation.dataBinding</mandatoryOn>
+		<isMandatory>
+            return return9168();
+        </isMandatory>
+        
+        <miscCode>
+            function return9168(){
+                var n9168 = false;
+                if(
+                    "1" == Services.getValue(SelectLetter3.dataBinding) &amp;&amp;
+                    LetterDate.isEnabled() &amp;&amp;
+                    Salutation.isEnabled()                    
+                ){
+                    n9168 = true;
+                }
+                return n9168;
+            }
+        </miscCode>
+	</Context>
+    
+    </Javascript>
+</Question>

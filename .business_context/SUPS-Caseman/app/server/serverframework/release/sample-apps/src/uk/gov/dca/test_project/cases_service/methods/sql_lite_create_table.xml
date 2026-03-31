@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<service-method>
+	<pipeline>
+		<SQLLite>
+			<DataSource id="java:SupsDS"/>
+			<SQL type="update">CREATE TABLE "MY_TABLE" ( "NAME" VARCHAR2(9) )</SQL>
+		</SQLLite>
+	</pipeline>
+	<Security roles="user"/>
+</service-method>

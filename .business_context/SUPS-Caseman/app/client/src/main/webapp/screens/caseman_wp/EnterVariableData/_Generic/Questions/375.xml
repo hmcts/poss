@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>375</Id>
+	<Label>How is the document to be served?</Label>
+	<ObjectName>HowDocServed</ObjectName>
+	<Html>	
+		<select id="HowDocServed">
+			<option value=""></option>
+			<option value="ADDR">On an adult at an address</option>
+			<option value="NEWS">Published in a newspaper</option>
+			<option value="REC">By recorded delivery</option>
+			<option value="REG">By registered delivery</option>
+		</select>
+	</Html>			
+	<Javascript>
+		<XPath>/ds/EnterVariableData/SubsService/howDocServed</XPath>
+		<componentName>##label##</componentName>
+		<isMandatory>return false;</isMandatory>
+		<HintText>Enter the details about how the document will be served </HintText>	
+	</Javascript>
+</Question>

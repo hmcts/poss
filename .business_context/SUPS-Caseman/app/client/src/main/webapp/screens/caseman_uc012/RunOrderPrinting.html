@@ -1,0 +1,84 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3c.org/TR/html4/strict.dtd">
+
+<html>
+
+	<head>
+		<title>RunOrderPrinting</title>
+	    <link href="RunOrderPrinting.css" type="text/css" rel="stylesheet">
+		<script type="text/javascript" src="../../Framework.js"></script>
+		<script type="text/javascript" src="../../ConcatCommon.js"></script>
+	    <script type="text/javascript" src="RunOrderPrinting.js"></script>
+	    <script type="text/javascript" src="../caseman_wp/WordProcessing.js"></script>
+		
+	</head>
+	
+	<body>
+	    <form name="RunOrderPrinting" id="runOrderPrinting">
+	
+			<!-- Framework Navigation Menu -->
+			<script type="text/javascript">MenuBarRenderer.createInline();</script>
+	
+			<table class="layout">
+		    		
+		      	<!-- Main Panel -->
+				<tr>
+					<td>
+						<div class="panel">
+		            		<table class="content" style="height:570px;">
+		            			<tr>
+									<td align="center">
+										<table style="width:300px;">
+											<tr>
+												<td class="defaultLabel"><label for='Main_CaseNumber'>Case Number</label></td>
+												<td><input id="Main_CaseNumber" type="text" size=15 /></td>
+											</tr>
+										</table>
+									</td>
+								</tr>
+		            		</table>
+	            		</div>	
+	    			</td>
+	    		</tr>
+	    		<!-- End Main Panel -->
+				
+	    	</table>
+			
+			<!-- Status Bar -->
+			<script type="text/javascript">
+				ActionBarRenderer.createInline(
+					"status_bar", 	
+					[
+						{id: "Status_ClearButton", label: "Clear"},
+						{id: "Status_Close", label: "Close"}
+					] 
+				);
+			</script>
+	
+			<!-- Printable Outputs popup -->
+			<div class="popup" id="Outputs_Popup">
+			
+				<div class="popupTitle">Outputs</div>
+					
+				<div class="panel">
+					<script type="text/javascript">Grid.createInline("PrintableOutputs_Grid", ["","Case Number", "Event", "Created On Date"], 22, 1);</script>
+				</div>
+				
+				<!-- Popup action bar -->
+				<script type="text/javascript">
+					ActionBarRenderer.createInlineNoStatusBar(
+						"outputs_statusbar",
+						[
+							{id: "Outputs_Popup_PrintButton", label: "Print"},
+							{id: "Outputs_Popup_PrintAllButton", label: "Print All"},
+							{id: "Outputs_Popup_CloseButton", label: "Close"}
+						]
+					);
+				</script>
+				
+			</div>
+
+	    </form>
+	
+	</body>
+
+</html>

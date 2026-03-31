@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>123</Id>
+	<Label>Time for cross examination by claimant</Label>
+	<ObjectName>XExamClmtTime</ObjectName>
+	<Html>		
+		<input type="text" id="XExamClmtTime" size="5"></input>
+		<select id="XExamClmtTimeUnits">
+			<option value=""></option>
+			<option value="MIN">Minutes</option>
+			<option value="HR">Hours</option>			
+			<option value="DAYS">Days</option>
+		</select>
+	</Html>
+	<Javascript>
+		<XPath>/ds/EnterVariableData/TrialNotice/xExamClmtTime</XPath>
+		<HintText>Enter time allowed for cross examination by claimant (e.g. 2 hours)</HintText>
+		<isMandatory>return false;</isMandatory>
+		<enableOn>SelectItemLsA.dataBinding</enableOn>
+		<isEnabled>return('STA'==Services.getValue(SelectItemLsA.dataBinding));</isEnabled>
+		<logicOn>SelectItemLsA.dataBinding</logicOn>
+		<logic>
+			if('STA'!=Services.getValue(SelectItemLsA.dataBinding))
+			{	Services.setValue(XExamClmtTime.dataBinding,"");
+			}
+		</logic>
+		<validateOn>XExamClmtTime.dataBinding</validateOn>
+		<validate>return WPU.validateInteger(Services.getValue(XExamClmtTime.dataBinding));</validate>
+		<miscCode>
+			//-----------------------------------		XExamClmtTime    -----------------------------------------------
+			function XExamClmtTimeUnits() {}
+			XExamClmtTimeUnits.dataBinding = "/ds/EnterVariableData/TrialNotice/xExamClmtTimeUnits";
+			XExamClmtTimeUnits.tabIndex = __tabIdx++;
+			XExamClmtTimeUnits.helpText = "Select unit time";
+			XExamClmtTimeUnits.mandatoryOn = [XExamClmtTime.dataBinding];
+			XExamClmtTimeUnits.isMandatory = function()
+			{	var val = Services.getValue(XExamClmtTime.dataBinding);
+				return( null != val &amp;&amp; "" != val );
+			}	
+			XExamClmtTimeUnits.isTemporary = function(){  return true; }
+			XExamClmtTimeUnits.enableOn = [XExamClmtTime.dataBinding];
+			XExamClmtTimeUnits.isEnabled = function(){ return XExamClmtTime.isEnabled();}
+			XExamClmtTimeUnits.logicOn = [SelectItemLsA.dataBinding];
+			XExamClmtTimeUnits.logic = function()
+			{	if('STA'!=Services.getValue(SelectItemLsA.dataBinding))
+				Services.setValue(XExamClmtTimeUnits.dataBinding,"");			
+			}								
+			//-----------------------------------		END XExamClmtTime    -----------------------------------------------
+		</miscCode>
+	</Javascript>
+</Question>

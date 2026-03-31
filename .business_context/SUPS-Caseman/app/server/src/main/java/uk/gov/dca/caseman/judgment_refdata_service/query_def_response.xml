@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<QueryDef>
+<DBMapDef location="uk/gov/dca/caseman/judgment_refdata_service/map_response.xml"/>
+  <Query pivotNode="/JudgmentClaimResponses/Resp" tables="CRC">
+    <Join>
+    	CRC.RV_DOMAIN = 'RESPONSE'
+   </Join>
+   <OrderBy>CRC.RV_LOW_VALUE</OrderBy>
+   <Modify notModifiable="true"/>	
+  </Query>
+</QueryDef>

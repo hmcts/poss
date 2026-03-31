@@ -1,0 +1,21 @@
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>624</Id>
+	<Label>What did the witness do?</Label>
+	<ObjectName>WitnessDid</ObjectName>
+	<Html>	
+		<select id="WitnessDid">
+			<option value=""></option>
+			<option value="ATT">Failed to attend</option>
+			<option value="PD">Failed to produce documents</option>
+			<option value="SE">Refused to be sworn and give evidence</option>
+		</select>
+	</Html>			
+
+	
+	<Javascript>
+		<XPath>/ds/EnterVariableData/ConsiderFine/witnessDid</XPath>
+		<componentName>##label##</componentName>
+		<isMandatory>return true;</isMandatory>
+		<HintText>Select what did the witness do</HintText>			
+	</Javascript>
+</Question>

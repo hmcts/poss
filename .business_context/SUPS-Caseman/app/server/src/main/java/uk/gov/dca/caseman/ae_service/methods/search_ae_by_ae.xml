@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- 
+	Service: Ae
+	Method:  searchAe()
+	File:    search_ae.xml
+	Author:  Chris Hutt
+	Created: 24 June 2005
+	Description: 
+		Search for Ae Applications and associated events based on criteria supplied.
+	Change History:
+	    11/11/2009 Chris Vincent: Pointed to separate query_def file which is now
+	        method specific instead of a generic one.  Constraints moved from method to
+	        query_def.  TRAC 1667.
+  --> 
+<service-method>
+	<pipeline>
+		<Query>
+			<QueryDef location="uk/gov/dca/caseman/ae_service/query_def_search/ae_by_ae.xml"/>
+			<QueryExtension pivotNode="/Results/AERecord">
+				<Param name="param.aeNumber" xpath="/params/param[@name = 'aeNumber']"/>													
+			</QueryExtension>
+		</Query>
+	</pipeline>
+    <Security roles="viewOnly medium high wcSuper scSuper bmsSuper aeSuper dmSuper cpSuper"/>   		
+</service-method>

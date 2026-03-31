@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>326</Id>
+	<Label>Application for</Label>
+	<ObjectName>ApplicationFor</ObjectName>
+	<Html>
+		<select id="ApplicationFor">
+			<option value=""></option>
+			<option value="AH">A detailed assessment hearing</option>
+			<option value="ICC">The issue of an interim costs certificate  by agreement</option>
+		</select>
+	</Html>
+	<Javascript>
+		<XPath>/ds/EnterVariableData/InterimCosts/applicationFor</XPath>
+		<componentName>##label##</componentName>
+		<HintText>Enter the details, what is the application for - list available</HintText>
+		<isMandatory>return true;</isMandatory>
+	</Javascript>
+</Question>
+     
+

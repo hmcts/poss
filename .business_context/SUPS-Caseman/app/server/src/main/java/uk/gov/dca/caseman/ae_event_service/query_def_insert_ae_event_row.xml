@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<QueryDef>
+  <DBMapDef location="uk/gov/dca/caseman/ae_event_service/map_ae_event.xml"/>
+  <Query pivotNode="/AEEvent" tables="AE">
+	<Join/>
+    <Modify>
+		<Field name="AE.AE_EVENT_SEQ" sequenceTable="AE_EVENT_SEQ"/>
+		<Field name="AE.ERROR_INDICATOR" value="N"/>
+	</Modify>
+  </Query>
+</QueryDef>

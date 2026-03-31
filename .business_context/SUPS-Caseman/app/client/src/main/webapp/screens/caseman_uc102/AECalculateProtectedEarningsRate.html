@@ -1,0 +1,320 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3c.org/TR/html4/strict.dtd">
+
+<html>
+
+	<head>
+		<title>AECalculateProtectedEarningsRate</title>
+		<link href="CalculatePERCommon.css" type="text/css" rel="stylesheet">
+		<script type="text/javascript" src="../../Framework.js"></script>
+		<script type="text/javascript" src="../../ConcatCommon.js"></script>
+		<script type="text/javascript" src="CalculatePERCommon.js"></script>
+		<script type="text/javascript" src="AECalculateProtectedEarningsRate.js"></script>
+		<script type="text/javascript" src="../../DynamicLabelGUIAdaptor.js"></script>
+		<script type="text/javascript" src="../../DynamicLabelRenderer.js"></script>
+
+<!--	
+		<link href="CalculatePERCommon.css" type="text/css" rel="stylesheet">
+		<script type="text/javascript" src="../../Framework.js"></script>
+		<script type="text/javascript" src="../../CaseManIncludeFiles.js"></script>
+		<script type="text/javascript" src="CalculatePERCommon.js"></script>
+		<script type="text/javascript" src="AECalculateProtectedEarningsRate.js"></script>
+		<script type="text/javascript" src="../../DynamicLabelGUIAdaptor.js"></script>
+		<script type="text/javascript" src="../../DynamicLabelRenderer.js"></script>
+		<script type="text/javascript" src="AECalculateProtectedEarningsRate_MenuBarCode.js"></script>
+-->			
+		<style type="text/css">
+			div#myPagedArea
+			{
+			  margin: 0px;
+			  height: 285px;
+			  width:  945px;
+			}
+		</style>
+	
+	</head>
+
+	<body>
+		<form name="AECalculatePER" id="calculatePER">
+	
+			<!-- Framework Navigation Menu -->
+			<script type="text/javascript">MenuBarRenderer.createInline();</script>		
+	
+			<table class="layout">
+				
+				<!-- Header Panel -->
+				<tr>
+					<td>
+						<div class="panel">
+							<table class="content">
+								<tr>
+									<td>
+										<table style="width:100%;">						
+											<tr>
+												<td class="defaultLabel"><label for='Header_CaseNumber'>Case Number</label></td>
+												<td><input id="Header_CaseNumber" type="text" size=15></td>
+												<td class="defaultLabel"><label for='Header_AENumber'>AE Number</label></td>
+												<td><input id="Header_AENumber" type="text" size=15></td>
+												<td class="defaultLabel"><label for='Header_ApplicationType'>Application Type</label></td>
+												<td><input id="Header_ApplicationType" type="text" size=25></td>									
+											</tr>
+											<tr>
+												<td class="defaultLabel"><label for='Header_PartyFor'>Party For</label></td>
+												<td colspan="5"><input id="Header_PartyFor" type="text" size=60></td>
+											</tr>									
+											<tr>
+												<td class="defaultLabel"><label for='Header_PartyAgainst'>Party Against</label></td>
+												<td colspan="5"><input id="Header_PartyAgainst" type="text" size=60></td>
+											</tr>			
+										</table>												
+									</td>
+								</tr>																								
+							</table>
+						</div>
+					</td>
+				</tr>
+				<!-- End Header Panel -->
+	
+				<!-- Allowances Panel -->
+				<tr>
+					<td>				
+						<div class="panel">
+							<table class="content">						
+								<tr>
+									<td>
+										<table>
+											<tr>
+												<td class="defaultLabel"><label for='Main_CalculatedPeriod'>PER Calculated Period</label></td>
+												<td><select id="Main_CalculatedPeriod"></select></td>
+											</tr>
+										</table>
+									</td>
+								</tr>
+								<tr>
+									<td>
+										<table style="width:100%;">
+											<tr>
+												<td>
+													<div class="tabbedArea" id="myTabbedArea" >
+														<script type="text/javascript">
+															TabSelector.createInline("myTabSelector",[{tabLabel: 'Personal Allowances', pageId: 'firstPage'},
+																									{tabLabel: 'Premiums', pageId: 'secondPage'},
+																									{tabLabel: 'Other Liabilities', pageId: 'thirdPage'},
+																									{tabLabel: 'Other Resources', pageId: 'fourthPage'}]);
+														</script>
+						
+														<div class="pagedArea" id="myPagedArea">
+															
+															<!-- Personal Allowances Page -->
+															<div class="page" id="firstPage">
+																<table>
+																	<tr>
+																		<td><script type="text/javascript">Grid.createInline("PersonalAllowancesGrid", ["Code", "Description", "", "Allowance", "Number", "", "Amount Allowed", "Date Entered", "Created By"], 14, 1);</script></td>
+																	</tr>
+																	<tr>
+																		<td align="right">
+																			<input id="PersonalAllowances_AddBtn" type="Button" value="Add" style="margin-right:5px;"/>
+																			<input id="PersonalAllowances_EditBtn" type="Button" value="Edit" style="margin-right:5px;"/>
+																			<input id="PersonalAllowances_DeleteBtn" type="Button" value="Delete" style="margin-right:5px;"/>															
+																		</td>
+																	</tr>											
+																</table>
+															</div>
+															<!-- End Personal Allowances Page -->
+															
+															<!-- Premiums Page -->
+															<div class="page" id="secondPage">
+																<table>
+																	<tr>
+																		<td><script type="text/javascript">Grid.createInline("PremiumsGrid", ["Code", "Description", "", "Allowance", "Number", "", "Amount Allowed", "Date Entered", "Created By"], 14, 1);</script></td>
+																	</tr>
+																	<tr>
+																		<td align="right">
+																			<input id="Premiums_AddBtn" type="Button" value="Add" style="margin-right:5px;"/>
+																			<input id="Premiums_EditBtn" type="Button" value="Edit" style="margin-right:5px;"/>
+																			<input id="Premiums_DeleteBtn" type="Button" value="Delete" style="margin-right:5px;"/>															
+																		</td>
+																	</tr>											
+																</table>
+															</div>
+															<!-- End Premiums Page -->
+					
+															<!-- Other Liabilities Page -->
+															<div class="page" id="thirdPage">
+																<table>
+																	<tr>
+																		<td><script type="text/javascript">Grid.createInline("OtherLiabilitiesGrid", ["Code", "Description", "", "Allowance", "Number", "", "Amount Allowed", "Date Entered", "Created By"], 14, 1);</script></td>
+																	</tr>
+																	<tr>
+																		<td align="right">
+																			<input id="OtherLiabilities_AddBtn" type="Button" value="Add" style="margin-right:5px;"/>
+																			<input id="OtherLiabilities_EditBtn" type="Button" value="Edit" style="margin-right:5px;"/>
+																			<input id="OtherLiabilities_DeleteBtn" type="Button" value="Delete" style="margin-right:5px;"/>															
+																		</td>
+																	</tr>											
+																</table>
+															</div>
+															<!-- End Other Liabilities Page -->
+					
+															<!-- Other Resources Page -->
+															<div class="page" id="fourthPage">
+																<table>
+																	<tr>
+																		<td><script type="text/javascript">Grid.createInline("OtherResourcesGrid", ["Code", "Description", "", "Allowance", "Number", "", "Amount Allowed", "Date Entered", "Created By"], 14, 1);</script></td>
+																	</tr>
+																	<tr>
+																		<td align="right">
+																			<input id="OtherResources_AddBtn" type="Button" value="Add" style="margin-right:5px;"/>
+																			<input id="OtherResources_EditBtn" type="Button" value="Edit" style="margin-right:5px;"/>
+																			<input id="OtherResources_DeleteBtn" type="Button" value="Delete" style="margin-right:5px;"/>															
+																		</td>
+																	</tr>											
+																</table>
+															</div>
+															<!-- End Other Resources Page -->
+															
+														</div>
+													</div>
+												</td>
+											</tr>
+										</table>
+									</td>
+								</tr>
+							</table>
+						</div>
+					</td>
+				</tr>
+				<!-- End Allowances Panel -->
+				
+				<!-- Totals Panel -->
+				<tr>
+					<td>
+						<div class="panel">
+							<table class="content" style="height:130px;">
+								<tr align="center">
+									<td>						
+										<table>
+											<tr>
+												<td align="left"><label for='Totals_PersonalAllowances'>Total Personal Allowances (A)</label></td>
+												<td>&nbsp;<input type="text" id="Totals_PersonalAllowancesCurrency" size="1"/>&nbsp;<input id="Totals_PersonalAllowances" type="text" size=15></td>
+											</tr>
+											<tr>
+												<td align="left"><label for='Totals_Premiums'>Total Premiums (B)</label></td>
+												<td>&nbsp;<input type="text" id="Totals_PremiumsCurrency" size="1"/>&nbsp;<input id="Totals_Premiums" type="text" size=15></td>
+											</tr>
+											<tr>
+												<td align="left"><label for='Totals_OtherLiabilities'>Total Other Liabilities (C)</label></td>
+												<td>&nbsp;<input type="text" id="Totals_OtherLiabilitiesCurrency" size="1"/>&nbsp;<input id="Totals_OtherLiabilities" type="text" size=15></td>
+											</tr>
+											<tr>
+												<td align="left"><label for='Totals_OtherResources'>Total Other Resources (D)</label></td>
+												<td>&nbsp;<input type="text" id="Totals_OtherResourcesCurrency" size="1"/>&nbsp;<input id="Totals_OtherResources" type="text" size=15></td>
+											</tr>
+											<tr>
+												<td align="left"><label for='Totals_Total'>Total (A+B+C-D)</label></td>
+												<td>&nbsp;<input type="text" id="Totals_TotalCurrency" size="1"/>&nbsp;<input id="Totals_Total" type="text" size=15></td>
+											</tr>
+										</table>
+									</td>
+								</tr>						
+							</table>
+						</div>
+					</td>							
+				</tr>
+				<!-- End Totals Panel -->
+
+			</table>
+				
+			<!-- Status Bar Panel -->
+			<script type="text/javascript">
+				ActionBarRenderer.createInline("status_bar", 
+					[{id: "Status_SaveBtn", label: "Save"}, 
+					 {id: "Status_CloseBtn", label: "Close"}]
+				);
+			</script>
+			<!-- End Status Bar Panel -->
+			
+			<!-- Form Extension Popups -->
+	
+			<!-- Standard Allowances popup add/edit -->
+			<div class="popup" id="StandardAllowances_Popup">
+				<table class="content"> 
+					<tr>
+						<td align="left"><script type="text/javascript">DynamicLabelRenderer.createInline("StandardAllowances_Popup_CodeDynamicLabel", "StandardAllowances_Popup_Code");</script></td>
+						<td>
+							<input type="text" id="StandardAllowances_Popup_Code" size="5" style="margin-top:5px;">
+							<input type="text" id="StandardAllowances_Popup_Description" size="60" style="margin-top:5px;">
+							&nbsp;
+							<input id="StandardAllowances_Popup_LOVBtn" type="Button" value="LOV" style="margin-top:5px;">
+						</td>
+					</tr>				
+					<tr>
+						<td><label for="StandardAllowances_Popup_Allowance">Allowance</label></td>
+						<td><input type="text" id="StandardAllowances_Popup_AllowanceCurrency" size="1"/>&nbsp;<input type="text" id="StandardAllowances_Popup_Allowance" size="15"></td>
+					</tr>				
+					<tr>
+						<td><label for="StandardAllowances_Popup_Number">Number</label></td>
+						<td><input type="text" id="StandardAllowances_Popup_Number" size="5"></td>
+					</tr>				
+					<tr>
+						<td><label for="StandardAllowances_Popup_Amount">Amount Allowed</label></td>
+						<td><input type="text" id="StandardAllowances_Popup_AmountCurrency" size="1"/>&nbsp;<input type="text" id="StandardAllowances_Popup_Amount" size="15"></td>
+					</tr>				
+					<tr>
+						<td><label for="StandardAllowances_Popup_DateEntered">Date Entered</label></td>					
+						<td><script type="text/javascript">DatePickerRenderer.createInline("StandardAllowances_Popup_DateEntered", false);</script></td>
+					</tr>
+					<tr>
+						<td><label for="StandardAllowances_Popup_CreatedBy">Created By</label></td>
+						<td><input type="text" id="StandardAllowances_Popup_CreatedBy" size="30"></td>
+					</tr>
+					<tr>
+						<td align="right" colspan="2">
+							<input class="popupButton" type="button" value="Ok" id="StandardAllowances_Popup_OkBtn">
+							<input class="popupButton" type="button" value="Cancel" id="StandardAllowances_Popup_CancelBtn">
+						</td>			        
+					</tr>				
+				</table>
+			</div>
+			<!-- End Personal Allowances popup -->
+								
+			<!-- Progress Indicator Popup -->
+			<div class="popup" id="ProgressIndicator_Popup">
+				<div class="panel" id="ProgressIndicator_Panel">
+					<table class="content" cellspacing="5">
+						<tr>
+							<td>
+								<label for="Progress_Bar">Generating Report</label>
+							</td>
+						</tr>
+						<tr>
+							<td>
+								  <input id="Progress_Bar" type="text" size="67"/>
+							</td>
+						</tr>
+						<tr>
+							<td id="Progress_Status"></td>
+						</tr>
+					</table>
+				</div>
+				<div id="ProgressIndicator_ActionBarContainer">
+					<script type="text/javascript">
+						ActionBarRenderer.createInlineNoStatusBar(
+							"ProgressIndicator_ActionBar",
+							[
+								{label: "Cancel", id: "Popup_Cancel"}
+							]
+						);	
+					</script>	
+				</div>
+			</div>
+			<!-- End Progress Indicator Popup -->
+	
+			<!-- LOV POPUPs -->
+			<script type="text/javascript">LOVSubformRenderer.createInline( "PersonalAllowancesLOV", "Personal Allowances", ["Code", "Description"], 10, 1, true );</script>
+			<script type="text/javascript">LOVSubformRenderer.createInline( "PremiumsLOV", "Premiums", ["Code", "Description"], 10, 1, true );</script>
+			<script type="text/javascript">LOVSubformRenderer.createInline( "OtherLiabilitiesLOV", "Other Liabilities", ["Code", "Description"], 10, 1, true );</script>		
+			<script type="text/javascript">LOVSubformRenderer.createInline( "OtherResourcesLOV", "Other Resources", ["Code", "Description"], 10, 1, true );</script>				
+	
+		</form>
+	</body>
+</html>

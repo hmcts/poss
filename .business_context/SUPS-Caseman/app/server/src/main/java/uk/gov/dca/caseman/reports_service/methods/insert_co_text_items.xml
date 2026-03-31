@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<service-method>
+	<pipeline>
+		<Update>
+			<QueryDef location="uk/gov/dca/caseman/reports_service/insert_co_text_items_def.xml"/>
+			<DataSource xpath="/params/param[@name='reportDbUpdate']"/>
+		</Update>
+	</pipeline>
+	<Security roles="viewOnly medium high wcSuper scSuper bmsSuper aeSuper dmSuper edsAdmin cpSuper"/>
+	<Transaction type="RequiresNew" />
+</service-method>

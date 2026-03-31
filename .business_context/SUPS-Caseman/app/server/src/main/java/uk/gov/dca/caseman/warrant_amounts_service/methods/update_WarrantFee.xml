@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: WarrantAmounts
+	Method:  updateWarrantFee()
+	File:    update_WarrantFee.xml
+	Author:  Chris Vincent
+	Created: 
+	Description: 
+		Updates the warrants table if the fee created on warrant creation is updated.
+-->
+<service-method>
+  <pipeline>
+    <Update>
+      <QueryDef location="uk/gov/dca/caseman/warrant_amounts_service/query_def_uwf.xml"/>
+      <DataSource xpath="/params/param[@name='WarrantFeeDetails']"/>
+      <QueryExtension pivotNode="/ds/WarrantAmounts/Warrant">
+        <CheckExists table="W" fields="WARRANT_ID" onNotExist="skip" onExist="update"/>
+      </QueryExtension>
+    </Update>
+  </pipeline>
+  <Security roles="wcSuper"/>  
+</service-method>

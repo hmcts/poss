@@ -1,0 +1,30 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: Bailiff
+	Method:  checkBailiffIdExists()
+	File:    query_def_bailiff_id_exists.xml
+
+	Change History:
+	25-May-2006 Phil Haferer (EDS): Refectored SELECT to not use the COUNT() function.
+                TD 3437: BAILIFF EFFECTIVENESS REPORT: Oracle Reports UC053: Error when specifying specific Bailiff ID.
+	22-Sep-2006 Phil Haferer (EDS): Added W.CURRENTLY_OWNED_BY to SQL statement.
+                (TD CASEMAN 5320: NO Error Message displayed).
+-->
+<QueryDef>
+	<DBMapDef location="uk/gov/dca/caseman/bailiff_service/map_bailiff_id_exists.xml" />
+	<Query pivotNode="/BailiffFound" tables="W">
+		<SQL type="select">
+            SELECT NVL(
+                    (SELECT 1 FROM DUAL
+               	     WHERE  EXISTS 
+                           (SELECT NULL 
+                            FROM   WARRANTS W 
+                            WHERE  W.BAILIFF_IDENTIFIER = ${param.bailiffId}
+                            AND    W.CURRENTLY_OWNED_BY = ${param.currentlyOwnedBy}))
+                   ,0) 
+                   AS "NO_RECORDS_FOUND" 
+            FROM DUAL
+		</SQL>
+		<Modify notModifiable="true"/>
+	</Query>
+</QueryDef> 

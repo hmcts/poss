@@ -1,0 +1,500 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3c.org/TR/html4/strict.dtd">
+<html>
+	<head>
+		<title>ManageAE</title>
+		<link href="ManageAE.css" type="text/css" rel="stylesheet">
+		<script type="text/javascript" src="../../Framework.js"></script>
+		<script type="text/javascript" src="../../ConcatCommon.js"></script>
+		<script type="text/javascript" src="../caseman_wp/WordProcessing.js"></script>
+		<script type="text/javascript" src="ManageAE.js"></script>
+	</head>
+	
+	<body tabindex="-1">
+		<form name="ManageAE" id="ManageAE">
+			 
+			<!-- Framework Navigation Menu -->
+			<script type="text/javascript">MenuBarRenderer.createInline();</script>
+			
+			<table class="layout">
+				
+				<!-- Header Panel -->
+				<tr>
+					<td>
+						<div class="panel">
+							<table class="content">
+								<tr>
+									<td>
+										<table>
+											<tr>
+												<td><label for="Header_Case_Number">Case&nbsp;Number</label></td>
+												<td colspan="2">
+													<input id="Header_Case_Number" type="text" size="15" class="topmargin">
+													&nbsp;<input id="AEDetails_ExistingAEsLovBtn" type="button" value="AE Exists" class="topmargin">
+													<script type="text/javascript">
+														LOVSubformRenderer.createInline("AEDetails_ExistingAEsLov", "Existing AEs",
+																										["AE Number", "Type", "Judgment Creditor", "Judgment Debtor","Live"], 10, 1, false);
+													</script>													
+												</td>												
+											</tr>
+											<tr>
+												<td><label for="Header_Party_For">Judgment&nbsp;Creditor&nbsp;&nbsp;&nbsp;</label></td>
+												<td>
+													<select id="Header_Party_For" style="margin-bottom:5px;"></select>																
+												</td>
+												<td>
+													&nbsp;<input id="Header_Party_ForLovBtn" type="Button" value="LOV" style="margin-bottom:5px;">
+													<script type="text/javascript">
+														LOVPopupRenderer.createInline("Header_Party_ForLov", "Judgment Creditor", ["Name"], 10, 1, false);
+													</script>
+												</td>
+											</tr>
+										</table>
+									</td>
+									<td>
+										<table>	
+											<tr>
+												<td><label for='Header_OwningCourtCode'>Owning&nbsp;Court</label></td>
+												<td colspan="2">
+													<input id="Header_OwningCourtCode" type="text" size="5" class="topmargin">
+													<input id="Header_OwningCourtName" type="text" size="40" class="topmargin">
+												</td>
+											</tr>
+											<tr>
+												<td><label for="Header_Party_Against">Judgment&nbsp;Debtor&nbsp;&nbsp;&nbsp;</label></td>
+												<td>
+													<select id="Header_Party_Against" style="margin-bottom:5px;"></select>																
+												</td>
+												<td>
+													&nbsp;<input id="Header_Party_AgainstLovBtn" type="button" value="LOV" style="margin-bottom:5px;">
+													<script type="text/javascript">
+														LOVPopupRenderer.createInline("Header_Party_AgainstLov", "Judgment Debtor", ["Name"], 10, 1, false);
+													</script>
+												</td>
+											</tr>
+										</table>
+									</td>
+								</tr>
+							</table>
+						</div>
+					</td>
+				</tr>
+				<!-- End Header Panel -->
+					
+				<!-- AE Details Panel -->								
+				<tr>
+					<td>
+						<div class="panel">
+							<table class="content">
+								<tr>
+									<td>
+										<table>
+											<tr>
+												<td class="defaultLabel"><label for="AEDetails_Exisiting_Case">Existing Case?</label></td>
+												<td colspan="3"><input id="AEDetails_Exisiting_Case" type="checkbox" class="topmargin"></td>
+											</tr>
+											<tr>
+												<td class="defaultLabel"><label for="AEDetails_Caps_Id">CAPS ID</label></td>
+												<td colspan="3">
+													<input id="AEDetails_Caps_Id" type="text" size="15">
+													<label for="AEDetails_Caps_Check">&nbsp;&nbsp;Check Digit&nbsp;</label>
+													<input id="AEDetails_Caps_Check" type="text" size="1">
+												</td>
+											</tr>
+											<tr>
+												<td class="defaultLabel"><label for="AEDetails_AENumber">AE Number</label></td>
+												<td colspan="3">
+													<input id="AEDetails_AENumber" type="text" size="15">
+												</td>
+											</tr>
+											<tr>
+												<td colspan="4">&nbsp;</td>
+											</tr>
+											<tr>
+												<td class="defaultLabel"><label for="AEDetails_Date_Of_Receipt">Date of Receipt</label></td>
+												<td colspan="3">																
+													<script type="text/javascript">
+														DatePickerRenderer.createInline("AEDetails_Date_Of_Receipt", false);
+													</script>
+												</td>
+											</tr>
+											<tr>
+												<td class="defaultLabel"><label for="AEDetails_Application_Type">Application Type&nbsp;&nbsp;&nbsp;</label></td>
+												<td><input type="text" id="AEDetails_Application_Type_Code" size="5"></td>
+												<td>
+													<select id="AEDetails_Application_Type"></select>																
+												</td>
+												<td>
+													&nbsp;<input id="AEDetails_Application_TypeLovBtn" type="button" value="LOV">
+													<script type="text/javascript">
+														LOVSubformRenderer.createInline("AEDetails_Application_TypeLov", "Application Types",
+																										["Code", "Type"], 10, 1, false);
+													</script>
+												</td>
+											</tr>
+											<tr>
+												<td class="defaultLabel"><label for="AEDetails_Date_Of_Issue">Date of Issue</label></td>
+												<td colspan="3">
+													<script type="text/javascript">
+														DatePickerRenderer.createInline("AEDetails_Date_Of_Issue", false);
+													</script>
+												</td>
+											</tr>
+										</table>
+									</td>
+													
+					    			<td class="spacer">&nbsp;</td>
+													
+									<td>
+										<table>
+											<tr>
+												<td class="defaultLabel"><label for="Fee_Amount_Of_AE">Amount of AE</label></td>
+												<td>
+													<input id="Fee_Amount_Currency" type="text" size="1" style="margin-top:5px;">
+													<input id="Fee_Amount_Of_AE" type="text" size="15" style="margin-top:5px;">
+												</td>
+											</tr>
+											<tr>
+												<td class="defaultLabel"><label for="Fee_Fee">Fee</label></td>
+												<td>
+													<input id="Fee_Currency" type="text" size="1">
+													<input id="Fee_Fee" type="text" size="15">
+												</td>
+											</tr>
+											<tr>
+												<td colspan="2">&nbsp;</td>
+											</tr>
+											<tr>
+												<td class="defaultLabel"><label for="Fee_Total">Total</label></td>
+												<td>
+													<input id="Fee_Total_Currency" type="text" size="1">
+													<input id="Fee_Total" type="text" size="15">
+												</td>
+											</tr>
+											<tr>
+												<td class="defaultLabel"><label for="Fee_Other_Fees">Other Fees</label></td>
+												<td>
+													<input id="Fee_Other_Fees_Currency" type="text" size="1">
+													<input id="Fee_Other_Fees" type="text" size="15">
+												</td>
+											</tr>
+											<tr>
+												<td class="defaultLabel"><label for="Fee_Payment_To_Date">Payment to Date&nbsp;&nbsp;&nbsp;</label></td>
+												<td>
+													<input id="Fee_Payment_To_Date_Currency" type="text" size="1">
+													<input id="Fee_Payment_To_Date" type="text" size="15">
+												</td>
+											</tr>
+											<tr>
+												<td class="defaultLabel"><label for="Fee_Total_Remaining">Total Remaining</label></td>
+												<td>
+													<input id="Fee_Total_Remaining_Currency" type="text" size="1" style="margin-bottom: 5px;">
+													<input id="Fee_Total_Remaining" type="text" size="15" style="margin-bottom: 5px;">
+												</td>
+											</tr>
+										</table>
+									</td>
+								</tr>
+							</table>
+						</div>
+					</td>
+				</tr>
+				<!-- End AE Details Panel -->
+
+				<!-- Employment Summary Panel -->
+				<tr>
+					<td>
+						<div class="panel">
+							<table class="content">
+								<tr>
+									<td class="defaultLabel"><label for="Employer_Occupation">Occupation</label></td>
+									<td><input id="Employer_Occupation" type="text" size="30" style="margin-top: 5px; margin-bottom: 5px;"></td>
+									<td class="defaultLabel"><label for="Employer_Payroll_No">Payroll Number</label></td>
+									<td><input id="Employer_Payroll_No" type="text" size="20" style="margin-top: 5px; margin-bottom: 5px;"></td>
+									<td class="defaultLabel"><label for="Employer_Named_Person">Named Person</label></td>
+									<td><input id="Employer_Named_Person" type="text" size="30" style="margin-top: 5px; margin-bottom: 5px;"></td>
+								</tr>
+							</table>
+						</div>
+					</td>
+				</tr>
+				<!-- End Employment Summary Panel -->
+
+				<!-- Tabbed Panel -->
+				<tr>
+					<td>
+						<div class="panel">
+							<table class="content">
+								<tr>
+									<td valign="top">
+										<div class="tabbedArea" id="Address_Tabbed_Area">
+
+											<script type="text/javascript">
+												TabSelector.createInline("Address_Tab_Selector",
+																					[	{tabLabel: "Service Details", pageId: "SERVICE"},
+																						 {tabLabel: "Substituted Service Details", pageId: "SUBSERV"},
+																						 {tabLabel: "Employment Details", pageId: "EMPLOYER"},
+																						 {tabLabel: "Workplace Details", pageId: "WORKPLACE"}]);
+											</script>
+											
+											<div class="pagedArea" id="Address_Paged_Area">
+												
+												<!-- Service Details Panel -->
+												<div class="page" id="SERVICE">
+													<table>
+														<tr>
+															<td valign="top">
+																<table>
+																	<tr><td colspan="2">&nbsp;</td></tr>
+																	<tr>
+																		<td class="defaultLabel"><label for="Service_Line1">Address</label></td>
+																		<td><input id="Service_Line1" type="text" size="50"></td>
+																	</tr>
+																	<tr>
+																		<td>&nbsp;</td>
+																		<td><input id="Service_Line2" type="text" size="50"></td>
+																	</tr>
+																	<tr>
+																		<td>&nbsp;</td>
+																		<td><input id="Service_Line3" type="text" size="50"></td>
+																	</tr>
+																	<tr>
+																		<td>&nbsp;</td>
+																		<td><input id="Service_Line4" type="text" size="50"></td>
+																	</tr>
+																	<tr>
+																		<td>&nbsp;</td>
+																		<td><input id="Service_Line5" type="text" size="50"></td>
+																	</tr>
+																	<tr>
+																		<td class="defaultLabel"><label for="Service_PostCode">Post Code</label></td>
+																		<td><input id="Service_PostCode" type="text" size="25"></td>
+																	</tr>
+																</table>
+															</td>
+															<td style="width:25px;">&nbsp;</td>
+															<td valign="top">
+																<table>
+																	<tr><td colspan="2">&nbsp;</td></tr>
+																	<tr>
+																		<td class="defaultLabel"><label for="Service_Telephone">Telephone Number</label></td>
+																		<td><input id="Service_Telephone" type="text" size="35"></td>
+																	</tr>
+																	<tr>
+																		<td class="defaultLabel"><label for="Service_Fax">Fax Number</label></td>
+																		<td><input id="Service_Fax" type="text" size="35"></td>
+																	</tr>
+																	<tr>
+																		<td class="defaultLabel"><label for="Service_Email">Email Address</label></td>
+																		<td><input id="Service_Email" type="text" size="50"></td>
+																	</tr>
+																	<tr>
+																		<td style="width:200px;"><label for="Service_PreferredMethodOfCommunication">Communication Method</label></td>
+																		<td><select id="Service_PreferredMethodOfCommunication"></td>
+																	</tr>
+																	<tr>
+																		<td class="defaultLabel"><label for="Service_TranslationToWelsh">Translation to Welsh?</label></td>
+																		<td><input id="Service_TranslationToWelsh" type="checkbox"></td>
+																	</tr>
+																</table>
+															</td>
+														</tr>
+													</table>
+												</div>
+												<!-- End Service Details Panel -->
+														
+												<!-- Substituted Service Details Panel -->
+												<div class="page" id="SUBSERV">
+													<table>
+														<tr>
+															<td valign="top">
+																<table>
+																	<tr><td colspan="2">&nbsp;</td></tr>
+																	<tr>
+																		<td class="defaultLabel"><label for="Sub_Line1">Address</label></td>
+																		<td><input id="Sub_Line1" type="text" size="50"></td>
+																	</tr>
+																	<tr>
+																		<td>&nbsp;</td>
+																		<td><input id="Sub_Line2" type="text" size="50"></td>
+																	</tr>
+																	<tr>
+																		<td>&nbsp;</td>
+																		<td><input id="Sub_Line3" type="text" size="50"></td>
+																	</tr>
+																	<tr>
+																		<td>&nbsp;</td>
+																		<td><input id="Sub_Line4" type="text" size="50"></td>
+																	</tr>
+																	<tr>
+																		<td>&nbsp;</td>
+																		<td><input id="Sub_Line5" type="text" size="50"></td>
+																	</tr>
+																	<tr>
+																		<td class="defaultLabel"><label for="Sub_PostCode">Post Code</label></td>
+																		<td><input id="Sub_PostCode" type="text" size="25"></td>
+																	</tr>
+																</table>
+															</td>
+														</tr>
+													</table>
+												</div>
+												<!-- End Substituted Service Details Panel -->
+														
+												<!-- Employment Details Panel -->					
+												<div class="page" id="EMPLOYER">
+													<table>																				
+														<tr>
+															<td valign="top">
+																<table>
+																	<tr><td colspan="2">&nbsp;</td></tr>
+																	<tr>
+																		<td class="defaultLabel"><label for="Employer_Line1">Address</label></td>
+																		<td><input id="Employer_Line1" type="text" size="50"></td>
+																	</tr>
+																	<tr>
+																		<td>&nbsp;</td>
+																		<td><input id="Employer_Line2" type="text" size="50"></td>
+																	</tr>
+																	<tr>
+																		<td>&nbsp;</td>
+																		<td><input id="Employer_Line3" type="text" size="50"></td>
+																	</tr>																						
+																	<tr>
+																		<td>&nbsp;</td>
+																		<td><input id="Employer_Line4" type="text" size="50"></td>
+																	</tr>
+																	<tr>
+																		<td>&nbsp;</td>
+																		<td><input id="Employer_Line5" type="text" size="50"></td>
+																	</tr>
+																	<tr>
+																		<td class="defaultLabel"><label for="Employer_PostCode">Post Code</label></td>
+																		<td><input id="Employer_PostCode" type="text" size="25"></td>
+																	</tr>
+																	<tr>
+																		<td class="defaultLabel"><label for="Employer_Reference">Reference</label></td>
+																		<td><input id="Employer_Reference" type="text" size="50"></td>
+																	</tr>																							
+																</table>
+															</td>
+															<td style="width:25px;">&nbsp;</td>
+															<td valign="top">
+																<table>
+																	<tr><td colspan="2">&nbsp;</td></tr>
+																	<tr>
+																		<td class="defaultLabel"><label for="Employer_Name">Employer Name</label></td>
+																		<td><input id="Employer_Name" type="text" size="50"></td>
+																	</tr>																							
+																	<tr>
+																		<td class="defaultLabel"><label for="Employer_Telephone">Telephone Number</label></td>
+																		<td><input id="Employer_Telephone" type="text" size="35"></td>
+																	</tr>
+																	<tr>
+																		<td class="defaultLabel"><label for="Employer_Fax">Fax Number</label></td>
+																		<td><input id="Employer_Fax" type="text" size="35"></td>
+																	</tr>
+																	<tr>
+																		<td class="defaultLabel"><label for="Employer_Email">Email Address</label></td>
+																		<td><input id="Employer_Email" type="text" size="50"></td>
+																	</tr>
+																	<tr>
+																		<td style="width:200px;"><label for="Employer_PreferredMethodOfCommunication">Communication Method</label></td>
+																		<td><select id="Employer_PreferredMethodOfCommunication"></td>
+																	</tr>
+																	<tr>
+																		<td class="defaultLabel"><label for='Employer_TranslationToWelsh'>Translation To Welsh?</label></td>
+																		<td><input id="Employer_TranslationToWelsh" type="checkbox"/></td>
+																	</tr>
+																</table>
+															</td>
+														</tr>
+													</table>
+												</div>
+												<!-- End Employment Details Panel -->
+																	
+												<!-- Workplace Details Panel -->
+												<div class="page" id="WORKPLACE">
+													<table>
+														<tr>
+															<td valign="top">
+																<table>
+																	<tr><td colspan="2">&nbsp;</td></tr>
+																	<tr>
+																		<td class="defaultLabel"><label for="Work_Line1">Address</label></td>
+																		<td><input id="Work_Line1" type="text" size="50"></td>
+																	</tr>
+																	<tr>
+																		<td>&nbsp;</td>
+																		<td><input id="Work_Line2" type="text" size="50"></td>
+																	</tr>
+																	<tr>
+																		<td>&nbsp;</td>
+																		<td><input id="Work_Line3" type="text" size="50"></td>
+																	</tr>
+																	<tr>
+																		<td>&nbsp;</td>
+																		<td><input id="Work_Line4" type="text" size="50"></td>
+																	</tr>
+																	<tr>
+																		<td>&nbsp;</td>
+																		<td><input id="Work_Line5" type="text" size="50"></td>
+																	</tr>
+																	<tr>
+																		<td class="defaultLabel"><label for="Work_PostCode">Post Code</label></td>
+																		<td><input id="Work_PostCode" type="text" size="25"></td>
+																	</tr>
+																</table>
+															</td>
+														</tr>
+													</table>
+												</div>
+												<!-- End Workplace Details Panel -->
+
+											</div>
+										</div>
+									</td>
+								</tr>
+								<tr>
+									<td align="right">
+										<input id="Add_AddressBtn" type="button" value="Add Address" style="margin:5px;">
+										<input id="View_HistoryBtn" type="button" value="View Historical Addresses" style="margin:5px;">
+									</td>
+								</tr>
+							</table>
+						</div>
+					</td>
+				</tr>
+				<!-- End Tabbed Panel -->
+
+			</table>
+	  
+			<!-- Status Bar Panel -->
+			<script type="text/javascript">
+				ActionBarRenderer.createInline(
+					"status_bar",
+					[ 
+						{ id: "Status_SaveBtn", label: "Save" }, 
+						{ id: "Status_ClearBtn", label: "Clear" },
+						{ id: "Status_CloseBtn", label: "Close" }
+					]
+				);
+			</script>
+														
+			<!-- AUDIT PANELS -->
+			<div class="auditPanel" id="aeDetailsPanel"></div>
+			<div class="auditPanel" id="serviceDetailsPanel"></div>
+			<div class="auditPanel" id="employmentDetailsPanel"></div>
+			
+			<!-- AUDIT SELECTOR ADAPTOR -->
+			<script type="text/javascript">AuditSelectorRenderer.createInline( "Audit_PanelSelector" );</script>
+			
+			<!-- SUBFORMS -->
+			<div class="popup popupsubform" id="audit_subform"></div>
+			<div class="popup popupsubform" id="viewHistAddresses_subform"></div>
+			<div class="popup popupsubform" id="viewEmpHistAddresses_subform"></div>
+			<div class="popup popupsubform" id="addNewAddress_subform"></div>
+			<div class="popup popupsubform" id="addNewEmpAddress_subform"></div>
+			
+		</form>
+	</body>
+</html>

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>9215</Id>
+	<Label>Interim order reasons</Label>
+	<ObjectName>InterimOrderReasons</ObjectName>
+	<Html>		
+		<input type="text" id="InterimOrderReasons" size="70"></input>
+	</Html>
+
+	<Javascript>
+		<XPath>/ds/EnterVariableData/ConfNotice/InterimOrderReasons</XPath>
+		<HintText>Enter the reasons for interim order</HintText>
+		<isMandatory>return true;</isMandatory>
+		<mandatoryOn>InterimOrderReasons.dataBinding</mandatoryOn>			
+		<isEnabled>return true</isEnabled>
+	</Javascript>
+</Question>  

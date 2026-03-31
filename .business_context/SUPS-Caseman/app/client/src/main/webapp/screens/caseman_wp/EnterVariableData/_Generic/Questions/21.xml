@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>21</Id>
+	<Label>Date served</Label>
+	<ObjectName>DateServed</ObjectName>
+	<Html>		
+		<script type="text/javascript">WP_DatePickerRenderer.createInline("DateServed", false);</script>
+	</Html>
+	<Javascript>
+		<XPath>/ds/EnterVariableData/Service/dateServed</XPath>
+		<HintText>Enter the date – Date Picker available</HintText>
+		<isMandatory>return true;</isMandatory>
+		<componentName>##label##</componentName>
+		<validateOn>DateServed.dataBinding</validateOn>
+		<validate>return isInPast(Services.getValue(DateServed.dataBinding));</validate>
+	</Javascript>
+</Question>

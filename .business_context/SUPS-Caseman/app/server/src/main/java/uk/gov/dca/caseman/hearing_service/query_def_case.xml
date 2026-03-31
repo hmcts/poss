@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<QueryDef>
+	<DBMapDef location="uk/gov/dca/caseman/hearing_service/map_case.xml"/>
+	<Query pivotNode="/ds/MaintainHearing" tables="CA C">
+		<LinkedJoin type="root" key="CA.CASE_NUMBER">
+			<Join>
+  				C.CODE = CA.ADMIN_CRT_CODE
+    		</Join>
+    	</LinkedJoin>
+	</Query>
+	<Query pivotNode="/ds/MaintainHearing/Parties/Party" tables="CPR PR P">
+		<LinkedJoin type="query" key="CPR.PARTY_ROLE_CODE CPR.CASE_PARTY_NO">
+			<Parent key="CA.CASE_NUMBER" tables="CA"/>
+			<Join>
+				CPR.CASE_NUMBER     =  CA.CASE_NUMBER     AND
+				CPR.PARTY_ROLE_CODE != 'SOLICITOR'        AND
+				CPR.PARTY_ROLE_CODE =  PR.PARTY_ROLE_CODE AND
+				CPR.PARTY_ID        =  P.PARTY_ID
+			</Join>
+		</LinkedJoin>
+		<OrderBy>CPR.PARTY_ROLE_CODE, CPR.CASE_PARTY_NO</OrderBy>
+		<Modify notModifiable="true"/>
+	</Query>
+	<Query pivotNode="/ds/MaintainHearing/Hearings/Hearing" tables="H CA CCBC1">
+		<LinkedJoin type="query" key="H.HRG_SEQ">
+			<Parent key="CA.CASE_NUMBER" tables="CA"/>
+			<Join>
+				H.CASE_NUMBER = CA.CASE_NUMBER 
+				AND CCBC1.RV_LOW_VALUE = H.HRG_TYPE 
+				AND	CCBC1.RV_DOMAIN IN ('CURRENT_HRG_TYPE', 'CURRENT_HRG_TYPE_AE', 'HRG_TYPE')
+      		</Join>
+      	</LinkedJoin>
+      	<Alias name="CCBC2.RV_MEANING" select="(SELECT CCBC.RV_MEANING FROM CCBC_REF_CODES CCBC WHERE H.HRG_OUTCOME = CCBC.RV_LOW_VALUE AND CCBC.RV_DOMAIN IN ('CURRENT_HRG_outcome','CURRENT_HRG_OUTCOME'))"/>
+	</Query>
+	<Query pivotNode="/ds/MaintainHearing/Hearings/Hearing/Address" tables="H CA GA">
+		<LinkedJoin type="query" key="GA.ADDRESS_ID">
+			<Parent key="H.HRG_SEQ" tables="CA"/>
+			<Join>
+				H.CASE_NUMBER = CA.CASE_NUMBER AND
+				GA.ADDRESS_ID = H.ADDRESS_ID
+      		</Join>
+      	</LinkedJoin>
+	</Query>
+	<Query pivotNode="/ds/MaintainHearing/OwningCourtAddressDetail/Address" tables="GA">
+		<LinkedJoin type="query" key="GA.ADDRESS_ID">
+			<Parent key="CA.CASE_NUMBER" tables="CA"/>
+			<Join>
+				GA.COURT_CODE = CA.ADMIN_CRT_CODE AND	
+				GA.ADDRESS_TYPE_CODE = 'OFFICE' AND
+				GA.VALID_TO IS NULL 
+      		</Join>
+      	</LinkedJoin>
+	</Query>
+</QueryDef>

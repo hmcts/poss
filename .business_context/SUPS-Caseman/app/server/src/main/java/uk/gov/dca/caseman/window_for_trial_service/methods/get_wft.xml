@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: WindowForTrial
+	Method:  getWft()
+	File:    get_wft.xml
+	Author:  Chris Hutt
+	Created: 8 feb 2005
+	Description: 
+		Retrieve Window For Trial associated with a case
+-->
+<service-method>
+	<pipeline>
+		<Java>
+			<Source class="uk.gov.dca.caseman.window_for_trial_service.java.GetWftCustomProcessor"/>
+		</Java>
+	</pipeline>
+	<Dependencies>
+		<Dependency serviceName="Case"/>		
+	</Dependencies>		
+	<Security roles="viewOnly medium high wcSuper scSuper bmsSuper aeSuper dmSuper cpSuper ccbcMan ccbcUser ccbcSGB2"/> 			
+</service-method>

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: EndOfDay
+	Method:  getEndOfDayData()
+	File:    get_end_of_day_data.xml
+	Author:  Chris Vincent
+	Created: 
+	Description: 
+		Retrieves the current valid payment summary records (end of day data) for the court
+		specified.
+-->
+<service-method>
+	<pipeline>
+		<Query>
+			<QueryDef location="uk/gov/dca/caseman/end_of_day_service/query_def_get_end_of_day_data.xml"/>
+			<QueryExtension pivotNode="/EndOfDayRecords">
+				<Param name="param.adminCourtCode" xpath="/params/param[@name = 'adminCourtCode']"/>
+				<Param name="param.dcsDate" xpath="/params/param[@name = 'dcsDate']"/>
+			</QueryExtension>
+			<QueryExtension pivotNode="/EndOfDayRecords/PaymentSummaries/PaymentSummary">
+				<Param name="param.adminCourtCode" xpath="/params/param[@name = 'adminCourtCode']"/>
+				<Param name="param.dcsDate" xpath="/params/param[@name = 'dcsDate']"/>
+				<Constraint>
+					PS.ADMIN_COURT_CODE = ${param.adminCourtCode}
+					AND PS.DCS_DATE = TO_DATE( ${param.dcsDate}, 'YYYY-MM-DD' ) 
+					AND PS.VALID = 'Y'
+				</Constraint>
+			</QueryExtension>
+		</Query>
+	</pipeline>
+	<Security roles="scSuper"/>
+</service-method>

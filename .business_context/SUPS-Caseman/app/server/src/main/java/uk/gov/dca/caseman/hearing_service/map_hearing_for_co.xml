@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<DBMapDef>
+	<DataSource id="java:OracleDS"/>
+	<Tables>
+		<Table alias="H" name="HEARINGS"/>
+	</Tables>
+	<Mapping>
+		<ds>
+			<MaintainHearing>
+				<CONumber></CONumber>/>
+				<Hearings>
+					<Hearing>
+						<HearingID>${H.HRG_SEQ}</HearingID>
+						<SurrogateId>${H.HRG_SEQ}</SurrogateId>
+						<VenueCode>${H.CRT_CODE}</VenueCode>
+						<VenueName>${H.VENUE}</VenueName>
+						<TypeOfHearingCode>${H.HRG_TYPE}</TypeOfHearingCode>
+						<Date>${H.HRG_DATE}</Date>
+						<Time>${H.HRG_TIME}</Time>
+						<DateOfRequestToList>${H.RECEIPT_DATE}</DateOfRequestToList>
+						<CreatedBy></CreatedBy>
+						<Address>
+							<AddressId>${H.ADDRESS_ID}</AddressId>
+						</Address>
+					</Hearing>
+				</Hearings>
+			</MaintainHearing>
+		</ds>
+	</Mapping>
+</DBMapDef>

@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>339</Id>
+	<Label>Amount to be paid on account of costs</Label>
+	<ObjectName>PaidOnAccountAmt</ObjectName>
+	<Html>
+		<input type="text" size="1" id="DefaultCurrency339"></input>
+		<input type="text" id="PaidOnAccountAmt" size="9" maxlength="9"></input>
+	</Html>
+	<Context screenId="N32_2"><isVisible>false</isVisible></Context>
+	<Context screenId="N32_5"><isVisible>false</isVisible></Context>
+	<Context screenId="CJR040"><isVisible>false</isVisible></Context>
+	<Context screenId="CJR041"><isVisible>false</isVisible></Context>
+	<Context screenId="CJR042"><isVisible>false</isVisible></Context>
+	<Context screenId="CJR043"><isVisible>false</isVisible></Context>
+	<Context screenId="CJR049"><isVisible>false</isVisible></Context>
+	<Context screenId="CJR065A"><isVisible>false</isVisible></Context>
+	<Context screenId="CJR051"><isVisible>false</isVisible></Context>
+	<Context screenId="CJR053"><isVisible>false</isVisible></Context>
+	<Context screenId="CJR055"><isVisible>false</isVisible></Context>
+	<Context screenId="CJR090"><isVisible>false</isVisible></Context>
+    <Context screenId="CO28"><isVisible>false</isVisible></Context>
+    <Context screenId="CO31"><isVisible>false</isVisible></Context>
+	
+	<Javascript>
+		<XPath>/ds/EnterVariableData/InterimCosts/PossessionOrder/paidOnAccountAmt</XPath>
+		<componentName>##label##</componentName>
+		<HintText>Enter the amount to be paid on account of costs</HintText>
+		<maxLength>9</maxLength>
+		<isMandatory>return true;</isMandatory>
+		<enableOn>PaymentsOnAccount.dataBinding</enableOn>
+		<isEnabled>return('Y' == Services.getValue(PaymentsOnAccount.dataBinding));</isEnabled>
+		<initialise>Services.setValue(PaidOnAccountAmt.dataBinding,"0.00")</initialise>
+		<logicOn>PaymentsOnAccount.dataBinding</logicOn>
+		<logic>
+			if('Y' != Services.getValue(PaymentsOnAccount.dataBinding))
+			{	Services.setValue(PaidOnAccountAmt.dataBinding, "");
+			}
+		</logic>
+		<validateOn>PaidOnAccountAmt.dataBinding</validateOn>
+		<validate>
+			var val = Services.getValue(PaidOnAccountAmt.dataBinding);
+			//var err = WPU.validateCurrency(val);
+			var err = validateCurrencyValue(val, 999999.99);
+			if( null == err )
+			{	var fVal = WPU.formatToTwoDP(val);
+				Services.setValue(PaidOnAccountAmt.dataBinding, fVal);
+			}
+			return err;
+		</validate>
+		<miscCode>
+			function DefaultCurrency339() {}
+			DefaultCurrency339.dataBinding = "/ds/EnterVariableData/curr1";
+			DefaultCurrency339.tabIndex = -1;
+			DefaultCurrency339.maxLength = 3;
+			DefaultCurrency339.isReadOnly = function(){return true;}
+			DefaultCurrency339.isTemporary = function(){return true;}
+			DefaultCurrency339.transformToDisplay = function(value){
+				return WPS.__CaseManUtils().transformCurrencySymbolToDisplay(value,null,null); }
+			DefaultCurrency339.transformToModel = function(value){
+				return WPS.__CaseManUtils().transformCurrencySymbolToModel(value,null,null); }
+        </miscCode>
+	</Javascript>
+</Question>  

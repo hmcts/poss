@@ -1,0 +1,230 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- 
+Change History
+	29/01/2013 - Chris Vincent, hide field for the CJR032 outputs (Trac 4763) and CJR034 (Trac 4762)
+-->
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>92</Id>
+	<Label>Day of hearing</Label>
+	<ObjectName>HearingDay</ObjectName>
+
+	<Html>
+	    <input type="text" size="12" id="HearingDay" name="hearingDay"/>
+	</Html>
+	
+	<Context screenId="CJR042"><isVisible>false</isVisible></Context>
+	<Context screenId="CJR065B"><isVisible>false</isVisible></Context>
+	<Context screenId="CJR070"><isVisible>false</isVisible></Context>
+	<Context screenId="N32_2"><isVisible>false</isVisible></Context>
+	<Context screenId="N32_5"><isVisible>false</isVisible></Context>
+	<Context screenId="N35"><isVisible>false</isVisible></Context>	
+	<Context screenId="CJR031"><isVisible>false</isVisible></Context>
+	<Context screenId="CJR032A"><isVisible>false</isVisible></Context>
+	<Context screenId="CJR032B"><isVisible>false</isVisible></Context>
+	<Context screenId="CJR032C"><isVisible>false</isVisible></Context>
+	<Context screenId="CJR023C"><isVisible>false</isVisible></Context>
+	<Context screenId="CJR061"><isVisible>false</isVisible></Context>
+	<Context screenId="CJR023C"><isVisible>false</isVisible></Context>
+	<Context screenId="CJR094"><isVisible>false</isVisible></Context>
+	<Context screenId="CJR100"><isVisible>false</isVisible></Context>
+	<Context screenId="CJR101"><isVisible>false</isVisible></Context>
+	<Context screenId="CJR102"><isVisible>false</isVisible></Context>
+	<Context screenId="CJR103"><isVisible>false</isVisible></Context>
+	<Context screenId="CJR104"><isVisible>false</isVisible></Context>
+	<Context screenId="CO30"><isVisisble>false</isVisisble></Context>
+	<Context screenId="L_14_1"><isVisisble>false</isVisisble></Context>
+	<Context screenId="L_14_8"><isVisisble>false</isVisisble></Context>
+    <Context screenId="O_10_10"><isVisible>false</isVisible></Context>
+    <Context screenId="O_10_11"><isVisible>false</isVisible></Context>
+    <Context screenId="O_10_12"><isVisible>false</isVisible></Context>
+	<Context screenId="CJR034"><isVisible>false</isVisible></Context>
+	
+	<Context screenId="CJR082">
+		<isVisible>true</isVisible>
+		<Label>Day of N40B hearing </Label>
+	</Context>
+	<Context screenId="CJR083">
+		<isVisible>true</isVisible>
+		<Label>Day of N79A hearing </Label>
+	</Context>
+	
+	<Javascript>
+		<XPath>/ds/EnterVariableData/Hearing/Day</XPath>
+		<componentName>Day of hearing</componentName>
+		<HintText>The day the hearing is to be heard.</HintText>
+		<isMandatory>return false;</isMandatory>
+		<mandatoryOn>HearingDay.dataBinding</mandatoryOn>
+		<isReadOnly>return true;</isReadOnly>
+		<transformToModel>return (null != value) ? value.toUpperCase() : null;</transformToModel>
+		<transformToDisplay>return (null != value) ? value.toUpperCase() : null;</transformToDisplay>
+		<logicOn>HearingDate.dataBinding</logicOn>
+		<logic>/* Set the day as we now now the user has selected a date for the Hearing to be heard on.
+				  Date on represents the value entered but as 2004-12-25.
+				*/				
+				var dateOn = Services.getValue(HearingDate.dataBinding);
+				if (null != dateOn)
+				{
+					var day = setDay(dateOn);
+					Services.setValue(HearingDay.dataBinding, day);
+				}
+				else
+				{	Services.setValue(HearingDay.dataBinding, "");
+				}
+		</logic>
+		<!--isEnabled>return false;</isEnabled-->
+		<miscCode>
+
+/*
+ * Method returns a day for a supplied date
+ * pDate The date in the format 2004-12-20
+ */
+function setDay(pDate)
+{
+	var day = ""; // Day as text.  This is returned	
+	var theDate;
+	
+	//Constants for switch statement
+	var SUN = 0;
+	var MON = 1;
+	var TUE = 2;
+	var WED = 3;
+	var THU = 4;
+	var FRI = 5;
+	var SAT = 6;
+		
+	if(pDate != null &amp;&amp; pDate != ""){		
+		theDate = setDateAsObject(pDate);		
+		var dayAsInt = theDate.getDay();		
+		switch (dayAsInt)
+		{   	
+			case SUN:
+		  	{
+		  		day = "SUNDAY";
+		  		break;
+		  	}
+		  	case MON:
+		  	{
+		  		day = "MONDAY";
+		  		break;
+		  	}
+		  	case TUE:
+		  	{
+		  		day = "TUESDAY";
+		  		break;
+		  	}
+		  	case WED:
+		  	{
+		  		day = "WEDNESDAY";
+		  		break;
+		  	}
+		  	case THU:
+		  	{
+		  		day = "THURSDAY";
+		  		break;
+		  	}
+		  	case FRI:
+		  	{
+		  		day = "FRIDAY";
+		  		break;
+		  	}
+		  	case SAT:
+		  	{
+		  		day = "SATURDAY";
+		  		break;
+		  	}
+		  	default:
+		  	{
+		  		day = "";
+		  		break;
+		  	}  	
+	  	}// END OF switch (dayAsInt)	  	
+  	} // end of if block
+  	return day;  	
+} // END OF setDay()
+
+/*
+ * Method returns a date as a javascript Date object for a supplied date.
+ * pDate  - a date in the format 2004-12-20 or 2004/12/20
+ */
+function setDateAsObject(pDate)
+{
+	// need to split the date value into something the Date object recognises
+	var tmpYear;
+	var tmpMth;
+	var tmpDate;
+	
+	if(pDate != null &amp;&amp; pDate != ""){
+		// get the year etc from string
+		tmpYear = pDate.substr(0,4);
+		tmpMth = pDate.substr(5,2);
+		tmpMth = tmpMth - 1;
+		tmpDate = pDate.substr(8,2);		
+
+	}// end of if(pDate != null &amp;&amp; pDate != ""){
+	var theDate = new Date(tmpYear, tmpMth ,tmpDate);	
+	return theDate;
+}
+		</miscCode>
+		
+		
+		<Context ScreenId="CJR020">		  
+		  <enableOn>TrialDateFixed.dataBinding</enableOn>
+		  <isEnabled>		
+		  	return( 'FIX' == Services.getValue(TrialDateFixed.dataBinding));
+		  </isEnabled>		 		 
+		</Context>
+		<Context ScreenId="CJR023A">
+		  <isMandatory>return false;</isMandatory>
+		</Context>
+		
+		<Context ScreenId="CJR072">
+			<enableOn>OrderDetails2.dataBinding</enableOn>
+			<isEnabled>return('HRG' == Services.getValue(OrderDetails2.dataBinding));</isEnabled>			
+			<HintText></HintText>			
+		</Context>
+		
+		<Context ScreenId="CJR073">			
+			<HintText></HintText>			
+		</Context>
+		
+		<Context ScreenId="CJR080">			
+			<HintText></HintText>			
+		</Context>
+		<Context ScreenId="FE45">			
+			<HintText></HintText>			
+		</Context>
+		
+		<Context ScreenId="CJR093">
+			<enableOn>WhoConsidApp2.dataBinding</enableOn>
+			<isEnabled>return hearingFieldsEnabled();</isEnabled>
+		</Context>
+		
+		<Context ScreenId="CJR178">
+			<enableOn>WitnessTo.dataBinding</enableOn>
+			<isEnabled>return( 'AC' == Services.getValue(WitnessTo.dataBinding));</isEnabled>			
+		</Context>
+		<Context ScreenId="CJR105">			
+			<enableOn>NoticeOfFurtherHearing.dataBinding</enableOn>
+			<isEnabled>return( 'Y' == Services.getValue(NoticeOfFurtherHearing.dataBinding));</isEnabled>			
+			<HintText></HintText>		
+		</Context>
+		<Context ScreenId="CJR060">
+			<isMandatory>return true;</isMandatory>
+			<enableOn>TrialDateFixed.dataBinding</enableOn>
+			<isEnabled>return('FIX' == Services.getValue(TrialDateFixed.dataBinding));</isEnabled>			
+		</Context>
+		
+		<Context ScreenId="CO23">
+			<isMandatory>return false;</isMandatory>
+			<enableOn>DisStrAdj.dataBinding</enableOn>
+			<isEnabled>return ('ADJ' == Services.getValue(DisStrAdj.dataBinding));</isEnabled>		
+		</Context>
+
+		<Context ScreenId="CO34">
+			<isMandatory>return false;</isMandatory>
+			<enableOn>DisStrAdj.dataBinding</enableOn>
+			<isEnabled>return ('ADJ' == Services.getValue(DisStrAdj.dataBinding));</isEnabled>		
+		</Context>
+
+	</Javascript>
+</Question>

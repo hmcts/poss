@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Question>
+	<Id>9050</Id>
+	<Label>Endorsement on Order</Label>
+	<ObjectName>EndorsementOrder</ObjectName>
+	<Html>
+		<input type="checkbox" id="EndorsementOrder"></input>
+	</Html>
+	<Javascript>		
+     	<XPath>/ds/EnterVariableData/EndorsementOrder</XPath>
+		<HintText>Check box if endorsement on order is required</HintText>
+		<modelValue>checked: "Y", unchecked: "N"</modelValue>
+        <enableOn>EndorsementOrder.dataBinding </enableOn>
+        <isEnabled>return true;</isEnabled> 
+        <Context ScreenId="O_10_10">    
+            <isEnabled>if (null != WP &amp;&amp; null != WP.GetScreenProcess &amp;&amp; null != WP.GetScreenProcess()) { return checkSolicitorForSubject(); } return false;</isEnabled>
+	        <miscCode>
+	        	function  checkSolicitorForSubject(){
+	            	solExists = false;     
+	                litPartiesXPath = "/params/param/ds/ManageCase/Parties/LitigiousParty[./TypeCode = 'CREDITOR']";
+	                litPartiesObtained =   WPU.getNode(litPartiesXPath,null);                    
+	                if(litPartiesObtained != null){
+	                	solicitorIdNode = litPartiesObtained.selectSingleNode("SolicitorSurrogateId");
+	               		sol = XML.getNodeTextContent(solicitorIdNode);
+	                    if(sol != null) { solExists = true; } }
+	                return solExists; }
+			</miscCode>	
+        </Context>   
+        <Context ScreenId="O_10_12">       
+            <isEnabled>if (null != WP &amp;&amp; null != WP.GetScreenProcess &amp;&amp; null != WP.GetScreenProcess()) { return checkSolicitorForSubject(); } return false;</isEnabled>
+        </Context> 
+        <miscCode>
+        	function  checkSolicitorForSubject(){
+            	solExists = false;     
+                litPartiesXPath = "/params/param/ds/ManageCase/Parties/LitigiousParty[./TypeCode = 'DEBTOR']";
+                litPartiesObtained =   WPU.getNode(litPartiesXPath,null);                    
+                if(litPartiesObtained != null){
+                	solicitorIdNode = litPartiesObtained.selectSingleNode("SolicitorSurrogateId");
+                    if(solicitorIdNode != null){
+                    	solExists = true; } }
+                return solExists; }
+		</miscCode>		
+	</Javascript>
+</Question>

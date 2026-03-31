@@ -1,0 +1,47 @@
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>515</Id>
+	<Label>Asset details postcode</Label>
+	<ObjectName>AssetPostCode</ObjectName>
+	<Html>	
+		<input type="text" id="AssetPostCode" size="8"></input>
+	</Html>			
+	<Javascript>
+		<XPath>/ds/EnterVariableData/InterimCharge/Asset/Address/PostCode</XPath>
+		<componentName>##label##</componentName>
+		<isMandatory>return false;</isMandatory>
+		<HintText>Postcode of the land to be charged</HintText>			
+		<enableOn>IsAssetChargedLand.dataBinding, IsChargedLandDebtorsAdd.dataBinding</enableOn>
+		<isReadOnly>
+			var a = Services.getValue(IsAssetChargedLand.dataBinding);
+			var b = Services.getValue(IsChargedLandDebtorsAdd.dataBinding);
+			return(a == 'Y' &amp;&amp; b == 'Y');
+		</isReadOnly>
+		<isEnabled>return ( 'Y' == Services.getValue(IsAssetChargedLand.dataBinding));</isEnabled>
+			<logicOn>IsAssetChargedLand.dataBinding, IsChargedLandDebtorsAdd.dataBinding</logicOn>
+			<logic>
+				var aDom = WPU.getCurrentCaseData(); 
+				var partyDom = WPU.getSubjectPartyNode(aDom, true);   	
+	   			var partyId = XML.getNodeTextContent(partyDom.selectSingleNode("./PartyId"));
+	   			var upDom = aDom.selectSingleNode("//Parties/LitigiousParty[./PartyId = '"+partyId+"']");
+	   			var postCode = XML.getNodeTextContent( upDom.selectSingleNode("ContactDetails/Address/PostCode"));	
+   			
+				if('Y' == Services.getValue(IsAssetChargedLand.dataBinding))
+				{
+					if('Y' != Services.getValue(IsChargedLandDebtorsAdd.dataBinding))
+					{
+						Services.setValue(AssetPostCode.dataBinding, "");
+					}
+					else if('Y' == Services.getValue(IsChargedLandDebtorsAdd.dataBinding))
+					{
+						Services.setValue(AssetPostCode.dataBinding,postCode);
+					}
+				}
+				else
+				{
+					Services.setValue(AssetPostCode.dataBinding, "");
+				}
+			</logic>
+			<validateOn>AssetPostCode.dataBinding</validateOn>
+			<validate>return WPU.validatePostcode(Services.getValue(AssetPostCode.dataBinding));</validate>
+	</Javascript>
+</Question>

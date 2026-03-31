@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--Question xmlns="http://eds.com/questionxhtml" xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd"-->
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>Q_OtherReason</Id>
+	<Label>Other Reason</Label>
+	<ObjectName>OtherReason</ObjectName>
+	<Html> 
+		<input id="OtherReason" type="text" size="70" > </input>
+	</Html>
+	<Javascript>
+		<XPath>/ds/var/page/OracleReportForm/OtherReason</XPath>
+		<ReportVariableName>REQ_REASON_OTHER</ReportVariableName>
+		<ReportVariableValue>Services.getValue(OtherReason.dataBinding)</ReportVariableValue>
+		<ReportVariableCode>2420</ReportVariableCode>
+		<HintText></HintText>
+		<mandatoryOn>ReasonThatClaimIsReferred.dataBinding</mandatoryOn>
+		<isMandatory>
+			var reasonThatClaimIsReferred = Services.getValue(ReasonThatClaimIsReferred.dataBinding);
+		    if (reasonThatClaimIsReferred == "OTH")
+				{
+					return true;
+				}
+				else
+				{
+					return false;
+				}
+		</isMandatory>
+		<initialise></initialise>
+		<setDefault></setDefault>
+		<validateOn>
+		</validateOn>
+		<validate>
+		</validate>
+		<transformToDisplay>
+			 return (null != value) ? value.toUpperCase() : null;
+	    </transformToDisplay>
+        <transformToModel>
+             return (null != value) ? value.toUpperCase() : null;
+        </transformToModel>		
+		<readOnlyOn>ReasonThatClaimIsReferred.dataBinding</readOnlyOn>
+		<isReadOnly>
+			var reasonThatClaimIsReferred = Services.getValue(ReasonThatClaimIsReferred.dataBinding);
+			if (reasonThatClaimIsReferred == "OTH")
+				{
+					return false;
+				}
+				else
+				{
+					return true;
+				}
+		</isReadOnly>	
+		<miscCode>
+		</miscCode>
+	</Javascript>
+</Question>

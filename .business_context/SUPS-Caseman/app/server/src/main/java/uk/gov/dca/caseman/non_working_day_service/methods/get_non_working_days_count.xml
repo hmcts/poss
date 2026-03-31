@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: NonWorkingDay
+	Method:  getNonWorkingDaysCount()
+	Author:  Phil Haferer (EDS) 
+	Created: 27 April 2005
+-->
+<service-method>
+	<pipeline>
+		<Query>
+  			<QueryDef location="uk/gov/dca/caseman/non_working_day_service/query_def_non_working_days_count.xml"/>
+  			<QueryExtension pivotNode="/ds/NonWorkingDaysCount">
+				<Param name="param.receiptDate" xpath="/params/param[@name = 'receiptDate']"/>
+				<Param name="param.processingDate" xpath="/params/param[@name = 'processingDate']"/>
+			</QueryExtension>
+  		</Query>
+  	</pipeline>
+	<Security roles="user"/>
+</service-method>
+

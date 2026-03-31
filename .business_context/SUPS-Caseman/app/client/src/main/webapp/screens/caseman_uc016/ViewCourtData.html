@@ -1,0 +1,209 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3c.org/TR/html4/strict.dtd">
+<!-- 
+    @Changes: 
+	Feb 10, 2010 Chris Vincent - Added Welsh Court Name fields (Trac 2629)
+	Sep 07, 2012 Chris Vincent - Added DR Telephone Number field (Trac 4718)
+-->
+<html>
+
+	<head>
+		<title>ViewCourtData</title>
+		<link href="ViewCourtData.css" type="text/css" rel="stylesheet">
+		<script type="text/javascript" src="../../Framework.js"></script>
+		<script type="text/javascript" src="../../ConcatCommon.js"></script>
+		<script type="text/javascript" src="ViewCourtData.js"></script>
+	</head>
+
+	<body>
+		<form name="ViewCourtData" id="viewCourtData">
+			
+		<!-- Framework Navigation Menu -->
+		<script type="text/javascript">MenuBarRenderer.createInline();</script>    
+		
+		<table class="layout">
+					
+			<!-- Header Panel -->
+			<tr>
+				<td>
+					<div class="panel">
+						  <table class="content">
+							<tr>
+								<td>
+									<table style="margin-top: 5px; margin-bottom:5px;">
+										<tr>									
+											<td class="defaultLabel"><label for='Header_Court_Code'>Court Code</label></td>
+											<td><input id="Header_Court_Code" type="text" size=3></td>
+											<td>
+												<script type="text/javascript">
+													AutoCompletionRenderer.createInline("Header_Court_Name");
+												</script>
+											</td>
+											<td>&nbsp;<input id="Header_CourtName_LovBtn" type="button" value="LOV"></td>
+											
+											<td style="width:25px;">&nbsp;</td>
+												
+											<td style="width:100px;"><label for='Header_Id'>ID</label></td>
+											<td><input id="Header_Id" type="text" size=2></td>
+
+											<td style="width:25px;">&nbsp;</td>
+																								
+											<td class="defaultLabel"><label for='Header_District_Registry'>District Registry</label></td>
+											<td><input id="Header_District_Registry" type="checkbox"></td>
+
+											<td style="width:160px;" align="right"><input id="Header_SearchBtn" type="button" value="Search"></td>
+										</tr>
+									</table>
+								</td>			
+							</tr>
+							<tr> 
+								<td>
+									<script type="text/javascript">
+										Grid.createInline(
+											"Header_CourtNameListGrid",
+											["Code", "Name", "ID", "District Registry"],
+											10,
+											1
+										); 
+									</script>
+								</td>
+							</tr>
+						</table>
+					</div>	    	
+				</td>
+			</tr>
+			<!-- End Header Panel -->
+			
+			<tr>
+				<td>
+					<div class="panel">
+						<table class="content">
+							<tr>
+								<td class="courtFieldLabel"><label for='Results_Welsh_HighCourt_Name'>Welsh High Court Name</label></td>
+								<td style="width:312px;"><input id="Results_Welsh_HighCourt_Name" type="text" size=50 style="margin-top:5px;"></td>
+								<td class="courtFieldLabel"><label for='Results_Welsh_CountyCourt_Name'>Welsh County Court Name</label></td>
+								<td><input id="Results_Welsh_CountyCourt_Name" type="text" size=50 style="margin-top:5px;"></td>
+							</tr>
+							
+							<tr>
+								<td class="courtFieldLabel"><label for='Results_ContactDetails_DX'>DX Number</label></td>
+								<td><input id="Results_ContactDetails_DX" type="text" size=24 style="margin-top:3px;"></td>
+								<td class="courtFieldLabel"><label for='Results_Grouping_Court'>Grouping Court</label></td>
+								<td><input id="Results_Grouping_Court" type="text" size=24 style="margin-top:3px;"></td>
+							</tr>
+							
+							<tr>
+								<td class="courtFieldLabel"><label for='Results_DMCourt'>Diary Manager Court</label></td>
+								<td><input id="Results_DMCourt" type="text" size=24 style="margin-top:3px;"></td>
+								<td class="courtFieldLabel"><label for='Results_ContactDetails_TelephoneNumber'>Telephone Number</label></td>
+								<td><input id="Results_ContactDetails_TelephoneNumber" type="text" size=24 style="margin-top:3px;"></td>
+							</tr>
+							
+							<tr>
+								<td class="courtFieldLabel"><label for='Results_ContactDetails_FaxNumber'>Fax Number</label></td>
+								<td><input id="Results_ContactDetails_FaxNumber" type="text" size=24 style="margin-top:3px; margin-bottom:5px;"></td>
+								<td class="courtFieldLabel"><label for='Results_ContactDetails_DRTelephoneNumber'>DR Telephone Number</label></td>
+								<td><input id="Results_ContactDetails_DRTelephoneNumber" type="text" size=24 style="margin-top:3px;"></td>
+							</tr>
+
+						</table>
+					</div>
+				</td>
+			</tr>
+	
+			<!-- Address List and Details Panel -->
+			<tr>
+				<td>
+					<div class="panel">
+						<table class="content">
+
+							<tr>
+								<td valign="top">
+									<table style="height:215px;">
+										<tr>
+											<td valign="top" colspan=2>
+												<script type="text/javascript">Grid.createInline("Results_CourtAddressListGrid", ["Address Type", "Address Line 1", "Address Line 2"], 11, 1);</script>
+											</td>
+										</tr>
+									</table>
+								</td>
+		
+								<td class="spacer">&nbsp;</td>
+								
+								<td valign="top" style="width:485px;">			    		
+									<table>
+										<tr>
+											<td valign="top">						    			
+												<table>																																				
+													<tr>
+														<td class="courtFieldLabel"><label for='Results_ContactDetails_Address_Type'>Address Type</label></td>
+														<td>
+															<input id="Results_ContactDetails_Address_Type" type="text" size=15>																	
+														</td>
+													</tr>
+													<tr>
+														<td class="courtFieldLabel"><label for='Results_ContactDetails_Address_Line1'>Address</label></td>
+														<td><input id="Results_ContactDetails_Address_Line1" type="text" size=50></td>
+													</tr>
+													<tr>
+														<td>&nbsp;</td>
+														<td><input id="Results_ContactDetails_Address_Line2" type="text" size=50></td>
+													</tr>
+													<tr>
+														<td>&nbsp;</td>
+														<td><input id="Results_ContactDetails_Address_Line3" type="text" size=50></td>
+													</tr>
+													<tr>
+														<td>&nbsp;</td>
+														<td><input id="Results_ContactDetails_Address_Line4" type="text" size=50></td>
+													</tr>
+													<tr>
+														<td>&nbsp;</td>
+														<td><input id="Results_ContactDetails_Address_Line5" type="text" size=50></td>
+													</tr>
+													<tr>
+														<td class="courtFieldLabel"><label for='Results_ContactDetails_Address_Postcode'>Postcode</label></td>
+														<td><input id="Results_ContactDetails_Address_Postcode" type="text" size=15></td>
+													</tr>
+												</table>								
+											</td>
+										</tr>
+									</table>
+								</td>
+							</tr>
+						</table>
+					</div>
+				</td>    		
+			</tr>
+			<!-- End Address List and Details Panel -->
+			
+			</table>
+			
+			<!-- Status Bar Panel -->
+			<script type="text/javascript">
+				ActionBarRenderer.createInline(
+					"status_bar",
+					[
+						{ id: "Status_ClearBtn", label: "Clear" },
+						{ id: "Status_CloseBtn", label: "Close" }
+					]
+				);
+			</script>
+			<!-- End Status Bar Panel -->
+			
+			<!-- LOV Popups -->
+			<script type="text/javascript">
+				LOVSubformRenderer.createInline( 
+					"HeaderCourtNameLovBtnGrid", 
+					"Select Court", 
+					["Code", "Name"], 
+					10, 
+					1, 
+					true 
+				);
+			</script>
+			
+	   </form>
+	
+	</body>
+
+</html>

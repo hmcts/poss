@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: CaseEvent
+	Method:  getCaseEvents()
+	File:    map_get_case_events.xml
+	Author:  Phil Haferer (EDS)
+	Created: February 2005
+	Description: 
+		The &apos;Mapping&apos; for retrieving Case Events belonging to a Case.
+		
+	Change History:
+	28-Jul-2005 Phil Haferer (EDS): Added TransferStatus node, so Case Type changes may sometimes be disabled.
+	14-dec-05	Chris Hutt: WpOutput and RptOutput added - apparently a temp fix pending final rpt/wp solution
+                            Will need looking at performance wise. 
+    18-Jul-2006 Phil Haferer: Removed the tags WordProcessingOutputId and WordProcessingOutputFinal from 
+                CaseEvent as now obsolete - also all references to the table alias WPO.
+                (TD 4018: Performance: Pagination required when displaying list of Case Events).
+    23-Nov-2006 HearingSequence returned (TD:5827)
+	22-Mar-2007 Chris Vincent: Added the UserAlias node under CaseEvent.  CaseMan Defect 6000.
+	23-Mar-2007 Mark Groen: TD 6039. Added tag ...Output\ReportId
+	09-Aug-2007 Chris Vincent: Added the Case Status Node.  UCT_Group2 defect 1526
+	21-Jul-2008 Sandeep Mullangi (Logica): Added insolvency field.
+	10-Sep-2008 Sandeep Mullangi (Logica): updated insolvency number field to InsolvencyNumber
+	15-Nov-2012 Chris Vincent - added WelshTranslation node under Party node and TransferReason node under
+				CaseEvent.  Trac 4761.
+	28-Jan-2013 Chris Vincent - Added PreferredCourtCode, PreferredCourtName (Trac 4764), Judge (Trac 4768), 
+				AmountClaimedCurrency,  AmountClaimed, Track and OriginalTrack (Trac 4763) nodes.  RFS 3719
+	04-Feb-2015 Chris Vincent - Now returns Judgment Sequence and MCOL Reference for an event.  Trac 5473
+	12-Oct-2016 Chris Vincent - Added <Jurisdiction> node.  Trac 5883
+	14-Oct-2016 Chris Vincent - Added <FlagConfidentiality> node.  Trac 5880
+-->
+<DBMapDef>
+  <DataSource id="java:OracleDS"/>
+  <Tables>
+    <Table alias="C" name="CASES"/>
+    <Table alias="CT" name="COURTS"/>
+	<Table alias="CT2" name="COURTS"/>
+    <Table alias="CPR" name="CASE_PARTY_ROLES"/>
+    <Table alias="PR" name="PARTY_ROLES"/>
+    <Table alias="P" name="PARTIES"/>
+    <Table alias="CE" name="CASE_EVENTS"/>
+    <Table alias="SE" name="STANDARD_EVENTS"/>
+    <Table alias="OB" name="OBLIGATIONS"/>
+    <Table alias="WFT" name="WINDOW_FOR_TRIAL"/>
+    <Table alias="W" name="WARRANTS"/>
+    <Table alias="REF" name="CCBC_REF_CODES"/>
+    <Table alias="PY" name="PAYMENTS"/>
+	<Table alias="WO" name="WP_OUTPUT"/>
+	<Table alias="RO" name="REPORT_OUTPUT"/>
+	<Table alias="RQ" name="REPORT_QUEUE"/>
+  </Tables>  
+  <Mapping>
+	<ds>
+	<ManageCaseEvents>
+		<CaseNumber>${C.CASE_NUMBER}</CaseNumber>
+		<InsolvencyNumber>${C.INSOLVENCY_NUMBER}</InsolvencyNumber>
+		<OwningCourtCode>${C.ADMIN_CRT_CODE}</OwningCourtCode>
+		<OwningCourtName>${CT.NAME}</OwningCourtName>
+		<CaseType>${C.CASE_TYPE}</CaseType>
+		<Jurisdiction>${C.JURISDICTION}</Jurisdiction>
+		<ObsoleteCaseTypeFlag>${C.OBSOLETE_CASE_TYPE}</ObsoleteCaseTypeFlag>
+		<TransferStatus>${C.TRANSFER_STATUS}</TransferStatus>
+		<CreditorCode>${C.CRED_CODE}</CreditorCode>
+		<CaseStatus>${C.STATUS}</CaseStatus>
+		<PreferredCourtCode>${C.PREF_COURT_CODE}</PreferredCourtCode>
+		<PreferredCourtName>${CT2.NAME}</PreferredCourtName>
+		<Track>${C.TRACK}</Track>
+		<OriginalTrack>${C.TRACK}</OriginalTrack>
+		<Judge>${C.JUDGE}</Judge>
+		<AmountClaimedCurrency>${C.AMOUNT_CLAIMED_CURRENCY}</AmountClaimedCurrency>			
+		<AmountClaimed>${C.AMOUNT_CLAIMED}</AmountClaimed>
+		<Parties>
+			<Party>
+				<PartyKey>${CPR.PARTY_KEY}</PartyKey>
+				<CasePartyNumber>${CPR.CASE_PARTY_NO}</CasePartyNumber>
+				<PartyRoleCode>${CPR.PARTY_ROLE_CODE}</PartyRoleCode>
+				<PartyRoleDescription>${PR.PARTY_ROLE_DESCRIPTION}</PartyRoleDescription>
+				<PartyName>${P.PERSON_REQUESTED_NAME}</PartyName>
+				<WelshTranslation>${CPR.WELSH_INDICATOR}</WelshTranslation>
+			</Party>
+		</Parties>
+		<CaseEvents>
+			<CaseEvent>
+				<CreditorCode>${C.CRED_CODE}</CreditorCode>
+				<Status/>
+				<CaseEventSeq>${CE.EVENT_SEQ}</CaseEventSeq>
+				<EventDate>${CE.EVENT_DATE}</EventDate>
+				<StandardEventId>${CE.STD_EVENT_ID}</StandardEventId>
+				<StandardEventDescription>${SE.DESCRIPTION}</StandardEventDescription>
+				<SubjectPartyKey>${CE.PARTY_KEY}</SubjectPartyKey>
+				<SubjectPartyRoleCode>${CE.PARTY_ROLE_CODE}</SubjectPartyRoleCode>
+				<SubjectCasePartyNumber>${CE.CASE_PARTY_NO}</SubjectCasePartyNumber>
+				<SubjectCaseFlag/>
+				<Applicant>${CE.REQUESTER}</Applicant>
+				<Result>${CE.RESULT}</Result>				
+				<EventDetails>${CE.DETAILS}</EventDetails>
+				<HearingSequence>${CE.HRG_SEQ}</HearingSequence>
+				<JudgmentSeq>${CE.JUDG_SEQ}</JudgmentSeq>
+				<MCOLReference>${CE.MCOL_REFERENCE}</MCOLReference>
+				<DeletedFlag>${CE.DELETED_FLAG}</DeletedFlag>
+				<UserName>${CE.USERNAME}</UserName>
+				<UserAlias>${CE.USERALIAS}</UserAlias>
+				<ReceiptDate>${CE.RECEIPT_DATE}</ReceiptDate>
+				<BMSTask>${CE.BMS_TASK_NUMBER}</BMSTask>
+				<StatsModule>${CE.STATS_MODULE}</StatsModule>
+				<CourtCode>${CE.CRT_CODE}</CourtCode>
+				<RelatedType/>
+				<EditDetails>${SE.EDIT_DETAILS}</EditDetails>
+				<CaseFlag>${CE.CASE_FLAG}</CaseFlag>
+				<CreatingCourt>${CE.CREATING_COURT}</CreatingCourt>
+				<CreatingSection>${CE.CREATING_SECTION}</CreatingSection>
+				<TransferReason>${CE.TRANSFER_REASON}</TransferReason>
+				<Track>${CE.TRACK}</Track>
+				<Outputs>
+					<Output>
+						<Type>${OUTPUT.TYPE}</Type>
+						<Final>${OUTPUT.FINAL_IND}</Final>
+						<OutputId>${OUTPUT.OUTPUT_ID}</OutputId>
+						<Description>${OUTPUT.DESCRIPTION}</Description>
+						<DocumentId>${OUTPUT.DOCUMENT_ID}</DocumentId>
+						<ReportId>${OUTPUT.REPORT_ID}</ReportId>
+					</Output>
+				</Outputs>
+			</CaseEvent>
+		</CaseEvents>
+		<ActiveObligationsExist>${OB.ACTIVE_OBLIGATIONS}</ActiveObligationsExist>
+		<DeletedObligationsExist>${OB.DELETED_OBLIGATIONS}</DeletedObligationsExist>
+		<WindowsForTrialExist>${WFT.EXIST}</WindowsForTrialExist>
+		<OutstandingWarrant>${W.IS_OUTSTANDING}</OutstandingWarrant>
+		<PaymentsExist>${PY.PAYMENTS_EXIST}</PaymentsExist>
+		<FlagConfidentiality>${C.CONFIDENTIAL}</FlagConfidentiality>
+	</ManageCaseEvents>
+	</ds>
+  </Mapping>
+</DBMapDef>

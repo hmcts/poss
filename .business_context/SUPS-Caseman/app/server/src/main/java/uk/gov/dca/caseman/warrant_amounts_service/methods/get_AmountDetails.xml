@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<service-method>
+  <pipeline>
+    <Query>
+      <QueryDef location="uk/gov/dca/caseman/warrant_amounts_service/query_def_gad.xml"/>
+      
+      <QueryExtension pivotNode="/ds/WarrantAmounts/Warrant">
+        <Param name="param.ProcessNumber" xpath="/params/param[@name = 'ProcessNumber']"/>
+		<Param name="param.ProcessType" xpath="/params/param[@name = 'ProcessType']"/>
+		<Param name="param.IssuingCourtCode" xpath="/params/param[@name = 'IssuingCourtCode']"/>
+        <SQL type="select">
+			SELECT F.FEES_PAID_ID AS "F.FEES_PAID_ID",
+				F.PROCESS_NUMBER AS "F.PROCESS_NUMBER",
+				F.PROCESS_TYPE AS "F.PROCESS_TYPE",
+				F.ALLOCATION_DATE AS "F.ALLOCATION_DATE",
+				F.AMOUNT AS "F.AMOUNT",
+				F.AMOUNT_CURRENCY AS "F.AMOUNT_CURRENCY",
+				F.ISSUING_COURT AS "F.ISSUING_COURT",
+				F.USER_ID AS "F.USER_ID",
+				F.DATE_CREATED AS "F.DATE_CREATED",
+				F.DELETED_FLAG AS "F.DELETED_FLAG",
+				(SELECT CASE 
+					WHEN
+ 						F.AMOUNT &lt; 0 THEN 'REFUND' 
+					ELSE
+ 						'FEE' 
+					END
+				FROM FEES_PAID F1
+            	WHERE F1.FEES_PAID_ID = F.FEES_PAID_ID ) AS "F1.TYPE",
+            	'EXISTING' AS "EXISTING_VALUE",
+            	F.ORA_ROWSCN AS "F_ORA_ROWSCN"
+        	FROM FEES_PAID F
+			WHERE F.PROCESS_NUMBER = ${param.ProcessNumber} AND
+			F.PROCESS_TYPE = ${param.ProcessType} AND
+			F.ISSUING_COURT = ${param.IssuingCourtCode} AND
+			F.DELETED_FLAG = 'N'
+		</SQL>
+      </QueryExtension>
+    </Query>
+  </pipeline>
+  <Security roles="wcSuper"/>
+</service-method>

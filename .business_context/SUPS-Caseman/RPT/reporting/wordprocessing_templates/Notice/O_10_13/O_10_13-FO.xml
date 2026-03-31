@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- ====================================================================== -->
+<!--  -->
+<!-- FILENAME: $Source:  -->
+<!--  -->
+<!-- AUTHOR: $Author: -->
+<!--  -->
+<!-- DATE: $Date: -->
+<!--  -->
+<!-- Version: $Revision: -->
+<!--  -->
+<!-- DESCRIPTION: This stylesheet is used to create an XSL:FO document that -->
+<!-- can be processed into a PDF version.  Business logic -->
+<!-- is embedded to generate the correct document text for the order -->
+<!-- required. -->
+<!--  -->
+<!-- INPUTS: XML document containing: the answers to questions asked of the -->
+<!-- user; case data retrieved from the database; HTML representing the  -->
+<!-- body of the document content (already edited by the user). -->
+<!--  -->
+<!-- OUTPUTS: XML document with FO tags containing instructions for the -->
+<!-- creation of a PDF document. -->
+<!--  -->
+<!-- 
+@author Sandeep Mullangi
+@version 0.1
+Change Hisstory
+Oct 27, 2008 Sandeep Mullangi - Printing insolvency number if present as part of RFC 486
+-->
+<root xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:fo="http://www.w3.org/1999/XSL/Format" xmlns="http://eds.com/supsfo">
+	<variables>@word.processing.url.xsl@supsfo.xsl</variables>
+	<layout>order</layout>
+	<duplex/>					
+	<addressee>
+		<blank/>
+		<debtorparty/>
+		<creditorparty/>
+		<company/>
+		<applicant/>
+		<petitioner/>
+		<trustee/>
+		<insolvencypractitioner/>
+		<officialreceiver/>
+	</addressee>
+	<header>
+		<fo:block font-size="10pt" font-weight="bold">Rule 6.4</fo:block>
+		<fo:block font-size="16pt" font-weight="bold">Application to set aside a Statutory Demand</fo:block>
+	</header>
+	<courtcase>
+		<court>
+			<xsl:copy-of select="$vdCourtHeaderBlock"/>
+		</court>
+		<caseparameters>
+			<!-- adding insolvency number-->
+            <parameter>
+                <name>
+                    <fo:block font-weight="bold">
+                        <xsl:choose>
+                            <xsl:when test="string-length($vdInsolvencyNumber) > 0">Insolvency Number</xsl:when>
+                            <xsl:otherwise>Case Number</xsl:otherwise>
+                        </xsl:choose>
+                    </fo:block>
+                </name>
+                <value>
+                    <fo:block>
+                        <xsl:choose>
+                            <xsl:when test="string-length($vdInsolvencyNumber) > 0">
+                                <xsl:value-of select="substring($vdInsolvencyNumber,1,4)"/> of <xsl:value-of select="substring($vdInsolvencyNumber,5,4)"/>
+                            </xsl:when>
+                            <xsl:otherwise>
+                                <xsl:value-of select="$vdClaimNumber"/>
+                            </xsl:otherwise>
+                        </xsl:choose>
+                    </fo:block>
+                </value>
+			</parameter>
+			<parameter>
+				<name>
+					<fo:block font-weight="bold">Applicant</fo:block>
+				</name>
+				<value>
+					<fo:block hyphenate="true">
+						<xsl:value-of select="$vdSubjectName"/>
+					</fo:block>
+				</value>
+			</parameter>
+		</caseparameters>
+	</courtcase>
+	<body>
+		<editable useid="N1007A">
+		<fo:block space-after="0.4cm" font-size="12pt">In Bankruptcy</fo:block>
+		<fo:block>Let</fo:block>
+		<fo:block space-after="0.4cm"><xsl:copy-of select="$vdInstigatorAddressMultiLineNoDX"/></fo:block>
+		<fo:block space-after="0.4cm">attend before the District Judge as follows</fo:block>
+		<fo:block space-after="0.4cm">Date: <xsl:value-of select="$vdHearingDate"/>&#xa0;&#xa0;&#xa0; Time: <xsl:value-of select="$vdHearingTime"/></fo:block>
+		<fo:block space-after="0.4cm">at <xsl:value-of select="$vdHearingCourtNameDescription"/>, <xsl:value-of select="$vdHearingCourtAddress"/>.</fo:block>
+		<fo:block space-after="0.4cm">on the hearing of an application by <xsl:value-of select="$vdSubjectName"/> the applicant for an order that the statutory demand dated <xsl:value-of select="$vdStatutoryDemandDate"/> be set aside.</fo:block>
+		<fo:block space-after="0.4cm">The grounds on which the applicant claims to be entitled to the order are set out in the affidavit of the applicant sworn on <xsl:value-of select="$vdAffidavitSupportDate"/>, a copy of which accompanies this application.</fo:block>
+		<fo:block>The names and addresses of the persons upon whom this application should be served are:</fo:block>
+		<fo:block space-after="0.4cm"><xsl:copy-of select="$vdInstigatorAddressMultiLineNoDX"/></fo:block>
+		<fo:block>The applicant's address for service is:</fo:block>
+		<fo:block><xsl:copy-of select="$vdSubjectAddressMultiLineNoDX"/></fo:block>
+		<fo:block space-after="0.4cm" text-align="right">Dated  <xsl:value-of select="$vdApplicationDate"/></fo:block>
+		</editable>		
+		<signature signaturetype="signatureonly"/>
+		<fo:block font-style="italic">If you do not attend, the Court may make such order as it thinks fit</fo:block>
+	</body>
+	<defaultFooter id="O_10_13"/>
+</root>

@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+	Service: AeAmounts
+	Method:  updateAeAmounts()
+	File:    map_upd_ae_amounts.xml
+	Author:  Chris Hutt
+	Created: 1 Dec 2006
+	Description: 
+		Update Amounts associated with an Ae Application
+		
+	Change History:
+
+ -->
+<DBMapDef>
+  <DataSource id="java:OracleDS"/>
+  <Tables>
+    <Table alias="FP" name="FEES_PAID"/>
+    <Table alias="AEA" name="AE_APPLICATIONS"/>
+  </Tables>
+  <Mapping>
+	<MaintainAEAmounts>	
+	    <AENumber>${AEA.AE_NUMBER}</AENumber>
+	    <Fee>${AEA.AE_FEE}</Fee>	
+	    <DateCreated>${AEA.DATE_OF_CREATION}</DateCreated>
+	    <OwningCourtCode>${AEA.ISSUING_CRT_CODE}</OwningCourtCode>    
+	    <CaseNumber>${AEA.CASE_NUMBER}</CaseNumber> 
+	    
+		<AEAmounts>
+			<AEAmount>
+	  			<FeesPaidId>${FP.FEES_PAID_ID}</FeesPaidId>
+				<SurrogateId>1</SurrogateId>
+				<AmountCurrency>${FP.AMOUNT_CURRENCY}</AmountCurrency>
+				<Amount>${FP.AMOUNT}</Amount>
+				<UserName>${FP.USER_ID}</UserName>
+				<ProcessType>${FP.PROCESS_TYPE}</ProcessType>
+				<DateCreated>${FP.DATE_CREATED}</DateCreated>
+				<Deleted>${FP.DELETED_FLAG}</Deleted>
+			</AEAmount>
+		</AEAmounts>	
+	</MaintainAEAmounts>
+  </Mapping>
+</DBMapDef>

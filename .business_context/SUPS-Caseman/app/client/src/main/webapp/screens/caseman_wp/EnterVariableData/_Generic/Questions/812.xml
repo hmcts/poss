@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>812</Id>
+	<Label>Costs wording</Label>
+	<Context screenId="CO15">
+		<Label>Costs wording, if applicable</Label>
+	</Context>
+	
+	<ObjectName>CostsWording</ObjectName>
+	<Html>
+		<textarea id="CostsWording" cols ="60" rows="3"></textarea>
+	</Html>
+	<Javascript>
+		<XPath>/ds/EnterVariableData/CostsWording</XPath>
+		<componentName>##label##</componentName>
+		<HintText>Enter Costs wording as required to be printed</HintText>
+		<isMandatory>return false;</isMandatory>
+		<mandatoryOn>CostsWording.dataBinding</mandatoryOn>
+		<transformToModel>return WPU.encodeLineBreaks( this, value );</transformToModel>
+		<transformToDisplay>return WPU.decodeLineBreaks( this, value );</transformToDisplay>
+	</Javascript>
+</Question>

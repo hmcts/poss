@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Change History -->
+<!-- 04 Dec 2006 - UCT TD883 Mark Groen (EDS) - Changed field validation so date cannot be in the future -->
+<!--Question xmlns="http://eds.com/questionxhtml" xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd"-->
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>Q_DateOfOriginalAO</Id>
+	<Label>Enter Date of Original AO</Label>
+	<ObjectName>DateOfOriginalAO</ObjectName>
+	<Html>
+		<script type="text/javascript">
+			DatePickerRenderer.createInline("DateOfOriginalAO", false);
+		</script>
+	</Html>
+	<Javascript>
+		<XPath>/ds/var/page/OracleReportForm/DateOfOriginalAO</XPath>
+		<ReportVariableName>DATE_AO</ReportVariableName>
+		<ReportVariableValue>CaseManUtils.convertDateToDisplay(Services.getValue(DateOfOriginalAO.dataBinding))</ReportVariableValue>
+		<ReportVariableCode>12530</ReportVariableCode>
+		<HintText>Enter Date of Original Administration Order (format DD-MON-YYYY)</HintText>
+		<isMandatory>return true;</isMandatory>
+		<initialise></initialise>
+		<setDefault></setDefault>		
+		<validateOn>DateOfOriginalAO.dataBinding</validateOn>
+		<validate>
+			// defect UAT 883
+			var dateOrigOrder = Services.getValue(DateOfOriginalAO.dataBinding);
+			var dateOrigOrderObj = CaseManUtils.isBlank(dateOrigOrder) ? null : CaseManUtils.createDate(dateOrigOrder);
+			var todayDateObj = CaseManUtils.createDate(getTodaysDate());
+			var errCode = null;
+			if(dateOrigOrderObj != null){
+				var comparison = CaseManUtils.compareDates(dateOrigOrderObj, todayDateObj);
+				if(comparison == -1){
+					errCode = ErrorCode.getErrorCode("CaseMan_dateCannotBeInTheFuture_Msg");
+				}     
+			}
+			return errCode;	
+		</validate>
+		<miscCode></miscCode>
+	</Javascript>
+</Question>

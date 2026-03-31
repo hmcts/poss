@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>9112</Id>
+	<Label>Enter the total amount due</Label>
+	<ObjectName>TotalAmount</ObjectName>
+	<Html>	
+		<input id="DefaultCurrency9112" type="text" size="1"></input> 
+		<input id="TotalAmount" type="text" size="11"></input>	
+	</Html>
+	
+	<Context screenId="O_5_6"><isVisible>false</isVisible></Context>
+	
+	<Javascript>
+     	<XPath>/ds/EnterVariableData/TotalAmount</XPath>
+		<HintText>Enter the total amount due</HintText>
+		<isMandatory>return true;</isMandatory>
+        <mandatoryOn>TotalAmount.dataBinding</mandatoryOn> 
+        <isEnabled>return true;</isEnabled> 
+		<validate>
+			//Validation: only numeric characters allowed and two decimal places.
+			//Error message: Currency amounts must be in the format of 0.00
+			//Currency field. Max value. 99999999.99	
+              var value = Services.getValue(TotalAmount.dataBinding);      
+                  var maxVal = 99999999.99;         
+                  var err = null;
+                  
+                  if( '0.00 ' != value )
+                  {   err = validateCurrencyValue(value, maxVal);
+                      if( null == err)
+                      { 
+                        var returnVal = WPU.formatToTwoDP(value);
+                        Services.setValue(TotalAmount.dataBinding, returnVal);
+                      } 
+                  }
+                  return err;         
+            		
+		</validate>
+        <transformToModel>        
+             if( null == value || "" == value )
+             {  return "0.00 ";
+             }
+             else
+             { return value;
+             }
+       </transformToModel>
+       <transformToDisplay>            
+            if( '0.00 ' == value) return "0.00";
+            return value;           
+       </transformToDisplay>
+       <miscCode>
+			function DefaultCurrency9112() {}
+			DefaultCurrency9112.dataBinding = "/ds/EnterVariableData/curr1";
+			DefaultCurrency9112.tabIndex = -1;
+			DefaultCurrency9112.maxLength = 1;
+			DefaultCurrency9112.isReadOnly = function(){return true;}
+			DefaultCurrency9112.isTemporary = function(){return true;}
+			DefaultCurrency9112.transformToDisplay = function(value){
+				return WPS.__CaseManUtils().transformCurrencySymbolToDisplay(value,null,null); }
+			DefaultCurrency9112.transformToModel = function(value){
+				return WPS.__CaseManUtils().transformCurrencySymbolToModel(value,null,null); }
+		</miscCode>
+	</Javascript>
+</Question>

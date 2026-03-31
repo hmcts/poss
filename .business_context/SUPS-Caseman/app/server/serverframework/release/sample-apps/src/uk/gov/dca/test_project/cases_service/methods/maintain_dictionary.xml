@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<service-method>
+	<pipeline>
+		<MaintainDictionary xpath="/params/param[@name='MaintainDictionary']">
+			<DictionaryStore id="java:SupsDS"/>
+			<DictionaryDirectory>uk.gov.dca.fw.dictionaryLocation</DictionaryDirectory>
+			<DictionaryLanguage>en</DictionaryLanguage>
+			<DictionaryCountry>US</DictionaryCountry>
+		</MaintainDictionary>
+	</pipeline>
+	<Security roles="user"/>
+</service-method>

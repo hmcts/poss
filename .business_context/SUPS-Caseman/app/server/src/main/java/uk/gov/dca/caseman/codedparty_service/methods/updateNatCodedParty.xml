@@ -1,0 +1,31 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: Codedparty
+	Method:  updateNatCodedParty()
+	File:    updateNatCodedParty.xml
+	Author:  Phil Haferer
+	Created: 30 November 2005
+	Description: 
+		Updates a National Coded Party.
+		
+	Change History:
+	10-Jul-2006 Phil Haferer: Added QueryExtension to populate the column CODED_PARTIES.CASCADE_UPDATE_FLAG
+	            when a Coded Party is updated.
+	            (TD 3951: Changes to Coded Party Details not cascaded into Payments and Warrants).
+-->
+<service-method>
+	<pipeline>
+		<Update>
+  			<QueryDef location="uk/gov/dca/caseman/codedparty_service/query_def_update_nat_coded_party.xml"/>
+			<DataSource xpath="/params/param[@name='natCodedParty']"/>
+			<QueryExtension pivotNode="/CodedParty">
+				<CheckExists table="NP" fields="PARTY_ID" onNotExist="fail" onExist="update"/>
+				<Field name="cp.cascade_update_flag" value="Y"/>
+			</QueryExtension>
+		</Update>
+		<Transform>
+			<Template location="uk/gov/dca/caseman/codedparty_service/transforms/clear.xsl"/>
+		</Transform>		
+  	</pipeline>
+	<Security roles="ccbcMan"/>					
+</service-method>

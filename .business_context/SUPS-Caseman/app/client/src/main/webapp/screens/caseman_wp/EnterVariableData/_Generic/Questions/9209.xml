@@ -1,0 +1,166 @@
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>9209</Id>
+	<Label>Visits</Label>
+	<ObjectName>VisitsGrid</ObjectName>
+	<Html>	
+		
+		<div class="popup" id="Visits_Popup">
+		<table  class="content">
+			<tr>				
+				<td><label for="VisitDate">Date</label></td>
+				<td><script type="text/javascript">WP_DatePickerRenderer.createInline("VisitDate", false);</script></td>
+			</tr>
+			<tr>
+				<td><label for="VisitDate">Time</label></td>
+				<td><input id="VisitTime" type="text" size="5"></input></td>
+			</tr>
+			<tr>
+				<td><label for='VisitResult'>Result</label></td>
+				<td><script type="text/javascript">ZoomFieldRenderer.createInline("VisitResult", 10, 70);</script></td>
+			</tr>			
+			<tr>
+				<td></td>
+				<td></td>	
+				<td><input id="VisitAddBtn" type="button" value="Add"></input><input id="VisitCancelBtn" type="button" value="Cancel"></input></td>
+				
+			</tr>
+		</table>
+		</div>
+      
+      	<table width="100%">
+        	<tr><td>
+        	<script type="text/javascript">Grid.createInline("VisitsGrid", ["Visit Date", "Time", "Result"] , 4, 1);</script>
+        	</td></tr>
+        	<tr><td>
+        	<input id="VisitPopupBtn" type="button" value="Add Visit"></input>
+        	</td></tr>        	
+      	</table>
+	</Html>		
+	
+	<Javascript>
+		<XPath>/ds/EnterVariableData/ConfNotice/visitselected</XPath>
+		<isMandatory>return true;</isMandatory>
+		<mandatoryOn>VisitsGrid.dataBinding</mandatoryOn>
+		<HintText>Enter details of visits</HintText>	
+		<isEnabled>return false;</isEnabled>
+
+
+		<miscCode>	
+		//--------------------------------------- VisitsGrid ---------------------------------
+		VisitsGrid.srcData = "/ds/EnterVariableData/ConfNotice/visits";
+		VisitsGrid.rowXPath = "visit";
+		VisitsGrid.keyXPath = "visitid";
+		VisitsGrid.columns = [
+			{xpath: "date", transformToDisplay: CaseManUtils.formatGridDate},
+			{xpath: "time"},
+			{xpath: "result"} ];
+		
+		//-------------------------------------  VisitPopupBtn  ----------------------------------------
+
+		function VisitPopupBtn() {}
+	
+		VisitPopupBtn.actionBinding = function() 
+		{	
+			Services.dispatchEvent("Visits_Popup", PopupGUIAdaptor.EVENT_RAISE); 
+			Services.setValue(VisitDate.dataBinding, "");
+			Services.setValue(VisitTime.dataBinding, "");
+			Services.setValue(VisitResult.dataBinding, "");
+		}
+		VisitPopupBtn.isEnabled = function()
+		{	return true;
+		}
+		VisitPopupBtn.tabIndex = __tabIdx++;
+	
+	
+		//-------------------------------------  VisitAddBtn  ------------------------------------------
+	
+		var VISIT_COUNT = 0;
+	
+		function VisitAddBtn(){}
+		VisitAddBtn.actionBinding = function()
+		{		
+			var visitDate   = Services.getValue(VisitDate.dataBinding); //CaseManUtils.convertDateToDisplay( Services.getValue(VisitDate.dataBinding));
+			var visitTime   = Services.getValue(VisitTime.dataBinding);
+			var visitResult = Services.getValue(VisitResult.dataBinding);
+
+			// Need to ensure all mandatory data is entered and all data is valid
+
+			var screenValid = true;
+			if( (visitDate == null || visitDate == "") || 
+				(visitTime == null || visitTime == "") || 
+				(visitResult == null || visitResult == ""))
+			{
+			screenValid = false;	
+			}
+	
+			if(screenValid)
+			{   VISIT_COUNT++;
+				// Set the data in to the business part of the model		
+				var visitDOM= XML.createDOM();
+				visitDOM.loadXML("&lt;visit>"+
+								"&lt;visitid>" + VISIT_COUNT +"&lt;/visitid>"+
+								"&lt;date>"+ visitDate + "&lt;/date>"+
+								"&lt;time>" + visitTime + "&lt;/time>"+
+								"&lt;result>" + visitResult + "&lt;/result>"+
+							"&lt;/visit>");
+				Services.addNode(visitDOM, "/ds/EnterVariableData/ConfNotice/visits");
+			
+				FormController.getInstance().hideFormExtensionPopup("Visits_Popup");
+			}		
+		}
+
+
+
+		//--------------------------------------- VisitCancelBtn ---------------------------------------
+		
+		function VisitCancelBtn(){}
+		VisitCancelBtn.actionBinding = function()
+		{	
+			FormController.getInstance().hideFormExtensionPopup("Visits_Popup");
+		}	
+		VisitCancelBtn.nextFocusedAdaptorId = function()
+		{ return 'VisitPopupBtn';   //force framework to move to next available field
+		}
+		
+	
+		
+		
+		//--------------------------------------- VisitDate -------------------------------------
+	
+		function VisitDate(){}
+		VisitDate.dataBinding 	= "/ds/var/app/WPData/bailiffvisit/visitdate";
+		VisitDate.helpText 		= "Select the date of visit";
+		VisitDate.validateOn 	= [VisitDate.dataBinding];
+		VisitDate.validate 		= function(value)
+		{	
+			return isInPast(Services.getValue(VisitDate.dataBinding),"false");
+		}
+		
+		
+		//--------------------------------------- VisitTime -------------------------------------
+		
+		function VisitTime(){}
+		VisitTime.dataBinding 	= "/ds/var/app/WPData/bailiffvisit/time";
+		VisitTime.helpText 		= "Enter the time of visit";
+		VisitTime.validateOn 	= [VisitTime.dataBinding];
+		VisitTime.validate 		= function(value)
+		{	
+			return validateTimeAt(WPU.transformTimeToModel(Services.getValue(VisitTime.dataBinding)));				
+		}
+		
+		//--------------------------------------- VisitResult -----------------------------------
+		
+		function VisitResult(){}
+		VisitResult.dataBinding = "/ds/var/app/WPData/bailiffvisit/resultofvisit";	
+		VisitResult.helpText = "Enter the result of visit";
+		
+		//--------------------------------------- Visits_Popup  ---------------------------------
+		
+		function Visits_Popup(){}
+		Visits_Popup.nextFocusedAdaptorId = function()
+		{ return 'VisitPopupBtn';   //force framework to move to next available field
+		}
+					
+		</miscCode>
+	</Javascript>
+</Question>

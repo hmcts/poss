@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<service-method>
+	<pipeline>
+		<Query>
+			<QueryDef location="uk/gov/dca/test_project/cases_service/query_def.xml"/>
+			<QueryExtension pivotNode="/Case">
+				<Param name="param.caseNumber" xpath="/params/param[@name='caseNumber']"/>
+				<SQL type="select">
+					SELECT C.ADMIN_CRT_CODE AS "C.ADMIN_CRT_CODE", C.CASE_NUMBER AS "C.CASE_NUMBER", C.CASE_TYPE AS "C.CASE_TYPE", C.STATUS AS "C.STATUS", C.ORA_ROWSCN AS C_ORA_ROWSCN FROM CASES C WHERE (c.case_number = ${param.caseNumber})
+				</SQL>
+			</QueryExtension>
+		</Query>
+	</pipeline>
+	<Security roles="user"/>
+</service-method>

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<QueryDef>
+	<DBMapDef location="uk/gov/dca/transformation/case_legacy_service/map_add_defendant.xml"/>
+	<Query pivotNode="/Defendants/Defendant" tables="D">
+		<Join/>
+		<Modify>
+			<CheckExists table="D" fields="CASE_NUMBER ID" onNotExist="add" onExist="skip"/>
+		</Modify>
+	</Query>
+</QueryDef>

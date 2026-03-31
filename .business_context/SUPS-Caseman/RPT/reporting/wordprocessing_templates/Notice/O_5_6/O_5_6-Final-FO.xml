@@ -1,0 +1,229 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- ====================================================================== -->
+<!--  -->
+<!-- FILENAME: $Source: C:/CVSRepository/serveroas/src/uk/gov/dca/caseman/wordprocessing_templates/Notice/O_5_6/O_5_6-FO.xml,v $ -->
+<!--  -->
+<!-- AUTHOR: $Author: conganer $-->
+<!--  -->
+<!-- DATE: $Date: 2006/03/23 13:35:10 $ -->
+<!--  -->
+<!-- Version: $Revision: 1.11 $ -->
+<!--  -->
+<!-- DESCRIPTION: This stylesheet is used to create an XSL:FO document that -->
+<!-- can be processed into a PDF version.  Business logic -->
+<!-- is embedded to generate the correct document text for the order -->
+<!-- required. -->
+<!--  -->
+<!-- INPUTS: XML document containing: the answers to questions asked of the -->
+<!-- user; case data retrieved from the database; HTML representing the  -->
+<!-- body of the document content (already edited by the user). -->
+<!--  -->
+<!-- OUTPUTS: XML document with FO tags containing instructions for the -->
+<!-- creation of a PDF document. -->
+<!--  -->
+<!-- ====================================================================== -->
+<root xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:fo="http://www.w3.org/1999/XSL/Format" xmlns="http://eds.com/supsfo">
+	<variables>@word.processing.url.xsl@supsfo.xsl</variables>
+	<addressee>
+		<subject/>
+		<instigator/>
+	</addressee>
+	<header>
+		<fo:block font-size="16pt" font-weight="bold">Order for recovery of award</fo:block>
+	</header>
+	<courtcase>
+		<court>
+			<xsl:copy-of select="$vdCourtHeaderBlock"/>
+		</court>
+		<caseparameters>
+			<parameter>
+				<name>
+					<fo:block font-weight="bold">Claim Number</fo:block>
+				</name>
+				<value>
+					<fo:block>
+						<xsl:value-of select="$vdClaimNumber"/>
+					</fo:block>
+				</value>
+			</parameter>
+			<parameter>
+				<name>
+					<fo:block font-weight="bold">Applicant</fo:block>
+					<fo:block font-size="9pt">(including ref.)</fo:block>
+				</name>
+				<value>
+					<fo:block hyphenate="true">
+						<xsl:value-of select="$vdSubjectName"/>
+					</fo:block>
+					<fo:block font-size="9pt" hyphenate="true">
+						<xsl:value-of select="$vdSubjectReference"/>
+					</fo:block>
+				</value>
+			</parameter>
+			<parameter>
+				<name>
+					<fo:block font-weight="bold">Respondent</fo:block>
+					<fo:block font-size="9pt">(including ref.)</fo:block>
+				</name>
+				<value>
+					<fo:block hyphenate="true">
+						<xsl:value-of select="$vdInstigatorName"/>
+					</fo:block>
+					<fo:block font-size="9pt" hyphenate="true">
+						<xsl:value-of select="$vdInstigatorReference"/>
+					</fo:block>
+				</value>
+			</parameter>
+		</caseparameters>
+	</courtcase>
+	<bodyintroright><fo:block><fo:inline><electronicSeal/></fo:inline></fo:block></bodyintroright>
+	
+	<body><editable useid="N100AD">
+		<fo:block space-after="1.0cm"/>
+		<fo:block space-after="0.4cm" font-weight="bold">
+			On <xsl:value-of select="$vdJudgmentDate"/>, <xsl:value-of select="$vdJudge"/> 
+		</fo:block>
+		<fo:block space-after="0.4cm">
+			sitting at <xsl:value-of select="$vdHearingAtCourtNameDescription"/>, <xsl:value-of select="$vdHearingAtCourtAddress"/>. 
+		</fo:block>
+		<fo:block space-after="0.4cm">
+			considered the application and the award made to the applicant on <xsl:value-of select="$vdAwardDate"/> by the <xsl:value-of select="$vdBodyName"/> under reference <xsl:value-of select="$vdBodyReference"/>
+		</fo:block>
+		<fo:block space-after="0.4cm">
+			<fo:inline font-weight="bold">and the court orders </fo:inline>that
+		</fo:block>
+		<fo:block space-after="0.4cm">
+			<fo:inline font-weight="bold">1. </fo:inline>The applicant may enforce the award in this court.
+		</fo:block>
+		<fo:block space-after="0.4cm">
+			<fo:inline font-weight="bold">2. </fo:inline>The respondent pay the applicant's costs of the application, which are to be added to the amount unpaid under the award.
+		</fo:block>
+		<fo:block space-after="0.4cm">
+			<fo:inline font-weight="bold">3. </fo:inline>The amount enforceable is:
+		</fo:block>
+		<fo:block space-after="0.4cm">
+			<fo:table table-layout="fixed" font-family="Times">
+				<fo:table-column column-width="4cm"></fo:table-column>
+				<fo:table-column column-width="9cm"></fo:table-column>
+				<fo:table-column column-width="2.30cm"></fo:table-column>
+				<fo:table-body>
+					<fo:table-row keep-with-next="always">
+						<fo:table-cell/>
+						<fo:table-cell>
+							<fo:block>Unpaid under the award </fo:block>
+						</fo:table-cell>
+						<fo:table-cell>
+							<fo:block text-align="right">&#163;<xsl:value-of select="$vdAwardUnpaid"/></fo:block>
+						</fo:table-cell>
+					</fo:table-row>
+					<fo:table-row keep-with-next="always">
+						<fo:table-cell/>
+						<fo:table-cell>
+							<fo:block><fo:inline font-style="italic">(including interest)</fo:inline></fo:block>
+						</fo:table-cell>
+						<fo:table-cell>
+							<fo:block></fo:block>
+						</fo:table-cell>
+					</fo:table-row>					
+					<fo:table-row keep-with-next="always">
+						<fo:table-cell/>
+						<fo:table-cell>
+							<fo:block>Court Fee</fo:block>
+						</fo:table-cell>
+						<fo:table-cell>
+							<fo:block text-align="right">&#163;<xsl:value-of select="$vdAwardCourtFee"/></fo:block>
+						</fo:table-cell>
+					</fo:table-row>
+					<fo:table-row keep-with-next="always">
+						<fo:table-cell/>
+						<fo:table-cell>
+							<fo:block>&#xa0;</fo:block>
+						</fo:table-cell>
+						<fo:table-cell>
+							<fo:block>&#xa0;</fo:block>
+						</fo:table-cell>
+					</fo:table-row>					
+					<fo:table-row keep-with-next="always">
+						<fo:table-cell/>
+						<fo:table-cell>
+							<fo:block>Solicitor's costs</fo:block>
+						</fo:table-cell>
+						<fo:table-cell>
+							<fo:block text-align="right">&#163;<xsl:value-of select="$vdAwardSolicitorCosts"/></fo:block>
+						</fo:table-cell>
+					</fo:table-row>
+					<fo:table-row keep-with-next="always">
+						<fo:table-cell/>
+						<fo:table-cell>
+							<fo:block>&#xa0;</fo:block>
+						</fo:table-cell>
+						<fo:table-cell>
+							<fo:block>&#xa0;</fo:block>
+						</fo:table-cell>
+					</fo:table-row>						
+					<fo:table-row keep-with-next="always">
+						<fo:table-cell/>
+						<fo:table-cell padding-right="1.0cm">
+							<fo:block font-weight="bold" text-align="right"></fo:block>
+						</fo:table-cell>
+						<fo:table-cell>
+							<fo:block>______________</fo:block>
+						</fo:table-cell>
+					</fo:table-row>
+					<fo:table-row keep-with-next="always">
+						<fo:table-cell/>
+						<fo:table-cell padding-right="1.0cm">
+							<fo:block font-weight="bold" text-align="right">Total</fo:block>
+						</fo:table-cell>
+						<fo:table-cell>
+							<fo:block text-align="right">&#163;<xsl:value-of select="$vdTotalAmount"/></fo:block>
+						</fo:table-cell>
+					</fo:table-row>
+					<fo:table-row keep-with-next="always">
+						<fo:table-cell/>
+						<fo:table-cell padding-right="1.0cm">
+							<fo:block font-weight="bold" text-align="right"></fo:block>
+						</fo:table-cell>
+						<fo:table-cell>
+							<fo:block>______________</fo:block>
+						</fo:table-cell>
+					</fo:table-row>					
+				</fo:table-body>
+			</fo:table>	
+		</fo:block>
+		<fo:block>
+			together with any further interest becoming due.
+		</fo:block>
+	</editable ></body>
+	<footnote noteextent="2.5">
+		<fo:table table-layout="fixed" font-family="Times">
+			<fo:table-column column-width="19.10cm"></fo:table-column>
+			<fo:table-body>
+				<fo:table-row keep-with-next="always">
+					<fo:table-cell border-top-style="solid" border-width="0.02cm"  border-style="solid" border-bottom-width="0.02cm" height="2cm">						
+						<fo:block space-after="0.1cm"/>
+						<fo:block font-size="9pt" font-weight="bold">
+							Notes to the respondent
+						</fo:block>
+						<fo:block font-size="9pt" font-weight="bold">
+							<list type="bullet">
+								<list-item>
+									<fo:block font-size="9pt">
+										This order means that your goods may be removed and sold or that some other enforcement proceedings may be taken against you.
+										Further costs may then be payable
+									</fo:block>
+								</list-item>
+								<list-item>
+									<fo:block font-size="9pt">
+										The applicant may be entitled to further interest on the award until the amount due is paid.
+									</fo:block>
+								</list-item>
+							</list>
+						</fo:block>
+					</fo:table-cell>
+				</fo:table-row>
+			</fo:table-body>
+		</fo:table>	
+	</footnote>
+	<defaultFooter id="O_5_6"/>
+</root>

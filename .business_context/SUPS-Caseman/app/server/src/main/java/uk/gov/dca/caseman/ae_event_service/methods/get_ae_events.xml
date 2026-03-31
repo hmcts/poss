@@ -1,0 +1,32 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: AeEvent
+	Method:  getAeEvents()
+	File:    get_ae_events.xml
+	Author:  Chris Hutt
+	Created: 24 June 2005
+	Description: 
+		Retrieve the events recorded against a specified AE Application
+
+    Change History:
+    25-Jul-2006 Phil Haferer: Modified pivot node "/ManageAEEvents/AEEvents/AEEvent" to allow pagination.
+                (TD 4018: Performance: Pagination required when displaying list of Case Events).
+-->
+<service-method>
+	<pipeline>
+		<NewQuery>
+			<QueryDef location="uk/gov/dca/caseman/ae_event_service/query_def_get_ae_events.xml"/>
+			<QueryExtension pivotNode="/ManageAEEvents">
+				<Param name="param.aeNumber" xpath="/params/param[@name = 'aeNumber']"/>
+			</QueryExtension>
+			<QueryExtension pivotNode="/ManageAEEvents/AEEvents/AEEvent">
+				<Param name="param.pageNumber" xpath="/params/param[@name = 'pageNumber']"/>
+				<Param name="param.pageSize" xpath="/params/param[@name = 'pageSize']"/>
+			</QueryExtension>
+		</NewQuery>
+		<Java>
+			<Source class="uk.gov.dca.caseman.ae_event_service.java.GetAeEventsTransformationCustomProcessor"/>
+		</Java>
+	</pipeline>
+	<Security roles="viewOnly medium high wcSuper scSuper bmsSuper aeSuper dmSuper cpSuper"/>	
+</service-method>

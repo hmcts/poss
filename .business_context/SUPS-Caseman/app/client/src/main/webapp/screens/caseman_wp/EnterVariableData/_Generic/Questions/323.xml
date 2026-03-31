@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>323</Id>
+	<Label>Amount paid under interim costs cert?</Label>
+	<ObjectName>InterimCostCert</ObjectName>
+	<Html>
+		<input type="checkbox" id="InterimCostCert"></input>
+	</Html>
+	<Javascript>
+		<XPath>/ds/EnterVariableData/FinalCosts/interimCostCert</XPath>
+		<componentName>##label##</componentName>
+		<HintText>Check box if amount paid under interim cost certificate</HintText>
+		<modelValue>checked: "Y", unchecked: "N"</modelValue>		
+	</Javascript>
+</Question>

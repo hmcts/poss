@@ -1,0 +1,210 @@
+<Group id="9025">
+	<ServicesRequired>
+		<mapping name="updateJudgment" serviceName="updateJudgment"/>
+		<service name="updateJudgment" cache="none" url="/Judgment/Judgment" method="updateJudgment">
+		</service>
+	</ServicesRequired>
+	<Protocols>
+		<OnSave>
+			<function>updateJudgment</function>
+			<functionCallback>updateJudgmentCallback</functionCallback>
+		</OnSave>
+	</Protocols>
+	<JavaScript>
+var nextSurrogateKey = 0;
+	
+var datePattern = /^(0[1-9]|[12][0-9]|3[01])[- \/](JAN|FEB|MAR|APR|MAY|JUN|JUL|AUG|SEP|OCT|NOV|DEC)[- \/](19|20)[0-9][0-9]$/i;
+
+var judgmentxml = XML.createDOM(null, null, null);
+judgmentxml.appendChild(judgmentxml.createElement("ds"));
+function fixUpdateNode(dom, path) { 
+	var node = null;
+	node = dom.selectSingleNode(path);
+	while (node.hasChildNodes()) {
+		node.removeChild(node.firstChild); }
+	return node;}
+	
+function updateJudgment() {
+	var jId = null;
+	var ctx = WP.GetScreenProcess().getRequest().getContext();
+	var seqNode = ctx.selectSingleNode(top.CaseManWPXPath.ctxJudgmentId);
+	if (null != seqNode) {
+		jId = XML.getNodeTextContent(seqNode);
+		if (null != jId) {
+			var dsd = WPU._getDsDOM();
+			var jNode = dsd.selectSingleNode("//MaintainJudgment[Judgments/Judgment/JudgmentId = "+ jId +"]");
+			if (null != jNode) {
+				judgmentxml.selectSingleNode("/ds").appendChild(jNode.cloneNode(true));
+				jNode = judgmentxml.selectSingleNode("/ds/MaintainJudgment");
+				var jjnode = judgmentxml.selectSingleNode("//Judgment[JudgmentId = "+ jId +"]").cloneNode(true);		
+				var judgmentsNode = jNode.selectSingleNode("Judgments");
+				jNode.removeChild(judgmentsNode);
+				jNode.appendChild(jNode.ownerDocument.createElement("Judgments"));
+				jNode.selectSingleNode("//Judgments").appendChild(jjnode); 
+						
+				var q38 = Services.getValue("/ds/EnterVariableData/Judgment/amount");
+				var alt = false;
+				if( q38 == null || q38 == "") {
+					q38 = Services.getValue("/ds/EnterVariableData/PossessionOrder/costAmount2");
+					alt = true; }
+				
+				var process = WP.GetScreenProcess();
+				var opt = process.getOutput().getCJRReference();
+								
+				var dsDom = WP.GetState(process, WPState.ds_DOM);
+				var caseEventNode = dsDom.selectSingleNode("//CaseEvent");
+								
+				var caseNumber = WP.GetScreenProcess().getCaseNumber();
+				var QA = "/ds/EnterVariableData/Judgment/";
+				var rt = "/ds/MaintainJudgment/Judgments/Judgment/";
+				var rt2 = "/Party/"
+				var nj = judgmentxml;
+		
+				var updateNode = null;
+				updateNode = fixUpdateNode(nj, rt + "Amount").appendChild(nj.createTextNode(0));
+				updateNode = fixUpdateNode(nj,"/ds/MaintainJudgment/CaseNumber").appendChild(nj.createTextNode(caseNumber));
+				updateNode = fixUpdateNode(nj,"/ds/MaintainJudgment/OwningCourtCode").appendChild(nj.createTextNode(WPU.getCaseOwningCourt()));
+
+				/** UCT Group2 1311 - when ccbc - need to take the Joint Judgment checkbox into account**/
+				var jointJudgmentValue = Services.getValue(QA + "/JointJudgment"); 
+				if( jointJudgmentValue == null || jointJudgmentValue == "") { jointJudgmentValue = "N"; }
+				updateNode = fixUpdateNode(nj, rt+ "JointJudgment").appendChild(nj.createTextNode(jointJudgmentValue));
+				updateNode = fixUpdateNode(nj, rt+ "JudgmentId").appendChild(nj.createTextNode(jId));
+				updateNode = fixUpdateNode(nj, rt+ "VenueCode").appendChild(nj.createTextNode(WPU.getCaseOwningCourt()));
+		
+				dateReg = Services.getValue("/ds/EnterVariableData/Judgment/regDate");
+				if (null == dateReg) dateReg = "";
+				updateNode = fixUpdateNode(nj, rt+ "DateRTL");
+				updateNode.appendChild(nj.createTextNode(dateReg));
+				
+				value = Services.getValue("/ds/EnterVariableData/JudgmentOrder/Date");
+				if (null == value) value = "";
+				updateNode = fixUpdateNode(nj,rt + "Date")
+				updateNode.appendChild(nj.createTextNode(value))
+					
+				var calc_amount = 0;
+				var value = Services.getValue(QA + "/amount");					
+				if(alt){ value = Services.getValue("/ds/EnterVariableData/PossessionOrder/costAmount2")}
+                if (null != value &amp;&amp; value != "") {
+					calc_amount = parseFloat(value); 
+				}
+					
+				updateNode = fixUpdateNode(nj, rt + "Amount").appendChild(nj.createTextNode(value));
+				updateNode = fixUpdateNode(nj, rt + "AmountCurrency").appendChild(nj.createTextNode("GBP"));
+					
+				var calc_costs = 0;
+				value = Services.getValue(QA + "/costs");
+                if (null != value &amp;&amp; value != "") {
+					calc_costs = parseFloat(value); 
+				}
+					
+				updateNode = fixUpdateNode(nj, rt + "TotalCosts").appendChild(nj.createTextNode(value));
+				updateNode = fixUpdateNode(nj, rt + "TotalCostsCurrency").appendChild(nj.createTextNode("GBP"));
+				
+				var subTotal = (calc_costs + calc_amount).toFixed(2);
+				updateNode = fixUpdateNode(nj,rt + "SubTotal").appendChild(nj.createTextNode(subTotal));
+				updateNode = fixUpdateNode(nj,rt + "SubTotalCurrency").appendChild(nj.createTextNode("GBP"));
+					
+				var calc_prepaid = 0;
+				value = Services.getValue(QA + "/prepaid");
+				if (null != value &amp;&amp; value != "") { 
+					calc_prepaid = parseFloat(value); 
+				}
+						
+				updateNode = fixUpdateNode(nj,rt + "PaidBefore").appendChild(nj.createTextNode(value));
+				updateNode = fixUpdateNode(nj,rt + "PaidBeforeCurrency").appendChild(nj.createTextNode("GBP"));
+					
+				value = Services.getValue(QA + "/instalmentamount");
+				if (null == value) value = "";
+				updateNode = fixUpdateNode(nj,rt + "InstallAmount").appendChild(nj.createTextNode(value));
+				updateNode = fixUpdateNode(nj,rt + "InstallAmountCurrency").appendChild(nj.createTextNode("GBP"));
+					
+				value =( 0.00 + calc_amount + calc_costs - calc_prepaid).toFixed(2);
+				updateNode = fixUpdateNode(nj,rt + "Total").appendChild(nj.createTextNode(value));
+				updateNode = fixUpdateNode(nj,rt + "TotalCurrency").appendChild(nj.createTextNode("GBP"));
+					
+				var fortwith = Services.getValue("/ds/EnterVariableData/Judgment/forthwith");
+				if ("Y" == fortwith) {
+					value = "FW";  }
+				else {
+					var x = Services.getValue(QA + "/instalmentamount")
+					var inFull = ("" == x || null == x);
+					if (inFull) {
+						value = "FUL"; }
+					else {
+						value = Services.getValue(QA + "/instalmentperiod"); } } 
+				if (null == value) value = "";
+				updateNode = fixUpdateNode(nj,rt + "PeriodCode").appendChild(nj.createTextNode(value));
+				
+				if ("FUL" == value) {	
+					value = Services.getValue(QA + "/paymentdate"); }
+				else {
+					value = Services.getValue(QA + "/instalmentdate"); }
+				if (null == value) value = "";
+				updateNode = fixUpdateNode(nj,rt + "FirstPayDate").appendChild(nj.createTextNode(value));
+					
+				var serviceName = "maintainJudgment";
+				var newDOM = XML.createDOM(null, null, null);
+				var mcNode = nj.selectSingleNode("/ds/MaintainJudgment");
+				var dsNode = XML.createElement(newDOM, "ds");
+				dsNode.appendChild(mcNode);
+				newDOM.appendChild(dsNode);		
+				var params = new ServiceParams();		
+				params.addDOMParameter("JudgmentSequence", newDOM);
+				Services.callService(serviceName, params, updateJudgmentCallback, true); }
+			else  {
+				alert("Judgment with "+ jId +" not found  - Can not update determination judgment");
+				Save_All(); } }
+		else {
+			alert("No Judgment Id found - Can not update determination judgment"); 
+			Save_All(); } }
+	else {
+		alert("No selected judgment passed in  - Can not update determination judgment");
+		Save_All();	} }
+		
+function updateJudgmentCallback() { }
+			
+updateJudgmentCallback.onSuccess = function(dom) {
+	if (null != dom) {		
+		var judgmentid = WPU.getValue("//JudgmentId", dom);
+		Services.setValue( "/ds/EnterVariableData/newjudgmentid", judgmentid );	
+		Save_All(); }
+	else {
+		alert(Messages.NO_RESULTS_MESSAGE); } }
+			
+updateJudgmentCallback.onBusinessException = function(exception) {
+	alert(Messages.FAILEDSAVE_MESSAGE); }
+				
+updateJudgmentCallback.onSystemException = function(exception)  {
+	alert(Messages.FAILEDSAVE_MESSAGE); }
+		
+updateJudgmentCallback.onError = function(exception) {	
+	alert(Messages.FAILEDSAVE_MESSAGE); }
+	
+function validateDate(value) {
+	var errorCode = null;
+	if(value != null){
+		value = CaseManUtils.stripSpaces(value);
+		var valid = value.search(datePattern);	 
+		if(value.length &gt; 0 &amp;&amp; valid &lt; 0){
+		errorCode = ErrorCode.getErrorCode('CaseMan_invalidDateFormat_Msg'); }	}
+	else{
+		errorCode = ErrorCode.getErrorCode('CaseMan_invalidDateFormat_Msg'); }
+	return errorCode; }
+
+function getNextSurrogateKey() {	
+	return "S" + (++ nextSurrogateKey);	}
+	</JavaScript>
+	<Contexts>
+		<Context screenId="">
+			<Protocols>
+				<onSave>
+					<onSuccess></onSuccess>
+					<onError></onError>
+				</onSave>
+			</Protocols>
+			<JavaScript>
+			</JavaScript>
+		</Context>
+	</Contexts>
+</Group>

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<DBMapDef>
+	<DataSource id="java:OracleDS" />
+	<Tables>
+		<Table alias="CO" name="CONSOLIDATED_ORDERS" />
+		<Table alias="C" name="CASES" />
+		<Table alias="AD" name="ALLOWED_DEBTS" />
+		<Table alias="P" name="PAYMENTS" />
+	</Tables>
+	<Mapping>
+		<Co>
+			<CONumber>${CO.CO_NUMBER}</CONumber>
+			<COType>${CO.CO_TYPE}</COType>
+			<DebtorName>${CO.DEBTOR_NAME}</DebtorName>
+			<Status>${CO.CO_STATUS}</Status>
+			<FeeRate>${CO.FEE_RATE}</FeeRate>
+			<FeeAmount>${CO.FEE_AMOUNT}</FeeAmount>
+			<CoAmount>${C.CO_AMOUNT}</CoAmount>
+			<Schedule2Amount>${C.SCHEDULE_2_AMOUNT}</Schedule2Amount>
+			<PassthroughAmount>${C.PASSTHROUGH_AMOUNT}</PassthroughAmount>
+		</Co>
+	</Mapping>
+</DBMapDef>

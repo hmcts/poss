@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: Co
+	Method:  updateCaseEventResult()
+	Author:  Mark Groen (EDS)
+	Created: 7-FEB-2008
+	Description: 
+		Update Case Events Result
+-->
+<service-method>
+	<pipeline>
+		<SQLLite output="input">
+			<DataSource id="java:OracleDS"/>
+			<Param name="param.eventSeq"       xpath="/params/param[@name='eventSeq']"/>
+			<Param name="param.result"       xpath="/params/param[@name='result']"/>
+			<SQL type="update" tables="CE">
+				UPDATE CASE_EVENTS CE
+		        SET    CE.RESULT = ${param.result}
+		        WHERE  CE.EVENT_SEQ  = ${param.eventSeq}
+			</SQL>
+		</SQLLite>
+	</pipeline>
+	<Security roles="medium high wcSuper scSuper bmsSuper aeSuper dmSuper"/>
+</service-method>

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<DBMapDef>
+	<DataSource id="java:SupsDS"/>
+	<Tables>
+		<Table alias="TD" name="TEST_DATA"/>
+	</Tables>
+	<Mapping>
+		<Test>
+			<Data>
+				<Id>${TD.ID}</Id>
+				<Description>${TD.DESCRIPTION}</Description>
+				<Type>${TD.TYPE}</Type>
+			</Data>
+		</Test>
+	</Mapping>
+</DBMapDef>

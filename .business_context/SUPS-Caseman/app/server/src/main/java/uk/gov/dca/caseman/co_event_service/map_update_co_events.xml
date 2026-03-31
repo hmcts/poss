@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<DBMapDef>
+  <DataSource id="java:OracleDS"/>
+  <Tables>
+    <Table alias="COE"  name="CO_EVENTS"/>
+  </Tables>  
+  <Mapping>
+	  <ManageCOEvents>
+	  	<CONumber></CONumber>
+		<COEvents>
+			<COEvent>
+				<COEventSeq>${COE.CO_EVENT_SEQ}</COEventSeq>
+				<StandardEventId>${COE.STD_EVENT_ID}</StandardEventId>
+				<StandardEventDescription></StandardEventDescription>
+				<EventDetails>${COE.DETAILS}</EventDetails>
+				<EventDate>${COE.EVENT_DATE}</EventDate>
+				<UserName>${COE.USERNAME}</UserName>
+				<ReceiptDate>${COE.RECEIPT_DATE}</ReceiptDate>
+				<IssueStage>${COE.ISSUE_STAGE}</IssueStage>
+				<Service>${COE.SERVICE_STATUS}</Service>
+				<BailiffId>${COE.BAILIFF_IDENTIFIER}</BailiffId>
+				<ServiceDate>${COE.SERVICE_DATE}</ServiceDate>
+				<DebtSeqNumber>${COE.ALD_DEBT_SEQ}</DebtSeqNumber>
+				<ErrorInd>${COE.ERROR_INDICATOR}</ErrorInd>
+				<OwningCourtCode></OwningCourtCode>
+				<Status></Status>
+			</COEvent>
+		</COEvents>
+	  </ManageCOEvents>
+  </Mapping>
+</DBMapDef>

@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- 
+	14/08/2006 - MGG - defect 4215 - Default value not being set correctly. 
+	Moved from the setDefault method - as setDefault needs a setDefaultOn and use an initialise tag
+-->
+<!--Question xmlns="http://eds.com/questionxhtml" xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd"-->
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>CM_OSWF_QUESTION_1</Id>
+	<Label>Warrant Issued Before</Label>
+	<ObjectName>IssueDate</ObjectName>
+	<Html>
+		<script type="text/javascript">
+			DatePickerRenderer.createInline("IssueDate", false);
+		</script>
+	</Html>
+	<Javascript>
+		<XPath>/ds/var/page/OracleReportForm/IssueDate</XPath>
+		<ReportVariableName>P_WARRANT_ISSUE_DATE</ReportVariableName>
+		<ReportVariableValue>CaseManUtils.convertDateToDisplay(Services.getValue(IssueDate.dataBinding))</ReportVariableValue>
+		<HintText>Enter A Date One Month Prior To Todays Date</HintText>
+		<isMandatory>return true;</isMandatory>
+		<validateOn>
+			IssueDate.dataBinding
+		</validateOn>
+		<initialise>
+			Services.setValue(IssueDate.dataBinding, getOneMonthBeforeDate());
+		</initialise>		
+		<validate>
+			    var issueDate = Services.getValue(IssueDate.dataBinding);
+			    var issueDateObj = CaseManUtils.isBlank(issueDate) ? null : CaseManUtils.createDate(issueDate);
+			    var ec = null;
+			    if(issueDateObj != null)
+			    {
+			      ec = validateDate(issueDateObj);     
+			    }
+			    return ec;		
+		</validate>		
+		<miscCode>
+			Status_RunReportButton.validationList = ["IssueDate", "WarrantAmount", "BailiffId", "WarrantType", "ReturnClass"];	
+			function validateDate(dateObj)
+			{    
+			  var todayDateObj = CaseManUtils.createDate(getTodaysDate());
+			  if(CaseManUtils.compareDates(todayDateObj, dateObj)!= 1 )
+			  {
+			      return null;
+			  }
+			  else
+			  {
+			    ec = ErrorCode.getErrorCode("CaseMan_dateCannotBeInTheFuture_Msg");
+			    return faildedValidation (ec);
+			  }      
+			  return null;   
+			}	
+			
+			function getOneMonthBeforeDate()
+			{    
+			  var todaysDate = CaseManUtils.createDate(getTodaysDate()); 
+			  var oneMonthBeforeDateObj = CaseManUtils.monthsInPast(todaysDate, 1);
+			  oneMonthBeforeDateObj = CaseManUtils.convertDateToPattern(oneMonthBeforeDateObj,"YYYY-MM-DD");
+			  return oneMonthBeforeDateObj;
+			}					
+		</miscCode>	
+	</Javascript>
+</Question>

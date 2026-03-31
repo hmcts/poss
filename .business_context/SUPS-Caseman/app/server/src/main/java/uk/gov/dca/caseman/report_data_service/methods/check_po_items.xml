@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: ReportData
+	Method:  checkPoItems()
+	File:    check_po_items.xml
+	Description: Gets a payable order number for a given court if exists. No
+			guarantees which po number will be retrieved so should only be used
+			as an existance check for payable orders at that court.
+-->
+<service-method>
+	<pipeline>		
+		<SQLLite format-output="true"
+			resultset-element="POItems"
+			row-element="POItem"
+			field-name-as="element"
+		>
+			<DataSource id="java:OracleDS" />
+			<Param name="param.courtCode" xpath="/params/param[@name = 'courtCode']"/>
+			<SQL>
+				SELECT	PO.PO_NUMBER AS "PONumber"
+				FROM	PAYABLE_ORDER_ITEMS PO
+				WHERE	PO.ADMIN_COURT_CODE = ${param.courtCode} AND
+							ROWNUM = 1
+			</SQL>
+		</SQLLite>
+	</pipeline>
+	<Security roles="medium high wcSuper scSuper bmsSuper aeSuper dmSuper" />
+</service-method>

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: Court
+	Method:  getCourtsQueryMaintain
+	File:    query_def_query_maintain.xml
+	Author:  Chris Vincent (EDS)
+	Created: 24 November 2005
+	Description: Wildcard query search for a court used on maintain court data screen
+-->
+<QueryDef>
+  <DBMapDef location="uk/gov/dca/caseman/court_service/map_query_maintain.xml"/>
+  <Query pivotNode="/Courts/Court" tables="CT">
+	  <Modify notModifiable="true"/>
+  </Query>
+</QueryDef>

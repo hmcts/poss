@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--Question xmlns="http://eds.com/questionxhtml" xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd"-->
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>CM_DPA_CO_QUESTION_1</Id>
+	<Label>CO Number</Label>
+	<ObjectName>CONumber</ObjectName>
+	<Html>
+		<input id="CONumber" type="text" size="10"></input>
+	</Html>
+	<Javascript>
+		<XPath>/ds/var/page/OracleReportForm/CONumber</XPath>
+		<ReportVariableName>P_CO_NUMBER</ReportVariableName>
+		<ReportVariableValue>Services.getValue(CONumber.dataBinding)</ReportVariableValue>
+		<HintText>Enter the CO Number quoted on the Initial Report</HintText>
+		<isMandatory>return true;</isMandatory>
+		<maxLength>8</maxLength>
+		<transformToDisplay>
+			return (null != value) ? value.toUpperCase() : null;
+		</transformToDisplay>
+		<transformToModel>
+			return (null != value) ? value.toUpperCase() : null;
+		</transformToModel>			
+		<logicOn>CONumber.dataBinding</logicOn>
+		<logic>
+			var value = Services.getValue(CONumber.dataBinding);
+			// Clear Debt Number field
+			Services.setValue(DebtNumber.dataBinding, "");
+			Services.removeNode(SEARCH_RESULTS_DEBT_XPATH);
+			//Services.removeNode(SEARCH_RESULTS_XPATH);
+			if (!CaseManUtils.isBlank(value))
+			{
+				searchCO();
+			}
+		</logic>
+		<miscCode>
+			Status_RunReportButton.validationList = ["CONumber", "DebtNumber"];
+			var SEARCH_RESULTS_XPATH = PAGE_XPATH + "/tmp/Co";
+			var SEARCH_RESULTS_DEBT_XPATH = PAGE_XPATH + "/tmp/CODebts";
+			
+			Status_RunReportButton.enableOn = [SEARCH_RESULTS_XPATH, SEARCH_RESULTS_DEBT_XPATH];
+			Status_RunReportButton.isEnabled = function()
+			{
+				var errCode = validateCO();
+				if (errCode == null)
+				{
+					errCode = validateCODebt();
+					if (errCode == null)
+					{
+						return true;
+					}
+					else
+					{
+						return false;
+					}
+				}
+				else
+				{
+					return false;
+				}
+			}
+						
+			function searchCO()
+			{
+				Services.setValue("/ds/flag/CONumber", "N");
+				var coNumber = Services.getValue(CONumber.dataBinding);				
+			    //Call Search Service now
+				var params = new ServiceParams();
+				params.addSimpleParameter("coNumber", coNumber);
+				Services.callService("getCoExists", params, CONumber, true);			
+			}
+			
+			CONumber.onSuccess = function(dom) {
+			    if(dom != null) {
+					Services.setValue("/ds/flag/CONumber", "Y");
+			        var node = dom.selectSingleNode("/ds/Co");
+			        Services.replaceNode(SEARCH_RESULTS_XPATH, node);
+			        
+			        var count = Services.countNodes(SEARCH_RESULTS_XPATH);
+			        if(count == 0) {
+						alert(Messages.NO_RESULTS_MESSAGE);
+						Services.setFocus("CONumber");
+			        } else if(count >= 1) {
+			        	// Clear the message in the status bar
+						Services.setFocus("DebtNumber");			
+			        }
+			    }
+			}
+			CONumber.validateOn = [SEARCH_RESULTS_XPATH];
+			CONumber.validate = function(value)
+			{
+				// DEFECT NUMBER - 3871
+				var flag = Services.getValue("/ds/flag/CONumber");
+				if(flag != null){
+					if(flag == "Y"){
+						var value = Services.getValue(this.dataBinding);
+						if (!CaseManUtils.isBlank(value)) 
+						{
+							return validateCO();
+						}
+						else 
+						{
+							return null;
+						}
+					}		
+				}						
+			}
+			
+			function validateCO()
+			{
+				var errCode = null;
+				//alert("Checking for CO Number. Click Ok.");
+				var count = Services.countNodes(SEARCH_RESULTS_XPATH);
+				if(count == 0) {
+		           errCode = ErrorCode.getErrorCode("CaseMan_noCOExists_Msg");
+		        }
+		        return errCode;
+			}			
+		</miscCode>
+	</Javascript>
+</Question>

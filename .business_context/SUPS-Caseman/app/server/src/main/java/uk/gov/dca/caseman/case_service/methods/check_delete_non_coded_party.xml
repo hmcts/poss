@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<service-method>
+	<pipeline>
+		<Query>
+			<QueryDef location="uk/gov/dca/caseman/case_service/query_def_check_delete_non_coded_party.xml"/>
+			<QueryExtension pivotNode="/ds/isCodedParty">
+				<Param name="param.partyId" xpath="/params/param[@name = 'partyId']"/>
+			</QueryExtension>
+			<QueryExtension pivotNode="/ds/isCasePartyRoles">
+				<Param name="param.partyId" xpath="/params/param[@name = 'partyId']"/>
+				<Param name="param.caseNumber" xpath="/params/param[@name = 'caseNumber']"/>
+			</QueryExtension>
+		</Query>
+	</pipeline>
+	<Security roles="user"/>
+</service-method>

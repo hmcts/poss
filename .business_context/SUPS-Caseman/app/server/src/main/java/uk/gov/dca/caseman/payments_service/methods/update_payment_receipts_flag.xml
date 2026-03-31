@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<service-method>
+	<pipeline>
+		<SQLLite>			
+			<DataSource id="java:OracleDS"/>
+			<Param name="param.receiptRequiredFlag" xpath="/params/param[@name='receiptRequiredFlag']"/>
+			<Param name="param.inputBy" xpath="/params/param[@name='inputBy']"/>
+			<Param name="param.dateCreated" xpath="/params/param[@name='dateCreated']"/>
+			<Param name="param.courtId" xpath="/params/param[@name='courtId']"/>
+			<SQL type="update" tables="PAYMENTS">				
+				UPDATE PAYMENTS P
+				SET P.RECEIPT_REQUIRED = ${param.receiptRequiredFlag}
+				WHERE	P.CREATED_BY = ${param.inputBy} 
+				AND TRUNC(P.DATE_ENTERED) = TRUNC(TO_DATE(${param.dateCreated}, 'DD-MM-YYYY'))
+				AND P.ADMIN_COURT_CODE = ${param.courtId}
+				AND P.COUNTER_PAYMENT = 'N'
+				AND P.RECEIPT_REQUIRED = 'Y'
+			</SQL>
+		</SQLLite>
+	</pipeline>	
+	<Security roles="viewOnly medium high wcSuper scSuper bmsSuper aeSuper dmSuper edsAdmin"/>
+	<Transaction type="RequiresNew" />
+</service-method>

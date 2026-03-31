@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<DBMapDef>
+	<DataSource id="java:OracleDS"/>
+	<Tables>
+		
+		<Table alias="CO" name="COURTS"/>
+		
+	</Tables>
+	<Mapping>
+		<Users>
+		    <User>
+				
+				<Code>${CO.CODE}</Code>
+				<FapID>${CO.FAP_ID}</FapID>
+			</User>
+		</Users>
+	</Mapping>
+	
+</DBMapDef>

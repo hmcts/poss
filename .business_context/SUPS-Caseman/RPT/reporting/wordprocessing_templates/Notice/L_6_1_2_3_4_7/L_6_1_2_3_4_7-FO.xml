@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- ====================================================================== -->
+<!--  -->
+<!-- FILENAME: $Source: C:/CVSRepository/serveroas/src/uk/gov/dca/caseman/wordprocessing_templates/Notice/L_6_1_2_3_4_7/L_6_1_2_3_4_7-FO.xml,v $ -->
+<!--  -->
+<!-- AUTHOR: $Author: jay $-->
+<!--  -->
+<!-- DATE: $Date: 2006/06/27 08:32:57 $ -->
+<!--  -->
+<!-- Version: $Revision: 1.16 $ -->
+<!--  -->
+<!-- DESCRIPTION: This stylesheet is used to create an XSL:FO document that -->
+<!-- can be processed into a PDF version.  Business logic -->
+<!-- is embedded to generate the correct document text for the order -->
+<!-- required. -->
+<!--  -->
+<!-- INPUTS: XML document containing: the answers to questions asked of the -->
+<!-- user; case data retrieved from the database; HTML representing the  -->
+<!-- body of the document content (already edited by the user). -->
+<!--  -->
+<!-- OUTPUTS: XML document with FO tags containing instructions for the -->
+<!-- creation of a PDF document. -->
+<!--  -->
+
+<!--
+Change History
+Dec 08, 2011 Nilesh Mistry - Adding in logic for new case type of COMPANY ADMIN ORDER. Trac 4586
+-->
+<!-- ====================================================================== -->
+<root xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:fo="http://www.w3.org/1999/XSL/Format" xmlns="http://eds.com/supsfo">
+	<variables>@word.processing.url.xsl@supsfo.xsl</variables>
+	<layout yourRef="true">letter</layout>
+	<logo/>
+	<addressee>
+		<subject/>
+	</addressee>	
+	<body>
+		<editable useid="N1002E">
+		<fo:block space-after="0.4cm">Dear <xsl:value-of select="$vdGreeting"/></fo:block>
+		<fo:block space-after="0.4cm" font-size="12pt" font-weight="bold" text-align="center">Re: Case Number: <xsl:value-of select="$vdClaimNumber"/>&#xa0;
+			<xsl:choose>
+				<xsl:when test="$vdCaseType = 'APP TO SET STAT DEMD'">
+					<xsl:value-of select="$vdApplicantName"/>
+				</xsl:when>
+				<xsl:when test="$vdCaseType = 'CREDITORS PETITION'">
+					<xsl:value-of select="$vdDebtorName"/>
+				</xsl:when>
+				<xsl:when test="$vdCaseType = 'DEBTORS PETITION' or $vdCaseType='APP ON DEBT PETITION'">
+					<xsl:value-of select="$vdDebtorName"/>				
+				</xsl:when>				
+				<xsl:when test="$vdCaseType = 'WINDING UP PETITION'">
+					<xsl:value-of select="$vdCompanyName"/> 				
+				</xsl:when>
+                                <xsl:when test="$vdCaseType = 'COMPANY ADMIN ORDER'">
+					<xsl:value-of select="$vdCompanyName"/> 				
+				</xsl:when>
+				<xsl:otherwise>
+					<xsl:value-of select="$vdClaimantName"/> v <xsl:value-of select="$vdDefendant1Name"/> 				
+				</xsl:otherwise>
+			</xsl:choose>
+		</fo:block>
+
+		<xsl:if test="$vdSelectionLetter = 1">		
+		<fo:block space-after="0.4cm">
+					I refer to your letter dated <xsl:value-of select="$vdLetterRecDate"/>. I am currently unable to trace receipt of your <xsl:value-of select="$vdFeePayment"/> of
+					<!--xsl:call-template name="correctCalculation">
+						<xsl:with-param name="value"-->
+						&#163;<xsl:value-of select="$vdFeeOrPaymentAmount"/>.
+						<!--/xsl:with-param>
+					</xsl:call-template-->
+				</fo:block>
+				<fo:block space-after="0.4cm">
+					In order to assist me in tracing your process please provide the following information:- 
+				</fo:block>
+				<fo:block space-after="0.4cm">
+					1.&#xa0;&#xa0;&#xa0;The name of the account on which the cheque was drawn. 
+				</fo:block>
+				<fo:block space-after="0.4cm">
+					2.&#xa0;&#xa0;&#xa0;The amount of the cheque. 
+				</fo:block>
+				<fo:block space-after="0.4cm">
+					3.&#xa0;&#xa0;&#xa0;The date cleared by your bank. 
+				</fo:block>
+				<fo:block space-after="0.4cm">
+					4.&#xa0;&#xa0;&#xa0;The date sent to us.
+				</fo:block>
+				<fo:block space-after="0.8cm">
+					I await your reply. 
+				</fo:block>
+		</xsl:if>		
+
+		<xsl:if test="$vdSelectionLetter = 2">		
+		<fo:block space-after="0.4cm">
+			I refer to your letter dated <xsl:value-of select="$vdLetterRecDate"/> enquiring about <xsl:value-of select="$vdEnquiry"/>
+			I can confirm that a payable order number <xsl:value-of select="$vdPayableOrderNo"/> was sent to you on <xsl:value-of select="$vdLetterSentDate"/>.
+		</fo:block>
+		<fo:block space-after="0.4cm">
+			The payable order was drawn in favour of <xsl:value-of select="$vdDrawnInFavour"/> in the sum of 
+			&#163;<xsl:call-template name="correctCalculation">
+				<xsl:with-param name="value"><xsl:value-of select="$vdPayableOrderAmount"/></xsl:with-param>
+			</xsl:call-template>. 
+		</fo:block>
+		<fo:block space-after="0.8cm">
+			If upon checking your records you find that you have not received the above payment, please write to us again quoting the payable order details so that a replacement may be issued where necessary.
+		</fo:block>
+		</xsl:if>		
+
+		<xsl:if test="$vdSelectionLetter = 3">		
+		<fo:block space-after="0.4cm">
+			I enclose a replacement payable order in the sum of
+			&#163;<xsl:call-template name="correctCalculation">
+				<xsl:with-param name="value"><xsl:value-of select="$vdPayableOrderAmount"/></xsl:with-param>
+			</xsl:call-template>. Enquiries have confirmed that the original payable order dated <xsl:value-of select="$vdOriginalPayableOrderDate"/> has not been cashed. 
+		</fo:block>	
+		</xsl:if>		
+
+		<xsl:if test="$vdSelectionLetter = 4">		
+		<fo:block space-after="0.4cm">
+			I regret to inform you that your cheque in the sum of
+			&#163;<xsl:call-template name="correctCalculation">
+				<xsl:with-param name="value"><xsl:value-of select="$vdPayableOrderAmount"/></xsl:with-param>
+			</xsl:call-template> submitted in respect of <xsl:value-of select="$vdRespectOf"/> in the above case has been returned by your Bank marked "Refer to Drawer".
+		</fo:block>
+		<fo:block space-after="0.4cm">
+			This amount is now due and should be paid to this office immediately.
+		</fo:block>
+		<fo:block space-after="0.4cm">
+			No further cheques will be accepted unless supported by a cheque card. 
+		</fo:block>
+		<fo:block space-after="0.8cm">
+			In the meantime all proceedings will be stayed pending receipt of your payment. If the court does not receive payment from yourselves the action will be marked withdrawn and further action will be taken to recover the monies from you. 
+		</fo:block>
+
+		</xsl:if>
+
+		<xsl:if test="$vdSelectionLetter = 5">		
+			<fo:block space-after="0.4cm">
+			It has been ordered that money held in Court be paid to yourself. As you have no Solicitor acting on your behalf, in order for us to be able to release the monies we require the following information: 
+		</fo:block>
+		<fo:block space-after="0.4cm"  >
+			1) Your bank account no: .................................... 
+		</fo:block>
+		<fo:block space-after="0.4cm" >
+			2) The name of your account: ............................. 
+		</fo:block>
+		<fo:block space-after="0.4cm" >
+			3) Your branch name and address: 
+		</fo:block>
+		<fo:block space-after="0.4cm" margin-left="0.5cm">
+			......................................................................... 
+		</fo:block>
+		<fo:block space-after="0.4cm" margin-left="0.5cm">
+			.........................................................................
+		</fo:block>
+		<fo:block space-after="0.4cm" margin-left="0.5cm">
+			.........................................................................
+		</fo:block>
+		<fo:block space-after="0.4cm" >
+			4) Your bank sort code: .......................................
+		</fo:block>
+		<fo:block space-after="0.8cm">
+			It would greatly assist us in processing your order if you could return this correspondence within 7 days. 
+		</fo:block>
+		</xsl:if>		
+
+		<fo:block space-after="1.5cm"><xsl:value-of select="$vdLetterEnding"/></fo:block>
+		<fo:block><xsl:value-of select="$vdName"/></fo:block>
+		<fo:block><xsl:value-of select="$vdSection"/> Section</fo:block>
+		<fo:block>Ext <xsl:value-of select="$vdExtension"/></fo:block>
+		</editable>
+	</body>
+	<letterfooter id="L_6_1_2_3_4_7"/>
+</root>

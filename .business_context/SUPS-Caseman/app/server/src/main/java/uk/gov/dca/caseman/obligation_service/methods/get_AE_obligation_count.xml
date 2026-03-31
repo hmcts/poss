@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<service-method>
+	<pipeline>
+		<Query>
+			<QueryDef location="uk/gov/dca/caseman/obligation_service/query_def_get_ae_obligation_count.xml"/>
+			<QueryExtension pivotNode="/Obligation/Count">
+				<Param name="param.caseNumber" xpath="/params/param[@name = 'caseNumber']"/>
+				<Param name="param.deleteFlag" xpath="/params/param[@name = 'deleteFlag']"/>
+			</QueryExtension>
+		</Query>
+	</pipeline>
+	<Security roles="user"/>
+</service-method>

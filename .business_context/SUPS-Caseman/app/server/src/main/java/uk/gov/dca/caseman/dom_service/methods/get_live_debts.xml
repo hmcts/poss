@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: Dom
+	Method:  getSchedule2PassthroughsPaid()
+	File:    get_schedule2_passthroughs_paid.xml
+	Author:  Ian Stainer (Valtech)
+	Created: 12 July 2005
+	Description: 
+		Returns the sum of schedule2 passthroughs paid
+	
+	Amended:
+		Mark Groen - 17 April 2007 - Caseman 6145
+		Changed so now includes Pending debts in select.
+-->
+<service-method>
+	<pipeline>
+		<SQLLite format-output="true"
+				 resultset-element="ResultSet"
+				 row-element="Row"
+				 field-name-as="element" >			
+			<DataSource id="java:OracleDS"/>
+			<Param name="param.coNumber" xpath="/params/param[@name = 'coNumber']"/>
+			<SQL>												
+				SELECT NVL(SUM(ald.debt_amount_allowed), 0) as "Amount"
+				FROM   allowed_debts ald
+				WHERE  ald.debt_co_number = ${param.coNumber}
+				AND    ald.debt_status in ('LIVE', 'SCHEDULE2', 'PAID', 'PENDING')				
+			</SQL>
+		</SQLLite>
+	</pipeline>
+	<Security roles="user"/>
+</service-method>

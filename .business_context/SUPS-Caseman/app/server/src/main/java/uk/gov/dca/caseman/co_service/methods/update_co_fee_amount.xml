@@ -1,0 +1,25 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: Co
+	Method:  updateCoFeeAmount()
+	File:    update_co_fee_amount.xml
+	Author:  Phil Haferer (EDS)
+	Created: 09-Jun-2006
+	Description: 
+		Update Consolidated Order's Fee Amount.
+-->
+<service-method>
+	<pipeline>
+		<SQLLite output="input">
+			<DataSource id="java:OracleDS"/>
+			<Param name="param.coNumber"       xpath="/params/param[@name='coNumber']"/>
+			<Param name="param.coFeeAmount"    xpath="/params/param[@name='coFeeAmount']"/>
+			<SQL type="update" tables="COE">
+				UPDATE CONSOLIDATED_ORDERS CO
+		        SET    CO.FEE_AMOUNT = ${param.coFeeAmount}
+		        WHERE  CO.CO_NUMBER  = ${param.coNumber}
+			</SQL>
+		</SQLLite>
+	</pipeline>
+	<Security roles="medium high wcSuper scSuper bmsSuper aeSuper dmSuper"/>		
+</service-method>

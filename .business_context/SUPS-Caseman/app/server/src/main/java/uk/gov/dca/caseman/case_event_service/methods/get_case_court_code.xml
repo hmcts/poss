@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: CaseEvent
+	Method:  getCaseCourtCode()
+	Author:  Chris Hutt (EDS) 
+	Created: 5 dec 2007
+	Description: 
+		Use SQLLite to retrieve case court code 
+-->
+<service-method>
+	<pipeline>
+		<SQLLite format-output="true"
+				 resultset-element="ds"
+				 row-element="Case"
+				 field-name-as="element" >
+			<DataSource id="java:OracleDS"/>
+			<Param name="param.caseNumber" xpath="/params/param[@name='caseNumber']"/>
+			<SQL>
+			
+				SELECT 	
+     					C.ADMIN_CRT_CODE		AS  "CourtCode"
+				,    	C.CASE_NUMBER			AS "CaseNumber"
+				FROM 	CASES C
+				WHERE
+     					C.CASE_NUMBER = ${param.caseNumber}
+			</SQL>
+		</SQLLite>
+  	</pipeline>
+	<Security roles="user"/>
+</service-method>

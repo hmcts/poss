@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- 
+	Service: Qbp
+	Method:  getAeParties()
+	File:    get_ae_parties.xml
+	Author:  Chris Hutt
+	Created: 17 Nov 2004
+	Description: 
+		Retrieves details of Aes and associated parties based on
+                criteria supplied.
+--> 
+<service-method>
+	<pipeline>
+		<Query>
+			<QueryDef location="uk/gov/dca/caseman/qbp_service/query_def_aeparties.xml"/>
+			<QueryExtension pivotNode="/PartyQueryResults/PartyQueryResult">
+				<Param name="param.caseNumber" xpath="/params/param[@name = 'caseNumber']"/>
+				<Param name="param.owningCourtCode" xpath="/params/param[@name = 'owningCourtCode']"/>
+				<Param name="param.partyName" xpath="/params/param[@name = 'partyName']"/>
+				<Param name="param.aeNumber" xpath="/params/param[@name = 'aeNumber']"/>
+				<Param name="param.address1" xpath="/params/param[@name = 'address1']"/>
+				<Param name="param.address2" xpath="/params/param[@name = 'address2']"/>
+				<Param name="param.empName" xpath="/params/param[@name = 'empName']"/>	
+				<Param name="param.owningCourtName" xpath="/params/param[@name = 'owningCourtName']"/>		
+				<Param name="param.pageNumber" xpath="/params/param[@name = 'pageNumber']"/>		
+				<Param name="param.pageSize" xpath="/params/param[@name = 'pageSize']"/>															
+			</QueryExtension>
+		</Query>
+	</pipeline>
+	<Security roles="viewOnly medium high wcSuper scSuper bmsSuper aeSuper dmSuper cpSuper"/>	
+</service-method>

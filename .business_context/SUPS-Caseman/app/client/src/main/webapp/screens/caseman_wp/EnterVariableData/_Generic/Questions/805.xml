@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>805</Id>
+	<Label>Enter bailiff id (if known)</Label>
+	<ObjectName>EnterBailiffID</ObjectName>
+	<Html>
+		<input id="EnterBailiffID" type="text" size="2" maxlength="2"></input>
+	</Html>
+	<Javascript>
+		<XPath>/ds/EnterVariableData/EnterBailiffID</XPath>
+		<componentName>##label##</componentName>
+		<HintText>Enter the bailiff id for the warrant (if known)</HintText>
+		<maxLength>2</maxLength>
+		<isMandatory>return false;</isMandatory>
+		<mandatoryOn>EnterBailiffID.dataBinding</mandatoryOn>
+		<validateOn>EnterBailiffID.dataBinding</validateOn>
+		<validate>
+			var code = Services.getValue(EnterBailiffID.dataBinding);
+			var err = null;
+		
+			if( code &lt; 1 || code &gt; 98)  
+			{err = ErrorCode.getErrorCode("CaseMan_rangeBetweenOneNinetyeight_Msg");
+			}
+    		else if( CaseManValidationHelper.validateNumber(code) == false )
+			{err = ErrorCode.getErrorCode("Caseman_nonNumericPartyCode_Msg");
+			}
+			return err;
+		</validate>	
+	</Javascript>
+</Question>

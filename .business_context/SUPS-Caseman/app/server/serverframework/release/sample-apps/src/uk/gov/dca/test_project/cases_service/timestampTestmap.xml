@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<DBMapDef>
+	<DataSource id="java:SupsDS"/>
+	<Tables>
+		<Table alias="T" name="TIMESTAMPTESTTABLE"/>
+	</Tables>
+	<Mapping>
+		<Test>
+			<Id>${T.ID}</Id>
+			<Time>${T.TIME}</Time>
+			<Date>${T.DATE_}</Date>
+		</Test>
+	</Mapping>
+</DBMapDef>

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>292</Id>
+	<Label>Title of other party</Label>
+	<ObjectName>OtherPartyTitle2</ObjectName>
+	<Html>
+		<input type="text" id="OtherPartyTitle2"></input>
+	</Html>
+	
+	<Javascript>
+		<XPath>/ds/EnterVariableData/SmallTrack/otherPartyTitle2</XPath>
+		<HintText>Enter the other party's name</HintText>
+		<isMandatory>return true;</isMandatory>
+		<enableOn>WhoServedListCopy.dataBinding</enableOn>
+		<isEnabled>return('OTH' == Services.getValue(WhoServedListCopy.dataBinding));</isEnabled>
+		<logicOn>WhoServedListCopy.dataBinding</logicOn>
+		<logic>
+			if('OTH' != Services.getValue(WhoServedListCopy.dataBinding))
+			{	Services.setValue(OtherPartyTitle2.dataBinding, "");
+			}
+		</logic>
+	</Javascript>
+</Question>

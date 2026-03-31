@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- 
+	Service: Warrant
+	Method:  addWarrantForCo()
+	File:    add_warrnat_for_co.xml
+	Author:  Chris Hutt
+	Created: 27 Feb 2006
+	Description: 
+		Add warrant for Co and perform associated updates
+    Change Log:
+        13/11/2006 - Steve Blair - Added InsertWarrantCoEventsCustomProcessor
+                     for Observation 196.
+        04/12/2006 - Steve Blair - Changed to use query_def_add instead of query
+                     _def_update. Add has an additional node in the map for
+                     setting date_printed (needed for UCT defect 824).
+		20/05/2011 - Chris Vincent, added InsertWarrantFeeCustomProcessor to pipeline
+					 and WarrantAmounts to Dependencies for Trac 3077.
+--> 
+<service-method>
+	<pipeline>
+		<Java callStyle="new">
+			<Source class="uk.gov.dca.caseman.warrant_service.java.DataProcessor"/>
+		</Java>			
+		<Update>
+			<QueryDef location="uk/gov/dca/caseman/warrant_service/query_def_add.xml"/>
+			<DataSource xpath="/params/param[@name='warrantDetails']"/>
+		</Update>
+        <Java callStyle="new">
+			<Source class="uk.gov.dca.caseman.warrant_service.java.InsertWarrantCoEventsCustomProcessor"/>
+		</Java>
+		<Java callStyle="new">
+			<Source class="uk.gov.dca.caseman.warrant_service.java.InsertWarrantFeeCustomProcessor"/>
+		</Java>
+	</pipeline>
+	<Dependencies>
+		<Dependency serviceName="Court"/>
+		<Dependency serviceName="Co"/>
+        <Dependency serviceName="CoEvent"/>
+		<Dependency serviceName="WarrantReturns"/>
+		<Dependency serviceName="WarrantAmounts"/>
+		<Dependency serviceName="SystemData"/>
+	</Dependencies>			
+	<Security roles="medium high wcSuper scSuper bmsSuper aeSuper dmSuper cpSuper ccbcMan ccbcUser"/>			
+</service-method>

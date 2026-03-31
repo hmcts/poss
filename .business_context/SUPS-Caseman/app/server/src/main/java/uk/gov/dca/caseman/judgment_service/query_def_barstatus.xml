@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+Change History:
+09-NOV-2011 Des Johnston - Trac 4592.  Changed condition to include the parties Claimant, Part 20 Claimants and Part 20 Defendants as a bar option
+on the Maintain Bar on Judgment/Enforcement screen.
+-->
+<QueryDef>
+	<DBMapDef location="uk/gov/dca/caseman/judgment_service/map_barstatus.xml"/>
+	<Query pivotNode="/ds/JudgmentDetails" tables="C">
+		<LinkedJoin type="root" key="C.CASE_NUMBER">
+	   		<Join/>
+	   	</LinkedJoin>
+	</Query>
+	
+	<Query pivotNode="/ds/JudgmentDetails/Defendants/Defendant" tables="P CPR PR">
+		<LinkedJoin type="query" key="CPR.PARTY_ROLE_CODE CPR.CASE_PARTY_NO">
+	   		<Parent key="C.CASE_NUMBER" tables="C"/>
+	   		<Join>
+				CPR.CASE_NUMBER = C.CASE_NUMBER AND
+				CPR.PARTY_ROLE_CODE IN ('CLAIMANT','DEFENDANT', 'PT 20 CLMT', 'PT 20 DEF') AND
+				P.PARTY_ID = CPR.PARTY_ID AND 
+				PR.PARTY_ROLE_CODE = CPR.PARTY_ROLE_CODE
+     	 	</Join>
+     	 </LinkedJoin>
+	</Query>
+</QueryDef>

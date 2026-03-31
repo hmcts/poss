@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: Payments
+	Method: searchCos()
+	File: query_def_search_cos.xml
+	Author: Steve Blair
+-->
+<QueryDef>
+	<DBMapDef location="uk/gov/dca/caseman/payments_service/map_search_enforcements.xml" />
+	<Query pivotNode="/SearchResults/Enforcement" tables="W C CO">
+		<SQL type="select">
+			SELECT	W.WARRANT_ID AS "C.ENFORCEMENT_NUMBER",
+						W.WARRANT_NUMBER AS "C.DISPLAY_NUMBER",
+						'HOME WARRANT' AS "C.ENFORCEMENT_TYPE",
+						W.DEFENDANT1 AS "C.DEFENDANT1",
+						W.DEFENDANT2 AS "C.DEFENDANT2",
+						W.ISSUED_BY AS "C.ISSUING_COURT",
+						W.EXECUTED_BY AS "C.EXECUTING_COURT",
+						W.CURRENTLY_OWNED_BY AS "C.OWNING_COURT"
+			FROM	WARRANTS W,
+						CONSOLIDATED_ORDERS CO
+			WHERE	W.CO_NUMBER = ${param.coNumber} AND
+						W.CO_NUMBER = CO.CO_NUMBER AND
+						CO.CO_TYPE = 'CAEO'
+			UNION
+			SELECT	CO.CO_NUMBER AS "C.ENFORCEMENT_NUMBER",
+						CO.CO_NUMBER AS "C.DISPLAY_NUMBER",
+						'CO' AS "C.ENFORCEMENT_TYPE",
+						CO.DEBTOR_NAME AS "C.DEFENDANT1",
+						NULL AS "C.DEFENDANT2",
+						NULL AS "C.ISSUING_COURT",
+						NULL AS "C.EXECUTING_COURT",
+						CO.ADMIN_COURT_CODE AS "C.OWNING_COURT"
+			FROM	CONSOLIDATED_ORDERS CO
+			WHERE	CO.CO_NUMBER = ${param.coNumber}
+		</SQL>
+		<Modify notModifiable="true" />
+	</Query>
+	<Query pivotNode="/SearchResults/Enforcement/Outstanding" tables="W WR RC CO">
+		<SQL type="select">
+			SELECT	DECODE(COUNT(*), 0, 'Y', 'N') AS "C.OUTSTANDING"
+			FROM		WARRANT_RETURNS WR,
+						RETURN_CODES RC
+			WHERE	${C.ENFORCEMENT_TYPE} = 'HOME WARRANT' AND
+						WR.WARRANT_ID = ${C.ENFORCEMENT_NUMBER} AND
+	        			WR.ERROR_INDICATOR = 'N' AND
+	        			RC.RETURN_CODE = WR.RETURN_CODE AND
+	        			RC.ADMIN_COURT_CODE = WR.RETURN_CODE_COURT_CODE AND
+	        			RC.RETURN_TYPE = 'F'
+			UNION
+			SELECT	DECODE(COUNT(*), 0, 'Y', 'N') AS "C.OUTSTANDING"
+			FROM	CONSOLIDATED_ORDERS CO
+			WHERE	${C.ENFORCEMENT_TYPE} = 'CO' AND
+						CO.CO_NUMBER = ${C.ENFORCEMENT_NUMBER} AND
+						(CO.CO_STATUS IS NULL OR (CO.CO_STATUS != 'LIVE' AND CO.CO_STATUS != 'DEBTR PAYNG'))
+		</SQL>
+		<Modify notModifiable="true" />
+	</Query>
+</QueryDef>

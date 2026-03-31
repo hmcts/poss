@@ -1,0 +1,248 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- CHANGE HISTORY -->
+<!-- 01/02/2013 - Chris Vincent, minor changes to output content in line with LASPO terminology changes.  Trac 4769. -->
+<root xmlns:xsl="http://www.w3.org/1999/XSL/Transform" 
+	xmlns:fo="http://www.w3.org/1999/XSL/Format" xmlns="http://eds.com/supsfo">
+	<variables>@word.processing.url.xsl@supsfo.xsl</variables>
+	<addressee>
+		<blank/>
+		<claimants/>
+		<defendants/>
+	</addressee>
+	<header>
+		<fo:block font-size="16pt" font-weight="bold">Order for 
+			possession</fo:block>
+		<fo:block font-size="16pt" font-weight="bold">(rented 
+			premises)</fo:block>
+		<fo:block font-size="16pt" font-weight="bold">(postponed)</fo:block>
+	</header>
+	<courtcase>
+		<court>
+			<xsl:copy-of select="$vdCourtHeaderBlock"/>
+		</court>
+		<caseparameters>
+			<parameter>
+				<name>
+					<fo:block font-weight="bold">Claim Number</fo:block>
+				</name>
+				<value>
+					<fo:block>
+						<xsl:value-of select="$vdClaimNumber"/>
+					</fo:block>
+				</value>
+			</parameter>
+			<parameter>
+				<name>
+					<fo:block font-weight="bold">Claimant</fo:block>
+					<fo:block font-size="9pt">(including ref.)</fo:block>
+				</name>
+				<value>
+					<fo:block hyphenate="true">
+						<xsl:value-of select="$vdClaimantName"/>
+					</fo:block>
+					<fo:block font-size="9pt" hyphenate="true">
+						<xsl:value-of select="$vdClaimantReference"/>
+					</fo:block>
+				</value>
+			</parameter>
+			<parameter>
+				<name>
+					<fo:block font-weight="bold">Defendant</fo:block>
+					<fo:block font-size="9pt">(including ref.)</fo:block>
+				</name>
+				<value>
+					<fo:block hyphenate="true">
+						<xsl:value-of select="$vdDefendantName"/>
+					</fo:block>
+					<fo:block font-size="9pt" hyphenate="true">
+						<xsl:value-of select="$vdDefendantReference"/>
+					</fo:block>
+				</value>
+			</parameter>
+			<parameter>
+				<name>
+					<fo:block font-weight="bold">Date</fo:block>
+				</name>
+				<value>
+					<fo:block>
+						<xsl:value-of select="$vdEventDate"/>
+					</fo:block>
+				</value>
+			</parameter>
+			<dobparameter partyType="defendant"/>
+		</caseparameters>
+	</courtcase>
+	<bodyintroright>
+		<fo:block space-before="0.4cm">
+			<fo:inline text-align="center">
+				<seal/>
+			</fo:inline>
+		</fo:block>
+	</bodyintroright>
+	<body>
+		<editable useid="N100BF">
+			<fo:block font-weight="bold" space-after="0.4cm"> ON THE 
+				<xsl:value-of select="$vdJudgmentDate"/>, <xsl:value-of 
+				select="$vdJudge"/> </fo:block>
+			<fo:block space-after="0.4cm"> sitting at <xsl:value-of 
+				select="$vdHearingAtCourtNameDescription"/>, <xsl:value-of 
+				select="$vdHearingAtCourtAddress"/> </fo:block>
+			<fo:block space-after="0.4cm">
+				<xsl:copy-of select="$vdHearingAttendees"/>
+			</fo:block>
+			<fo:block space-after="0.4cm"> <fo:inline font-weight="bold">and 
+				the court orders</fo:inline> that </fo:block>
+			<numbered-list name="possession">
+				<list-item>
+					<fo:block space-after="0.2cm">
+						The defendant is to give up possession of 
+						<xsl:value-of select="$vdPossessionProperty"/> 
+						to the claimant.
+					</fo:block>
+				</list-item>
+				<list-item>
+					<fo:block space-after="0.2cm">
+						The date on which the defendant is to give up possession 
+						of the property to the claimant is postponed to a date to 
+						be fixed by the court on an application by the claimant. 
+						The defendant's tenancy of the property will continue 
+						until that date.
+					</fo:block>
+				</list-item>
+				<list-item>
+					<fo:block space-after="0.2cm">
+						The defendant must pay the claimant &#163;<xsl:value-of select="$vdPossAmountOrdered"/> 
+						for rent arrears<xsl:if test="$vdOrderForCosts = 'Y'">
+						and &#163;<xsl:value-of select="$vdPossOrderCostAmount"/> for costs</xsl:if>.
+						The total judgment debt is &#163;<xsl:value-of select="$vdPossTotalAmountOwing"/> 
+						to be paid by instalments as specified in paragraph 4 below.
+					</fo:block>
+				</list-item>
+				<list-item>
+					<fo:block space-after="0.2cm">
+						The claimant shall not be entitled to make an application 
+						for a date to be fixed for the giving up of possession and 
+						the termination of the defendant's tenancy so long as the 
+						defendant pays the claimant the current rent together with 
+						instalments of &#163;<xsl:value-of select="$vdPossInstalmentAmount"/> 
+						per <xsl:value-of select="$vdPossessionInstalmentPeriod"/> 
+						towards the judgment debt. 
+					</fo:block>
+				</list-item>
+				<list-item>
+					<fo:block space-after="0.2cm">
+						The first payment of the current rent and the first instalment 
+						must be made on or before <xsl:value-of select="$vdPossFirstInstalmentDate"/> 
+					</fo:block>
+				</list-item>
+				<list-item>
+					<fo:block space-after="0.2cm">
+						Any application to fix the date on which the defendant is to 
+						give up possession may be determined on the papers without a 
+						hearing (unless the district judge considers that such a hearing 
+						is necessary).
+					</fo:block>
+				</list-item>
+				<list-item>
+					<fo:block space-after="0.2cm">
+						This order shall cease to be enforceable when the total judgment 
+						debt is satisfied.
+					</fo:block>
+				</list-item>
+			</numbered-list>
+		</editable>
+	</body>
+	<footnote noteextent="7">
+		<fo:block space-after="0.2cm" font-family="Times" text-align="justify">
+			<fo:table table-layout="fixed" width="100%">
+				<fo:table-column column-width="10cm"></fo:table-column>
+				<fo:table-column column-width="9.28cm"></fo:table-column>
+				<fo:table-body>
+					<fo:table-row keep-with-next="always">
+						<fo:table-cell number-columns-spanned="2" 
+							border-top-style="solid" border-top-width="0.02cm" 
+							border-left-style="solid" 
+							border-left-width="0.02cm" 
+							border-right-style="solid" 
+							border-right-width="0.02cm">
+							<fo:block space-before="0.1cm" space-after="0.1cm" 
+								text-align="center" font-weight="bold" 
+								font-size="10pt">To the defendant</fo:block>
+						</fo:table-cell>
+					</fo:table-row>
+					<fo:table-row keep-with-next="always">
+						<fo:table-cell padding-left="0.1cm" 
+							border-bottom-style="solid" 
+							border-bottom-width="0.02cm" 
+							border-left-style="solid" 
+							border-left-width="0.02cm">
+							<fo:block font-size="8pt" space-after="0.1cm" 
+								padding-left="0.1cm"> The court has ordered 
+								that <fo:inline font-weight="bold">unless you 
+								pay the arrears </fo:inline>
+								<xsl:if test="$vdOrderForCosts = 'Y'">and costs </xsl:if>
+								at the rate set out above <fo:inline 
+								font-weight="bold">in addition to your current 
+								rent</fo:inline>, you must leave the premises. 
+								</fo:block>
+							<fo:block font-size="8pt" space-after="0.1cm"> 
+								Payments should be made to the claimant, not to 
+								the court. </fo:block>
+							<fo:block font-size="8pt" space-after="0.1cm"> If 
+								you need more information about making 
+								payments, you should contact the claimant. 
+								</fo:block>
+						</fo:table-cell>
+						<fo:table-cell number-rows-spanned="2" 
+							padding-left="0.2cm" padding-right="0.1cm" 
+							border-bottom-style="solid" 
+							border-bottom-width="0.02cm" 
+							border-right-style="solid" 
+							border-right-width="0.02cm">
+							<fo:block font-size="8pt" space-after="1cm"> If you 
+								do not make the payments or leave the premises, 
+								the claimant can ask the court, <fo:inline font-weight="bold">
+								without a further hearing</fo:inline>, to fix a 
+								date for you to leave the premises and if you do 
+								not do so, to authorise a bailiff or High Court  
+								Enforcement Officer to evict you. (You can apply
+								to the court to stay the eviction; a judge will 
+								decide if there are grounds for doing so.) </fo:block>
+							<fo:block font-size="8pt" space-after="0.2cm">
+								If you do not pay 
+								the money owed when it is due and the 
+								claimant takes steps to enforce 
+								payment, the order will be registered 
+								in the Register of Judgments, Orders 
+								and Fines. This may make it difficult 
+								for you to get credit. Further 
+								information about registration is 
+								available in a leaflet which you can 
+								get from any court office. </fo:block>
+							<fo:block font-size="8pt" font-weight="bold"> 
+								Need help with your problem?</fo:block>
+							<fo:block font-size="8pt" 
+								space-after="0.1cm">You may be able to get free legal 
+								advice. Go online at www.gov.uk/legal-aid for further 
+								information</fo:block>
+						</fo:table-cell>
+					</fo:table-row>
+					<fo:table-row keep-with-next="always">
+						<fo:table-cell border-top-style="solid" 
+							border-top-width="0.02cm" border-left-style="solid" 
+							border-left-width="0.02cm" 
+							border-right-style="solid" 
+							border-right-width="0.02cm" 
+							border-bottom-style="solid" 
+							border-bottom-width="0.02cm">
+							<address suppressborder="true">
+								<xsl:call-template name="addressee"/>
+							</address>
+						</fo:table-cell>
+					</fo:table-row>
+				</fo:table-body>
+			</fo:table>
+		</fo:block>
+	</footnote>
+	<defaultFooter id="CJR055"/>
+</root>

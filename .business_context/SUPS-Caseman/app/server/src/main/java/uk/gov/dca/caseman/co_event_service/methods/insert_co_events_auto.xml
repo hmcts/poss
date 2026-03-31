@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: CoEvents
+	Method:  insertCoEventsAuto()
+	File:    insert_co_events_auto.xml
+	Description: 
+		
+    Change History:
+	08-Jun-2006 Phil Haferer: Added Dependency for Co, following a change to CoEventUpdateHelper.
+                (TD 3527: Deleting CO debts does not recalculate CO fee).
+-->
+<service-method>
+	<pipeline> 
+		<Java>
+			<Source class="uk.gov.dca.caseman.co_event_service.java.InsertAutoCoEventsCustomProcessor"/>
+		</Java>
+	</pipeline>
+	<Dependencies>
+		<Dependency serviceName="Co"/>	
+	</Dependencies>			
+	<Security roles="medium high wcSuper scSuper bmsSuper aeSuper dmSuper cpSuper"/> 	
+</service-method>
+
+

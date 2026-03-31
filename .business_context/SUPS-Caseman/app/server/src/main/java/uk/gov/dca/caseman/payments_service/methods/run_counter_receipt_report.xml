@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: Payments
+	Method:  runCounterReceiptReport()
+	File:    run_counter_receipt_report.xml
+	Author:  Kevin Gichohi
+	Description:
+        	20-June-2006 Kevin Gichohi (EDS): Separated the saving of the payment and calling of the receipt to two different transactions
+				
+-->
+<service-method>
+	<pipeline>
+		<Java callStyle="new">
+			<Source class="uk.gov.dca.caseman.payments_service.java.RunCounterReceiptReportCustomProcessor" />
+		</Java>
+	</pipeline>
+	<Dependencies>
+		<Dependency serviceName="Reports" />
+	</Dependencies>
+	<Security roles="medium high wcSuper scSuper bmsSuper aeSuper dmSuper cpSuper" />
+</service-method>

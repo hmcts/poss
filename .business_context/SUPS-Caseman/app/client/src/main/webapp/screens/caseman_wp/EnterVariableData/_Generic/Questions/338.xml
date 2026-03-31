@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>338</Id>
+	<Label>Are payments to be paid on account of costs?</Label>
+	<ObjectName>PaymentsOnAccount</ObjectName>
+	<Html>
+		<input type="checkbox" id="PaymentsOnAccount"></input>
+	</Html>
+	
+	<Context screenId="N32_2"><isVisible>false</isVisible></Context>
+	<Context screenId="N32_5"><isVisible>false</isVisible></Context>
+	<Context screenId="CJR040"><isVisible>false</isVisible></Context>
+	<Context screenId="CJR041"><isVisible>false</isVisible></Context>
+	<Context screenId="CJR042"><isVisible>false</isVisible></Context>
+	<Context screenId="CJR043"><isVisible>false</isVisible></Context>
+	<Context screenId="CJR049"><isVisible>false</isVisible></Context>
+	<Context screenId="CJR065A"><isVisible>false</isVisible></Context>
+	<Context screenId="CJR051"><isVisible>false</isVisible></Context>
+	<Context screenId="CJR053"><isVisible>false</isVisible></Context>
+	<Context screenId="CJR055"><isVisible>false</isVisible></Context>
+	<Context screenId="CJR090"><isVisible>false</isVisible></Context>
+    <Context screenId="CO28"><isVisible>false</isVisible></Context>
+    <Context screenId="CO31"><isVisible>false</isVisible></Context>
+	
+	<Javascript>
+		<XPath>/ds/EnterVariableData/InterimCosts/PossessionOrder/paymentsOnAccount</XPath>
+		<componentName>##label##</componentName>
+		<HintText>Check box if there Is a payment to be made on account of costs</HintText>
+		<modelValue>checked: "Y", unchecked: "N"</modelValue>
+		<enableOn>CostType.dataBinding</enableOn>
+		<isEnabled>
+			var val = Services.getValue(CostType.dataBinding);
+			return( 'F' == val || 'A' == val);
+		</isEnabled>
+		<logicOn>CostType.dataBinding</logicOn>
+		<logic>		
+			var val = Services.getValue(CostType.dataBinding);
+			if( 'F' != val &amp;&amp; 'A' != val)		
+			{	Services.setValue(PaymentsOnAccount.dataBinding);
+			}
+		</logic>
+		<Context ScreenId="N32_2">
+			<enableOn>PaymentsOnAccount.dataBinding</enableOn>
+			<isEnabled>return false;</isEnabled>
+			<logicOn>PaymentsOnAccount.dataBinding</logicOn>
+			<logic></logic>
+		</Context>
+		<Context ScreenId="N32_5">
+			<enableOn>PaymentsOnAccount.dataBinding</enableOn>
+			<isEnabled>return false;</isEnabled>
+			<logicOn>PaymentsOnAccount.dataBinding</logicOn>
+			<logic></logic>
+		</Context>
+		<Context ScreenId="CJR040">
+			<enableOn>PaymentsOnAccount.dataBinding</enableOn>
+			<isEnabled>return false;</isEnabled>
+			<logicOn>PaymentsOnAccount.dataBinding</logicOn>
+			<logic></logic>
+		</Context>
+		<Context ScreenId="CJR041">
+			<enableOn>PaymentsOnAccount.dataBinding</enableOn>
+			<isEnabled>return false;</isEnabled>
+			<logicOn>PaymentsOnAccount.dataBinding</logicOn>
+			<logic></logic>
+		</Context>
+		<Context ScreenId="CJR042">
+			<enableOn>PaymentsOnAccount.dataBinding</enableOn>
+			<isEnabled>return false;</isEnabled>
+			<logicOn>PaymentsOnAccount.dataBinding</logicOn>
+			<logic></logic>
+		</Context>
+		<Context ScreenId="CJR043">
+			<enableOn>PaymentsOnAccount.dataBinding</enableOn>
+			<isEnabled>return false;</isEnabled>
+			<logicOn>PaymentsOnAccount.dataBinding</logicOn>
+			<logic></logic>
+		</Context>
+		<Context ScreenId="CJR049">
+			<enableOn>PaymentsOnAccount.dataBinding</enableOn>
+			<isEnabled>return false;</isEnabled>
+			<logicOn>PaymentsOnAccount.dataBinding</logicOn>
+			<logic></logic>
+		</Context>
+		
+		<Context ScreenId="CJR051">
+			<enableOn>PaymentsOnAccount.dataBinding</enableOn>
+			<isEnabled>return false;</isEnabled>
+			<logicOn>PaymentsOnAccount.dataBinding</logicOn>
+			<logic></logic>
+		</Context>
+		<Context ScreenId="CJR052">
+			<enableOn>HasCostOrder.dataBinding, CostType2.dataBinding</enableOn>
+			<isEnabled>return('Y' == Services.getValue(HasCostOrder.dataBinding) 
+								&amp;&amp;  'A' == Services.getValue( CostType2.dataBinding ));</isEnabled>
+			<logicOn>HasCostOrder.dataBinding, CostType2.dataBinding</logicOn>
+			<logic>
+				if('Y' != Services.getValue(HasCostOrder.dataBinding) ||
+						'A' != Services.getValue( CostType2.dataBinding ))
+				{	Services.setValue(PaymentsOnAccount.dataBinding, "N");
+				}
+			</logic>
+		</Context>
+		<Context ScreenId="CJR053">
+			<enableOn>PaymentsOnAccount.dataBinding</enableOn>
+			<isEnabled>return false;</isEnabled>
+			<logicOn>PaymentsOnAccount.dataBinding</logicOn>
+			<logic></logic>
+		</Context>
+		
+		<Context ScreenId="CJR065A">
+			<enableOn>PaymentsOnAccount.dataBinding</enableOn>
+			<isEnabled>return false;</isEnabled>
+			<logicOn>PaymentsOnAccount.dataBinding</logicOn>
+			<logic></logic>
+		</Context>
+		
+		<Context ScreenId="CJR090">
+			<enableOn>PaymentsOnAccount.dataBinding</enableOn>
+			<isEnabled>return false;</isEnabled>
+			<logicOn>PaymentsOnAccount.dataBinding</logicOn>
+			<logic></logic>
+		</Context>
+	</Javascript>
+</Question>  

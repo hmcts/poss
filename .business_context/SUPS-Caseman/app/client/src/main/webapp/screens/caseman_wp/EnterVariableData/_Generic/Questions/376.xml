@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>376</Id>
+	<Label>Is the address</Label>
+	<ObjectName>IsAddress</ObjectName>
+	<Html>	
+		<select id="IsAddress">
+			<option value=""></option>
+			<option value="BUS">The usual or last known place of business of the defendant</option>
+			<option value="DEF">The usual or last known address of the defendant</option>				
+		</select>
+	</Html>			
+	<Javascript>
+		<XPath>/ds/EnterVariableData/SubsService/isAddress</XPath>
+		<componentName>##label##</componentName>
+		<isMandatory>return false;</isMandatory>
+		<HintText>Select the address type</HintText>	
+		<enableOn>HowDocServed.dataBinding</enableOn>
+		<isEnabled>return( 'NEWS' != Services.getValue(HowDocServed.dataBinding));</isEnabled>
+		<logicOn>HowDocServed.dataBinding</logicOn>
+		<logic>
+			if( 'NEWS' == Services.getValue(HowDocServed.dataBinding))
+			{	Services.setValue(IsAddress.dataBinding, "");
+			}
+		</logic>
+	</Javascript>
+</Question>   
+   

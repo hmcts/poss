@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: Hearing
+	Method:  isAeHearings
+	Author:  Chris Hutt (EDS) 
+	Created: 25 may 2006
+	Description: 
+		Use SQLLite to determine whether hearings of an AE type exist for the Case TD defect UCT273
+
+		25 May 2006 : sql approved by Grant Miller
+
+-->
+<service-method>
+	<pipeline>
+		<SQLLite format-output="true"
+				 resultset-element="ds"
+				 row-element="Case"
+				 field-name-as="element" >
+			<DataSource id="java:OracleDS"/>
+			<Param name="param.caseNumber" xpath="/params/param[@name='caseNumber']"/>
+			<SQL>
+				SELECT 
+					DECODE(	(	SELECT 	COUNT(*)
+								FROM    HEARINGS H
+								WHERE   H.CASE_NUMBER = ${param.caseNumber}
+								AND   	(	(	H.HRG_TYPE = 'AE')
+											OR 
+											(	H.HRG_TYPE IN	(SELECT RV_LOW_VALUE FROM CCBC_REF_CODES REF  WHERE REF.RV_DOMAIN = 'CURRENT_HRG_TYPE_AE'))	
+										)),0,'false','true') 	AS "HasAeHearings" FROM DUAL
+			</SQL>
+		</SQLLite>
+  	</pipeline>
+	<Security roles="user"/>
+</service-method>

@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>17</Id>
+	<Label></Label>
+	<ObjectName>AdLine3</ObjectName>
+	<Html>
+		<input id="AdLine3" type="text" size="50"></input>
+	</Html>
+	
+	<Context screenId="CJR082">
+		<isVisible>true</isVisible>
+		<Label>N40B Hearing address line 3</Label>
+	</Context>
+	<Context screenId="CJR083">
+		<isVisible>true</isVisible>
+		<Label>N79A Hearing address line 3</Label>
+	</Context>
+
+    <Context screenId="O_10_10"><isVisible>false</isVisible></Context>
+    <Context screenId="O_10_12"><isVisible>false</isVisible></Context>
+
+    	
+	<Javascript>
+		<XPath>/ds/EnterVariableData/Hearing/Address/Line[3]</XPath>
+		<componentName>Hearing Address Line 3</componentName>
+		<HintText>Enter the third line of the hearing address</HintText>		
+		<isReadOnly>return true;</isReadOnly>
+		<isMandatory>return false;</isMandatory>	
+		<mandatoryOn>AdLine3.dataBinding</mandatoryOn>
+		<Notes>Auto populated from RefId 14</Notes>	
+		
+		<Context ScreenId="O_11_1_2_3_4">	    	
+			<enableOn>AdLine3.dataBinding</enableOn>
+			<isEnabled>if (null != WP &amp;&amp; null != WP.GetScreenProcess &amp;&amp; null != WP.GetScreenProcess()) {
+				var str = WPU.getValue( WPU.NODE_XPATHS['CaseEventId']);
+				return(str == 690 || str == 692); }
+			</isEnabled>
+			<logicOn>AdLine1.dataBinding</logicOn>
+			<logic>
+				var str = WPU.getValue( WPU.NODE_XPATHS['CaseEventId']);
+				if(str != 690 &amp;&amp; str != 692)
+				{
+					Services.setValue(AdLine3.dataBinding, "");
+				}
+			</logic>
+		</Context>	
+		
+		<Context ScreenId="CJR072">
+			<enableOn>OrderDetails2.dataBinding</enableOn>
+			<isEnabled>return('HRG' == Services.getValue(OrderDetails2.dataBinding));</isEnabled>
+			<logicOn>OrderDetails2.dataBinding</logicOn>
+			<logic>
+				if('HRG' != Services.getValue(OrderDetails2.dataBinding))
+				{	Services.setValue(AdLine3.dataBinding, "");
+				}
+			</logic>
+		</Context>
+		
+		<Context ScreenId="CJR093">
+			<enableOn>WhoConsidApp2.dataBinding</enableOn>
+			<isEnabled>return hearingFieldsEnabled();</isEnabled>
+		</Context>
+		
+		<Context ScreenId="CJR178">
+			<enableOn>WitnessTo.dataBinding</enableOn>
+			<isEnabled>return( 'AC' == Services.getValue(WitnessTo.dataBinding));</isEnabled>
+			<logicOn>WitnessTo.dataBinding</logicOn>
+			<logic>
+				if( 'AC' != Services.getValue(WitnessTo.dataBinding))
+				{	Services.setValue(AdLine3.dataBinding, "");
+				}
+			</logic>				
+		</Context>
+		<Context ScreenId="CJR105">			
+			<enableOn>NoticeOfFurtherHearing.dataBinding</enableOn>
+			<isEnabled>return( 'Y' == Services.getValue(NoticeOfFurtherHearing.dataBinding));</isEnabled>
+			<logicOn>NoticeOfFurtherHearing.dataBinding</logicOn>
+			<logic>
+				if( 'Y' != Services.getValue(NoticeOfFurtherHearing.dataBinding))
+				{	Services.setValue(AdLine3.dataBinding, "");
+				}
+			</logic>
+		</Context>
+		
+		<Context ScreenId="CJR060">
+			<enableOn>TrialDateFixed.dataBinding</enableOn>
+			<isEnabled>return('FIX' == Services.getValue(TrialDateFixed.dataBinding));</isEnabled>
+			<logicOn>TrialDateFixed.dataBinding</logicOn>
+			<logic>
+				if('FIX' != Services.getValue(TrialDateFixed.dataBinding))
+				{	Services.setValue(AdLine3.dataBinding, "");
+				}
+			</logic>
+		</Context>
+		<Context ScreenId="CJR020">
+			<enableOn>TrialDateFixed.dataBinding</enableOn>
+			<isEnabled>return('FIX' == Services.getValue(TrialDateFixed.dataBinding));</isEnabled>
+			<logicOn>TrialDateFixed.dataBinding</logicOn>
+			<logic>
+				if('FIX' != Services.getValue(TrialDateFixed.dataBinding))
+				{	Services.setValue(AdLine3.dataBinding, "");
+				}
+			</logic>
+		</Context>
+		
+		<Context ScreenId="CJR061">			
+			<enableOn>HearingListed.dataBinding</enableOn>
+			<isEnabled>return('Y' == Services.getValue(HearingListed.dataBinding));</isEnabled>
+			<logicOn>HearingListed.dataBinding</logicOn>
+			<logic>
+				if('Y' != Services.getValue(HearingListed.dataBinding));
+				{	Services.setValue(AdLine2.dataBinding, "");
+				}
+			</logic>
+		</Context>
+		
+		<Context ScreenId="CJR046">	    	
+			<enableOn>HearingListed.dataBinding</enableOn>
+			<isEnabled>return ('Y' == Services.getValue(HearingListed.dataBinding));</isEnabled>
+			<logicOn>HearingListed.dataBinding</logicOn>
+			<logic>
+				if('Y' != Services.getValue(HearingListed.dataBinding))
+				{
+					Services.setValue(AdLine3.dataBinding, "");
+				}
+			</logic>
+		</Context>	
+		
+		<Context ScreenId="CO23">
+			<enableOn>DisStrAdj.dataBinding</enableOn>
+			<isEnabled>return ('ADJ' == Services.getValue(DisStrAdj.dataBinding));</isEnabled>
+			<logicOn>DisStrAdj.dataBinding</logicOn>
+			<logic>
+				if('ADJ' != Services.getValue(DisStrAdj.dataBinding))
+				{
+					Services.setValue(AdLine3.dataBinding, "");
+				}
+			</logic>
+		</Context>
+		
+		<Context ScreenId="CO34">
+			<enableOn>DisStrAdj.dataBinding</enableOn>
+			<isEnabled>return ('ADJ' == Services.getValue(DisStrAdj.dataBinding));</isEnabled>
+			<logicOn>DisStrAdj.dataBinding</logicOn>
+			<logic>
+				if('ADJ' != Services.getValue(DisStrAdj.dataBinding))
+				{
+					Services.setValue(AdLine3.dataBinding, "");
+				}
+			</logic>
+		</Context>
+		
+		<Context ScreenId="O_2_6">
+            <isEnabled>return true;</isEnabled>
+		</Context>
+		
+		<Context ScreenId="O_3_1_2_5_1">
+			<enableOn>VenueName.dataBinding</enableOn>
+			<isEnabled>return( '' != Services.getValue(VenueName.dataBinding));</isEnabled>
+			<logicOn>VenueName.dataBinding</logicOn>
+			<logic>
+				if( '' == Services.getValue(VenueName.dataBinding))
+				{	Services.setValue(AdLine3.dataBinding, "");
+				}
+			</logic>			
+		</Context>		
+		
+		<Context ScreenId="O_7_8">
+            <isEnabled>return true;</isEnabled>
+		</Context>
+		
+        <Context ScreenId="O_10_7">
+            <isEnabled>return true;</isEnabled>
+        </Context>
+        
+        <Context ScreenId="O_10_11">
+            <isEnabled>return true;</isEnabled>
+        </Context>
+        
+	</Javascript>
+</Question>

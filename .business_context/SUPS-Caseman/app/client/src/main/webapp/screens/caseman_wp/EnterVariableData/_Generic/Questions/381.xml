@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>381</Id>
+	<Label>Check box if Judgment of this court</Label>
+	<ObjectName>JudgmentThisCourt</ObjectName>
+	<Html>	
+		<input type="checkbox" id="JudgmentThisCourt"></input>
+	</Html>	
+	
+	<Context screenId="L_14_1"><isVisible>false</isVisible></Context>
+	<Context screenId="FE45"><isVisible>false</isVisible></Context>
+			
+	<Javascript>
+		<XPath>/ds/EnterVariableData/AttendForQuestion/judgmentThisCourt</XPath>
+		<componentName>##label##</componentName>
+		<modelValue>checked: "Y", unchecked: "N"</modelValue>
+		<HintText>Check box if Judgment is of this court</HintText>	
+		<enableOn>IsN39Reqd.dataBinding</enableOn>
+		<isEnabled>
+			var N39En = IsN39Reqd.isEnabled();
+			var isN39Req = Services.getValue(IsN39Reqd.dataBinding);
+			return( !N39En || 'Y' == isN39Req);
+		</isEnabled>
+		<logicOn>IsN39Reqd.dataBinding</logicOn>
+		<logic>
+			var N39En = IsN39Reqd.isEnabled();
+			var isN39Req = Services.getValue(IsN39Reqd.dataBinding);
+			if( N39En &amp;&amp; 'Y' != isN39Req)
+			{	Services.setValue(JudgmentThisCourt.dataBinding, "N");
+			}
+		</logic>
+		<initialise>Services.setValue(JudgmentThisCourt.dataBinding, "N");</initialise>
+				
+		<Context ScreenId="CJR091">
+			<initialise>Services.setValue(JudgmentThisCourt.dataBinding, "Y");</initialise>
+			<enableOn>JudgmentThisCourt.dataBinding</enableOn>
+			<isEnabled>return true;</isEnabled>
+			<logicOn></logicOn>
+			<logic></logic>
+		</Context>
+		
+		<Context ScreenId="CJR093">
+			<initialise>Services.setValue(JudgmentThisCourt.dataBinding, "Y");</initialise>
+			<enableOn>JudgmentThisCourt.dataBinding</enableOn>
+			<isEnabled>return true;</isEnabled>
+			<logicOn></logicOn>
+			<logic></logic>
+		</Context>
+		<Context ScreenId="CJR094">
+			<initialise>Services.setValue(JudgmentThisCourt.dataBinding, "Y");</initialise>
+			<enableOn>JudgmentThisCourt.dataBinding</enableOn>
+			<isEnabled>return true;</isEnabled>
+			<logicOn></logicOn>
+			<logic></logic>
+		</Context>
+		<Context ScreenId="L_14_1">
+			<enableOn>JudgmentThisCourt.dataBinding</enableOn>
+			<isEnabled>return false;</isEnabled>
+			<logicOn>JudgmentThisCourt.dataBinding</logicOn>
+			<logic></logic>
+		</Context>
+		<Context ScreenId="FE45">
+			<enableOn>JudgmentThisCourt.dataBinding</enableOn>
+			<isEnabled>return false;</isEnabled>
+			<logicOn>JudgmentThisCourt.dataBinding</logicOn>
+			<logic></logic>
+		</Context>
+
+	</Javascript>
+</Question>

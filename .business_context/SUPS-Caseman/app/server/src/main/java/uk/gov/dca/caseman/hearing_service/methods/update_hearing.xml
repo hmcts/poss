@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: Hearing
+	Method:  updateHearing()
+	File:    update_hearing.xml
+	Author:  Troy Baines
+	Created: 20 November 2004
+	Description: 
+       Updates a hearing record
+-->
+<service-method>
+	<pipeline>
+		<Update>
+			<QueryDef location="uk/gov/dca/caseman/hearing_service/query_def_modify.xml"/>
+			<DataSource xpath="/params/param[@name='HearingID']"/>
+			<QueryExtension pivotNode="/ds/MaintainHearing/Hearings/Hearing">
+				<CheckExists table="H" fields="hrg_seq" onNotExist="add" onExist="update"/>
+			</QueryExtension>
+		</Update>
+		<Java>
+			<!-- 
+				 The case event will needs to be inserted after the eventId has been generated for a new hearing
+				 because the hrg_seq is a FK on CASE_EVENTS
+			     -->
+			<Source class="uk.gov.dca.caseman.hearing_service.java.InsertCaseEvent200CreateHearingCustomProcessor"/>
+		</Java>
+	</pipeline>
+	<Dependencies>
+		<Dependency serviceName="CaseEvent"/>
+		<Dependency serviceName="Obligation"/>
+		<Dependency serviceName="WindowForTrial"/>
+	</Dependencies>
+	<Security roles="medium high wcSuper scSuper bmsSuper aeSuper dmSuper cpSuper ccbcMan ccbcUser ccbcSGB2"/>
+</service-method>

@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>687</Id>
+	<Label>LQ Fee</Label>
+	<ObjectName>LQFee</ObjectName>
+	<Html>	
+		<input id="DefaultCurrency687" type="text" size="1"></input>
+		<input type="text" id="LQFee" size="8" maxlength="8"></input>	
+	</Html>
+	
+	<Context screenId="CJR060"><isVisible>false</isVisible></Context>
+	
+	<Javascript>
+		<XPath>/ds/EnterVariableData/LQAndHearing/LQFee</XPath>
+		<HintText>Enter amount of LQ fee</HintText>
+		<maxLength>8</maxLength>		
+		<mandatoryOn>IsLQADirnMade.dataBinding</mandatoryOn>		
+		<isMandatory>
+			return( 'Y' == Services.getValue(IsLQADirnMade.dataBinding));
+		</isMandatory>
+		<enableOn>IsLQADirnMade.dataBinding</enableOn>
+		<isEnabled>
+			return( 'Y' == Services.getValue(IsLQADirnMade.dataBinding));
+		</isEnabled>
+		<logicOn>IsLQADirnMade.dataBinding</logicOn>
+		<logic>
+			if ( 'Y' != Services.getValue(IsLQADirnMade.dataBinding) ) { Services.setValue(LQFee.dataBinding, ""); }
+		</logic>
+		<validate>
+			var val = Services.getValue(LQFee.dataBinding);
+			var err = validateCurrencyValue(val, 99999.99, false);
+			if( null == err || val &lt; 0 )
+			{	
+				if ( val &gt; 0 || val == 0 )
+				{
+					var fmVal = WPU.formatToTwoDP(val);
+					Services.setValue(LQFee.dataBinding, fmVal);
+				}
+				else
+				{
+					// Negative or zero amount entered
+					err = ErrorCode.getErrorCode("CaseMan_negativeFeeEntered_Msg");
+				}
+			}
+			return err;
+		</validate>
+		<miscCode>
+			function DefaultCurrency687() {}
+			DefaultCurrency687.dataBinding = "/ds/EnterVariableData/LQAndHearing/LQFeeCurrency";
+			DefaultCurrency687.tabIndex = -1;
+			DefaultCurrency687.maxLength = 3;
+			DefaultCurrency687.isReadOnly = function(){return true;}
+			DefaultCurrency687.isTemporary = function(){return true;}
+			DefaultCurrency687.transformToDisplay = function(value){
+				return WPS.__CaseManUtils().transformCurrencySymbolToDisplay(value,null,null); }
+			DefaultCurrency687.transformToModel = function(value){
+				return WPS.__CaseManUtils().transformCurrencySymbolToModel(value,null,null); }
+        </miscCode>
+	</Javascript>
+</Question>

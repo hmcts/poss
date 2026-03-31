@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: Hearing
+	Method:  isHearingForCase
+	Author:  Chris Hutt (EDS) 
+	Created: 22 June 2005
+	Description: 
+		Use SQLLite to determine whether a Case has a Hearing of specified type
+-->
+<service-method>
+	<pipeline>
+		<SQLLite format-output="true"
+				 resultset-element="ds"
+				 row-element="Case"
+				 field-name-as="element" >
+			<DataSource id="java:OracleDS"/>
+			<Param name="param.hearingType" xpath="/params/param[@name='hearingType']"/>
+			<Param name="param.caseNumber" xpath="/params/param[@name='caseNumber']"/>
+			<SQL>
+				SELECT 
+					DECODE(COUNT(*),0,'false','true') 	AS "HasHearing"
+				FROM    HEARINGS H
+				WHERE   H.CASE_NUMBER = ${param.caseNumber}
+				AND     H.HRG_TYPE =  ${param.hearingType}
+			</SQL>
+		</SQLLite>
+  	</pipeline>
+	<Security roles="user"/>
+</service-method>

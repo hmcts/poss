@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: CaseEvent
+	Method:  getCaseCourtCodeForVariation()
+	Author:  Chris Hutt (EDS) 
+	Created: 5 dec 2007
+	Description: 
+		Use SQLLite to retrieve case court code for variation
+-->
+<service-method>
+	<pipeline>
+		<SQLLite format-output="true"
+				 resultset-element="ds"
+				 row-element="Case"
+				 field-name-as="element" >
+			<DataSource id="java:OracleDS"/>
+			<Param name="param.varySeq" xpath="/params/param[@name='varySeq']"/>
+			<SQL>
+			
+				SELECT 	
+     					C.ADMIN_CRT_CODE		AS  "CourtCode"
+				,    	C.CASE_NUMBER			AS "CaseNumber"
+				FROM 	VARIATIONS V, JUDGMENTS J , CASES C
+				WHERE
+     					V.VARY_SEQ = ${param.varySeq}
+				AND  	J.JUDG_SEQ = V.JUDG_SEQ
+				AND  	C.CASE_NUMBER = J.CASE_NUMBER
+			</SQL>
+		</SQLLite>
+  	</pipeline>
+	<Security roles="user"/>
+</service-method>

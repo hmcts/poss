@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: Co
+	Method:  getCoDebtCreditorAndPayee()
+	File:    map_get_co_debt_payee.xml
+	Author:  Phil Haferer (EDS)
+	Created: 02 September 2005
+	Description: 
+		Retrieve the details relating to a particular Payee within a Case, for the purpose
+		of associating them with a Consolidated Order Allowed Debt.
+-->
+<DBMapDef>
+	<DataSource id="java:OracleDS"/>
+	<Tables>
+		<Table alias="P"       name="P"/>		
+		<Table alias="CPR"     name="CASE_PARTY_ROLES"/>		
+		<Table alias="CP"      name="CODED_PARTIES"/>		
+		<Table alias="GA"      name="GIVEN_ADDRESSES"/>		
+	</Tables>
+	<Mapping>
+		<ds>
+			<Debt>
+				<Payee>
+					<CPCode>${CP.CODE}</CPCode>
+					<PartyId>${P.PARTY_ID}</PartyId>
+					<Name>${P.PERSON_REQUESTED_NAME}</Name> 
+					<DX>${P.DX_NUMBER}</DX>
+					<TelNo>${P.TEL_NO}</TelNo>
+					<FaxNo>${P.FAX_NUMBER}</FaxNo>
+					<Email>${P.EMAIL_ADDRESS}</Email>
+					<CommMethod>${CPR.PREF_COMM_METHOD}</CommMethod>
+					<TranslationToWelsh>${CPR.WELSH_INDICATOR}</TranslationToWelsh>
+					<Reference>${SOLICITOR_REF}</Reference>
+					<Address>
+						<SCN table="${GA_TABLE_ALIAS}">${GA_ORA_ROWSCN}</SCN>
+						<Status>${EXISTING_VALUE}</Status>
+						<AddressSurrogateId>${GA.ADDRESS_ID}</AddressSurrogateId>
+						<AddressId>${GA.ADDRESS_ID}</AddressId>
+						<Line>${GA.ADDRESS_LINE1}</Line>
+						<Line>${GA.ADDRESS_LINE2}</Line>
+						<Line>${GA.ADDRESS_LINE3}</Line>
+						<Line>${GA.ADDRESS_LINE4}</Line>
+						<Line>${GA.ADDRESS_LINE5}</Line>
+						<PostCode>${GA.POSTCODE}</PostCode>
+						<AddressTypeCode>${GA.ADDRESS_TYPE_CODE}</AddressTypeCode>
+						<CreatedBy>${GA.UPDATED_BY}</CreatedBy>
+						<ValidFrom>${GA.VALID_FROM}</ValidFrom>
+						<ValidTo>${GA.VALID_TO}</ValidTo>
+					</Address>
+					<AddressHistory>
+					</AddressHistory>
+				</Payee>
+			</Debt>
+		</ds>
+	</Mapping>
+</DBMapDef>

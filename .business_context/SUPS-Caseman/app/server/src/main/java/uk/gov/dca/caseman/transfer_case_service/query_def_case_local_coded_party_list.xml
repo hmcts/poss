@@ -1,0 +1,44 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: TransferCase
+	Method:  getCaseLocalCodedPartyList()
+	File:    query_def_get_case_local_coded_party_list.xml
+	Author:  Phil Haferer (EDS)
+	Created: 27 July 2005
+	Description: 
+		Retrieve the details of the Coded Parties that are linked into a Case,
+		ready to convert them to non-coded parties.
+		
+	Change History:
+	14-Dec-2005 Phil Haferer: RFC 1297 - Changed Join tag to ignore the new Non CPC National Coded Parties.
+    05-May-2006 Phil Haferer: TD 3223 "Transferred CCBC Cases don't display the National Coded Party Solicitor"
+                The condition for excluding National Coded Parties was incorrect - it required an 'AND' between
+                the two range rather an 'OR'.
+    06-Sep-2006 Phil Haferer: TD CASEMAN 4143: Exception Message when Transferring a Case using Diary Manager  Supervisor.
+                Added "GA.ADDRESS_TYPE_CODE = 'CODED PARTY'" <Join> tag - too many rows were being retrieved, because
+                of corrupt addresses created by the Consolidated Orders screen.
+-->
+<QueryDef>
+  <DBMapDef location="uk/gov/dca/caseman/transfer_case_service/map_case_local_coded_party_list.xml"/>
+  <Query pivotNode="/CaseLocalCodedPartyList/CaseLocalCodedParty" tables="P CPR GA CP ">
+	<Join>
+		     CP.PARTY_ID     = CPR.PARTY_ID
+		AND (NOT CP.CODE BETWEEN 1500 AND 1999
+		AND  NOT CP.CODE BETWEEN 7000 AND 9999)
+		AND  P.PARTY_ID      = CP.PARTY_ID
+		AND  GA.PARTY_ID     = P.PARTY_ID
+		AND  GA.ADDRESS_TYPE_CODE = 'CODED PARTY'
+	</Join>
+    <Modify>
+	    <CheckExists table="P" fields="PARTY_ID" onNotExist="add" onExist="fail"/>
+		<Field name="P.PARTY_ID" sequenceTable="PARTIES_SEQUENCE"/>
+
+	    <CheckExists table="CPR" fields="CASE_NUMBER CASE_PARTY_NO PARTY_ROLE_CODE" onNotExist="fail" onExist="update"/>
+	    <Field name="CPR.PARTY_ID" xpath="./Party/PartyId"/>	    
+
+	    <CheckExists table="GA" fields="ADDRESS_ID" onNotExist="add" onExist="fail"/>
+		<Field name="GA.ADDRESS_ID" sequenceTable="ADDR_SEQUENCE"/>
+
+    </Modify>
+  </Query>
+</QueryDef>

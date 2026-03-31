@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>285</Id>
+	<Label>When should documents be filed?</Label>
+	<ObjectName>FileDocsWhen</ObjectName>
+	<Html>
+		<select id="FileDocsWhen">
+			<option value=""></option>			
+			<option value="FD">Within fourteen days</option>
+			<option value="GD">On a given date</option>
+		</select>
+	</Html>
+	
+	<Javascript>
+		<XPath>/ds/EnterVariableData/SmallTrack/fileDocsWhen</XPath>
+		<HintText>When should the documents be filed - list available</HintText>
+		<isMandatory>return true;</isMandatory>
+		<enableOn>IsServeFileDocs.dataBinding</enableOn>
+		<isEnabled>return('Y' == Services.getValue(IsServeFileDocs.dataBinding));</isEnabled>
+		<logicOn>IsServeFileDocs.dataBinding</logicOn>
+		<logic>
+			if('Y' != Services.getValue(IsServeFileDocs.dataBinding))
+			{	Services.setValue(FileDocsWhen.dataBinding, "");
+			}
+		</logic>
+		
+		<Context ScreenId="CJR023C">
+			<HintText>When should the documents be filed</HintText>
+		</Context>
+	</Javascript>
+</Question>
+
+
+	
+           

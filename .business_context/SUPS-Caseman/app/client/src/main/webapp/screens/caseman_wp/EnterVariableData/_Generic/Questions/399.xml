@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>399</Id>
+	<Label>Is order against officer of a company?</Label>
+	<ObjectName>IsAgainstCoOfficer</ObjectName>
+	<Html>	
+		<input type="checkbox" id="IsAgainstCoOfficer"></input>
+	</Html>			
+	<Javascript>
+		<XPath>/ds/EnterVariableData/DisobedienceArrest/isAgainstCoOfficer</XPath>
+		<componentName>##label##</componentName>
+		<modelValue>checked: "Y", unchecked: "N"</modelValue>
+		<HintText>Check box if order is against an officer of a company</HintText>	
+		<enableOn>IsAgainstCoOfficer.dataBinding</enableOn>
+		<isEnabled>return true;</isEnabled>
+		
+		
+		<Context ScreenId="CJR083">
+			<enableOn>IsNewN79AsReqd.dataBinding</enableOn>
+			<isEnabled>
+				if(IsNewN79AsReqd.isEnabled())
+				{  	if( 'Y' == Services.getValue(IsNewN79AsReqd.dataBinding))
+					{	return true;
+					}
+					return false;
+				}
+				return true;
+			</isEnabled>
+			<logicOn>IsNewN79AsReqd.dataBinding</logicOn>
+			<logic>
+				if( IsNewN79AsReqd.isEnabled() &amp;&amp; 'Y' != Services.getValue(IsNewN79AsReqd.dataBinding))
+				{	Services.setValue(IsAgainstCoOfficer.dataBinding, "N");
+				}
+			</logic>
+		</Context>
+	</Javascript>
+</Question>

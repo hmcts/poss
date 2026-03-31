@@ -1,0 +1,639 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3c.org/TR/html4/strict.dtd">
+
+<html>
+
+	<head>
+		<title>MaintainJudgment</title>
+		<link href="MaintainJudgment.css" type="text/css" rel="stylesheet">
+		<script type="text/javascript" src="../../Framework.js"></script>
+		<script type="text/javascript" src="../../ConcatCommon.js"></script>
+		<script type="text/javascript" src="../caseman_wp/WordProcessing.js"></script>
+		<script type="text/javascript" src="JudgmentVariables.js"></script>
+		<script type="text/javascript" src="JudgmentFunctions.js"></script>
+		<script type="text/javascript" src="MaintainJudgment.js"></script>				
+<!--		
+		<link href="MaintainJudgment.css" type="text/css" rel="stylesheet">  
+		<script type="text/javascript" src="../../Framework.js"></script>
+		<script type="text/javascript" src="../../CaseManIncludeFiles.js"></script>
+		<script type="text/javascript" src="../../AuditIncludeFiles.js"></script>
+		<script type="text/javascript" src="../caseman_wp/WordProcessing.js"></script>
+		<script type="text/javascript" src="JudgmentVariables.js"></script>
+		<script type="text/javascript" src="JudgmentFunctions.js"></script>
+		<script type="text/javascript" src="MaintainJudgment.js"></script>
+		<script type="text/javascript" src="MaintainJudgment_AuditCode.js"></script>
+		<script type="text/javascript" src="MaintainJudgment_MenuBarCode.js"></script>
+-->	
+	</head>
+
+	<body>
+		<form name="MaintainJudgment" id="MaintainJudgment">
+	
+			<!-- Framework Navigation Menu -->
+			<script type="text/javascript">MenuBarRenderer.createInline();</script>
+			
+			<table class="layout">
+						
+				<!-- Header Panel -->
+				<tr>
+					<td>
+						<div class="panel">
+							  <table class="content">
+								<tr>
+									<td>
+										<table style="margin-top:5px;">
+											<tr>
+												<td class="defaultLabel"><label for='Header_CaseNumber'>Case Number</label></td>
+												<td><input id="Header_CaseNumber" type="text" size=15></td>
+			
+												<td style="width:50px;">&nbsp;</td>
+			
+												<td class="defaultLabel"><label for='Header_OwningCourtCode'>Owning Court</label></td>
+												<td>
+													<input id="Header_OwningCourtCode" type="text" size=5>
+													<input id="Header_OwningCourtName" type="text" size=25>
+												</td>
+											</tr>
+											<tr>
+												<td colspan=2>
+													<script type="text/javascript">
+														Grid.createInline("Header_PartyListGrid",["Type", "Number", "Name"],3,1); 
+													</script>
+												</td>
+												
+												<td colspan=3>&nbsp;</td>
+											</tr>															
+										</table>							
+									</td>			
+								</tr>	            		
+							</table>  
+						</div>          		    	
+					</td>
+				</tr>
+				<!-- End Header Panel -->
+				<tr>
+					<td>
+						<div class="panel">
+							<table class="content">
+								<tr>			    		 
+									<td valign="top" style="height:447px; width:400px;">
+										<table style="margin-top:5px;">
+											<tr>
+												<td><b>&nbsp;Judgment Against</b>
+													<!-- Defendant Grid -->
+													<script type="text/javascript">
+														Grid.createInline(
+															"Master_AgainstGrid",		// The HTML id of the grid
+															["Date", "Type", "Number", "Name"], // An array of strings containing the column headers
+															11,			// The number of rows in the grid
+															1	// The number of rows which are grouped together in coloured stripe.
+														); 
+													</script>									
+												</td>
+											</tr>
+											<tr>
+												<td><b>&nbsp;In Favour Of</b>
+													<!-- Defendant Grid -->
+													<script type="text/javascript">
+														Grid.createInline(
+															"Master_InFavourListGrid",		// The HTML id of the grid
+															["Type", "Number", "Name"], // An array of strings containing the column headers
+															8,			// The number of rows in the grid
+															1	// The number of rows which are grouped together in coloured stripe.
+														); 
+													</script>									
+												</td>
+											</tr>				    					
+											<tr>
+												<td align="right">
+													<input id="Master_AddJudgmentBtn" type="Button" value="Add Judgment" style="margin-right:5px; margin-bottom:5px;">
+												</td>
+											</tr>
+										</table>
+									</td>
+
+									<td class="spacer">&nbsp;</td>
+
+									<!-- Judgment Details Panel -->
+									<td valign="top">
+										<table style="margin-top:5px;">
+											<tr>
+												<td><label for='JudgmentDetails_CourtCode'>Court</label></td>
+												<td>
+													<input id="JudgmentDetails_CourtCode" type="text" size=5>
+													<input id="JudgmentDetails_CourtName" type="text" size=32>
+												</td>
+											</tr>
+											<tr>
+												<td><label for='JudgmentDetails_Type'>Type</label></td>																
+												<td>
+													<input id="JudgmentDetails_Type" type="text" size=25>
+													&nbsp;
+													<label for='JudgmentDetails_JointJudgment'>Joint?</label>								
+													<input id="JudgmentDetails_JointJudgment" type="text" size=3>
+												</td>	
+											</tr>																													
+											<tr>
+												<td><label for='JudgmentDetails_Date'>Date</label></td>								
+												<td>
+													<script type="text/javascript">
+														DatePickerRenderer.createInline("JudgmentDetails_Date", true);
+													</script>
+												</td>
+											</tr>
+											<tr>
+												<td><label for='JudgmentDetails_DateToRTL'>Registration Date</label></td>								
+												<td>																		
+													<script type="text/javascript">
+														DatePickerRenderer.createInline("JudgmentDetails_DateToRTL", true);
+													</script>
+												</td>
+											</tr>		
+											<tr>
+												<td colspan="2"><hr/></td>
+											</tr>
+											<tr>
+												<td><label for='JudgmentDetails_JudgmentAmount'>Judgment Amount</label></td>																
+												<td>
+													<input id="JudgmentDetails_JudgmentAmountCurrency" type="text" size=1>
+													<input id="JudgmentDetails_JudgmentAmount" type="text" size=15>
+													<input id="AmendJudgmentButton" type="Button" value="Amend Judgment" style="margin-left:5px;">
+												</td>
+											</tr>  
+											<tr>
+												<td><label for='JudgmentDetails_JudgmentCosts'>Total Costs</label></td>																
+												<td>
+													<input id="JudgmentDetails_JudgmentCostsCurrency" type="text" size=1>
+													<input id="JudgmentDetails_JudgmentCosts" type="text" size=15>
+												</td>
+											</tr>   
+											<tr>
+												<td><label for='JudgmentDetails_JudgmentSubTotal'>Sub Total</label></td>																
+												<td>
+													<input id="JudgmentDetails_JudgmentSubTotalCurrency" type="text" size=1>	
+													<input id="JudgmentDetails_JudgmentSubTotal" type="text" size=15>
+												</td>
+											</tr>   
+											<tr>
+												<td><label for='JudgmentDetails_PaidBefore'>Paid Before Judgment</label></td>																
+												<td>
+													<input id="JudgmentDetails_PaidBeforeCurrency" type="text" size=1>
+													<input id="JudgmentDetails_PaidBefore" type="text" size=15>
+												</td>
+											</tr>
+											<tr>
+												<td><label for='JudgmentDetails_Total'>Total</label></td>																
+												<td>
+													<input id="JudgmentDetails_TotalCurrency" type="text" size=1>
+													<input id="JudgmentDetails_Total" type="text" size=15>
+												</td>
+											</tr>  
+											<tr>
+												<td><label for='JudgmentDetails_InstalAmount'>Instalment Amount</label></td>																
+												<td>
+													<input id="JudgmentDetails_InstalAmountCurrency" type="text" size=1>
+													<input id="JudgmentDetails_InstalAmount" type="text" size=15>&nbsp;&nbsp;
+													<label for='JudgmentDetails_PeriodDesc'>Period</label>
+													<input id="JudgmentDetails_PeriodDesc" type="text" size=12>
+												</td>																	        												
+											</tr> 
+											<tr>
+												<td><label for='JudgmentDetails_FirstPayDate'>First or Full Payment Date</label></td>								
+												<td>
+													<script type="text/javascript">
+														DatePickerRenderer.createInline("JudgmentDetails_FirstPayDate", true);
+													</script>
+												</td>
+											</tr>												
+											<tr>
+												<td colspan="2"><hr/></td>
+											</tr>
+											<tr>
+												<td><label for='JudgmentDetails_PaidInFullDate'>Date Paid in Full</label></td>								
+												<td>
+													<script type="text/javascript">
+														DatePickerRenderer.createInline("JudgmentDetails_PaidInFullDate", true);
+													</script>																																	
+												</td>
+											</tr>	
+											<tr>
+												<td><label for='JudgmentDetails_NotReceiptDate'>Notification Receipt Date</label></td>								
+												<td>
+													<script type="text/javascript">
+														DatePickerRenderer.createInline("JudgmentDetails_NotReceiptDate", true);
+													</script>
+												</td>
+											</tr>
+											<tr>
+												<td><label for='JudgmentDetails_Status'>Status</label></td>																
+												<td>
+													<input id="JudgmentDetails_Status" type="text" size=23>
+												</td>
+											</tr>
+											<tr style="height:2px;">
+												<td colspan="2">&nbsp;</td>
+											</tr>
+											<tr>
+												<td colspan="2" align="left">
+													<input id="Master_SetAsideButton" type="Button" value="Applications Set Aside" style="margin-left:5px;">
+													<input id="Master_VaryButton" type="Button" value="Applications Vary" style="margin-left:5px;">
+													<input id="Master_PayeeDetailsButton" type="Button" value="Payee Details" style="margin-left:5px;">
+												</td>
+											</tr>
+										</table>
+									</td>
+									<!-- End Judgment Details Panel -->
+								</tr>
+							</table>
+						</div>
+					</td>    		
+				</tr>
+				
+			</table>
+		
+			<!-- Status Bar Panel -->
+			<script type="text/javascript">
+				ActionBarRenderer.createInline(
+					"status_bar",
+					[
+						{id: "Status_Save", label: "Save"},
+						{id: "Status_Close", label: "Close"}
+					]
+				);
+			</script>
+			<!-- End Status Bar Panel -->
+		
+			<!--  Form Extension Popups -->
+
+			<!-- Application To Vary popup -->
+			<div class="popup" id="AppToVary">
+				<table class="content">
+				
+					<tr>
+						<td align="center">
+							<h3>Application To Vary</h3>
+						</td>
+					</tr>
+					
+					<tr>
+						<td>																 
+							<script type="text/javascript">
+								Grid.createInline(
+									"AppToVary_Grid",
+									["Application Date", "Applicant", "Amount", "Per" ,"Hearing", "Response", "Response Date", "Result", "Result Date"], 
+									3,			
+									1	
+								); 
+							</script>																			
+						</td>
+					</tr>
+					
+					<tr>
+						<td align="left">	
+							<table style="width:100%;">
+								<tr>
+									<td colspan="4" align="right">
+										<input id="AppToVary_AddBtn" type="Button" value="Add Application" style="margin-right:5px;">
+									</td>
+								</tr>	
+								<tr>
+									<td colspan="4" align="right">
+										<hr/>
+									</td>	
+								</tr>
+								<tr>
+									<td><label for='AppToVary_Date'>Application Date</label></td>	
+									<td>
+										<script type="text/javascript">
+											DatePickerRenderer.createInline("AppToVary_Date", true);
+										</script>								
+									</td>
+									<td><label for='AppToVary_Applicant'>Applicant</label></td>
+									<td>
+										<input type="text" id="AppToVary_Applicant" size="27">
+									</td>
+								</tr>
+								<tr>
+									<td><label for='AppToVary_Hearing'>Hearing?</label></td>
+									<td>
+										<input id="AppToVary_Hearing" type="checkbox">
+									</td>
+									<td><label for='AppToVary_AmountOffered'>Amount Offered</label></td>
+									<td>
+										<input type="text" id="AppToVary_AmountOfferedCurrency" size="2">								
+										<input type="text" id="AppToVary_AmountOffered" size="15">&nbsp;&nbsp;								
+										<label for='AppToVary_Per'>Per</label>&nbsp;							
+										<input type="text" id="AppToVary_Per" size="16">
+									</td>
+								</tr>
+								<tr>
+									<td colspan="4" align="right">
+										<hr/>
+									</td>	
+								</tr>	
+								
+								<tr>							
+									<td><label for='AppToVary_ClaimResp'>Response</label></td>							
+									<td>
+										<select id="AppToVary_ClaimResp"/>
+									</td>
+									<td><label for='AppToVary_RespDate'>Response Date</label></td>
+									<td>
+										<script type="text/javascript">
+											DatePickerRenderer.createInline("AppToVary_RespDate", true);
+										</script>
+									</td>	
+								</tr>
+								<tr>							
+									<td><label for='AppToVary_Result'>Result</label></td>							
+									<td>																
+										<select id="AppToVary_Result"/>	
+									</td>
+									<td><label for='AppToVary_ResultDate'>Result Date</label></td>
+									<td>
+										<script type="text/javascript">
+											DatePickerRenderer.createInline("AppToVary_ResultDate", true);
+										</script>					
+									</td>
+								</tr>
+								<tr>							
+									<td><label for='AppToVary_PayDate'>Payment Date</label></td>							
+									<td>
+										<script type="text/javascript">
+											DatePickerRenderer.createInline("AppToVary_PayDate", false);
+										</script>
+									</td>	
+									<td><label for='AppToVary_ResultAmount'>Amount</label></td>															
+									<td>
+										<input type="text" id="AppToVary_ResultAmountCurrency" size="2">
+										<input type="text" id="AppToVary_ResultAmount" size="15">	&nbsp;&nbsp;
+										<label for='AppToVary_ResultPer'>Per</label>&nbsp;							
+										<select id="AppToVary_ResultPer"/>								
+									</td>
+								</tr>
+								<tr>
+									<td colspan="4" align="right">
+										<hr/>
+									</td>
+								</tr>		
+								<tr>
+									<td><label for='AppToVary_Objector'>Objector</label></td>							
+									<td>
+										<select id="AppToVary_Objector"/>								
+									</td>
+									<td colspan="2">&nbsp;</td>
+								</tr>
+								<tr>							
+									<td><label for='AppToVary_ObjDate'>Objection Date</label></td>
+									<td>
+										<script type="text/javascript">
+											DatePickerRenderer.createInline("AppToVary_ObjDate", true);
+										</script>
+									</td>
+									<td colspan="2">&nbsp;</td>					
+								</tr>
+								<tr>
+									<td colspan="4" align="right">
+										<hr/>
+									</td>	
+								</tr>								
+							</table>
+						</td>
+					</tr>
+					
+					<tr style="height:2px;">
+						<td>&nbsp;</td>
+					</tr>
+					
+					<tr>
+						<td align="right">
+							<input class="popupButton" type="button" value="Ok" id="AppToVary_OKBtn">
+							<input class="popupButton" type="button" value="Cancel" id="AppToVary_CancelBtn">
+						</td>
+					</tr>
+					
+				</table>
+			</div>
+			<!-- end App To Vary popup -->	
+			
+			<!-- Add Vary popup -->
+			<div class="popup" id="AddVary">
+				<table class="content">
+
+					<tr>
+						<td align="center">
+							<h3>Add Application To Vary</h3>
+						</td>
+					</tr>
+
+					<tr>
+						<td align="left">	
+							<table style="width:100%;">						
+								<tr>
+									<td><label for='AddVary_Date'>Application Date</label></td>	
+									<td>
+										<script type="text/javascript">
+											DatePickerRenderer.createInline("AddVary_Date", false);
+										</script>
+									</td>
+									<td>
+										<label for='AddVary_Applicant'>Applicant</label>
+									</td>
+									<td>
+										<select id="AddVary_Applicant"/>
+									</td>
+								</tr>
+								<tr>							
+									<td><label for='AddVary_InstAmount'>Amount Offered</label></td>
+									<td>
+										<input type="text" id="AddVary_InstAmountCurrency" size="2">
+										<input type="text" id="AddVary_InstAmount" size="15">													
+									</td>
+									<td>
+										<label for='AddVary_Per'>Per</label>&nbsp;									
+									</td>
+									<td><select id="AddVary_Per"/></td>
+								</tr>
+								<tr style="height:2px;">
+									<td colspan="4">&nbsp;</td>
+								</tr>
+								<tr>
+									<td align="right" colspan="4">
+										<input class="popupButton" type="button" value="Ok" id="AddVary_OKBtn">
+										<input class="popupButton" type="button" value="Cancel" id="AddVary_CancelBtn">								
+									</td>
+								</tr>				
+							</table>
+						</td>
+					</tr>
+					
+				</table>
+			</div>
+			<!-- end Add Vary popup -->	
+			
+			<!-- App To Set Aside popup -->
+			<div class="popup" id="AppToSetAside">
+				<table class="content">	
+	
+					<tr>
+						<td align="center">
+							<h3>Application To Set Aside</h3>
+						</td>
+					</tr>
+					
+					<tr>
+						<td valign="top">
+							<table>
+								<tr>
+									<td>																 
+										<script type="text/javascript">
+											Grid.createInline(
+												"AppToSetAside_Grid",
+												["Application Date", "Applicant", "Result", "Result Date"], 
+												3,			
+												1	
+											); 
+										</script>																			
+									</td>	
+									<td valign ="top">
+										<input id="AppToSetAside_AddBtn" type="Button" value="Add Application">
+									</td>
+								</tr>					
+							</table>					
+						</td>
+					</tr>
+					
+					<tr>
+						<td align="left">	
+							<table style="width:100%;">
+								<tr>
+									<td colspan="4"><hr/></td>
+								</tr>
+								<tr>
+									<td><label for='AppToSetAside_Date'>Application Date</label></td>	
+									<td>
+										<script type="text/javascript">
+											DatePickerRenderer.createInline("AppToSetAside_Date", true);
+										</script>
+									</td>		
+									<td><label for='AppToSetAside_Applicant'>Applicant</label></td>
+									<td><input type="text" id="AppToSetAside_Applicant" size="25"></td>
+								</tr>
+								<tr>
+									<td><label for='AppToSetAside_Result'>Result</label></td>
+									<td>
+										<select id="AppToSetAside_Result"/>									
+									</td>
+									<td><label for='AppToSetAside_ResultDate'>Result Date</label></td>
+									<td>
+										<script type="text/javascript">
+											DatePickerRenderer.createInline("AppToSetAside_ResultDate", false);
+										</script>
+									</td>
+								</tr>							
+								<tr>
+									<td colspan="4"><hr/></td>
+								</tr>								
+							</table>
+						</td>
+					</tr>
+					
+					<tr style="height:2px;">
+						<td>&nbsp;</td>
+					</tr>
+					
+					<tr>
+						<td align="right">
+							<input class="popupButton" type="button" value="Ok" id="AppToSetAside_OKBtn">
+							<input class="popupButton" type="button" value="Cancel" id="AppToSetAside_CancelBtn">
+						</td>
+					</tr>
+					
+				</table>
+			</div>
+			<!-- end App To Set Aside popup -->
+			
+			<!-- Add App To Set Aside popup -->
+			<div class="popup" id="AddSetAside">
+				<table class="content">
+	
+					<tr>
+						<td align="center">
+							<h3>Add Application To Set Aside</h3>
+						</td>
+					</tr>
+											
+					<tr>
+						<td align="left">	
+							<table style="width:100%;">
+								<tr>
+									<td><label for='AddSetAside_Date'>Application Date</label></td>	
+									<td>
+										<script type="text/javascript">
+											DatePickerRenderer.createInline("AddSetAside_Date", false);
+										</script>
+									</td>
+									<td><label for='AddSetAside_Applicant'>Applicant</label></td>
+									<td>
+										<select id="AddSetAside_Applicant"/>
+									</td>
+								</tr
+								<tr style="height:2px;">
+									<td colspan=4>&nbsp;</td>
+								</tr>
+								<tr>
+									<td colspan=4 align="right">
+										<input class="popupButton" type="button" value="Ok" id="AddSetAside_OKBtn">
+										<input class="popupButton" type="button" value="Cancel" id="AddSetAside_CancelBtn">
+									</td>
+								</tr>															
+							</table>
+						</td>
+					</tr>
+
+				</table>
+			</div>
+			<!-- end Add App To Set Aside popup -->
+				
+			<!-- New outputs popup -->
+			<div class="popup" id="Outputs_Popup">
+	
+				<table class="content" id="myPopupTable">
+					
+					<tr>
+						<td><b>Outputs:</b></td>
+					</tr>	
+					<tr>
+						<td><div id='Outputs_Popup_Content'></div></td>			        
+					</tr>
+					<tr>
+						<td align="right" >
+							<input type="button" value="Close" id="Outputs_Popup_CloseButton">
+						</td>			        
+					</tr>
+				</table>
+			</div>
+			<!-- End Outputs popup -->
+								
+			<!--  End form extension popups -->	
+		
+			<!-- Logic Divs -->
+			<div class="logic" id="loadData"></div>
+		
+			<!-- AUDIT PANELS -->
+			<div class="auditPanel" id="currentlySelectedJudgmentAgainstPanel"></div>
+			
+			<!-- AUDIT SELECTOR ADAPTOR -->
+			<script type="text/javascript">AuditSelectorRenderer.createInline( "Audit_PanelSelector" );</script>
+			
+			<!-- SUBFORMS -->
+			<div class="popup popupsubform" id="audit_subform"></div>
+			<div class="popup popupsubform" id="judgmentPayee_subform"></div>
+			<div class="popup popupsubform" id="addJudgment_subform"></div>
+			<div class="popup popupsubform" id="ProgressBar_SubForm"></div>
+			<div class="popup popupsubform" id="hearingDetails_subform"></div>
+	
+		</form>
+	
+	</body>
+
+</html>

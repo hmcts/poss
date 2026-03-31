@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: Reports
+	Method:  deleteAeReportMapRow()
+	File:    delete_ae_report_map_row.xml
+	Author:  Chris Vincent
+	Created: 25/11/2015
+	Description: 
+		Delete any REPORT_MAP rows associated with a particular AE event that have yet to be
+		processed i.e. the LEGACY_PATH column ends in either 'input' or 'process'.
+	Change History:
+-->
+<service-method>
+	<pipeline>
+		<SQLLite output="input">
+			<DataSource id="java:OracleDS"/>
+			<Param name="param.aeEventSeq" xpath="/params/param[@name = 'aeEventSeq']"/>
+			<SQL type="update" tables="T">
+				DELETE FROM report_map rm
+				WHERE rm.report_queue_id IN (
+					SELECT ro.report_id 
+					FROM report_output ro
+					WHERE ro.ae_event_seq IS NOT NULL
+					AND ro.ae_event_seq = ${param.aeEventSeq}	
+				)
+				AND (rm.legacy_path LIKE '%input' OR rm.legacy_path like '%process')				
+			</SQL>
+		</SQLLite>	
+	</pipeline>
+	<Security roles="medium high wcSuper scSuper bmsSuper aeSuper dmSuper cpSuper ccbcMan ccbcUser ccbcSGB2"/>				
+</service-method>

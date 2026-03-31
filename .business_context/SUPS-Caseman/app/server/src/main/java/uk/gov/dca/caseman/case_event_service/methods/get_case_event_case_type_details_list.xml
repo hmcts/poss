@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: CaseEvent
+	Method:  getcaseEventCaseTypeDetailsList
+	Author:  Chris Hutt (EDS) 
+	Created: 26 May 2005
+	Description: 
+		Use SQLLite to retrieve lov list associated with a specified event and case_type
+                
+-->
+<service-method visibility="local">
+	<pipeline>
+		<SQLLite format-output="true"
+				 resultset-element="Options"
+				 row-element="Option"
+				 field-name-as="element" >
+			<DataSource id="java:OracleDS"/>
+			<Param name="param.eventId" xpath="/params/param[@name='eventId']"/>
+			<Param name="param.caseType" xpath="/params/param[@name='caseType']"/>
+			<SQL>
+				SELECT C1.RV_LOW_VALUE 	As "Description" 
+				FROM  CCBC_REF_CODES c1
+				WHERE C1.rv_DOMAIN IN
+				    ( SELECT C2.RV_meaning  
+				      FROM CCBC_REF_CODES C2
+				      WHERE C2.RV_LOW_VALUE 	= ${param.eventId} 
+				      AND C2.RV_HIGH_VALUE 	= ${param.caseType} 
+				      AND C2.RV_DOMAIN		= 'CASETYPE_DETAILS_LOV')
+			</SQL>
+		</SQLLite>
+  	</pipeline>
+	<Security roles="user"/>
+</service-method>

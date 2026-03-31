@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: CoEvent
+	Method:  isEventForCo
+	Author:  Chris Hutt (EDS) 
+	Created: 18 July 2005
+	Description: 
+		Use SQLLite to determine whether a consolidated order has specified event registered against it
+-->
+<service-method>
+	<pipeline>
+		<SQLLite format-output="true"
+				 resultset-element="ds"
+				 row-element="CO"
+				 field-name-as="element" >
+			<DataSource id="java:OracleDS"/>
+			<Param name="param.eventId" xpath="/params/param[@name='eventId']"/>
+			<Param name="param.coNumber" xpath="/params/param[@name='coNumber']"/>
+			<SQL>
+				SELECT 
+						DECODE(COUNT(*),0,'false','true') 	AS "HasEvents"
+				FROM    CO_EVENTS COE
+				WHERE   COE.STD_EVENT_ID = ${param.eventId}
+				AND     COE.CO_NUMBER =  ${param.coNumber}
+				AND 	COE.ERROR_INDICATOR != 'Y'
+			</SQL>
+		</SQLLite>
+  	</pipeline>
+	<Security roles="user"/>
+</service-method>

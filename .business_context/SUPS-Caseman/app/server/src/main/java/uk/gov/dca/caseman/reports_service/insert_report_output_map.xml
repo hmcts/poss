@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<DBMapDef>
+	<DataSource id="java:OracleDS"/>
+	<Tables>
+		<Table alias="RO" name="REPORT_OUTPUT"/>
+	</Tables>
+	<Mapping>
+        <insert_report_output>
+    			<OUTPUT_ID>${RO.OUTPUT_ID}</OUTPUT_ID>
+    			<USERNAME>${RO.USER_ID}</USERNAME>
+    			<PRINTED>${RO.PRINTED}</PRINTED>
+				<CO_EVENT_SEQ>${RO.CO_EVENT_SEQ}</CO_EVENT_SEQ>
+				<EVENT_SEQ>${RO.EVENT_SEQ}</EVENT_SEQ>
+				<AE_EVENT_SEQ>${RO.AE_EVENT_SEQ}</AE_EVENT_SEQ>
+				<REPORT_ID>${RO.REPORT_ID}</REPORT_ID>
+				<ORDER_ID>${RO.ORDER_ID}</ORDER_ID>
+        </insert_report_output>
+	</Mapping>
+</DBMapDef>

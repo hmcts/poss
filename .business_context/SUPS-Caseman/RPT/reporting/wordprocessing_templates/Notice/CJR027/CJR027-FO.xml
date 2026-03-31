@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- ====================================================================== -->
+<!--  -->
+<!-- FILENAME: $Source: C:/CVSRepository/serveroas/src/uk/gov/dca/caseman/wordprocessing_templates/Notice/CJR027/CJR027-FO.xml,v $ -->
+<!--  -->
+<!-- AUTHOR: $Author: narges $-->
+<!--  -->
+<!-- DATE: $Date: 2006/07/04 17:06:11 $ -->
+<!--  -->
+<!-- Version: $Revision: 1.10 $ -->
+<!--  -->
+<!-- DESCRIPTION: This stylesheet is used to create an XSL:FO document that -->
+<!-- can be processed into a PDF version.  Business logic -->
+<!-- is embedded to generate the correct document text for the order -->
+<!-- required. -->
+<!--  -->
+<!-- INPUTS: XML document containing: the answers to questions asked of the -->
+<!-- user; case data retrieved from the database; HTML representing the  -->
+<!-- body of the document content (already edited by the user). -->
+<!--  -->
+<!-- OUTPUTS: XML document with FO tags containing instructions for the -->
+<!-- creation of a PDF document. -->
+<!--  -->
+<!-- ====================================================================== -->
+<root xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:fo="http://www.w3.org/1999/XSL/Format" xmlns="http://eds.com/supsfo">
+	<variables>@word.processing.url.xsl@supsfo.xsl</variables>
+	<duplex/>
+	<layout>order</layout>
+	<addressee>
+		<blank/>
+		<claimants/>
+		<defendants/>
+		<part20claimants/>
+		<part20defendants/>
+	</addressee>
+	<header>
+		<fo:block font-size="16pt" font-weight="bold">Notice of Hearing of Application</fo:block>
+	</header>
+	<courtcase>
+		<court>
+			<xsl:copy-of select="$vdCourtHeaderBlock"/>
+		</court>
+		<caseparameters>
+			<parameter>
+				<name>
+					<fo:block font-weight="bold">Claim Number</fo:block>
+				</name>
+				<value>
+					<fo:block>
+						<xsl:value-of select="$vdClaimNumber"/>
+					</fo:block>
+				</value>
+			</parameter>
+			<parameter>
+				<name>
+					<fo:block font-weight="bold">Date</fo:block>
+				</name>
+				<value>
+					<fo:block>
+						<xsl:value-of select="$vdEventDate"/>
+					</fo:block>
+				</value>
+			</parameter>
+		</caseparameters>
+	</courtcase>
+	<bodyintroleft/>
+	<body>
+		<editable useid="N10087">
+			<fo:block space-after="2.0cm"/>
+			<fo:block space-before="0.8cm" space-after="0.4cm"><xsl:value-of select="$vdWordingRequired"/> 
+				<xsl:call-template name="formatTextAreaText">
+					<xsl:with-param name="text"><xsl:copy-of select="$vdApplicationFor"/></xsl:with-param>
+				</xsl:call-template> (see copy attached) will take place at 
+			<xsl:call-template name="format-time"><xsl:with-param name="theTime"><xsl:value-of select="$vdHearingTime"/></xsl:with-param></xsl:call-template> on the <xsl:value-of select="$vdHearingDate1"/> at <xsl:value-of select="$vdHearingCourtNameDescription"/>,  <xsl:value-of select="$vdHearingCourtAddress"/>.</fo:block>
+			<fo:block space-after="0.4cm" font-weight="bold">Cases are listed in accordance with local hearing arrangements determined by the Judiciary and implemented by court staff. 
+			Every effort is made to ensure that hearings start either at the time specified or as soon as possible thereafter. 
+			However, listing practices or other factors may mean that delay is unavoidable.  
+			Furthermore, in some instances a case may be released to another judge, possibly at a different court. 
+			Please contact the court for further information on the listing arrangements that may apply to your hearing.
+			</fo:block>
+		</editable>
+	</body>
+	<defaultFooter id="CJR027"/>
+</root>

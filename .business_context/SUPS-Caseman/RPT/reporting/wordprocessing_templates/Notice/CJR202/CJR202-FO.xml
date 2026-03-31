@@ -1,0 +1,853 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- ====================================================================== -->
+<!--  -->
+<!-- FILENAME: $Source: C:/CVSRepository/serveroas/src/uk/gov/dca/caseman/wordprocessing_templates/Notice/CJR202/CJR202-FO.xml,v $ -->
+<!--  -->
+<!-- AUTHOR: $Author: jay $-->
+<!--  -->
+<!-- DATE: $Date: 2006/05/17 10:39:11 $ -->
+<!--  -->
+<!-- Version: $Revision: 1.12 $ -->
+<!--  -->
+<!-- DESCRIPTION: This stylesheet is used to create an XSL:FO document that -->
+<!-- can be processed into a PDF version.  Business logic -->
+<!-- is embedded to generate the correct document text for the order -->
+<!-- required. -->
+<!--  -->
+<!-- INPUTS: XML document containing: the answers to questions asked of the -->
+<!-- user; case data retrieved from the database; HTML representing the  -->
+<!-- body of the document content (already edited by the user). -->
+<!--  -->
+<!-- OUTPUTS: XML document with FO tags containing instructions for the -->
+<!-- creation of a PDF document. -->
+<!--  -->
+<!-- CHANGE HISTORY: -->
+<!-- 12/12/2011 - Chris Vincent, major redesign of layout for Trac 4621. -->
+<!-- ====================================================================== -->
+<root xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:fo="http://www.w3.org/1999/XSL/Format" xmlns="http://eds.com/supsfo">
+	<variables>@word.processing.url.xsl@supsfo.xsl</variables>
+	<layout>general</layout>
+	<sections>
+		<section name="portrait">
+			<layout>portrait</layout>
+			<addressee copies="2">
+				<blank/>			
+			</addressee>	
+			<body>
+			
+			<!-- Header -->	
+			<fo:table table-layout="fixed">
+				<fo:table-column column-width="14.5cm"></fo:table-column>
+				<fo:table-column column-width="5.5cm"></fo:table-column>
+				<fo:table-body>
+					<fo:table-row keep-with-next="always">
+						<fo:table-cell padding-top="0.1cm" padding-right="0.1cm" padding-left="0.1cm" border-top-style="solid" border-top-width="0.02cm" border-left-style="solid" border-left-width="0.02cm" border-bottom-style="solid" border-bottom-width="0.02cm" height="1.7cm">
+							<fo:block space-before="0.4cm" space-after="0.4cm" font-size="16pt" font-weight="bold">Request for investment decision</fo:block>
+						</fo:table-cell>
+						<fo:table-cell padding-top="0.1cm" padding-right="0.1cm" padding-left="0.1cm" border-style="solid" border-width="0.02cm">
+							<fo:block text-align="right" space-before="0.4cm" space-after="0.4cm" font-size="16pt" font-weight="bold">CFO 212</fo:block>
+						</fo:table-cell>
+					</fo:table-row>
+				</fo:table-body>
+			</fo:table>
+			<!-- End Header -->
+			
+			<fo:block>&#xA0;</fo:block>
+			
+			<fo:table table-layout="fixed" margin-left="0.7cm">
+				<fo:table-column column-width="9.2cm"></fo:table-column>
+				<fo:table-column column-width="0.7cm"></fo:table-column>
+				<fo:table-column column-width="9.0cm"></fo:table-column>
+				<fo:table-body>
+					
+					<fo:table-row keep-with-next="always">
+						<fo:table-cell>
+							<fo:block font-size="9pt" margin-left="-0.7cm">Full case name, as it appears on the court order</fo:block>
+						</fo:table-cell>
+						<fo:table-cell>
+							<fo:block>&#xA0;</fo:block>
+						</fo:table-cell>
+						<fo:table-cell>
+							<fo:block font-size="9pt" margin-left="-0.7cm">Name of court</fo:block>
+						</fo:table-cell>
+					</fo:table-row>
+					
+					<fo:table-row keep-with-next="always">
+						<fo:table-cell padding-right="0.1cm" padding-left="0.1cm" padding-top="0.1cm" border-style="solid" border-width="0.02cm" height="0.9cm">
+							<fo:block space-before="0.15cm" space-after="0.15cm" font-size="10pt" margin-left="-0.7cm"><xsl:value-of select="$vdClaimantName"/></fo:block>
+						</fo:table-cell>
+						<fo:table-cell>
+							<fo:block>&#xA0;</fo:block>
+						</fo:table-cell>
+						<fo:table-cell padding-right="0.1cm" padding-left="0.1cm" padding-top="0.1cm" border-style="solid" border-width="0.02cm" height="0.9cm">
+							<fo:block space-before="0.15cm" space-after="0.15cm" font-size="10pt" margin-left="-0.7cm"><xsl:value-of select="$vdCourtNameDescription"/></fo:block>
+						</fo:table-cell>
+					</fo:table-row>
+					
+					<fo:table-row keep-with-next="always">
+						<fo:table-cell padding-right="0.1cm" padding-left="0.1cm" border-style="solid" border-width="0.02cm" vertical-align="middle">
+							<fo:block space-before="0.15cm" space-after="0.15cm" font-size="10pt" margin-left="-0.7cm"><xsl:value-of select="$vdDefendantName"/></fo:block>
+						</fo:table-cell>
+						<fo:table-cell padding-right="0.1cm" padding-left="0.1cm">
+							<fo:block>&#xA0;</fo:block>
+						</fo:table-cell>
+						<fo:table-cell padding-right="0.1cm" padding-top="0.1cm">
+							<fo:block font-size="9pt" margin-left="-0.7cm">Date of court order</fo:block>
+							<fo:block font-size="10pt" margin-left="-0.7cm"><xsl:value-of select="$vdInterimChargingOrderDate2"/></fo:block>
+						</fo:table-cell>
+					</fo:table-row>
+					
+				</fo:table-body>
+			</fo:table>
+			
+			<fo:block>&#xA0;</fo:block>
+		
+			<fo:table table-layout="fixed" margin-left="0.7cm">
+				<fo:table-column column-width="1.3cm"></fo:table-column>
+				<fo:table-column column-width="4.3cm"></fo:table-column>
+				<fo:table-column column-width="2.2cm"></fo:table-column>
+				<fo:table-column column-width="4.3cm"></fo:table-column>
+				<fo:table-column column-width="2.5cm"></fo:table-column>
+				<fo:table-column column-width="4.3cm"></fo:table-column>
+				<fo:table-body>
+					<fo:table-row keep-with-next="always">
+						<fo:table-cell display-align="center">
+							<fo:block font-size="9pt" padding-right="0.1cm" margin-left="-0.8cm">Claim no.&#xA0;</fo:block>
+						</fo:table-cell>
+						<fo:table-cell padding-right="0.1cm" padding-left="0.1cm" border-style="solid" border-width="0.02cm">
+							<fo:block space-before="0.1cm" space-after="0.1cm" font-size="10pt" margin-left="-0.7cm"><xsl:value-of select="$vdClaimNumber"/></fo:block>
+						</fo:table-cell>
+						<fo:table-cell display-align="center">
+							<fo:block font-size="9pt" text-align="right" padding-right="0.1cm" margin-left="-0.7cm">Fund no.&#xA0;</fo:block>
+						</fo:table-cell>
+						<fo:table-cell padding-right="0.1cm" padding-left="0.1cm" border-style="solid" border-width="0.02cm">
+							<fo:block space-before="0.1cm" space-after="0.1cm" font-size="10pt" margin-left="-0.7cm"><xsl:value-of select="$vdCFOFundNo"/></fo:block>
+						</fo:table-cell>
+						<fo:table-cell display-align="center">
+							<fo:block font-size="9pt" text-align="right" padding-right="0.1cm" margin-left="-0.7cm">CFO A/C no.&#xA0;</fo:block>
+						</fo:table-cell>
+						<fo:table-cell padding-right="0.1cm" padding-left="0.1cm" border-style="solid" border-width="0.02cm">
+							<fo:block space-before="0.1cm" space-after="0.1cm" font-size="10pt" margin-left="-0.7cm"><xsl:value-of select="$vdCFOAccountNo"/></fo:block>
+						</fo:table-cell>
+					</fo:table-row>
+				</fo:table-body>
+			</fo:table>
+			
+			<fo:block>&#xA0;</fo:block>
+			
+			<fo:table table-layout="fixed" margin-left="0.7cm">
+				<fo:table-column column-width="3.1cm"></fo:table-column>
+				<fo:table-column column-width="4.6cm"></fo:table-column>
+				<fo:table-column column-width="6.6cm"></fo:table-column>
+				<fo:table-column column-width="4.6cm"></fo:table-column>
+				<fo:table-body>
+					<fo:table-row keep-with-next="always">
+						<fo:table-cell display-align="center">
+							<fo:block font-size="9pt" padding-right="0.1cm" margin-left="-0.8cm">Current funds in court &#163;&#xA0;</fo:block>
+						</fo:table-cell>
+						<fo:table-cell padding-right="0.1cm" padding-left="0.1cm" border-style="solid" border-width="0.02cm">
+							<fo:block space-before="0.1cm" space-after="0.1cm" font-size="10pt" margin-left="-0.7cm"><xsl:value-of select="$vdCFOFundsHeld"/></fo:block>
+						</fo:table-cell>
+						<fo:table-cell display-align="center">
+							<fo:block font-size="9pt" text-align="right" padding-right="0.1cm" margin-left="-0.7cm">Investment requirement - <fo:inline font-weight="bold">Total to be invested</fo:inline> &#163;&#xA0;</fo:block>
+						</fo:table-cell>
+						<fo:table-cell padding-right="0.1cm" padding-left="0.1cm" border-style="solid" border-width="0.02cm">
+							<fo:block space-before="0.1cm" space-after="0.1cm" font-size="10pt" margin-left="-0.7cm"><xsl:value-of select="$vdCFOFundsInvestment"/></fo:block>
+						</fo:table-cell>
+					</fo:table-row>
+				</fo:table-body>
+			</fo:table> 
+			
+			<fo:block>&#xA0;</fo:block>
+			
+			<fo:table table-layout="fixed" margin-left="0.7cm">
+				<fo:table-column column-width="6.4cm"></fo:table-column>
+				<fo:table-column column-width="6.4cm"></fo:table-column>
+				<fo:table-column column-width="6.4cm"></fo:table-column>
+				<fo:table-body>
+					<fo:table-row keep-with-next="always">
+						<!-- Litigation Friend column -->
+						<fo:table-cell padding-right="0.1cm" padding-left="0.1cm">
+							<fo:block font-size="9pt" padding-right="0.1cm" font-weight="bold" margin-left="-0.7cm">Litigation friend's details</fo:block>
+							
+							<fo:table table-layout="fixed" margin-left="-0.7cm">
+								<fo:table-column column-width="6.0cm"></fo:table-column>
+								<fo:table-body>
+									<fo:table-row keep-with-next="always">
+										<fo:table-cell>
+											<fo:block font-size="9pt">Name</fo:block>
+										</fo:table-cell>
+									</fo:table-row>
+									<fo:table-row keep-with-next="always" height="1.2cm">
+										<fo:table-cell padding-right="0.1cm" padding-left="0.1cm" border-style="solid" border-width="0.02cm">
+											<fo:block font-size="10pt" space-before="0.11cm" space-after="0.11cm" ><xsl:value-of select="$vdLitigationFriendName"/></fo:block>
+										</fo:table-cell>
+									</fo:table-row>
+									<fo:table-row keep-with-next="always">
+										<fo:table-cell padding-top="0.1cm">
+											<fo:block font-size="9pt">Address</fo:block>
+										</fo:table-cell>
+									</fo:table-row>
+									<fo:table-row keep-with-next="always" height="3.0cm">
+										<fo:table-cell padding-right="0.1cm" padding-left="0.1cm" border-style="solid" border-width="0.02cm">
+											<fo:block space-before="0.11cm" space-after="0.11cm" font-size="10pt">
+												<xsl:call-template name="format-only-address-multi-line">
+													<xsl:with-param name="party">
+														<xsl:copy-of select="variabledata/order/litigationfriend/*"/>
+													</xsl:with-param>
+												</xsl:call-template>							
+											</fo:block>
+										</fo:table-cell>
+									</fo:table-row>
+								</fo:table-body>
+							</fo:table> 
+							
+						</fo:table-cell>
+						
+						<!-- Solicitor Details column -->
+						<fo:table-cell padding-right="0.1cm" padding-left="0.1cm">
+							<fo:block font-size="9pt" padding-right="0.1cm" font-weight="bold" margin-left="-0.7cm">Solicitor's details</fo:block>
+							
+							<fo:table table-layout="fixed" margin-left="-0.7cm">
+								<fo:table-column column-width="6.0cm"></fo:table-column>
+								<fo:table-body>
+									<fo:table-row keep-with-next="always">
+										<fo:table-cell>
+											<fo:block font-size="9pt">Name and Reference</fo:block>
+										</fo:table-cell>
+									</fo:table-row>
+									<fo:table-row keep-with-next="always" height="1.2cm">
+										<fo:table-cell padding-right="0.1cm" padding-left="0.1cm" border-style="solid" border-width="0.02cm">
+											<fo:block space-before="0.1cm" font-size="10pt">
+												<xsl:value-of select="$vdSolicitorName"/> 																
+											</fo:block>
+											<fo:block space-before="0.1cm" space-after="0.1cm" font-size="10pt">
+												<xsl:value-of select="$vdSolicitorReference"/>
+											</fo:block>
+										</fo:table-cell>
+									</fo:table-row>
+									<fo:table-row keep-with-next="always">
+										<fo:table-cell padding-top="0.1cm">
+											<fo:block font-size="9pt">Address</fo:block>
+										</fo:table-cell>
+									</fo:table-row>
+									<fo:table-row keep-with-next="always" height="3.0cm">
+										<fo:table-cell padding-right="0.1cm" padding-left="0.1cm" border-style="solid" border-width="0.02cm">
+											<fo:block space-before="0.11cm" space-after="0.11cm" font-size="10pt">								
+												<xsl:variable name="partyId">
+													<xsl:value-of select="variabledata/order/litigationfriend/partyid"/>
+												</xsl:variable>
+												<xsl:variable name="representativeId">
+													<xsl:value-of select="variabledata/claim/*[id = $partyId]/representativeid"/>
+												</xsl:variable>
+												<xsl:call-template name="format-only-address-multi-line">
+													<xsl:with-param name="party">
+														<xsl:copy-of select="variabledata/claim/representative[surrogateid = $representativeId]/*"/>
+													</xsl:with-param>
+												</xsl:call-template>
+											</fo:block>
+										</fo:table-cell>
+									</fo:table-row>
+								</fo:table-body>
+							</fo:table> 
+							
+						</fo:table-cell>
+						
+						<!-- Beneficiary Details column -->
+						<fo:table-cell padding-right="0.1cm" padding-left="0.1cm">
+							<fo:block font-size="9pt" padding-right="0.1cm" font-weight="bold" margin-left="-0.7cm">Beneficiary's details</fo:block>
+							
+							<fo:table table-layout="fixed" margin-left="-0.7cm">
+								<fo:table-column column-width="6.0cm"></fo:table-column>
+								<fo:table-body>
+									<fo:table-row keep-with-next="always">
+										<fo:table-cell>
+											<fo:block font-size="9pt">Name</fo:block>
+										</fo:table-cell>
+									</fo:table-row>
+									<fo:table-row keep-with-next="always" height="1.2cm">
+										<fo:table-cell padding-right="0.1cm" padding-left="0.1cm" border-style="solid" border-width="0.02cm">
+											<fo:block font-size="10pt" space-before="0.11cm" space-after="0.11cm" ><xsl:value-of select="$vdBeneficiaryName"/></fo:block>
+										</fo:table-cell>
+									</fo:table-row>
+									<fo:table-row keep-with-next="always">
+										<fo:table-cell padding-top="0.1cm">
+											<fo:block font-size="9pt">Address <fo:inline font-size="8pt">(if different to litigation friend's address)</fo:inline></fo:block>
+										</fo:table-cell>
+									</fo:table-row>
+									<fo:table-row keep-with-next="always" height="3.0cm">
+										<fo:table-cell padding-right="0.1cm" padding-left="0.1cm" border-style="solid" border-width="0.02cm">
+											<fo:block space-before="0.11cm" space-after="0.11cm" font-size="10pt">
+												<xsl:call-template name="format-only-address-multi-line">
+													<xsl:with-param name="party">
+														<xsl:copy-of select="variabledata/order/beneficiary/*"/>
+													</xsl:with-param>
+												</xsl:call-template>							
+											</fo:block>
+										</fo:table-cell>
+									</fo:table-row>
+								</fo:table-body>
+							</fo:table> 
+							
+						</fo:table-cell>
+
+					</fo:table-row>
+				</fo:table-body>
+			</fo:table> 
+			
+			<fo:block>&#xA0;</fo:block>
+			
+			<fo:table table-layout="fixed" margin-left="0.7cm">
+				<fo:table-column column-width="6.4cm"></fo:table-column>
+				<fo:table-column column-width="6.4cm"></fo:table-column>
+				<fo:table-column column-width="6.4cm"></fo:table-column>
+				<fo:table-body>
+					<fo:table-row keep-with-next="always">
+
+						<fo:table-cell padding-right="0.1cm" padding-left="0.1cm" border-right-style="solid" border-right-width="0.02cm">
+							
+							<fo:block font-size="9pt" space-before="0.11cm" space-after="0.11cm" margin-left="-0.7cm">1. Beneficiary's date of birth</fo:block>
+							<fo:block margin-left="-0.4cm" font-size="9pt" space-before="0.11cm" space-after="0.2cm"><xsl:value-of select="$vdBeneficiaryBirthDate"/></fo:block>
+						
+							<fo:block font-size="9pt" space-before="0.11cm" space-after="0.11cm" margin-left="-0.7cm">2. Birth certificate seen</fo:block>
+							<fo:table table-layout="fixed" margin-left="-0.4cm">
+								<fo:table-column column-width="0.4cm"></fo:table-column>
+								<fo:table-column column-width="1.6cm"></fo:table-column>
+								<fo:table-column column-width="0.4cm"></fo:table-column>
+								<fo:table-column column-width="1.6cm"></fo:table-column>
+								<fo:table-body>
+									<fo:table-row keep-with-next="always">
+										<fo:table-cell border-style="solid" border-width="0.02cm">
+											<fo:block font-size="9pt">&#xA0;</fo:block>
+										</fo:table-cell>
+										<fo:table-cell display-align="center">
+											<fo:block font-size="9pt" margin-left="-0.3cm">&#xA0;&#xA0;Yes</fo:block>
+										</fo:table-cell>
+										<fo:table-cell border-style="solid" border-width="0.02cm">
+											<fo:block font-size="9pt">&#xA0;</fo:block>
+										</fo:table-cell>
+										<fo:table-cell display-align="center">
+											<fo:block font-size="9pt" margin-left="-0.3cm">&#xA0;&#xA0;No</fo:block>
+										</fo:table-cell>
+									</fo:table-row>
+								</fo:table-body>
+							</fo:table>
+							
+							<fo:block font-size="9pt" space-before="0.11cm" space-after="0.11cm" margin-top="0.1cm" margin-left="-0.7cm">3. Majority direction</fo:block>
+							<fo:table table-layout="fixed" margin-left="-0.4cm">
+								<fo:table-column column-width="0.4cm"></fo:table-column>
+								<fo:table-column column-width="1.6cm"></fo:table-column>
+								<fo:table-column column-width="0.4cm"></fo:table-column>
+								<fo:table-column column-width="1.6cm"></fo:table-column>
+								<fo:table-body>
+									<fo:table-row keep-with-next="always">
+										<fo:table-cell border-style="solid" border-width="0.02cm">
+											<fo:block font-size="9pt">&#xA0;</fo:block>
+										</fo:table-cell>
+										<fo:table-cell display-align="center">
+											<fo:block font-size="9pt" margin-left="-0.3cm">&#xA0;&#xA0;Yes</fo:block>
+										</fo:table-cell>
+										<fo:table-cell border-style="solid" border-width="0.02cm">
+											<fo:block font-size="9pt">&#xA0;</fo:block>
+										</fo:table-cell>
+										<fo:table-cell display-align="center">
+											<fo:block font-size="9pt" margin-left="-0.3cm">&#xA0;&#xA0;No</fo:block>
+										</fo:table-cell>
+									</fo:table-row>
+								</fo:table-body>
+							</fo:table>
+							
+							<fo:block font-size="9pt" space-before="0.11cm" space-after="0.11cm" margin-top="0.1cm" margin-left="-0.7cm">4. Policy <fo:inline font-size="8pt">(tick only one box)</fo:inline></fo:block>
+							<fo:table table-layout="fixed" margin-left="-0.4cm">
+								<fo:table-column column-width="0.4cm"></fo:table-column>
+								<fo:table-column column-width="5.5cm"></fo:table-column>
+								<fo:table-body>
+									<fo:table-row keep-with-next="always">
+										<fo:table-cell border-style="solid" border-width="0.02cm">
+											<fo:block font-size="9pt">&#xA0;</fo:block>
+										</fo:table-cell>
+										<fo:table-cell display-align="center">
+											<fo:block font-size="9pt" margin-left="-0.3cm">&#xA0;&#xA0;Capital growth only</fo:block>
+										</fo:table-cell>
+									</fo:table-row>
+									<fo:table-row keep-with-next="always" height="0.1cm">
+										<fo:table-cell number-columns-spanned="2">
+											<fo:block>&#xA0;</fo:block>
+										</fo:table-cell>
+									</fo:table-row>
+									<fo:table-row keep-with-next="always">
+										<fo:table-cell border-style="solid" border-width="0.02cm">
+											<fo:block font-size="9pt">&#xA0;</fo:block>
+										</fo:table-cell>
+										<fo:table-cell display-align="center">
+											<fo:block font-size="9pt" margin-left="-0.3cm">&#xA0;&#xA0;Capital growth and income</fo:block>
+										</fo:table-cell>
+									</fo:table-row>
+									<fo:table-row keep-with-next="always" height="0.1cm">
+										<fo:table-cell number-columns-spanned="2">
+											<fo:block>&#xA0;</fo:block>
+										</fo:table-cell>
+									</fo:table-row>
+									<fo:table-row keep-with-next="always">
+										<fo:table-cell border-style="solid" border-width="0.02cm">
+											<fo:block font-size="9pt">&#xA0;</fo:block>
+										</fo:table-cell>
+										<fo:table-cell display-align="center">
+											<fo:block font-size="9pt" margin-left="-0.3cm">&#xA0;&#xA0;Maximum income</fo:block>
+										</fo:table-cell>
+									</fo:table-row>
+									<fo:table-row keep-with-next="always" height="0.1cm">
+										<fo:table-cell number-columns-spanned="2">
+											<fo:block>&#xA0;</fo:block>
+										</fo:table-cell>
+									</fo:table-row>
+									<fo:table-row keep-with-next="always">
+										<fo:table-cell border-style="solid" border-width="0.02cm">
+											<fo:block font-size="9pt">&#xA0;</fo:block>
+										</fo:table-cell>
+										<fo:table-cell display-align="center">
+											<fo:block font-size="9pt" margin-left="-0.3cm">&#xA0;&#xA0;Place all funds on special</fo:block>
+										</fo:table-cell>
+									</fo:table-row>
+								</fo:table-body>
+							</fo:table>
+							
+							<fo:block font-size="9pt" space-before="0.11cm" space-after="0.11cm" margin-top="0.1cm" margin-left="-0.7cm">5. Income directions</fo:block>
+							<fo:table table-layout="fixed" margin-left="-0.4cm">
+								<fo:table-column column-width="0.4cm"></fo:table-column>
+								<fo:table-column column-width="5.5cm"></fo:table-column>
+								<fo:table-body>
+									<fo:table-row keep-with-next="always">
+										<fo:table-cell border-style="solid" border-width="0.02cm">
+											<fo:block font-size="9pt">&#xA0;</fo:block>
+										</fo:table-cell>
+										<fo:table-cell display-align="center">
+											<fo:block font-size="9pt" margin-left="-0.3cm">&#xA0;&#xA0;Re-invest in special account</fo:block>
+										</fo:table-cell>
+									</fo:table-row>
+									<fo:table-row keep-with-next="always" height="0.1cm">
+										<fo:table-cell number-columns-spanned="2">
+											<fo:block>&#xA0;</fo:block>
+										</fo:table-cell>
+									</fo:table-row>
+									<fo:table-row keep-with-next="always">
+										<fo:table-cell border-style="solid" border-width="0.02cm">
+											<fo:block font-size="9pt">&#xA0;</fo:block>
+										</fo:table-cell>
+										<fo:table-cell display-align="center">
+											<fo:block font-size="9pt" margin-left="-0.3cm">&#xA0;&#xA0;Pay litigation friend</fo:block>
+										</fo:table-cell>
+									</fo:table-row>
+									<fo:table-row keep-with-next="always" height="0.1cm">
+										<fo:table-cell number-columns-spanned="2">
+											<fo:block>&#xA0;</fo:block>
+										</fo:table-cell>
+									</fo:table-row>
+									<fo:table-row keep-with-next="always">
+										<fo:table-cell border-style="solid" border-width="0.02cm">
+											<fo:block font-size="9pt">&#xA0;</fo:block>
+										</fo:table-cell>
+										<fo:table-cell display-align="center">
+											<fo:block font-size="9pt" margin-left="-0.3cm">&#xA0;&#xA0;Special instruction <fo:inline font-size="7pt">(Please specify in box 9(a))</fo:inline></fo:block>
+										</fo:table-cell>
+									</fo:table-row>
+								</fo:table-body>
+							</fo:table>
+							
+						</fo:table-cell>
+						
+						<fo:table-cell padding-right="0.1cm" padding-left="0.1cm" border-right-style="solid" border-right-width="0.02cm">
+							
+							<fo:block font-size="9pt" space-before="0.11cm" space-after="0.11cm" margin-left="-0.7cm">6. Income required (if appropriate)</fo:block>
+							<fo:block margin-left="-0.4cm" font-size="8pt" space-before="0.11cm">(Complete and attached form CFO 200)</fo:block>
+							
+							<fo:table table-layout="fixed" margin-left="-0.4cm">
+								<fo:table-column column-width="4.5cm"></fo:table-column>
+								<fo:table-column column-width="1.3cm"></fo:table-column>
+								<fo:table-body>
+									<fo:table-row keep-with-next="always">
+										<fo:table-cell padding-right="0.1cm" padding-left="0.1cm" border-style="solid" border-width="0.02cm" height="0.9cm">
+											<fo:block space-after="0.4cm">&#xA0;</fo:block>
+										</fo:table-cell>
+										<fo:table-cell display-align="after">
+											<fo:block font-size="8pt" margin-left="-0.3cm">&#xA0;per annum</fo:block>
+										</fo:table-cell>
+									</fo:table-row>
+								</fo:table-body>
+							</fo:table>
+						
+							<fo:block font-size="9pt" space-before="0.11cm" space-after="0.11cm" margin-top="0.1cm" margin-left="-0.7cm">7. Other income (if any) of beneficiary is</fo:block>
+							
+							<fo:table table-layout="fixed" margin-left="-0.4cm">
+								<fo:table-column column-width="4.5cm"></fo:table-column>
+								<fo:table-column column-width="1.3cm"></fo:table-column>
+								<fo:table-body>
+									<fo:table-row keep-with-next="always">
+										<fo:table-cell padding-right="0.1cm" padding-left="0.1cm" border-style="solid" border-width="0.02cm" height="0.9cm">
+											<fo:block space-after="0.4cm">&#xA0;</fo:block>
+										</fo:table-cell>
+										<fo:table-cell display-align="after">
+											<fo:block font-size="8pt" margin-left="-0.3cm">&#xA0;per annum</fo:block>
+										</fo:table-cell>
+									</fo:table-row>
+								</fo:table-body>
+							</fo:table>
+							
+							<fo:block font-size="9pt" space-before="0.11cm" space-after="0.11cm" margin-top="0.1cm" margin-left="-0.7cm">8. Is the beneficiary liable for income tax?</fo:block>
+							<fo:table table-layout="fixed" margin-left="-0.4cm">
+								<fo:table-column column-width="0.4cm"></fo:table-column>
+								<fo:table-column column-width="1.6cm"></fo:table-column>
+								<fo:table-column column-width="0.4cm"></fo:table-column>
+								<fo:table-column column-width="1.6cm"></fo:table-column>
+								<fo:table-body>
+									<fo:table-row keep-with-next="always">
+										<fo:table-cell border-style="solid" border-width="0.02cm">
+											<fo:block font-size="9pt">&#xA0;</fo:block>
+										</fo:table-cell>
+										<fo:table-cell display-align="center">
+											<fo:block font-size="9pt" margin-left="-0.3cm">&#xA0;&#xA0;Yes</fo:block>
+										</fo:table-cell>
+										<fo:table-cell border-style="solid" border-width="0.02cm">
+											<fo:block font-size="9pt">&#xA0;</fo:block>
+										</fo:table-cell>
+										<fo:table-cell display-align="center">
+											<fo:block font-size="9pt" margin-left="-0.3cm">&#xA0;&#xA0;No</fo:block>
+										</fo:table-cell>
+									</fo:table-row>
+								</fo:table-body>
+							</fo:table>
+								
+							<fo:block font-size="9pt" space-before="0.11cm" margin-top="0.1cm" margin-left="-0.7cm">9.a) Are there any restrictions for the investment</fo:block>
+							<fo:block margin-left="-0.4cm" font-size="9pt" space-after="0.11cm">policy?</fo:block>
+							<fo:table table-layout="fixed" margin-left="-0.4cm">
+								<fo:table-column column-width="0.4cm"></fo:table-column>
+								<fo:table-column column-width="1.6cm"></fo:table-column>
+								<fo:table-column column-width="0.4cm"></fo:table-column>
+								<fo:table-column column-width="1.6cm"></fo:table-column>
+								<fo:table-body>
+									<fo:table-row keep-with-next="always">
+										<fo:table-cell border-style="solid" border-width="0.02cm">
+											<fo:block font-size="9pt">&#xA0;</fo:block>
+										</fo:table-cell>
+										<fo:table-cell display-align="center">
+											<fo:block font-size="9pt" margin-left="-0.3cm">&#xA0;&#xA0;Yes</fo:block>
+										</fo:table-cell>
+										<fo:table-cell border-style="solid" border-width="0.02cm">
+											<fo:block font-size="9pt">&#xA0;</fo:block>
+										</fo:table-cell>
+										<fo:table-cell display-align="center">
+											<fo:block font-size="9pt" margin-left="-0.3cm">&#xA0;&#xA0;No</fo:block>
+										</fo:table-cell>
+									</fo:table-row>
+								</fo:table-body>
+							</fo:table>
+								
+							<fo:block margin-left="-0.4cm" font-size="9pt" space-before="0.11cm" space-after="0.11cm">If Yes, please give details</fo:block>
+							<fo:table table-layout="fixed" margin-left="-0.4cm">
+								<fo:table-column column-width="5.8cm"></fo:table-column>
+								<fo:table-body>
+									<fo:table-row keep-with-next="always">
+										<fo:table-cell padding-right="0.1cm" padding-left="0.1cm" border-style="solid" border-width="0.02cm" height="3.0cm">
+											<fo:block space-after="2.5cm">&#xA0;</fo:block>
+										</fo:table-cell>
+									</fo:table-row>
+								</fo:table-body>
+							</fo:table>
+							
+						</fo:table-cell>
+						
+						<fo:table-cell padding-right="0.1cm" padding-left="0.1cm">
+							
+							<fo:block font-size="9pt" space-before="0.11cm" margin-left="-0.7cm">b) Is the litigation friend aware that if there are</fo:block>
+							<fo:block margin-left="-0.4cm" font-size="9pt" space-after="0.11cm">more than five years to majority and &#163;10,000 or more to invest, part of the fund may be invested in the Equity Index Tracker Fund?</fo:block>
+							<fo:table table-layout="fixed" margin-left="-0.4cm">
+								<fo:table-column column-width="0.4cm"></fo:table-column>
+								<fo:table-column column-width="1.6cm"></fo:table-column>
+								<fo:table-column column-width="0.4cm"></fo:table-column>
+								<fo:table-column column-width="2.9cm"></fo:table-column>
+								<fo:table-body>
+									<fo:table-row keep-with-next="always">
+										<fo:table-cell border-style="solid" border-width="0.02cm">
+											<fo:block font-size="9pt">&#xA0;</fo:block>
+										</fo:table-cell>
+										<fo:table-cell display-align="center">
+											<fo:block font-size="9pt" margin-left="-0.3cm">&#xA0;&#xA0;Yes</fo:block>
+										</fo:table-cell>
+										<fo:table-cell border-style="solid" border-width="0.02cm">
+											<fo:block font-size="9pt">&#xA0;</fo:block>
+										</fo:table-cell>
+										<fo:table-cell display-align="center">
+											<fo:block font-size="9pt" margin-left="-0.3cm">&#xA0;&#xA0;No</fo:block>
+										</fo:table-cell>
+									</fo:table-row>
+									
+									<fo:table-row keep-with-next="always" height="0.1cm">
+										<fo:table-cell number-columns-spanned="4">
+											<fo:block>&#xA0;</fo:block>
+										</fo:table-cell>
+									</fo:table-row>
+									
+									<fo:table-row keep-with-next="always">
+										<fo:table-cell border-style="solid" border-width="0.02cm">
+											<fo:block font-size="9pt">&#xA0;</fo:block>
+										</fo:table-cell>
+										<fo:table-cell number-columns-spanned="3" number-rows-spanned="2" display-align="center">
+											<fo:block font-size="9pt" margin-left="-0.3cm">&#xA0;&#xA0;N/A <fo:inline font-size="8pt">(if less than five years or amount</fo:inline></fo:block>
+											<fo:block font-size="8pt" margin-left="-0.3cm">&#xA0;&#xA0;less than &#163;10,000)</fo:block>
+										</fo:table-cell>
+									</fo:table-row>
+									
+									<fo:table-row keep-with-next="always">
+										<fo:table-cell>
+											<fo:block font-size="9pt">&#xA0;</fo:block>
+										</fo:table-cell>
+									</fo:table-row>
+									
+								</fo:table-body>
+							</fo:table>
+							
+							<fo:block font-size="9pt" space-before="0.11cm" space-after="0.11cm" margin-top="0.1cm" margin-left="-0.7cm">10. Is there a legal aid charge?</fo:block>
+							<fo:table table-layout="fixed" margin-left="-0.4cm">
+								<fo:table-column column-width="0.4cm"></fo:table-column>
+								<fo:table-column column-width="1.6cm"></fo:table-column>
+								<fo:table-column column-width="0.4cm"></fo:table-column>
+								<fo:table-column column-width="1.6cm"></fo:table-column>
+								<fo:table-body>
+									<fo:table-row keep-with-next="always">
+										<fo:table-cell border-style="solid" border-width="0.02cm">
+											<fo:block font-size="9pt">&#xA0;</fo:block>
+										</fo:table-cell>
+										<fo:table-cell display-align="center">
+											<fo:block font-size="9pt" margin-left="-0.3cm">&#xA0;&#xA0;Yes</fo:block>
+										</fo:table-cell>
+										<fo:table-cell border-style="solid" border-width="0.02cm">
+											<fo:block font-size="9pt">&#xA0;</fo:block>
+										</fo:table-cell>
+										<fo:table-cell display-align="center">
+											<fo:block font-size="9pt" margin-left="-0.3cm">&#xA0;&#xA0;No</fo:block>
+										</fo:table-cell>
+									</fo:table-row>
+								</fo:table-body>
+							</fo:table>
+							
+							<fo:block margin-left="-0.4cm" margin-top="0.1cm" font-size="9pt" space-before="0.11cm" space-after="0.11cm">If Yes, give ref.</fo:block>
+							<fo:table table-layout="fixed" margin-left="-0.4cm">
+								<fo:table-column column-width="5.7cm"></fo:table-column>
+								<fo:table-body>
+									<fo:table-row keep-with-next="always">
+										<fo:table-cell padding-right="0.1cm" padding-left="0.1cm" border-style="solid" border-width="0.02cm" height="0.9cm">
+											<fo:block space-after="0.3cm">&#xA0;</fo:block>
+										</fo:table-cell>
+									</fo:table-row>
+								</fo:table-body>
+							</fo:table>
+							
+							<fo:block font-size="9pt" space-before="0.11cm" space-after="0.11cm" margin-top="0.1cm" margin-left="-0.7cm">11. Interest prior to order date</fo:block>
+							<fo:table table-layout="fixed" margin-left="-0.4cm">
+								<fo:table-column column-width="0.4cm"></fo:table-column>
+								<fo:table-column column-width="5.5cm"></fo:table-column>
+								<fo:table-body>
+									<fo:table-row keep-with-next="always">
+										<fo:table-cell border-style="solid" border-width="0.02cm">
+											<fo:block font-size="9pt">&#xA0;</fo:block>
+										</fo:table-cell>
+										<fo:table-cell display-align="center" number-rows-spanned="2">
+											<fo:block font-size="9pt" margin-left="-0.3cm">&#xA0;&#xA0;To be paid out to defendant's solicitors</fo:block>
+											<fo:block font-size="8pt" margin-left="-0.3cm">&#xA0;&#xA0;(Complete and attach form CFO 200)</fo:block>
+										</fo:table-cell>
+									</fo:table-row>
+									<fo:table-row keep-with-next="always">
+										<fo:table-cell>
+											<fo:block font-size="9pt">&#xA0;</fo:block>
+										</fo:table-cell>
+									</fo:table-row>
+									<fo:table-row keep-with-next="always" height="0.1cm">
+										<fo:table-cell number-columns-spanned="2">
+											<fo:block>&#xA0;</fo:block>
+										</fo:table-cell>
+									</fo:table-row>
+									<fo:table-row keep-with-next="always">
+										<fo:table-cell border-style="solid" border-width="0.02cm">
+											<fo:block font-size="9pt">&#xA0;</fo:block>
+										</fo:table-cell>
+										<fo:table-cell display-align="center">
+											<fo:block font-size="9pt" margin-left="-0.3cm">&#xA0;&#xA0;To go to fund</fo:block>
+										</fo:table-cell>
+									</fo:table-row>
+								</fo:table-body>
+							</fo:table>
+							
+						</fo:table-cell>
+
+					</fo:table-row>
+				</fo:table-body>
+			</fo:table>
+			
+			<fo:block>&#xA0;</fo:block>
+			
+			<!-- Footer -->
+			<fo:table table-layout="fixed">
+				<fo:table-column column-width="14.5cm"></fo:table-column>
+				<fo:table-column column-width="5.5cm"></fo:table-column>
+				<fo:table-body>
+					<fo:table-row keep-with-next="always">
+					
+						<fo:table-cell padding-top="0.1cm" padding-right="0.1cm" padding-left="0.1cm" >
+
+							<fo:table table-layout="fixed" margin-left="0.7cm">
+								<fo:table-column column-width="1.6cm"></fo:table-column>
+								<fo:table-column column-width="6.9cm"></fo:table-column>
+								<fo:table-column column-width="5.1cm"></fo:table-column>
+								<fo:table-body>
+									<fo:table-row keep-with-next="always">
+										<fo:table-cell display-align="after">
+											<fo:block font-size="10pt" font-weight="bold" padding-right="0.1cm" margin-left="-0.7cm">Signed&#xa0;</fo:block>
+										</fo:table-cell>
+										<fo:table-cell padding-right="0.1cm" padding-left="0.1cm" border-style="solid" border-width="0.02cm" height="1.2cm">
+											<fo:block space-before="0.3cm" space-after="0.3cm">&#xa0;</fo:block>
+										</fo:table-cell>
+										<fo:table-cell display-align="after">
+											<fo:block font-size="10pt" font-weight="bold" padding-right="0.1cm" margin-left="-0.7cm">&#xa0;&#xa0;&#xa0;Date&#xa0;<fo:inline font-size="16pt">___/___/______</fo:inline></fo:block>
+										</fo:table-cell>
+									</fo:table-row>
+									<fo:table-row keep-with-next="always">
+										<fo:table-cell>
+											<fo:block>&#xa0;</fo:block>
+										</fo:table-cell>
+										<fo:table-cell number-columns-spanned="2">
+											<fo:block font-size="10pt" font-weight="bold" padding-top="0.1cm" margin-left="-0.7cm">Master/District Judge/Proper Officer</fo:block>
+										</fo:table-cell>
+									</fo:table-row>
+								</fo:table-body>
+							</fo:table>
+							
+							<fo:block>&#xA0;</fo:block>
+							
+							<fo:table table-layout="fixed">
+								<fo:table-column column-width="8.0cm"></fo:table-column>
+								<fo:table-column column-width="6.0cm"></fo:table-column>
+								<fo:table-body>
+								
+									<fo:table-row keep-with-next="always">
+										<fo:table-cell padding-right="0.1cm" padding-left="0.1cm" border-style="solid" border-width="0.02cm" height="0.7cm">
+											<fo:block space-before="0.11cm" space-after="0.11cm" font-weight="bold" font-size="12pt" margin-left="0.7cm">How to contact the Court Funds Office</fo:block>
+										</fo:table-cell>
+										<fo:table-cell>
+											<fo:block>&#xA0;</fo:block>
+										</fo:table-cell>
+									</fo:table-row>
+									
+									<fo:table-row keep-with-next="always">
+										<fo:table-cell padding-right="0.1cm" padding-left="0.1cm" padding-top="0.1cm">
+											<fo:block margin-left="0.7cm" space-before="0.11cm" space-after="0.11cm" font-weight="bold" font-size="9pt">Address</fo:block>
+											<fo:block margin-left="0.7cm" space-before="0.11cm" space-after="0.11cm" font-size="10pt">Court Funds Office, <xsl:value-of select="$vdCFOAddressLine"/></fo:block>
+										</fo:table-cell>
+										<fo:table-cell display-align="after">
+											<fo:block space-before="0.11cm" space-after="0.11cm" font-size="10pt">Court Funds Office, <xsl:value-of select="$vdCFODXNumber"/></fo:block>
+										</fo:table-cell>
+									</fo:table-row>
+
+								</fo:table-body>
+							</fo:table>
+							
+						</fo:table-cell>
+						
+						<fo:table-cell padding-top="0.1cm" padding-right="0.1cm" padding-left="0.1cm">
+						
+							<fo:table table-layout="fixed">
+								<fo:table-column column-width="4.7cm"></fo:table-column>
+								<fo:table-body>
+									<fo:table-row keep-with-next="always">
+										<fo:table-cell padding-right="0.1cm" padding-left="0.1cm" border-style="solid" border-width="0.02cm" height="4.0cm">
+											<fo:block space-after="3.5cm" font-size="8pt" font-weight="bold">Authentication stamp</fo:block>
+										</fo:table-cell>
+									</fo:table-row>
+								</fo:table-body>
+							</fo:table>
+						
+						</fo:table-cell>
+						
+					</fo:table-row>
+				</fo:table-body>
+			</fo:table>
+		
+			</body>
+		</section>
+		<section name="notice">
+			<logo/>
+			<addressee>
+                 <instigators/>
+			</addressee>	
+			<header>
+				<fo:block font-size="16pt" font-weight="bold">Notice of instruction to</fo:block>
+				<fo:block font-size="16pt" font-weight="bold">Court Funds Office</fo:block>
+			</header>
+			<courtcase>
+				<court>
+					<xsl:copy-of select="$vdCourtHeaderBlock"/>
+				</court>
+				<caseparameters>
+					<parameter>
+						<name>
+							<fo:block font-weight="bold">Claim Number</fo:block>
+						</name>
+						<value>
+							<fo:block>
+								<xsl:value-of select="$vdClaimNumber"/>
+							</fo:block>
+						</value>
+					</parameter>
+					<parameter>
+						<name>
+							<fo:block font-weight="bold">Claimant</fo:block>
+							<fo:block font-size="9pt">(including ref.)</fo:block>
+						</name>
+						<value>
+							<fo:block hyphenate="true">
+								<xsl:value-of select="$vdClaimantName"/>
+							</fo:block>
+							<fo:block font-size="9pt" hyphenate="true">
+								<xsl:value-of select="$vdClaimantReference"/>
+							</fo:block>
+						</value>
+					</parameter>
+					<parameter>
+						<name>
+							<fo:block font-weight="bold">Defendant</fo:block>
+							<fo:block font-size="9pt">(including ref.)</fo:block>
+						</name>
+						<value>
+							<fo:block hyphenate="true">
+								<xsl:value-of select="$vdDefendantName"/>
+							</fo:block>
+							<fo:block font-size="9pt" hyphenate="true">
+								<xsl:value-of select="$vdDefendantReference"/>
+							</fo:block>
+						</value>
+					</parameter>
+					<parameter>
+						<name>
+							<fo:block font-weight="bold">Date</fo:block>
+						</name>
+						<value>
+							<fo:block><xsl:value-of select="$vdEventDate"/>
+							</fo:block>
+						</value>
+					</parameter>
+				</caseparameters>
+			</courtcase>
+		
+			<body>
+			<editable useid="N116FD">
+				<fo:block space-after="0.4cm">
+					TAKE NOTICE that <xsl:if test="$vdInterimChargingOrderDate2 != $emptyDate">pursuant to the order dated <xsl:value-of select="$vdInterimChargingOrderDate2"/> </xsl:if> the court has today sent a request for investment decision to the Court Funds Office.
+                 </fo:block>
+				<fo:block>
+					Further enquiries about the investment should be made to Court Funds Office, <xsl:value-of select="$vdCFOAddressLine"/> (<xsl:value-of select="$vdCFODXNumber"/>).  Telephone <xsl:value-of select="$vdCFOTelephone"/>
+				</fo:block>
+			</editable>
+			</body>
+			<defaultFooter id="CJR202"/>
+		</section>
+	</sections>
+</root>

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: Reports
+	Method:  printBailiffBookReport()
+	File:    print_bailiff_book_report.xml
+	Author:  Anoop Sehdev (Valtech)
+	Created: 06 Februaury 2006
+	Description: 
+		Call PrintBailiffBookReportCustomProcessor custom processor to submit 
+		Bailiff Book Reports (CM_BBOOK, CM_BBOOK, CM_UNWAR and CM_UNWARH) to SUPSReporting.
+-->
+<service-method>
+	<pipeline> 
+		<Java callStyle="new">
+			<Source class="uk.gov.dca.caseman.reports_service.classes.PrintBailiffBookReportCustomProcessor"/>
+		</Java>
+	</pipeline>	
+	<Security roles="viewOnly medium high wcSuper scSuper bmsSuper aeSuper dmSuper edsAdmin cpSuper"/>		
+</service-method>

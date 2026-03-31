@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>9150</Id>
+	<Label>Select from the following</Label>
+	<ObjectName>LetterProcessTypes</ObjectName>
+	<Html>
+		<select id="LetterProcessTypes">
+			<option value=""></option>
+			<option value="2">Order for attendance at order for questioning (N39)</option>
+			<option value="4">Possession Claim</option>
+			<option value="5">Claim</option>
+			<option value="6">Return of Goods</option>
+			<option value="7">Originating Application</option>
+			<option value="8">Committal Warrant</option>
+			<option value="OTH">Other</option>
+		</select>
+	</Html>			
+	<Javascript>
+		<XPath>/ds/EnterVariableData/letterProcessTypes</XPath>
+		<HintText>Select from the following</HintText>
+		<isEnabled>return true</isEnabled>
+		<isMandatory>return true;</isMandatory>
+		<mandatoryOn>LetterProcessTypes.dataBinding</mandatoryOn>
+	</Javascript>
+</Question>  

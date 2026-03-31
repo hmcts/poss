@@ -1,0 +1,220 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+Change History:
+    14/06/06 Anoop Sehdev	: TD35622. Return wp info (document_id)
+    25-Jul-2006 Phil Haferer: Modified pivot node "/ManageCOEvents/COEvents/COEvent" to allow pagination.
+                (TD 4018: Performance: Pagination required when displaying list of Case Events).
+    19-Sep-2006 Phil Haferer: Modified pivot node "/ManageCOEvents/COEvents/COEvent/CreditorName" so that 
+                only current addresses are selected.  The existing criteria had been producing unexpected 
+                duplicates in some cases (where historical addresses existed) and causing the the 
+                CO Events client to crash.
+                (TD CASEMAN 5245: UC116 Crash occur after the first creditor update when change the creditor 
+                                  from/to a coded party).
+	22-Mar-2007 Chris Vincent: Added the UserAlias node under COEvent.  CaseMan Defect 6000.
+	22-Mar-2007 Mark Groen: TD 6039. Changed the pivot node - - "/ManageCOEvents/COEvents/COEvent/Outputs/Output".
+				Now gets report description correctly and also returns the report id in a correctly named tag.
+	14-Nov-2007 Chris Vincent: CaseMan Defect 6464 to change the event sort order.  Event date has been removed
+				so is now only error indicator and event sequence.
+-->
+<QueryDef>
+  <DBMapDef location="uk/gov/dca/caseman/co_event_service/map_get_co_events.xml"/>
+  <Query pivotNode="/ManageCOEvents" tables="CO GA CT">
+ 		<SQL type="select">
+ 			SELECT CO.CO_NUMBER AS "CO.CO_NUMBER",
+				CO.OLD_NUMBER AS "CO.OLD_NUMBER",
+				CO.ADMIN_COURT_CODE AS "CO.ADMIN_COURT_CODE",
+				CT.NAME AS "CT.NAME",
+				CO.CO_TYPE AS "CO.CO_TYPE",
+				CO.AO_N60_DATE AS "CO.AO_N60_DATE",
+ 				CO.ATTACHMENT_ARREARS_DATE AS "CO.ATTACHMENT_ARREARS_DATE",
+ 				CO.ATTACHMENT_LAPSED_DATE AS "CO.ATTACHMENT_LAPSED_DATE",
+				CO.REVOKED_DISCHARGED_DATE AS "CO.REVOKED_DISCHARGED_DATE",
+				CO.ORDER_DATE AS "CO.ORDER_DATE",
+				CO.CO_STATUS AS "CO.CO_STATUS",
+                CO.DEBTOR_NAME AS "CO.DEBTOR_NAME",
+				GA.ADDRESS_LINE1 AS "GA.ADDRESS_LINE1",
+				(SELECT DECODE(COUNT(*),0,'N','Y')
+	        		FROM HEARINGS H
+	        		WHERE H.CO_NUMBER = CO.CO_NUMBER) AS "H.HEARINGS_EXIST",
+	        	(SELECT DECODE(COUNT(*),0,'false','true') 
+					FROM PAYMENTS PY
+					WHERE PY.SUBJECT_NO = CO.CO_NUMBER
+					AND PY.PAYMENT_FOR = 'CO') AS "PY.PAYMENTS_EXIST", 
+				(SELECT DECODE(COUNT(*),0,'false','true')
+					FROM DIVIDENDS DV
+					WHERE DV.DIV_CO_NUMBER = CO.CO_NUMBER) AS "DV.DIVIDENDS_EXIST",
+				CO.ORA_ROWSCN AS "CO_ORA_ROWSCN",
+				GA.ORA_ROWSCN AS "GA_ORA_ROWSCN",
+				CT.ORA_ROWSCN AS "CT_ORA_ROWSCN"
+			FROM CONSOLIDATED_ORDERS CO, GIVEN_ADDRESSES GA, COURTS CT
+			WHERE CO.CO_NUMBER = ${param.coNumber} AND
+				CT.CODE = CO.ADMIN_COURT_CODE  AND
+				GA.CO_NUMBER = CO.CO_NUMBER AND
+        		GA.ADDRESS_TYPE_CODE = 'CO DEBTOR' AND
+        		GA.VALID_TO IS NULL
+ 		</SQL>
+  	</Query>
+
+  <Query pivotNode="/ManageCOEvents/COEvents/COEvent" tables="COE SE">
+	<LinkedSQL type="root" key="COE.CO_EVENT_SEQ">
+		<SQL>
+            SELECT COE_AGE_CATEGORY       AS "COE.AGE_CATEGORY"                     
+            ,      COE_ALD_DEBT_SEQ       AS "COE.ALD_DEBT_SEQ"                     
+            ,      COE_BAILIFF_IDENTIFIER AS "COE.BAILIFF_IDENTIFIER"               
+            ,      COE_BMS_TASK_NUMBER    AS "COE.BMS_TASK_NUMBER"                  
+            ,      COE_CO_EVENT_SEQ       AS "COE.CO_EVENT_SEQ"                     
+            ,      COE_CREATING_COURT     AS "COE.CREATING_COURT"                   
+            ,      COE_CREATING_SECTION   AS "COE.CREATING_SECTION"                 
+            ,      COE_DETAILS            AS "COE.DETAILS"                          
+            ,      COE_ERROR_INDICATOR    AS "COE.ERROR_INDICATOR"                  
+            ,      COE_EVENT_DATE         AS "COE.EVENT_DATE"                       
+            ,      COE_ISSUE_STAGE        AS "COE.ISSUE_STAGE"                      
+            ,      COE_PROCESS_DATE       AS "COE.PROCESS_DATE"                     
+            ,      COE_RECEIPT_DATE       AS "COE.RECEIPT_DATE"                    
+            ,      COE_SERVICE_DATE       AS "COE.SERVICE_DATE"                     
+            ,      COE_SERVICE_STATUS     AS "COE.SERVICE_STATUS"                   
+            ,      COE_STATS_MODULE       AS "COE.STATS_MODULE"                     
+            ,      COE_STD_EVENT_ID       AS "COE.STD_EVENT_ID"                     
+            ,      COE_USERNAME           AS "COE.USERNAME"
+            ,      COE_USERALIAS          AS "COE.USERALIAS"                         
+            ,      COE_WARRANT_ID         AS "COE.WARRANT_ID"                       
+            ,      SE_CATEGORY            AS "SE.CATEGORY"                          
+            ,      SE_DESCRIPTION         AS "SE.DESCRIPTION"                       
+            ,      SE_EDIT_DETAILS        AS "SE.EDIT_DETAILS"                      
+            ,      SE_STATUS              AS "STATUS"
+            ,      REF2_OBSOLETE          AS "REF2.OBSOLETE"
+            ,      COE_ORA_ROWSCN         AS "COE_ORA_ROWSCN"
+            ,      SE_ORA_ROWSCN          AS "SE_ORA_ROWSCN"
+            FROM 
+               (SELECT ROW_NUMBER() 
+                       OVER(ORDER BY COE.ERROR_INDICATOR
+                            ,        COE.CO_EVENT_SEQ    DESC) AS R
+                ,      COE.AGE_CATEGORY       AS "COE_AGE_CATEGORY"                     
+                ,      COE.ALD_DEBT_SEQ       AS "COE_ALD_DEBT_SEQ"                     
+                ,      COE.BAILIFF_IDENTIFIER AS "COE_BAILIFF_IDENTIFIER"               
+                ,      COE.BMS_TASK_NUMBER    AS "COE_BMS_TASK_NUMBER"                  
+                ,      COE.CO_EVENT_SEQ       AS "COE_CO_EVENT_SEQ"                     
+                ,      COE.CREATING_COURT     AS "COE_CREATING_COURT"                   
+                ,      COE.CREATING_SECTION   AS "COE_CREATING_SECTION"                 
+                ,      COE.DETAILS            AS "COE_DETAILS"                          
+                ,      COE.ERROR_INDICATOR    AS "COE_ERROR_INDICATOR"                  
+                ,      COE.EVENT_DATE         AS "COE_EVENT_DATE"                       
+                ,      COE.ISSUE_STAGE        AS "COE_ISSUE_STAGE"                      
+                ,      COE.PROCESS_DATE       AS "COE_PROCESS_DATE"                     
+                ,      COE.RECEIPT_DATE       AS "COE_RECEIPT_DATE"                    
+                ,      COE.SERVICE_DATE       AS "COE_SERVICE_DATE"                     
+                ,      COE.SERVICE_STATUS     AS "COE_SERVICE_STATUS"                   
+                ,      COE.STATS_MODULE       AS "COE_STATS_MODULE"                     
+                ,      COE.STD_EVENT_ID       AS "COE_STD_EVENT_ID"                     
+                ,      COE.USERNAME           AS "COE_USERNAME"  
+                ,      ( SELECT NVL(DU.USER_SHORT_NAME, '')
+                         FROM DCA_USER DU
+                         WHERE DU.USER_ID = COE.USERNAME
+                       ) AS "COE_USERALIAS"                             
+                ,      COE.WARRANT_ID         AS "COE_WARRANT_ID"                       
+                ,      SE.CATEGORY            AS "SE_CATEGORY"                          
+                ,      SE.DESCRIPTION         AS "SE_DESCRIPTION"                       
+                ,      SE.EDIT_DETAILS        AS "SE_EDIT_DETAILS"                      
+                ,      '0'                    AS "SE_STATUS"
+                ,      (CASE
+                         WHEN SE.CATEGORY IN
+                              (SELECT REF.RV_LOW_VALUE
+                                 FROM CCBC_REF_CODES REF
+                                WHERE REF.RV_DOMAIN = 'CO_EVENT_CATEGORY') THEN
+                          'N'
+                         ELSE
+                          'Y'
+                       END)                   AS "REF2_OBSOLETE"
+                ,      COE.ORA_ROWSCN         AS "COE_ORA_ROWSCN"
+                ,      SE.ORA_ROWSCN          AS "SE_ORA_ROWSCN"
+                FROM   CO_EVENTS       COE
+                ,      STANDARD_EVENTS SE
+                WHERE  COE.CO_NUMBER = ${CO.CO_NUMBER}
+                AND    SE.EVENT_ID   = COE.STD_EVENT_ID
+                ORDER BY COE.ERROR_INDICATOR
+                ,        COE.CO_EVENT_SEQ    DESC)
+            WHERE R &lt; ((${param.pageNumber}*${param.pageSize})+1)
+            AND   R &gt; ((${param.pageNumber}*${param.pageSize})-${param.pageSize})            
+		</SQL>
+	</LinkedSQL>
+  </Query>
+
+  <Query pivotNode="/ManageCOEvents/COEvents/COEvent/Outputs/Output" tables="WO">
+  	<LinkedSQL type="query" key="OUTPUT.OUTPUT_ID">
+    	<Parent key="COE.CO_EVENT_SEQ" tables="COE"/>
+    	<SQL>
+		( SELECT 
+				COE.CO_EVENT_SEQ			AS "COE.CO_EVENT_SEQ" 
+			,	'WP'						AS "OUTPUT.TYPE"
+			,   WO.FINAL_IND				AS "OUTPUT.FINAL_IND"
+			,	TO_CHAR(WO.OUTPUT_ID)		AS "OUTPUT.OUTPUT_ID"
+			,   'Word Processing Output' 	AS "OUTPUT.DESCRIPTION"
+            , 	TO_CHAR(WO.XMLSOURCE)		AS "OUTPUT.DOCUMENT_ID"
+			,   ''                          AS "OUTPUT.REPORT_ID"
+		FROM 
+				WP_OUTPUT WO, CO_EVENTS COE
+		WHERE
+				COE.CO_NUMBER = ${param.coNumber}  
+				AND WO.CO_EVENT_SEQ = COE.CO_EVENT_SEQ
+				AND WO.OUTPUT_ID = (SELECT MAX(WO2.OUTPUT_ID) FROM WP_OUTPUT WO2 WHERE WO2.CO_EVENT_SEQ = COE.CO_EVENT_SEQ) )
+		UNION
+		( SELECT 
+				COE.CO_EVENT_SEQ			AS "COE.CO_EVENT_SEQ"
+			,	'OR'						AS "OUTPUT.TYPE"
+			,   'Y'						    AS "OUTPUT.FINAL_IND"
+			,   RO.ORDER_ID 				AS "OUTPUT.OUTPUT_ID"
+			, 	OT.ORDER_DESCRIPTION		AS "OUTPUT.DESCRIPTION"
+			,   TO_CHAR(RQ.DOCUMENT_ID)		AS "OUTPUT.DOCUMENT_ID"
+			, 	TO_CHAR(RO.REPORT_ID)		AS "OUTPUT.REPORT_ID" 
+		FROM 
+					REPORT_OUTPUT RO
+				,   REPORT_QUEUE  RQ
+				,	CO_EVENTS COE
+				,   ORDER_TYPES OT
+		WHERE
+				COE.CO_NUMBER = ${param.coNumber} 
+				AND RO.CO_EVENT_SEQ 	= COE.CO_EVENT_SEQ
+				AND	RQ.ID 		 		= RO.REPORT_ID
+				AND OT.ORDER_ID			= RO.ORDER_ID )
+		</SQL>
+    </LinkedSQL>
+	<Modify notModifiable="true"/>
+  </Query>
+	
+  
+    <Query pivotNode="/ManageCOEvents/COEvents/COEvent/CreditorName" tables="P AD GA2">
+    	<LinkedSQL type="query" key="P.PARTY_ID">
+    		<Parent key="COE.CO_EVENT_SEQ" tables="COE"/>
+			<SQL>
+				(	SELECT 	COE.CO_EVENT_SEQ			AS "COE.CO_EVENT_SEQ",
+							P.PERSON_REQUESTED_NAME     AS "P.PERSON_REQUESTED_NAME",
+							P.PARTY_ID					AS "P.PARTY_ID"
+					FROM	ALLOWED_DEBTS AD
+					      ,	GIVEN_ADDRESSES GA2
+					      , PARTIES P
+					      , CO_EVENTS COE
+					WHERE	
+							AD.DEBT_CO_NUMBER 		= 	${param.coNumber}
+					AND		AD.DEBT_SEQ   			=	COE.ALD_DEBT_SEQ
+					AND     GA2.ALD_SEQ 			= 	AD.DEBT_SEQ
+					AND 	GA2.ADDRESS_TYPE_CODE 	= 	'CO CRED'	
+					AND 	GA2.VALID_TO IS NULL
+					AND 	P.PARTY_ID 				= 	GA2.PARTY_ID								
+				) 	UNION (	
+					SELECT 	COE.CO_EVENT_SEQ			AS "COE.CO_EVENT_SEQ",
+							P.PERSON_REQUESTED_NAME     AS "P.PERSON_REQUESTED_NAME",
+							P.PARTY_ID					AS "P.PARTY_ID"
+					FROM	ALLOWED_DEBTS AD
+					      , PARTIES P
+					      , CO_EVENTS COE
+					WHERE			
+							AD.DEBT_CO_NUMBER 		= 	${param.coNumber} 
+					AND		AD.DEBT_SEQ   			=	COE.ALD_DEBT_SEQ
+					AND 	P.PARTY_ID 				= 	AD.CP_CREDITOR_ID				
+				) 
+			</SQL>
+		</LinkedSQL>
+	<Modify notModifiable="true"/>
+  </Query>
+  
+</QueryDef>

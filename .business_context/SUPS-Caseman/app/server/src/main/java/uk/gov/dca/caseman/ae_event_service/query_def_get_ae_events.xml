@@ -1,0 +1,280 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+Change History:
+	DJW 05/06/2006: W.IS_OUTSTANDING algorithm updated (TD 3366)
+	Anoop Sehdev 14/06/2006 - wp output info not successfully retrived (TD3601)
+    25-Jul-2006 Phil Haferer: Modified pivot node "/ManageAEEvents/AEEvents/AEEvent" to allow pagination.
+                (TD 4018: Performance: Pagination required when displaying list of Case Events).
+	15/11/2006 Chris Vincent: Added AEA.CAPS_SEQUENCE to the /ManageAEEvents SELECT.  Required for UCT Defect 669.
+	22-Mar-2007 Chris Vincent: Added the UserAlias node under AEEvent.  CaseMan Defect 6000.
+	23-Mar-2007 Mark Groen: TD 6039. Changed the pivot node - - "/ManageAEEvents/AEEvents/AEEvent/Outputs/Output".
+				Now gets report description correctly and also returns the report id in a correctly named tag.
+	14-Nov-2007 Chris Vincent: CaseMan Defect 6464 to change the event sort order.  Event date has been removed
+				so is now only error indicator and event sequence.
+	11-Nov-2009 Chris Vincent: Change to /ManageAEEvents pivot node so returns the Case's Owning Court instead of the AE
+	Issuing Court Code.  Trac 1667.
+	17-Feb-2010 Chris Vincent - Trac 2607.  Added constraint to Outstanding Warrant query so queries on Warrants owned by the Case's Owning Court.
+	10/11/2011 - Des Johnston, Added ISSUING_CRT_CODE for ManageAEEvents pivotNode - for Trac 2480
+	25/11/2015 - Chris Vincent, Added retrieval of WELSH_EMPLOYER.  Trac 5725
+	12/10/2016 - Chris Vincent, Added retrieval of JURISDICTION.  Trac 5883
+	14/10/2016 - Chris Vincent, returns an indication of whether a party on the case has requested confidentiality.  Trac 5880
+-->
+<QueryDef>
+  <DBMapDef location="uk/gov/dca/caseman/ae_event_service/map_get_ae_events.xml"/>
+  
+  <Query pivotNode="/ManageAEEvents" tables="AEA CT CPR1 P1 PR1 CPR2 P2 PR2 C">
+	<SQL type="select">
+		SELECT AEA.AE_NUMBER AS "AEA.AE_NUMBER", 
+		    AEA.ISSUING_CRT_CODE AS "AEA.ISSUING_CRT_CODE",
+			AEA.AE_TYPE AS "AEA.AE_TYPE", 
+			AEA.AMOUNT_OF_AE_CURRENCY AS "AEA.AMOUNT_OF_AE_CURRENCY", 
+			AEA.CASE_NUMBER AS "AEA.CASE_NUMBER", 
+			C.ADMIN_CRT_CODE AS "C.ADMIN_CRT_CODE", 
+			AEA.NORMAL_DEDUCTION_PERIOD AS "AEA.NORMAL_DEDUCTION_PERIOD", 
+			AEA.NORMAL_DEDUCTION_RATE AS "AEA.NORMAL_DEDUCTION_RATE", 
+			AEA.PARTY_AGAINST_CASE_PARTY_NO AS "AEA.PARTY_AGAINST_CASE_PARTY_N", 
+			AEA.PARTY_AGAINST_PARTY_ROLE_CODE AS "AEA.PARTY_AGAINST_PARTY_R_CODE", 
+			AEA.PARTY_FOR_CASE_PARTY_NO AS "AEA.PARTY_FOR_CASE_PARTY_NO", 
+			AEA.PARTY_FOR_PARTY_ROLE_CODE AS "AEA.PARTY_FOR_PARTY_ROLE_CODE", 
+			AEA.PROTECTED_EARNINGS_PERIOD AS "AEA.PROTECTED_EARNINGS_PERIOD", 
+			AEA.PROTECTED_EARNINGS_RATE AS "AEA.PROTECTED_EARNINGS_RATE",
+		    AEA.CAPS_SEQUENCE AS "AEA.CAPS_SEQUENCE",
+			CT.NAME AS "CT.NAME", 
+			P1.PERSON_REQUESTED_NAME AS "P1.PERSON_REQUESTED_NAME", 
+			P2.PERSON_REQUESTED_NAME AS "P2.PERSON_REQUESTED_NAME", 
+			PR1.PARTY_ROLE_DESCRIPTION AS "PR1.PARTY_ROLE_DESCRIPTION", 
+			PR2.PARTY_ROLE_DESCRIPTION AS "PR2.PARTY_ROLE_DESCRIPTION", 
+			(SELECT DECODE(COUNT(*),0,'false','true') 
+				FROM   OBLIGATIONS OB
+				WHERE  OB.CASE_NUMBER = AEA.CASE_NUMBER
+				AND    OB.EVENT_SEQ IS NULL
+				AND    OB.DELETE_FLAG = 'N') AS "OB.ACTIVE_OBLIGATIONS",
+			(SELECT DECODE(COUNT(*),0,'false','true')
+				FROM   OBLIGATIONS OB
+				WHERE  OB.CASE_NUMBER = AEA.CASE_NUMBER
+				AND    OB.EVENT_SEQ IS NULL
+				AND    OB.DELETE_FLAG = 'Y') AS "OB.DELETED_OBLIGATIONS",
+			(SELECT DECODE(COUNT(*),0,'N','Y') 
+				FROM   CASE_PARTY_ROLES CPR
+				WHERE  CPR.CASE_NUMBER = AEA.CASE_NUMBER
+				AND    NVL(CPR.WELSH_INDICATOR,'N') = 'Y') AS "C.WELSH_PARTIES",
+			(SELECT DECODE(COUNT(*),0,'N','Y') 
+				FROM   PARTIES EMP
+				WHERE  EMP.PARTY_ID = NVL(AEA.DEBTORS_EMPLOYERS_PARTY_ID,0)
+				AND    NVL(EMP.WELSH_INDICATOR,'N') = 'Y') AS "C.WELSH_EMPLOYER",
+			(SELECT DECODE( COUNT(*), 0 , 'false', 'true')
+				FROM  WARRANTS W
+				WHERE W.CASE_NUMBER = AEA.CASE_NUMBER
+				AND   W.CURRENTLY_OWNED_BY = C.ADMIN_CRT_CODE
+				AND   ((W.WARRANT_ID NOT IN 
+         				( SELECT WR.WARRANT_ID
+            			    FROM  WARRANT_RETURNS WR, RETURN_CODES RC
+            				WHERE WR.WARRANT_ID = W.WARRANT_ID
+            				AND   WR.DEFENDANT_ID = 1
+            				AND   WR.ERROR_INDICATOR IS NOT NULL
+            				AND   WR.ERROR_INDICATOR != 'Y'
+            				AND   RC.RETURN_CODE = WR.RETURN_CODE 
+            				AND   RC.ADMIN_COURT_CODE = WR.RETURN_CODE_COURT_CODE 
+            				AND   RC.RETURN_TYPE   = 'F' )
+      				) OR (      
+            		   W.DEFENDANT2 IS NOT NULL
+            			AND W.WARRANT_ID NOT IN 
+            				( SELECT WR.WARRANT_ID
+              					FROM   WARRANT_RETURNS WR, RETURN_CODES RC
+              					WHERE  WR.WARRANT_ID = W.WARRANT_ID
+              					AND    WR.DEFENDANT_ID = 2
+              					AND    WR.ERROR_INDICATOR IS NOT NULL
+              					AND    WR.ERROR_INDICATOR != 'Y'
+              					AND    RC.RETURN_CODE = WR.RETURN_CODE 
+              					AND    RC.ADMIN_COURT_CODE = WR.RETURN_CODE_COURT_CODE 
+             					AND    RC.RETURN_TYPE = 'F'
+             ))))  AS "W.IS_OUTSTANDING",
+			(SELECT DECODE(COUNT(*),0,'false','true')
+				FROM   AE_APPLICATIONS AEA2
+				WHERE  AEA2.AE_NUMBER = AEA.AE_NUMBER
+				AND    AEA2.PROTECTED_EARNINGS_PERIOD IS NOT NULL) AS "AEA2.PER_RATE_EXISTS",
+			(SELECT 	DECODE(COUNT(*),0,'false','true')  
+				FROM    GIVEN_ADDRESSES GA
+				WHERE  	GA.CASE_NUMBER = AEA.CASE_NUMBER
+				AND 	GA.PARTY_ROLE_CODE = AEA.PARTY_AGAINST_PARTY_ROLE_CODE
+				AND		GA.CASE_PARTY_NO = AEA.PARTY_AGAINST_CASE_PARTY_NO
+				AND		GA.ADDRESS_TYPE_CODE = 'SUBSERV') AS "GA.IS_SERV_ADDRESS",
+			(SELECT DECODE(COUNT(*),0,'false','true') 
+				FROM   PAYMENTS PY
+				WHERE  PY.SUBJECT_NO = AEA.AE_NUMBER
+				AND    PY.PAYMENT_FOR = 'AE') AS "PY.PAYMENTS_EXIST",
+			(SELECT DECODE(COUNT(*),0,'false','true') 
+				FROM   AE_PER_ITEMS API
+				WHERE  API.AE_NUMBER = AEA.AE_NUMBER) AS "API.AEPERITEMS_EXIST",
+			( AEA.PARTY_AGAINST_PARTY_ROLE_CODE	|| '_' || AEA.PARTY_AGAINST_CASE_PARTY_NO ) AS "P1.PARTY_KEY",
+			( AEA.PARTY_FOR_PARTY_ROLE_CODE	|| '_' || AEA.PARTY_FOR_CASE_PARTY_NO ) AS "P2.PARTY_KEY",
+			(SELECT CRC.RV_IIT_CODE_1
+				FROM CCBC_REF_CODES CRC
+				WHERE CRC.RV_LOW_VALUE = C.CASE_TYPE 
+				AND CRC.RV_DOMAIN IN ('CURRENT_CASE_TYPE','CASE_TYPE_OBSOLETE_BY_IIT')) AS "C.JURISDICTION",
+			(SELECT DECODE(COUNT(*),0,'false','true') 
+				FROM   CASE_PARTY_ROLES CAPR
+				WHERE  CAPR.CASE_NUMBER = AEA.CASE_NUMBER
+				AND    NVL(CAPR.CONFIDENTIAL,'N') = 'Y') AS "C.CONFIDENTIAL",
+            REF.RV_MEANING AS "REF.RV_MEANING",
+			P1.ORA_ROWSCN AS "P1_ORA_ROWSCN", 
+			PR1.ORA_ROWSCN AS "PR1_ORA_ROWSCN", 
+			AEA.ORA_ROWSCN AS "AEA_ORA_ROWSCN", 
+			CPR1.ORA_ROWSCN AS "CPR1_ORA_ROWSCN", 
+			PR2.ORA_ROWSCN AS "PR2_ORA_ROWSCN", 
+			P2.ORA_ROWSCN AS "P2_ORA_ROWSCN", 
+			CPR2.ORA_ROWSCN AS "CPR2_ORA_ROWSCN", 
+			CT.ORA_ROWSCN AS "CT_ORA_ROWSCN",
+			C.ORA_ROWSCN AS "C.ORA_ROWSCN"
+			FROM PARTIES P1, PARTY_ROLES PR1, AE_APPLICATIONS AEA, CASE_PARTY_ROLES CPR1, PARTY_ROLES PR2, PARTIES P2, CASE_PARTY_ROLES CPR2, COURTS CT, CCBC_REF_CODES REF, CASES C  
+			WHERE AEA.AE_NUMBER = ${param.aeNumber} AND
+				C.CASE_NUMBER = AEA.CASE_NUMBER AND
+				CT.CODE = C.ADMIN_CRT_CODE AND 
+				CPR1.CASE_NUMBER = AEA.CASE_NUMBER AND 
+				CPR1.PARTY_ROLE_CODE = AEA.PARTY_AGAINST_PARTY_ROLE_CODE AND 
+				CPR1.CASE_PARTY_NO = AEA.PARTY_AGAINST_CASE_PARTY_NO AND 
+				P1.PARTY_ID = CPR1.PARTY_ID AND 
+				PR1.PARTY_ROLE_CODE = CPR1.PARTY_ROLE_CODE AND 
+				CPR2.CASE_NUMBER = AEA.CASE_NUMBER AND 
+				CPR2.PARTY_ROLE_CODE = AEA.PARTY_FOR_PARTY_ROLE_CODE AND 
+				CPR2.CASE_PARTY_NO = AEA.PARTY_FOR_CASE_PARTY_NO AND 
+				P2.PARTY_ID = CPR2.PARTY_ID AND 
+				PR2.PARTY_ROLE_CODE = CPR2.PARTY_ROLE_CODE AND
+                		REF.RV_DOMAIN = 'AE_TYPE' AND
+                		REF.RV_LOW_VALUE = AEA.AE_TYPE
+	</SQL>
+	<Modify/>
+	<!-- Modify notModifiable="true"/ -->
+  </Query>
+ 
+  <Query pivotNode="/ManageAEEvents/FutureHearings/Hearing" tables="H">
+    <Join>
+		H.CASE_NUMBER = ${AEA.CASE_NUMBER}
+		AND  (	H.HRG_DATE &gt; SYSDATE OR H.HRG_DATE = SYSDATE )
+		AND		H.HRG_OUTCOME IS NULL
+		AND     H.HRG_TYPE 	  IN 	(SELECT RV_LOW_VALUE FROM CCBC_REF_CODES REF 
+									 WHERE REF.RV_DOMAIN = 'CURRENT_HRG_TYPE_AE')
+    </Join>
+    <Modify notModifiable="true"/>
+  </Query>
+  
+  <Query pivotNode="/ManageAEEvents/AEEvents/AEEvent" tables="AE SE">
+	<LinkedSQL type="root" key="AE.AE_EVENT_SEQ">
+		<SQL>
+            SELECT AE_AE_EVENT_SEQ       AS "AE.AE_EVENT_SEQ"                          
+            ,      AE_AE_NUMBER          AS "AE.AE_NUMBER"                             
+            ,      AE_BAILIFF_IDENTIFIER AS "AE.BAILIFF_IDENTIFIER"                    
+            ,      AE_CASE_EVENT_SEQ     AS "AE.CASE_EVENT_SEQ"                        
+            ,      AE_DATE_ENTERED       AS "AE.DATE_ENTERED"                          
+            ,      AE_DETAILS            AS "AE.DETAILS"                               
+            ,      AE_ERROR_INDICATOR    AS "AE.ERROR_INDICATOR"                       
+            ,      AE_EVENT_DATE         AS "AE.EVENT_DATE"                            
+            ,      AE_ISSUE_STAGE        AS "AE.ISSUE_STAGE"                           
+            ,      AE_PROCESS_DATE       AS "AE.PROCESS_DATE"                          
+            ,      AE_SERVICE_DATE       AS "AE.SERVICE_DATE"                          
+            ,      AE_SERVICE_STATUS     AS "AE.SERVICE_STATUS"                        
+            ,      AE_STD_EVENT_ID       AS "AE.STD_EVENT_ID"                          
+            ,      AE_USERNAME           AS "AE.USERNAME" 
+			,      AE_USERALIAS          AS "AE.USERALIAS"                              
+            ,      SE_CATEGORY           AS "SE.CATEGORY"                              
+            ,      SE_DESCRIPTION        AS "SE.DESCRIPTION"                           
+            ,      SE_EDIT_DETAILS       AS "SE.EDIT_DETAILS"                          
+            ,      SE_STATUS             AS "STATUS"                                   
+            ,      REF2_OBSOLETE         AS "REF2.OBSOLETE"
+            ,      AE_ORA_ROWSCN         AS "AE_ORA_ROWSCN"
+            ,      SE_ORA_ROWSCN         AS "SE_ORA_ROWSCN"
+            FROM 
+               (SELECT ROW_NUMBER() 
+                       OVER(ORDER BY AE.ERROR_INDICATOR
+                            ,        AE.AE_EVENT_SEQ DESC) AS R
+                ,      AE.AE_EVENT_SEQ       AS "AE_AE_EVENT_SEQ"                          
+                ,      AE.AE_NUMBER          AS "AE_AE_NUMBER"                             
+                ,      AE.BAILIFF_IDENTIFIER AS "AE_BAILIFF_IDENTIFIER"                    
+                ,      AE.CASE_EVENT_SEQ     AS "AE_CASE_EVENT_SEQ"                        
+                ,      AE.DATE_ENTERED       AS "AE_DATE_ENTERED"                          
+                ,      AE.DETAILS            AS "AE_DETAILS"                               
+                ,      AE.ERROR_INDICATOR    AS "AE_ERROR_INDICATOR"                       
+                ,      AE.EVENT_DATE         AS "AE_EVENT_DATE"                            
+                ,      AE.ISSUE_STAGE        AS "AE_ISSUE_STAGE"                           
+                ,      AE.PROCESS_DATE       AS "AE_PROCESS_DATE"                          
+                ,      AE.SERVICE_DATE       AS "AE_SERVICE_DATE"                          
+                ,      AE.SERVICE_STATUS     AS "AE_SERVICE_STATUS"                        
+                ,      AE.STD_EVENT_ID       AS "AE_STD_EVENT_ID"                          
+                ,      AE.USERNAME           AS "AE_USERNAME"  
+                ,      ( SELECT NVL(DU.USER_SHORT_NAME, '')
+                         FROM DCA_USER DU
+                         WHERE DU.USER_ID = AE.USERNAME
+                       ) AS "AE_USERALIAS"                                  
+                ,      SE.CATEGORY           AS "SE_CATEGORY"                              
+                ,      SE.DESCRIPTION        AS "SE_DESCRIPTION"                           
+                ,      SE.EDIT_DETAILS       AS "SE_EDIT_DETAILS"                          
+                ,      '0'                   AS "SE_STATUS"
+                ,      (CASE
+                         WHEN SE.CATEGORY IN
+                              (SELECT REF2.RV_LOW_VALUE
+                               FROM   CCBC_REF_CODES REF2
+                               WHERE  REF2.RV_DOMAIN = 'AE_EVENT_CATEGORY') THEN
+                          'N'
+                         ELSE
+                          'Y'
+                       END)                  AS "REF2_OBSOLETE"
+                ,      AE.ORA_ROWSCN         AS "AE_ORA_ROWSCN"
+                ,      SE.ORA_ROWSCN         AS "SE_ORA_ROWSCN"
+                FROM   AE_EVENTS       AE
+                ,      STANDARD_EVENTS SE
+                WHERE  AE.AE_NUMBER = ${AEA.AE_NUMBER}
+                AND    SE.EVENT_ID  = AE.STD_EVENT_ID
+                ORDER BY AE.ERROR_INDICATOR
+                ,      AE.AE_EVENT_SEQ DESC)
+            WHERE R &lt; ((${param.pageNumber}*${param.pageSize})+1)
+            AND   R &gt; ((${param.pageNumber}*${param.pageSize})-${param.pageSize})
+		</SQL>
+	</LinkedSQL>
+  </Query>
+	
+  <Query pivotNode="/ManageAEEvents/AEEvents/AEEvent/Outputs/Output" tables="WO">
+  	<LinkedSQL type="query" key="OUTPUT.OUTPUT_ID">
+    		
+    	<Parent key="AE.AE_EVENT_SEQ" tables="AE"/>
+    		
+    	<SQL>
+		( SELECT 
+				AE.AE_EVENT_SEQ				AS "AE.AE_EVENT_SEQ" 
+			,	'WP'						AS "OUTPUT.TYPE"
+			,   WO.FINAL_IND				AS "OUTPUT.FINAL_IND"
+			,	TO_CHAR(WO.OUTPUT_ID)		AS "OUTPUT.OUTPUT_ID"
+			,   'Word Processing Output' 	AS "OUTPUT.DESCRIPTION"
+            , 	TO_CHAR(WO.XMLSOURCE)		AS "OUTPUT.DOCUMENT_ID"
+			,   ''                          AS "OUTPUT.REPORT_ID"
+		FROM 
+			WP_OUTPUT WO, AE_EVENTS AE
+		WHERE
+			AE.AE_NUMBER = ${param.aeNumber}
+			AND WO.AE_EVENT_SEQ = AE.AE_EVENT_SEQ
+			AND WO.OUTPUT_ID = (SELECT MAX(WO2.OUTPUT_ID) FROM WP_OUTPUT WO2 WHERE WO2.AE_EVENT_SEQ = AE.AE_EVENT_SEQ) )
+		UNION
+		( SELECT 
+				AE.AE_EVENT_SEQ				AS "AE.AE_EVENT_SEQ"
+			,	'OR'						AS "OUTPUT.TYPE"
+			,   'Y'						    AS "OUTPUT.FINAL_IND"
+			,   RO.ORDER_ID 				AS "OUTPUT.OUTPUT_ID"
+			, 	OT.ORDER_DESCRIPTION		AS "OUTPUT.DESCRIPTION"
+			,   TO_CHAR(RQ.DOCUMENT_ID)	    AS "OUTPUT.DOCUMENT_ID"
+			, 	TO_CHAR(RO.REPORT_ID)		AS "OUTPUT.REPORT_ID"
+		FROM 
+				REPORT_OUTPUT RO
+			,   REPORT_QUEUE  RQ
+			, 	AE_EVENTS AE
+			,   ORDER_TYPES OT
+		WHERE
+				AE.AE_NUMBER = ${param.aeNumber}
+		AND		RO.AE_EVENT_SEQ = AE.AE_EVENT_SEQ
+		AND		RQ.ID 		 = RO.REPORT_ID 
+		AND OT.ORDER_ID			= RO.ORDER_ID )
+		</SQL>
+    	
+    </LinkedSQL>
+	<Modify notModifiable="true"/>
+  </Query>
+
+</QueryDef>

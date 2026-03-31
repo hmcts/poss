@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: CaseEvent
+	Method:  updateCaseEventBms()
+	File:    update_case_event_bms.xml
+	Author:  Chris Hutt
+	Created: 30 May 2006
+	Description: 
+		Update BMS info on a case event
+
+    Change History:
+		09/11/2006 (Chris Vincent) - fixed Candidate Release Z issue #197 by adding the following 
+		user roles to the service method:  cpSuper ccbcMan ccbcUser ccbcSGB2 so it matches the add
+		case event service.
+-->
+<service-method>
+	<pipeline>
+		<SQLLite output="input">
+			<DataSource id="java:OracleDS"/>
+			<Param name="param.caseEventSeq"	xpath="/params/param[@name='caseEventSeq']"/>
+			<Param name="param.bmsTask"			xpath="/params/param[@name='bmsTask']"/>
+			<Param name="param.statsModule"	xpath="/params/param[@name='statsModule']"/>
+			<Param name="param.ageCategory"		xpath="/params/param[@name='ageCategory']"/>
+			<Param name="param.creatingCourt"	xpath="/params/param[@name='creatingCourt']"/>
+			<Param name="param.creatingSection"	xpath="/params/param[@name='creatingSection']"/>
+			<SQL type="update" tables="CASE_EVENTS">
+				UPDATE CASE_EVENTS CE
+				SET	CE.BMS_TASK_NUMBER = ${param.bmsTask}
+ 				,	CE.STATS_MODULE 	= ${param.statsModule}
+ 				,	CE.AGE_CATEGORY 	= ${param.ageCategory}
+				,	CE.CREATING_COURT 	= ${param.creatingCourt}
+				,	CE.CREATING_SECTION	= ${param.creatingSection}
+				WHERE CE.EVENT_SEQ 		= ${param.caseEventSeq}
+			</SQL>
+		</SQLLite>
+	</pipeline>
+	<Security roles="viewOnly medium high wcSuper scSuper bmsSuper aeSuper dmSuper edsAdmin cpSuper ccbcMan ccbcUser ccbcSGB2"/>	
+	<Transaction type="RequiresNew" />	
+</service-method>

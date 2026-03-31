@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: ObligationTypes
+	Method:  getObligationTypes()
+	File:    get_obligation_types.xml
+	Author:  
+	Created: 
+	Description: 
+        List of Obligations that can be associated to a case 
+-->
+<service-method>
+	<pipeline>
+		<Query>
+  			<QueryDef location="uk/gov/dca/caseman/obligation_type_service/query_def.xml"/>
+  			<QueryExtension pivotNode="/ObligationTypes/ObligationType"></QueryExtension>
+  	    </Query>
+	</pipeline>
+	<Security roles="viewOnly medium high wcSuper scSuper bmsSuper aeSuper dmSuper cpSuper ccbcMan ccbcUser ccbcSGB2"/> 	
+</service-method>

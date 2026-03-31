@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<DBMapDef>
+  <DataSource id="java:OracleDS"/>
+  <Tables>
+    <Table alias="SS" name="DBAUSER.SCHEMASCRIPTS"/>
+  </Tables>
+  <Mapping>
+    <Scripts>
+    	<Script>
+    		<Schema>${SS.SCHEMA}</Schema>
+    		<DateRun>${SS.DATERUN}</DateRun>	
+    		<ScriptName>${SS.SCRIPTNAME}</ScriptName>
+        	<ChangeNumber>${SS.CHANGENUMBER}</ChangeNumber>	
+    	</Script>
+    </Scripts>	
+  </Mapping>
+</DBMapDef>

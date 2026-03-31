@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- 
+	31/08/2006 - MGG - defect 4942 - Ensure field changes clour when value entered  - i.e manadtory colour
+	25/09/2007 - Chris Vincent, fixed CaseMan Defect 5994 by setting the Event Details field to the reason 
+				 for non service.  Had to add maxlength of 500 too to match Event Details maxlength.
+-->
+<!--Question xmlns="http://eds.com/questionxhtml" xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd"-->
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>Q_ReasonOfNonService</Id>
+	<Label>Reason for Non-Service</Label>
+	<ObjectName>ReasonOfNonService</ObjectName>
+	<Html>
+		<table>
+			<tr>
+				<td>
+					<script type="text/javascript">
+						ZoomFieldRenderer.createInline("ReasonOfNonService", 10, 70);
+					</script>				
+				</td>
+			</tr>
+		</table>	
+	</Html>
+	<Javascript>
+		<XPath>/ds/var/page/OracleReportForm/ReasonOfNonService</XPath>
+		<ReportVariableName>REPORT_VALUE_3</ReportVariableName>
+		<ReportVariableValue>Services.getValue(ReasonOfNonService.dataBinding)</ReportVariableValue>
+		<ReportVariableCode>1103</ReportVariableCode>
+		<HintText>Enter reason for non service to follow the word 'because'</HintText>		
+		<isMandatory>return true;</isMandatory>
+		<maxLength>500</maxLength>	
+		<IsQuestion></IsQuestion>
+		<logicOn>ReasonOfNonService.dataBinding</logicOn>
+		<logic>
+			// CaseMan Defect 5994, the reason for non service should over-write the AE Event's
+			// Event Details field.
+			var reason = Services.getValue(ReasonOfNonService.dataBinding);
+			eventDetails = reason;
+		</logic>
+	</Javascript>
+</Question>

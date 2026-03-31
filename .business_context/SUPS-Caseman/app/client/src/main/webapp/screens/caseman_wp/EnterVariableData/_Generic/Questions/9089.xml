@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>9089</Id>
+	<Label>Date power of arrest expires</Label>
+	<ObjectName>PowerOfArrestExpiryDate</ObjectName>
+	<Html>
+		<script type="text/javascript">WP_DatePickerRenderer.createInline("PowerOfArrestExpiryDate", false);</script>
+	</Html>
+	<Javascript>
+        <XPath>/ds/EnterVariableData/powerOfArrestExpiryDate</XPath>
+        <HintText>Enter the expiry date of power of arrest expires</HintText>
+		<validate>
+            // Date picker: error message “The value does not conform to a valid date format of DD-MMM-YYYY”.
+            // Validation: Date cannot be in the future
+        	return isInPast(Services.getValue(PowerOfArrestExpiryDate.dataBinding),"false");                               
+        </validate>
+        <isEnabled>return true;</isEnabled>      
+        
+        <Context ScreenId="O_2_6">
+	        <mandatoryOn>PowerOfArrestExpiryDate.dataBinding</mandatoryOn>
+			<isMandatory>return true;</isMandatory>	
+            <validate>            
+            	// Date picker: error message “The value does not conform to a valid date format of DD-MMM-YYYY”.
+            	// Validation: Date cannot be in the past          
+            	return isInFuture(Services.getValue(PowerOfArrestExpiryDate.dataBinding),"false");                               
+            </validate>
+    	</Context>	
+	</Javascript>
+</Question>

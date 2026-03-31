@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	v1.0 Chris Hutt 3/2/2005
+-->
+<service-method>
+	<pipeline>
+		<Java>
+			<Source class="uk.gov.dca.caseman.warrant_service.java.InsertWarrantForAeEventCustomProcessor"/>
+		</Java>
+	</pipeline>
+	<Dependencies>
+		<Dependency serviceName="Ae"/>	
+		<Dependency serviceName="CaseEvent"/>	
+		<Dependency serviceName="AeEvent"/>	
+	</Dependencies>			
+	<Security roles="medium high wcSuper scSuper bmsSuper aeSuper dmSuper"/>	
+	<Transaction type="RequiresNew" />
+</service-method>
+

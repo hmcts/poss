@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: Warrant
+	Method:  getNextWarrantNumber()
+	File:    get_next_warrant_number.xml
+	Author:  Chris Vincent
+	Created: 23 May 2013
+	Description: 
+		Returns the next Warrant Number from the database function 'next_warrant_number'
+-->
+<service-method>
+	<pipeline>
+		<SQLLite format-output="true"
+				 resultset-element="ds"
+				 row-element="Warrant"
+				 field-name-as="element" >
+			<DataSource id="java:OracleDS"/>
+			<SQL>
+				SELECT next_warrant_number AS "WarrantNumber" FROM DUAL
+			</SQL>
+		</SQLLite>
+	</pipeline>
+	<Security roles="viewOnly medium high wcSuper scSuper bmsSuper aeSuper dmSuper cpSuper edsAdmin ccbcMan ccbcUser ccbcSGB2"/>
+</service-method>

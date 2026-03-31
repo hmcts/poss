@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>128</Id>
+	<Label>Time remaining</Label>
+	<ObjectName>TimeRemaining</ObjectName>
+	<Html>		
+		<input type="text" id="TimeRemaining" size="5"></input>
+		<select id="TimeRemainingUnits">
+			<option value=""></option>
+			<option value="MIN">Minutes</option>
+			<option value="HR">Hours</option>			
+			<option value="DAYS">Days</option>
+		</select>
+	</Html>
+	<Javascript>
+		<XPath>/ds/EnterVariableData/TrialNotice/timeRemaining</XPath>
+		<HintText>Enter the remaining time (e.g. 6 Hours)</HintText>
+		<isMandatory>return false;</isMandatory>
+		<enableOn>SelectItemLsA.dataBinding</enableOn>
+		<isEnabled>return('STA'==Services.getValue(SelectItemLsA.dataBinding));</isEnabled>
+		<logicOn>SelectItemLsA.dataBinding</logicOn>
+		<logic>
+			if('STA'!=Services.getValue(SelectItemLsA.dataBinding))
+			{	Services.setValue(TimeRemaining.dataBinding,"");
+			}
+		</logic>
+		<validateOn>TimeRemaining.dataBinding</validateOn>
+		<validate>return WPU.validateInteger(Services.getValue(TimeRemaining.dataBinding));</validate>
+		<miscCode>			
+			function TimeRemainingUnits() {}
+			TimeRemainingUnits.dataBinding = "/ds/EnterVariableData/TrialNotice/timeRemainingUnits";
+			TimeRemainingUnits.tabIndex = __tabIdx++;
+			TimeRemainingUnits.helpText = "Select unit time";
+			TimeRemainingUnits.mandatoryOn = [TimeRemaining.dataBinding];
+			TimeRemainingUnits.isMandatory = function()
+			{	var val = Services.getValue(TimeRemaining.dataBinding);
+				return( null != val &amp;&amp; "" != val );
+			}	
+			TimeRemainingUnits.enableOn = [TimeRemaining.dataBinding];
+			TimeRemainingUnits.isEnabled = function(){ return TimeRemaining.isEnabled();}
+			TimeRemainingUnits.isTemporary = function(){  return true; }	
+			TimeRemainingUnits.logicOn = [TimeRemaining.dataBinding];
+			TimeRemainingUnits.logic = function()
+			{	if(!TimeRemaining.isEnabled())
+				Services.setValue(TimeRemainingUnits.dataBinding,"");			
+			}											
+		</miscCode>
+		
+		
+		<Context ScreenId="CJR199">
+			<enableOn>TimeTableAgreed.dataBinding</enableOn>
+			<isEnabled>return('Y' != Services.getValue(TimeTableAgreed.dataBinding));</isEnabled>
+			<logicOn>TimeTableAgreed.dataBinding</logicOn>
+			<logic>
+				if('Y' == Services.getValue(TimeTableAgreed.dataBinding))
+				{	Services.setValue(TimeRemaining.dataBinding, "");
+					Services.setValue(TimeRemainingUnits.dataBinding, "");
+				}
+			</logic>
+			<isMandatory>return true;</isMandatory>
+		</Context>
+	</Javascript>
+</Question>

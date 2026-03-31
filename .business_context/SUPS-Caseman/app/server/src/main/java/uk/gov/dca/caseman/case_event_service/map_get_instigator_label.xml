@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<DBMapDef>
+  <DataSource id="java:OracleDS"/>
+  <Tables>
+    <Table alias="CCBC" name="CCBC_REF_CODES"/>
+  </Tables>  
+  <Mapping>
+     <CaseEvent>
+     	<Instigator>
+	       <Label>${CCBC.RV_MEANING}</Label>
+     	</Instigator>
+     </CaseEvent>
+  </Mapping>
+</DBMapDef>

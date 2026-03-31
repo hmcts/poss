@@ -1,0 +1,96 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3c.org/TR/html4/strict.dtd">
+
+<html>
+
+	<head>
+		<title>AboutCaseman</title>
+	    <link href="AboutCaseman.css" type="text/css" rel="stylesheet">
+		<script type="text/javascript" src="../../Framework.js"></script>
+	    <script type="text/javascript" src="../../CaseManIncludeFiles.js"></script>
+	    <script type="text/javascript" src="AboutCaseman.js"></script>
+	</head>
+	
+	<body>
+	    <form name="AboutCaseman" id="AboutCaseman">
+	
+			<table class="layout">
+	
+				<!-- Header Panel -->
+				<tr>
+					<td>
+	                	<div class="panel">
+							<table class="content">
+							  	<tr>
+									<td>
+										<table>
+											<tr>
+												<td class="defaultLabel"><label for='Header_BuildVersion'>Build Version</label></td>
+												<td><input id="Header_BuildVersion" type="text" size=30 /></td>
+											</tr>
+											<tr>
+												<td class="defaultLabel"><label for='Header_BuildDate'>Build Date</label></td>
+												<td><input id="Header_BuildDate" type="text" size=30 /></td>
+											</tr>
+											<tr>
+												<td class="defaultLabel"><label for='Header_FwkVersion'>Framework Version</label></td>
+												<td><input id="Header_FwkVersion" type="text" size=30 /></td>
+											</tr>
+											<tr>
+												<td class="defaultLabel"><label for='Header_Url'>Db URL</label></td>
+												<td><input id="Header_Url" type="text" size=30 /></td>
+											</tr>
+											<tr>
+												<td class="defaultLabel"><label for='Header_DbUser'>Db User</label></td>
+												<td><input id="Header_DbUser" type="text" size=30 /></td>
+											</tr>
+										</table>
+									</td>
+							</table>
+						</div>	
+					</td>
+				</tr>
+				<!-- End Header Panel -->
+	
+		      	<!-- Main Panel -->
+				<tr>
+					<td>
+						<div class="panel">
+							<table class="content" style="height:465px;">		
+								<tr>
+									<td><label for='Header_DbScriptsListGrid'>History of recorded schema changes made within this Db URL </label></td>
+								</tr>
+								<tr>
+									<td>
+										<!-- Db Script Grid Read only -->
+										<script type="text/javascript">
+											Grid.createInline(
+												"Header_DbScriptsListGrid",								// The HTML id of the grid
+												["Schema", "DateRun", "ScriptName", "ChangeNumber"], 	// An array of strings containing the column headers
+												25,														// The number of rows in the grid
+												1														// The number of rows which are grouped together in coloured stripe.
+											);
+										</script>
+									</td>
+								</tr>
+							</table>
+						</div>
+					</td>
+				</tr>
+	    		<!-- End Main Panel -->
+	
+	    	</table>
+	    	
+	    	<!-- Status Bar Panel -->
+		    <script type="text/javascript">
+			    ActionBarRenderer.createInline(
+				    "status_bar",
+				    [
+					   {id: "Status_Close", label: "Close"}
+				    ]
+			    );
+		    </script>
+		    <!-- End Status Bar Panel -->
+		    
+	    </form>
+	</body>
+</html>

@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: StartOfDay
+	Method:  getAeEventDetails()
+	File:    get_ae_event_details.xml
+	Author:  Kevin Gichohi (EDS)
+	Created: 15 November 2005
+	Description: 
+		Retrives AE event details associcated with a certain event ID from the AE_EVENTS table 
+		
+	Change History:
+	30 May 2006	Chris Hutt	Extended to cover info needed for BMS allocation (TD334)
+	11 Nov 2009	Chris Vincent	Changed query so joins on Case's Owning Court instead of AE's Issuing Court.  Trac 1667.
+-->
+<service-method>
+	<pipeline>
+		<SQLLite format-output="true"
+				 resultset-element="ds"
+				 row-element="AeEventDetails"
+				 field-name-as="element" >
+			<DataSource id="java:OracleDS"/>
+				<Param name="param.eventId" xpath="/params/param[@name='eventId']"/>
+				<Param name="param.courtId" xpath="/params/param[@name='courtId']"/>
+					
+			
+			<SQL>
+
+				SELECT  AE.AE_EVENT_SEQ 	AS "AeEventSeq"
+				,	   	AE.EVENT_DATE	 	AS "EventDate"
+    			,  	   	AE.DATE_ENTERED	 	AS "DateEntered"   
+    			,	   	AE.STD_EVENT_ID   	AS "StandardEventId"  
+    			,	   	AE.CASE_EVENT_SEQ  	AS "CaseEventSeq"  
+    			,		AEA.CASE_NUMBER  	AS "CaseNumber"  
+				FROM 	AE_EVENTS AE
+				,    	AE_APPLICATIONS AEA
+				,		CASES C
+				WHERE 	AE.STD_EVENT_ID  = ${param.eventId}
+				AND 	AE.PROCESS_STAGE = 'AUTO' 
+				AND     AE.AE_NUMBER = AEA.AE_NUMBER
+				AND 	C.CASE_NUMBER = AEA.CASE_NUMBER
+				AND     C.ADMIN_CRT_CODE = ${param.courtId}
+				ORDER BY AE.AE_NUMBER
+				
+			</SQL>
+		</SQLLite>
+	</pipeline>
+	<Security roles="viewOnly medium high wcSuper scSuper bmsSuper aeSuper dmSuper edsAdmin"/>
+	<Transaction type="RequiresNew" />
+</service-method>

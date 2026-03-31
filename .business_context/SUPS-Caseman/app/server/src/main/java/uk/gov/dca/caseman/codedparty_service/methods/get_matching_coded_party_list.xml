@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: Codedparty
+	Method:  getMatchingCodedPartyList()
+	File:    get_matching_coded_party_list.xml
+	Author:  Chris Vincent
+	Created: 15 February 2011
+	Description: 
+		Retrieves a list of Party Ids of Coded Parties owned by a specific court (anything other than
+		a Court Code of 0 or 335 would be a Local Coded Party) that match the name, 5 address lines and
+		postcode passed in as search parameters.  Created as part of Trac 4215.
+-->
+<service-method>
+	<pipeline>
+		<SQLLite format-output="true"
+				 resultset-element="Parties"
+				 row-element="Party"
+				 field-name-as="element" >
+			<DataSource id="java:OracleDS"/>
+			<Param name="param.name" xpath="/params/param[@name = 'name']"/>
+			<Param name="param.addressLine1" xpath="/params/param[@name = 'addressLine1']"/>
+			<Param name="param.addressLine2" xpath="/params/param[@name = 'addressLine2']"/>
+			<Param name="param.addressLine3" xpath="/params/param[@name = 'addressLine3']"/>
+			<Param name="param.addressLine4" xpath="/params/param[@name = 'addressLine4']"/>
+			<Param name="param.addressLine5" xpath="/params/param[@name = 'addressLine5']"/>
+			<Param name="param.postcode" xpath="/params/param[@name = 'postcode']"/>
+			<Param name="param.courtCode" xpath="/params/param[@name = 'courtCode']"/>
+			<SQL>
+				SELECT CP.PARTY_ID AS "PartyId"
+				FROM CODED_PARTIES CP
+				WHERE CP.ADMIN_COURT_CODE = ${param.courtCode}
+				AND CP.PERSON_REQUESTED_NAME = ${param.name}
+				AND CP.ADDRESS_LINE1 = ${param.addressLine1}
+				AND CP.ADDRESS_LINE2 = ${param.addressLine2}
+				AND NVL(CP.ADDRESS_LINE3, '.') = ${param.addressLine3}
+				AND NVL(CP.ADDRESS_LINE4, '.') = ${param.addressLine4}
+				AND NVL(CP.ADDRESS_LINE5, '.') = ${param.addressLine5}
+				AND NVL(CP.POSTCODE, '.') = ${param.postcode}
+			</SQL>
+		</SQLLite>
+	</pipeline>
+	<Security roles="user"/>
+</service-method>

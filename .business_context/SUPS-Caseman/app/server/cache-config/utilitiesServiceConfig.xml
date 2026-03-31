@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<service-config>
+	<service name="Utilities"/>
+	<method name="getCustomers">
+		<get>
+			<HTTPCache expires="endOfDay" />
+		</get>
+	</method>
+	
+	<method name="getTodayDate">
+		<get>
+			<HTTPCache expires="endOfDay" />
+		</get>
+	</method>
+	<method name="getFapId">
+		<get>
+			<HTTPCache expires="endOfDay" />
+		</get>
+	</method>
+	<method name="getUserPrinter">
+		<get>
+			<HTTPCache expires="endOfDay" />
+		</get>
+	</method>
+</service-config>

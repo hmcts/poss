@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	19/12/2006 - CV - Added F6 keybinding to LOV via ApplicationPartiesLOVGrid.raise configuration.
+	Temp_Caseman defects 299/334.
+-->
+<!--Question xmlns="http://eds.com/questionxhtml" xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd"-->
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>Q_ApplicationParties</Id>
+	<Label>Application Parties</Label>
+	<ObjectName>ApplicationParties</ObjectName>
+	<Html>
+		<input id="ApplicationParties" type="text" size="70"></input>
+		<input id="ApplicationPartiesLOVButton" type="Button" value="LOV"/>
+		<script type="text/javascript">
+			LOVPopupRenderer.createInline( "ApplicationPartiesLOVGrid", "Types", ["Value", "Description"], 10, 1, true );
+        </script>
+	</Html>
+	<Javascript>
+		<XPath>/ds/var/page/OracleReportForm/ApplicationParties</XPath>
+		<ReportVariableName>APP_PARTY</ReportVariableName>
+		<ReportVariableValue>Services.getValue(ApplicationParties.dataBinding)</ReportVariableValue>
+		<ReportVariableCode>12238</ReportVariableCode>
+		<HintText>Select the set parties to the application - LOV available</HintText>
+		<mandatoryOn></mandatoryOn>
+		<isMandatory>return true;</isMandatory>
+		<setDefault></setDefault>
+		<validateOn></validateOn>
+		<validate>
+			var description = Services.getValue(REF_DATA_XPATH + "/ApplicationPartiesList/ApplicationParty[./Value = " + ApplicationParties.dataBinding + "]/Description");
+			var valueTest = Services.getValue( REF_DATA_XPATH + "/ApplicationPartiesList/ApplicationParty[./Description = " + ApplicationParties.dataBinding + "]/Value" );
+			if (description == null &amp;&amp; valueTest == null)
+			{
+				// This is not a valid value - see list of Values
+				return ErrorCode.getErrorCode("CaseMan_Reports_Invalid_LOV_Msg");
+			}
+			else
+			{
+				return null;
+			}
+		</validate>
+		<readOnlyOn></readOnlyOn>
+		<isReadOnly></isReadOnly>
+		<maxLength></maxLength>
+		<transformToDisplay>
+			var description = Services.getValue( REF_DATA_XPATH + "/ApplicationPartiesList/ApplicationParty[./Value = " + ApplicationParties.dataBinding + "]/Description" );
+			if (description != null)
+			{
+				return description;
+			}
+			else
+			{
+				return value;
+			}
+		</transformToDisplay>
+		<transformToModel>
+			return (null != value) ? value.toUpperCase() : null;
+		</transformToModel>
+		<initialise>
+			dom = getList("../LOV/ApplicationPartiesList.xml"); 
+			Services.addNode(dom, REF_DATA_XPATH);
+		</initialise>
+		<logicOn></logicOn>
+		<logic></logic>
+		<miscCode>
+			ApplicationParties.componentName =	"Application Parties";
+			ApplicationParties.srcData = 		REF_DATA_XPATH + "/ApplicationPartiesList";
+			ApplicationParties.rowXPath = 		"ApplicationParty";
+			ApplicationParties.keyXPath =		"Value";
+			
+			function ApplicationPartiesLOVButton() {};
+			ApplicationPartiesLOVButton.tabIndex = __tabIdx++;
+			
+			function ApplicationPartiesLOVGrid() {};
+			ApplicationPartiesLOVGrid.dataBinding = ApplicationParties.dataBinding;
+			ApplicationPartiesLOVGrid.srcData = REF_DATA_XPATH + "/ApplicationPartiesList";
+			ApplicationPartiesLOVGrid.rowXPath = "ApplicationParty";
+			ApplicationPartiesLOVGrid.keyXPath = "Value";
+			ApplicationPartiesLOVGrid.columns = [
+				{xpath: "Value"},
+				{xpath: "Description"}
+			];
+			
+			ApplicationPartiesLOVGrid.raise = {
+				eventBinding: {
+					singleClicks: [ {element: "ApplicationPartiesLOVButton"} ],
+					keys: [ { key: Key.F6, element: "ApplicationParties" } ]
+				}
+			};
+		</miscCode>
+		<IsQuestion></IsQuestion>
+	</Javascript>
+</Question>

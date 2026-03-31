@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<service-method>
+	<pipeline>
+		<AsyncCall service="Cases" method="wait">
+			<Destination name="TestQueue"/>
+		</AsyncCall>
+	</pipeline>
+	<Security roles="user"/>
+</service-method>

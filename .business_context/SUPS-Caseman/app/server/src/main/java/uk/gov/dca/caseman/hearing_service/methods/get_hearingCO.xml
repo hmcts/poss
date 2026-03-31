@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: Hearing
+	Method:  getHearingCO()
+	File:    get_hearingCO.xml
+	Author:  Troy Baines
+	Created: 20 November 2004
+	Description: 
+        Retrieves a hearing record for a consolidated order
+-->
+<service-method>
+	<pipeline>
+		<NewQuery>
+			<QueryDef location="uk/gov/dca/caseman/hearing_service/query_def_CO.xml"/>
+			<QueryExtension pivotNode="/ds/MaintainHearing">
+				<Param name="param.coNumber" xpath="/params/param[@name = 'coNumber']"/>
+				<Constraint>CO.CO_NUMBER = ${param.coNumber}</Constraint>
+			</QueryExtension>
+		</NewQuery>
+	</pipeline>
+	<Security roles="medium high wcSuper scSuper bmsSuper aeSuper dmSuper cpSuper"/>
+</service-method>

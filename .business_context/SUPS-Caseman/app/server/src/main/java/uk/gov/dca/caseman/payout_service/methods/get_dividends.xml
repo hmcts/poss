@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: Payout
+	Method:  getDividends()
+	File:    get_dividends.xml
+	Author:  A.Bonnar (EDS)
+	Created: 27-Feb-2006
+	Description: 
+		Method to implement SUPS implementation of the Legacy stored procedure "p_payout_update()".
+-->
+<service-method>
+	<pipeline>
+		<SQLLite format-output="true"
+				 resultset-element="Dividends"
+				 row-element="Dividend"
+				 field-name-as="element" >
+			<DataSource id="java:OracleDS"/>
+			<Param name="param.adminCourtCode" xpath="/params/param[@name='adminCourtCode']"/>
+			<SQL>
+				SELECT DIV.DIV_CO_NUMBER AS "CoNumber"
+				,      DIV.DIV_AMOUNT    AS "Amount"
+				FROM   DIVIDENDS DIV 
+				WHERE  DIV.CREATED = 'N'
+				AND    DIV.DIV_CO_NUMBER IN 
+				(SELECT CO.CO_NUMBER 
+				       FROM   CONSOLIDATED_ORDERS CO
+				       WHERE  CO.ADMIN_COURT_CODE = ${param.adminCourtCode})
+			</SQL>
+		</SQLLite>
+	</pipeline>
+	<Security roles="viewOnly medium high wcSuper scSuper bmsSuper aeSuper dmSuper edsAdmin"/>		
+</service-method>
+
+
+
+

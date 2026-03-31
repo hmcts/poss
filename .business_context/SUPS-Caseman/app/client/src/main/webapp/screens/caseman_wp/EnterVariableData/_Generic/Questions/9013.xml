@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>9013</Id>
+	<Label>Place of meeting line 4</Label>
+	<ObjectName>MeetingAddLn4</ObjectName>
+	<Html>
+		<input id="MeetingAddLn4" type="text" size="50"></input>		
+	</Html>
+	<Javascript>
+    <XPath>/ds/EnterVariableData/Meeting/Address/Line[4]</XPath>
+		<HintText>Enter the fourth line of the Meeting address</HintText>
+        <isMandatory>return false;</isMandatory>
+        <mandatoryOn>MeetingAddLn4.dataBinding</mandatoryOn>
+        <isEnabled>return true;</isEnabled>
+	</Javascript>
+</Question>

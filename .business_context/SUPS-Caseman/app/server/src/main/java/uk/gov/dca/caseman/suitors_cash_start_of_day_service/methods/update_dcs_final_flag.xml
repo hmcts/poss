@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<service-method>
+	<pipeline>
+		<SQLLite>			
+			<DataSource id="java:OracleDS"/>
+			<Param name="param.finalFlag" xpath="/params/param[@name='finalFlag']"/>
+			<Param name="param.reportId" xpath="/params/param[@name='reportId']"/>
+			<Param name="param.courtId" xpath="/params/param[@name='courtId']"/>
+			<SQL type="update" tables="DCS">				
+				UPDATE DCS D
+				SET D.FINAL =  ${param.finalFlag}
+				WHERE D.REPORT_ID = ${param.reportId}	
+				AND D.ADMIN_COURT_CODE = ${param.courtId}
+			</SQL>
+		</SQLLite>
+	</pipeline>	
+	<Security roles="viewOnly medium high wcSuper scSuper bmsSuper aeSuper dmSuper edsAdmin admin cpSuper"/>
+	<Transaction type="RequiresNew" />
+</service-method>

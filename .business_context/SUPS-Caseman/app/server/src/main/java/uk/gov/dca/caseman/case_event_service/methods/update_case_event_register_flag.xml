@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: Co
+	Method:  updateCaseEventRegisterFlag()
+	File:    update_co_fee_amount.xml
+	Author:  Mark Groen (EDS)
+	Created: 20-Apr-2007
+	Description: 
+		Update Case Events Registration Flag
+-->
+<service-method>
+	<pipeline>
+		<SQLLite output="input">
+			<DataSource id="java:OracleDS"/>
+			<Param name="param.eventSeq"       xpath="/params/param[@name='eventSeq']"/>
+			<SQL type="update" tables="CE">
+				UPDATE CASE_EVENTS CE
+		        SET    CE.REGISTER_JUDGMENT = 'N'
+		        WHERE  CE.EVENT_SEQ  = ${param.eventSeq}
+			</SQL>
+		</SQLLite>
+	</pipeline>
+	<Security roles="medium high wcSuper scSuper bmsSuper aeSuper dmSuper"/>		
+</service-method>

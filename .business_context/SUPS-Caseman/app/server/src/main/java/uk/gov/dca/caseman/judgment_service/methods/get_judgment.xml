@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: Judgment
+	Method:  getJudgment()
+	File:    get_Judgment.xml
+	Author:  Troy Baines
+	Created: 20 November 2004
+	Description: 
+       Retrieves a judgment
+
+	CJH 11/04/2006: RemoveOldAddressesCustomProcessor commented out. Address only needed in Word processing so retrieval
+       			of info postponed until save service.
+	Chris Hutt 26/09/2006
+					Address of Party Against at time of Judgment Registration is returned after all.
+					This is by making use of the column JUDGMENTS.AGAINST_PARTY_ADDR_ID_JUDG_SEQ which
+					is maintained by the Polar Lake registration interface.
+-->
+<service-method>
+	<pipeline>
+		<NewQuery>
+			<QueryDef location="uk/gov/dca/caseman/judgment_service/query_def_judgment.xml"/>
+			<QueryExtension pivotNode="/ds/MaintainJudgment">
+				<Param name="param.CaseNumber" xpath="/params/param[@name = 'CaseNumber']"/>
+			</QueryExtension>
+		</NewQuery>
+		<!-- Java callStyle="new">
+			<Source class="uk.gov.dca.caseman.judgment_service.java.RemoveOldAddressesCustomProcessor"/>
+		</Java -->
+	</pipeline>
+	<Security roles="viewOnly medium high wcSuper scSuper bmsSuper aeSuper dmSuper cpSuper ccbcMan ccbcUser ccbcSGB2"/>
+</service-method>

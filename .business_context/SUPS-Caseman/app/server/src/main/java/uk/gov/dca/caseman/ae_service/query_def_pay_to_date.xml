@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<QueryDef>
+	<DBMapDef location="uk/gov/dca/caseman/ae_service/map_pay_to_date.xml" />
+	<Query pivotNode="/PayToDate" tables="P">
+		<SQL type="select">
+			SELECT SUM(AMOUNT) AS "TOTAL" FROM PAYMENTS P
+			WHERE P.SUBJECT_NO = ${param.aeNumber}
+			AND P.PAYMENT_FOR = 'AE'
+			AND P.ERROR_INDICATOR != 'Y'
+			AND P.RD_DATE IS NULL
+		</SQL>
+		<Modify notModifiable="true"/>
+	</Query>
+</QueryDef>

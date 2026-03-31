@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>817</Id>
+	<Label>Date suspended until</Label>
+	<ObjectName>DateSuspendedUntil</ObjectName>
+	<Html>
+		<script type="text/javascript">WP_DatePickerRenderer.createInline("DateSuspendedUntil", false);</script>
+	</Html>
+	<Javascript>
+		<XPath>/ds/EnterVariableData/DateSuspendedUntil</XPath>
+		<componentName>##label##</componentName>
+		<HintText>Select the date the Order is suspended until in format DD-MMM-YYYY</HintText>
+		<isMandatory>return true;</isMandatory>
+		<mandatoryOn>DateSuspendedUntil.dataBinding</mandatoryOn>
+		<validateOn>DateSuspendedUntil.dataBinding</validateOn>
+		<validate>
+			var dateSU = Services.getValue(DateSuspendedUntil.dataBinding);
+			var err = null;
+			if(false == isFutureDate(dateSU))
+			{err = ErrorCode.getErrorCode("CaseMan_dateCannotBeInThePast_Msg");
+			}
+			return err;
+		</validate>
+	</Javascript>
+</Question>

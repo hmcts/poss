@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<DBMapDef>
+  <DataSource id="java:OracleDS"/>
+  <Tables>
+    <Table alias="AE"  name="AE_EVENTS"/>
+    <Table alias="AEA" name="AE_APPLICATIONS"/>
+  </Tables>  
+  <Mapping>
+	  <ManageAEEvents>
+	  	<AENumber>${AEA.AE_NUMBER}</AENumber>
+	  	<CaseNumber></CaseNumber>
+		<OwningCourtCode></OwningCourtCode>
+		<PartyAgainst>
+			<PartyRoleCode></PartyRoleCode>
+			<CasePartyNumber></CasePartyNumber>
+		</PartyAgainst>
+		<PERNDRDetails>
+			<PERRateExists/>
+			<PERRateCurrency>${AEA.AMOUNT_OF_AE_CURRENCY}</PERRateCurrency>
+			<PERRate>${AEA.PROTECTED_EARNINGS_RATE}</PERRate>
+			<PERPeriod>${AEA.PROTECTED_EARNINGS_PERIOD}</PERPeriod>
+			<NDRRateCurrency>${AEA.AMOUNT_OF_AE_CURRENCY}</NDRRateCurrency>
+			<NDRRate>${AEA.NORMAL_DEDUCTION_RATE}</NDRRate>
+			<NDRPeriod>${AEA.NORMAL_DEDUCTION_PERIOD}</NDRPeriod>
+		</PERNDRDetails>
+		<AEEvents>
+			<AEEvent>
+				<AEEventSeq>${AE.AE_EVENT_SEQ}</AEEventSeq>
+				<AENumber>${AE.AE_NUMBER}</AENumber>
+				<StandardEventId>${AE.STD_EVENT_ID}</StandardEventId>
+				<StandardEventDescription></StandardEventDescription>
+				<EventDetails>${AE.DETAILS}</EventDetails>
+				<EventDate>${AE.EVENT_DATE}</EventDate>
+				<UserName>${AE.USERNAME}</UserName>
+				<ReceiptDate>${AE.DATE_ENTERED}</ReceiptDate>
+				<Stage>${AE.ISSUE_STAGE}</Stage>
+				<Service>${AE.SERVICE_STATUS}</Service>
+				<BailiffId>${AE.BAILIFF_IDENTIFIER}</BailiffId>
+				<ServiceDate>${AE.SERVICE_DATE}</ServiceDate>
+				<ErrorInd>${AE.ERROR_INDICATOR}</ErrorInd>
+				<Status></Status>
+			</AEEvent>
+		</AEEvents>
+	  </ManageAEEvents>
+  </Mapping>
+</DBMapDef>

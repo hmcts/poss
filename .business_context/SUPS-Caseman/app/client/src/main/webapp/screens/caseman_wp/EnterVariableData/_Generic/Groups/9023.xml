@@ -1,0 +1,34 @@
+<Group id="9023">
+	<ServicesRequired />		
+	<Protocols>
+		<OnSave>
+			<function>setAEJudgmentCreditor</function>
+		</OnSave>
+	</Protocols>
+	<JavaScript>	
+		
+function setAEJudgmentCreditor() 
+{  	
+	var partyforRoleCode = WPU.getValue("//AE/AEApplication/PartyForPartyRoleCode");
+	if( null != partyforRoleCode &amp;&amp; partyforRoleCode.length > 0 )
+	{
+		var partyforCPN = WPU.getValue("//AE/AEApplication/PartyForCasePartyNumber");
+		var partyforRC = WPU.getValue("//AE/AEApplication/PartyForPartyRoleCode");
+		var partyIdStrg = partyforRoleCode + "_" + partyforCPN;
+		var partyid = Services.getValue("//ReferenceData/Parties/LitigiousParty[./SurrogateId='"+partyIdStrg+"']/PartyId");
+		
+		var subjNoNode = WPU.getNode(WPU.NODE_XPATHS['SubjectCasePartyNumber']);
+		var subjRoleNode = WPU.getNode(WPU.NODE_XPATHS['SubjectPartyRoleCode']);
+		
+		XML.replaceNodeTextContent(subjNoNode, partyforCPN);
+		XML.replaceNodeTextContent(subjRoleNode, partyforRC);
+		
+		Services.setValue("/ds/EnterVariableData/aejudgmentcreditorpid", partyid);	
+	}
+	// Call Save_All() from here to cause the screen to save the variable data
+	// and exit the step we are currently in. Without this the user has to click
+	// the save button twice. 
+	Save_All();
+}
+	</JavaScript>
+</Group>

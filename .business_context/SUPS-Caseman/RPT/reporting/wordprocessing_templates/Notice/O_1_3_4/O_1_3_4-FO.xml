@@ -1,0 +1,246 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:fo="http://www.w3.org/1999/XSL/Format" xmlns="http://eds.com/supsfo">
+	<variables>@word.processing.url.xsl@supsfo.xsl</variables>
+	<addressee>
+		<blank />
+		<!-- No subject as this output will be sent to all warrant parties (1 Party For and 2 Parties Against)-->
+		<!-- <subject /> -->
+		<warrantPartyFor />
+		<warrantPartiesAgainst />
+	</addressee>
+	<header>
+		<fo:block font-size="16pt" font-weight="bold" text-align="left">Order Suspending Warrant
+			<xsl:choose>
+				<xsl:when test="$vdWarrantSuspended='Y'">
+					(determination)
+				</xsl:when>
+				<xsl:otherwise>
+					/Judgment
+				</xsl:otherwise>
+			</xsl:choose>
+		</fo:block>
+	</header>
+	<courtcase>
+		<court>
+			<xsl:copy-of select="$vdWarrantCourtHeaderBlock"/>
+		</court>
+		<caseparameters>
+			<parameter>
+				<name>
+					<fo:block font-weight="bold">Case Number</fo:block>
+				</name>
+				<value>
+					<fo:block>
+						<xsl:value-of select="$vdWarrantCaseNumber"/>
+					</fo:block>
+				</value>
+			</parameter>
+			<parameter>
+				<name>
+					<fo:block font-weight="bold">Warrant Number</fo:block>
+				</name>
+				<value>
+					<fo:block>
+						<xsl:value-of select="$vdWarrantNumber"/>
+					</fo:block>
+				</value>
+			</parameter>
+			<parameter>
+				<name>
+					<fo:block font-weight="bold">Local Number</fo:block>
+				</name>
+				<value>
+					<fo:block>
+						<xsl:value-of select="$vdWarrantLocalNumber"/>
+					</fo:block>
+				</value>
+			</parameter>
+			<parameter>
+				<name>
+					<fo:block font-weight="bold">Creditor</fo:block>
+					<fo:block font-size="9pt">(including ref.)</fo:block>
+				</name>
+				<value>
+					<fo:block hyphenate="true">
+						<xsl:value-of select="$vdPartyForName"/>
+					</fo:block>
+					<fo:block font-size="9pt" hyphenate="true">
+						<xsl:value-of select="$vdPartyForReference"/>
+					</fo:block>
+				</value>
+			</parameter>
+			<parameter>
+				<name>
+					<fo:block font-weight="bold">Debtor</fo:block>
+					<fo:block font-size="9pt">(including ref.)</fo:block>
+				</name>
+				<value>
+					<fo:block hyphenate="true">
+						<xsl:value-of select="$vdPartyAgainstName"/>
+					</fo:block>
+					<fo:block font-size="9pt" hyphenate="true">
+						<xsl:value-of select="$vdPartyAgainstReference"/>
+					</fo:block>
+				</value>
+			</parameter>
+		</caseparameters>
+	</courtcase>
+	<bodyintroright><fo:block text-align="center"><seal/></fo:block></bodyintroright>
+	
+	<body>
+		<editable useid="N100CC">
+		<fo:block space-after="0.4cm" font-weight="bold">
+			On the application of the <xsl:value-of select="$vdJudgmentPartyType"/>
+		</fo:block>
+		<fo:block space-after="0.4cm">
+			<xsl:choose>
+				<xsl:when test="$vdWarrantSuspended='Y'">
+					<fo:inline font-weight="bold">And the court</fo:inline> having considered the papers received from the 
+					parties and being satisfied that the Debtor is unable to pay and discharge
+					the sum payable by him in this action (or the instalments due under the judgment order in this action).
+				</xsl:when>
+				<xsl:otherwise>
+					<fo:inline font-weight="bold">And the court being satisfied</fo:inline> that the Debtor 
+					is unable to pay and discharge the sum payable by him in this action (or the instalments due under 
+					the judgment or order in this action).
+				</xsl:otherwise>
+			</xsl:choose>									
+		</fo:block>
+		<fo:block space-after="0.4cm">
+			<fo:inline font-weight="bold">It is ordered that</fo:inline> the warrant of control issued in this action be suspended
+			for so long as the Debtor do pay the Creditor the outstanding sum of £<cursor text="Enter Oustanding Amount here."/>
+			<xsl:choose>
+			<xsl:when test="$vdInstalmentAmount > 0">
+				by instalments of &#163;<xsl:value-of select="$vdInstalmentAmount" /> 
+				<xsl:if test="$vdInstalmentPeriodValue = 'month'"> for every calendar month</xsl:if>
+				<xsl:if test="$vdInstalmentPeriodValue = 'fortnight'"> every fortnight</xsl:if>
+				<xsl:if test="$vdInstalmentPeriodValue = 'week'"> every week</xsl:if>, the first instalment to reach the Creditor by <xsl:value-of select="$vdPaymentDate" />
+				<xsl:if test="string-length($vdDayOfMonthDue) > 0">
+					and further payments to reach the Creditor by the <xsl:value-of select="$vdDayOfMonthDue" /> day of each month						
+				</xsl:if>
+			</xsl:when>
+			<xsl:otherwise>
+				by <xsl:value-of select="$vdPaymentDate" /> 
+			</xsl:otherwise>
+			</xsl:choose>.
+		</fo:block>
+
+		<fo:block>
+			<xsl:if test="string-length($vdWarrantLocalNumber) > 0 ">
+				<xsl:choose>
+					<xsl:when test="$vdWarrantSuspended='Y'">
+						The warrant will be returned to <xsl:value-of select="$vdWarrantIssueCourtNameDescription" /> after 16 days. After that date
+						any further correspondence should be sent there, quoting the court case number.
+					</xsl:when>
+					<xsl:otherwise>
+						The warrant has been returned to <xsl:value-of select="$vdWarrantIssueCourtNameDescription" />. Any further correspondence should
+						be sent there, quoting the court case number.
+					</xsl:otherwise>
+				</xsl:choose>				
+			</xsl:if>									
+		</fo:block>
+		<fo:block text-align="right">Date <xsl:value-of select="$vdOrderDate"/></fo:block>
+		</editable>
+	</body>
+
+	<footnote noteextent="7.2">
+		<fo:block space-after="0.1cm" font-family="Times" text-align="justify">
+			<fo:table table-layout="fixed" width="100%">
+			<fo:table-column column-width="9.5cm"></fo:table-column>
+			<fo:table-column column-width="9.5cm"></fo:table-column>
+			<fo:table-body>
+				<fo:table-row keep-with-next="always">
+					<fo:table-cell number-columns-spanned="2" padding-left="0.1cm" border-left-style="solid" border-left-width="0.02cm" border-right-style="solid" border-right-width="0.02cm" border-top-style="solid" border-top-width="0.02cm">
+						<fo:block font-size="10pt" font-weight="bold" text-align="center">Take Notice</fo:block>
+					</fo:table-cell>
+				</fo:table-row>
+				<fo:table-row keep-with-next="always">
+					<fo:table-cell height="2cm" number-columns-spanned="2" padding-left="0.1cm" padding-right="0.1cm" border-left-style="solid" border-left-width="0.02cm" border-right-style="solid" border-right-width="0.02cm">
+							<xsl:if test="$vdWarrantSuspended='Y'">
+								<fo:block font-size="8pt" font-weight="normal" space-before="0.1cm">
+									<fo:inline font-weight="bold">If you (either the Creditor or Debtor) object</fo:inline> to the 
+									payment rate fixed by the court, you must write to the court with your reasons. You have
+									16 days from the date of the postmark to do this. A hearing will be arranged and both parties
+									will be told when to come to the court. 
+								</fo:block>
+							</xsl:if>
+							<fo:block font-size="8pt" font-weight="bold" space-before="0.1cm" space-after="0.1cm">
+								To the Debtor 
+							</fo:block>
+							<fo:block font-size="8pt" font-weight="normal" space-after="0.2cm">
+								If you do not pay in accordance with this order, the warrant may be reissued or other enforcement proceedings may be taken 
+								against you. If your circumstances change and you cannot pay, ask at the Court office about what you can do.
+							</fo:block>
+					</fo:table-cell>
+				</fo:table-row>
+
+				<fo:table-row keep-with-next="always">
+					<fo:table-cell border-left-style="solid" border-left-width="0.02cm">
+						<fo:block font-weight="bold" font-size="10pt" text-align="center">Address for Payment</fo:block>
+					</fo:table-cell>
+					<fo:table-cell border-right-style="solid" border-right-width="0.02cm">
+						<fo:block font-weight="bold" font-size="10pt" text-align="center">How to Pay</fo:block>
+					</fo:table-cell>
+				</fo:table-row>
+				
+				<fo:table-row keep-with-next="always">
+					<fo:table-cell border-top-style="solid" border-top-width="0.02cm"  border-left-style="solid" border-left-width="0.02cm"
+						border-right-style="solid" border-right-width="0.02cm" border-bottom-style="solid" border-bottom-width="0.02cm">
+						
+						<address suppressborder="true">
+							<xsl:call-template name="payeePartyFor"/>
+						</address>
+						
+					</fo:table-cell>
+					<fo:table-cell padding-left="0.1cm" border-right-style="solid" border-right-width="0.02cm" border-bottom-style="solid" border-bottom-width="0.02cm">
+							
+							<fo:table table-layout="fixed">
+								<fo:table-column column-width="9.0cm"/>
+								<fo:table-body>
+									<fo:table-row>
+										<fo:table-cell>
+											<list type="bullet">
+												<list-item>
+													<fo:block font-size="8pt">
+														PAYMENT(S) MUST BE MADE to the person named at the address for payment quoting their reference and the court case number.
+													</fo:block>
+												</list-item>
+												<list-item>
+													<fo:block font-size="8pt" font-weight="bold">
+														DO NOT bring or send payments to the court. THEY WILL NOT BE ACCEPTED.
+													</fo:block>
+												</list-item>
+												<list-item>
+													<fo:block font-size="8pt">
+														You should allow <fo:inline text-decoration="underline">at least</fo:inline> 4 days for your payment to reach the Creditor or his representative.
+													</fo:block>
+												</list-item>
+												<list-item>
+													<fo:block font-size="8pt">
+														Make sure that you keep records and can account for all payments made. Proof may be required if there is any disagreement. It is not safe to send cash unless you use registered post.
+													</fo:block>
+												</list-item>
+													<list-item>
+													<fo:block font-size="8pt">
+														A leaflet giving further advice about payment can be obtained from the court.
+													</fo:block>
+												</list-item>
+												<list-item>
+													<fo:block font-size="8pt">
+														If you need more information you should contact the Creditor or his representative.
+													</fo:block>
+												</list-item>
+											</list>									
+										</fo:table-cell>
+									</fo:table-row>
+								</fo:table-body>									
+							</fo:table>
+						
+					</fo:table-cell>
+					</fo:table-row>
+				</fo:table-body>
+			</fo:table>	
+		</fo:block>
+	</footnote>
+	<defaultFooter id="O_1_3_4"/>
+</root>

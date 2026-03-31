@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: NonWorkingDay
+	Method:  getNonWorkingDays()
+	File:    get_non_working_days.xml
+	Author:  
+	Created: 
+	Description: 
+        List of public holidays
+-->
+<service-method>
+	<pipeline>
+		<Query>
+  			<QueryDef location="uk/gov/dca/caseman/non_working_day_service/query_def.xml"/>
+  				<QueryExtension pivotNode="/NonWorkingDays/NonWorkingDay">
+   					<Constraint>NWD.ERROR_INDICATOR = 'N'</Constraint>
+  				</QueryExtension>
+  		</Query>
+  	</pipeline>
+	<Security roles="viewOnly medium high wcSuper scSuper bmsSuper aeSuper dmSuper cpSuper ccbcMan ccbcUser ccbcSGB2"/>
+</service-method>

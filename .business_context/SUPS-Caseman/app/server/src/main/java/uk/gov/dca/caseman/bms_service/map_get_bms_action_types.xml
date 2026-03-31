@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<DBMapDef>
+	<DataSource id="java:OracleDS"/>
+	<Tables>
+		<Table alias="A" name="ACTION_TASK_XREF"/>
+	</Tables>
+	<Mapping>
+		<ds>
+			<Action>
+				<ActionTypes>
+					<ActionType>${A.ACTION_ID}</ActionType>
+					<BmsType>${A.TASK_NUMBER}</BmsType>
+				</ActionTypes>
+			</Action>
+		</ds>
+	</Mapping>
+</DBMapDef>

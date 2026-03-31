@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: Payments
+	Method: checkPayoutExists()
+	File: query_def_check_payout_exists.xml
+	Author: Steve Blair
+-->
+<QueryDef>
+	<DBMapDef location="uk/gov/dca/caseman/payments_service/map_check_payout_exists.xml" />
+	<Query pivotNode="/PayoutExists" tables="PO POI">
+		<SQL type="select">
+			SELECT	MAX(RESULT) + 1 AS "PAYOUT_EXISTS"
+			FROM	(
+							SELECT	COUNT(POI.PO_NUMBER) AS "RESULT"
+							FROM	PAYABLE_ORDER_ITEMS POI
+							WHERE	POI.TRANSACTION_NUMBER = ${param.transactionNumber} AND
+										POI.ADMIN_COURT_CODE = ${param.courtCode} AND
+										ROWNUM = 1
+							UNION
+							SELECT	COUNT(PO.PO_NUMBER) * 2 AS "RESULT"
+							FROM	PAYABLE_ORDER_ITEMS POI,
+										PAYABLE_ORDERS PO
+							WHERE	POI.TRANSACTION_NUMBER = ${param.transactionNumber} AND
+										POI.ADMIN_COURT_CODE = ${param.courtCode} AND
+										PO.PO_NUMBER = POI.PO_NUMBER AND
+										PO.CHECK_DIGIT IS NOT NULL AND
+										ROWNUM = 1
+						)
+		</SQL>
+		<Modify notModifiable="true" />
+	</Query>
+</QueryDef>

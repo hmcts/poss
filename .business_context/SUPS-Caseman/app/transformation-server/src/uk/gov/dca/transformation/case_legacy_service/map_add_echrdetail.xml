@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<DBMapDef>
+	<DataSource id="java:OracleDS"/>
+	<Tables>
+		<Table alias="ED" name="ECHR_DETAILS"/>
+	</Tables>
+	<Mapping>
+		<ECHRDetails>
+			<ECHRDetail>
+				<DeftCaseNo>${ED.DEFT_CASE_NUMBER}</DeftCaseNo>
+				<EventSeq>${ED.EVENT_SEQ}</EventSeq>
+				<PltfCode>${ED.PLTF_CODE}</PltfCode>
+				<PltfDetails>${ED.PLAINTIFF_DETAILS_1}</PltfDetails>
+				<EventDate>${ED.EVENT_DATE}</EventDate>
+				<ApplicationDate>${ED.DATE_OF_APPLN}</ApplicationDate>
+				<UserName>${ED.USERNAME}</UserName>
+				<JudgeName>${ED.JUDGE_NAME}</JudgeName>
+				<ApplicationOutcome>${ED.OUTCOME_OF_APPLN}</ApplicationOutcome>
+				<Deleted>${ED.DELETED_FLAG}</Deleted>
+				<ApplicationPartyMade>${ED.PARTY_MADE_APPLN}</ApplicationPartyMade>
+				<PartyName>${ED.NAME_OF_PARTY}</PartyName>
+			</ECHRDetail>
+		</ECHRDetails>
+	</Mapping>
+</DBMapDef> 	

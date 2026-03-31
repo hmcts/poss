@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- 
+Change History:
+30-Aug-2006 (Chris Vincent) - Removed SQL insert statement from service as we had a problem
+			with the TO_DATE accepting unrealistic (but valid) dates beyond 2099.  Forms part of
+			defect 4778.
+-->
+<QueryDef>
+	<DBMapDef location="uk/gov/dca/caseman/obligation_service/map_add_ae_obligation.xml"/>
+	<Query pivotNode="/ds/MaintainObligations/Obligations/Obligation" tables="C AE OT O">
+		<Modify>
+			<CheckExists table="C" fields="CASE_NUMBER" onExist="skip" onNotExist="fail"/>
+			<Field name="C.CASE_NUMBER" property="O.CASE_NUMBER"/>
+			<CheckExists table="AE" fields="AE_EVENT_SEQ" onExist="skip" onNotExist="fail"/>
+			<Field name="AE.AE_EVENT_SEQ" property="O.AE_EVENT_SEQ"/>
+			<CheckExists table="OT" fields="OBLIGATION_TYPE" onExist="skip" onNotExist="fail"/>
+			<Field name="OT.OBLIGATION_TYPE" property="o.obligation_type"/>
+			<CheckExists table="O" fields="CASE_NUMBER OBLIGATION_SEQ"/>
+			<Field name="O.DELETE_FLAG" value="N"/>
+		</Modify>
+	</Query>
+</QueryDef>

@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: Co
+	Method:  getDebtStatus
+	Author:  Chris Hutt (EDS) 
+	Created: 19 July 2005
+	Description: 
+		Use SQLLite to retrieve status' of individual debts associated with a
+                consolidated order 
+	Amended:24 November 2005
+	Amended By: MGG
+	Description: 
+		Added roles to security tag
+-->
+<service-method>
+	<pipeline>
+		<SQLLite format-output="true"
+				 resultset-element="Debts"
+				 row-element="Debt"
+				 field-name-as="element" >
+			<DataSource id="java:OracleDS"/>
+			<Param name="param.coNumber" xpath="/params/param[@name='coNumber']"/>
+			<SQL>
+				SELECT  
+						AD.DEBT_STATUS AS "Status"
+				FROM 	ALLOWED_DEBTS AD
+				WHERE 	AD.DEBT_CO_NUMBER = ${param.coNumber}
+			</SQL>
+		</SQLLite>
+  	</pipeline>
+	<Security roles="viewOnly medium high wcSuper scSuper bmsSuper aeSuper dmSuper"/>
+</service-method>
+
+

@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: Codedparty
+	Method:  addNatCodedParty()
+	File:    query_def_update_nat_coded_party.xml
+	Author:  Phil Haferer
+	Created: 30 November 2005
+	Description: 
+		Persists a National Coded Party.
+
+	Change History:
+	04-Apr-2006 Phil Haferer: TD 3217: "Problems with National Coded Parties created without a Payee"
+	            Removed the tags <CPPivot> and <P2PPivot> as no longer needed - as the order
+	            of table inserts can controlled by the order of the table alias named in the pivot node.
+	04-Apr-2006 Phil Haferer: TD 3273: "Coded Parties: PARTY_TYPE_CODE not populated."
+	            Added Field tags to populate the PARTY_TYPE_CODE column.
+	12-Jul-2006 Phil Haferer: Added Field tags to populate CODED_PARTIES name and address columns.
+	            (TD 3949: Performance: Wildcard search on Coded Party name).
+	03-Aug-2006 Phil Haferer: Changed value of P2P.PARTY_A_ROLE_CODE Field from NCP to SOLICITOR in the 
+	            pivot node /CodedParty/Payee.
+	            Also, changed value of NP.PARTY_TYPE_CODE Field from NCP to SOLICITOR in the 
+	            pivot node /CodedParty.
+	            (TD CASEMAN 4133: CCBC: Change Role Type from NCP to SOLICITOR).
+	04-Jan-2007 Phil Haferer: 
+                Added the pivot nodes "/CodedParty/DefaultClaimant" and "/CodedParty/DefaultClaimant/ContactDetails/Address"
+                to persist the Default Claimant for the CCBC National Coded Party.
+                (TD Group2 3557: "Maintain National Coded Parties - Default Claimant not being stored on database").
+-->
+<QueryDef>
+	<DBMapDef location="uk/gov/dca/caseman/codedparty_service/map_update_nat_coded_party.xml"/>
+	<Query pivotNode="/CodedParty" tables="NP CP">
+		<Join/>
+		<Modify>
+        	<!-- PARTIES: For National Coded Party -->
+			<CheckExists table="NP" fields="PARTY_ID" onNotExist="add" onExist="update"/>
+			<Field name="NP.PARTY_ID" sequenceTable="PARTIES_SEQUENCE"/>
+    		<Field name="NP.PARTY_TYPE_CODE" value="SOLICITOR"/>
+			
+	        <!-- CODED_PARTIES: For National Coded Party -->
+	        <!-- Note: The order of the table aliases in this pivot nodes 'tables' attribute  
+	                   is significant, as it specifies that CODED_PARTIES row insert happens
+	                   after the PARTIES when new PARTY_ID primary is available. -->
+		    <CheckExists table="CP" fields="CODE ADMIN_COURT_CODE" onNotExist="add" onExist="update"/>
+			<Field name="CP.CODE"                  xpath="Code"/>
+			<Field name="CP.ADMIN_COURT_CODE"      xpath="CourtCode"/>
+			<Field name="CP.PARTY_ID"              property="NP.PARTY_ID"/>
+            <Field name="CP.PERSON_REQUESTED_NAME" xpath="Name"/>
+            <Field name="CP.ADDRESS_LINE1"         xpath="ContactDetails/Address/Line[1]"/>
+            <Field name="CP.ADDRESS_LINE2"         xpath="ContactDetails/Address/Line[2]"/>
+            <Field name="CP.ADDRESS_LINE3"         xpath="ContactDetails/Address/Line[3]"/>
+            <Field name="CP.ADDRESS_LINE4"         xpath="ContactDetails/Address/Line[4]"/>
+            <Field name="CP.ADDRESS_LINE5"         xpath="ContactDetails/Address/Line[5]"/>
+            <Field name="CP.POSTCODE"              xpath="ContactDetails/Address/PostCode"/>							
+		</Modify>
+	</Query>
+	<Query pivotNode="/CodedParty/ContactDetails/Address" tables="NGA">
+		<Join/>
+		<Modify>
+        	<!-- GIVEN_ADDRESSES: For National Coded Party -->
+			<CheckExists table="NGA" fields="address_id" onNotExist="add" onExist="update"/>		
+			<Field name="NGA.ADDRESS_ID"        sequenceTable="ADDR_SEQUENCE"/>
+			<Field name="NGA.PARTY_ID"          property="NP.PARTY_ID"/>
+			<Field name="NGA.ADDRESS_TYPE_CODE" value="CODED PARTY"/>
+		</Modify>
+	</Query>
+	<Query pivotNode="/CodedParty/CCBCDetails" tables="NCP">
+		<Join/>
+		<Modify>
+        	<!-- NATIONAL_CODED_PARTIES: For CCBC National Coded Party -->
+			<CheckExists table="NCP" fields="CODE" onNotExist="add" onExist="update"/>		
+			<Field name="NCP.CODE"             xpath="../Code"/>
+			<Field name="NCP.ADMIN_COURT_CODE" xpath="../CourtCode"/>
+			<Field name="NCP.GIRO_JUDGMENTS"   value="N"/>
+		</Modify>
+	</Query>
+	<Query pivotNode="/CodedParty/Payee" tables="PP P2P">
+		<Join/>
+		<Modify>
+        	<!-- PARTIES: For Payee of CCBC National Coded Party -->
+			<CheckExists table="PP" fields="PARTY_ID" onNotExist="add" onExist="update"/>
+			<Field name="PP.PARTY_ID" sequenceTable="PARTIES_SEQUENCE"/>
+    		<Field name="PP.PARTY_TYPE_CODE" value="NCP PAYEE"/>
+
+        	<!-- PARTY_TO_PARTY_RELATIONSHIP: Linking Payee of CCBC National Coded Party to the National Coded Party. -->
+			<CheckExists table="P2P" fields="PARTY_A_ID PARTY_B_ID PARTY_A_ROLE_CODE PARTY_B_ROLE_CODE" 
+			             onNotExist="add" onExist="skip"/>
+			<Field name="P2P.PARTY_A_ID"        property="NP.PARTY_ID"/>
+			<Field name="P2P.PARTY_B_ID"        property="PP.PARTY_ID"/>
+			<Field name="P2P.PARTY_A_ROLE_CODE" value="SOLICITOR"/>
+			<Field name="P2P.PARTY_B_ROLE_CODE" value="NCP PAYEE"/>
+		</Modify>
+	</Query>
+	<Query pivotNode="/CodedParty/Payee/BankDetails" tables="PY">
+		<Join/>
+		<Modify>
+        	<!-- PAYEES: For Payee of CCBC National Coded Party -->
+			<CheckExists table="PY" fields="PARTY_ID" onNotExist="add" onExist="update"/>
+			<Field name="PY.PARTY_ID" property="PP.PARTY_ID"/>
+		</Modify>
+	</Query>
+	<Query pivotNode="/CodedParty/Payee/ContactDetails/Address" tables="PGA">
+		<Join/>
+		<Modify>
+        	<!-- GIVEN_ADDRESSES: For Payee of CCBC National Coded Party -->
+			<CheckExists table="PGA" fields="ADDRESS_ID" onNotExist="add" onExist="update"/>		
+			<Field name="PGA.ADDRESS_ID"        sequenceTable="ADDR_SEQUENCE"/>
+			<Field name="PGA.PARTY_ID"          property="PP.PARTY_ID"/>
+			<Field name="PGA.ADDRESS_TYPE_CODE" value="NCP PAYEE"/>
+			<Field name="PGA.REFERENCE"         xpath="../../Reference"/>
+		</Modify>
+	</Query>
+	<Query pivotNode="/CodedParty/DefaultClaimant" tables="CLP CLP2P">
+		<Join/>
+		<Modify>
+        	<!-- PARTIES: For Default Claimant of CCBC National Coded Party -->
+			<CheckExists table="CLP" fields="PARTY_ID" onNotExist="add" onExist="update"/>
+			<Field name="CLP.PARTY_ID" sequenceTable="PARTIES_SEQUENCE"/>
+    		<Field name="CLP.PARTY_TYPE_CODE" value="CLAIMANT"/>
+
+        	<!-- PARTY_TO_PARTY_RELATIONSHIP: Linking Default Claimant of CCBC National Coded Party 
+                 to the National Coded Party. -->
+			<CheckExists table="CLP2P" fields="PARTY_A_ID PARTY_B_ID PARTY_A_ROLE_CODE PARTY_B_ROLE_CODE" 
+			             onNotExist="add" onExist="skip"/>
+			<Field name="CLP2P.PARTY_A_ID"        property="NP.PARTY_ID"/>
+			<Field name="CLP2P.PARTY_B_ID"        property="CLP.PARTY_ID"/>
+			<Field name="CLP2P.PARTY_A_ROLE_CODE" value="SOLICITOR"/>
+			<Field name="CLP2P.PARTY_B_ROLE_CODE" value="CLAIMANT"/>
+		</Modify>
+	</Query>
+	<Query pivotNode="/CodedParty/DefaultClaimant/ContactDetails/Address" tables="CLGA">
+		<Join/>
+		<Modify>
+        	<!-- GIVEN_ADDRESSES: For Default Claimant of CCBC National Coded Party -->
+			<CheckExists table="CLGA" fields="ADDRESS_ID" onNotExist="add" onExist="update"/>		
+			<Field name="CLGA.ADDRESS_ID"        sequenceTable="ADDR_SEQUENCE"/>
+			<Field name="CLGA.PARTY_ID"          property="CLP.PARTY_ID"/>
+			<Field name="CLGA.ADDRESS_TYPE_CODE" value="SERVICE"/>
+		</Modify>
+	</Query>
+</QueryDef>

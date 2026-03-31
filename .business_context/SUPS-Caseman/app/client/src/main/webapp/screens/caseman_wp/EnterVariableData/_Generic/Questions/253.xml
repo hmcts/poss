@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>253</Id>
+	<Label>Direction on Experts Questions?</Label>
+	<ObjectName>ExpertsQDirections</ObjectName>
+	<Html>	
+		<input type="checkbox" id="ExpertsQDirections"></input>
+	</Html>
+	<Javascript>
+		<XPath>/ds/EnterVariableData/FastTrack/expertsQDirections</XPath>
+		<HintText>Check box if there is Direction on experts questions </HintText>
+		<isMandatory>return true;</isMandatory>	
+		<modelValue>checked: "Y", unchecked: "N"</modelValue>
+		<enableOn>ExchangeReports.dataBinding</enableOn>	
+		<isEnabled>return('Y' == Services.getValue(ExchangeReports.dataBinding));</isEnabled>
+		<logicOn>ExchangeReports.dataBinding</logicOn>
+		<logic>
+			if('Y' != Services.getValue(ExchangeReports.dataBinding))
+			{	Services.setValue(ExpertsQDirections.dataBinding, "N");
+			}
+		</logic>
+	
+		<Context ScreenId="CJR020">
+			<enableOn>ExchangeReports.dataBinding, ExpertRefused.dataBinding</enableOn>
+			<isEnabled>
+				if( 'Y' == Services.getValue(ExpertRefused.dataBinding))
+				{	return true;
+				}
+				else if('Y' == Services.getValue(ExchangeReports.dataBinding))
+				{	return true;
+				}
+				return false;
+			</isEnabled>
+			<logicOn>ExchangeReports.dataBinding, ExpertRefused.dataBinding</logicOn>
+			<logic>
+				if('Y' != Services.getValue(ExchangeReports.dataBinding))
+				{	Services.setValue(ExpertsQDirections.dataBinding, "N");
+				}
+			</logic>
+		</Context>
+		<Context ScreenId="CJR060">
+			<enableOn>ExchangeReports.dataBinding, ExpertRefused.dataBinding</enableOn>
+			<isEnabled>
+				if( 'Y' == Services.getValue(ExpertRefused.dataBinding))
+				{	return true;
+				}
+				else if('Y' == Services.getValue(ExchangeReports.dataBinding))
+				{	return true;
+				}
+				return false;
+			</isEnabled>
+			<logicOn>ExchangeReports.dataBinding, ExpertRefused.dataBinding</logicOn>
+			<logic>
+				if('Y' != Services.getValue(ExchangeReports.dataBinding))
+				{	Services.setValue(ExpertsQDirections.dataBinding, "N");
+				}
+			</logic>
+		</Context>
+	</Javascript>
+</Question>

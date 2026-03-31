@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	v1.0 Chris Hutt 4/2/2005
+	
+-->
+<QueryDef>
+	<DBMapDef location="uk/gov/dca/caseman/case_service/map_defs_with_no_judgment_bar.xml"/>
+	<Query pivotNode="/Case/Parties/Party" tables="CPR">
+	   	<!-- <Join>
+	   		CPR.PARTY_ROLE_CODE IN ('DEFENDANT' , 'PT 20 DEF')
+	   		AND ( CPR.DEFT_BAR_JUDGMENT IS NULL OR CPR.DEFT_BAR_JUDGMENT = 'N')
+	   	</Join>
+	   	-->
+	   	<Join>
+	   		CPR.PARTY_ROLE_CODE IN ('DEFENDANT' , 'PT 20 DEF')
+	   	</Join>
+          	<Modify notModifiable="true"/>
+	</Query>
+</QueryDef>
+
+
+             

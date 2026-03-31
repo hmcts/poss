@@ -1,0 +1,28 @@
+# Name space prefix name
+xsd.namespace.prefix=xs
+# Name space URI
+xsd.namespace.uri=http://www.w3.org/2001/XMLSchema
+
+# Database details
+database.uri=jdbc:oracle:thin:@LINUX01:1521:SUPSDB01
+database.schema.name=supsdb01
+database.user.name=vincent_cman
+database.password=vincent_cman
+
+# Regular expression for date type schema restriction
+date.format.regex=[0-9]{4}-[0,1]{1}[0-9]{1}-[0-3]{1}[0-9]{1}
+
+# Parent folder - all DBMapDef's under this folder will be parsed
+parent.folder=@base.dir@/src/uk/gov/dca/caseman
+
+# For development prefix extension of generated files with _XXX so created files
+# can be easily identified on the file system. For production extension should be
+# simply .xsd
+schema.extension.name=.xsd
+#schema.extension.name=_XXX.xsd
+
+# Set to true for extra debug output
+verbose.output=false
+
+sups.simple.types=c:/temp/sups_simple_types.xsd
+sups.complex.types=c:/temp/sups_complex_types.xsd

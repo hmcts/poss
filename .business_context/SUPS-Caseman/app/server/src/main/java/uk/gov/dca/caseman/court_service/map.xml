@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: Court
+	Method:  getCourt
+	File:    map.xml
+	Description: Map for the service which returns the data on a single court
+	Change History:
+	14/11/2007 - Chris Vincent, added AddressType which is required for CaseMan
+				 Defect 6465.
+-->
+<DBMapDef>
+  <DataSource id="java:OracleDS"/>
+  <Tables>
+    <Table alias="CT" name="COURTS"/>
+    <Table alias="GA" name="GIVEN_ADDRESSES"/>
+  </Tables>
+  <Mapping>
+    <Courts>
+    	<Court>
+    		<Code>${CT.CODE}</Code>
+    		<Name>${CT.NAME}</Name>	
+			<ContactDetails>
+				<Address>
+					<AddressId>${GA.ADDRESS_ID}</AddressId>
+					<Line>${GA.ADDRESS_LINE1}</Line>
+					<Line>${GA.ADDRESS_LINE2}</Line>
+					<Line>${GA.ADDRESS_LINE3}</Line>
+					<Line>${GA.ADDRESS_LINE4}</Line>
+					<Line>${GA.ADDRESS_LINE5}</Line>
+					<PostCode>${GA.POSTCODE}</PostCode>
+					<DateFrom>${GA.VALID_FROM}</DateFrom>
+					<DateTo>${GA.VALID_TO}</DateTo>
+					<AddressType>${GA.ADDRESS_TYPE_CODE}</AddressType>
+				</Address>
+				<DX>${CT.DX_NUMBER}</DX>
+				<TelephoneNumber>${CT.TEL_NO}</TelephoneNumber>
+				<FaxNumber>${CT.FAX_NO}</FaxNumber>
+				<DistrictRegistry>${CT.DISTRICT_REGISTRY}</DistrictRegistry>
+			</ContactDetails>
+    	</Court>
+    </Courts>	
+  </Mapping>
+</DBMapDef>

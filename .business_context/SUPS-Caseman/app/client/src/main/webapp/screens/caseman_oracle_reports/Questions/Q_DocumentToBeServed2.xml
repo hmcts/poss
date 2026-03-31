@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--Question xmlns="http://eds.com/questionxhtml" xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd"-->
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>Q_DocumentToBeServed2</Id>
+	<Label>Document to be Served</Label>
+	<ObjectName>DocumentToBeServed2</ObjectName>
+	<Html>
+		<input id="DocumentToBeServed2" type="text" size="70" ></input>
+	</Html>
+	<Javascript>
+		<XPath>/ds/var/page/OracleReportForm/DocumentToBeServed2</XPath>
+		<ReportVariableName>DOCUMENT</ReportVariableName>
+		<ReportVariableValue>Services.getValue(DocumentToBeServed2.dataBinding)</ReportVariableValue>
+		<ReportVariableCode>2680</ReportVariableCode>
+		<HintText></HintText>
+		<isMandatory>return true;</isMandatory>
+		<initialise>
+		</initialise>
+		<setDefault>
+		</setDefault>
+		<validateOn>
+		</validateOn>
+		<validate>
+		</validate>
+		<transformToDisplay>
+			 return (null != value) ? value.toUpperCase() : null;
+	    </transformToDisplay>
+        <transformToModel>
+             return (null != value) ? value.toUpperCase() : null;
+        </transformToModel>		
+		<miscCode>
+		</miscCode>
+	</Javascript>
+</Question>

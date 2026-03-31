@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: Payout
+	Method:  updateOverpayments()
+	File:    update_overpayments.xml
+	Author:  Phil Haferer (EDS)
+	Created: 16-Jan-2006
+	Description: 
+		Method to implement SUPS implementation of the Legacy stored procedure "p_payout_update()".
+-->
+<service-method>
+	<pipeline>
+		<SQLLite output="input">
+			<DataSource id="java:OracleDS"/>
+			<Param name="param.adminCourtCode"    xpath="/params/param[@name='adminCourtCode']"/>
+			<Param name="param.poNumber"          xpath="/params/param[@name='poNumber']"/>
+			<Param name="param.transactionNumber" xpath="/params/param[@name='transactionNumber']"/>
+			<Param name="param.itemDate"          xpath="/params/param[@name='itemDate']"/>
+			<Param name="param.reportId"          xpath="/params/param[@name='reportId']"/>
+			<SQL type="update" tables="PAY">
+				UPDATE PAYMENTS PAY
+				SET    PAY.PAYABLE_ORDER_NUMBER_2 = ${param.poNumber}
+				,      PAY.PAYOUT_DATE            = TO_DATE(${param.itemDate}, 'YYYY-MM-DD')
+				,      PAY.PAYOUT_REPORT_ID       = ${param.reportId}
+				WHERE  PAY.ADMIN_COURT_CODE       = ${param.adminCourtCode}
+				AND    PAY.TRANSACTION_NUMBER     = ${param.transactionNumber}
+			</SQL>
+		</SQLLite>
+	</pipeline>
+	<Security roles="viewOnly medium high wcSuper scSuper bmsSuper aeSuper dmSuper edsAdmin"/>		
+</service-method>

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<service-method>
+	<pipeline>
+		<Add>
+			<QueryDef location="uk/gov/dca/test_project/cases_service/timestampTest_query_def.xml"/>
+			<DataSource xpath="/params/param[@name='timestamp']"/>
+			<QueryExtension pivotNode="/Test">
+				<CheckExists table="t" fields="time" onExist="update" onNotExist="add"/>
+				<Field name="T.ID" sequenceTable="TIMESTAMP_SEQ"/>
+			</QueryExtension>
+		</Add>
+	</pipeline>
+	<Security roles="user"/>
+</service-method>

@@ -1,0 +1,273 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified">
+	<xsd:simpleType name="judgment.cpc_code">
+		<xsd:restriction base="xsd:decimal">
+			<xsd:totalDigits value="4"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="judgment.claim_number">
+		<xsd:restriction base="xsd:string">
+			<xsd:length value="8" fixed="true"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="judgment.defendant_id">
+		<xsd:restriction base="xsd:decimal">
+			<xsd:totalDigits value="1"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="judgment.defendant_addr_1">
+		<xsd:restriction base="xsd:string">
+			<xsd:length value="30" fixed="true"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="judgment.defendant_addr_2">
+		<xsd:restriction base="xsd:string">
+			<xsd:length value="30" fixed="true"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="judgment.defendant_addr_3">
+		<xsd:restriction base="xsd:string">
+			<xsd:length value="30" fixed="true"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="judgment.defendant_addr_4">
+		<xsd:restriction base="xsd:string">
+			<xsd:length value="30" fixed="true"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="judgment.defendant_addr_5">
+		<xsd:restriction base="xsd:string">
+			<xsd:length value="30" fixed="true"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="judgment.defendant_postcode">
+		<xsd:restriction base="xsd:string">
+			<xsd:length value="8" fixed="true"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="judgment.claim_to_registered_office">
+		<xsd:restriction base="xsd:string">
+			<xsd:length value="1" fixed="true"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="judgment.judgement_type">
+		<xsd:restriction base="xsd:string">
+			<xsd:length value="1" fixed="true"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="judgment.joint_judgement">
+		<xsd:restriction base="xsd:string">
+			<xsd:length value="1" fixed="true"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="judgment.amount">
+		<xsd:restriction base="xsd:decimal">
+			<xsd:totalDigits value="8"/>
+			<xsd:fractionDigits value="2"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="judgment.interest">
+		<xsd:restriction base="xsd:decimal">
+		    <xsd:totalDigits value="7"/>
+			<xsd:fractionDigits value="2"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="judgment.total_costs">
+		<xsd:restriction base="xsd:decimal">
+			<xsd:totalDigits value="5"/>
+			<xsd:fractionDigits value="2"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="judgment.paid_before_judgement">
+		<xsd:restriction base="xsd:decimal">
+			<xsd:totalDigits value="8"/>
+			<xsd:fractionDigits value="2"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="judgment.total">
+		<xsd:restriction base="xsd:decimal">
+			<xsd:totalDigits value="8"/>
+			<xsd:fractionDigits value="2"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="judgment.instalment_amount">
+		<xsd:restriction base="xsd:decimal">
+			<xsd:totalDigits value="6"/>
+			<xsd:fractionDigits value="2"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="judgment.frequency">
+		<xsd:restriction base="xsd:string">
+			<xsd:length value="1" fixed="true"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="judgment.date_of_first_payment">
+		<xsd:restriction base="xsd:decimal">
+			<xsd:totalDigits value="6"/>
+	    </xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="judgment.payee_name">
+		<xsd:restriction base="xsd:string">
+			<xsd:length value="70" fixed="true"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="judgment.payee_addr_1">
+		<xsd:restriction base="xsd:string">
+			<xsd:length value="30" fixed="true"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="judgment.payee_addr_2">
+		<xsd:restriction base="xsd:string">
+			<xsd:length value="30" fixed="true"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="judgment.payee_addr_3">
+		<xsd:restriction base="xsd:string">
+			<xsd:length value="30" fixed="true"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="judgment.payee_addr_4">
+		<xsd:restriction base="xsd:string">
+			<xsd:length value="30" fixed="true"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="judgment.payee_addr_5">
+		<xsd:restriction base="xsd:string">
+			<xsd:length value="30" fixed="true"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="judgment.payee_postcode">
+		<xsd:restriction base="xsd:string">
+			<xsd:length value="8" fixed="true"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="judgment.payee_tel_number">
+		<xsd:restriction base="xsd:string">
+			<xsd:length value="14" fixed="true"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="judgment.payee_reference">
+		<xsd:restriction base="xsd:string">
+			<xsd:length value="24" fixed="true"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="judgment.payment_slip_codeline_1">
+		<xsd:restriction base="xsd:string">
+			<xsd:length value="58" fixed="true"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="judgment.payment_slip_codeline_2">
+		<xsd:restriction base="xsd:string">
+			<xsd:length value="100" fixed="true"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="judgment.payee_bank_sort_code">
+		<xsd:restriction base="xsd:string">
+			<xsd:length value="8" fixed="true"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="judgment.payee_account_holder">
+		<xsd:restriction base="xsd:string">
+			<xsd:length value="70" fixed="true"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="judgment.payee_bank_name">
+		<xsd:restriction base="xsd:string">
+			<xsd:length value="30" fixed="true"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="judgment.payee_bank_info_1">
+		<xsd:restriction base="xsd:string">
+			<xsd:length value="30" fixed="true"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="judgment.payee_bank_info_2">
+		<xsd:restriction base="xsd:string">
+			<xsd:length value="30" fixed="true"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="judgment.payee_girobank_account_number">
+		<xsd:restriction base="xsd:string">
+			<xsd:length value="8" fixed="true"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="judgment.payee_bank_account_numer">
+		<xsd:restriction base="xsd:string">
+			<xsd:length value="18" fixed="true"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="judgment.girobank_transaction_code_1">
+		<xsd:restriction base="xsd:string">
+			<xsd:length value="9" fixed="true"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="judgment.girobank_transaction_code_2">
+		<xsd:restriction base="xsd:string">
+			<xsd:length value="2" fixed="true"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="judgment.APACS_transaction_code">
+		<xsd:restriction base="xsd:string">
+			<xsd:length value="2" fixed="true"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="judgment.filler">
+		<xsd:restriction base="xsd:string">
+			<xsd:length value="100" fixed="true"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+        <xsd:simpleType name="judgment.defendant_dob">
+		<xsd:restriction base="xsd:string">
+			<xsd:length value="8" fixed="true"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:element name="judgment">
+	<xsd:complexType>
+		<xsd:sequence>
+			<xsd:element name="cpc_code" type="judgment.cpc_code"/>
+			<xsd:element name="claim_number" type="judgment.claim_number"/>
+			<xsd:element name="defendant_id" type="judgment.defendant_id"/>
+			<xsd:element name="defendant_addr_1" type="judgment.defendant_addr_1"/>
+			<xsd:element name="defendant_addr_2" type="judgment.defendant_addr_2"/>
+			<xsd:element name="defendant_addr_3" type="judgment.defendant_addr_3"/>
+			<xsd:element name="defendant_addr_4" type="judgment.defendant_addr_4"/>
+			<xsd:element name="defendant_addr_5" type="judgment.defendant_addr_5"/>
+			<xsd:element name="defendant_postcode" type="judgment.defendant_postcode"/>
+			<xsd:element name="claim_to_registered_office" type="judgment.claim_to_registered_office"/>
+			<xsd:element name="judgement_type" type="judgment.judgement_type"/>
+			<xsd:element name="joint_judgement" type="judgment.joint_judgement"/>
+			<xsd:element name="amount" type="judgment.amount"/>
+			<xsd:element name="interest" type="judgment.interest"/>
+			<xsd:element name="total_costs" type="judgment.total_costs"/>
+			<xsd:element name="paid_before_judgement" type="judgment.paid_before_judgement"/>
+			<xsd:element name="total" type="judgment.total"/>
+			<xsd:element name="instalment_amount" type="judgment.instalment_amount"/>
+			<xsd:element name="frequency" type="judgment.frequency"/>
+			<xsd:element name="date_of_first_payment" type="judgment.date_of_first_payment"/>
+			<xsd:element name="payee_name" type="judgment.payee_name"/>
+			<xsd:element name="payee_addr_1" type="judgment.payee_addr_1"/>
+			<xsd:element name="payee_addr_2" type="judgment.payee_addr_2"/>
+			<xsd:element name="payee_addr_3" type="judgment.payee_addr_3"/>
+			<xsd:element name="payee_addr_4" type="judgment.payee_addr_4"/>
+			<xsd:element name="payee_addr_5" type="judgment.payee_addr_5"/>
+			<xsd:element name="payee_postcode" type="judgment.payee_postcode"/>
+			<xsd:element name="payee_tel_number" type="judgment.payee_tel_number"/>
+			<xsd:element name="payee_reference" type="judgment.payee_reference"/>
+			<xsd:element name="payment_slip_codeline_1" type="judgment.payment_slip_codeline_1"/>
+			<xsd:element name="payment_slip_codeline_2" type="judgment.payment_slip_codeline_2"/>
+			<xsd:element name="payee_bank_sort_code" type="judgment.payee_bank_sort_code"/>
+			<xsd:element name="payee_account_holder" type="judgment.payee_account_holder"/>
+			<xsd:element name="payee_bank_name" type="judgment.payee_bank_name"/>
+			<xsd:element name="payee_bank_info_1" type="judgment.payee_bank_info_1"/>
+			<xsd:element name="payee_bank_info_2" type="judgment.payee_bank_info_2"/>
+			<xsd:element name="payee_girobank_account_number" type="judgment.payee_girobank_account_number"/>
+			<xsd:element name="payee_bank_account_numer" type="judgment.payee_bank_account_numer"/>
+			<xsd:element name="girobank_transaction_code_1" type="judgment.girobank_transaction_code_1"/>
+			<xsd:element name="girobank_transaction_code_2" type="judgment.girobank_transaction_code_2"/>
+			<xsd:element name="APACS_transaction_code" type="judgment.APACS_transaction_code"/>
+			<xsd:element name="filler" type="judgment.filler"/>
+                        <xsd:element name="defendant_dob" type="judgment.defendant_dob"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	</xsd:element>
+</xsd:schema>

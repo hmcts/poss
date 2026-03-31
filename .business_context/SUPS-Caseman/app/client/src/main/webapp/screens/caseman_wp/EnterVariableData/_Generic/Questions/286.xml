@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>286</Id>
+	<Label>Original docs to be brought to hearing?</Label>
+	<ObjectName>BringOrigDocs</ObjectName>
+	<Html>
+		<input type="checkbox" id="BringOrigDocs"></input>
+	</Html>
+	
+	<Javascript>
+		<XPath>/ds/EnterVariableData/SmallTrack/bringOrigDocs</XPath>
+		<HintText>Check box if original documents are to be brought to the hearing</HintText>
+		<modelValue>checked: "Y", unchecked: "N"</modelValue>
+		<enableOn>DirectionsTypeReqd.dataBinding</enableOn>
+		<isEnabled>return('SPEC' != Services.getValue(DirectionsTypeReqd.dataBinding))</isEnabled>
+		<logicOn>DirectionsTypeReqd.dataBinding</logicOn>
+		<logic>
+			if('SPEC' == Services.getValue(DirectionsTypeReqd.dataBinding))
+			{	Services.setValue(BringOrigDocs.dataBinding, "N");
+			}
+		</logic>
+	</Javascript>
+</Question>

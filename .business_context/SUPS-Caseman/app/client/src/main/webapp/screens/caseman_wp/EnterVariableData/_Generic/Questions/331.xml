@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>331</Id>
+	<Label>What does this sum represent</Label>
+	<ObjectName>SumRepresents</ObjectName>
+	<Html>
+		<select id="SumRepresents">
+			<option value=""></option>
+			<option value="R">Rent arrears</option>
+			<option value="U">Use and occupation</option>
+			<option value="RAUO">Rent in arrears and for use and occupation</option>
+			<option value="OTH">Other</option>
+		</select>
+	</Html>
+	
+	<Context screenId="CJR055"><isVisible>false</isVisible></Context>
+
+	<Javascript>
+		<XPath>/ds/EnterVariableData/InterimCosts/PossessionOrder/sumRepresents</XPath>
+		<componentName>##label##</componentName>
+		<HintText>What does this sum represent – list available</HintText>
+		<isMandatory>return true;</isMandatory>
+		<enableOn>AmountOrdered.dataBinding</enableOn>
+		<isEnabled>return( Services.getValue(AmountOrdered.dataBinding) > 0);</isEnabled>
+		<logicOn>AmountOrdered.dataBinding</logicOn>
+		<logic>
+			if( Services.getValue(AmountOrdered.dataBinding) &lt;= 0)
+			{	Services.setValue(SumRepresents.dataBinding, "");
+			}
+		</logic>
+		<Context ScreenId="CJR052">
+			<isEnabled>return true;</isEnabled>
+		</Context> 
+		<Context ScreenId="CJR053">
+			<isEnabled>return true;</isEnabled>
+			<isMandatory>return false;</isMandatory>
+		</Context>
+		<Context ScreenId="CJR055">
+			<isEnabled>return true;</isEnabled>
+			<isMandatory>return false;</isMandatory>
+		</Context> 
+	</Javascript>
+</Question>  

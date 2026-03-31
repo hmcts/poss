@@ -1,0 +1,29 @@
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>614</Id>
+	<Label>Date amount to be invested on or before</Label>
+	<ObjectName>InvestBeforeDate</ObjectName>
+
+	<Html>	
+		<script type="text/javascript">
+			WP_DatePickerRenderer.createInline("InvestBeforeDate");
+		</script>
+	</Html>			
+	<Javascript>
+		<XPath>/ds/EnterVariableData/Settlement/investBeforeDate</XPath>
+		<componentName>##label##</componentName>
+		<isMandatory>return true;</isMandatory>
+		<HintText>Enter date amount to be invested on or before in format DD-MMM-YYYY</HintText>
+		<validateOn>InvestBeforeDate.dataBinding</validateOn>
+		<validate>return isInFuture(Services.getValue(InvestBeforeDate.dataBinding));</validate>	
+		<enableOn>AmntToInvest.dataBinding</enableOn>
+		<isEnabled>
+			return(AmntToInvest.isEnabled());
+		</isEnabled>
+		<logicOn>AmntToInvest.dataBinding</logicOn>
+		<logic>
+			if(!AmntToInvest.isEnabled())
+			{	Services.setValue(InvestBeforeDate.dataBinding, "");
+			}
+		</logic>
+	</Javascript>
+</Question>

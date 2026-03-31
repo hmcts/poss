@@ -1,0 +1,75 @@
+<Group id="2001">
+	<!-- though linked to group 8, it uses questions from group 9 too... -->
+	<ServicesRequired>
+	
+	</ServicesRequired>
+	<Protocols>
+		<OnSave>
+			<function>loadWarrantDetails</function>			
+		</OnSave>
+	</Protocols>
+	<JavaScript>
+	function loadWarrantDetails()
+	{	
+		WPU.loadWarrantData(["WarrantNumber", "AmountOfWarrant", "WarrantID", "Claimant", "Fee", "SolicitorsCosts", "LandRegistryFee", "Fees", "Payments ", "Defendant1", "Defendant2"], "/ds/EnterVariableData/Warrant");
+		// Read the party against number out of the ds dom that is stored in the current process
+		var partyAgainstNumber = WPU.getValue("/params/param/WarrantReturn/PartyAgainstNumber");
+		// Store it in the QA screen's dom with the other warrant data so that it can be used in the transform step
+		Services.setValue("/ds/EnterVariableData/Warrant/PartyAgainstNumber", partyAgainstNumber); 
+		
+		//calulate the total remaining on the warrant = warranttotal + additional fees - fee refunds - payments to date
+
+		//warrant total = amount of warrant + fee + solicitor's costs + land registry fee		
+		var warAmnt = Services.getValue("/ds/EnterVariableData/Warrant/AmountOfWarrant");
+		var fee = Services.getValue("/ds/EnterVariableData/Warrant/Fee");
+		var solCost = Services.getValue("/ds/EnterVariableData/Warrant/SolicitorsCosts");
+		var landRegFee = Services.getValue("/ds/EnterVariableData/Warrant/LandRegistryFee");				
+	
+		
+		if( warAmnt != null ){ warAmnt = parseFloat(warAmnt)} else{	warAmnt = 0; }
+		if( fee != null ){ fee = parseFloat(fee)} else{	fee = 0; }
+		if( solCost != null ){ solCost = parseFloat(solCost)} else{	solCost = 0; }
+		if( landRegFee != null ){ landRegFee = parseFloat(landRegFee)} else{ landRegFee = 0; }
+		
+		var warTotal = warAmnt + fee + solCost + landRegFee;
+		
+		var feeList = Services.getNodes("/ds/EnterVariableData/Warrant/Fees/Fee");
+		var feeRefund = 0;
+		var feeAdditional = 0;
+		
+		for( var i=0; i &lt; feeList.length; i++)
+		{	var aFee = parseFloat(XML.getNodeTextContent(feeList[i]));
+			if( aFee &lt; 0 )
+			{	feeRefund += aFee;    //rem: a negative number!!
+			}
+			else if( aFee > 0)
+			{	feeAdditional += aFee;
+			}
+		}
+		feeAdditional -= fee;
+		
+		var totalPayments = 0;
+		var payList = Services.getNodes("/ds/EnterVariableData/Warrant/Payments/Payment");
+		
+		for( var j =0; j &lt; payList.length; j++)
+		{	var aAmnt = parseFloat(XML.getNodeTextContent(payList[j].selectSingleNode("Amount")));
+			var overPayAmnt = parseFloat(XML.getNodeTextContent(payList[j].selectSingleNode("OverpaymentAmount")));
+			
+			if(aAmnt > 0) 
+			{
+            	totalPayments += aAmnt;
+            	if( overPayAmnt > 0) 
+            	{	totalPayments -= overPayAmnt;
+            	}
+            }
+        }
+        
+        var total = warTotal + feeAdditional + feeRefund - totalPayments;		
+		Services.setValue("/ds/EnterVariableData/Warrant/TotalRemaining", total );
+		
+		Save_All(); 
+	}
+	
+	
+	</JavaScript>
+</Group>

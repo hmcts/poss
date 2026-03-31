@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- configures an instance of a SUPS service -->
+<sups-config>
+	<!-- * Each service method is implemented as a configurable pipeline of components.     *
+	     * Since each component must have the same interface (so that it can appear         *
+	     * anywhere in the pipeline) the distinguishing factor is the component's behaviour * 
+	     * or 'role'. The allowed roles are specified here. A concrete pipeline component   *
+	     * must inherit (at least) 1 of these roles.                                        * 
+	-->
+	<roles>
+		<role name="validator" implements="uk.gov.dca.db.pipeline.IValidator"/>
+		<role name="generator" implements="uk.gov.dca.db.pipeline.IGenerator"/>
+	</roles>
+	<!-- * The available components and their associated Java class are listed here.              *
+	     * The 'name' attribute must be unique and is the tag name used to refer to the component *
+	     * in the method XML files.                                                               *
+	-->
+	<components>
+		<validator name="XSDValidate" class="uk.gov.dca.db.pipeline.XSDValidator"/>
+		<validator name="JSValidate" class="uk.gov.dca.db.pipeline.JSValidator"/>
+		<validator name="ValidateForm" class="uk.gov.dca.db.pipeline.FormValidator"/>
+		<generator name="Transform" class="uk.gov.dca.db.pipeline.TransformService"/>
+		<generator name="Script" class="uk.gov.dca.db.pipeline.ScriptService"/>
+		<generator name="Add" class="uk.gov.dca.db.pipeline.InsertService"/>
+		<generator name="Update" class="uk.gov.dca.db.pipeline.InsertService"/>
+		<generator name="Query" class="uk.gov.dca.db.pipeline.SelectService"/>
+		<generator name="Java" class="uk.gov.dca.db.pipeline.JavaService"/>
+		<generator name="Wait" class="uk.gov.dca.db.pipeline.WaitService"/>
+		<generator name="Lock" class="uk.gov.dca.db.pipeline.LockingService"/>
+		<!--
+		<generator name="ReportRefData" class="uk.gov.dca.caseman.referencedata_service.classes.ReportRefDataService" /> 
+		<generator name="CheckDuplicates" class="uk.gov.dca.caseman.customservices.CheckDuplicatesService" /> 
+		<generator name="LocalServiceCall" class="uk.gov.dca.caseman.customservices.LocalServiceCallService" /> 
+		<generator name="DeleteBailApplication" class="uk.gov.dca.caseman.customservices.DeleteBailApplicationService"/>
+		<generator name="RetrieveBailApplication" class="uk.gov.dca.caseman.customservices.RetrieveBailApplicationService"/>
+		<generator name="GenerateSequenceNumber" class="uk.gov.dca.caseman.customservices.GenerateSequenceNumberService" /> 
+		<generator name="GetSequenceNumber" class="uk.gov.dca.caseman.customservices.GetSequenceNumberService" /> 
+-->
+	</components>
+	<!-- * Applies a filter to the message before each service is invoked * -->
+	<filter class="uk.gov.dca.db.ejb.filter.UserIdInsertionFilter">
+		<userIdName>SUPS.userID</userIdName>
+	</filter>
+</sups-config>

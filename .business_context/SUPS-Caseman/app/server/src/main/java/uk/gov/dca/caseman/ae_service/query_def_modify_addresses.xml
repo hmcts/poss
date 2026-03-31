@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<QueryDef>
+  <DBMapDef location="uk/gov/dca/caseman/ae_service/map_addresses.xml"/>      
+    <Query pivotNode="/Addresses/Address" tables="GA">
+	  <Join/>
+        <Modify>
+            <Field name="GA.ADDRESS_ID" xpath="AddressId"/>
+			<Field name="GA.ADDRESS_TYPE_CODE" xpath="TypeCode"/>
+			<Field name="GA.ADDRESS_LINE1" xpath="Line[1]"/>
+			<Field name="GA.ADDRESS_LINE2" xpath="Line[2]"/>
+			<Field name="GA.ADDRESS_LINE3" xpath="Line[3]"/>
+			<Field name="GA.ADDRESS_LINE4" xpath="Line[4]"/>
+			<Field name="GA.ADDRESS_LINE5" xpath="Line[5]"/>
+			<Field name="GA.POSTCODE" xpath="PostCode"/>
+			<Field name="GA.VALID_FROM" xpath="ValidFrom"/>
+			<Field name="GA.VALID_TO" xpath="ValidTo"/>
+			<Field name="GA.REFERENCE" xpath="Reference"/>
+			<Field name="GA.CASE_NUMBER" xpath="CaseNumber"/>
+			<Field name="GA.PARTY_ROLE_CODE" xpath="PartyRoleCode"/>
+			<Field name="GA.CASE_PARTY_NO" xpath="CasePartyNo"/>
+		</Modify>
+    </Query>
+</QueryDef>

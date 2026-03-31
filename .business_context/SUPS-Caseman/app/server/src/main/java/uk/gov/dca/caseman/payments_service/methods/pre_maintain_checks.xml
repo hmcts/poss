@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: Payments
+	Method: preMaintainChecks()
+	File: pre_maintain_checks.xml
+	Author: Steve Blair
+	Description:
+		Runs any necessary checks to determine if a payment can be modified.
+-->
+<service-method>
+	<pipeline>
+		<Java>
+			<Source class="uk.gov.dca.caseman.payments_service.java.PreMaintainChecksCustomProcessor" />
+		</Java>
+	</pipeline>
+	<Security roles="medium high wcSuper scSuper bmsSuper aeSuper dmSuper" />
+</service-method>

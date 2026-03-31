@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- 10-Nov-2006 Phil Haferer: Candidate Z 171: Three apostrophies in Xpath fix. -->
+<!--Question xmlns="http://eds.com/questionxhtml" xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd"-->
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>Q_NameOfCourt_CO</Id>
+	<Label>Name of Court</Label>
+	<ObjectName>NameOfCourt_CO</ObjectName>
+	<Html>
+		<input id="NameOfCourt_CO" type="text" size="25"></input>
+	</Html>
+	<Javascript>
+		<XPath>/ds/var/page/OracleReportForm/NameOfCourt_CO</XPath>
+		<ReportVariableName>REPORT_VALUE_2</ReportVariableName>
+		<ReportVariableValue>Services.getValue(REF_DATA_XPATH + "/Courts/Court[./Name = " + NameOfCourt_CO.dataBinding + "]/Code")</ReportVariableValue>
+		<ReportVariableCode>1401</ReportVariableCode>	
+		<HintText>Court name where warrant will be executed</HintText>
+		<isMandatory>
+			return false;
+		</isMandatory>
+		<isReadOnly>
+			return true;
+		</isReadOnly>
+		<initialise></initialise>
+		<transformToDisplay>
+			return (null != value) ? value.toUpperCase() : null;
+		</transformToDisplay>
+		<transformToModel>
+			return (null != value) ? value.toUpperCase() : null;
+		</transformToModel>		
+		<setDefault>
+		</setDefault>
+		<logicOn>
+			ThisCourtToExecute_CO.dataBinding, REF_DATA_XPATH + "/OwningCourt/Courts/Court"
+		</logicOn>
+		<logic>
+			try{
+				//debugger;
+				var sourceEvent = event.getXPath()
+				if ((sourceEvent == ThisCourtToExecute_CO.dataBinding) || (sourceEvent == REF_DATA_XPATH + "/OwningCourt/Courts[position() = 1]"))
+				{
+					var thisOffice = Services.getValue(ThisCourtToExecute_CO.dataBinding);
+					if (!CaseManUtils.isBlank(thisOffice))
+					{
+						if (thisOffice == "Y")
+						{
+							var node = Services.getNode(REF_DATA_XPATH + "/OwningCourt/Courts/Court");
+							var name = XML.getNodeTextContent(node.selectSingleNode("Name"));
+							//var addressId = XML.getNodeTextContent(node.selectSingleNode("ContactDetails/Address[1]/AddressId"));	
+							//var address1 = XML.getNodeTextContent(node.selectSingleNode("ContactDetails/Address[1]/Line[1]"));	
+							//var address2 = XML.getNodeTextContent(node.selectSingleNode("ContactDetails/Address[1]/Line[2]"));
+							//var address3 = XML.getNodeTextContent(node.selectSingleNode("ContactDetails/Address[1]/Line[3]"));
+							//var address4 = XML.getNodeTextContent(node.selectSingleNode("ContactDetails/Address[1]/Line[4]"));	
+							//var postCode = XML.getNodeTextContent(node.selectSingleNode("ContactDetails/Address[1]/PostCode"));	
+							//Services.setValue(HearingCourtAddressId.dataBinding, addressId);			
+							Services.setValue(NameOfCourt_CO.dataBinding, name);
+							//Services.setValue(HearingVenueAddressLine1.dataBinding, address1);
+							//Services.setValue(HearingVenueAddressLine2.dataBinding, address2);
+							//Services.setValue(HearingVenueAddressLine3.dataBinding, address3);
+							//Services.setValue(HearingVenueAddressLine4.dataBinding, address4);
+							//Services.setValue(HearingVenuePostcode.dataBinding, postCode);				
+						}
+					}
+				}
+			}
+			catch(e)
+			{
+				// Exception may arise depending upon the event. So do nothing.
+			}
+		</logic>	
+		<validateOn>
+		</validateOn>
+		<validate>
+		</validate>
+		<miscCode>
+		</miscCode>
+	</Javascript>
+</Question>

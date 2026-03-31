@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: Per
+	Method:  getCoPer()
+	File:    query_def_get_co_per.xml
+	Author:  Phil Haferer (EDS), Ian Stainer (Valtech)
+	Created: 01 July 2005
+	Description: 
+		Retrieve consolidate orders protected earnings rate details.
+-->
+<QueryDef>
+  <DBMapDef location="uk/gov/dca/caseman/per_service/map_get_co_per.xml"/>
+  <Query pivotNode="/ds/CalculatePER" tables="CO">
+  	<Alias name="EVENT857_COUNT" select="( SELECT COUNT(coe.std_event_id) FROM co_events coe WHERE coe.co_number = CO.CO_NUMBER AND coe.std_event_id = '857' )"/>
+    <Alias name="CO.CO_TOTAL_EXISTS" select="DECODE(CO.PROTECTED_EARNINGS_RATE,null,'NEW','EXISTING')"/>
+    <Modify/>
+  </Query>
+ 
+  <Query pivotNode="/ds/CalculatePER/PerDetail" tables="CPI PER">
+    <Join>
+    	    CPI.CO_NUMBER       = ${CO.CO_NUMBER}
+    	AND CPI.DETAIL_CODE     = PER.DETAIL_CODE
+    	AND CPI.ERROR_INDICATOR = 'N'
+    </Join>
+    <Alias name="EXISTING_VALUE" select="'EXISTING'"/>
+  </Query>
+</QueryDef>

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: CaseEvent
+	Method:  getCaseEvent79Subject()
+	Author:  Chris Vincent
+	Created: 4 Oct 2013
+	Description: 
+		Use SQLLite to retrieve the subject details for case event 79 by looking at the judgment party against.
+		Required for CCBC SDT
+-->
+<service-method>
+	<pipeline>
+		<SQLLite format-output="true"
+				 resultset-element="ds"
+				 row-element="CaseEvent"
+				 field-name-as="element" >
+			<DataSource id="java:OracleDS"/>
+			<Param name="param.eventSeq" xpath="/params/param[@name='eventSeq']"/>
+			<SQL>
+				SELECT 	J.AGAINST_CASE_PARTY_NO AS "CasePartyNo",
+						J.AGAINST_PARTY_ROLE_CODE AS "PartyRoleCode"
+				FROM 	CASE_EVENTS CE, JUDGMENTS J
+				WHERE	CE.EVENT_SEQ = ${param.eventSeq}
+				AND		J.JUDG_SEQ = CE.JUDG_SEQ
+			</SQL>
+		</SQLLite>
+  	</pipeline>
+	<Security roles="user"/>
+</service-method>

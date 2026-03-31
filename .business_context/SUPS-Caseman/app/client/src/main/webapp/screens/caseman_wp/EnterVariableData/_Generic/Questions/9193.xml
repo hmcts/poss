@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>9193</Id>
+	<Label>Annual interest percentage</Label>
+	<ObjectName>AnnualInterestPercentage</ObjectName>
+	<Html>
+		<input id="AnnualInterestPercentage" type="text"></input>
+	</Html>			
+	<Javascript>
+		<XPath>/ds/EnterVariableData/annualInterestPercentage</XPath>
+		<HintText>Enter the annual interest rate if applicable</HintText>
+		
+		<isMandatory>return true;</isMandatory>
+		<validateOn>AnnualInterestPercentage.dataBinding</validateOn>
+		<validate>
+			var value = Services.getValue(AnnualInterestPercentage.dataBinding); 
+			var errCode = null;
+
+			if((!CaseManValidationHelper.validateNumber(value)  &amp;&amp; !CaseManValidationHelper.validateFloatNumber(value)) || (value &lt; 1) || (value > 100))
+			{
+				errCode = ErrorCode.getErrorCode("CaseMan_Reports_PercentageNotInCorrectRange_Msg");
+			}
+			return errCode; 	
+		</validate>
+		  <transformToModel>
+			if(value != "" &amp;&amp; value != null)
+			{
+				if(CaseManValidationHelper.validateNumber(value)){}
+				else if(CaseManValidationHelper.validateFloatNumber(value))
+				{
+					value = parseFloat(value).toFixed(2);
+				}
+			}
+			return value;
+		</transformToModel>		
+		<transformToDisplay>
+			if(value != "" &amp;&amp; value != null)
+			{
+				if(CaseManValidationHelper.validateNumber(value)){}	
+				else if(CaseManValidationHelper.validateFloatNumber(value))
+				{
+					value = parseFloat(value).toFixed(2);	
+				}
+			}
+			return value;
+		</transformToDisplay>  
+	</Javascript>
+</Question>  

@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<pl:circuit xmlns:pl="http://www.polarlake.com/platform/1.0" name="BootCircuit">
+    <pl:definitions>
+        <pl:definition name="WFTEmailsSUPSToLegacy.cir" value="file:///{pl$caseman_home}/Downlink/circuits/WFTEmailsSUPSToLegacy.cir"/>
+    </pl:definitions>
+    <pl:importcircuit name="com.polarlake.circuits.BaseCircuit"/>
+    <pl:importcircuit name="WFTEmailsSUPSToLegacy.cir"/>
+    <pl:application-data name="Resources" type="Resources">
+        <pl:application-data name="Functions" type="functions" application="com.polarlake.platform.librarymodule.LibraryModuleApplication"/>
+        <pl:application-data name="Initial Contexts" type="initialcontexts" application="com.polarlake.platform.librarymodule.LibraryModuleApplication"/>
+        <pl:application-data name="Scripts" type="scripts" application="com.polarlake.platform.librarymodule.LibraryModuleApplication"/>
+        <pl:application-data name="Condition Groups" type="conditiongroups" application="com.polarlake.platform.librarymodule.LibraryModuleApplication"/>
+        <pl:application-data name="Format Request processors" type="FormatRequestProcessors" application="com.polarlake.platform.librarymodule.LibraryModuleApplication"/>
+        <pl:application-data name="Server Document Variables" type="serverdocumentvariables" application="SYSTEM"/>
+        <pl:application-data name="Statistics sensors" type="sensors" application="com.polarlake.sysinfo.SystemInformation"/>
+        <pl:application-data name="XML Wrapper Request Processors" type="Wrapper-Request-Processors" application="com.polarlake.requestprocessors.wrapper.WrapperApplication"/>
+    </pl:application-data>
+    <pl:configuration name="polarlake.platform">
+        <pl:parameter name="polarlake.platform.priority_process_queue">
+            <pl:parameter name="priority_5_size" value="50"/>
+        </pl:parameter>
+        <pl:parameter name="polarlake.platform.priority_concurrent_requests">
+            <pl:parameter name="priority_5_size" value="10"/>
+        </pl:parameter>
+    </pl:configuration>
+    <pl:action name="transportprovider.command">
+        <pl:parameter name="command" value="start"/>
+        <pl:parameter name="application" value="SYSTEM"/>
+        <pl:parameter name="provider" value="xmltserverprovider"/>
+        <pl:parameter name="alias" value=""/>
+        <pl:parameter name="port" value="{pl$XmltPort-BootSupsToLegacyWFTEmails}"/>
+        <pl:parameter name="ackonreceipt" value="false"/>
+        <pl:parameter name="ackonprocessed" value="false"/>
+        <pl:parameter name="design">
+            <pl:parameter name="uid" value="2"/>
+        </pl:parameter>
+    </pl:action>
+</pl:circuit>

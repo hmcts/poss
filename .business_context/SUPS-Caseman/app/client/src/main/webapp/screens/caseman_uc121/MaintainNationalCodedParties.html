@@ -1,0 +1,122 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3c.org/TR/html4/strict.dtd">
+
+<html>
+
+<head>
+	<title>MaintainNationalCodedParties</title>
+    <link href="MaintainNationalCodedParties.css" type="text/css" rel="stylesheet">
+	<script type="text/javascript" src="../../Framework.js"></script>
+	<script type="text/javascript" src="../../ConcatCommon.js"></script>
+	<script type="text/javascript" src="MaintainNationalCodedParties_Constants.js"></script>
+	<script type="text/javascript" src="MaintainNationalCodedParties_HelperFunctions.js"></script>
+    <script type="text/javascript" src="MaintainNationalCodedParties.js"></script>
+    <script type="text/javascript" src="MaintainNationalCodedParties_AuditCode.js"></script>
+    <script type="text/javascript" src="MaintainNationalCodedParties_MenuBarCode.js"></script>
+
+</head>
+
+<body>
+    <form name="MaintainNationalCodedParties" id="maintainNationalCodedParties">
+		
+		<!-- Framework Navigation Menu -->
+		<script type="text/javascript">MenuBarRenderer.createInline();</script>
+
+		<table class="layout">
+
+	      	<!-- Query Panel -->
+			<tr>
+				<td>
+					<div class="panel">
+						<table class="content">
+							<tr>
+								<td>
+									<table style="margin-top:5px; margin-bottom:5px;">
+										<tr>
+											<td class="defaultLabel"><label for='Header_PartyCode'>Code</label></td>
+											<td><input id="Header_PartyCode" type="text" size=5></td>
+											<td>&nbsp;</td>
+											<td class="defaultLabel"><label for='Header_PartyName'>Party Name</label></td>
+											<td><input id="Header_PartyName" type="text" size=40></td>
+										</tr>
+										<tr>
+											<td class="defaultLabel"><label for='Header_AddressLine1'>Address Line 1</label></td>
+											<td><input id="Header_AddressLine1" type="text" size=50></td>
+											<td style="width:95px;">&nbsp;</td>
+											<td class="defaultLabel"><label for='Header_AddressLine2'>Address Line 2</label></td>
+											<td><input id="Header_AddressLine2" type="text" size=50></td>
+										</tr>
+										<tr>
+											<td class="defaultLabel"><label for='Header_Postcode'>Postcode</label></td>
+											<td><input id="Header_Postcode" type="text" size=15></td>
+											<td colspan=3 align="right"><input id="Header_Search" type="button" value="Search"></td>
+										</tr>
+									</table>
+								</td>
+							</tr>
+						</table>
+					</div>
+    			</td>
+    		</tr>
+    		<!-- End Query Panel -->
+
+			<!-- Results Panel -->
+			<tr>
+				<td>
+					<div class="panel">
+						<table class="content" style="height:475px;">
+							<tr>
+								<td valign="top">
+									<table>
+										<tr>
+											<td>
+												<script type="text/javascript">Grid.createInline("Results_ResultsGrid", ["Code", "Party Name", "Address Line 1", "Address Line 2", "Postcode"], 25, 1);</script>
+											</td>
+										</tr>
+										<tr>
+											<td align="right">
+												<input class="cpbutton" id="Results_PreviousButton" type="button" value="Previous">
+												<input class="cpbutton" id="Results_NextButton" type="button" value="Next">
+												<input class="cpbutton" id="Results_AddButton" type="button" value="Add">
+												<input class="cpbutton" id="Results_UpdateButton" type="button" value="Update">
+											</td>
+										</tr>
+									</table>
+								</td>
+							</tr>
+						</table>
+					</div>
+    			</td>
+    		</tr>
+			<!-- End Results Panel -->
+
+    	</table>
+		
+		<!-- Status Bar Panel -->
+		<script type="text/javascript">
+			ActionBarRenderer.createInline(
+				"status_bar",
+				[
+					{id: "Status_ClearButton", label: "Clear"},
+					{id: "Status_CloseButton", label: "Close"}
+				]
+			);
+		</script>
+   		<!-- End Status Bar Panel -->
+
+		<!-- AUDIT PANELS -->
+		<div class="auditPanel" id="currentlySelectedCodedPartyPanel"></div>
+		<div class="auditPanel" id="currentlySelectedCodedPartyPayeePanel"></div>
+		<div class="auditPanel" id="currentlySelectedCodedPartyDefaultClaimantPanel"></div>
+
+		<!-- AUDIT SELECTOR ADAPTOR -->
+		<script type="text/javascript">AuditSelectorRenderer.createInline( "Audit_PanelSelector" );</script>
+		
+		<!-- SUBFORMS -->
+		<div class="popup popupsubform" id="audit_subform"></div>
+		<div class="popup popupsubform" id="maintainNationalCodedParty_subform"></div>
+
+    </form>
+
+</body>
+
+</html>

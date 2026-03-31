@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<DBMapDef>
+	<DataSource id="java:OracleDS"/>
+	<Tables>
+		<Table alias="RW" name="REJECT_WARRANTS"/>
+		<Table alias="RR" name="REJECT_REASONS"/>
+		<Table alias="CRC" name="CCBC_REF_CODES"/>
+	</Tables>
+	<Mapping>
+		<RejectedWarrants>
+			<RejectedWarrant>
+				<RowId>${RW.ROWID}</RowId>
+				<CredCode>${RW.CRED_CODE}</CredCode>
+				<CaseNumber>${RW.CASE_NUMBER}</CaseNumber>
+				<WarrantNumber>${RW.WARRANT_NUMBER}</WarrantNumber>
+				<ClaimantDetails>${RW.CLAIMANT_DETAILS}</ClaimantDetails>
+				<Reference>${RW.REFERENCE}</Reference>
+				<DefendantName>${RW.DEFENDANT_NAME}</DefendantName>
+				<DefendantAddress1>${RW.DEFENDANT_ADDR_1}</DefendantAddress1>
+				<DefendantAddress2>${RW.DEFENDANT_ADDR_2}</DefendantAddress2>
+				<DefendantAddress3>${RW.DEFENDANT_ADDR_3}</DefendantAddress3>
+				<DefendantAddress4>${RW.DEFENDANT_ADDR_4}</DefendantAddress4>
+				<DefendantAddress5>${RW.DEFENDANT_ADDR_5}</DefendantAddress5>
+				<DefendantPostCode>${RW.DEFENDANT_POSTCODE}</DefendantPostCode>
+				<DefendantDXNumber>${RW.DEFENDANT_DX_NO}</DefendantDXNumber>
+				<DefendantTelephoneNumber>${RW.DEFENDANT_TEL_NO}</DefendantTelephoneNumber>
+				<DefendantFaxNumber>${RW.DEFENDANT_FAX_NO}</DefendantFaxNumber>
+				<DefendantEmailAddress>${RW.DEFENDANT_EMAIL}</DefendantEmailAddress>
+				<DefendantCommMethod>${CRC.RV_MEANING}</DefendantCommMethod>
+				<EnforcingCourtCode>${RW.ENFORCING_CRT_CODE}</EnforcingCourtCode>
+				
+				<CustomerFileSequence>${RW.CUST_FILE_SEQUENCE}</CustomerFileSequence>
+				<DateRejected>${RW.DATE_REJECTED}</DateRejected>
+				<RejectCode>${RW.REJECT_CODE}</RejectCode>
+				<RejectReason>${RR.REJECT_TEXT}</RejectReason>
+				<Validated>${RW.VALIDATED}</Validated>
+				<Notes>${RW.NOTES}</Notes>
+			</RejectedWarrant>
+		</RejectedWarrants>
+	</Mapping>
+</DBMapDef>

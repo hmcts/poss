@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: Co
+	Method:  getDebtsCount()
+	File:    get_debts_count.xml
+	Author:  Anoop Sehdev (Valtech)
+	Created: 04 January 2006
+	Description: 
+		Gets count of debts for a CoNumber passed in as a parameter.
+-->
+<!-- 
+Change History
+	01/08/2006 - Chris Vincent fixed defect 4111 by adding security roles to the service.
+	04/08/2006 - Chris Vincent: fixed defect 4141 by adding security role ccbcMan to the service.
+-->
+<service-method>
+	<pipeline>
+		<SQLLite format-output="true"
+				 resultset-element="ds"
+				 row-element="CODebts"
+				 field-name-as="element" >
+			<DataSource id="java:OracleDS"/>
+			<Param name="param.coNumber" xpath="/params/param[@name='coNumber']"/>
+			<SQL>
+				SELECT  
+						COUNT(*) AS "DebtCount"
+				FROM 	ALLOWED_DEBTS AD
+				WHERE 	AD.DEBT_CO_NUMBER = ${param.coNumber}
+			</SQL>
+		</SQLLite>
+  	</pipeline>
+	<Security roles="viewOnly medium high wcSuper scSuper bmsSuper aeSuper dmSuper cpSuper edsAdmin ccbcMan"/>
+</service-method>

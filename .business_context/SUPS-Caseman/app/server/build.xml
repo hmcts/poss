@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="caseman_server_build" default="deploy" basedir=".">
+	<!-- need to load at least the environment properties (Oracle Reports) -->
+	<property file="application.properties"/>
+	<echo message="do.deploy.environment = ${do.deploy.environment}"/>
+	<target name="init">
+		<!-- Copy all files from clearcase into the local machine.  This improves the build performance -->
+		<sync todir="c:/SUPS/build/caseman/caseman_server/lib">
+			<fileset dir="${user.dir}/lib"/>
+		</sync>
+		<sync todir="c:/SUPS/build/caseman/caseman_server/serverframework">
+			<fileset dir="${user.dir}/serverframework"/>
+		</sync>
+		<copy todir="c:/SUPS/build/caseman/caseman_server/serverframework/release/dist">
+			<fileset dir="${user.dir}/rsc/dist/"/>
+		</copy>
+		<sync todir="c:/SUPS/build/caseman/caseman_server/src">
+			<fileset dir="${user.dir}/src"/>
+		</sync>
+		<!-- reset all properties files to an undeployed state -->
+		<copy todir="c:/SUPS/build/caseman/caseman_server/src" overwrite="true">
+			<fileset dir="${user.dir}/src" includes="**/*.properties"/>
+		</copy>
+		<sync todir="c:/SUPS/build/caseman/caseman_server/rsc">
+			<fileset dir="${user.dir}/rsc"/>
+		</sync>
+		<copy todir="c:/SUPS/build/caseman/caseman_server">
+			<fileset dir="${user.dir}">
+				<include name="*.properties"/>
+				<include name="*.xml"/>
+			</fileset>
+		</copy>
+		<copy todir="c:/SUPS/build/caseman/caseman_server/serverframework/release/build/META-INF" overwrite="true">
+			<fileset dir="${user.dir}/rsc">
+				<include name="application.xml"/>
+			</fileset>
+		</copy>
+		<copy todir="c:/SUPS/build/caseman/caseman_server/serverframework/release/" overwrite="true">
+			<fileset dir="${user.dir}/rsc">
+				<include name="build.xml"/>
+			</fileset>
+		</copy>
+		<copy todir="c:/SUPS/build/caseman/caseman_server/serverframework/release/dist" overwrite="true">
+			<fileset dir="${user.dir}/rsc/dist">
+				<include name="build.xml"/>
+			</fileset>
+		</copy>
+		<copy todir="c:/SUPS/build/caseman/caseman_server/web-config">
+			<fileset dir="${user.dir}/web-config"/>
+		</copy>
+		<!--
+		Temporary workaround to add the jars necessary for Oracle Reports.
+		The jars are already included in the ear file from the custom lib folder,
+		but the manifest is hard coded in FW6 so the application cannot access them.
+		This should be removed as from FW7, when the manifest will be generated dynamically by the FW build.
+		-->
+		<copy file="${user.dir}/serverframework/release/build/META-INF/MANIFEST.MF" todir="c:/SUPS/build/caseman/caseman_server/serverframework/release/build/META-INF" overwrite="true"/>
+		<replace file="c:/SUPS/build/caseman/caseman_server/serverframework/release/build/META-INF/MANIFEST.MF" token="Class-Path: " value="Class-Path: http_client.jar soap.jar rwwebservice.jar "/>
+	</target>
+	<target name="deploy.environment" depends="init" if="do.deploy.environment">
+		<!-- General facility to substitute the environment into any properties files -->
+		<!-- (initially used for Oracle Reports) -->
+		<copy todir="c:/SUPS/build/caseman/caseman_server/src" overwrite="true">
+			<fileset dir="${user.dir}/src" includes="**/*.properties"/>
+			<filterset>
+				<filtersfile file="${environment.properties.file}"/>
+			</filterset>
+		</copy>
+	</target>
+	<target name="deploy" depends="deploy.environment">
+		<!-- Call the real build file, using the local version of the code -->
+		<ant antfile="c:/SUPS/build/caseman/caseman_server/serverframework/release/build.xml" target="clean">
+			<property name="basedir" value="c:/SUPS/build/caseman/caseman_server/serverframework/release"/>
+			<property name="env.PROJECT_BASE" value="c:/SUPS/build/caseman/caseman_server"/>
+		</ant>
+		<ant antfile="c:/SUPS/build/caseman/caseman_server/serverframework/release/build.xml" target="deploy">
+			<property name="basedir" value="c:/SUPS/build/caseman/caseman_server/serverframework/release"/>
+			<property name="env.PROJECT_BASE" value="c:/SUPS/build/caseman/caseman_server"/>
+		</ant>
+		<ant antfile="c:/SUPS/build/caseman/caseman_server/build-config.xml" target="dev">
+		</ant>
+	</target>
+	<target name="clean">
+		<delete dir="c:/SUPS/build/caseman/caseman_server"/>
+	</target>
+</project>

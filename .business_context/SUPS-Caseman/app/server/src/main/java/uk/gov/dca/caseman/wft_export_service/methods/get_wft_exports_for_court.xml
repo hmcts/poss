@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: WarrantReturn
+	Method:  getWarrantReturnForCaseMcol()
+	File:    get_warrant_return_for_case_mcol.xml
+	Author:  Chris Vincent
+	Created: 10 April 2014
+	Description: 
+
+-->
+<service-method>
+	<pipeline>
+		<SQLLite format-output="true"
+				 resultset-element="WftExports"
+				 row-element="WftExport"
+				 field-name-as="element" >
+			<DataSource id="java:OracleDS"/>
+			<Param name="param.courtCode" xpath="/params/param[@name = 'courtCode']"/>
+			<SQL>
+				SELECT c.name || ' (' || w.court_code || ')'    AS "GroupingCourt"
+				,      w.export_date                    		AS "ExportDate"
+				,      w.filename                 				AS "Filename"
+				,      rq.document_id               			AS "DocumentId"
+				FROM wft_exports w, courts c, report_queue rq
+				WHERE (w.court_code = ${param.courtCode}  
+					OR w.court_code IN (SELECT c2.wft_grouping_court FROM courts c2 WHERE c2.dm_court_code = ${param.courtCode} ))
+				AND c.code = w.court_code 
+				AND rq.id = w.report_queue_id
+				ORDER BY 2 DESC, 3
+			</SQL>
+		</SQLLite>
+	</pipeline>
+	<Security roles="high wcSuper scSuper bmsSuper aeSuper dmSuper cpSuper"/>					
+</service-method>

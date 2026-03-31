@@ -1,0 +1,20 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: Payments
+	Method: searchEnforcements()
+	File: search_enforcements.xml
+	Author: Steve Blair
+	Description:
+		Pulls a summary of any enforcements matching search criteria.
+-->
+<service-method>
+	<pipeline>
+		<Query>
+			<QueryDef location="uk/gov/dca/caseman/payments_service/query_def_search_enforcements.xml" />
+			<QueryExtension pivotNode="/SearchResults/Enforcement">
+				<Param name="param.caseNumber" xpath="/params/param[@name = 'caseNumber']" />
+			</QueryExtension>
+		</Query>
+	</pipeline>
+	<Security roles="medium high wcSuper scSuper bmsSuper aeSuper dmSuper cpSuper" />
+</service-method>

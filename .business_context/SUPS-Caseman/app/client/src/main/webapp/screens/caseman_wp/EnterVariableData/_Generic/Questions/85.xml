@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>85</Id>
+	<Label>Amount of monthly instalment</Label>
+	<ObjectName>MonthlyInstalment</ObjectName>
+	<Html>	
+	  <input id="DefaultCurrency85" type="text" size="1"></input> <input id="MonthlyInstalment" type="text" size="9"/>  
+	</Html>
+	<Context screenId="N32_5"><isVisible>false</isVisible></Context>
+	<Javascript>
+		<XPath>/ds/EnterVariableData/Judgment/instalmentamount</XPath>
+		<mandatoryOn>MonthlyInstalment.dataBinding</mandatoryOn>
+		<isMandatory>return true;</isMandatory>	
+		<HintText>Enter the amount of the monthly instalment</HintText>
+	
+		<validateOn>MonthlyInstalment.dataBinding</validateOn>
+		<validate>
+			var value = Services.getValue(MonthlyInstalment.dataBinding);	      
+			   var maxVal = 999999.99;
+			   var err = validateCurrencyValue(value, maxVal);
+			   if( err == null)
+			   { 	         
+			    Services.setValue(MonthlyInstalment.dataBinding, WPU.formatToTwoDP(value));		   
+			 }
+			 return err;		   	      
+		</validate>
+		<miscCode>
+			function DefaultCurrency85() {}
+			DefaultCurrency85.dataBinding = "/ds/EnterVariableData/curr1";
+			DefaultCurrency85.tabIndex = -1;
+			DefaultCurrency85.maxLength = 1;
+			DefaultCurrency85.isReadOnly = function(){return true;}
+			DefaultCurrency85.isTemporary = function(){return true;}
+			DefaultCurrency85.transformToDisplay = function(value){
+				return WPS.__CaseManUtils().transformCurrencySymbolToDisplay(value,null,null); }
+			DefaultCurrency85.transformToModel = function(value){
+				return WPS.__CaseManUtils().transformCurrencySymbolToModel(value,null,null); }
+		</miscCode>
+	</Javascript>
+</Question>

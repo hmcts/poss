@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>406</Id>
+	<Label>Any party to clarify case?</Label>
+	<ObjectName>IsPartyToClarify</ObjectName>
+	<Html>	
+		<input type="checkbox" id="IsPartyToClarify"></input>
+	</Html>
+	
+	<Javascript>
+		<XPath>/ds/EnterVariableData/SmallTrack/isPartyToClarify</XPath>
+		<HintText>Check box if any party is to clarify their case</HintText>
+		<modelValue>checked: "Y", unchecked: "N"</modelValue>
+		
+		<enableOn>IsSpecialDirns.dataBinding, DirectionsTypeReqd.dataBinding</enableOn>
+		<isEnabled>
+			var val1 = Services.getValue(IsSpecialDirns.dataBinding);
+			var val2 = Services.getValue(DirectionsTypeReqd.dataBinding);
+			return('Y' == val1 || 'SPEC' == val2);
+		</isEnabled>
+		<logicOn>IsSpecialDirns.dataBinding, DirectionsTypeReqd.dataBinding</logicOn>
+		<logic>
+			var val1 = Services.getValue(IsSpecialDirns.dataBinding);
+			var val2 = Services.getValue(DirectionsTypeReqd.dataBinding);
+			if('Y' != val1 &amp;&amp; 'SPEC' != val2 )
+			{
+				Services.setValue(IsPartyToClarify.dataBinding, "N");
+			}
+		</logic>
+	</Javascript>
+</Question>

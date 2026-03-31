@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: Judgment
+	Method:  getVariation()
+	Author:  Phil Haferer (EDS) 
+	Created: 13 May 2005
+	Description: 
+		Use SQLLite to retrieve a single row from the VARIATIONS table.
+		Originally, defined for use when determining BMS values.
+-->
+<service-method>
+	<pipeline>
+		<SQLLite format-output="true"
+				 resultset-element="ds"
+				 row-element="Variation"
+				 field-name-as="element" >
+			<DataSource id="java:OracleDS"/>
+			<Param name="param.varySeq" xpath="/params/param[@name='varySeq']"/>
+			<SQL>
+				SELECT V.VARY_SEQ                      AS "VarySeq"                    
+				,      V.JUDG_SEQ                      AS "JudgSeq"                     
+				,      V.APPLICATION_DATE              AS "ApplicationDate"             
+				,      V.REQUESTER                     AS "Requester"                   
+				,      V.OFFER_AMOUNT                  AS "OfferAmount"                 
+				,      V.OFFER_PERIOD                  AS "OfferPeriod"                 
+				,      V.FIRST_PAYMENT_DATE            AS "FirstPaymentDate"            
+				,      V.PLAINTIFF_RESPONSE            AS "PlaintiffResponse"           
+				,      V.RESULT                        AS "Result"                      
+				,      V.RESULT_DATE                   AS "ResultDate"                  
+				,      V.DETERMINATION_AMOUNT          AS "DeterminationAmount"         
+				,      V.DETERMINATION_PERIOD          AS "DeterminationPeriod"         
+				,      V.OBJECTION                     AS "Objection"                   
+				,      V.OBJECTOR                      AS "Objector"                    
+				,      V.RESPONSE_DATE                 AS "ResponseDate"                
+				,      V.HEARING_REQD                  AS "HearingReqd"                 
+				,      V.OBJECTION_DATE                AS "ObjectionDate"               
+				,      V.OFFER_AMOUNT_CURRENCY         AS "OfferAmountCurrency"         
+				,      V.DETERMINATION_AMOUNT_CURRENCY AS "DeterminationAmountCurrency" 
+				FROM   VARIATIONS V
+				WHERE  V.VARY_SEQ = ${param.varySeq}
+			</SQL>
+		</SQLLite>
+  	</pipeline>
+	<Security roles="user"/>
+</service-method>

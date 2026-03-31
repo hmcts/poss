@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: AeEvent
+	Method:  addAeEvent()
+	File:    add_ae_event.xml
+	Author:  Chris Hutt
+	Created: 24 June 2005
+	Description: 
+		Insert an Ae Event along with associated updates. 
+		Relevant navigational information will be returned to the client.
+-->
+<service-method>
+	<pipeline>   
+		<Java>
+			<Source class="uk.gov.dca.caseman.ae_event_service.java.InsertAeEventBMSCustomProcessor"/>
+		</Java>           
+		<Java>
+			<Source class="uk.gov.dca.caseman.ae_event_service.java.InsertAeEventsCustomProcessor"/>
+		</Java>
+		<Update>
+			<QueryDef location="uk/gov/dca/caseman/ae_event_service/query_def_insert_ae_event_row.xml"/>
+			<DataSource xpath="/params/param[@name='aeEvent']"/>
+			<QueryExtension pivotNode="/AEEvent">
+				<CheckExists table="AE" fields="AE_EVENT_SEQ" onNotExist="add" onExist="skip"/>
+			</QueryExtension>
+		</Update>
+		<Java>
+			<Source class="uk.gov.dca.caseman.ae_event_service.java.PostInsertAeEventNavigationCustomProcessor"/>
+		</Java>
+	</pipeline>
+	<Dependencies>
+		<Dependency serviceName="Bms"/>
+		<Dependency serviceName="Obligation"/>
+		<Dependency serviceName="Hearing"/>
+		<Dependency serviceName="Ae"/>	
+		<Dependency serviceName="SystemDate"/>							
+		<Dependency serviceName="NonWorkingDay"/>
+		<Dependency serviceName="Case"/>
+		<Dependency serviceName="UserCourt"/>
+	</Dependencies>
+	<Security roles="medium high wcSuper scSuper bmsSuper aeSuper dmSuper cpSuper"/>	
+</service-method>

@@ -1,0 +1,199 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+
+<html>
+  <head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">  
+    <title>CaseMan Word Processing Tests</title>
+	
+	<script language="JavaScript" type="text/javascript" src="../WP.js"></script>
+
+	<script language="JavaScript" type="text/javascript" src="../WPCtrlVar.js"></script>
+	<script language="JavaScript" type="text/javascript" src="../WPCtrlErr.js"></script>
+	<script language="JavaScript" type="text/javascript" src="../WPCtrl.js"></script>
+	<script language="JavaScript" type="text/javascript" src="../WPS.js"></script>
+	<script language="JavaScript" type="text/javascript" src="../WPXPath.js"></script>
+	<script language="JavaScript" type="text/javascript" src="../WPOutput.js"></script>
+	<script language="JavaScript" type="text/javascript" src="../WPRequest.js"></script>
+	<script language="JavaScript" type="text/javascript" src="../WPProcess.js"></script>
+
+	<script language="JavaScript" type="text/javascript" src="../CaseMan/CaseManCreateRequest.js"></script>
+	<script language="JavaScript" type="text/javascript" src="../CaseMan/CaseManEditOrViewRequest.js"></script>
+	<script language="JavaScript" type="text/javascript" src="../CaseMan/CaseManPrintRequest.js"></script>
+	<script language="JavaScript" type="text/javascript" src="../CaseMan/CaseManWPS.js"></script>
+	<script language="JavaScript" type="text/javascript" src="../CaseMan/CaseManWPXPath.js"></script>
+	<script language="JavaScript" type="text/javascript" src="../CaseMan/CaseManWPCtrl.js"></script>
+	<script language="JavaScript" type="text/javascript" src="../CaseMan/CaseManWPOutput.js"></script>
+	<script language="JavaScript" type="text/javascript" src="../CaseMan/CaseManWPRequest.js"></script>
+	<script language="JavaScript" type="text/javascript" src="../CaseMan/CaseManWPProcess.js"></script>
+
+
+	<script language="JavaScript" type="text/javascript">
+			
+			var wpctrl = null;
+
+			// JsUnit Assertion Tests		
+			function init() {
+				testCreateController();
+				testGetInstance();
+				testConfigureController();
+				testConfigureControllerXPaths();
+				testProcess1();
+				testProcess2();
+				testProcessCreateProcess1();
+				testProcessOpenProcess1();
+				testProcessPrintProcess1();
+				if (confirm("do you wish to debug now all test ran?"))debugger; }
+			
+			
+			function testCreateController() {	
+				wpctrl = WP.InitController('CaseManWPCtrl', 'fakingAppCtrl');
+				if (null == wpctrl) throw new Error("testCreateController fails"); }
+
+			function testGetInstance()	{
+				var inst = WPCtrl.GetInstance();
+				if (inst != wpctrl) throw new Error("testGetInstance fails"); }
+
+			function testConfigureController() {
+				var configXML = wpctrl.getConfigXML();
+				if (null == configXML) throw new Error("testConfigureController fails - No config xml loaded in controller"); }	
+		
+			function testConfigureControllerXPaths() {
+				if ("WordProcessing/Case/CaseNumber" != CaseManWPXPath.CaseNumber) throw new Error("testConfigureControllerXPaths fails - CaseNumber xpath incorrect");
+				if ("WordProcessing/Case/CaseType" != CaseManWPXPath.CaseType) throw new Error("testConfigureControllerXPaths fails - CaseType xpaht incorrect");
+				if ("WordProcessing/Event/StandardEventId" != CaseManWPXPath.EventStandardId) throw new Error("testConfigureControllerXPaths fails - EventStandardId xpath incorrect");
+				if ("WordProcessing/Event/CaseEventSeq" != CaseManWPXPath.EventPK) throw new Error("testConfigureControllerXPaths fail - EventPK Xpath incorrect");	}	
+
+			function testProcess1()	{
+				var result = wpctrl.process(null,null,null,null);
+				if (null != result) throw new Error("testProcess1 fails - null process expected - not null process returned"); }			
+
+			function testProcess2() {
+				var context = WPS.createDOM();
+					context.loadXML(CaseManWPXPath.NEW_contextXML.xml);
+				var result = wpctrl.process(null,context,null,null);
+				if (null != result) throw new Error("testProcess2 fails - null process expected - not null process returned"); }			
+					
+			function testProcessCreateProcess1() {
+				var context = WPS.createDOM();
+					context.loadXML(CaseManWPXPath.NEW_contextXML.xml);
+				var node = context.selectSingleNode("/WordProcessing/Request");
+				WPS.replaceNodeTextContent(node, "Create");	
+				//alert("testProcess 3 \n\n\n" + context.xml)
+				var result = wpctrl.process(null,context,null,null);
+				if (null == result) throw new Error("testProcessCreateProcess1 fails - not null process expected - null process returned");
+				if ("Create" != result.getName()) throw new Error("testProcessCreateProcess1 fails - Create process expected - other process returned");
+			}
+		
+			function testProcessOpenProcess1() {
+				var context = WPS.createDOM();
+					context.loadXML(CaseManWPXPath.NEW_contextXML.xml);
+				var node = context.selectSingleNode("/WordProcessing/Request");
+				WPS.replaceNodeTextContent(node, "Open");
+				//alert("testProcess 3 \n\n\n" + context.xml)
+				var result = wpctrl.process(null,context,null,null);
+				if (null == result) throw new Error("testProcessOpenProcess1 fails - not null process expected - null process returned");
+				if ("Open" != result.getName()) throw new Error("testProcessOpenProcess1 fails - Create process expected - other process returned");
+			}
+
+			function testProcessPrintProcess1() {
+				var context = WPS.createDOM();
+					context.loadXML(CaseManWPXPath.NEW_contextXML.xml);
+				var node = context.selectSingleNode("/WordProcessing/Request");
+				WPS.replaceNodeTextContent(node, "Print");
+				//alert("testProcess 3 \n\n\n" + context.xml)
+				var result = wpctrl.process(null,context,null,null);
+				if (null == result) throw new Error("testProcessPrintProcess1 fails - not null process expected - null process returned");
+				if ("Print" != result.getName()) throw new Error("testProcessPrintProcess1 fails - Create process expected - other process returned");
+			}
+
+			function setup()
+			{
+			}		
+			
+			function teardown()
+			{
+				//Services.removeNode('/ds/data');
+			}	
+
+			function loadFromFile(fileName)	{
+				var dom = XML.createDOM(null, null, null);
+				dom.load(fileName);
+				Services.removeNode('/ds/data');
+				Services.addNode(dom, '/ds'); }
+
+			
+			dumpProperties = function(object, msg)
+			{
+				var cons;
+				try {
+					cons = object.constructor.toString();
+				}
+				catch(e) {
+					cons = "unknown";
+				}
+
+				var propNames = "";
+				var lines = 0;
+				for(var name in object)
+				{
+					var propValue;
+					try{
+					  if(object[name] == undefined)
+					  	propValue = "undefined";
+					  else
+					  		propValue = object[name].toString();
+					}
+					catch(e)
+					{
+					  propValue = "unknown";
+					}
+					propNames += name + ": " + propValue + "\n";
+
+					lines++;
+					if(lines > 10)
+					{
+						alert(msg + "class: " + cons + "\n" + propNames);
+						lines = 0;
+						propNames = "";
+					}
+
+				}
+
+				var output = msg + "class: " + cons + "\n" + propNames;
+				alert(output);
+				Logging.logMessage(output, Logging.LOGGING_LEVEL_TRACE);
+			}
+		</script>
+
+		<style>
+			div.testResults
+			{
+				font-weight: normal;
+				background-color: #00FF00;
+			}
+			div.testFailResults
+			{
+				font-weight: normal;
+				background-color: #FF0000;
+			}
+			div.testTitle
+			{
+				font-size: 14px;
+				font-weight: bold;
+			}
+			
+			div.testResult
+			{
+				font-weight: bold;
+			}
+		</style>
+	</head>
+
+	<body onload="init()">
+
+		
+
+
+	</body>
+</html>

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<DBMapDef>
+  <DataSource id="java:OracleDS"/>
+  <Tables>
+    <Table alias="CP" name="CODED_PARTIES"/>
+  </Tables>
+  <Mapping>
+    <CodedParties>
+    	<CodedParty>
+    		<Code>${CP.CODE}</Code>
+    		<Name>${CP.PERSON_REQUESTED_NAME}</Name>	
+    	</CodedParty>
+    </CodedParties>	
+  </Mapping>
+</DBMapDef>

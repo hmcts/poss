@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>426</Id>
+	<Label>Which party is to bring items to hearing?</Label>
+	<ObjectName>PartyBringItems</ObjectName>
+	<Html>
+		<select id="PartyBringItems">
+			<option value=""></option>
+			<option value="CLM">Claimant</option>
+			<option value="DEF">Defendant</option>
+			<option value="OTH">Other</option>
+		</select>
+	</Html>
+	
+	<Javascript>
+		<XPath>/ds/EnterVariableData/SmallTrack/partyBringItems</XPath>
+		<HintText>Which party is to bring items to the hearing</HintText>
+		<isMandatory>return true;</isMandatory>
+		<enableOn>BroughtToHearing.dataBinding</enableOn>
+		<isEnabled>return('Y' == Services.getValue(BroughtToHearing.dataBinding));</isEnabled>
+		<logicOn>BroughtToHearing.dataBinding</logicOn>
+		<logic>
+			if('Y' != Services.getValue(BroughtToHearing.dataBinding))
+			{	Services.setValue(PartyBringItems.dataBinding, "");
+			}
+		</logic>
+	</Javascript>
+</Question>

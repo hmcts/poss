@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>52</Id>
+	<Label>Date of application</Label>
+	<ObjectName>DateOfApplication</ObjectName>
+	<Html>
+		<script type="text/javascript">WP_DatePickerRenderer.createInline("DateOfApplication", false);</script>
+	</Html>
+	<Javascript>
+		<XPath>/ds/EnterVariableData/Application/date</XPath>
+		<isMandatory>return true;</isMandatory>	
+		<mandatoryOn>DateOfApplication.dataBinding</mandatoryOn>
+		<HintText>Enter the date the application was made.</HintText>
+		<validateOn>DateOfApplication.dataBinding</validateOn>
+		<validate>
+			var err = null;
+			var isFuture = isFutureDate(Services.getValue(DateOfApplication.dataBinding));
+			if( null != isFuture &amp;&amp; isFuture )
+			{  err = ErrorCode.getErrorCode("CaseMan_dateCannotBeInTheFuture_Msg");
+			}			
+			else if( isNonWorkingDate(isFuture))
+			{	err = ErrorCode.getErrorCode("CaseMan_dateNonWorkingDay_Msg");
+			}			
+			
+			return err;
+		</validate>
+		<initialise>loadNonWorkingDays();</initialise>
+		<miscCode>
+			DateOfApplication.weekends = false;
+		    function  calcEventReceiptDate(){
+            	receiptDateDom = "/params/param/eventxml/CaseEvent/ReceiptDate";
+                return WPU.getValue(receiptDateDom,null);
+            }
+		 </miscCode>		
+		 
+		 <Context ScreenId="CJR177">	
+		 	<validate>return(isInPast(Services.getValue(DateOfApplication.dataBinding)));</validate>
+		 	<miscCode>DateOfApplication.weekends = true;</miscCode>	
+		 </Context>
+		 
+		 <Context ScreenId="L_14_8">
+            <initialise>loadNonWorkingDays(); Services.setValue(DateOfApplication.dataBinding,calcEventReceiptDate());</initialise>		 
+		 	<isMandatory>return true;</isMandatory>
+		 </Context>
+	</Javascript>
+</Question>

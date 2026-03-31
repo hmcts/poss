@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: Ae
+	Method:  getAeEventAeTypeList
+	Author:  Chris Hutt (EDS) 
+	Created: 29 June 2005
+	Description: 
+		Use SQLLite to return list of event type associated with specified 
+                standard event
+-->
+<service-method>
+	<pipeline>
+		<SQLLite format-output="true"
+				 resultset-element="AeTypes"
+				 row-element="AeType"
+				 field-name-as="element" >
+			<DataSource id="java:OracleDS"/>
+			<Param name="param.eventId" xpath="/params/param[@name='eventId']"/>
+			<SQL>	
+				SELECT 	REF1.RV_LOW_VALUE  	As "Code"
+				, 		REF1.RV_MEANING	 	As "Description"
+				FROM 	CCBC_REF_CODES REF1 
+				WHERE 	REF1.RV_DOMAIN = 'AE_TYPE'
+				AND 	REF1.RV_LOW_VALUE 
+				IN		( 	SELECT 	REF2.RV_MEANING 
+							FROM 	CCBC_REF_CODES REF2
+							WHERE 	REF2.RV_DOMAIN = 'EVENT_AE_TYPE'
+							AND 	REF2.RV_LOW_VALUE = ${param.eventId}
+							AND 	REF2.RV_LOW_VALUE = REF2.RV_LOW_VALUE )			
+							
+			</SQL>
+		</SQLLite>
+  	</pipeline>
+	<Security roles="user"/>
+</service-method>

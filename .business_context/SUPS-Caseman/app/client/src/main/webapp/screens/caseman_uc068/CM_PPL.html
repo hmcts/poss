@@ -1,0 +1,98 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3c.org/TR/html4/strict.dtd">
+<html>
+
+	<head>
+		<title>CM_PPL</title>
+		<link rel="stylesheet" type="text/css" href="../caseman_oracle_reports/generated/OracleReports.css">
+	    <script type="text/javascript" src="../../Framework.js"></script>
+		<script type="text/javascript" src="../../CaseManIncludeFiles.js"></script>
+		<script type="text/javascript" src="CM_PPL.js"></script>
+	</head>
+
+	<body>
+		<form action="#" name="OracleReportForm" id="OracleReportForm">
+
+			<!-- Navigation Bar -->
+			<script type="text/javascript">MenuBarRenderer.createInline();</script>	
+
+			<table class="layout">
+
+				<tr>
+					<td class="alignCentre">
+						<div class="panel">
+							<table class="headercontent">
+								<tr>
+									<td class="alignCentre">
+										<table>
+											<tr>
+												<td style="width: 150px" align="left"><label>Owning Court</label></td>
+												<td style="width: 60px" align="left"><input size="5" type="text" id="OwningCourt_Code"/></td>
+												<td style="width: 20px" align="left"><input size="20" type="text" id="OwningCourt_Name"/></td>
+											</tr>
+										</table>
+									</td>
+								</tr>
+							</table>
+						</div>
+					</td>
+				</tr>
+
+				<tr>
+					<td class="alignCentre">
+						<div class="panel">
+							<table class="content" style="height:530px;">
+								<tr>
+									<td class="alignCentre">
+										<table>
+											<tr>
+												<td class="alignRight"><label>Release Date &nbsp;</label></td>
+												<td class="alignLeft"><script type="text/javascript">DatePickerRenderer.createInline("ReleaseDate", false);</script></td>
+											</tr>
+										</table>
+									</td>
+								</tr>
+							</table>
+						</div>
+					</td>
+				</tr>
+			</table>
+
+			<script type="text/javascript">		
+				ActionBarRenderer.createInline(
+					"status_bar",
+					[
+						{id: "Status_RunReportButton", label: "Run Report"},
+						{id: "Status_Close_Btn", label: "Close"}
+					]
+				);
+			</script>
+													
+			<div id="ProgressIndicator_Popup" class="popup">
+				<div id="ProgressIndicator_Panel" class="panel">
+					<table cellspacing="5" class="content">
+						<tr>
+							<td><label for="Progress_Bar">Generating Report</label></td>
+						</tr>
+						<tr>
+							<td><input size="67" type="text" id="Progress_Bar"></td>
+						</tr>
+						<tr>
+							<td id="Progress_Status"></td>
+						</tr>
+					</table>
+				</div>
+				<div id="ProgressIndicator_ActionBarContainer">
+					<script type="text/javascript">
+						ActionBarRenderer.createInlineNoStatusBar(
+							"ProgressIndicator_ActionBar",
+							[
+								{label: "Cancel", id: "Popup_Cancel"}
+							]
+						);	
+					</script>
+				</div>
+			</div>
+
+		</form>
+	</body>
+</html>

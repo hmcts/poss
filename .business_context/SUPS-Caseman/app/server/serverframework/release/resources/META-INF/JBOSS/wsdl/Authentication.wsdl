@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions name="Authentication" targetNamespace="http://localhost:8080/test_project/xmlquery2/AuthenticationServiceServicePort" xmlns:tns="http://localhost:8080/test_project/xmlquery2/AuthenticationServiceServicePort" xmlns="http://schemas.xmlsoap.org/wsdl/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/">
+	<types/>
+	<message name="AuthenticationServiceService_login">
+		<part name="String_1" type="xsd:string"/>
+		<part name="String_2" type="xsd:string"/>
+	</message>
+	<message name="AuthenticationServiceService_loginResponse">
+		<part name="result" type="xsd:string"/>
+	</message>
+	<portType name="AuthenticationServiceService">
+		<operation name="login" parameterOrder="String_1 String_2">
+			<input message="tns:AuthenticationServiceService_login"/>
+			<output message="tns:AuthenticationServiceService_loginResponse"/>
+		</operation>
+	</portType>
+	<binding name="AuthenticationServiceServiceBinding" type="tns:AuthenticationServiceService">
+		<soap:binding transport="http://schemas.xmlsoap.org/soap/http" style="rpc"/>
+		<operation name="login">
+			<soap:operation soapAction=""/>
+			<input>
+				<soap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" use="encoded" namespace="http://localhost:8080/test_project/xmlquery2/AuthenticationServiceServicePort"/>
+			</input>
+			<output>
+				<soap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" use="encoded" namespace="http://localhost:8080/test_project/xmlquery2/AuthenticationServiceServicePort"/>
+			</output>
+		</operation>
+	</binding>
+	<service name="Authentication">
+		<port name="AuthenticationServiceServicePort" binding="tns:AuthenticationServiceServiceBinding">
+			<soap:address location="https://MACHINE_NAME:8443/@PROJECT_NAME@/Authentication/AuthenticationServiceServicePort"/>
+		</port>
+	</service>
+</definitions>

@@ -1,0 +1,73 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+  <head>
+    <META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=ISO-8859-1">
+    <title>CaseMan Application</title>
+	<script type="text/javascript" src="../../Framework.js"></script>
+	<script type="text/javascript" src="../caseman_wp/WordProcessing.js"></script>
+
+	<script type="text/javascript">		
+		function init(){
+			
+			// Initialise the Application Container
+			initAppController('page', '../../applicationconfig.xml', 'ws_proxy', 'header_left', 'header_title', 'header_right', '../../xml/loggingconfig.xml', '../../roles.xml');
+				
+			var appController = AppController.getInstance();
+				
+			// Register the progress iframe's document with the style manager so that colour
+			// scheme changes are reflected.
+			var progressFrame = document.getElementById("progressFrame");
+			appController.getStyleManager().registerDocument(getIframeDocument(progressFrame));
+
+			var progressDocument = getIframeDocument(progressFrame);	
+			//HTMLView.blockEventsForDocument(progressDocument);
+			HTMLView.blockEventsForProgress(progressDocument);
+			var progressDiv = document.getElementById("progress");
+			HTMLView.blockEventsForProgress(progressDiv);
+
+			initWPController('CaseManWPCtrl', appController);		
+			initWPController('OracleReportController', appController);
+		}				
+	</script>
+  </head>
+  <body onload="init()">
+  	<!-- Table containing the screen header -->
+	<table class="header">
+      <tr>
+        <td id="header_left"></td>
+        <td id="header_title"></td>
+        <td id="header_right"></td>
+      </tr>
+    </table>
+
+    <!-- Table containing the form navigation -->
+    <!--<table class="navigation">
+      <tr>
+        <td id="navigation_container"></td>
+      </tr>
+    </table>-->
+
+    <!-- IFrame containing the actual form -->
+    <iframe id="page" height="651" width="983" frameborder="0" scrolling="no"></iframe>
+
+    <span id="actionbutton_container"></span>
+
+    <!-- IFrame containing the progress bar -->
+    <div id="progress" class="progressClass">
+	    <div id="progressContainer" class="progressContainerClass">
+		    <iframe id="progressFrame" width="100%" height="100%" frameborder="0" scrolling="no" src="progress.html" class="progressFrameClass"></iframe>
+		</div>
+	</div>
+	
+	<!-- OLD -->
+	<!--<div id="ws_proxy" style="behavior:url(/client/framework/com/sups/client/controller/webservice.htc)"></div>-->
+	
+	<!-- NEW -->
+	<!-- COMMENTED OUT AT REQUEST OF TIM GRANT - PERRFORMANCE ISSUE
+	<div id="ws_proxy" style="behavior:url(../../com/sups/client/controller/webservice.htc)"></div>
+	-->
+	
+	
+	
+  </body>
+</html>

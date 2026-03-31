@@ -1,0 +1,45 @@
+<Group id="9004">
+	<ServicesRequired>
+		<mapping name="getWft" serviceName="getWft"/>
+		<service name="getWft" cache="none" url="/WindowForTrial/WindowForTrial" method="getWft">
+		</service>
+	</ServicesRequired>
+	<Protocols>
+		<!-- OnSave>
+			<function>getWindowsForTrial</function>
+			<functionCallback>getWindowsForTrialCallback</functionCallback>
+		</OnSave -->
+	</Protocols>
+	<JavaScript>
+var gettingWindowsForTrial = false;	
+		
+function getWindowsForTrial() {
+	if (!gettingWindowsForTrial) {
+		gettingWindowsForTrial = true;
+	   	var caseNo = Services.getValue("/ds/ManageCase/CaseNumber");
+		var params = new ServiceParams();
+		var service = "getWft";
+		params.addSimpleParameter("caseNumber", caseNo);
+		Services.callService(service, params, getWindowsForTrialCallback, true); }
+	else { 	} }
+
+	
+function getWindowsForTrialCallback() { }
+
+getWindowsForTrialCallback.onSuccess = function(dom) {
+	gettingWindowsForTrial = false;
+	if (null != dom) {		
+		var wftCount = (dom.selectSingleNode("/ds/MaintainWindowForTrial/Case/WindowForTrial/Count")).text;		
+		if( 0 >= wftCount ) {
+			alert(ErrorCode.getErrorCode("CaseMan_No_Windows_For_Trial_Exists").getMessage()); } }
+	else {
+		alert(Messages.NO_RESULTS_MESSAGE); } }
+
+getWindowsForTrialCallback.onBusinessException = function(exception)  {
+	alert(Messages.FAILEDSAVE_MESSAGE); }
+
+getWindowsForTrialCallback.onSystemException = function(exception) {
+	alert(Messages.FAILEDSAVE_MESSAGE); }
+	</JavaScript>
+</Group>
+

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: Payout
+	Method:  getPayableOrderReportId()
+	File:    get_payable_order_report_id.xml
+	Author:  Phil Haferer (EDS)
+	Created: 17-Jan-2006
+	Description: 
+		Method to implement SUPS implementation of the Legacy stored procedure "p_payout_update()".
+-->
+<service-method>
+	<pipeline>
+		<SQLLite format-output="true"
+				 resultset-element="ds"
+				 row-element="PayableOrderHeader"
+				 field-name-as="element">
+			<DataSource id="java:OracleDS"/>
+			<Param name="param.adminCourtCode" xpath="/params/param[@name='adminCourtCode']"/>
+			<SQL>
+			   	SELECT POH.REPORT_ID AS "ReportId"
+  				FROM   PAYABLE_ORDER_HEADER POH
+  				WHERE  POH.ADMIN_COURT_CODE = ${param.adminCourtCode}  				
+			</SQL>
+		</SQLLite>
+	</pipeline>
+	<Security roles="viewOnly medium high wcSuper scSuper bmsSuper aeSuper dmSuper edsAdmin"/>	
+</service-method>

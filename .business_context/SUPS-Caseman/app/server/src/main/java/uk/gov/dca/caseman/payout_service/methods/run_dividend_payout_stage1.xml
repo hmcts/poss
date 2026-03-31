@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: Payout
+	Method:  runDividendPayoutStage1()
+	File:    run_dividend_payout_stage1.xml
+	Author:  Mark Hallam (EDS)
+	Created: 14th December 2005
+	Description: 
+		Calls the Custom Processor that builds the XML that is eventually passed to reports service.
+-->
+<service-method>
+	<pipeline>
+		<Java callStyle="new">
+			<Source class="uk.gov.dca.caseman.payout_service.classes.RunDividendPayoutStage1CustomProcessor"/>
+		</Java>
+	</pipeline>
+	<Dependencies>
+		<Dependency serviceName="Reports"/>	
+	</Dependencies>		
+	<Security roles="viewOnly medium high wcSuper scSuper bmsSuper aeSuper dmSuper edsAdmin cpSuper"/>		
+</service-method>

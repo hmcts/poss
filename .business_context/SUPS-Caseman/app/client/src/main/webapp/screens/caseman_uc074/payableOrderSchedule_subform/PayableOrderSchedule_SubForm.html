@@ -1,0 +1,85 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3c.org/TR/html4/strict.dtd">
+<html>
+
+	<head>
+		<title>PayableOrderSchedule_SubForm</title>
+		<link href="PayableOrderSchedule_SubForm.css" type="text/css" rel="stylesheet">
+		<script type="text/javascript" src="../../../Framework.js"></script>
+		
+		<!-- 20 Apr 2006 - KG. As part of CR 0153, Added Asynchronisation logic to this module  -->
+		<script src="../../../CaseManAsyncMonitorGUIAdaptor.js" type="text/javascript"></script>
+		<script src="../../../CaseManAsyncMonitorRenderer.js" type="text/javascript"></script>		
+		
+    	<script type="text/javascript" src="../../../CaseManSubFormIncludeFiles.js"></script>
+    	<script type="text/javascript" src="../PrintPayouts_Constants.js"></script>
+		<script type="text/javascript" src="PayableOrderSchedule_SubForm.js"></script>
+  	</head>
+
+
+	<body>
+	
+    	<form id="payableOrderScheduleSubform" class="subform">
+
+			<div class="panel">
+				<table class="content">
+					<tr>
+						<td align="center">
+							<label>WARNING</label>
+						</td>
+					</tr>
+					<tr><td>&nbsp;</td></tr>
+					<tr>
+						<td align="left">
+							<label>Press OK to Print Schedules, Notifications, CO Dividend Fee List,</label>
+						</td>
+					</tr>
+					<tr>
+						<td align="left">
+							<label>CO 'Address Unknown' Report AND to complete the Payout Procedure</label>
+						</td>
+					</tr>
+					<tr><td>&nbsp;</td></tr>
+					<tr>
+						<td align="center">
+							<label>Press Cancel to select a different option</label>
+						</td>
+					</tr>
+				</table>				
+			</div>
+			
+			<!-- Subform action bar -->
+			<script type="text/javascript">
+				ActionBarRenderer.createInlineNoStatusBar(
+					"payableOrderSchedule_statusbar",
+					[
+						{id: "PayableOrderSchedule_OkButton", label: "Ok"},	
+						{id: "PayableOrderSchedule_CancelButton", label: "Cancel"}
+					]
+				);
+			</script>
+			
+			<!-- 20 Apr 2006 - KG. As part of CR 0153, Added Asynchronisation logic to this module  -->
+			<div id="CaseMan_AsyncMonitorPopup" class="popup">
+				<table id="popup_table">
+					<tr class="hearing_header">
+						<td align="center" class="hearing_heading" colspan="2">
+							<div class="popup_header">Asynchronous Monitor</div>
+						</td>
+					</tr>
+					<tr>
+						<td>
+							<script type="text/javascript">
+								CaseManAsyncMonitorRenderer.createInline("CaseMan_AsyncMonitor", false);
+							</script>
+						</td>
+					</tr>
+				</table>
+			</div>
+
+		</form>
+    
+    </body>
+    
+</html>
+
+

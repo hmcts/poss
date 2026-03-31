@@ -1,0 +1,75 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3c.org/TR/html4/strict.dtd">
+<html>
+	
+<head>
+	<title>AddCoAddress_SubForm</title>
+	<script type="text/javascript" src="../../../Framework.js"></script>
+	<script type="text/javascript" src="../../../CaseManSubFormIncludeFiles.js"></script>
+	<script type="text/javascript" src="../MaintainCOVariables.js"></script>	
+	<script type="text/javascript" src="../MaintainCOFunctions.js"></script>	
+    <script type="text/javascript" src="AddCoAddress_SubForm.js"></script>
+</head>
+
+<body>
+    <form id="AddCoAddressSubform" class="subform">
+		<div class="panel">
+		<table class="content">
+				<tr>
+					<td align = "center">
+						<h3>Add Address</h3>
+					</td>
+				</tr>
+				<tr>					
+					<td>
+						<table>
+							<tr>
+								<td>&nbsp;</td>
+								<td><label for="AddCoAddress_Subform_Address_Line1">Address</label></td>
+								<td><input type="text" id="AddCoAddress_Subform_Address_Line1" size="60"></td>
+							</tr>
+							<tr>
+								<td>&nbsp;</td>
+								<td>&nbsp;</td>
+								<td><input type="text" id="AddCoAddress_Subform_Address_Line2" size="60"></td>
+							</tr>
+							<tr>
+								<td>&nbsp;</td>
+								<td>&nbsp;</td>
+								<td><input type="text" id="AddCoAddress_Subform_Address_Line3" size="60"></td>
+							</tr>
+							<tr>
+								<td>&nbsp;</td>
+								<td>&nbsp;</td>
+								<td><input type="text" id="AddCoAddress_Subform_Address_Line4" size="60"></td>
+							</tr>
+							<tr>
+								<td>&nbsp;</td>
+								<td>&nbsp;</td>
+								<td><input type="text" id="AddCoAddress_Subform_Address_Line5" size="60"></td>
+							</tr>
+							<tr>
+								<td>&nbsp;</td>
+								<td><label for="AddCoAddress_Subform_Address_Postcode">Postcode</label></td>
+								<td><input type="text" id="AddCoAddress_Subform_Address_Postcode" size="15"></td>
+							</tr>
+						</table>
+					</td>
+				</tr>				
+			</table>
+		</div>
+
+		<!-- Status Bar Panel -->
+		<script type="text/javascript">
+			ActionBarRenderer.createInline(
+				"status_bar",
+				[
+					{id: "AddAddress_OKBtn", label: "OK"},
+					{id: "AddAddrerss_CancelBtn", label: "Cancel"}
+				]
+			);
+		</script>
+		<!-- End Status Bar Panel -->		
+	</form>
+</body>
+
+</html>

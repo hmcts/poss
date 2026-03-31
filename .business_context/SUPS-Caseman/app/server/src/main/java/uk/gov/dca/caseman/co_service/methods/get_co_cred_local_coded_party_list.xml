@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: CO
+	Method:  getCoCredLocalCodedPartyList()
+	File:    get_co_cred_local_coded_party_list.xml
+	Author:  Chris Vincent
+	Created: 15 February 2011
+	Description: 
+		Retrieve the details of the Creditor Local Coded Parties that are linked into a Consolidated Order,
+		ready to either match them to a new Local Coded Party or convert them to non-coded parties.  Created as part of Trac 4215.
+-->
+<service-method>
+	<pipeline>
+		<Query>
+			<QueryDef location="uk/gov/dca/caseman/co_service/query_def_co_cred_local_coded_party_list.xml"/>
+			<QueryExtension pivotNode="/COLocalCodedPartyList/COLocalCodedParty">
+				<Param name="param.coNumber" xpath="/params/param[@name = 'coNumber']"/>
+				<Constraint>AD.DEBT_CO_NUMBER = ${param.coNumber}</Constraint>
+			</QueryExtension>
+		</Query>
+	</pipeline>
+	<Security roles="user"/>
+</service-method>

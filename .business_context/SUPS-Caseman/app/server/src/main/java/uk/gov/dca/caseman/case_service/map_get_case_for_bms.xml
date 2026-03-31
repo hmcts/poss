@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- 
+	Service:  Case
+	QueryDef: map_def_get_case_for_bms.xml
+	Author:   Chris Hutt (EDS) 
+	Created:  3 April 07
+-->
+<DBMapDef>
+  <DataSource id="java:OracleDS"/>
+  <Tables>
+    <Table alias="C" name="CASES"/>
+  </Tables>  
+  <Mapping>
+     <Case>
+		<CaseNumber>${C.CASE_NUMBER}</CaseNumber>
+		<CaseType>${C.CASE_TYPE}</CaseType>
+		<OwningCourtCode>${C.ADMIN_CRT_CODE}</OwningCourtCode>
+		<CreditorCode>${C.CRED_CODE}</CreditorCode>
+		<InsolvencyNumber>${C.INSOLVENCY_NUMBER}</InsolvencyNumber>
+     </Case>
+</Mapping>
+</DBMapDef>

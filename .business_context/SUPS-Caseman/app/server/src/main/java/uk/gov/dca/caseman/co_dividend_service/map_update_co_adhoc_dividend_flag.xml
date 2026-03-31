@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<DBMapDef>
+	<DataSource id="java:OracleDS"/>
+	<Tables>
+		<Table alias="CO" name="CONSOLIDATED_ORDERS"/>
+	</Tables>
+	<Mapping>
+		<ConsolidatedOrderList>
+			<ConsolidatedOrder>
+				<AdminCourtCode>${CO.ADMIN_COURT_CODE}</AdminCourtCode>
+				<CONumber>${CO.CO_NUMBER}</CONumber>
+				<COStatus>${CO.CO_STATUS}</COStatus>
+				<DebtorName>${CO.DEBTOR_NAME}</DebtorName>
+			</ConsolidatedOrder>
+		</ConsolidatedOrderList>
+	</Mapping>
+</DBMapDef>

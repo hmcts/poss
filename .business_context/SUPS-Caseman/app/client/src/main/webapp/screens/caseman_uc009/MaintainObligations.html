@@ -1,0 +1,261 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3c.org/TR/html4/strict.dtd">
+
+<html>
+
+	<head>
+		<title>MaintainObligations</title>
+		<link href="MaintainObligations.css" type="text/css" rel="stylesheet">
+		<script type="text/javascript" src="../../Framework.js"></script>
+		<script type="text/javascript" src="../../ConcatCommon.js"></script>
+		<script type="text/javascript" src="../caseman_wp/WordProcessing.js"></script>
+		<script type="text/javascript" src="MaintainObligations.js"></script>
+	</head>
+
+	<body>
+		<form name="MaintainObligations" id="maintainObligations">
+			  
+			<!-- Framework Navigation Menu -->
+			<script type="text/javascript">MenuBarRenderer.createInline();</script>	
+	
+			<table class="layout">
+				<!-- Header Panel -->
+				<tr>
+					<td>
+						<div class="panel">
+						<table class="content">
+							<tr>
+								<td id="partiesColumn">
+									<table>
+										<tr>
+											<td><label for='Header_CaseNumber'>Case Number</label></td>
+											<td><input id="Header_CaseNumber" type="text" size=15></td>
+										</tr>
+										<tr>
+											<td valign="top" colspan=2>
+												<script type="text/javascript">Grid.createInline("Header_PartiesGrid", ["Type", "Number", "Name"], 3, 1);</script>
+											</td>
+										</tr>									
+									</table>
+								</td>
+								
+								<td style="width:10px;">&nbsp;</td>
+															
+								<td valign="top">
+									<table>
+										<tr>
+											<td class="defaultLabel"><label for='Header_OwningCourtCode'>Owning Court</label></td>
+											<td>
+												<input id="Header_OwningCourtCode" type="text" size=5>
+												<input id="Header_OwningCourtName" type="text" size=25>
+											</td>
+										</tr>
+									</table>
+								</td>
+							</tr>
+						</table>
+						</div>
+					</td>
+				</tr>
+				<!-- End Header Panel -->
+	
+				<tr>
+					<td>
+						<div class="panel">
+						<table class="content">						
+							<tr>
+								<!-- Master Panel -->
+								<td style="width:350px; height:454px;">
+									<table>			    				
+										<tr>										
+											<td>
+												<script type="text/javascript">Grid.createInline("Master_ObligationsGrid", ["Event", "Event Date", "Obln", "Description",""], 21, 1);</script>
+											</td>
+										</tr>
+										<tr><td><label for="Master_ObligationType">Obligation Type</label></td></tr>
+										<tr>										
+											<td>
+												<input type="text" id="Master_ObligationType" size="3" style="margin-left: 5px;">
+												<input type="text" id="Master_Description" size="53">
+												<input id="Master_ObligationTypeLOVBtn" type="Button" value="LOV">						
+											</td>					
+										</tr>									
+										<tr>
+											<td align="right">	
+												<input id="Master_AddObligationBtn" type="Button" value="Add Obligation" style="margin-right: 5px; margin-bottom: 5px; margin-top: 5px;">											
+												<input id="Master_RemoveObligationBtn" type="Button" value="Remove Obligation" style="margin-right: 5px; margin-bottom: 5px; margin-top: 5px;">			
+											</td>
+										</tr>
+									</table>
+								</td>
+								<!-- End Master Panel -->
+	
+								<td class="spacer">&nbsp;</td>
+	
+								<!-- Details Panel -->
+								<td valign="top">			    			
+									<table style="margin-top: 5px;">
+										<tr>
+											<td class="defaultLabel"><label for='Details_Event'>Event</label></td>
+											<td colspan=2>
+												<input id="Details_Event" type="text" size=5>
+											</td>
+										</tr>
+										<tr>
+											<td><label for='Details_EventDate'>Event Date</label></td>
+											<td colspan=2><script type="text/javascript">DatePickerRenderer.createInline("Details_EventDate", false);</script></td>    								
+										</tr>
+										<tr>
+											<td><label for='Details_ObligationType'>Obligation Type</label></td>
+											<td colspan=2>
+												<input id="Details_ObligationType" type="text" size=3>
+												<input id="Details_Description" type="text" size=50>											
+											</td>
+										</tr>
+										<tr>
+											<td><label for='Details_Days'>Days</label></td>
+											<td colspan=2><input id="Details_Days" type="text" size="5"></td>
+										</tr>
+										<tr>
+											<td><label for='Details_ExpiryDate'>Expiry Date</label></td>
+											<td colspan=2><script type="text/javascript">DatePickerRenderer.createInline("Details_ExpiryDate", false);</script></td>    																		
+										</tr>
+										<tr>
+											<td><label for='Details_Notes'>Notes</label></td>
+											<td>
+												<script type="text/javascript">ZoomFieldRenderer.createInline("Details_Notes");</script>
+											</td>
+											<td>
+												&nbsp;<input id="Details_NotesLOVBtn" type="Button" value="LOV">						
+											</td>											
+										</tr>
+										<tr>
+											<td><label for='Details_LastUpdateUser'>Last Update User</label></td>
+											<td colspan=2><input id="Details_LastUpdateUser" type="text" size="30"/></td>
+										</tr>
+									</table>
+								</td>
+								<!-- End Details Panel -->
+							</tr>
+						</table>
+						</div>
+					</td>
+				</tr>
+			</table>
+			
+			<!-- Status Bar Panel -->
+			<script type="text/javascript">
+				ActionBarRenderer.createInline(
+					"status_bar",
+					[
+						{id: "Status_SaveBtn", label: "Save"},
+						{id: "Status_CloseBtn", label: "Close"}
+					]
+				);
+			</script>
+			<!-- End Status Bar Panel -->
+			
+			<!-- Form Extension Popups -->
+	
+			<!-- Add Obligation popup -->
+			<div class="popup" id="New_Obligation_Popup">
+				<table class="content"> 
+					<tr>
+						<td class="defaultLabel"><label for="New_Obligation_Popup_Days">Days</label></td>
+						<td colspan="2"><input type="text" id="New_Obligation_Popup_Days" size="5"></td>
+					</tr>
+					<tr>
+						<td class="defaultLabel"><label for="New_Obligation_Popup_ExpiryDate">Expiry Date</label></td>
+						<td colspan="2"><script type="text/javascript">DatePickerRenderer.createInline("New_Obligation_Popup_ExpiryDate", false);</script></td>
+					</tr>				
+					<tr>
+						<td class="defaultLabel"><label for="New_Obligation_Popup_Notes">Notes</label></td>
+						<td style="width:330px;">
+							<script type="text/javascript">ZoomFieldRenderer.createInline("New_Obligation_Popup_Notes");</script>
+						</td>
+						<td>
+							<input id="New_Obligation_Popup_NotesLOVBtn" type="Button" value="LOV">						
+						</td>					
+					</tr>
+					<tr>
+						<td colspan="3">&nbsp;</td>
+					</tr>
+					<tr>
+						<td align="right" colspan="3">
+							<input class="popupButton" type="button" value="Save" id="New_Obligation_Popup_SaveBtn">
+							<input class="popupButton" type="button" value="Cancel" id="New_Obligation_Popup_CancelBtn">
+						</td>			        
+					</tr>				
+				</table>
+			</div>
+			<!-- End Details of Claim popup -->		
+	
+			<!-- Mandatory modify obligation popup -->
+			<div class="popup" id="Modify_Obligation_Popup">
+				<table class="content"> 		
+					<tr>
+						<td class="defaultLabel"><label for='Modify_Obligation_Popup_Event'>Event</label></td>
+						<td colspan="2">
+							<input id="Modify_Obligation_Popup_Event" type="text" size=5>
+						</td>
+					</tr>
+					<tr>
+						<td><label for='Modify_Obligation_Popup_EventDate'>Event Date</label></td>
+						<td colspan="2"><script type="text/javascript">DatePickerRenderer.createInline("Modify_Obligation_Popup_EventDate", false);</script></td>    								
+					</tr>
+					<tr>
+						<td><label for='Modify_Obligation_Popup_ObligationType'>Obligation Type</label></td>
+						<td colspan="2">
+							<input id="Modify_Obligation_Popup_ObligationType" type="text" size=3>
+							<input id="Modify_Obligation_Popup_Description" type="text" size=50>											
+						</td>
+					</tr>
+					<tr>
+						<td><label for='Modify_Obligation_Popup_Days'>Days</label></td>
+						<td colspan="2"><input id="Modify_Obligation_Popup_Days" type="text" size="5"></td>
+					</tr>
+					<tr>
+						<td><label for='Modify_Obligation_Popup_ExpiryDate'>Expiry Date</label></td>
+						<td colspan="2"><script type="text/javascript">DatePickerRenderer.createInline("Modify_Obligation_Popup_ExpiryDate", false);</script></td>    																		
+					</tr>
+					<tr>
+						<td><label for='Modify_Obligation_Popup_Notes'>Notes</label></td>
+						<td style="width:330px;">
+							<script type="text/javascript">ZoomFieldRenderer.createInline("Modify_Obligation_Popup_Notes");</script>
+						</td>
+						<td>
+							<input id="Modify_Obligation_Popup_NotesLOVBtn" type="Button" value="LOV">						
+						</td>											
+					</tr>
+					<tr>
+						<td><label for='Modify_Obligation_Popup_LastUpdateUser'>Last Update User</label></td>
+						<td colspan="2"><input id="Modify_Obligation_Popup_LastUpdateUser" type="text" size="30"/></td>
+					</tr>
+					<tr>
+						<td align="right" colspan="3">
+							<input class="popupButton" type="button" value="Save" id="Modify_Obligation_Popup_SaveBtn">
+						</td>			        
+					</tr>				
+				</table>
+			</div>
+			<!-- End mandatory modify obligation popup -->
+	
+			<!-- Non-visual data change listeners -->
+			<div class="logic" id="updateDetailsLogic"></div>
+									
+			<!-- LOV POPUPs -->
+			<script type="text/javascript">LOVSubformRenderer.createInline( "NewObligation_ObligationTypeLOV", "Obligation Types", ["Type", "Description"], 10, 1, true );</script>		
+			<script type="text/javascript">LOVSubformRenderer.createInline( "NotesTypeLOVGrid", "Fee Types", ["Description"], 10, 1, true );</script>				
+	
+			<!-- AUDIT PANELS -->
+			<div class="auditPanel" id="currentlySelectedObligationPanel"></div>
+	
+			<!-- AUDIT SELECTOR ADAPTOR -->
+			<script type="text/javascript">AuditSelectorRenderer.createInline( "Audit_PanelSelector" );</script>
+			
+			<!-- SUBFORMS -->
+			<div class="popup popupsubform" id="audit_subform"></div>
+			<div class="popup popupsubform" id="ProgressBar_SubForm"></div>
+	
+		</form>
+	</body>
+</html>

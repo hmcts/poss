@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>473</Id>
+	<Label>Date for payment of costs</Label>
+	<ObjectName>CostPaymentDate</ObjectName>
+	<Html>	
+		<script type="text/javascript">
+			WP_DatePickerRenderer.createInline("CostPaymentDate");
+		</script>
+	</Html>
+	
+	<Context ScreenId="N32"> 
+	        <Label>Date for payment of costs or damages</Label>
+	</Context>
+				
+	<Javascript>
+		<XPath>/ds/EnterVariableData/SuspCOforDisobedience/costPaymentDate</XPath>
+		<componentName>##label##</componentName>
+		<isMandatory>return true;</isMandatory>
+		<HintText>Enter the date of payment, in format DD-MON-YYYY</HintText>	
+		<validateOn>CostPaymentDate.dataBinding</validateOn>
+		<validate>return isWorkingDayInFuture(Services.getValue(CostPaymentDate.dataBinding));</validate>		
+		<miscCode>CostPaymentDate.weekends = false;</miscCode>
+		
+		<Context ScreenId="CJR083">			
+			<enableOn>HasCostOrder.dataBinding</enableOn>
+			<isEnabled>				
+				return ( 'Y' == Services.getValue( HasCostOrder.dataBinding ) );
+			</isEnabled>
+			<logicOn>HasCostOrder.dataBinding</logicOn>
+			<logic>
+			if('Y' != Services.getValue(HasCostOrder.dataBinding))
+			{	Services.setValue(AttendCostAmt.dataBinding, "");
+			}			
+			</logic>
+		</Context>
+		
+		<Context ScreenId="N32">
+	        <HintText>Date for payment of costs or damages</HintText>
+		</Context>	
+	</Javascript>
+</Question>

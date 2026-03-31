@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: JudgmentRefdata
+	Method:  getJudgmentApplicant()
+	File:    get_judgment_applicant.xml
+	Author:  
+	Created: 
+	Description: 
+        List of Judgment Applicant Types
+-->
+<service-method>
+	<pipeline>
+		<Query>
+  			<QueryDef location="uk/gov/dca/caseman/judgment_refdata_service/query_def_applicant.xml"/>
+  				<QueryExtension pivotNode="/Applicants/Applicant">
+   					<Constraint>CRC.RV_DOMAIN = 'APPLICANT'</Constraint>
+  				</QueryExtension>
+  		</Query>
+  	</pipeline>
+	<Security roles="viewOnly medium high wcSuper scSuper bmsSuper aeSuper dmSuper cpSuper ccbcMan ccbcUser ccbcSGB2"/>	
+</service-method>

@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- WP-1.13 -->
+<!-- ====================================================================== -->
+<!--  -->
+<!-- CVS Info: -->
+<!-- $Id: CJR190-FO.xml,v 1.6 2006/03/28 14:04:33 kevin Exp $ -->
+<!--  -->
+<!-- AUTHOR: Nick Wilson -->
+<!--  -->
+<!-- DESCRIPTION: This stylesheet is used to create an XSL:FO document that -->
+<!-- can be processed into a PDF version of a CJR189 order.  Business logic -->
+<!-- is embedded to generate the correct document text for the order -->
+<!-- required. -->
+<!--  -->
+<!-- INPUTS: XML document containing: the answers to questions asked of the -->
+<!-- user; case data retrieved from the database; HTML representing the  -->
+<!-- body of the document content (already edited by the user). -->
+<!--  -->
+<!-- OUTPUTS: XML document with FO tags containing instructions for the -->
+<!-- creation of a PDF document. -->
+<!--  -->
+<!-- MODIFICATION LOG: -->
+<!-- 07-10-2004 - Nick Wilson - Created. -->
+<!--  -->
+<!-- Change History:
+--> 
+<!-- ====================================================================== -->
+<root xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:fo="http://www.w3.org/1999/XSL/Format" xmlns:supsfo="http://eds.com/supsfo" xmlns="http://eds.com/supsfo" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/supsfo
+..\Notice-FO.xsd">
+	<variables>@word.processing.url.xsl@supsfo.xsl</variables>
+	<addressee>
+		<claimant/>
+	</addressee>
+	<header>
+		<fo:block font-size="16pt" font-weight="bold">Notice of Issue <xsl:value-of select="$vdDuplicateEvent" /></fo:block>
+		<fo:block font-size="12pt">(demotion claim) </fo:block>
+		<fo:block font-size="12pt"></fo:block>
+	</header>
+	<courtcase>
+		<court>
+			<xsl:copy-of select="$vdCourtHeaderBlock"/>
+		</court>
+		<caseparameters>
+			<parameter>
+				<name>
+					<fo:block font-weight="bold">Claim Number</fo:block>
+				</name>
+				<value>
+					<fo:block>
+						<xsl:value-of select="$vdClaimNumber"/>
+					</fo:block>
+				</value>
+			</parameter>
+			<parameter>
+				<name>
+					<fo:block font-weight="bold">Claimant</fo:block>
+					<fo:block font-size="9pt">(including ref.)</fo:block>
+				</name>
+				<value>
+					<fo:block hyphenate="true">
+						<xsl:value-of select="$vdClaimantName"/>
+					</fo:block>
+					<fo:block font-size="9pt" hyphenate="true">
+						<xsl:value-of select="$vdClaimantReference"/>
+					</fo:block>
+				</value>
+			</parameter>
+			<parameter>
+				<name>
+					<fo:block font-weight="bold">Defendant</fo:block>
+					<fo:block font-size="9pt">(including ref.)</fo:block>
+				</name>
+				<value>
+					<fo:block hyphenate="true">
+						<xsl:value-of select="$vdDefendantName"/>
+					</fo:block>
+					<fo:block font-size="9pt" hyphenate="true">
+						<xsl:value-of select="$vdDefendantReference"/>
+					</fo:block>
+				</value>
+			</parameter>
+			<parameter>
+				<name>
+					<fo:block font-weight="bold">Issue Fee</fo:block>
+				</name>
+				<value>
+					<fo:block>
+						&#163;<xsl:call-template name="correctCalculation">
+							<xsl:with-param name="value"><xsl:value-of select="$vdIssueFee"/></xsl:with-param>
+						</xsl:call-template>
+					</fo:block>
+				</value>
+			</parameter>
+		</caseparameters>
+	</courtcase>
+	<bodyintroright><fo:block><fo:inline text-align="center"><seal/></fo:inline></fo:block></bodyintroright>
+	<body>
+		<fo:block space-after="1.0cm"/>
+		<fo:block font-size="9pt" space-after="0.8cm">Your claim was issued on <xsl:value-of select="$vdClaimDateOfIssue"/>.</fo:block>
+		<fo:block font-size="10pt" space-after="0.8cm">Date of hearing:</fo:block>
+		<fo:block font-size="10pt" space-after="0.8cm">The claim will be heard on <xsl:value-of select="$vdHearingDate"/> at <xsl:value-of select="$vdHearingTime"/></fo:block>
+		<fo:block font-size="10pt" space-after="1.2cm">At the County Court at <xsl:value-of select="$vdHearingCourtName"/>, <xsl:value-of select="$vdHearingCourtAddress"/></fo:block>
+		<fo:block font-size="10pt" font-weight="bold">Evidence</fo:block>
+		<list>
+			<list-item><fo:block font-size="10pt">If you intend to rely on any witness statements, you must file them in the court office and serve copies on all other parties <fo:inline font-weight="bold">no later than 2 clear working days before the hearing.</fo:inline></fo:block></list-item>
+		</list>
+		<fo:block font-size="10pt" font-weight="bold" space-before="0.8cm">Hearing</fo:block>
+		<fo:block font-size="10pt">At the hearing the court may:</fo:block>
+		<list>
+			<list-item><fo:block font-size="10pt">decide the demotion claim; or</fo:block></list-item>
+			<list-item><fo:block font-size="10pt">adjourn the claim to be heard on another day, and</fo:block></list-item>
+			<list-item><fo:block font-size="10pt">give case management directions.</fo:block></list-item>
+		</list>
+	</body>
+	<defaultFooter id="CJR190"/>
+</root>

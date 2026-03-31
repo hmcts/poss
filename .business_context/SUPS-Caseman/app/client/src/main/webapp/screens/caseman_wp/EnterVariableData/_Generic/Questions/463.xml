@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>463</Id>
+	<Label>Date of certificate</Label>
+	<ObjectName>CertificateDate</ObjectName>
+	<Html>	
+		<script type="text/javascript">
+			WP_DatePickerRenderer.createInline("CertificateDate");
+		</script>
+	</Html>			
+	<Javascript>
+		<XPath>/ds/EnterVariableData/SuspCOforDisobedience/certificateDate</XPath>
+		<componentName>##label##</componentName>
+		<isMandatory>return true;</isMandatory>
+		<HintText>Enter the date of the certificate, in format DD-MMM-YYYY</HintText>	
+		<validateOn>CertificateDate.dataBinding</validateOn>
+		<validate>return isWorkingDayInPast(Services.getValue(CertificateDate.dataBinding));</validate>	
+		<miscCode>CertificateDate.weekends = false;</miscCode>
+		
+		<Context ScreenId="CJR083">
+			<enableOn>IsNewN79AsReqd.dataBinding</enableOn>
+			<isEnabled>
+				if(IsNewN79AsReqd.isEnabled())
+				{  	if( 'Y' == Services.getValue(IsNewN79AsReqd.dataBinding))
+					{	return true;
+					}
+					return false;
+				}
+				return true;
+			</isEnabled>
+			<logicOn>IsNewN79AsReqd.dataBinding</logicOn>
+			<logic>
+				if( IsNewN79AsReqd.isEnabled() &amp;&amp; 'Y' != Services.getValue(IsNewN79AsReqd.dataBinding))
+				{	Services.setValue(CertificateDate.dataBinding, "");
+				}
+			</logic>
+		</Context>		
+	</Javascript>
+</Question>

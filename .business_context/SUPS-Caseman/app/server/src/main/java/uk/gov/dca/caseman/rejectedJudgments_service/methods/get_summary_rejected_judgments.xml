@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<service-method>
+	<pipeline>
+		<Query>
+			<QueryDef location="uk/gov/dca/caseman/rejectedJudgments_service/summary_rejected_judgments_query_def.xml"/>
+			
+			<QueryExtension pivotNode="/RejectedJudgments/RejectedJudgment">
+				<Param name="param.CredCode" xpath="/params/param[@name='CredCode']"/>
+				<Param name="param.CaseNumber" xpath="/params/param[@name='CaseNumber']"/>
+				<Param name="param.CustFileSequence" xpath="/params/param[@name='CustFileSequence']"/>
+				<Param name="param.PayeeName" xpath="/params/param[@name='PayeeName']"/>
+		
+				<Constraint condition="/params/param[@name='CredCode']!=''">
+					RJ.CRED_CODE  = ${param.CredCode}
+				</Constraint>
+				
+				<Constraint condition="/params/param[@name='CaseNumber']!=''">
+					RJ.CASE_NUMBER = ${param.CaseNumber}
+				</Constraint>
+				
+				<Constraint condition="/params/param[@name='CustFileSequence']!=''">
+					RJ.CUST_FILE_SEQUENCE = ${param.CustFileSequence}
+				</Constraint>
+				
+				<Constraint condition="/params/param[@name='PayeeName']!=''"  generator="uk.gov.dca.caseman.common.java.sql.LikeEqualsSQLGenerator" param="param.PayeeName" column="RJ.PAYEE_NAME" />
+				
+				<Constraint>
+					
+				</Constraint>
+			</QueryExtension>
+			
+		</Query>
+	</pipeline>
+	<Security roles="ccbcMan ccbcUser"/>
+</service-method>

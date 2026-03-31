@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>444</Id>
+	<Label>Date of N79A order</Label>
+	<ObjectName>N79ADate</ObjectName>
+	<Html>	
+		<script type="text/javascript">
+			WP_DatePickerRenderer.createInline("N79ADate");
+		</script>
+	</Html>			
+	<Javascript>
+		<XPath>/ds/EnterVariableData/DisobedienceArrest/n79ADate</XPath>
+		<componentName>##label##</componentName>
+		<isMandatory>return true;</isMandatory>
+		<HintText>Enter date of N79A order, in format DD-MON-YYYY</HintText>	
+		<validateOn>N79ADate.dataBinding</validateOn>
+		<validate>
+			var future = isFutureDate(Services.getValue(N79ADate.dataBinding));
+			var err = null;
+			if( future )
+			{	err = ErrorCode.getErrorCode("CaseMan_dateCannotBeInTheFuture_Msg");
+			}
+			return err;
+		</validate>
+		
+		<Context ScreenId="CJR083">			
+			<validate>return isWorkingDayInPast(Services.getValue(N79ADate.dataBinding));</validate>
+			<miscCode>N79ADate.weekends = false;</miscCode>
+			<enableOn>IsNewN79AsReqd.dataBinding</enableOn>
+			<isEnabled>
+				if(IsNewN79AsReqd.isEnabled())
+				{  	if( 'Y' != Services.getValue(IsNewN79AsReqd.dataBinding))
+					{	return true;
+					}
+					return false;
+				}
+				return true;
+			</isEnabled>
+			<logicOn>IsNewN79AsReqd.dataBinding, N39HearingDate.dataBinding</logicOn>
+			<logic>
+				if( IsNewN79AsReqd.isEnabled() &amp;&amp; 'Y' == Services.getValue(IsNewN79AsReqd.dataBinding))
+				{	Services.setValue(N79ADate.dataBinding, "");
+				}
+				else
+				{	Services.setValue( N79ADate.dataBinding , Services.getValue(N39HearingDate.dataBinding));
+				}
+			</logic>
+		</Context>	
+	</Javascript>
+</Question>

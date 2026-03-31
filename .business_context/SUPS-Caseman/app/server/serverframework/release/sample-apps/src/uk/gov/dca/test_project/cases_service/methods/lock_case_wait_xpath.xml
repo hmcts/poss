@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<service-method>
+	<pipeline>
+		<Lock wait="true">
+			<datasource id="java:SupsDS" table="locking_table"/>
+			<lockId expression="string(/params/param[@name='caseNumber'])"/>
+		</Lock>
+		<Wait delay="15000"/>
+	</pipeline>
+	<Security roles="user"/>
+	<Transaction type="Required"/>
+</service-method>

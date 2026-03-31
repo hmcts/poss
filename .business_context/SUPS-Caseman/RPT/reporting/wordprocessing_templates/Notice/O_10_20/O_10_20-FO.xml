@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- ====================================================================== -->
+<!--  -->
+<!-- FILENAME: $Source: C:/CVSRepository/serveroas/src/uk/gov/dca/caseman/wordprocessing_templates/Notice/O_10_20/O_10_20-FO.xml,v $ -->
+<!--  -->
+<!-- AUTHOR: $Author: jay $-->
+<!--  -->
+<!-- DATE: $Date: 2006/05/24 11:17:54 $ -->
+<!--  -->
+<!-- Version: $Revision: 1.19 $ -->
+<!--  -->
+<!-- DESCRIPTION: This stylesheet is used to create an XSL:FO document that -->
+<!-- can be processed into a PDF version.  Business logic -->
+<!-- is embedded to generate the correct document text for the order -->
+<!-- required. -->
+<!--  -->
+<!-- INPUTS: XML document containing: the answers to questions asked of the -->
+<!-- user; case data retrieved from the database; HTML representing the  -->
+<!-- body of the document content (already edited by the user). -->
+<!--  -->
+<!-- OUTPUTS: XML document with FO tags containing instructions for the -->
+<!-- creation of a PDF document. -->
+<!--  -->
+<!--
+@author Sandeep Mullangi
+@version 0.1
+Change Hisstory
+Oct 27, 2008 Sandeep Mullangi - Printing insolvency number if present as part of RFC 486
+-->
+<!-- ====================================================================== -->
+<root xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:fo="http://www.w3.org/1999/XSL/Format" xmlns="http://eds.com/supsfo">
+	<variables>@word.processing.url.xsl@supsfo.xsl</variables>
+	<addressee>
+		<blank/>
+		<officialreceiver/>
+	</addressee>
+	<header>
+		<fo:block font-size="16pt" font-weight="bold">REQUEST FOR NOTIFICATION OF</fo:block>
+		<fo:block font-size="16pt" font-weight="bold">EARLIER PROCEEDINGS</fo:block>
+	</header>
+	<courtcase>
+		<court>
+			<xsl:copy-of select="$vdCourtHeaderBlock"/>
+		</court>
+		<caseparameters>
+			<!-- adding insolvency number-->
+            <parameter>
+                <name>
+                    <fo:block font-weight="bold">
+                        <xsl:choose>
+                            <xsl:when test="string-length($vdInsolvencyNumber) > 0">Insolvency Number</xsl:when>
+                            <xsl:otherwise>Case Number</xsl:otherwise>
+                        </xsl:choose>
+                    </fo:block>
+                </name>
+                <value>
+                    <fo:block>
+                        <xsl:choose>
+                            <xsl:when test="string-length($vdInsolvencyNumber) > 0">
+                                <xsl:value-of select="substring($vdInsolvencyNumber,1,4)"/> of <xsl:value-of select="substring($vdInsolvencyNumber,5,4)"/>
+                            </xsl:when>
+                            <xsl:otherwise>
+                                <xsl:value-of select="$vdClaimNumber"/>
+                            </xsl:otherwise>
+                        </xsl:choose>
+                    </fo:block>
+                </value>
+			</parameter>
+			<parameter>
+				<name>
+					<fo:block font-weight="bold">Name</fo:block>
+				</name>
+				<value>
+					<fo:block hyphenate="true">
+						<xsl:value-of select="$vdSubjectName"/>
+					</fo:block>
+				</value>
+			</parameter>
+		</caseparameters>
+	</courtcase>
+	
+	<body>
+	<editable useid="N10080">
+		<fo:block space-after="0.4cm">
+			There is no evidence on the court file to show that the bankrupt is not entitled to an automatic discharge under the provisions of Section 279 (2) of the Insolvency Act 1986
+		</fo:block>
+		<fo:block space-after="0.8cm">
+			In the circumstances the official receiver should confirm that he is unaware of any circumstances which would prevent a certificate of discharge being issued
+		</fo:block>
+		<signature signaturetype="signature2"/>
+		<fo:block space-before="0.2cm" space-after="0.4cm">
+			<xsl:value-of select="$vdName"/>, Officer of the Court
+		</fo:block>
+	</editable>
+		<leader></leader>
+
+		<fo:block space-after="0.4cm">
+			<fo:inline font-size="13pt" font-weight="bold">For The Official Receiver</fo:inline>   (Tick the Appropriate Box and return the copy to the Court)
+		</fo:block>
+		<list type="checkBoxWithLabel">
+			<list-item>
+				<fo:block space-after="0.4cm" font-size="16pt" font-weight="bold">A.  Certificate of Discharge Applies</fo:block>
+				<fo:block  space-after="0.4cm">I am not aware of the existence of any proceedings which would mean that the bankrupt was not entitled to a discharge under the provisions of Section 279 (2) of the Insolvency Act 1986</fo:block>
+			</list-item>
+			<list-item>
+				<fo:block space-after="0.4cm" font-size="16pt" font-weight="bold">B.  Notification of Earlier Proceedings Applies</fo:block>
+				<fo:block >In my enquiries into the affairs of the above named bankrupt I have discovered that an adjudication/bankruptcy order was made against him/her on __________________________________________ and that:</fo:block>
+				<fo:block>He/she remains undischarged from the proceedings</fo:block>
+				<fo:block>or</fo:block>
+				<fo:block space-after="0.8cm">he/she was discharged on _____________________________________________</fo:block>
+			</list-item>
+		</list>
+		<signature signaturetype="signature2"/>
+		<fo:block>
+			(For the Official Receiver)
+		</fo:block>
+	</body>
+	<footnote noteextent="4.2">
+		<fo:table table-layout="fixed" font-family="Times">
+			<fo:table-column column-width="19.28cm"></fo:table-column>
+			<fo:table-body>
+				<fo:table-row keep-with-next="always">
+					<fo:table-cell border-top-style="solid" border-top-width="0.02cm"  border-left-style="solid" border-left-width="0.02cm"
+						border-right-style="solid" border-right-width="0.02cm" border-bottom-style="solid" border-bottom-width="0.02cm">
+						<fo:block start-indent="1cm">
+							<address suppressborder="true">
+								<fo:block start-indent="1cm">
+									To: Insolvency Section
+								</fo:block>
+								<xsl:value-of select="$vdCourtNameDescription"/>
+								<xsl:call-template name="format-address-multi-line">
+									<xsl:with-param name="party">
+										<xsl:copy-of select="$vdCourtAddress"/>
+									</xsl:with-param>	
+								</xsl:call-template>
+							</address>
+						</fo:block>
+					</fo:table-cell>
+				</fo:table-row>						
+			</fo:table-body>
+		</fo:table>	
+	</footnote>
+	<defaultFooter id="O_10_20"/>
+</root>

@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>83</Id>
+	<Label>Date goods to be returned</Label>
+	<ObjectName>GoodsReturnDate</ObjectName>
+	<Html>	  
+	  <script type="text/javascript">WP_DatePickerRenderer.createInline("GoodsReturnDate", false);</script>
+	</Html>
+	
+	<Context ScreenId="N32"> 
+	    <Label>Date for payment or return of goods</Label>
+	</Context>
+	<Context screenId="N32_5"> 
+	    <Label>Date of Return of Goods Order</Label>
+	</Context>
+				
+	<Javascript>
+		<XPath>/ds/EnterVariableData/Order/goodsreturndate</XPath>
+		<mandatoryOn>GoodsReturnDate.dataBinding</mandatoryOn>
+		<isMandatory>return true;</isMandatory>	
+		<HintText>Enter or select the date the goods are to be returned</HintText>
+		
+		<Context ScreenId="CJR351">
+			<validateOn>GoodsReturnDate.dataBinding</validateOn>
+			<validate>return( isInFuture(Services.getValue(GoodsReturnDate.dataBinding)));</validate>
+		</Context>
+		<Context ScreenId="CJR352">
+			<validateOn>GoodsReturnDate.dataBinding</validateOn>
+			<validate>return( isInFuture(Services.getValue(GoodsReturnDate.dataBinding)));</validate>
+		</Context>
+		
+		<Context ScreenId="O_7_8"> 
+            <isEnabled>return true;</isEnabled>
+             	<validate>
+				//Date picker: error message “The value does not conform to a valid date format of DD-MMM-YYYY”.
+				//Validation: Date cannot be in the past
+                return isInFuture(Services.getValue(GoodsReturnDate.dataBinding),"false");
+			</validate>
+		</Context>
+		
+		<Context ScreenId="N32"> 
+	        <HintText>Date for payment or return of the goods</HintText>
+		</Context>
+		
+		<Context ScreenId="N32_5"> 	
+			<validateOn>GoodsReturnDate.dataBinding</validateOn>	
+			<validate>
+				//date cannot be in the future
+				var isFuture = isFutureDate(Services.getValue(GoodsReturnDate.dataBinding));
+				var err = null;
+				if( true == isFuture)
+				{ 	err = ErrorCode.getErrorCode("CaseMan_dateCannotBeInTheFuture_Msg");				
+				}
+				return err;
+			</validate>
+		</Context>
+		
+		
+	</Javascript>
+</Question>

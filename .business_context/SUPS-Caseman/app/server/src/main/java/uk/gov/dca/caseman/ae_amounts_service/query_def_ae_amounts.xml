@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+	Service: AeAmounts
+	Method:  updateAeAmounts()
+	File:    query_def_ae_amounts.xml
+	Author:  Chris Hutt
+	Created: 11 July 2005
+	Description: 
+		Insert/update Amounts associated with an Ae Application
+		
+	Change History:
+	
+	1 Dec 2006	Chris Hutt
+			    Defects UCT838/839:	Requirement to update AE_APPLICATIONS and generate an AeEvent.
+			    AE_APPLICATION needs to return SCN
+ -->
+<QueryDef>
+  <DBMapDef location="uk/gov/dca/caseman/ae_amounts_service/map_ae_amounts.xml"/>
+  <Query pivotNode="/MaintainAEAmounts" tables="AEA CT CPR1 P1 PR1 CPR2 P2 PR2 REF">
+	<Join>
+		CT.CODE 			 = AEA.ISSUING_CRT_CODE AND
+		CPR1.CASE_NUMBER     = AEA.CASE_NUMBER   AND
+		CPR1.PARTY_ROLE_CODE = AEA.PARTY_AGAINST_PARTY_ROLE_CODE AND
+		CPR1.CASE_PARTY_NO   = AEA.PARTY_AGAINST_CASE_PARTY_NO AND
+		P1.PARTY_ID          = CPR1.PARTY_ID AND
+		PR1.PARTY_ROLE_CODE  = CPR1.PARTY_ROLE_CODE AND
+		CPR2.CASE_NUMBER     = AEA.CASE_NUMBER   AND
+		CPR2.PARTY_ROLE_CODE = AEA.PARTY_FOR_PARTY_ROLE_CODE AND
+		CPR2.CASE_PARTY_NO   = AEA.PARTY_FOR_CASE_PARTY_NO AND
+		P2.PARTY_ID          = CPR2.PARTY_ID AND
+		PR2.PARTY_ROLE_CODE  = CPR2.PARTY_ROLE_CODE AND
+		REF.RV_DOMAIN = 'AE_TYPE' AND
+		REF.RV_LOW_VALUE = AEA.AE_TYPE
+	</Join>
+	<Modify/>
+	<Alias name="P1.PARTY_KEY" select="AEA.PARTY_AGAINST_PARTY_ROLE_CODE || '_' || AEA.PARTY_AGAINST_CASE_PARTY_NO"/>
+	<Alias name="P2.PARTY_KEY" select="AEA.PARTY_FOR_PARTY_ROLE_CODE || '_' || AEA.PARTY_FOR_CASE_PARTY_NO"/>
+	<Alias name="FP1.TOTAL_FEES" select="( SELECT SUM(FP1.AMOUNT) FROM FEES_PAID FP1 WHERE FP1.PROCESS_NUMBER = AEA.AE_NUMBER AND FP1.PROCESS_TYPE = 'A' AND (FP1.DELETED_FLAG IS NULL OR FP1.DELETED_FLAG = 'N') )"/>
+  </Query>
+  
+  <Query pivotNode="/MaintainAEAmounts/AEAmounts/AEAmount" tables="FP">
+  	<LinkedSQL type="root" key="FP.FEES_PAID_ID">
+		<SQL>
+			SELECT FP.FEES_PAID_ID AS "FP.FEES_PAID_ID",
+				FP.AMOUNT_CURRENCY AS "FP.AMOUNT_CURRENCY",
+				FP.AMOUNT AS "FP.AMOUNT",
+				FP.USER_ID AS "FP.USER_ID",
+				FP.PROCESS_TYPE AS "FP.PROCESS_TYPE",
+				FP.DATE_CREATED AS "FP.DATE_CREATED",
+				FP.DELETED_FLAG AS "FP.DELETED_FLAG",
+				(SELECT CASE 
+					WHEN
+ 						FP.AMOUNT &lt; 0 THEN 'REFUND' 
+					ELSE
+ 						'FEE' 
+					END
+				FROM FEES_PAID FP1
+            	WHERE FP1.FEES_PAID_ID = FP.FEES_PAID_ID ) AS "FP1.TYPE",
+            	'EXISTING' AS "STATUS",
+				FP.ORA_ROWSCN AS "FP_ORA_ROWSCN"
+        	FROM FEES_PAID FP
+			WHERE FP.PROCESS_NUMBER = ${AEA.AE_NUMBER} AND
+			FP.PROCESS_TYPE = 'A' AND
+			(FP.DELETED_FLAG IS NULL OR FP.DELETED_FLAG = 'N')
+		</SQL>
+	</LinkedSQL>
+    <Modify/>
+  </Query>
+  
+</QueryDef>

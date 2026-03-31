@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- ====================================================================== -->
+<!--  -->
+<!-- FILENAME: $Source: C:/CVSRepository/serveroas/src/uk/gov/dca/caseman/wordprocessing_templates/Notice/CJR100/CJR100-FO.xml,v $ -->
+<!--  -->
+<!-- AUTHOR: $Author: conganer $-->
+<!--  -->
+<!-- DATE: $Date: 2006/06/05 14:14:02 $ -->
+<!--  -->
+<!-- Version: $Revision: 1.9 $ -->
+<!--  -->
+<!-- DESCRIPTION: This stylesheet is used to create an XSL:FO document that -->
+<!-- can be processed into a PDF version.  Business logic -->
+<!-- is embedded to generate the correct document text for the order -->
+<!-- required. -->
+<!--  -->
+<!-- INPUTS: XML document containing: the answers to questions asked of the -->
+<!-- user; case data retrieved from the database; HTML representing the  -->
+<!-- body of the document content (already edited by the user). -->
+<!--  -->
+<!-- OUTPUTS: XML document with FO tags containing instructions for the -->
+<!-- creation of a PDF document. -->
+<!--  -->
+<!-- ====================================================================== -->
+<root xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:fo="http://www.w3.org/1999/XSL/Format" xmlns="http://eds.com/supsfo">
+	<variables>@word.processing.url.xsl@supsfo.xsl</variables>
+	<addressee>
+		<blank/>
+		<claimant/>
+		<subject/>
+	</addressee>
+	<header>
+		<fo:block font-size="16pt" font-weight="bold">Guardianship order</fo:block>
+		<fo:block font-size="16pt" font-weight="bold">(Housing Act 1996,</fo:block>
+		<fo:block font-size="16pt" font-weight="bold">Mental Health Act 1983)</fo:block>
+	</header>
+	<courtcase>
+		<court>
+			<xsl:copy-of select="$vdCourtHeaderBlock"/>
+		</court>
+		<caseparameters>
+			<parameter>
+				<name>
+					<fo:block font-weight="bold">Claim Number</fo:block>
+				</name>
+				<value>
+					<fo:block>
+						<xsl:value-of select="$vdClaimNumber"/>
+					</fo:block>
+				</value>
+			</parameter>
+			<parameter>
+				<name>
+					<fo:block font-weight="bold">Claimant</fo:block>
+					<fo:block font-size="9pt">(including ref.)</fo:block>
+				</name>
+				<value>
+					<fo:block hyphenate="true">
+						<xsl:value-of select="$vdClaimantName"/>
+					</fo:block>
+					<fo:block font-size="9pt" hyphenate="true">
+						<xsl:value-of select="$vdClaimantReference"/>
+					</fo:block>
+				</value>
+			</parameter>
+			<parameter>
+				<name>
+					<fo:block font-weight="bold">Defendant</fo:block>
+					<fo:block font-size="9pt">(including ref.)</fo:block>
+				</name>
+				<value>
+					<fo:block hyphenate="true">
+						<xsl:value-of select="$vdDefendantName"/>
+					</fo:block>
+					<fo:block font-size="9pt" hyphenate="true">
+						<xsl:value-of select="$vdDefendantReference"/>
+					</fo:block>
+				</value>
+			</parameter>
+			<parameter>
+				<name>
+					<fo:block font-weight="bold">Date</fo:block>
+				</name>
+				<value>
+					<fo:block>
+						<xsl:value-of select="$vdEventDate"/>
+					</fo:block>
+				</value>
+			</parameter>
+		</caseparameters>
+	</courtcase>
+	<bodyintroright><fo:block space-before="0.4cm"><fo:inline text-align="center"><seal/></fo:inline></fo:block></bodyintroright>
+
+	<body>
+		<editable useid="N100CD">
+		<fo:block space-after="1.0cm"/>
+		<fo:block space-after="0.8cm">
+			On <xsl:value-of select="$vdOrderDate"/>, <xsl:value-of select="$vdJudge"/>
+		</fo:block>
+		<fo:block space-after="0.8cm">
+			sitting at <xsl:value-of select="$vdHearingCourtNameDescription"/>, <xsl:value-of select="$vdHearingCourtAddress"/>
+		</fo:block>
+		<fo:block space-after="0.8cm">
+			a) found, as recorded in an order of <xsl:value-of select="$vdBreachOrderDate"/>, that the defendant had disobeyed an injunction made under section
+			<xsl:value-of select="$vdGuardianshipSection"/> of the Housing Act 1996,
+		</fo:block>
+		<fo:block space-after="0.8cm">
+			b) <xsl:value-of select="$vdEvidenceGiven"/> evidence of two medical practitioners <xsl:value-of select="$vdMedicalPractitioner1"/> and <xsl:value-of select="$vdMedicalPractitioner2"/> as required by the provisions of section 37 of the Mental Health
+			Act 1983 that the defendant is suffering from <xsl:value-of select="$vdDefendantDisability"/> within the meaning of that Act,
+		</fo:block>
+		<fo:block space-after="0.8cm">
+			c) found that all other conditions, which under section 37 of the Mental Health Act 1983 are required to be satisfied for the making of
+			a guardianship order, are satisfied in respect of the defendant and
+		</fo:block>
+		<fo:block space-after="0.8cm">
+			d) was satisfied that the <xsl:value-of select="$vdDefendantReceivedBy"/> specified below is willing to receive the defendant into guardianship;
+		</fo:block>
+		<fo:block>
+			<fo:inline font-weight="bold">and the court orders that</fo:inline>
+		</fo:block>
+		<fo:block>
+			The defendant <xsl:value-of select="$vdSubjectName"/> of <xsl:value-of select="$vdSubjectAddress"/> be placed under the guardianship of
+			<xsl:if test="string-length($vdGuardianship1) > 0"><xsl:value-of select="$vdGuardianship1"/></xsl:if>
+			the <xsl:value-of select="$vdCouncilName"/> Council (Social Services Department).
+		</fo:block>
+		</editable>
+	</body>
+	<defaultFooter id="CJR100"/>
+</root>

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: Warrant
+	Method:  checkForeignWarrantPaymentsExist
+	Author:  Chris Vincent
+	Created: 05 October 2010
+	Description: 
+		Use SQLLite to determine whether any payments exist on a Foreign Warrant
+		
+	Change History
+-->
+<service-method>
+	<pipeline>
+		<SQLLite format-output="true"
+				 resultset-element="ds"
+				 row-element="WarrantPaymentData"
+				 field-name-as="element" >
+			<DataSource id="java:OracleDS"/>
+			<Param name="param.warrantID" xpath="/params/param[@name = 'warrantID']"/>
+			<SQL>
+				SELECT DECODE(COUNT(*),0,'false','true') AS "PaymentsExist"
+				FROM   PAYMENTS PY
+				,      WARRANTS W
+				WHERE  W.WARRANT_ID = ${param.warrantID}
+				AND    W.LOCAL_WARRANT_NUMBER IS NOT NULL
+				AND    PY.SUBJECT_NO = W.LOCAL_WARRANT_NUMBER
+				AND    PY.PAYMENT_FOR = 'FOREIGN WARRANT'
+				AND    PY.ENFORCEMENT_COURT_CODE = W.CURRENTLY_OWNED_BY
+			</SQL>			
+		</SQLLite>
+  	</pipeline>
+	<Security roles="viewOnly medium high wcSuper scSuper bmsSuper aeSuper dmSuper cpSuper ccbcMan ccbcUser ccbcSGB2"/>
+</service-method>

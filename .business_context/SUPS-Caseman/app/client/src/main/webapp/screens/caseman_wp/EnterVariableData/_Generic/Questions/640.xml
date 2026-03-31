@@ -1,0 +1,15 @@
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>640</Id>
+	<Label>Timetable to be agreed by the parties</Label>
+	<ObjectName>TimeTableAgreed</ObjectName>
+	<Html>	
+		<input type="checkbox" id="TimeTableAgreed"></input>
+	</Html>		
+	
+	<Javascript>
+		<XPath>/ds/EnterVariableData/TrialDirections/timeTableAgreed</XPath>
+		<componentName>##label##</componentName>
+		<modelValue>checked: "Y", unchecked: "N"</modelValue>
+		<HintText>Check box if timetable is to be agreed by the parties </HintText>			
+	</Javascript>
+</Question>

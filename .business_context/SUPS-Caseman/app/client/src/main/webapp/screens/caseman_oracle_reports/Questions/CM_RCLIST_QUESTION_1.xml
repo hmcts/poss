@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- 
+	25/05/2006 - MGG - defect 3388 - Removed isMandatory tag.  Not required as this field will always have a value - i.e. there is not 
+									 an <empty> value in the droplist.  Also move the default setting to an initialise method.
+-->
+<!--Question xmlns="http://eds.com/questionxhtml" xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd"-->
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>CM_RCLIST_QUESTION_1</Id>
+	<Label>Return Type</Label>
+	<ObjectName>ReturnType</ObjectName>
+	<Html>
+		<select id="ReturnType">
+			<option value="I">Interim</option>
+			<option value="F">Final</option>
+		</select>
+		<!--<input id="ReturnType" type="text" size="1"></input>-->
+	</Html>
+	<Javascript>
+		<XPath>/ds/var/page/OracleReportForm/ReturnType</XPath>
+		<ReportVariableName>P_RETURN_TYPE</ReportVariableName>
+		<ReportVariableValue>Services.getValue(ReturnType.dataBinding)</ReportVariableValue>
+		<HintText>Enter the type of return code Interim or Final</HintText>
+		<initialise>
+			Services.setValue(ReturnType.dataBinding, "I");
+		</initialise>
+		<maxLength>1</maxLength>
+		<setDefault>
+		</setDefault>	
+		<validate>
+			var ec = null;
+			if ((Services.getValue(ReturnType.dataBinding) == "I") || (Services.getValue(ReturnType.dataBinding) == "F"))
+			{
+				//Passed
+			}
+			else
+			{
+				ec = ErrorCode.getErrorCode("CaseMan_returnTypeInvalid_Msg");
+			}
+			return faildedValidation (ec);
+		</validate>
+		<miscCode>
+			Status_RunReportButton.validationList = ["ReturnType"];
+		</miscCode>
+	</Javascript>
+</Question>

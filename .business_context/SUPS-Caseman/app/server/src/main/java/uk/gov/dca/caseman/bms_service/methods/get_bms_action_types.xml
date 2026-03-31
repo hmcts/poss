@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<service-method>
+	<pipeline>
+		<Query>
+			<QueryDef location="uk/gov/dca/caseman/bms_service/query_def_get_bms_action_types.xml"/>
+			<QueryExtension pivotNode="/ds/Action/ActionTypes">
+			</QueryExtension>
+		</Query>
+	</pipeline>
+	<Security roles="user"/>
+</service-method>

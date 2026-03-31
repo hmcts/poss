@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<QueryDef>
+  <DBMapDef location="uk/gov/dca/caseman/ae_service/map_ae_employer_details.xml"/>
+    <Query pivotNode="/AEApplications/AEApplication" tables="A">
+	  <Join/>
+      <Modify>	
+		<Field name="A.DEBTORS_EMPLOYERS_PARTY_ID" xpath="DebtorsEmployersPartyId"/>
+	  </Modify>
+    </Query>
+</QueryDef>

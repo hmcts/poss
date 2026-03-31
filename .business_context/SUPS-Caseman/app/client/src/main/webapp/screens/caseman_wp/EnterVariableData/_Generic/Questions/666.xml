@@ -1,0 +1,20 @@
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>666</Id>
+	<Label>Was the agreement</Label>
+	<ObjectName>AgreementWas</ObjectName>
+	<Html>	
+		<select id="AgreementWas">
+			<option value=""></option>
+			<option value="HP">Hire purchase</option>
+			<option value="RCS">Regulated conditional sale</option>
+			<option value="RHP">Regulated hire purchase</option>
+		</select>
+	</Html>		
+
+	<Javascript>
+		<XPath>/ds/EnterVariableData/DeliveryOfGoods/agreementWas</XPath>
+		<componentName>##label##</componentName>
+		<isMandatory>return true;</isMandatory>
+		<HintText>Was the agreement </HintText>		
+	</Javascript>
+</Question>

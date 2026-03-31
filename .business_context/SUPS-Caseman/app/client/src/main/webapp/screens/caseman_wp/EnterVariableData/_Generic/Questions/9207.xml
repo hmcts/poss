@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>9207</Id>
+	<Label>Bill number</Label>
+	<ObjectName>BillNumber</ObjectName>
+	
+	<Context screenId="L_4_11"><isVisible>false</isVisible></Context>
+	
+	<Html>	
+		<input type="text" size="35" id="BillNumber"></input>
+	</Html>			
+	<Javascript>
+		<XPath>/ds/EnterVariableData/billNumber</XPath>
+		<HintText>Enter the bill number</HintText>
+
+		
+        <Context ScreenId="L_10_1_2_15_16">
+			<isMandatory>return ("2" != Services.getValue(SelectLetter.dataBinding))</isMandatory> 
+			<mandatoryOn>SelectLetter.dataBinding</mandatoryOn>
+			<enableOn>SelectLetter.dataBinding</enableOn>
+			<isEnabled>return ("2" != Services.getValue(SelectLetter.dataBinding))</isEnabled>
+			<logicOn>SelectLetter.dataBinding</logicOn>
+			<logic>
+				if("2" == Services.getValue(SelectLetter.dataBinding))
+				{	
+					Services.setValue(BillNumber.dataBinding, "");
+				}
+			</logic>		
+		</Context>		
+		
+	</Javascript>	
+</Question>

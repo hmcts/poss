@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>77</Id>
+	<Label>Has the defendant's name been corrected</Label>
+	<ObjectName>DefNameCorrected</ObjectName>
+	<Html>
+	  <input id="DefNameCorrected" type="checkbox"/>
+	</Html>
+	<Javascript>
+		<XPath>/ds/EnterVariableData/Defendant/namecorrected</XPath>	
+		<HintText>Check box if the defendant's name is corrected</HintText>
+		<modelValue>checked: "Y", unchecked: "N"</modelValue>
+		<isMandatory>return false;</isMandatory>
+		<mandatoryOn>DefNameCorrected.dataBinding</mandatoryOn>
+	</Javascript>
+</Question>

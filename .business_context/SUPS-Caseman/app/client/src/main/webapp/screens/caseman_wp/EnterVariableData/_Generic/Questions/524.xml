@@ -1,0 +1,20 @@
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>524</Id>
+	<Label>Section of Housing Act </Label>
+	<ObjectName>HousingActSect</ObjectName>
+	<Html>	
+		<select id="HousingActSect">
+			<option value=""></option>
+			<option value="153A">153A</option>
+			<option value="153B">153B</option>
+			<option value="153D">153D</option>
+		</select>
+	</Html>		
+
+	<Javascript>
+		<XPath>/ds/EnterVariableData/Guardianship/housingActSect</XPath>
+		<componentName>##label##</componentName>
+		<isMandatory>return true;</isMandatory>
+		<HintText>Enter section of Housing Act 1996 - list available</HintText>			
+	</Javascript>
+</Question>

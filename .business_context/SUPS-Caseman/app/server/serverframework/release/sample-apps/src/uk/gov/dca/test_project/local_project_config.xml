@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project-config>
+	<lookup-items>
+	<!--
+		<item id="java:SupsDS" class="uk.gov.dca.db.impl.JNDIConfigurationItem">java:SupsDS</item>
+		<item id="java:AuthorisationDS" class="uk.gov.dca.db.impl.JNDIConfigurationItem">java:SupsDS</item>
+		-->
+		<!-- *** uncomment the following and update values appropriately in order to test outside web service *** -->
+
+		<!-- 
+		This configuration item class is in the test/java framework code
+		uk.gov.dca.db.test.impl.JDBCPropertiesConfigurationItem
+		-->
+		<item id="java:SupsDS" class="uk.gov.dca.db.impl.TestJDBCPropertiesConfigurationItem">
+			<driver>oracle.jdbc.driver.OracleDriver</driver>
+			<url>framework.database.url</url>
+			<user>framework.database.user</user>
+			<pass>framework.database.password</pass>
+		</item>
+		<item id="java:AuthorisationDS" class="uk.gov.dca.db.impl.TestJDBCPropertiesConfigurationItem">
+			<driver>oracle.jdbc.driver.OracleDriver</driver>
+			<url>framework.database.url</url>
+			<user>framework.database.user</user>
+			<pass>framework.database.pass</pass>
+		</item>
+		<!-- 
+		<item id="java:AuthorisationDS" class="uk.gov.dca.db.impl.JDBCConfigurationItem">
+			<driver>oracle.jdbc.driver.OracleDriver</driver>
+			<url>jdbc:oracle:thin:@168.185.39.19:1521:edirydev</url>
+			<user>dev07</user>
+			<pass>dev07</pass>
+		</item>
+		 -->
+		 
+		<!-- *** update the following value to specify the database schema to validate against *** -->
+		<item id="validation:schema" class="uk.gov.dca.db.impl.StringConfigurationItem">fwk_ut01</item>
+		<!-- *** Comment out the following line or change the value to 'active' to activate security *** -->
+		<item id="security:status" class="uk.gov.dca.db.impl.StringConfigurationItem">active</item>
+		<!-- *** update the following value to specify your application name.  
+				This is used to sepearate your logs in the production environment. *** -->
+		<item id="application:name" class="uk.gov.dca.db.impl.StringConfigurationItem">TestProject</item>
+		<!-- 
+		<item id="java:AsyncDS" class="uk.gov.dca.db.impl.JNDIConfigurationItem">java:SupsDS</item>
+		<item id="TestQueue" class="uk.gov.dca.db.impl.QueueConfigurationItem">
+			<jndi-name>sups/test_queue</jndi-name>
+			<min-pool-size>10</min-pool-size>
+			<max-pool-size>10</max-pool-size>
+		</item>
+		<item id="TestTopic" class="uk.gov.dca.db.impl.TopicConfigurationItem">
+			<jndi-name>sups/test_topic</jndi-name>
+			<min-pool-size>10</min-pool-size>
+			<max-pool-size>10</max-pool-size>
+		</item>
+		<item id="ContentStore" class="uk.gov.dca.db.impl.OracleContentProxyFactoryConfigurationItem">
+			<datasource>java:SupsDS</datasource>
+		</item>
+		<item id="XSLFOFactory" class="uk.gov.dca.db.impl.FOPProcessorFactoryConfigurationItem"/>
+		-->
+		<item id="uk.gov.dca.fw.reportConfig" 
+			class="uk.gov.dca.db.impl.PropertyConfigurationItem">fw</item>
+	</lookup-items>
+</project-config>

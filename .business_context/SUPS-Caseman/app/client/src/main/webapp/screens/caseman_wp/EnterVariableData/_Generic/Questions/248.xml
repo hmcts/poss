@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>248</Id>
+	<Label>Oral or Written evidence</Label>
+	<ObjectName>OralOrWritten</ObjectName>
+	<Html>	
+		<select id="OralOrWritten">
+			<option value=""></option>
+			<option value="ORAL">Oral evidence</option>
+			<option value="WRIT">Written evidence</option>
+		</select>
+	</Html>
+	<Javascript>
+		<XPath>/ds/EnterVariableData/FastTrack/oralOrWritten</XPath>
+		<HintText>How should evidence be given</HintText>
+		<isMandatory>return true;</isMandatory>	
+		<enableOn>PermitExpertWitnesses.dataBinding</enableOn>
+		<isEnabled>return('Y' == Services.getValue(PermitExpertWitnesses.dataBinding));</isEnabled>
+		<logicOn>PermitExpertWitnesses.dataBinding</logicOn>
+		<logic>
+			if('Y' != Services.getValue(PermitExpertWitnesses.dataBinding))
+			{	Services.setValue(OralOrWritten.dataBinding, "");
+			}
+		</logic>
+		
+		<Context ScreenId="CJR060">
+			<HintText>Select how evidence should be given</HintText>
+		</Context>
+	</Javascript>
+</Question>

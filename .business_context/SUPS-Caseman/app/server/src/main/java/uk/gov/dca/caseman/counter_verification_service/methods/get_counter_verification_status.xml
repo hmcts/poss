@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: CounterVerification
+	Method:  getCounterVerificationStatus()
+	File:    get_counter_verification_status.xml
+	Author:  Mark Hallam (EDS)
+	Created: 25 January 2006
+	Description: 
+		Determine whether any counter payments have been made today for the user.
+-->
+<service-method>
+	<pipeline>
+		<SQLLite format-output="true"
+				 resultset-element="ds"
+				 row-element="CounterPayments"
+				 field-name-as="element" >
+			<DataSource id="java:OracleDS"/>
+			<Param name="param.inputBy" xpath="/params/param[@name='inputBy']"/>
+			<Param name="param.courtId" xpath="/params/param[@name='courtId']"/>
+			<SQL>
+				
+			   	SELECT count(*)                AS "noOfCounterPaymments"
+  				FROM REPORT_DATA R
+  				WHERE R.REPORT_TYPE			= 'CVER'
+				  AND R.USER_ID				= ${param.inputBy}
+				  AND R.ADMIN_COURT_CODE 	= ${param.courtId}
+			</SQL>
+		</SQLLite>
+	</pipeline>
+	<Security roles="viewOnly medium high wcSuper scSuper bmsSuper aeSuper dmSuper edsAdmin admin cpSuper"/>
+</service-method>

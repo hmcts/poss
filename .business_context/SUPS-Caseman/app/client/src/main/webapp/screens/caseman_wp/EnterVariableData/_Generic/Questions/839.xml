@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>839</Id>
+	<Label>Allowed response period </Label>
+	<ObjectName>EnterResponsePeriod</ObjectName>
+	<Html>
+		<input id="EnterResponsePeriod" type="text"></input>
+	</Html>
+	<Javascript>
+		<XPath>/ds/EnterVariableData/EnterResponsePeriod</XPath>
+		<componentName>##label##</componentName>
+		<HintText>Response time allowed for this notification (in days)</HintText>
+		<isMandatory>return true;</isMandatory>
+		<mandatoryOn>EnterResponsePeriod.dataBinding</mandatoryOn>
+        
+        <Context ScreenId="CO37">
+        <initialise>Services.setValue(EnterResponsePeriod.dataBinding, "8");</initialise>
+        
+        </Context>
+	</Javascript>
+</Question>

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>9187</Id>
+	<Label>RCJ number</Label>
+	<ObjectName>RCJNum</ObjectName>
+	<Html>
+	  <input id="RCJNum" type="text" size="35" ></input>
+	</Html>
+	<Javascript>
+		<XPath>/ds/EnterVariableData/rCJNum</XPath>
+		<HintText>Enter the RCJ number</HintText>
+   
+ 
+        <Context ScreenId="L_5_1">
+      		<mandatoryOn>RequestFor.dataBinding</mandatoryOn>
+    		<isMandatory>return ("RCJ" == Services.getValue(RequestFor.dataBinding))</isMandatory>
+            <enableOn>RequestFor.dataBinding</enableOn>
+            <isEnabled>return ("RCJ" == Services.getValue(RequestFor.dataBinding))</isEnabled>
+            <logicOn>RequestFor.dataBinding</logicOn>
+            <logic>
+                if("RCJ" != Services.getValue(RequestFor.dataBinding))
+                {   
+                    Services.setValue(RCJNum.dataBinding, "");
+                 }
+            </logic>        
+        </Context>
+        
+      
+	</Javascript>	
+</Question>

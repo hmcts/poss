@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>349</Id>
+	<Label>Has money judgment been granted?</Label>
+	<ObjectName>JudgmentMoneyGranted</ObjectName>
+	<Html>
+		<input type="checkbox" id="JudgmentMoneyGranted"></input>
+	</Html>			
+	<Javascript>
+		<XPath>/ds/EnterVariableData/PossessionOrder/judgmentMoneyGranted</XPath>
+		<componentName>##label##</componentName>
+		<modelValue>checked: "Y" , unchecked: "N"</modelValue>
+		<HintText>Check box if money judgment has been granted?</HintText>	
+	</Javascript>
+</Question>

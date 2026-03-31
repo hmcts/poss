@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>9008</Id>
+	<Label>Date of meeting</Label>
+	<ObjectName>MeetingDate</ObjectName>
+	<Html>
+		<script type="text/javascript">WP_DatePickerRenderer.createInline("MeetingDate", false);</script>
+	</Html>
+	<Javascript>
+      <XPath>/ds/EnterVariableData/MeetingDate</XPath>
+		<HintText>Select the meeting date</HintText>
+		<validateOn>MeetingDate.dataBinding</validateOn>
+          
+        <validate>
+            //Date picker: error message “The value does not conform to a valid date format of DD-MMM-YYYY”.
+           //Validation: Date cannot be in the past    
+          return isInFuture(Services.getValue(MeetingDate.dataBinding));
+        </validate>
+        <isMandatory>return true;</isMandatory>
+        <mandatoryOn>MeetingDate.dataBinding</mandatoryOn>
+        <isEnabled>return true;</isEnabled>
+	</Javascript>			
+</Question>

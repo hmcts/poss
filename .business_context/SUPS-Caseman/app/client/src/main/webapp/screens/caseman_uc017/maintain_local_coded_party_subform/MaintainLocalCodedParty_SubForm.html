@@ -1,0 +1,102 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3c.org/TR/html4/strict.dtd">
+<html>
+
+	<head>
+		<title>MaintainLocalCodedParty_SubForm</title>
+		<link href="MaintainLocalCodedParty_SubForm.css" type="text/css" rel="stylesheet">
+		<script type="text/javascript" src="../../../Framework.js"></script>
+    	<script type="text/javascript" src="../../../CaseManSubFormIncludeFiles.js"></script>
+		<script type="text/javascript" src="../MaintainLocalCodedParties_Constants.js"></script>
+		<script type="text/javascript" src="../MaintainLocalCodedParties_HelperFunctions.js"></script>
+		<script type="text/javascript" src="MaintainLocalCodedParty_SubForm.js"></script>
+  	</head>
+
+	<body>
+	
+    	<form id="maintainLocalCodedPartySubform" class="subform">
+
+			<div class="panel">
+				<table class="content">
+					<tr>
+						<td>
+							<table>
+								<tr>
+									<td><label for="MaintainCodedParty_Code">Code</label></td>
+									<td><input type="text" id="MaintainCodedParty_Code" size="5"></td>
+								</tr>
+								<tr>
+									<td><label for="MaintainCodedParty_NewCode">New Code</label></td>
+									<td>
+										<input type="text" id="MaintainCodedParty_NewCode" size="5">
+										&nbsp;<input id="MaintainCodedParty_NewCodeLOVButton" type="button" value="LOV">
+									</td>
+								</tr>
+								<tr>
+									<td><label for="MaintainCodedParty_Name">Name</label></td>
+									<td><input type="text" id="MaintainCodedParty_Name" size="40"></td>
+								</tr>
+								<tr>
+									<td><label for="MaintainCodedParty_AddressLine1">Address</label></td>
+									<td><input type="text" id="MaintainCodedParty_AddressLine1" size="50"></td>
+								</tr>
+								<tr>
+									<td>&nbsp;</td>
+									<td><input type="text" id="MaintainCodedParty_AddressLine2" size="50"></td>
+								</tr>
+								<tr>
+									<td>&nbsp;</td>
+									<td><input type="text" id="MaintainCodedParty_AddressLine3" size="50"></td>
+								</tr>
+								<tr>
+									<td>&nbsp;</td>
+									<td><input type="text" id="MaintainCodedParty_AddressLine4" size="50"></td>
+								</tr>
+								<tr>
+									<td>&nbsp;</td>
+									<td><input type="text" id="MaintainCodedParty_AddressLine5" size="50"></td>
+								</tr>
+								<tr>
+									<td><label for="MaintainCodedParty_PostCode">Postcode</label></td>
+									<td><input type="text" id="MaintainCodedParty_PostCode" size="15"></td>
+								</tr>
+								<tr>
+									<td><label for="MaintainCodedParty_DXNumber">DX Number</label></td>
+									<td><input type="text" id="MaintainCodedParty_DXNumber" size="50"></td>
+								</tr>
+								<tr>
+									<td><label for="MaintainCodedParty_Telephone">Telephone Number</label></td>
+									<td><input type="text" id="MaintainCodedParty_Telephone" size="30"></td>
+								</tr>
+								<tr>
+									<td><label for="MaintainCodedParty_FaxNumber">Fax Number</label></td>
+									<td><input type="text" id="MaintainCodedParty_FaxNumber" size="30"></td>
+								</tr>
+								<tr>
+									<td><label for="MaintainCodedParty_Email">Email</label></td>
+									<td><input type="text" id="MaintainCodedParty_Email" size="50"></td>
+								</tr>
+							</table>
+						</td>
+					</tr>
+				</table>
+			</div>
+			
+			<!-- Subform action bar -->
+			<script type="text/javascript">
+				ActionBarRenderer.createInline(
+					"maintainLocalCodedParty_statusbar",
+					[
+						{id: "MaintainLocalCodedPartySubform_SaveButton", label: "Save"},	
+						{id: "MaintainLocalCodedPartySubform_CancelButton", label: "Cancel"}
+					]
+				);
+			</script>
+
+			<!-- LOV POPUPs -->
+			<script type="text/javascript">LOVPopupRenderer.createInline( "MaintainCodedParty_NewCodeLOVGrid", "Coded Parties", ["Code", "Name", "Address"], 10, 1, true );</script>
+										
+		</form>
+    
+    </body>
+    
+</html>

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: Co
+	Method:  getCoHeader()
+	File:    get_co_header.xml
+	Author:  Phil Haferer (EDS)
+	Created: 08 September 2005
+	Description: 
+		Retrieves summary details for a Consolidated Order, 
+		together with the associated Allowed Debts.
+		
+	Amended:24 November 2005
+	Amended By: MGG
+	Description: 
+		Added roles to security tag
+-->
+<service-method>
+	<pipeline>
+		<Query>
+			<QueryDef location="uk/gov/dca/caseman/co_service/query_def_get_co_header.xml"/>
+			<QueryExtension pivotNode="/ds/MaintainCO">
+				<Param name="param.coNumber" xpath="/params/param[@name = 'coNumber']"/>
+				<Constraint>CO.CO_NUMBER = ${param.coNumber}</Constraint>
+			</QueryExtension>
+		</Query>
+		<Java callStyle="new">
+			<Source class="uk.gov.dca.caseman.co_service.java.GetCoDebtListCustomProcessor"/>
+		</Java>
+	</pipeline>
+	<Security roles="viewOnly medium high wcSuper scSuper bmsSuper aeSuper dmSuper cpSuper"/>
+</service-method>

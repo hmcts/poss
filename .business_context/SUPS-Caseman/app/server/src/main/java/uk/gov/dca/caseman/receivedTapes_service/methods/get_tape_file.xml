@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<service-method>
+	<pipeline>
+		<Query>
+			<QueryDef location="uk/gov/dca/caseman/receivedTapes_service/unique_tape_file_query_def.xml"/>
+			
+			<QueryExtension pivotNode="/TapeFiles/TapeFile">
+				<Param name="param.FileName"  xpath="/params/param[@name='FileName']"/>
+				<Constraint>
+					TFI.FILE_NAME = ${param.FileName}
+				</Constraint>				
+			</QueryExtension>
+			
+		</Query>
+	</pipeline>
+	<Security roles="ccbcMan ccbcTape"/>
+</service-method>

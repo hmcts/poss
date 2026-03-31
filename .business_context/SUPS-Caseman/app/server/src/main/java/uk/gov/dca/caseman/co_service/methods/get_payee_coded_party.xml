@@ -1,0 +1,33 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: Co
+	Method:  getPayeeCodedParty()
+	File:    get_payee_coded_party.xml
+	Author:  Phil Haferer (EDS)
+	Created: 12 September 2005
+	Description: 
+		Retrieve the details of Coded Party in a format suitable for Consolidated Order Allowed Debts.
+		If the Code is specified a Non-CPC National Coded Party, the Court Code is ignored.
+		
+    Change History:
+	24-Nov-2005 MGG: Added roles to security tag.
+    12-Apr-2006 Phil Haferer: UCT TD 383: "Create creditor screen on CO's".
+                The new new Non-CPC National Coded Parties had not been catered for here.
+-->
+<service-method>
+	<pipeline>
+		<Query>
+			<QueryDef location="uk/gov/dca/caseman/co_service/query_def_get_payee_coded_party.xml"/>
+			<QueryExtension pivotNode="/ds/Payee">
+				<Param name="param.adminCourtCode" xpath="/params/param[@name = 'adminCourtCode']"/>
+				<Param name="param.codedPartyCode" xpath="/params/param[@name = 'codedPartyCode']"/>
+				<Constraint>
+					   (CP.ADMIN_COURT_CODE = ${param.adminCourtCode} 
+					OR  CP.ADMIN_COURT_CODE = 0)
+					AND CP.CODE             = ${param.codedPartyCode}
+				</Constraint>
+			</QueryExtension>
+		</Query>
+	</pipeline>
+	<Security roles="viewOnly medium high wcSuper scSuper bmsSuper aeSuper dmSuper cpSuper"/>
+</service-method>

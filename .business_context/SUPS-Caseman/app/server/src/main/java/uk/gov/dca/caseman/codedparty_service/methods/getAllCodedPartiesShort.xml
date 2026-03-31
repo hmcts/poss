@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: Codedparty
+	Method:  getAllCodedPartiesShort()
+	File:    getAllCodedPartiesShort.xml
+	Description:
+		Retrieves a summary of All Coded Parties, containing just the Code and the Name of party.
+	Change History:
+		20/09/2011 - Chris Vincent, added search for CCBC National Coded Parties in range 7000-9999.  Trac 4553.
+-->
+<service-method>
+	<pipeline>
+		<Query>
+  			<QueryDef location="uk/gov/dca/caseman/codedparty_service/query_def_short.xml"/>
+		  	<QueryExtension pivotNode="/CodedParties/CodedParty">				
+				<Param name="param.adminCourtCode" xpath="/params/param[@name = 'adminCourtCode']"/>
+				<Constraint>
+					   CP.ADMIN_COURT_CODE = ${param.adminCourtCode}
+					OR CP.ADMIN_COURT_CODE = 0
+				    OR ( CP.ADMIN_COURT_CODE = 335 AND CP.CODE BETWEEN 1500 AND 1999 )
+					OR ( CP.ADMIN_COURT_CODE = 335 AND CP.CODE BETWEEN 7000 AND 9999 )
+				</Constraint>
+			</QueryExtension>
+		</Query>
+  	</pipeline> 
+	<Security roles="medium high wcSuper scSuper bmsSuper aeSuper dmSuper cpSuper"/>
+</service-method>

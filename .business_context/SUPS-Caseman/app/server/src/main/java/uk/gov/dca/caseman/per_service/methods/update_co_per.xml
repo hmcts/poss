@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: Per
+	Method:  updateCoPer()
+	File:    update_co_per.xml
+	Author:  Phil Haferer (EDS), Ian Stainer (Valtech)
+	Created: 05 July 2005
+	Description: 
+		Add CO protected earnings rate details.
+-->
+<service-method>
+	<pipeline>
+		<Transform>
+			<Template location="uk/gov/dca/caseman/per_service/transforms/update_per_pre_update.xsl"/>
+		</Transform>
+		<Update>
+			<QueryDef location="uk/gov/dca/caseman/per_service/query_def_update_co_per.xml"/>
+			<DataSource xpath="/params/param[@name='calculatePer']"/>
+			<QueryExtension pivotNode="/ds/CalculatePER">
+				<CheckExists table="CO" fields="CO_NUMBER" onExist="update" onNotExist="fail"/>
+			</QueryExtension>
+		</Update>
+		<Java>
+			<!-- This class determines whether or not an event 857 needs to be created based on the content of the dom -->
+			<Source class="uk.gov.dca.caseman.per_service.java.AddCoEvent857CustomProcessor"/>
+		</Java>				
+	</pipeline>
+	<Dependencies>
+		<Dependency serviceName="CoEvent"/>
+	</Dependencies>					
+	<Security roles="medium high wcSuper scSuper bmsSuper aeSuper dmSuper cpSuper"/>				
+</service-method>

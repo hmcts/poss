@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: Case
+	Method:  updateCaseTrackJudge
+	File:    query_def_case_track_judge.xml
+	Author:  Chris Vincent
+	Created: 28 January 2013
+	Description: 
+		Query Def to update Case Track and Judge details.
+-->
+<QueryDef>
+  <DBMapDef location="uk/gov/dca/caseman/case_service/map_case_track_judge.xml"/>
+  <Query pivotNode="/Case" tables="C">
+	<Join/>
+    <Modify/>
+  </Query>
+</QueryDef>

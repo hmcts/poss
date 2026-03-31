@@ -1,0 +1,227 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3c.org/TR/html4/strict.dtd">
+<html>
+
+	<head>
+		<title>ViewPaymentDetails_SubForm</title>
+		<link href="ViewPaymentDetails_SubForm.css" type="text/css" rel="stylesheet">
+		<script type="text/javascript" src="../../../Framework.js"></script>
+    	<script type="text/javascript" src="../../../ConcatCommon.js"></script>
+		<script type="text/javascript" src="../ViewPaymentsConstants.js"></script>
+		<script type="text/javascript" src="../ViewPaymentsHelperFunctions.js"></script>
+		<script type="text/javascript" src="ViewPaymentDetails_SubForm.js"></script>
+  	</head>
+
+	<body>
+	
+    	<form id="viewPaymentDetailsSubform" class="subform">
+
+			<div class="panel">
+				<table class="content">
+					<tr>
+						<td>
+							<table>
+								<tr>
+									<td><label for='PaymentDetails_TransactionNumber'>Transaction Number</label></td>
+									<td><input id="PaymentDetails_TransactionNumber" type="text" size="15"/></td>
+								</tr>
+								<tr>
+									<td><label for='PaymentDetails_Amount'>Amount</label></td>
+									<td><input id="PaymentDetails_AmountCurrency" type="text" size="1"/>&nbsp;<input id="PaymentDetails_Amount" type="text" size="13"/></td>
+								</tr>
+								<tr>
+									<td><label for='PaymentDetails_RDDate'>RD Date</label></td>
+									<td><script type="text/javascript">DatePickerRenderer.createInline("PaymentDetails_RDDate", true);</script></td>
+								</tr>
+								<tr>
+									<td><label for='PaymentDetails_ReleaseDate'>Release Date</label></td>
+									<td><script type="text/javascript">DatePickerRenderer.createInline("PaymentDetails_ReleaseDate", true);</script></td>
+								</tr>
+								<tr>
+									<td><label for='PaymentDetails_PayoutDate'>Payout Date</label></td>
+									<td><script type="text/javascript">DatePickerRenderer.createInline("PaymentDetails_PayoutDate", true);</script></td>
+								</tr>
+							</table>							
+						</td>
+						<td>
+							<table>
+								<tr>
+									<td><label for='PaymentDetails_DateEntered'>Date Entered</label></td>
+									<td><script type="text/javascript">DatePickerRenderer.createInline("PaymentDetails_DateEntered", true);</script></td>
+								</tr>
+								<tr>
+									<td><label for='PaymentDetails_EnforcementNumber'>Case/Enf Number</label></td>
+									<td><input id="PaymentDetails_EnforcementNumber" type="text" size="15"/></td>
+								</tr>
+								<tr>
+									<td><label for='PaymentDetails_PaymentType'>Payment Type</label></td>
+									<td><input id="PaymentDetails_PaymentType" type="text" size="15"/></td>
+								</tr>
+								<tr>
+									<td><label for='PaymentDetails_Passthrough'>Passthrough</label></td>
+									<td><input id="PaymentDetails_Passthrough" type="checkbox"/></td>
+								</tr>
+								<tr>
+									<td colspan=2>&nbsp;</td>
+								</tr>
+							</table>														
+						</td>
+						<td>
+							<table>
+								<tr>
+									<td><label for='PaymentDetails_OwningCourtCode'>Payment Court</label></td>
+									<td>
+										<input id="PaymentDetails_OwningCourtCode" type="text" size=5>
+										<input id="PaymentDetails_OwningCourtName" type="text" size=25>
+									</td>
+								</tr>
+								<tr>
+									<td><label for='PaymentDetails_EnforcementType'>Case/Enf Type</label></td>
+									<td><input id="PaymentDetails_EnforcementType" type="text" size="30"/></td>
+								</tr>
+								<tr>
+									<td><label for='PaymentDetails_RetentionType'>Retention Type</label></td>
+									<td><input id="PaymentDetails_RetentionType" type="text" size="30"/></td>
+								</tr>
+								<tr>
+									<td><label for='PaymentDetails_Error'>Error</label></td>
+									<td><input id="PaymentDetails_Error" type="checkbox"/></td>
+								</tr>
+								<tr>
+									<td colspan=2>&nbsp;</td>
+								</tr>
+							</table>														
+						</td>
+					</tr>
+				</table>
+			</div>
+				
+			<div class="panel">
+				<table class="content">
+					<tr>
+						<td>
+							<table>
+								<tr>
+									<td class="defaultLabel"><label for='PaymentDetails_Notes'>Notes</label></td>
+									<td><script type="text/javascript">ZoomFieldRenderer.createInline("PaymentDetails_Notes", 10);</script></td>
+								</tr>
+								<tr>
+									<td class="defaultLabel"><label for='PaymentDetails_AmountToPayee'>Amount to Payee</label></td>
+									<td><input id="PaymentDetails_AmountToPayeeCurrency" type="text" size="1"/>&nbsp;<input id="PaymentDetails_AmountToPayee" type="text" size="13"/></td>
+								</tr>
+								<tr>
+									<td class="defaultLabel"><label for='PaymentDetails_AmountToOverpayee'>Amount to Overpayee</label></td>
+									<td><input id="PaymentDetails_AmountToOverpayeeCurrency" type="text" size="1"/>&nbsp;<input id="PaymentDetails_AmountToOverpayee" type="text" size="13"/></td>
+								</tr>
+							</table>
+						</td>
+						
+						<td>
+							<table>
+								<tr>
+									<td class="defaultLabel"><label for='PaymentDetails_TotalPO'>Total PO</label></td>
+									<td><input id="PaymentDetails_TotalPOCurrency" type="text" size="1"/>&nbsp;<input id="PaymentDetails_TotalPO" type="text" size="13"/></td>
+								</tr>								
+								<tr>
+									<td class="defaultLabel"><label for='PaymentDetails_PONumber1'>PO Numbers</label></td>
+									<td><input id="PaymentDetails_PONumber1" type="text" size="8"/></td>
+								</tr>								
+								<tr>
+									<td>&nbsp;</td>
+									<td><input id="PaymentDetails_PONumber2" type="text" size="8"/></td>
+								</tr>								
+							</table>
+						</td>
+					</tr>
+						
+					<tr>
+						<td colspan=2>&nbsp;</td>
+					</tr>
+					
+					<tr>
+						<td>
+							<table>
+								<tr>
+									<td class="defaultLabel"><label for="PaymentDetails_Payee_Name">Payee</label></td>
+									<td><input id="PaymentDetails_Payee_Code" type="text" size="5"/>
+										<input id="PaymentDetails_Payee_Name" type="text" size="39"/>
+									</td>
+								</tr>
+								<tr>
+									<td class="defaultLabel"><label for='PaymentDetails_Payee_Address_Line1'>Address</label></td>
+									<td><input id="PaymentDetails_Payee_Address_Line1" type="text" size="50"/></td>
+								</tr>
+								<tr>
+									<td>&nbsp;</td>
+									<td><input id="PaymentDetails_Payee_Address_Line2" type="text" size="50"/></td>
+								</tr>
+								<tr>
+									<td>&nbsp;</td>
+									<td><input id="PaymentDetails_Payee_Address_Line3" type="text" size="50"/></td>
+								</tr>
+								<tr>
+									<td>&nbsp;</td>
+									<td><input id="PaymentDetails_Payee_Address_Line4" type="text" size="50"/></td>
+								</tr>
+								<tr>
+									<td>&nbsp;</td>
+									<td><input id="PaymentDetails_Payee_Address_Line5" type="text" size="50"/></td>
+								</tr>
+								<tr>
+									<td class="defaultLabel"><label for='PaymentDetails_Payee_Address_PostCode'>Postcode</label></td>
+									<td><input id="PaymentDetails_Payee_Address_PostCode" type="text" size="15"/></td>
+								</tr>
+							</table>
+						</td>
+								
+						<td>
+							<table>							
+								<tr>
+									<td class="defaultLabel"><label for="PaymentDetails_Overpayee_Name">Overpayee</label></td>
+									<td><input id="PaymentDetails_Overpayee_Name" type="text" size="50"/>
+									</td>
+								</tr>
+								<tr>
+									<td class="defaultLabel"><label for='PaymentDetails_Overpayee_Address_Line1'>Address</label></td>
+									<td><input id="PaymentDetails_Overpayee_Address_Line1" type="text" size="50"/></td>
+								</tr>
+								<tr>
+									<td>&nbsp;</td>
+									<td><input id="PaymentDetails_Overpayee_Address_Line2" type="text" size="50"/></td>
+								</tr>
+								<tr>
+									<td>&nbsp;</td>
+									<td><input id="PaymentDetails_Overpayee_Address_Line3" type="text" size="50"/></td>
+								</tr>
+								<tr>
+									<td>&nbsp;</td>
+									<td><input id="PaymentDetails_Overpayee_Address_Line4" type="text" size="50"/></td>
+								</tr>
+								<tr>
+									<td>&nbsp;</td>
+									<td><input id="PaymentDetails_Overpayee_Address_Line5" type="text" size="50"/></td>
+								</tr>
+								<tr>
+									<td class="defaultLabel"><label for='PaymentDetails_Overpayee_Address_PostCode'>Postcode</label></td>
+									<td><input id="PaymentDetails_Overpayee_Address_PostCode" type="text" size="15"/></td>
+								</tr>
+							</table>
+						</td>
+					</tr>
+				</table>
+			</div>
+			
+			<!-- Subform action bar -->
+			<script type="text/javascript">
+				ActionBarRenderer.createInline(
+					"viewPaymentDetails_statusbar",
+					[
+						{id: "PaymentDetails_CloseButton", label: "Close"}
+					]
+				);
+			</script>
+
+		</form>
+    
+    </body>
+    
+</html>

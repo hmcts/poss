@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: Hearing
+	Method:  getHearing()
+	File:    get_hearing.xml
+	Author:  Troy Baines
+	Created: 20 November 2004
+	Description: 
+        Retrieves a hearing record
+
+	Change history
+	30/8/2006	Chris Hutt	TD4875 - hearings of type HRG_TYPE need to be included in the retrieval
+-->
+<service-method>
+	<pipeline>
+		<NewQuery>
+			<QueryDef location="uk/gov/dca/caseman/hearing_service/query_def_case.xml"/>
+			<QueryExtension pivotNode="/ds/MaintainHearing">
+				<Param name="param.caseNumber" xpath="/params/param[@name = 'caseNumber']"/>
+				<Constraint>CA.CASE_NUMBER = ${param.caseNumber}</Constraint>
+			</QueryExtension>
+		</NewQuery>
+	</pipeline>
+	<Security roles="viewOnly medium high wcSuper scSuper bmsSuper aeSuper dmSuper cpSuper ccbcMan ccbcUser ccbcSGB2"/>
+</service-method>

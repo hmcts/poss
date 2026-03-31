@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--Question xmlns="http://eds.com/questionxhtml" xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd"-->
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>Q_DateSworn</Id>
+	<Label>Date Sworn</Label>
+	<ObjectName>DateSworn</ObjectName>
+	<Html>
+		<script type="text/javascript">
+			DatePickerRenderer.createInline("DateSworn", false);
+		</script>
+	</Html>
+	<Javascript>
+		<XPath>/ds/var/page/OracleReportForm/DateSworn</XPath>
+		<ReportVariableName>REPORT_VALUE_1</ReportVariableName>
+		<ReportVariableValue>CaseManUtils.convertDateToDisplay(Services.getValue(DateSworn.dataBinding))</ReportVariableValue>
+		<ReportVariableCode>946</ReportVariableCode>
+		<HintText>Enter the date affidavit sworn</HintText>
+		<mandatoryOn></mandatoryOn>
+		<isMandatory>return true;</isMandatory>
+		<setDefault></setDefault>
+		<validateOn></validateOn>
+		<validate></validate>
+		<readOnlyOn></readOnlyOn>
+		<isReadOnly></isReadOnly>
+		<maxLength></maxLength>
+		<transformToDisplay></transformToDisplay>
+		<transformToModel></transformToModel>
+		<initialise></initialise>
+		<logicOn></logicOn>
+		<logic></logic>
+		<miscCode></miscCode>
+		<IsQuestion></IsQuestion>
+	</Javascript>
+</Question>

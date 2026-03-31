@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: TransferCase
+	Method:  getTransferCase()
+	File:    map_transfer_case.xml
+	Author:  Phil Haferer (EDS)
+	Created: 21 June 2005
+	Description: 
+		The 'Mapping' for retrieving details for Transferring a Case.
+	Change History:
+	13/06/2007 - Chris Vincent (EDS), added nodes <HasNationalCodedParty> and <CreditorCode>
+	for UCT Group2 Defect 1406.
+	13/10/2016 - Chris Vincent, added <Jurisdiction> node.  Trac 5879
+-->
+<DBMapDef>
+	<DataSource id="java:OracleDS"/>
+	<Tables>
+	    <Table alias="C"     name="CASES"/>
+    	<Table alias="CT"    name="COURTS"/>
+    	<Table alias="TRCT"  name="COURTS"/>
+    	<Table alias="CTYPE" name="CCBC_REF_CODES"/>
+	    <Table alias="CPR"   name="CASE_PARTY_ROLES"/>
+	    <Table alias="PR"    name="PARTY_ROLES"/>
+	    <Table alias="P"     name="PARTIES"/>
+	</Tables>
+	<Mapping>
+		<TransferCase>
+			<CaseNumber>${C.CASE_NUMBER}</CaseNumber>
+			<OwningCourtCode>${C.ADMIN_CRT_CODE}</OwningCourtCode>
+			<OwningCourtName>${CT.NAME}</OwningCourtName>
+			<OwningCourtIsDR>${CT.DISTRICT_REGISTRY}</OwningCourtIsDR>
+			<CaseType>${C.CASE_TYPE}</CaseType>
+			<NewCaseType>${C.TRANS_CASE_TYPE}</NewCaseType>
+			<Jurisdiction>${C.JURISDICTION}</Jurisdiction>
+			<CaseTypeJurisdiction>${CTYPE.JURISDICATION}</CaseTypeJurisdiction>
+			<CaseStatus>${C.STATUS}</CaseStatus>
+			<TransferReason>${C.TRANSFER_REASON}</TransferReason>
+			<TransferCourtCode>${C.TRANS_CRT_CODE}</TransferCourtCode>
+			<TransferCourtName>${TRCT.NAME}</TransferCourtName>
+			<TransferCourtIsDR>${TRCT.DISTRICT_REGISTRY}</TransferCourtIsDR>
+			<TransferReceiptDate>${C.XFER_RECEIPT_DATE}</TransferReceiptDate>
+			<TransferStatus>${C.TRANSFER_STATUS}</TransferStatus>
+			<DateOfTransfer>${C.DATE_OF_TRANSFER}</DateOfTransfer>
+			<PreviousCourtCode>${C.PREVIOUS_COURT}</PreviousCourtCode>
+			<DateTransferredIn>${C.DATE_TRANSFERRED_IN}</DateTransferredIn>
+			<OutstandingAE>${OUTSTANDING_AE}</OutstandingAE>
+			<HasNationalCodedParty>${HAS_NAT_CODED_PARTY}</HasNationalCodedParty>
+			<CreditorCode>${C.CRED_CODE}</CreditorCode>
+			<InsolvencyNumber>${C.INSOLVENCY_NUMBER}</InsolvencyNumber>
+			<Parties>
+				<Party>
+					<PartyKey>${CPR_PARTY_KEY}</PartyKey>
+					<CasePartyNumber>${CPR.CASE_PARTY_NO}</CasePartyNumber>
+					<PartyRoleCode>${CPR.PARTY_ROLE_CODE}</PartyRoleCode>
+					<PartyRoleDescription>${PR.PARTY_ROLE_DESCRIPTION}</PartyRoleDescription>
+					<PartyName>${P.PERSON_REQUESTED_NAME}</PartyName>
+				</Party>
+			</Parties>
+		</TransferCase>
+	</Mapping>
+</DBMapDef>

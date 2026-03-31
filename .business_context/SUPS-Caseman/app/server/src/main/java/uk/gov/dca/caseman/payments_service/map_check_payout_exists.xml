@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: Payments
+	Method: checkPayoutExists()
+	File: map_check_payout_exists.xml
+	Author: Steve Blair
+-->
+<DBMapDef>
+	<DataSource id="java:OracleDS" />
+	<Tables>
+		<Table alias="PO" name="PAYABLE_ORDERS" />
+		<Table alias="POI" name="PAYABLE_ORDER_ITEMS" />
+	</Tables>
+	<Mapping>
+		<PayoutExists>${PAYOUT_EXISTS}</PayoutExists>
+	</Mapping>
+</DBMapDef>

@@ -1,0 +1,52 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3c.org/TR/html4/strict.dtd">
+<html>
+	<head>
+		<title>LoginWarning</title>
+		<script type="text/javascript" src="../../Framework.js"></script>
+		<script type="text/javascript" src="../../CaseManIncludeFiles.js"></script>	
+		<script type="text/javascript" src="LoginWarning.js"></script>
+	</head>
+	
+	<body tabindex="-1">
+		<form name="LoginWarning" id="LoginWarning">
+		
+			<table class="CaseManMenuBar">
+				<tr>
+					<td>&nbsp;</td>
+				</tr>
+			</table>
+							
+			<table class="layout">
+				<tr>
+					<td>
+						<div class='panel' id='WarningPanel'>
+							<table class="content" style="height:575px;">
+								<tr align="center">
+									<td><h3><b>
+										This is a private system. Only use this system if you have
+										<br><br>
+										specific authority to do so, otherwise you are liable to
+										<br><br>
+										prosecution under the Computer Misuse Act 1990. 
+										<br><br>
+										LOG OFF IMMEDIATELY by selecting Exit to avoid prosecution
+										<br><br>
+										OR if you are suitably authorised select Continue.
+									</b></h3></td>
+								   </tr>
+							   </table>
+						</div>
+					</td>
+				</tr>
+			</table>
+
+			<script type="text/javascript">
+				ActionBarRenderer.createInline("actionbar", [
+							{id: "Status_ContinueButton", label: "Continue"},
+							  {id: "Status_ExitButton", label: "Exit"}
+				]);
+			</script>
+		
+		</form>
+	</body>
+</html>

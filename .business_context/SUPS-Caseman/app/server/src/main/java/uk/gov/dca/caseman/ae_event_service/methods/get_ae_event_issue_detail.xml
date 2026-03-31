@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: Ae
+	Method:  getAeEventIssueDetail()
+	File: 	 get_ae_event_issue_detail.xml
+	Author:  Chris Hutt (EDS) 
+	Created: 02 Aug 2006
+	Description: 
+		 Retrieve issue details associated with specific standard event
+	     for a specific Ae. Introduced following the introduction of paginatioon - which means
+		 that not all events will be available to the client fo the purposes of this kind of validation.
+
+-->
+<service-method>
+	<pipeline>
+		<SQLLite format-output="true"
+				 resultset-element="Events"
+				 row-element="Event"
+				 field-name-as="element" >
+			<DataSource id="java:OracleDS"/>
+			<Param name="param.aeNumber" xpath="/params/param[@name='aeNumber']"/>
+			<Param name="param.eventId" xpath="/params/param[@name='eventId']"/>
+			<SQL>
+				SELECT  
+						AE.STD_EVENT_ID AS "StandardEventId"
+				,		AE.ISSUE_STAGE	AS "Stage"
+				, 		AE.DATE_ENTERED	AS "ReceiptDate"
+				FROM	AE_EVENTS AE
+				WHERE 	AE.AE_NUMBER = ${param.aeNumber}
+				AND 	AE.STD_EVENT_ID = ${param.eventId}
+				AND    (AE.ERROR_INDICATOR IS NULL OR AE.ERROR_INDICATOR = 'N')
+			</SQL>
+		</SQLLite>
+  	</pipeline>
+	<Security roles="user"/>
+</service-method>

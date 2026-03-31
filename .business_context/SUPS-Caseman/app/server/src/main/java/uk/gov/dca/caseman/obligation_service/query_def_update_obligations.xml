@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<QueryDef>
+	<DBMapDef location="uk/gov/dca/caseman/obligation_service/map_update_obligations.xml"/>
+	<Query pivotNode="/ds/MaintainObligations/Obligations/Obligation" tables="O">
+		<Join/>
+		<Modify>
+			<CheckExists table="O" fields="OBLIGATION_SEQ CASE_NUMBER" onExist="update"/>
+			<Field name="O.CASE_NUMBER" xpath="../../CaseNumber"/>
+			<SQL type="update" tables="O">
+				UPDATE OBLIGATIONS set EXPIRY_DATE = ${O.EXPIRY_DATE}, NOTES = ${O.NOTES}, 
+				LAST_USED_BY = ${O.LAST_USED_BY}, DELETE_FLAG = ${O.DELETE_FLAG}
+				WHERE CASE_NUMBER = ${O.CASE_NUMBER}
+				AND OBLIGATION_SEQ = ${O.OBLIGATION_SEQ}
+			</SQL>
+		</Modify>
+	</Query>
+</QueryDef>

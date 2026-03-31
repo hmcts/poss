@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<QueryDef>
+	<DBMapDef location="uk/gov/dca/transformation/co_case_event_legacy_service/map_get_cocaseevent.xml"/>
+	<Query pivotNode="/CaseEvent" tables="CCE">
+	<SQL type="select">
+		SELECT CCE.CASE_NUMBER                      		AS "CCE.CASE_NUMBER"
+		,	CCE.CO_NUMBER                      				AS "CCE.CO_NUMBER"	
+		,	CCE.STD_EVENT_ID			                    	AS "CCE.STD_EVENT_ID"
+		,	CCE.EVENT_DETAILS                      			AS "CCE.EVENT_DETAILS"
+		,	sysdate                     						AS "CCE.EVENT_DATE"
+		,	'N'				                     				AS "CCE.DELETED_FLAG"
+		,	'CASM'				                     			AS "CCE.USERNAME"
+		,	CCE.ADMIN_COURT_CODE                      		AS "CCE.ADMIN_COURT_CODE"
+		,      CCE.ORA_ROWSCN                     			AS "CCE_ORA_ROWSCN"
+		FROM   CO_CASE_EVENTS CCE
+		WHERE  CCE.CASE_NUMBER = ${param.caseNumber}	
+	</SQL>
+		<Modify notModifiable="true"/>
+	</Query>
+</QueryDef>

@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<service-method>
+	<pipeline>
+		<Update>
+			<QueryDef location="uk/gov/dca/caseman/hearing_service/query_def_hearing_for_ae.xml"/>
+			<DataSource xpath="/params/param[@name='HearingID']"/>
+			<QueryExtension pivotNode="/ds/MaintainHearing/Hearings/Hearing">
+				<CheckExists table="H" fields="hrg_seq" onNotExist="add" onExist="update"/>
+			</QueryExtension>
+		</Update>
+			<Java>
+			     <!-- 
+				 The case event will needs to be inserted after the eventId has been generated for a new hearing
+				 because the hrg_seq is a FK on CASE_EVENTS
+			     -->
+			<Source class="uk.gov.dca.caseman.hearing_service.java.InsertCaseEvent200CreateHearingCustomProcessor"/>
+		</Java>
+	</pipeline>
+	<Dependencies>
+		<Dependency serviceName="CaseEvent"/>		
+		<Dependency serviceName="Obligation"/>	
+		<Dependency serviceName="WindowForTrial"/>						
+	</Dependencies>		
+	<Transaction type="RequiresNew" />
+	<Security roles="medium high wcSuper scSuper bmsSuper aeSuper dmSuper"/>
+</service-method>

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<service-method>
+	<pipeline>
+		<SQLLite format-output="true"
+				 resultset-element="Court"
+				 row-element="CourtDetails"
+				 field-name-as="element" >			
+			<DataSource id="java:OracleDS"/>
+			<Param name="param.courtId" xpath="/params/param[@name = 'courtId']"/>
+			<SQL>												
+				SELECT  c.code as "Code",
+						c.default_printer as "DefaultPrinter"
+				FROM    courts c
+				WHERE	c.code = ${param.courtId}
+			</SQL>
+		</SQLLite>		
+	</pipeline>
+	<Security roles="viewOnly medium high wcSuper scSuper bmsSuper aeSuper dmSuper admin"/>		
+</service-method>

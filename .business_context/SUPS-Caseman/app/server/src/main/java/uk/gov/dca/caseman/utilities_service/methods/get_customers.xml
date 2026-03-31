@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<service-method>
+	<pipeline>
+		<Query>
+			<QueryDef location="uk/gov/dca/caseman/utilities_service/customers_query_def.xml"/>
+			
+			<QueryExtension pivotNode="/Customers/Customer">
+				<Param name="param.CustomerCode" xpath="/params/param[@name='CustomerCode']"/>
+				<Constraint condition="/params/param[@name='CustomerCode'] != ''" >
+					NCP.CODE = ${param.CustomerCode}
+				</Constraint>
+			</QueryExtension>
+
+		</Query>
+	</pipeline>
+	<Security roles="ccbcMan ccbcUser ccbcSBG2 ccbcTape"/>
+</service-method>

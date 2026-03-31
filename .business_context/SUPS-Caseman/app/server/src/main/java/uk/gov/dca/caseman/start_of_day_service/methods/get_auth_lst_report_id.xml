@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: StartOfDay
+	Method:  getAuthLstReportId()
+	File:    get_auth_lst_report_id.xml
+	Author:  Chris Vincent
+	Created: 12 Jan 2015
+	Description: 
+		Retrieves the report id for the Authorisation List (AE Start of Day) 
+-->
+<service-method>
+	<pipeline>
+		<SQLLite format-output="true"
+				 resultset-element="ds"
+				 row-element="StartOfDay"
+				 field-name-as="element" >
+			<DataSource id="java:OracleDS"/>
+				<Param name="param.userId" xpath="/params/param[@name='userId']"/>		
+			<SQL>
+				SELECT MAX(fw_report_id) AS "ReportId"
+				FROM report_reprints
+				WHERE order_id = 'CM_AUTH_LST'
+				AND report_date = TRUNC(SYSDATE)
+				AND username = ${param.userId}
+			</SQL>
+		</SQLLite>
+	</pipeline>
+	<Security roles="viewOnly medium high wcSuper scSuper bmsSuper aeSuper dmSuper edsAdmin"/>
+</service-method>

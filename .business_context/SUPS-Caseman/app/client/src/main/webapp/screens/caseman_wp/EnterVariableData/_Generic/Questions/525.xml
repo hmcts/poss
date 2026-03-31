@@ -1,0 +1,20 @@
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>525</Id>
+	<Label>How was medical evidence given</Label>
+	<ObjectName>HasMedicalEvidence</ObjectName>
+	<Html>	
+		<select id="HasMedicalEvidence">
+			<option value=""></option>
+			<option value="H">Heard</option>
+			<option value="W">Written</option>
+			<option value="B">Both</option>
+		</select>
+	</Html>		
+
+	<Javascript>
+		<XPath>/ds/EnterVariableData/Guardianship/hasMedicalEvidence</XPath>
+		<componentName>##label##</componentName>
+		<isMandatory>return true;</isMandatory>
+		<HintText>Enter details of how medical evidence was presented - list available</HintText>			
+	</Javascript>
+</Question>

@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- ====================================================================== -->
+<!--  -->
+<!-- FILENAME: $Source: C:/CVSRepository/serveroas/src/uk/gov/dca/caseman/wordprocessing_templates/Notice/CJR050/CJR050-FO.xml,v $ -->
+<!--  -->
+<!-- AUTHOR: $Author: narges $-->
+<!--  -->
+<!-- DATE: $Date: 2006/06/28 16:54:01 $ -->
+<!--  -->
+<!-- Version: $Revision: 1.11 $ -->
+<!--  -->
+<!-- DESCRIPTION: This stylesheet is used to create an XSL:FO document that -->
+<!-- can be processed into a PDF version.  Business logic -->
+<!-- is embedded to generate the correct document text for the order -->
+<!-- required. -->
+<!--  -->
+<!-- INPUTS: XML document containing: the answers to questions asked of the -->
+<!-- user; case data retrieved from the database; HTML representing the  -->
+<!-- body of the document content (already edited by the user). -->
+<!--  -->
+<!-- OUTPUTS: XML document with FO tags containing instructions for the -->
+<!-- creation of a PDF document. -->
+<!--  -->
+<!-- ====================================================================== -->
+<root xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:fo="http://www.w3.org/1999/XSL/Format" xmlns="http://eds.com/supsfo">
+	<variables>@word.processing.url.xsl@supsfo.xsl</variables>
+	<addressee>
+		<claimants/>
+		<defendants/>
+	</addressee>
+	<header>
+		<fo:block font-size="16pt" font-weight="bold">Order for possession</fo:block>
+	</header>
+	<courtcase>
+		<court>
+			<xsl:copy-of select="$vdCourtHeaderBlock"/>
+		</court>
+		<caseparameters>
+			<parameter>
+				<name>
+					<fo:block font-weight="bold">Claim Number</fo:block>
+				</name>
+				<value>
+					<fo:block>
+						<xsl:value-of select="$vdClaimNumber"/>
+					</fo:block>
+				</value>
+			</parameter>
+			<parameter>
+				<name>
+					<fo:block font-weight="bold">Claimant</fo:block>
+					<fo:block font-size="9pt">(including ref.)</fo:block>
+				</name>
+				<value>
+					<fo:block hyphenate="true">
+						<xsl:value-of select="$vdClaimantName"/>
+					</fo:block>
+					<fo:block font-size="9pt" hyphenate="true">
+						<xsl:value-of select="$vdClaimantReference"/>
+					</fo:block>
+				</value>
+			</parameter>
+			<parameter>
+				<name>
+					<fo:block font-weight="bold">Defendant</fo:block>
+					<fo:block font-size="9pt">(including ref.)</fo:block>
+				</name>
+				<value>
+					<fo:block hyphenate="true">
+						<xsl:value-of select="$vdDefendantName"/>
+					</fo:block>
+					<fo:block font-size="9pt" hyphenate="true">
+						<xsl:value-of select="$vdDefendantReference"/>
+					</fo:block>
+				</value>
+			</parameter>
+			<parameter>
+				<name>
+					<fo:block font-weight="bold">Date</fo:block>
+				</name>
+				<value>
+					<fo:block>
+						<xsl:value-of select="$vdEventDate"/>
+					</fo:block>
+				</value>
+			</parameter>
+			<dobparameter partyType="defendant"/>
+		</caseparameters>
+	</courtcase>
+	<bodyintroright><fo:block><fo:inline><electronicSeal/></fo:inline></fo:block></bodyintroright>
+	<body>
+		<editable useid="N100C6">
+		<fo:block space-after="0.4cm" font-weight="bold">
+			ON THE <xsl:value-of select="$vdJudgmentDate"/>, <xsl:value-of select="$vdJudge"/>
+		</fo:block>
+		<fo:block space-after="0.4cm">
+			sitting at <xsl:value-of select="$vdHearingAtCourtNameDescription"/>, <xsl:value-of select="$vdHearingAtCourtAddress"/>
+		</fo:block>
+		<fo:block space-after="0.4cm">
+			<xsl:copy-of select="$vdHearingAttendees"/>
+		</fo:block>
+		<fo:block space-after="0.4cm">
+			<fo:inline font-weight="bold">and the court orders</fo:inline> that
+		</fo:block>
+		<numbered-list name="possession">
+			<list-item>
+				<fo:block space-after="0.4cm">The defendant give the claimant possession of <xsl:value-of select="$vdPossessionProperty"/> on or before <xsl:value-of select="$vdPossessionDate"/>.</fo:block>
+			</list-item>
+			<list-item condition="string-length($vdPossession2) > 0">
+				<fo:block space-after="0.4cm"><xsl:value-of select="normalize-space($vdPossession2)"/>.</fo:block>
+			</list-item>
+			<list-item condition="string-length($vdPossessionCosts3) > 0">
+				<fo:block space-after="0.4cm"><xsl:value-of select="normalize-space($vdPossessionCosts3)"/>.</fo:block>
+			</list-item>
+			<list-item condition="string-length($vdPossession4) > 0">
+				<fo:block space-after="0.4cm"><xsl:value-of select="normalize-space($vdPossession4)"/>.</fo:block>
+			</list-item>
+		</numbered-list>		
+		</editable>
+	</body>
+	<footnote noteextent="7">
+		<fo:block space-after="0.1cm" font-family="Times" text-align="justify">
+			<fo:table table-layout="fixed" width="100%">
+			<fo:table-column column-width="9.5cm"></fo:table-column>
+			<fo:table-column column-width="9.5cm"></fo:table-column>
+			<fo:table-body>
+				<fo:table-row keep-with-next="always">
+					<fo:table-cell number-columns-spanned="2" border-top-style="solid" border-top-width="0.02cm" border-left-style="solid" border-left-width="0.02cm" border-right-style="solid" border-right-width="0.02cm">
+						<fo:block space-after="0.1cm" text-align="center" font-weight="bold" font-size="10pt">To the defendant</fo:block>
+					</fo:table-cell>
+				</fo:table-row>
+				<fo:table-row keep-with-next="always">
+					<fo:table-cell padding-left="0.1cm" border-bottom-style="solid" border-bottom-width="0.02cm" border-left-style="solid" border-left-width="0.02cm">
+						<fo:block font-size="8pt" space-after="0.1cm" padding-left="0.1cm">
+							The court has <fo:inline font-weight="bold">ordered you to leave</fo:inline> the property by the date stated in paragraph 1 above.
+						</fo:block>
+						<fo:block font-size="8pt" space-after="0.1cm">
+							If you do not do so, the claimant can ask the court, without a further hearing, to authorise a bailiff or High Court Enforcement Officer to evict you.
+							(In that case, you can apply to the court to stay the eviction; a judge will decide if there are grounds for doing so.)
+						</fo:block>
+					</fo:table-cell>
+					<fo:table-cell number-rows-spanned="2" padding-left="0.2cm" padding-right="0.1cm" border-bottom-style="solid" border-bottom-width="0.02cm" border-right-style="solid" border-right-width="0.02cm">
+						<fo:block space-after="0.1cm"/>
+							<xsl:if test="$vdPayAccountCosts = 'A'">
+								<fo:block font-size="8pt">
+									The claimant will send you a copy of the bill of costs with a notice telling you what to do if you object to the amount.  If you do object, the claimant will ask the court to fix a hearing to assess the amount.
+								</fo:block>
+							</xsl:if>
+							<xsl:if test="string-length($vdPossession4) > 0">
+								<fo:block font-size="8pt" space-after="0.2cm">
+									Payments should be made to the claimant, not to the court. If you need more information about making payments, you should contact the claimant.
+								</fo:block>	
+								<fo:block font-size="8pt" space-after="0.2cm">
+									If you do not pay the money owed when it is due and the claimant takes steps to enforce payment, the order will be registered in the Register of Judgments, Orders and Fines.  This may make it difficult for you to get credit. 
+									Further information about registration is available in a leaflet which you can get from any court office.
+								</fo:block>
+							</xsl:if>				
+					</fo:table-cell>
+				</fo:table-row>
+				<fo:table-row keep-with-next="always">
+					<fo:table-cell border-top-style="solid" border-top-width="0.02cm"  border-left-style="solid" border-left-width="0.02cm"
+						border-right-style="solid" border-right-width="0.02cm" border-bottom-style="solid" border-bottom-width="0.02cm" height="4.2cm">
+						<address suppressborder="true">
+							<xsl:call-template name="addressee"/>
+						</address>
+					</fo:table-cell>
+				</fo:table-row>
+			</fo:table-body>
+		</fo:table>	
+		</fo:block>
+	</footnote>	
+	<defaultFooter id="CJR050"/>
+</root>

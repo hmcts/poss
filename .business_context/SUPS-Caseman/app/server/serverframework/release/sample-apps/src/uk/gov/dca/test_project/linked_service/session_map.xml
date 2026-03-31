@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<DBMapDef>
+	<DataSource id="java:SupsDS"/>
+	<Tables>
+		<Table alias="C" name="COURTSESSION"/>
+		<Table alias="J" name="JUDGE"/>
+		<Table alias="P" name="POLICY"/>
+		<Table alias="H" name="HEARINGTYPE"/>
+	</Tables>
+	<Mapping>
+		<Sessions>
+		  	<Session>
+				<Id>${C.ID}</Id>
+				<Date>${C.SESSION_DATE}</Date>
+				<Judges>
+					<Judge>
+						<Id>${J.ID}</Id>
+						<Name>${J.NAME}</Name>
+					</Judge>
+				</Judges>
+				<Policy>
+					<Id>${P.ID}</Id>
+					<MaxHearings>${P.MAX_HEARINGS}</MaxHearings>
+					<HearingTypes>
+						<HearingType>
+							<Id>${H.ID}</Id>
+							<Name>${H.NAME}</Name>
+						</HearingType>
+					</HearingTypes>
+				</Policy>
+		  	</Session>
+	    </Sessions>
+	</Mapping>
+</DBMapDef>

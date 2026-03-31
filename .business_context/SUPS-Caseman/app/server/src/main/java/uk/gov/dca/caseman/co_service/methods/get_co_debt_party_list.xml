@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: Co
+	Method:  getCoDebtPartyList()
+	File:    get_co_debt_party_list.xml
+	Author:  Phil Haferer (EDS)
+	Created: 02 September 2005
+	Description: 
+		Retrieve the list of Parties associated with a Case, for the purpose
+		of selecting one which will then be associated with a Consolidated Order Allowed Debt.
+-->
+<service-method>
+	<pipeline>
+		<Query>
+			<QueryDef location="uk/gov/dca/caseman/co_service/query_def_get_co_debt_party_list.xml"/>
+			<QueryExtension pivotNode="/ds/Parties/Party">
+				<Param name="param.caseNumber" xpath="/params/param[@name = 'caseNumber']"/>
+				<Constraint>CPR.CASE_NUMBER = ${param.caseNumber}</Constraint>
+			</QueryExtension>
+		</Query>
+	</pipeline>
+	<Security roles="viewOnly medium high wcSuper scSuper bmsSuper aeSuper dmSuper cpSuper"/>
+</service-method>

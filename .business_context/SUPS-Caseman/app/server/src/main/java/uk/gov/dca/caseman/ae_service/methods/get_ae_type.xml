@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: Ae
+	Method:  getAeType
+	Author:  Chris Hutt (EDS) 
+	Created: 10 July 2006
+	Description: 
+		Retrieve AE type
+		Introduced as part of resolution of defect TD:Caseman:3870 (auto Case Events should 
+        not be created in respect of AE Events created on a MagistratesOrder AE)
+-->
+<service-method>
+	<pipeline>
+		<SQLLite format-output="true"
+				 resultset-element="ds"
+				 row-element="Ae"
+				 field-name-as="element" >
+			<DataSource id="java:OracleDS"/>
+			<Param name="param.aeNumber" xpath="/params/param[@name='aeNumber']"/>
+			<SQL>				
+				SELECT 
+ 						AEA.AE_TYPE As "AEType"
+				FROM 	AE_APPLICATIONS AEA
+				WHERE 	AEA.AE_NUMBER = ${param.aeNumber}					
+			</SQL>
+		</SQLLite>
+  	</pipeline>
+	<Security roles="user"/>
+</service-method>

@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<DBMapDef>
+  <DataSource id="java:OracleDS"/>
+  <Tables>
+    <Table alias="P"  name="PARTIES"/>
+    <Table alias="GA" name="GIVEN_ADDRESSES"/>
+  </Tables>  
+  <Mapping>
+  	<Employers>
+		<Employer>	    		
+	    	<PartyId>${P.PARTY_ID}</PartyId>
+	        <PersonRequestedName>${P.PERSON_REQUESTED_NAME}</PersonRequestedName>
+		    <TypeCode>${P.PARTY_TYPE_CODE}</TypeCode>  	  
+	    	<ContactDetails>
+	    	  <TelephoneNumber>${P.TEL_NO}</TelephoneNumber>
+			  <FaxNumber>${P.FAX_NUMBER}</FaxNumber>
+			  <EmailAddress>${P.EMAIL_ADDRESS}</EmailAddress>
+	    	  <Addresses>
+		          <Address>
+	    	        <AddressId>${GA.ADDRESS_ID}</AddressId>
+	    	        <TypeCode>${GA.ADDRESS_TYPE_CODE}</TypeCode>
+	        	    <Line>${GA.ADDRESS_LINE1}</Line>
+	            	<Line>${GA.ADDRESS_LINE2}</Line>
+		            <Line>${GA.ADDRESS_LINE3}</Line>
+	    	        <Line>${GA.ADDRESS_LINE4}</Line>
+	        	    <Line>${GA.ADDRESS_LINE5}</Line>
+	            	<PostCode>${GA.POSTCODE}</PostCode>
+	            	<ValidFrom>${GA.VALID_FROM}</ValidFrom>
+		            <ValidTo>${GA.VALID_TO}</ValidTo>
+		            <Reference>${GA.REFERENCE}</Reference>
+			        <PartyId>${GA.PARTY_ID}</PartyId>    			
+		          </Address>
+	          </Addresses>          
+		    </ContactDetails>		    	    
+		</Employer>
+	</Employers>
+  </Mapping>
+</DBMapDef>

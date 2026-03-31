@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: WarrantReturns
+	Method:  getWarrantCasePartyNumbers()
+	Author:  Chris Vincent
+	Created: 4 Oct 2013
+	Description: 
+		Use SQLLite to return the case party numbers used on a warrant.  Required for CCBC SDT
+-->
+<service-method>
+	<pipeline>
+		<SQLLite format-output="true"
+				 resultset-element="ds"
+				 row-element="Warrant"
+				 field-name-as="element" >
+			<DataSource id="java:OracleDS"/>
+			<Param name="param.warrantNumber" xpath="/params/param[@name='warrantNumber']"/>
+			<SQL>
+				SELECT 	DEF1_CASE_PARTY_NO AS  "Def1PartyNo"
+						,DEF2_CASE_PARTY_NO AS  "Def2PartyNo"
+				FROM 	WARRANTS
+				WHERE   WARRANT_NUMBER = ${param.warrantNumber}
+				AND		LOCAL_WARRANT_NUMBER IS NULL
+				AND		ISSUED_BY = 335
+			</SQL>
+		</SQLLite>
+  	</pipeline>
+	<Security roles="user"/>
+</service-method>

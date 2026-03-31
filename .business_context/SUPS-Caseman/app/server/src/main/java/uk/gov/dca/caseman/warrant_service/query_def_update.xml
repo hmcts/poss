@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<QueryDef>
+	<DBMapDef location="uk/gov/dca/caseman/warrant_service/map_update.xml"/>
+	<Query pivotNode="/ds/Warrant" tables="W">
+		<Join/>
+		<Modify>
+			<CheckExists table="W" fields="WARRANT_ID" onNotExist="add" onExist="update" />
+			<Field name="W.WARRANT_ID" sequenceTable="WARRANTS_SEQUENCE"/>
+		</Modify>
+	</Query>
+</QueryDef>

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: Payments
+	Method: searchValidCasePaymentsNoTrans()
+	File: search_valid_case_payments_no_trans.xml
+	Author: Chris Vincent
+	Description:
+		Method file for service to search for payments related to a case (e.g. Warrants, AEs, COs) without a transaction number.  Added as part of TRAC 2606.
+-->
+<service-method>
+	<pipeline>
+		<Query>
+			<QueryDef location="uk/gov/dca/caseman/payments_service/query_def_search_case_payments_no_trans.xml" />
+			<QueryExtension pivotNode="/SearchResults/Payment">
+				<Param name="param.enforcementNumber" xpath="/params/param[@name = 'enforcementNumber']" />
+				<Param name="param.enforcementType" xpath="/params/param[@name = 'enforcementType']" />
+				<Param name="param.courtId" xpath="/params/param[@name = 'courtId']" />
+			</QueryExtension>
+		</Query>
+	</pipeline>
+	<Security roles="medium high wcSuper scSuper bmsSuper aeSuper dmSuper" />
+</service-method>

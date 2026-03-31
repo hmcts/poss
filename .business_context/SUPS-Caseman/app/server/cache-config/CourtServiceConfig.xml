@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<service-config>
+
+	<service name="Court"/>
+
+	<method name="getCourts">
+		<get>
+			<HTTPCache expires="endOfDay"/>
+		</get>
+	</method>
+
+	<method name="getCourtsShort">
+		<get>
+			<HTTPCache expires="endOfDay"/>
+		</get>
+	</method>
+	
+	<method name="getCourtAccountTypeList">
+		<get>
+			<HTTPCache expires="endOfDay"/>
+		</get>
+	</method>
+	
+	<method name="getCourtAddressTypeList">
+		<get>
+			<HTTPCache expires="endOfDay"/>
+		</get>
+	</method>
+	
+	<method name="getAllCourtsShort">
+		<get>
+			<HTTPCache expires="endOfDay"/>
+		</get>
+	</method>
+
+</service-config>

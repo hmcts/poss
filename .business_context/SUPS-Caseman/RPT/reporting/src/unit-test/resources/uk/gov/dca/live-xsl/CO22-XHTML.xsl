@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsl:stylesheet xmlns:ora="http://www.oracle.com/XSL/Transform/java" xmlns:supsfo="http://eds.com/supsfo" xmlns:fo="http://www.w3.org/1999/XSL/Format" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="1.0" xmlns:ns0="xmlns" ns0:xsl="http://www.w3.org/1999/XSL/Transform"><xsl:import href="supsfo.xsl"/><xsl:strip-space elements="*"/><xsl:output method="xml"/><xsl:template match="/"><editableSections><div class="EDITME" id="N100AC"><div><font size="2" face="Times New Roman">
+			<div style="margin-bottom: 0.4cm;">
+				<span style="font-weight: bold;">TAKE NOTICE </span>that an application to add case no. <xsl:value-of xmlns="http://eds.com/supsfo" select="$vdCOAddedCaseNumber"/> to this Consolidated Attachment of Earnings Order by 
+				<xsl:value-of xmlns="http://eds.com/supsfo" select="$vdApplicantText"/><xsl:if xmlns="http://eds.com/supsfo" test="variabledata/order/coorder/applicant/applicanttext = 'CRED'">, <xsl:if test="string-length($vdRemovedDebtorName) &gt; 0"><xsl:value-of select="$vdRemovedDebtorName"/> of <xsl:value-of select="$vdCreditorAddress"/> </xsl:if> </xsl:if> has been received.
+			</div>
+		</font></div></div></editableSections></xsl:template><xsl:template name="pagesequence"><xsl:param name="addressee"/></xsl:template></xsl:stylesheet>

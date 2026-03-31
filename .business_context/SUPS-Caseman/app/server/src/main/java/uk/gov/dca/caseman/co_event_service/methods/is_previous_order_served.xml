@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: CoEvent
+	Method:  isPreviousOrderserved
+	Author:  Chris Hutt (EDS) 
+	Created: 19 July 2005
+	Description: 
+		Use SQLLite to determine whether any previous co-orders have been served. 
+		
+	Legacy sql:
+		CURSOR 	c_chk_prev_service IS
+		SELECT 	'X'
+		FROM	co_events   ce,
+				order_types ot,
+				event_outputs eo
+		WHERE	ot.order_id 	 = eo.order_type_id
+		AND	ot.document_type = 'O'
+		AND	eo.code 	 = '1'
+		AND	eo.std_event_id  = ce.std_event_id
+		AND	ce.error_indicator = 'N'
+		AND	ce.service_status is not null
+		AND ce.service_status != 'NOT SERVED'
+		AND	ce.service_date is null
+		AND	ce.co_number   	 = :eve.co_number;
+	
+
+-->
+<service-method>
+	<pipeline>
+		<SQLLite format-output="true"
+				 resultset-element="ds"
+				 row-element="CO"
+				 field-name-as="element" >
+			<DataSource id="java:OracleDS"/>
+			<Param name="param.coNumber" xpath="/params/param[@name='coNumber']"/>
+			<SQL>
+				SELECT 
+					DECODE(COUNT(*),0,'false','true') 	AS "HasPreviousOrdersServed"
+				FROM 	CO_EVENTS COE
+				WHERE 	COE.CO_NUMBER = ${param.coNumber}
+				AND   	COE.ERROR_INDICATOR = 'N'
+				AND  	COE.SERVICE_STATUS IS NOT NULL
+				AND  	COE.SERVICE_STATUS != 'NOT SERVED'
+				AND 	COE.SERVICE_DATE IS NULL
+			</SQL>
+		</SQLLite>
+  	</pipeline>
+	<Security roles="user"/>
+</service-method>

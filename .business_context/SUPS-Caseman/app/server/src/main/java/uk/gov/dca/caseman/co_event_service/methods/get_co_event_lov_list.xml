@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: CoEvent
+	Method:  getCoEventList
+	Author:  Chris Hutt (EDS) 
+	Created: 4 august 2005
+	Description: 
+		Use SQLLite to retrieve lov list associated with an Co event
+                
+-->
+<!-- service-method visibility="local" -->
+<service-method>
+	<pipeline>
+		<SQLLite format-output="true"
+				 resultset-element="Options"
+				 row-element="Option"
+				 field-name-as="element" >
+			<DataSource id="java:OracleDS"/>
+			<Param name="param.listType" xpath="/params/param[@name='listType']"/>
+			<SQL>
+				SELECT CCBC.RV_LOW_VALUE 	As "Code"
+				,      CCBC.RV_MEANING  	As "Description"
+				FROM  CCBC_REF_CODES CCBC
+				WHERE CCBC.RV_DOMAIN = ${param.listType}
+			</SQL>
+		</SQLLite>
+  	</pipeline>
+	<Security roles="user"/>
+</service-method>

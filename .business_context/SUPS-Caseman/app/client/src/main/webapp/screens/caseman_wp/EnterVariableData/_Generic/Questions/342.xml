@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>342</Id>
+	<Label>Any request to postpone</Label>
+	<ObjectName>HasPostponeRequest</ObjectName>
+	<Html>
+		<input type="checkbox" id="HasPostponeRequest"></input>
+	</Html>
+	<Javascript>
+		<XPath>/ds/EnterVariableData/PossessionOrder/hasPostponeRequest</XPath>
+		<componentName>##label##</componentName>
+		<HintText>Check box if there is a question of postponement to be heard later</HintText>
+		<modelValue>checked: "Y", unchecked: "N"</modelValue>			
+	</Javascript>
+</Question>

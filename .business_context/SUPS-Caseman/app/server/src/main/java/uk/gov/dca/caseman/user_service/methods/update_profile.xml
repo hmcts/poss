@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: User
+	Method:  updateProfile()
+	File:    update_profile.xml
+	Author:  Ian Stainer
+	Created: 21/04/2006
+	Description: 
+        Updates a user's profile. This is invoked when the user simply edits an existing profile.
+-->
+<service-method>
+	<pipeline>
+		<Java>
+			<Source class="uk.gov.dca.caseman.user_service.java.UpdateProfileCustomProcessor"/>
+		</Java>	    
+	</pipeline>
+	<Security roles="viewOnly medium high wcSuper scSuper bmsSuper aeSuper dmSuper edsAdmin admin cpSuper ccbcMan ccbcUser ccbcSGB2 ccbcTape"/>
+</service-method> 

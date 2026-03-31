@@ -1,0 +1,59 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3c.org/TR/html4/strict.dtd">
+<html>
+<head>
+	<title>TestReport</title>
+    <link href="TestReport.css" type="text/css" rel="stylesheet">
+    <script type="text/javascript" src="../../Framework.js"></script>
+	<script type="text/javascript" src="../../CaseManIncludeFiles.js"></script>
+    <script type='text/javascript' src='TestReport.js'></script>
+</head>
+
+<body>
+<form name="TestReport"  id="TestReport">
+
+<table class="layout">
+<tr>
+<td>
+
+<!-- Main Panel -->
+   <div class="panel"  id="MainPanel">
+       <table>
+           <tr><td>&nbsp;</td></tr>
+           <tr>
+               <td>&nbsp;</td>
+               <!-- Master Panel -->
+               <td id="MasterPanel" width="50%" valign="top">
+                   <script type="text/javascript">
+                       Grid.createInline("Master_Reports", ["Report Id", "Module", "Title"], 20, 1);
+                   </script>
+               </td>
+               <td>&nbsp;</td>
+               <!-- Detail Panel -->
+               <td id="DetailPanel" width="50%" valign="top">
+                   <table width="100%"><tr><td></td></tr>
+                   </table>
+               </td>
+               <td>&nbsp;</td>
+           </tr>
+       </table>
+   </div>
+
+</td>
+</tr>
+</table>
+
+<!-- Status Bar Panel -->
+<script type="text/javascript">
+	ActionBarRenderer.createInline(
+		"status_bar",
+		[
+			{id: "Status_Run", label: "Run"},
+			{id: "Status_Close_Btn", label: "Close"}
+		]
+	);
+</script>
+<!-- End Status Bar Panel -->
+
+</form>
+</body>
+</html>

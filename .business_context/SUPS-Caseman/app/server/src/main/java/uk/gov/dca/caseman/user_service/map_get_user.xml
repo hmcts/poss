@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    Change History:
+    21-Jul-2006 Phil Haferer (EDS): Added OrigRole tag to allow change of Role to be added to Audit Event Logging.
+	05-Feb-2008 Chris Vincent: Added PrinterCourtCode for CaseMan Defect 6181
+-->
+<DBMapDef>
+	<DataSource id="java:OracleDS"/>
+	<Tables>
+		<Table alias="DU" name="DCA_USER"/>
+		<Table alias="UC" name="USER_COURT"/>
+		<Table alias="UR" name="USER_ROLE"/>
+		<Table alias="CT" name="COURTS"/>
+	</Tables>
+	<Mapping>
+		<ds>
+			<MaintainUser>		
+				<UserId>${DU.USER_ID}</UserId>
+				<Title>${DU.TITLE}</Title>
+				<Forenames>${DU.FORENAMES}</Forenames>
+				<Surname>${DU.SURNAME}</Surname>
+				<UserShortName>${DU.USER_SHORT_NAME}</UserShortName>
+				<Extension>${DU.EXTENSION}</Extension>
+				<PrinterCourtCode>${DU.PRINTER_COURT_CODE}</PrinterCourtCode>
+				<DefaultPrinter>${DU.USER_DEFAULT_PRINTER}</DefaultPrinter>
+				<ActiveUser>${DU.ACTIVE_USER_FLAG}</ActiveUser>
+				<SectionForPrintouts>${DU.SECTION_FOR_PRINTOUTS}</SectionForPrintouts>				
+				<SectionForBMS>${UC.SECTION_NAME}</SectionForBMS>
+				<CourtCode>${UC.COURT_CODE}</CourtCode>
+				<HomeFlag>${UC.HOME_FLAG}</HomeFlag>
+				<DateFrom>${UC.DATE_FROM}</DateFrom>
+				<Role>${UR.ROLE_ID}</Role>				
+				<OrigRole>${UR.ROLE_ID}</OrigRole>				
+				<CourtName>${CT.NAME}</CourtName>
+				<AdminRole>N</AdminRole>
+			</MaintainUser>
+		</ds>
+	</Mapping>
+</DBMapDef>

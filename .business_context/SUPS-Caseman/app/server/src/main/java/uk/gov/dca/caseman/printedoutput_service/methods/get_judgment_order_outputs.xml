@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: Printedoutput
+	Method:  getJudgmentOrderOutputs()
+	File:    get_judgment_order_outputs.xml
+	Author:  Ian Stainer
+	Created: 23/08/2006
+	Description: 
+        Returns case event information about the case event that relates to the given judgment id.
+		The returned data is passed to word processing so that it can work out which output to generate. The
+		rule is event 230 produces CJR040a and 240 produces CJR041a. 
+-->
+<service-method>
+	<pipeline>
+		<NewQuery>
+  			<QueryDef location="uk/gov/dca/caseman/printedoutput_service/queryGJOO_def.xml"/>
+			<QueryExtension pivotNode="/ds/JudgmentOrderOutput">
+				<Param name="param.caseNumber"      xpath="/params/param[@name = 'caseNumber']"/>
+				<Param name="param.casePartyNumber" xpath="/params/param[@name = 'casePartyNumber']"/>
+				<Param name="param.casePartyRole"   xpath="/params/param[@name = 'casePartyRole']"/>
+				<Param name="param.judgmentId"      xpath="/params/param[@name = 'judgmentId']"/>								
+			</QueryExtension>					
+  		</NewQuery>
+  	</pipeline>
+	<Security roles="viewOnly medium high wcSuper scSuper bmsSuper aeSuper dmSuper cpSuper ccbcMan ccbcUser ccbcSGB2"/>
+</service-method>

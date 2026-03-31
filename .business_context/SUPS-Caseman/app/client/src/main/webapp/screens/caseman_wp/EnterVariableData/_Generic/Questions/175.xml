@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>175</Id>
+	<Label>Other documents</Label>
+	<ObjectName>DocsFiledOther</ObjectName>
+	<Html>	
+		<input type="text" id="DocsFiledOther"></input>
+	</Html>
+	<Javascript>
+		<XPath>/ds/EnterVariableData/FastTrack/docsFiledOther</XPath>
+		<HintText>What documents are to be filed</HintText>
+		<isMandatory>return true;</isMandatory>
+		<enableOn>DocsFiled.dataBinding</enableOn>
+		<isEnabled>return('OTH' == Services.getValue(DocsFiled.dataBinding));</isEnabled>
+		<logicOn>DocsFiled.dataBinding</logicOn>
+		<logic>
+			if('OTH' != Services.getValue(DocsFiled.dataBinding))
+			{	Services.setValue(DocsFiledOther.dataBinding, "");
+			}		
+		</logic>	
+	</Javascript>
+</Question>
+
+

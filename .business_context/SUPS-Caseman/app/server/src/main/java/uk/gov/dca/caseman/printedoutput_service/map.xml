@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- 
+	Service: Printedoutput
+	Method:  getOutstandingOutputs()
+	File:    map.xml
+	Author:  Chris Hutt
+	Created: 23 Nov 2004
+	Description: 
+		Retrieves outstanding WP outputs for specified case/user
+		
+    Change History
+	    03/07/2007: Chris Vincent - Added the ReportId node.  CaseMan Defect 6213.
+--> 
+<DBMapDef>
+  <DataSource id="java:OracleDS"/>
+  <Tables>
+    <Table alias="WPO" name="WP_OUTPUT" />
+	<Table alias="CE" name="CASE_EVENTS" />
+	<Table alias="RQ" name="REPORT_QUEUE" />
+  </Tables>
+  <Mapping>
+    <Cases>
+		<Case>
+			<CaseNumber>${CE.CASE_NUMBER}</CaseNumber>
+			<Outputs>
+				<WPOutput>
+					<Event_Seq>${CE.EVENT_SEQ}</Event_Seq>
+					<Event_Id>${CE.STD_EVENT_ID}</Event_Id>
+					<OutputId>${WPO.OUTPUT_ID}</OutputId>
+					<CreatedOn>${WPO.DATE_CREATED}</CreatedOn>
+					<DocumentID>${WPO.XMLSOURCE}</DocumentID>
+					<ReportID>${RQ.ID}</ReportID>
+				</WPOutput>
+			</Outputs>
+		</Case>
+    </Cases>	
+  </Mapping>
+</DBMapDef>

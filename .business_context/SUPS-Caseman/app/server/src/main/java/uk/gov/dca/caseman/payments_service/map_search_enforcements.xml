@@ -1,0 +1,37 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: Payments
+	Method: searchEnforcements(), searchHomeWarrants(), searchForeignWarrants()
+	File: map_search_enforcements.xml
+	Author: Steve Blair
+-->
+<DBMapDef>
+	<DataSource id="java:OracleDS" />
+	<Tables>
+		<Table alias="AE" name="AE_APPLICATIONS" />
+		<Table alias="W" name="WARRANTS" />
+		<Table alias="CO" name="CONSOLIDATED_ORDERS" />
+		<Table alias="AD" name="ALLOWED_DEBTS" />
+		<Table alias="C" name="CASES" />
+		<Table alias="CPR" name="CASE_PARTY_ROLES" />
+		<Table alias="P" name="PARTIES" />
+		<Table alias="WR" name="WARRANT_RETURNS" />
+		<Table alias="RC" name="RETURN_CODES" />
+		<Table alias="CCBC" name="CCBC_REF_CODES" />
+	</Tables>
+	<Mapping>
+		<SearchResults>
+			<Enforcement>
+				<Type>${C.ENFORCEMENT_TYPE}</Type>
+				<Number>${C.ENFORCEMENT_NUMBER}</Number>
+				<DisplayNumber>${C.DISPLAY_NUMBER}</DisplayNumber>
+				<Defendant1>${C.DEFENDANT1}</Defendant1>
+				<Defendant2>${C.DEFENDANT2}</Defendant2>
+				<Outstanding>${C.OUTSTANDING}</Outstanding>
+				<IssuingCourt>${C.ISSUING_COURT}</IssuingCourt>
+				<ExecutingCourt>${C.EXECUTING_COURT}</ExecutingCourt>
+				<OwningCourt>${C.OWNING_COURT}</OwningCourt>
+			</Enforcement>
+		</SearchResults>
+	</Mapping>
+</DBMapDef>

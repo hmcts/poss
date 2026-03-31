@@ -1,0 +1,40 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3c.org/TR/html4/strict.dtd">
+<html>
+
+	<head>
+		<title>Audit_SubForm</title>
+		<meta http-equiv="charset" content="UTF8">
+    	<link href="Audit_SubForm.css" type="text/css" rel="stylesheet">
+    	<script type="text/javascript" src="../../Framework.js"></script>
+		<script type="text/javascript" src="../../CaseManValidationHelper.js"></script>
+		<script type="text/javascript" src="../../CaseManUtils.js"></script>
+		<script type="text/javascript" src="Audit_SubForm.js"></script>
+  	</head>
+
+	<body>
+	
+    	<form id="auditSubform" class="subform">
+
+			<div class="auditPopupTitle">View Audit History</div>
+
+			<div class="panel">
+				<script type="text/javascript">Grid.createInline("Audit_DataChangeGrid", ["Date of Change", "Column Name", "Old Value", "User Name", "Comment"], 10, 1);</script>
+			</div>
+			
+			<!-- Popup action bar -->
+			<script type="text/javascript">
+				ActionBarRenderer.createInlineNoStatusBar(
+					"audit_statusbar",
+					[
+						{id: "AuditPopup_PreviousButton", label: "Previous"},	
+						{id: "AuditPopup_NextButton", label: "Next"},
+						{id: "AuditPopup_CloseButton", label: "Close"}
+					]
+				);
+			</script>
+			
+		</form>
+    
+    </body>
+    
+</html>

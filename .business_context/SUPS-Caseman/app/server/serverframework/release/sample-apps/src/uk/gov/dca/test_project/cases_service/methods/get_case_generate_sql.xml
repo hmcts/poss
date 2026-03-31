@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<service-method>
+	<pipeline>
+		<Query>
+			<QueryDef location="uk/gov/dca/test_project/cases_service/query_def.xml"/>
+			<QueryExtension pivotNode="/Case">
+				<Param name="param.caseNumber" xpath="/params/param[@name='caseNumber']"/>
+				<SQL type="select" generator="uk.gov.dca.test_project.cases_service.classes.TestGetSQLGenerator">
+				</SQL>
+			</QueryExtension>
+		</Query>
+	</pipeline>
+	<Security roles="user"/>
+</service-method>

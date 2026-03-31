@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:caps="urn:SUPS.CCBC" xmlns="urn:SUPS.CCBC" targetNamespace="urn:SUPS.CCBC" elementFormDefault="qualified">
+	<xs:element name="WARRANT_RETURNS_RECORDS">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="WARRANT_RETURNS_RECORD" minOccurs="0" maxOccurs="unbounded">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="ROWID"/>
+							<xs:element name="TRANS_SEQ"/>
+							<xs:element name="WARRANT_NUMBER"/>
+							<xs:element name="ISSUED_BY"/>
+							<xs:element name="RETURN_CODE"/>
+							<xs:element name="WARRANT_RETURN_DATE"/>
+							<xs:element name="ERROR_INDICATOR"/>
+							<xs:element name="NOTICE_REQUIRED"/>
+							<xs:element name="APPOINTMENT_DATE"/>
+							<xs:element name="APPOINTMENT_TIME"/>
+							<xs:element name="VERIFICATION_DATE"/>
+							<xs:element name="DEFENDANT_ID"/>
+							<xs:element name="ADDITIONAL_INFORMATION"/>
+							<xs:element name="TO_TRANSFER"/>
+							<xs:element name="TRANSFER_DATE"/>
+							<xs:element name="EXECUTED_BY"/>
+							<xs:element ref="WARRANT_RETURNS_WORK" minOccurs="0"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="WARRANT_RETURNS_WORK">
+		<xs:complexType>
+			<xs:sequence>
+			<xs:element name="SUPS_WARRANT_ID" minOccurs="0"/>
+			<xs:element name="NEXT_VAL" minOccurs="0"/>
+			<xs:element name="SESSION_USER" minOccurs="0"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+</xs:schema>

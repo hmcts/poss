@@ -1,0 +1,112 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: AeEvent
+	Method:  getAeEvent()
+	File:    query_def_get_ae_event.xml
+	Author:  Phil Haferer (EDS)
+	Created: 31-Jul-2006 
+	Description: 
+        Retrieve a single AE Event.
+        Derived from get_ae_events.xml.
+        Created in repsonse to TD 4018: Performance: Pagination required when displaying list of Case Events.
+		
+    Change History:
+-->
+<QueryDef>
+  <DBMapDef location="uk/gov/dca/caseman/ae_event_service/map_get_ae_event.xml"/>
+  
+  <Query pivotNode="/ManageAEEvents" tables="AEA">
+	<SQL type="select">
+		SELECT AEA.AE_NUMBER AS "AEA.AE_NUMBER", 
+			AEA.ORA_ROWSCN AS "AEA_ORA_ROWSCN"
+			FROM AE_APPLICATIONS AEA
+			WHERE AEA.AE_NUMBER = ${param.aeNumber} 
+	</SQL>
+	<Modify/>
+  </Query>
+   
+  <Query pivotNode="/ManageAEEvents/AEEvents/AEEvent" tables="AE SE">
+	<LinkedSQL type="root" key="AE.AE_EVENT_SEQ">
+		<SQL>
+            SELECT AE.AE_EVENT_SEQ       AS "AE.AE_EVENT_SEQ"                          
+            ,      AE.AE_NUMBER          AS "AE.AE_NUMBER"                             
+            ,      AE.BAILIFF_IDENTIFIER AS "AE.BAILIFF_IDENTIFIER"                    
+            ,      AE.CASE_EVENT_SEQ     AS "AE.CASE_EVENT_SEQ"                        
+            ,      AE.DATE_ENTERED       AS "AE.DATE_ENTERED"                          
+            ,      AE.DETAILS            AS "AE.DETAILS"                               
+            ,      AE.ERROR_INDICATOR    AS "AE.ERROR_INDICATOR"                       
+            ,      AE.EVENT_DATE         AS "AE.EVENT_DATE"                            
+            ,      AE.ISSUE_STAGE        AS "AE.ISSUE_STAGE"                           
+            ,      AE.PROCESS_DATE       AS "AE.PROCESS_DATE"                          
+            ,      AE.SERVICE_DATE       AS "AE.SERVICE_DATE"                          
+            ,      AE.SERVICE_STATUS     AS "AE.SERVICE_STATUS"                        
+            ,      AE.STD_EVENT_ID       AS "AE.STD_EVENT_ID"                          
+            ,      AE.USERNAME           AS "AE.USERNAME"                              
+            ,      SE.CATEGORY           AS "SE.CATEGORY"                              
+            ,      SE.DESCRIPTION        AS "SE.DESCRIPTION"                           
+            ,      SE.EDIT_DETAILS       AS "SE.EDIT_DETAILS"                          
+            ,      '0'                   AS "STATUS"
+            ,      (CASE
+                     WHEN SE.CATEGORY IN
+                          (SELECT REF2.RV_LOW_VALUE
+                           FROM   CCBC_REF_CODES REF2
+                           WHERE  REF2.RV_DOMAIN = 'AE_EVENT_CATEGORY') THEN
+                      'N'
+                     ELSE
+                      'Y'
+                   END)                  AS "REF2.OBSOLETE"
+            ,      AE.ORA_ROWSCN         AS "AE_ORA_ROWSCN"
+            ,      SE.ORA_ROWSCN         AS "SE_ORA_ROWSCN"
+            FROM   AE_EVENTS       AE
+            ,      STANDARD_EVENTS SE
+            WHERE  AE.AE_NUMBER      = ${AEA.AE_NUMBER}
+            AND    AE.CASE_EVENT_SEQ = ${param.caseEventSeq}
+            AND    SE.EVENT_ID       = AE.STD_EVENT_ID
+ 		</SQL>
+	</LinkedSQL>
+  </Query>
+	
+  <Query pivotNode="/ManageAEEvents/AEEvents/AEEvent/Outputs/Output" tables="WO">
+  	<LinkedSQL type="query" key="OUTPUT.OUTPUT_ID">
+    		
+    	<Parent key="AE.AE_EVENT_SEQ" tables="AE"/>
+    		
+    	<SQL>
+		( SELECT 
+				AE.AE_EVENT_SEQ				AS "AE.AE_EVENT_SEQ" 
+			,	'WP'						AS "OUTPUT.TYPE"
+			,   WO.FINAL_IND				AS "OUTPUT.FINAL_IND"
+			,	TO_CHAR(WO.OUTPUT_ID)		AS "OUTPUT.OUTPUT_ID"
+			,   'Word Processing Output' 	AS "OUTPUT.DESCRIPTION"
+            , 	TO_CHAR(WO.XMLSOURCE)		AS "OUTPUT.DOCUMENT_ID"
+		FROM 
+			WP_OUTPUT WO, AE_EVENTS AE
+		WHERE
+			AE.AE_NUMBER = ${param.aeNumber}
+            AND AE.CASE_EVENT_SEQ = ${param.caseEventSeq}
+			AND WO.AE_EVENT_SEQ = AE.AE_EVENT_SEQ
+			AND WO.OUTPUT_ID = (SELECT MAX(WO2.OUTPUT_ID) FROM WP_OUTPUT WO2 WHERE WO2.AE_EVENT_SEQ = AE.AE_EVENT_SEQ) )
+		UNION
+		( SELECT 
+				AE.AE_EVENT_SEQ				AS "AE.AE_EVENT_SEQ"
+			,	'OR'						AS "OUTPUT.TYPE"
+			,   'Y'						    AS "OUTPUT.FINAL_IND"
+			,   RO.ORDER_ID 				AS "OUTPUT.OUTPUT_ID"
+			, 	TO_CHAR(RO.REPORT_ID)		AS "OUTPUT.DESCRIPTION"
+			,   TO_CHAR(RQ.DOCUMENT_ID)	    AS "OUTPUT.DOCUMENT_ID"
+		FROM 
+				REPORT_OUTPUT RO
+			,   REPORT_QUEUE  RQ
+			, 	AE_EVENTS AE
+		WHERE
+				AE.AE_NUMBER = ${param.aeNumber}
+        AND     AE.CASE_EVENT_SEQ = ${param.caseEventSeq}
+		AND		RO.AE_EVENT_SEQ = AE.AE_EVENT_SEQ
+		AND		RQ.ID 		 = RO.REPORT_ID )
+		</SQL>
+    	
+    </LinkedSQL>
+	<Modify notModifiable="true"/>
+  </Query>
+
+</QueryDef>

@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Change History
+	11/06/2012, Chris Vincent: Changed date at bottom of template from CO Event Date to Event Receipt Date.  Trac 2481.
+-->
+<root xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:fo="http://www.w3.org/1999/XSL/Format" xmlns:supsfo="http://eds.com/supsfo" xmlns="http://eds.com/supsfo">
+	<variables>@word.processing.url.xsl@supsfo.xsl</variables>
+	<addressee>
+			<blank/>
+			<creditor/>
+			<debtor/>
+			<employer sic="true" />
+	</addressee>
+	<header>
+		<fo:block font-size="16pt" font-weight="bold">General Form of Order</fo:block>
+	</header>
+	<courtcase>
+		<court>
+			<xsl:copy-of select="$vdCourtHeaderBlock"/>
+		</court>
+		<caseparameters>
+			<parameter>
+				<name>
+					<fo:block font-weight="bold">AO/CAEO Number</fo:block>
+				</name>
+				<value>
+					<fo:block>
+						<xsl:value-of select="$vdCONumber"/>
+					</fo:block>
+				</value>
+			</parameter>
+			<parameter>
+				<name>
+					<fo:block font-weight="bold">Creditor</fo:block>
+					<fo:block font-size="9pt">(including ref.)</fo:block>
+				</name>
+				<value>					
+					<xsl:call-template name="display-creditor-name-and-reference-template">
+						<xsl:with-param name="addressee">
+							<xsl:value-of select="$addressee"/>
+						</xsl:with-param>
+					</xsl:call-template>					
+				</value>
+			</parameter>				
+			<parameter>
+				<name>
+					<fo:block font-weight="bold">Debtor</fo:block>
+				</name>
+				<value>
+					<fo:block hyphenate="true">
+						<xsl:value-of select="$vdCODebtorName"/>
+					</fo:block>
+				</value>
+			</parameter>
+			<parameter>
+				<name>
+					<fo:block font-weight="bold">Employer's Ref.</fo:block>
+				</name>
+				<value>
+					<fo:block>
+						<xsl:value-of select="$vdCOEmployerReference"/>
+					</fo:block>
+				</value>
+			</parameter>
+		</caseparameters>
+	</courtcase>
+	<bodyintroleft/>
+	<bodyintroright><fo:block space-before="0.4cm"><fo:inline text-align="center"><seal/></fo:inline></fo:block></bodyintroright>
+	<body>
+	<editable useid="N100B2">
+		<fo:block space-after="0.8cm"/>	
+		<fo:block space-after="0.4cm" font-weight="bold">
+			Before <xsl:value-of select="$vdJudge"/> sitting at <xsl:value-of select="$vdHearingAtCourtNameDescription"/>, <xsl:value-of select="$vdHearingAtCourtAddress"/>
+		</fo:block>
+		<fo:block space-after="0.4cm">
+			<xsl:value-of select="$vdCOHearingAttendees"/>
+		</fo:block>
+		<fo:block space-after="0.4cm" font-weight="bold">
+			IT IS ORDERED THAT 
+		</fo:block>
+		<fo:block space-after="0.4cm">
+			<xsl:copy-of select="$vdOrderText"/>
+		</fo:block>
+		<fo:block text-align="right">
+			<fo:inline font-weight="bold">Dated </fo:inline><xsl:value-of select="$vdCOEventReceiptDate"/>
+		</fo:block>	
+	</editable>
+	</body>
+	<defaultFooter id="CO03" CO="true"/>
+</root>

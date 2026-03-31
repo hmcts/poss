@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>234</Id>
+	<Label>Party to serve second</Label>
+	<ObjectName>SecondParty</ObjectName>
+	<Html>	
+		<select id="SecondParty">
+			<option value=""></option>
+			<option value="CLM">The claimant</option>
+			<option value="DEF">The defendant</option>
+			<option value="OTH">Other</option>
+		</select>
+	</Html>
+	<Javascript>
+		<XPath>/ds/EnterVariableData/FastTrack/secondParty</XPath>
+		<HintText>Party to serve second</HintText>
+		<isMandatory>return true;</isMandatory>
+		<enableOn>SimOrSeqExch.dataBinding</enableOn>
+		<isEnabled>return('SEQ' == Services.getValue(SimOrSeqExch.dataBinding));</isEnabled>	
+		<logicOn>SimOrSeqExch.dataBinding</logicOn>
+		<logic>
+			if('SEQ' != Services.getValue(SimOrSeqExch.dataBinding))
+			{	Services.setValue(SecondParty.dataBinding, "");
+			}
+		</logic>
+		
+		<Context ScreenId="CJR060">
+			<HintText>Select the party to serve second</HintText>
+		</Context>
+	</Javascript>
+</Question>
+
+    
+    
+    

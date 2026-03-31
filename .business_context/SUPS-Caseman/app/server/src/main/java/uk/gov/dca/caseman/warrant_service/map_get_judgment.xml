@@ -1,0 +1,197 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+	CJH 11/04/2006: PartyAgainst/Address removed. Address only needed in Word processing so retrieval
+       			of info postponed until save service and appended to xml returned to the client
+-->
+<DBMapDef>
+	<DataSource id="java:OracleDS"/>
+	<Tables>
+		<Table alias="C" name="COURTS"/>
+		<Table alias="CA" name="CASES"/>
+		<Table alias="P" name="PARTIES"/>
+		<Table alias="PR"  name="PARTY_ROLES"/>
+		<Table alias="CPR" name="CASE_PARTY_ROLES"/>
+		<Table alias="CPR2" name="CASE_PARTY_ROLES"/>
+		<Table alias="J" name="JUDGMENTS"/>
+		<Table alias="GA" name="GIVEN_ADDRESSES"/>
+		<Table alias="CCBC" name="CCBC_REF_CODES"/>
+		<Table alias="V" name="VARIATIONS"/>
+		<Table alias="CE" name="CASE_EVENTS"/>
+		<Table alias="IP" name="INFAVOUR_PARTIES"/>
+		<Table alias="H" name="HEARINGS"/>
+		<Table alias="OB" name="OBLIGATIONS"/>
+		<Table alias="W"   name="WARRANTS"/>
+		<Table alias="PY" name="PAYMENTS"/>
+	</Tables>
+	<Mapping>
+		<ds>
+			<MaintainJudgment>
+				<CaseNumber>${CA.CASE_NUMBER}</CaseNumber>
+				<CaseType>${CA.CASE_TYPE}</CaseType>
+				<IssueDate>${CA.DATE_OF_ISSUE}</IssueDate>
+				<OwningCourtCode>${CA.ADMIN_CRT_CODE}</OwningCourtCode>
+				<OwningCourt>${C.NAME}</OwningCourt>
+				<LiveAE></LiveAE>
+				<OutstandingWarrant>${W.IS_OUTSTANDING}</OutstandingWarrant>
+				<PaymentsOutstanding>${PY.PAYMENTS_OUTSTANDING}</PaymentsOutstanding>
+				<ActiveObligations>
+					<Obligation>${OB.OBLIGATION_SEQ}</Obligation>
+				</ActiveObligations>
+				<Parties>
+					<Party>
+						<PartyKey>${CPR_PARTY_KEY}</PartyKey>
+						<CaseNumber>${CPR.CASE_NUMBER}</CaseNumber>
+						<PartyId>${CPR.PARTY_ID}</PartyId>
+						<PartyRoleCode>${CPR.PARTY_ROLE_CODE}</PartyRoleCode>
+						<PartyRoleDescription>${PR.PARTY_ROLE_DESCRIPTION}</PartyRoleDescription>
+						<CasePartyNumber>${CPR.CASE_PARTY_NO}</CasePartyNumber>
+						<Name>${P.PERSON_REQUESTED_NAME}</Name>
+						<Bar>${CPR.DEFT_BAR_JUDGMENT}</Bar>
+					</Party>
+				</Parties>
+				<Judgments>
+					<Judgment>
+						<PartyKey>${J_PARTY_KEY}</PartyKey>
+						<PartyRoleCode>${J.AGAINST_PARTY_ROLE_CODE}</PartyRoleCode>
+						<PartyAgainstName>${P.PERSON_REQUESTED_NAME}</PartyAgainstName>
+						<PartyId>${CPR2.PARTY_ID}</PartyId>
+						<PartyAgainst/>
+						<CasePartyNumber>${J.AGAINST_CASE_PARTY_NO}</CasePartyNumber>
+						<JudgmentId>${J.JUDG_SEQ}</JudgmentId>
+						<WarrantId>${J.WARRANT_ID}</WarrantId>
+						<WarrantParty>${J.WARRANT_PARTY_AGAINST}</WarrantParty>
+						<SurrogateId>${J.JUDG_SEQ}</SurrogateId>
+						<InFavourParties>
+							<Party>
+								<PartyKey>${IP_PARTY_KEY}</PartyKey>
+								<JudgmentSequence>${IP.JUDG_SEQ}</JudgmentSequence>
+								<PartyRoleCode>${IP.PARTY_ROLE_CODE}</PartyRoleCode>
+								<CasePartyNumber>${IP.CASE_PARTY_NO}</CasePartyNumber>
+								<Name>${P.PERSON_REQUESTED_NAME}</Name>
+								<CaseNumber>${IP.CASE_NUMBER</CaseNumber>
+							</Party>
+						</InFavourParties>
+						<Payee>
+							<Name>${J.PAYEE_NAME}</Name>
+							<Reference>${J.PAYEE_REFERENCE}</Reference>
+							<ContactDetails>
+								<Address>
+									<Line>${J.PAYEE_ADDR_1}</Line>
+									<Line>${J.PAYEE_ADDR_2}</Line>
+									<Line>${J.PAYEE_ADDR_3}</Line>
+									<Line>${J.PAYEE_ADDR_4}</Line>
+									<Line>${J.PAYEE_ADDR_5}</Line>
+									<PostCode>${J.PAYEE_POSTCODE}</PostCode>
+								</Address>
+								<DX>${J.PAYEE_DX_NUMBER}</DX>
+								<TelephoneNumber>${J.PAYEE_TEL_NO}</TelephoneNumber>
+								<FaxNumber>${J.PAYEE_FAX_NUMBER}</FaxNumber>
+								<EmailAddress>${J.PAYEE_EMAIL_ADDRESS}</EmailAddress>
+							</ContactDetails>
+							<BankDetails>
+								<BankName>${J.PAYEE_BANK_NAME}</BankName>
+								<AccountNumber>${J.PAYEE_BANK_ACC_NO}</AccountNumber>
+								<SortCode>${J.PAYEE_BANK_SORT_CODE}</SortCode>
+								<AccountHolder>${J.PAYEE_ACC_HOLDER}</AccountHolder>
+								<SlipCode>
+									<Line>${J.SLIP_CODELINE_1}</Line>
+									<Line>${J.SLIP_CODELINE_2}</Line>
+								</SlipCode>
+								<BankInformation>
+									<Line>${J.PAYEE_BANK_INFO_1}</Line>
+									<Line>${J.PAYEE_BANK_INFO_2}</Line>
+								</BankInformation>
+								<GiroAccountNumber>${J.PAYEE_GIRO_ACC_NO}</GiroAccountNumber>
+								<GiroTransaction>
+									<Code>${J.PAYEE_GIRO_TRANS_CODE_1}</Code>
+									<Code>${J.PAYEE_GIRO_TRANS_CODE_2}</Code>
+								</GiroTransaction>
+								<APACSTransactionCode>${J.PAYEE_APACS_TRANS_CODE}</APACSTransactionCode>
+							</BankDetails>
+						</Payee>
+						<JudgmentEvents>
+						</JudgmentEvents>
+						<VenueCode>${J.JUDGMENT_COURT_CODE}</VenueCode>
+						<VenueName>${C.NAME}</VenueName>
+						<Type>${J.JUDGMENT_TYPE}</Type>
+						<Date>${J.JUDGMENT_DATE}</Date>
+						<DateRTL>${J.SENT_TO_RTL}</DateRTL>
+						<JointJudgment>${J.JOINT_JUDGMENT}</JointJudgment>
+						<Amount>${J.JUDGMENT_AMOUNT}</Amount>
+						<AmountCurrency>${J.JUDGMENT_AMOUNT_CURRENCY}</AmountCurrency>
+						<TotalCosts>${J.TOTAL_COSTS}</TotalCosts>
+						<TotalCostsCurrency>${J.TOTAL_COSTS_CURRENCY}</TotalCostsCurrency>
+						<SubTotal></SubTotal>
+						<SubTotalCurrency></SubTotalCurrency>
+						<PaidBefore>${J.PAID_BEFORE_JUDGMENT}</PaidBefore>
+						<PaidBeforeCurrency>${J.PAID_BEFORE_JUDGMENT_CURRENCY}</PaidBeforeCurrency>
+						<Total>${J.TOTAL}</Total>
+						<TotalCurrency>${J.TOTAL_CURRENCY}</TotalCurrency>
+						<InstallAmount>${J.INSTALMENT_AMOUNT}</InstallAmount>
+						<InstallAmountCurrency>${J.INSTALMENT_AMOUNT_CURRENCY}</InstallAmountCurrency>
+						<PeriodCode>${J.INSTALMENT_PERIOD}</PeriodCode>
+						<PeriodDesc>${CCBC.RV_MEANING}</PeriodDesc>
+						<FirstPayDate>${J.FIRST_PAYMENT_DATE}</FirstPayDate>
+						<PaidInFullDate>${J.DATE_OF_FINAL_PAYMENT}</PaidInFullDate>
+						<NotificationDate>${J.PAY_RECEIPT_DATE}</NotificationDate>
+						<Status>${J.STATUS}</Status>
+						<ApplicationsToSetAside>
+							<Application>
+								<Id>${CE.EVENT_SEQ}</Id>
+								<AsideSurrogateId>${CE.EVENT_SEQ}</AsideSurrogateId>
+								<AppDate>${CE.RECEIPT_DATE}</AppDate>
+								<Applicant>${CE.REQUESTER}</Applicant>
+								<Result>${CE.RESULT}</Result>
+								<DateResult>${CE.RESULT_DATE}</DateResult>
+							</Application>
+						</ApplicationsToSetAside>
+						<ApplicationsToVary>
+							<Variation>
+								<Id>${V.VARY_SEQ}</Id>
+								<VarySurrogateId>${V.VARY_SEQ}</VarySurrogateId>
+								<Judgment>${V.JUDG_SEQ}</Judgment>
+								<AppDate>${V.APPLICATION_DATE}</AppDate>
+								<Applicant>${V.REQUESTER}</Applicant>
+								<AmountOffered>${V.OFFER_AMOUNT}</AmountOffered>
+								<AmountOfferedCurrency>${V.OFFER_AMOUNT_CURRENCY}</AmountOfferedCurrency>
+								<AmountOfferedPer>${CCBC.RV_MEANING2}</AmountOfferedPer>
+								<AmountOfferedPerId>${V.OFFER_PERIOD}</AmountOfferedPerId>
+								<Hearing>${V.HEARING_REQD}</Hearing>
+								<PreviousHearing>${V.HEARING_REQD}</PreviousHearing>
+								<ClaimResp>${V.PLAINTIFF_RESPONSE}</ClaimResp>
+								<RespDate>${V.RESPONSE_DATE}</RespDate>
+								<Result>${V.RESULT}</Result>
+								<PreviousResult>${V.RESULT}</PreviousResult>
+								<DateResult>${V.RESULT_DATE}</DateResult>
+								<PayDate>${V.FIRST_PAYMENT_DATE}</PayDate>
+								<ResultAmount>${V.DETERMINATION_AMOUNT}</ResultAmount>
+								<ResultAmountCurrency>${DETERMINATION_AMOUNT_CURRENCY}</ResultAmountCurrency>
+								<ResultAmountPer>${CCBC.RV_MEANING1}</ResultAmountPer>
+								<ResultPerId>${V.DETERMINATION_PERIOD}</ResultPerId>
+								<Objector>${V.OBJECTOR}</Objector>
+								<ObjectionDate>${V.OBJECTION_DATE}</ObjectionDate>
+								<PreviousObjectionDate>${V.OBJECTION_DATE}</PreviousObjectionDate>
+							</Variation>
+						</ApplicationsToVary>
+						<JudgmentHearing/>
+					</Judgment>
+				</Judgments>
+				<OwningCourtAddressDetail>
+					<Address>
+						<AddressId>${GA.ADDRESS_ID}</AddressId>
+						<Line>${GA.ADDRESS_LINE1}</Line>
+						<Line>${GA.ADDRESS_LINE2}</Line>
+						<Line>${GA.ADDRESS_LINE3}</Line>
+						<Line>${GA.ADDRESS_LINE4}</Line>
+						<Line>${GA.ADDRESS_LINE5}</Line>
+						<PostCode>${GA.POSTCODE}</PostCode>
+					</Address>
+					<DXNumber>${C.DX_NUMBER}</DXNumber>
+					<TelephoneNumber>${C.TEL_NO}</TelephoneNumber>
+					<FaxNumber>${C.FAX_NO}</FaxNumber>
+				</OwningCourtAddressDetail>
+			</MaintainJudgment>
+		</ds>
+	</Mapping>
+</DBMapDef>

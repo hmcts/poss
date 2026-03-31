@@ -1,0 +1,26 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: Codedparty
+	Method:  getCodedPartyShort()
+	File:    getCodedPartyShort.xml
+	Description: 
+	    Returns just the Code of the Coded Party, if the party exists.
+	    Therefore, may be used to determine whether or not a Coded Party exists.
+-->
+<service-method>
+	<pipeline>
+		<Query>
+  			<QueryDef location="uk/gov/dca/caseman/codedparty_service/query_def_cp_short.xml"/>
+  				<QueryExtension pivotNode="/CodedParty/Code">
+  				
+    					<Param name="param.codedPartyCode" xpath="/params/param[@name = 'codedPartyCode']"/>
+    	    				<Param name="param.courtCode" xpath="/params/param[@name = 'courtCode']"/>
+    	    				
+					<Constraint>CP.CODE = ${param.codedPartyCode}</Constraint>
+ 					<Constraint>CP.ADMIN_COURT_CODE = ${param.courtCode}</Constraint> 
+ 					
+  				</QueryExtension>
+		</Query>
+  	</pipeline>
+	<Security roles="wcSuper scSuper bmsSuper aeSuper dmSuper cpSuper ccbcMan"/>			
+</service-method>

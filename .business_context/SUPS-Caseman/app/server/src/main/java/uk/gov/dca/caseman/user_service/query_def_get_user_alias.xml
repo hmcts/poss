@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<QueryDef>
+  <DBMapDef location="uk/gov/dca/caseman/user_service/map_get_user_alias.xml"/>
+	<Query pivotNode="/UserData" tables="DU UR C">
+		<Join>
+			UR.USER_ID = DU.USER_ID AND
+			C.CODE = UR.COURT_CODE
+		</Join>
+	    <Modify notModifiable="true"/>
+	</Query>
+</QueryDef>

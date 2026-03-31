@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: WpOutput
+	Method:  getReportQueueId
+	File:    get_report_queue_id.xml
+	Author:  Chris Vincent 
+	Created: 05 December 2012
+	Description: 
+		Bulk Printing release - Trac 4761
+		Retrieves the REPORT_QUEUE.ID for a word processing output
+-->
+<service-method>
+	<pipeline>
+		<SQLLite format-output="true" 
+				 resultset-element="ds"
+				 row-element="Output" 
+				 field-name-as="element">
+			<DataSource id="java:OracleDS"/>
+			<Param name="param.outputId" xpath="/params/param[@name = 'outputId']"/>
+			<SQL>
+				SELECT rq.id AS "ReportQueueId"
+				FROM report_queue rq, wp_output wp
+				WHERE wp.output_id = ${param.outputId}
+				AND rq.document_id = wp.xmlsource
+			</SQL>
+		</SQLLite>
+	</pipeline>
+	<Security roles="viewOnly medium high wcSuper scSuper bmsSuper aeSuper dmSuper cpSuper ccbcMan ccbcUser ccbcSGB2"/>
+</service-method>

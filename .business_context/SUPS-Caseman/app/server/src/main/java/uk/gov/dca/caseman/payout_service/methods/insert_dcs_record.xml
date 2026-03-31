@@ -1,0 +1,77 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: Payout
+	Method: insertDcsRecord()
+	File: insert_dcs_record.xml
+	Author: A BoNnar
+    Description:	
+    
+    Change History:
+    07-Apr-2006 Phil Haferer: Added update of Currency columns.
+-->
+<service-method>
+	<pipeline>
+		<SQLLite output="input">
+			<DataSource id="java:OracleDS" />
+				<Param name="param.itemDate" xpath="/params/param[@name='itemDate']"/>				
+				<Param name="param.reportId" xpath="/params/param[@name='reportId']" />
+				<Param name="param.totalNumberOfTransactions" xpath="/params/param[@name='totalNumberOfTransactions']" />
+				<Param name="param.totalOrdinary" xpath="/params/param[@name='totalOrdinary']" />
+				<Param name="param.totalCheque" xpath="/params/param[@name='totalCheque']" />
+				<Param name="param.totalJGMT1000" xpath="/params/param[@name='totalJGMT1000']" />
+				<Param name="param.totalAOCAEO" xpath="/params/param[@name='totalAOCAEO']" />
+				<Param name="param.totalInsat" xpath="/params/param[@name='totalInsat']" />
+				<Param name="param.totalPTO" xpath="/params/param[@name='totalPTO']" />
+				<Param name="param.totalMiscellaneous" xpath="/params/param[@name='totalMiscellaneous']" />
+				<Param name="param.userId" xpath="/params/param[@name='userId']" />
+				<Param name="param.adminCourtCode" xpath="/params/param[@name='adminCourtCode']" />
+			
+			<SQL type="update" tables="D">
+                INSERT INTO DCS D
+                (   D.ITEM_DATE            
+                ,	D.REPORT_ID            
+                ,	D.TRANSACTION          
+                ,	D.ORDINARY             
+                ,	D.CHEQUE               
+                ,	D.AO_CAEO              
+                ,	D.INSATIS              
+                ,	D.PTO_ORDER            
+                ,	D.MISCELLANEOUS        
+                ,	D.INOUT                
+                ,	D.USER_ID              
+                ,	D.JGMT1000             
+                ,	D.ADMIN_COURT_CODE      
+                ,	D.ORDINARY_CURRENCY     
+                ,	D.CHEQUE_CURRENCY       
+                ,	D.JGMT1000_CURRENCY     
+                ,	D.AO_CAEO_CURRENCY      
+                ,	D.INSATIS_CURRENCY      
+                ,	D.PTO_ORDER_CURRENCY    
+                ,	D.MISCELLANEOUS_CURRENCY
+                ) VALUES 
+                (    TO_DATE(${param.itemDate}, 'YYYY-MM-DD')
+                ,    ${param.reportId}
+                ,    ${param.totalNumberOfTransactions}
+                ,    ${param.totalOrdinary}
+                ,    ${param.totalCheque}
+                ,    ${param.totalAOCAEO}
+                ,    ${param.totalInsat}
+                ,    ${param.totalPTO}
+                ,    ${param.totalMiscellaneous}
+                ,    'O'
+                ,    ${param.userId}
+                ,    ${param.totalJGMT1000}
+                ,    ${param.adminCourtCode}
+                ,    'GBP'
+                ,    'GBP'
+                ,    'GBP'
+                ,    'GBP'
+                ,    'GBP'
+                ,    'GBP'
+                ,    'GBP'
+                )                                               
+			</SQL>
+		</SQLLite>
+	</pipeline>
+	<Security roles="medium high wcSuper scSuper bmsSuper aeSuper dmSuper" />
+</service-method>

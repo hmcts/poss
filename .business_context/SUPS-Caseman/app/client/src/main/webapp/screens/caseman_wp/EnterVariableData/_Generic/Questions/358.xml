@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>358</Id>
+	<Label>Hearing address line4</Label>
+	<ObjectName>HearingAdLine4</ObjectName>
+	
+    
+	<Html>
+		<input id="HearingAdLine4" type="text" size="50"></input>
+	</Html>
+	
+	<Context screenId="CJR082">
+		<isVisible>true</isVisible>
+		<Label>N79A Hearing address line 4</Label>
+	</Context>
+	   <Context screenId="O_11_1_2_3_4"><isVisible>false</isVisible></Context>
+	   <Context screenId="O_10_18"><isVisible>false</isVisible></Context>	
+
+	
+	<Javascript>
+		<XPath>/ds/EnterVariableData/HearingAt/Address/Line[4]</XPath>		
+		<HintText>Enter the hearing address – line 4</HintText>		
+		<isReadOnly>return true;</isReadOnly>		
+		<isMandatory>return false;</isMandatory>
+		<Notes>Auto populated from RefId 150</Notes>
+		
+		<Context ScreenId="CJR080">
+			<enableOn>WhoConsidApp.dataBinding</enableOn>
+			<isEnabled>return('J' == Services.getValue(WhoConsidApp.dataBinding));</isEnabled>
+			<logicOn>WhoConsidApp.dataBinding</logicOn>
+			<logic>
+				if('J' != Services.getValue(WhoConsidApp.dataBinding))
+				{	Services.setValue(HearingAdLine4.dataBinding, "");
+				}
+			</logic>
+		</Context>			
+		<Context ScreenId="CJR083">
+			<HintText>Enter date of N39 order in format DD-MMM-YYYY</HintText>
+			<enableOn>IsNewN79AsReqd.dataBinding</enableOn>
+			<isEnabled>
+				if(IsNewN79AsReqd.isEnabled())
+				{  	if( 'Y' == Services.getValue(IsNewN79AsReqd.dataBinding))
+					{	return true;
+					}
+					return false;
+				}
+				return true;
+			</isEnabled>
+			<logicOn>IsNewN79AsReqd.dataBinding</logicOn>
+			<logic>
+				if( IsNewN79AsReqd.isEnabled() &amp;&amp; 'Y' != Services.getValue(IsNewN79AsReqd.dataBinding))
+				{	Services.setValue(HearingAdLine4.dataBinding, "");
+				}
+			</logic>
+		</Context>	
+	</Javascript>
+</Question>

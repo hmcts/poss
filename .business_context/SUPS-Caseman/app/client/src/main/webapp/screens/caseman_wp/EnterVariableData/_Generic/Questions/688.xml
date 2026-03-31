@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>688</Id>
+	<Label>Hearing Fee</Label>
+	<ObjectName>HearingFee</ObjectName>
+	<Html>	
+		<input id="DefaultCurrency688" type="text" size="1"></input>
+		<input type="text" id="HearingFee" size="8" maxlength="8"></input>	
+	</Html>
+	
+	<Context screenId="CJR060"><isVisible>false</isVisible></Context>
+	
+	<Javascript>
+		<XPath>/ds/EnterVariableData/LQAndHearing/HearingFee</XPath>
+		<HintText>Enter amount of hearing fee</HintText>
+		<maxLength>8</maxLength>		
+		<validate>
+			var val = Services.getValue(HearingFee.dataBinding);
+			var err = validateCurrencyValue(val, 99999.99, false);
+			if( null == err || val &lt; 0 )
+			{
+				if ( val &gt; 0 || val == 0 )
+				{
+					var fmVal = WPU.formatToTwoDP(val);
+					Services.setValue(HearingFee.dataBinding, fmVal);
+				}
+				else
+				{
+					// Negative or zero amount entered
+					err = ErrorCode.getErrorCode("CaseMan_negativeFeeEntered_Msg");
+				}
+			}
+			return err;
+		</validate>
+		<miscCode>
+			function DefaultCurrency688() {}
+			DefaultCurrency688.dataBinding = "/ds/EnterVariableData/LQAndHearing/HearingFeeCurrency";
+			DefaultCurrency688.tabIndex = -1;
+			DefaultCurrency688.maxLength = 3;
+			DefaultCurrency688.isReadOnly = function(){return true;}
+			DefaultCurrency688.isTemporary = function(){return true;}
+			DefaultCurrency688.transformToDisplay = function(value){
+				return WPS.__CaseManUtils().transformCurrencySymbolToDisplay(value,null,null); }
+			DefaultCurrency688.transformToModel = function(value){
+				return WPS.__CaseManUtils().transformCurrencySymbolToModel(value,null,null); }
+        </miscCode>
+		
+		<Context ScreenId="CJR023A">
+			<enableOn>HearingDateReqd.dataBinding</enableOn>
+			<isEnabled>
+				return( 'Y' == Services.getValue(HearingDateReqd.dataBinding));
+			</isEnabled>
+			<mandatoryOn>HearingDateReqd.dataBinding</mandatoryOn>
+			<isMandatory>
+				return( 'Y' == Services.getValue(HearingDateReqd.dataBinding));
+			</isMandatory>
+			<logicOn>HearingDateReqd.dataBinding</logicOn>
+			<logic>
+				 if( 'Y' != Services.getValue(HearingDateReqd.dataBinding))
+				 {	Services.setValue(HearingFee.dataBinding, "");
+				 }
+			</logic>
+		</Context>
+		
+		<Context ScreenId="CJR023C">
+			<enableOn>HearingDateReqd.dataBinding</enableOn>
+			<isEnabled>
+				return( 'Y' == Services.getValue(HearingDateReqd.dataBinding));
+			</isEnabled>
+			<mandatoryOn>HearingDateReqd.dataBinding</mandatoryOn>
+			<isMandatory>
+				return( 'Y' == Services.getValue(HearingDateReqd.dataBinding));
+			</isMandatory>
+			<logicOn>HearingDateReqd.dataBinding</logicOn>
+			<logic>
+				 if( 'Y' != Services.getValue(HearingDateReqd.dataBinding))
+				 {	Services.setValue(HearingFee.dataBinding, "");
+				 }
+			</logic>
+		</Context>
+		
+		<Context ScreenId="CJR020">
+			<mandatoryOn>IsLQADirnMade.dataBinding</mandatoryOn>		
+			<isMandatory>
+				return( 'Y' == Services.getValue(IsLQADirnMade.dataBinding));
+			</isMandatory>
+			<enableOn>IsLQADirnMade.dataBinding</enableOn>
+			<isEnabled>
+				return( 'Y' == Services.getValue(IsLQADirnMade.dataBinding));
+			</isEnabled>
+			<logicOn>IsLQADirnMade.dataBinding</logicOn>
+			<logic>
+				if ( 'Y' != Services.getValue(IsLQADirnMade.dataBinding) ) { Services.setValue(HearingFee.dataBinding, ""); }
+			</logic>
+		</Context>
+		
+	</Javascript>
+</Question>

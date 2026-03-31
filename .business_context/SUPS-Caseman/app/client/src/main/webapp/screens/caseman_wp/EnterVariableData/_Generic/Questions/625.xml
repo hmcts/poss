@@ -1,0 +1,19 @@
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>625</Id>
+	<Label>Witness to</Label>
+	<ObjectName>WitnessTo</ObjectName>
+	<Html>	
+		<select id="WitnessTo">
+			<option value=""></option>
+			<option value="AC">Attend court and give reasons</option>
+			<option value="WS">Set reasons in a witness statement</option>
+		</select>
+	</Html>		
+	
+	<Javascript>
+		<XPath>/ds/EnterVariableData/ConsiderFine/witnessTo</XPath>
+		<componentName>##label##</componentName>
+		<isMandatory>return true;</isMandatory>
+		<HintText>What should the witness do?</HintText>			
+	</Javascript>
+</Question>

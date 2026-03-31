@@ -1,0 +1,69 @@
+<Group id="9011">
+	<ServicesRequired>
+		<mapping name="getCO" serviceName="getCO"/>
+		<service name="getCO" cache="none" url="CO" method="getCO"/>
+	</ServicesRequired>
+	<Protocols>
+		<OnSave>
+			<function>getCO</function>
+			<functionCallback>GetCOCallback</functionCallback>
+		</OnSave>
+	</Protocols>
+	
+	<JavaScript>	
+	
+	function getCO()
+	{    
+		    var coNumber = WPU.getValue( WPU.NODE_XPATHS['CONumber'] );
+		    var params = new ServiceParams();
+			params.addSimpleParameter("coNumber", coNumber);
+			
+			Services.callService("getCo", params, GetCOCallback, true);
+		    
+	}
+
+	function GetCOCallback(){}
+	
+
+	GetCOCallback.onSuccess = function(dom) 
+	{   
+		
+	
+		var xpath = "/ds/MaintainCO";
+		if(null != dom)
+		{
+			if( Services.exists( xpath ))
+			{	
+				Services.replaceNode( xpath, dom.selectSingleNode("."));								
+			}
+			else			
+			{	
+				Services.addNode( dom.selectSingleNode("/ds/MaintainCO"), "/ds");				
+			}
+			
+					
+			Save_All(); 
+		}
+		else
+		{
+			alert(Messages.NO_RESULTS_MESSAGE);
+		}
+	}
+
+
+	GetCOCallback.onBusinessException = function(exception)  
+	{
+
+		alert(Messages.FAILEDSAVE_MESSAGE); 
+	}
+
+	GetCOCallback.onSystemException = function(exception) 
+	{
+
+		alert(Messages.FAILEDSAVE_MESSAGE); 
+	}		
+
+	</JavaScript>
+
+
+</Group>

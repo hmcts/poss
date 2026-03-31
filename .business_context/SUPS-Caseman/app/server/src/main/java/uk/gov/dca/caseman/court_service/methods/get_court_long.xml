@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<service-method>
+	<pipeline>
+		<NewQuery>
+  			<QueryDef location="uk/gov/dca/caseman/court_service/query_def_long.xml"/>
+  				<QueryExtension pivotNode="/Courts/Court">
+    					<Param name="param.courtId" xpath="/params/param[@name = 'courtId']"/>
+    					<Constraint>CT.CODE = ${param.courtId}</Constraint>
+  				</QueryExtension>
+		</NewQuery>
+  	</pipeline>
+	<Security roles="user"/>
+</service-method>

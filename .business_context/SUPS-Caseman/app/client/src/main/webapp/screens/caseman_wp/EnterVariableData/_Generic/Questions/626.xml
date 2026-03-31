@@ -1,0 +1,37 @@
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>626</Id>
+	<Label>What is the fee for?</Label>
+	<ObjectName>FeeFor</ObjectName>
+	<Html>	
+		<input type="text" id="FeeFor" size="50"></input>
+	</Html>		
+	
+	<Javascript>
+		<XPath>/ds/EnterVariableData/PayFee/feeFor</XPath>
+		<componentName>##label##</componentName>
+		<isMandatory>return false;</isMandatory>
+		<HintText></HintText>	
+		<isReadOnly>return true;</isReadOnly>
+		<initialise> 
+			var nodes1 = Services.getNodes("/ds/wp/MaintainObligations/Obligations/Obligation/ObligationSeq");
+			var max = 0;
+			 
+			var nodeValue;
+			for( var i = 0; i &lt; nodes1.length; i++ )
+			{ 
+				nodeValue = parseInt( XML.getNodeTextContent( nodes1[i] ) );
+				 if (nodeValue > max)
+				{
+					max = nodeValue;
+				}
+			}						
+		    var notesStg = Services.getValue("/ds/wp/MaintainObligations/Obligations/Obligation[./ObligationSeq = "+max+"]/Notes");				                              
+		    obligationSeqNo = max;
+		
+			Services.setValue(FeeFor.dataBinding, notesStg);
+		</initialise>
+		<miscCode>
+			var obligationSeqNo = 0;
+		</miscCode>		
+	</Javascript>
+</Question>

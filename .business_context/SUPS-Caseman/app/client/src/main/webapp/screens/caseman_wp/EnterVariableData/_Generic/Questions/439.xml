@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>439</Id>
+	<Label>Date of N39</Label>
+	<ObjectName>N39Date</ObjectName>
+	
+	
+	<Context screenId="CJR083">
+		<isVisible>true</isVisible>
+		<Label>What is the date of N39 order</Label>
+	</Context>
+	
+	<Html>	
+		<script type="text/javascript">
+			WP_DatePickerRenderer.createInline("N39Date");
+		</script>
+	</Html>			
+	<Javascript>
+		<XPath>/ds/EnterVariableData/DisobedienceArrest/n39Date</XPath>
+		<componentName>##label##</componentName>
+		<isMandatory>return true;</isMandatory>
+		<HintText>Enter date of N39 in format DD-MON-YYYY</HintText>
+		<validateOn>N39Date.dataBinding</validateOn>
+		<validate>return isWorkingDayInPast(Services.getValue(N39Date.dataBinding));</validate>
+		<miscCode>
+			N39Date.weekends = false;
+		</miscCode>
+		
+		
+		<Context ScreenId="CJR083">
+			<HintText>Enter date of N39 order in format DD-MMM-YYYY</HintText>
+			<enableOn>IsNewN79AsReqd.dataBinding</enableOn>
+			<isEnabled>
+				if(IsNewN79AsReqd.isEnabled())
+				{  	if( 'Y' == Services.getValue(IsNewN79AsReqd.dataBinding))
+					{	return true;
+					}
+					return false;
+				}
+				return true;
+			</isEnabled>
+			<logicOn>IsNewN79AsReqd.dataBinding</logicOn>
+			<logic>
+				if( IsNewN79AsReqd.isEnabled() &amp;&amp; 'Y' != Services.getValue(IsNewN79AsReqd.dataBinding))
+				{	Services.setValue(N39Date.dataBinding, "");
+				}
+			</logic>
+		</Context>	
+	</Javascript>
+</Question>

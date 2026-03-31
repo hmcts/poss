@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--		
+	Service: Ae
+	Method:  getCaseAe()
+	File:    get_case_ae.xml
+	Author:  pz9j2w
+	Created: 19 Aug 2005
+	Description:
+		Retrieve all Application of Earnings details on a Case.
+-->
+<service-method>
+	<pipeline>
+		<NewQuery>
+			<QueryDef location="uk/gov/dca/caseman/ae_service/query_def_ae.xml"/>
+			<QueryExtension pivotNode="/ds/Case">
+				<Param name="param.caseNumber" xpath="/params/param[@name = 'caseNumber']"/>
+			</QueryExtension>			
+		</NewQuery>
+	</pipeline>
+    <Security roles="medium high wcSuper scSuper bmsSuper aeSuper dmSuper cpSuper"/>   		
+</service-method>

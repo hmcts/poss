@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- 
+	v1.0 Chris Hutt 5 feb 05
+-->
+<DBMapDef>
+  <DataSource id="java:OracleDS"/>
+  <Tables>
+    <Table alias="C" name="CASES"/>
+  </Tables>  
+  <Mapping>
+     <Case>
+	<CaseNumber>${C.CASE_NUMBER}</CaseNumber>
+	<CaseType>${C.CASE_TYPE}</CaseType>
+     </Case>
+</Mapping>
+</DBMapDef>

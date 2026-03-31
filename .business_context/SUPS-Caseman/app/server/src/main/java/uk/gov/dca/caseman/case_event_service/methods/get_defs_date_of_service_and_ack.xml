@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<service-method>
+	<pipeline>
+		<Query>
+			<QueryDef location="uk/gov/dca/caseman/case_event_service/query_def_defs_date_of_service_and_ack.xml"/>
+			<QueryExtension pivotNode="/Case/Parties/Party">
+				<Param name="param.caseNumber" xpath="/params/param[@name = 'caseNumber']"/>
+				<SQL type="select">
+					SELECT DISTINCT CPR.CASE_NUMBER AS "CPR.CASE_NUMBER",
+  	    				CPR.CASE_PARTY_NO AS "CPR.CASE_PARTY_NO",
+  					    CPR.PARTY_ROLE_CODE AS "CPR.PARTY_ROLE_CODE",
+  					    CPR.DEFT_DATE_OF_SERVICE AS "CPR.DEFT_DATE_OF_SERVICE",
+                	    (SELECT DECODE(COUNT(*),0,'false','true') 
+		    				FROM   CASE_EVENTS CE1
+		   					WHERE  CE1.CASE_NUMBER = CPR.CASE_NUMBER
+	   						AND CE1.STD_EVENT_ID = '38'
+	   						AND CE1.PARTY_ROLE_CODE = CPR.PARTY_ROLE_CODE
+	   						AND CE1.CASE_PARTY_NO = CPR.CASE_PARTY_NO
+							AND CE1.DELETED_FLAG != 'Y')  AS "CE.ACK_EXISTS"
+					FROM CASE_PARTY_ROLES CPR
+					WHERE CPR.PARTY_ROLE_CODE IN ('DEFENDANT' , 'PT 20 DEF')
+						AND CPR.CASE_NUMBER like ${param.caseNumber}
+				</SQL>
+			</QueryExtension>
+		</Query>
+	</pipeline>
+	<Security roles="user"/>
+</service-method>

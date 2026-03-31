@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: Case
+	Method:  getCasePartieswithwarrant()
+	Author:  Chris Hutt (EDS) 
+	Created: 15 nov 2005
+	Description: 
+		Use SQLLite to retrieve a list of case parties against whom a judgment exists which is 
+		in a position to have a defence or admission filed.
+-->
+<service-method>
+	<pipeline>
+		<SQLLite format-output="true"
+				 resultset-element="Parties"
+				 row-element="Party"
+				 field-name-as="element" >
+			<DataSource id="java:OracleDS"/>
+			<Param name="param.caseNumber" xpath="/params/param[@name='caseNumber']"/>
+			<SQL>
+				SELECT
+						CPR.PARTY_ROLE_CODE  as "PartyRoleCode"
+					, 	CPR.CASE_PARTY_NO as "CasePartyNumber"
+					,   CPR.PARTY_ROLE_CODE||'_'||CPR.CASE_PARTY_NO as "SubjectPartyKey"
+				FROM 
+					CASE_PARTY_ROLES CPR
+				WHERE 
+					CPR.CASE_NUMBER			= ${param.caseNumber}
+					AND CPR.CASE_NUMBER IN 
+							(	SELECT 	
+									JDG.CASE_NUMBER 
+								FROM 	
+									JUDGMENTS JDG
+								WHERE 
+									JDG.CASE_NUMBER 				= CPR.CASE_NUMBER
+									AND JDG.AGAINST_PARTY_ROLE_CODE = CPR.PARTY_ROLE_CODE
+									AND JDG.AGAINST_CASE_PARTY_NO 	= CPR.CASE_PARTY_NO 
+									AND JDG.STATUS IS NULL OR JDG.STATUS = 'CANCELLED' OR JDG.STATUS = 'SATISFIED'
+							)
+			</SQL>
+		</SQLLite>
+  	</pipeline>
+	<Security roles="user"/>
+</service-method>

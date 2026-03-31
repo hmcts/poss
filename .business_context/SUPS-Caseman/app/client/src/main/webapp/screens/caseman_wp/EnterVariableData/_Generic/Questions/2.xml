@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--Question xmlns="http://eds.com/questionxhtml" xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd"-->
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>2</Id>
+	<Label>Particulars enclosed</Label>
+	<ObjectName>ParticularsEnclosed</ObjectName>
+	
+	<Context screenId="CJR186">
+		<isVisible>true</isVisible>
+		<Label>Are particulars of claim enclosed?</Label>
+	</Context>
+	<Context screenId="CJR186A">
+		<isVisible>true</isVisible>
+		<Label>Are particulars of claim enclosed?</Label>
+	</Context>
+	
+	<Html>
+		<input type="checkbox" name="particulars" id="ParticularsEnclosed" value="Y"/>
+	</Html>
+	<Javascript>
+		<XPath>/ds/EnterVariableData/ParticularsEnclosed</XPath>
+		<HintText>Check box if particulars of claim are enclosed</HintText>
+		<isMandatory>return true;</isMandatory>
+		<mandatoryOn>ParticularsEnclosed.dataBinding</mandatoryOn>
+		<modelValue>checked: "Y", unchecked: "N"</modelValue>
+		
+		<Context ScreenId="CJR179">
+			<enableOn>ClaimServedBy.dataBinding</enableOn>
+			<isEnabled>return('claimant' == Services.getValue(ClaimServedBy.dataBinding));</isEnabled>
+			<logicOn>ClaimServedBy.dataBinding</logicOn>		
+			<logic>
+				if('claimant' != Services.getValue(ClaimServedBy.dataBinding))
+				{	
+					// A value is only relevant if Claimant is selected so clear the data
+					// when this is not the case
+					Services.setValue(this.dataBinding, "N");
+				}
+			</logic>
+		</Context>
+		<Context ScreenId="CJR186">
+			<enableOn>PartyServingClaim.dataBinding</enableOn>
+			<isEnabled>return('CLM' == Services.getValue(PartyServingClaim.dataBinding));</isEnabled>
+			<logicOn>PartyServingClaim.dataBinding</logicOn>		
+			<logic>
+				if('CLM' != Services.getValue(PartyServingClaim.dataBinding))
+				{	Services.setValue(ParticularsEnclosed.dataBinding, "");
+				}
+			</logic>
+		</Context>
+		<Context ScreenId="CJR186A">
+			<enableOn>PartyServingClaim.dataBinding</enableOn>
+			<isEnabled>return('CLM' == Services.getValue(PartyServingClaim.dataBinding));</isEnabled>
+			<logicOn>PartyServingClaim.dataBinding</logicOn>		
+			<logic>
+				if('CLM' != Services.getValue(PartyServingClaim.dataBinding))
+				{	Services.setValue(ParticularsEnclosed.dataBinding, "N");
+				}
+			</logic>
+		</Context>
+	</Javascript>
+</Question>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- $Header: /CVSRepository/clientoas/caseman/screens/caseman_wp/EnterVariableData/_Generic/Questions/2.xml,v 1.4 2006/03/01 15:40:39 conganer Exp $
+  -->
+<!-- 
+	 $Log: 2.xml,v $
+	 Revision 1.4  2006/03/01 15:40:39  conganer
+	 WP Development Team OAS Migration
+	
+	 Revision 1.18  2005/12/12 11:00:40  narges
+	 *** empty log message ***
+	
+	 Revision 1.17  2005/10/31 07:45:26  f_vdd
+	 *** empty log message ***
+	
+	 Revision 1.16  2005/10/21 10:15:53  f_vdd
+	 *** empty log message ***
+	
+	 Revision 1.13.2.1  2005/10/05 13:31:29  narges
+	 *** empty log message ***
+	
+	 Revision 1.14  2005/09/22 15:42:33  narges
+	 *** empty log message ***
+	
+	 Revision 1.13  2005/08/18 11:58:03  kevin
+	 *** empty log message ***
+	
+	 Revision 1.12  2005/08/18 11:29:32  kevin
+	 *** empty log message ***
+	
+	 Revision 1.11  2005/05/24 13:43:36  kevin
+	 *** empty log message ***
+	
+	 Revision 1.10  2005/03/16 15:04:12  f_vdd
+	 *** empty log message ***
+	
+	 Revision 1.7  2005/02/27 11:48:19  f_vdd
+	 removed null methods from question
+	
+	 Revision 1.6  2005/02/04 10:15:09  kevin
+	 Removed namespace causing rendering problems unitl discussed with FV
+	
+	 Revision 1.5  2005/02/03 15:31:57  kevin
+	 Initial namespace was causing problems. Removed for now. KB
+	
+	 Revision 1.4  2005/01/31 15:54:52  f_vdd
+	 Update to namespace/schema references and inclusing of keywords to subsitute.
+	
+  -->

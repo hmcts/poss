@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: AeEvent
+	Method:  getAeEventValidationData()
+	File:    get_ae_event_validation_data.xml
+	Author:  Chris Hutt
+	Created: 22 June 2005
+	Description: 
+		Retrieve the configuration related to a specified standard event 
+		along with information specific to a particular Ae application 
+		to support the validation associated with the creation of an event.
+-->
+<service-method>
+	<pipeline>
+		<Java>
+			<Source class="uk.gov.dca.caseman.ae_event_service.java.GetAeEventValidationData"/>
+		</Java>
+	</pipeline>
+	<Dependencies>
+		<Dependency serviceName="Ae"/>	
+		<Dependency serviceName="CaseEvent"/>	
+		<Dependency serviceName="Hearing"/>	
+	</Dependencies>
+	<Security roles="viewOnly medium high wcSuper scSuper bmsSuper aeSuper dmSuper cpSuper"/>	
+</service-method>
+

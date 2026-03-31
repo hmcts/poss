@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- edited with XMLSPY v5 rel. 3 U (http://www.xmlspy.com) by Phil Haferer (Electronic Data Systems LTD) -->
+<!--
+	Service: Per
+	Method:  updateCoPer()
+	File:    map_update_co_per.xml
+	Author:  Phil Haferer (EDS), Ian Stainer (Valtech)
+	Created: 05 July 2005
+	Description: 
+		The 'Mapping' for updating CO protected earnings rate details.
+-->
+<DBMapDef>
+	<DataSource id="java:OracleDS"/>
+	<Tables>
+		<Table alias="CO" name="CONSOLIDATED_ORDERS"/>
+		<Table alias="CPI" name="CO_PER_ITEMS"/>
+	</Tables>
+	<Mapping>
+		<ds>
+			<CalculatePER>
+				<CONumber>${CO.CO_NUMBER}</CONumber>
+				<Status></Status>
+				<COType></COType>
+				<DebtorName></DebtorName>
+				<CalculatedRate>${CO.PROTECTED_EARNINGS_RATE}</CalculatedRate>
+				<CalculatedPeriod>${CO.FREQUENCY}</CalculatedPeriod>
+				<PerDetail>
+					<PerSeq>${CPI.CO_PER_SEQ}</PerSeq>
+					<SurrogateId></SurrogateId>
+					<Status></Status>
+					<Code>${CPI.DETAIL_CODE}</Code>
+					<Group></Group>
+					<Description></Description>
+					<DefaultAllowance>${CPI.ITEM_VALUE}</DefaultAllowance>
+					<DefaultAllowanceCurrency>${CPI.ITEM_VALUE_CURRENCY}</DefaultAllowanceCurrency>
+					<Number>${CPI.ITEM_COUNT}</Number>
+					<Amount>${CPI.AMOUNT_ALLOWED}</Amount>
+					<AmountCurrency>${CPI.AMOUNT_ALLOWED_CURRENCY}</AmountCurrency>
+					<DateEntered>${CPI.DATE_ENTERED}</DateEntered>
+					<CreatedBy>${CPI.USERNAME}</CreatedBy>
+					<DeleteFlag>${CPI.ERROR_INDICATOR}</DeleteFlag>
+					<Category></Category>
+				</PerDetail>
+			</CalculatePER>
+		</ds>
+	</Mapping>
+</DBMapDef>

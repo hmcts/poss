@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<QueryDef>
+    <DBMapDef location="uk/gov/dca/caseman/non_working_day_service/map.xml"/>
+    <Query pivotNode="/NonWorkingDays/NonWorkingDay" tables="NWD">
+        <Modify>
+            <CheckExists table="NWD" fields="NON_WORKING_DATE" onNotExist="add" onExist="update"/>
+            <Field name="NWD.NON_WD_SEQ" sequenceTable="NON_WORKING_DAYS_SEQUENCE"/>
+            <Field name="NWD.UPDATED" value="N"/>
+        </Modify>
+    </Query>
+</QueryDef>

@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--Question xmlns="http://eds.com/questionxhtml" xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd"-->
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>CM_DATE_START_QUESTION_6</Id>
+	<Label>Start Date</Label>
+	<ObjectName>Params_StartDate_Txt</ObjectName>
+	<Html>
+		<script type="text/javascript">
+			DatePickerRenderer.createInline("Params_StartDate_Txt", false);
+		</script>
+	</Html>
+	<Javascript>
+		<XPath>/ds/var/page/OracleReportForm/StartDate</XPath>
+		<ReportVariableName>P_START_DATE</ReportVariableName>
+		<ReportVariableValue>CaseManUtils.convertDateToDisplay(Services.getValue(Params_StartDate_Txt.dataBinding))</ReportVariableValue>
+		<HintText>Start Date for the Output Statistics report.</HintText>
+		<isMandatory>return true;</isMandatory>
+		<initialise></initialise>
+		<setDefault>
+			Services.setValue(Params_StartDate_Txt.dataBinding, getFirstDayOfPreviousMonth());
+		</setDefault>			
+		<validateOn>
+			Params_StartDate_Txt.dataBinding, Params_EndDate_Txt.dataBinding
+		</validateOn>
+		<validate>
+			    var ec = validateStartDate(Params_StartDate_Txt, Params_EndDate_Txt);
+			    return ec;
+		</validate>
+		<miscCode>
+			Status_RunReportButton.validationList = ["Params_StartDate_Txt", "Params_EndDate_Txt"];
+			Params_StartDate_Txt.weekends = true;
+			
+			function getFirstDayOfPreviousMonth()
+			{    
+			  var todaysDate = CaseManUtils.createDate(getTodaysDate()); 
+			  var firstDayOfPreviousMonth = CaseManUtils.monthsInPast(todaysDate, 1);
+			  firstDayOfPreviousMonth.setDate("01");
+			  firstDayOfPreviousMonth = CaseManUtils.convertDateToPattern(firstDayOfPreviousMonth,"YYYY-MM-DD");
+			  return firstDayOfPreviousMonth;
+			}			
+		</miscCode>
+	</Javascript>
+</Question>

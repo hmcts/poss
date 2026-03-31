@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>387</Id>
+	<Label>Who is to be questioned?</Label>
+	<ObjectName>QuestionWho</ObjectName>
+	<Html>	
+		<select id="QuestionWho">
+			<option value=""></option>
+			<option value="D">Debtor</option>
+			<option value="COM">Officer of company</option>
+			<option value="CORP">Officer of corporation</option>			
+		</select>
+	</Html>			
+
+	<Javascript>
+		<XPath>/ds/EnterVariableData/AttendForQuestion/QuestionWho</XPath>
+		<componentName>##label##</componentName>
+		<isMandatory>return true;</isMandatory>
+		<HintText>Select the details of person to be questioned</HintText>	
+		<enableOn>IsN39Reqd.dataBinding</enableOn>
+		<isEnabled>
+			var N39En = IsN39Reqd.isEnabled();
+			var isN39Req = Services.getValue(IsN39Reqd.dataBinding);
+			return( !N39En || 'Y' == isN39Req);
+		</isEnabled>
+		<logicOn>IsN39Reqd.dataBinding</logicOn>
+		<logic>
+			var N39En = IsN39Reqd.isEnabled();
+			var isN39Req = Services.getValue(IsN39Reqd.dataBinding);
+			
+			//event 450
+			if( N39En  )
+			{	
+				if('Y' == isN39Req)
+				{  Services.setValue(QuestionWho.dataBinding, "D");
+				}
+				else
+				{	Services.setValue(QuestionWho.dataBinding, "");
+				}
+			
+			}
+			
+			
+		</logic>
+	</Javascript>
+</Question>

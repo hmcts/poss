@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project name="${service.name}" default="compile-ws" basedir=".">
+	<property name="src" value="${application_base}/src"/>
+	<property name="bin" value="${application_base}/bin"/>
+	<property name="dist" value="${application_base}/dist"/>
+	<property name="build" value="${application_base}/build"/>
+	<property name="lib" value="${framework_base}/lib"/>	
+	<property name="src.app" value="${src}/application"/>
+	<property name="build.ejbs.gen-src" value="${build}/ejbs/gen-src"/>
+	<property name="meta-inf" value="${basedir}/META-INF"/>
+	<property name="config" value="${basedir}/config" />
+
+	<!-- deployment files -->
+	<property name="ejb.jar" value="${service.name}.jar"/>
+	
+	<!-- Whether to build with debug enabled or not -->
+  	<property name="build.debug" value="true"/>
+	<!-- name of the application being built -->
+	<property name="app.name" value="${service.name}"/>
+
+	
+	<path id="project.path">
+		<pathelement location="${lib}/xmlquery2.jar" />
+		<fileset dir="${lib}/jboss" includes="*.jar" />
+		<fileset dir="${lib}/jdom" includes="*.jar" />	
+		<fileset dir="${lib}/xdoclet" includes="*.jar" />
+		<pathelement location="${bin}" />
+		<fileset dir="${lib}/ws" includes="*.jar" />
+	</path>
+
+	<target name="init">
+		<mkdir dir="${config}"/>
+		<mkdir dir="${meta-inf}"/>
+		<mkdir dir="${meta-inf}/wsdl"/>
+	</target>
+	
+	<target name="compile-ws" depends="test_bean_Uptodate" unless="bean_NotUptodate">
+	  <echo>Change to bean source detected for ${service.name}Bean.java</echo>
+	  <java classname="org.apache.tools.ant.Main" fork="true" failonerror="true">
+		  <classpath>
+		    <fileset dir="${ant.home}">
+		      <include name="**/*.jar"/>
+		    </fileset>
+		  </classpath>
+		  <arg value="-buildfile"/>
+		  <arg value="${ant.file}"/>
+		  <arg value="compile-ws-int"/>
+		  <jvmarg value="-Dapplication_base=${application_base}"/>
+		  <jvmarg value="-Dframework_base=${framework_base}"/>
+	  </java>
+	</target>
+	
+	<target name="test_bean_Uptodate">
+			<uptodate property="bean_NotUptodate" targetfile="${application_base}/build/ejbs/gen-src/${service.project_root_package}/${service.name}Service.java" srcfile="${application_base}/build/ejbs/gen-src/${service.project_root_package}/${service.name}Bean.java"/>
+	</target>	
+	
+	<target name="compile-ws-int" depends="init">	
+			<taskdef name="ejbdoclet" classname="xdoclet.modules.ejb.EjbDocletTask" classpathref="project.path"/>
+			<taskdef name="wseedoclet" classname="xdoclet.modules.wsee.WseeDocletTask" classpathref="project.path"/>
+			<ejbdoclet destdir="${build.ejbs.gen-src}" excludedtags="@version,@author" addedtags="@xdoclet-generated at ${TODAY}" ejbspec="2.1" verbose="on">
+				<fileset dir="${build.ejbs.gen-src}">
+					<include name="${service.project_root_package}/${service.name}Bean.java" />
+				</fileset>
+		
+				<remoteinterface pattern="{0}Remote" />
+				<localinterface pattern="{0}" />
+				<homeinterface />
+				<localhomeinterface />
+				<service-endpoint pattern="{0}Service"/>
+				
+				<deploymentdescriptor destdir="${meta-inf}" />
+				<jboss version="4.0" securityDomain="java:/jaas/other" preferredRelationMapping="relation-table" datasource="java:/DefaultDS" datasourcemapping="Hypersonic SQL" destdir="${meta-inf}" unauthenticatedPrincipal="nobody" />
+			</ejbdoclet>
+	
+			<wseedoclet wsdlFile="META-INF/wsdl/${service.name}.wsdl" jaxrpcMappingFile="META-INF/jaxrpc-mapping.xml" wseeSpec="1.1" destdir="${meta-inf}" verbose="true" >
+				<fileset dir="${build.ejbs.gen-src}">
+					<include name="${service.project_root_package}/${service.name}Bean.java"/>
+				</fileset>
+				<deploymentdescriptor name="${service.name}" />
+				<jaxrpc-mapping destDir="${basedir}"/>
+			</wseedoclet>
+	</target>	
+	
+	<target name="build-jar" depends="jar_files_Uptodate" unless="jar_files_NotUptodate">
+	  <echo>Change in jar ${ejb.jar} detected, rebuilding</echo>
+	  <java classname="org.apache.tools.ant.Main" fork="true" failonerror="true">
+		  <classpath>
+		    <fileset dir="${ant.home}">
+		      <include name="**/*.jar"/>
+		    </fileset>
+		  </classpath>
+		  <arg value="-buildfile"/>
+		  <arg value="${ant.file}"/>
+		  <arg value="build-jar-int"/>
+		  <jvmarg value="-Dapplication_base=${application_base}"/>
+		  <jvmarg value="-Dframework_base=${framework_base}"/>
+	  </java>
+	  
+	</target>
+	
+	<target name="jar_files_Uptodate">
+	  <uptodate property="jar_files_NotUptodate" targetfile="${dist}/${ejb.jar}" >
+	    <srcfiles dir="${service.source_root}" includes="**/*.*"  />	
+	  </uptodate>
+	</target>
+	
+	<target name="build-jar-int" depends="init">	
+		<jar destfile="${dist}/${ejb.jar}" manifest="${framework_base}/build/META-INF/MANIFEST.MF">
+			<metainf dir="${meta-inf}">
+				<include name="jboss.xml"/>
+				<include name="ejb-jar.xml"/>
+				<include name="webservices.xml" />
+				<include name="jaxrpc-mapping.xml" />
+			</metainf>
+			<fileset dir="${bin}">
+				<include name="${service.sourcepackage}/**/*.xml"/>
+				<include name="${service.sourcepackage}/**/*.xsl"/>
+				<include name="${service.sourcepackage}/**/*.xsd"/>
+				<include name="${service.sourcepackage}/**/*.js"/>
+				<include name="${service.sourcepackage}/**/*.class"/>
+				<include name="${service.sourcepackage}/**/*.properties"/>
+				<include name="${service.project_root_package}/${service.name}*.class"/>
+			</fileset>
+		</jar>
+	</target>
+	
+	<target name="clean">
+		<delete quiet="true">
+			<fileset dir="${meta-inf}">
+				<include name="jboss.xml"/>
+				<include name="ejb-jar.xml"/>
+				<include name="webservices.xml" />
+				<include name="jaxrpc-mapping.xml" />
+				<include name="wsdl/*.wsdl" />
+			</fileset>
+		</delete>
+		<delete dir="${meta-inf}" />
+		<delete dir="config" />
+	</target>
+
+</project>

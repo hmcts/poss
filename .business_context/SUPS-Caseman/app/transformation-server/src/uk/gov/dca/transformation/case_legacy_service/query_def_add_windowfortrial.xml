@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<QueryDef>
+	<DBMapDef location="uk/gov/dca/transformation/case_legacy_service/map_add_windowfortrial.xml"/>
+	<Query pivotNode="/WindowsForTrial/WindowForTrial" tables="WFT">
+		<Join/>
+		<Modify>
+			<CheckExists table="WFT" fields="WFT_CASE_NUMBER WFT_ID" onNotExist="add" onExist="skip"/>
+		</Modify>
+	</Query>		
+</QueryDef>

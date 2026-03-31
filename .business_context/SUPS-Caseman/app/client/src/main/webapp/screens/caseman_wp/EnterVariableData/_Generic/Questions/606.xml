@@ -1,0 +1,33 @@
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>606</Id>
+	<Label>Enter the child dependant name</Label>
+	<ObjectName>ChildDepName</ObjectName>
+
+	<Html>	
+		<input type="text" id="ChildDepName"></input>
+	</Html>			
+	<Javascript>
+		<XPath>/ds/EnterVariableData/Settlement/childDepName</XPath>
+		<componentName>##label##</componentName>
+		<isMandatory>return true;</isMandatory>
+		<HintText>Enter child dependant name - type names of child dependant</HintText>	
+		<enableOn>ApportionSum.dataBinding, FatalAccidentSumTo.dataBinding, ApportionSumAct.dataBinding</enableOn>
+		<isEnabled> var isEnb = ('Y' == Services.getValue(ApportionSum.dataBinding) &amp;&amp;
+							'CLM' != Services.getValue(FatalAccidentSumTo.dataBinding));		
+					if( isEnb )
+					{	isEnb = ( 'LAW' != Services.getValue(ApportionSumAct.dataBinding));
+					}
+					return isEnb;
+		</isEnabled>
+		<logicOn>ApportionSum.dataBinding, FatalAccidentSumTo.dataBinding, ApportionSumAct.dataBinding</logicOn>
+		<logic>
+			if('Y' != Services.getValue(ApportionSum.dataBinding) ||
+							'CLM' == Services.getValue(FatalAccidentSumTo.dataBinding))
+			{	Services.setValue(ChildDepName.dataBinding, "");
+			}
+			else if( 'LAW' == Services.getValue(ApportionSumAct.dataBinding))
+			{	Services.setValue(ChildDepName.dataBinding, "");
+			}
+		</logic>	
+	</Javascript>
+</Question>

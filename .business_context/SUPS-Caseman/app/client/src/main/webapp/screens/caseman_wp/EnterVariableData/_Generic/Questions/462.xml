@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>462</Id>
+	<Label>Who certified non-attendance?</Label>
+	<ObjectName>NonAttendanceCertBy</ObjectName>
+	<Html>	
+		<select id="NonAttendanceCertBy">
+			<option value=""></option>
+			<option value="C">Court Officer</option>
+			<option value="J">Judge</option>
+		</select>
+	</Html>			
+	<Javascript>
+		<XPath>/ds/EnterVariableData/SuspCOforDisobedience/nonAttendanceCertBy</XPath>
+		<componentName>##label##</componentName>
+		<isMandatory>return false;</isMandatory>
+		<HintText>Select who certified non-attendance</HintText>	
+		
+		<Context ScreenId="CJR083">
+			<enableOn>IsNewN79AsReqd.dataBinding</enableOn>
+			<isEnabled>
+				if(IsNewN79AsReqd.isEnabled())
+				{  	if( 'Y' == Services.getValue(IsNewN79AsReqd.dataBinding))
+					{	return true;
+					}
+					return false;
+				}
+				return true;
+			</isEnabled>
+			<logicOn>IsNewN79AsReqd.dataBinding</logicOn>
+			<logic>
+				if( IsNewN79AsReqd.isEnabled() &amp;&amp; 'Y' != Services.getValue(IsNewN79AsReqd.dataBinding))
+				{	Services.setValue(NonAttendanceCertBy.dataBinding, "");
+				}
+			</logic>
+		</Context>			
+	</Javascript>
+</Question>
+
+	
+     

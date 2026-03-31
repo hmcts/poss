@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--Question xmlns="http://eds.com/questionxhtml" xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd"-->
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>Q_JudgmentDate</Id>
+	<Label>Judgment date</Label>
+	<ObjectName>JudgmentDate</ObjectName>
+	<Html>
+		<script type="text/javascript">
+			DatePickerRenderer.createInline("JudgmentDate", false);
+		</script>
+	</Html>
+	<Javascript>
+		<XPath>/ds/var/page/OracleReportForm/JudgmentDate</XPath>
+		<ReportVariableName>JUDG_DATE</ReportVariableName>
+		<ReportVariableValue>CaseManUtils.convertDateToDisplay(Services.getValue(JudgmentDate.dataBinding))</ReportVariableValue>
+		<ReportVariableCode>2830</ReportVariableCode>
+		<HintText></HintText>
+		<isMandatory>return true;</isMandatory>
+		<initialise></initialise>
+		<setDefault>
+		</setDefault>		
+		<validateOn>
+		</validateOn>
+		<validate>
+		</validate>
+		<miscCode>
+		</miscCode>
+	</Javascript>
+</Question>

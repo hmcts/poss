@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: Obligation
+	Method:  updateObligations()
+	File:    update_obligations
+	Author:  Ian Stainer
+	Created: 08/02/2005
+	Description: 
+        Updates all obligations for the given case number.
+-->
+<service-method>
+	<pipeline>
+		<Update>
+			<QueryDef location="uk/gov/dca/caseman/obligation_service/query_def_update_obligations.xml"/>
+			<DataSource xpath="/params/param[@name='caseNumber']"/>
+		</Update>
+	</pipeline>
+	<Security roles="medium high wcSuper scSuper bmsSuper aeSuper dmSuper cpSuper ccbcMan ccbcUser ccbcSGB2"/> 	
+</service-method>

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: WpOutput
+	Method:  getN271CourtCode
+	File:    get_n271_court_code.xml
+	Author:  Chris Vincent 
+	Created: 05 December 2012
+	Description: 
+		Bulk Printing release - Trac 4761
+		Retrieves the CRT_CODE from a CASE_EVENT row, needed to determine the original transferring court
+		For a transfer out event.
+-->
+<service-method>
+	<pipeline>
+		<SQLLite format-output="true" 
+				 resultset-element="ds"
+				 row-element="Output" 
+				 field-name-as="element">
+			<DataSource id="java:OracleDS"/>
+			<Param name="param.outputId" xpath="/params/param[@name = 'outputId']"/>
+			<SQL>
+				SELECT ce.crt_code AS "CourtCode"
+				FROM case_events ce, wp_output wp
+				WHERE wp.output_id = ${param.outputId}
+				AND ce.event_seq = wp.event_seq
+			</SQL>
+		</SQLLite>
+	</pipeline>
+	<Security roles="viewOnly medium high wcSuper scSuper bmsSuper aeSuper dmSuper cpSuper ccbcMan ccbcUser ccbcSGB2"/>
+</service-method>

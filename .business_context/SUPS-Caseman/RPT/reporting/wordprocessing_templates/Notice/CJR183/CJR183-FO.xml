@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- ====================================================================== -->
+<!--  -->
+<!-- FILENAME: $Source: C:/CVSRepository/serveroas/src/uk/gov/dca/caseman/wordprocessing_templates/Notice/CJR183/CJR183-FO.xml,v $ -->
+<!--  -->
+<!-- AUTHOR: $Author: jay $-->
+<!--  -->
+<!-- DATE: $Date: 2006/04/18 10:43:39 $ -->
+<!--  -->
+<!-- Version: $Revision: 1.7 $ -->
+<!--  -->
+<!-- DESCRIPTION: This stylesheet is used to create an XSL:FO document that -->
+<!-- can be processed into a PDF version.  Business logic -->
+<!-- is embedded to generate the correct document text for the order -->
+<!-- required. -->
+<!--  -->
+<!-- INPUTS: XML document containing: the answers to questions asked of the -->
+<!-- user; case data retrieved from the database; HTML representing the  -->
+<!-- body of the document content (already edited by the user). -->
+<!--  -->
+<!-- OUTPUTS: XML document with FO tags containing instructions for the -->
+<!-- creation of a PDF document. -->
+<!--  -->
+<!-- ====================================================================== -->
+<!-- Change History:
+--> 
+<root xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:fo="http://www.w3.org/1999/XSL/Format" xmlns="http://eds.com/supsfo">
+	<variables>@word.processing.url.xsl@supsfo.xsl</variables>
+	<addressee>
+		<claimant/>
+	</addressee>
+	<header>
+		<fo:block font-size="16pt" font-weight="bold">Notice of Issue <xsl:value-of select="$vdDuplicateEvent" /></fo:block>
+		<fo:block font-size="12pt">(probate claim)</fo:block>
+	</header>
+	<courtcase>
+		<court>
+			<xsl:copy-of select="$vdCourtHeaderBlock"/>
+		</court>
+		<caseparameters>
+			<parameter>
+				<name>
+					<fo:block font-weight="bold">Claim Number</fo:block>
+				</name>
+				<value>
+					<fo:block>
+						<xsl:value-of select="$vdClaimNumber"/>
+					</fo:block>
+				</value>
+			</parameter>
+			<parameter>
+				<name>
+					<fo:block font-weight="bold">Claimant</fo:block>
+					<fo:block font-size="9pt">(including ref.)</fo:block>
+				</name>
+				<value>
+					<fo:block hyphenate="true">
+						<xsl:value-of select="$vdClaimantName"/>
+					</fo:block>
+					<fo:block font-size="9pt" hyphenate="true">
+						<xsl:value-of select="$vdClaimantReference"/>
+					</fo:block>
+				</value>
+			</parameter>
+			<parameter>
+				<name>
+					<fo:block font-weight="bold">Defendant</fo:block>
+					<fo:block font-size="9pt">(including ref.)</fo:block>
+				</name>
+				<value>
+					<fo:block hyphenate="true">
+						<xsl:value-of select="$vdDefendantName"/>
+					</fo:block>
+					<fo:block font-size="9pt" hyphenate="true">
+						<xsl:value-of select="$vdDefendantReference"/>
+					</fo:block>
+				</value>
+			</parameter>
+			<parameter>
+				<name>
+					<fo:block font-weight="bold">Issue Fee</fo:block>
+				</name>
+				<value>
+					<fo:block>
+						&#163;<xsl:call-template name="correctCalculation">
+							<xsl:with-param name="value"><xsl:value-of select="$vdIssueFee"/></xsl:with-param>
+						</xsl:call-template>
+					</fo:block>
+				</value>
+			</parameter>
+		</caseparameters>
+	</courtcase>
+	<bodyintroright><fo:block><fo:inline text-align="center"><seal/></fo:inline></fo:block></bodyintroright>
+	
+	<body>
+		<fo:block>In the estate of <xsl:value-of select="$vdDeceasedEstate"/> deceased (Probate)</fo:block>
+		<fo:block>Your claim was issued on <xsl:value-of select="$vdClaimDateOfIssue"/></fo:block>
+		<fo:block>
+			<xsl:choose>
+				<xsl:when test="$vdServiceDate1 != $emptyDate">
+					<fo:block>The court sent it to the defendants(s) by first class post on <xsl:value-of select="$vdPostedDate"/> and it will be deemed served on <xsl:value-of select="$vdServiceDate"/>.</fo:block>
+					<fo:block space-after="0.8cm"/>
+				</xsl:when>
+				<xsl:otherwise>
+					<fo:block>The claim form (which includes particulars of claim) is returned to you, with the relevant response forms, for you to serve them on the defendant(s).</fo:block>
+					<fo:block space-after="0.8cm"/>
+				</xsl:otherwise>
+			</xsl:choose>				
+		</fo:block>
+		
+		<fo:block>
+			<fo:block space-before="0.2in" font-weight="bold">Notes for guidance</fo:block>
+			<list type="bullet">
+				<list-item>
+					<fo:block>The claim form and particulars of claim, if served separately, must be served on the defendant within 4 months of the date of issue (6 months if you are serving outside England and Wales). You may be able to apply to extend the time for serving the claim form but the application must generally be made before the 4 month or 6 month period expires.</fo:block>
+				</list-item>
+				<list-item>
+					<fo:block>You must inform the court immediately if your claim is settled.</fo:block>
+				</list-item>
+				<list-item>
+					<fo:block>The defendant must file an acknowledgment of service and defence within 28 days of service of the Particulars of Claim (whether they are served with the claim form or separately). A longer period applies if the defendant is served outside England and Wales.</fo:block>
+				</list-item>
+				<list-item>
+					<fo:block>Default judgment cannot be obtained in a probate claim.</fo:block>
+				</list-item>
+				<list-item>
+					<fo:block>If no defendant acknowledges service or files a defence, and the time for doing so has expired, you may apply to
+the court for an order that the claim proceed to trial.</fo:block>
+				</list-item>
+			</list>
+		</fo:block>
+	</body>
+	<defaultFooter id="CJR183"/>
+</root>

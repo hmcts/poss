@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<DBMapDef>
+  <DataSource id="java:OracleDS"/>
+  <Tables>
+    <Table alias="SE"  name="STANDARD_EVENTS"/>
+    <Table alias="REF" name="CCBC_REF_CODES"/>
+  </Tables>  
+  <Mapping>
+	<StandardEvents>
+		<StandardEvent>
+			<StandardEventId>${SE.EVENT_ID}</StandardEventId>
+			<StandardEventDescription>${SE.DESCRIPTION}</StandardEventDescription>
+		</StandardEvent>
+	</StandardEvents>
+  </Mapping>
+</DBMapDef>

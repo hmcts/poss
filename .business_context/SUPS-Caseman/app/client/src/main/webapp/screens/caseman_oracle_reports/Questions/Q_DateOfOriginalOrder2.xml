@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--Question xmlns="http://eds.com/questionxhtml" xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd"-->
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>Q_DateOfOriginalOrder2</Id>
+	<Label>Date of Original Order</Label>
+	<ObjectName>DateOfOriginalOrder2</ObjectName>
+	<Html>
+		<script type="text/javascript">
+			DatePickerRenderer.createInline("DateOfOriginalOrder2", false);
+		</script>
+	</Html>
+	<Javascript>
+		<XPath>/ds/var/page/OracleReportForm/DateOfOriginalOrder2</XPath>
+		<ReportVariableName>ORDER_DATE</ReportVariableName>
+		<ReportVariableValue>CaseManUtils.convertDateToDisplay(Services.getValue(DateOfOriginalOrder2.dataBinding))</ReportVariableValue>
+		<ReportVariableCode>2040</ReportVariableCode>
+		<HintText></HintText>
+		<mandatoryOn></mandatoryOn>
+		<isMandatory>return true;</isMandatory>
+		<setDefault></setDefault>
+		<validateOn>DateOfOriginalOrder2.dataBinding</validateOn>
+		<validate>
+			var dateOrigOrder = Services.getValue(DateOfOriginalOrder2.dataBinding);
+			var dateOrigOrderObj = CaseManUtils.isBlank(dateOrigOrder) ? null : CaseManUtils.createDate(dateOrigOrder);
+			var todayDateObj = CaseManUtils.createDate(getTodaysDate());
+			var errCode = null;
+			if(dateOrigOrderObj != null){
+				var comparison = CaseManUtils.compareDates(dateOrigOrderObj, todayDateObj);
+				if(comparison == -1){
+					errCode = ErrorCode.getErrorCode("CaseMan_dateCannotBeInTheFuture_Msg");
+				}     
+			}
+			return errCode;	
+		</validate>
+		<readOnlyOn></readOnlyOn>
+		<isReadOnly></isReadOnly>
+		<maxLength></maxLength>
+		<transformToDisplay></transformToDisplay>
+		<transformToModel></transformToModel>
+		<initialise></initialise>
+		<logicOn></logicOn>
+		<logic></logic>
+		<miscCode></miscCode>
+		<IsQuestion></IsQuestion>
+	</Javascript>
+</Question>

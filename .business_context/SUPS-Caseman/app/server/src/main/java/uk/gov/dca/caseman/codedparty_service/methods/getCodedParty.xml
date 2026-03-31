@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- 
+	Service: Codedparty
+	Method:  getCodedParty()
+	File:    getCodedParty.xml
+	Author:  Chris Hutt
+	Created: 20/12/04
+	Description: 
+		Retreive a specified local coded party
+		Associated Use case:  UC017  Maintain Local Coded Parties
+--> 
+<service-method>
+	<pipeline>
+		<Query>
+  			<QueryDef location="uk/gov/dca/caseman/codedparty_service/query_def.xml"/>
+  				<QueryExtension pivotNode="/CodedParties/CodedParty">
+    				<Param name="param.adminCourtCode" xpath="/params/param[@name = 'adminCourtCode']"/>
+    				<Param name="param.codedPartyCode" xpath="/params/param[@name = 'codedPartyCode']"/>
+					<Constraint>
+                        CP.ADMIN_COURT_CODE = ${param.adminCourtCode} AND
+                        CP.CODE = ${param.codedPartyCode}
+                    </Constraint>
+  				</QueryExtension>
+		</Query>
+  	</pipeline>
+	<Security roles="viewOnly medium high wcSuper scSuper bmsSuper aeSuper dmSuper cpSuper ccbcMan ccbcUser ccbcSGB2"/>	
+</service-method>

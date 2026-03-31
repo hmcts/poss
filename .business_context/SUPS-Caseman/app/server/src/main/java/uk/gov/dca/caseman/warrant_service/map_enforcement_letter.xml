@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<DBMapDef>
+	<DataSource id="java:OracleDS"/>
+		<Tables>
+			<Table alias="E" name="ENFORCEMENT_LETTERS" />
+		</Tables>
+		<Mapping>
+			<ds>
+				<EnforcementLetter>${E.LETTER}</EnforcementLetter>
+			</ds>
+		</Mapping>
+</DBMapDef>

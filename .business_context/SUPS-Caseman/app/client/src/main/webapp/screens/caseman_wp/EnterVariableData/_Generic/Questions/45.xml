@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Question>
+	<Id>45</Id>
+	<Label>Date of judgment order</Label>
+	<ObjectName>JudgmentOrderDate</ObjectName>
+	<Html>
+	   <script type="text/javascript">WP_DatePickerRenderer.createInline("JudgmentOrderDate", false);
+	   </script>
+	</Html>
+	
+	<Context screenId="N32_2"><isVisible>false</isVisible></Context>
+	<Context screenId="N32_5"><isVisible>false</isVisible></Context>
+	<Context screenId="CJR050"><isVisible>false</isVisible></Context>
+	<Context screenId="CJR051"><isVisible>false</isVisible></Context>
+	<Context screenId="CJR052"><isVisible>false</isVisible></Context>
+	<Context screenId="CJR053"><isVisible>false</isVisible></Context>
+	<Context screenId="CJR055"><isVisible>false</isVisible></Context>
+	<Context screenId="CJR090"><isVisible>false</isVisible></Context>
+    <Context screenId="CO28"><isVisible>false</isVisible></Context>
+    <Context screenId="CO31"><isVisible>false</isVisible></Context>
+	
+	<Javascript>
+		<XPath>/ds/EnterVariableData/JudgmentOrder/Date</XPath>
+		<HintText>Enter the date the judgment order was made</HintText>
+		<isMandatory>return true;</isMandatory>
+		<mandatoryOn>JudgmentOrderDate.dataBinding</mandatoryOn>
+		<transformToModel>
+		    return transformDateToModel(value);
+		</transformToModel>
+		<transformToDisplay>
+			if (value != null) {
+				if (value.search(CaseManValidationHelper.YYYYMMDD_DATE_PATTERN) != -1) {
+					return CaseManUtils.convertDateToDisplay(value); } }
+			return value;
+		</transformToDisplay>
+		<validateOn>JudgmentOrderDate.dataBinding</validateOn>
+		<validate>		  
+		  var inputDate = Services.getValue(JudgmentOrderDate.dataBinding);
+		  var isInFuture = isFutureDate(inputDate);
+		  var err = null;
+		  if (isInFuture == true) {
+			err = ErrorCode.getErrorCode("CaseMan_dateCannotBeInTheFuture_Msg"); }
+		  return err;		  
+		</validate>
+		<initialise>Services.setValue(JudgmentOrderDate.dataBinding, WPU.getEventReceiptDate());</initialise>
+		
+		<Context ScreenId="CJR040">
+			<initialise>Services.setValue(JudgmentOrderDate.dataBinding, WPU.getSystemDate());</initialise>
+			<!-- alike 6268, 6269, not as per use case - prevents user from changing date
+				isReadOnly>return true;</isReadOnly-->
+		</Context>
+		<Context ScreenId="CJR041">
+			<initialise>Services.setValue(JudgmentOrderDate.dataBinding, WPU.getSystemDate());</initialise>
+			<!-- alike 6268, 6269, not as per use case - prevents user from changing date
+				isReadOnly>return true;</isReadOnly-->
+		</Context>
+
+		<!-- TD 6269 Context ScreenId="CJR065A">
+			<isReadOnly>return true;</isReadOnly>			
+		</Context-->
+		
+		<!--TD 6268 Context ScreenId="CJR042">
+			<isReadOnly>return true;</isReadOnly>
+		</Context-->
+					
+		<!-- alike 6268, 6269, not as per use case - prevents user from changing date
+		-->	
+		<Context ScreenId="CJR043">
+			<isReadOnly>return true;</isReadOnly>
+			<initialise/>
+		</Context>	
+	</Javascript>
+</Question>

@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- configures an instance of a SUPS service -->
+<sups-config>
+
+	<!-- * Each service method is implemented as a configurable pipeline of components.     *
+	     * Since each component must have the same interface (so that it can appear         *
+	     * anywhere in the pipeline) the distinguishing factor is the component's behaviour * 
+	     * or 'role'. The allowed roles are specified here. A concrete pipeline component   *
+	     * must inherit (at least) 1 of these roles.                                        * 
+	-->
+	<roles>
+		<role name="validator" implements="uk.gov.dca.db.pipeline.IValidator"/>
+		<role name="generator" implements="uk.gov.dca.db.pipeline.IGenerator"/>
+	</roles>
+	
+	<!-- * The available components and their associated Java class are listed here.              *
+	     * The 'name' attribute must be unique and is the tag name used to refer to the component *
+	     * in the method XML files.                                                               *
+	-->
+	<components>
+		<generator name="Add" class="uk.gov.dca.db.pipeline.InsertService"/>
+		<generator name="Update" class="uk.gov.dca.db.pipeline.InsertService"/>
+		<generator name="Query" class="uk.gov.dca.db.pipeline.mapping.SelectService"/>
+	</components>
+	
+	<!-- * Applies a filter to the message before each service is invoked * --> 
+	<filter class="uk.gov.dca.db.ejb.filter.UserIdInsertionFilter">
+		<userIdName>userId</userIdName>
+		<filter class="uk.gov.dca.db.ejb.filter.SystemParameterExtractionFilter">
+			<systemParam name="courtId" xpath="/params/param[@name='courtId']"/>
+			<filter class="uk.gov.dca.db.ejb.filter.SystemParameterExtractionFilter">
+				<systemParam name="businessProcessId" xpath="/params/param[@name='businessProcessId']"/>
+				<filter class="uk.gov.dca.db.ejb.filter.SystemParameterExtractionFilter">
+					<systemParam name="userId" xpath="/params/param[@name='userId']"/>
+				</filter>
+			</filter>
+		</filter>
+	</filter>
+	
+</sups-config>

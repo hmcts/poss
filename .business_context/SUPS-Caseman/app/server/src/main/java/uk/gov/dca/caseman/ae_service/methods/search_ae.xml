@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- 
+	Service: Ae
+	Method:  searchAe()
+	File:    search_ae.xml
+	Author:  Chris Hutt
+	Created: 24 June 2005
+	Description: 
+		Search for Ae Applications and associated events based on criteria supplied.
+	
+	Author:  Chris Hutt (checked in by Mark Groen)
+	Created: 03 Sept 2007
+	Description: 
+		Performance issue - now call the AeSearchMethodSelectorCustomProcessor
+  --> 
+<service-method>
+	<pipeline>
+		<Java callStyle="new">
+			<Source class="uk.gov.dca.caseman.ae_service.java.AeSearchMethodSelectorCustomProcessor"/>
+		</Java>
+	</pipeline>
+    <Security roles="viewOnly medium high wcSuper scSuper bmsSuper aeSuper dmSuper cpSuper"/>   		
+</service-method>

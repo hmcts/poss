@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<QueryDef>
+	<DBMapDef location="uk/gov/dca/transformation/case_legacy_service/map_add_aeapplication.xml"/>
+	<Query pivotNode="/AEApplications/AEApplication" tables="AEA">
+		<Join/>
+		<Modify>
+    		<CheckExists table="AEA" fields="AE_NUMBER" onNotExist="add" onExist="skip"/>
+		</Modify>
+	</Query>		
+</QueryDef>

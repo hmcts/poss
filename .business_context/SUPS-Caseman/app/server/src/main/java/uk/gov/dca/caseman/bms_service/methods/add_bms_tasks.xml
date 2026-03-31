@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<service-method>
+	<pipeline>
+		<Add>
+			<QueryDef location="uk/gov/dca/caseman/bms_service/query_def_add_bms_tasks.xml"/>
+			<DataSource xpath="/params"/>
+		</Add>
+	</pipeline>
+	<Security roles="user"/>
+</service-method>

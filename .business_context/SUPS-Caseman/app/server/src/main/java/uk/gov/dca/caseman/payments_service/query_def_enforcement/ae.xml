@@ -1,0 +1,225 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: Payments
+	Method: getEnforcementAe()
+	File: ae.xml
+	Author: Steve Blair
+	
+	Change History:
+	01/12/2011 - Chris Vincent, added pivot node for MoneyInCourt for Trac 4587
+-->
+<QueryDef>
+	<DBMapDef location="uk/gov/dca/caseman/payments_service/map_enforcement.xml" />
+	<Query pivotNode="/Enforcement" tables="AE C CT">
+		<SQL type="select">
+			SELECT /*+ ORDERED */ AE.AE_NUMBER AS "C.ENFORCEMENT_NUMBER",
+						'AE' AS "C.ENFORCEMENT_TYPE",
+						C.ADMIN_CRT_CODE AS "C.COURT_CODE",
+						CT.NAME AS "C.COURT_NAME",
+						NULL AS "C.PRE_ISSUE_BALANCE",
+						AE.CASE_NUMBER AS "C.CASE_NUMBER",
+						NULL AS "C.CASE_STATUS",
+						NULL AS "C.WARRANT_ID",
+						NULL AS "C.WARRANT_TYPE",
+						NULL AS "C.DEBT",
+						NULL AS "C.WARRANT_EXECUTING_COURT",
+						NULL AS "C.WARRANT_ISSUING_COURT",
+						NULL AS "C.CO_TYPE"
+			FROM	AE_APPLICATIONS AE,
+						CASES C,
+						COURTS CT
+			WHERE	AE.AE_NUMBER = ${param.aeNumber} AND
+						C.CASE_NUMBER = AE.CASE_NUMBER AND
+						CT.CODE = C.ADMIN_CRT_CODE
+		</SQL>
+		<Modify notModifiable="true" />
+	</Query>
+	<Query pivotNode="/Enforcement/Parties/Party" tables="P CPR AE G CP">
+		<SQL type="select">
+			SELECT /*+ ORDERED */ P.PERSON_REQUESTED_NAME AS "C.PARTY_NAME",
+						'JUDGMENT CREDITOR' AS "C.PARTY_ROLE",
+						NULL AS "C.PARTY_NUMBER",
+						P.DX_NUMBER AS "C.DX_NUMBER",
+						CPR.PARTY_ID AS "C.PARTY_ID",
+						CPR.REFERENCE AS "C.REFERENCE",
+						CPR.PAYEE_FLAG AS "C.PAYEE_FLAG",
+						CP.CODE AS "C.PARTY_CODE"
+			FROM	AE_APPLICATIONS AE,
+						CASE_PARTY_ROLES CPR,
+						PARTIES P,
+						CODED_PARTIES CP
+			WHERE	AE.AE_NUMBER = ${C.ENFORCEMENT_NUMBER} AND
+						CPR.CASE_NUMBER = AE.CASE_NUMBER AND
+						CPR.CASE_PARTY_NO = AE.PARTY_FOR_CASE_PARTY_NO AND
+						CPR.PARTY_ROLE_CODE = AE.PARTY_FOR_PARTY_ROLE_CODE AND
+						P.PARTY_ID = CPR.PARTY_ID AND
+						CP.PARTY_ID (+) = P.PARTY_ID
+			UNION
+			SELECT /*+ ORDERED */ P.PERSON_REQUESTED_NAME AS "C.PARTY_NAME",
+						'JUDGMENT DEBTOR' AS "C.PARTY_ROLE",
+						NULL AS "C.PARTY_NUMBER",
+						P.DX_NUMBER AS "C.DX_NUMBER",
+						CPR.PARTY_ID AS "C.PARTY_ID",
+						CPR.REFERENCE AS "C.REFERENCE",
+						CPR.PAYEE_FLAG AS "C.PAYEE_FLAG",
+						CP.CODE AS "C.PARTY_CODE"
+			FROM	AE_APPLICATIONS AE,
+						CASE_PARTY_ROLES CPR,
+						PARTIES P,
+						CODED_PARTIES CP
+			WHERE	AE.AE_NUMBER = ${C.ENFORCEMENT_NUMBER} AND
+						CPR.CASE_NUMBER = AE.CASE_NUMBER AND
+						CPR.CASE_PARTY_NO = AE.PARTY_AGAINST_CASE_PARTY_NO AND
+						CPR.PARTY_ROLE_CODE = AE.PARTY_AGAINST_PARTY_ROLE_CODE AND
+						P.PARTY_ID = CPR.PARTY_ID AND
+						CP.PARTY_ID (+) = P.PARTY_ID
+			UNION
+			SELECT /*+ ORDERED */ P.PERSON_REQUESTED_NAME AS "C.PARTY_NAME",
+						'EMPLOYER' AS "C.PARTY_ROLE",
+						NULL AS "C.PARTY_NUMBER",
+						P.DX_NUMBER AS "C.DX_NUMBER",
+						P.PARTY_ID AS "C.PARTY_ID",
+						G.REFERENCE AS "C.REFERENCE",
+						NULL AS "C.PAYEE_FLAG",
+						CP.CODE AS "C.PARTY_CODE"
+			FROM	AE_APPLICATIONS AE,
+						PARTIES P,
+						GIVEN_ADDRESSES G,
+						CODED_PARTIES CP
+			WHERE	AE.AE_NUMBER = ${C.ENFORCEMENT_NUMBER} AND
+						P.PARTY_ID = AE.DEBTORS_EMPLOYERS_PARTY_ID AND
+						P.PERSON_REQUESTED_NAME IS NOT NULL AND
+						G.PARTY_ID = P.PARTY_ID AND
+						G.ADDRESS_TYPE_CODE = 'EMPLOYER' AND
+						G.VALID_TO IS NULL AND
+						CP.PARTY_ID (+) = P.PARTY_ID
+		</SQL>
+		<Modify notModifiable="true" />
+	</Query>
+	<Query pivotNode="/Enforcement/Parties/Party/Address" tables="CPR G">
+		<SQL type="select">
+			SELECT	G.ADDRESS_LINE1 AS "C.PARTY_ADDR1",
+						G.ADDRESS_LINE2 AS "C.PARTY_ADDR2",
+						G.ADDRESS_LINE3 AS "C.PARTY_ADDR3",
+						G.ADDRESS_LINE4 AS "C.PARTY_ADDR4",
+						G.ADDRESS_LINE5 AS "C.PARTY_ADDR5",
+						G.POSTCODE AS "C.PARTY_POSTCODE"
+			FROM	CASE_PARTY_ROLES CPR,
+						GIVEN_ADDRESSES G
+			WHERE	CPR.PARTY_ID = ${C.PARTY_ID} AND
+						CPR.CASE_NUMBER = ${C.CASE_NUMBER} AND
+						G.PARTY_ROLE_CODE = CPR.PARTY_ROLE_CODE AND
+						G.CASE_PARTY_NO = CPR.CASE_PARTY_NO AND
+						G.CASE_NUMBER = CPR.CASE_NUMBER AND
+						G.ADDRESS_TYPE_CODE = 'SERVICE' AND
+						G.VALID_TO IS NULL
+			UNION
+			SELECT	G.ADDRESS_LINE1 AS "C.PARTY_ADDR1",
+						G.ADDRESS_LINE2 AS "C.PARTY_ADDR2",
+						G.ADDRESS_LINE3 AS "C.PARTY_ADDR3",
+						G.ADDRESS_LINE4 AS "C.PARTY_ADDR4",
+						G.ADDRESS_LINE5 AS "C.PARTY_ADDR5",
+						G.POSTCODE AS "C.PARTY_POSTCODE"
+			FROM	GIVEN_ADDRESSES G
+			WHERE	G.PARTY_ID = ${C.PARTY_ID} AND
+						G.ADDRESS_TYPE_CODE = 'EMPLOYER' AND
+						G.VALID_TO IS NULL
+			UNION
+			SELECT	G.ADDRESS_LINE1 AS "C.PARTY_ADDR1",
+						G.ADDRESS_LINE2 AS "C.PARTY_ADDR2",
+						G.ADDRESS_LINE3 AS "C.PARTY_ADDR3",
+						G.ADDRESS_LINE4 AS "C.PARTY_ADDR4",
+						G.ADDRESS_LINE5 AS "C.PARTY_ADDR5",
+						G.POSTCODE AS "C.PARTY_POSTCODE"
+			FROM	GIVEN_ADDRESSES G
+			WHERE	G.PARTY_ID = ${C.PARTY_ID} AND
+						G.ADDRESS_TYPE_CODE = 'CODED PARTY' AND
+						G.VALID_TO IS NULL
+		</SQL>
+		<Modify notModifiable="true" />
+	</Query>
+	<Query pivotNode="/Enforcement/COInfo" tables="CE">
+		<SQL type="select">
+            SELECT	COUNT(*) AS "C.CO_INFO"
+            FROM    CASE_EVENTS CE
+            WHERE   CE.CASE_NUMBER = ${C.CASE_NUMBER}
+                    AND CE.STD_EVENT_ID = 705
+                    AND CE.DELETED_FLAG != 'Y'
+                    AND ROWNUM = 1
+		</SQL>
+		<Modify notModifiable="true" />
+	</Query>
+	<Query pivotNode="/Enforcement/NumberEvents" tables="AEE">
+		<SQL type="select">
+			SELECT	COUNT(*) AS "C.NO_EVENTS"
+			FROM	AE_EVENTS AEE
+			WHERE	AEE.AE_NUMBER = ${C.ENFORCEMENT_NUMBER}
+                    AND ERROR_INDICATOR != 'Y'
+                    AND (
+                        AEE.STD_EVENT_ID = 815
+						OR AEE.STD_EVENT_ID = 820
+						OR AEE.STD_EVENT_ID = 826
+						OR AEE.STD_EVENT_ID = 829
+						OR AEE.STD_EVENT_ID = 832
+						OR AEE.STD_EVENT_ID = 880
+						OR AEE.STD_EVENT_ID = 881
+						OR AEE.STD_EVENT_ID = 882
+						OR AEE.STD_EVENT_ID = 897
+						OR AEE.STD_EVENT_ID = 898
+						OR AEE.STD_EVENT_ID = 899
+                    )
+                    AND ROWNUM = 1
+		</SQL>
+		<Modify notModifiable="true" />
+	</Query>
+	<Query pivotNode="/Enforcement/OutstandingBalance" tables="AE PY F">
+		<SQL type="select">
+			SELECT	COALESCE(AE.AMOUNT_OF_AE, 0) +
+						COALESCE(
+							(
+								SELECT SUM(F.AMOUNT)
+								FROM	FEES_PAID F
+								WHERE	F.PROCESS_NUMBER = ${C.ENFORCEMENT_NUMBER}
+							),
+							0
+						) -
+						COALESCE(
+							(
+								SELECT	SUM(PY.AMOUNT)
+								FROM	PAYMENTS PY
+								WHERE	PY.SUBJECT_NO = ${C.ENFORCEMENT_NUMBER} AND
+											PY.RD_DATE IS NULL AND
+											PY.ERROR_INDICATOR = 'N'
+							),
+							0
+						)
+						AS "C.BALANCE"
+			FROM	AE_APPLICATIONS AE
+			WHERE	AE.AE_NUMBER = ${C.ENFORCEMENT_NUMBER}
+		</SQL>
+		<Modify notModifiable="true" />
+	</Query>
+	
+	<Query pivotNode="/Enforcement/DividendsExist" tables="DV">
+		<SQL type="select">
+			SELECT DECODE(COUNT(*),0,'false','true') AS "DV.DIVIDENDS_EXIST" 
+			FROM   DIVIDENDS DV
+			WHERE  DV.DIV_CO_NUMBER = ${C.ENFORCEMENT_NUMBER}
+		</SQL>
+		<Modify notModifiable="true"/>
+	</Query>
+	
+	<Query pivotNode="/Enforcement/MoneyInCourt" tables="PY">
+		<SQL type="select">
+			SELECT DECODE(COUNT(*),0,'false','true') AS "C.MONEY_IN_COURT" 
+			FROM   PAYMENTS PY
+			WHERE  PY.SUBJECT_NO = ${C.ENFORCEMENT_NUMBER}
+			AND	   PY.PAYMENT_FOR = 'AE'
+			AND    PY.PASSTHROUGH = 'N'
+			AND	   PY.RD_DATE IS NULL
+			AND    PY.ERROR_INDICATOR = 'N'
+			AND    PY.PAYOUT_DATE IS NULL
+		</SQL>
+		<Modify notModifiable="true"/>
+	</Query>
+</QueryDef>

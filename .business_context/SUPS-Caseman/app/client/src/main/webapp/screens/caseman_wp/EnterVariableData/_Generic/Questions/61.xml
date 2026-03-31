@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>61</Id>
+	<Label>Name of process not served</Label>
+	<ObjectName>ProcessOtherName</ObjectName>
+	<Html>
+		<input id="ProcessOtherName" type="text" size="25"/>
+	</Html>
+	<Javascript>
+		<XPath>/ds/EnterVariableData/Process/processnotservedother</XPath>
+		<mandatoryOn>NotServed.dataBinding</mandatoryOn>
+		<isMandatory>
+			return ('OTH' == Services.getValue(NotServed.dataBinding));                                             
+		</isMandatory>	
+		<HintText>Enter the name of the process not served</HintText>
+		<enableOn>NotServed.dataBinding</enableOn>
+		<isEnabled>		 
+		  return ( 'OTH' == Services.getValue(NotServed.dataBinding))
+		</isEnabled>	
+		<logicOn>NotServed.dataBinding</logicOn>
+		<logic>
+		  	if( 'OTH' != Services.getValue(NotServed.dataBinding))
+		  	{	Services.setValue(ProcessOtherName.dataBinding, ""); 
+		  	}
+		</logic>
+	</Javascript>
+</Question>

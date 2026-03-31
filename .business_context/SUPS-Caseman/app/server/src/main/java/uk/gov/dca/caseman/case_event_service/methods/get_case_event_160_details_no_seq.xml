@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: CaseEvent
+	Method:  getCaseEvent160DetailsNoSeq()
+	Author:  Chris Vincent
+	Created: 4 Feb 2015
+	Description: 
+		Use SQLLite to retrieve the details for case event 160 based on a Set Aside rejection
+		with no event_seq to use as part of the lookup
+-->
+<service-method>
+	<pipeline>
+		<SQLLite format-output="true"
+				 resultset-element="ds"
+				 row-element="CaseEvent"
+				 field-name-as="element" >
+			<DataSource id="java:OracleDS"/>
+			<Param name="param.receiptDate" xpath="/params/param[@name='receiptDate']"/>
+			<Param name="param.requester" xpath="/params/param[@name='requester']"/>
+			<Param name="param.result" xpath="/params/param[@name='result']"/>
+			<Param name="param.resultDate" xpath="/params/param[@name='resultDate']"/>
+			<Param name="param.judgSeq" xpath="/params/param[@name='judgSeq']"/>
+			<Param name="param.caseNumber" xpath="/params/param[@name='caseNumber']"/>
+			<SQL>
+				SELECT 	MAX(NVL(CE.MCOL_REFERENCE,'CE'||TO_CHAR(CE.EVENT_SEQ))) AS "MCOLReference"
+				FROM CASE_EVENTS CE
+				WHERE CE.CASE_NUMBER = ${param.caseNumber}
+				AND CE.JUDG_SEQ = ${param.judgSeq}
+				AND CE.STD_EVENT_ID = 160
+				AND CE.REQUESTER = ${param.requester}
+				AND CE.RESULT = ${param.result}
+				AND TRUNC(CE.RESULT_DATE) = TO_DATE(${param.resultDate}, 'YYYY-MM-DD')
+				AND TRUNC(CE.RECEIPT_DATE) = TO_DATE(${param.receiptDate}, 'YYYY-MM-DD')
+			</SQL>
+		</SQLLite>
+  	</pipeline>
+	<Security roles="user"/>
+</service-method>

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: NonWorkingDays
+	Method:  updateNonWorkingDays()
+	File:    update_non_working_days.xml
+	Author:  Tim Connor (EDS)
+	Created: 01 March 2005
+	Description: Used by UC127 Maintain Non-working Days
+-->
+<service-method>
+    <pipeline>
+        <Update>
+            <QueryDef location="uk/gov/dca/caseman/non_working_day_service/query_def_update.xml"/>
+            <DataSource xpath="/params/param[@name='nonWorkingDays']"/>
+			<QueryExtension pivotNode="/NonWorkingDays/NonWorkingDay">
+				<Field name="NWD.NON_WD_SEQ" sequenceTable="NON_WORKING_DAYS_SEQUENCE"/>
+				<CheckExists table="NWD" fields="NON_WORKING_DATE" onNotExist="add" onExist="update"/>
+			</QueryExtension>
+        </Update>
+    </pipeline>
+    <Security roles="edsAdmin"/>
+</service-method>

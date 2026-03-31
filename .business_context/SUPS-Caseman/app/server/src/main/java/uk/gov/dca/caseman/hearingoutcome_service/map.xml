@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<DBMapDef>
+  <DataSource id="java:OracleDS"/>
+  <Tables>
+    <Table alias="CRC" name="CCBC_REF_CODES" />
+  </Tables>
+  <Mapping>
+    <HearingOutcomes>
+    	<HearingOutcome>
+    		<Type>${CRC.RV_LOW_VALUE}</Type>
+    		<Description>${CRC.RV_MEANING}</Description>	
+    	</HearingOutcome>
+    </HearingOutcomes>	
+  </Mapping>
+</DBMapDef>

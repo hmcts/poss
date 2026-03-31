@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: Ae
+	Method:  addAeEvent()
+	File:    add_ae_event.xml
+	Author:  tony White
+	Created: 30 Aug 2005
+	Description: 
+		Insert an Ae Event when creating an AE
+-->
+<service-method>
+	<pipeline>
+		<Java>
+			<Source class="uk.gov.dca.caseman.ae_event_service.java.InsertAutoAeEventsCustomProcessor"/>
+		</Java>
+	</pipeline>
+	<Dependencies>
+		<Dependency serviceName="AeEvent"/>	
+		<Dependency serviceName="CaseEvent"/>
+		<Dependency serviceName="Obligation"/>	
+		<Dependency serviceName="Case"/>	
+		<Dependency serviceName="UserCourt"/>			
+	</Dependencies>				
+    <Security roles="medium high wcSuper scSuper bmsSuper aeSuper dmSuper cpSuper"/>   		
+</service-method>

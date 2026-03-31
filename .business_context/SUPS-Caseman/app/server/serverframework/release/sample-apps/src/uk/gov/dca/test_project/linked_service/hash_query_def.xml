@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<QueryDef>
+	<DBMapDef location="uk/gov/dca/test_project/linked_service/hash_map.xml"/>
+	
+	<Query pivotNode="/Judges/Judge" tables="J">
+		<Modify>
+		    <CheckExists table="J" fields="ID" onExist="update" onNotExist="add"/>
+		</Modify>
+	</Query>
+	
+</QueryDef>

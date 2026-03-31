@@ -1,0 +1,46 @@
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>619</Id>
+	<Label>Enter the amount that is to be invested</Label>
+	<ObjectName>AmntToInvest2</ObjectName>
+  
+	<Html>	
+		<input type="text" size="1" id="DefaultCurrency619"></input>
+		<input type="text" id="AmntToInvest2" size="11" maxlength="11"></input>
+	</Html>			
+	<Javascript>
+		<XPath>/ds/EnterVariableData/Settlement/amntToInvest2</XPath>
+		<componentName>##label##</componentName>
+		<isMandatory>return true;</isMandatory>
+		<HintText>Enter the amount that is to be invested</HintText>
+		<maxLength>11</maxLength>
+		<validateOn>AmntToInvest2.dataBinding</validateOn>
+		<validate>
+			var val = Services.getValue(AmntToInvest2.dataBinding);
+			var err = validateCurrencyValue(val, 99999999.99);
+			if( null == err )
+			{	Services.setValue(AmntToInvest2.dataBinding, WPU.formatToTwoDP(val));
+			}
+			return err;
+		</validate>		
+		<enableOn>AppForReceiver.dataBinding</enableOn>
+		<isEnabled>return('Y' == Services.getValue(AppForReceiver.dataBinding));</isEnabled>
+		<logicOn>AppForReceiver.dataBinding</logicOn>
+		<logic>
+			if('Y' != Services.getValue(AppForReceiver.dataBinding))
+			{	Services.setValue(AmntToInvest2.dataBinding, "");
+			}
+		</logic>
+		<miscCode>
+			function DefaultCurrency619() {}
+			DefaultCurrency619.dataBinding = "/ds/EnterVariableData/curr1";
+			DefaultCurrency619.tabIndex = -1;
+			DefaultCurrency619.maxLength = 1;
+			DefaultCurrency619.isReadOnly = function(){return true;}
+			DefaultCurrency619.isTemporary = function(){return true;}
+			DefaultCurrency619.transformToDisplay = function(value){
+				return WPS.__CaseManUtils().transformCurrencySymbolToDisplay(value,null,null); }
+			DefaultCurrency619.transformToModel = function(value){
+				return WPS.__CaseManUtils().transformCurrencySymbolToModel(value,null,null); }
+		</miscCode>			
+	</Javascript>
+</Question>

@@ -1,0 +1,54 @@
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>540</Id>
+	<Label>Detention period</Label>
+	<ObjectName>DetentionPeriod</ObjectName>
+	<Html>
+		<input type="text" id="DetentionPeriod" size="5"></input>
+		<select id="DetentionPeriodUnits">
+			<option value=""></option>
+			<option value="D">Days</option>
+			<option value="M">Months</option>			
+			<option value="Y">Years</option>
+		</select>
+	</Html>			
+	<Javascript>
+		<XPath>/ds/EnterVariableData/Hospital/detentionPeriod</XPath>
+		<componentName>##label##</componentName>
+		<isMandatory>return true;</isMandatory>
+		<enableOn>DetentionPeriod.dataBinding</enableOn>
+		<isEnabled>return true;</isEnabled>
+		<HintText>Select the duration of detention in days, months, years etc e.g. 4 days</HintText>
+		<validateOn>DetentionPeriod.dataBinding</validateOn>
+		<validate>return WPU.validateInteger(Services.getValue(DetentionPeriod.dataBinding));</validate>
+	
+		<miscCode>			
+			function DetentionPeriodUnits() {}
+			DetentionPeriodUnits.dataBinding = "/ds/EnterVariableData/Hospital/detentionPeriodUnits";
+			DetentionPeriodUnits.tabIndex = __tabIdx++;
+			DetentionPeriodUnits.helpText = "Select unit time";
+			DetentionPeriodUnits.isMandatory = function()
+			{	return true;
+			}
+			
+			<!--
+			DetentionPeriodUnits.mandatoryOn = [DetentionPeriod.dataBinding];
+			DetentionPeriodUnits.isMandatory = function()
+			{	var val = Services.getValue(DetentionPeriod.dataBinding);
+				return ( null != val &amp;&amp; "" != val);
+			}	
+			DetentionPeriodUnits.logicOn = [DetentionPeriod.dataBinding];
+			DetentionPeriodUnits.logic = function()
+			{	var val = Services.getValue(DetentionPeriod.dataBinding);
+				if( null == val || "" == val)
+				{	Services.setValue(DetentionPeriodUnits.dataBinding, "");
+				}
+			}
+			DetentionPeriodUnits.isTemporary = function(){  return true; }		
+			DetentionPeriodUnits.enableOn = [DetentionPeriod.dataBinding];
+			DetentionPeriodUnits.isEnabled = function()
+			{ return DetentionPeriod.isEnabled();	
+			}	-->								
+		</miscCode>			
+	
+	</Javascript>
+</Question>

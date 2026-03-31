@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: User
+	Method:  addUser()
+	File:    add_user.xml
+	Author:  Nilesh Mistry
+	Created: 26/09/2008
+	Description: 
+        Adds a user to the system. Consists of a custom processor that will call the addUserBusinessRole service and insert 
+		an admin record if necessary 
+-->
+<service-method>
+	<pipeline>
+		<Java>
+			<Source class="uk.gov.dca.caseman.user_service.java.AddUserCustomProcessor"/>
+		</Java>	    
+	</pipeline>
+	<Security roles="viewOnly medium high wcSuper scSuper bmsSuper aeSuper dmSuper edsAdmin admin cpSuper ccbcMan ccbcUser ccbcSGB2 ccbcTape"/>
+</service-method> 

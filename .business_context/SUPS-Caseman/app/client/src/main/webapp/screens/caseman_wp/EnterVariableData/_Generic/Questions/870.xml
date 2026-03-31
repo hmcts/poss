@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>870</Id>
+	<Label></Label>
+	<ObjectName>SealMessage</ObjectName>
+	<Html>
+		<table><tr><td></td></tr></table>
+		<textarea id="SealMessage" cols="75" rows="4" style="overflow:hidden"></textarea>
+	</Html>
+	<Javascript>
+		<XPath>/ds/EnterVariableData/Service/SealMessage</XPath>
+		<HintText></HintText>
+		<initialise>
+			getCaseJurisdiction();
+		</initialise>
+		<isReadOnly>
+			return true;
+		</isReadOnly>
+		<enableOn>"/ds/var/page/CaseJurisdiction"</enableOn>
+		<isEnabled>
+			var jurisdiction = Services.getValue("/ds/var/page/CaseJurisdiction");
+			var blnEnabled = true;
+			if ( jurisdiction == 'C' || jurisdiction == 'Q') { blnEnabled = false; }
+			return blnEnabled;
+		</isEnabled>
+		<logicOn>"/ds/var/page/CaseJurisdiction"</logicOn>
+		<logic>
+			var jurisdiction = Services.getValue("/ds/var/page/CaseJurisdiction");
+			var sealMessage = "Please note that an electronic seal will automatically be applied to this document prior to printing. Please therefore check that all information is correct before selecting to print this document.";
+			if ( jurisdiction == 'C' || jurisdiction == 'Q') { sealMessage = ""; }
+			Services.setValue(SealMessage.dataBinding, sealMessage);
+		</logic>
+	</Javascript>
+</Question>

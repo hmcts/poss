@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: Co Dividends
+	Method:  getDividendsDeclared()
+	File:    map_get_dividends_declared.xml
+	Author:  Chris Vincent (EDS)
+	Created: 05 January 2006
+	Description: 
+		Retrieves a list of all Consolidated Orders at the court specified that have previously had a dividend 
+		declared.
+-->
+<DBMapDef>
+	<DataSource id="java:OracleDS"/>
+	<Tables>
+		<Table alias="CO" name="CONSOLIDATED_ORDERS"/>
+		<Table alias="PY" name="PAYMENTS"/>
+	</Tables>
+	<Mapping>
+		<ConsolidatedOrderList>
+			<ConsolidatedOrder>
+				<AdminCourtCode>${CO.ADMIN_COURT_CODE}</AdminCourtCode>
+				<CONumber>${CO.CO_NUMBER}</CONumber>
+				<DebtorName>${CO.DEBTOR_NAME}</DebtorName>						
+				<MoniesInCourtCurrency></MoniesInCourtCurrency>
+				<MoniesInCourt>${MONIES_IN_COURT}</MoniesInCourt>
+				<COStatus>${CO.CO_STATUS}</COStatus>
+				<UnresolvedOverpayment>${UNRES_OVRPAY}</UnresolvedOverpayment>
+			</ConsolidatedOrder>
+		</ConsolidatedOrderList>
+	</Mapping>
+</DBMapDef>

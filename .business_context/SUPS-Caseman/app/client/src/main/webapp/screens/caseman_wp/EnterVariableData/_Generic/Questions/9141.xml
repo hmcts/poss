@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>9141</Id>
+	<Label>Date petition presented on</Label>
+	<ObjectName>DateOfPetition</ObjectName>
+	
+   
+	
+	<Html>
+		<script type="text/javascript">WP_DatePickerRenderer.createInline("DateOfPetition", false);</script>
+	</Html>
+	<Javascript>
+		<XPath>/ds/EnterVariableData/dateOfPetition</XPath>
+		<HintText>Enter the date petition was presented</HintText>		
+		<initialise>
+				var erDate = null;
+				var dsd = WPU._getDsDOM();
+				var erdateNode = dsd.selectSingleNode("params/param/ds/ManageCase/DetailsOfClaim/DateRequestReceived");
+				erDate = XML.getNodeTextContent(erdateNode);
+				Services.setValue(DateOfPetition.dataBinding, erDate);	
+		</initialise>
+		<validation>
+			//Date picker: error message “The value does not conform to a valid date format of DD-MMM-YYYY”.
+			//Validation: Date cannot be in the future
+             return isInPast(Services.getValue(DateOfPetition.dataBinding),"false");
+		</validation> 
+		<enableOn>DateOfPetition.dataBinding</enableOn>
+		<mandatoryOn>DateOfPetition.dataBinding</mandatoryOn>
+		<isMandatory>return true;</isMandatory>			
+	        <validate>	
+				var err = null;
+				var isFuture = isFutureDate(Services.getValue(DateOfPetition.dataBinding));
+				if( null != isFuture &amp;&amp; isFuture )
+				{ err = ErrorCode.getErrorCode("CaseMan_dateCannotBeInTheFuture_Msg");
+				}
+				return err;
+			</validate>
+	</Javascript>
+</Question>

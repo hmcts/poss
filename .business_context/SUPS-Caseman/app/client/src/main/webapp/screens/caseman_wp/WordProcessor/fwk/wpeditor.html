@@ -1,0 +1,54 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3c.org/TR/html4/strict.dtd">
+<html>
+	<head>
+		<title>CaseMan WP FCK Editor</title>
+		<link href="wpeditor.css" type="text/css" rel="stylesheet" title="Default" />
+	    <script type="text/javascript" src="../../../../Framework.js">/** **/</script>
+		<script type="text/javascript" src="IncludeFiles.js">/** **/</script>
+		<script type="text/javascript" src="../../WordProcessing.js">/** **/</script>
+	    <script type="text/javascript" src="wpeditor.js">/** **/</script>		
+	</head>
+	<body>
+		  <form name="WPFCKEditor" id="WPFCKEditor" action="#">
+			<script type="text/javascript">MenuBarRenderer.createInline();</script>
+			
+			<div class="popup popupsubform" id="ProgressBar_SubForm"></div>
+			
+			<table class="layout">
+			    <tr>
+					<td>
+						<div class="panel">
+							<table class="content" style="height: 452px;">
+								<tr>
+									<td>
+										<script type="text/javascript">
+										WordProcessingGUIAdaptor.createInline("wpFwkEditor");
+										</script>
+									</td>
+								</tr>
+							</table>
+						</div>
+					</td>
+				</tr>
+				 <tr>
+					<td>
+						<div class="panel">
+							<table class="content" style="height: 25px;">
+								<tr>
+									<td class="label"><label for="OutputFinal">Apply seal (where applicable) and mark output as final</label></td>
+									<td><input type="checkbox" id="OutputFinal" /> </td>
+								</tr>
+							</table>
+						</div>
+					</td>
+				</tr>       
+			</table>
+			<script type="text/javascript">
+				ActionBarRenderer.createInline("status_bar",
+					[	{id: "Status_PreviewBtn", label: "Preview"},
+						{id: "Status_OKBtn", label: "OK"},
+						{id: "Status_CancelBtn", label: "Cancel"}	]);
+			</script>
+		</form>
+	</body>
+</html>

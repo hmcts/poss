@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>66</Id>
+	<Label>What is allocated</Label>
+	<ObjectName>Allocation</ObjectName>
+	<Html>
+		<select id="Allocation">
+		  <option value=""></option>
+		  <option value="CLM">Claim</option>
+		  <option value="CTR">Counterclaim</option>	
+		  <option value="BTH">Claim and Counterclaim</option>		 		  
+		</select>
+	</Html>
+	<Javascript>
+		<XPath>/ds/EnterVariableData/allocationtype</XPath>
+		<isMandatory>return true;</isMandatory>
+		<mandatoryOn>Allocation.dataBinding</mandatoryOn>	
+		<HintText>Select the details of allocation</HintText>
+		<componentName>##label##</componentName>
+		
+		
+		<Context ScreenId="CJR023A">
+			<HintText>What is allocated - list available</HintText>
+		</Context>
+		<Context ScreenId="CJR023C">
+			<HintText>Enter the details of allocation - list available</HintText>
+		</Context>
+	</Javascript>
+</Question>

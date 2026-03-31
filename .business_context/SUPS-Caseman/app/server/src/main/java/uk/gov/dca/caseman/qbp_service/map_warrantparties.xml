@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<DBMapDef>
+  <DataSource id="java:OracleDS"/>
+  <Tables>
+    <Table alias="W" name="WARRANTS"/>
+	<Table alias="CT" name="COURTS"/>
+	<Table alias="WR" name="WARRANT_RETURNS" />
+	<Table alias="RC" name="RETURN_CODES"/>	
+  </Tables>  
+  <Mapping>
+	<PartyQueryResults>
+		<PartyQueryResult>
+			<WarrantID>${W.WARRANT_ID}</WarrantID>
+			<PartyType>${PARTY_ROLE_CODE}</PartyType>
+			<WarrantNumber>${W.WARRANT_NUMBER}</WarrantNumber>
+			<LocalWarrantNumber>${W.LOCAL_WARRANT_NUMBER}</LocalWarrantNumber>
+			<CaseNumber>${W.CASE_NUMBER}</CaseNumber>
+			<Name>${PARTY_NAME}</Name>
+			<Address1>${PARTY_ADDR_1}</Address1>
+			<Address2>${PARTY_ADDR_2}</Address2>
+			<Live>${W.LIVE}</Live>
+		</PartyQueryResult>
+	</PartyQueryResults>
+ </Mapping>
+ </DBMapDef>

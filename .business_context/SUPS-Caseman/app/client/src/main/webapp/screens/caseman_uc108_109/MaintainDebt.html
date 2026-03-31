@@ -1,0 +1,467 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3c.org/TR/html4/strict.dtd">
+
+<html>
+
+	<head>
+		<title>MaintainDebt</title>
+		<link href="MaintainCO.css" type="text/css" rel="stylesheet">
+		<script type="text/javascript" src="../../Framework.js"></script>
+		<script type="text/javascript" src="../../ConcatCommon.js"></script>
+		<script type="text/javascript" src="MaintainCOVariables.js"></script>
+		<script type="text/javascript" src="MaintainCOFunctions.js"></script>
+		<script type="text/javascript" src="MaintainDebt.js"></script>
+		<script type="text/javascript" src="MaintainDebt_AuditCode.js"></script>
+		<script type="text/javascript" src="MaintainDebt_MenuBarCode.js"></script>
+	</head>
+	
+	<body>
+		<form name="MaintainDebt" id="MaintainDebt">
+	
+			<!-- Framework Navigation Menu -->
+			<script type="text/javascript">MenuBarRenderer.createInline();</script>
+			
+			<table class="layout">
+				<!-- Header Panel -->
+				<tr>
+					<td>
+						<div class="panel">
+							<table class="content">
+								<tr>
+									<td>
+										<table>
+											<tr>
+												<td style="width:137px;"><label for='MaintainDebt_Header_CONumber'>CO Number</label></td>
+												<td style="width:167px;"><input id="MaintainDebt_Header_CONumber" type="text" size=15></td>
+													
+												<td style="width:167px;"><label for='MaintainDebt_Header_COOldNumber'>Old Number</label></td>
+												<td style="width:167px;"><input id="MaintainDebt_Header_COOldNumber" type="text" size=15></td>
+													
+												<td colspan=2>
+													<label for='MaintainDebt_Header_OwningCourtCode'>Owning Court</label>&nbsp;
+													<input id="MaintainDebt_Header_OwningCourtCode" type="text" size=5>
+													<input id="MaintainDebt_Header_OwningCourtName" type="text" size=25>
+												</td>
+											</tr>
+											<tr>							
+												<td><label for='MaintainDebt_Header_Type'>Type</label></td>
+												<td><input id="MaintainDebt_Header_Type" type="text" size=15></td>
+												<td><label for='MaintainDebt_Header_Status'>Status</label></td>
+												<td colspan=3><input id="MaintainDebt_Header_Status" type="text" size=15></td>
+											</tr>
+											<tr>
+												<td><label for='MaintainDebt_Header_Debtor'>Debtor Name</label></td>
+												<td colspan=5><input id="MaintainDebt_Header_Debtor" type="text" size=50></td>
+											</tr>
+										</table>							
+									</td>			
+								</tr>	            		
+							</table>  
+						</div>
+					</td>
+				</tr>
+				<!-- End Header Panel -->
+				<tr>
+					<td>
+						<div class="panel">
+							<table class="content" style="height:485px;">
+								<tr>			    		 
+									<td valign="top" style="width:310px;">
+										<table>
+											<tr>
+												<td>
+													<!-- Debt Grid -->
+													<script type="text/javascript">
+														Grid.createInline(
+															"MaintainDebt_DebtGrid",		// The HTML id of the grid
+															["Creditor", "Status"], // An array of strings containing the column headers
+															23,			// The number of rows in the grid
+															1	// The number of rows which are grouped together in coloured stripe.
+														);
+													</script>									
+												</td>
+											</tr>			    					
+											<tr>
+												<td valign="bottom" align="right">			    						
+													<table>											
+														<tr>
+														<td>
+															<input id="MaintainDebt_AddDebtBtn" type="button" value="Add Debt" style="margin-right:5px;">
+														</td>
+														</tr>												
+													</table>											
+												</td>
+											</tr>									
+										</table>							
+									</td>
+															
+									<td class="spacer">&nbsp;</td>
+									
+									<!-- debt Details Panel -->
+									<td valign="top">			    		
+										<table>									
+											<tr>
+												<td valign="top" colspan=3>
+													<!-- debt Detail Panel -->
+													<table>
+														<tr>
+															<td>
+																<table>
+																	<tr>
+																		<td><label for='MaintainDebt_AmountAllowed'>Amount Allowed</label></td>
+																		<td colspan=3>
+																			<input id="MaintainDebt_AmountAllowedCurrency" type="text" size=1>
+																			<input id="MaintainDebt_AmountAllowed" type="text" size=11>
+																		</td>
+																	</tr>
+																	<tr>
+																		<td><label for='MaintainDebt_Status'>Status</label></td>
+																		<td><select id="MaintainDebt_Status"/></td>
+																		<td><label for='MaintainDebt_CaseParty'>Party</label></td>
+																		<td><input id="MaintainDebt_CaseParty" type="text" size=18></td>
+																	</tr>															
+																	<tr>
+																		<td><label for='MaintainDebt_CaseNumber'>Case Number</label></td>
+																		<td><input id="MaintainDebt_CaseNumber" type="text" size=18></td>
+																		<td><label for='MaintainDebt_CourtCode'>Court</label></td>
+																		<td>
+																			<input id="MaintainDebt_CourtCode" type="text" size=5>
+																			<input id="MaintainDebt_CourtName" type="text" size=30>
+																		</td>
+																	</tr>
+																	<tr>
+																		<td><label for='MaintainDebt_TotalPassthroughs'>Total Passthroughs</label></td>
+																		<td>
+																			<input id="MaintainDebt_TotalPassthroughsCurrency" type="text" size=1>
+																			<input id="MaintainDebt_TotalPassthroughs" type="text" size=11>
+																		</td>
+																		<td><label for='MaintainDebt_TotalDividend'>Total Dividend</label></td>
+																		<td>
+																			<input id="MaintainDebt_TotalDividendCurrency" type="text" size=1>
+																			<input id="MaintainDebt_TotalDividend" type="text" size=11>
+																		</td>																
+																	</tr>
+																	<tr>
+																		<td><label for='MaintainDebt_OutstandingBalance'>Outstanding Balance</label></td>
+																		<td colspan=3>
+																			<input id="MaintainDebt_OutstandingBalanceCurrency" type="text" size=1>
+																			<input id="MaintainDebt_OutstandingBalance" type="text" size=11>
+																		</td>
+																	</tr>
+																</table>
+															</td>								
+														</tr>
+														<tr>
+															<td valign="top">
+																<div class="panel">
+																	<!-- set up tabbed area -->
+																	<div class="tabbedArea" id="CODebtTabbedArea">
+																		<script type="text/javascript">
+																			TabSelector.createInline("CODebtTabSelector",
+																				[ {tabLabel: "Creditor", pageId: "TabCreditorAdd"},								
+																				  {tabLabel: "Payee", pageId: "TabPayeeAdd"}
+																				]
+																			);
+																		</script>
+																		<div class="pagedArea" id="COCreditorPayeePagedArea">
+																			<div class="page" id="TabCreditorAdd">
+																				<table>
+																					<tr>
+																						<td><label for='MaintainDebt_CreditorCode'>Name</label></td>
+																						<td colspan=3>
+																							<input id="MaintainDebt_CreditorCode" type="text" size=5>
+																							<input id="MaintainDebt_CreditorName" type="text" size=39>
+																							<input id="MaintainDebt_Creditor_LOVBtn" type="Button" size="8" value="LOV">
+																						</td>
+																					</tr>
+																					<tr>
+																						<td><label for="MaintainDebt_Creditor_Address_Line1">Address</label></td>
+																						<td colspan=3><input type="text" id="MaintainDebt_Creditor_Address_Line1" size="50"></td>
+																					</tr>
+																					<tr>
+																						<td>&nbsp;</td>
+																						<td colspan=3><input type="text" id="MaintainDebt_Creditor_Address_Line2" size="50"></td>
+																					</tr>
+																					<tr>
+																						<td>&nbsp;</td>
+																						<td colspan=3><input type="text" id="MaintainDebt_Creditor_Address_Line3" size="50"></td>
+																					</tr>
+																					<tr>
+																						<td>&nbsp;</td>
+																						<td colspan=3><input type="text" id="MaintainDebt_Creditor_Address_Line4" size="50"></td>
+																					</tr>
+																					<tr>
+																						<td>&nbsp;</td>
+																						<td colspan=3><input type="text" id="MaintainDebt_Creditor_Address_Line5" size="50"></td>
+																					</tr>
+																					<tr>
+																						<td><label for="MaintainDebt_Creditor_Address_Postcode">Postcode</label></td>
+																						<td colspan=3><input type="text" id="MaintainDebt_Creditor_Address_Postcode" size="15"></td>
+																					</tr>
+																					<tr>
+																						<td><label for='MaintainDebt_Creditor_Address_DXNo'>DX Number</label></td>
+																						<td><input id="MaintainDebt_Creditor_Address_DXNo" type="text" size=18></td>
+																						<td><label for='MaintainDebt_Creditor_Address_TelNo'>Tel Number</label></td>
+																						<td><input id="MaintainDebt_Creditor_Address_TelNo" type="text" size=18></td>													
+																					</tr>
+																					<tr>
+																						<td><label for='MaintainDebt_Creditor_Address_FaxNo'>Fax Number</label></td>
+																						<td><input id="MaintainDebt_Creditor_Address_FaxNo" type="text" size=18></td>
+																						<td><label for='MaintainDebt_Creditor_Address_Email'>Email Address</label></td>
+																						<td><input id="MaintainDebt_Creditor_Address_Email" type="text" size=30></td>
+																					</tr>
+																					<tr>
+																						<td><label for='MaintainDebt_Creditor_Address_CommMethod'>Communication Method</label></td>
+																						<td><select id="MaintainDebt_Creditor_Address_CommMethod"/></td>															
+																						<td><label for='MaintainDebt_Creditor_Address_Welsh'>Translation to Welsh</label></td>
+																						<td><input id="MaintainDebt_Creditor_Address_Welsh" type="checkbox"></td>
+																					</tr>
+																					<tr>
+																						<td><label for='MaintainDebt_CreditorReference'>Reference</label></td>
+																						<td colspan=3><input type="text" id="MaintainDebt_CreditorReference" size="18"><td>
+																					</tr>
+																					<tr>
+																						<td><label for='MaintainDebt_PayeeUnknown'>Payee Address Unknown</label></td>
+																						<td colspan=3><input id="MaintainDebt_PayeeUnknown" type="checkbox"><td>
+																					</tr>
+																					<tr>
+																						<td colspan=4 align="right">
+																							<input id="MaintainDebt_CreditorAddAddressBtn" type="Button" value="Add Address">
+																							<input id="MaintainDebt_CreditorViewHistoricalAddressBtn" type="Button" value="View Historical Addresses">
+																						</td>
+																					</tr>
+																				</table>
+																			</div>
+																			<div class="page" id="TabPayeeAdd">
+																				<table>
+																					<tr>
+																						<td><label for='MaintainDebt_PayeeCode'>Name</label></td>
+																						<td colspan=3>
+																							<input id="MaintainDebt_PayeeCode" type="text" size=5>
+																							<input id="MaintainDebt_PayeeName" type="text" size=39>
+																							<input id="MaintainDebt_Payee_LOVBtn" type="Button" size="8" value="LOV">
+																						</td>											
+																					</tr>
+																					<tr>
+																						<td><label for="MaintainDebt_Payee_Address_Line1">Address</label></td>
+																						<td colspan=3><input type="text" id="MaintainDebt_Payee_Address_Line1" size="50"></td>
+																					</tr>
+																					<tr>
+																						<td>&nbsp;</td>
+																						<td colspan=3><input type="text" id="MaintainDebt_Payee_Address_Line2" size="50"></td>														
+																					</tr>
+																					<tr>
+																						<td>&nbsp;</td>
+																						<td colspan=3><input type="text" id="MaintainDebt_Payee_Address_Line3" size="50"></td>
+																					</tr>
+																					<tr>
+																						<td>&nbsp;</td>
+																						<td colspan=3><input type="text" id="MaintainDebt_Payee_Address_Line4" size="50"></td>
+																					</tr>
+																					<tr>
+																						<td>&nbsp;</td>
+																						<td colspan=3><input type="text" id="MaintainDebt_Payee_Address_Line5" size="50"></td>
+																					</tr>
+																					<tr>
+																						<td><label for="MaintainDebt_Creditor_Payee_Postcode">Postcode</label></td>
+																						<td colspan=3><input type="text" id="MaintainDebt_Payee_Address_Postcode" size="15"></td>
+																					</tr>
+																					<tr>
+																						<td><label for='MaintainDebt_Payee_Address_DXNo'>DX Number</label></td>
+																						<td><input id="MaintainDebt_Payee_Address_DXNo" type="text" size=18></td>
+																						<td><label for='MaintainDebt_Payee_Address_TelNo'>Tel Number</label></td>
+																						<td><input id="MaintainDebt_Payee_Address_TelNo" type="text" size=18></td>
+																					</tr>
+																					<tr>
+																						<td><label for='MaintainDebt_Payee_Address_FaxNo'>Fax Number</label></td>
+																						<td><input id="MaintainDebt_Payee_Address_FaxNo" type="text" size=18></td>
+																						<td><label for='MaintainDebt_Payee_Address_Email'>Email Address</label></td>
+																						<td><input id="MaintainDebt_Payee_Address_Email" type="text" size=30></td>
+																					</tr>
+																					<tr>
+																						<td><label for='MaintainDebt_Payee_Address_CommMethod'>Communication Method</label></td>
+																						<td><select id="MaintainDebt_Payee_Address_CommMethod" /></td>															
+																						<td><label for='MaintainDebt_Payee_Address_Welsh'>Translation to Welsh</label></td>
+																						<td><input id="MaintainDebt_Payee_Address_Welsh" type="checkbox"></td>
+																					</tr>
+																					<tr>
+																						<td><label for='MaintainDebt_PayeeReference'>Reference</label></td>
+																						<td colspan=3><input type="text" id="MaintainDebt_PayeeReference" size="18"><td>													
+																					</tr>
+																					<tr>
+																						<td><label for='MaintainDebt_Payee'>Payee</label></td>
+																						<td colspan=3><input id="MaintainDebt_Payee" type="checkbox"><td>
+																					</tr>
+																					<tr>
+																						<td colspan=4 align="right">
+																							<input id="MaintainDebt_PayeeAddAddressBtn" type="Button" value="Add Address">
+																							<input id="MaintainDebt_PayeeViewHistoricalAddressBtn" type="Button" value="View Historical Addresses">
+																						</td>
+																					</tr>
+																				</table>
+																			</div>
+																		</div>
+																	</div>
+																</div>
+															</td>
+														</tr>
+													</table>
+												</td>
+											</tr>
+										</table>
+									</td>
+									<!-- End Hearing Details Panel -->
+								</tr>
+							</table>
+						</div>
+					</td>    		
+				</tr>
+			</table>
+			
+			<!-- Status Bar Panel  chage button id's-->
+			<script type="text/javascript">
+				ActionBarRenderer.createInline(
+					"status_bar",
+					[
+						{id: "Status_MaintainDebtOk", label: "Ok"},
+						{id: "Status_MaintainDebtCancel", label: "Cancel"}
+					]
+				);
+			</script>
+			<!-- End Status Bar Panel -->
+			
+			<!--  Form Extension Popups -->
+			<!-- maintain debt creditor Address History Popup -->
+			<div class="popup" id="MaintainDebt_CreditorAddressHistory">
+				<table class="content">
+					<tr>
+						<td colspan=2 align = "center">
+							<h3>Creditor Address History</h3>
+						</td>
+					<tr>
+						<td valign="top">
+							<table>
+								<tr><td>
+									<!--Address Grid -->
+									<script type="text/javascript">
+										Grid.createInline("MaintainDebt_CreditorAddressHistoryGrid", ["Address", "Date From", "Date To", "Created By"], 5, 1);
+									</script>
+								</td></tr>
+							</table>
+						</td>
+						<td>
+							<table>
+								<tr>
+									<td><label for="MaintainDebt_CreditorAddressHistory_Popup_Address_Line1">Address Details</label></td>
+									<td><input type="text" id="MaintainDebt_CreditorAddressHistory_Popup_Address_Line1" size="50"></td>
+								</tr>
+								<tr>
+									<td>&nbsp;</td>
+									<td><input type="text" id="MaintainDebt_CreditorAddressHistory_Popup_Address_Line2" size="50"></td>
+								</tr>
+								<tr>
+									<td>&nbsp;</td>
+									<td><input type="text" id="MaintainDebt_CreditorAddressHistory_Popup_Address_Line3" size="50"></td>
+								</tr>
+								<tr>
+									<td>&nbsp;</td>
+									<td><input type="text" id="MaintainDebt_CreditorAddressHistory_Popup_Address_Line4" size="50"></td>
+								</tr>
+								<tr>
+									<td>&nbsp;</td>
+									<td><input type="text" id="MaintainDebt_CreditorAddressHistory_Popup_Address_Line5" size="50"></td>
+								</tr>
+								<tr>
+									<td><label for="MaintainDebt_CreditorAddressHistory_Popup_Address_Postcode">Postcode</label></td>
+									<td><input type="text" id="MaintainDebt_CreditorAddressHistory_Popup_Address_Postcode" size="15"></td>
+								</tr>
+								<tr style="height:2px;">
+									<td colspan=2>&nbsp;</td>
+								</tr>
+								<tr>
+									<td colspan=2 align="right">
+										<input type="button" value="Close" id="MaintainDebt_CreditorAddressHistory_Popup_CloseBtn">
+									</td>
+								</tr>
+							</table>
+						</td>
+					</tr>				
+				</table>
+			</div>
+			<!-- End maintain debt creditor Address History Popup -->	
+			<!-- maintain debt payee Address History Popup -->
+			<div class="popup" id="MaintainDebt_PayeeAddressHistory">
+				<table class="content">
+					<tr>
+						<td colspan=2 align = "center">
+							<h3>Payee Address History</h3>
+						</td>
+					<tr>
+						<td valign="top">
+							<table>
+								<tr><td>
+									<!--Address Grid -->
+									<script type="text/javascript">
+										Grid.createInline("MaintainDebt_PayeeAddressHistoryGrid", ["Address", "Date From", "Date To", "Created By"], 5, 1);
+									</script>
+								</td></tr>
+							</table>
+						</td>
+						<td>
+							<table>
+								<tr>
+									<td><label for="MaintainDebt_PayeeAddressHistory_Popup_Address_Line1">Address Details</label></td>
+									<td><input type="text" id="MaintainDebt_PayeeAddressHistory_Popup_Address_Line1" size="50"></td>
+								</tr>
+								<tr>
+									<td>&nbsp;</td>
+									<td><input type="text" id="MaintainDebt_PayeeAddressHistory_Popup_Address_Line2" size="50"></td>
+								</tr>
+								<tr>
+									<td>&nbsp;</td>
+									<td><input type="text" id="MaintainDebt_PayeeAddressHistory_Popup_Address_Line3" size="50"></td>
+								</tr>
+								<tr>
+									<td>&nbsp;</td>
+									<td><input type="text" id="MaintainDebt_PayeeAddressHistory_Popup_Address_Line4" size="50"></td>
+								</tr>
+								<tr>
+									<td>&nbsp;</td>
+									<td><input type="text" id="MaintainDebt_PayeeAddressHistory_Popup_Address_Line5" size="50"></td>
+								</tr>
+								<tr>
+									<td><label for="MaintainDebt_PayeeAddressHistory_Popup_Address_Postcode">Postcode</label></td>
+									<td><input type="text" id="MaintainDebt_PayeeAddressHistory_Popup_Address_Postcode" size="15"></td>
+								</tr>
+								<tr style="height:2px;">
+									<td colspan=2>&nbsp;</td>
+								</tr>
+								<tr>
+									<td colspan=2 align="right">
+										<input type="button" value="Close" id="MaintainDebt_PayeeAddressHistory_Popup_CloseBtn">
+									</td>
+								</tr>
+							</table>
+						</td>
+					</tr>				
+				</table>
+			</div>
+			<!-- End maintain debt payee Address History Popup -->
+		
+			<!-- End LOV Popups -->
+				
+			<div class="logic" id="loadData"></div>
+					
+			<!-- AUDIT PANELS -->
+			<div class="auditPanel" id="currentlySelectedDebtPanel"></div>
+		
+			<!-- AUDIT SELECTOR ADAPTOR -->
+			<script type="text/javascript">AuditSelectorRenderer.createInline( "Audit_PanelSelector" );</script>
+			
+			<!-- SUBFORMS -->
+			<div class="popup popupsubform" id="audit_subform"></div>
+			<div class="popup popupsubform" id="addDebt_subform"></div>
+			<div class="popup popupsubform" id="addCoAddress_subform"></div>
+			<div class="popup popupsubform" id="codedPartySearch_subform"></div>
+		</form>
+	</body>
+</html>

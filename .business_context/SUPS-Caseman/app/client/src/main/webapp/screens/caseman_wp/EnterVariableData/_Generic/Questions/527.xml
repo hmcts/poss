@@ -1,0 +1,14 @@
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>527</Id>
+	<Label>Name of second medical practitioner </Label>
+	<ObjectName>SecondMedPract</ObjectName>
+	<Html>	
+		<input type="text" id="SecondMedPract"></input>
+	</Html>			
+	<Javascript>
+		<XPath>/ds/EnterVariableData/Guardianship/secondMedPract</XPath>
+		<componentName>##label##</componentName>
+		<isMandatory>return true;</isMandatory>
+		<HintText>Enter the name of the second medical practitioner</HintText>			
+	</Javascript>
+</Question>

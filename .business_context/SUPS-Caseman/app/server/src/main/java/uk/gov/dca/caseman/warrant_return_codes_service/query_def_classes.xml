@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<QueryDef>
+	<DBMapDef location="uk/gov/dca/caseman/warrant_return_codes_service/map_classes.xml"/>
+	<Query pivotNode="/ReturnCodeClasses/ReturnCodeClass" tables="CRC">
+		<SQL type="select">
+			SELECT CRC.RV_LOW_VALUE AS "CRC.RV_LOW_VALUE",
+				   CRC.RV_MEANING AS "CRC.RV_MEANING",
+				   DECODE(CRC.RV_DOMAIN,'NEW_FINAL_RETURN_CODE_CLASS','F','I') AS "CRC.RV_DOMAIN" 
+			FROM   CCBC_REF_CODES CRC
+			WHERE  CRC.RV_DOMAIN IN ('NEW_FINAL_RETURN_CODE_CLASS', 'INTERIM CLASS')
+		</SQL>
+		<Modify notModifiable="true"/>
+	</Query>
+</QueryDef>

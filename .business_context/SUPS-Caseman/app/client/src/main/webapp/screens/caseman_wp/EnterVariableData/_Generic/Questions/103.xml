@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>103</Id>
+	<Label>Time sent</Label>
+	<ObjectName>TimeSent</ObjectName>
+	<Html>		
+		<input id="TimeSent" type="text" size="5" maxlength="5"></input>
+	</Html>
+	<Javascript>
+		<XPath>/ds/EnterVariableData/Service/timeSent</XPath>
+		<HintText>Enter the time sent, 24 hour format (HH:MM e.g. 08:30, 14:30)</HintText>
+		<mandatoryOn>ServiceMethod.dataBinding</mandatoryOn>
+		<isMandatory>
+		  var val = Services.getValue(ServiceMethod.dataBinding);
+		  return( 'EMAIL' == val || 'FAX' == val);
+		</isMandatory>
+		<enableOn>ServiceMethod.dataBinding</enableOn>
+		<isEnabled>
+		  var val = Services.getValue(ServiceMethod.dataBinding);
+		  return( 'EMAIL' == val || 'FAX' == val);
+		</isEnabled>
+		<logicOn>ServiceMethod.dataBinding</logicOn>
+		<logic>
+			var val = Services.getValue(ServiceMethod.dataBinding);
+			if('EMAIL' != val &amp;&amp; 'FAX' != val)
+			{	Services.setValue(TimeSent.dataBinding, "");
+			}
+		</logic>
+		<validateOn>TimeSent.dataBinding</validateOn>
+		<validate>
+		  return validateTimeAt(Services.getValue(TimeSent.dataBinding));
+		</validate>	
+	    <transformToDisplay>return WPU.transformTimeToDisplay(value);</transformToDisplay>
+		<transformToModel>return WPU.transformTimeToModel(value);</transformToModel>
+		
+	</Javascript>
+</Question>

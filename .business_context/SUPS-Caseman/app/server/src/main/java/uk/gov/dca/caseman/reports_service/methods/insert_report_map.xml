@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<service-method>
+	<pipeline>
+		<Update>
+			<QueryDef location="uk/gov/dca/caseman/reports_service/insert_report_map_def.xml"/>
+			<DataSource xpath="/params/param[@name='ReportMapInsert']"/>
+		</Update>
+	</pipeline>
+	<Security roles="viewOnly medium high wcSuper scSuper bmsSuper aeSuper dmSuper edsAdmin cpSuper"/>
+</service-method>

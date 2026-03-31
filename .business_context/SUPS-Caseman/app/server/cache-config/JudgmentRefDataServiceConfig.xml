@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<service-config>
+
+	<service name="JudgmentRefdata"/>
+
+	<method name="getJudgmentDeterminationperiods">
+		<get>
+			<HTTPCache expires="endOfDay"/>
+		</get>
+	</method>
+	
+	<method name="getJudgmentResponses">
+		<get>
+			<HTTPCache expires="endOfDay"/>
+		</get>
+	</method>
+	
+	<method name="getJudgmentTypes">
+		<get>
+			<HTTPCache expires="endOfDay"/>
+		</get>
+	</method>
+	
+	<method name="getJudgmentResultvarying">
+		<get>
+			<HTTPCache expires="endOfDay"/>
+		</get>
+	</method>
+	
+	<method name="getJudgmentResultsetaside">
+		<get>
+			<HTTPCache expires="endOfDay"/>
+		</get>
+	</method>
+	
+	<method name="getJudgmentObjectors">
+		<get>
+			<HTTPCache expires="endOfDay"/>
+		</get>
+	</method>
+	
+	<method name="getJudgmentApplicant">
+		<get>
+			<HTTPCache expires="endOfDay"/>
+		</get>
+	</method>
+
+</service-config>

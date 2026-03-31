@@ -1,0 +1,214 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<errors xmlns:fo="http://www.w3.org/1999/XSL/Format">
+	<!-- Error Messages -->
+ 	<!-- /////////////////////////////////////////////////////////////////////////// -->
+	<error id="Caseman_invalidCaseNumberFormat_Msg">Case Number must consist of alphabetic and numeric characters only.</error>
+	<error id="Caseman_creditorCodeNotNumeric_Msg">Creditor Code must be numeric.</error>
+	<error id="Caseman_creditorCodeNotFourDigits_Msg">Creditor Code must consist of 4 digits. Query not issued.</error>
+	<error id="Caseman_formatNotNumeric_Msg">Format is not numeric.</error>	
+	<error id="Caseman_CommentsTooLarge_Msg">Maximum field length is 80</error>
+	<error id="Caseman_MoneyNotNumeric_Msg">Warrant Fees are not numeric.</error>	
+	<error id="Caseman_invalidPayeeName_Msg">The Payee Name must contain alphabetic characters only.</error>
+	<error id="Caseman_invalidCreditorName_Msg">The Creditor Name must contain alphabetic characters only.</error>
+	<error id="Caseman_noRecordFound_Msg">Query caused no records to be retrieved. Please re-enter.</error>
+	<error id="Caseman_invalidMoneyFormat_Msg">Warrant Fees format is not 999999.00 .</error>
+	<error id="Caseman_MoneyLessThanZero_Msg">Warrant Fees are less than zero.</error>
+	<error id="Caseman_rejectCodeNotFound_Msg">Reject Code not found in REJECT_REASONS table. Please contact the Systems Administrator.</error>
+	<error id="Caseman_invalidFileName_Msg">Invalid File Name for Customer Code.</error>
+	<error id="Caseman_invalidFirst4andLast3Characters_Msg">First 4 and last 3 characters of File Name must be numeric.</error>
+	<error id="Caseman_fileNameAlreadyExist_Msg">File Name already exists.</error>
+	<error id="Caseman_invalidFileSeqFormat_Msg">File Sequence Number must be numeric.</error>
+	<error id="Caseman_firstRecordDisplayed_Msg">First Record displayed.</error>
+	<error id="Caseman_lastRecordDisplayed_Msg">Last Record displayed.</error>
+	<error id="Caseman_noOfRecordNotNONZeroDigits_Msg">Number of records must be in range 1 to 99999</error>
+	<error id="Caseman_noOfRecordNotNumber_Msg">Number Of Records is not numeric.</error>
+	<error id="Caseman_NumberOfRecordsNotWholeNumber_Msg">Number Of Records is not a whole number.</error>
+	<error id="Caseman_NumberOfRecordsZero_Msg">Number of records cannot be Zero.</error>
+	<error id="Caseman_dateReceivedInFuture_Msg">Date Received is in the future.</error>
+	<error id="Caseman_dateToOperationInFuture_Msg">Date To Operations is in the future.</error>
+	<error id="Caseman_dateToOperationEarlierReceived_Msg">Date To Operations earlier than Date Received.</error>
+	<error id="Caseman_queryCancelled_Msg">Query Cancelled.</error>
+	<error id="Caseman_noTapeFilesExist_Msg">Tape File(s) must be added before saving the Tape.</error>
+	<!-- /////////////////////////////////////////////////////////////////// -->
+	<error id="CaseMan_invalidDateFormat_Msg">The value does not conform to a valid date format of DD-MON-YYYY.</error>
+	<error id="CaseMan_invalidAmountFormat_Msg">Currency amounts must be in the format of 0.00</error>
+	<error id="CaseMan_invalidCourtCode_Msg">This court is not in service</error>
+	<error id="CaseMan_invalidCourtName_Msg">Please enter a court from the list</error>
+	<error id="CaseMan_invalidHearingType_Msg">Invalid value for Hearing Type</error>
+	<error id="CaseMan_dateMustBeWeekDay_Msg">Date must be a weekday</error>
+    <error id="CaseMan_dateNonWorkingDay_Msg">Date must be a working day</error>
+	<error id="CaseMan_negativeAmountEntered_Msg">Value must be greater than 0</error>
+    <error id="CaseMan_maximumClaimedExceded_Msg">Maximum amount claimed is 99,999,999.99</error>	
+    <error id="CaseMan_maximumFeeExceded_Msg">Maximum fee for this case type is XXX</error><!-- The XXX gets replaced by the max court fee in SYSTEM_DATA-->
+    <error id="CaseMan_maximumSolicitorsCostsExceded_Msg">Maximum solicitors costs is 9,999.99</error>	
+	<error id="CaseMan_dateCannotBeInTheFuture_Msg">This date cannot be in the future</error>
+	<error id="CaseMan_dateMoreThanOneMonthInPast_Msg">This date is more than one month in the past</error>
+	<error id="CaseMan_noDateOfIssue_Msg">Please enter Date of Issue</error>
+	<error id="CaseMan_issueDateBeforeRequestDate_Msg">Issue Date may not be before Date Request Received</error>
+    <error id="CaseMan_serviceDateBeforeIssueDate_Msg">Date of Service may not be before Issue Date</error>
+	<error id="CaseMan_duplicatePartyCode_Msg">That party is already assigned to the case.  Please select another.</error>
+	<error id="CaseMan_invalidPostcodeFormat_Msg">The format of the postcode is invalid, please enter a postcode in the correct format or clear the field.</error>
+	<error id="CaseMan_invalidEmailAddress_Msg">The email address entered is not in the correct format</error>
+	<error id="CaseMan_invalidTelephoneNumber_Msg">The telephone number entered is not in the correct format</error>
+	<error id="CaseMan_invalidFaxNumber_Msg">The fax number entered is not in the correct format</error>
+	<error id="CaseMan_invalidTime_Msg">Time must be in the format hh:mi e.g. 13:00</error>
+	<error id="CaseMan_zeroAmountEntered_Msg">Value must be greater than 0</error>
+	<error id="CaseMan_invalidAllowedHours_Msg">Allowed hours must be greater than 0 and less than 1000</error>
+	<error id="CaseMan_invalidAllowedMins_Msg">Allowed minutes must be between  0 and 59</error>
+	<error id="CaseMan_invalidCaseSearchFields_Msg">You must enter at least one of: Case Number, Party Name, Address 1</error>
+	<error id="CaseMan_invalidCOSearchFields_Msg">You must enter at least one of: CO Number, Party Name, Address 1, Employer Name</error>
+	<error id="CaseMan_invalidAESearchFields_Msg">You must enter at least one of: Case Number, Party Name, Address 1, Employer Name</error>
+	<error id="CaseMan_noResults_Msg">No results were found for the given search criteria.</error>
+	<error id="CaseMan_largeNumberOfSearchResults_Msg">The number of results for the search is greater than nnn. Do you wish to continue?</error>
+	<error id="CaseMan_invalidHearingOutcomeForFuture_Msg">Outcomes of C, J or O cannot be entered for future Hearings.</error>
+	<error id="CaseMan_invalidHearingOutcome_Msg">Invalid Hearing Outcome entered.</error>
+	<error id="CaseMan_missingParties_Msg">Please enter at least one Claimant and one Defendant.</error>
+    <error id="CaseMan_missingDebtor_Msg">Please enter at least one Debtor.</error>
+    <error id="CaseMan_missingCompany_Msg">Please enter at least one Company.</error>
+    <error id="CaseMan_missingApplicant_Msg">Please enter at least one Applicant.</error>
+	<error id="Caseman_nonNumericPartyCode_Msg">Please enter numeric values only in this field.</error>
+	<error id="Caseman_invalidPartyCodeRange_Msg">Nationally coded party code is not allowed.</error>
+	<error id="Caseman_nonExistantCodedParty_Msg">This coded party does not exist.</error>
+	<error id="CaseMan_errorRetrievingHearings_Msg">There was a problem retrieving the list of Hearings for the specified case.</error>
+	<error id="CaseMan_invalidInsertCodeAlreadyExists_Msg">This code is already in use, please re-enter.</error>
+	<error id="CaseMan_invalidInsertNationalCode_Msg">National Coded Parties can only be created by Helpdesk.</error>
+	<error id="CaseMan_invalidUpdateNationalCode_Msg">National Coded Parties can only be maintained by Helpdesk.</error>
+	<error id="CaseMan_invalidDeleteNationalCode_Msg">National Coded Parties may not be deleted.</error>
+	<error id="CaseMan_invalidDeleteCasesExist_Msg">Cannot delete CODED_PARTIES while CASES exist.</error>					
+	<error id="CaseMan_invalidDeleteWarrantsExist_Msg">Cannot delete CODED_PARTIES while WARRANTS exist.</error>
+	<error id="CaseMan_judgmentEnforcementBarIsSet1_Msg">Cannot enter judgment/enforcement - bar is set for this defendant</error>
+	<error id="CaseMan_judgmentEnforcementBarIsSet2_Msg">Case status and bar on judgment/enforcement must be reset</error>
+	<error id="CaseMan_judgmentAlreadyExistsForDefendant_Msg">Judgment already exists for defendant �must be set aside</error>
+	<error id="CaseMan_judgmentLessThanFifteenDaysAfterService_Msg">Judgment must be at least 15 days after date of service</error>
+	<error id="CaseMan_judgmentLessThanTwentyNineDaysAfterService_Msg">Judgment must be at least 29 days after date of service</error>
+	<error id="CaseMan_validJudgmentMustExist_Msg">Valid judgment must exist</error>
+	<error id="CaseMan_notAValidAEEvent_Msg">Not a valid AE Event to call AE Event screen</error>
+	<error id="CaseMan_noAEApplicationExists_Msg">No AE application exists for this case and defendant</error>
+	<error id="CaseMan_noWarrantEventsExist_Msg">No Warrants Exist</error>
+	<error id="CaseMan_notAWarrantEvent_Msg">Not a warrant event - no warrants retrieved</error>
+	<error id="CaseMan_warrantAtPreviousCourt_Msg">Unable to identify warrant - Issued at previous court</error>
+	<error id="CaseMan_noObligationsExist_Msg">No obligations have ever existed for this case</error>
+	<error id="CaseMan_incorrectHRAEvent_Msg">HRA Details can only be displayed for event 181</error>
+	<error id="CaseMan_noHRADetailsExist_Msg">No HRA Details exist</error>
+	<error id="CaseMan_invalidEventId_Msg">You have entered an invalid value - please re-enter</error>
+	<error id="CaseMan_judgmentExistsOnEvent103_Msg">Cannot add event 103, judgment exists. You must set aside judgment first.</error>
+	<error id="CaseMan_judgmentExists_Msg">Cannot add event, judgment exists</error>
+	<error id="CaseMan_invalidDefendantId_Msg">You have entered an invalid value - please re-enter</error>
+	<error id="CaseMan_defendantIdDoesNotExist_Msg">This Defendant does not exist</error>
+	<error id="CaseMan_caseCannotBeMAGSORDER_Msg">Please enter a non MAGS ORDER Case</error>
+	<error id="CaseMan_invalidCaseTypeForObsoleteCase_Msg">New Case Type is not valid for Old Case Type</error>
+	<error id="CaseMan_caseDoesNotExist_Msg">The case number entered does not exist.</error>
+	<error id="CaseMan_wftStartDateCannotBeInThePast_Msg">Start Date cannot be earlier than today's date</error>
+	<error id="CaseMan_wftStartDateAfterEndDate_Msg">Start Date must be before End Date</error>
+	<error id="CaseMan_wftEndDateEarlierThanStartDate_Msg">End Date must be equal to or later than Start Date</error>
+	<error id="CaseMan_invalidWFTEstimatedDays_Msg">Estimated Days must be greater than 0 or blank</error>
+	<error id="CaseMan_invalidWFTEstimatedHours_Msg">Estimated Time - Hours must be 5 or less</error>
+	<error id="CaseMan_invalidWFTEstimatedMinutes_Msg">Estimated Time - Minutes must be less than 60</error>
+	<error id="CaseMan_invalidWFTStatus_Msg">You have entered an invalid value - please re-enter</error>
+	<error id="CaseMan_wftCMCDateCannotBeInThePast_Msg">Case Management Conference Date cannot be earlier than today's date</error>	
+	<error id="CaseMan_cannotNavigateToCasesScreen_Msg">A case must be retrieved before CASES screen can be called</error>	
+	<error id="CaseMan_cannotNavigateToJudgmentsScreen_Msg">A case must be retrieved before JUDGMENTS screen can be called</error>
+	<error id="CaseMan_cannotNavigateToTransferScreen_Msg">A case must be retrieved before TRANSFER screen can be called</error>
+	<error id="CaseMan_cannotNavigateToAEScreen_Msg">A case must be retrieved before AE events screen can be called</error>
+	<error id="CaseMan_cannotNavigateToHearingsScreen_Msg">A case must be retrieved before HEARINGS screen can be called</error>
+	<error id="CaseMan_cannotNavigateToBarScreen_Msg">A case must be retrieved before BAR screen can be called</error>
+	<error id="CaseMan_cannotNavigateToAuditScreen_Msg">A case must be retrieved before AUDIT screen can be called</error>
+	<error id="CaseMan_cannotNavigateToWarrantsScreen_Msg">A case must first be selected before WARRANTS screen can be called</error>
+	<error id="CaseMan_cannotResetCaseType_Msg">A case must be retrieved before Reset Case Type can be called</error>
+	<error id="CaseMan_cannotResetCaseStatus_Msg">A case must be retrieved before Reset Case Status can be called</error>
+	<error id="CaseMan_paymentsDoNotExistForCase_Msg">Payments do not exist for this Case</error>
+	<error id="CaseMan_cannotNavigateToPaymentsScreen_Msg">A case must first be selected before PAYMENTS screen can be called</error>
+	<error id="CaseMan_cannotNavigateToWFTScreen_Msg">A case must be retrieved before Window For Trial screen can be called</error>
+	<error id="CaseMan_cannotNavigateToObligationsScreen_Msg">A case must be retrieved before OBLIGATIONS screen can be called</error>
+	<error id="CaseMan_cannotNavigateToHRAScreen_Msg">A case must first be selected before HRA Details screen can be called</error>
+	<error id="CaseMan_invalidAuditCall_Msg">A coded party must be retrieved before AUDIT screen can be called.</error>							
+	<error id="CaseMan_invalidCode_Msg"> National Coded Parties must be in the range 1500-1999</error>	
+	<error id="CaseMan_invalidDistrictRegistry_Msg">Only a Y or N can be entered for District Registry.</error>
+	<error id="CaseMan_enterSearchCriteria_Msg">Please enter search criteria.</error>
+	<error id="CaseMan_DeleteLocalCode_Msg">Are you sure you want to remove the code</error>
+    <error id="CaseMan_maximumPartiesExceeded_Msg">You can only have 1 instance of this party type</error>
+    <error id="CaseMan_confirmClearMessage_Msg">Are you sure you want to clear all data? You will lose any unsaved changes.</error>
+    <error id="CaseMan_writeWriteConflict_Msg">Another user has made changes to this case. Your changes have not been saved. Case needs to be retreived again.</error>
+	<error id="CaseMan_maintainObligations_daysIncorrectFormat_Msg">Legal characters are 0-9</error>	
+	<error id="CaseMan_maintainObligations_daysNegative_Msg">Days cannot be negative</error>		
+	<error id="CaseMan_maintainObligations_invalidObligation_Msg">This obligation does not exist</error>	
+	
+	<error id="CaseMan_startDateCannotBeEarlierThanBMSLiveDate_Msg">The Start Date cannot be earlier than BMS Live Date</error>
+	<error id="CaseMan_fieldMustBeEntered_Msg">This field must be entered</error>
+	<error id="CaseMan_startDateCannotBeLaterThanEndDate_Msg">The Start Date cannot be later than the End Date</error>
+	<error id="CaseMan_CreditorCodeNotNumeric_Msg">Creditor Code must be numeric.</error>
+	<error id="CaseMan_ClaimantNameNotAlpha_Msg">The Claimant Name must contain alphabetic characters only.</error>
+	<error id="CaseMan_CaseNumberNotAlphaNumeric_Msg">Case Number must consist of alphabetic and numeric characters only.</error>
+	<error id="CaseMan_DefendantNameNotAlpha_Msg">The Defendant Name must contain alphabetic characters only.</error>
+	
+	
+	<!-- *****************Heba Salama: View Rejected Warrants*********************** -->
+	<error id="CaseMan_CreditorCodeNotNumeric">Creditor Code must be numeric.</error>
+	<error id="CaseMan_CreditorCodeNotFourDigits">Creditor Code must consist of 4 digits.</error>
+	<error id="CaseMan_CaseNumberNotAlphaNumeric">Case Number must consist of alphabetic and numeric characters only.</error>
+	<error id="CaseMan_WarrantNumberNotAlphaNumeric">Warrant Number must consist of alphabetic and numeric characters only.</error>
+	<error id="CaseMan_ClaimantNameNotAlpha">The Claimant Name must contain alphabetic characters only.</error>
+	<error id="CaseMan_DefendantNameNotAlpha">The Defendant Name must contain alphabetic characters only.</error>
+	<error id="CaseMan_FileSequenceNumberNotNumeric">File Sequence Number must be numeric.</error>
+	<!-- *************************************************************************** -->
+	
+	<!-- *****************Heba Salama: Log Received Tapes*********************** -->
+	<error id="CaseMan_CustomerCodeNotExists">Customer Code does not exist in the database .</error>
+	<error id="CaseMan_CustomerCodeNotNumeric">Customer Code is not numeric.</error>
+	<error id="CaseMan_CustomerCodeNot4Digits">Customer Code is not 4 numeric digits.</error>
+	<error id="CaseMan_TapeFormatNotExists">Tape Format record does not exist for Customer Code and File Type.</error>	
+	<error id="CaseMan_MultipleTapeFormats">More than one Tape Format record exists for Customer Code and File Type.</error>
+	<error id="CaseMan_ConflictingTapeFormats">If not the first Tape File on the Tape, then does not have the same Tape Format as the first Tape File on the tape.</error>
+	<error id="CaseMan_FileNameNotUnique">File Name is not unique.Refer to Customer.</error>
+	<error id="CaseMan_TapeHasNoTapeFiles">This Tape has no Tape File records.  Please delete the Tape record or enter a Tape File record.</error>
+	<error id="CaseMan_ConfirmDeletion">Do you wish to continue with deletion?</error>
+	<error id="CaseMan_ConfirmRemoval">Are you sure that you want to remove the Tape File from the Tape?</error>
+	<error id="CaseMan_UnsavedData">Unsaved changes exist. Click Yes to save changes and continue; Click No to discard changes and continue; Click Cancel to return existing screen.</error>
+	<error id="Caseman_libraryNumberNotNumeric_Msg">Library Number is not numeric.</error>	
+	<error id="Caseman_CustomerCodeNotNumeric_Msg">Customer Code is not numeric.</error>		
+	<error id="Caseman_CustomerNameNotNumeric_Msg">The Customer Name must contain alphabetic characters only.</error>		
+	<error id="Caseman_FileNameNot10Characters_Msg">File Name is not exactly 10 characters.</error>									
+	<error id="Caseman_FileNamePrefixInvalid_Msg">First 4 characters of File Name are not Customer Code.</error>
+	<error id="Caseman_FilenameSuffixInvalid_Msg">Last 3 characters of File Name are not numeric.</error>
+	<error id="Caseman_AssociatedTapeFilesExist_Msg">Tape File(s) exist which are associated with this Tape.</error>
+	
+	<!-- *************************************************************************** -->
+	
+	<!-- *****************Hassan Elhalafawy: Log Returned Tapes********************* -->	
+	<error id="CaseMan_LibraryNumberNotNumeric_Msg">Library Number is not numeric.</error>
+	<error id="CaseMan_CustomerCodeNotNumeric_Msg">Customer Code is not numeric.</error>
+	<error id="CaseMan_DateReturnedInFuture_Msg">Date Returned is in the future.</error>
+	<error id="CaseMan_DateReturnedEarlierThanDateReceived_Msg">Date Returned is earlier than Date Received.</error>	
+	<error id="CaseMan_NumberOfRecordsNotNumeric_Msg">Number Of Records is not numeric.</error>	
+	<error id="CaseMan_NumberOfRecordsMoreThan5Digits_Msg">Number Of Records is more than 5 digits.</error>		
+	<error id="CaseMan_NumberOfRecordsZero_Msg">Number of records cannot be Zero.</error>		
+	<error id="CaseMan_WarrantFeesNotNumeric_Msg">Warrant Fees are not numeric.</error>				
+	<error id="CaseMan_WarrantFeesIncorrectFormat_Msg">Warrant Fees format is not 999999.00</error>					
+	<error id="CaseMan_WarrantFeesLessThanZero_Msg">Warrant Fees are less than zero.</error>						
+	<error id="CaseMan_NumberOfRecordsNotWholeNumber_Msg">Number Of Records is not a whole number.</error>
+	<error id="CaseMan_DateReceivedInvalidLength_Msg">Date Received must consist of at least 3 characters, when using a Wildcard. Query not issued.</error>
+	<error id="CaseMan_DateReturnedInvalidLength_Msg">Date Returned must consist of at least 3 characters, when using a Wildcard. Query not issued.</error>						
+	<error id="CaseMan_FileNameInvalidLength_Msg">File Name must consist of at least 3 characters, when using a Wildcard. Query not issued.</error>						
+	<error id="CaseMan_EmptySearch_Msg">At least one search item must be entered. Query not issued.</error>						
+	
+	<error id="CaseMan_CaseNumberInvalidLength_Msg">Case Number must consist of 8 alphabetic and numeric characters. Query not issued.</error>						
+	<error id="CaseMan_FileSeqNumberInvalidLength_Msg">File Sequence Number must consist of 3 digits. Query not issued.</error>						
+	
+	<error id="CaseMan_PayeeNameInvalidLength_Msg">The Payee Name must consist of at least 3 characters, when using a Wildcard. Query not issued.</error>						
+		
+	<error id="CaseMan_WarrantInvalidLength_Msg">Warrant Number must consist of at least 6 digits. Query not issued.</error>						
+	<error id="CaseMan_DefendantNameInvalidLength_Msg">The Defendant Name must consist of at least 3 characters, when using a Wildcard. Query not issued.</error>						
+	<error id="CaseMan_ClaimantDetailsInvalidLength_Msg">The Claimant Name must consist of at least 3 characters, when using a Wildcard. Query not issued.</error>						
+	<error id="CaseMan_MoreThan20Records_Msg">More than 20 records were found. Click OK to continue.</error>						
+	<error id="CaseMan_MoreThan30Records_Msg">More than 30 records were found. Select OK to continue.</error>						
+	<error id="CaseMan_InvalidStatus_Msg">Status is invalid on one or more of the Tape File records displayed. The following File Name has an invalid Status:</error>						
+		
+	
+	<!-- *************************************************************************** -->
+	
+	<!-- Information Messages -->
+	<!-- *************************************************************************** -->
+	<error id="CaseMan_QueryCancelled_Msg">Query cancelled.</error>				
+	<error id="CaseMan_ChangesSaved_Msg">Changes have been saved successfully.</error>				
+		
+</errors>

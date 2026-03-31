@@ -1,0 +1,26 @@
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>677</Id>
+	<Label>Party making this application</Label>
+	<ObjectName>PartyMakingApp</ObjectName>
+	<Html>
+		<script type="text/javascript">Grid.createInline("PartyMakingApp", ["Party Type", "Name"] , 4, 1);</script>
+	</Html>
+	  
+	<Javascript>
+		<XPath>/ds/EnterVariableData/DeponentExam/partyMakingApp</XPath>
+		<isMandatory>return true;</isMandatory>
+		<HintText>Select the party making the application</HintText>
+		<mandatoryOn>PartyMakingApp.dataBinding</mandatoryOn>
+		<miscCode>		 
+			PartyMakingApp.srcData = DATA_XPATH + "/Parties";
+			PartyMakingApp.rowXPath = "LitigiousParty[./TypeCode = '" + CMC.PartyTypeCodesEnum.CLAIMANT + "' or ./TypeCode = '" + CMC.PartyTypeCodesEnum.DEFENDANT + "' or ./TypeCode = '" + CMC.PartyTypeCodesEnum.PART_20_CLAIMANT + "' or ./TypeCode = '" + CMC.PartyTypeCodesEnum.PART_20_DEFENDANT + "']";
+			PartyMakingApp.keyXPath = "PartyId";
+			PartyMakingApp.columns = [
+				{xpath: "Type"},
+				{xpath: "Name"}			
+			];
+			PartyMakingApp.multipleSelection = false;			
+		</miscCode>
+				
+	</Javascript>
+</Question>

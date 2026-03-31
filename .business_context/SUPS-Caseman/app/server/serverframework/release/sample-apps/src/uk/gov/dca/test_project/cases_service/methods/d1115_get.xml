@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<service-method>
+	<pipeline>
+		<Query>
+			<QueryDef location="uk/gov/dca/test_project/cases_service/d1115_query_def.xml"/>
+			<QueryExtension pivotNode="/Updates/EthnicOrigin">
+				<Param name="param.ethnicOriginCode" xpath="/params/param[@name='ethnicOriginCode']"/>
+				<Constraint>e.ethnic_origin_code = ${param.ethnicOriginCode}</Constraint>
+			</QueryExtension>
+			<QueryExtension pivotNode="/Updates/EthnicOrigin/TapeFormat">
+				<Param name="param.tapeFormatCode" xpath="/params/param[@name='tapeFormatCode']"/>
+				<Constraint>t.code = ${param.tapeFormatCode}</Constraint>
+			</QueryExtension>
+			<QueryExtension pivotNode="/Updates/EthnicOrigin/TapeFormat/RejectReasons">
+				<Param name="param.rejectReasonCode" xpath="/params/param[@name='rejectReasonCode']"/>
+				<Constraint>r.reject_code = ${param.rejectReasonCode}</Constraint>
+			</QueryExtension>
+		</Query>
+	</pipeline>
+	<Dependencies>
+		<Dependency serviceName="Test"/> 
+	</Dependencies>
+	<Security roles="user"/>
+</service-method>

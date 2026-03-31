@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: Codedparty
+	Method:  getNatCodedParty()
+	File:    getNatCodedParty.xml
+	Author:  Phil Haferer
+	Created: 01 December 2005
+	Description: 
+		Retrieves a single National Coded Party.
+
+	Change History:
+-->
+<service-method>
+	<pipeline>
+		<Query>
+			<QueryDef location="uk/gov/dca/caseman/codedparty_service/query_def_get_nat_coded_party.xml"/>
+			<QueryExtension pivotNode="/CodedParty">
+				<Param name="param.courtCode" xpath="/params/param[@name = 'courtCode']"/>
+				<Param name="param.codedPartyCode" xpath="/params/param[@name = 'codedPartyCode']"/>
+			</QueryExtension>
+		</Query>	
+	</pipeline>
+	<Security roles="viewOnly medium high wcSuper scSuper bmsSuper aeSuper dmSuper cpSuper edsAdmin ccbcMan"/>			
+</service-method>

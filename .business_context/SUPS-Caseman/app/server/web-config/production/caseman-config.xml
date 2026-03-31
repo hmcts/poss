@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<WebServiceConfig>
+	<Init>
+		<UserName>MD5 Hashed or some other Alogorithm</UserName>
+		<Password>MD5 Hashed  or some other Alogorithm</Password>
+		<EndPoint>http://123.456.789:8080/caseman/</EndPoint>
+	</Init>
+	<ApplicationService>
+		<Name>PRODUCTIONCASEMAN</Name>
+		<WebService>Transfer</WebService>
+		<Method>
+			<Name>TransferCase</Name>
+			<WebServiceName>transferCase</WebServiceName>
+		</Method>
+		<Method>
+			<Name>Case</Name>
+			<WebServiceName>getCase</WebServiceName>
+		</Method>
+	</ApplicationService>
+</WebServiceConfig>

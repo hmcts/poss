@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<service-method>
+	<pipeline>
+		<Update>
+			<QueryDef location="uk/gov/dca/caseman/ae_event_service/query_def_error_ae_event.xml"/>
+			<DataSource xpath="/params/param name='casePartyRole'"/>
+			<QueryExtension pivotNode="/CasePartyRole">
+				<CheckExists table="AEE" 
+							 fields="case_number party_role_code" 
+							 onNotExist="skip" onExist="update"
+							 useOptimisticLock="false"/>
+				<SQL type="update" tables="AEE">
+					UPDATE AE_EVENTS AEE 
+					SET    AEE.ERROR_INDICATOR = ${ERROR_INDICATOR}
+					WHERE  AEE.CASE_PARTY_ROLE = ${AEE.CASE_PARTY_ROLE}
+					AND    AEE.PARTY_ROLE_CODE   = ${AEE.PARTY_ROLE_CODE}
+					AND    AEE.CASE_NUMBER = (SELECT AEA.CASE_NUMBER
+                                         FROM   AE_APPLICATIONS AE
+                                         WHERE  AE.AE_NUMBER = ${AE.AE_NUMBER})
+                                        AND    CE.DETAILS = ${AEE.
+						
+				</SQL>
+			</QueryExtension>
+		</Update>
+	</pipeline>
+	<Security roles="user"/>
+</service-method>

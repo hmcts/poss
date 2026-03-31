@@ -1,0 +1,59 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3c.org/TR/html4/strict.dtd">
+
+<html>
+
+<head>
+	<title>MaintainNonWorkingDays</title>
+    <link href="MaintainNonWorkingDays.css" type="text/css" rel="stylesheet">
+	<script type="text/javascript" src="../../Framework.js"></script>
+	<script type="text/javascript" src="../../ConcatCommon.js"></script>
+	<script type="text/javascript" src="MaintainNonWorkingDays.js"></script>
+</head>
+
+<body>
+    <form name="MaintainNonWorkingDays" id="maintainNonWorkingDays">
+		
+		<!-- Framework Navigation Menu -->
+		<script type="text/javascript">MenuBarRenderer.createInline();</script>
+
+        <table class="layout">
+	      	<!-- Header Panel -->
+			<tr>
+				<td>
+					<div class="panel">
+            		<table class="content" style="height:570px;">
+            			<tr>
+            				<td valign="top">
+                                <script type="text/javascript">Grid.createInline("Master_NonWorkingDaysGrid", ["Date", "Created By", "Creation Date", "Notes"], 31, 1);</script>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td align="right">
+								<input id="Master_AddNonWorkingDayButton" type="Button" value="Add" style="margin-bottom:5px;"/>
+								<input id="Master_RemoveNonWorkingDayButton" type="Button" value="Remove" style="margin:5px;"/>
+							</td>
+                        </tr>                        
+                    </table>
+					</div>
+                </td>                
+            </tr>
+        </table>
+
+		<!-- Status Bar Panel -->
+		<script type="text/javascript">
+			ActionBarRenderer.createInline(
+				"status_bar",
+				[
+					{id: "Status_SaveButton", label: "Save"},
+					{id: "Status_CloseButton", label: "Close"}
+				]
+			);
+		</script>
+		<!-- End Status Bar Panel -->
+		
+		<!-- SUBFORMS -->
+		<div class="popup popupsubform" id="addNewNonWorkingDay_subform"></div>
+    </form>
+</body>
+
+</html>

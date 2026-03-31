@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: Courts
+	Method:  getCourtAccountTypeList
+	Author:  Chris Vincent (EDS) 
+	Created: 24 November 2005
+	Description: Use SQLLite to retrieve list of account types
+-->
+<service-method>
+	<pipeline>
+		<SQLLite format-output="true"
+				 resultset-element="AccountTypes"
+				 row-element="AccountType"
+				 field-name-as="element" >
+			<DataSource id="java:OracleDS"/>
+			<SQL>
+				SELECT CCBC.RV_LOW_VALUE As "Value"
+				FROM  CCBC_REF_CODES CCBC
+				WHERE CCBC.RV_DOMAIN = 'COURT_ACCOUNT_TYPE'
+			</SQL>
+		</SQLLite>
+  	</pipeline>
+	<Security roles="viewOnly medium high wcSuper scSuper bmsSuper aeSuper dmSuper cpSuper edsAdmin ccbcMan ccbcUser ccbcSGB2 ccbcTape admin"/>
+</service-method>

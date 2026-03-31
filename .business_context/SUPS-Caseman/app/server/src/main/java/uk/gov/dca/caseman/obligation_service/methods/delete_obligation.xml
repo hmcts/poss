@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<service-method>
+	<pipeline>
+		<Update>
+			<QueryDef location="uk/gov/dca/caseman/obligation_service/query_def_delete_obligation.xml"/>
+			<DataSource xpath="/params/param[@name='caseNumber']"/>
+		</Update>
+	</pipeline>
+	<Security roles="user"/>
+</service-method>

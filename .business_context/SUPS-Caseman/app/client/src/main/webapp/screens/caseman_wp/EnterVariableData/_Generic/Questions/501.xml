@@ -1,0 +1,24 @@
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>501</Id>
+	<Label>Branch postcode</Label>
+	<ObjectName>BranchPostCode</ObjectName>
+	<Html>	
+		<input type="text" id="BranchPostCode" size="8"></input>
+	</Html>			
+	<Javascript>
+		<XPath>/ds/EnterVariableData/ThirdPartyDebt/Branch/Address/PostCode</XPath>
+		<componentName>##label##</componentName>
+		<isMandatory>return false;</isMandatory>
+		<HintText>Branch Postcode</HintText>		
+		<enableOn>IsBankOrBuildSoc.dataBinding</enableOn>
+		<isEnabled>return('Y' == Services.getValue(IsBankOrBuildSoc.dataBinding));</isEnabled>
+		<logicOn>IsBankOrBuildSoc.dataBinding</logicOn>
+		<logic>
+			if('Y' != Services.getValue(IsBankOrBuildSoc.dataBinding))
+			{	Services.setValue(BranchPostCode.dataBinding);
+			}
+		</logic>	
+		<validateOn>BranchPostCode.dataBinding</validateOn>
+		<validate>return WPU.validatePostcode(Services.getValue(BranchPostCode.dataBinding));</validate>
+	</Javascript>
+</Question>

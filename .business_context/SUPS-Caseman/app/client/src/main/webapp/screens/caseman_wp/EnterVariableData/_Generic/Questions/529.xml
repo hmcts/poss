@@ -1,0 +1,14 @@
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>529</Id>
+	<Label>Name of council</Label>
+	<ObjectName>CouncilName</ObjectName>
+	<Html>	
+		<input type="text" id="CouncilName"></input>
+	</Html>			
+	<Javascript>
+		<XPath>/ds/EnterVariableData/Guardianship/councilName</XPath>
+		<componentName>##label##</componentName>
+		<isMandatory>return true;</isMandatory>
+		<HintText>Enter the name of the council</HintText>			
+	</Javascript>
+</Question>

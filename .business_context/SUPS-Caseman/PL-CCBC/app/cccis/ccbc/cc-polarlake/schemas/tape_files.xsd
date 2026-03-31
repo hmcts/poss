@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:map="http://www.polarlake.com/JMS/MapMessage" targetNamespace="http://www.polarlake.com/JMS/MapMessage" elementFormDefault="qualified">
+	<xs:element name="records">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="record" minOccurs="0" maxOccurs="unbounded">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="ORDERSEQ"/>
+							<xs:element name="SEQNO"/>
+							<xs:element name="FILE_NAME"/>
+							<xs:element name="DATE_PROCESSED"/>
+							<xs:element name="OUTPUTS"/>
+							<xs:element name="NO_RECORDS"/>
+							<xs:element name="FEES"/>
+							<xs:element name="STATUS"/>
+							<xs:element name="FEES_CURRENCY"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+</xs:schema>

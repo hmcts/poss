@@ -1,0 +1,108 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3c.org/TR/html4/strict.dtd">
+<html>
+
+	<head>
+		<title>MaintainCourtSections</title>
+		<link href="MaintainCourtSections.css" type="text/css" rel="stylesheet" title="Default">
+		<script type="text/javascript" src="../../Framework.js"></script>
+		<script type="text/javascript" src="../../CaseManIncludeFiles.js"></script>
+		<script type="text/javascript" src="MaintainCourtSections.js"></script> 
+	</head>
+	
+	<body>
+		<form name="MaintainCourtSections" id="MaintainCourtSections">
+			
+			<!-- Framework Navigation Menu -->
+			<script type="text/javascript">MenuBarRenderer.createInline();</script>
+				
+			<table class="layout">
+
+				<!--	Header Court Details Panel -->
+				<tr>
+					<td>
+						<div class="panel">
+							<table class="content">
+								<tr>
+									<td class="defaultLabel"><label for="Header_CourtName">Court Name</label></td>
+									<td><input id="Header_CourtName" type="text" size="30" style="margin-top:5px; margin-bottom:5px;"></td>
+								</tr>
+							</table>
+						</div>
+					</td>
+				</tr>
+				<!-- End Header Court Details Panel -->
+
+				<!-- Start Master Details panel -->	
+				<tr>
+					<td>
+						<div class="panel">
+							<table class="content">		 
+								<tr>	
+									<td>
+										<table style="width:100%;">
+											<tr style="height:75px;">
+												<td colspan="3">&nbsp;</td>
+											</tr>
+											<tr>
+												<td style="width:40%;"/>
+												<td>
+													<script type="text/javascript">
+														Grid.createInline(
+															"Master_Sections_ResultsGrid",
+															["Section Name"],
+															20,														 
+															1																	 
+														 );
+													</script>										 
+												</td>
+												<td style="width:40%;"/>
+											</tr>
+											<tr>
+												<td>&nbsp;</td>
+												<td align="right">
+													<input id="Master_AddBtn" type="button" value="Add Section" style="margin-top:5px;">
+												</td>
+												<td>&nbsp;</td>
+											</tr>
+											<tr style="height:75px;">
+												<td colspan="3">&nbsp;</td>
+											</tr>
+										</table>
+									</td>
+								</tr>	
+							</table>
+						</div>
+					</td>
+				</tr>
+				<!-- End Master Details panel -->
+
+			</table>
+
+			<!-- Start Status Bar Panel -->
+			<script type="text/javascript">
+				ActionBarRenderer.createInline(
+					"status_bar",
+					[
+						{id: "Status_SaveBtn", label: "Save"},
+						{id: "Status_CloseBtn", label: "Close"}
+					]
+				);
+			</script>
+
+			<!-- Add New Section Popup -->
+			<div class="popup" id="AddSection_Popup">
+				<div class="panel">
+					<table class="content">
+						<tr>
+							<td><label for="Popup_SectionTxt" align=right>New Section</label></td>
+							<td><input type="text" id="Popup_SectionTxt" size=30></td>
+							<td><input id="Popup_AddBtn" type="button" value="Add"></td>
+							<td><input id="Popup_CloseBtn" type="button" value="Close"></td>
+						</tr>
+					</table>
+				</div>
+			</div>
+
+		</form>
+	</body>
+</html>

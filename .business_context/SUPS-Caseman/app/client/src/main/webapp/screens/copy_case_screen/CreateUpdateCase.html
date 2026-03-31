@@ -1,0 +1,444 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3c.org/TR/html4/strict.dtd">
+
+<html>
+
+	<head>
+		<title>CreateUpdateCase</title>
+		<link href="CreateUpdateCase.css" type="text/css" rel="stylesheet">
+		<script type="text/javascript" src="../../Framework.js"></script>
+		<script type="text/javascript" src="../../ConcatCommon.js"></script>
+		<script type="text/javascript" src="../caseman_wp/WordProcessing.js"></script>
+		<script type="text/javascript" src="CreateUpdateCase.js"></script>
+	</head>
+
+	<body>
+		<form name="CreateUpdateCase" id="createUpdateCase">
+	
+			<!-- Framework Navigation Menu -->
+			<script type="text/javascript">MenuBarRenderer.createInline();</script>
+	
+			<table class="layout">
+	
+				  <!-- Header Panel -->
+				<tr>
+					<td>
+	
+						<div class="panel">
+							<table class="content">
+								<tr>
+									<td>
+		
+										<table>
+											<tr>
+												<td class="defaultLabel"><label for='Header_CaseNumber'>Case Number</label></td>
+												<td><input id="Header_CaseNumber" type="text" size="15"/></td>
+												<td>&nbsp;</td>
+											</tr>
+											<tr>
+												<td class="defaultLabel"><label for='Header_CaseType'>Case Type</label></td>
+												<td><script type="text/javascript">AutoCompletionRenderer.createInline("Header_CaseType");</script></td>
+												<td>&nbsp;</td>
+											</tr>
+											<tr>
+												<td class="defaultLabel"><label for='Header_CaseStatus'>Case Status</label></td>
+												<td><input id="Header_CaseStatus" type="text" size="30"/></td>
+												<td>&nbsp;</td>
+											</tr>
+										</table>
+		
+									</td>
+		
+									<td>
+		
+										<table>
+											<tr>
+												<td class="defaultLabel"><label for='Header_OwningCourtCode'>Owning Court</label></td>
+												<td>
+													<input id="Header_OwningCourtCode" type="text" size="5"/>
+												</td>
+												<td>
+													<script type="text/javascript">AutoCompletionRenderer.createInline("Header_OwningCourtName");</script>
+												</td>
+												<td>&nbsp;</td>
+											</tr>
+											<tr>
+												<td class="defaultLabel"><label for='Header_CaseDetails'>Details</label></td>
+												<td colspan="2">
+													<script type="text/javascript">ZoomFieldRenderer.createInline("Header_CaseDetails");</script>
+												</td>
+												<td>&nbsp;</td>
+											</tr>
+											<tr>
+												<td class="defaultLabel"><label for='Header_ParticularsOfClaimButton'>Particulars of Claim?</label></td>
+												<td colspan="2"><input id="Header_ParticularsOfClaimButton" type="Button" value="View Details"/></td>
+												<td>&nbsp;</td>
+											</tr>
+										</table>
+		
+									</td>
+		
+								</tr>
+		
+							</table>
+						</div>
+					</td>
+				</tr>
+				<!-- End Header Panel -->
+	
+				<tr>
+					<td>
+						<div class="panel">
+							<table class="content" style="height:446px;">
+		
+								<tr>
+		
+									<!-- Master Panel -->
+									<td>
+		
+										<table style="height:446px;">
+		
+											<tr>
+												<td valign="top">
+													<script type="text/javascript">Grid.createInline("masterGrid", ["Type", "Number", "Name", "Solicitor"], 25, 1);</script>
+												</td>
+											</tr>
+		
+										</table>
+		
+									</td>
+		
+									<td class="spacer">&nbsp;</td>
+		
+									<!-- Party Details Panel -->
+									<td valign="top">
+		
+										<div class="tabbedArea" id="myTabbedArea" >
+		
+											<script type="text/javascript">
+												TabSelector.createInline("myTabSelector",[{tabLabel: 'Party', pageId: 'firstPage'},
+																					 {tabLabel: 'Solicitor', pageId: 'secondPage'}]);
+											</script>
+		
+											<div class="pagedArea" id="myPagedArea">
+		
+												<div class="page" id="firstPage">
+		
+													<table>
+		
+														<tr>
+															<td valign="top">
+		
+																<table>
+		
+																	<tr>
+																		<td class="partyLabel"><label for='LitigiousParty_Code'>Name</label></td>
+																		<td colspan="2">
+																			<input id="LitigiousParty_Code" type="text" size="5"/>
+																			<input id="LitigiousParty_Name" type="text" size="40"/>
+																		</td>
+																		<td>&nbsp;</td>
+																		<td>&nbsp;</td>
+																	</tr>
+																	<tr>
+																		<td class="partyLabel"><label for='LitigiousParty_ContactDetails_Address_Line1'>Address</label></td>
+																		<td colspan="2"><input id="LitigiousParty_ContactDetails_Address_Line1" type="text" size="50"/></td>
+																		<td colspan="2">&nbsp;</td>
+																	</tr>
+																	<tr>
+																		<td>&nbsp;</td>
+																		<td colspan="2"><input id="LitigiousParty_ContactDetails_Address_Line2" type="text" size="50"/></td>
+																		<td colspan="2">&nbsp;</td>
+																	</tr>
+																	<tr>
+																		<td>&nbsp;</td>
+																		<td colspan="2"><input id="LitigiousParty_ContactDetails_Address_Line3" type="text" size="50"/></td>
+																		<td colspan="2">&nbsp;</td>
+																	</tr>
+																	<tr>
+																		<td>&nbsp;</td>
+																		<td colspan="2"><input id="LitigiousParty_ContactDetails_Address_Line4" type="text" size="50"/></td>
+																		<td colspan="2">&nbsp;</td>
+																	</tr>
+																	<tr>
+																		<td>&nbsp;</td>
+																		<td colspan="2"><input id="LitigiousParty_ContactDetails_Address_Line5" type="text" size="50"/></td>
+																		<td colspan="2">&nbsp;</td>
+																	</tr>
+																	<tr>
+																		<td class="partyLabel"><label for='LitigiousParty_ContactDetails_Address_Postcode'>Postcode</label></td>
+																		<td colspan="2"><input id="LitigiousParty_ContactDetails_Address_Postcode" type="text" size="15"/></td>
+																		<td colspan="2">&nbsp;</td>
+																	</tr>
+																	<tr>
+																		<td class="partyLabel"><label for='LitigiousParty_ContactDetails_DX'>DX Number</label></td>
+																		<td colspan="2"><input id="LitigiousParty_ContactDetails_DX" type="text" size="50"/></td>
+																		<td colspan="2">&nbsp;</td>
+																	</tr>
+																	<tr>
+																		<td class="partyLabel"><label for='LitigiousParty_ContactDetails_TelephoneNumber'>Telephone Number</label></td>
+																		<td colspan="2"><input id="LitigiousParty_ContactDetails_TelephoneNumber" type="text" size="30"/></td>
+																		<td colspan="2">&nbsp;</td>
+																	</tr>
+																	<tr>
+																		<td class="partyLabel"><label for='LitigiousParty_ContactDetails_FaxNumber'>Fax Number</label></td>
+																		<td colspan="2"><input id="LitigiousParty_ContactDetails_FaxNumber" type="text" size="30"/></td>
+																		<td colspan="2">&nbsp;</td>
+																	</tr>
+																	<tr>
+																		<td class="partyLabel"><label for='LitigiousParty_ContactDetails_EmailAddress'>Email Address</label></td>
+																		<td colspan="2"><input id="LitigiousParty_ContactDetails_EmailAddress" type="text" size="50"/></td>
+																		<td colspan="2">&nbsp;</td>
+																	</tr>
+																	<tr>
+																		<td class="partyLabel"><label for='LitigiousParty_ContactDetails_PreferredMethodOfCommunication'>Communication Method</label></td>
+																		<td colspan="2"><select id="LitigiousParty_ContactDetails_PreferredMethodOfCommunication"/></td>
+																		<td colspan="2">&nbsp;</td>
+																	</tr>
+																	<tr>
+																		<td class="partyLabel"><label for='LitigiousParty_ContactDetails_TranslationToWelsh'>Translation To Welsh</label></td>
+																		<td colspan="2"><input id="LitigiousParty_ContactDetails_TranslationToWelsh" type="checkbox"/></td>
+																		<td colspan="2">&nbsp;</td>
+																	</tr>
+																	<tr>
+																		<td class="partyLabel"><label for='LitigiousParty_Reference'>Reference</label></td>
+																		<td colspan="2"><input id="LitigiousParty_Reference" type="text" size="50"/></td>
+																		<td colspan="2">&nbsp;</td>
+																	</tr>
+																	<tr>
+																		<td class="partyLabel"><label for='LitigiousParty_DateOfService'>Date of Service</label></td>
+																		<td colspan="2"><script type="text/javascript">DatePickerRenderer.createInline("LitigiousParty_DateOfService", true);</script></td>
+																		<td colspan="2">&nbsp;</td>
+																	</tr>
+																	<tr>
+																		<td class="partyLabel"><label for='LitigiousParty_LastDateForService'>Last Date For Service</label></td>
+																		<td colspan="2"><script type="text/javascript">DatePickerRenderer.createInline("LitigiousParty_LastDateForService", true);</script></td>
+																		<td colspan="2">&nbsp;</td>
+																	</tr>
+																	<tr>
+																		<td class="partyLabel"><label for='LitigiousParty_SelectSolicitor'>Select/Deselect Solicitor</label></td>
+																		<td colspan="3">
+																			<select id="LitigiousParty_SelectSolicitor"><option>No Solicitor</option></select>
+																		</td>
+																		<td>&nbsp;</td>
+																	</tr>
+		
+																</table>
+		
+															</td>
+														</tr>
+		
+													</table>
+		
+												</div>
+		
+												<div class="page" id="secondPage">
+		
+													<table>
+		
+														<tr>
+															<td valign="top">
+		
+																<table>
+																	<tr>
+																		<td><label for='SolicitorParty_Code'>Solicitor</label></td>
+																		<td>
+																			<input id="SolicitorParty_Code" type="text" size="5"/>
+																			<input id="SolicitorParty_Name" type="text" size="40"/>
+																		</td>
+																		<td>&nbsp;</td>
+																	</tr>
+																	<tr>
+																		<td><label for='SolicitorParty_ContactDetails_Address_Line1'>Address</label></td>
+																		<td><input id="SolicitorParty_ContactDetails_Address_Line1" type="text" size="50"/></td>
+																		<td>&nbsp;</td>
+																	</tr>
+																	<tr>
+																		<td>&nbsp;</td>
+																		<td><input id="SolicitorParty_ContactDetails_Address_Line2" type="text" size="50"/></td>
+																		<td>&nbsp;</td>
+																	</tr>
+																	<tr>
+																		<td>&nbsp;</td>
+																		<td><input id="SolicitorParty_ContactDetails_Address_Line3" type="text" size="50"/></td>
+																		<td>&nbsp;</td>
+																	</tr>
+																	<tr>
+																		<td>&nbsp;</td>
+																		<td><input id="SolicitorParty_ContactDetails_Address_Line4" type="text" size="50"/></td>
+																		<td>&nbsp;</td>
+																	</tr>
+																	<tr>
+																		<td>&nbsp;</td>
+																		<td><input id="SolicitorParty_ContactDetails_Address_Line5" type="text" size="50"/></td>
+																		<td>&nbsp;</td>
+																	</tr>
+																	<tr>
+																		<td><label for='SolicitorParty_ContactDetails_Address_Postcode'>Postcode</label></td>
+																		<td><input id="SolicitorParty_ContactDetails_Address_Postcode" type="text" size="15"/></td>
+																		<td>&nbsp;</td>
+																	</tr>
+																	<tr>
+																		<td><label for='SolicitorParty_ContactDetails_DX'>DX Number</label></td>
+																		<td><input id="SolicitorParty_ContactDetails_DX" type="text" size="50"/></td>
+																		<td>&nbsp;</td>
+																	</tr>
+																	<tr>
+																		<td><label for='SolicitorParty_ContactDetails_TelephoneNumber'>Telephone Number</label></td>
+																		<td><input id="SolicitorParty_ContactDetails_TelephoneNumber" type="text" size="30"/></td>
+																		<td>&nbsp;</td>
+																	</tr>
+																	<tr>
+																		<td><label for='SolicitorParty_ContactDetails_FaxNumber'>Fax Number</label></td>
+																		<td><input id="SolicitorParty_ContactDetails_FaxNumber" type="text" size="30"/></td>
+																		<td>&nbsp;</td>
+																	</tr>
+																	<tr>
+																		<td><label for='SolicitorParty_ContactDetails_EmailAddress'>Email Address</label></td>
+																		<td><input id="SolicitorParty_ContactDetails_EmailAddress" type="text" size="50"/></td>
+																		<td>&nbsp;</td>
+																	</tr>
+																	<tr>
+																		<td><label for='SolicitorParty_ContactDetails_PreferredMethodOfCommunication'>Communication Method</label></td>
+																		<td>
+																			<select id="SolicitorParty_ContactDetails_PreferredMethodOfCommunication"/>
+																		</td>
+																		<td>&nbsp;</td>
+																	</tr>
+																	<tr>
+																		<td><label for='SolicitorParty_Reference'>Reference</label></td>
+																		<td><input id="SolicitorParty_Reference" type="text" size="50"/></td>
+																		<td>&nbsp;</td>
+																	</tr>
+																	<tr>
+																		<td><label for='SolicitorParty_Payee'>Payee?</label></td>
+																		<td><input id="SolicitorParty_Payee" type="checkbox"/></td>
+																		<td>&nbsp;</td>
+																	</tr>
+		
+																</table>
+		
+															</td>
+														</tr>
+		
+													</table>
+		
+												</div>
+											</div>
+										</div>
+		
+									</td>
+									<!-- End Party Details Panel -->
+		
+								</tr>
+		
+							</table>
+						</div>
+					</td>
+				</tr>
+	
+				<!-- Footer Panel -->
+				<tr>
+					<td>
+						<div class="panel">
+							<table class="content">
+								<tr>
+									<td>
+		
+										<table>
+											<tr>
+												<td class="defaultLabel"><label for='Footer_DetailsOfClaimButton'>Details of Claim</label></td>
+												<td><input id="Footer_DetailsOfClaimButton" type="button" value="Add Details" class="addUpdateButton"/></td>
+												<td class="footerSpacer">&nbsp;</td>
+												<td class="defaultLabel"><label for='Footer_HearingDetailsButton'>Hearing Details</label></td>
+												<td><input id="Footer_HearingDetailsButton" type="button" value="Add Details" class="addUpdateButton"/></td>
+												<td class="footerSpacer">&nbsp;</td>
+												<td style="width:200px;"><label for='Footer_OtherPossessionAddressButton'>Other Possession Address</label></td>
+												<td><input id="Footer_OtherPossessionAddressButton" type="button" value="Add Details" class="addUpdateButton"/></td>
+											</tr>
+										</table>
+		
+									</td>
+		
+								</tr>
+		
+							</table>
+						</div>
+					</td>
+				</tr>
+				<!-- End Footer Panel -->
+	
+			</table>
+			
+			<!-- Status Bar Panel -->
+			<script type="text/javascript">
+				ActionBarRenderer.createInline(
+					"status_bar",
+					[
+						{id: "Status_SaveButton", label: "Copy"},
+						{id: "Status_ClearButton", label: "Clear"},
+						{id: "Status_CloseButton", label: "Close"}
+					]
+				);
+			</script>
+			<!-- End Status Bar Panel -->
+	
+			<!--  Form Extension Popups -->
+	
+			<!-- Notification Date popup -->
+			<div class="popup" id="Create_Copy_Popup">
+				<table class="content">
+					<tr>
+						<td nowrap><label for="CreateCopyPopup_NewCaseNumber">New Case Number</label><br/></td>
+						<td colspan="3"><input type="text" id="CreateCopyPopup_NewCaseNumber" size=15 /></td>
+					</tr>
+					<tr>
+						<td class="defaultLabel" nowrap><label for='CreateCopyPopup_OwningCourtCode'>New Owning Court</label></td>
+						<td align="left" style="width:55px;">
+							<input id="CreateCopyPopup_OwningCourtCode" type="text" size="5"/>
+						</td>
+						<td align="left" style="width:180px;">
+							<script type="text/javascript">AutoCompletionRenderer.createInline("CreateCopyPopup_OwningCourtName");</script>
+						</td>
+						<td align="left"><input id="CreateCopyPopup_OwningCourtLOVButton" type="Button" value="LOV" style="margin-right: 10px;"/></td>
+					</tr>
+					<tr>
+						<td nowrap><label for="CreateCopyPopup_CopyJudgmentsFlag">Copy Judgments</label><br/></td>
+						<td colspan="3"><input type="checkbox" id="CreateCopyPopup_CopyJudgmentsFlag" /></td>
+					</tr>
+					<tr style="height:2px;">
+						<td colspan="4">&nbsp;</td>
+					</tr>
+					<tr>
+						<td colspan="4" align="center">
+							<label>
+								Warning - Changing the Owning Court of the case will convert any local coded parties to non coded parties.  Any historical addresses will be removed.
+							</label>
+						</td>
+					</tr>
+					<tr style="height:2px;">
+						<td colspan="4">&nbsp;</td>
+					</tr>
+					<tr>
+						<td colspan="4" align="right">
+							<input class="popupButton" type="button" value="Save" id="CreateCopyPopup_SaveButton"/>
+							<input class="popupButton" type="button" value="Cancel" id="CreateCopyPopup_CancelButton"/>
+						</td>
+					</tr>
+				</table>
+			</div>
+			<!-- End Notification Date popup -->
+			
+			<!-- Non-visual data change listeners -->
+			<div class="logic" id="populateSolicitorListLogic"></div>
+	
+			<!-- LOV POPUPs -->
+			<script type="text/javascript">LOVSubformRenderer.createInline( "CourtsLOVGrid", "Courts", ["Code", "Court"], 10, 1, true );</script>
+	
+			<!-- SUBFORMS -->
+			<div class="popup popupsubform" id="ProgressBar_SubForm"></div>
+	
+		</form>
+	
+	</body>
+
+</html>

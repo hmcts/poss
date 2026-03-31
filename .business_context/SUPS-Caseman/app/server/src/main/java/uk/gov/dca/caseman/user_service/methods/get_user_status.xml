@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<service-method>
+	<pipeline>
+		<Query>
+			<QueryDef location="uk/gov/dca/caseman/user_service/query_def_user_status.xml"/>
+			<QueryExtension pivotNode="/Users/User" tables="DU, UC">
+				<!-- We need to specify another name for the user id to search for -->
+				<!-- because of the common parameter user id who is the logged in user -->
+				<Param name="param.UserId" xpath="/params/param[@name='getUserId']"/>												
+				<Constraint>
+					DU.USER_ID = ${param.UserId} 
+				</Constraint>	
+			</QueryExtension>
+	    </Query>     
+	</pipeline>
+	
+	<Security roles="admin"/>
+</service-method> 

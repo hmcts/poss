@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: Court
+	Method:  addCourt
+	File:    add_court.xml
+	Author:  Chris Vincent (EDS)
+	Created: 24 November 2005
+	Description: Adds a new court to the database
+-->
+<service-method>
+	<pipeline>
+		<Add>
+			<QueryDef location="uk/gov/dca/caseman/court_service/query_def_add.xml"/>
+			<DataSource xpath="/params/param[@name='courtDetails']"/>
+
+			<QueryExtension pivotNode="/Court">
+				<Field name="P.CRT_CODE" xpath="Code"/>
+				<CheckExists table="CT" fields="CODE" onNotExist="add" onExist="fail"/>
+				<CheckExists table="P" fields="CRT_CODE" onNotExist="add" onExist="fail"/>
+			</QueryExtension>
+
+		</Add>
+	</pipeline>
+	<Security roles="edsAdmin"/>		
+</service-method>

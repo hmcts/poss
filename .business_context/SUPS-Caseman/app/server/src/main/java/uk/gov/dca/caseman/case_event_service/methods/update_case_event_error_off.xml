@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: 	CaseEvent
+	Method:  	updateCaseEventErrorOff()
+	File:    	update_case_event_error_off.xml
+	Author:  	Chris Hutt (gzyysf)
+	Created: 	8th August 2007
+	Description:	Used to put an event in error, and perform all the other associated updates
+	                Created as part of addressing defect UCTGroup2 1474 which requires an events 230,240,250
+	                to be 'errored off' if the user decides not  top proceed once getting into the Q&A screen.
+	                By this stage the event will have already been committed to the database.       
+-->
+<service-method>
+	<pipeline>
+		<Java callStyle="new">
+			<Source class="uk.gov.dca.caseman.case_event_service.java.UpdateCaseEventErrorOffCustomProcessor"/>
+		</Java>
+	</pipeline>
+	<Security roles="medium high wcSuper scSuper bmsSuper aeSuper dmSuper cpSuper ccbcMan ccbcUser ccbcSGB2"/>
+</service-method>

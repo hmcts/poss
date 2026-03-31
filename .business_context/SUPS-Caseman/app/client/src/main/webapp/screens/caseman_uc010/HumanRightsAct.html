@@ -1,0 +1,223 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3c.org/TR/html4/strict.dtd">
+<html>
+
+	<head>
+		<title>HumanRightsAct</title>
+		<link href="ViewHumanRightsActEventDetail.css" type="text/css" rel="stylesheet" title="Default">
+		<script type="text/javascript" src="../../Framework.js"></script>
+		<script type="text/javascript" src="../../ConcatCommon.js"></script>
+		<script type="text/javascript" src="ViewHumanRightsActEventDetail.js"></script> 
+	</head>
+
+	<body>
+		<form id="HumanRightsAct" name="HumanRightsAct">
+		
+			<!-- Framework Navigation Menu -->
+			<script type="text/javascript">MenuBarRenderer.createInline();</script>
+	    	
+	    	<table class="layout">        
+	      		<tr>
+	        		<td>            
+	          			<!-- Start Case Details Panel -->
+	          			<div class="panel">
+	            			<table class="content">
+	              				<tr>
+	
+	                				<td>
+	                 					<!-- Start Search Panel -->
+	                  					<table>
+
+	                    					<tr style="height:10px;"><td></td></tr>
+	                    					
+	                    					<tr>
+	                      						<td class="defaultLabel"><label for="Header_StartDateTxt">Start Date</label></td>
+	                      						<td colspan="3">
+	                        						<script type="text/javascript">
+	                          							DatePickerRenderer.createInline("Header_StartDateTxt", false);
+	                        						</script>
+	                      						</td>
+	                    					</tr>
+	                    					
+	                    					<tr>  
+	                      						<td class="defaultLabel"><label for="Header_EndDateTxt">End Date</label></td>
+	                      						<td>
+	                        						<script type="text/javascript">
+	                          							DatePickerRenderer.createInline("Header_EndDateTxt", false);
+	                       							</script>
+	                      						</td>
+	                      						<td style="width:215px;">&nbsp;</td>
+	                      						<td><input id="Header_SearchBtn" type="button" value="Search"/></td>
+	                    					</tr>
+	                    					
+	                  					</table>
+	                 					<!-- End Search Panel -->                
+	                				</td>
+	              				</tr>
+	              				
+	              				<tr style="height:10px;"><td></td></tr>
+	              				
+	              				<tr>
+	                				<td>
+	                  					<!-- Start Case Parties Details -->
+	                  					<table>
+	                    					<tr>
+	                      						<td>
+	                        						<script type="text/javascript">
+	                          							Grid.createInline(
+	                            							"Parties_ResultsGrid", 
+	                            							["Case Number", "Party Name", "Number", "Party Role"], 3, 1
+	                          							);
+	                        						</script>
+	                      						</td>
+	                    					</tr>
+	                  					</table>
+	                  					<!-- End Case Parties Details -->
+	                				</td> 
+	              				</tr>
+	              				
+	            			</table>
+	          			</div>
+	          			<!-- End Case Details Panel -->
+	          
+	          			<!-- Start Main Content Panel -->
+	          			<div class="panel">
+	            			<table class="content">
+	              				<tr>
+									<td style="height:390px;">            
+	                  					<!-- Start Master Details -->
+	                 					<table style="width:100%;">
+	                 					
+	                    					<tr style="height:10px;"><td></td></tr>
+	                    					
+	                    					<tr>
+	                      						<td>                
+	                        						<!-- Start Main Top Details-->
+	                        						<table>
+	                        						
+	                          							<tr>
+	                            							<td class="defaultLabel"><label for="Master_EventDateTxt">Event Date</label></td> 
+	                            							<td>
+								                            	<script type="text/javascript">
+								                                	DatePickerRenderer.createInline("Master_EventDateTxt", true);
+								                              	</script>
+	                            							</td>
+	                          							</tr>
+	
+	                          							<tr>
+	                            							<td class="defaultLabel"><label for="Master_UserNameTxt">Created By</label></td>
+	                            							<td><input id="Master_UserNameTxt" type="text" size="30"></td>
+	                          							</tr>
+	
+	                          							<tr>
+	                            							<td><label for="Master_ApplicationDateTxt">Application Date</label></td>
+	                            							<td>
+	                              								<script type="text/javascript">
+	                                								DatePickerRenderer.createInline("Master_ApplicationDateTxt", true);
+	                              								</script>
+	                            							</td>
+	                          							</tr>
+	
+	                          							<tr>
+	                            							<td class="defaultLabel"><label for="Master_ApplicationJudgeTxt">Application Judge</label></td>
+	                            							<td><input id="Master_ApplicationJudgeTxt" type="text" size="80"></td>
+	                          							</tr>
+	
+	                        						</table>
+	                        						<!-- End Main Top Details-->
+	                      						</td>
+	                    					</tr>
+	
+	                    					<tr style="height:7px;"><td></td></tr>
+	
+	                    					<tr>
+	                      						<td>              
+	                        						<!-- Start Article Grids Details-->
+	                        						<table>
+	
+	                          							<tr>
+	                            							<td>
+	                              								<script type="text/javascript">
+	                                								Grid.createInline(
+	                                  									"Article_ResultsGrid", 
+	                                  									["Article Number", "Article Description"], 4, 1
+	                                								);
+	                              								</script>
+	                            							</td>
+	                          							</tr>
+	
+	                          							<tr>
+	                            							<td>
+	                              								<script type="text/javascript">
+	                                								Grid.createInline(
+	                                  									"Protocol_ResultsGrid", 
+	                                  									["Protocol Number", "Protocol Description"], 4, 1
+	                                								);
+	                              								</script>
+	                            							</td>
+	                          							</tr>
+	
+	                        						</table>
+	                        						<!-- End Article Grids Details -->
+	                      						</td>
+	                    					</tr>
+	
+	                    					<tr style="height:7px;"><td></td></tr>
+	
+	                    					<tr>  
+	                      						<td>                  
+	                        						<!-- Start Footer Grids Details -->  
+	                        						<table>
+	
+	                          							<tr>
+	                            							<td class="defaultLabel"><label for="Master_OutcomeTxt">Outcome</label></td>
+	                            							<td><input id="Master_OutcomeTxt" type="text" size="8"></td>
+	                          							</tr>
+	
+	                          							<tr>
+	                            							<td class="defaultLabel"><label for="Master_ErrorChk">Error</label></td>
+	                            							<td><input id="Master_ErrorChk" type="checkbox"></td>
+	                          							</tr>
+	
+	                          							<tr>
+	                            							<td class="defaultLabel"><label for="Master_PartyTxt">Party</label></td>
+	                            							<td><input id="Master_PartyTxt" type="text" size="10"></td>
+	                          							</tr>
+	
+	                          							<tr>
+	                            							<td class="defaultLabel"><label for="Master_PartyNameTxt">Party Name</label></td>
+	                            							<td colspan="5"><input id="Master_PartyNameTxt" type="text" size="130"></td>
+	                          							</tr>
+	
+	                        						</table>
+	                        						<!-- End Footer Grids Details -->
+	                      						</td>
+	                    					</tr>
+	                    					
+	                  					</table>
+	                  					<!-- End Master Details -->
+	                				</td>
+	              				</tr>
+	            			</table>
+	          			</div>
+	          			<!-- End Main Content Panel -->
+	        		</td>
+	      		</tr>
+	    	</table>
+	
+	    	<script type="text/javascript">
+	      		ActionBarRenderer.createInline(
+	        		"status_bar",
+	        		[
+	          			{id: "Status_CloseBtn", label: "Close"}
+	        		]
+	      		);
+	    	</script>
+
+			<!-- LOV POPUPs -->
+			<script type="text/javascript">LOVSubformRenderer.createInline( "SearchResultsLOVGrid", "Search Results", ["Case Number", "Event Date", "Applicant Name", "Date Of Application"], 10, 1, true );</script>
+
+		</form>
+
+	</body>
+
+</html>

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<DBMapDef>
+	<DataSource id="java:OracleDS"/>
+	<Tables>
+		<Table alias="WFT" name="WINDOW_FOR_TRIAL"/>
+	</Tables>
+	<Mapping>
+  		<WindowsForTrial>
+			<WindowForTrial>
+				<ID>${WFT.WFT_ID}</ID>
+				<CaseNumber>${WFT.WFT_CASE_NUMBER}</CaseNumber>
+				<CurrentCourt>${WFT.WFT_CURRENT_COURT}</CurrentCourt>
+				<Status>${WFT.WFT_STATUS}</Status>
+				<OutcomeDate>${WFT.WFT_OUTCOME_DATE}</OutcomeDate>
+				<StartDate>${WFT.WFT_START_DATE}</StartDate>
+				<EndDate>${WFT.WFT_END_DATE}</EndDate>
+				<Track>${WFT.WFT_TRACK}</Track>
+				<JudgesName>${WFT.WFT_JUDGES_NAME}</JudgesName>
+				<ReasonForAdj>${WFT.WFT_REASON_FOR_ADJ}</ReasonForAdj>
+				<Notes>${WFT.WFT_NOTES}</Notes>
+				<ConfFlag>${WFT.WFT_CASE_MANAGE_CONF_FLAG}</ConfFlag>
+				<ConfDate>${WFT.WFT_CASE_MANAGE_CONF_DATE}</ConfDate>
+				<EstimatedDays>${WFT.WFT_ESTIMATED_DAYS}</EstimatedDays>
+				<EstimatedHours>${WFT.WFT_ESTIMATED_HOURS}</EstimatedHours>
+				<EstimatedMins>${WFT.WFT_ESTIMATED_MINS}</EstimatedMins>
+				<ExtractedForDM>${WFT.WFT_EXTRACTED_FOR_DM}</ExtractedForDM>
+				<Old_Status>${WFT.WFT_OLD_STATUS}</Old_Status>
+				<OldOutcomeDate>${WFT.WFT_OLD_OUTCOME_DATE}</OldOutcomeDate>
+			</WindowForTrial>
+		</WindowsForTrial>
+ 	</Mapping>
+</DBMapDef> 

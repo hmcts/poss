@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>315</Id>
+	<Label>Description of other notice type</Label>
+	<ObjectName>OtherNoticeType</ObjectName>
+
+	<Html>		
+		<input type="text" id="OtherNoticeType"></input>
+	</Html>
+		
+	<Javascript>
+		<XPath>/ds/EnterVariableData/ConfNotice/otherNoticeType</XPath>
+		<HintText>Enter the description of other notice type</HintText>						
+		<isMandatory>return true;</isMandatory>
+		<enableOn>NoticeType2.dataBinding</enableOn>
+		<isEnabled>return('OTH' == Services.getValue(NoticeType2.dataBinding));</isEnabled>
+		<logicOn>NoticeType2.dataBinding</logicOn>
+		<logic>
+			if('OTH' != Services.getValue(NoticeType2.dataBinding))
+			{	Services.setValue(OtherNoticeType.dataBinding, "");
+			}
+		</logic>
+		
+		<Context ScreenId="CO02">
+			<HintText>Enter notice type</HintText>	
+			<enableOn>NoticeType2Ent.dataBinding</enableOn>
+			<isEnabled>return( 'OTH' == Services.getValue(NoticeType2Ent.dataBinding));</isEnabled>
+			<logicOn>NoticeType2Ent.dataBinding</logicOn>
+			<logic>
+				if( 'OTH' != Services.getValue(NoticeType2Ent.dataBinding))
+				{ Services.setValue(OtherNoticeType.dataBinding, "");
+				}
+			</logic>
+		</Context>
+	</Javascript>
+</Question>

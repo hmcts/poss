@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<service-method>
+	<pipeline>
+		  <LinkedQuery>
+			<QueryDef location="uk/gov/dca/test_project/linked_service/session_query_def.xml"/>
+			<QueryExtension pivotNode="/Sessions/Session">
+				<Param name="param.sessionId" xpath="/params/param[@name='sessionId']"/>
+				<Constraint>C.ID = ${param.sessionId}</Constraint>
+			</QueryExtension>
+		</LinkedQuery>
+	</pipeline>
+	<Security roles="user"/>
+</service-method>

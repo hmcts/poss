@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<pl:system-content xmlns:pl="http://www.polarlake.com/platform/1.0">
+    <pl:circuit name="SUPSWindowForTrialEmailsBoot.cir">
+        <pl:definitions>
+            <pl:definition name="SUPSWindowForTrialEmails.cir" value="file:///{pl$caseman_home}/Downlink/circuits/SUPSWindowForTrialEmails.cir"/>
+        </pl:definitions>
+        <pl:importcircuit name="com.polarlake.circuits.BaseCircuit"/>
+        <pl:importcircuit name="SUPSWindowForTrialEmails.cir"/>
+        <pl:application-data name="Resources" type="Resources">
+            <pl:application-data name="Functions" type="functions" application="com.polarlake.platform.librarymodule.LibraryModuleApplication"/>
+            <pl:application-data name="Initial Contexts" type="initialcontexts" application="com.polarlake.platform.librarymodule.LibraryModuleApplication"/>
+            <pl:application-data name="Scripts" type="scripts" application="com.polarlake.platform.librarymodule.LibraryModuleApplication"/>
+            <pl:application-data name="Statistics sensors" type="sensors" application="com.polarlake.sysinfo.SystemInformation"/>
+            <pl:application-data name="Condition Groups" type="conditiongroups" application="com.polarlake.platform.librarymodule.LibraryModuleApplication"/>
+            <pl:application-data name="XML Wrapper Request Processors" type="Wrapper-Request-Processors" application="com.polarlake.requestprocessors.wrapper.WrapperApplication"/>
+            <pl:application-data name="Document Variables" type="documentvariables" application="SYSTEM"/>
+            <pl:application-data name="Format Request processors" type="FormatRequestProcessors" application="com.polarlake.platform.librarymodule.LibraryModuleApplication"/>
+            <pl:application-data name="Server Document Variables" type="serverdocumentvariables" application="SYSTEM"/>
+            <pl:application-data name="ScheduledEvents" type="ScheduledEvents" application="com.polarlake.scheduler.SchedulerModuleApplication"/>
+            <pl:application-data name="Non-XML formats" type="formats" application="com.polarlake.platform.nonxml.NonXmlBuilder"/>
+            <pl:application-data name="Databases" type="dbroot" application="com.polarlake.platform.databasemodule.DatabaseModuleApplication"/>
+        </pl:application-data>
+        <pl:seqlist name="Your Sequence"/>
+        <pl:seqlist name="Exception Sequence">
+            <pl:eventprocessor name="pl:printmessage" disable="false">
+                <pl:parameter name="design">
+                    <pl:parameter name="uid" value="3"/>
+                    <pl:parameter name="alias" value="Print Exception Message"/>
+                </pl:parameter>
+                <pl:parameter name="trigger" value="start"/>
+                <pl:parameter name="message" value="Exception Encountered!"/>
+            </pl:eventprocessor>
+            <pl:eventprocessor name="pl:script" disable="false">
+                <pl:parameter name="design">
+                    <pl:parameter name="uid" value="2"/>
+                    <pl:parameter name="alias" value="Output Exception"/>
+                </pl:parameter>
+                <pl:parameter name="name" value="outputDocument"/>
+            </pl:eventprocessor>
+        </pl:seqlist>
+        <pl:table name="Main Table" operation="create">
+            <pl:namespace uri="http://www.w3.org/2001/XMLSchema" prefix="xs" operation="create"/>
+            <pl:namespace uri="http://www.polarlake.com/platform/1.0" prefix="pl" operation="create"/>
+            <pl:entry factory="com.polarlake.platform.event.NamedEventProcessorFactory" rule="/pl:exception" operation="create">
+                <pl:parameter name="epName" value="Exception Sequence"/>
+            </pl:entry>
+            <pl:entry factory="com.polarlake.platform.event.NamedEventProcessorFactory" rule="/*" operation="create">
+                <pl:parameter name="epName" value="Your Sequence"/>
+            </pl:entry>
+        </pl:table>
+        <pl:action name="transportprovider.command">
+            <pl:parameter name="command" value="start"/>
+            <pl:parameter name="application" value="SYSTEM"/>
+            <pl:parameter name="provider" value="xmltserverprovider"/>
+            <pl:parameter name="port" value="{pl$XmltPort-BootSupsWindowForTrialEmails}"/>
+            <pl:parameter name="process_priority" value="5"/>
+            <pl:parameter name="ackonreceipt" value="false"/>
+            <pl:parameter name="ackonprocessed" value="false"/>
+            <pl:parameter name="design">
+                <pl:parameter name="uid" value="1592"/>
+            </pl:parameter>
+        </pl:action>
+    </pl:circuit>
+</pl:system-content>

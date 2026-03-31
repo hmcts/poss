@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: Bms
+	Method:  addBmsRuleNonEvent()
+	File:    add_bms_rule_non_event.xml
+	Author:  Amjad Khan
+	Created: 06 Jun 2005
+	Description:
+		Adds Non Case Event based Bms tasks into the Task Counts table
+-->
+<service-method>
+	<pipeline>
+		<Java>
+			<Source class="uk.gov.dca.caseman.bms_service.java.BMSNonEventBusinessHelperCustomProcessor"/>
+		</Java>
+	</pipeline>
+	<Dependencies>
+		<Dependency serviceName="NonWorkingDay"/>		
+		<Dependency serviceName="Warrant"/>		
+		<Dependency serviceName="SystemDate"/>	
+		<Dependency serviceName="UserCourt"/>
+		<Dependency serviceName="Case"/>		
+	</Dependencies>		
+	<Security roles="medium high wcSuper scSuper bmsSuper aeSuper dmSuper cpSuper ccbcMan ccbcUser ccbcSGB2"/>
+</service-method>

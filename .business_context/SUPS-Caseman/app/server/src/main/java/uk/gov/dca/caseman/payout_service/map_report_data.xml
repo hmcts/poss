@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<DBMapDef>
+	<DataSource id="java:OracleDS" />
+	<Tables>
+		<Table alias="RD" name="REPORT_DATA" />
+	</Tables>
+	<Mapping>
+		<ReportData>
+			<UserID>${RD.USER_ID}</UserID>
+			<ReportType>${RD.REPORT_TYPE}</ReportType>
+			<ReportNumber>${RD.REPORT_NUMBER}</ReportNumber>
+			<ReportDate>${RD.REPORT_DATE}</ReportDate>
+			<CourtCode>${RD.ADMIN_COURT_CODE}</CourtCode>
+		</ReportData>
+	</Mapping>
+</DBMapDef>

@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- ====================================================================== -->
+<!--  -->
+<!-- FILENAME: $Source: C:/CVSRepository/serveroas/src/uk/gov/dca/caseman/wordprocessing_templates/Notice/CJR093/CJR093-FO.xml,v $ -->
+<!--  -->
+<!-- AUTHOR: $Author: narges $-->
+<!--  -->
+<!-- DATE: $Date: 2006/04/24 18:21:56 $ -->
+<!--  -->
+<!-- Version: $Revision: 1.9 $ -->
+<!--  -->
+<!-- DESCRIPTION: This stylesheet is used to create an XSL:FO document that -->
+<!-- can be processed into a PDF version.  Business logic -->
+<!-- is embedded to generate the correct document text for the order -->
+<!-- required. -->
+<!--  -->
+<!-- INPUTS: XML document containing: the answers to questions asked of the -->
+<!-- user; case data retrieved from the database; HTML representing the  -->
+<!-- body of the document content (already edited by the user). -->
+<!--  -->
+<!-- OUTPUTS: XML document with FO tags containing instructions for the -->
+<!-- creation of a PDF document. -->
+<!--  -->
+<!-- ====================================================================== -->
+<root xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:fo="http://www.w3.org/1999/XSL/Format" xmlns="http://eds.com/supsfo">
+	<variables>@word.processing.url.xsl@supsfo.xsl</variables>
+	<duplex/>
+	<layout famenf="true">order</layout>
+	<addressee>
+		<blank/>
+		<subject/>
+		<instigators/>
+	</addressee>
+	<header>
+		<fo:block font-size="16pt" font-weight="bold">Interim charging order</fo:block>
+		<xsl:if test="$vdDistrictRegistry = 'F'">	
+			<fo:block font-size="12pt" font-weight="bold">FPR Part 40</fo:block>
+		</xsl:if>
+	</header>
+	<courtcase>
+		<court>
+			<xsl:copy-of select="$vdCourtHeaderBlock"/>
+		</court>
+		<caseparameters>
+			<parameter>
+				<name>
+					<fo:block font-weight="bold">Claim Number</fo:block>
+				</name>
+				<value>
+					<fo:block>
+						<xsl:value-of select="$vdClaimNumber"/>
+					</fo:block>
+				</value>
+			</parameter>
+			<parameter>
+				<name>
+					<fo:block font-weight="bold">Date</fo:block>
+				</name>
+				<value>
+					<fo:block>
+						<xsl:value-of select="$vdEventDate"/>
+					</fo:block>
+				</value>
+			</parameter>
+		</caseparameters>
+	</courtcase>
+	<bodyintroright><fo:block space-before="0.4cm"><fo:inline text-align="center"><seal/></fo:inline></fo:block></bodyintroright>
+
+	<body>
+		<editable useid="N1008D">
+		<fo:block space-after="0.6cm"/>
+		<fo:block space-after="0.4cm">
+			<fo:inline font-weight="bold">On</fo:inline>&#xa0;<xsl:value-of select="$vdInterimChargingOrderDate2"/>, <xsl:value-of select="$vdCourtorJudge"/> considered the application of the <xsl:value-of select="$vdFamEnfCreditor"/>, from which it appears:
+		</fo:block>
+		<fo:block space-after="0.4cm">
+			a) a judgment or order given on <xsl:value-of select="$vdInterimChargingOrderDate"/><xsl:value-of select="$vdJudgmentOtherCourt"/> ordered the <xsl:value-of select="$vdFamEnfDebtor"/>  to pay money to the <xsl:value-of select="$vdFamEnfCreditor2"/>;
+		</fo:block>
+		<fo:block space-after="0.4cm">
+			b) the amount now owing under the judgment or order is &#163;<xsl:call-template name="correctCalculation">
+			<xsl:with-param name="value"><xsl:value-of select="$vdAmountOutstanding"/></xsl:with-param>
+		</xsl:call-template> (including any interest and costs); and
+		</fo:block>
+		<fo:block space-after="0.4cm">
+			c) the <xsl:value-of select="$vdFamEnfDebtor2"/> is the owner of, or has a beneficial interest in the asset described in the schedule below; 
+		</fo:block>
+		<fo:block>
+			<fo:inline font-weight="bold">and the court orders that</fo:inline>
+		</fo:block>
+		<fo:block space-after="0.4cm">
+			<fo:inline font-weight="bold">1.</fo:inline> The interest of the <xsl:value-of select="$vdFamEnfDebtor2"/>&#xa0;<xsl:value-of select="$vdSubjectName"/> in the asset described in the schedule below stand charged with payment of &#163;<xsl:value-of select="$vdAmountOutstanding"/> together with any further interest becoming due and the costs of the application.
+		</fo:block>
+		<fo:block space-after="0.4cm">
+			<fo:inline font-weight="bold">2.</fo:inline> The <xsl:value-of select="$vdFamEnfCreditor2"/> must serve all relevant persons with the application notice, interim charging order and all documents filed in support in accordance with <xsl:value-of select="$vdCJR093Policy"/>.
+		</fo:block>
+
+		<!-- When the court officer considered the application -->
+		<xsl:if test="variabledata/notice/whoconsideredapplication = 'C'">	
+			<xsl:if test="$vdDistrictRegistry != 'F'">	
+				<fo:block>
+					Notice to parties served with this interim charging order
+				</fo:block>
+			</xsl:if>
+			<fo:block space-after="0.4cm">
+				<fo:inline font-weight="bold">3.</fo:inline> Where the interim charging order has been made by a court officer, any party may request that the decision be reconsidered by a District Judge.  A request for reconsideration must be filed at the County Court Money Claims Centre within 14 days after a party is served with this order.  
+				Reconsideration of the decision will take place without a hearing.
+			</fo:block>
+			<fo:block space-after="0.4cm">
+				<fo:inline font-weight="bold">4.</fo:inline> Unless the <xsl:value-of select="$vdFamEnfDebtor2"/> or any other person files and serves their objection to the continuation of the charge in writing, within 28 days of the date of service of the order, 
+				the application will be considered by a District Judge no later than <xsl:value-of select="$vdInterimOrderDeadlineDate"/>.  The District Judge will consider, without a hearing, whether the charge created by this order should be made final (with or without modification) or should be discharged.
+			</fo:block>
+			<xsl:if test="$vdCourtCode != '390' and $vdCourtCode != '391'">	
+				<fo:block space-after="0.4cm">
+					<fo:inline font-weight="bold">5.</fo:inline> The application will be heard at <xsl:value-of select="$vdHearingTime"/> on <xsl:value-of select="$vdHearingDate1"/> at <xsl:value-of select="$vdHearingCourtNameDescription"/>, <xsl:value-of select="$vdHearingCourtAddress"/> when a judge will decide whether the charge 
+					created by this order should continue (with or without modification) or should be discharged.
+				</fo:block>
+			</xsl:if>
+		</xsl:if>
+		
+		<!-- When the judge considered the application and entered a transfer court -->
+		<xsl:if test="variabledata/notice/whoconsideredapplication = 'J' and string-length(variabledata/notice/n86transfercourtname) > 0">	
+			<fo:block space-after="0.4cm">
+				<fo:inline font-weight="bold">3.</fo:inline> The application has been transferred to <xsl:value-of select="$vdN86TransferCourtName"/>. Any communication in respect of the application and Interim Charging Order must be made to that Court.
+			</fo:block>
+			<xsl:if test="$vdCourtCode != '390' and $vdCourtCode != '391'">	
+				<fo:block space-after="0.4cm">
+					<fo:inline font-weight="bold">4.</fo:inline> The application will be heard at <xsl:value-of select="$vdHearingTime"/> on <xsl:value-of select="$vdHearingDate1"/> at <xsl:value-of select="$vdHearingCourtNameDescription"/>, <xsl:value-of select="$vdHearingCourtAddress"/> when a judge will decide whether the charge 
+					created by this order should continue (with or without modification) or should be discharged.
+				</fo:block>
+			</xsl:if>
+		</xsl:if>
+		
+		<!-- When the judge considered the application and did not enter a transfer court -->
+		<xsl:if test="variabledata/notice/whoconsideredapplication = 'J' and string-length(variabledata/notice/n86transfercourtname) = 0">	
+			<xsl:if test="$vdCourtCode != '390' and $vdCourtCode != '391'">	
+				<fo:block space-after="0.4cm">
+					<fo:inline font-weight="bold">3.</fo:inline> The application will be heard at <xsl:value-of select="$vdHearingTime"/> on <xsl:value-of select="$vdHearingDate1"/> at <xsl:value-of select="$vdHearingCourtNameDescription"/>, <xsl:value-of select="$vdHearingCourtAddress"/> when a judge will decide whether the charge 
+					created by this order should continue (with or without modification) or should be discharged.
+				</fo:block>
+			</xsl:if>
+		</xsl:if>
+		
+		<fo:block space-after="0.4cm" text-align="center" font-weight="bold">The Schedule</fo:block>
+		<fo:block/>
+		<xsl:if test="$vdIsLand = 'Y'">
+			<fo:block>
+				The address of the land or property charged is
+				<xsl:choose> 
+					<xsl:when test="$vdIsLandAddress = 'Y'"> <xsl:copy-of select="$vdSubjectAddress"/></xsl:when>
+					<xsl:otherwise> <xsl:copy-of select="$vdAssetAddress"/></xsl:otherwise>
+				</xsl:choose>
+				&#xa0;<xsl:value-of select="$vdInterimCharging2"/>
+			</fo:block>
+		</xsl:if>
+		<fo:block space-after="0.4cm">
+			 <xsl:value-of select="$vdInterimCharging3"/>
+		</fo:block>
+	</editable>
+	</body>
+	<defaultFooter id="CJR093"/>
+	
+</root>

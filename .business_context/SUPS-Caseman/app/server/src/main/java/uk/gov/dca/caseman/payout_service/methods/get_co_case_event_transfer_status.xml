@@ -1,0 +1,32 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: Payout
+	Method:  getCoCaseEventTransferStatus() 
+	File:    get_co_case_event_transfer_status.xml
+	Author:  Anthony Bonnar
+	Created: 9th March 2006
+	Description: 
+		Get the transfer status from CO_CASE_EVENTS matching the search criterion
+
+    Change History:
+    06-Apr-2006 Phil Haferer: Removed Admin Court Code from WHERE clause. 
+                This was incorrect, as this the Court Code in this instance indicates the Court 
+                to which the Case Event should be transferred.
+-->
+<service-method>
+	<pipeline>
+		<SQLLite format-output="true"
+				 resultset-element="ds"
+				 row-element="coCaseEvents"
+				 field-name-as="element" >
+			<DataSource id="java:OracleDS"/>
+				<Param name="param.sequenceNumber"       xpath="/params/param[@name='sequenceNumber']"/>
+			<SQL>
+		        SELECT COE.TRANSFER_STATUS AS "transferStatus"
+		        FROM   CO_CASE_EVENTS COE
+		        WHERE  COE.ALD_DEBT_SEQ = ${param.sequenceNumber}
+			</SQL>
+		</SQLLite>
+	</pipeline>
+	<Security roles="viewOnly medium high wcSuper scSuper bmsSuper aeSuper dmSuper edsAdmin"/>	
+</service-method>

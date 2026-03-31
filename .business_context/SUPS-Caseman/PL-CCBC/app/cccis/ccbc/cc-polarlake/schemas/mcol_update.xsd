@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- edited with XMLSpy v2005 rel. 3 U (http://www.altova.com) by ayhaga (EDS Egypt) -->
+<xs:schema xmlns:pl="http://www.polarlake.com/platform/1.0" xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="http://www.polarlake.com/platform/1.0" elementFormDefault="qualified">
+	<xs:element name="array">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="array_element" minOccurs="0" maxOccurs="unbounded">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="claim_number"/>
+							<xs:element name="DEFT_ID"/>
+							<xs:element name="EVENT_DATE" type="xs:date"/>
+							<xs:element name="TYPE"/>
+							<xs:element name="REJECT_CODE"/>
+							<xs:element name="WARRANT_NUMBER"/>
+							<xs:element name="RETURN_CODE"/>
+							<xs:element name="RETURN_INFO"/>
+							<xs:element name="ADDR_1"/>
+							<xs:element name="ADDR_2"/>
+							<xs:element name="ADDR_3"/>
+							<xs:element name="ADDR_4"/>
+							<xs:element name="ADDR_5"/>
+							<xs:element name="POSTCODE"/>
+							<xs:element name="DATE_SENT" type="xs:date"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+</xs:schema>

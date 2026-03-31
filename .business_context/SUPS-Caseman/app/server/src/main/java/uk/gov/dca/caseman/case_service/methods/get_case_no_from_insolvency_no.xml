@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- 
+@change New service to get the case number from the insolvency no, year &amp; owning court
+@author Struan Kerr-Liddell
+@version 0.1 July 16, 2008 
+-->
+<service-method>
+	<pipeline>
+		
+		<!-- First retrieve the warrant number, issuing court, and owning court of the warrant -->
+		<SQLLite format-output="true" resultset-element="InsolvencyNumber"
+			row-element="Case" field-name-as="element">
+			<DataSource id="java:OracleDS"/>
+			<Param name="param.insolvencyNumber"
+				xpath="/params/param[@name = 'insolvencyNumber']"/>
+			<Param name="param.court"
+				xpath="/params/param[@name = 'owningCourt']"/>
+			<SQL> SELECT CASE_NUMBER AS CaseNumber FROM CASES WHERE INSOLVENCY_NUMBER =
+				${param.insolvencyNumber} and
+				ADMIN_CRT_CODE = ${param.court}
+			</SQL>
+		</SQLLite>
+	</pipeline>
+	<Security
+		roles="viewOnly medium high wcSuper scSuper bmsSuper aeSuper dmSuper cpSuper ccbcMan ccbcUser ccbcSGB2"/>
+</service-method>

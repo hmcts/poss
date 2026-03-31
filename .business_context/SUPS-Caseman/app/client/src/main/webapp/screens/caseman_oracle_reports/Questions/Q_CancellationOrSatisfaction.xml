@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--Question xmlns="http://eds.com/questionxhtml" xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd"-->
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>Q_CancellationOrSatisfaction</Id>
+	<Label>Cancellation/Satisfaction</Label>
+	<ObjectName>CancellationOrSatisfaction</ObjectName>
+	<Html>
+		<select id="CancellationOrSatisfaction">
+			<option value=""></option>
+			<option value="CNL">CANCELLATION</option>
+			<option value="SAT">SATISFACTION</option>
+			<option value="SET">SET ASIDE</option>
+		</select>
+	</Html>
+	<Javascript>
+		<XPath>/ds/var/page/OracleReportForm/CancellationOrSatisfaction</XPath>
+		<ReportVariableName>IN_SATISFACTION</ReportVariableName>
+		<ReportVariableValue>Services.getValue(CancellationOrSatisfaction.dataBinding)</ReportVariableValue>
+		<ReportVariableCode>12515</ReportVariableCode>
+		<HintText>Enter whether order has been Cancelled or Satisfied</HintText>
+		<mandatoryOn></mandatoryOn>
+		<isMandatory>return true;</isMandatory>
+		<setDefault></setDefault>
+		<validateOn></validateOn>
+		<validate></validate>
+		<readOnlyOn></readOnlyOn>
+		<isReadOnly></isReadOnly>
+		<maxLength></maxLength>
+		<transformToDisplay></transformToDisplay>
+		<transformToModel></transformToModel>
+		<initialise></initialise>
+		<logicOn></logicOn>
+		<logic></logic>
+		<miscCode></miscCode>
+		<IsQuestion></IsQuestion>
+	</Javascript>
+</Question>

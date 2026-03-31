@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>9175</Id>
+	<Label>Enter the amount and terms of offer</Label>
+	<ObjectName>AmountTerms</ObjectName>
+	<Html>
+		<input type="text" size="70" id="AmountTerms"/>
+	</Html>
+	<Javascript>
+		<XPath>/ds/EnterVariableData/amountTerms</XPath>
+		<HintText>Enter the amount and terms of offer</HintText>
+		<isMandatory>return true;</isMandatory> 
+	
+		<enableOn>SelectLetter2.dataBinding</enableOn>
+		<isEnabled>
+			var val1 = Services.getValue(SelectLetter2.dataBinding);	
+			return ("1" == val1 || "2" == val1 );
+		</isEnabled>
+		<logicOn>SelectLetter2.dataBinding</logicOn>
+		<logic>
+			var val1 = Services.getValue(SelectLetter2.dataBinding);
+			if("1" != val1 &amp;&amp; "2" != val1  )
+			{	
+				Services.setValue(AmountTerms.dataBinding, "");
+			}
+		</logic>
+	
+	<!--	
+		
+		<enabledOn>AmountTerms.dataBinding</enabledOn>
+		<isEnabled>return (("1" == Services.getValue(AmountTerms.dataBinding) || 
+  					       ("2" == Services.getValue(AmountTerms.dataBinding) ||
+						   ("3" != Services.getValue(AmountTerms.dataBinding) || 
+  					       ("4" != Services.getValue(AmountTerms.dataBinding) ||
+						   ("5" != Services.getValue(AmountTerms.dataBinding) || 
+  					       ("6" != Services.getValue(AmountTerms.dataBinding) )</isEnabled>
+
+		<mandatoryOn>AmountTerms.dataBinding</mandatoryOn>
+		<isMandatory>return ("1" == Services.getValue(AmountTerms.dataBinding) || 
+  					        ("2" == Services.getValue(AmountTerms.dataBinding) )</isMandatory>
+  	-->
+	</Javascript>
+</Question>

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<service-method>
+  <pipeline>
+    <Java callStyle="new">
+      <Source class="uk.gov.dca.caseman.warrant_amounts_service.java.UpdateErrorIndicatorsCustomProcessor"/>
+    </Java>	
+    <Update>
+      <QueryDef location="uk/gov/dca/caseman/warrant_amounts_service/query_def_dad.xml"/>
+      <DataSource xpath="/params/param[@name='WarrantAmounts']"/>
+      <QueryExtension pivotNode="/ds/WarrantAmounts/Warrant">
+        <CheckExists table="F" fields="FEES_PAID_ID" onNotExist="skip" onExist="delete"/>
+      </QueryExtension>
+    </Update>
+  </pipeline>
+  <Dependencies>
+	<Dependency serviceName="WarrantReturns"/>
+  </Dependencies>	
+  <Security roles="wcSuper"/>  
+</service-method>

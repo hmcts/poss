@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service:  Case
+	QueryDef: query_def_get_obsolete_case_type_alternative_list.xml
+	Author:   Phil Haferer (EDS) 
+	Created:  14 March 2005
+	
+	Change History
+	Chris Hutt 	25/09/07 TD 6442 
+	    		Need to exclude 'MAGS ORDER' case type from the list of alternatives offered.
+-->
+<QueryDef>
+  <DBMapDef location="uk/gov/dca/caseman/case_service/map_get_obsolete_case_type_alternative_list.xml"/>
+  <Query pivotNode="/Case" tables="C">
+	<Join/>
+	<Modify/>
+  </Query>
+  <Query pivotNode="/Case/CaseTypeList/CaseType" tables="REF REFM">
+	<Join>
+		REF.RV_DOMAIN = ${C.CASE_TYPE}
+		AND REFM.RV_LOW_VALUE = REF.RV_LOW_VALUE
+		AND REFM.RV_DOMAIN = 'CURRENT_CASE_TYPE'
+		AND REFM.RV_LOW_VALUE != 'MAGS ORDER'
+	</Join>
+	<Modify notModifiable="true"/>
+  </Query>
+</QueryDef>

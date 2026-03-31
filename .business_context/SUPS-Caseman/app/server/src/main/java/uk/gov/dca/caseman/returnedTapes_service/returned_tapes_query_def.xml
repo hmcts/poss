@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<QueryDef>
+	<DBMapDef location="uk/gov/dca/caseman/returnedTapes_service/returned_tapes_map.xml"/>
+	<Query pivotNode="/ReturnedTapes/ReturnedTape" tables="T P CP NCP">
+	  
+	    <Join>	    	
+			T.CUST_CODE = NCP.CODE AND
+			NCP.CODE = CP.CODE AND
+			CP.PARTY_ID = P.PARTY_ID
+		</Join>
+		<Modify/>
+		<OrderBy/>
+	</Query>
+	<Query pivotNode="/ReturnedTapes/ReturnedTape/TapeFiles/TapeFile" tables="T TFI CRC">
+	  
+	    <Join>	    	
+			TFI.SEQNO = ${T.SEQNO} AND
+			T.SEQNO = TFI.SEQNO AND
+			CRC.RV_LOW_VALUE (+) = TFI.STATUS AND
+			CRC.RV_DOMAIN (+) = 'TAPE_FILES_STATUS'
+		</Join>
+		<Modify/>
+		<OrderBy/>
+	</Query>
+</QueryDef>

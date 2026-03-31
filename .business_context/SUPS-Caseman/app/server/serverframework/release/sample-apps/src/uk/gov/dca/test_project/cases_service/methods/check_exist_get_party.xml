@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<service-method>
+	<pipeline>
+		<Query>
+			<QueryDef location="uk/gov/dca/test_project/cases_service/check_exists_party_query_def.xml"/>
+			<QueryExtension pivotNode="/Parties/Party">
+				<Param name="param.aPartyId" xpath="/params/param[@name='aPartyId']"/>
+				<Param name="param.aCaseNumber" xpath="/params/param[@name='aCaseNumber']"/>
+				<Param name="param.aPartyRole" xpath="/params/param[@name='aPartyRole']"/>
+				<Param name="param.bPartyId" xpath="/params/param[@name='bPartyId']"/>
+				<Param name="param.bCaseNumber" xpath="/params/param[@name='bCaseNumber']"/>
+				<Param name="param.bPartyRole" xpath="/params/param[@name='bPartyRole']"/>
+				<Constraint condition="/params/param[@name='aPartyId']">CTCR.CPR_A_PARTY_ID = ${param.aPartyId}</Constraint>
+				<Constraint condition="/params/param[@name='aCaseNumber']">CTCR.CPR_A_CASE_NUMBER = ${param.aCaseNumber}</Constraint>
+				<Constraint condition="/params/param[@name='aPartyRole']">CTCR.CPR_A_PARTY_ROLE_CODE = ${param.aPartyRole}</Constraint>
+				<Constraint condition="/params/param[@name='bPartyId']">CTCR.CPR_B_PARTY_ID = ${param.bPartyId}</Constraint>
+				<Constraint condition="/params/param[@name='bCaseNumber']">CTCR.CPR_B_CASE_NUMBER = ${param.bCaseNumber}</Constraint>
+				<Constraint condition="/params/param[@name='bPartyRole']">CTCR.CPR_B_PARTY_ROLE_CODE = ${param.bPartyRole}</Constraint>
+			</QueryExtension>
+		</Query>
+	</pipeline>
+	<Security roles="user"/>
+</service-method>

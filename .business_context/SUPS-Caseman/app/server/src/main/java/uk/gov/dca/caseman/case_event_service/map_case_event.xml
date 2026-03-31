@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+Change History
+28/11/2012 - Chris Vincent, added TrasnferReason node to the map.  Required for Trac 4761
+28/01/2013 - Chris Vincent, added Track node to the map.  Trac 4763.
+04/02/2015 - Chris Vincent, added MCOLReference node to the map.  Trac 5473.
+-->
+<DBMapDef>
+  <DataSource id="java:OracleDS"/>
+  <Tables>
+    <Table alias="CE" name="CASE_EVENTS"/>
+    <Table alias="CEI" name="CASE_EVENT_INSTIGATORS"/>
+	<Table alias="C" name="CASES"/>
+  </Tables>  
+  <Mapping>
+	<CaseEvent>
+		<CaseEventSeq>${CE.EVENT_SEQ}</CaseEventSeq>
+		<CaseNumber>${CE.CASE_NUMBER}</CaseNumber>
+		<CaseCourtCode>${C.ADMIN_CRT_CODE}</CaseCourtCode>
+		<StandardEventId>${CE.STD_EVENT_ID}</StandardEventId>
+		<SubjectCasePartyNumber>${CE.CASE_PARTY_NO}</SubjectCasePartyNumber>
+		<SubjectPartyRoleCode>${CE.PARTY_ROLE_CODE}</SubjectPartyRoleCode>
+		<Applicant>${CE.REQUESTER}</Applicant>
+		<EventDetails>${CE.DETAILS}</EventDetails>
+		<EventDate>${CE.EVENT_DATE}</EventDate>
+		<Result>${CE.RESULT}</Result>				
+		<WarrantId>${CE.WARRANT_ID}</WarrantId>
+		<JudgmentSeq>${CE.JUDG_SEQ}</JudgmentSeq>
+		<MCOLReference>${CE.MCOL_REFERENCE}</MCOLReference>
+		<VarySeq>${CE.VARY_SEQ}</VarySeq>
+		<HrgSeq>${CE.HRG_SEQ}</HrgSeq>
+		<DeletedFlag>${CE.DELETED_FLAG}</DeletedFlag>
+		<UserName>${CE.USERNAME}</UserName>
+		<ReceiptDate>${CE.RECEIPT_DATE}</ReceiptDate>
+		<BMSTask>${CE.BMS_TASK_NUMBER}</BMSTask>
+		<StatsModule>${CE.STATS_MODULE}</StatsModule>
+		<CourtCode>${CE.CRT_CODE}</CourtCode>
+		<AgeCategory>${CE.AGE_CATEGORY}</AgeCategory>
+		<ResultDate>${CE.RESULT_DATE}</ResultDate>
+		<DateToRtl>${CE.DATE_TO_RTL}</DateToRtl>
+		<CaseFlag>${CE.CASE_FLAG}</CaseFlag>
+		<CreatingCourt>${CE.CREATING_COURT}</CreatingCourt>
+		<CreatingSection>${CE.CREATING_SECTION}</CreatingSection>	
+		<TransferReason>${CE.TRANSFER_REASON}</TransferReason>
+		<Track>${CE.TRACK}</Track>
+		<InstigatorList>
+			<Instigator>
+				<CasePartyNumber>${CEI.CASE_PARTY_NO}</CasePartyNumber>
+				<PartyRoleCode>${CEI.PARTY_ROLE_CODE}</PartyRoleCode>
+			</Instigator>
+		</InstigatorList>
+	</CaseEvent>
+  </Mapping>
+</DBMapDef>

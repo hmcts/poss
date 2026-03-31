@@ -1,0 +1,14 @@
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>494</Id>
+	<Label>Is the third party a Bank/Building Society</Label>
+	<ObjectName>IsBankOrBuildSoc</ObjectName>
+	<Html>	
+		<input type="checkbox" id="IsBankOrBuildSoc"></input>
+	</Html>			
+	<Javascript>
+		<XPath>/ds/EnterVariableData/ThirdPartyDebt/isBankOrBuildSoc</XPath>
+		<componentName>##label##</componentName>
+		<modelValue>checked: "Y", unchecked: "N"</modelValue>
+		<HintText>Check box if the third party is a Bank or Building Society?</HintText>			
+	</Javascript>
+</Question>

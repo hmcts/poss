@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<service-method>
+	<pipeline>
+		<SQLLite format-output="true"
+				 resultset-element="ds"
+				 row-element="Court"
+				 field-name-as="element" >			
+			<DataSource id="java:OracleDS"/>
+			<Param name="param.courtCode" xpath="/params/param[@name = 'courtCode']"/>
+			<SQL>
+				SELECT  DECODE(COUNT(*),0,'N','Y') as "IsGroupingCourt"
+				FROM    courts c
+				WHERE 	c.wft_grouping_court = ${param.courtCode}
+				AND		c.code != ${param.courtCode}
+				AND 	NVL(c.caseman_inservice,'N') = 'Y'
+				AND		NVL(c.sups_centralised_flag,'N') = 'Y'
+			</SQL>
+		</SQLLite>		
+	</pipeline>
+	<Security roles="viewOnly medium high wcSuper scSuper bmsSuper aeSuper dmSuper cpSuper edsAdmin ccbcMan ccbcUser ccbcSGB2 ccbcTape admin"/>		
+</service-method>

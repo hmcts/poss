@@ -1,0 +1,73 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: Payout
+	Method:  getCoBalanceAmounts()
+	File:    get_co_balance_amounts.xml
+	Author:  Phil Haferer
+	Created: 09-May-2006
+	Description: 
+		Get the various 'amounts' used to calculate the outstanding balance on a Consolidated Order.
+		(TD 3343: Complete Payout Balance Calculation Performance).
+		
+    Change History:
+-->
+<service-method>
+	<pipeline>
+		<SQLLite format-output="true"
+				 resultset-element="ds"
+				 row-element="CoBalanceAmounts"
+				 field-name-as="element" >
+			<DataSource id="java:OracleDS"/>
+				<Param name="param.coNumber" xpath="/params/param[@name='coNumber']"/>
+			<SQL>
+                SELECT (SELECT NVL(SUM(dd.dd_amount), 0) 
+                        FROM   debt_dividends dd
+                        ,      allowed_debts ald
+                        WHERE  dd.dd_ald_seq = ald.debt_seq
+                        AND    ald.debt_co_number = ${param.coNumber}
+                        AND    ald.debt_status in ('LIVE', 'SCHEDULE2','PAID')
+                        AND    dd.created = 'Y') as "CreditorPaymentsMade"
+                ,      (SELECT NVL(SUM(dd.dd_amount), 0) 
+                        FROM   debt_dividends dd
+                        ,      allowed_debts ald
+                        WHERE  dd.dd_ald_seq = ald.debt_seq
+                        AND    ald.debt_co_number = ${param.coNumber}
+                        AND    ald.debt_status in ('LIVE', 'PAID')
+                        AND    dd.created = 'Y') as "NonSched2CredPaymentsMade"
+                ,      (SELECT NVL(SUM(d.div_fee),0) 
+                        FROM   dividends d
+                        WHERE  d.div_co_number = ${param.coNumber}
+                        AND    d.created = 'Y') as "FeesPaid"		
+                ,      (SELECT NVL(SUM(pay.amount), 0) 
+                        FROM   payments pay
+                        ,      allowed_debts ald
+                        WHERE  ald.debt_seq = pay.ald_debt_seq
+                        AND    pay.passthrough = 'Y'
+                        AND    ald.debt_co_number = ${param.coNumber}
+                        AND    ald.debt_status in ('LIVE', 'PAID')
+                        AND    pay.error_indicator = 'N') as "PassthroughsPaid"
+                ,      (SELECT NVL(SUM(pay.amount), 0) 
+                        FROM   payments pay
+                        ,      allowed_debts ald
+                        WHERE  ald.debt_seq = pay.ald_debt_seq
+                        AND    pay.passthrough = 'Y'
+                        AND    ald.debt_co_number = ${param.coNumber}
+                        AND    ald.debt_status = 'SCHEDULE2'
+                        AND    pay.error_indicator = 'N') as "Sched2PassthroughsPaid"
+                ,      (SELECT NVL(SUM(ald.debt_amount_allowed), 0) 
+                        FROM   allowed_debts ald
+                        WHERE  ald.debt_co_number = ${param.coNumber}
+                        AND    ald.debt_status in ('LIVE', 'SCHEDULE2', 'PAID')) as "LiveDebts"
+                ,      (SELECT NVL(SUM(ald.debt_amount_allowed), 0) 
+                        FROM   allowed_debts ald
+                        WHERE  ald.debt_co_number = ${param.coNumber}
+                        AND    ald.debt_status in ('LIVE', 'PAID')) as "IncludedDebts"
+                ,      (SELECT NVL(co.fee_amount,0) 
+                        FROM   consolidated_orders co
+                        WHERE  co.co_number = ${param.coNumber}) as "FeeElement"
+                FROM    DUAL
+			</SQL>
+		</SQLLite>
+	</pipeline>
+	<Security roles="viewOnly medium high wcSuper scSuper bmsSuper aeSuper dmSuper edsAdmin"/>	
+</service-method>

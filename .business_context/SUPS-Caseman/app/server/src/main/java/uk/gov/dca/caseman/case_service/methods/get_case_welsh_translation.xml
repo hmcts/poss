@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: Case
+	Method:  getCaseWelshTranslation
+	Author:  Chris Vincent 
+	Created: 15 November 2012
+	Description: 
+		Use SQLLite to determine whether a case has any parties who wish for outputs translated to Welsh.
+		Introduced as part of the bulk printing solution.  Trac 4761.
+-->
+<service-method>
+	<pipeline>
+		<SQLLite format-output="true" 
+				 resultset-element="ds"
+				 row-element="Case" 
+				 field-name-as="element">
+			<DataSource id="java:OracleDS"/>
+			<Param name="param.caseNumber" xpath="/params/param[@name = 'caseNumber']"/>
+			<SQL>
+				SELECT DECODE(COUNT(*), 0, 'N','Y') AS "WelshTranslation"
+				FROM case_party_roles
+				WHERE case_number = ${param.caseNumber}
+				AND welsh_indicator = 'Y'
+			</SQL>
+		</SQLLite>
+	</pipeline>
+	<Security roles="viewOnly medium high wcSuper scSuper bmsSuper aeSuper dmSuper cpSuper ccbcMan ccbcUser ccbcSGB2"/>
+</service-method>

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: SuitorsCashStartOfDays
+	Method:  getSuitorsCashEndOfDayStatus()
+	File:    get_suitors_cash_end_of_day_status.xml
+	Author:  Mark Hallam (EDS)
+	Created: 1 December 2005
+	Description: 
+		Calls the Custom Processor that builds the XML that is eventually passed to reports service.
+-->
+<service-method>
+	<pipeline> 
+		<Java callStyle="new">
+			<Source class="uk.gov.dca.caseman.suitors_cash_start_of_day_service.classes.SuitorsCashEndOfDayStatusCustomProcessor"/>
+		</Java>
+	</pipeline>
+	<Security roles="viewOnly medium high wcSuper scSuper bmsSuper aeSuper dmSuper edsAdmin admin cpSuper"/>
+</service-method>

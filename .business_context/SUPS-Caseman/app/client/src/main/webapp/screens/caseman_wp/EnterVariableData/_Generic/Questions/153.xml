@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>153</Id>
+	<Label>Choose transfer wording</Label>
+	<ObjectName>Wording</ObjectName>
+	<Html>
+		<select id="Wording">
+			<option value=""></option>    
+			<option value="DC">Deal with the claimant's application</option>
+			<option value="DD">Deal with the defendant's application</option>
+			<option value="HC">Hear the claimant's application</option>
+			<option value="HD">Hear the defendant's application</option>
+			<option value="OTH">Other</option>	
+		</select>
+	</Html>
+	<Javascript>
+		<XPath>/ds/EnterVariableData/Transfer/wording</XPath>
+		<isMandatory>return true;</isMandatory>			
+		<HintText>Select appropriate wording</HintText>
+	</Javascript>
+</Question>

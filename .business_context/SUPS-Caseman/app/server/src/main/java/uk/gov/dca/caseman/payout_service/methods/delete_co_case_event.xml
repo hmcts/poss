@@ -1,0 +1,26 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: Payout
+	Method:  deleteCoCaseEvent() 
+	File:    delete_co_case_event.xml
+	Author:  Anthony Bonnar
+	Created: 9th March 2006
+	Description: 
+
+    Change History:
+    06-Apr-2006 Phil Haferer: Removed Admin Court Code from WHERE clause, as incorrect.
+    26-Apr-2006 Phil Haferer: The Param name was 'param.reportType', rather than 'param.debtSequenceNo'.
+-->
+<service-method>
+	<pipeline>
+		<SQLLite output="input">
+			<DataSource id="java:OracleDS" />
+			<Param name="param.debtSequenceNo" xpath="/params/param[@name = 'debtSequenceNo']" />
+			<SQL type="update" tables="COE">
+				DELETE FROM CO_CASE_EVENTS COE
+				WHERE  COE.ALD_DEBT_SEQ = ${param.debtSequenceNo}
+			</SQL>
+		</SQLLite>
+	</pipeline>
+	<Security roles="viewOnly medium high wcSuper scSuper bmsSuper aeSuper dmSuper edsAdmin"/>
+</service-method>

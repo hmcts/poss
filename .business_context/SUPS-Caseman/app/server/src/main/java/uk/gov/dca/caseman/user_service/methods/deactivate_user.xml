@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: User
+	Method:  deactivateUser()
+	File:    deactivate_user.xml
+	Author:  Ian Stainer
+	Created: 21/04/2006
+	Description: 
+        Deactivates the user. The entire business dom that represents the user is passed from the client. This is
+		done so that any changes made to the profile before the user clicks the deactivate button are persisted.
+		Deactivation is carried out by removing the user_role record for the user and then the user_court record
+		for the user. The active user flag on the dca_user table is set to 'N'. This is done in the client before 
+		sending	the dom for persisting.
+-->
+<service-method>
+	<pipeline>
+		<Java>
+			<Source class="uk.gov.dca.caseman.user_service.java.DeactivateUserCustomProcessor"/>
+		</Java>	    
+	</pipeline>
+	<Security roles="admin"/>
+</service-method> 

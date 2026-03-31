@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<DBMapDef>
+  <DataSource id="java:OracleDS"/>
+  <Tables>
+    <Table alias="PD" name="PER_DETAILS"/>
+	<Table alias="SD" name="SYSTEM_DATA"/>
+  </Tables>
+  <Mapping>
+	  <PerDetail>
+		<DetailCode>${PD.DETAIL_CODE}</DetailCode>
+		<PerGroup>${PD.PER_GROUP}</PerGroup>
+		<PerCategory>${PD.PER_CATEGORY}</PerCategory>
+		<AllowMultiples>${PD.ALLOW_MULTIPLES}</AllowMultiples>
+		<OrderNumber>${PD.ORDER_NUMBER}</OrderNumber>
+		<Prompt>${PD.PROMPT}</Prompt>
+		<AmountAllowedEditable>${PD.AMOUNT_ALLOWED_EDITABLE}</AmountAllowedEditable>
+		<SystemDataList>
+			<SystemDataItem>
+				<Item>${SD.ITEM}</Item>
+				<AdminCourtCode>${SD.ADMIN_COURT_CODE}</AdminCourtCode>
+				<ItemValueCurrency>${SD.ITEM_VALUE_CURRENCY}</ItemValueCurrency>
+				<ItemValue>${SD.ITEM_VALUE}</ItemValue>
+			</SystemDataItem>
+		</SystemDataList>
+	  </PerDetail>
+  </Mapping>
+</DBMapDef>

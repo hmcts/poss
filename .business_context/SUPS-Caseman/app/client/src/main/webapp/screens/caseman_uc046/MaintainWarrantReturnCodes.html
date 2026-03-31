@@ -1,0 +1,148 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3c.org/TR/html4/strict.dtd">
+
+<html>
+
+	<head>
+		<title>MaintainWarrantReturnCodes</title>
+		<link href="MaintainWarrantReturnCodes.css" type="text/css" rel="stylesheet">
+		<script type="text/javascript" src="../../Framework.js"></script>
+		<script type="text/javascript" src="../../CaseManIncludeFiles.js"></script>
+		<script type="text/javascript" src="MaintainWarrantReturnCodes.js"></script>
+	</head>
+
+	<body>
+		<form name="MaintainWarrantReturnCodes" id="MaintainWarrantReturnCodes">
+			
+			<!-- Framework Navigation Menu -->
+			<script type="text/javascript">MenuBarRenderer.createInline();</script>
+	   
+			<table class="layout">
+				<tr>
+					<td>
+						<div class="panel">
+							<table class="content" style="height:570px;">     
+								<tr>
+
+									<!-- Start Return Codes Master Panel -->
+									<td style="width:350px;" valign="top">
+										<table>
+											<tr>
+												<td>
+													<script type="text/javascript">
+														Grid.createInline("MasterGrid", ["Code","Summary","Type","Category","Class" ], 31, 1);
+													</script>
+												</td> 
+											</tr>
+											<tr>
+												<td align="right">
+													<input id="Master_AddButton" type="Button" value="Add New Return Code" style="margin-bottom:5px; margin-right:5px;"/>
+													<input id="Master_RemoveButton" type="Button" value="Remove" style="margin-bottom:5px; margin-right:5px;"/>
+												</td>
+											</tr> 
+										</table>
+									</td>
+									<!-- End Return Codes Master Panel -->
+									
+									<td class="spacer">&nbsp;</td>
+									
+									<!-- Start Return Codes Details Panel -->
+									<td valign="top">
+										<table style="margin-top:5px;">
+											<tr>
+												<td class="detailsLabel"><label for="ReturnCode_Type">Type</label></td>
+												<td><input id="ReturnCode_Type" type="text" size="10"/></td>
+											</tr>
+											<tr>	
+												<td class="detailsLabel"><label for="ReturnCode_Code">Code</label></td>
+												<td><input id="ReturnCode_Code" type="text" size="10"/></td>
+											</tr>
+											<tr>
+												<td class="detailsLabel"><label for="ReturnCode_Category">Category</label></td>
+												<td><input id="ReturnCode_Category" type="text" size="10"/></td>
+											</tr>
+											<tr>
+												<td class="detailsLabel"><label for="ReturnCode_Class">Class</label></td>
+												<td><input id="ReturnCode_Class" type="text" size="45"/></td>
+											</tr>
+											<tr>
+												<td class="detailsLabel"><label for="ReturnCode_Summary">Summary Description</label></td>
+												<td>
+													<textarea id="ReturnCode_Summary" cols="50" rows="2" style="overflow:hidden">
+													</textarea>
+												</td>
+											</tr>
+											<tr>
+												<td class="detailsLabel"><label for="ReturnCode_Description">Full Description</label></td>
+												<td><script type="text/javascript">ZoomFieldRenderer.createInline("ReturnCode_Description");</script></td>
+											</tr>
+										</table>
+									</td>
+									<!-- End Return Codes Details Panel -->
+									
+								</tr> 
+							</table>
+						</div>
+					</td>
+				</tr>
+			</table>
+	
+			<!-- Status Bar -->
+			<script type="text/javascript">
+				ActionBarRenderer.createInline(
+					"status_bar",
+					[
+						{ id: "Status_SaveButton",  label: "Save" },
+						{ id: "Status_CloseButton", label: "Close" }
+					]
+				);
+			</script>
+		
+			<!-- Add New Return Code Popup -->
+			<div class="popup" id="NewReturnCode_Popup">
+				<table class="content">
+					<tr>
+						<td><label for="NewReturnCode_Type">Type</label></td>
+						<td><select id="NewReturnCode_Type" style="margin-top:5px;" /></td>
+					</tr>
+					<tr>	
+						<td><label for="NewReturnCode_Code">Code</label></td>
+						<td><input id="NewReturnCode_Code" type="text" size="5"/></td>
+					</tr>
+					<tr>
+						<td><label for="NewReturnCode_Class">Class</label></td>
+						<td>
+							<select id="NewReturnCode_Class" style="margin-right:5px;"></select>
+							<input id="NewReturnCode_ClassLOVButton" type="Button" value="LOV"/>
+						</td>
+					</tr>
+					<tr>
+						<td><label for="NewReturnCode_Summary">Summary&nbsp;Description</label></td>
+						<td>
+							<textarea id="NewReturnCode_Summary" cols="50" rows="2" style="overflow:hidden">
+							</textarea>
+						</td>
+					</tr>
+					<tr>
+						<td><label for="NewReturnCode_Description">Full&nbsp;Description</label></td>
+						<td>
+							<script type="text/javascript">ZoomFieldRenderer.createInline("NewReturnCode_Description");</script>
+						</td>
+					</tr>
+					<tr>
+						<td colspan="2">&nbsp;</td>
+					</tr>
+					<tr>
+						<td colspan="2" align="right">
+							<input type="button" value="Ok" id="NewReturnCode_OkButton" size="10" style="margin-bottom:5px; margin-right:5px;"/>
+							<input type="button" value="Cancel" id="NewReturnCode_CancelButton" style="margin-bottom:5px; margin-right:5px;"/>
+						</td>
+					</tr>
+				</table>
+			</div>
+			
+			<!-- LOV Popups -->
+			<script type="text/javascript">LOVPopupRenderer.createInline( "ClassesLOVGrid", "Return Class", ["Value", "Description"], 10, 1, true );</script>
+			
+		</form>
+	</body>
+</html>

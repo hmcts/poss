@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<service-method>
+	<pipeline>
+		<Query>
+			<QueryDef location="uk/gov/dca/transformation/co_case_event_legacy_service/query_def_get_cocaseevent.xml"/>
+			<QueryExtension pivotNode="/CaseEvent">
+				<Param name="param.caseNumber" xpath="/params/param[@name = 'caseNumber']"/>
+				<Constraint>CCE.CASE_NUMBER=${param.caseNumber}</Constraint>
+			</QueryExtension>
+		</Query>
+		<Java>
+			<Source class="uk.gov.dca.transformation.co_case_event_legacy_service.CaseEventsSupsCallProcessor"/>
+		</Java>
+	</pipeline>
+	<Security roles="user"/>
+</service-method>
+

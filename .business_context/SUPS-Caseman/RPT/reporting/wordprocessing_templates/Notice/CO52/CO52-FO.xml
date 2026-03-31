@@ -1,0 +1,275 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- ====================================================================== -->
+<!--  -->
+<!-- FILENAME: $Source: C:/CVSRepository/serveroas/src/uk/gov/dca/caseman/wordprocessing_templates/Notice/CO52/CO52-FO.xml,v $ -->
+<!--  -->
+<!-- AUTHOR: $Author: ian $-->
+<!--  -->
+<!-- DATE: $Date: 2006/06/02 12:16:49 $ -->
+<!--  -->
+<!-- Version: $Revision: 1.10 $ -->
+<!--  -->
+<!-- DESCRIPTION: This stylesheet is used to create an XSL:FO document that -->
+<!-- can be processed into a PDF version.  Business logic -->
+<!-- is embedded to generate the correct document text for the order -->
+<!-- required. -->
+<!--  -->
+<!-- INPUTS: XML document containing: the answers to questions asked of the -->
+<!-- user; case data retrieved from the database; HTML representing the  -->
+<!-- body of the document content (already edited by the user). -->
+<!--  -->
+<!-- OUTPUTS: XML document with FO tags containing instructions for the -->
+<!-- creation of a PDF document. -->
+<!--  -->
+<!--  08 Aug 2010, Mark Groen. Trac 3023. Refer to $vdDebtorTable4  instead of $vdDebtorTable .... -->
+<!--                            also refer to $vdOsNomicBalance1 instead of $vdOsNomicBalance -->
+<!--							also refer to $vdFeeAmount1 instead of $vdFeeAmount	-->
+<!-- ====================================================================== -->
+<root xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:fo="http://www.w3.org/1999/XSL/Format" xmlns="http://eds.com/supsfo">
+	<variables>@word.processing.url.xsl@supsfo.xsl</variables>
+	<duplex/>
+	<addressee>
+			<blank/>
+			<creditor/>
+			<debtor/>
+	</addressee>
+	<header>
+		<fo:block font-size="16pt" font-weight="bold">Suspended Consolidated Attachment of</fo:block>
+		<fo:block font-size="16pt" font-weight="bold">Earnings Order- Payment by Debtor</fo:block>
+	</header>
+	<courtcase>
+		<court>
+			<xsl:copy-of select="$vdCourtHeaderBlock"/>
+		</court>
+		<caseparameters>
+			<parameter>
+				<name>
+					<fo:block font-weight="bold">AO/CAEO Number</fo:block>
+				</name>
+				<value>
+					<fo:block>
+						<xsl:value-of select="$vdCONumber"/>
+					</fo:block>
+				</value>
+			</parameter>
+			<parameter>
+				<name>
+					<fo:block font-weight="bold">Creditor</fo:block>
+					<fo:block font-size="9pt">(including ref.)</fo:block>
+				</name>
+				<value>
+					<xsl:call-template name="display-creditor-name-and-reference-template">
+						<xsl:with-param name="addressee">
+							<xsl:value-of select="$addressee"/>
+						</xsl:with-param>
+					</xsl:call-template>
+				</value>
+			</parameter>				
+			<parameter>
+				<name>
+					<fo:block font-weight="bold">Debtor</fo:block>
+				</name>
+				<value>
+					<fo:block hyphenate="true">
+						<xsl:value-of select="$vdCODebtorName"/>
+					</fo:block>
+				</value>
+			</parameter>
+		</caseparameters>
+	</courtcase>
+	<bodyintroright><fo:block><fo:inline text-align="center"><seal/></fo:inline></fo:block></bodyintroright>
+	
+	<body>
+	<editable useid="N100A6">
+
+		<fo:block font-weight="bold" space-before="0.6cm" space-after="0.4cm">
+			Before <xsl:value-of select="$vdJudge"/> sitting at <xsl:value-of select="$vdHearingAtCourtNameDescription"/>, <xsl:value-of select="$vdHearingAtCourtAddress"/>
+		</fo:block>
+		<fo:block space-after="0.4cm">
+			<xsl:value-of select="$vdCOHearingAttendees"/>
+		</fo:block>
+		<fo:block space-after="0.4cm">
+			<fo:inline font-weight="bold">The court </fo:inline>has made a consolidated attachment of earnings order in this case. If it is served on the Debtor's employer it will require him to deduct <xsl:value-of select="$vdCOInstalmentAmount"/> per <xsl:value-of select="$vdInstallmentPeriod"/> from the 
+			Debtor's earnings and send it to the court until &#163;<xsl:value-of select="$vdOsNomicBalance1"/>, the amount payable under the order has been paid, but not so as to reduce the Debtor's net pay below <xsl:value-of select="$vdProtectEarnRate"/> per <xsl:value-of select="$vdInstallmentPeriod"/>.
+		</fo:block>
+		<fo:block space-after="0.4cm">
+			<fo:inline font-weight="bold">The court orders </fo:inline>that the consolidated attachment of earnings order be suspended and not enforced so long as the Debtor punctually pays instalments of <xsl:value-of select="$vdCOInstalmentAmount"/> for every <xsl:value-of select="$vdInstallmentPeriod"/>,
+			the first instalment to reach the Court by <xsl:value-of select="$vdOrderFirstPaymentDate"/> until the sum of &#163;<xsl:value-of select="$vdOsNomicBalance1"/> referred to above has been paid.
+		</fo:block>
+		<fo:block space-after="0.4cm">
+			<fo:inline font-weight="bold">The court further orders </fo:inline>that the service of the consolidated attachment of earnings order on the employer be deferred accordingly.
+		</fo:block>
+		<fo:block space-after="0.4cm">
+			See over for the details of the orders which have been included in this order.
+		</fo:block>
+		<fo:block text-align="right" space-after="0.4cm">
+			<fo:inline font-weight="bold">Dated </fo:inline><xsl:value-of select="$vdEventDate"/>
+		</fo:block>
+	</editable>
+
+		<fo:block break-before="page">
+			<fo:table table-layout="fixed">
+				<fo:table-column column-width="133.6pt" />
+				<fo:table-column column-width="453.9pt" />
+				<fo:table-body>
+					<fo:table-row>
+						<fo:table-cell padding-left="0.03cm" padding-right="0.03cm" border-style="solid" border-width="0.02cm" >
+							<fo:block font-weight="bold">Note:</fo:block>
+							<fo:block font-size="8pt">This order replaces the orders listed here.  It does not replace any existing PRIORITY attachment of earnings orders.</fo:block>
+						</fo:table-cell>
+						<fo:table-cell>
+							<fo:table table-layout="fixed">
+								<fo:table-column column-width="82.6pt" />
+								<fo:table-column column-width="205.5pt" />
+								<fo:table-column column-width="115.8pt" />
+								<fo:table-body>
+									<fo:table-row keep-with-next="always">
+										<fo:table-cell padding-left="0.03cm" padding-right="0.03cm" border-style="solid" border-width="0.02cm" >
+											<fo:block>Case Number</fo:block>
+										</fo:table-cell>
+										<fo:table-cell padding-left="0.03cm" padding-right="0.03cm" border-style="solid" border-width="0.02cm" >
+											<fo:block>Creditor</fo:block>
+										</fo:table-cell>
+										<fo:table-cell padding-left="0.03cm" padding-right="0.03cm" border-style="solid" border-width="0.02cm" >
+											<fo:block>Balance due when order made<fo:inline font-style="italic"> (actual date calculated <xsl:copy-of select="$vdEventDate"/>)</fo:inline></fo:block>
+										</fo:table-cell>
+									</fo:table-row>
+									<xsl:copy-of select="$vdDebtorTable4"/>
+								</fo:table-body>
+							</fo:table>
+						</fo:table-cell>
+					</fo:table-row>
+				</fo:table-body>
+			</fo:table>
+		</fo:block>
+		<fo:block space-after="0.4cm">
+			<fo:table table-layout="fixed">
+				<fo:table-column column-width="133.6pt" />
+				<fo:table-column column-width="82.6pt" />
+				<fo:table-column column-width="205.5pt" />
+				<fo:table-column column-width="115.8pt" />
+				<fo:table-body>
+					<fo:table-row>
+						<fo:table-cell/>
+						<fo:table-cell/>
+						<fo:table-cell padding-right="0.2cm">
+							<fo:block text-align="right">
+								Fees Due to the court for carrying out this order
+							</fo:block>
+						</fo:table-cell>
+						<fo:table-cell>
+							<fo:block text-align="right" border-top-style="solid" border-top-width="0.02cm" border-left-style="solid" border-left-width="0.02cm" border-right-style="solid" border-right-width="0.02cm">
+								<xsl:value-of select="$vdFeeAmount1"/>							</fo:block>
+						</fo:table-cell>
+					</fo:table-row>
+					<fo:table-row>
+						<fo:table-cell/>
+						<fo:table-cell/>
+						<fo:table-cell padding-right="0.2cm">
+							<fo:block font-weight="bold" text-align="right">
+								TOTAL due
+							</fo:block>
+						</fo:table-cell>
+						<fo:table-cell>
+							<fo:block text-align="right" border-top-style="solid" border-top-width="0.02cm" border-left-style="solid" border-left-width="0.02cm" border-right-style="solid" border-right-width="0.02cm" border-bottom-width="0.02cm" border-bottom-style="solid">
+								<xsl:value-of select="$vdOsNomicBalance1"/>
+							</fo:block>
+						</fo:table-cell>
+					</fo:table-row>
+				</fo:table-body>
+			</fo:table>
+		</fo:block>	
+	
+	</body>
+
+	<footnote noteextent="8.5">
+		<fo:block font-family="Times" font-size="10pt" text-align="justify">
+		<fo:table table-layout="fixed">
+			<fo:table-column column-width="10cm"></fo:table-column>
+			<fo:table-column column-width="9.28cm"></fo:table-column>
+			<fo:table-body>
+				<fo:table-row keep-with-next="always">
+					<fo:table-cell number-columns-spanned="2" padding-top="0.1cm" padding-bottom="0.1cm" border-top-style="solid" border-top-width="0.02cm" border-left-style="solid" border-left-width="0.02cm" border-right-style="solid" border-right-width="0.02cm">
+						<fo:block font-weight="bold" text-align="center">Take Notice</fo:block>
+					</fo:table-cell>
+				</fo:table-row>
+				<fo:table-row keep-with-next="always">
+					<fo:table-cell border-left-style="solid" border-left-width="0.02cm" padding-left="0.2cm" padding-right="0.2cm">
+						<fo:block space-after="0.4cm" font-weight="bold">
+							To the debtor
+						</fo:block>
+						<fo:block space-after="0.2cm" font-size="8pt">
+							At your request the court has made a suspended consolidated attachment of earnings order.  This means that your employer will not be told that an order has been made against you so long as you keep your payments up to date.
+							If you fall behind with your payments the court may send the order to your employer for payments to be deducted from your earnings without further notice. In that event, a copy of the order will be sent to you.
+						</fo:block>
+						<fo:block font-weight="bold" text-align="center">Address for Payment</fo:block>
+					</fo:table-cell>
+					<fo:table-cell number-rows-spanned="2" padding-left="0.2cm" padding-right="0.1cm" border-bottom-style="solid" border-bottom-width="0.02cm" border-right-style="solid" border-right-width="0.02cm">
+						<fo:block font-size="8pt">
+							If you change your employer, you must notify the court in writing <fo:inline font-weight="bold">within 7 days </fo:inline>giving the following details:
+						</fo:block>
+						<fo:block font-size="8pt">
+							<list type="bullet">
+								<list-item>
+									<fo:block>the name and address of your new employer (and the pay office if different)</fo:block>
+								</list-item>
+								<list-item>
+									<fo:block>your works number and/or pay reference</fo:block>
+								</list-item>
+								<list-item>
+									<fo:block>your new rate of pay</fo:block>
+								</list-item>
+								<list-item>
+									<fo:block>the court case number</fo:block>
+								</list-item>
+							</list>
+						</fo:block>
+						<fo:block space-after="0.2cm" font-size="8pt" font-weight="bold">
+							IF YOU DO NOT DO WHAT THIS NOTICE TELLS YOU, YOU MAY BE FINED OR IMPRISONED OR BOTH
+						</fo:block>
+						<fo:block font-weight="bold" text-align="center">
+							How to Pay
+						</fo:block>
+						<fo:block>
+							<list type="bullet">
+								<list-item>
+									<fo:block font-size="8pt">
+										<fo:inline font-weight="bold">PAYMENT(S) MUST BE MADE to the court.</fo:inline>
+									</fo:block>
+								</list-item>
+								<list-item>
+									<fo:block font-size="8pt">
+										You should allow <fo:inline text-decoration="underline">at least 4 days</fo:inline> for your payment to reach the court.
+									</fo:block>
+								</list-item>
+								<list-item>
+									<fo:block font-size="8pt">
+										Make sure that you keep records and can account for all payments made. Proof may be required if there is any disagreement. It is not safe to send cash unless you use registered post.
+									</fo:block>
+								</list-item>
+								<list-item>
+									<fo:block font-size="8pt">
+										A leaflet giving further advice about payment can be obtained from the court.
+									</fo:block>
+								</list-item>
+							</list>
+						</fo:block>
+					</fo:table-cell>
+				</fo:table-row>
+				<fo:table-row keep-with-next="always">
+					<fo:table-cell space-before="0.2cm" padding-left="0.2cm" border-style="solid" border-width="0.02cm" height="4.0cm">
+						
+						<xsl:call-template name="format-address-multi-line">
+							<xsl:with-param name="party">
+								<xsl:copy-of select="$vdCourtAddress"/>
+							</xsl:with-param>
+						</xsl:call-template>
+						
+					</fo:table-cell>
+				</fo:table-row>
+			</fo:table-body>
+		</fo:table>	
+		</fo:block>
+	</footnote>
+	<defaultFooter id="CO52" CO="true"/>
+</root>

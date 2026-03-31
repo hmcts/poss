@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: TransferCase
+	Method:  getTransferCase()
+	File:    get_transfer_case.xml
+	Author:  Phil Haferer (EDS)
+	Created: 21 June 2005
+	Description: 
+		Retrieve details for Transferring a Case.
+-->
+<service-method>
+	<pipeline>
+		<Query>
+			<QueryDef location="uk/gov/dca/caseman/transfer_case_service/query_def_get_transfer_case.xml"/>
+			<QueryExtension pivotNode="/TransferCase">
+				<Param name="param.caseNumber" xpath="/params/param[@name = 'caseNumber']"/>
+			</QueryExtension>
+		</Query>
+	</pipeline>
+	<Security roles="medium high wcSuper scSuper bmsSuper aeSuper dmSuper cpSuper ccbcMan ccbcUser ccbcSGB2"/>
+</service-method>

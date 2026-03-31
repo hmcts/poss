@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>260</Id>
+	<Label>Days for reply</Label>
+	<ObjectName>ReplyDays</ObjectName>
+	<Html>	
+		<input type="text" size="3" id="ReplyDays"></input>
+	</Html>
+	<Javascript>
+		<XPath>/ds/EnterVariableData/FastTrack/replyDays</XPath>
+		<HintText>Enter number of days for reply</HintText>
+		<isMandatory>return true;</isMandatory>	
+		<enableOn>RespondDirn.dataBinding</enableOn>
+		<isEnabled>return('Y'  == Services.getValue(RespondDirn.dataBinding));</isEnabled>
+		<logicOn>RespondDirn.dataBinding</logicOn>
+		<logic>
+			if('Y'  != Services.getValue(RespondDirn.dataBinding))
+			{	Services.setValue(ReplyDays.dataBinding, "");
+			}
+		</logic>
+		<validateOn>ReplyDays.dataBinding</validateOn>		
+		<validate>
+			var val = Services.getValue(ReplyDays.dataBinding);
+			var err = WPU.validateInteger( val);
+			if( null == err )
+			{	if( val &lt;= 0)
+				{	err = ErrorCode.getErrorCode("CaseMan_negativeAmountEntered_Msg");
+				}
+			}
+			
+			return err;
+		</validate>
+	</Javascript>
+</Question>

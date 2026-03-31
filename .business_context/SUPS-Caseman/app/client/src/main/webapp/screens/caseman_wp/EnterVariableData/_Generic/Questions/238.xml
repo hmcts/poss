@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>238</Id>
+	<Label>When is agreement to be reached</Label>
+	<ObjectName>ReachAgreementBy</ObjectName>
+
+	<Html>	
+		<select id="ReachAgreementBy">
+			<option value=""></option>
+			<option value="GD">By a given date</option>
+			<option value="SD">A number of days after service</option>
+		</select>
+	</Html>
+
+	<Javascript>
+		<XPath>/ds/EnterVariableData/FastTrack/reachAgreementBy</XPath>
+		<HintText>When is agreement to be reached</HintText>
+		<isMandatory>return true;</isMandatory>	
+		<enableOn>ReportsAgreed.dataBinding</enableOn>
+		<isEnabled>return('Y'  == Services.getValue(ReportsAgreed.dataBinding));</isEnabled>
+		<logicOn>ReportsAgreed.dataBinding</logicOn>
+		<logic>
+			if('Y'  != Services.getValue(ReportsAgreed.dataBinding))
+			{	Services.setValue(ReachAgreementBy.dataBinding, "");
+			}
+		</logic>
+	</Javascript>
+</Question>

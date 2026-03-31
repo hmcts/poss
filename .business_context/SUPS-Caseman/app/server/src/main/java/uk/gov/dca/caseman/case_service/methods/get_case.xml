@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- 
+	Service: Case
+	Method:  getCase()
+	File:    get_case.xml
+	Author:  Chris Hutt
+	Created: 12 Nov 2004
+	Description: 
+		Rerieve a case.
+--> 
+<service-method>
+	<pipeline>
+		<Query>
+			<QueryDef location="uk/gov/dca/caseman/case_service/query_def_join.xml"/>
+			<QueryExtension pivotNode="/ds/ManageCase">
+				<Param name="param.caseNumber" xpath="/params/param[@name = 'caseNumber']"/>
+			</QueryExtension>
+		</Query>
+		<Transform>
+			<Template location="uk/gov/dca/caseman/case_service/transforms/get_case.xsl"/>
+		</Transform>
+	</pipeline>
+	<Security roles="viewOnly medium high wcSuper scSuper bmsSuper aeSuper dmSuper cpSuper ccbcMan ccbcUser ccbcSGB2"/>	
+</service-method>

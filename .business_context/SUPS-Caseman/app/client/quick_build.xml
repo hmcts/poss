@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- Definately a work in progress!!! KB 09.12.2005-->
+<project name="partial_builds" default="quick-redeploy_javascript" basedir=".">
+	
+	<import file="caseman_client_build.xml"/>
+	
+	
+	<target name="quick_re-deploy">		
+		<mkdir dir="${build.dir}"/>
+				<jar destfile="${build.dir}/${application.name}.war" >
+					
+					<!-- Include the framework files -->
+					<fileset dir="${assemble.dir}">
+						<include name="**"/>
+					</fileset>
+
+					<!-- Include the application code -->
+					<fileset dir="${assemble.dir}">
+						<include name="**/*.html"/>
+						<include name="**/*.css"/>
+						<include name="**/*.png"/>
+						<include name="**/*.js"/>
+						<include name="**/*.xml"/>
+						<include name="**/*.xsd"/>
+						<include name="**/*.jsp"/>
+						<include name="**/*.gif"/>	<!-- Frwk should store the Date Picker gif! -->
+						<!-- do not copy the appconfig.xml - it is now transformed and copied into dist by the wp-build 
+							include name="applicationconfig.xml"/-->
+						<include name="WEB-INF/**/*"/> <!-- includes Oracle Reports Servlet -->
+					</fileset>
+
+					<!-- Include the common code at the caseman/ level -->
+					<fileset dir="./${webapp.dir}">
+						 <include name="*.js"/> 
+						 <include name="*.html"/>
+						 <include name="*.xml"/>
+						 <include name="*.css"/>
+					</fileset> 
+
+					<!-- Include the common code, keeping the common directory -->
+					<!-- <fileset dir="..">
+						 <include name="common/**/*.js"/> 
+					</fileset> -->
+
+					<!-- Include the bits of jsunit that need to be deployed with the test app -->
+					<fileset dir="${module.tools.path}/extracted/">
+						<include name="${tools.jsunit.dirname}/app/**"/>
+						<include name="${tools.jsunit.dirname}/css/**"/>
+						<include name="${tools.jsunit.dirname}/images/**"/>
+						<include name="${tools.jsunit.dirname}/*.html"/>
+					</fileset>
+				
+				</jar>
+				
+				<delete dir="${assemble.dir}" failonerror="false" />
+				
+		<echo>Deploying .war to ${jboss_platform}</echo>
+		<copy todir="${jboss.deploy.dir}" file="${build.dir}/${application.name}.war" overwrite="true"/>				
+	</target>	
+	
+	<target name="quick-redeploy_javascript">
+		<copy todir="caseman-dist/screens/caseman_wp" overwrite="true">
+			<fileset dir="${caseman-wp.dir}">
+				<include name="**/*.js" />
+			</fileset>
+		</copy>		
+		
+		<antcall target="quick_re-deploy" /> 
+	</target>
+	
+</project>
+
+ 
+	

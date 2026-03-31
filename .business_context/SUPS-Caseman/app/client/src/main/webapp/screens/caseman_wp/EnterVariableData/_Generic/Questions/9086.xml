@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>9086</Id>
+	<Label>Does this order suspend</Label>
+	<ObjectName>OrderSuspendExtended</ObjectName>
+	<Html>
+		<select id="OrderSuspendExtended">
+		  <option value=""></option>
+		  <option value="PJ">Previous judgment or order</option>
+		  <option value="WE">Warrant of control</option>
+		</select>
+	</Html>
+	<Javascript>
+      	<XPath>/ds/EnterVariableData/OrderSuspendExtended</XPath>
+		<HintText>Select suspension for</HintText>
+		<mandatoryOn>WarrantSuspended.dataBinding</mandatoryOn>
+		<isMandatory>return("Y" != Services.getValue(WarrantSuspended.dataBinding));</isMandatory>
+        <enableOn>WarrantSuspended.dataBinding</enableOn>
+        <isEnabled>return("Y" != Services.getValue(WarrantSuspended.dataBinding)); </isEnabled>
+        <logicOn>WarrantSuspended.dataBinding</logicOn>
+        <logic>	
+        	if( "Y" == Services.getValue(WarrantSuspended.dataBinding)) {
+        		Services.setValue(OrderSuspendExtended.dataBinding, "");
+        	}
+        </logic>           
+  
+	</Javascript>
+</Question>

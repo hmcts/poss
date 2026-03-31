@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<DBMapDef>
+	<DataSource id="java:OracleDS"/>
+	<Tables>
+		
+		<Table alias="DU" name="DCA_USER"/>
+		
+	</Tables>
+	<Mapping>
+		<Users>
+		    <User>
+				<UserId>${DU.USER_ID}</UserId>
+				<UserDefaultPrinter>${DU.USER_DEFAULT_PRINTER}</UserDefaultPrinter>
+			</User>
+		</Users>
+	</Mapping>
+	
+</DBMapDef>

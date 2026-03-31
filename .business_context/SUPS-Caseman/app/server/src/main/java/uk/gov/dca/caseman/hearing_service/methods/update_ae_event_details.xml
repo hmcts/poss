@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: Hearing
+	Method:  updateAeEventDetails()
+	File:    update_ae_event_details.xml
+	Author:  Chris Hutt (EDS)
+	Created: 11 August 2006
+	Description: 
+		Update the DETAILS column the given Ae Event.
+		TD3959 highlighted fact that Ae Events do hold date/time of associated hearing.
+		This needs to be amended when associated hearing is updated.
+		Indices exist on HRG_SEQ and STD_EVENT_ID
+-->
+<service-method>
+	<pipeline>
+		<SQLLite output="input">
+			<DataSource id="java:OracleDS"/>
+			<Param name="param.details" xpath="/params/param[@name='details']"/>
+			<Param name="param.hrgSeq" xpath="/params/param[@name='hrgSeq']"/>
+			<SQL type="update" tables="CE">
+                UPDATE AE_EVENTS AE 
+                SET    AE.DETAILS      = ${param.details}
+                WHERE  AE.HRG_SEQ      = ${param.hrgSeq}
+                AND    AE.STD_EVENT_ID IN (853, 860, 861, 862,  864, 873, 894, 895)
+			</SQL>
+		</SQLLite>
+	</pipeline>
+	<Security roles="user"/>
+</service-method>

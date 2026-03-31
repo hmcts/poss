@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: Ae
+	Method:  getFutureHearings
+	Author:  Chris Hutt (EDS) 
+	Created: 23 June 2005
+	Description: 
+		Use SQLLite to return a list of hearing associated with the AEs parent case
+-->
+<service-method>
+	<pipeline>
+		<SQLLite format-output="true"
+				 resultset-element="Hearings"
+				 row-element="Hearing"
+				 field-name-as="element" >
+			<DataSource id="java:OracleDS"/>
+			<Param name="param.caseNumber" xpath="/params/param[@name='caseNumber']"/>
+			<SQL>
+				SELECT  
+					 		H.HRG_DATE AS "HearingDate"					
+					   	   ,H.HRG_TYPE AS "HearingType"
+				FROM		HEARINGS H
+				WHERE 		H.CASE_NUMBER = ${param.caseNumber}
+				ORDER BY 	H.HRG_DATE
+			</SQL>
+			<!-- SQL>
+				SELECT  
+					 	H.HRG_DATE AS "HearingDate"					
+					   ,H.HRG_TYPE AS "HearingType"
+				FROM	HEARINGS H
+				WHERE 	H.CASE_NUMBER = ${param.caseNumber}
+				AND 	H.HRG_DATE >= (SELECT SYSDATE FROM DUAL)
+			</SQL -->
+		</SQLLite>
+  	</pipeline>
+	<Security roles="user"/>
+</service-method>

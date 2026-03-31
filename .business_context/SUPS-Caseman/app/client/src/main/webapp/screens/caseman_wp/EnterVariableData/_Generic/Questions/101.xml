@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>101</Id>
+	<Label>Method of service</Label>
+	<ObjectName>ServiceMethod</ObjectName>
+	<Html>		
+		<select id="ServiceMethod">
+			<option value=""></option>
+			<option value="DELIV">By delivering to or leaving it at</option>
+			<option value="EMAIL">By email</option>
+			<option value="EXCH">By document exchange</option>
+			<option value="FAX">By fax machine</option>
+			<option value="HAND">By handing it to or leaving it with</option>
+			<option value="POST">By first class post</option>
+			<option value="OTH">Other</option>
+		</select>
+	</Html>
+	<Javascript>
+		<XPath>/ds/EnterVariableData/Service/serviceMethod</XPath>
+		<HintText>Enter method of service - list available</HintText>
+		<isMandatory>return true;</isMandatory>
+	</Javascript>
+</Question>

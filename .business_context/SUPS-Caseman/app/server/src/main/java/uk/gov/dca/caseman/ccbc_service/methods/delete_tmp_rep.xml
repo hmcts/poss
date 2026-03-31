@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: CcbcBatch
+	Method:  insertTmpRep()
+	File:    insert_tmp_rep.xml
+	Author:  Chris Hutt
+	Created: 2May07
+	Description: 
+		Delete a Tmp_Rep row.
+	
+	Change History:
+
+-->
+<service-method>
+	<pipeline>
+		<SQLLite output="input">
+			<DataSource id="java:OracleDS"/>
+			<Param name="param.reportId" xpath="/params/param[@name = 'ReportId']"/>
+			<Param name="param.value" xpath="/params/param[@name = 'Value']"/>
+			<SQL type="update" tables="T">
+			    DELETE 	FROM TMP_REP
+			    WHERE	REPORT_ID = ${param.reportId}
+			    AND 	VALUE = ${param.value}		
+			    AND		JOB_NUMBER IS NULL		
+			</SQL>
+		</SQLLite>	
+	</pipeline>
+	<Security roles="medium high wcSuper scSuper bmsSuper aeSuper dmSuper admin"/>				
+</service-method>

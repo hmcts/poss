@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>211</Id>
+	<Label>Court to be notified of instruction?</Label>
+	<ObjectName>IsInstructionNotified</ObjectName>
+	<Html>	
+		<input type="checkbox" id="IsInstructionNotified"></input>
+	</Html>
+	<Javascript>
+		<XPath>/ds/EnterVariableData/FastTrack/isInstructionNotified</XPath>
+		<HintText>Check box if the court to be notified of instruction</HintText>		
+		<modelValue>checked: "Y", unchecked: "N"</modelValue>
+		<enableOn>IsSingleExpert.dataBinding</enableOn>
+		<isEnabled>return('Y' == Services.getValue(IsSingleExpert.dataBinding));</isEnabled>
+		<logicOn>IsSingleExpert.dataBinding</logicOn>
+		<logic>
+			if('Y' != Services.getValue(IsSingleExpert.dataBinding))
+			{	Services.setValue(IsInstructionNotified.dataBinding, "N");
+			}
+		</logic>
+	</Javascript>
+	
+</Question>

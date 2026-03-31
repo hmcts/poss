@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>244</Id>
+	<Label>Statement to be filed</Label>
+	<ObjectName>FileStatement</ObjectName>
+	<Html>	
+		<select id="FileStatement">
+			<option value=""></option>
+			<option value="GD">By a given date</option>
+			<option value="LQ">With the Listing Questionnaire</option>
+			<option value="NLQ">No later than date for filing the Listing Questionnaire</option>
+		</select>
+	</Html>
+	<Javascript>
+		<XPath>/ds/EnterVariableData/FastTrack/fileStatement</XPath>
+		<HintText>When should statement be filed</HintText>
+		<isMandatory>return true;</isMandatory>			
+		<enableOn>ExpertRefused.dataBinding, OrderIssuesStmt.dataBinding</enableOn>
+		<isEnabled>
+			return('Y' != Services.getValue(ExpertRefused.dataBinding) &amp;&amp;
+					'Y' == Services.getValue(OrderIssuesStmt.dataBinding));
+		</isEnabled>
+		<logicOn>ExpertRefused.dataBinding, OrderIssuesStmt.dataBinding</logicOn>		
+		<logic>
+			if('Y' == Services.getValue(ExpertRefused.dataBinding) ||
+					'Y' != Services.getValue(OrderIssuesStmt.dataBinding))
+			{	Services.setValue(FileStatement.dataBinding, "");
+			}
+		</logic>
+		
+		<Context ScreenId="CJR060">
+			<HintText>Select when statement should be filed</HintText>
+		</Context>
+		
+	</Javascript>
+</Question>
+
+     
+     
+    

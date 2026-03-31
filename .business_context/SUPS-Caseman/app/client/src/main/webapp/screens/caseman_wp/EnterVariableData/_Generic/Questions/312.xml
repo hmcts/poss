@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>312</Id>
+	<Label>Date by which amount is to be paid</Label>
+	<ObjectName>DateAmountPaid</ObjectName>
+	<Html>		
+		<script type="text/javascript">
+			WP_DatePickerRenderer.createInline("DateAmountPaid");
+		</script>
+	</Html>
+	<Javascript>
+		<XPath>/ds/EnterVariableData/DefaultCostsCert/dateAmountPaid</XPath>
+		<HintText>Enter the date, amount to be paid in the format DD-MON-YYYY</HintText>
+		<initialise>loadNonWorkingDays();</initialise>				
+		<isMandatory>return true;</isMandatory>		
+		<enableOn>WhenSumPayable.dataBinding</enableOn>
+		<isEnabled>return('GD' == Services.getValue(WhenSumPayable.dataBinding));</isEnabled>
+		<logicOn>WhenSumPayable.dataBinding</logicOn>
+		<logic>
+			if('GD' != Services.getValue(WhenSumPayable.dataBinding))
+			{	Services.setValue(DateAmountPaid.dataBinding);
+			}
+		</logic>
+		<validateOn>DateAmountPaid.dataBinding</validateOn>
+		<validate>
+			return isWorkingDayInFuture(Services.getValue(DateAmountPaid.dataBinding));			
+		</validate>
+		<miscCode>DateAmountPaid.weekends = false;</miscCode>
+		
+		<Context ScreenId="CJR038">	
+			<enableOn>SumPayableWithin.dataBinding</enableOn>
+			<isEnabled>
+				return('GD' == Services.getValue(SumPayableWithin.dataBinding));
+			</isEnabled>
+			<logicOn>SumPayableWithin.dataBinding</logicOn>
+			<logic>
+				if('GD' != Services.getValue(SumPayableWithin.dataBinding))
+			{	Services.setValue(DateAmountPaid.dataBinding);
+			}
+			</logic>
+			<isMandatory>return false;</isMandatory>	
+		</Context>
+	</Javascript>
+</Question>

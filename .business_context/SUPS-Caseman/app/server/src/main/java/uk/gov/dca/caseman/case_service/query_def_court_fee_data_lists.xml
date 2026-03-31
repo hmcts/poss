@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Change History:
+		13/12/2010, Chris Vincent - Trac 4104, changed SystemData pivot node to only retrieve specific System Data items
+		instead of everything owned by the Global Court Code (0).
+-->
+<QueryDef>
+  <DBMapDef location="uk/gov/dca/caseman/case_service/map_court_fee_data_lists.xml"/>
+  <Query pivotNode="/CourtFeeData/SystemDataList/SystemData" tables="SD">
+	<Join>SD.ITEM IN ('CASE_FEE','DR_FEE')</Join>
+    <Modify notModifiable="true"/>	
+  </Query>
+  <Query pivotNode="/CourtFeeData/BandList/Band" tables="CCBC">
+	<Join>CCBC.RV_DOMAIN = 'COURT_FEE_BAND'</Join>
+	<OrderBy>CCBC.RV_LOW_VALUE</OrderBy>
+	<Modify notModifiable="true"/>	
+  </Query>
+</QueryDef>

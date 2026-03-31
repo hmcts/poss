@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: Dom
+	Method:  getCalculatedPeriods()
+	File:    get_calculated_periods.xml
+	Author:  Phil Haferer (EDS), Ian Stainer (Valtech)
+	Created: 07 July 2005
+	Description: 
+        Retrieves the 'Calculated Periods' reference data for Calculating the Determination of Means
+-->
+<service-method>
+	<pipeline>
+		<SQLLite format-output="true"
+				 resultset-element="CalculatedPeriods"
+				 row-element="Period"
+				 field-name-as="element" >
+			<DataSource id="java:OracleDS"/>
+			<SQL>
+				SELECT REF.RV_LOW_VALUE        AS "Id"                    
+				,      REF.RV_MEANING          AS "Description"                     
+				FROM   CCBC_REF_CODES REF
+				WHERE  REF.RV_DOMAIN = 'AE_PER'
+			</SQL>
+		</SQLLite>
+	</pipeline>
+	<Security roles="medium high wcSuper scSuper bmsSuper aeSuper dmSuper cpSuper"/> 	
+</service-method>

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: CcbcBatch
+	Method:  deleteMcolData()
+	File:    delete_mcol_data.xml
+	Author:  Chris Hutt
+	Created: 28 Aug 07
+	Description: 
+	    TD Group2 5316
+		Delete an MCOL_DATA row (using case event seq) in the return_info column
+	    (providing record not already sent)
+	
+	Change History:
+
+-->
+<service-method>
+	<pipeline>
+		<SQLLite output="input">
+			<DataSource id="java:OracleDS"/>
+			<Param name="param.caseEventSeq" xpath="/params/param[@name = 'caseEventSeq']"/>
+			<SQL type="update" tables="T">
+			    DELETE 	FROM MCOL_DATA
+			    WHERE	RETURN_INFO = ${param.caseEventSeq}	
+			    AND		DATE_SENT IS NULL		
+			</SQL>
+		</SQLLite>	
+	</pipeline>
+	<Security roles="medium high wcSuper scSuper bmsSuper aeSuper dmSuper admin"/>				
+</service-method>

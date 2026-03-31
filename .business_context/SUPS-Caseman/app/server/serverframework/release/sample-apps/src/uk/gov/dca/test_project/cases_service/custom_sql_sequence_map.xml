@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<DBMapDef>
+	<DataSource id="java:SupsDS"/>
+	<Tables>
+		<Table alias="C" name="CUSTOM_SQL_SEQ_TEST"/>
+	</Tables>
+	<Mapping>
+		<Test>
+			<Id>${C.ID}</Id>
+			<Surrogate>${C.SURROGATE}</Surrogate>
+		</Test>
+	</Mapping>
+</DBMapDef>

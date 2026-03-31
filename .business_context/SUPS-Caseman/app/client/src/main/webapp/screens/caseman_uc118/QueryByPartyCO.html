@@ -1,0 +1,111 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3c.org/TR/html4/strict.dtd">
+
+<html>
+	<head>
+		<title>QueryByPartyCO</title>
+		<link href="QueryByPartyCO.css" type="text/css" rel="stylesheet" title="Default">
+		<script type="text/javascript" src="../../Framework.js"></script>
+		<script type="text/javascript" src="../../ConcatCommon.js"></script>
+		<script type="text/javascript" src="QueryByPartyCO.js"></script>
+	</head>
+	<body>
+		<form name="QueryByPartyCO" id="QueryByPartyCO">
+		
+			<!-- Framework Navigation Menu -->
+			<script type="text/javascript">MenuBarRenderer.createInline();</script>
+		
+			<table class="layout">
+			
+				<!-- Header Panel -->
+				<tr>
+					<td>
+						<div class="panel">
+							<table class="content">
+								<tr>
+									<td>
+										<table>
+											<tr>
+												<td class="defaultLabel"><label for="Header_OwningCourtCode">Owning Court</label></td>
+												<td><input id="Header_OwningCourtCode" type="text" size=5 style="margin-top:5px;"></td>
+												<td>
+													<script type="text/javascript">
+														AutoCompletionRenderer.createInline("Header_OwningCourtName");
+													</script>
+												</td>
+												<td style="width:120px">&nbsp;<input id="Header_OwningCourtLOVBtn" type="button" value="LOV" style="margin-top:5px;"></td>
+												<td class="defaultLabel"><label for="Header_Address1">Address 1</label></td>
+												<td><input id="Header_Address1" type="text" size=50 style="margin-top:5px;"></td>
+											</tr>
+											<tr>
+												<td class="defaultLabel"><label for="Header_CONumber">CO Number</label></td>
+												<td colspan=3><input id="Header_CONumber" type="text" size=15></td>
+												<td class="defaultLabel"><label for="Header_Address2">Address 2</label></td>
+												<td><input id="Header_Address2" type="text" size=50></td>
+											</tr>
+											<tr>
+												<td class="defaultLabel"><label for="Header_PartyName">Debtor Name</label></td>
+												<td colspan=3><input id="Header_PartyName" type="text" size=40></td>
+												<td class="defaultLabel"><label for="Header_EmployerName">Employer Name</label></td>
+												<td><input id="Header_EmployerName" type="text" size=40></td>
+											</tr>
+											<tr>
+												<td colspan=6 align="right"><input id="Header_SearchBtn" type="button" value="Search" style="margin-bottom:5px;"></td>
+											</tr>
+										</table>
+									</td>
+								</tr>
+							</table>
+						</div>
+					</td>
+				</tr>
+				<!-- End Header Panel -->
+				
+				<!-- Results Panel -->
+				<tr>
+					<td>
+						<div class="panel">
+							<table class="content" style="height:452px;">
+								<tr>
+									<td valign="top">
+			
+										<!-- Party Grid - Read only -->
+										<script type="text/javascript">
+											Grid.createInline(
+												"Results_ResultsGrid",		        // The HTML id of the grid
+																					// An array of strings containing the column headers
+												["CO Number", "Debtor Name", "Address 1", "Address 2", "CO Type", "Status"],
+												26,			                        // The number of rows in the grid
+												1	                                // The number of rows which are grouped together in coloured stripe.
+											);
+										</script>
+			
+									</td>
+								</tr>
+							</table>
+						</div>
+					</td>
+				</tr>
+				<!-- End Results Panel -->
+			
+			</table>
+		
+			<!-- Status Bar Panel -->
+			<script type="text/javascript">
+				ActionBarRenderer.createInline(
+					"status_bar",
+					[
+						{id: "Status_PreviousButton", label: "Previous"},	
+						{id: "Status_NextButton", label: "Next"},
+						{id: "Status_OKBtn", label: "OK"},
+						{id: "Status_CancelBtn", label: "Cancel"}
+					]
+				);
+			</script>
+			<!-- End Status Bar Panel -->
+			
+			<!-- LOV Popups -->
+			<script type="text/javascript">LOVSubformRenderer.createInline( "OwningCourtLOV", "Owning Court", ["Code", "Court"], 10, 1, true );</script>		
+			
+		</form>
+	</body>
+</html>

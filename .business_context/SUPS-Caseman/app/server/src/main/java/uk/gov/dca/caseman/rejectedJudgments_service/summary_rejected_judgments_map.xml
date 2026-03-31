@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<DBMapDef>
+	<DataSource id="java:OracleDS"/>
+	
+	<Tables>
+		<Table alias="RJ" name="REJECT_JUDGMENTS"/>		
+		<Table alias="RR" name="REJECT_REASONS" />
+		<Table alias="RV" name="CCBC_REF_CODES" />
+	</Tables>
+	
+	<Mapping>
+		<RejectedJudgments>
+			<RejectedJudgment>
+				<RowId>${RJ.ROWID}</RowId>
+				<CredCode>${RJ.CRED_CODE}</CredCode>
+				<CaseNumber>${RJ.CASE_NUMBER}</CaseNumber>
+				<DefendantId>${RJ.DEFENDANT_ID}</DefendantId>
+				<DefendantAddr1>${RJ.DEFENDANT_ADDR_1}</DefendantAddr1>
+				<DefendantAddr2>${RJ.DEFENDANT_ADDR_2}</DefendantAddr2>
+				<DefendantAddr3>${RJ.DEFENDANT_ADDR_3}</DefendantAddr3>
+				<DefendantAddr4>${RJ.DEFENDANT_ADDR_4}</DefendantAddr4>
+				<DefendantAddr5>${RJ.DEFENDANT_ADDR_5}</DefendantAddr5>				
+				<DefendantPostCode>${RJ.DEFENDANT_POSTCODE}</DefendantPostCode>		
+				<DefendantDXNumber>${RJ.DEFENDANT_DX_NO}</DefendantDXNumber>		
+				<DefendantTelephoneNumber>${RJ.DEFENDANT_TEL_NO}</DefendantTelephoneNumber>
+				<DefendantFaxNumber>${RJ.DEFENDANT_FAX_NO}</DefendantFaxNumber>
+				<DefendantEmailAddress>${RJ.DEFENDANT_EMAIL}</DefendantEmailAddress>
+				<DefendantCommMethod>${RV.RV_MEANING}</DefendantCommMethod>
+				<DefendantDOB>${RJ.DEFENDANT_DOB}</DefendantDOB>
+				<JudgmentType>${RJ.JUDGMENT_TYPE}</JudgmentType>
+				<JointJudgment>${RJ.JOINT_JUDGMENT}</JointJudgment>
+				<JudgmentAmount>${RJ.JUDGMENT_AMOUNT}</JudgmentAmount>
+				<Interest>${RJ.INTEREST}</Interest>
+				<TotalCosts>${RJ.TOTAL_COSTS}</TotalCosts>
+				<PaidBeforeJudgment>${RJ.PAID_BEFORE_JUDGMENT}</PaidBeforeJudgment>
+				<Total>${RJ.TOTAL}</Total>
+				<InstalmentAmount>${RJ.INSTALMENT_AMOUNT}</InstalmentAmount>
+				<Frequency>${RJ.FREQUENCY}</Frequency>
+				<FirstPaymentDate>${RJ.FIRST_PAYMENT_DATE}</FirstPaymentDate>
+				<RejectCode>${RJ.REJECT_CODE}</RejectCode>
+				<RejectReason>${RR.REJECT_TEXT}</RejectReason>
+				<DateRejected>${RJ.DATE_REJECTED}</DateRejected>
+				<CustFileSequence>${RJ.CUST_FILE_SEQUENCE}</CustFileSequence>
+				<JudgmentAmountCurrency>${RJ.JUDGMENT_AMOUNT_CURRENCY}</JudgmentAmountCurrency>
+				<InterestCurrency>${RJ.INTEREST_CURRENCY}</InterestCurrency>
+				<TotalCostCurrency>${RJ.TOTAL_COSTS_CURRENCY}</TotalCostCurrency>
+				<PaidBeforeJudgmentCurrency>${RJ.PAID_BEFORE_JUDGMENT_CURRENCY}</PaidBeforeJudgmentCurrency>
+				<TotalCurrency>${RJ.TOTAL_CURRENCY}</TotalCurrency>
+				<InstalmentAmountCurrency>${RJ.INSTALMENT_AMOUNT_CURRENCY}</InstalmentAmountCurrency>
+				
+			
+			</RejectedJudgment>
+		</RejectedJudgments>
+		
+	</Mapping>
+</DBMapDef>

@@ -1,0 +1,200 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<QueryDef>
+	<DBMapDef location="uk/gov/dca/test_project/linked_service/map.xml"/>
+	<Tables>
+		<Table alias="CTCR" name="CPR_TO_CPR_RELATIONSHIP" />
+		<Table alias="ACPR" name="ADDRESS_CASE_PARTY_ROLES" />
+	</Tables>
+	
+	<Query pivotNode="/Cases/Case" tables="c">
+		<Hint>FIRST_ROWS</Hint>
+		<OrderBy>C.CASE_NUMBER ASC</OrderBy>
+		<Modify>
+		</Modify>
+		<Alias name="C.CASE_EXTRA" select="C.CASE_NUMBER || ':' || C.CASE_TYPE"/> 		
+	</Query>
+	
+	<Query pivotNode="/Cases/Case/Parties/ClaimantParties/Claimant" tables="p cpr">
+		<Join>
+			CPR.CASE_NUMBER = ${C.CASE_NUMBER} AND
+			CPR.PARTY_ROLE_CODE = 'CLAIMANT' AND
+			P.PARTY_ID = CPR.PARTY_ID
+		</Join>
+		<Modify>
+			<CheckExists table="p" fields="party_id" onExist="update"/>
+			<CheckExists table="cpr" fields="case_number party_id party_role_code" onExist="skip"/>
+			<Field name="p.party_id" sequenceTable="party_sequence"/>
+			<Field name="cpr.case_number" xpath="../../../CaseId"/>
+			<Field name="cpr.party_id" property="p.party_id"/>
+			<Field name="cpr.party_role_code" value="CLAIMANT"/>
+		</Modify>
+	</Query>
+	
+	<Query pivotNode="/Cases/Case/Parties/ClaimantParties/Claimant/ContactDetails/Contact" tables="a acpr">
+		<Join>
+			ACPR.PARTY_ID = ${P.PARTY_ID} AND
+			ACPR.CASE_NUMBER = ${C.CASE_NUMBER} AND
+			ACPR.PARTY_ROLE_CODE = 'CLAIMANT' AND
+			A.ADDR_SEQ = ACPR.ADDR_SEQ
+		</Join>
+		<Modify>
+			<CheckExists table="a" fields="addr_seq" onExist="update"/>
+			<CheckExists table="acpr" fields="case_number party_id party_role_code addr_seq" onExist="skip"/>
+			<Field name="a.addr_seq" sequenceTable="addr_sequence"/>
+			<Field name="acpr.party_id" property="p.party_id"/>
+			<Field name="acpr.case_number" property="c.case_number"/>
+			<Field name="acpr.party_role_code" value="CLAIMANT"/>
+			<Field name="acpr.addr_seq" property="a.addr_seq"/>
+		</Modify>
+	</Query>
+	
+	<Query pivotNode="/Cases/Case/Parties/ClaimantParties/Claimant/Solicitor" tables="p cpr ctcr">
+		<Join>
+			CTCR.CPR_A_CASE_NUMBER = ${C.CASE_NUMBER} AND
+			CTCR.CPR_A_PARTY_ID = ${P.PARTY_ID} AND
+			CTCR.CPR_A_PARTY_ROLE_CODE = 'CLAIMANT' AND
+			CTCR.CPR_B_PARTY_ROLE_CODE= 'SOL' AND
+			CTCR.CPR_B_CASE_NUMBER = ${C.CASE_NUMBER} AND
+			CPR.CASE_NUMBER = ${C.CASE_NUMBER} AND
+			CPR.PARTY_ROLE_CODE = 'SOL' AND
+			CPR.PARTY_ID = CTCR.CPR_B_PARTY_ID AND
+			P.PARTY_ID = CTCR.CPR_B_PARTY_ID
+		</Join>
+		<Modify>
+			<CheckExists table="p" fields="party_id" onExist="update"/>
+			<CheckExists table="ctcr"
+						 fields="cpr_a_case_number cpr_a_party_id cpr_a_party_role_code cpr_b_case_number cpr_b_party_id cpr_b_party_role_code"
+						 onExist="skip"/>
+			<CheckExists table="cpr"
+						 fields="case_number party_id party_role_code"
+						 onExist="skip"/>
+			<Field name="p.party_id" sequenceTable="party_sequence"/>
+			<Field name="CTCR.CPR_A_CASE_NUMBER" property="c.case_number"/>
+			<Field name="CTCR.CPR_A_PARTY_ID" property="../p.party_id"/>
+			<Field name="CTCR.CPR_A_PARTY_ROLE_CODE" value="CLAIMANT"/>
+			<Field name="CTCR.CPR_B_PARTY_ROLE_CODE" value="SOL"/>
+			<Field name="CTCR.CPR_B_PARTY_ID" property="p.party_id"/>
+			<Field name="CTCR.CPR_B_CASE_NUMBER" property="c.case_number"/>
+			<Field name="cpr.case_number" property="c.case_number"/>
+			<Field name="cpr.party_id" property="p.party_id"/>
+			<Field name="cpr.party_role_code" value="SOL"/>
+		</Modify>
+	</Query>
+	
+	<Query pivotNode="/Cases/Case/Parties/ClaimantParties/Claimant/Solicitor/ContactDetails/Contact" tables="a acpr">
+		<Join>
+			ACPR.PARTY_ID = ${P.PARTY_ID} AND
+			ACPR.CASE_NUMBER = ${C.CASE_NUMBER} AND
+			ACPR.PARTY_ROLE_CODE = 'SOL' AND
+			A.ADDR_SEQ = ACPR.ADDR_SEQ
+		</Join>
+		<Modify>
+			<CheckExists table="a" fields="addr_seq" onExist="update"/>
+			<CheckExists table="acpr"
+						 fields="case_number party_id party_role_code addr_seq"
+						 onExist="skip"/>
+			<Field name="a.addr_seq" sequenceTable="addr_sequence"/>
+			<Field name="acpr.party_id" property="p.party_id"/>
+			<Field name="acpr.case_number" property="c.case_number"/>
+			<Field name="acpr.party_role_code" value="SOL"/>
+			<Field name="acpr.addr_seq" property="a.addr_seq"/>
+		</Modify>
+	</Query>
+	
+	<Query pivotNode="/Cases/Case/Parties/DefendantParties/Defendant" tables="p cpr">
+		<Join>
+			CPR.CASE_NUMBER = ${C.CASE_NUMBER} AND
+			CPR.PARTY_ROLE_CODE = 'DEF' AND
+			P.PARTY_ID = CPR.PARTY_ID
+		</Join>
+		<Modify>
+			<CheckExists table="p" fields="party_id" onExist="update"/>
+			<CheckExists table="cpr"
+						 fields="case_number party_id party_role_code"
+						 onExist="skip"/>
+			<Field name="p.party_id" sequenceTable="party_sequence"/>
+			<Field name="cpr.case_number" property="c.case_number"/>
+			<Field name="cpr.party_id" property="p.party_id"/>
+			<Field name="cpr.party_role_code" value="DEF"/>
+		</Modify>
+	</Query>
+	
+	<Query pivotNode="/Cases/Case/Parties/DefendantParties/Defendant/ContactDetails/Contact" tables="a acpr">
+		<Join>
+			ACPR.PARTY_ID = ${P.PARTY_ID} AND
+			ACPR.CASE_NUMBER = ${C.CASE_NUMBER} AND
+			ACPR.PARTY_ROLE_CODE = 'DEF' AND
+			A.ADDR_SEQ = ACPR.ADDR_SEQ
+		</Join>
+		<Modify>
+			<CheckExists table="a" fields="addr_seq" onExist="update"/>
+			<CheckExists table="acpr"
+						 fields="case_number party_id party_role_code addr_seq"
+						 onExist="skip"/>
+			<Field name="a.addr_seq" sequenceTable="addr_sequence"/>
+			<Field name="acpr.party_id" property="p.party_id"/>
+			<Field name="acpr.case_number" property="c.case_number"/>
+			<Field name="acpr.party_role_code" value="DEF"/>
+			<Field name="acpr.addr_seq" property="a.addr_seq"/>
+		</Modify>
+	</Query>
+	
+	<Query pivotNode="/Cases/Case/Parties/DefendantParties/Defendant/Solicitor" tables="p cpr ctcr">
+		<Join>
+			CTCR.CPR_A_CASE_NUMBER = ${C.CASE_NUMBER} AND
+			CTCR.CPR_A_PARTY_ID = ${P.PARTY_ID} AND
+			CTCR.CPR_A_PARTY_ROLE_CODE = 'DEF' AND
+			CTCR.CPR_B_PARTY_ROLE_CODE= 'SOL' AND
+			CPR.CASE_NUMBER = ${C.CASE_NUMBER} AND
+			CPR.PARTY_ROLE_CODE = 'SOL' AND
+			CPR.PARTY_ID = CTCR.CPR_B_PARTY_ID AND
+			P.PARTY_ID = CTCR.CPR_B_PARTY_ID
+		</Join>
+		<Modify>
+			<CheckExists table="p" fields="party_id" onExist="update"/>
+			<CheckExists table="ctcr"
+						 fields="cpr_a_case_number cpr_a_party_id cpr_a_party_role_code cpr_a_case_number cpr_b_party_id cpr_b_party_role_code"
+						 onExist="skip"/>
+			<CheckExists table="cpr"
+						 fields="case_number party_id party_role_code"
+						 onExist="skip"/>
+			<Field name="p.party_id" sequenceTable="party_sequence"/>
+			<Field name="CTCR.CPR_A_CASE_NUMBER" property="c.case_number"/>
+			<Field name="CTCR.CPR_A_PARTY_ID" property="../p.party_id"/>
+			<Field name="CTCR.CPR_A_PARTY_ROLE_CODE" value="DEF"/>
+			<Field name="CTCR.CPR_B_PARTY_ROLE_CODE" value="SOL"/>
+			<Field name="CTCR.CPR_B_PARTY_ID" property="p.party_id"/>
+			<Field name="CTCR.CPR_B_CASE_NUMBER" property="c.case_number"/>
+			<Field name="cpr.case_number" property="c.case_number"/>
+			<Field name="cpr.party_id" property="p.party_id"/>
+			<Field name="cpr.party_role_code" value="SOL"/>
+		</Modify>
+	</Query>
+	
+	<Query pivotNode="/Cases/Case/Parties/DefendantParties/Defendant/Solicitor/ContactDetails/Contact" tables="a acpr">
+		<Join>
+			ACPR.PARTY_ID = ${P.PARTY_ID} AND
+			ACPR.CASE_NUMBER = ${C.CASE_NUMBER} AND
+			ACPR.PARTY_ROLE_CODE = 'SOL' AND
+			A.ADDR_SEQ = ACPR.ADDR_SEQ
+		</Join>
+		<Modify>
+			<CheckExists table="a" fields="addr_seq" onExist="update"/>
+			<CheckExists table="acpr"
+						 fields="case_number party_id party_role_code addr_seq"
+						 onExist="skip"/>
+			<Field name="a.addr_seq" sequenceTable="addr_sequence"/>
+			<Field name="acpr.party_id" property="p.party_id"/>
+			<Field name="acpr.case_number" property="c.case_number"/>
+			<Field name="acpr.party_role_code" value="SOL"/>
+			<Field name="acpr.addr_seq" property="a.addr_seq"/>
+		</Modify>
+	</Query>
+	
+	<Query pivotNode="/Cases/Case/OwningCourt" tables="cts">
+		<Join>
+			CTS.CODE = ${C.ADMIN_CRT_CODE}
+		</Join>
+		<Modify notModifiable="true"/>
+	</Query>
+</QueryDef>

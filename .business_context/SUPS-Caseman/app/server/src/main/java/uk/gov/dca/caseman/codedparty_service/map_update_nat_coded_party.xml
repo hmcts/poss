@@ -1,0 +1,134 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: Codedparty
+	Method:  addNatCodedParty()
+	File:    map_update_nat_coded_party.xml
+	Author:  Phil Haferer
+	Created: 01 December 2005
+	Description: 
+		Retrieval and persistance of a National Coded Party.
+
+	Change History:
+	04-Apr-2006 Phil Haferer: TD 3217: "Problems with National Coded Parties created without a Payee"
+	            Removed the tags <CPPivot> and <P2PPivot> as no longer needed.
+	04-Jan-2007 Phil Haferer: TD Group2 3557: "Maintain National Coded Parties - Default Claimant not 
+                being stored on database".
+				Added table alias' for Claimant entity, and the DefaultClaimant tag elements.
+	17-Jan-2007 Chris Vincent:
+				Added the Last_XX_Seq nodes under the CCBCDetails node for Group2 Defect 4387.
+-->
+<DBMapDef>
+  <DataSource id="java:OracleDS"/>
+  <Tables>
+    <Table alias="CP"    name="CODED_PARTIES"/>
+    <Table alias="NP"    name="PARTIES"/>
+    <Table alias="NGA"   name="GIVEN_ADDRESSES"/>
+    <Table alias="NCP"   name="NATIONAL_CODED_PARTIES"/>
+    <Table alias="P2P"   name="PARTY_TO_PARTY_RELATIONSHIP"/>
+    <Table alias="PP"    name="PARTIES"/>
+    <Table alias="PGA"   name="GIVEN_ADDRESSES"/>
+    <Table alias="PY"    name="PAYEES"/>
+    <Table alias="CLP2P" name="PARTY_TO_PARTY_RELATIONSHIP"/>
+    <Table alias="CLP"   name="PARTIES"/>
+    <Table alias="CLGA"  name="GIVEN_ADDRESSES"/>
+  </Tables>
+  <Mapping>
+	<CodedParty>
+		<Code>${CP.CODE}</Code>
+		<Name>${NP.PERSON_REQUESTED_NAME}</Name>
+		<PartyId>${NP.PARTY_ID}</PartyId>
+		<Company>${NP.COMPANY_NAME}</Company>
+		<CourtCode>${CP.ADMIN_COURT_CODE}</CourtCode>
+		<ContactDetails>
+			<Address>
+				<AddressId>${NGA.ADDRESS_ID}</AddressId>
+				<Line>${NGA.ADDRESS_LINE1}</Line>
+				<Line>${NGA.ADDRESS_LINE2}</Line>
+				<Line>${NGA.ADDRESS_LINE3}</Line>
+				<Line>${NGA.ADDRESS_LINE4}</Line>
+				<Line>${NGA.ADDRESS_LINE5}</Line>
+				<PostCode>${NGA.POSTCODE}</PostCode>
+				<CreatedBy>${NGA.UPDATED_BY}</CreatedBy>
+			</Address>
+			<DX>${NP.DX_NUMBER}</DX>
+			<TelephoneNumber>${NP.TEL_NO}</TelephoneNumber>
+			<FaxNumber>${NP.FAX_NUMBER}</FaxNumber>
+			<EmailAddress>${NP.EMAIL_ADDRESS}</EmailAddress>
+		</ContactDetails>
+		<Payee>
+			<PartyId>${PP.PARTY_ID}</PartyId>
+			<Name>${PP.PERSON_REQUESTED_NAME}</Name>
+			<Reference>${PGA.REFERENCE}</Reference>
+			<ContactDetails>
+				<Address>
+					<AddressId>${PGA.ADDRESS_ID}</AddressId>
+					<Line>${PGA.ADDRESS_LINE1}</Line>
+					<Line>${PGA.ADDRESS_LINE2}</Line>
+					<Line>${PGA.ADDRESS_LINE3}</Line>
+					<Line>${PGA.ADDRESS_LINE4}</Line>
+					<Line>${PGA.ADDRESS_LINE5}</Line>
+					<PostCode>${PGA.POSTCODE}</PostCode>
+					<CreatedBy>${PGA.UPDATED_BY}</CreatedBy>
+				</Address>
+				<DX>${PP.DX_NUMBER}</DX>
+				<TelephoneNumber>${PP.TEL_NO}</TelephoneNumber>
+				<FaxNumber>${PP.FAX_NUMBER}</FaxNumber>
+				<EmailAddress>${PP.EMAIL_ADDRESS}</EmailAddress>
+			</ContactDetails>
+			<BankDetails>
+				<BankName>${PY.BANK_NAME}</BankName>
+				<AccountNumber>${PY.BANK_ACC_NO}</AccountNumber>
+				<SortCode>${PY.BANK_SORT_CODE}</SortCode>
+				<AccountHolder>${PY.ACC_HOLDER}</AccountHolder>
+				<BankInformation>
+					<Line>${PY.BANK_INFO_1}</Line>
+					<Line>${PY.BANK_INFO_2}</Line>
+				</BankInformation>
+				<GiroAccountNumber>${PY.GIRO_ACC_NO}</GiroAccountNumber>
+				<GiroTransaction>
+					<Code>${PY.GIRO_TRANS_CODE_1}</Code>
+					<Code>${PY.GIRO_TRANS_CODE_2}</Code>
+				</GiroTransaction>
+				<APACSTransactionCode>${PY.APACS_TRANS_CODE}</APACSTransactionCode>
+			</BankDetails>
+		</Payee>
+		<CCBCDetails>
+			<WarrantRange>
+				<From>${NCP.WRT_NO_FROM}</From>
+				<To>${NCP.WRT_NO_TO}</To>
+			</WarrantRange>
+			<PrintJudgment>${NCP.PRINT_JUDGMENTS}</PrintJudgment>
+			<Duplex>${NCP.DUPLEX}</Duplex>
+			<PaperTypes>
+				<N30Default>${NCP.DEF_PAPER_TYPE}</N30Default>
+				<N30Admission>${NCP.ADM_PAPER_TYPE}</N30Admission>
+			</PaperTypes>
+			<LastJgSeq>${NCP.LAST_JG_SEQ}</LastJgSeq>
+			<LastPdSeq>${NCP.LAST_PD_SEQ}</LastPdSeq>
+			<LastWtSeq>${NCP.LAST_WT_SEQ}</LastWtSeq>
+			<LastDefSeq>${NCP.LAST_DEF_SEQ}</LastDefSeq>
+			<LastAdmSeq>${NCP.LAST_ADM_SEQ}</LastAdmSeq>
+		</CCBCDetails>
+        <DefaultClaimant>
+			<PartyId>${CLP.PARTY_ID}</PartyId>
+			<Name>${CLP.PERSON_REQUESTED_NAME}</Name>
+			<ContactDetails>
+				<Address>
+					<AddressId>${CLGA.ADDRESS_ID}</AddressId>
+					<Line>${CLGA.ADDRESS_LINE1}</Line>
+					<Line>${CLGA.ADDRESS_LINE2}</Line>
+					<Line>${CLGA.ADDRESS_LINE3}</Line>
+					<Line>${CLGA.ADDRESS_LINE4}</Line>
+					<Line>${CLGA.ADDRESS_LINE5}</Line>
+					<PostCode>${CLGA.POSTCODE}</PostCode>
+					<CreatedBy>${CLGA.UPDATED_BY}</CreatedBy>
+				</Address>
+				<DX>${CLP.DX_NUMBER}</DX>
+				<TelephoneNumber>${CLP.TEL_NO}</TelephoneNumber>
+				<FaxNumber>${CLP.FAX_NUMBER}</FaxNumber>
+				<EmailAddress>${CLP.EMAIL_ADDRESS}</EmailAddress>
+			</ContactDetails>
+        </DefaultClaimant>
+	</CodedParty>
+  </Mapping>
+</DBMapDef>

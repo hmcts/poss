@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	This is a simple service which retrieves the username associated with an AE Event.
+	Created as part of Trac 3077.
+-->
+<service-method visibility="local">
+	<pipeline>
+		<SQLLite format-output="true"
+				 resultset-element="ds"
+				 row-element="AeEvent"
+				 field-name-as="element" >
+			<DataSource id="java:OracleDS"/>
+			<Param name="param.aeEventSeq" xpath="/params/param[@name = 'aeEventSeq']"/>
+			<SQL>
+				SELECT AE.USERNAME As "UserName"
+				FROM AE_EVENTS AE
+				WHERE AE.AE_EVENT_SEQ = ${param.aeEventSeq}
+			</SQL>	
+		</SQLLite>
+	</pipeline>
+	<Security roles="user"/>
+</service-method>

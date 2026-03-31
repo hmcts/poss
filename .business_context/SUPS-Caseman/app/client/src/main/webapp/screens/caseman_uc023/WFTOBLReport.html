@@ -1,0 +1,92 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3c.org/TR/html4/strict.dtd">
+
+<html>
+
+	<head>
+		<title>WFTOBLReport</title>
+		<link href="WFTOBLReport.css" type="text/css" rel="stylesheet">
+		<script type="text/javascript" src="../../Framework.js"></script>
+		<script type="text/javascript" src="../../ConcatCommon.js"></script>
+		<script type="text/javascript" src="WFTOBLReport.js"></script>
+	</head>
+
+	<body>
+		<form name="WFTOBLReport" id="WFTOBLReport">
+		
+			<!-- Framework Navigation Menu -->
+			<script type="text/javascript">MenuBarRenderer.createInline();</script>
+		
+			<table class="layout">
+				<tr>
+					<td>
+						<!-- Report Parameters Panel -->
+						<div class="panel">
+							<table class="content">
+								<tr>
+									<td>
+										<table style="width:965px;">
+											<tr>
+												<td class="alignCentre"><input id="PRINT_CM_OBL_R1_Btn" type="button" value="Print Overdue Obligations Report" class="reportButton"/></td>
+											</tr>
+											<tr>
+												<td class="alignCentre"><input id="PRINT_WFT_R1_Btn" type="button" value="Print WFT Required to be Fixed Report" class="reportButton"/></td>
+											</tr>
+											<tr>
+												<td class="alignCentre"><input id="PRINT_WFT_R2_Btn" type="button" value="Print WFT Overdue CMC Report" class="reportButton"/></td>
+											</tr>
+										</table>
+									</td>
+								</tr>
+							</table>
+						</div>          
+						<!-- End Report Parameters Panel -->
+					</td>
+				</tr>
+			</table>
+		
+			<!-- Status Bar Panel -->
+			<script type="text/javascript">
+				ActionBarRenderer.createInline(
+					"status_bar",
+					[
+						{id: "Status_Close_Btn", label: "Close"}
+					]
+				);
+			</script>
+			<!-- End Status Bar Panel -->
+		  
+			<!-- Progress Indicator Popup -->
+			<div class="popup" id="ProgressIndicator_Popup">
+				<div class="panel" id="ProgressIndicator_Panel">
+					<table class="content" cellspacing="5">
+						<tr>
+							<td>
+								<label for="Progress_Bar">Generating Report</label>
+							</td>
+						</tr>
+						<tr>
+							<td>
+								  <input id="Progress_Bar" type="text" size="67"/>
+							</td>
+						</tr>
+						<tr>
+							<td id="Progress_Status"></td>
+						</tr>
+					</table>
+				</div>
+				<div id="ProgressIndicator_ActionBarContainer">
+					<script type="text/javascript">
+						ActionBarRenderer.createInlineNoStatusBar(
+							"ProgressIndicator_ActionBar",
+							[
+								{label: "Cancel", id: "Popup_Cancel"}
+							]
+						);	
+					</script>	
+				</div>
+			</div>
+			<!-- End Progress Indicator Popup -->
+
+		</form>
+	</body>
+</html>

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--Question xmlns="http://eds.com/questionxhtml" xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd"-->
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>Q_UponHearing</Id>
+	<Label>Upon hearing</Label>
+	<ObjectName>UponHearing</ObjectName>
+	<Html>
+		<script type="text/javascript">
+			ZoomFieldRenderer.createInline("UponHearing", 10, 70);
+		</script>
+	</Html>
+	<Javascript>
+		<XPath>/ds/var/page/OracleReportForm/UponHearing</XPath>
+		<ReportVariableName>UPON_TEXT</ReportVariableName>
+		<ReportVariableValue>Services.getValue(UponHearing.dataBinding)</ReportVariableValue>
+		<ReportVariableCode>12120</ReportVariableCode>
+		<HintText>Enter details of attendees to follow the word 'Upon'</HintText>
+		<isMandatory>return true;</isMandatory>
+		<initialise></initialise>
+		<setDefault></setDefault>
+		<transformToDisplay>
+			 return (null != value) ? value.toUpperCase() : null;
+	    </transformToDisplay>
+        <transformToModel>
+             return (null != value) ? value.toUpperCase() : null;
+        </transformToModel>		
+		<miscCode>
+		</miscCode>
+	</Javascript>
+</Question>

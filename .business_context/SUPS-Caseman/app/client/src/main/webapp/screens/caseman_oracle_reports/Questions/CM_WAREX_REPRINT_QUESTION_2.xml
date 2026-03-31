@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Change History -->
+<!-- 12th Jan 2007 - TEMP_caseman defect 353 - MGG, added call to validateReprint() and called it, to validate whether warrant can be re re printed 
+	 19th Apr 2007 - CASEMAN defect 6169 - CV, amended validateReprint() to determine whether to call service for home or foreign warrants as previously
+					 only catered for home warrants.
+     9Oct2007 - Caseman defect 6460. CJH: Warrant Search being done when field is blanked out.
+	 04/07/2013 - Chris Vincent (Trac 4908). As part of case numbering changes, there will only be one warrant number on the screen now so any references
+				  to the second warrant number removed and proper validation method added.
+-->
+<!--Question xmlns="http://eds.com/questionxhtml" xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd"-->
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>CM_WAREX_REPRINT_QUESTION_2</Id>
+	<Label>Warrant Number</Label>
+	<ObjectName>FirstWarrantNumber</ObjectName>
+	<Html>
+		<input id="FirstWarrantNumber" type="text" size="10"></input>
+	</Html>
+	<Javascript>
+		<XPath>/ds/var/page/OracleReportForm/FirstWarrantNumber</XPath>
+		<ReportVariableName>P_FROM_NO</ReportVariableName>
+		<ReportVariableValue>Services.getValue(FirstWarrantNumber.dataBinding)</ReportVariableValue>
+		<HintText>Enter the warrant number to reprint</HintText>
+		<isMandatory>return true;</isMandatory>
+		<maxLength>8</maxLength>
+		<transformToDisplay>
+			return (null != value) ? value.toUpperCase() : null;
+		</transformToDisplay>
+		<transformToModel>
+			return (null != value) ? value.toUpperCase() : null;
+		</transformToModel>
+		<initialise>
+			Status_RunReportButton.isEnabled();
+		</initialise>	
+		<logicOn>FirstWarrantNumber.dataBinding, HomeForeign.dataBinding</logicOn>
+		<logic>
+			var value = Services.getValue(FirstWarrantNumber.dataBinding);
+			if (!CaseManUtils.isBlank(value))
+			{
+				Services.setValue(REPRINT_PAGE, "");
+				searchWarrants(FirstWarrantNumber);
+				validateReprint();
+			}
+		</logic>
+		<validateOn>PAGE_XPATH + "/tmp/ReprintPage"</validateOn>	
+		<validate>
+			var ec = null;
+			var validReprint = Services.getValue(REPRINT_PAGE);
+			if ( !CaseManUtils.isBlank(validReprint) &amp;&amp; validReprint == "false" )
+			{
+				ec = ErrorCode.getErrorCode("CaseMan_WAREX_InvalidWarrantNumber");
+			}
+			return ec;
+		</validate>
+		<miscCode>
+			var SEARCH_RESULTS_XPATH_FIRST = PAGE_XPATH + "/tmp/FirstWarrantNumber/Warrants";
+			var REPRINT_PAGE = PAGE_XPATH + "/tmp/ReprintPage";
+			
+			Status_RunReportButton.enableOn = [SEARCH_RESULTS_XPATH_FIRST, REPRINT_PAGE];		
+			Status_RunReportButton.isEnabled = function()
+			{
+				var enabled = false;
+				var reprint = Services.getValue(REPRINT_PAGE);
+				if ( null == validateWarrants() &amp;&amp; reprint == "true" )
+				{
+					enabled = true;
+				}
+				return enabled;
+			}		
+
+			function searchWarrants(fieldName)
+			{
+				var warrantNumber = Services.getValue(fieldName.dataBinding);	
+				if (warrantNumber != null)
+				{			
+				    //Call Search Service now
+					var params = new ServiceParams();
+					var homeForeign = Services.getValue(HomeForeign.dataBinding);
+					if (homeForeign != null)
+					{
+						if (homeForeign == "H") // Home Warrants
+						{
+							params.addSimpleParameter("warrantNumber", warrantNumber);
+							
+						}
+						else // Foreign Warrant
+						{
+							params.addSimpleParameter("localNumber", warrantNumber);
+						}
+					}
+					Services.callService("searchWarrants", params, fieldName, true);	
+				}		
+			}
+			
+			FirstWarrantNumber.onSuccess = function(dom) {
+			    if(dom != null) {
+			        var node = dom.selectSingleNode("/ds/Warrants");
+			        Services.replaceNode(SEARCH_RESULTS_XPATH_FIRST, node);
+			        
+			        var count = Services.countNodes(SEARCH_RESULTS_XPATH_FIRST + "/Warrant");
+			        if(count == 0) {
+			           alert("Warrant Number\r\n" + Messages.NO_RESULTS_MESSAGE); 
+			        } else if(count >= 1) {
+			        }
+			    }
+			}
+			
+			function validateWarrants()
+			{
+				var errCode = null;
+				var countFirst = Services.countNodes(SEARCH_RESULTS_XPATH_FIRST + "/Warrant");
+				if(countFirst == 0) 
+				{
+		           	errCode = ErrorCode.getErrorCode("CaseMan_noLocalWarrantExists_Msg");
+		        }
+		        return errCode;
+			}
+			
+			function validateReprint()
+			{
+				var firstWarrant = Services.getValue(FirstWarrantNumber.dataBinding);
+				
+				if ( !CaseManUtils.isBlank(firstWarrant) )
+				{
+					var homeForeign = Services.getValue(HomeForeign.dataBinding);
+					var serviceName = ( homeForeign == "F" ) ? "getForeignWarrantsOfExecutionToReprinted" : "getWarrantsOfExecutionToReprinted";
+					var params = new ServiceParams();
+					params.addSimpleParameter("warrantNumber", firstWarrant);
+					Services.callService(serviceName, params, Reprint, true);
+				}
+			}
+			
+			Reprint.onSuccess = function(dom) {
+			    if(dom != null) {
+					var reprint = dom.selectSingleNode("/ds/Warrant/Reprint").text;
+					Services.setValue(REPRINT_PAGE, reprint);
+			    }
+			}			
+		</miscCode>
+	</Javascript>
+</Question>

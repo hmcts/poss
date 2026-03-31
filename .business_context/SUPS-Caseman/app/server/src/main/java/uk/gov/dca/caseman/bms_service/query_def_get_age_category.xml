@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<QueryDef>
+    <DBMapDef location="uk/gov/dca/caseman/bms_service/map_get_age_category.xml"/>
+    <Query pivotNode="/ds/AgeCategory" tables="AC">
+      <SQL type="select">
+	    SELECT AC.AGE_CATEGORY AS "AC.AGE_CATEGORY"
+	    FROM   AGE_CATEGORY AC
+	    WHERE  ${param.taskAge} BETWEEN LOWER_LIMIT AND NVL(UPPER_LIMIT, ${param.taskAge})
+      </SQL>
+      <Modify notModifiable="true"/>
+    </Query>
+</QueryDef>

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: Co
+	Method:  updateCoEventRow()
+	File:    update_co_event_row.xml
+	Author:  Chris Hutt
+	Created: 13 July 2005
+	Description: 
+		Update Co Event
+
+    Change History
+		Chris Hutt 29 Sept 2006: TD Caseman-5404: update a CaseEvent if necessary, via UpdateCoCaseEventsCustomProcessor
+-->
+<service-method>
+	<pipeline> 
+
+		<Update>
+			<QueryDef location="uk/gov/dca/caseman/co_event_service/query_def_update_co_event_row.xml"/>
+			<DataSource xpath="/params/param[@name='coEvent']"/>
+			<QueryExtension pivotNode="/COEvent">
+				<CheckExists table="COE" fields="CO_EVENT_SEQ" onNotExist="skip" onExist="update"/>
+			</QueryExtension>
+		</Update>
+		<Java callStyle="new">
+			<Source class="uk.gov.dca.caseman.co_event_service.java.UpdateCoCaseEventsCustomProcessor"/>
+		</Java>
+	</pipeline>
+	<Dependencies>
+		<Dependency serviceName="Co"/>
+		<Dependency serviceName="Case"/>
+	</Dependencies>
+	<Security roles="user"/>
+</service-method>
+
+

@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>240</Id>
+	<Label>Agreement date</Label>
+	<ObjectName>AgreementDate2</ObjectName>
+	<Html>	
+		<script type="text/javascript">
+			WP_DatePickerRenderer.createInline("AgreementDate2");
+		</script>
+	</Html>
+	<Javascript>
+		<XPath>/ds/EnterVariableData/FastTrack/agreementDate2</XPath>
+		<HintText>Enter agreement date in the format DD-MON-YYYY</HintText>
+		<mandatoryOn>ReachAgreementBy.dataBinding,AgreementDate2.dataBinding</mandatoryOn>
+		<isMandatory>return('GD' == Services.getValue(ReachAgreementBy.dataBinding));</isMandatory>	
+		<enableOn>ReachAgreementBy.dataBinding</enableOn>
+		<isEnabled>return('GD' == Services.getValue(ReachAgreementBy.dataBinding));</isEnabled>
+		<logicOn>ReachAgreementBy.dataBinding</logicOn>
+		<logic>
+			if('GD' != Services.getValue(ReachAgreementBy.dataBinding))
+			{	Services.setValue(AgreementDate2.dataBinding, "");
+			}
+		</logic>
+		<validateOn>AgreementDate2.dataBinding</validateOn>
+		<validate>
+			//cannot be in past : working day only
+			
+			var checkDate = Services.getValue(AgreementDate2.dataBinding); 
+			var err = null;
+			
+			if( false == isFutureDate(checkDate))
+			{ 	err = ErrorCode.getErrorCode("CaseMan_dateCannotBeInThePast_Msg");
+			}
+			else if( isNonWorkingDate(checkDate))
+		    {   err = ErrorCode.getErrorCode("CaseMan_dateNonWorkingDay_Msg"); 
+		    }
+			
+			return err;
+		</validate>	
+		<!--initialise>		  	
+		  	loadNonWorkingDays();
+		</initialise-->
+		<miscCode>
+		    AgreementDate2.weekends = false;
+		</miscCode>	
+	</Javascript>
+</Question>

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<QueryDef>
+  <DBMapDef location="uk/gov/dca/caseman/case_service/map_case_modify_parties.xml"/>
+  <Query pivotNode="/Parties/Solicitor" tables="SOLP">
+    <Join/>
+	<Modify>			
+		<CheckExists table="SOLP" fields="party_id" onNotExist="add" onExist="update"/>
+				
+		<Field name="solp.party_id" sequenceTable="parties_sequence"/>
+		<Field name="solp.party_type_code" value="SOLICITOR"/>
+	</Modify>
+  </Query> 
+  <Query pivotNode="/Parties/LitigiousParty" tables="P">
+    <Join/>
+	<Modify>			
+		<CheckExists table="P" fields="party_id" onNotExist="add" onExist="update"/>
+
+		<Field name="p.party_id" sequenceTable="parties_sequence"/>
+	</Modify>
+  </Query>  
+</QueryDef>

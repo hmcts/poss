@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Question>
+	<Id>3</Id>
+	<Label>Date by which form is to be returned</Label>
+	<ObjectName>FormReturnDate</ObjectName>
+	<Html>
+		<script type="text/javascript">WP_DatePickerRenderer.createInline("FormReturnDate", false);</script>
+	</Html>
+	<Javascript>
+		<XPath>/ds/EnterVariableData/FormReturnDate</XPath>
+		<HintText>Enter the date - Date Picker available</HintText>
+		<isMandatory>return true;</isMandatory>
+		<mandatoryOn>FormReturnDate.dataBinding</mandatoryOn>
+		<transformToModel>return transformDateToModel(value);</transformToModel>
+		<transformToDisplay>
+		if (value != null) {
+			if (value.search(CaseManValidationHelper.YYYYMMDD_DATE_PATTERN) != -1) {
+				return CaseManUtils.convertDateToDisplay(value); } }
+		return value;
+		</transformToDisplay>
+		<validateOn>FormReturnDate.dataBinding</validateOn>
+		<validate>		
+		var checkDate = Services.getValue(FormReturnDate.dataBinding); 
+		var err = null;		
+		if( false == isFutureDate(checkDate)) {
+		 	err = ErrorCode.getErrorCode("CaseMan_dateCannotBeInThePast_Msg"); }				
+		return err;
+		</validate>
+		<initialise>
+			var expiryDate = getExpiryDate();			
+			Services.setValue(FormReturnDate.dataBinding, expiryDate);
+		</initialise>
+		<Context ScreenId="CJR012">
+			<initialise>
+			var expiryDate = getObligationExpiryDate(28);			
+			Services.setValue(FormReturnDate.dataBinding, expiryDate);
+			</initialise>
+		</Context>
+		<Context ScreenId="CJR013">
+			<initialise>
+			var expiryDate = getObligationExpiryDate(28);			
+			Services.setValue(FormReturnDate.dataBinding, expiryDate);
+			</initialise>
+		</Context>
+		<Context ScreenId="CJR014">
+			<initialise>
+			var expiryDate = getObligationExpiryDate(13);			
+			Services.setValue(FormReturnDate.dataBinding, expiryDate);
+			</initialise>
+		</Context>
+		<Context ScreenId="CJR023B">
+			<initialise>
+			var expiryDate = getObligationExpiryDate(15);			
+			Services.setValue(FormReturnDate.dataBinding, expiryDate);
+			</initialise>
+		</Context>		
+	</Javascript>
+</Question>

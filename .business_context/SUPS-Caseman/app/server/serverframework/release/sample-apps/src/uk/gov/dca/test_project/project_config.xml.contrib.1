@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project-config>
+	<lookup-items>
+		<item id="java:SupsDS" class="uk.gov.dca.db.impl.JNDIConfigurationItem">java:SupsDS</item>
+		<item id="java:SupsDS2" class="uk.gov.dca.db.impl.JNDIConfigurationItem">java:SupsDS2</item>
+		<item id="java:AuthorisationDS" class="uk.gov.dca.db.impl.JNDIConfigurationItem">java:SupsDS</item>
+		<!-- *** uncomment the following and update values appropriately in order to test outside web service *** -->
+		<!--
+		<item id="java:SupsDS" class="uk.gov.dca.db.impl.JDBCConfigurationItem">
+			<driver>oracle.jdbc.driver.OracleDriver</driver>
+			<url>jdbc:oracle:thin:@linux01:1521:sups</url>
+			<user>blob_test</user>
+			<pass>blob_test</pass>
+		</item>
+		<item id="java:AuthorisationDS" class="uk.gov.dca.db.impl.JDBCConfigurationItem">
+			<driver>oracle.jdbc.driver.OracleDriver</driver>
+			<url>jdbc:oracle:thin:@linux01:1521:sups</url>
+			<user>blob_test</user>
+			<pass>blob_test</pass>
+		</item>
+		-->
+		<!-- *** update the following value to specify the database schema to validate against *** -->
+		<item id="validation:schema" class="uk.gov.dca.db.impl.StringConfigurationItem">FWK_UT01</item>
+		<!-- *** Comment out the following line or change the value to 'active' to activate security *** -->
+		<item id="security:status" class="uk.gov.dca.db.impl.StringConfigurationItem">active</item>
+		<item id="security:forceSSL" class="uk.gov.dca.db.impl.BooleanConfigurationItem">true</item>
+		
+		<!-- *** update the following value to specify your application name.  
+				This is used to sepearate your logs in the production environment. *** -->
+		<item id="application:name" class="uk.gov.dca.db.impl.StringConfigurationItem">TestProject</item>
+
+		<item id="application:serviceprefix" class="uk.gov.dca.db.impl.StringConfigurationItem">/test_project</item>
+		<item id="application:webprefix" class="uk.gov.dca.db.impl.StringConfigurationItem">/sample-apps</item>
+		 
+		<item id="java:AsyncDS" class="uk.gov.dca.db.impl.JNDIConfigurationItem">java:SupsDS</item>
+		
+		<!-- Example Queue configuration for OAS -->
+
+		<item id="TestQueue" class="uk.gov.dca.db.impl.QueueConfigurationItem">
+			<factory>jms/QueueConnectionFactory</factory>
+			<jndi-name>jms/sups_test_queue</jndi-name>
+			<min-pool-size>10</min-pool-size>
+			<max-pool-size>10</max-pool-size>
+		</item>
+		
+		<item id="ReportHigh" class="uk.gov.dca.db.impl.AQConfigurationItem">
+			<factory>java:comp/resource/reportingAQ/QueueConnectionFactories/myQCF</factory>
+			<jndi-name>java:comp/resource/reportingAQ/Queues/q1_report_high</jndi-name>
+		</item>
+		
+		<item id="uk.gov.dca.fw.reportConfig" 
+			class="uk.gov.dca.db.impl.PropertyConfigurationItem">fw01</item>
+		
+		<item id="uk.gov.dca.fw.dictionaryLocation" 
+			class="uk.gov.dca.db.impl.PropertyConfigurationItem">c:/jspell/lexicons/</item>	
+		
+		<!-- Example Queue configuration for OAS -->
+		<!--
+		<item id="TestQueue" class="uk.gov.dca.db.impl.QueueConfigurationItem">
+			<factory>jms/QueueConnectionFactory</factory>
+			<jndi-name>jms/sups_test_queue</jndi-name>
+			<min-pool-size>10</min-pool-size>
+			<max-pool-size>10</max-pool-size>
+		</item>
+		-->
+		<!-- Example Topic configuration for JBoss -->
+		<!--
+		<item id="TestTopic" class="uk.gov.dca.db.impl.TopicConfigurationItem">
+			<factory>java:/JmsXA</factory>
+			<jndi-name>sups/test_topic</jndi-name>
+			<min-pool-size>10</min-pool-size>
+			<max-pool-size>10</max-pool-size>
+		</item>
+		-->
+		<item id="XSLFOFactory" class="uk.gov.dca.db.impl.FOPProcessorFactoryConfigurationItem"/>
+		<item id="ContentStore" class="uk.gov.dca.db.impl.OracleContentProxyFactoryConfigurationItem">
+			<datasource>java:SupsDS</datasource>
+		</item>
+		<item id="DocumentManager" class="uk.gov.dca.db.impl.DocumentManagerConfigurationItem">
+			<datasource>java:SupsDS</datasource>
+		</item>
+	</lookup-items>
+</project-config>

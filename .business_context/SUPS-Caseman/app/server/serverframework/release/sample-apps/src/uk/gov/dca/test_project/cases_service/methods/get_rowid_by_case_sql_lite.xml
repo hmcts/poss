@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<service-method>
+	<pipeline>
+                <SQLLite> 
+                        <DataSource id="java:SupsDS"/> 
+                        <Param name="params.caseNumber" xpath="/params/param[@name='caseNumber']"/> 
+                        <SQL> 
+                                SELECT ROWID
+                                FROM CASES 
+                                WHERE CASE_NUMBER=${params.caseNumber} 
+                        </SQL> 
+                </SQLLite> 
+	</pipeline>
+	<Dependencies>
+		<Dependency serviceName="Test"/> 
+	</Dependencies>
+	<Security roles="user"/>
+</service-method>

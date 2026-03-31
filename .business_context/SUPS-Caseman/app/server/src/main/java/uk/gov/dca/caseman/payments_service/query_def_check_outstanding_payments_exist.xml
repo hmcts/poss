@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: Payments
+	Method: checkOutstandingPaymentsExist()
+	File: query_def_check_outstanding_payments_exist.xml
+	Author: Chris Vincent
+
+    Change History
+    TRAC Ticket 707.
+    17-06-2009 Mark Groen - Incorporate changes defined by Chris Vincent re scalabilty for Navigate to Transfer Case.
+-->
+<QueryDef>
+	<DBMapDef location="uk/gov/dca/caseman/payments_service/map_check_outstanding_payments_exist.xml" />
+	<Query pivotNode="/OutstandingPaymentsExist" tables="PY">
+		<SQL type="select">
+			SELECT DECODE(COUNT(*),0,'false','true') AS "OUTSTANDING_PAYMENTS"
+			FROM   PAYMENTS PY
+			WHERE  PY.PASSTHROUGH = 'N' AND
+				PY.RD_DATE IS NULL AND
+				PY.PAYOUT_DATE IS NULL AND
+				PY.ENFORCEMENT_PARENT = ${param.caseNumber}
+		</SQL>
+		<Modify notModifiable="true" />
+	</Query>
+</QueryDef>

@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<DBMapDef>
+	<DataSource id="java:OracleDS"/>
+	<Tables>
+		<Table alias="C" name="CASES"/>
+	</Tables>
+	<Mapping>
+			<Case>
+				<CaseNumber>${C.CASE_NUMBER}</CaseNumber>
+				<CaseType>${C.CASE_TYPE}</CaseType>
+				<CaseStatus>${C.STATUS}	</CaseStatus>
+				<OwningCourtCode>${C.ADMIN_CRT_CODE}</OwningCourtCode>
+				<CaseDetails>${C.BRIEF_DETAILS_OF_CLAIM}</CaseDetails>
+				<ParticularsOfClaimDetails>${C.PARTICULARS_OF_CLAIM}</ParticularsOfClaimDetails>
+				<DateRequestReceived>${C.RECEIPT_DATE}</DateRequestReceived>
+				<AmountClaimed>${C.AMOUNT_CLAIMED}</AmountClaimed>
+				<CourtFee>${C.COURT_FEE}</CourtFee>
+				<SolicitorsCosts>${C.SOLICITORS_COSTS}</SolicitorsCosts>
+				<Total>${C.TOTAL}</Total>
+				<DateOfIssue>${C.DATE_OF_ISSUE}</DateOfIssue>
+				<TransCrtCode>${C.TRANS_CRT_CODE}</TransCrtCode>
+				<DateOfTransfer>${C.DATE_OF_TRANSFER}</DateOfTransfer>
+				<Status>${C.STATUS}</Status>
+				<TransferReason>${C.TRANSFER_REASON}</TransferReason>
+				<DateTransferredIn>${C.DATE_TRANSFERRED_IN}</DateTransferredIn>
+				<PreviousCourt>${C.PREVIOUS_COURT}</PreviousCourt>
+				<TransferStatus>${C.TRANSFER_STATUS}</TransferStatus>
+				<RepAddress>
+					<Address>
+						<RepCode>${C.REP_CODE}</RepCode>
+						<RepName>${C.REP_NAME}</RepName>
+						<Line1>${C.REP_ADDR_1}</Line1>
+						<Line2>${C.REP_ADDR_2}</Line2>
+						<Line3>${C.REP_ADDR_3}</Line3>
+						<Line4>${C.REP_ADDR_4}</Line4>
+						<PostCode>${C.REP_POSTCODE}</PostCode>
+						<Reference>$C.REFERENCE}</Reference>
+						<DX>${C.REP_DX}</DX>
+						<TelephoneNumber>${C.REP_TEL_NO}</TelephoneNumber>
+					</Address>
+				</RepAddress>
+				<PlantiffAddress>
+					<Address>
+						<RepCode>${C.PLTF_CODE}</RepCode>
+						<RepName>${C.PLAINTIFF_DETAILS_1}</RepName>
+						<Line1>${C.PLAINTIFF_DETAILS_2}</Line1>
+						<Line2>${C.PLAINTIFF_DETAILS_3}</Line2>
+						<Line3>${C.PLAINTIFF_DETAILS_4}</Line3>
+						<Line4>${C.PLAINTIFF_DETAILS_5}</Line4>
+						<PostCode>${C.PLAINTIFF_DETAILS_6}</PostCode>
+						<Reference>$C.PLAINTIFF_REFERENCE}</Reference>
+						<DX>${C.PLTF_DX}</DX>
+						<TelephoneNumber>${C.PLAINTIFF_DETAILS_7}</TelephoneNumber>
+						<PayeeFlag>$C.PAYEE_FLAG}</PayeeFlag>
+					</Address>
+				</PlantiffAddress>
+			</Case>
+	</Mapping>
+</DBMapDef>

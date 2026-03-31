@@ -1,0 +1,51 @@
+<Group id="9018">
+	<ServicesRequired>
+		<mapping name="getCourt" serviceName="getCourt"/>
+		<service name="getCourt" cache="none" url="Court" method="getCourt">
+		</service>
+	</ServicesRequired>
+	<Protocols>
+		<OnSave>
+			<function>getCourt</function>
+			<functionCallback>getCourtCallback</functionCallback>
+		</OnSave>
+	</Protocols>
+	<JavaScript>	
+		
+function getCourt() 
+{  	
+	var courtId = WPU.getValue("/params/param[@name = 'courtId']");
+	var params = new ServiceParams();
+	params.addSimpleParameter( "qcourtid", courtId );				
+	Services.callService("getCourt", params, getCourtCallback, true);	
+}
+
+	
+function getCourtCallback() { }
+
+getCourtCallback.onSuccess = function(dom) {
+
+	if (null != dom) 
+	{   		
+		Services.addNode(dom.selectSingleNode("//Court"), "/ds/EnterVariableData");				
+				
+		Save_All();  		
+	}
+	else {
+		alert(Messages.NO_RESULTS_MESSAGE); } }
+
+getCourtCallback.onBusinessException = function(exception)  
+{
+
+	alert(Messages.FAILEDSAVE_MESSAGE); 
+}
+
+getCourtCallback.onSystemException = function(exception) 
+{
+
+	alert(Messages.FAILEDSAVE_MESSAGE); 
+}
+	
+	</JavaScript>
+</Group>
+

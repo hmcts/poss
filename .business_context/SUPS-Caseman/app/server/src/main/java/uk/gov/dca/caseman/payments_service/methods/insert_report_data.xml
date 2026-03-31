@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: Payments
+	Method: insertReportData()
+	File: insert_report_data.xml
+	Author: Steve Blair
+	Description:
+		Inserts a record into REPORT_DATA table.
+-->
+<service-method>
+	<pipeline>
+		<Update>
+			<QueryDef location="uk/gov/dca/caseman/payments_service/query_def_insert_report_data.xml" />
+			<DataSource xpath="/params/param[@name='reportData']" />
+			<QueryExtension pivotNode="/ReportData">
+				<CheckExists
+					table="RD"
+					fields="USER_ID REPORT_TYPE REPORT_DATE ADMIN_COURT_CODE"
+					onNotExist="add"
+					onExist="update"
+				/>
+			</QueryExtension>
+		</Update>
+	</pipeline>
+	<Security roles="medium high wcSuper scSuper bmsSuper aeSuper dmSuper cpSuper" />
+</service-method>

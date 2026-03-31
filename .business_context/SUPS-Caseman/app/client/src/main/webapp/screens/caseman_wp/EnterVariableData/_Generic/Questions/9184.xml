@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>9184</Id>
+	<Label>Date on which sub service letter left</Label>
+	<ObjectName>SubServiceDate</ObjectName>
+	<Html>
+		<script type="text/javascript">WP_DatePickerRenderer.createInline("SubServiceDate", false);</script>
+	</Html>
+	<Javascript>
+		<XPath>/ds/EnterVariableData/subServiceDate</XPath>
+		<HintText>Select date on which sub service letter left</HintText>
+		<isEnabled>return true</isEnabled>
+		<validateOn>SubServiceDate.dataBinding</validateOn>
+		<validate>
+			//Date picker: error message “The value does not conform to a valid date format of DD-MMM-YYYY”.
+			//Validation: Date cannot be in the future
+            return isInPast(Services.getValue(SubServiceDate.dataBinding),"false");
+		</validate>
+		<mandatoryOn>SubServiceDate.dataBinding</mandatoryOn>
+		<isMandatory>return true;</isMandatory>	
+	</Javascript>
+</Question>

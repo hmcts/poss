@@ -1,0 +1,21 @@
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>592</Id>
+	<Label>Who made application for the Claimant</Label>
+	<ObjectName>AppForClaimantBy</ObjectName>
+	<Html>	
+		<select id="AppForClaimantBy">
+			<option value=""></option>
+			<option value="CSL">Counsel</option>
+			<option value="SOLS">Solicitors</option>
+		</select>
+	</Html>			
+	<Javascript>
+		<XPath>/ds/EnterVariableData/Settlement/appForClaimantBy</XPath>
+		<componentName>##label##</componentName>
+		<isMandatory>return true;</isMandatory>
+		<HintText>Select who made the application for the Claimant</HintText>			
+	</Javascript>
+</Question>
+
+    
+   

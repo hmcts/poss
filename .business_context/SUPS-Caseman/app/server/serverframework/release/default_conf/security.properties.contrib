@@ -1,0 +1,40 @@
+# set the authenticator class to use
+security.authenticator.class=uk.gov.dca.db.security.HardcodedAuthenticator
+#security.authenticator.class=uk.gov.dca.db.security.ActiveDirectoryAuthenticator
+#security.authorizer.class=uk.gov.dca.db.security.authorization.StubbedFullyAuthorisedAuthorizationPlugin
+security.authorizer.class=uk.gov.dca.db.security.authorization.StandardAuthorizationPlugin
+# secret used in the generation of session key
+security.session.keygeneration.secret=SECRET
+
+security.session.keygeneration.secret.datasource=java:SupsDS
+security.session.keygeneration.secret.interval=10
+
+#The interval type can be one of the following integer values - 
+# 5 for an interval type of days
+# 10 for an interval type of hours
+# 12 for an interval type of minutes
+# 13 for an interval type of seconds
+# 1 for an interval type of years
+# 2 for an interval type of months
+security.session.keygeneration.secret.interval.type=10
+security.authorization.roles.xml=uk/gov/dca/test_project/roles.xml
+
+#Whether security (MAC Validation) is active on direct access to the security service
+security.active=true
+
+# class used to retrieve user personal details from directory server
+security.ldap.dataaccess.class=uk.gov.dca.db.security.user.StubbedUserDirectoryDAO
+
+# path of properties file for active directory connection properties
+# any properties in this file will be passed to the UserDetailsDAO implementation
+# specified in the above property
+security.ldap.connection.properties.file=active_directory_mirroring.properties
+
+
+# class used to retrieve printer details from directory server
+printers.ldap.dataaccess.class=uk.gov.dca.db.security.printers.StubbedPrinterDetailsDAO
+
+# path of properties file for active directory connection properties
+# any properties in this file will be passed to the PrinterDetailsDAO implementation
+# specified in the above property
+printers.ldap.connection.properties.file=active_directory_mirroring.properties

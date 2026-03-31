@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>204</Id>
+	<Label>Request to inspect direction</Label>
+	<ObjectName>InspectDirectionReq</ObjectName>
+	<Html>	
+		<input type="checkbox" id="InspectDirectionReq"></input>
+	</Html>
+	<Javascript>
+		<XPath>/ds/EnterVariableData/FastTrack/inspectDirectionReq</XPath>
+		<HintText>Check box if there is a request to inspect direction</HintText>			
+		<modelValue>checked: "Y", unchecked: "N"</modelValue>
+		<enableOn>IsDisclosureOrdered.dataBinding</enableOn>
+		<isEnabled>return('Y' == Services.getValue(IsDisclosureOrdered.dataBinding));</isEnabled>
+		<logicOn>IsDisclosureOrdered.dataBinding</logicOn>
+		<logic>
+			if('Y' != Services.getValue(IsDisclosureOrdered.dataBinding))
+			{	Services.setValue(InspectDirectionReq.dataBinding, "N");
+			}
+		</logic>
+	</Javascript>
+</Question>

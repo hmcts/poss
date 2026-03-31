@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: Payout
+	Method:  completePayoutDeletion()
+	File:    complete_payout_deletion.xml
+	Author:  Phil Haferer (EDS)
+	Created: 13-Jan-2006
+	Description: 
+		Method to implement SUPS implementation of the Legacy stored procedure "p_payout_update()".
+-->
+<service-method>
+	<pipeline>
+		<SQLLite output="input">
+			<DataSource id="java:OracleDS"/>
+			<Param name="param.adminCourtCode" xpath="/params/param[@name='adminCourtCode']"/>
+			<SQL type="update" tables="POI">
+				DELETE FROM PAYABLE_ORDER_ITEMS POI
+				WHERE  POI.ADMIN_COURT_CODE = ${param.adminCourtCode}
+			</SQL>
+		</SQLLite>
+		<SQLLite output="input">
+			<DataSource id="java:OracleDS"/>
+			<Param name="param.adminCourtCode" xpath="/params/param[@name='adminCourtCode']"/>
+			<SQL type="update" tables="PO">
+				DELETE FROM PAYABLE_ORDERS PO
+				WHERE  PO.ADMIN_COURT_CODE = ${param.adminCourtCode}
+			</SQL>
+		</SQLLite>
+		<SQLLite output="input">
+			<DataSource id="java:OracleDS"/>
+			<Param name="param.adminCourtCode" xpath="/params/param[@name='adminCourtCode']"/>
+			<SQL type="update" tables="CDP">
+				DELETE FROM CANDIDATE_DIVIDEND_PAYMENTS CDP
+				WHERE  CDP.ADMIN_COURT_CODE = ${param.adminCourtCode}
+			</SQL>
+		</SQLLite>
+	</pipeline>
+	<Security roles="viewOnly medium high wcSuper scSuper bmsSuper aeSuper dmSuper edsAdmin"/>		
+</service-method>

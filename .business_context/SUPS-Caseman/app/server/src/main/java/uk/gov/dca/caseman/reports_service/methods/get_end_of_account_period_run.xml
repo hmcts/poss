@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: Reports
+	Method:  getEndOfAccountPeriodRun
+	Author:  Mark Groen (EDS) 
+	Created: 16 Jan 2007
+	Description: 
+		Determine whether or not the end of accounting period has run.
+-->
+<service-method>
+	<pipeline>
+		<SQLLite format-output="true"
+				 resultset-element="ds"
+				 row-element="PaymentSummary"
+				 field-name-as="element" >
+			<DataSource id="java:OracleDS"/>
+			<Param name="param.adminCourtCode" xpath="/params/param[@name='adminCourtCode']"/>
+			<Param name="param.endOfMonthDate"   xpath="/params/param[@name='endOfMonthDate']"/>
+			<SQL>
+				SELECT DECODE(COUNT(*),0,'false','true') as "ReportRun"
+				FROM   PAYMENT_SUMMARY P
+				WHERE  P.ADMIN_COURT_CODE = ${param.adminCourtCode}
+				AND    P.REPORT_ID LIKE 'B/F%'
+				AND    P.DCS_DATE = TO_DATE(${param.endOfMonthDate}, 'YYYY-MM-DD')				
+			</SQL>
+		</SQLLite>
+  	</pipeline>
+	<Security roles="scSuper"/>
+</service-method>

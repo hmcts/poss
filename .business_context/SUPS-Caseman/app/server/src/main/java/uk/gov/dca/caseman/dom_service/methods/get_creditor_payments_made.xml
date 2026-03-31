@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: Dom
+	Method:  getCreditorPaymentsMade()
+	File:    get_creditor_payments_made.xml
+	Author:  Ian Stainer (Valtech)
+	Created: 11 July 2005
+	Description: 
+		Returns the sum of all debt dividends rows whose debt status is LIVE,
+		SCHEDULE2 or PAID
+-->
+<service-method>
+	<pipeline>
+		<SQLLite format-output="true"
+				 resultset-element="ResultSet"
+				 row-element="Row"
+				 field-name-as="element" >			
+			<DataSource id="java:OracleDS"/>
+			<Param name="param.coNumber" xpath="/params/param[@name = 'coNumber']"/>
+			<SQL>
+				SELECT NVL(SUM(dd.dd_amount), 0) as "Amount"
+				FROM   debt_dividends dd
+				,      allowed_debts ald
+				WHERE  dd.dd_ald_seq = ald.debt_seq
+				AND    ald.debt_co_number = ${param.coNumber}
+				AND    ald.debt_status in ('LIVE', 'SCHEDULE2','PAID')
+				AND    dd.created = 'Y'
+			</SQL>
+		</SQLLite>
+	</pipeline>
+	<Security roles="user"/>
+</service-method>

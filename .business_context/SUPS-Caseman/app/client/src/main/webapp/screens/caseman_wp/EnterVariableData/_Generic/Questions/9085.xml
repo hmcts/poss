@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>9085</Id>
+	<Label>Application made by</Label>
+	<ObjectName>ApplicationBy</ObjectName>
+	<Html>
+		<select id="ApplicationBy">
+		  <option value=""></option>
+		  <option value="JD">Debtor</option>		
+		  <option value="JC">Creditor</option>
+			<!-- do not change to order of the option!! -->
+		</select>
+	</Html>
+	<Javascript>
+    	<XPath>/ds/EnterVariableData/ApplicationBy</XPath>
+		<HintText>Select whom the application was made by</HintText>
+		<isEnabled>return true</isEnabled>
+		<isMandatory>return true;</isMandatory>	
+	</Javascript>
+</Question>

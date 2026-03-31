@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Change History 
+TD4183 Kevin Gichohi (EDS) - 10 Aug 2006: The case number field should be read only if the box is unchecked on entry i.e. allWarrants is blank or null.
+04/07/2013 - Chris Vincent (Trac 4908). Changed case number validation method to use to common CaseManValidationHelper.validateCaseNumber method.
+-->
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>CM_COP_N326_QUESTION_4</Id>
+	<Label>Case Number</Label>
+	<ObjectName>CaseNumber</ObjectName>
+	<Html>
+		<input id="CaseNumber" type="text" size="15"></input>
+	</Html>
+	<Javascript>
+		<XPath>/ds/var/page/OracleReportForm/CaseNumber</XPath>
+		<ReportVariableName>P_CASE_NUMBER</ReportVariableName>
+		<ReportVariableValue>Services.getValue(CaseNumber.dataBinding)</ReportVariableValue>
+		<HintText>Enter the case number relating to the warrant</HintText>
+		<isMandatory>return true;</isMandatory>
+		<transformToDisplay>
+			return (null != value) ? value.toUpperCase() : null;
+		</transformToDisplay>
+		<transformToModel>
+			return (null != value) ? value.toUpperCase() : null;
+		</transformToModel>
+		<maxLength>8</maxLength>	
+		<readOnlyOn>AllWarrants.dataBinding</readOnlyOn>
+		<isReadOnly>
+			var allWarrants = Services.getValue(AllWarrants.dataBinding);
+			if (! CaseManUtils.isBlank(allWarrants))
+			{
+				if (allWarrants == "Y")
+				{
+					return true;
+				}
+				else
+				{
+					return false;
+				}
+			}
+			else
+			{
+				//TD4183 Kevin Gichohi (EDS) - 10 Aug 2006: The case number field should be read only if the box is unchecked on entry i.e. allWarrants is blank or null.
+				return false;
+			}			
+		</isReadOnly>		
+		<logicOn>
+			AllWarrants.dataBinding, CaseNumber.dataBinding
+		</logicOn>
+		<logic>
+			var allWarrants = Services.getValue(AllWarrants.dataBinding);
+			if (! CaseManUtils.isBlank(allWarrants))
+			{
+				if (allWarrants == "Y")
+				{
+					Services.setValue(CaseNumber.dataBinding, "");
+				}
+			}
+			
+			var caseNumber = Services.getValue(CaseNumber.dataBinding);
+			var warrantNumber = Services.getValue(WarrantNumber.dataBinding);	
+			if (!CaseManUtils.isBlank(caseNumber) &amp;&amp; !CaseManUtils.isBlank(warrantNumber))
+			{
+				if (CaseNumber.validate() == null)
+				{
+					searchWarrants();
+				}
+			}	
+		</logic>
+		<miscCode>			
+			CaseNumber.validate = function()
+			{
+				var value = Services.getValue(CaseNumber.dataBinding);
+				var errCode = null;
+				if ( ! CaseManUtils.isBlank(value) )
+				{
+					errCode = CaseManValidationHelper.validateCaseNumber(value);
+				}
+				return errCode;
+			}						
+		</miscCode>
+	</Javascript>
+</Question>

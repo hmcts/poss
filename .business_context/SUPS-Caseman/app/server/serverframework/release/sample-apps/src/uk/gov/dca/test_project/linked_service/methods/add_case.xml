@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<service-method>
+	<pipeline>
+		<Add>
+			<QueryDef location="uk/gov/dca/test_project/linked_service/query_def.xml"/>
+			<DataSource xpath="/params/param[@name='case']"/>
+			<QueryExtension pivotNode="/Cases/Case">
+				<CheckExists table="c" fields="case_number" onExist="update" onNotExist="add"/>
+			</QueryExtension>
+		</Add>
+	</pipeline>
+	<Security roles="user"/>
+</service-method>

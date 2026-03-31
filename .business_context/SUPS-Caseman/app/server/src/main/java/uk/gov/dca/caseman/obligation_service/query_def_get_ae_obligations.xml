@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<QueryDef>
+	<DBMapDef location="uk/gov/dca/caseman/obligation_service/map_get_ae_obligations.xml"/>
+	<Query pivotNode="/ds" tables="O">
+		<SQL type="select">
+			SELECT 'EXISTING' AS "STATUS", 'A' AS "EVENTTYPE" 
+			FROM DUAL
+	    </SQL>
+		<Modify notModifiable="true"/>
+	</Query>
+	<Query pivotNode="/ds/MaintainObligations" tables="C CT">
+		<LinkedJoin type="root" key="C.CASE_NUMBER">
+			<Join>
+				CT.CODE = C.ADMIN_CRT_CODE
+			</Join>
+		</LinkedJoin>
+		<Modify notModifiable="true"/>
+	</Query>
+	<Query pivotNode="/ds/MaintainObligations/Parties/Party" tables="CPR PR P">
+		<LinkedJoin type="query" key="P.PARTY_ID CPR.PARTY_ROLE_CODE CPR.CASE_PARTY_NO">
+			<Parent key="C.CASE_NUMBER" tables="C"/>
+			<Join>
+				CPR.CASE_NUMBER     =  C.CASE_NUMBER   AND
+				CPR.PARTY_ROLE_CODE != 'SOLICITOR'        AND
+				CPR.PARTY_ROLE_CODE =  PR.PARTY_ROLE_CODE AND
+				CPR.PARTY_ID        =  P.PARTY_ID
+			</Join>
+		</LinkedJoin>
+		<OrderBy>CPR.PARTY_ROLE_CODE, CPR.CASE_PARTY_NO</OrderBy>
+		<Modify notModifiable="true"/>
+	</Query>
+	<Query pivotNode="/ds/MaintainObligations/Obligations/Obligation" tables="AE O OT">
+		<LinkedJoin type="query" key="O.OBLIGATION_SEQ">
+			<Parent key="C.CASE_NUMBER" tables="C"/>
+			<Join>
+				O.CASE_NUMBER = C.CASE_NUMBER AND
+				O.AE_EVENT_SEQ = AE.AE_EVENT_SEQ AND	
+				O.OBLIGATION_TYPE = OT.OBLIGATION_TYPE
+   			</Join>
+		</LinkedJoin>
+   		<OrderBy>O.DELETE_FLAG</OrderBy>
+		<Modify notModifiable="true"/>
+	</Query>
+	<!-- HARDCODING MOVED TO ROOT NODE IN ORDER TO REDUCE NUMBER OF QUERIES EXECUTED 
+	<Query pivotNode="/ds/MaintainObligations/Obligations/Obligation/Status" tables="O">
+		*** This is Hard Coded will need to be amended to use Framework or whatever else to to determine which records neeed updating/ inserting from the Client ***
+		<SQL type="select">
+			SELECT 'EXISTING' AS "O.STATUS" 
+			FROM DUAL
+	    </SQL>
+		<Modify notModifiable="true"/>
+	</Query>
+	
+	<Query pivotNode="/ds/MaintainObligations/Obligations/Obligation/EventType" tables="O ">
+		 <SQL type="select">
+			SELECT 'A' AS "O.EVENTYPE" 
+			FROM DUAL
+			*** This has been left in case there is need to combine different Event Bases Obligations ***
+			SELECT 'A' AS "O.EVENTYPE"
+			FROM AE_EVENTS AE, OBLIGATIONS O , OBLIGATION_TYPES OT
+			WHERE O.CASE_NUMBER = ${C.CASE_NUMBER}
+			AND AE.AE_EVENT_SEQ = O.AE_EVENT_SEQ
+			AND O.OBLIGATION_TYPE = OT.OBLIGATION_TYPE
+			AND O.OBLIGATION_SEQ = ${O.OBLIGATION_SEQ}
+			AND O.DELETE_FLAG = 'N'
+		</SQL>
+		<Modify notModifiable="true"/>
+	</Query>-->
+</QueryDef>

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<DBMapDef>
+	<DataSource id="java:OracleDS" />
+	<Tables>
+		<Table alias="S" name="SYSTEM_DATA" />
+	</Tables>
+	<Mapping>
+		<StandardFees>
+			<JudgmentFee>
+				<Amount>${S.ITEM_VALUE}</Amount>
+			</JudgmentFee>
+			<MaintenanceFee>
+				<Amount>${S.ITEM_VALUE}</Amount>
+			</MaintenanceFee>
+		</StandardFees>
+	</Mapping>
+</DBMapDef>

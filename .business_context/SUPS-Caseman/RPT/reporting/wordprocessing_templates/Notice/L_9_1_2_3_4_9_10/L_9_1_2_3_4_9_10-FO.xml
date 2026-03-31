@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- ====================================================================== -->
+<!--  -->
+<!-- FILENAME: $Source: C:/CVSRepository/serveroas/src/uk/gov/dca/caseman/wordprocessing_templates/Notice/L_9_1_2_3_4_9_10/L_9_1_2_3_4_9_10-FO.xml,v $ -->
+<!--  -->
+<!-- AUTHOR: $Author: jay $-->
+<!--  -->
+<!-- DATE: $Date: 2006/05/02 10:34:37 $ -->
+<!--  -->
+<!-- Version: $Revision: 1.16 $ -->
+<!--  -->
+<!-- DESCRIPTION: This stylesheet is used to create an XSL:FO document that -->
+<!-- can be processed into a PDF version.  Business logic -->
+<!-- is embedded to generate the correct document text for the order -->
+<!-- required. -->
+<!--  -->
+<!-- INPUTS: XML document containing: the answers to questions asked of the -->
+<!-- user; case data retrieved from the database; HTML representing the  -->
+<!-- body of the document content (already edited by the user). -->
+<!--  -->
+<!-- OUTPUTS: XML document with FO tags containing instructions for the -->
+<!-- creation of a PDF document. -->
+<!--  -->
+<!-- ====================================================================== -->
+<root xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:fo="http://www.w3.org/1999/XSL/Format" xmlns="http://eds.com/supsfo">
+	<variables>@word.processing.url.xsl@supsfo.xsl</variables>
+	<layout yourRef="true">letter</layout>
+	<logo/>
+	<addressee>
+		<instigator/>
+	</addressee>	
+	<body>
+		<editable>
+		<fo:block space-after="0.4cm">Dear <xsl:value-of select="$vdGreeting"/></fo:block>
+		<fo:block space-after="0.4cm" font-size="12pt" font-weight="bold" text-align="center">Re: Case Number: <xsl:value-of select="$vdClaimNumber"/>&#xa0;<xsl:value-of select="$vdInstigatorName"/> v <xsl:value-of select="$vdSubjectName"/>
+		</fo:block>		
+		<fo:block space-after="0.4cm" font-weight="bold">
+			<xsl:value-of select="$vdSelectLetter2" />: <xsl:value-of select="$vdExaminationNo"/>
+		</fo:block>
+		<fo:block space-after="0.4cm">
+			<xsl:value-of select="$vdSelectLetter2Para1" />
+		</fo:block>
+		<fo:block space-after="0.4cm" font-weight="bold">
+			AND
+		</fo:block>
+						
+		<xsl:if test="$vdletterselectvalue=1 or $vdletterselectvalue=2">			
+			<fo:block space-after="0.8cm">
+			The  
+			<xsl:choose>
+				<xsl:when test="$vdletterselectvalue=1">
+					examinee 
+				</xsl:when>
+				<xsl:otherwise>
+					officer 
+				</xsl:otherwise>
+			</xsl:choose>
+				has offered to pay <xsl:value-of select="$vdOfferAmount"/>. If you agree to the rate of repayment, 
+				write to the court and the court will make a 
+			<fo:inline font-weight="bold">varied order</fo:inline>
+			(order with new terms of repayment). You do not have to accept the examinee's offer.			
+			</fo:block>
+		</xsl:if>
+		
+		<xsl:if test="$vdletterselectvalue > 0 and 5 > $vdletterselectvalue">		
+			<fo:block space-after="0.8cm">			
+				<xsl:value-of select="$vdOffer" /> you can use the information given in the questionnaire to decide whether it is 
+				worth enforcing your judgment against the examinee and, if so, which method of enforcement is 
+				likely to be the most effective. You can find further information in the leaflet "I have a judgment, but 
+				the defendant hasn't paid" (available free from any County Court hearing centre).
+			</fo:block>
+		</xsl:if>
+		<xsl:if test="$vdletterselectvalue=5 or $vdletterselectvalue=6">
+			<fo:block space-after="0.4cm">
+				States that:
+			</fo:block>
+			<fo:block space-after="0.4cm">
+				<xsl:value-of select="$vdReasonsNonService" />
+			</fo:block>
+			<fo:block space-after="0.4cm">
+				If you have any further information which would help the bailiff, for example, a description of the 
+				<xsl:choose>
+					<xsl:when test="$vdletterselectvalue=5">
+						officer
+					</xsl:when>
+					<xsl:otherwise>
+						examinee 
+					</xsl:otherwise>
+				</xsl:choose>
+				or details of his/her movements, you can ask the court to re-issue the order by completing form N446 (request
+				to re-issue post-judgment process (other than warrant)).
+			</fo:block>
+			<fo:block space-after="0.8cm">
+				You may serve the order yourself. If you wish to do so, tell the court which will arrange a new examination and
+				send the order to you to serve. If you serve the order, you must send the court an affidavit (sworn statement)
+				(form N215) stating when and where you served it. A copy of the order must be attached to the affidavit when you
+				return it to the court.
+			</fo:block>
+		</xsl:if>
+		<fo:block space-after="1.5cm"><xsl:value-of select="$vdLetterEnding"/></fo:block>
+		<fo:block><xsl:value-of select="$vdName"/></fo:block>
+		<fo:block><xsl:value-of select="$vdSection"/> Section</fo:block>
+		<fo:block>Ext <xsl:value-of select="$vdExtension"/></fo:block>
+		</editable>
+	</body>
+	<letterfooter id="L_9_1_2_3_4_9_10"/>
+</root>

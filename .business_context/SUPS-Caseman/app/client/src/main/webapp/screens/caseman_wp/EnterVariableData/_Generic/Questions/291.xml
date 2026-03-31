@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>291</Id>
+	<Label>Who is to be served with copy of this list?</Label>
+	<ObjectName>WhoServedListCopy</ObjectName>
+	<Html>
+		<select id="WhoServedListCopy">
+			<option value=""></option>
+			<option value="CLM">Claimant</option>
+			<option value="DEF">Defendant</option>
+			<option value="OTH">Other</option>
+		</select>
+	</Html>
+	
+	<Javascript>
+		<XPath>/ds/EnterVariableData/SmallTrack/whoServedListCopy</XPath>
+		<HintText>Who is to be served with a copy of this list?</HintText>
+		<isMandatory>return true;</isMandatory>
+		<enableOn>IsComplaintsFiledList.dataBinding</enableOn>
+		<isEnabled>return('Y' == Services.getValue(IsComplaintsFiledList.dataBinding));</isEnabled>
+		<logicOn>IsComplaintsFiledList.dataBinding</logicOn>
+		<logic>
+			if('Y' != Services.getValue(IsComplaintsFiledList.dataBinding))
+			{	Services.setValue(WhoServedListCopy.dataBinding, "");
+			}
+		</logic>
+		
+		
+	</Javascript>
+</Question>

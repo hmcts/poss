@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<DBMapDef>
+	<DataSource id="java:OracleDS"/>
+	<Tables>
+		<Table alias="OE" name="OBLIGATION_EVENTS"/>
+		<Table alias="OBR" name="OBLIGATION_RULES"/>
+	</Tables>
+	<Mapping>
+		<Obligation>
+			<ObligationRule>
+				<EventID>${OBR.EVENT_ID}</EventID>
+				<ObligationSeq>
+					<MaintenanceMode>${OE.MAINTENANCE_MODE}</MaintenanceMode>
+					<ObligationType>${OBR.OBLIGATION_TYPE}</ObligationType>
+					<Mechanism>${OBR.MECHANISM}</Mechanism>
+					<Action>${OBR.ACTION}</Action>
+					<DefaultDays>${OBR.DEFAULT_DAYS}</DefaultDays>
+				</ObligationSeq>
+			</ObligationRule>
+		</Obligation>
+	</Mapping>
+</DBMapDef>

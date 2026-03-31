@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<DBMapDef>
+	<DataSource id="java:OracleDS"/>
+	
+	<Tables>
+		<Table alias="T" name="TAPES"/>	
+		<Table alias="P" name="PARTIES"/>	
+		<Table alias="CP" name = "CODED_PARTIES"/>
+		<Table alias="NCP" name = "NATIONAL_CODED_PARTIES"/>
+
+	</Tables>
+	<Mapping>
+		<ReceivedTapes>
+			<ReceivedTape>
+				<LibraryNumber>${T.SEQNO}</LibraryNumber>
+				<CustomerCode>${T.CUST_CODE}</CustomerCode>
+				<CustomerName>${P.PERSON_REQUESTED_NAME}</CustomerName>
+				<DateReceived>${T.DATE_RECD}</DateReceived>
+				<DateReturned>${T.DATE_RETD_CUST}</DateReturned>
+			</ReceivedTape>
+		</ReceivedTapes>
+	</Mapping>
+</DBMapDef>

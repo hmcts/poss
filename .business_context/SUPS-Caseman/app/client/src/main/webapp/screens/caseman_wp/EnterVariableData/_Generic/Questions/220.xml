@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>220</Id>
+	<Label>Party to pay fee(s)</Label>
+	<ObjectName>PartyToPay</ObjectName>
+	<Html>	
+		<select id="PartyToPay">
+			<option value=""></option>
+			<option value="CLM">The claimant</option>
+			<option value="DEF">The defendant</option>
+			<option value="OTH">Other</option>			
+		</select>
+	</Html>
+	<Javascript>
+		<XPath>/ds/EnterVariableData/FastTrack/partyToPay</XPath>
+		<HintText>Enter Party to pay fee(s)</HintText>
+		<isMandatory>return true;</isMandatory>	
+		<!--enableOn>ExpertRefused.dataBinding,IsSingleExpert.dataBinding,FeesAndExpenses.dataBinding</enableOn>
+		<isEnabled>			
+			return('Y' == Services.getValue(ExpertRefused.dataBinding) &amp;&amp;
+				   'Y' == Services.getValue(IsSingleExpert.dataBinding)	&amp;&amp;
+				   'Y' == Services.getValue(FeesAndExpenses.dataBinding)
+				   );
+		</isEnabled>	
+		<logicOn>ExpertRefused.dataBinding,IsSingleExpert.dataBinding,FeesAndExpenses.dataBinding</logicOn>
+		<logic>
+			if('Y' != Services.getValue(ExpertRefused.dataBinding) ||
+				'Y' != Services.getValue(IsSingleExpert.dataBinding) ||
+				'Y' != Services.getValue(FeesAndExpenses.dataBinding))
+			{	Services.setValue(PartyToPay.dataBinding, "");
+			}
+		</logic-->
+		<enableOn>FeesAndExpenses.dataBinding</enableOn>
+		<isEnabled>return('Y' == Services.getValue(FeesAndExpenses.dataBinding));</isEnabled>
+		<logicOn>FeesAndExpenses.dataBinding</logicOn>
+		<logic>
+			if('Y' != Services.getValue(FeesAndExpenses.dataBinding))
+			{	Services.setValue(PartyToPay.dataBinding, "");
+			}
+		</logic>
+		
+		<Context ScreenId="CJR060">
+			<HintText>Select the party to pay fee(s)</HintText>
+		</Context>
+	</Javascript>
+</Question>
+

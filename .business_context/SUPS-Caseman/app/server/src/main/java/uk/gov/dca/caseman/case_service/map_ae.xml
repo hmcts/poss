@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<DBMapDef>
+  <DataSource id="java:OracleDS"/>
+  <Tables>
+    <Table alias="C"   name="CASES"/>
+    <Table alias="CPR" name="CASE_PARTY_ROLES"/>
+    <Table alias="P"   name="PARTIES"/>
+    <Table alias="CP"   name="CODED_PARTIES"/>
+    <Table alias="GA" name="GIVEN_ADDRESSES"/>
+    <Table alias="PR" name="PARTY_ROLES"/>
+  </Tables>  
+  <Mapping>
+	  <Case>
+	    <CaseNumber>${C.CASE_NUMBER}</CaseNumber>
+	    <CaseType>${C.CASE_TYPE}</CaseType>
+	    <CaseStatus>${C.STATUS}</CaseStatus>
+	    <OwningCourtCode>${C.ADMIN_CRT_CODE}</OwningCourtCode>	    
+	    <Parties>
+	    	<Party>	    		
+	        	<PartyId>${P.PARTY_ID}</PartyId>
+		        <PersonRequestedName>${P.PERSON_REQUESTED_NAME}</PersonRequestedName>
+	    	    <TypeCode>${P.PARTY_TYPE_CODE}</TypeCode>
+	    	    <PartyRoleCode>${CPR.PARTY_ROLE_CODE}</PartyRoleCode>
+	    	    <CasePartyNumber>${CPR.CASE_PARTY_NO}</CasePartyNumber>	    	  
+	        	<ContactDetails>
+	        	  <TelephoneNumber>${P.TEL_NO}</TelephoneNumber>
+				  <FaxNumber>${P.FAX_NUMBER}</FaxNumber>
+				  <EmailAddress>${P.EMAIL_ADDRESS}</EmailAddress>
+				  <PreferredCommunicationMethod>${CPR.PREFERRED_COMMUNICATION_METHOD}</PreferredCommunicationMethod>
+				  <WelshIndicator>${CPR.WELSH_INDICATOR}</WelshIndicator>
+	        	  <Addresses>
+			          <Address>
+		    	        <AddressId>${GA.ADDRESS_ID}</AddressId>
+		    	        <TypeCode>${GA.ADDRESS_TYPE_CODE}</TypeCode>
+		        	    <Line>${GA.ADDRESS_LINE1}</Line>
+		            	<Line>${GA.ADDRESS_LINE2}</Line>
+			            <Line>${GA.ADDRESS_LINE3}</Line>
+		    	        <Line>${GA.ADDRESS_LINE4}</Line>
+		        	    <Line>${GA.ADDRESS_LINE5}</Line>
+		            	<PostCode>${GA.POSTCODE}</PostCode>
+		            	<ValidFrom>${GA.VALID_FROM}</ValidFrom>
+			            <ValidTo>${GA.VALID_TO}</ValidTo>
+			            <Reference>${GA.REFERENCE}</Reference>
+				        <CaseNumber>${GA.CASE_NUMBER}</CaseNumber>
+	        			<PartyRoleCode>${GA.PARTY_ROLE_CODE}</PartyRoleCode>
+				        <CasePartyNo>${GA.CASE_PARTY_NO}</CasePartyNo>
+			          </Address>
+		          </Addresses>          
+	    	    </ContactDetails>		    	    
+     		</Party>
+	    </Parties>
+	  </Case>
+	</Mapping>
+</DBMapDef>

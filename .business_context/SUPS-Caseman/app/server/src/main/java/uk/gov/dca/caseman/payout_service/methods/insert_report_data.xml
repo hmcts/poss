@@ -1,0 +1,27 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: Payout
+	Method:  insertReportData()
+	File:    insert_report_data.xml
+
+    Change History:
+    01-Jun-2006 Phil Haferer (EDS): Changed the onExist attribute from the invalid value of "error" to "fail",
+                whilst refectoring of exception handling. Defect 2689.
+-->
+<service-method>
+	<pipeline>
+		<Update>
+			<QueryDef location="uk/gov/dca/caseman/payout_service/query_def_report_data.xml" />
+			<DataSource xpath="/params/param[@name='reportData']" />
+			<QueryExtension pivotNode="/ReportData">
+				<CheckExists
+					table="RD"
+					fields="USER_ID REPORT_TYPE ADMIN_COURT_CODE"
+					onNotExist="add"
+					onExist="error"
+				/>
+			</QueryExtension>
+		</Update>
+	</pipeline>
+	<Security roles="viewOnly medium high wcSuper scSuper bmsSuper aeSuper dmSuper edsAdmin cpSuper"/>
+</service-method>

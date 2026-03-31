@@ -1,0 +1,50 @@
+<project name="client-common-concatenation" default="concat-screens" basedir=".">
+
+	<description>
+        This file is used to concat all the JS files in a directory to a single JS file    
+    </description>
+
+	<target name="concat-screens">		
+		<for param="screen-dir">
+			<path>				
+				<!-- The source files for the concatenation exist in the common and client\caseman directories-->
+				<dirset dir="./${webapp.dir}/common">
+					<include name="**" />
+				</dirset>
+				<dirset dir="./${webapp.dir}">
+					<include name="screens/**" />
+				</dirset>
+			</path>
+			<sequential>
+				<if>
+					<available file="@{screen-dir}/concat.includes" type="file" />
+					<then>
+						<property file="@{screen-dir}/concat.includes" description="This file contains a list of Files to be concatened. is must also hold the property dest.file which is a path relative to the basedir" />
+						<echo>
+						Stripping all files of stripjavacomments, striplinecomments and changing tabstospaces and ignoreblank
+						then changing all multiple whitespace entries to single whitespace entries.
+						All code must end with a semi-colon (;)
+						creating dest.file: ${dest.file}
+						</echo>
+
+						<!-- Store the concatenated files relative to the assemble.dir -->
+						<concat destfile="${assemble.dir}/${dest.file}" 
+							fixlastline="no" encoding="ISO-8859-15">
+							<fileset dir="@{screen-dir}" includesfile="@{screen-dir}/concat.includes" />
+							<filterchain>
+								<tabstospaces />
+								<tokenfilter>
+									<replaceregex pattern="\s+" replace=" " flags="gi" />
+								</tokenfilter>
+								<stripjavacomments />
+								<striplinecomments />
+							</filterchain>
+						</concat>
+						<var name="dest.file" unset="true" />
+					</then>
+				</if>
+			</sequential>
+		</for>
+	</target>
+
+</project>

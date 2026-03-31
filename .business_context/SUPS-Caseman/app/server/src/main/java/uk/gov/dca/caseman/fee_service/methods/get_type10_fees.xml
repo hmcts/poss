@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: Fee
+	Method:  getType10Fees()
+	File:    get_type10_fees.xml
+	Author:  
+	Created: 
+	Description: 
+        List of Types for Obligation Type 10 
+-->
+<service-method>
+	<pipeline>
+		<Query>
+  			<QueryDef location="uk/gov/dca/caseman/fee_service/query_def_type10.xml"/>
+  			<QueryExtension pivotNode="/Type10FeeTypes/Fee">
+				<Constraint>C.RV_DOMAIN = 'DMS_TYPE_10_NOTES'</Constraint>				
+  			</QueryExtension>
+  	    </Query>
+	</pipeline>
+	<Security roles="viewOnly medium high wcSuper scSuper bmsSuper aeSuper dmSuper cpSuper ccbcMan ccbcUser ccbcSGB2"/> 	
+</service-method>

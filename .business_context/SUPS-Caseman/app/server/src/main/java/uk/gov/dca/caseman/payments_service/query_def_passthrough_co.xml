@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<QueryDef>
+	<DBMapDef location="uk/gov/dca/caseman/payments_service/map_co.xml" />
+	<Query pivotNode="/Co" tables="CO">
+		<Join>	    	
+    	</Join>		
+	</Query>
+	<Query pivotNode="/Co/CoAmount" tables="AD">
+		<SQL type="select">
+			SELECT SUM(AD.DEBT_AMOUNT_ALLOWED) AS "C.CO_AMOUNT"
+			FROM	ALLOWED_DEBTS AD
+			WHERE	AD.DEBT_CO_NUMBER = ${CO.CO_NUMBER} AND
+						AD.DEBT_STATUS IN ('LIVE', 'PAID')
+		</SQL>
+		<Modify notModifiable="true" />
+	</Query>
+	<Query pivotNode="/Co/Schedule2Amount" tables="AD">
+		<SQL type="select">
+			SELECT SUM(AD.DEBT_AMOUNT_ALLOWED) AS "C.SCHEDULE_2_AMOUNT"
+			FROM	ALLOWED_DEBTS AD
+			WHERE	AD.DEBT_CO_NUMBER = ${CO.CO_NUMBER} AND
+						AD.DEBT_STATUS = 'SCHEDULE2'
+		</SQL>
+		<Modify notModifiable="true" />
+	</Query>
+	<Query pivotNode="/Co/PassthroughAmount" tables="P">
+		<SQL type="select">
+			SELECT SUM(P.AMOUNT) AS "C.PASSTHROUGH_AMOUNT"
+			FROM	PAYMENTS P
+			WHERE	P.SUBJECT_NO = ${CO.CO_NUMBER} AND
+						P.PASSTHROUGH = 'Y' AND
+						P.ERROR_INDICATOR != 'Y'
+		</SQL>
+		<Modify notModifiable="true" />
+	</Query>
+</QueryDef>

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: Co
+	Method:  isMoneyinCourt
+	Author:  Chris Hutt (EDS) 
+	Created: 3 august 2005
+	Description: 
+		Use SQLLite to determine whether there is money in court in respect of a consolidated order 
+
+		THIS IS A DUMMY PENDING DEVELOPMENT OF SUITORS CASH
+		
+
+-->
+<service-method>
+	<pipeline>
+		<SQLLite format-output="true"
+				 resultset-element="ds"
+				 row-element="CO"
+				 field-name-as="element" >
+			<DataSource id="java:OracleDS"/>
+			<Param name="param.coNumber" xpath="/params/param[@name='coNumber']"/>
+			<SQL>
+				SELECT  
+						'N' AS "MoneyinCourt"
+				FROM 	DUAL
+			</SQL>
+		</SQLLite>
+  	</pipeline>
+	<Security roles="user"/>
+</service-method>
+
+

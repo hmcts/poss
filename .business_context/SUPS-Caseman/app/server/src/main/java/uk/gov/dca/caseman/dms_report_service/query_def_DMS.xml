@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: DmsReport
+	Method:  getOverdueObligations()
+	File:    query_def_DMS.xml
+	Author:  Dave Turner
+	Created: 2004
+
+	Description: 
+		Returns a list of obligations on the court specified which are now overdue
+
+	Amendments:
+		08/05/2006 - CPV: Removed the Select Min() statements from the party queries
+					 and replaced with a 1 which should always exist.
+		11/10/06 - 	Chris Hutt TD: 5638 - pagination and order or retrieve - revamp
+				   	Note: the sort sequence - obligations 2,4,3 are first followed by the rest, apart fronm 27 which
+					comes last
+	    04/08/2009 - Chris Vincent: Changed the SQL in the query def to omit party details from the query.
+	                 This also elimates the need for a UNION.  TRAC Ticket 1186.
+		28/01/2013 - Chris Vincent: Trac 4767, removed query from this file as is now stored in the Java Custom processor.
+-->
+
+<QueryDef>
+	<DBMapDef location="uk/gov/dca/caseman/dms_report_service/map_DMS.xml"/>
+	<Query pivotNode="/ds/OverdueObligations/Obligation" tables="CA OB OT">
+		<Modify notModifiable="true"/>
+	</Query>
+</QueryDef>

@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<QueryDef>
+	<DBMapDef location="uk/gov/dca/caseman/hearing_service/map_CO.xml"/>
+	<Query pivotNode="/ds/MaintainHearing" tables="C CO">
+		<LinkedJoin type="root" key="CO.CO_NUMBER">
+			<Join>
+				C.CODE = CO.ADMIN_COURT_CODE 
+    		</Join>
+    	</LinkedJoin>
+	</Query>
+	<Query pivotNode="/ds/MaintainHearing/Hearings/Hearing" tables="H GA C">
+		<LinkedJoin type="query" key="H.HRG_SEQ">
+			<Parent key="CO.CO_NUMBER" tables="CO"/>
+			<Join>
+				H.CO_NUMBER = CO.CO_NUMBER AND
+				GA.ADDRESS_ID = H.ADDRESS_ID AND
+				GA.VALID_TO IS NULL AND
+				C.CODE = CO.ADMIN_COURT_CODE
+      		</Join>
+    	</LinkedJoin>
+	</Query>
+	<Query pivotNode="/ds/MaintainHearing/Hearings/Hearing/TypeOfHearing" tables="CCBC H CO">
+		<LinkedJoin type="query" key="CCBC.RV_LOW_VALUE">
+			<Parent key="H.HRG_SEQ" tables="H"/>
+			<Join>
+				H.CO_NUMBER = CO.CO_NUMBER AND
+				CCBC.RV_LOW_VALUE = H.HRG_TYPE AND
+				CCBC.RV_DOMAIN = 'CO_HRG_TYPE'
+      		</Join>
+    	</LinkedJoin>
+	</Query>
+	<Query pivotNode="/ds/MaintainHearing/OwningCourtAddressDetail/Address" tables="GA">
+		<LinkedJoin type="query" key="GA.ADDRESS_ID">
+			<Parent key="CO.CO_NUMBER" tables="CO"/>
+			<Join>
+				GA.COURT_CODE = CO.ADMIN_COURT_CODE AND	
+				GA.ADDRESS_TYPE_CODE = 'OFFICE' AND
+				GA.VALID_TO IS NULL 
+      		</Join>
+    	</LinkedJoin>
+	</Query>
+</QueryDef>
+

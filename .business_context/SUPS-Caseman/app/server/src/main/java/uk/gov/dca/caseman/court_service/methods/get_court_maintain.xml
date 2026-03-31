@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: Court
+	Method:  getCourtMaintain
+	File:    get_court_maintain.xml
+	Author:  Chris Vincent (EDS)
+	Created: 24 November 2005
+	Description: Retrieves the data for a court for use on the maintain court data screen
+-->
+<service-method>
+	<pipeline>
+		<NewQuery>
+  			<QueryDef location="uk/gov/dca/caseman/court_service/query_def_maintain.xml"/>
+  				<QueryExtension pivotNode="/ds/Court">
+    					<Param name="param.courtCode" xpath="/params/param[@name = 'courtCode']"/>
+    					<Constraint>CT.CODE = ${param.courtCode}</Constraint>
+  				</QueryExtension>
+		</NewQuery>
+  	</pipeline>
+	<Security roles="viewOnly medium high wcSuper scSuper bmsSuper aeSuper dmSuper cpSuper edsAdmin ccbcMan ccbcUser ccbcSGB2 ccbcTape admin"/>
+</service-method>

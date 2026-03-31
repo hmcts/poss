@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: Court
+	Method:  getCourtsShort()
+	File:    get_courts_short.xml
+	Author:  
+	Created: 
+	Description: 
+        List of Courts short name, address, valid dates and in use flag
+-->
+<service-method>
+	<pipeline>
+		<Query>
+  			<QueryDef location="uk/gov/dca/caseman/court_service/query_def_short.xml"/>
+  				<QueryExtension pivotNode="/Courts/Court">    					
+    					<OrderBy>CT.CODE</OrderBy>
+  				</QueryExtension>
+		</Query>		
+  	</pipeline>
+	<Security roles="viewOnly medium high wcSuper scSuper bmsSuper aeSuper dmSuper edsAdmin admin cpSuper ccbcMan ccbcUser ccbcTape ccbcSGB2"/>
+</service-method>

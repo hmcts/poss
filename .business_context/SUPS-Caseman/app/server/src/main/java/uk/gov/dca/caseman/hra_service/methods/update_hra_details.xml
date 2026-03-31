@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: Hra
+	Method:  updateHraDetails()
+	File:    update_hra_details.xml
+	Author:  Chris Hutt
+	Created: 15 July 2005
+	Description: 
+		Insert/Amend Human Rights Act information associated with a case.
+-->
+<service-method>
+	<pipeline>		
+		<Update>
+			<QueryDef location="uk/gov/dca/caseman/hra_service/query_def_hra_update.xml"/>
+			<DataSource xpath="/params/param[@name='hra']"/>
+			<QueryExtension pivotNode="/ds/HumanRightsAct/Cases/Case">
+				<CheckExists table="ED" fields="event_seq" onNotExist="add" onExist="update"/>
+			</QueryExtension>
+
+			<QueryExtension pivotNode="/ds/HumanRightsAct/Cases/Case/Articles/Article">
+				<CheckExists table="EAP" fields="EVENT_SEQ ART_OR_PROT VALS_LOW_VALUE" onNotExist="add" onExist="skip"/>
+			</QueryExtension>
+
+			<QueryExtension pivotNode="/ds/HumanRightsAct/Cases/Case/Protocols/Protocol">
+				<CheckExists table="EAP" fields="EVENT_SEQ ART_OR_PROT VALS_LOW_VALUE" onNotExist="add" onExist="skip"/>
+			</QueryExtension>
+
+		</Update>	
+	</pipeline>
+	<Security roles="user medium high wcSuper scSuper bmsSuper aeSuper dmSuper cpSuper ccbcMan ccbcUser ccbcSGB2"/>	
+</service-method>

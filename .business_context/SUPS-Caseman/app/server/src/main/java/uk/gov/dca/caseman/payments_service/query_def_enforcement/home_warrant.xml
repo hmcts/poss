@@ -1,0 +1,237 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: Payments
+	Method: getEnforcementHomeWarrant()
+	File: home_warrant.xml
+	Author: Steve Blair
+	
+	Change History
+	01/12/2011 - Chris Vincent, added pivot node for MoneyInCourt for Trac 4587
+	03/07/2012 - Chris Vincent, change to OutstandingBalance and OutstandingDebt queries to
+				 ensure only fees that have not been logically deleted are returned.  Trac 4523.
+-->
+<QueryDef>
+	<DBMapDef location="uk/gov/dca/caseman/payments_service/map_enforcement.xml" />
+	<Query pivotNode="/Enforcement" tables="C W CT CO">
+		<SQL type="select">
+			SELECT	W.WARRANT_NUMBER AS "C.ENFORCEMENT_NUMBER",
+						'HOME WARRANT' AS "C.ENFORCEMENT_TYPE",
+						W.CURRENTLY_OWNED_BY AS "C.COURT_CODE",
+						CT.NAME AS "C.COURT_NAME",
+						W.CO_NUMBER AS "C.CO_NUMBER",
+						W.PREISSUE_BALANCE AS "C.PRE_ISSUE_BALANCE",
+						W.CASE_NUMBER AS "C.CASE_NUMBER",
+						NULL AS "C.CASE_STATUS",
+						W.WARRANT_ID AS "C.WARRANT_ID",
+						W.WARRANT_TYPE AS "C.WARRANT_TYPE",
+						W.EXECUTED_BY AS "C.WARRANT_EXECUTING_COURT",
+						W.ISSUED_BY AS "C.WARRANT_ISSUING_COURT",
+						CO.CO_TYPE AS "C.CO_TYPE"
+			FROM	WARRANTS W,
+						COURTS CT,
+						CONSOLIDATED_ORDERS CO
+			WHERE	W.WARRANT_NUMBER = ${param.warrantNumber} AND
+						W.ISSUED_BY = ${param.issuingCourt} AND
+						W.LOCAL_WARRANT_NUMBER IS NULL AND
+						CT.CODE = W.CURRENTLY_OWNED_BY AND
+						CO.CO_NUMBER (+) = W.CO_NUMBER
+		</SQL>
+		<Modify notModifiable="true" />
+	</Query>
+	<Query pivotNode="/Enforcement/Parties/Party" tables="W P CPR CP">
+		<SQL type="select">
+			SELECT /*+ ORDERED */ W.REP_NAME AS "C.PARTY_NAME",
+						'PARTY FOR' AS "C.PARTY_ROLE",
+						1 AS "C.PARTY_NUMBER",
+						W.REP_ADDR_1 AS "C.PARTY_ADDR1",
+						W.REP_ADDR_2 AS "C.PARTY_ADDR2",
+						W.REP_ADDR_3 AS "C.PARTY_ADDR3",
+						W.REP_ADDR_4 AS "C.PARTY_ADDR4",
+						W.REP_ADDR_5 AS "C.PARTY_ADDR5",
+						W.REP_POSTCODE AS "C.PARTY_POSTCODE",
+						W.REP_DX_NUMBER AS "C.DX_NUMBER",
+						CPR.PARTY_ID AS "C.PARTY_ID",
+						W.REFERENCE AS "C.REFERENCE",
+						CPR.PAYEE_FLAG AS "C.PAYEE_FLAG",
+						CP.CODE AS "C.PARTY_CODE"
+			FROM	WARRANTS W,
+						CASE_PARTY_ROLES CPR,
+						CODED_PARTIES CP
+			WHERE	W.WARRANT_ID = ${C.WARRANT_ID} AND
+						CPR.PARTY_ROLE_CODE (+) = W.REP_PARTY_ROLE_CODE AND
+						CPR.CASE_PARTY_NO (+) = W.REP_CASE_PARTY_NO AND
+						CPR.CASE_NUMBER (+) = W.CASE_NUMBER AND
+						CP.PARTY_ID (+) = CPR.PARTY_ID
+			UNION
+			SELECT /*+ ORDERED */ W.DEFENDANT1 AS "C.PARTY_NAME",
+						'PARTY AGAINST' AS "C.PARTY_ROLE",
+						1 AS "C.PARTY_NUMBER",
+						W.DEF1_ADDR_1 AS "C.PARTY_ADDR1",
+						W.DEF1_ADDR_2 AS "C.PARTY_ADDR2",
+						W.DEF1_ADDR_3 AS "C.PARTY_ADDR3",
+						W.DEF1_ADDR_4 AS "C.PARTY_ADDR4",
+						W.DEF1_ADDR_5 AS "C.PARTY_ADDR5",
+						W.DEF1_POSTCODE AS "C.PARTY_POSTCODE",
+						P.DX_NUMBER AS "C.DX_NUMBER",
+						CPR.PARTY_ID AS "C.PARTY_ID",
+						CPR.REFERENCE AS "C.REFERENCE",
+						CPR.PAYEE_FLAG AS "C.PAYEE_FLAG",
+						CP.CODE AS "C.PARTY_CODE"
+			FROM	WARRANTS W,
+						CASE_PARTY_ROLES CPR,
+						PARTIES P,
+						CODED_PARTIES CP
+			WHERE	W.WARRANT_ID = ${C.WARRANT_ID} AND
+						CPR.PARTY_ROLE_CODE (+) = W.DEF1_PARTY_ROLE_CODE AND
+						CPR.CASE_PARTY_NO (+) = W.DEF1_CASE_PARTY_NO AND
+						CPR.CASE_NUMBER (+) = W.CASE_NUMBER AND
+						P.PARTY_ID (+) = CPR.PARTY_ID AND
+						CP.PARTY_ID (+) = CPR.PARTY_ID
+			UNION
+			SELECT /*+ ORDERED */ W.DEFENDANT2 AS "C.PARTY_NAME",
+						'PARTY AGAINST' AS "C.PARTY_ROLE",
+						2 AS "C.PARTY_NUMBER",
+						W.DEF2_ADDR_1 AS "C.PARTY_ADDR1",
+						W.DEF2_ADDR_2 AS "C.PARTY_ADDR2",
+						W.DEF2_ADDR_3 AS "C.PARTY_ADDR3",
+						W.DEF2_ADDR_4 AS "C.PARTY_ADDR4",
+						W.DEF2_ADDR_5 AS "C.PARTY_ADDR5",
+						W.DEF2_POSTCODE AS "C.PARTY_POSTCODE",
+						P.DX_NUMBER AS "C.DX_NUMBER",
+						CPR.PARTY_ID AS "C.PARTY_ID",
+						CPR.REFERENCE AS "C.REFERENCE",
+						CPR.PAYEE_FLAG AS "C.PAYEE_FLAG",
+						CP.CODE AS "C.PARTY_CODE"
+			FROM	WARRANTS W,
+						CASE_PARTY_ROLES CPR,
+						PARTIES P,
+						CODED_PARTIES CP
+			WHERE	W.WARRANT_ID = ${C.WARRANT_ID} AND
+						W.DEFENDANT2 IS NOT NULL AND
+						CPR.PARTY_ROLE_CODE (+) = W.DEF2_PARTY_ROLE_CODE AND
+						CPR.CASE_PARTY_NO (+) = W.DEF2_CASE_PARTY_NO AND
+						CPR.CASE_NUMBER (+) = W.CASE_NUMBER AND
+						P.PARTY_ID (+) = CPR.PARTY_ID AND
+						CP.PARTY_ID (+) = CPR.PARTY_ID
+		</SQL>
+		<Modify notModifiable="true" />
+	</Query>
+	<Query pivotNode="/Enforcement/OutstandingBalance" tables="W PY F">
+		<SQL type="select">
+			SELECT	COALESCE(W.WARRANT_AMOUNT, 0) +
+						COALESCE(W.SOLICITOR_COSTS, 0) +
+						COALESCE(W.LAND_REGISTRY_FEE, 0) +
+						COALESCE(
+							(
+								SELECT	SUM(F.AMOUNT)
+								FROM	FEES_PAID F
+								WHERE	F.PROCESS_NUMBER = ${C.ENFORCEMENT_NUMBER} AND
+											F.ISSUING_COURT = ${param.issuingCourt} AND
+											F.PROCESS_TYPE = 'W' AND
+											F.DELETED_FLAG = 'N'
+							),
+							0
+						) -
+						COALESCE(
+							(
+								SELECT	SUM(PY.AMOUNT)
+								FROM	PAYMENTS PY
+								WHERE	PY.SUBJECT_NO = ${C.ENFORCEMENT_NUMBER} AND
+											PY.ENFORCEMENT_COURT_CODE = ${param.issuingCourt} AND
+											PY.RD_DATE IS NULL AND
+											PY.ERROR_INDICATOR = 'N'
+							),
+							0
+						)
+						AS "C.BALANCE"
+			FROM	WARRANTS W
+			WHERE	W.WARRANT_ID = ${C.WARRANT_ID}
+		</SQL>
+		<Modify notModifiable="true" />
+	</Query>
+	<Query pivotNode="/Enforcement/OutstandingDebt" tables="W PY F">
+		<SQL type="select">
+			SELECT	COALESCE(W.PREISSUE_BALANCE, 0) +
+						COALESCE(W.SOLICITOR_COSTS, 0) +
+						COALESCE(W.LAND_REGISTRY_FEE, 0) +
+						COALESCE(
+							(
+								SELECT	SUM(F.AMOUNT)
+								FROM	FEES_PAID F
+								WHERE	F.PROCESS_NUMBER = ${C.ENFORCEMENT_NUMBER} AND
+											F.ISSUING_COURT = ${param.issuingCourt} AND
+											F.PROCESS_TYPE = 'W' AND
+											F.DELETED_FLAG = 'N'
+							),
+							0
+						) -
+						COALESCE(
+							(
+								SELECT	SUM(PY.AMOUNT)
+								FROM	PAYMENTS PY
+								WHERE	PY.SUBJECT_NO = ${C.ENFORCEMENT_NUMBER} AND
+											PY.ENFORCEMENT_COURT_CODE = ${param.issuingCourt} AND
+											PY.RD_DATE IS NULL AND
+											PY.ERROR_INDICATOR = 'N'
+							),
+							0
+						)
+						AS "C.DEBT"
+			FROM	WARRANTS W
+			WHERE	W.WARRANT_ID = ${C.WARRANT_ID}
+		</SQL>
+		<Modify notModifiable="true" />
+	</Query>
+    <Query pivotNode="/Enforcement/COInfo" tables="CE">
+		<SQL type="select">
+            SELECT  DECODE(
+                        ${C.CO_NUMBER},
+                        NULL,
+                        (
+                            SELECT	TO_CHAR(COUNT(*))
+                            FROM    CASE_EVENTS CE
+                            WHERE   CE.CASE_NUMBER = ${C.CASE_NUMBER}
+                                    AND CE.STD_EVENT_ID = 705
+                                    AND CE.DELETED_FLAG != 'Y'
+                                    AND ROWNUM = 1
+                        ),
+                        ${C.CO_NUMBER}
+                    ) AS "C.CO_INFO"
+            FROM DUAL
+		</SQL>
+		<Modify notModifiable="true" />
+	</Query>
+	<Query pivotNode="/Enforcement/NumberEvents" tables="WR">
+		<SQL type="select">
+			SELECT	COUNT(*) AS "C.NO_EVENTS"
+			FROM	WARRANT_RETURNS WR
+			WHERE	WR.WARRANT_ID = ${C.WARRANT_ID} AND
+						WR.RETURN_CODE = '101' AND
+						WR.ERROR_INDICATOR != 'Y'
+		</SQL>
+		<Modify notModifiable="true" />
+	</Query>
+	<Query pivotNode="/Enforcement/DividendsExist" tables="DV">
+		<SQL type="select">
+			SELECT	DECODE(COUNT(*), 0, 'false', 'true') AS "DV.DIVIDENDS_EXIST"
+			FROM	DIVIDENDS DV
+			WHERE	DV.DIV_CO_NUMBER = ${C.ENFORCEMENT_NUMBER}
+		</SQL>
+		<Modify notModifiable="true" />
+	</Query>
+	
+	<Query pivotNode="/Enforcement/MoneyInCourt" tables="PY">
+		<SQL type="select">
+			SELECT DECODE(COUNT(*),0,'false','true') AS "C.MONEY_IN_COURT" 
+			FROM   PAYMENTS PY
+			WHERE  PY.SUBJECT_NO = ${C.ENFORCEMENT_NUMBER}
+			AND    PY.ENFORCEMENT_COURT_CODE = ${param.issuingCourt}
+			AND	   PY.PAYMENT_FOR = 'HOME WARRANT'
+			AND    PY.PASSTHROUGH = 'N'
+			AND	   PY.RD_DATE IS NULL
+			AND    PY.ERROR_INDICATOR = 'N'
+			AND    PY.PAYOUT_DATE IS NULL
+		</SQL>
+		<Modify notModifiable="true"/>
+	</Query>
+</QueryDef>

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<DBMapDef>
+	<DataSource id="java:OracleDS"/>
+	<Tables>
+		<Table alias="CRC" name="CCBC_REF_CODES"/>
+	</Tables>
+	<Mapping>
+		<ReturnCodeClasses>
+			<ReturnCodeClass>
+				<Class>${CRC.RV_LOW_VALUE}</Class>
+				<Description>${CRC.RV_MEANING}</Description>
+				<Type>${CRC.RV_DOMAIN}</Type>	
+			</ReturnCodeClass>
+		</ReturnCodeClasses>	
+	</Mapping>
+</DBMapDef>

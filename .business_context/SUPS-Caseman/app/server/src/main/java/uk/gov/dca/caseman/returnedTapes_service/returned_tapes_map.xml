@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<DBMapDef>
+	<DataSource id="java:OracleDS"/>
+	
+	<Tables>
+		<Table alias="T" name="TAPES"/>		
+		<Table alias="TFI" name="TAPE_FILES" />
+		<Table alias="P" name="PARTIES" />
+		<Table alias="CP" name = "CODED_PARTIES"/>
+		<Table alias="NCP" name = "NATIONAL_CODED_PARTIES"/>
+		<Table alias="CRC" name="CCBC_REF_CODES" />
+	</Tables>
+	<Mapping>
+		<ReturnedTapes>
+			<ReturnedTape>
+				<LibraryNumber>${T.SEQNO}</LibraryNumber>
+				<CustomerCode>${T.CUST_CODE}</CustomerCode>
+				<CustomerDescription>${P.PERSON_REQUESTED_NAME}</CustomerDescription>
+				<Degaussed>${T.DEGAUSSED}</Degaussed>
+				<DateRecieved>${T.DATE_RECD}</DateRecieved>
+				<DateToOperations>${T.DATE_TO_OPS}</DateToOperations>
+				<Comments>${T.COMMENTS}</Comments>
+				<DateReturned>${T.DATE_RETD_CUST}</DateReturned>
+				<TapeFiles>
+					<TapeFile>
+						<OrderSeq>${TFI.ORDERSEQ}</OrderSeq>
+						<NumberOfRecords>${TFI.NO_RECORDS}</NumberOfRecords>
+						<FileName>${TFI.FILE_NAME}</FileName>
+						<Fees>${TFI.FEES}</Fees>
+						<Comments>${TFI.OUTPUTS}</Comments>
+						<TapeFileStatus>${TFI.STATUS}</TapeFileStatus>
+						<Status>${CRC.RV_MEANING}</Status>
+					</TapeFile>
+				</TapeFiles>
+			</ReturnedTape>
+		</ReturnedTapes>
+	</Mapping>
+</DBMapDef>

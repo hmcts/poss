@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<QueryDef>
+  <DBMapDef location="uk/gov/dca/transformation/case_legacy_service/map_add_judgment.xml"/>
+    <Query pivotNode="/Judgments/Judgment" tables="J">
+	<Join/>
+    <Modify>
+    	<CheckExists table="J" fields="JUDG_SEQ" onNotExist="add" onExist="skip"/>
+    	<Field name="J.JUDG_SEQ" sequenceTable="JUDG_SEQUENCE"/>
+	</Modify>
+  </Query> 
+  <Query pivotNode="/Judgments/Judgment/Variations/Variation" tables="V">
+	<Join/>
+    <Modify>
+	    <CheckExists table="V" fields="VARY_SEQ" onNotExist="add" onExist="skip"/>
+	    <Field name="V.VARY_SEQ" sequenceTable="VARY_SEQUENCE"/>
+		<Field name="V.JUDG_SEQ" xpath="../../JudgSeq"/>
+	</Modify>
+  </Query> 
+</QueryDef>

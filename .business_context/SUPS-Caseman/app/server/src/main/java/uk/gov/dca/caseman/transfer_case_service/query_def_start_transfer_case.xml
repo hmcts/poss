@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: TransferCase 
+	Method:  startTransferCase()
+	File:    query_def_start_transfer_case.xml
+	Author:  Phil Haferer (EDS)
+	Created: 24 June 2005
+	Description: 
+		'Query Def' for transferring a case.
+-->
+<QueryDef>
+  <DBMapDef location="uk/gov/dca/caseman/transfer_case_service/map_start_transfer_case.xml"/>
+  <Query pivotNode="/TransferCase" tables="C">
+	<Join/>
+    <Modify>
+		<Field name="C.STATUS"          value="TRANSFERRED"/>
+    </Modify>
+  </Query>
+</QueryDef>

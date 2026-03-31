@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: Warrant
+	Method:  getWarrant()
+	File:    get_warrant.xml
+	Author:  Paul Robinson (EDS)
+	Created: 21 March 2005
+	Description: Retrieves a particular Warrant, along with associated CaseStatus, 
+				 CoStatus, Hearings, Fees, Payments, Returns & Judgments.
+	Change History:
+	06 Apr 2010, Chris Vincent.  Added WelshTranslation Query Extensions for the three
+	parties on the Warrant.  Trac 2924.
+-->
+<service-method>
+	<pipeline>
+		<Query>
+  			<QueryDef location="uk/gov/dca/caseman/warrant_service/query_def_get.xml"/>
+			<QueryExtension pivotNode="/ds/Warrant">
+				<Param name="param.warrantID" xpath="/params/param[@name = 'warrantID']"/>
+				<Constraint>W.WARRANT_ID = ${param.warrantID}</Constraint>
+			</QueryExtension>
+			<QueryExtension pivotNode="/ds/Warrant/CaseStatus">
+				<Param name="param.warrantID" xpath="/params/param[@name = 'warrantID']"/>
+				<Constraint>W.WARRANT_ID = ${param.warrantID}</Constraint>
+			</QueryExtension>
+			<QueryExtension pivotNode="/ds/Warrant/COStatus">
+				<Param name="param.warrantID" xpath="/params/param[@name = 'warrantID']"/>
+				<Constraint>W.WARRANT_ID = ${param.warrantID}</Constraint>
+			</QueryExtension>
+			<QueryExtension pivotNode="/ds/Warrant/Hearings/Hearing">
+				<Param name="param.warrantID" xpath="/params/param[@name = 'warrantID']"/>
+				<Constraint>W.WARRANT_ID = ${param.warrantID}</Constraint>
+			</QueryExtension>
+			<QueryExtension pivotNode="/ds/Warrant/Fees/Fee">
+				<Param name="param.warrantID" xpath="/params/param[@name = 'warrantID']"/>
+				<Constraint>W.WARRANT_ID = ${param.warrantID}</Constraint>
+			</QueryExtension>
+			<QueryExtension pivotNode="/ds/Warrant/Payments/Payment">
+				<Param name="param.warrantID" xpath="/params/param[@name = 'warrantID']"/>
+				<Constraint>W.WARRANT_ID = ${param.warrantID}</Constraint>
+			</QueryExtension>
+			<QueryExtension pivotNode="/ds/Warrant/FinalReturnCodes/Code">
+				<Param name="param.warrantID" xpath="/params/param[@name = 'warrantID']"/>
+				<Constraint>WR.WARRANT_ID = ${param.warrantID}</Constraint>
+			</QueryExtension>
+			<QueryExtension pivotNode="/ds/Warrant/Defendant1/JudgmentID">
+				<Param name="param.warrantID" xpath="/params/param[@name = 'warrantID']"/>
+				<Constraint>W.WARRANT_ID = ${param.warrantID}</Constraint>
+			</QueryExtension>
+			<QueryExtension pivotNode="/ds/Warrant/Defendant2/JudgmentID">
+				<Param name="param.warrantID" xpath="/params/param[@name = 'warrantID']"/>
+				<Constraint>W.WARRANT_ID = ${param.warrantID}</Constraint>
+			</QueryExtension>
+			<QueryExtension pivotNode="/ds/Warrant/Claimant/Representative/WelshTranslation">
+				<Param name="param.warrantID" xpath="/params/param[@name = 'warrantID']"/>
+				<Constraint>W.WARRANT_ID = ${param.warrantID}</Constraint>
+			</QueryExtension>
+			<QueryExtension pivotNode="/ds/Warrant/Defendant1/WelshTranslation">
+				<Param name="param.warrantID" xpath="/params/param[@name = 'warrantID']"/>
+				<Constraint>W.WARRANT_ID = ${param.warrantID}</Constraint>
+			</QueryExtension>
+			<QueryExtension pivotNode="/ds/Warrant/Defendant2/WelshTranslation">
+				<Param name="param.warrantID" xpath="/params/param[@name = 'warrantID']"/>
+				<Constraint>W.WARRANT_ID = ${param.warrantID}</Constraint>
+			</QueryExtension>
+  	    </Query>
+		<Java>
+			<Source class="uk.gov.dca.caseman.warrant_service.java.WarrantStatus"/>
+		</Java>					
+	</pipeline>
+	<Security roles="viewOnly medium high wcSuper scSuper bmsSuper aeSuper dmSuper cpSuper ccbcMan ccbcUser ccbcSGB2"/>		
+</service-method>

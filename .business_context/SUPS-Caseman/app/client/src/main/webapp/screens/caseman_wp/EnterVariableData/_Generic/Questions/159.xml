@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Change History:
+	12-Dec-2011 - Chris Vincent.  Added context for output O_9_2 for Trac 4621.
+-->
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>159</Id>
+	<Label>Date of order transferring case</Label>
+	<ObjectName>TransferOrderDate</ObjectName>
+	<Html>
+		<script type="text/javascript">
+			WP_DatePickerRenderer.createInline("TransferOrderDate");
+		</script>
+	</Html>
+	
+	<Context screenId="O_9_2">
+		<isVisible>true</isVisible>
+		<Label>Date of Transfer</Label>
+	</Context>
+	
+	<Javascript>
+		<initialise>		  	
+		  	loadNonWorkingDays();
+		  	Services.setValue(TransferOrderDate.dataBinding, WPU.getSystemDate());
+		</initialise>
+		<XPath>/ds/EnterVariableData/Transfer/transferOrderDate</XPath>		
+		<HintText>Enter the date – Date Picker available</HintText>
+		<isMandatory>return true;</isMandatory>		
+		 <validateOn>TransferOrderDate.dataBinding</validateOn>
+		 <validate>		 				 		
+		     return isWorkingDayInPast(Services.getValue(TransferOrderDate.dataBinding));
+		 </validate>		  
+		 <miscCode>
+		    TransferOrderDate.weekends = false;
+		 </miscCode>
+	</Javascript>
+</Question>

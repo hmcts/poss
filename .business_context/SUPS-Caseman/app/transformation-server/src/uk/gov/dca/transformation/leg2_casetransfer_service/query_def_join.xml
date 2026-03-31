@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<QueryDef>
+	<DBMapDef location="uk/gov/dca/transformation/leg2_casetransfer_service/map_join.xml"/>
+	<Query pivotNode="/params/ds/ManageCase" tables="C CT">
+		<Join>
+		CT.CODE = C.ADMIN_CRT_CODE
+	</Join>
+	</Query>
+	<Query pivotNode="/params/ds/ManageCase/CaseEvents/CaseEvent" tables="CE">
+		<Join>
+		CE.CASE_NUMBER = ${C.CASE_NUMBER}
+    </Join>
+	</Query>
+	<Query pivotNode="/params/ds/ManageCase/Defendants/Defendant" tables="D">
+		<Join>
+		D.CASE_NUMBER = ${C.CASE_NUMBER}
+    </Join>
+	</Query>
+	<Query pivotNode="/params/ds/ManageCase/Amendments/Amendment" tables="AM">
+		<Join>
+		AM.CASE_NUMBER = ${C.CASE_NUMBER}
+    </Join>
+	</Query>
+	<Query pivotNode="/params/ds/ManageCase/ECHRDetails/ECHRDetail" tables="ED">
+		<Join>
+		ED.DEFT_CASE_NUMBER = ${C.CASE_NUMBER}
+    </Join>
+	</Query>
+	<Query pivotNode="/params/ds/ManageCase/ECHRArticleProtocol" tables="EAP">
+		<Join>
+		EAP.DEFT_CASE_NUMBER = ${C.CASE_NUMBER}
+    </Join>
+	</Query>
+	<Query pivotNode="/params/ds/ManageCase/Addresses/Address" tables="A">
+		<Join>
+		A.DEFT_CASE_NUMBER = ${C.CASE_NUMBER}
+    </Join>
+	</Query>
+	<Query pivotNode="/params/ds/ManageCase/AEApplications/AEApplication" tables="AEA">
+		<Join>
+		AEA.CASE_NUMBER = ${C.CASE_NUMBER}
+    </Join>
+	</Query>
+	<Query pivotNode="/params/ds/ManageCase/AEEvents/AEEvent" tables="AEE AEA">
+		<Join>
+    	AEE.AE_NUMBER = AEA.AE_NUMBER AND
+		AEA.CASE_NUMBER = ${C.CASE_NUMBER}
+    </Join>
+	</Query>
+	<Query pivotNode="/params/ds/ManageCase/Obligations/Obligation" tables="OB">
+		<Join>
+		OB.CASE_NUMBER = ${C.CASE_NUMBER}
+		AND OB.DELETE_FLAG = 'N'
+    </Join>
+	</Query>
+	<Query pivotNode="/params/ds/ManageCase/WindowsForTrial/WindowForTrial" tables="WFT">
+		<Join>
+		WFT.WFT_CASE_NUMBER = ${C.CASE_NUMBER}
+    </Join>
+	</Query>
+	<Query pivotNode="/params/ds/ManageCase/WFTExclusions/WFTExclusion" tables="WFTE">
+		<Join>
+		WFTE.WFE_WFT_CASE_NUMBER = ${C.CASE_NUMBER}
+    </Join>
+	</Query>
+	<Query pivotNode="/params/ds/ManageCase/Judgments/Judgment" tables="J">
+		<Join>
+		J.DEFT_CASE_NUMBER = ${C.CASE_NUMBER}
+    </Join>
+	</Query>
+	<Query pivotNode="/params/ds/ManageCase/Judgments/Judgment/Variations" tables="V">
+		<Join>
+		V.JUDG_SEQ (+)= ${J.JUDG_SEQ}
+    </Join>
+	</Query>
+</QueryDef>

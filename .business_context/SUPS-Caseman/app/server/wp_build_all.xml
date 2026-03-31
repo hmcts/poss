@@ -1,0 +1,388 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="CaseMan-WordProcessing-OracleReports-Templates" default="default" basedir=".">
+
+	<echo level="verbose">Setting property environment to 'env'.</echo>
+	<property environment="env" />
+
+	<echo level="verbose">Loading default properties from. ${user.home}/sups_antuser.properties</echo>
+	<property file="${user.home}/sups_antuser.properties" />
+
+	<property name="project.server.path" value="${basedir}" />
+	<property name="project.common.path" value="${basedir}/../${name.eclipse.project.common}" />
+	<property name="project.client.path" value="${basedir}/../${name.eclipse.project.client}" />
+	<property name="project.rpt.path" value="${basedir}/../../RPT" />
+
+	<property name="wpbuild" value="${wp.buildir}" />
+
+	<property name="project.server.path.build" value="${wpbuild}/${name.eclipse.project.server}" />
+	<property name="project.common.path.build" value="${wpbuild}/${name.eclipse.project.common}" />
+	<property name="project.client.path.build" value="${wpbuild}/${name.eclipse.project.client}" />
+
+	<property name="wpdeploy" value="${wp.deploydir}" />
+
+	<property name="project.server.path.deploy" value="${wpdeploy}/${name.eclipse.project.server}" />
+	<property name="project.common.path.deploy" value="${wpdeploy}/${name.eclipse.project.common}" />
+	<property name="project.client.path.deploy" value="${wpdeploy}/${name.eclipse.project.client}" />
+
+	<property name="project.server.packagetree" value="wordprocessing_templates" />
+
+	<property name="word.processing.url.build" value="${project.server.path.build}/${project.server.packagetree}" />
+	<property name="word.processing.url.deploy" value="http://localhost/caseman/wordprocessing_templates" />
+	
+	<property name="daServer" value="."/>
+	
+	<property name="word.processing.url.xml.deployOAS" value="" />
+	<property name="word.processing.url.xsl.deployOAS" value="" />
+	<property name="word.processing.url.img" value="${daServer}/img"/>
+
+	<property name="deploy.template.dir" value="c:/SUPS/build/caseman/reporting_templates" />
+	<property name="deploy.template.dir.xml" value="${deploy.template.dir}/xml" />
+	<property name="deploy.template.dir.xsl" value="${deploy.template.dir}/xsl" />
+	<property name="deploy.template.dir.rdf" value="${deploy.template.dir}/rdf" />
+	
+	<property name="fop.conf.dir" value="C:/SUPS/SupsReporting/Reporting/src/META-INF" />
+	<property name="fop.conf.file" value="fop-conf.xml" />
+
+	<target name="init"/>
+
+	<target name="clean">
+		<echo>Deleting build and deploy directories</echo>
+		<delete dir="${project.server.path.build}" />
+		<delete dir="${project.common.path.build}" />
+		<delete dir="${project.client.path.build}" />
+		<delete dir="${project.server.path.deploy}" />
+		<delete dir="${project.common.path.deploy}" />
+		<delete dir="${project.client.path.deploy}" />
+		<delete dir="${deploy.template.dir}" />
+		<echo>Deleted build and deploy directories</echo>
+		<echo>Creating build and deploy directories</echo>
+		<mkdir dir="${project.server.path.build}" />
+		<mkdir dir="${project.common.path.build}" />
+		<mkdir dir="${project.client.path.build}" />
+		<mkdir dir="${project.server.path.deploy}" />
+		<mkdir dir="${project.common.path.deploy}" />
+		<mkdir dir="${project.client.path.deploy}" />
+		<mkdir dir="${deploy.template.dir}" />
+		<mkdir dir="${deploy.template.dir.xml}" />
+		<mkdir dir="${deploy.template.dir.xsl}" />
+		<echo>Created build and deploy directories</echo>
+	</target>
+
+	<target name="default" depends="Build_templates"/>
+
+	<target name="_templates.copy.source2build">
+		<echo>Copying templates from</echo>
+		<echo>	${project.rpt.path}/${project.server.packagetree} </echo>
+		<echo>to</echo>
+		<echo>	${project.server.path.build}/${project.server.packagetree}</echo>
+		<copy todir="${project.server.path.build}/${project.server.packagetree}">
+			<fileset dir="${project.rpt.path}/${project.server.packagetree}" />
+			<filterset>
+				<filter token="word.processing.url" value="${word.processing.url.build}" />
+				<filter token="word.processing.url.deploy" value="${word.processing.url.deploy}" />
+				<filter token="sups.font" value="sups" />
+				<!-- new tokens for OAS Builds -->
+				<filter token="word.processing.url.xsl" value="${word.processing.url.build}/_Generic/" />
+				<filter token="word.processing.url.xml" value="${word.processing.url.build}/" />
+
+			</filterset>
+		</copy>
+		<echo>Copied templates from ...</echo>
+		<echo>Tokens replaced</echo>
+		<echo> word.processing.url: ${word.processing.url.build}</echo>
+		<echo> word.processing.url.deploy: ${word.processing.url.deploy}</echo>
+		<echo> sups.font: sups</echo>
+	</target>
+
+	<target name="_copy_built_templates_to_deploy">
+		<echo message="skip.deploy.rdf.files = ${skip.deploy.rdf.files}" />
+		<echo>Copying built templates from</echo>
+		<echo>	${project.server.path.build}/${project.server.packagetree} </echo>
+		<echo>to</echo>
+		<echo>	${project.server.path.deploy}/${project.server.packagetree}</echo>
+		<echo> Replacing tokens:</echo>
+		<echo> token: word.processing.url.xsl: ${word.processing.url.xsl.deployOAS}</echo>
+		<echo> token: word.processing.url.xml: ${word.processing.url.xml.deployOAS}</echo>
+		<copy todir="${deploy.template.dir.xsl}" flatten="true">
+			<fileset dir="${project.server.path.build}/${project.server.packagetree}">
+				<exclude name="**/*.xsd" />
+				<include name="**/*-FO.xsl" />
+				<include name="**/*-XHTML.xsl" />
+				<exclude name="**/*-VAR.xsl" />
+				<exclude name="**/*-VAR.xsd" />
+				<exclude name="**/*-VAR.xml" />
+				<exclude name="**/*-FO.xml" />
+			</fileset>
+			<filterset>
+				<filter token="word.processing.url.xsl" value="${word.processing.url.xsl.deployOAS}" />
+				<filter token="word.processing.url.xml" value="${word.processing.url.xml.deployOAS}" />
+				<filter token="word.processing.url.xsl2" value="${word.processing.url.xsl.deployOAS}" />
+				<filter token="word.processing.url.xml2" value="${word.processing.url.xml.deployOAS}" />
+				<filter token="word.processing.url.img" value="${word.processing.url.img}" />
+			</filterset>
+		</copy>
+
+		<copy todir="${deploy.template.dir.xml}" flatten="true">
+			<fileset dir="${project.server.path.build}/${project.server.packagetree}">
+				<include name="*.*" />
+				<exclude name="**/*.xsd" />
+				<exclude name="**/*-FO.xsl" />
+				<exclude name="**/*-XHTML.xsl" />
+				<exclude name="**/*-VAR.xsl" />
+				<exclude name="**/*-VAR.xsd" />
+				<include name="**/*-VAR.xml" />
+				<include name="**/*-FO.xml" />
+			</fileset>
+			<filterset>
+				<filter token="word.processing.url.xsl" value="${word.processing.url.xsl.deployOAS}" />
+				<filter token="word.processing.url.xml" value="${word.processing.url.xml.deployOAS}" />
+				<filter token="word.processing.url.xsl2" value="${word.processing.url.xsl.deployOAS}" />
+				<filter token="word.processing.url.xml2" value="${word.processing.url.xml.deployOAS}" />
+				<filter token="word.processing.url.img" value="${word.processing.url.img}" />
+			</filterset>
+		</copy>
+	
+		<echo>Copied templates to deployment area...</echo>
+		<echo>Copying variable and formatting stylesheet templates from</echo>
+		<echo>	${word.processing.url.build}/_Generic </echo>
+		<echo>to</echo>
+		<echo>	${deploy.template.dir}</echo>
+		<echo> Replacing tokens:</echo>
+		<echo> token: word.processing.url.xsl: ${word.processing.url.xsl.deployOAS}</echo>
+		<echo> token: word.processing.url.xml: ${word.processing.url.xml.deployOAS}</echo>
+		<copy todir="${deploy.template.dir.xml}" flatten="true">
+			<fileset dir="${project.rpt.path}/${project.server.packagetree}/_Generic">
+				<exclude name="*.xsl" />
+				<include name="*.xml" />
+				<exclude name="**/*.xsd" />
+			</fileset>
+			<filterset>
+				<filter token="word.processing.url.xsl" value="${word.processing.url.xsl.deployOAS}" />
+				<filter token="word.processing.url.xml" value="${word.processing.url.xml.deployOAS}" />
+				<filter token="word.processing.url.img" value="${word.processing.url.img}" />
+			</filterset>
+		</copy>
+
+		<copy todir="${deploy.template.dir.xsl}" flatten="true">
+			<fileset dir="${project.rpt.path}/${project.server.packagetree}/_Generic">
+				<include name="*.xsl" />
+				<exclude name="*.xml" />
+				<exclude name="**/*.xsd" />
+				<exclude name="**/*VAR.xsl" />
+			</fileset>
+			<filterset>
+				<filter token="word.processing.url.xsl" value="${word.processing.url.xsl.deployOAS}" />
+				<filter token="word.processing.url.xml" value="${word.processing.url.xml.deployOAS}" />
+				<filter token="word.processing.url.img" value="${word.processing.url.img}" />
+			</filterset>
+		</copy>
+		<!-- Only deploy the rdf files if the property to skip is not set -->		
+		<antcall target="_deploy_rdf_files" />
+
+		<echo>Copy images from ${project.rpt.path}/${project.server.packagetree}/images</echo>
+		<echo>to ${deploy.template.dir}/xsl</echo>	
+		<copy todir="${deploy.template.dir}/xsl">
+			<fileset dir="${project.rpt.path}/${project.server.packagetree}/images" includes="*.*" />
+		</copy>
+	</target>
+
+	<!-- Only run this target if the skip property is not set -->
+	<target name="_deploy_rdf_files" unless="skip.deploy.rdf.files">
+		<echo>Copying oracle reports templates from ${project.rpt.path}/reporting_templates/rdf</echo>
+		<echo>to ${deploy.template.dir.rdf}</echo>
+		<mkdir dir="${deploy.template.dir.rdf}" />		
+		<copy todir="${deploy.template.dir.rdf}" flatten="true">
+			<fileset dir="${project.rpt.path}/reporting_templates/rdf">
+				<include name="**/*.rdf" />
+			</fileset>
+		</copy>
+		<echo>Copied oracle reports templates</echo>		
+	</target>
+
+	<target name="_copy_oracle_report_templates" depends="init"> 
+		<echo>Copying oracle reports templates from</echo>
+		<echo>	${project.rpt.path}/reporting_templates/rdf</echo>
+		<echo>to</echo>
+		<echo>	${deploy.template.dir.rdf}</echo>
+		<copy todir="${deploy.template.dir.rdf}" flatten="true">
+			<fileset dir="${project.rpt.path}/reporting_templates/rdf">
+				<include name="**/*.rdf" />
+			</fileset>
+		</copy>
+		<echo>Copied oracle reports templates</echo>
+	</target>
+	
+	<target name="Build_templates" depends="init">
+		<antcall target="clean" />
+		<antcall target="_templates.copy.source2build" />
+		<antcall target="_build_templates_task" />
+		<antcall target="_copy_built_templates_to_deploy" />
+	</target>
+
+	<taskdef name="build_templates_task" classname="uk.gov.dca.caseman.tools.BuildTemplatesTask">
+		<classpath>
+			<pathelement location="${basedir}/lib/outputgeneratortask.jar" />
+			<pathelement location="${sups.tools}/extracted/fop-1.0/lib/avalon-framework-4.2.0.jar" />
+		</classpath>
+	</taskdef>
+
+	<target name="_build_templates_task">
+		<build_templates_task 
+			outputs="${project.server.path.build}/${project.server.packagetree}/Outputs.xml" 
+			src="${project.server.path.build}/${project.server.packagetree}/" 
+			xhtmlStyle="${project.server.path.build}/${project.server.packagetree}/_Generic/supsxhtml.xsl" />
+	</target>
+	
+	<taskdef name="fo-create" classname="uk.gov.dca.caseman.tools.FOGeneratorTask">
+		<classpath>
+			<pathelement location="${basedir}/lib/outputgeneratortask.jar" />
+		</classpath>
+	</taskdef>
+
+	<taskdef name="fop" classname="org.apache.fop.tools.anttasks.Fop">
+		<classpath>
+			<pathelement location="${sups.tools}/extracted/fop-1.0/build/fop.jar"/>
+			<fileset dir="${sups.tools}/extracted/fop-1.0/lib">
+				<include name="*.jar"/>
+			</fileset>
+		</classpath>
+	</taskdef>
+	
+	<!--
+		Create PDF for document defined in output property
+		For this to work Apache FOP must be present in SUPS tools directory
+		and SUPS reporting code must be present in SUPS directory
+	-->
+	<target name="build_single_pdf_output"  depends="Build_templates">			
+		<!-- CHANGE THIS VALUE TO CREATE THE REQUIRED PDF -->
+		<property name="output" value="L_9_1_2_3_4_9_10" />
+		
+		<delete dir="${deploy.template.dir}/fo" />
+		<mkdir dir="${deploy.template.dir}/fo" />
+		
+		<fo-create 	xslFile="${deploy.template.dir}/xsl/${output}-FO.xsl" 
+					xmlFile="${deploy.template.dir}/xml/${output}-VAR.xml" 
+					outFile="${deploy.template.dir}/fo/${output}-FO-XSL.fo" />
+		
+		<delete dir="${deploy.template.dir}/pdf" />
+		<mkdir dir="${deploy.template.dir}/pdf" />
+		<fop	fofile="${deploy.template.dir}/fo/${output}-FO-XSL.fo"
+				outfile="${deploy.template.dir}/pdf/${output}.pdf"
+				format="application/pdf"
+				userconfig="${fop.conf.dir}/${fop.conf.file}" />
+	</target>
+	
+	<taskdef name="build_all_pdfs" classname="uk.gov.dca.caseman.tools.BuildPDFsTask">
+		<classpath>
+			<pathelement location="${basedir}/lib/outputgeneratortask.jar" />
+			<pathelement location="${sups.tools}/extracted/fop-1.0/build/fop.jar"/>
+			<fileset dir="${sups.tools}/extracted/fop-1.0/lib">
+				<include name="*.jar"/>
+			</fileset>
+		</classpath>
+	</taskdef>
+	
+	<target name="test_all_pdf_outputs" depends="Build_templates">
+		
+		<delete dir="${deploy.template.dir}/fo" />
+		<delete dir="${deploy.template.dir}/pdf" />		
+		<mkdir dir="${deploy.template.dir}/fo" />
+		<mkdir dir="${deploy.template.dir}/pdf" />		
+		<build_all_pdfs outputsXML="${project.rpt.path}/${project.server.packagetree}/Outputs.xml" 
+						destDir="${deploy.template.dir}"
+						fopConfDir="${fop.conf.dir}"
+						logFile="c:/pdfErrLog.txt"
+						xslHome="${deploy.template.dir}/xsl"/>		
+	</target>
+		
+	<target name="test_xhtml">
+		<!--xslt 
+			in="c:/reporting_templates/xml/N35-VAR.xml"
+			out="c:/N35TestResult.fo"
+			style="c:/reporting_templates/xsl/N35-FO.xsl" /-->
+					
+		<fop	fofile="c:/N35TestResult.fo"
+				outfile="c:/N35testResult.pdf"
+				format="application/pdf"
+				userconfig="${fop.conf.dir}/${fop.conf.file}" />
+		
+	</target>
+	
+	<target name="test_convertDsToWpData" >
+		<xslt 
+				in="${basedir}/src/uk/gov/dca/caseman/noticeofissue_service/classes/src_convertDsToWpData.xsl"
+				style="${basedir}/src/uk/gov/dca/caseman/noticeofissue_service/classes/gen_ds2wp_do.xsl" 
+				out="${basedir}/src/uk/gov/dca/caseman/noticeofissue_service/classes/convertDsToWpData.xsl"
+				force="true"/>	
+		<xslt 
+				in="C:/xmlbefore.xml"
+				out="c:/test.xml"
+				style="${basedir}/src/uk/gov/dca/caseman/noticeofissue_service/classes/convertDsToWpData.xsl" />				
+	</target>
+	
+	<target name="test_pdf_outputs_under_development" 
+		depends="_build_templates_under_development"
+		description="Use this task to just build the outputs you are working on. Identify them in OutputsUnderDevelopment.xml">
+		
+		<delete dir="${deploy.template.dir}/fo" />
+		<delete dir="${deploy.template.dir}/pdf" />		
+		<mkdir dir="${deploy.template.dir}/fo" />
+		<mkdir dir="${deploy.template.dir}/pdf" />	
+		
+		<!-- Now build the PDFs -->	
+		<build_all_pdfs outputsXML="${project.rpt.path}/${project.server.packagetree}/OutputsUnderDevelopment.xml" 
+						destDir="${deploy.template.dir}"
+						fopConfDir="${fop.conf.dir}"
+						logFile="c:/pdfErrLog.txt"
+						xslHome="${deploy.template.dir}/xsl"/>		
+	</target>
+
+	<target name="_build_templates_under_development">
+		<!-- Set the skip property so the oracle reports rdf files don't get copied -->
+		<property name="skip.deploy.rdf.files" value="true" />		
+		<antcall target="clean" />
+		<antcall target="_copy_templates_under_development_to_build" />
+		<antcall target="_build_templates_under_development_task" />
+		<antcall target="_copy_built_templates_to_deploy" />
+	</target>
+
+	<target name="_build_templates_under_development_task">
+		<build_templates_task 
+			outputs="${project.rpt.path}/${project.server.packagetree}/OutputsUnderDevelopment.xml" 
+			src="${project.server.path.build}/${project.server.packagetree}/" 
+			xhtmlStyle="${project.server.path.build}/${project.server.packagetree}/_Generic/supsxhtml.xsl" />
+	</target>	
+	
+	<target name="_copy_templates_under_development_to_build" description="Copies only the necessary files to the build directory">
+		<echo>Copying templates from ${project.rpt.path}/${project.server.packagetree} </echo>
+		<echo>to ${project.server.path.build}/${project.server.packagetree}</echo>
+		
+		<!-- Create the patternset consisting only of the outputs identified in OutputsUnderDevelopment.xml -->
+		<xslt 
+				in="${project.rpt.path}/${project.server.packagetree}/OutputsUnderDevelopment.xml" 
+				style="${basedir}/generatePatternSet.xsl" 
+				out="${wpbuild}/outputsUnderDevelopmentPatternSet.txt"
+				force="true"/>			
+						
+		<!-- Copy from the source tree only those outputs under development -->
+		<copy todir="${project.server.path.build}/${project.server.packagetree}">
+			<fileset dir="${project.rpt.path}/${project.server.packagetree}" casesensitive="false">
+				<patternset includesfile="${wpbuild}/outputsUnderDevelopmentPatternSet.txt" />
+			</fileset>	
+			<filterset>
+				<filter token="word.processing.url" value="${word.processing.url.build}" />
+				<filter token="word.processing.url.deploy" value="${word.processing.url.deploy}" />
+				<filter token="sups.font" value="sups" />
+				<filter token="word.processing.url.xsl" value="${word.processing.url.build}/_Generic/" />
+				<filter token="word.processing.url.xml" value="${word.processing.url.build}/" />
+			</filterset>			
+		</copy>
+
+		<echo>Tokens replaced</echo>
+		<echo>===============</echo>
+		<echo> word.processing.url:        ${word.processing.url.build}</echo>
+		<echo> word.processing.url.deploy: ${word.processing.url.deploy}</echo>
+		<echo> sups.font: sups</echo>
+	</target>	
+	
+</project>

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<service-method>
+	<pipeline>
+		<Update>
+			<!-- Note: This method only updates the CASE_EVENTS.DELETED_FLAG. -->
+			<QueryDef location="uk/gov/dca/caseman/case_event_service/query_def_update_case_event_row.xml"/>
+			<DataSource xpath="/params/param name='caseEvent'"/>
+			<QueryExtension pivotNode="/CaseEvent">
+				<CheckExists table="CE" fields="EVENT_SEQ" onNotExist="fail" onExist="update" useOptimisticLock="false"/>
+			</QueryExtension>
+		</Update>
+		<Java callStyle="new">
+			<Source class="uk.gov.dca.caseman.case_event_service.java.UpdateCaseEventUpdatesCustomProcessor"/>
+		</Java>
+	</pipeline>
+	<Security roles="user"/>
+</service-method>

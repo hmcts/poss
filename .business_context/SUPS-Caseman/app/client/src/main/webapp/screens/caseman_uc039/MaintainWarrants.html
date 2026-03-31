@@ -1,0 +1,380 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3c.org/TR/html4/strict.dtd">
+
+<html>
+
+	<head>
+		<title>MaintainWarrants</title>
+		<link href="MaintainWarrants.css" type="text/css" rel="stylesheet">
+		<script type="text/javascript" src="../../Framework.js"></script>
+		<script type="text/javascript" src="../../ConcatCommon.js"></script>
+		<script type="text/javascript" src="MaintainWarrants.js"></script>
+		<script type="text/javascript" src="MaintainWarrants_AuditCode.js"></script>
+		<script type="text/javascript" src="MaintainWarrants_MenuBarCode.js"></script>
+	</head>
+	
+	<body>
+		<form name="MaintainWarrants" id="maintainWarrants">
+			
+			<!-- Framework Navigation Menu -->
+			<script type="text/javascript">MenuBarRenderer.createInline();</script>
+			
+			<table class="layout">
+				<tr>
+					<td>
+						<div class="panel">
+							<table class="content">
+								<tr>
+									<td>
+										<table style="margin-top:5px; margin-bottom:5px;">
+											<tr>
+												<td class="defaultLabel"><label for="Header_ExecutingCourtCode">Executed By</label></td>
+												<td><input id="Header_ExecutingCourtCode" type="text" size="5"/></td>
+												<td><script type="text/javascript">AutoCompletionRenderer.createInline("Header_ExecutingCourtName");</script></td>
+												<td><input id="Header_ExecutingCourtLOVButton" type="Button" value="LOV"/></td>
+												<td style="width:15px;">&nbsp;</td>
+												<td class="defaultLabel"><label for="Header_WarrantNumber">Warrant Number</label></td>
+												<td><input id="Header_WarrantNumber" type="text" size="15"/></td>
+												<td style="width:15px;">&nbsp;</td>
+												<td class="defaultLabel"><label for="Header_CaseNumber">Case Number</label></td>
+												<td><input id="Header_CaseNumber" type="text" size="15"/></td>
+											</tr>
+											<tr>
+												<td class="defaultLabel"><label for="Header_IssuedByCourtCode">Issued By</label></td>
+												<td><input id="Header_IssuedByCourtCode" type="text" size="5"/></td>
+												<td><script type="text/javascript">AutoCompletionRenderer.createInline("Header_IssuedByCourtName");</script></td>
+												<td><input id="Header_IssuedByCourtLOVButton" type="Button" value="LOV"/></td>
+												<td style="width:15px;">&nbsp;</td>
+												<td class="defaultLabel"><label for="Header_CONumber">CO Number</label></td>
+												<td><input id="Header_CONumber" type="text" size="15"/></td>
+												<td style="width:15px;">&nbsp;</td>
+												<td class="defaultLabel"><label for="Header_LocalNumber">Local Number</label></td>
+												<td><input id="Header_LocalNumber" type="text" size="15"/></td>
+											</tr>
+											<tr>
+												<td class="defaultLabel"><label for="Header_IssueDate">Issue Date</label></td>
+												<td colspan="3"><script type="text/javascript">DatePickerRenderer.createInline("Header_IssueDate", false);</script></td>
+												<td style="width:15px;">&nbsp;</td>
+												<td class="defaultLabel"><label for="Header_WarrantType">Warrant Type</label></td>
+												<td><input id="Header_WarrantType" type="text" size="15"/></td>
+												<td style="width:15px;">&nbsp;</td>
+												<td colspan="2" align="right"><input id="SearchButton" type="Button" value="Search"/></td>
+											</tr>									
+										</table>
+									</td>
+								</tr>
+							</table>
+						</div>
+					</td>
+				</tr>
+				<!-- Main Panel -->
+				<tr>
+					<td>
+						<div class="panel">
+							<table class="content" style="height:435px;">
+								<tr>
+									<td valign="top">
+										<!-- Claimants Panel -->
+										<table style="margin-top:5px;">
+											<tr>
+												<td class="defaultLabel"><label id="Claimant_Name_Label" for="Claimant_Name">Party For</label></td>
+												<td colspan="3"><input id="Claimant_Name" type="text" size="50"/></td>
+											</tr>
+											<tr>
+												<td class="defaultLabel"><label id="Solicitor_Name_Label" for="Solicitor_Name">Party For (sol)</label></td>
+												<td colspan="3"><input id="Solicitor_Name" type="text" size="50"/></td>
+											</tr>
+											<tr>
+												<td class="defaultLabel"><label for='Solicitor_Address_Line1'>Address</label></td>
+												<td colspan="3"><input id="Solicitor_Address_Line1" type="text" size="50"/></td>
+											</tr>
+											<tr>
+												<td>&nbsp;</td>
+												<td colspan="3"><input id="Solicitor_Address_Line2" type="text" size="50"/></td>
+											</tr>
+											<tr>
+												<td>&nbsp;</td>
+												<td colspan="3"><input id="Solicitor_Address_Line3" type="text" size="50"/></td>
+											</tr>
+											<tr>
+												<td>&nbsp;</td>
+												<td colspan="3"><input id="Solicitor_Address_Line4" type="text" size="50"/></td>
+											</tr>
+											<tr>
+												<td>&nbsp;</td>
+												<td colspan="3"><input id="Solicitor_Address_Line5" type="text" size="50"/></td>
+											</tr>
+											<tr>
+												<td class="defaultLabel"><label for='Solicitor_Address_PostCode'>Postcode</label></td>
+												<td colspan="3"><input id="Solicitor_Address_PostCode" type="text" size="15"/></td>
+											</tr>
+											<tr>
+												<td class="defaultLabel"><label for='Solicitor_DX'>DX Number</label></td>
+												<td colspan="3"><input id="Solicitor_DX" type="text" size="50"/></td>
+											</tr>
+											<tr>
+												<td class="defaultLabel"><label for='Solicitor_TelephoneNumber'>Telephone Number</label></td>
+												<td colspan="3"><input id="Solicitor_TelephoneNumber" type="text" size="50"/></td>
+											</tr>
+											<tr>
+												<td class="defaultLabel"><label for='Solicitor_FaxNumber'>Fax Number</label></td>
+												<td colspan="3"><input id="Solicitor_FaxNumber" type="text" size="50"/></td>
+											</tr>
+											<tr>
+												<td class="defaultLabel"><label for='Solicitor_EmailAddress'>Email Address</label></td>
+												<td colspan="3"><input id="Solicitor_EmailAddress" type="text" size="50"/></td>
+											</tr>
+											<tr>
+												<td class="defaultLabel"><label for="Solicitor_Reference">Reference</label></td>
+												<td colspan="3"><input id="Solicitor_Reference" type="text" size="50"/></td>
+											</tr>
+											<tr>
+												<td colspan="4">&nbsp;</td>
+											</tr>									
+											<tr>
+												<td colspan="4">&nbsp;</td>
+											</tr>									
+											<tr>
+												<td colspan="4"><hr/></td>
+											</tr>
+											<tr>
+												<td class="defaultLabel"><label for="ExecutingCourtCode">Executed By</label></td>
+												<td><input id="ExecutingCourtCode" type="text" size="5"/></td>
+												<td><script type="text/javascript">AutoCompletionRenderer.createInline("ExecutingCourtName");</script></td>
+												<td><input id="ExecutingCourtLOVButton" type="Button" value="LOV"/></td>
+											</tr>
+											<tr>
+												<td class="defaultLabel"><label for="BailiffAreaNo">Bailiff area no</label></td>
+												<td colspan="2"><input id="BailiffAreaNo" type="text" size="5"/></td>
+												<td>&nbsp;</td>
+											</tr>
+										</table>
+										<!-- End Claimants Panel -->                                
+									</td>
+									
+									<td class="spacer">&nbsp;</td>
+									
+									<td valign="top">
+										<!-- Defendants Panel -->
+										<table style="margin-top:5px;">
+											<!-- Defendant 1 -->
+											<tr>
+												<td class="defaultLabel"><label id="Defendant1_Name_Label" for="Defendant1_Name">Party Against 1</label></td>
+												<td><input id="Defendant1_Name" type="text" size="50"/></td>
+											</tr>
+											<tr>
+												<td class="defaultLabel"><label for='Defendant1_Address_Line1'>Address</label></td>
+												<td><input id="Defendant1_Address_Line1" type="text" size="50"/></td>
+											</tr>
+											<tr>
+												<td>&nbsp;</td>
+												<td><input id="Defendant1_Address_Line2" type="text" size="50"/></td>
+											</tr>
+											<tr>
+												<td>&nbsp;</td>
+												<td><input id="Defendant1_Address_Line3" type="text" size="50"/></td>
+											</tr>
+											<tr>
+												<td>&nbsp;</td>
+												<td><input id="Defendant1_Address_Line4" type="text" size="50"/></td>
+											</tr>
+											<tr>
+												<td>&nbsp;</td>
+												<td><input id="Defendant1_Address_Line5" type="text" size="50"/></td>
+											</tr>
+											<tr>
+												<td class="defaultLabel"><label for='Defendant1_Address_PostCode'>Postcode</label></td>
+												<td><input id="Defendant1_Address_PostCode" type="text" size="15"/></td>
+											</tr>
+		
+											<!-- Defendant 2 -->
+											<tr>
+												<td class="defaultLabel"><label id="Defendant2_Name_Label" for="Defendant2_Name">Party Against 2</label></td>
+												<td><input id="Defendant2_Name" type="text" size="50"/></td>
+											</tr>
+											<tr>
+												<td class="defaultLabel"><label for='Defendant2_Address_Line1'>Address</label></td>
+												<td><input id="Defendant2_Address_Line1" type="text" size="50"/></td>
+											</tr>
+											<tr>
+												<td>&nbsp;</td>
+												<td><input id="Defendant2_Address_Line2" type="text" size="50"/></td>
+											</tr>
+											<tr>
+												<td>&nbsp;</td>
+												<td><input id="Defendant2_Address_Line3" type="text" size="50"/></td>
+											</tr>
+											<tr>
+												<td>&nbsp;</td>
+												<td><input id="Defendant2_Address_Line4" type="text" size="50"/></td>
+											</tr>
+											<tr>
+												<td>&nbsp;</td>
+												<td><input id="Defendant2_Address_Line5" type="text" size="50"/></td>
+											</tr>
+											<tr>
+												<td class="defaultLabel"><label for='Defendant2_Address_PostCode'>Postcode</label></td>
+												<td><input id="Defendant2_Address_PostCode" type="text" size="15"/></td>
+											</tr>
+											<tr>
+												<td colspan="2">&nbsp;</td>
+											</tr>									
+											<tr>
+												<td colspan="2"><hr/></td>
+											</tr>
+											<tr>
+												<td class="defaultLabel" valign="top"><label for="Additional_Notes">Additional Notes</label></td>
+												<td><script type="text/javascript">ZoomFieldRenderer.createInline("Additional_Notes");</script></td>
+											</tr>                                    
+										</table>
+		
+										<!-- End Defendants Panel -->                                
+									</td>
+								</tr>
+							</table>
+						</div>
+					</td>
+				</tr>
+				<!-- End Main Panel -->
+	
+				  <!-- Footer Panel -->
+				<tr>
+					<td>
+						<div class="panel">
+							<table class="content">
+							<tr>
+								<td class="defaultLabel"><label for="Footer_DetailsOfWarrantButton">Details of Warrant</label></td>
+								<td><input id="Footer_DetailsOfWarrantButton" type="button" value="View Details" style="margin-top:5px; margin-bottom:5px;"/></td>
+							</tr>
+							</table>
+						</div>
+					</td>
+				</tr>
+				<!-- End Footer Panel -->
+			</table>
+	
+			<!-- Status Bar Panel -->
+			<script type="text/javascript">
+				ActionBarRenderer.createInline(
+					"status_bar",
+					[
+						{id: "Status_SaveButton", label: "Save"},
+						{id: "Status_ClearButton", label: "Clear"},
+						{id: "Status_CloseButton", label: "Close"}
+					]
+				);
+			</script>
+			<!-- End Status Bar Panel -->
+			
+			<!-- Warrant Details Form Extension -->
+			<div class="popup" id="Warrant_Details_Popup">
+				<table class="content">
+					<tr>
+						<td><label for="WarrantDetails_BalanceOfDebt">Balance of Debt</label></td>
+						<td>
+							<input type="text" id="WarrantDetails_BalanceOfDebtCurrency" size="1" style="margin-top:5px;"/>&nbsp;
+							<input type="text" id="WarrantDetails_BalanceOfDebt" size="15" style="margin-top:5px;"/>
+						</td>
+						<td colspan="2">&nbsp;</td>
+					</tr>
+					<tr>
+						<td colspan="4"><hr/></td>
+					</tr>
+					<tr>
+						<td><label for="WarrantDetails_AmountOfWarrant">Amount of Warrant</label></td>
+						<td>
+							<input type="text" id="WarrantDetails_AmountOfWarrantCurrency" size="1"/>&nbsp;
+							<input type="text" id="WarrantDetails_AmountOfWarrant" size="15"/>
+						</td>
+						<td><label for="WarrantDetails_AdditionalFees">Additional Fees</label></td>
+						<td>
+							<input type="text" id="WarrantDetails_AdditionalFeesCurrency" size="1"/>&nbsp;
+							<input type="text" id="WarrantDetails_AdditionalFees" size="15"/>
+						</td>
+					</tr>
+					<tr>
+						<td><label for="WarrantDetails_Fee">Fee</label></td>
+						<td>
+							<input type="text" id="WarrantDetails_FeeCurrency" size="1"/>&nbsp;
+							<input type="text" id="WarrantDetails_Fee" size="15"/>
+						</td>
+						<td><label for="WarrantDetails_FeeRefunds">Fee Refunds</label></td>
+						<td>
+							<input type="text" id="WarrantDetails_FeeRefundsCurrency" size="1"/>&nbsp;
+							<input type="text" id="WarrantDetails_FeeRefunds" size="15"/>
+						</td>
+					</tr>
+					<tr>
+						<td><label for="WarrantDetails_SolicitorsCosts">Solicitor's Costs</label></td>
+						<td>
+							<input type="text" id="WarrantDetails_SolicitorsCostsCurrency" size="1"/>&nbsp;
+							<input type="text" id="WarrantDetails_SolicitorsCosts" size="15"/>
+						</td>
+						<td><label for="WarrantDetails_PaymentsToDate">Payments to date</label></td>
+						<td>
+							<input type="text" id="WarrantDetails_PaymentsToDateCurrency" size="1"/>&nbsp;
+							<input type="text" id="WarrantDetails_PaymentsToDate" size="15"/>
+						</td>
+					</tr>
+					<tr>
+						<td><label for="WarrantDetails_LandRegistryFee">Land Registry Fee</label></td>
+						<td>
+							<input type="text" id="WarrantDetails_LandRegistryFeeCurrency" size="1"/>&nbsp;
+							<input type="text" id="WarrantDetails_LandRegistryFee" size="15"/>
+						</td>
+						<td colspan="2">&nbsp;</td>
+					</tr>
+					<tr>
+						<td colspan="4"><hr/></td>
+					</tr>				
+					<tr>
+						<td><label for="WarrantDetails_Total">Total</label></td>
+						<td>
+							<input type="text" id="WarrantDetails_TotalCurrency" size="1"/>&nbsp;
+							<input type="text" id="WarrantDetails_Total" size="15"/>
+						</td>
+						<td><label for="WarrantDetails_TotalRemaining">Total Remaining</label></td>
+						<td>
+							<input type="text" id="WarrantDetails_TotalRemainingCurrency" size="1"/>&nbsp;
+							<input type="text" id="WarrantDetails_TotalRemaining" size="15"/>
+						</td>
+					</tr>
+					<tr>
+						<td colspan="4"><hr/></td>
+					</tr>
+					<tr>
+						<td><label for="WarrantDetails_BalanceAfterPaid">Balance of debt<br/>&nbsp;after warrant paid</label></td>
+						<td>
+							<input type="text" id="WarrantDetails_BalanceAfterPaidCurrency" size="1"/>&nbsp;
+							<input type="text" id="WarrantDetails_BalanceAfterPaid" size="15"/>
+						</td>
+						<td><label for="WarrantDetails_PrintStatus">Print Status</label></td>
+						<td><input type="text" id="WarrantDetails_PrintStatus" size="23"/></td>
+					</tr>
+					<tr>
+						<td colspan="4" align="right">
+							<input type="button" value="Ok" id="WarrantDetails_OkButton" style="margin-right:5px; margin-bottom:5px;"/>
+							<input type="button" value="Cancel" id="WarrantDetails_CancelButton" style="margin-right:5px; margin-bottom:5px;"/>
+						</td>
+					</tr>                
+				</table>
+			</div>
+			<!-- End Warrant Details Form Extension -->
+	
+			<div class="logic" id="updateDetailsLogic"></div>
+	
+			<!-- LOV POPUPs -->
+			<script type="text/javascript">LOVSubformRenderer.createInline( "CourtsLOVGrid", "Courts", ["Code", "Court"], 10, 1, true );</script>        
+			<script type="text/javascript">LOVPopupRenderer.createInline( "SearchResultsLOVGrid", "Search Results", ["Issued By", "Issue Date", "Warrant Number", "Local Number", "Case Number", "CO Number", "Live"], 10, 1, true );</script>
+			
+			<!-- Audit Panels -->
+			<div class="auditPanel" id="partyAgainstPanel"></div>
+	
+			<!-- AUDIT SELECTOR ADAPTOR -->
+			<script type="text/javascript">AuditSelectorRenderer.createInline( "Audit_PanelSelector" );</script>
+			
+			<!-- SUBFORMS -->
+			<div class="popup popupsubform" id="audit_subform"></div>
+			
+		</form>
+	</body>
+</html>

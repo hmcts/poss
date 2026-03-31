@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<DBMapDef>
+	<DataSource id="java:SupsDS"/>
+	<Tables>
+		<Table alias="HT" name="HEARINGTYPE"/>
+	</Tables>
+	<Mapping>
+		<HearingTypes>
+			<HearingType>
+				<Id>${HT.ID}</Id>
+				<Name>${HT.NAME}</Name>
+			</HearingType>
+		</HearingTypes>
+	</Mapping>
+</DBMapDef>

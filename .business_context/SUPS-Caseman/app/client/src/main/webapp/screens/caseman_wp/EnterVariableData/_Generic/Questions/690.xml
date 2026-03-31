@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>690</Id>
+	<Label>Who is to pay LQ Fee?</Label>
+	<ObjectName>PartyToPayLQHearingFee</ObjectName>
+	<Html>
+		<script type="text/javascript">Grid.createInline("PartyToPayLQHearingFee", ["Party Type", "Number", "Name"] , 2, 1);</script>
+	</Html>
+	
+	<Context screenId="CJR060"><isVisible>false</isVisible></Context>
+	
+	<Javascript>
+		<XPath>/ds/EnterVariableData/LQAndHearing/PartyToPayLQHearingFee</XPath>
+		<HintText>Select the party who is to pay the LQ fee</HintText>
+		<miscCode>
+			PartyToPayLQHearingFee.srcData = DATA_XPATH + "/Parties";
+			PartyToPayLQHearingFee.rowXPath = "LitigiousParty";			                                     
+			PartyToPayLQHearingFee.keyXPath = "PartyId";
+			PartyToPayLQHearingFee.columns = [
+				{xpath: "Type"},
+				{xpath: "Number", sort: "numerical", defaultSort:"true", defaultSortOrder:"ascending"},
+				{xpath: "Name"}
+			];
+			PartyToPayLQHearingFee.multipleSelection = false;	
+		</miscCode>
+		<mandatoryOn>IsLQADirnMade.dataBinding</mandatoryOn>		
+		<isMandatory>
+			return( 'Y' == Services.getValue(IsLQADirnMade.dataBinding));
+		</isMandatory>
+		<enableOn>IsLQADirnMade.dataBinding</enableOn>
+		<isEnabled>
+			return( 'Y' == Services.getValue(IsLQADirnMade.dataBinding));
+		</isEnabled>
+		<logicOn>IsLQADirnMade.dataBinding</logicOn>
+		<logic>
+			if ( 'Y' != Services.getValue(IsLQADirnMade.dataBinding) ) { Services.setValue(PartyToPayLQHearingFee.dataBinding, ""); }
+		</logic>
+	</Javascript>
+</Question>

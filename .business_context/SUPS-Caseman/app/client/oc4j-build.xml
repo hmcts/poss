@@ -1,0 +1,208 @@
+<project name="OC4J Deployment and Build Management" default="usage" basedir=".">
+
+    <property file="../server/oc4j.properties" />
+
+	<target name="oc4j-stop" description="stop the running instance of oc4j">
+		<macro__private-stop-OC4J />
+	</target>
+
+	<target name="oc4j-start" description="start an instance of oc4j">
+		<macro__private-start-OC4J />
+	</target>
+    
+	<target name="usage">
+		<echo>
+			This file is used to ease the use and deployment of
+			components to OC4J
+		</echo>
+	</target>
+
+	<macrodef name="macro__private-stop-OC4J">
+		<sequential>
+			<!-- deploy to OC4J if that is where we are deploying to -->
+			<java fork="true" dir="${oc4j.home.dir}/j2ee/home"
+				jar="${oc4j.home.dir}/j2ee/home/admin.jar">
+				<arg value="${oc4j.admin.url}" />
+				<arg value="admin" />
+				<arg value="${oc4j.admin.password}" />
+				<arg value="-shutdown" />
+				<jvmarg
+					value="${oc4j.xbootclasspath}" />
+			</java>
+		</sequential>
+	</macrodef>
+
+	<macrodef name="macro__private-start-OC4J">
+		<sequential>
+			<!-- 
+				deploy to OC4J if that is where we are deploying to 
+				check if there is an oc4j.jar available and that there 
+				is no listener on the config oc4j-check-port
+			-->
+			<if>
+				<not>
+					<socket server="${oc4j.check.server}"
+						port="${oc4j.check.port}" />
+				</not>
+				<then>
+					<parallel>                               
+						<echo>Going to try and start oc4j with</echo>
+						<echo>${oc4j.xbootclasspath}</echo>               
+						<java fork="true"
+							dir="${oc4j.home.dir}/j2ee/home"
+							jar="${oc4j.home.dir}/j2ee/home/oc4j.jar">                  
+							<jvmarg value="${oc4j.xbootclasspath}" />
+						</java>
+						<waitfor maxwait="2" maxwaitunit="minute"
+							checkevery="1000">
+							<socket server="${oc4j.check.server}"
+								port="${oc4j.check.port}" />
+						</waitfor>
+					</parallel>
+				</then>
+			</if>
+		</sequential>
+	</macrodef>
+
+	<macrodef name="macro__private-deploy-OC4J-war">
+		<attribute name="deployment-name" />
+		<attribute name="module-name" />
+		<attribute name="web-root" />
+		<attribute name="war-dir" />
+		<sequential>
+			<echo file="@{war-dir}/application.xml" append="false">
+				&lt;application> &lt;display-name>@{module-name}
+				Client&lt;/display-name> &lt;module> &lt;web>
+				&lt;web-uri>@{module-name}.war&lt;/web-uri>
+				&lt;context-root>/@{web-root}&lt;/context-root>
+				&lt;/web> &lt;/module> &lt;/application>
+			</echo>
+			<ear destfile="@{war-dir}/@{deployment-name}.ear"
+				appxml="@{war-dir}/application.xml" filesonly="true"
+				basedir="@{war-dir}">
+				<include name="@{module-name}.war" />
+			</ear>
+
+			<!-- try and deploy the ear containing the ear into oc4j -->
+			<macro__private-deploy-OC4J-ear
+				ear-file="@{war-dir}/@{deployment-name}.ear"
+				deployment-name="@{deployment-name}"/>
+
+			<macro__private-bind-OC4J-war
+				oc4j-application-name="@{deployment-name}"
+				oc4j-app-war-module="@{module-name}"
+				oc4j-app-war-uri="/@{web-root}" />
+		</sequential>
+	</macrodef>
+
+	<macrodef name="macro__private-deploy-OC4J-war-wp">
+		<attribute name="deployment-name" />
+		<attribute name="module-name" />
+		<attribute name="web-root" />
+		<attribute name="war-dir" />
+		<sequential>
+			
+			<macro__private-bind-OC4J-war
+				oc4j-application-name="@{deployment-name}"
+				oc4j-app-war-module="@{module-name}"
+				oc4j-app-war-uri="/@{web-root}" />
+		</sequential>
+	</macrodef>
+
+	<macrodef name="macro__private-deploy-OC4J-ear">
+		<attribute name="ear-file" />
+		<attribute name="deployment-name" />           
+		<sequential>
+			<if>
+				<socket server="${oc4j.check.server}"
+					port="${oc4j.check.port}" />
+				<then>
+					<!-- deploy to OC4J if that is where we are deploying to -->
+					<java fork="true" dir="${oc4j.home.dir}"
+						jar="${oc4j.home.dir}/j2ee/home/admin.jar">
+						<arg value="${oc4j.admin.url}" />
+						<arg value="admin" />
+						<arg value="${oc4j.admin.password}" />
+						<arg value="-deploy" />
+						<arg value="-file" />
+						<arg value="@{ear-file}" />
+						<arg value="-deploymentName" />
+						<arg value="@{deployment-name}" />
+					</java>
+				</then>
+				<else>
+                    <if>
+                        <equals arg1="${framework.js.file}" arg2="Framework_precompile.js"/>
+                        <then>
+	                         <echo>framework-js-file: ${framework.js.file}</echo>							
+                             <parallel>
+                                <macro__private-start-OC4J/>
+                             </parallel>
+                        </then>
+                        <else>
+    	   				    <fail message="OC4J is not running!!! Please start OC4J and deploy again"/>
+                        </else>
+                    </if>
+				</else>
+			</if>
+		</sequential>
+	</macrodef>
+    
+    
+    <macrodef name="macro__private-undeploy-OC4J-ear">
+        <attribute name="deployment-name" />           
+        <sequential>
+            <if>
+                <socket server="${oc4j.check.server}"
+                    port="${oc4j.check.port}" />
+                <then>
+                    <!-- deploy to OC4J if that is where we are deploying to -->
+                    <java fork="true" dir="${oc4j.home.dir}"
+                        jar="${oc4j.home.dir}/j2ee/home/admin.jar">
+                        <arg value="${oc4j.admin.url}" />
+                        <arg value="admin" />
+                        <arg value="${oc4j.admin.password}" />
+                        <arg value="-undeploy" />
+                        <arg value="@{deployment-name}" />
+                    </java>
+                </then>
+                <else>
+                    <fail message="OC4J is not running!!! Please start OC4J and try undeploying again"/>
+                </else>
+            </if>
+        </sequential>
+    </macrodef>
+
+
+	<macrodef name="macro__private-bind-OC4J-war">
+		<attribute name="oc4j-application-name" />
+		<attribute name="oc4j-app-war-module" />
+		<attribute name="oc4j-app-war-uri" />
+		<sequential>
+			<echo>
+				binding @{oc4j-app-war-module} to @{oc4j-app-war-uri}
+				for @{oc4j-application-name}
+			</echo>
+			<if>
+				<socket server="${oc4j.check.server}"
+					port="${oc4j.check.port}" />
+				<then>
+					<echo>
+						OC4J is Running: ${oc4j.admin.url} admin
+						${oc4j.admin.password} -bindWebApp
+						@{oc4j-application-name} @{oc4j-app-war-module}
+						${oc4j_http_site_name} @{oc4j-app-war-uri}
+					</echo>
+					<java fork="true" dir="${oc4j_home_dir}"
+						jar="${oc4j.home.dir}/j2ee/home/admin.jar">
+						<arg
+							line="${oc4j.admin.url} admin ${oc4j.admin.password} -bindWebApp @{oc4j-application-name} @{oc4j-app-war-module} ${oc4j_http_site_name} @{oc4j-app-war-uri}" />
+					</java>
+				</then>
+				<else>
+                    <fail message="OC4J is not running!!! Please start OC4J and try binding the war again"/>
+				</else>
+			</if>
+		</sequential>
+	</macrodef>
+</project>

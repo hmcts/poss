@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: Payments
+	Method: searchOverpayments()
+	File: search_overpayments.xml
+	Author: Steve Blair
+	Description:
+		Pulls a summary of any overpayments matching search criteria.
+-->
+<service-method>
+	<pipeline>
+		<Query>
+			<QueryDef location="uk/gov/dca/caseman/payments_service/query_def_search_payments.xml" />
+			<QueryExtension pivotNode="/SearchResults/Payment">
+				<Param name="param.transactionNumber" xpath="/params/param[@name = 'transactionNumber']" />
+				<Param name="param.enforcementNumber" xpath="/params/param[@name = 'enforcementNumber']" />
+				<Param name="param.enforcementType" xpath="/params/param[@name = 'enforcementType']" />
+				<Param name="param.courtId" xpath="/params/param[@name = 'courtId']" />
+				<Constraint>
+					P.ADMIN_COURT_CODE = ${param.courtId} AND
+					P.OVERPAYMENT_AMOUNT IS NOT NULL AND
+					P.RD_DATE IS NULL AND
+					P.PAYOUT_DATE IS NULL AND
+					P.PASSTHROUGH = 'N'
+				</Constraint>
+				<Constraint condition="/params/param[@name = 'transactionNumber'] and /params/param[@name = 'transactionNumber'] != ''">P.TRANSACTION_NUMBER = ${param.transactionNumber}</Constraint>
+				<Constraint condition="/params/param[@name = 'enforcementNumber'] and /params/param[@name = 'enforcementNumber'] != ''">P.SUBJECT_NO = ${param.enforcementNumber}</Constraint>
+				<Constraint condition="/params/param[@name = 'enforcementType'] and /params/param[@name = 'enforcementType'] != ''">P.PAYMENT_FOR = ${param.enforcementType}</Constraint>
+			</QueryExtension>
+		</Query>
+	</pipeline>
+	<Security roles="medium high wcSuper scSuper bmsSuper aeSuper dmSuper" />
+</service-method>

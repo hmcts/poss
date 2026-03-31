@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: Ae
+	Method:  searchAeByCt()
+	File:    ae_by_ct.xml
+	Author:  Chris Vincent
+	Created: 11 November 2009
+	Description:
+		Returns a summary of AE and Case details based upon a Case owning court code provided
+  -->
+<QueryDef>
+    <DBMapDef location="uk/gov/dca/caseman/ae_service/map_search.xml"/>
+    <Query pivotNode="/Results/AERecord" tables="AEA PR P CPR GA C">
+        <LinkedSQL type="root" key="AEA.AE_NUMBER">
+            <SQL>
+                SELECT AEA.AE_NUMBER                     AS "AEA.AE_NUMBER"
+                ,      AEA.CASE_NUMBER                   AS "AEA.CASE_NUMBER"
+                ,      C.ADMIN_CRT_CODE                  AS "C.ADMIN_CRT_CODE"
+                ,      AEA.PARTY_AGAINST_PARTY_ROLE_CODE AS "AEA.PA_PARTY_ROLE_CODE"
+                ,      PR.PARTY_ROLE_DESCRIPTION         AS "PR.PARTY_ROLE_DESCRIPTION"
+                ,      AEA.PARTY_AGAINST_CASE_PARTY_NO   AS "AEA.PA_CASE_PARTY_NO"
+                ,      P.PERSON_REQUESTED_NAME           AS "P.PERSON_REQUESTED_NAME"
+                ,      AEA.PARTY_AGAINST_PARTY_ROLE_CODE || '_' || AEA.PARTY_AGAINST_CASE_PARTY_NO         AS "AE.EVENT_DATE"
+                ,      GA.ADDRESS_LINE1  AS "GA.ADDRESS_LINE1"
+                ,      AEA.ORA_ROWSCN     AS "AEA_ORA_ROWSCN"
+                ,      C.ORA_ROWSCN      AS "C_ORA_ROWSCN"
+                ,      PR.ORA_ROWSCN     AS "PR_ORA_ROWSCN"
+                ,      P.ORA_ROWSCN      AS "P_ORA_ROWSCN"
+                ,      GA.ORA_ROWSCN     AS "GA_ORA_ROWSCN"
+                FROM AE_APPLICATIONS AEA
+                ,    CASES C
+                ,    PARTY_ROLES PR
+                ,    GIVEN_ADDRESSES GA
+                ,    PARTIES P
+                ,    CASE_PARTY_ROLES CPR
+                WHERE
+                    C.ADMIN_CRT_CODE    = ${param.owningCourtCode}
+                    AND AEA.CASE_NUMBER     = C.CASE_NUMBER
+                    AND CPR.CASE_NUMBER     = C.CASE_NUMBER
+                    AND CPR.PARTY_ROLE_CODE = AEA.PARTY_AGAINST_PARTY_ROLE_CODE
+                    AND CPR.CASE_PARTY_NO   = AEA.PARTY_AGAINST_CASE_PARTY_NO
+                    AND P.PARTY_ID          = CPR.PARTY_ID
+                    AND PR.PARTY_ROLE_CODE  = CPR.PARTY_ROLE_CODE
+                    AND GA.ADDRESS_ID IN (
+                        SELECT GA2.ADDRESS_ID
+                        FROM   GIVEN_ADDRESSES GA2
+                        WHERE (GA2.CASE_NUMBER      = CPR.CASE_NUMBER
+                        AND    GA2.PARTY_ROLE_CODE  = CPR.PARTY_ROLE_CODE
+                        AND    GA2.CASE_PARTY_NO    = CPR.CASE_PARTY_NO
+                        AND	   GA2.VALID_TO     IS NULL
+                        AND    GA2.ADDRESS_TYPE_CODE = 'SERVICE'
+                        ) OR  (GA2.CASE_NUMBER      IS NULL
+                        AND    GA2.PARTY_ROLE_CODE  IS NULL
+                        AND    GA2.CASE_PARTY_NO    IS NULL
+                        AND    GA2.PARTY_ID         = CPR.PARTY_ID
+                        AND	   GA2.ADDRESS_TYPE_CODE = 'CODED PARTY'
+                        )
+                    )
+            </SQL>
+        </LinkedSQL>
+    </Query>
+
+	<Query pivotNode="/Results/AERecord/AEEvents/Event" tables="E">
+ 		<LinkedJoin type="query" key="E.AE_EVENT_SEQ">
+			<Parent key="AEA.AE_NUMBER" tables="AEA"/>
+			<Join>
+				E.AE_NUMBER = AEA.AE_NUMBER AND
+				E.ERROR_INDICATOR = 'N' AND
+				E.STD_EVENT_ID IN (888, 889, 890, 900)
+			</Join>
+		</LinkedJoin>
+		<OrderBy>E.DATE_ENTERED DESC, E.AE_EVENT_SEQ DESC</OrderBy>
+		<Modify notModifiable="true"/>
+	</Query>
+</QueryDef>

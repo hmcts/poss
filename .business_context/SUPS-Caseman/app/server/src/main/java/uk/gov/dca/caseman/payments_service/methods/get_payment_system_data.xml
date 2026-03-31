@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: Payments
+	Method: getPaymentSystemData()
+	File: get_payment_system_data.xml
+	Author: Steve Blair
+	Description:
+		Get Suitors Cash reference data from SYSTEM_DATA table.
+-->
+<service-method>
+	<pipeline>
+		<Query>
+			<QueryDef location="uk/gov/dca/caseman/payments_service/query_def_payment_system_data.xml" />
+			<QueryExtension pivotNode="/SystemData/Item">
+				<Constraint>
+					(S.ITEM = 'CHQ RETENTION' OR S.ITEM = 'JGMT1000+') AND
+					S.ADMIN_COURT_CODE = 0
+				</Constraint>
+			</QueryExtension>
+		</Query>
+	</pipeline>
+	<Security roles="medium high wcSuper scSuper bmsSuper aeSuper dmSuper cpSuper" />
+</service-method>

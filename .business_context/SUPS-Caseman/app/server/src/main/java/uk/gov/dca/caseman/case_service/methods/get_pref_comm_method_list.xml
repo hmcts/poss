@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: Case
+	Method:  getPrefCommMethodList()
+	Author:  Chris Hutt (EDS) 
+	Created: 20 april 2005
+    Description:
+        List of Communication Methods
+-->
+<service-method>
+	<pipeline>
+		<Query>
+			<QueryDef 
+				location="uk/gov/dca/caseman/case_service/query_def_pref_comm_method_list.xml"/>
+
+			<QueryExtension pivotNode="/PreferredCommunicationMethods/Method">
+    				<Constraint>CCBC.RV_DOMAIN = 'PREF_COMM_METHOD' </Constraint>
+  			</QueryExtension>
+
+		</Query>
+	</pipeline>
+	<Security roles="viewOnly medium high wcSuper scSuper bmsSuper aeSuper dmSuper cpSuper ccbcMan ccbcUser ccbcSGB2"/>	
+</service-method>

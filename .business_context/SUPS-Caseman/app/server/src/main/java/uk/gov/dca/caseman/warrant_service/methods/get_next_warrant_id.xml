@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: Warrant
+	Method:  getNextWarrantId()
+	File:    get_next_warrant_id.xml
+	Author:  Tim Connor (EDS)
+	Created: 12 May 2005
+	Description: Gets the next Warrant Id by combining the enforcement letter and  next sequnce number from the Ref_Data table
+-->
+<service-method>
+	<pipeline>
+		<SQLLite output="input" format-output="true" resultset-element="/ds/Warrant/a">
+			<DataSource id="java:OracleDS"/>
+			<Param name="param.sequenceType" xpath="/params/param[@name = 'sequenceType']"/>
+			<Param name="param.courtCode" xpath="/params/param[@name = 'courtCode']"/>
+			<SQL type="update">
+				UPDATE SYSTEM_DATA S
+				SET S.ITEM_VALUE = ITEM_VALUE + 1
+				WHERE S.ITEM = ${param.sequenceType}
+				AND S.ADMIN_COURT_CODE = ${param.courtCode}
+			</SQL>				
+		</SQLLite>
+		<Query>
+  			<QueryDef location="uk/gov/dca/caseman/warrant_service/query_def_next_id.xml"/>
+			<QueryExtension pivotNode="/ds/Warrant/EnforcementLetter">
+				<Constraint>E.YEAR_VALUE = TO_CHAR(SYSDATE, 'YYYY')</Constraint>
+			</QueryExtension>
+			<QueryExtension pivotNode="/ds/Warrant/SequenceNumber">
+				<Param name="param.sequenceType" xpath="/params/param[@name = 'sequenceType']"/>
+				<Param name="param.courtCode" xpath="/params/param[@name = 'courtCode']"/>
+				<Constraint>S.ITEM = ${param.sequenceType} AND S.ADMIN_COURT_CODE = ${param.courtCode}</Constraint>
+			</QueryExtension>
+  	    </Query>
+	</pipeline>
+	<Security roles="medium high wcSuper scSuper bmsSuper aeSuper dmSuper cpSuper ccbcMan ccbcUser"/>			
+</service-method>

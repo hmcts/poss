@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- edited with XMLSPY v5 rel. 3 U (http://www.xmlspy.com) by Phil Haferer (Electronic Data Systems LTD) -->
+<!--
+	Service: User
+	Method:  updateUser()
+	File:    map_update_user.xml
+	Author:  Ian Stainer (Valtech)
+	Created: 09 November 2005
+	Description: 
+		The 'Mapping' for updating user details.
+    Change History:
+	05-Feb-2008 Chris Vincent: Added PrinterCourtCode for CaseMan Defect 6181
+-->
+<DBMapDef>
+	<DataSource id="java:OracleDS"/>
+	<Tables>
+		<Table alias="DU" name="DCA_USER"/>
+		<Table alias="UC" name="USER_COURT"/>		
+		<Table alias="UR" name="USER_ROLE"/>
+	</Tables>
+	<Mapping>
+		<ds>
+			<MaintainUser>
+				<UserId>${DU.USER_ID}</UserId>
+				<Title>${DU.TITLE}</Title>
+				<Forenames>${DU.FORENAMES}</Forenames>
+				<Surname>${DU.SURNAME}</Surname>
+				<UserShortName>${DU.USER_SHORT_NAME}</UserShortName>
+				<Extension>${DU.EXTENSION}</Extension>
+				<PrinterCourtCode>${DU.PRINTER_COURT_CODE}</PrinterCourtCode>
+				<DefaultPrinter>${DU.USER_DEFAULT_PRINTER}</DefaultPrinter>
+				<ActiveUser>${DU.ACTIVE_USER_FLAG}</ActiveUser>
+				<SectionForPrintouts>${DU.SECTION_FOR_PRINTOUTS}</SectionForPrintouts>
+				<CourtCode>${UC.COURT_CODE}</CourtCode>
+				<SectionForBMS>${UC.SECTION_NAME}</SectionForBMS>
+				<Role>${UR.ROLE_ID}</Role>
+			</MaintainUser>
+		</ds>
+	</Mapping>
+</DBMapDef>

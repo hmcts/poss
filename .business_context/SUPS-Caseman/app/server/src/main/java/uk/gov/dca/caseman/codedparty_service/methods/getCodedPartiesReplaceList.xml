@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: Codedparty
+	Method:  getCodedPartiesReplaceList()
+	File:    getCodedPartiesReplaceList.xml
+	Author:  Chris Vincent
+	Created: 14 November 2005
+	Description: 
+		Retrieves a list of Coded Parties for the purpose of replacing one Coded Party by another.
+		To support this feature the map can be greatly simplified. For example, only 2 address lines are required.
+		Related Rules:
+			- National Coded Parties cannot be replaced by local courts. National Coded Parties are 
+			  those with a Court Code of CCBC Court (335), and a Code in the range 1500-1999.
+			  With a 'where' clause that limits the data set to the current court, only the CCBC Court
+			  will be able to replace National Coded Parties.
+			- Non CPC National Coded Parties (those with Codes in the range 7000-9999) always have a 
+			  Court Code of 0, and should be treated as Local Coded Parties.
+
+	Change History:
+	30-Nov-2005 Phil Haferer (EDS): Added header & description. Changed constraint.
+-->
+<service-method>
+	<pipeline>
+		<Query>
+  			<QueryDef location="uk/gov/dca/caseman/codedparty_service/query_def_replacelist.xml"/>
+		  	<QueryExtension pivotNode="/CodedParties/CodedParty">				
+    				<Param name="param.adminCourtCode" xpath="/params/param[@name = 'adminCourtCode']"/>
+					<Constraint>
+						   CP.ADMIN_COURT_CODE = ${param.adminCourtCode}
+						OR CP.ADMIN_COURT_CODE = 0
+					</Constraint>
+			</QueryExtension>		
+		</Query>
+  	</pipeline>
+	<Security roles="wcSuper scSuper bmsSuper aeSuper dmSuper cpSuper ccbcMan"/>	
+</service-method>

@@ -1,0 +1,20 @@
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>9169</Id>
+	<Label>Debtor heard in person</Label>
+	<ObjectName>DebtorInPerson</ObjectName>
+	<Html>	
+		<input type="checkbox" id="DebtorInPerson"></input>
+	</Html>		
+    <Context screenId="O_10_10"><isVisible>false</isVisible></Context>
+	<Javascript>
+		<XPath>/ds/EnterVariableData/debtorInPerson</XPath>
+		<HintText>Check box if debtor was heard in person</HintText>
+		<modelValue>checked: "Y", unchecked: "N"</modelValue>
+        <mandatoryOn>DebtorInPerson.dataBinding</mandatoryOn>      
+        <isMandatory>return false;</isMandatory> 		
+		<isEnabled>return true</isEnabled>
+        <Context ScreenId="O_10_12">
+            <initialise>Services.setValue(DebtorInPerson.dataBinding,"Y");</initialise>
+        </Context>
+	</Javascript>
+</Question>

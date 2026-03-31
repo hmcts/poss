@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>9081</Id>
+	<Label>Application presented on</Label>
+	<ObjectName>ApplicationPresentedDate</ObjectName>
+	<Html>
+		<script type="text/javascript">WP_DatePickerRenderer.createInline("ApplicationPresentedDate", false);</script>
+	</Html>
+	<Javascript>
+     <XPath>/ds/EnterVariableData/ApplicationPresentedDate</XPath>
+		<HintText>Enter the date of application was presented</HintText>
+	    <validation>
+            // Date picker: error message “The value does not conform to a valid date format of DD-MMM-YYYY”.
+            // Validation: Date cannot be in the future
+        
+			  return isInPast(Services.getValue(ApplicationPresentedDate.dataBinding),"false");
+		</validation>
+		<isMandatory>return true;</isMandatory>
+		<mandatoryOn>ApplicationPresentedDate.dataBinding</mandatoryOn>	
+        <isEnabled>return true;</isEnabled>     
+        
+        <Context ScreenId="O_10_19">
+            <isEnabled>return true;</isEnabled>
+			<validate>
+				//Date picker: error message “The value does not conform to a valid date format of DD-MMM-YYYY”.
+				//Validation: Date cannot be in the future
+				var err = null;
+				var isFuture = isFutureDate(Services.getValue(ApplicationPresentedDate.dataBinding));
+				if( null != isFuture &amp;&amp; isFuture )
+				{ err = ErrorCode.getErrorCode("CaseMan_dateCannotBeInTheFuture_Msg");
+				}
+				return err;
+			</validate>
+        </Context>
+	</Javascript>
+</Question>

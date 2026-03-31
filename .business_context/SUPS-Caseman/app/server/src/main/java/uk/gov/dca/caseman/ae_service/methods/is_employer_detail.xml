@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: Ae
+	Method:  isEmployerDetail
+	Author:  Chris Hutt (EDS) 
+	Created: 23 June 2005
+	Description: 
+		Use SQLLite to determine whether minimum set of employer details exist for the AE 
+		
+	Change History
+    17/11/05	chris hutt	Named_employer must mot be null (UCT defect 269)
+	20/12/06	chris hutt	temp_caseman defect 356:As part of addressing this defect (which highlights
+				the need to differentiate between employer and named person detail)
+				this method has had the NAMED_EMPLOYER test removed. Events which require 
+				named person detail will call isEmployerAndNamedPersonDetail instead.
+-->
+<service-method>
+	<pipeline>
+		<SQLLite format-output="true"
+				 resultset-element="ds"
+				 row-element="Ae"
+				 field-name-as="element" >
+			<DataSource id="java:OracleDS"/>
+			<Param name="param.aeNumber" xpath="/params/param[@name='aeNumber']"/>
+			<SQL>
+				SELECT  
+					DECODE(COUNT(*),0,'false','true') AS "EmployerDetailsExist"
+				FROM 	GIVEN_ADDRESSES GA, AE_APPLICATIONS AEA , PARTIES P
+				WHERE	AEA.AE_NUMBER =  ${param.aeNumber}
+				AND 	GA.PARTY_ID = AEA.DEBTORS_EMPLOYERS_PARTY_ID
+				AND 	GA.ADDRESS_LINE1 IS NOT NULL
+				AND 	GA.ADDRESS_LINE2 IS NOT NULL
+				AND		P.PARTY_ID = AEA.DEBTORS_EMPLOYERS_PARTY_ID
+				AND 	P.PERSON_REQUESTED_NAME IS NOT NULL
+			</SQL>
+		</SQLLite>
+  	</pipeline>
+	<Security roles="user"/>
+</service-method>

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<service-method>
+	<pipeline>
+		<Update>
+			<QueryDef location="uk/gov/dca/caseman/reports_service/insert_hearing_def.xml"/>
+			<DataSource xpath="/params/param[@name='reportDbUpdate']"/>
+			<QueryExtension pivotNode="/insert_hearing/row">
+				<CheckExists table="H" fields="hrg_seq" onNotExist="add" onExist="skip"/>
+			</QueryExtension>			
+		</Update>
+	</pipeline>
+	<Security roles="viewOnly medium high wcSuper scSuper bmsSuper aeSuper dmSuper edsAdmin cpSuper"/>
+	<Transaction type="RequiresNew" />
+</service-method>

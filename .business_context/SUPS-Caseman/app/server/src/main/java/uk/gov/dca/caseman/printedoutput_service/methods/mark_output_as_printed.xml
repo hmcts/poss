@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: PrintedOutput
+	Method:  markOutputAsPrinted
+	File:    mark_output_as_printed.xml
+	Author:  Anoop Sehdev
+	Created: 02-Jun-2006
+	Description: 
+		Update WP_OUTPUT table to mark it as printed, given the value of outputID.
+-->
+<service-method>
+	<pipeline>
+		<SQLLite output="input">
+			<DataSource id="java:OracleDS"/>
+			<Param name="param.outputID" xpath="/params/param[@name='outputID']"/>
+			<SQL type="update" tables="WPO">
+				UPDATE WP_OUTPUT WPO
+				SET    WPO.PRINTED = 'Y'
+				WHERE  WPO.OUTPUT_ID = ${param.outputID}
+			</SQL>
+		</SQLLite>
+	</pipeline>
+	<Security roles="viewOnly medium high wcSuper scSuper bmsSuper aeSuper dmSuper"/>
+</service-method>

@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: Payments
+	Method: searchPayments(), searchValidPayments(), searchOverpayments(), searchValidAdhocPayoutPayments()
+	File: map_search_payments.xml
+	Author: Steve Blair
+-->
+<DBMapDef>
+	<DataSource id="java:OracleDS" />
+	<Tables>
+		<Table alias="P" name="PAYMENTS" />
+	</Tables>
+	<Mapping>
+		<SearchResults>
+			<Payment>
+				<TransactionNumber>${P.TRANSACTION_NUMBER}</TransactionNumber>
+				<EnforcementNumber>${P.SUBJECT_NO}</EnforcementNumber>
+				<EnforcementType>${P.PAYMENT_FOR}</EnforcementType>
+				<PaymentDate>${P.DATE_ENTERED}</PaymentDate>
+				<AmountCurrency>${P.AMOUNT_CURRENCY}</AmountCurrency>
+				<Amount>${P.AMOUNT}</Amount>
+				<PaymentType>${P.PAYMENT_TYPE}</PaymentType>
+				<RetentionType>${P.RETENTION_TYPE}</RetentionType>
+				<Error>${P.ERROR_INDICATOR}</Error>
+				<AdminCourt>${P.ADMIN_COURT_CODE}</AdminCourt>
+				<EnforcementCourt>${P.ENFORCEMENT_COURT_CODE}</EnforcementCourt>
+				<Lodgment>
+					<Name>${P.LODGMENT_NAME}</Name>
+					<PartyRole>${P.LODGMENT_PARTY_ROLE_CODE}</PartyRole>
+					<CasePartyNumber>${P.LODGMENT_CASE_PARTY_NO}</CasePartyNumber>
+					<ContactDetails>
+						<Address>
+							<Line>${P.LODGMENT_ADDR1}</Line>
+							<Line>${P.LODGMENT_ADDR2}</Line>
+						</Address>
+					</ContactDetails>
+				</Lodgment>
+			</Payment>
+		</SearchResults>
+	</Mapping>
+</DBMapDef>

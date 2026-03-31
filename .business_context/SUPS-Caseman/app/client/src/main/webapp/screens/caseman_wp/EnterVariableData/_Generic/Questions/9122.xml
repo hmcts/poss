@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>9122</Id>
+	<Label>Amount of interest from date of judgment (if any)</Label>
+	<ObjectName>InterestFromDateAmount</ObjectName>
+	<Html>	
+		<input type="text" id="DefaultCurrency9122" size="1"></input>		
+		<input id="InterestFromDateAmount" type="text" size="11"></input>	
+	</Html>
+	<Javascript>
+        <XPath>/ds/EnterVariableData/InterestFromDateAmount</XPath>
+		<HintText>Enter the amount of interest from date of judgment</HintText>
+		<isMandatory>return true;</isMandatory>
+		<mandatoryOn>InterestFromDateAmount.dataBinding</mandatoryOn> 
+        <isEnabled>return true;</isEnabled> 
+        <miscCode>
+			function DefaultCurrency9122() {}
+			DefaultCurrency9122.dataBinding = "/ds/EnterVariableData/curr1";
+			DefaultCurrency9122.tabIndex = -1;
+			DefaultCurrency9122.maxLength = 1;
+			DefaultCurrency9122.isReadOnly = function(){return true;}
+			DefaultCurrency9122.isTemporary = function(){return true;}
+			DefaultCurrency9122.transformToDisplay = function(value){
+				return WPS.__CaseManUtils().transformCurrencySymbolToDisplay(value,null,null); }
+			DefaultCurrency9122.transformToModel = function(value){
+				return WPS.__CaseManUtils().transformCurrencySymbolToModel(value,null,null); }
+		</miscCode>
+		
+        <Context ScreenId="O_7_12_6">
+			<validate>
+				//Validation: only numeric characters allowed and two decimal places.
+				//Error message: Currency amounts must be in the format of 0.00
+				//Currency field. Max value. 999999.99
+    			  var value = Services.getValue(InterestFromDateAmount.dataBinding);      
+                  var maxVal = 999999.99;         
+                  var err = null;
+                  
+                  if( '0.00 ' != value )
+                  {   err = validateCurrencyValue(value, maxVal);
+                      if( null == err)
+                      { 
+                        var returnVal = WPU.formatToTwoDP(value);
+                        Services.setValue(InterestFromDateAmount.dataBinding, returnVal);
+                      } 
+                  }
+                  return err;                             
+         
+            </validate>
+            
+            <transformToModel>        
+                  if( null == value || "" == value )
+                  {  return "0.00 ";
+                  }
+                  else
+                  { return value;
+                  }
+            </transformToModel>
+            <transformToDisplay>            
+                 if( '0.00 ' == value) return "0.00";
+                 return value;           
+            </transformToDisplay>
+ 		</Context>
+		
+	</Javascript>
+</Question>

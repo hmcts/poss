@@ -1,0 +1,31 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: Co
+	Method:  getCoEvents()
+	File:    get_co_events.xml
+	Author:  Chris Hutt
+	Created: 13 July 2005
+	Description: 
+		Retrieve the events recorded against a specified Consolidated Order
+    Change History:
+    25-Jul-2006 Phil Haferer: Modified pivot node "/ManageCOEvents/COEvents/COEvent" to allow pagination.
+                (TD 4018: Performance: Pagination required when displaying list of Case Events).
+-->
+<service-method>
+	<pipeline>
+		<NewQuery>
+			<QueryDef location="uk/gov/dca/caseman/co_event_service/query_def_get_co_events.xml"/>
+			<QueryExtension pivotNode="/ManageCOEvents">
+				<Param name="param.coNumber" xpath="/params/param[@name = 'coNumber']"/>
+			</QueryExtension>
+			<QueryExtension pivotNode="/ManageCOEvents/COEvents/COEvent">
+				<Param name="param.pageNumber" xpath="/params/param[@name = 'pageNumber']"/>
+				<Param name="param.pageSize" xpath="/params/param[@name = 'pageSize']"/>
+			</QueryExtension>
+		</NewQuery>
+		<Java>
+			<Source class="uk.gov.dca.caseman.co_event_service.java.GetCoEventsTransformationCustomProcessor"/>
+		</Java>
+	</pipeline>
+	<Security roles="viewOnly medium high wcSuper scSuper bmsSuper aeSuper dmSuper cpSuper"/>		
+</service-method>

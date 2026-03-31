@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: Co
+	Method:  getFeeRateList()
+	File:    query_def_get_fee_rate_list.xml
+	Author:  Phil Haferer (EDS)
+	Created: 31 August 2005
+	Description: 
+		Retrieve Fee Rates for Consolidated Orders.
+-->
+<QueryDef>
+  <DBMapDef location="uk/gov/dca/caseman/co_service/map_get_fee_rate_list.xml"/>
+  <Query pivotNode="/FeeRates/Fee" tables="REF">
+    <Join>
+		REF.RV_DOMAIN = 'CONSOLIDATED_ORDERS.FEE_RATE'         
+    </Join>
+    <Modify notModifiable="true"/>
+  </Query>
+</QueryDef>

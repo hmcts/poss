@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: Co
+	Method:  updateCo()
+	File:    update_co.xml
+	Author:  Phil Haferer (EDS)
+	Created: 04 August 2005
+	Description: 
+		Update a Consolidated Order.
+
+	Change History:
+    29-Nov-2006 Phil Haferer (EDS): Added Dependency on 'Payout' for UpdateCoCaseEventsCustomProcessor.
+ 			   (TD UCT_CASEMAN 783: CO event transfer from SUPS to legacy).
+	15-Feb-2011 Chris Vincent: Added TranslateCOLocalCodedPartyListCustomProcessor to the pipeline and added
+				new Codedparty Dependency.  See Trac 4215
+-->
+<service-method>
+	<pipeline>
+		<Update>
+			<QueryDef location="uk/gov/dca/caseman/co_service/query_def_modify_co.xml"/>
+			<DataSource xpath="/params/param[@name='co']"/>
+			<QueryExtension pivotNode="/ds/MaintainCO">
+				<CheckExists table="CO" fields="CO_NUMBER" onNotExist="fail" onExist="update"/>
+			</QueryExtension>
+		</Update>
+		<Java callStyle="new">
+			<Source class="uk.gov.dca.caseman.co_service.java.UpdateCoDebtListCustomProcessor"/>
+		</Java>
+		<Java>
+			<Source class="uk.gov.dca.caseman.co_service.java.TranslateCOLocalCodedPartyListCustomProcessor"/>
+		</Java>
+		<Java>
+			<Source class="uk.gov.dca.caseman.co_event_service.java.InsertAutoCoEventsCustomProcessor"/>
+		</Java>
+		<Java callStyle="new">
+			<Source class="uk.gov.dca.caseman.co_service.java.UpdateCoCaseEventsCustomProcessor"/>
+		</Java>
+		<Java callStyle="new">
+			<Source class="uk.gov.dca.caseman.co_service.java.ReturnCoNumberCustomProcessor"/>
+		</Java>
+	</pipeline>
+	<Dependencies>
+		<Dependency serviceName="Case"/>
+		<Dependency serviceName="CaseEvent"/>		
+		<Dependency serviceName="CoEvent"/>		
+		<Dependency serviceName="Payout"/>
+		<Dependency serviceName="Codedparty"/>		
+	</Dependencies>		
+	<Security roles="medium high wcSuper scSuper bmsSuper aeSuper dmSuper cpSuper"/>		
+</service-method>

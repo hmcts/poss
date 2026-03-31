@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>197</Id>
+	<Label>Served on who</Label>
+	<ObjectName>ServedOn</ObjectName>
+	<Html>	
+		<select id="ServedOn">
+			<option value=""></option>
+			<option value="ALL">All parties</option>
+			<option value="CLM">The claimant</option>
+			<option value="DEF">The defendant</option>
+			<option value="OTH">Other</option>
+		</select>
+	</Html>
+	<Javascript>
+		<XPath>/ds/EnterVariableData/FastTrack/servedOn</XPath>
+		<HintText>Served on who</HintText>
+		<isMandatory>return true;</isMandatory>	
+		<enableOn>IsPartyToComply.dataBinding</enableOn>
+		<isEnabled>return( 'Y' == Services.getValue(IsPartyToComply.dataBinding));</isEnabled>
+		<logicOn>IsPartyToComply.dataBinding</logicOn>
+		<logic>
+			if( 'Y' != Services.getValue(IsPartyToComply.dataBinding))
+			{	Services.setValue(ServedOn.dataBinding, "");
+			}
+		</logic>
+		
+		<Context ScreenId="CJR060">
+			<HintText>Select who is to be served on</HintText>
+		</Context>
+	</Javascript>
+</Question>
+    

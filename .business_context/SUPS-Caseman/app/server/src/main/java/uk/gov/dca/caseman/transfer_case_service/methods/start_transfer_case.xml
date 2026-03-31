@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: TransferCase
+	Method:  startTransferCase()
+	File:    start_transfer_case.xml
+	Author:  Phil Haferer (EDS)
+	Created: 27 June 2005
+	Description: 
+		Transfer the specified Case to another Court.
+		The initial implementation will only support a SUPS to SUPS transfer.
+		The transfer is performed in the following stages :-
+			- Server: Update the CASES row with the details of the transfer.
+			- Server: Create a CASE_EVENTS row to record the case transfer.
+			- Client: Navigate into the Obligations screen, if required.
+			- Client: Navigate into Word Processing, with Event Id of new CASE_EVENTS row.
+			- Client: Initiate the completion of the transfer.
+			- Server: For SUPS Courts, transfer the case.
+	Change History:
+	15 Nov 2012, Chris Vincent - Added dependency to the Case service as part of Trac 4761.
+-->
+<service-method>
+	<pipeline>
+		<Update>
+			<QueryDef location="uk/gov/dca/caseman/transfer_case_service/query_def_start_transfer_case.xml"/>
+			<DataSource xpath="/params/param[@name='transferCase']"/>
+			<QueryExtension pivotNode="/TransferCase">
+				<CheckExists table="c" fields="case_number" onNotExist="fail" onExist="update"/>
+			</QueryExtension>
+		</Update>
+		<Java>
+			<Source class="uk.gov.dca.caseman.transfer_case_service.java.StartTransferCaseCustomProcessor"/>
+		</Java>
+	</pipeline>
+	<Dependencies>
+		<Dependency serviceName="Obligation"/>
+		<Dependency serviceName="Court"/>
+		<Dependency serviceName="CaseEvent"/>
+		<Dependency serviceName="Case"/>
+	</Dependencies>			
+	<Security roles="medium high wcSuper scSuper bmsSuper aeSuper dmSuper cpSuper ccbcMan ccbcUser ccbcSGB2"/>
+</service-method>

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>160</Id>
+	<Label>Case proceeding on</Label>
+	<ObjectName>CaseProceedingOn</ObjectName>
+	<Html>
+		<select id="CaseProceedingOn">
+			<option value=""></option>
+			<option value="CLM">Claim</option>
+			<option value="CTR">Counterclaim</option>
+			<option value="BTH">Claim and counterclaim</option>
+		</select>
+	</Html>
+	<Javascript>
+		<XPath>/ds/EnterVariableData/Transfer/caseProceedingOn</XPath>		
+		<HintText>Enter the value for case proceeding on - list available</HintText>
+		<isMandatory>return true;</isMandatory>
+	</Javascript>
+</Question>

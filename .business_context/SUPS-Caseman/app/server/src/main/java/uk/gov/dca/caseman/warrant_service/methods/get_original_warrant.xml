@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	This is a simple service which retrieves the warrant ID of the original home warrant for
+	a foreign or re-issued warrant
+	
+	change history:
+	07-Jan-2007 Chris Hutt  : USD85352, TD Caseman 6478 - CCBC Home Warrnant should have a copy of any Return Code
+	            added to the Foreign Warrant if it has same CaseNumber and WarrantNumber. 
+	            Service changed to add CaseNumber and WarrantNumber filters.
+-->
+<service-method visibility="local">
+	<pipeline>
+		<!-- First retrieve the warrant number, issuing court, and owning court of the warrant -->
+		<SQLLite format-output="true"
+				 resultset-element="params"
+				 row-element="param"
+				 field-name-as="element" >
+			<DataSource id="java:OracleDS"/>
+			<Param name="param.warrantID" xpath="/params/param[@name = 'warrantID']"/>
+			<SQL>
+				SELECT W.WARRANT_NUMBER, W.ISSUED_BY, W.CASE_NUMBER
+				FROM WARRANTS W
+				WHERE W.WARRANT_ID = ${param.warrantID}
+			</SQL>	
+		</SQLLite>
+		<SQLLite format-output="true"
+				 resultset-element="ds"
+				 row-element="Warrant"
+				 field-name-as="element" >
+			<DataSource id="java:OracleDS"/>
+			<Param name="param.warrantNumber" xpath="/params/param/WARRANT_NUMBER"/>
+			<Param name="param.issuedBy" xpath="/params/param/ISSUED_BY"/>
+			<Param name="param.caseNumber" xpath="/params/param/CASE_NUMBER"/>
+			<SQL>
+				SELECT W.WARRANT_ID, W.CCBC_WARRANT, W.WARRANT_TYPE 
+				FROM WARRANTS W
+				WHERE W.ISSUED_BY = ${param.issuedBy}
+				AND W.CURRENTLY_OWNED_BY = ${param.issuedBy}   
+				AND W.WARRANT_NUMBER = ${param.warrantNumber}
+				AND	W.CASE_NUMBER = ${param.caseNumber}
+			</SQL>	
+		</SQLLite>
+	</pipeline>
+	<Security roles="user"/>
+</service-method>
+
+
+
+

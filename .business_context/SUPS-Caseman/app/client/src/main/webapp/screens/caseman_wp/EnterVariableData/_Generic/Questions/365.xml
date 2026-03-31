@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>365</Id>
+	<Label>Enter the name of the applicant</Label>
+	<ObjectName>ApplicantName</ObjectName>
+	<Html>
+		<input type="text" id="ApplicantName"></input>
+	</Html>
+	
+
+	
+	<Javascript>
+		<XPath>/ds/EnterVariableData/ASBO/ApplicantName</XPath>		
+		<HintText>Enter the name of the applicant for this order</HintText>		
+		<isMandatory>return true;</isMandatory>	
+		<enableOn>PartySeekingOrder.dataBinding</enableOn>
+		<isEnabled>
+			return( 'APP' == Services.getValue(PartySeekingOrder.dataBinding));
+		</isEnabled>	
+		<logicOn>PartySeekingOrder.dataBinding</logicOn>
+		<logic>
+			if( 'APP' != Services.getValue(PartySeekingOrder.dataBinding))
+			{	Services.setValue(ApplicantName.dataBinding, "");
+			}
+		</logic>
+	</Javascript>
+</Question>

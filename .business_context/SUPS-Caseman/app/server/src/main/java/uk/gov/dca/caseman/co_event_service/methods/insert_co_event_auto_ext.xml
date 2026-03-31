@@ -1,0 +1,31 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: CoEvent
+	Method:  insertCoEventAutoExt()
+	File:    insert_co_event_auto_ext.xml
+	Author:  Phil Haferer (EDS)
+	Created: 21-Aug-2006
+	Description: 
+		Insert an Automatic Consolidated Order Event (with Extended fields).
+        Derived from insert_co_event_auto.xml.
+        In the course of fixing :-
+            TD CASEMAN 4700: CO Event 975 Process Stage not set to AUTO.
+        identified that the PROCESS_STAGE had been omitted from map_co_event.xml.
+        
+	Change History:
+-->
+<service-method>
+	<pipeline> 
+		<Java callStyle="new">
+			<Source class="uk.gov.dca.caseman.co_event_service.java.InsertCoEventBMSCustomProcessor"/>
+		</Java>
+		<Update>
+			<QueryDef location="uk/gov/dca/caseman/co_event_service/query_def_insert_co_event_row_ext.xml"/>
+			<DataSource xpath="/params/param[@name='coEvent']"/>
+			<QueryExtension pivotNode="/COEvent">
+				<CheckExists table="COE" fields="CO_EVENT_SEQ" onNotExist="add" onExist="skip"/>
+			</QueryExtension>
+		</Update>
+	</pipeline>
+	<Security roles="user"/>
+</service-method>

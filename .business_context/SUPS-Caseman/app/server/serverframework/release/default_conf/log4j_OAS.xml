@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE log4j:configuration SYSTEM "log4j.dtd">
+
+<!--
+ *
+ * DevelopmentLog4j.xml
+ *
+ * This is a template file for developers.
+ * Amend as necessary depending upon your own requirements.
+ *
+-->
+
+<!--
+ *
+ * Configuration file for Log4J on OAS
+ * @version   1.0
+ * @author    Imran Patel
+ *
+-->
+<log4j:configuration xmlns:log4j="http://jakarta.apache.org/log4j/">
+
+    <!--
+     *
+     * Appender details
+     * The threshold (if defined) within any appender will override the level
+     * defined on the corresponding logger.
+     *
+    -->
+
+    <appender name="ConsoleAppender" class="org.apache.log4j.ConsoleAppender">
+        <param name="Threshold" value="off"/>
+        <layout class="org.apache.log4j.PatternLayout">
+            <param name="ConversionPattern" value="%d|%p|%t|%c|%m%n"/>
+        </layout>
+    </appender>
+
+    <!-- Appenders using the SUPS logger -->
+    <appender name="TestProjectAuditAppender" class="org.apache.log4j.DailyRollingFileAppender">
+        <!--
+         *
+         * Keep a daily log file, each one suffixed with the date,
+         * files will be backed up at midnight every day.
+         * e.g. audit.log.2004-02-29 will be created at midnight on the
+         * 29 February, 2004 and on the 1st March, 2004 logging will be
+         * logged to audit.log
+        -->
+        <param name="DatePattern" value="'.'yyyy-MM-dd" />
+        <!-- Note: use forward slashes within paths -->
+        <param name="File" value="../log/testProjectAudit.log" />
+        <param name="Append" value="true" />
+        <layout class="org.apache.log4j.PatternLayout">
+            <param name="ConversionPattern" value="%d|%p|%t|%c|%m%n"/>
+        </layout>
+    </appender>
+
+    <appender name="TestProjectDiagAppender" class="org.apache.log4j.DailyRollingFileAppender">
+        <!--
+         *
+         * Keep a daily log file, each one suffixed with the date,
+         * files will be backed up at midnight every day.
+         * e.g. diagnostic.log.2004-02-29 will be created at midnight on the
+         * 29 February, 2004 and on the 1st March, 2004 logging will be
+         * logged to diagnostic.log
+        -->
+        <param name="DatePattern" value="'.'yyyy-MM-dd" />
+        <!-- Note: use forward slashes within paths -->
+        <param name="File" value="../log/testProjectDiagnostic.log" />
+        <param name="Append" value="true" />
+        <layout class="org.apache.log4j.PatternLayout">
+            <param name="ConversionPattern" value="%d|%p|%t|%c|%m%n"/>
+        </layout>
+    </appender>
+
+    <!-- Appenders using the SUPS logger -->
+    <appender name="AuditAppender" class="org.apache.log4j.DailyRollingFileAppender">
+        <!--
+         *
+         * Keep a daily log file, each one suffixed with the date,
+         * files will be backed up at midnight every day.
+         * e.g. audit.log.2004-02-29 will be created at midnight on the
+         * 29 February, 2004 and on the 1st March, 2004 logging will be
+         * logged to audit.log
+        -->
+        <param name="DatePattern" value="'.'yyyy-MM-dd" />
+        <!-- Note: use forward slashes within paths -->
+        <param name="File" value="../log/audit.log" />
+        <param name="Append" value="true" />
+        <layout class="org.apache.log4j.PatternLayout">
+            <param name="ConversionPattern" value="%d|%p|%t|%c|%m%n"/>
+        </layout>
+    </appender>
+
+    <appender name="DiagAppender" class="org.apache.log4j.DailyRollingFileAppender">
+        <!--
+         *
+         * Keep a daily log file, each one suffixed with the date,
+         * files will be backed up at midnight every day.
+         * e.g. diagnostic.log.2004-02-29 will be created at midnight on the
+         * 29 February, 2004 and on the 1st March, 2004 logging will be
+         * logged to diagnostic.log
+        -->
+        <param name="DatePattern" value="'.'yyyy-MM-dd" />
+        <!-- Note: use forward slashes within paths -->
+        <param name="File" value="../log/diagnostic.log" />
+        <param name="Append" value="true" />
+        <layout class="org.apache.log4j.PatternLayout">
+            <param name="ConversionPattern" value="%d|%p|%t|%c|%m%n"/>
+        </layout>
+    </appender>
+    
+    <!--
+     *
+     * Details of loggers ('Logger's replace - actually extend - 'Category's)
+     * Note: Within loggers, 'level' is synonymous with 'priority'
+     *
+    -->
+
+    <!--
+     * Our specialised loggers are all named:
+     *   <EventType>.<PackageName>
+     * where the EventType is one of:
+     *   AUDIT
+     *   DIAGNOSTIC
+    -->
+
+    <!-- Base logger for TestProject Audit events within SUPS -->
+    <logger name="TestProject.AUDIT.uk.gov.dca">
+        <!-- The only available level for Audit events is AUDIT. -->
+        <level value="audit" class="uk.gov.dca.logging.AuditLevel"/>
+        <appender-ref ref="TestProjectAuditAppender"/>
+    </logger>
+
+    <!-- Base logger for TestProject Diagnostic events within SUPS -->
+    <logger name="TestProject.uk.gov.dca">
+        <!--
+         * Default diagnostic level for SUPS packages (including sub-packages)
+         * will be ERROR
+        -->
+        <level value="error"/>
+        <appender-ref ref="TestProjectDiagAppender"/>
+    </logger>
+
+    <!-- Base logger for SUPS Audit events within SUPS -->
+    <logger name="AUDIT.uk.gov.dca">
+        <!-- The only available level for Audit events is AUDIT. -->
+        <level value="audit" class="uk.gov.dca.logging.AuditLevel"/>
+        <appender-ref ref="AuditAppender"/>
+    </logger>
+
+    <!-- Base logger for SUPS Diagnostic events within SUPS -->
+    <logger name="uk.gov.dca">
+        <!--
+         * Default diagnostic level for SUPS packages (including sub-packages)
+         * will be ERROR
+        -->
+        <level value="error"/>
+        <appender-ref ref="DiagAppender"/>
+    </logger>
+
+    <!--
+     *
+     * Details of default (Root) logger
+     * Note: Would normally have a default level of 'debug'.
+     *
+    -->
+    <root>
+        <!--
+         * Set default to OFF to suppress any logging outside our SUPS
+         * packages.
+         * Our SUPS specific packages will enable logging as appropriate.
+        -->
+        <level value="error" />
+        <appender-ref ref="ConsoleAppender"/>
+    </root>
+
+</log4j:configuration>

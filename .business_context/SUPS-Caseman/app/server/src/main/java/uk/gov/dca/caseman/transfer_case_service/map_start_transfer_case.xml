@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: TransferCase 
+	Method:  startTransferCase()
+	File:    map_start_transfer_case.xml
+	Author:  Phil Haferer (EDS)
+	Created: 24 June 2005
+	Description: 
+		'Mapping' for transferring a case.
+		The TRANSFER_STATUS should be 'TO BE TRANSFERRED' (=1) for most SUPS to SUPS transfers.
+-->
+<DBMapDef>
+	<DataSource id="java:OracleDS"/>
+	<Tables>
+	    <Table alias="C" name="CASES"/>
+	</Tables>
+	<Mapping>
+		<TransferCase>
+			<CaseNumber>${C.CASE_NUMBER}</CaseNumber>
+			<NewCaseType>${C.TRANS_CASE_TYPE}</NewCaseType>
+			<TransferReason>${C.TRANSFER_REASON}</TransferReason>
+			<TransferCourtCode>${C.TRANS_CRT_CODE}</TransferCourtCode>
+			<DateOfTransfer>${C.DATE_OF_TRANSFER}</DateOfTransfer>
+			<TransferReceiptDate>${C.XFER_RECEIPT_DATE}</TransferReceiptDate>
+			<TransferStatus>${C.TRANSFER_STATUS}</TransferStatus>
+		</TransferCase>
+	</Mapping>
+</DBMapDef>

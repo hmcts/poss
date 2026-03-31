@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>394</Id>
+	<Label>Attend before whom?</Label>
+	<ObjectName>BeforeWhom</ObjectName>
+	
+	<Html>	
+		<select id="BeforeWhom">
+			<option value=""></option>
+			<option value="O">Court officer</option>
+			<option value="J">Judge</option>			
+		</select>
+	</Html>		
+
+	<Javascript>
+		<XPath>/ds/EnterVariableData/AttendForQuestion/beforeWhom</XPath>
+		<componentName>##label##</componentName>
+		<isMandatory>return true;</isMandatory>
+		<HintText>Select if questioning is by judge or officer</HintText>	
+		<enableOn>IsN39Reqd.dataBinding</enableOn>
+		<isEnabled>
+			return( !IsN39Reqd.isEnabled() || 'Y' == Services.getValue(IsN39Reqd.dataBinding));
+		</isEnabled>
+		<logicOn>IsN39Reqd.dataBinding</logicOn>
+		<logic>
+			if( IsN39Reqd.isEnabled() &amp;&amp; 'Y' != Services.getValue(IsN39Reqd.dataBinding))
+			{	Services.setValue(BeforeWhom.dataBinding, "");
+			}
+		</logic>
+		
+		<Context ScreenId="FE45">
+			<enableOn>BeforeWhom.dataBinding</enableOn>
+			<isEnabled>return true;</isEnabled>
+			<logicOn>BeforeWhom.dataBinding</logicOn>
+			<logic></logic>
+		</Context>
+		
+	</Javascript>
+</Question>

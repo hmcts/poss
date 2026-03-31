@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: Judgment
+	Method:  getJudgmentPayee()
+	File:    query_def_get_judgment_payee.xml
+	Author:  Chris Vincent
+	Created: 25 January 2006
+	Description: 
+		Retrieves the Payee associated with the National Coded Party Solicitor of Claimant
+		Number 1 of the Case passed in as a parameter.  Used for CCBC Cases.
+
+	Change History:
+    21-Dec-2006 Phil Haferer: P2P.PARTY_A_ROLE_CODE should be compared with 'SOLICITOR' rather than 'NCP'.
+                (TD TEMP_CASEMAN 383: Judgments - Payee not retrieved for CCBC Cases).
+-->
+<QueryDef>
+  <DBMapDef location="uk/gov/dca/caseman/judgment_service/map_get_judgment_payee.xml"/>
+  <Query pivotNode="/PayeeDetails/Payee" tables="">
+	<SQL type="select">
+		SELECT P.PERSON_REQUESTED_NAME AS "P.PERSON_REQUESTED_NAME"
+		,      GA.REFERENCE            AS "GA.REFERENCE"
+		,      GA.ADDRESS_LINE1        AS "GA.ADDRESS_LINE1"
+		,      GA.ADDRESS_LINE2        AS "GA.ADDRESS_LINE2"
+		,      GA.ADDRESS_LINE3        AS "GA.ADDRESS_LINE3"
+		,      GA.ADDRESS_LINE4        AS "GA.ADDRESS_LINE4"
+		,      GA.ADDRESS_LINE5        AS "GA.ADDRESS_LINE5"
+		,      GA.POSTCODE             AS "GA.POSTCODE"
+		,      P.DX_NUMBER             AS "P.DX_NUMBER"
+		,      P.TEL_NO                AS "P.TEL_NO"
+		,      P.FAX_NUMBER            AS "P.FAX_NUMBER"
+		,      P.EMAIL_ADDRESS         AS "P.EMAIL_ADDRESS"
+		,      PY.BANK_NAME            AS "PY.BANK_NAME"
+		,      PY.BANK_ACC_NO          AS "PY.BANK_ACC_NO"
+		,      PY.BANK_SORT_CODE       AS "PY.BANK_SORT_CODE"
+		,      PY.ACC_HOLDER           AS "PY.ACC_HOLDER"
+		,      PY.BANK_INFO_1          AS "PY.BANK_INFO_1"
+		,      PY.BANK_INFO_2          AS "PY.BANK_INFO_2"
+		,      PY.GIRO_ACC_NO          AS "PY.GIRO_ACC_NO"
+		,      PY.GIRO_TRANS_CODE_1    AS "PY.GIRO_TRANS_CODE_1"
+		,      PY.GIRO_TRANS_CODE_2    AS "PY.GIRO_TRANS_CODE_2"
+		,      PY.APACS_TRANS_CODE     AS "PY.APACS_TRANS_CODE"
+		FROM   CASE_PARTY_ROLES            CPR
+		,      CPR_TO_CPR_RELATIONSHIP     CPR2CPR
+		,      GIVEN_ADDRESSES             GA
+		,      PARTY_TO_PARTY_RELATIONSHIP P2P
+		,      PARTIES                     P
+		,      PAYEES                      PY
+		WHERE  CPR2CPR.CPR_A_CASE_NUMBER     = ${param.caseNumber}
+		AND    CPR2CPR.CPR_A_PARTY_ROLE_CODE = 'CLAIMANT' 
+		AND    CPR2CPR.CPR_A_CASE_PARTY_NO   = '1' 
+		AND    CPR.CASE_NUMBER               = CPR2CPR.CPR_B_CASE_NUMBER 
+		AND    CPR.PARTY_ROLE_CODE           = CPR2CPR.CPR_B_PARTY_ROLE_CODE
+		AND    CPR.CASE_PARTY_NO             = CPR2CPR.CPR_B_CASE_PARTY_NO
+		AND    P2P.PARTY_A_ID                = CPR.PARTY_ID 
+		AND    P2P.PARTY_A_ROLE_CODE         = 'SOLICITOR'
+		AND    P2P.PARTY_B_ROLE_CODE         = 'NCP PAYEE'
+		AND    P.PARTY_ID                    = P2P.PARTY_B_ID
+		AND    GA.PARTY_ID                   = P2P.PARTY_B_ID
+		AND    GA.ADDRESS_TYPE_CODE          = 'NCP PAYEE'
+		AND    PY.PARTY_ID                   = P2P.PARTY_B_ID
+	</SQL>
+  </Query>
+</QueryDef>

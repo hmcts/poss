@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>450</Id>
+	<Label>Date of arrest</Label>
+	<ObjectName>ArrestDate</ObjectName>
+	<Html>
+		<script type="text/javascript">
+			WP_DatePickerRenderer.createInline("ArrestDate");
+		</script>					
+	</Html>			
+	<Javascript>
+		<XPath>/ds/EnterVariableData/DisobedienceCommit/arrestDate</XPath>
+		<componentName>##label##</componentName>
+		<isMandatory>return true;</isMandatory>
+		<HintText>Enter date debtor was arrested, in format DD-MMM-YYYY</HintText>			
+		<validateOn>ArrestDate.dataBinding</validateOn>
+		<validate>
+			var future = isFutureDate(Services.getValue(ArrestDate.dataBinding));
+			var err = null;
+			if( future )
+			{	err = ErrorCode.getErrorCode("CaseMan_dateCannotBeInTheFuture_Msg");
+			}
+			return err;
+		</validate>
+	</Javascript>
+</Question>

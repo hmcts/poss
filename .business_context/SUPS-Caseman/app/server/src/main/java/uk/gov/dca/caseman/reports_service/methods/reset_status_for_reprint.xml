@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<service-method>
+	<pipeline>
+		<SQLLite output="input">
+			<DataSource id="java:OracleDS"/>
+			<Param name="param.reportId" xpath="/params/param[@name='reportId']"/>
+			<SQL type="update" tables="RQ">
+				UPDATE REPORT_QUEUE RQ
+				SET    RQ.PRINT_STATUS = 0
+				WHERE  RQ.ID = ${param.reportId}
+			</SQL>
+		</SQLLite>
+	</pipeline>
+	<Transaction type="RequiresNew" />
+	<Security roles="viewOnly medium high wcSuper scSuper bmsSuper aeSuper dmSuper edsAdmin cpSuper"/>
+</service-method>

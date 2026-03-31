@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<service-method>
+	<pipeline>
+		<Update>
+			<QueryDef location="uk/gov/dca/caseman/case_event_service/query_def_update_case_status.xml"/>
+			<DataSource xpath="/params/param"/>
+			<QueryExtension pivotNode="/Case">
+				<CheckExists table="C" 
+							 fields="case_number" 
+							 onNotExist="skip" onExist="update"
+							 useOptimisticLock="false"/>
+			</QueryExtension>
+		</Update>
+	</pipeline>
+	<Security roles="user"/>
+</service-method>

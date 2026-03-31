@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>828</Id>
+	<Label>Enter review number of months</Label>
+	<ObjectName>EntRevNoMonths</ObjectName>
+	<Html>
+		<input id="EntRevNoMonths" type="text" size= "3"></input>
+	</Html>
+	<Javascript>
+		<XPath>/ds/EnterVariableData/EntRevNoMonths</XPath>
+		<componentName>##label##</componentName>
+		<HintText>Enter the number of months before review</HintText>
+		<isMandatory>return true;</isMandatory>
+		<mandatoryOn>EntRevNoMonths.dataBinding</mandatoryOn>
+		<enableOn>ReviewPeriod.dataBinding</enableOn>
+		<isEnabled>return ('Y' == Services.getValue(ReviewPeriod.dataBinding));</isEnabled>
+		<logicOn>ReviewPeriod.dataBinding</logicOn>
+		<logic>
+			if('Y' != Services.getValue(ReviewPeriod.dataBinding))
+			{
+				Services.setValue(EntRevNoMonths.dataBinding, "");
+			}
+		</logic>
+		<validateOn>EntRevNoMonths.dataBinding</validateOn>
+		<validate>
+			var months = Services.getValue(EntRevNoMonths.dataBinding);
+			var err = null;
+    		
+    		if( CaseManValidationHelper.validateNumber(months) == false )
+			{err = ErrorCode.getErrorCode("Caseman_nonNumericPartyCode_Msg");
+			}
+			
+			return err;
+		</validate>
+		
+				
+	</Javascript>
+</Question>

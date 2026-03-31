@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	v1.0 Chris Hutt 24/2/2005
+	Returns a list of parties associated with the judgment
+	along with the current status
+	
+-->
+<service-method>
+	<pipeline>
+		<Query>
+			<QueryDef location="uk/gov/dca/caseman/judgment_service/query_def_judgment_parties_and_status.xml"/>
+			<QueryExtension pivotNode="/Case">
+				<Param name="param.caseNumber" xpath="/params/param[@name = 'caseNumber']"/>
+				<Constraint>C.CASE_NUMBER = ${param.caseNumber}</Constraint>		
+			</QueryExtension>
+		</Query>
+	</pipeline>
+	<Security roles="user"/>
+</service-method>
+
+

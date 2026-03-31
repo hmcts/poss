@@ -1,0 +1,288 @@
+/* Generic Styles */
+td.totalsSpacer { width: 48px; }
+td.totalsCol0Label { width: 115px; }
+td.totalsCol1Label { width: 150px; }
+td.totalsCol2Label { width: 200px; }
+input.feeRightAlign { text-align:right; }
+
+/* Select List Set Widths (So don't resize) */
+#Header_Type { width: 60px; }
+#CODetails_CompType { width: 125px; }
+#CODetails_FeeRate { width: 40px; }
+#CODetails_Frequency { width: 70px; }
+#MaintainDebt_Status { width: 95px; }
+#MaintainDebt_Payee_Address_CommMethod { width: 65px; } 
+#MaintainDebt_Creditor_Address_CommMethod { width: 65px; } 
+#CO_ContactDetails_Address_CommMethod { width: 65px; } 
+#CO_EmploymentDetails_Address_CommMethod { width: 65px; } 
+
+/* Field Margins */
+#CODetails_AppDate { margin-top: 4px; }
+#CODetails_OrderDate { margin-top: 4px; }
+#CO_EmploymentDetailsPERCurrency { margin-bottom: 4px; }
+#CO_EmploymentDetailsPER { margin-bottom: 4px; }
+#CODetails_ReviewDate { margin-bottom: 4px; }
+#CODetails_RevokedDischargedDate { margin-bottom: 4px; }
+
+/* Tabs */
+div#COTabbedArea
+{
+	margin: 5px;
+}
+
+div#COAddressesPagedArea
+{
+	margin: 0px;
+	height: 200px;
+	width: 960px;
+}
+
+div#CODebtTabbedArea
+{
+	margin: 0px;
+}
+
+div#COCreditorPayeePagedArea
+{
+	margin: 0px;
+	height: 310px;
+	width: 600px;
+}
+
+div#COAddDebtTabbedArea
+{
+	margin: 0px;
+}
+
+div#COAddDebtCreditorPayeePagedArea
+{
+	margin: 0px;
+	height: 320px;
+	width: 520px;
+}
+
+/* Grids */
+
+/* Debtor address */
+div#DebtorAddressHistoryGrid
+{
+	width: 450px;	
+}
+div#DebtorAddressHistoryGrid .col0 { width: 179px; }
+div#DebtorAddressHistoryGrid .col1 { width: 75px; }
+div#DebtorAddressHistoryGrid .col2 { width: 75px; }
+div#DebtorAddressHistoryGrid .col3 { width: 85px; }
+
+/* Employer address */
+div#EmployerAddressHistoryGrid
+{
+	width: 450px;	
+}
+div#EmployerAddressHistoryGrid .col0 { width: 179px; }
+div#EmployerAddressHistoryGrid .col1 { width: 75px; }
+div#EmployerAddressHistoryGrid .col2 { width: 75px; }
+div#EmployerAddressHistoryGrid .col3 { width: 85px; }
+
+/* Workplace address */
+div#WorkplaceAddressHistoryGrid
+{
+	width: 450px;	
+}
+div#WorkplaceAddressHistoryGrid .col0 { width: 179px; }
+div#WorkplaceAddressHistoryGrid .col1 { width: 75px; }
+div#WorkplaceAddressHistoryGrid .col2 { width: 75px; }
+div#WorkplaceAddressHistoryGrid .col3 { width: 85px; }
+
+/* Maintain debt master grid */
+#MaintainDebt_DebtGrid
+{
+	width: 290px;
+	margin: 5px;
+}
+#MaintainDebt_DebtGrid .col0 { width: 186px; }
+#MaintainDebt_DebtGrid .col1 { width: 75px; }
+
+
+/* Maintain debts creditro history address grid */
+div#MaintainDebt_CreditorAddressHistoryGrid
+{
+	width: 450px;	
+}
+div#MaintainDebt_CreditorAddressHistoryGrid .col0 { width: 179px; }
+div#MaintainDebt_CreditorAddressHistoryGrid .col1 { width: 75px; }
+div#MaintainDebt_CreditorAddressHistoryGrid .col2 { width: 75px; }
+div#MaintainDebt_CreditorAddressHistoryGrid .col3 { width: 85px; }
+
+
+/* Maintain debts payee history address grid */
+div#MaintainDebt_PayeeAddressHistoryGrid
+{
+	width: 450px;	
+}
+div#MaintainDebt_PayeeAddressHistoryGrid .col0 { width: 179px; }
+div#MaintainDebt_PayeeAddressHistoryGrid .col1 { width: 75px; }
+div#MaintainDebt_PayeeAddressHistoryGrid .col2 { width: 75px; }
+div#MaintainDebt_PayeeAddressHistoryGrid .col3 { width: 85px; }
+
+
+/* Popups */
+div#DebtorAddressHistory
+{
+	visibility: hidden;
+	position: absolute;
+	left: 20px;
+	top: 120px;
+	width: 920px;
+}
+
+div#EmployerAddressHistory
+{
+	visibility: hidden;
+	position: absolute;
+	left: 20px;
+	top: 120px;
+	width: 920px;
+}
+
+div#WorkplaceAddressHistory
+{
+	visibility: hidden;
+	position: absolute;
+	left: 20px;
+	top: 120px;
+	width: 920px;
+}
+div#MaintainDebts
+{
+	visibility: hidden;
+	position: absolute;
+	left: 5px;
+	top: 120px;
+	width: 935px;
+}
+
+
+div#AddCreditorAddress
+{
+	visibility: hidden;
+	position: absolute;
+	left: 250px;
+	top: 120px;
+	width: 400px;
+}
+
+div#AddPayeeAddress
+{
+	visibility: hidden;
+	position: absolute;
+	left: 250px;
+	top: 120px;
+	width: 400px;
+}
+
+div#MaintainDebt_PayeeAddressHistory
+{
+	visibility: hidden;
+	position: absolute;
+	left: 20px;
+	top: 120px;
+	width: 920px;;
+}
+
+
+div#MaintainDebt_CreditorAddressHistory
+{
+	visibility: hidden;
+	position: absolute;
+	left: 20px;
+	top: 120px;
+	width: 920px;
+}
+
+div#SelectDefendant
+{
+	visibility: hidden;
+	position: absolute;
+	left: 200px;
+	top: 100px;
+	width: 400px;
+}
+
+div#NewCONumberPopup
+{
+	visibility: hidden;
+	position: absolute;
+	left: 350px;
+	top: 275px;
+	width: 300px;
+}
+
+
+/* LOVs */
+
+#selectCourtMaintainCOLOV
+{
+	height: 302px;
+	width: 372px;
+	left: 50%;
+	top: 50%;
+	margin-left: -186px;
+	margin-top: -151px;	
+}
+
+
+#selectCreditorCodedPartyLOV
+{
+	height: 302px;
+	width: 432px;
+	left: 50%;
+	top: 50%;
+	margin-left: -216px;
+	margin-top: -151px;
+}
+
+#selectCreditorCodedPartyLOV .col0 { width: 50px; }
+#selectCreditorCodedPartyLOV .col1 { width: 310px; }
+
+#selectPayeeCodedPartyLOV
+{
+	height: 302px;
+	width: 432px;
+	left: 50%;
+	top: 50%;
+	margin-left: -216px;
+	margin-top: -151px;
+}
+
+#selectPayeeCodedPartyLOV .col0 { width: 50px; }
+#selectPayeeCodedPartyLOV .col1 { width: 310px; }
+
+/************************************** SUBFORMS ******************************************/
+
+#transferCO_subform
+{
+	left: 50%;
+	top: 55%;
+	margin-left: -350px;
+	margin-top: -160px;
+	width: 700px;
+	height: 320px;
+}
+
+#addDebt_subform
+{
+	top: 50%;
+	left: 5px;
+	margin-top: -240px;
+	width: 970px;
+	height: 480px;
+}
+
+#addCoAddress_subform
+{
+	top: 120px;
+	left: 50%;
+	margin-left: -300px;
+	width: 600px;
+	height: 257px;
+}

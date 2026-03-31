@@ -1,0 +1,204 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>4</Id>
+	<Label>Judge's name</Label>
+	<ObjectName>JudgeName</ObjectName>
+	<Html>
+		<input id="JudgeName" type="text" maxlength="70"></input>
+	</Html>
+	
+	<Context screenId="CJR082">
+		<isVisible>true</isVisible>
+		<Label>Enter Judge's name at N79A</Label>
+	</Context>
+	
+	
+	<Javascript>
+		<XPath>/ds/EnterVariableData/JudgeName</XPath>
+		<HintText>Enter the Judge's name (e.g. Smith)</HintText>
+		<maxLength>70</maxLength>
+		<isMandatory>return true;</isMandatory>
+		<mandatoryOn>JudgeName.dataBinding</mandatoryOn>
+
+		
+		<Context ScreenId="CJR028">
+		  <enableOn>DirectionsGiven.dataBinding</enableOn>
+		  <isEnabled>return( 'Y' == Services.getValue(DirectionsGiven.dataBinding));</isEnabled>
+		  <logicOn>DirectionsGiven.dataBinding</logicOn>
+		  <logic>
+		  	if( 'Y' != Services.getValue(DirectionsGiven.dataBinding))
+		  	{	Services.setValue(JudgeName.dataBinding, "");
+		  	}
+		  </logic>
+		</Context>
+		<Context ScreenId="CJR051">
+			<HintText>Enter the Judge's surname</HintText>
+		</Context>
+		<Context ScreenId="CJR054">
+			<HintText>Enter the Judge's surname</HintText>
+		</Context>
+		
+		<Context ScreenId="CJR065">
+			<enableOn>JudgeTitle.dataBinding</enableOn>
+			<isEnabled>
+				var eventid= Services.getValue("/ds/var/app/WPData/WordProcessing/Event/StandardEventId");
+				if(185 == eventid)
+				{
+					var a = Services.getValue(JudgeTitle.dataBinding);
+					return("" != a &amp;&amp; null != a);
+				}
+				else
+				{
+					return true;
+				}
+			</isEnabled>
+			<logicOn>JudgeTitle.dataBinding</logicOn>
+			<logic>
+				var eventid= Services.getValue("/ds/var/app/WPData/WordProcessing/Event/StandardEventId");
+				var a = Services.getValue(JudgeTitle.dataBinding);
+				if(185 == eventid)
+				{
+					if("" == a || null == a)
+					{
+						Services.setValue(JudgeName.dataBinding, "");
+					}
+				}
+			</logic>
+		</Context>
+		
+		<Context ScreenId="CJR065C">
+			<enableOn>JudgeTitle.dataBinding</enableOn>
+			<isEnabled>
+				var eventid= Services.getValue("/ds/var/app/WPData/WordProcessing/Event/StandardEventId");
+				if(185 == eventid)
+				{
+					var a = Services.getValue(JudgeTitle.dataBinding);
+					return("" != a &amp;&amp; null != a);
+				}
+				else
+				{
+					return true;
+				}
+			</isEnabled>
+			<logicOn>JudgeTitle.dataBinding</logicOn>
+			<logic>
+				var eventid= Services.getValue("/ds/var/app/WPData/WordProcessing/Event/StandardEventId");
+				var a = Services.getValue(JudgeTitle.dataBinding);
+				if(185 == eventid)
+				{
+					if("" == a || null == a)
+					{
+						Services.setValue(JudgeName.dataBinding, "");
+					}
+				}
+			</logic>
+		</Context>
+		
+		<Context ScreenId="CJR080">
+			<enableOn>WhoConsidApp.dataBinding</enableOn>
+			<isEnabled>return('J' == Services.getValue(WhoConsidApp.dataBinding));</isEnabled>
+			<logicOn>WhoConsidApp.dataBinding</logicOn>
+			<logic>
+				if('J' != Services.getValue(WhoConsidApp.dataBinding))
+				{	Services.setValue(JudgeName.dataBinding, "");
+				}
+			</logic>
+		</Context>
+		
+		<Context ScreenId="CJR083">
+			<enableOn>IsNewN79AsReqd.dataBinding</enableOn>
+			<isEnabled>
+				if(IsNewN79AsReqd.isEnabled())
+				{  	if( 'Y' == Services.getValue(IsNewN79AsReqd.dataBinding))
+					{	return true;
+					}
+					return false;
+				}
+				return true;
+			</isEnabled>
+			<logicOn>IsNewN79AsReqd.dataBinding</logicOn>
+			<logic>
+				if( IsNewN79AsReqd.isEnabled() &amp;&amp; 'Y' != Services.getValue(IsNewN79AsReqd.dataBinding))
+				{	Services.setValue(JudgeName.dataBinding, "");
+				}
+			</logic>
+		</Context>
+		
+		<Context ScreenId="CO18">
+			<HintText>Enter the Judge's surname</HintText>
+		</Context>
+		
+		<Context ScreenId="O_3_1_2_5_1">
+			<isMandatory>return ("J" == Services.getValue(ReasonSetAside.dataBinding))</isMandatory> 
+			<mandatoryOn>ReasonSetAside.dataBinding</mandatoryOn>
+			<enableOn>ReasonSetAside.dataBinding</enableOn>
+			<isEnabled>return ("J" == Services.getValue(ReasonSetAside.dataBinding))</isEnabled>
+			<logicOn>ReasonSetAside.dataBinding</logicOn>
+			<logic>
+				if("J" != Services.getValue(ReasonSetAside.dataBinding))
+				{	
+					Services.setValue(JudgeName.dataBinding, "");
+				}
+			</logic>
+		</Context>
+		<Context ScreenId="O_7_8">
+            <isMandatory>return true;</isMandatory>
+            <mandatoryOn>JudgeName.dataBinding</mandatoryOn>
+        </Context>
+        
+        <Context ScreenId="O_2_6">
+            <isMandatory>return true;</isMandatory>
+            <mandatoryOn>JudgeName.dataBinding</mandatoryOn>
+        </Context>
+        
+        
+        <Context ScreenId="O_10_1">
+            <isMandatory>return true;</isMandatory>
+            <mandatoryOn>JudgeName.dataBinding</mandatoryOn>
+        </Context>
+        
+        <Context ScreenId="O_10_6">
+            <isMandatory>return true;</isMandatory>
+            <mandatoryOn>JudgeName.dataBinding</mandatoryOn>
+        </Context>
+         <Context ScreenId="O_10_7">
+            <isMandatory>return true;</isMandatory>
+            <mandatoryOn>JudgeName.dataBinding</mandatoryOn>
+        </Context>
+        
+        <Context ScreenId="O_10_11">
+            <isMandatory>return true;</isMandatory>
+            <mandatoryOn>JudgeName.dataBinding</mandatoryOn>
+        </Context>
+        <Context ScreenId="O_10_12">
+            <isMandatory>return true;</isMandatory>
+            <mandatoryOn>JudgeName.dataBinding</mandatoryOn>
+        </Context>
+        
+        
+        <Context ScreenId="O_10_18">
+            <isMandatory>return true;</isMandatory>
+            <mandatoryOn>JudgeName.dataBinding</mandatoryOn>
+        </Context>
+        <Context ScreenId="O_10_19">
+            <isMandatory>return true;</isMandatory>
+            <mandatoryOn>JudgeName.dataBinding</mandatoryOn>
+        </Context>
+		<Context screenId="N33">
+			<HintText>Enter the Judge's surname</HintText>
+		</Context>  
+
+		<Context ScreenId="CJR093">
+			<enableOn>WhoConsidApp2.dataBinding</enableOn>
+			<isEnabled>return ("J" == Services.getValue(WhoConsidApp2.dataBinding))</isEnabled>
+			<logicOn>WhoConsidApp2.dataBinding</logicOn>
+			<logic>
+				if("J" != Services.getValue(WhoConsidApp2.dataBinding))
+				{	
+					Services.setValue(JudgeName.dataBinding, "");
+				}
+			</logic>			
+		</Context>		
+        
+	</Javascript>
+</Question>

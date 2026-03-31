@@ -1,0 +1,139 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN">
+
+<html>
+<!--****************************************************************************
+****************************** Begin: Screen Head Section  *********************
+*****************************************************************************-->
+<head>
+	<title>Query Rejected Paid</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+
+	<link type="text/css" rel="stylesheet" title="Default" href="../CCBCStylesheet.css">
+	<link type="text/css" rel="stylesheet" title="Default" href="QueryRejectedPaid.css">
+	<script type="text/javascript" src="../../Framework.js"></script>
+	<script type="text/javascript" src="../../CaseManUtils.js"></script>
+	<script type="text/javascript" src="../CCBCShared.js"></script>
+	<script type="text/javascript" src="QueryRejectedPaid.js"></script>
+</head>
+<!--****************************************************************************
+****************************** End: Screen Head Section  ***********************
+*****************************************************************************-->
+
+<!--****************************************************************************
+****************************** Begin: Screen Body Section  *********************
+*****************************************************************************-->
+<body>
+	<!--****************************************************************************
+	****************************** Begin: Form Definition Section  *****************
+	*****************************************************************************-->
+    <form name="QueryRejectedPaid" action="" id="QueryRejectedPaid">
+ 		<!--****************************************************************************
+		****************************** Begin: Navigation Section  **********************
+		*****************************************************************************-->
+		<script type="text/javascript">MenuBarRenderer.createInline();</script>
+  		<!-- table class="navigation">
+			<tr>
+				<td id="navigation_container"></td>
+			</tr>
+		</table -->
+		<!--****************************************************************************
+		****************************** End: Navigation Section  ************************
+		*****************************************************************************-->
+		<!--****************************************************************************
+		****************************** Begin: Search Area Section  *********************
+		*****************************************************************************-->
+		<div class="panel">
+    	<table class="content" style="width: 965 px;">
+			<tr>
+				<td width="15%"><label for="Query_CreditorCode_Txt">Creditor Code</label></td>
+				<td width="15%"><input id="Query_CreditorCode_Txt" type="text" size=5></td>
+				<td width="10%"></td>
+				<td width="15%"><label for="Query_FileSequence_Txt">File Sequence Number</label></td>
+				<td width="15%"><input id="Query_FileSequence_Txt" type="text" size="5" ></td>
+		        <td></td>
+			</tr>
+
+             <tr>
+  				<td width="15%"><label for="Query_CaseNumber_Txt">Case Number</label></td>
+                <td width="15%"><input id="Query_CaseNumber_Txt" type="text" size="10" ></td>
+                <td colspan="3" width="55%"></td>
+		        <td align="right" >
+					<input id="Query_Search_Btn" type="button" value="Search" size="10">
+			    </td>
+             </tr>
+		</table>
+		</div>
+	    <!--****************************************************************************
+		****************************** End: Search Area Section  ***********************
+		*****************************************************************************-->
+
+		<!--****************************************************************************
+		****************************** Begin: Result Area Section  *********************
+		*****************************************************************************-->
+    	<div class="panel" style="margin-top: 6px;">
+    	  <table class="content" style="width: 965 px; height: 517px;">
+    			<tr>
+    				<td colspan="2">
+    					<div style="margin: 2px;">
+    					 <script type="text/javascript">
+		 				         Grid.createInline("Main_RejectedPaid_Grid",
+		 				                                 ["Cred. Code",
+		 				                                  "File Seq.",
+		 				                                  "Case Number",
+    	 				                                  "Type",
+		 				                                  "Deft. ID",
+		 				                                  "Date Paid",
+		 				                                  "Val",
+		 				                                  "Date Rejected",
+		 				                                  "Reject Code",
+		 				                                  "Reject Reason" ], 27, 1 ); //28
+		 				  </script>
+		 				  </div>
+    				</td>
+    			</tr>
+    			<tr>
+					<td width="270px" align="center">
+						<label>Reject Reason</label>
+					</td>
+					<td align="left">
+						<input id="Reject_Reason" type="text" />
+					</td>
+    			</tr>
+    			<tr>
+    				<td align="center" colspan="2">
+    					  <input id="Main_RejectedPaid_Grid_Prev" type="button" value="&lt Previous" size=15 />
+		 				  <input id="Main_RejectedPaid_Grid_PageNumber" type="text" size=10  />
+		 				  <input id="Main_RejectedPaid_Grid_Next"  type="button" value="  Next &gt  "  size=15 />
+    				</td>
+    			</tr>
+    		</table>
+    	</div>
+		<!--****************************************************************************
+		****************************** End: Result Area Section  ***********************
+		*****************************************************************************-->
+
+   		<!--****************************************************************************
+		****************************** Begin: Form Footer Area Section  ****************
+		*****************************************************************************-->
+		<script type="text/javascript">
+			ActionBarRenderer.createInline(	"statusbar",
+											[
+					                            {id: "Main_Clear_Btn", label: "Clear"},
+					                            {id: "Main_Back_Btn", label: "Close"}
+											]
+											);
+
+
+		 </script>
+	 	<!--****************************************************************************
+		****************************** End: Form Footer Area Section  ******************
+		*****************************************************************************-->
+    </form>
+   	<!--****************************************************************************
+	****************************** End: Form Definition Section  *******************
+	*****************************************************************************-->
+</body>
+<!--****************************************************************************
+****************************** End: Screen Body Section  ***********************
+*****************************************************************************-->
+</html>

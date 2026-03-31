@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<service-method>
+	<pipeline>
+		<InvokeReportConfigurableQueue project="${uk.gov.dca.fw.reportConfig}" xpath="/params/param[@name='ReportRequest']" destination="/params/param[@name='destination']">
+			<ReportStore id="java:SupsDS"/>
+		</InvokeReportConfigurableQueue>
+	</pipeline>
+	<Security roles="user"/>
+</service-method>

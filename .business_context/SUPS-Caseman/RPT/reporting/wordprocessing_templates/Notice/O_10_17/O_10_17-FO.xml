@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- ====================================================================== -->
+<!--  -->
+<!-- FILENAME: $Source: C:/CVSRepository/serveroas/src/uk/gov/dca/caseman/wordprocessing_templates/Notice/O_10_17/O_10_17-FO.xml,v $ -->
+<!--  -->
+<!-- AUTHOR: $Author: narges $-->
+<!--  -->
+<!-- DATE: $Date: 2006/05/08 13:24:14 $ -->
+<!--  -->
+<!-- Version: $Revision: 1.13 $ -->
+<!--  -->
+<!-- DESCRIPTION: This stylesheet is used to create an XSL:FO document that -->
+<!-- can be processed into a PDF version.  Business logic -->
+<!-- is embedded to generate the correct document text for the order -->
+<!-- required. -->
+<!--  -->
+<!-- INPUTS: XML document containing: the answers to questions asked of the -->
+<!-- user; case data retrieved from the database; HTML representing the  -->
+<!-- body of the document content (already edited by the user). -->
+<!--  -->
+<!-- OUTPUTS: XML document with FO tags containing instructions for the -->
+<!-- creation of a PDF document. -->
+<!--  -->
+<!--
+@author Sandeep Mullangi
+@version 0.1
+Change Hisstory
+Oct 27, 2008 Sandeep Mullangi - Printing insolvency number if present as part of RFC 486
+-->
+<!-- ====================================================================== -->
+<root xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:fo="http://www.w3.org/1999/XSL/Format" xmlns="http://eds.com/supsfo">
+	<variables>@word.processing.url.xsl@supsfo.xsl</variables>
+	<layout>order</layout>
+	<duplex/>
+	<addressee>
+		<blank/>
+		<debtorparty/>
+		<creditorparty/>
+		<company/>
+		<applicant/>
+		<petitioner/>
+		<trustee/>
+		<insolvencypractitioner/>
+		<officialreceiver/>
+	</addressee>
+	<header>
+		<fo:block font-size="16pt" font-weight="bold">Order on Application to set aside</fo:block> 
+		<fo:block font-size="16pt" font-weight="bold">a Statutory Demand</fo:block>
+	</header>
+	<courtcase>
+		<court>
+			<xsl:copy-of select="$vdCourtHeaderBlock"/>
+		</court>
+		<caseparameters>
+			<!-- adding insolvency number-->
+            <parameter>
+                <name>
+                    <fo:block font-weight="bold">
+                        <xsl:choose>
+                            <xsl:when test="string-length($vdInsolvencyNumber) > 0">Insolvency Number</xsl:when>
+                            <xsl:otherwise>Case Number</xsl:otherwise>
+                        </xsl:choose>
+                    </fo:block>
+                </name>
+                <value>
+                    <fo:block>
+                        <xsl:choose>
+                            <xsl:when test="string-length($vdInsolvencyNumber) > 0">
+                                <xsl:value-of select="substring($vdInsolvencyNumber,1,4)"/> of <xsl:value-of select="substring($vdInsolvencyNumber,5,4)"/>
+                            </xsl:when>
+                            <xsl:otherwise>
+                                <xsl:value-of select="$vdClaimNumber"/>
+                            </xsl:otherwise>
+                        </xsl:choose>
+                    </fo:block>
+                </value>
+			</parameter>
+			<parameter>
+				<name>
+					<fo:block font-weight="bold">Applicant</fo:block>
+				</name>
+				<value>
+					<fo:block hyphenate="true">
+						<xsl:value-of select="$vdSubjectName"/>
+					</fo:block>
+				</value>
+			</parameter>
+			<parameter>
+				<name>
+					<fo:block font-weight="bold">Respondent</fo:block>
+				</name>
+				<value>
+					<fo:block hyphenate="true">
+						<xsl:value-of select="$vdCreditorName"/>
+					</fo:block>
+				</value>
+			</parameter>
+		</caseparameters>
+	</courtcase>
+	
+	<body><editable useid="N100A4">
+		<fo:block space-after="0.8cm"/>
+		<fo:block font-weight="bold" space-after="0.4cm" font-size="12pt">
+			In Bankruptcy
+		</fo:block>
+	
+		<fo:block font-weight="bold" space-after="0.4cm">
+			on <xsl:value-of select="$vdHearingAtCourtDate"/>
+		</fo:block>
+		<fo:block font-weight="bold" space-after="0.4cm">
+			Before <xsl:value-of select="$vdJudge"/>
+		</fo:block>
+		<fo:block space-after="0.4cm">
+			On the hearing of an application by the Applicant for an order that the Statutory Demand issued on <xsl:value-of select="$vdDemandOrderDate"/> be set aside. 
+		</fo:block>
+		<fo:block space-after="0.4cm">
+			<xsl:value-of select="$vdHearingAttendees"/>
+		</fo:block>
+		<fo:block space-after="0.4cm" font-weight="bold">
+			AND UPON READING THE EVIDENCE
+		</fo:block>
+		<fo:block space-after="0.4cm">
+			<fo:inline font-weight="bold">IT IS ORDERED THAT </fo:inline> <xsl:copy-of select="$vdInjunctionOrderDetails"/>
+		</fo:block>
+		<fo:block space-after="0.8cm">
+			Dated  <xsl:value-of select="$vdEventDate"/>
+		</fo:block>
+	</editable></body>
+	<defaultFooter id="O_10_17"/>
+</root>

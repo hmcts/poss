@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: Reports
+	Method:  printOutstandingWarrantListReport()
+	File:    print_outstanding_warrant_list_report.xml
+	Author:  Anoop Sehdev (Valtech)
+	Created: 06 Februaury 2006
+	Description: 
+		Call PrintOutstandingWarrantListReportCustomProcessor custom processor to submit 
+		Outstanding Warrant List Reports (CM_OSWF and CM_OSW) to SUPSReporting.
+-->
+<service-method>
+	<pipeline> 
+		<Java callStyle="new">
+			<Source class="uk.gov.dca.caseman.reports_service.classes.PrintOutstandingWarrantListReportCustomProcessor"/>
+		</Java>
+	</pipeline>	
+	<Security roles="viewOnly medium high wcSuper scSuper bmsSuper aeSuper dmSuper edsAdmin cpSuper"/>		
+</service-method>

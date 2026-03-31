@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- 
+Change History
+	29/01/2013 - Chris Vincent, hide field for the CJR032 outputs (Trac 4763)
+-->
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>144</Id>
+	<Label>How many defendants have filed defences?</Label>
+	<ObjectName>NoDefsFiled</ObjectName>
+	<Html>
+		<input type="text" id="NoDefsFiled"></input>	
+	</Html>
+	<Context screenId="CJR032A"><isVisible>false</isVisible></Context>
+	<Context screenId="CJR032B"><isVisible>false</isVisible></Context>
+	<Context screenId="CJR032C"><isVisible>false</isVisible></Context>
+	<Javascript>
+		<XPath>/ds/EnterVariableData/Filed/noDefsFiled</XPath>
+		<HintText>Enter how many defendants have file defense (e.g. two)</HintText>
+		<isMandatory>return false;</isMandatory>
+		<enableOn>SelectItemLsB.dataBinding</enableOn>
+		<isEnabled>
+			var val = Services.getValue(SelectItemLsB.dataBinding);
+			return( 'CDS' == val || 'CDSF' == val);
+		</isEnabled>
+		<logicOn>SelectItemLsB.dataBinding</logicOn>
+		<logic>
+			var val = Services.getValue(SelectItemLsB.dataBinding);
+			if( 'CDS' != val &amp;&amp; 'CDSF' != val)
+			{	Services.setValue(NoDefsFiled.dataBinding, "");
+			}
+		</logic>
+	</Javascript>
+</Question>

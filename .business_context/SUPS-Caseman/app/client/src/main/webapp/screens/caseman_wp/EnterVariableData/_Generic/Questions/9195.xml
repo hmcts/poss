@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>9195</Id>
+	<Label>Date of appeal</Label>
+	<ObjectName>AppealDate</ObjectName>
+	<Html>	
+		<script type="text/javascript">
+			WP_DatePickerRenderer.createInline("AppealDate");
+		</script>
+	</Html>			
+	<Javascript>
+		<XPath>/ds/EnterVariableData/appealDate</XPath>
+		<HintText>Enter appeal date</HintText>
+        <mandatoryOn>AppealDate.dataBinding</mandatoryOn>
+        <isMandatory>return true;</isMandatory>
+		<isEnabled>return true</isEnabled>
+		<validateOn>AppealDate.dataBinding</validateOn>
+		<validate>
+			//Date picker: error message “The value does not conform to a valid date format of DD-MMM-YYYY”.
+			//Validation: Date cannot be in the future
+			return isInPast(Services.getValue(AppealDate.dataBinding),"false");
+		</validate>
+		
+	</Javascript>	
+</Question>

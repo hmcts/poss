@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<QueryDef>
+	<DBMapDef location="uk/gov/dca/caseman/ae_service/map_standard_fees.xml" />	
+	<Query pivotNode="/StandardFees/JudgmentFee" tables="S">
+		<Join>
+			S.ITEM = 'AE_JUDG_FEE'
+		</Join>
+	</Query>
+	<Query pivotNode="/StandardFees/MaintenanceFee" tables="S">
+		<Join>
+			S.ITEM = 'AE_MAINT_FEE'
+		</Join>
+	</Query>
+</QueryDef>

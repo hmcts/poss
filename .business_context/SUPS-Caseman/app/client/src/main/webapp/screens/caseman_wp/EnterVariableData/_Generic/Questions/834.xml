@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>834</Id>
+	<Label>Set aside order listed for hearing</Label>
+	<ObjectName>SetAsideWHearing</ObjectName>
+	<Html>
+		<input id="SetAsideWHearing" type="checkbox"></input>
+	</Html>
+	<Javascript>
+		<XPath>/ds/EnterVariableData/SetAsideWHearing</XPath>
+		<componentName>##label##</componentName>
+		<HintText>Check box if the Set Aside Order is being listed for hearing</HintText>
+		<modelValue>checked: "Y", unchecked: "N"</modelValue>
+		<isMandatory>return true;</isMandatory>
+		<mandatoryOn>SetAsideWHearing.dataBinding</mandatoryOn>
+	</Javascript>
+</Question>

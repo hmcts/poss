@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>363</Id>
+	<Label>Date this order expires</Label>
+	<ObjectName>OrderExpDate</ObjectName>
+
+	<Html>
+		<script type="text/javascript">WP_DatePickerRenderer.createInline("OrderExpDate");</script>
+	</Html>
+	
+
+	
+	<Javascript>
+		<XPath>/ds/EnterVariableData/ASBO/orderExpDate</XPath>		
+		<HintText>Enter date that this order expires, in format DD-MON-YYYY</HintText>		
+		<isMandatory>return true;</isMandatory>
+		
+		<enableOn>IsFixedDuration.dataBinding</enableOn>
+		<isEnabled>return('Y' == Services.getValue(IsFixedDuration.dataBinding));</isEnabled>
+		<logicOn>IsFixedDuration.dataBinding</logicOn>
+		<logic>
+			if('Y' != Services.getValue(IsFixedDuration.dataBinding))
+			{	Services.setValue(OrderExpDate.dataBinding, "");
+			}
+		</logic>
+		<validateOn>OrderExpDate.dataBinding</validateOn>
+		<validate>
+			return(isWorkingDayInFuture(Services.getValue(OrderExpDate.dataBinding)));
+		</validate>
+		<miscCode>
+			OrderExpDate.weekends = false;
+		</miscCode>
+	</Javascript>
+</Question>

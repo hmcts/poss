@@ -1,0 +1,58 @@
+<html>
+<head>
+    <title>ManageEventsCase</title>
+    <script type="text/javascript">
+
+    </script>
+    <script type="text/javascript" src="../../../clientframework/dist/com/sups/client/controller/Logging.js"></script>
+    <script type="text/javascript" src="../../../clientframework/dist/com/sups/client/controller/Category.js"></script>
+    <script type="text/javascript" src="../../../clientframework/dist/com/sups/client/gui/Key.js"></script>
+
+    <script type="text/javascript" src="../../../clientframework/dist/Framework.js"></script>
+    <script type="text/javascript" src="../../caseman-dist/CaseManUtils.js"></script>
+
+    <script type="text/javascript"
+            src="../../../caseman/screens/caseman_uc002/ManageEvents_HelperFunctions.js"></script>
+    <script type="text/javascript" src="../../../caseman/screens/caseman_uc002/ManageEvents.js"></script>
+    <script type="text/javascript" src="../../clientframework/dist/com/sups/client/MockServices.js"></script>
+
+    <script type="text/javascript" src="../../jsunit/app/jsUnitCore.js"></script>
+    <script type="text/javascript" src="../../jsunit/app/mock4js.js"></script>
+
+    <script type="text/javascript">
+
+        // var Services = null;
+
+        Mock4JS.addMockSupport(this);
+
+        function setUp()
+        {
+            Mock4JS.clearMocksToVerify();
+        }
+
+        function tearDown()
+        {
+            Mock4JS.verifyAllMocks();
+        }
+
+        function test_Header_CaseNumber_validate()
+        {
+            var parameter = "/ds/ManageCaseEvents/CaseNumber";
+            var services = mock(MockServices);
+            Services = null;
+            Services = services.proxy();
+            // expectations
+            services.expects(once()).getValue(parameter).will(returnValue(''));
+
+            // execute
+            var ec = Header_CaseNumber.validate();
+            assertEquals(null, ec);
+        }
+
+
+    </script>
+</head>
+<body>
+This is a Test Page for test_Header_CaseNumber_validate()
+</body>
+</html>

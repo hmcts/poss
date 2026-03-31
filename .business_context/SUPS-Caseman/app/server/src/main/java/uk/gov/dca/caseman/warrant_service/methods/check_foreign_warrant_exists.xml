@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: Warrant
+	Method:  checkForeignWarrantExists
+	Author:  Chris Vincent
+	Created: 02 July 2013
+	Description: 
+		Use SQLLite to determine whether a foreign warrant for a particular home warrant already exists at this court
+-->
+<service-method>
+	<pipeline>
+		<SQLLite format-output="true"
+				 resultset-element="ds"
+				 row-element="WarrantSearch"
+				 field-name-as="element" >
+			<DataSource id="java:OracleDS"/>
+			<Param name="param.warrantNumber" xpath="/params/param[@name = 'warrantNumber']"/>
+			<Param name="param.caseNumber" xpath="/params/param[@name = 'caseNumber']"/>
+			<Param name="param.owningCourt" xpath="/params/param[@name = 'owningCourt']"/>
+			<SQL>
+				SELECT DECODE(COUNT(*),0,'false','true') AS "WarrantExists"
+				FROM   WARRANTS W
+				WHERE W.LOCAL_WARRANT_NUMBER IS NOT NULL
+				AND W.WARRANT_NUMBER = ${param.warrantNumber}
+				AND W.CASE_NUMBER = ${param.caseNumber}
+				AND W.CURRENTLY_OWNED_BY = ${param.owningCourt}
+			</SQL>
+		</SQLLite>
+  	</pipeline>
+	<Security roles="viewOnly medium high wcSuper scSuper bmsSuper aeSuper dmSuper cpSuper ccbcMan ccbcUser ccbcSGB2"/>
+</service-method>

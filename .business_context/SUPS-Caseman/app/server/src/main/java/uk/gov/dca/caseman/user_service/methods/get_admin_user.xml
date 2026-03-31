@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: User
+	Method: getAdminUser()
+	File: get_admin_user.xml
+	Author:  Chris Vincent
+	Created: 23-Jul-2014
+	Description:
+		Retrieves users for admin maintenance
+-->
+<service-method>
+	<pipeline>
+		<Java>
+			<Source class="uk.gov.dca.caseman.user_service.java.GetAdminUserCustomProcessor"/>
+		</Java>
+	</pipeline>
+	<Security roles="viewOnly medium high wcSuper scSuper bmsSuper aeSuper dmSuper cpSuper edsAdmin admin sAdmin ccbcMan ccbcUser ccbcSGB2 ccbcTape"/>
+</service-method>

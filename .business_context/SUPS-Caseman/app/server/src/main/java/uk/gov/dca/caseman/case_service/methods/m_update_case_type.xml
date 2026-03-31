@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- 
+	Service: Case
+	Method:  mUpdateCaseType()
+	File:    m_update_case_type.xml
+	Author:  Chris Hutt
+	Created: 4 Feb 05
+	Description: 
+		Update Type for specified casenumber
+--> 
+<service-method>
+	<pipeline>
+		<Update>
+			<QueryDef location="uk/gov/dca/caseman/case_service/query_def_casetype.xml"/>
+			<DataSource xpath="/params/param[@name='caseNumber']"/>
+			<QueryExtension pivotNode="/Case">
+				<CheckExists table="c" fields="case_number" onNotExist="fail" onExist="update"/>
+			</QueryExtension>
+		</Update>
+	</pipeline>
+	<Security roles="medium high wcSuper scSuper bmsSuper aeSuper dmSuper cpSuper ccbcMan ccbcUser ccbcSGB2"/> 
+</service-method>

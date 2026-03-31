@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<QueryDef>
+  <DBMapDef location="uk/gov/dca/caseman/env_service/user_map.xml"/>
+  <Query pivotNode="/User" tables="D">
+      <SQL type="select">
+        	SELECT USER AS "D.USER" FROM DUAL 
+      </SQL>
+      <Modify notModifiable="true"/>
+  </Query>
+</QueryDef>

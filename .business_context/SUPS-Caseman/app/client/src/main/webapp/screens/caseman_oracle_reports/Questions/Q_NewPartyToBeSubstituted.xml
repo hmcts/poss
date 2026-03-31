@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	19/12/2006 - CV - Added F6 keybinding to LOV via NewPartyToBeSubstitutedLOVGrid.raise configuration.
+	Temp_Caseman defects 299/334.
+-->
+<!--Question xmlns="http://eds.com/questionxhtml" xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd"-->
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>Q_NewPartyToBeSubstituted</Id>
+	<Label>New Party To Be Substituted</Label>
+	<ObjectName>NewPartyToBeSubstituted</ObjectName>
+	<Html> 
+		<input id="NewPartyToBeSubstituted" type="text" size="15" > </input>
+		<input id="NewPartyToBeSubstitutedLOVButton" type="Button" value="LOV"></input>
+        <script type="text/javascript">
+			LOVPopupRenderer.createInline( "NewPartyToBeSubstitutedLOVGrid", "New Party To Be Substituted", ["Value", "Description"], 10, 1, true );
+        </script>
+	</Html>
+	<Javascript>
+		<XPath>/ds/var/page/OracleReportForm/NewPartyToBeSubstituted</XPath>
+		<ReportVariableName>SECOND_PARTY</ReportVariableName>
+		<ReportVariableValue>Services.getValue(NewPartyToBeSubstituted.dataBinding)</ReportVariableValue>
+		<ReportVariableCode>2330</ReportVariableCode>
+		<HintText></HintText>
+		<isMandatory>return true;</isMandatory>
+		<initialise>
+		</initialise>
+		<setDefault>
+		</setDefault>
+		<validateOn>
+		</validateOn>
+		<validate>
+			var description = Services.getValue(REF_DATA_XPATH + "/PartyMakingTheApplicationList/PartyMakingTheApplication[./Value = " + NewPartyToBeSubstituted.dataBinding + "]/Description");
+			var valueTest = Services.getValue( REF_DATA_XPATH + "/PartyMakingTheApplicationList/PartyMakingTheApplication[./Description = " + NewPartyToBeSubstituted.dataBinding + "]/Value" );
+			if (description == null &amp;&amp; valueTest == null)
+			{
+				// This is not a valid value - see list of Values
+				return ErrorCode.getErrorCode("CaseMan_Reports_Invalid_LOV_Msg");
+			}
+			else
+			{
+				return null;
+			}
+		</validate>
+		<transformToDisplay>
+			var description = Services.getValue( REF_DATA_XPATH + "/PartyMakingTheApplicationList/PartyMakingTheApplication[./Value = " + NewPartyToBeSubstituted.dataBinding + "]/Description" );
+			if (description != null)
+			{
+				return description;
+			}
+			else
+			{
+				return value;
+			}
+	    </transformToDisplay>
+        <transformToModel>
+             return (null != value) ? value.toUpperCase() : null;
+        </transformToModel>
+		<miscCode>
+				  	
+		  	NewPartyToBeSubstituted.srcData 	  = REF_DATA_XPATH + "/PartyMakingTheApplicationList";
+			NewPartyToBeSubstituted.rowXPath 	  = "PartyMakingTheApplication";
+			NewPartyToBeSubstituted.keyXPath 	  = "Value";
+			
+			function NewPartyToBeSubstitutedLOVButton() {}
+			NewPartyToBeSubstitutedLOVButton.tabIndex = __tabIdx++;
+			
+			function NewPartyToBeSubstitutedLOVGrid() {};
+			NewPartyToBeSubstitutedLOVGrid.dataBinding = NewPartyToBeSubstituted.dataBinding;
+			NewPartyToBeSubstitutedLOVGrid.srcData 	   = REF_DATA_XPATH + "/PartyMakingTheApplicationList";
+			NewPartyToBeSubstitutedLOVGrid.rowXPath    = "PartyMakingTheApplication";
+			NewPartyToBeSubstitutedLOVGrid.keyXPath    = "Value";
+			NewPartyToBeSubstitutedLOVGrid.columns     = [
+				{xpath: "Value"},
+				{xpath: "Description"}
+			];	
+			NewPartyToBeSubstitutedLOVGrid.raise = {
+				eventBinding: {
+					singleClicks: [ {element: "NewPartyToBeSubstitutedLOVButton"} ],
+					keys: [ { key: Key.F6, element: "NewPartyToBeSubstituted" } ]
+				}
+			};
+		   
+   
+		</miscCode>
+	</Javascript>
+</Question>

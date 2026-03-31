@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--Question xmlns="http://eds.com/questionxhtml" xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd"-->
+<!-- 
+Change History
+	06/02/2013 - Chris Vincent, changed references to Allocation Questionnaires to Directions Questionnaires.  Trac 4763
+-->
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>Q_JudgeWhoSawAllocationQuestionnaires</Id>
+	<Label>Name of Judge Who Saw Directions Questionnaires</Label>
+	<ObjectName>JudgeWhoSawAllocationQuestionnaires</ObjectName>
+	<Html>
+		<input id="JudgeWhoSawAllocationQuestionnaires" type="text" size="70" ></input>				
+	</Html>
+	<Javascript>
+		<XPath>/ds/var/page/OracleReportForm/JudgeWhoSawAllocationQuestionnaires</XPath>
+		<ReportVariableName>DISTRICT_JUDGE</ReportVariableName>
+		<ReportVariableValue>Services.getValue(JudgeTitle.dataBinding) + " " + Services.getValue(JudgeWhoSawAllocationQuestionnaires.dataBinding)</ReportVariableValue>
+		<ReportVariableCode>2430</ReportVariableCode>
+		<HintText></HintText>
+		<isMandatory>return true;</isMandatory>
+		<initialise>
+		</initialise>
+		<setDefault>
+		</setDefault>
+		<validateOn>
+		</validateOn>
+		<validate>
+		</validate>
+		<transformToDisplay>
+			 return (null != value) ? CaseManUtils.superInitCaps(value) : null;
+	    </transformToDisplay>
+        <transformToModel>
+             return (null != value) ? CaseManUtils.superInitCaps(value) : null;
+        </transformToModel>		
+		<miscCode>		
+		</miscCode>
+	</Javascript>
+</Question>

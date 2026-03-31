@@ -1,0 +1,104 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: Case
+	Method:  addCase()/updateCase()
+	File:    query_def_modify_case_CPR.xml
+	Author:  Phil Haferer (EDS)
+	Created: November 2004
+	Description: 
+		One of the steps taken in persisting a Case.
+		This step updates the CASE_PARTY_ROLES table, the CPR_TO_CPR_RELATIONSHIPS table,
+		and associated rows in the GIVEN_ADDRESSES table, after the PARTIES have been
+		created/updated in an earlier step.
+		
+	Change History:
+	19-Jul-2005 Phil Haferer: Changes to support Address Type of 'SERVICE' (for AE).
+	31-Aug-2005 Phil Haferer: Now populates GIVEN_ADDRESSES.PARTY_ID.
+	            TD CASEMAN 4958: PARTY_ID not populated in GIVEN_ADDRESSES.
+-->
+<QueryDef>
+  <DBMapDef location="uk/gov/dca/caseman/case_service/map_case_modify_CPR.xml"/>
+  <Query pivotNode="/ds/ManageCase/Parties/Solicitor" tables="CPR">
+    <Join/>
+	<Modify>			
+	    <CheckExists table="CPR" fields="case_number CASE_PARTY_NO party_role_code" onNotExist="add" onExist="update"/>
+				
+		<Field name="cpr.case_number" xpath="../../CaseNumber"/>
+		<Field name="cpr.party_id" xpath="./PartyId"/>
+		<Field name="cpr.party_role_code" value="SOLICITOR"/>
+	</Modify>
+  </Query> 
+  <Query pivotNode="/ds/ManageCase/Parties/Solicitor/ContactDetails/Address" tables="GA">
+    <Join/>
+    <Modify>
+		<CheckExists table="GA" fields="address_id" onNotExist="add" onExist="update"/>
+
+		<Field name="ga.address_id" sequenceTable="addr_sequence"/>
+
+	    <Field name="ga.case_number" xpath="../../../../CaseNumber"/>
+		<Field name="ga.party_role_code" value="SOLICITOR"/>
+		<Field name="ga.address_type_code" value="SOLICITOR"/>
+		<Field name="ga.case_party_no" property="cpr.case_party_no"/>
+        <Field name="ga.party_id" xpath="../../PartyId"/>
+	</Modify>
+  </Query>
+  <Query pivotNode="/ds/ManageCase/Parties/LitigiousParty" tables="CPR">
+    <Join/>
+	<Modify>			
+	    <CheckExists table="CPR" fields="case_number case_party_no party_role_code" onNotExist="add" onExist="update"/>
+
+		<Field name="cpr.case_number" xpath="../../CaseNumber"/>
+		<Field name="cpr.party_id" xpath="./PartyId"/>
+	</Modify>
+  </Query>  
+  <Query pivotNode="/ds/ManageCase/Parties/LitigiousParty/CPR2CPRUpdate" tables="CPR2CPR">
+    <Join/>
+	<Modify>			
+	    <CheckExists 
+	    	table="CPR2CPR" 
+			fields="cpr_a_case_number cpr_a_case_party_no cpr_a_party_role_code cpr_b_case_number cpr_b_case_party_no cpr_b_party_role_code" 
+			onNotExist="add" onExist="update" useOptimisticLock="false"/>
+		 
+		<!-- The LitigiousParty's CPR_TO_CPR_RELATIONSHIP columns. -->
+		<Field name="cpr2cpr.cpr_a_case_number" xpath="../../../CaseNumber"/>
+		<Field name="cpr2cpr.cpr_a_case_party_no" property="cpr.case_party_no"/>
+		<Field name="cpr2cpr.cpr_a_party_role_code" property="CPR.PARTY_ROLE_CODE"/>
+
+		<!-- The Solicitor's CPR_TO_CPR_RELATIONSHIP columns. -->
+		<Field name="cpr2cpr.cpr_b_case_number" xpath="../../../CaseNumber"/>
+		<Property name="prop.SolicitorSurrogateId" xpath="../SolicitorSurrogateId"/>
+		<Property name="prop.SolicitorCasePartyNo" 
+		          xpath="../../Solicitor[SurrogateId='${prop.SolicitorSurrogateId}']/Number"/>
+		<Field name="cpr2cpr.cpr_b_case_party_no" property="prop.SolicitorCasePartyNo"/>
+		<Field name="cpr2cpr.cpr_b_party_role_code"  value="SOLICITOR"/>
+		
+		<Field name="cpr2cpr.deleted_flag"  value="N"/>
+		<Field name="cpr2cpr.personal_reference"  xpath="../SolicitorReference"/>
+	</Modify>
+  </Query>  
+  <Query pivotNode="/ds/ManageCase/Parties/LitigiousParty/ContactDetails/Address" tables="GA">
+    <Join/>
+    <Modify>
+		<CheckExists table="GA" fields="address_id" onExist="update"/>
+
+		<Field name="ga.address_id" sequenceTable="addr_sequence"/>
+	    <Field name="ga.case_number" xpath="../../../../CaseNumber"/>
+		<Field name="ga.party_role_code" property="cpr.party_role_code"/>
+		<Field name="ga.case_party_no" property="cpr.case_party_no"/>
+		<Field name="ga.address_type_code" value="SERVICE"/>
+        <Field name="ga.party_id" xpath="../../PartyId"/>
+	</Modify>
+  </Query>
+  <Query pivotNode="/ds/ManageCase/Parties/LitigiousParty/HistoricalAddresses/Address" tables="GA">
+    <Join/>
+    <Modify>
+		<CheckExists table="GA" fields="address_id" onNotExist="add" onExist="update"/>
+
+		<Field name="ga.address_id" sequenceTable="addr_sequence"/>
+	    <Field name="ga.case_number" xpath="../../../../CaseNumber"/>
+		<Field name="ga.party_role_code" property="cpr.party_role_code"/>
+		<Field name="ga.case_party_no" property="cpr.case_party_no"/>
+		<Field name="ga.address_type_code" value="SERVICE"/>
+	</Modify>
+  </Query>
+</QueryDef>

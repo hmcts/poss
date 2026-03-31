@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>354</Id>
+	<Label>First instalment date</Label>
+	<ObjectName>InstalmentDate2</ObjectName>
+	<Html>
+		<script type="text/javascript">
+			WP_DatePickerRenderer.createInline("InstalmentDate2");
+		</script>
+	</Html>			
+	<Javascript>
+		<XPath>/ds/EnterVariableData/Judgment/instalmentdate</XPath>
+		<componentName>##label##</componentName>
+		<isMandatory>return true;</isMandatory>
+		<HintText>Enter the first installment date in the format DD-MON-YYYY</HintText>	
+		<validateOn>InstalmentDate2.dataBinding</validateOn>
+		<validate>
+				//Date picker: error message “The value does not conform to a valid date format of DD-MMM-YYYY”.
+				//Validation: Date cannot be in the future
+				return isWorkingDayInFuture(Services.getValue(InstalmentDate2.dataBinding));
+		</validate>
+		<miscCode>InstalmentDate2.weekends = false;</miscCode>		      
+	</Javascript>
+</Question>

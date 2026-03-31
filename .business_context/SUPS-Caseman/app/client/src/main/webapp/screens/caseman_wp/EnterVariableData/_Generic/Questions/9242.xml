@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Question>
+	<Id>9242</Id>
+	<Label>Originating Court</Label>
+	<ObjectName>OriginatingCourtCode</ObjectName>
+	<Html>	
+		<table>
+			<tr>
+				<td><input id="OriginatingCourtCode" type="text" size="5"></input></td>
+				<td><script type="text/javascript">AutoCompletionRenderer.createInline("OriginatingCourtName");</script></td>
+				<td><input id="OriginatingCourtLOVButton" type="button" value="LOV"></input></td>
+			</tr>
+		</table>	
+		<script type="text/javascript">
+			LOVPopupRenderer.createInline( "OriginatingCourtLOVGrid", "Courts", ["Code", "Court"], 12, 1, true );
+		</script>
+	</Html>
+	<Javascript>
+		<XPath>/ds/EnterVariableData/cfotransfer/originatingcourt/code</XPath>
+		<HintText>Select the originating court</HintText>
+		<maxLength>3</maxLength>
+		<isMandatory>return true;</isMandatory>
+		<initialise>			 	
+		   	WPU.loadCourtShort();		   	
+		</initialise>
+		<validate>
+			var ec = null;
+			var courtCode = Services.getValue(OriginatingCourtCode.dataBinding);
+			if( null != courtCode &amp;&amp; "" != courtCode)
+			{
+				var xpathName = REF_DATA_XPATH + "/Courts/Court[./Code = " + OriginatingCourtCode.dataBinding + "]/Name";	 
+				var courtName = Services.getValue(xpathName);
+				if( null == courtName || "" == courtName)
+				{
+					ec = ErrorCode.getErrorCode('CaseMan_invalidCourtCode_Msg');
+				}
+			}
+			return ec;
+		</validate>
+		<logicOn>OriginatingCourtCode.dataBinding</logicOn>
+		<logic>
+			var courtCode = Services.getValue(OriginatingCourtCode.dataBinding);
+			if( null != courtCode &amp;&amp; "" != courtCode)
+			{
+				var xpathName = REF_DATA_XPATH + "/Courts/Court[./Code = " + OriginatingCourtCode.dataBinding + "]/Name";	 
+				var courtName = Services.getValue(xpathName);
+				Services.setValue(OriginatingCourtName.dataBinding, courtName);
+			}
+			else
+			{
+				Services.setValue(OriginatingCourtName.dataBinding, "");
+			}
+		</logic>
+		<miscCode>		
+			function OriginatingCourtName(){}
+			OriginatingCourtName.strictValidation = true;
+			OriginatingCourtName.dataBinding = "/ds/EnterVariableData/cfotransfer/originatingcourt/name";
+			OriginatingCourtName.tabIndex = __tabIdx++;
+			OriginatingCourtName.helpText = "Originating court name";
+			OriginatingCourtName.isMandatory = function() { return true; }
+			OriginatingCourtName.srcData = REF_DATA_XPATH + "/Courts";
+			OriginatingCourtName.rowXPath = "Court";
+			OriginatingCourtName.keyXPath = "Name";
+			OriginatingCourtName.displayXPath = "Name";
+
+			OriginatingCourtName.logicOn = [OriginatingCourtName.dataBinding];
+			OriginatingCourtName.logic = function() {   
+				var name = Services.getValue(OriginatingCourtName.dataBinding);		     		
+				if( null != name &amp;&amp; "" != name)
+				{
+					var xpathCode = REF_DATA_XPATH + "/Courts/Court[./Name = " + OriginatingCourtName.dataBinding + "]/Code";	 
+					var courtCode = Services.getValue(xpathCode);
+					Services.setValue(OriginatingCourtCode.dataBinding, courtCode);
+				}
+				else
+				{
+					Services.setValue(OriginatingCourtCode.dataBinding, "");
+				}
+			}
+
+			function OriginatingCourtLOVButton() {}
+			OriginatingCourtLOVButton.tabIndex = __tabIdx++;
+
+			function OriginatingCourtLOVGrid() {};
+			OriginatingCourtLOVGrid.dataBinding = "/ds/var/page/SelectedLOVRow/OriginatingCourt";
+			OriginatingCourtLOVGrid.srcData = REF_DATA_XPATH + "/Courts";
+			OriginatingCourtLOVGrid.rowXPath = "Court";
+			OriginatingCourtLOVGrid.keyXPath = "Code";
+			OriginatingCourtLOVGrid.columns = [	{xpath: "Code"}, {xpath: "Name"} ];
+			OriginatingCourtLOVGrid.logicOn = [OriginatingCourtLOVGrid.dataBinding];
+			OriginatingCourtLOVGrid.logic = function() 
+			{
+				var id = Services.getValue(OriginatingCourtLOVGrid.dataBinding);
+				Services.setValue(OriginatingCourtCode.dataBinding, id);
+			} 
+
+			OriginatingCourtLOVGrid.raise = {
+				eventBinding: {
+					singleClicks: [ {element: "OriginatingCourtLOVButton"} ],
+					keys: [ { key: Key.F6, element: "OriginatingCourtCode" }, { key: Key.F6, element: "OriginatingCourtName" } ]
+				}
+			};
+		</miscCode>
+	</Javascript>
+</Question>

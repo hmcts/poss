@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>9020</Id>
+	<Label>Date interim order made</Label>
+	<ObjectName>InterimOrderDate</ObjectName>
+	<Html>
+		<script type="text/javascript">WP_DatePickerRenderer.createInline("InterimOrderDate", false);</script>
+	</Html>
+	<Javascript>
+        <XPath>/ds/EnterVariableData/InterimOrderDate</XPath>
+		<HintText>Select the date interim order was made</HintText>
+		
+        <validate>
+			// Validation: Date cannot be in the future. Working day only.	
+			
+			var interimOrderDate = Services.getValue(InterimOrderDate.dataBinding);
+			var err = null;
+
+			if( true == isFutureDate(interimOrderDate))
+			{	err = ErrorCode.getErrorCode("CaseMan_dateCannotBeInTheFuture_Msg");
+			}
+			else if( isNonWorkingDate(interimOrderDate))
+		    {   err = ErrorCode.getErrorCode("CaseMan_dateNonWorkingDay_Msg"); 
+		    }
+
+		    return err;
+          <!--   return isWorkingDayInPast(Services.getValue(InterimOrderDate.dataBinding));  -->
+		</validate>
+		
+		<miscCode>
+			InterimOrderDate.weekends = false;
+		</miscCode>
+        <isMandatory>return true;</isMandatory>
+        <mandatoryOn>InterimOrderDate.dataBinding</mandatoryOn>
+        <isEnabled>return true;</isEnabled>
+        
+	</Javascript>
+</Question>
+

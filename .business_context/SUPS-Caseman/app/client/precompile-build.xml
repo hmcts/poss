@@ -1,0 +1,100 @@
+<project name="precompile-supsapplication" default="usage" basedir=".">
+
+    <property file="precompile.properties"/>
+
+	<target name="usage">
+		<echo>
+		
+			Usage:
+				This file should be imported to a sups application build file, 
+				needing to process their application with precompilation.
+		
+		</echo>
+	</target>
+	
+    <taskdef resource="net/sf/antcontrib/antcontrib.properties">
+        <classpath>
+            <pathelement location="lib/ant-contrib/ant-contrib-1.0b1.jar"/>
+        </classpath>
+    </taskdef>
+
+        
+    <target name="war-4CM">
+        <if>
+			<equals arg1="${use.static.precompile}" arg2="true" />
+			<then>
+		        <property name="sample_apps.precompile.url" value="http://localhost:${precompile-check-port}${application-index-page}" />        
+		        
+				<!-- Get the precompiled war on the server -->  
+		        <mkdir dir="${precompile.dir}"/>
+		        
+		        <var name="temp-framework-js-file" value="${framework-js-file}"/>
+		        <var name="framework-js-file" value="Framework_precompile.js"/>
+		        
+		        <antcall target="deploy" inheritrefs="true" inheritAll="true"/>
+		        
+		    
+		        <echo message="waiting for deploy of war"/>
+		        
+		        <!-- Wait until the war has been deployed -->
+<!-- Rework for JBOSS and Weblogic
+		        <waitfor maxwait="200" maxwaitunit="second">
+		                <and>
+		                    <http url="${sample_apps.precompile.url}"/>
+		                </and>
+		        </waitfor>
+-->
+				
+		        <echo message="launching iexplore"/>
+		        <!-- Start a browser to initiate the precompilation -->
+		        <exec executable="${browser}" spawn="true">
+		            <arg value="${sample_apps.precompile.url}" />
+		        </exec>
+		        
+		        <!-- Wait until the precompile has finished -->
+		        <echo>waiting for: ${precompile.dir}/____precompilationComplete.js</echo>
+<!-- Rework for JBOSS and Weblogic
+				<waitfor maxwait="1" maxwaitunit="hour">
+		            <available file="${precompile.dir}/____precompilationComplete.js"/>
+		        </waitfor>
+-->
+            </then>
+            <else>
+                <echo>use.static.precompile set to false, not precompiling application</echo>
+            </else>
+        </if>
+    </target>
+
+    <target name="dist-war-4CM" depends="">
+        <antcall target="war-4CM"/>
+        <antcall target="package-war"/>
+    </target>
+    
+    <target name="deploy-war-4CM" depends="">
+        <antcall target="war-4CM" inheritrefs="true" inheritAll="true"/>
+        <antcall target="deploy" inheritrefs="true" inheritAll="true"/>
+    </target>
+
+
+	<target name="package-war">
+        <replaceregexp byline="true">
+            <regexp pattern="/Framework[^js]*js"/>
+            <substitution expression="/${framework-js-file}"/>
+            <fileset dir="${prepare.war.dir}">
+                <include name="**/*.html"/>
+                <include name="**/*.xml"/>
+                <include name="**/*.xsl"/>
+                <include name="**/*.js"/>               
+            </fileset>
+        </replaceregexp>
+        
+        <jar destfile="${build.dir}/${application.name}.war" >  
+            <!-- Include the application code -->
+            <fileset dir="${prepare.war.dir}">
+                <include name="**"/>
+            </fileset>      
+        </jar>
+	</target>
+
+   
+</project>

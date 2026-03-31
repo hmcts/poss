@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<service-method>
+	<pipeline>
+		<CancelReport project="${uk.gov.dca.caseman.reportConfig}" xpath="/params/param[@name='ReportReference']">
+    		<ReportQueue id="java:SUPSReportingDS"/>
+			<ReportStore id="java:OracleDS"/>
+    	</CancelReport>
+	</pipeline>
+	<Security roles="ccbcMan"/>
+</service-method>

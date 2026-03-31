@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="SVN Checkout Script" default="getVersion" basedir=".">
+
+    <property environment="env"/>
+    <property file="svn.properties" />
+	<property file="${user.home}/sups_antuser.properties" />
+    <property name="svn-ant" value="${env.SUPS_TOOLS}/extracted/svnant-1.2.1/lib"/>
+    <property name="ant-contrib" value="${env.SUPS_TOOLS}/extracted/ant-contrib-1.0b1"/>
+    
+    <taskdef resource="org/tigris/subversion/svnant/svnantlib.xml"> 
+        <classpath>
+            <fileset dir="${svn-ant}" includes="*.jar"/>
+        </classpath>
+    </taskdef>
+    
+    <taskdef resource="net/sf/antcontrib/antcontrib.properties">
+        <classpath>
+            <fileset dir="${ant-contrib}">
+                <include name="**/*.jar"/>
+            </fileset>
+        </classpath>
+    </taskdef>
+
+    <target name="getVersion">
+        <!-- Get the SVN & tag properties -->
+        <input addproperty="svn-username" message="SVN Username"/>
+        <input addproperty="svn-password" message="SVN Password" />
+        
+        <!-- Login to SVN and get the properties of the tag -->
+        <svn username="${svn-username}" password="${svn-password}">
+            <propget url="${svn-baseurl}/${tag.version}"
+            name="svn:externals"
+            property="buildProperties"/>
+        </svn>
+        
+        <!-- Regex things to get the app & database version information -->
+        <propertyregex property="app.version"
+              input="${buildProperties}"
+              regexp="\^/tags/components/caseman/APP/(.*) APP"
+              select="\1"
+              casesensitive="false" />
+              
+        <propertyregex property="schema.version"
+              input="${buildProperties}"
+              regexp="\^/tags/components/caseman/DDL/(.*) DDL"
+              select="\1"
+              casesensitive="false" />
+              
+        <propertyregex property="refdata.version"
+              input="${buildProperties}"
+              regexp="\^/tags/components/caseman/REFDATA/(.*) REFDATA"
+              select="\1"
+              casesensitive="false" />
+              
+        <propertyregex property="rpt.version"
+              input="${buildProperties}"
+              regexp="\^/tags/components/caseman/RPT/(.*) RPT"
+              select="\1"
+              casesensitive="false" />
+              
+        <propertyregex property="cm-polarlake.version"
+              input="${buildProperties}"
+              regexp="\^/tags/components/caseman/PL-CASEMAN/(.*) PL-CASEMAN"
+              select="\1"
+              casesensitive="false" />
+			  
+        <propertyregex property="ccbc-polarlake.version"
+              input="${buildProperties}"
+              regexp="\^/tags/components/caseman/PL-CCBC/(.*) PL-CCBC"
+              select="\1"
+              casesensitive="false" />
+			  
+		<propertyregex property="nle-only.version"
+              input="${buildProperties}"
+              regexp="\^/tags/components/caseman/NLE-ONLY/(.*) NLE-ONLY"
+              select="\1"
+              casesensitive="false" />
+              
+        <echo>App Version: ${app.version}</echo>
+        <echo>Schema Version: ${schema.version}</echo>
+        <echo>RefData Version: ${refdata.version}</echo>
+        <echo>Reports Version: ${rpt.version}</echo>
+        <echo>CaseMan Polarlake Version: ${cm-polarlake.version}</echo>
+		<echo>CCBC Polarlake Version: ${ccbc-polarlake.version}</echo>
+		<echo>NLE Only Version: ${nle-only.version}</echo>
+        
+        <!-- Delete any old exported data & then export the tag to the file system -->
+        <property name="svn-export-dir" value="${svn-export-basedir}/CaseMan/${tag.version}" />
+        <delete dir="${svn-export-dir}" quiet="true"/>
+        <svn username="${svn-username}" password="${svn-password}" javahl="false">
+            <export srcUrl="${svn-baseurl}/${tag.version}" destPath="${svn-export-dir}" />
+        </svn>
+        
+        <!-- Update version.properties with the new version information -->
+        <propertyfile file="${svn-export-basedir}/CaseMan/${tag.version}/APP/build/version.properties">
+            <entry key="app-version" value="${app.version}" />
+            <entry key="schema-version" value="${schema.version}" />
+            <entry key="refdata-version" value="${refdata.version}" />
+            <entry key="cm-polarlake-version" value="${cm-polarlake.version}" />
+            <entry key="ccbc-polarlake-version" value="${ccbc-polarlake.version}" />
+            <entry key="reports-version" value="${rpt.version}" />
+			<entry key="nle-only-version" value="${nle-only.version}" />
+        </propertyfile>
+		
+		<ant antfile="build.xml" target="zip-nle-only" inheritall="false" dir="${svn-export-dir}/NLE-ONLY/build/">
+			<property name="build.num" value="${tag.version}"/>
+			<property name="build.nle.num" value="${nle-only.version}"/>
+		</ant>
+
+    </target>
+
+</project>

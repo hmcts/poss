@@ -1,0 +1,50 @@
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>9199</Id>
+	<Label>Date of letter received</Label>
+	<ObjectName>LetterDate</ObjectName>
+	<Html>	
+		<script type="text/javascript">
+			WP_DatePickerRenderer.createInline("LetterDate");
+		</script>
+	</Html>			
+	<Javascript>
+		<XPath>/ds/EnterVariableData/letterDate</XPath>
+		<HintText>Enter date of letter received</HintText>
+        
+        <Context ScreenId="L_6_1_2_3_4_7">
+    		<enableOn>SelectLetter3.dataBinding,Salutation.dataBinding</enableOn>
+    		<isEnabled>return return9199();</isEnabled>
+            <logicOn>SelectLetter3.dataBinding,Salutation.dataBinding</logicOn>
+            <logic>if(!return9199())
+            {
+                Services.setValue(LetterDate.dataBinding, "");
+            }
+            </logic>
+            
+    		<mandatoryOn>SelectLetter3.dataBinding,Salutation.dataBinding</mandatoryOn>
+    		<isMandatory>return return9199();</isMandatory>
+            <miscCode>
+                function return9199(){
+                    var n9199 = false;
+                    if(
+                        ("1" == Services.getValue(SelectLetter3.dataBinding) ||
+                        "2" == Services.getValue(SelectLetter3.dataBinding))&amp;&amp;
+                        
+                        (""!=Services.getValue(Salutation.dataBinding)&amp;&amp; 
+                        null != Services.getValue(Salutation.dataBinding))
+                    ){
+                        n9199 = true;
+                    }
+                    return n9199;
+                }
+            </miscCode>
+        </Context>
+		<validateOn>LetterDate.dataBinding</validateOn>
+		<validate>
+			//Date picker: error message “The value does not conform to a valid date format of DD-MMM-YYYY”.
+			//Validation: Date cannot be in the future
+            return isInPast(Services.getValue(LetterDate.dataBinding),"false");
+     	</validate>
+        
+	</Javascript>		
+</Question>

@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>9192</Id>
+	<Label>Amount outstanding</Label>
+	<ObjectName>OutstandingAmount</ObjectName>
+	<Html>
+		<input type="text" id="DefaultCurrency9192" size="1"></input>
+		<input id="OutstandingAmount" type="text" size="11"></input>
+	</Html>
+	
+	<Context screenId="O_3_1_2_5_1"><isVisible>false</isVisible></Context>
+				
+	<Javascript>
+		<XPath>/ds/EnterVariableData/outstandingAmount</XPath>
+		<HintText>Enter outstanding amount</HintText>
+		<isEnabled>return true</isEnabled>
+		<mandatoryOn>OutstandingAmount.dataBinding</mandatoryOn>
+		<isMandatory>return true;</isMandatory>
+		<validateOn>OutstandingAmount.dataBinding</validateOn>
+		<validate>
+			var val = Services.getValue(OutstandingAmount.dataBinding);
+			var err = validateCurrencyValue(val, 999999999.99);
+			if( null == err )
+			{	Services.setValue(OutstandingAmount.dataBinding, WPU.formatToTwoDP(val));
+			}
+			return err;
+		</validate>
+	    <miscCode>
+			function DefaultCurrency9192() {}
+			DefaultCurrency9192.dataBinding = "/ds/EnterVariableData/curr1";
+			DefaultCurrency9192.tabIndex = -1;
+			DefaultCurrency9192.maxLength = 1;
+			DefaultCurrency9192.isReadOnly = function(){return true;}
+			DefaultCurrency9192.isTemporary = function(){return true;}
+			DefaultCurrency9192.transformToDisplay = function(value){
+				return WPS.__CaseManUtils().transformCurrencySymbolToDisplay(value,null,null); }
+			DefaultCurrency9192.transformToModel = function(value){
+				return WPS.__CaseManUtils().transformCurrencySymbolToModel(value,null,null); }
+		</miscCode>
+	</Javascript>
+</Question>  

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: CounterVerifications
+	Method:  getReportData
+	File:    get_report_data.xml
+	Author:  Mark Hallam (EDS)
+	Created: 18 Jan 2006
+	Description: 
+				Retreives Counter Verification from the REPORT_DATA table for User and court
+-->
+<service-method>
+	<pipeline>
+		<SQLLite format-output="true"
+				 resultset-element="ds"
+				 row-element="ReportData"
+				 field-name-as="element" >
+			<DataSource id="java:OracleDS"/>
+				<Param name="param.inputBy" xpath="/params/param[@name='inputBy']"/>
+				<Param name="param.courtId" xpath="/params/param[@name='courtId']"/>
+			<SQL>
+    			SELECT RD.USER_ID AS "userId",
+    			RD.REPORT_TYPE || RD.REPORT_NUMBER as "reportId"
+    			FROM   REPORT_DATA RD
+				WHERE  RD.ADMIN_COURT_CODE = ${param.courtId} 
+				AND	   RD.REPORT_TYPE = 'CVER'
+				AND    RD.USER_ID = ${param.inputBy}
+			</SQL>
+		</SQLLite>
+	</pipeline>
+	<Security roles="viewOnly medium high wcSuper scSuper bmsSuper aeSuper dmSuper edsAdmin admin cpSuper"/>
+</service-method>

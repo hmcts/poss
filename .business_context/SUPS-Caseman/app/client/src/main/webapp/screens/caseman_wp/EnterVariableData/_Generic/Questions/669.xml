@@ -1,0 +1,44 @@
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>669</Id>
+	<Label>Payment date</Label>
+	<ObjectName>PaymentDate</ObjectName>
+	<Context screenId="FE45"><isVisible>false</isVisible></Context>	
+	<Html>	
+		<script type="text/javascript">
+			WP_DatePickerRenderer.createInline("PaymentDate");
+		</script>
+	</Html>		
+	
+	<Javascript>
+		<XPath>/ds/EnterVariableData/DeliveryOfGoods/paymentDate</XPath>
+		<componentName>##label##</componentName>
+		<isMandatory>return true;</isMandatory>
+		<HintText>Enter the date of payment</HintText>	
+		<enableOn>CostToBePaid.dataBinding</enableOn>
+		<isEnabled>return('GD' == Services.getValue(CostToBePaid.dataBinding));</isEnabled>
+		<logicOn>CostToBePaid.dataBinding</logicOn>		
+		<logic>
+			if('GD' != Services.getValue(CostToBePaid.dataBinding))
+			{	Services.setValue(PaymentDate.dataBinding, "");
+			}
+		</logic>	
+		<validateOn>PaymentDate.dataBinding</validateOn>
+		<validate>return( isInFuture(Services.getValue(PaymentDate.dataBinding)));</validate>
+		
+        
+        <Context ScreenId="O_7_8">
+            <mandatoryOn>CostPaid.dataBinding</mandatoryOn>
+            <isMandatory>return ("BGD" == Services.getValue(CostPaid.dataBinding));</isMandatory>
+            <enableOn>CostPaid.dataBinding</enableOn>
+            <isEnabled>return ("BGD" == Services.getValue(CostPaid.dataBinding));</isEnabled>
+            <logicOn>CostPaid.dataBinding</logicOn>
+            <logic>
+            if("BGD" != Services.getValue(CostPaid.dataBinding)){
+                    Services.setValue(PaymentDate.dataBinding, "");
+            }
+            </logic>
+       
+         </Context>
+		
+	</Javascript>
+</Question>

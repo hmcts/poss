@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: CaseEvent
+	Method:  getCaseEvent160Details()
+	Author:  Chris Vincent
+	Created: 2 Feb 2015
+	Description: 
+		Use SQLLite to retrieve the details for case event 160 by looking at the corresponding
+		event 170
+-->
+<service-method>
+	<pipeline>
+		<SQLLite format-output="true"
+				 resultset-element="ds"
+				 row-element="CaseEvent"
+				 field-name-as="element" >
+			<DataSource id="java:OracleDS"/>
+			<Param name="param.eventSeq" xpath="/params/param[@name='eventSeq']"/>
+			<SQL>
+				SELECT 	NVL(CE2.MCOL_REFERENCE,'CE'||TO_CHAR(CE2.EVENT_SEQ)) AS "MCOLReference"
+				FROM CASE_EVENTS CE1, CASE_EVENTS CE2
+				WHERE CE1.EVENT_SEQ = ${param.eventSeq}
+				AND CE2.CASE_NUMBER = CE1.CASE_NUMBER
+				AND CE2.JUDG_SEQ = CE1.JUDG_SEQ
+				AND CE2.STD_EVENT_ID = 160
+				AND CE2.REQUESTER = CE1.REQUESTER
+				AND CE2.RESULT = CE1.RESULT
+				AND CE2.RESULT_DATE = CE1.RESULT_DATE
+			</SQL>
+		</SQLLite>
+  	</pipeline>
+	<Security roles="user"/>
+</service-method>

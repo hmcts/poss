@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+	<xsd:element name="BMS" type="BMS_type"/>
+	<xsd:complexType name="BMS_type">
+		<xsd:sequence>
+			<xsd:element name="BMSRule" type="bmsRuleType" maxOccurs="unbounded"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="bmsRuleType">
+		<xsd:sequence>
+			<xsd:element name="EventID" type="xsd:int"/>
+			<xsd:element name="BmsSeq" type="bmsSeqtype" maxOccurs="unbounded"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="bmsSeqtype">
+		<xsd:sequence>
+			<xsd:element name="CaseType" type="xsd:string"/>
+			<xsd:element name="CourtType" type="xsd:string" minOccurs="0"/>
+			<xsd:element name="CodedParty" type="xsd:string" minOccurs="0"/>
+			<xsd:element name="ApplicantType" type="xsd:string" minOccurs="0"/>
+			<xsd:element name="HearingType" type="xsd:string" minOccurs="0"/>
+			<xsd:element name="HearingFlag" type="xsd:string" minOccurs="0"/>
+			<xsd:element name="Issue" type="xsd:string" minOccurs="0"/>
+			<xsd:element name="ListingType" type="xsd:string" minOccurs="0"/>
+			<xsd:element name="EventType" type="xsd:string" minOccurs="0"/>
+			<xsd:element name="ApplicantResponse" type="xsd:string" minOccurs="0"/>
+			<xsd:element name="AEEventId" type="xsd:int" minOccurs="0"/>
+			<xsd:element name="EventTypeFlag" type="xsd:string" minOccurs="0"/>
+			<xsd:element name="CaseTypeCategory" type="xsd:string" minOccurs="0"/>
+			<xsd:element name="Task" type="xsd:string"/>
+			<xsd:element name="BmsType" type="xsd:string"/>
+		</xsd:sequence>
+	</xsd:complexType>
+</xsd:schema>

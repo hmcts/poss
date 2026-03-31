@@ -1,0 +1,61 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: TransferCase
+	Method:  startTransferCaseUpdateWft()
+	File:    start_transfer_case_update_wft.xml
+	Author:  Phil Haferer (EDS)
+	Created: 06-Mar-2006
+	Description: 
+		Method to update some of the fields of the WINDOW_FOR_TRAIL rows that relate to a 
+		Case that is being transferred to another court.
+		The columns that require updating fall into categories, one relating to all Case transfers,
+		the other only for those Cases being transferred to Legacy Courts.
+
+		For Legacy Court Case Transfers :-
+    		The current status of each row is recorded in WFT_OLD_STATUS.
+    		The current status is updated to 'TRANSFERRED'.
+
+		For All Case Transfers :-
+		    (These columns updates related support the Diary Manager Email processing in Caseman Central Server).
+    		WFT_EXTRACTED_FOR_DM is set to null so the transfer process for Diary Manager Emails will 
+    		select the row.
+    		WFT_PREVIOUS_COURT is set to the court the case is being transferred from.
+    		WFT_CURRENT_COURT is set to the value the court code the case is being transferred to.
+-->
+<service-method>
+	<pipeline>
+        <!-- For Legacy Court Case Transfers. -->
+		<SQLLite output="input">
+			<DataSource id="java:OracleDS"/>
+			<Param name="param.caseNumber" xpath="/params/param[@name='caseNumber']"/>
+			<Param name="param.adminCourtCode" xpath="/params/param[@name='adminCourtCode']"/>
+			<SQL type="update" tables="WFT">
+                UPDATE WINDOW_FOR_TRIAL WFT
+                SET    WFT.WFT_OLD_STATUS       = WFT.WFT_STATUS
+                ,      WFT.WFT_STATUS           = 'TRANSFERRED'
+                WHERE  WFT.WFT_CASE_NUMBER      = ${param.caseNumber}
+                AND    EXISTS 
+                (SELECT NULL
+                 FROM   COURTS   CRT
+                 WHERE  CRT.CODE = ${param.adminCourtCode}
+                 AND    CRT.SUPS_CENTRALISED_FLAG != 'Y'
+                )
+			</SQL>
+		</SQLLite>
+
+        <!-- For All Case Transfers. -->
+		<SQLLite output="input">
+			<DataSource id="java:OracleDS"/>
+			<Param name="param.caseNumber" xpath="/params/param[@name='caseNumber']"/>
+			<Param name="param.adminCourtCode" xpath="/params/param[@name='adminCourtCode']"/>
+			<SQL type="update" tables="WFT">
+				UPDATE WINDOW_FOR_TRIAL WFT
+				SET    WFT.WFT_EXTRACTED_FOR_DM = NULL
+				,      WFT.WFT_PREVIOUS_COURT   = WFT.WFT_CURRENT_COURT
+				,      WFT.WFT_CURRENT_COURT    = ${param.adminCourtCode}
+				WHERE  WFT.WFT_CASE_NUMBER      = ${param.caseNumber}
+			</SQL>
+		</SQLLite>
+	</pipeline>
+	<Security roles="viewOnly medium high wcSuper scSuper bmsSuper aeSuper dmSuper edsAdmin"/>		
+</service-method>

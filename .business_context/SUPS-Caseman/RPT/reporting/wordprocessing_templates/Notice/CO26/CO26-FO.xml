@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- ====================================================================== -->
+<!--  -->
+<!-- FILENAME: $Source: C:/CVSRepository/serveroas/src/uk/gov/dca/caseman/wordprocessing_templates/Notice/CO26/CO26-FO.xml,v $ -->
+<!--  -->
+<!-- AUTHOR: $Author: ian $-->
+<!--  -->
+<!-- DATE: $Date: 2006/06/02 12:16:02 $ -->
+<!--  -->
+<!-- Version: $Revision: 1.12 $ -->
+<!--  -->
+<!-- DESCRIPTION: This stylesheet is used to create an XSL:FO document that -->
+<!-- can be processed into a PDF version.  Business logic -->
+<!-- is embedded to generate the correct document text for the order -->
+<!-- required. -->
+<!--  -->
+<!-- INPUTS: XML document containing: the answers to questions asked of the -->
+<!-- user; case data retrieved from the database; HTML representing the  -->
+<!-- body of the document content (already edited by the user). -->
+<!--  -->
+<!-- OUTPUTS: XML document with FO tags containing instructions for the -->
+<!-- creation of a PDF document. -->
+<!--  -->
+<!-- ====================================================================== -->
+<root xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:fo="http://www.w3.org/1999/XSL/Format" xmlns="http://eds.com/supsfo">
+	<variables>@word.processing.url.xsl@supsfo.xsl</variables>
+	<addressee>
+		<blank/>
+		<creditor/>
+		<debtor/>	
+	</addressee>
+	<header>
+		<fo:block font-size="16pt" font-weight="bold">Order <xsl:value-of select="$vdRevokingDischarging"/> an Administration Order</fo:block>
+	</header>
+	<courtcase>
+		<court>
+			<xsl:copy-of select="$vdCourtHeaderBlock"/>
+		</court>
+		<caseparameters>
+			<parameter>
+				<name>
+					<fo:block font-weight="bold">Administration Order Number</fo:block>
+				</name>
+				<value>
+					<fo:block>
+						<xsl:value-of select="$vdCONumber"/>
+					</fo:block>
+				</value>
+			</parameter>
+			<parameter>
+				<name>
+					<fo:block font-weight="bold">Creditor</fo:block>
+					<fo:block font-size="9pt">(including ref.)</fo:block>
+				</name>
+				<value>
+					<xsl:call-template name="display-creditor-name-and-reference-template">
+						<xsl:with-param name="addressee">
+							<xsl:value-of select="$addressee"/>
+						</xsl:with-param>
+					</xsl:call-template>
+				</value>
+			</parameter>				
+			<parameter>
+				<name>
+					<fo:block font-weight="bold">Debtor</fo:block>
+				</name>
+				<value>
+					<fo:block hyphenate="true">
+						<xsl:value-of select="$vdCODebtorName"/>
+					</fo:block>
+				</value>
+			</parameter>
+			<parameter>
+				<name>
+					<fo:block font-weight="bold">Employer's Ref.</fo:block>
+				</name>
+				<value>
+					<fo:block hyphenate="true">
+						<xsl:value-of select="$vdCOEmployerReference"/>
+					</fo:block>
+				</value>
+			</parameter>
+			<dobparameter partyType="debtor"/>
+		</caseparameters>
+	</courtcase>
+	<bodyintroright><fo:block><fo:inline text-align="center"><seal/></fo:inline></fo:block></bodyintroright>
+	
+	<body>
+	<editable useid="N100B9">
+		<fo:block font-weight="bold" space-after="0.4cm">
+			Before <xsl:value-of select="$vdJudge"/> sitting at <xsl:value-of select="$vdHearingAtCourtNameDescription"/>, <xsl:value-of select="$vdHearingAtCourtAddress"/>
+		</fo:block>
+		<fo:block space-after="0.4cm">
+			<xsl:value-of select="$vdCOHearingAttendees"/>
+		</fo:block>
+		<fo:block space-after="0.4cm" font-weight="bold">
+			To the debtor and creditor/s
+		</fo:block>
+		<fo:block space-after="0.4cm">
+			<fo:inline font-weight="bold">It is ordered </fo:inline>that the administration order made against the above named debtor on the <xsl:value-of select="$vdCODate"/> be <xsl:value-of select="$vdRevokedDischarged"/> because <xsl:copy-of select="$vdRevokeReason"/>
+		</fo:block>
+		<fo:block text-align="right">
+			<fo:inline font-weight="bold">Dated </fo:inline><xsl:value-of select="$vdEventDate"/>
+		</fo:block>
+	</editable>
+	</body>
+
+	<footnote noteextent="6"> 
+		<fo:block font-weight="bold" font-size="10pt" text-align="center">
+			How to Pay
+		</fo:block>
+		<fo:block font-size="10pt" font-family="Times">
+			<fo:table table-layout="fixed">
+				<fo:table-column column-width="19.28cm" />
+				<fo:table-body>
+					<fo:table-row>
+						<fo:table-cell padding-left="6.45pt" padding-right="6.45pt" border-style="solid" border-width="0.02cm">
+							<fo:block keep-together.within-page="always" space-after="0.4cm">
+								Note to the debtor - the instructions below tell you how to pay your creditors after the administration order has been revoked
+							</fo:block>
+							<fo:block keep-together.within-page="always">
+								<list type="bullet">
+									<list-item>
+										<fo:block><fo:inline font-weight="bold">PAYMENT(S) MUST NOW BE MADE </fo:inline>to the creditors or their representatives, quoting their reference (and the court case number if applicable).</fo:block>
+									</list-item>
+									<list-item>
+										<fo:block><fo:inline font-weight="bold">DO NOT </fo:inline>bring or send payments to the court.  <fo:inline font-weight="bold">THEY WILL NOT BE ACCEPTED.</fo:inline></fo:block>
+									</list-item>
+									<list-item>
+										<fo:block>You should allow <fo:inline text-decoration="underline">at least 4</fo:inline> days for your payments to reach the creditor or his representative.</fo:block>
+									</list-item>
+									<list-item>
+										<fo:block>Make sure that you keep records and can account for all payments made.  Proof may be required if there is any disagreement.  It is not safe to use cash unless you use registered post.</fo:block>
+									</list-item>
+									<list-item>
+										<fo:block>A leaflet giving further advice about payment can be obtained from the court.</fo:block>
+									</list-item>
+									<list-item>
+										<fo:block>If you need more information you should contact the creditor or his representative.</fo:block>
+									</list-item>
+								</list>
+							</fo:block>
+						</fo:table-cell>
+					</fo:table-row>
+				</fo:table-body>
+			</fo:table>
+		</fo:block>
+	</footnote>
+	<defaultFooter id="CO26" CO="true"/>
+</root>

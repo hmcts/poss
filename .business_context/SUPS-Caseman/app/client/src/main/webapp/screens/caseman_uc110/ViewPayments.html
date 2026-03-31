@@ -1,0 +1,112 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3c.org/TR/html4/strict.dtd">
+<html>
+
+	<head>
+		<title>ViewPayments</title>
+		<link href="ViewPayments.css" type="text/css" rel="stylesheet">
+		<script type="text/javascript" src="../../Framework.js"></script>
+		<script type="text/javascript" src="../../ConcatCommon.js"></script>
+		<script type="text/javascript" src="ViewPaymentsConstants.js"></script>
+		<script type="text/javascript" src="ViewPaymentsHelperFunctions.js"></script>
+		<script type="text/javascript" src="ViewPayments.js"></script>
+		<script type="text/javascript" src="ViewPayments_AuditCode.js"></script>
+		<script type="text/javascript" src="ViewPayments_MenuBarCode.js"></script>
+	</head>
+	
+	<body>
+		<form name="ViewPayments" id="ViewPayments">
+			
+			<!-- Navigation -->
+			<script type="text/javascript">MenuBarRenderer.createInline();</script>
+			
+			<!-- Content -->
+			<table class="layout">
+				<!-- Start of Header Panel -->
+				<tr>
+					<td>
+						<div class="panel">
+							<table class="content">
+								<tr>
+									<td>
+										<table style="width: 100%;">
+											<tr>
+												<td style="width: 200px;"><label for="Header_EnforcementNumber">Case/Enforcement Number</label></td>
+												<td style="width: 375px;"><input id="Header_EnforcementNumber" type="text" size="15" /></td>
+
+												<td class="defaultLabel"><label for='Header_OwningCourtCode'>Owning Court</label></td>
+												<td>
+													<input id="Header_OwningCourtCode" type="text" size=5>
+													<input id="Header_OwningCourtName" type="text" size=25>
+												</td>
+											</tr>
+														
+											<tr>
+												<td style="width: 200px;"><label for="Header_EnforcementType">Case/Enforcement Type</label></td>
+												<td><input id="Header_EnforcementType" type="text" size="30" /></td>
+												<td colspan=2>&nbsp;</td>
+											</tr>
+											
+											<tr>
+												<td colspan=4>
+													<script type="text/javascript">
+														Grid.createInline("Header_PartyTypeGrid", ["Party Type", "Number", "Name"], 3, 1);
+													</script>
+												</td>
+											</tr>
+
+										</table>
+									</td>
+								</tr>
+							</table>
+						</div>
+					</td>
+				</tr>
+				<!-- End of Header Panel -->
+				
+				<!-- Start of Payments Panel -->
+				<tr>
+					<td>
+						<div class="panel">
+							<table class="content" style="height:428px;">
+								<tr>
+									<td valign="top">
+										<!-- Payments grid -->
+										<table>
+											<tr>
+												<td>
+													<script type="text/javascript">
+														Grid.createInline("Master_PaymentsGrid", ["Case/Enf No", "Case/Enf Type", "Trans No", "Payment Date", "", "Amount", "Payment Type", "Retention Type", "Paid In By", ""], 22, 1);
+													</script>
+												</td>
+											</tr>
+											<tr>
+												<td><input id="Master_ViewPaymentDetailsButton" type="Button" value="View Details" style="margin-left: 5px;"/></td>
+											</tr>
+										</table>
+									</td>
+								</tr>
+							</table>
+						</div>
+					</td>
+				</tr>
+				<!-- End of Payments Panel -->
+			</table>
+	  
+			<!-- Status -->
+			<script type="text/javascript">
+				ActionBarRenderer.createInline("status_bar", [{id: "Status_CloseButton", label: "Close"}]);
+			</script>
+			
+			<!-- Audit Panels -->
+			<div class="auditPanel" id="currentlySelectedPaymentPanel"></div>
+
+			<!-- AUDIT SELECTOR ADAPTOR -->
+			<script type="text/javascript">AuditSelectorRenderer.createInline( "Audit_PanelSelector" );</script>
+			
+			<!-- SUBFORMS -->
+			<div class="popup popupsubform" id="audit_subform"></div>
+			<div class="popup popupsubform" id="viewPaymentDetails_subform"></div>
+			
+		</form>
+	</body>
+</html>

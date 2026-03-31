@@ -1,0 +1,66 @@
+<Group id="9003">
+	<ServicesRequired>
+		<mapping name="addCaseEvent" serviceName="addCaseEvent"/>
+		<service name="addCaseEvent" cache="none" url="/CaseEvent/CaseEvent" method="addCaseEvent">
+		</service>
+	</ServicesRequired>
+	<Protocols>
+		<OnSave>
+			<function>addCaseEvent</function>
+			<functionCallback>addCaseEventCallback</functionCallback>
+		</OnSave>
+	</Protocols>
+	<JavaScript>		
+function addCaseEvent() {
+    // alert('addCaseEvent');
+    if( 'Y'  == Services.getValue(Mediation.dataBinding))
+	{   var sysdate = CaseManUtils.getSystemDate("/ds/var/form/ReferenceData/SystemDate");
+		var caseNo = Services.getValue("/ds/ManageCase/CaseNumber");
+		var createdBy = Services.getValue("/ds/CaseEvent/UserName");
+		var dom = WPU.getaddCaseEventXML( 291, sysdate, caseNo, createdBy );
+		var crtCode = Services.getValue("ds/ManageCase/OwningCourtCode");
+		
+		XML.setElementTextContent(dom, "/CaseEvent/CourtCode", crtCode );
+	
+		var params = new ServiceParams();
+
+		params.addDOMParameter("caseEvent", dom);
+
+	
+		var service = "addCaseEvent";
+	
+		Services.callService(service, params, addCaseEventCallback, true);
+				
+	}
+	else
+	{	Save_All();
+	}
+}
+
+	
+function addCaseEventCallback() { }
+
+addCaseEventCallback.onSuccess = function(dom) {
+	if (null != dom) {
+		
+		Save_All();  }
+	else {
+		alert(Messages.NO_RESULTS_MESSAGE); } }
+
+addCaseEventCallback.onBusinessException = function(exception)  
+{
+
+	alert(Messages.FAILEDSAVE_MESSAGE); 
+}
+
+addCaseEventCallback.onSystemException = function(exception)
+{
+
+	alert(Messages.FAILEDSAVE_MESSAGE); 
+}
+
+
+	</JavaScript>
+</Group>
+
+

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: Payments
+	Method: deletePayment()
+	File: delete_payment.xml
+	Author: Steve Blair
+	Description:
+		Delete a new payment on the database.
+-->
+<service-method>
+	<pipeline>
+		<SQLLite output="input">
+			<DataSource id="java:OracleDS" />
+			<Param name="param.transNo" xpath="/params/param[@name='transactionNumber']" />
+			<Param name="param.courtCode" xpath="/params/param[@name='courtCode']" />
+			<SQL type="update" tables="P">
+				DELETE
+				FROM	PAYMENTS P
+				WHERE	P.TRANSACTION_NUMBER = ${param.transNo} AND
+							P.ADMIN_COURT_CODE = ${param.courtCode}
+			</SQL>
+		</SQLLite>
+	</pipeline>
+	<Security roles="medium high wcSuper scSuper bmsSuper aeSuper dmSuper cpSuper" />
+</service-method>

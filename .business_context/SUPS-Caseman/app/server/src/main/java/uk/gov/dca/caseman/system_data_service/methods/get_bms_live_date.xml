@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: SystemData
+	Method:  getBmsLiveDate()
+	File:    get_bms_live_date.xml
+	Author:  Chris Hutt
+	Created: 6 dec 2005
+	Description: 
+		Retrieve details for specified 'item' from system data
+	Change History:
+		07/08/2006 (Chris Vincent) - Added cpSuper to security roles (ref defect 4154)
+		08/08/2006 (Kevin Gichohi) - Changed method name and file name in the comment from getSystemDataItem to getBmsLiveDate
+		03/06/2008 (Chris Vincent) - Added CCBC User and CCBC SBG2 to list
+-->
+<service-method>
+	<pipeline>
+		<SQLLite format-output="true"
+				 resultset-element="ds"
+				 row-element="BMSLivedate"
+				 field-name-as="element" >
+			<DataSource id="java:OracleDS"/>
+				<Param name="param.courtCode" xpath="/params/param[@name='courtCode']"/>		
+			<SQL>
+				SELECT  
+ 						ITEM      				As "Item"                             
+ 					,	ITEM_VALUE      		As "ItemValue"                                       
+ 					,	ADMIN_COURT_CODE      	As "AdminCourtCode"                 
+				FROM 	SYSTEM_DATA SD
+				WHERE	SD.ADMIN_COURT_CODE =  ${param.courtCode}
+				AND 	SD.ITEM 			=  'BMS_LIVE_DATE'
+			</SQL>
+		</SQLLite>
+	</pipeline>
+	<Security roles="viewOnly medium high wcSuper scSuper bmsSuper aeSuper dmSuper cpSuper edsAdmin ccbcMan ccbcUser ccbcSGB2"/>
+</service-method>

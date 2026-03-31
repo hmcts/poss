@@ -1,0 +1,193 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>361</Id>
+	<Label>Day of hearing</Label>
+	<ObjectName>HearingDay2</ObjectName>
+	
+	<Context screenId="CJR083"><isVisible>false</isVisible></Context>
+	<Context screenId="CJR053"><isVisible>false</isVisible></Context>
+	<Context screenId="CJR055"><isVisible>false</isVisible></Context>
+    <Context screenId="CO03"><isVisible>false</isVisible></Context>
+    <Context screenId="CO05"><isVisible>false</isVisible></Context>
+    <Context screenId="CO09"><isVisible>false</isVisible></Context>
+    <Context screenId="CO10"><isVisible>false</isVisible></Context>
+    <Context screenId="CO13"><isVisible>false</isVisible></Context>
+    <Context screenId="CO15"><isVisible>false</isVisible></Context>
+    <Context screenId="CO16"><isVisible>false</isVisible></Context>
+    <Context screenId="CO17"><isVisible>false</isVisible></Context>
+    <Context screenId="CO18"><isVisible>false</isVisible></Context>
+    <Context screenId="CO19"><isVisible>false</isVisible></Context>
+    <Context screenId="CO20"><isVisible>false</isVisible></Context>
+    <Context screenId="CO21"><isVisible>false</isVisible></Context>
+    <Context screenId="CO23"><isVisible>false</isVisible></Context>
+    <Context screenId="CO24"><isVisible>false</isVisible></Context>
+    <Context screenId="CO25"><isVisible>false</isVisible></Context>
+    <Context screenId="CO26"><isVisible>false</isVisible></Context>
+    <Context screenId="CO27"><isVisible>false</isVisible></Context>
+    <Context screenId="CO32"><isVisible>false</isVisible></Context>
+    <Context screenId="CO33"><isVisible>false</isVisible></Context>
+    <Context screenId="CO34"><isVisible>false</isVisible></Context>
+    <Context screenId="CO35"><isVisible>false</isVisible></Context>
+    <Context screenId="CO36"><isVisible>false</isVisible></Context>
+    <Context screenId="CO37"><isVisible>false</isVisible></Context>
+	<Context screenId="CO52"><isVisible>false</isVisible></Context>
+	<Context screenId="CO29"><isVisible>false</isVisible></Context>
+	<Context screenId="CO30"><isVisible>false</isVisible></Context>
+	<Context screenId="CO28"><isVisible>false</isVisible></Context>
+    <Context screenId="CO31"><isVisible>false</isVisible></Context>
+    <Context screenId="CO41"><isVisible>false</isVisible></Context>
+    <Context screenId="CJR073"><isVisible>false</isVisible></Context>
+    <Context screenId="O_8_12"><isVisible>false</isVisible></Context>
+	<Context screenId="O_5_5"><isVisible>false</isVisible></Context>
+	<Context screenId="CJR175"><isVisible>false</isVisible></Context>
+	<Context screenId="CJR065"><isVisible>false</isVisible></Context>
+	<Context screenId="CJR065C"><isVisible>false</isVisible></Context>
+	<Context screenId="CJR065_DO"><isVisible>false</isVisible></Context>
+	<Context screenId="N33"><isVisible>false</isVisible></Context>
+	<Context screenId="O_10_18"><isVisible>false</isVisible></Context>
+	<Context screenId="O_5_6"><isVisible>false</isVisible></Context>
+	<Context screenId="O_11_1_2_3_4"><isVisible>false</isVisible></Context>
+	<Context screenId="CJR353"><isVisible>false</isVisible></Context>
+	
+	<Html>
+	    <input type="text" size="12" id="HearingDay2"></input>
+	</Html>
+
+	<Context screenId="CJR065B"><isVisible>false</isVisible></Context>
+	<Context screenId="CJR060"><isVisible>false</isVisible></Context>
+	<Context screenId="CJR080"><isVisible>false</isVisible></Context>
+	<Context screenId="CJR081"><isVisible>false</isVisible></Context>
+	<Context screenId="CJR054"><isVisible>false</isVisible></Context>
+	<Context screenId="CJR061"><isVisible>false</isVisible></Context>
+	<Context screenId="CJR082"><isVisible>false</isVisible></Context>
+	<Context screenId="CJR083"><isVisible>false</isVisible></Context>
+	<Context screenId="CJR090"><isVisible>false</isVisible></Context>
+	<Context screenId="CJR092"><isVisible>false</isVisible></Context>
+	<Context screenId="CJR170"><isVisible>false</isVisible></Context>
+	<Context screenId="CJR178"><isVisible>false</isVisible></Context>
+	<Context screenId="CJR072"><isVisible>false</isVisible></Context>
+	<Context screenId="CJR094"><isVisible>false</isVisible></Context>
+	<Context screenId="CJR050"><isVisible>false</isVisible></Context>
+	<Context screenId="CJR043"><isVisible>false</isVisible></Context>
+	<Context screenId="O_10_17"><isVisible>false</isVisible></Context>
+	<Context screenId="N32"><isVisible>false</isVisible></Context>
+	
+	<Javascript>
+		<XPath>/ds/EnterVariableData/Service/hearingDay2</XPath>
+		<componentName>Day of hearing</componentName>
+		<HintText>The day the hearing is to be heard.</HintText>
+		<isMandatory>return false;</isMandatory>
+		<mandatoryOn>HearingDay2.dataBinding</mandatoryOn>
+		<isReadOnly>return true;</isReadOnly>			
+		<transformToModel>return (null != value) ? value.toUpperCase() : null;</transformToModel>
+		<transformToDisplay>return (null != value) ? value.toUpperCase() : null;</transformToDisplay>
+		<logicOn>HearingDate2.dataBinding</logicOn>
+		<logic>/* Set the day as we now now the user has selected a date for the Hearing to be heard on.
+				  Date on represents the value entered but as 2004-12-25.
+				*/				
+				var dateOn = Services.getValue(HearingDate2.dataBinding);
+				if (null != dateOn)
+				{
+					var day = setDay(dateOn);
+					Services.setValue(HearingDay2.dataBinding, day);
+				}
+				else
+				{	Services.setValue(HearingDay2.dataBinding, "");
+				}
+		</logic>
+	
+		<miscCode>
+
+/*
+ * Method returns a day for a supplied date
+ * pDate The date in the format 2004-12-20
+ */
+function setDay(pDate)
+{
+	var day = ""; // Day as text.  This is returned	
+	var theDate;
+	
+	//Constants for switch statement
+	var SUN = 0;
+	var MON = 1;
+	var TUE = 2;
+	var WED = 3;
+	var THU = 4;
+	var FRI = 5;
+	var SAT = 6;
+		
+	if(pDate != null &amp;&amp; pDate != ""){		
+		theDate = setDateAsObject(pDate);		
+		var dayAsInt = theDate.getDay();		
+		switch (dayAsInt)
+		{   	
+			case SUN:
+		  	{
+		  		day = "SUNDAY";
+		  		break;
+		  	}
+		  	case MON:
+		  	{
+		  		day = "MONDAY";
+		  		break;
+		  	}
+		  	case TUE:
+		  	{
+		  		day = "TUESDAY";
+		  		break;
+		  	}
+		  	case WED:
+		  	{
+		  		day = "WEDNESDAY";
+		  		break;
+		  	}
+		  	case THU:
+		  	{
+		  		day = "THURSDAY";
+		  		break;
+		  	}
+		  	case FRI:
+		  	{
+		  		day = "FRIDAY";
+		  		break;
+		  	}
+		  	case SAT:
+		  	{
+		  		day = "SATURDAY";
+		  		break;
+		  	}
+		  	default:
+		  	{
+		  		day = "";
+		  		break;
+		  	}  	
+	  	}// END OF switch (dayAsInt)	  	
+  	} // end of if block
+  	return day;  	
+} // END OF setDay()
+
+/*
+ * Method returns a date as a javascript Date object for a supplied date.
+ * pDate  - a date in the format 2004-12-20 or 2004/12/20
+ */
+function setDateAsObject(pDate)
+{
+	// need to split the date value into something the Date object recognises
+	var tmpYear;
+	var tmpMth;
+	var tmpDate;
+	
+	if(pDate != null &amp;&amp; pDate != ""){
+		// get the year etc from string
+		tmpYear = pDate.substr(0,4);
+		tmpMth = pDate.substr(5,2);
+		tmpMth = tmpMth - 1;
+		tmpDate = pDate.substr(8,2);		
+
+	}// end of if(pDate != null &amp;&amp; pDate != ""){
+	var theDate = new Date(tmpYear, tmpMth ,tmpDate);	
+	return theDate;
+}
+		</miscCode>		
+	</Javascript>
+</Question>

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>9190</Id>
+	<Label>Details of claim</Label>
+	<ObjectName>DetailsOfClaim</ObjectName>
+	<Html>
+	  <textarea id="DetailsOfClaim" rows="5"  cols="80"></textarea>
+	</Html>
+
+	<Javascript>
+		<XPath>/ds/EnterVariableData/detailsOfClaim</XPath>
+		<HintText>State brief details of the claim</HintText>
+		<isEnabled>return true</isEnabled>
+		<mandatoryOn>DetailsOfClaim.dataBinding</mandatoryOn>
+		<isMandatory>return true;</isMandatory>
+		<transformToModel>return WPU.encodeLineBreaks( this, value );</transformToModel>
+		<transformToDisplay>return WPU.decodeLineBreaks( this, value );</transformToDisplay>      		
+	</Javascript>	
+</Question>

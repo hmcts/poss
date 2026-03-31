@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--Question xmlns="http://eds.com/questionxhtml" xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd"-->
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>Q_DateOfFirstPayment</Id>
+	<Label>Date of First Payment</Label>
+	<ObjectName>DateOfFirstPayment</ObjectName>
+	<Html>
+		<script type="text/javascript">
+			DatePickerRenderer.createInline("DateOfFirstPayment", false);
+		</script>
+	</Html>
+	<Javascript>
+		<XPath>/ds/var/page/OracleReportForm/DateOfFirstPayment</XPath>
+		<ReportVariableName>REPORT_VALUE_3</ReportVariableName>
+		<ReportVariableValue>CaseManUtils.convertDateToDisplay(Services.getValue(DateOfFirstPayment.dataBinding))</ReportVariableValue>
+		<ReportVariableCode>364</ReportVariableCode>
+		<HintText>Enter the date of the first payment, format DD-MON-YYYY</HintText>
+		<mandatoryOn></mandatoryOn>
+		<isMandatory>return true;</isMandatory>
+		<setDefault></setDefault>
+		<validateOn>DateOfFirstPayment.dataBinding</validateOn>
+		<validate>
+			// defect uct 600
+			var dateFirstPay = Services.getValue(DateOfFirstPayment.dataBinding);
+			var dateFirstPayObj = CaseManUtils.isBlank(dateFirstPay) ? null : CaseManUtils.createDate(dateFirstPay);
+			var ec = null;
+			if(dateFirstPayObj != null){
+			  ec = validateFirstPaymentDate(dateFirstPayObj);     
+			}
+			return ec;	
+		</validate>	
+		<readOnlyOn></readOnlyOn>
+		<isReadOnly></isReadOnly>
+		<maxLength></maxLength>
+		<transformToDisplay></transformToDisplay>
+		<transformToModel></transformToModel>
+		<initialise></initialise>
+		<logicOn></logicOn>
+		<logic></logic>
+		<miscCode>
+			function validateFirstPaymentDate(dateObj)
+			{    
+			  var todayDateObj = CaseManUtils.createDate(getTodaysDate());
+			  var errCode = null;
+			  var comparison = CaseManUtils.compareDates(dateObj, todayDateObj);
+			  if(comparison == 1 || comparison == 0){
+			    errCode = ErrorCode.getErrorCode("CaseMan_dateCanOnlyBeInTheFuture_Msg");
+			  }     
+			  return errCode;   
+			}
+		</miscCode>
+		<IsQuestion></IsQuestion>
+	</Javascript>
+</Question>

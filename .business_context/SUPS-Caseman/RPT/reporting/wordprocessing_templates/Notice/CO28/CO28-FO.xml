@@ -1,0 +1,208 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- ====================================================================== -->
+<!--  -->
+<!-- FILENAME: $Source: C:/CVSRepository/serveroas/src/uk/gov/dca/caseman/wordprocessing_templates/Notice/CO28/CO28-FO.xml,v $ -->
+<!--  -->
+<!-- AUTHOR: $Author: ian $-->
+<!--  -->
+<!-- DATE: $Date: 2006/06/02 12:16:49 $ -->
+<!--  -->
+<!-- Version: $Revision: 1.13 $ -->
+<!--  -->
+<!-- DESCRIPTION: This stylesheet is used to create an XSL:FO document that -->
+<!-- can be processed into a PDF version.  Business logic -->
+<!-- is embedded to generate the correct document text for the order -->
+<!-- required. -->
+<!--  -->
+<!-- INPUTS: XML document containing: the answers to questions asked of the -->
+<!-- user; case data retrieved from the database; HTML representing the  -->
+<!-- body of the document content (already edited by the user). -->
+<!--  -->
+<!-- OUTPUTS: XML document with FO tags containing instructions for the -->
+<!-- creation of a PDF document. -->
+<!--  -->
+<!-- ====================================================================== -->
+<root xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:fo="http://www.w3.org/1999/XSL/Format" xmlns="http://eds.com/supsfo">
+	<variables>@word.processing.url.xsl@supsfo.xsl</variables>
+	<addressee>
+			<blank/>
+			<creditor/>
+			<debtor/>
+			<employer sic='true'/>	
+	</addressee>
+	<header>
+		<fo:block font-size="16pt" font-weight="bold">Order deleting Debt from</fo:block>
+		<fo:block font-size="16pt" font-weight="bold">Administration Order</fo:block>
+	</header>
+	<courtcase>
+		<court>
+			<xsl:copy-of select="$vdCourtHeaderBlock"/>
+		</court>
+		<caseparameters>
+			<parameter>
+				<name>
+					<fo:block font-weight="bold">Administration Order Number</fo:block>
+				</name>
+				<value>
+					<fo:block>
+						<xsl:value-of select="$vdCONumber"/>
+					</fo:block>
+				</value>
+			</parameter>
+			<parameter>
+				<name>
+					<fo:block font-weight="bold">Creditor</fo:block>
+					<fo:block font-size="9pt">(including ref.)</fo:block>
+				</name>
+				<value>
+					<xsl:call-template name="display-creditor-name-and-reference-template">
+						<xsl:with-param name="addressee">
+							<xsl:value-of select="$addressee"/>
+						</xsl:with-param>
+					</xsl:call-template>					
+				</value>
+			</parameter>				
+			<parameter>
+				<name>
+					<fo:block font-weight="bold">Debtor</fo:block>
+				</name>
+				<value>
+					<fo:block hyphenate="true">
+						<xsl:value-of select="$vdCODebtorName"/>
+					</fo:block>
+				</value>
+			</parameter>
+		</caseparameters>
+	</courtcase>
+	<bodyintroright><fo:block><fo:inline text-align="center"><seal/></fo:inline></fo:block></bodyintroright>
+	
+	<body>
+	<editable useid="N100A7">
+		<fo:block font-weight="bold">
+			Before <xsl:value-of select="$vdJudge"/> sitting at <xsl:value-of select="$vdHearingAtCourtNameDescription"/>, <xsl:value-of select="$vdHearingAtCourtAddress"/>
+		</fo:block>
+		<fo:block space-after="0.4cm">
+			<xsl:value-of select="$vdCOHearingAttendees"/>
+		</fo:block>
+		<fo:block font-weight="bold">
+			IT IS ORDERED THAT
+		</fo:block>
+		<xsl:if test="string-length($vdMoneyInCourt) > 0">
+			<fo:block space-after="0.4cm">
+				<xsl:value-of select="$vdMoneyInCourt"/>
+			</fo:block>
+		</xsl:if>
+		<fo:block>
+			the following debt be deleted from this Administration Order -
+		</fo:block>
+		<fo:block space-after="0.4cm">
+			<fo:table table-layout="fixed">
+				<fo:table-column column-width="2.0cm"/>
+				<fo:table-column column-width="9.64cm"/>
+				<fo:table-column column-width="7.64cm"/>
+				<fo:table-body>
+					<fo:table-row>
+						<fo:table-cell/>
+						<fo:table-cell>
+							<fo:block>
+								Creditor
+							</fo:block>
+						</fo:table-cell>
+						<fo:table-cell>
+							<fo:block>
+								Amount of Debt
+							</fo:block>
+						</fo:table-cell>
+					</fo:table-row>
+					<fo:table-row>
+						<fo:table-cell/>
+						<fo:table-cell>
+							<fo:block>
+								<xsl:value-of select="$vdRemovedDebtorName"/>
+							</fo:block>
+						</fo:table-cell>
+						<fo:table-cell>
+							<fo:block>
+								&#163;<xsl:value-of select="$vdRemovedDebtorAmount"/>
+							</fo:block>
+						</fo:table-cell>
+					</fo:table-row>
+				</fo:table-body>
+			</fo:table>
+		</fo:block>
+		<xsl:if test="string-length($vdCostsText) > 0">
+			<fo:block space-after="0.4cm">
+				<xsl:copy-of select="$vdCostsText"/>
+			</fo:block>
+		</xsl:if>
+		<fo:block text-align="right" space-after="0.4cm">
+			<fo:inline font-weight="bold">Dated </fo:inline><xsl:value-of select="$vdEventDate"/>
+		</fo:block>
+		<fo:block space-after="0.4cm">
+			<fo:inline font-weight="bold">It is ordered </fo:inline>that the debtor pay into the court the debts listed in the schedule below <xsl:value-of select="$vdCompType"/> by <xsl:value-of select="$vdInstallmentPeriod"/>ly
+			instalments of <xsl:value-of select="$vdCOInstalmentAmount"/> until this order is satisfied, the first instalment to be paid by <xsl:value-of select="$vdOrderFirstPaymentDate"/>
+		</fo:block>
+		</editable>		
+		<fo:block>
+			<fo:table table-layout="fixed">
+				<fo:table-column column-width="2.5cm"/>
+				<fo:table-column column-width="9.64cm"/>
+				<fo:table-column column-width="4.64cm"/>
+				<fo:table-column column-width="2.5cm"/>
+				<fo:table-body>
+					<fo:table-row>
+						<fo:table-cell/>
+						<fo:table-cell padding-left="0.02cm" padding-right="0.02cm" border-top-style="solid" border-top-width="0.02cm" border-left-style="solid" border-left-width="0.02cm" border-right-style="solid" border-right-width="0.02cm">
+							<fo:block text-align="center" font-weight="bold">Name of Creditor</fo:block>
+						</fo:table-cell>
+						<fo:table-cell padding-left="0.02cm" padding-right="0.02cm" border-top-style="solid" border-top-width="0.02cm" border-left-style="solid" border-left-width="0.02cm" border-right-style="solid" border-right-width="0.02cm">
+							<fo:block text-align="center" font-weight="bold">&#163; Amount</fo:block>
+						</fo:table-cell>
+						<fo:table-cell/>
+					</fo:table-row>
+							<xsl:copy-of select="$vdDebtorTableDeleted"/>
+				</fo:table-body>
+			</fo:table>
+		</fo:block>
+		
+		<fo:block space-after="0.4cm">
+			<fo:table table-layout="fixed">
+				<fo:table-column column-width="2.5cm"/>
+				<fo:table-column column-width="9.64cm"/>
+				<fo:table-column column-width="4.64cm"/>
+				<fo:table-column column-width="2.5cm"/>
+				<fo:table-body>
+					<fo:table-row>
+						<fo:table-cell/>
+						<fo:table-cell>
+							<fo:block>
+								Fees due to the court for carrying out this order
+							</fo:block>
+						</fo:table-cell>
+						<fo:table-cell>
+							<fo:block text-align="right" border-top-style="solid" border-top-width="0.02cm" border-left-style="solid" border-left-width="0.02cm" border-right-style="solid" border-right-width="0.02cm">
+<xsl:value-of select="$vdFeeAmount"/>
+							</fo:block>
+						</fo:table-cell>
+						<fo:table-cell/>
+					</fo:table-row>
+					<fo:table-row>
+						<fo:table-cell/>
+						<fo:table-cell>
+							<fo:block font-weight="bold">
+								TOTAL
+							</fo:block>
+						</fo:table-cell>
+						<fo:table-cell>
+							<fo:block text-align="right" border-top-style="solid" border-top-width="0.02cm" border-left-style="solid" border-left-width="0.02cm" border-right-style="solid" border-right-width="0.02cm" border-bottom-width="0.02cm" border-bottom-style="solid">
+								<xsl:value-of select="$vdOsNomicBalance"/>
+							</fo:block>
+						</fo:table-cell>
+						<fo:table-cell/>
+					</fo:table-row>
+				</fo:table-body>
+			</fo:table>
+		</fo:block>
+	</body>
+	<defaultFooter id="CO28" CO="true"/>
+</root>

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--Question xmlns="http://eds.com/questionxhtml" xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd"-->
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>Q_EmployeeStatus</Id>
+	<Label>Employee Status</Label>
+	<ObjectName>EmployeeStatus</ObjectName>
+	<Html>
+		<select id="EmployeeStatus">
+			<option value=""></option>
+			<option value="UF">SHE IS UNEMPLOYED</option>
+			<option value="UM">HE IS UNEMPLOYED</option>
+			<option value="SF">SHE IS SELF EMPLOYED</option>
+			<option value="SM">HE IS SELF EMPLOYED </option>
+		</select>
+	</Html>
+	<Javascript>
+		<XPath>/ds/var/page/OracleReportForm/EmployeeStatus</XPath>
+		<ReportVariableName>EMP_STATUS</ReportVariableName>
+		<ReportVariableValue>Services.getValue(EmployeeStatus.dataBinding)</ReportVariableValue>
+		<ReportVariableCode>12595</ReportVariableCode>
+		<HintText>Enter whether he/she is unemployed/self employed</HintText>
+		<isMandatory>return true;</isMandatory>
+		<initialise></initialise>
+		<setDefault>
+		</setDefault>		
+		<validateOn>
+		</validateOn>
+	</Javascript>
+</Question>

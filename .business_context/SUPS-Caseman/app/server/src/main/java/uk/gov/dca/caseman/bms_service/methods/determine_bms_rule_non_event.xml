@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<service-method>
+	<pipeline>
+		<Java>
+			<Source class="uk.gov.dca.caseman.bms_service.java.BMSNonEventBusinessHelperCustomProcessor"/>
+		</Java>
+	</pipeline>
+	<Dependencies>
+		<Dependency serviceName="NonWorkingDay"/>		
+		<Dependency serviceName="Warrant"/>		
+		<Dependency serviceName="SystemDate"/>
+		<Dependency serviceName="Case"/>		
+	</Dependencies>		
+	<Security roles="user"/>
+</service-method>

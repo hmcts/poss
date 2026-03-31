@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<QueryDef>
+  <DBMapDef location="uk/gov/dca/caseman/ae_service/map_employer_details.xml"/>    
+    <Query pivotNode="/Employers/Employer" tables="P">
+	  <Join/>
+      <Modify>
+            <!--Field name="P.PARTY_ID" sequenceTable="PARTIES_SEQUENCE"/--> 
+            <Field name="P.PARTY_ID" xpath="PartyId"/>            
+			<Field name="P.PERSON_REQUESTED_NAME" xpath="PersonRequestedName"/>
+			<Field name="P.PARTY_TYPE_CODE" xpath="TypeCode"/>
+			<Field name="P.TEL_NO" xpath="ContactDetails/TelephoneNumber"/>
+			<Field name="P.FAX_NUMBER" xpath="ContactDetails/FaxNumber"/>
+			<Field name="P.EMAIL_ADDRESS" xpath="ContactDetails/EmailAddress"/>
+      </Modify>
+    </Query>
+ <!--   <Query pivotNode="/Employer/ContactDetails/Addresses/Address" tables="GA">
+	  <Join/>
+        <Modify>
+            <Field name="GA.ADDRESS_ID" sequenceTable="ADDR_SEQUENCE"/>
+			<Field name="GA.ADDRESS_TYPE_CODE" xpath="TypeCode"/>
+			<Field name="GA.ADDRESS_LINE1" xpath="Line[1]"/>
+			<Field name="GA.ADDRESS_LINE2" xpath="Line[2]"/>
+			<Field name="GA.ADDRESS_LINE3" xpath="Line[3]"/>
+			<Field name="GA.ADDRESS_LINE4" xpath="Line[4]"/>
+			<Field name="GA.ADDRESS_LINE5" xpath="Line[5]"/>
+			<Field name="GA.POSTCODE" xpath="PostCode"/>
+			<Field name="GA.VALID_FROM" xpath="ValidFrom"/>
+			<Field name="GA.VALID_TO" xpath="ValidTo"/>
+			<Field name="GA.REFERENCE" xpath="Reference"/>
+			<Field name="GA.PARTY_ID" property="P.PARTY_ID"/>
+		</Modify>
+    </Query>
+-->
+</QueryDef>

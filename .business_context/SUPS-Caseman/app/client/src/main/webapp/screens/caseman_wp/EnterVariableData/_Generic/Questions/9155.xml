@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>9155</Id>
+	<Label>Date of service</Label>
+	<ObjectName>ServiceDate</ObjectName>
+	<Html>
+	    <script type="text/javascript">WP_DatePickerRenderer.createInline("ServiceDate", false);</script>	                                  
+	</Html>	
+	
+
+	<Javascript>
+		<XPath>/ds/EnterVariableData/ServiceDate</XPath>
+		<HintText>Enter date of service, in format DD-MMM-YYYY</HintText>
+		<mandatoryOn>ServiceDate.dataBinding</mandatoryOn>
+		<isMandatory>return true;</isMandatory> 
+		<enableOn>OrderProcess.dataBinding</enableOn>
+		<isEnabled>
+			var v1 = Services.getValue(OrderProcess.dataBinding);	
+			return ("2" == v1);
+		</isEnabled>
+		<logicOn>OrderProcess.dataBinding</logicOn>
+		<logic>
+			if("2" != Services.getValue(OrderProcess.dataBinding))
+			{	
+				Services.setValue(ServiceDate.dataBinding, "");
+			}
+		</logic>
+		<transformToModel>
+			return transformDateToModel(value);
+		</transformToModel>
+		<transformToDisplay>
+			if (value != null)
+			{
+				if (value.search(CaseManValidationHelper.YYYYMMDD_DATE_PATTERN) != -1)
+				{
+					return CaseManUtils.convertDateToDisplay(value);
+				}
+			}
+			return value;
+		</transformToDisplay>	
+		<validateOn>ServiceDate.dataBinding</validateOn>
+		<validate>
+			// Date cannot be in the past
+           	return isInFuture(Services.getValue(ServiceDate.dataBinding),"false");
+ 		</validate>			
+	</Javascript>	
+	
+</Question>

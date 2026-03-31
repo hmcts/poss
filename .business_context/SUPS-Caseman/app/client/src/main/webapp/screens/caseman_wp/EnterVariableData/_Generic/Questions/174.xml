@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>174</Id>
+	<Label>What documents are to be filed?</Label>
+	<ObjectName>DocsFiled</ObjectName>
+	<Html>	
+		<select id="DocsFiled">
+			<option value=""></option>
+			<option value="D">Defence</option>
+			<option value="DCC">Defence to counterclaim</option>
+			<option value="CC">Counterclaim</option>
+			<option value="AD">Amended defence</option>			
+			<option value="ACC">Amended counterclaim</option>			
+			<option value="ADCC">Amended defence to counterclaim</option>
+			<option value="RD">Reply to defence</option>
+			<option value="RDCC">Reply to defence to counterclaim</option>			
+			<option value="OTH">Other</option>						
+		</select>
+	</Html>
+	<Javascript>
+		<XPath>/ds/EnterVariableData/FastTrack/docsFiled</XPath>
+		<HintText>What documents are to be filed</HintText>
+		<isMandatory>return true;</isMandatory>	
+		<enableOn>FurtherStatementReqd.dataBinding</enableOn>
+		<isEnabled>return('Y' == Services.getValue(FurtherStatementReqd.dataBinding));</isEnabled>
+		<logicOn>FurtherStatementReqd.dataBinding</logicOn>
+		<logic>
+			if('Y' != Services.getValue(FurtherStatementReqd.dataBinding))
+			{	Services.setValue(DocsFiled.dataBinding,"");
+			}
+		</logic>
+		
+		<Context ScreenId="CJR060">
+			<HintText>Select what documents are to be filed</HintText>
+		</Context>
+	</Javascript>
+</Question>

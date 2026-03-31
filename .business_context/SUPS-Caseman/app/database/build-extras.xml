@@ -1,0 +1,37 @@
+<!-- ===========================================================================
+ = MCOL
+ =
+ = Name:    	build.xml
+ = Description: Build file to build extra artefacts specific to a particular project.
+ =
+ = $Revision: $
+ = $Author: $
+ = $Date: $
+ = $URL: $
+ =
+ = Copyright Logica UK Ltd. 2012
+ =========================================================================== -->
+
+<project name="batch-extras" basedir=".">
+
+	<property name="component.name" value="mcol-db.zip" />
+
+	<import file="../build/build-setup-env.xml" />
+
+	<!-- Calls extra build deploy targets required by this project. -->
+	<target name="deploy-extras" depends="" description="Run extra targets for this project">
+		<if>
+			<isset property="mig.release"/>
+			<then>
+				<zip destfile="target/${component.name}">
+					<fileset dir="mig/production/">
+						<include name="**/${mig.release}*/*"/>
+					</fileset>
+					<fileset dir="data/base">
+						<include name="mcol.application_message.csv"/>
+					</fileset>
+				</zip>
+			</then>
+		</if>
+	</target>
+</project>

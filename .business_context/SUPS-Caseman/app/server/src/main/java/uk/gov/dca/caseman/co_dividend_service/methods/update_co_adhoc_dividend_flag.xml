@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: CoDividend
+	Method:  updateCoAdhocDividendFlag()
+	File:    update_co_adhoc_dividend_flag.xml
+	Author:  Chris Vincent
+	Created: 
+	Description: 
+		Sets the ADHOC_DIVIDEND flag on the CONSOLIDATED_ORDERS table to 'Y' for all of the CO 
+		records passed in.
+-->
+<service-method>
+	<pipeline>
+		<Update>
+			<QueryDef location="uk/gov/dca/caseman/co_dividend_service/query_def_update_co_adhoc_dividend_flag.xml"/>
+			<DataSource xpath="/params/param[@name='coList']"/>
+			<QueryExtension pivotNode="/ConsolidatedOrderList/ConsolidatedOrder">
+				<CheckExists table="CO" fields="ADMIN_COURT_CODE CO_NUMBER" onNotExist="fail" onExist="update"/>
+				<SQL type="update" tables="CO">
+					UPDATE CONSOLIDATED_ORDERS CO 
+					SET    CO.ADHOC_DIVIDEND = 'Y'
+					WHERE  CO.ADMIN_COURT_CODE = ${CO.ADMIN_COURT_CODE}
+					AND    CO.CO_NUMBER   = ${CO.CO_NUMBER}
+				</SQL>
+			</QueryExtension>
+		</Update>
+	</pipeline>	
+	<Security roles="viewOnly medium high wcSuper scSuper bmsSuper aeSuper dmSuper edsAdmin cpSuper"/>		
+</service-method>

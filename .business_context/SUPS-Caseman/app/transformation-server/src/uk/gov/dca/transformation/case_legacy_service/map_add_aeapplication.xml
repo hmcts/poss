@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<DBMapDef>
+	<DataSource id="java:OracleDS"/>
+	<Tables>
+		<Table alias="AEA" name="AE_APPLICATIONS"/>
+	</Tables>
+	<Mapping>				
+		<AEApplications>
+			<AEApplication>
+				<AEAppNo>${AEA.AE_NUMBER}</AEAppNo>
+				<AEAppCaseNumber>${AEA.CASE_NUMBER}</AEAppCaseNumber>
+				<AEAppType>${AEA.AE_TYPE}</AEAppType>
+				<AEAppReceiptDate>${AEA.DATE_OF_RECEIPT}</AEAppReceiptDate>
+				<AEAppCreationDate>${AEA.DATE_OF_CREATION}</AEAppCreationDate>
+				<AEAppIssueDate>${AEA.DATE_OF_ISSUE}</AEAppIssueDate>
+				<AEAppAmount>${AEA.AMOUNT_OF_AE}</AEAppAmount>
+				<AEAppDefendantID>${AEA.DEFENDANT_ID}</AEAppDefendantID>
+				<AEAppJudgSeq>${AEA.JUDG_SEQ}</AEAppJudgSeq>
+				<AEAppOccupation>${AEA.DEBTOR_OCCUPATION}</AEAppOccupation>
+				<AEAppPayrollNo>${AEA.PAYROLL_NUMBER}</AEAppPayrollNo>
+				<AEAppEmployer>${AEA.NAMED_EMPLOYER}</AEAppEmployer>
+				<AEAppAEFee>${AEA.AE_FEE}</AEAppAEFee>
+				<AEAppPERate>${AEA.PROTECTED_EARNINGS_RATE}</AEAppPERate>
+				<AEAppPEPeriod>${AEA.PROTECTED_EARNINGS_PERIOD}</AEAppPEPeriod>
+				<AEAppDeductionRate>${AEA.NORMAL_DEDUCTION_RATE}</AEAppDeductionRate>
+				<AEAppDeductionReiod>${AEA.NORMAL_DEDUCTION_PERIOD}</AEAppDeductionReiod>
+				<AEAppCAPSSeq>${AEA.CAPS_SEQUENCE}</AEAppCAPSSeq>
+				<AEAppCrtCode>${AEA.ISSUING_CRT_CODE}</AEAppCrtCode>
+			</AEApplication>
+		</AEApplications>
+	</Mapping>
+</DBMapDef> 	

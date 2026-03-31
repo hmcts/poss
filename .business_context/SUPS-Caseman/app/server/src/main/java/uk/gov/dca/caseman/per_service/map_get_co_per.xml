@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- edited with XMLSPY v5 rel. 3 U (http://www.xmlspy.com) by Phil Haferer (Electronic Data Systems LTD) -->
+<!--
+	Service: Per
+	Method:  getCoPer()
+	File:    map_get_co_per.xml
+	Author:  Phil Haferer (EDS), Ian Stainer (Valtech)
+	Created: 01 July 2005
+	Description: 
+		The 'Mapping' for retrieving consolidated orders protected earnings rate details.
+-->
+<DBMapDef>
+	<DataSource id="java:OracleDS"/>
+	<Tables>
+		<Table alias="CO"   name="CONSOLIDATED_ORDERS"/>
+		<Table alias="CPI"  name="CO_PER_ITEMS"/>
+		<Table alias="PER"  name="PER_DETAILS"/>
+	</Tables>
+	<Mapping>
+		<ds>
+			<CalculatePER>
+				<CONumber>${CO.CO_NUMBER}</CONumber>
+				<Event857Count>${EVENT857_COUNT}</Event857Count>				
+				<TotalStatus>${CO.CO_TOTAL_EXISTS}</TotalStatus>				
+				<COType>${CO.CO_TYPE}</COType>		
+				<DebtorName>${CO.DEBTOR_NAME}</DebtorName>
+				<CalculatedRate>${CO.PROTECTED_EARNINGS_RATE}</CalculatedRate>
+				<CalculatedPeriod>${CO.FREQUENCY}</CalculatedPeriod>
+				<PerDetail>
+					<PerSeq>${CPI.CO_PER_SEQ}</PerSeq>
+					<SurrogateId>${CPI.CO_PER_SEQ}</SurrogateId>
+					<Status>${EXISTING_VALUE}</Status>
+					<Code>${CPI.DETAIL_CODE}</Code>
+					<Group>${PER.PER_GROUP}</Group>
+					<Description>${PER.PROMPT}</Description>
+					<DefaultAllowance>${CPI.ITEM_VALUE}</DefaultAllowance>
+					<DefaultAllowanceCurrency>${CPI.ITEM_VALUE_CURRENCY}</DefaultAllowanceCurrency>
+					<Number>${CPI.ITEM_COUNT}</Number>
+					<Amount>${CPI.AMOUNT_ALLOWED}</Amount>
+					<AmountCurrency>${CPI.AMOUNT_ALLOWED_CURRENCY}</AmountCurrency>
+					<DateEntered>${CPI.DATE_ENTERED}</DateEntered>
+					<CreatedBy>${CPI.USERNAME}</CreatedBy>
+					<DeleteFlag>${CPI.ERROR_INDICATOR}</DeleteFlag>
+					<Category>${PER.PER_CATEGORY}</Category>
+				</PerDetail>
+			</CalculatePER>
+		</ds>
+	</Mapping>
+</DBMapDef>

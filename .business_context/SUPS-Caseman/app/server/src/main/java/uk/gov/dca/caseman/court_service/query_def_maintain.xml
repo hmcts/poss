@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: Court
+	Method:  getCourtMaintain
+	File:    query_def_maintain.xml
+	Author:  Chris Vincent (EDS)
+	Created: 24 November 2005
+	Description: Retrieves the data for a court for use on the maintain court data screen.
+-->
+<QueryDef>
+  <DBMapDef location="uk/gov/dca/caseman/court_service/map_maintain.xml"/>
+  <Query pivotNode="/ds/Court" tables="P CT">
+  	<LinkedJoin type="root" key="CT.CODE">
+	<Join>
+		P.CRT_CODE = CT.CODE
+    </Join>	
+    </LinkedJoin>
+  </Query>
+  <Query pivotNode="/ds/Court/ContactDetails/Addresses/Address" tables="GA">
+  	<LinkedJoin type="query" key="GA.ADDRESS_ID">
+  		<Parent key="CT.CODE" tables="CT"/>
+		<Join>
+			GA.COURT_CODE = CT.CODE
+        	AND GA.VALID_TO IS NULL
+        	AND 
+			(
+				GA.ADDRESS_TYPE_CODE = 'COURTHOUSE' 
+				OR GA.ADDRESS_TYPE_CODE = 'OFFICE' 
+				OR GA.ADDRESS_TYPE_CODE = 'WELSH_OFFICE'
+			)
+    	</Join>
+    </LinkedJoin>
+  </Query>
+  <Query pivotNode="/ds/Court/GroupingCourtStatus/IsGroupingCourt" tables="CT">
+		<SQL type="select">
+			SELECT	DECODE(COUNT(*),0,'N','Y') AS "CT.IS_GROUPING_CRT"
+			  FROM	COURTS CT2
+			  WHERE CT2.WFT_GROUPING_COURT = ${param.courtCode}
+			  AND 	NVL(CT2.CASEMAN_INSERVICE,'N') = 'Y'
+			  AND	NVL(CT2.SUPS_CENTRALISED_FLAG,'N') = 'Y'
+		</SQL>
+		<Modify notModifiable="true"/>
+	</Query>
+</QueryDef>

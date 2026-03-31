@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: Payments
+	Method: updatePassthroughCoEvent()
+	File: update_passthrough_co_event.xml
+	Author: Tony White
+	Description:
+		Updates the error flag on a CO Event.
+-->
+<service-method>	
+	<pipeline>		
+		<SQLLite format-output="true"
+				 resultset-element="ds"
+				 row-element="COEvent"
+				 field-name-as="element" >
+			<DataSource id="java:OracleDS"/>
+			<Param name="param.eventSeq" xpath="/params/param[@name = 'eventSeq']"/>
+			<Param name="param.errorInd" xpath="/params/param[@name = 'errorInd']"/>
+			<SQL type="update" tables="COE">
+				UPDATE CO_EVENTS COE
+				SET COE.ERROR_INDICATOR = ${param.errorInd}
+				WHERE COE.CO_EVENT_SEQ = ${param.eventSeq}				
+			</SQL>
+		</SQLLite>
+	</pipeline>
+	<Security roles="medium high wcSuper scSuper bmsSuper aeSuper dmSuper" />
+</service-method>

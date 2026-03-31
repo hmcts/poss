@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<QueryDef>
+	<DBMapDef location="uk/gov/dca/caseman/counter_verification_service/map_payments_by_user_exists.xml" />
+	<Query pivotNode="/PaymentsFound" tables="P">
+		<SQL type="select">
+			SELECT COUNT(P.CREATED_BY) AS "NO_RECORDS_FOUND" FROM PAYMENTS P
+			WHERE ${param.inputBy} = P.CREATED_BY
+			AND P.DATE_ENTERED = TRUNC(SYSDATE)
+			AND P.ADMIN_COURT_CODE = ${param.adminCourtCode}
+		</SQL>
+		<Modify notModifiable="true"/>
+	</Query>
+</QueryDef> 

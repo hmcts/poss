@@ -1,0 +1,43 @@
+################################################################################
+#
+# DISC SUPS
+# Copyright Logica UK Ltd. 2008
+#
+# $Revision: 684 $
+# $Author: compstonr $
+# $Date: 2008-09-29 16:35:38 +0100 (Mon, 29 Sep 2008) $
+#
+# Example test properties template file. 
+#
+# This file is templatised and needs to be configured by the ANT task 
+# 'configure-property-files'. This task takes properties defined in the 
+# local.properties file and applies them to the test.properties.template, 
+# creating the test.properties file in the same location.
+#
+################################################################################
+
+# Properties file for the TEC shakedown test
+# This file (and also associated Tec test files) will be moved across to the TEC repository
+
+selenium.host=localhost
+selenium.port=4444
+selenium.url=http://localhost/
+
+caseman.url=caseman/screens/caseman_menu/index.html?logging=0&wpPRTwp=true&wpDBGwp=false&wpPRTora=true
+caseman.admin.user=azhnn1
+caseman.admin.pass=password
+caseman.nonadmin1.user=azmnn1
+caseman.nonadmin1.pass=password
+caseman.nonadmin2.user=azgnn1
+caseman.nonadmin2.pass=password
+caseman.test.user=azdnn1
+caseman.test.pass=password
+caseman.default.password=password
+
+db.driver=oracle.jdbc.OracleDriver
+db.user=${cm.db.user}
+db.pass=${cm.db.pass}
+db.url=${cm.db.url}
+db.sid=not used
+db.setctx.cmd={call set_sups_app_ctx('azhnn1','335','Selenium Test Fix')}
+db.dtd=./test/java/uk/gov/dca/utils/tests/BASE_CM.dtd

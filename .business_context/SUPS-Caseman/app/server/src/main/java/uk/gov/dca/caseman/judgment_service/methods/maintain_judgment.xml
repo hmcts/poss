@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- 
+	Service: Judgment
+	Method:  maintainJudgment()
+	File:    maintain_judgment.xml
+	Author:  Chris Hutt
+	Created: 2 march 2005
+	Description: 
+		Update judgment, associated updates and create event(s) associated with changes made
+	Change History:
+		18/10/2013 - Chris Vincent, Trac 4997.  Added UpdateCaseEvent160ResultRefusedCustomProcessor to handle
+					 CCBC MCOL inserts when App Set Aside set to REFUSED.  Required for CCBC SDT.
+--> 
+<service-method>
+	<pipeline>
+		<Add>
+			<QueryDef location="uk/gov/dca/caseman/judgment_service/query_def_modify_judgment.xml"/>
+			<DataSource xpath="/params/param[@name='JudgmentSequence']"/>
+			<QueryExtension pivotNode="/ds/MaintainJudgment/Parties/Party">
+				<CheckExists table="CPR" fields="case_number party_id party_role_code" onNotExist="skip" onExist="update"/>
+			</QueryExtension>
+			<QueryExtension pivotNode="/ds/MaintainJudgment/Judgments/Judgment">
+				<CheckExists table="J" fields="judg_seq" onNotExist="add" onExist="update"/>
+			</QueryExtension>
+			<QueryExtension pivotNode="/ds/MaintainJudgment/Judgments/Judgment/ApplicationsToVary/Variation">
+				<CheckExists table="V" fields="vary_seq" onNotExist="add" onExist="update"/>
+			</QueryExtension>
+			<QueryExtension pivotNode="/ds/MaintainJudgment/Judgments/Judgment/JudgmentHearing/Hearing">
+				<CheckExists table="H" fields="hrg_seq" onNotExist="add" onExist="skip"/>
+			</QueryExtension>
+			<QueryExtension pivotNode="/ds/MaintainJudgment/Judgments/Judgment/InFavourParties/Party">
+				<CheckExists table="IP" fields="judg_seq party_role_code case_party_no case_number" onNotExist="add" onExist="skip"/>
+			</QueryExtension>
+			<QueryExtension pivotNode="/ds/MaintainJudgment/Judgments/Judgment/ApplicationsToSetAside/Application">
+				<CheckExists table="CE" fields="event_seq" onNotExist="skip" onExist="update"/>
+			</QueryExtension>			
+		</Add>
+		
+		<Java>
+			<Source class="uk.gov.dca.caseman.case_event_service.java.InsertCaseEvent160JudgRecSetAsideCustomProcessor"/>
+		</Java>
+		<Java>
+			<Source class="uk.gov.dca.caseman.case_event_service.java.InsertCaseEvent140ApplicationToVaryJudgmentCustomProcessor"/>
+		</Java>
+		<Java>
+			<Source class="uk.gov.dca.caseman.case_event_service.java.InsertCaseEvent150VariationResultGrantedCustomProcessor"/>
+		</Java>
+		<Java>
+			<Source class="uk.gov.dca.caseman.case_event_service.java.InsertCaseEvent155VariationResultDeterminedCustomProcessor"/>
+		</Java>
+		<Java>
+			<Source class="uk.gov.dca.caseman.case_event_service.java.InsertCaseEvent170SetAsideGrantedCustomProcessor"/>
+		</Java>
+		<Java>
+			<Source class="uk.gov.dca.caseman.case_event_service.java.InsertCaseEvent200ApplicationToVaryHearingCustomProcessor"/>
+		</Java>
+		<Java>
+			<Source class="uk.gov.dca.caseman.case_event_service.java.InsertCaseEvent375RegistrationDateEnteredCustomProcessor"/>
+		</Java>
+		<Java>
+			<Source class="uk.gov.dca.caseman.case_event_service.java.InsertCaseEvent600ChangeJudgStatusCustomProcessor"/>
+		</Java>
+		<Java>
+			<Source class="uk.gov.dca.caseman.case_event_service.java.InsertCaseEvent79FinalPaymentEnteredCustomProcessor"/>
+		</Java>
+		<Java>
+			<Source class="uk.gov.dca.caseman.case_event_service.java.InsertCaseEvent55ApplicationToVaryObjectorCustomProcessor"/>
+		</Java>
+		<Java>			
+			<Source class="uk.gov.dca.caseman.case_event_service.java.UpdateCaseEvent140ResultRefusedCustomProcessor"/>
+		</Java>
+		<Java>			
+			<Source class="uk.gov.dca.caseman.case_event_service.java.UpdateCaseEvent160ResultRefusedCustomProcessor"/>
+		</Java>
+		<Java callStyle="new">
+			<Source class="uk.gov.dca.caseman.case_event_service.java.InsertCaseEvent236JudgAmendedAfterRegCustomProcessor"/>
+		</Java>		
+	</pipeline>
+	
+	<Dependencies>
+		<Dependency serviceName="CaseEvent"/>	
+		<Dependency serviceName="Warrant"/>	
+		<Dependency serviceName="WarrantReturns"/>
+		<Dependency serviceName="Ccbc"/>
+		<Dependency serviceName="SystemDate"/>	
+	</Dependencies>
+	
+	<Security roles="medium high wcSuper scSuper bmsSuper aeSuper dmSuper cpSuper ccbcMan ccbcUser ccbcSGB2"/>
+</service-method>

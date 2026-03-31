@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- ====================================================================== -->
+<!--  -->
+<!-- FILENAME: $Source: C:/CVSRepository/serveroas/src/uk/gov/dca/caseman/wordprocessing_templates/Notice/O_10_2/O_10_2-FO.xml,v $ -->
+<!--  -->
+<!-- AUTHOR: $Author: conganer $-->
+<!--  -->
+<!-- DATE: $Date: 2006/04/25 10:28:03 $ -->
+<!--  -->
+<!-- Version: $Revision: 1.13 $ -->
+<!--  -->
+<!-- DESCRIPTION: This stylesheet is used to create an XSL:FO document that -->
+<!-- can be processed into a PDF version.  Business logic -->
+<!-- is embedded to generate the correct document text for the order -->
+<!-- required. -->
+<!--  -->
+<!-- INPUTS: XML document containing: the answers to questions asked of the -->
+<!-- user; case data retrieved from the database; HTML representing the  -->
+<!-- body of the document content (already edited by the user). -->
+<!--  -->
+<!-- OUTPUTS: XML document with FO tags containing instructions for the -->
+<!-- creation of a PDF document. -->
+<!--  -->
+<!-- 
+@author Sandeep Mullangi
+@version 0.1
+Change Hisstory
+Oct 27, 2008 Sandeep Mullangi - Printing insolvency number if present as part of RFC 486
+Apr 17, 2009 Mark Groen - Spelling mistake corrected in template: "pursuant to". See Trac #317 or QC defect #92
+-->
+<!-- ====================================================================== -->
+<root xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:fo="http://www.w3.org/1999/XSL/Format" xmlns="http://eds.com/supsfo">
+	<variables>@word.processing.url.xsl@supsfo.xsl</variables>
+	<layout>order</layout>
+	<duplex/>	
+	<addressee>
+		<blank/>
+		<debtorparty/>
+		<creditorparty/>
+		<company/>
+		<applicant/>
+		<petitioner/>
+		<trustee/>
+		<insolvencypractitioner/>
+		<officialreceiver/>
+	</addressee>
+	<header>
+		<fo:block font-size="10pt" font-weight="bold">Rule 5.10</fo:block>
+		<fo:block font-size="16pt" font-weight="bold">Interim Order of Court under</fo:block>
+		<fo:block font-size="16pt" font-weight="bold">Section 252 of the Insolvency Act 1986</fo:block>
+	</header>
+	<courtcase>
+		<court>
+			<xsl:copy-of select="$vdCourtHeaderBlock"/>
+		</court>
+		<caseparameters>
+			<!-- adding insolvency number-->
+            <parameter>
+                <name>
+                    <fo:block font-weight="bold">
+                        <xsl:choose>
+                            <xsl:when test="string-length($vdInsolvencyNumber) > 0">Insolvency Number</xsl:when>
+                            <xsl:otherwise>Case Number</xsl:otherwise>
+                        </xsl:choose>
+                    </fo:block>
+                </name>
+                <value>
+                    <fo:block>
+                        <xsl:choose>
+                            <xsl:when test="string-length($vdInsolvencyNumber) > 0">
+                                <xsl:value-of select="substring($vdInsolvencyNumber,1,4)"/> of <xsl:value-of select="substring($vdInsolvencyNumber,5,4)"/>
+                            </xsl:when>
+                            <xsl:otherwise>
+                                <xsl:value-of select="$vdClaimNumber"/>
+                            </xsl:otherwise>
+                        </xsl:choose>
+                    </fo:block>
+                </value>
+			</parameter>
+            <parameter>
+				<name>
+					<fo:block font-weight="bold">Debtor</fo:block>
+				</name>
+				<value>
+					<fo:block hyphenate="true">
+						<xsl:value-of select="$vdSubjectName"/>
+					</fo:block>
+				</value>
+			</parameter>
+		</caseparameters>
+	</courtcase>
+	
+	<body>
+		<editable useid="N10096">
+		<fo:block space-after="0.4cm" font-size="12pt">
+			In Bankruptcy
+		</fo:block>
+		<fo:block space-after="0.4cm">
+			Before <xsl:value-of select="$vdJudge"/>
+		</fo:block>
+		<fo:block space-after="0.4cm">
+			Upon the application of
+		</fo:block>	
+		<fo:block space-after="0.4cm">
+			<xsl:copy-of select="$vdInstigatorAddressMultiLine"/>
+		</fo:block>
+		<xsl:if test="string-length($vdHearingAttendees) > 0">
+			<fo:block space-after="0.4cm"><xsl:copy-of select="$vdHearingAttendees"/></fo:block>
+		</xsl:if>
+		<fo:block space-after="0.4cm">
+			And upon reading the evidence 
+		</fo:block>
+		<xsl:if test="string-length($vdNomine) > 0">
+			<fo:block space-after="0.4cm">
+				And upon the application of <xsl:value-of select="$vdNomine"/> the nominee, for an extension of the period for which the interim order shall have effect pursuant to Section 256(4) of the Insolvency Act 1986.
+			</fo:block>
+		</xsl:if>
+		<fo:block>
+			It is ordered that during the period of <xsl:value-of select="$vdExtensionPeriod"/> days beginning with the day after the date of this order and during any extended period for which this interim order has effect
+		</fo:block>
+ 	
+		<fo:block>
+			(i)  no bankruptcy petition relating to the above-named <xsl:value-of select="$vdSubjectName"/> (the debtor) may be presented or proceeded with and
+ 		</fo:block>
+
+		<fo:block space-after="0.4cm">
+			(ii)  no other proceedings, and no execution or other legal process, may be commenced or continued against the debtor or his property except with the leave of the Court
+		</fo:block>
+
+		<fo:block space-after="0.4cm">
+			And it is ordered that the report of the nominee be submitted and delivered by him to the court not later than <xsl:value-of select="$vdReportDeliveredBy"/>
+		</fo:block>
+
+		<xsl:if test="string-length($vdOrderS255) > 0">
+			<fo:block space-after="0.4cm">
+				And it is ordered that <xsl:copy-of select="$vdOrderS255"/>
+			</fo:block>
+		</xsl:if>
+
+		<fo:block space-after="0.4cm">
+			And it is ordered that <xsl:value-of select="$vdInterimOrderReasons"/>
+		</fo:block>
+			
+		<xsl:if test="$vdServedOnOR = 'Y'">
+			<fo:block space-after="0.4cm">
+				And it is ordered that the applicant forthwith serve a copy of this order on the official receiver
+			</fo:block>
+		</xsl:if>
+		 	
+		<fo:block space-after="0.4cm">
+			Date: <xsl:value-of select="$vdHearingDate1"/>
+ 		</fo:block>
+		<fo:block space-after="0.4cm"> 		
+			Time: <xsl:value-of select="$vdHearingTime"/>
+ 		</fo:block>
+			
+		<fo:block space-after="0.4cm">
+			at <xsl:value-of select="$vdHearingCourtNameDescription"/>, <xsl:value-of select="$vdHearingCourtAddress"/>
+ 		</fo:block>
+
+		<fo:block space-after="0.4cm">
+			be appointed for consideration of the nominee's report
+ 		</fo:block>
+
+		<fo:block space-after="0.2cm">
+			Dated <xsl:value-of select="$datetoday"/>
+ 		</fo:block>
+ 		</editable>
+ 	</body>
+	<defaultFooter id="O_10_2"/>
+</root>

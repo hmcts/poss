@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<DBMapDef>
+	<DataSource id="java:OracleDS"/>
+	<Tables>
+		<Table alias="H" name="HEARINGS"/>
+	</Tables>
+	<Mapping>
+        <insert_hearing>
+            <row>
+            	<HRG_SEQ>${H.HRG_SEQ}</HRG_SEQ>
+            	<HRG_DATE>${H.HRG_DATE}</HRG_DATE>
+            	<HRG_TIME>${H.HRG_TIME}</HRG_TIME>
+            	<HRG_TYPE>${H.HRG_TYPE}</HRG_TYPE>
+            	<CRT_CODE>${H.CRT_CODE}</CRT_CODE>
+            	<VENUE>${H.VENUE}</VENUE>
+    			<CASE_NUMBER>${H.CASE_NUMBER}</CASE_NUMBER>
+    			<ADDRESS_ID>${H.ADDRESS_ID}</ADDRESS_ID>
+            </row>
+        </insert_hearing>
+	</Mapping>
+</DBMapDef>

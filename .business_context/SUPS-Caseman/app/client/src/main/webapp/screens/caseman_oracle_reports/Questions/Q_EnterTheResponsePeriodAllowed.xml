@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--Question xmlns="http://eds.com/questionxhtml" xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd"-->
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>Q_EnterTheResponsePeriodAllowed</Id>
+	<Label>Enter the response period allowed</Label>
+	<ObjectName>EnterTheResponsePeriodAllowed</ObjectName>
+	<Html>
+		<input id="EnterTheResponsePeriodAllowed" type="text" size="3"></input>
+	</Html>
+	<Javascript>
+		<XPath>/ds/var/page/OracleReportForm/EnterTheResponsePeriodAllowed</XPath>
+		<ReportVariableName>REPORT_VALUE_3</ReportVariableName>
+		<ReportVariableValue>Services.getValue(EnterTheResponsePeriodAllowed.dataBinding)</ReportVariableValue>
+		<HintText>Response time allowed for this notification (in days)</HintText>
+		<isMandatory>return true;</isMandatory>
+		<maxLength>3</maxLength>		
+		<setDefault>
+			Services.setValue(EnterTheLengthOfCommittal.dataBinding, "8");
+		</setDefault>		
+		<validate>
+			var value = Services.getValue(this.dataBinding);
+			var errCode = null;
+			if (!CaseManUtils.isBlank(value)) {
+				errCode = CaseManValidationHelper.validatePattern(value, CaseManValidationHelper.NUMERIC_PATTERN, "CaseMan_Reports_Enter_Number");
+			}
+			return errCode;
+		</validate>
+	</Javascript>
+</Question>

@@ -1,0 +1,111 @@
+/*-------------------------------------------------------------------------------
+|
+| FILENAME	: Rel_8_Cman_Delta_v8.14.0_to_v8.14.1_release_note
+|
+| SYNOPSIS	: Summarises DDL actions to implement the Scalability changes and RFC521 
+|                 to the CaseMan schema.   |
+|		  
+|
+| $Author$:       Author of last commit
+|
+| CLIENT        : Ministry of Justice
+|
+| COPYRIGHT	: (c) 2009 Logica UK Ltd.
+|                 This file contains information which is confidential and of
+|                 value to Logica. It may be used only for the specific purpose for
+|                 which it has been provided. Logica's prior written consent is
+|                 required before any part is reproduced.
+|
+| COMMENTS	: Release Notes for CaseMan Schema v.8.14.1
+|
+|---------------------------------------------------------------------------------
+|
+| $Rev$:          Revision of last commit
+| $Date$:         Date of last commit
+| $Id:  $         Revision at last change
+|
+--------------------------------------------------------------------------------*/
+
+Summary
+
+The database changes are in five parts.  The first applies indexes against the 
+columns that are the source of some referential integrity constraints.  The 
+second applies indexes against columns used by a series of Oracle Reports used
+to compile the Start Of Day reports. The third applies the new MV
+required for QBP Case. The fourth script is to update the trigger on USER_ROLE 
+table and the last adds a script to create functional index on table wp_output.
+
+Operation
+
+Script(s) run from a SQL*Plus session as the CaseMan user.
+
+Script execution stops immediately at the first sign of an Oracle 
+or Operating System error.  
+
+A corresponding Log file is produced, with the naming convention 
+<script name>.log (unless otherwise stated).  The file contains 
+both progress (at best) and error information (at worst) and will 
+reside in the directory where the script was invoked 
+(unless otherwise specified).
+
+
+Items
+
+The table below lists scripts and purpose.  Script listing indicates 
+order of application.
+  
+Script              Description
+Rel_8_Cman_Delta_v8.14.0_to_v8.14.1.sql     
+		    
+1		    As Part of SCALABILITY PHASE 1 invokes three sql scripts that apply the changes 
+		    to the CaseMan schema. These scripts MissingFKIndexes.sql, SODIndexes.sql and 
+		    schemascripts_update.sql must reside in the same folder as this script, for 
+		    successful implementation.  
+
+		    MissingFKIndexes.sql applies schema updates to the following CaseMan tables:
+		    				
+		    AE_APPLICATIONS
+		    CANDIDATE_DIVIDEND_PAYMENTS
+		    CASE_EVENTS
+		    CO_EVENTS
+		    COPS_MERGE_FIELDS
+		    CPR_TO_CPR_RELATIONSHIP
+		    EVENT_OUTPUTS
+		    GIVEN_ADDRESSES
+		    JUDGMENTS
+		    OBLIGATIONS
+		    PAYABLE_ORDER_ITEMS
+		    REPRINTS
+		    REPORT_REPRINTS_XREF
+		    SUB_DETAIL_VARIABLES
+		    TASK_COUNTS
+		    USERS_PRINTERS
+		    WARRANTS
+		    WARRANT_RETURNS
+
+2                   SODIndexes.sql applies schema updates to the following CaseMan tables:
+		    
+		    AE_APPLICATIONS
+		    AE_EVENTS
+		    CASES
+		    CO_EVENTS
+		    
+		    schemascripts_update.sql updates the CaseMan configuration history.
+
+		    No parameters are required to run this script.
+
+
+3		    As part of SCALABILITY PHASE 2 merged with RFC0486 insolvency number changes, the 
+		    script ddl_trac_178.sql has to be applied. This Script replaces MV_CMAN_PARTIES and 
+		    MV_CMAN_PARTY_ADDRESSES with MV_QBP_CASE, V_CMAN_PARTIES and V_CMAN_PARTY_ADDRESSES. 
+		    See the script for more details.
+
+
+4		    As part of RFC0521 System Admin Functionality Change, the trigger for USER_ROLE table
+		    should be updated to audit insertion and deletion of admin role. This can be found 
+		    under triggers/cr_aud_user_role.sql.
+
+		    
+5		    Added script to create functional index on table wp_output. The functional index calls a 
+                    function xmlsource_numcheck which is also applied prior to index creation.	
+                    

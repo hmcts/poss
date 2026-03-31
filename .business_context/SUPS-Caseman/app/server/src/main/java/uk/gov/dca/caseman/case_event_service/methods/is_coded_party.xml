@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<service-method>
+	<pipeline>
+		<Query>
+			<QueryDef location="uk/gov/dca/caseman/case_event_service/query_def_is_coded_party.xml"/>
+			<QueryExtension pivotNode="/IsCodedParty">
+				<Param name="param.caseNumber" xpath="/params/param[@name = 'caseNumber']"/>
+				<Param name="param.partyRoleCode" xpath="/params/param[@name = 'partyRoleCode']"/>
+				<Param name="param.casePartyNumber" xpath="/params/param[@name = 'casePartyNumber']"/>
+			</QueryExtension>
+		</Query>
+	</pipeline>
+	<Security roles="user"/>
+</service-method>

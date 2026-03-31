@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- edited with XMLSPY v5 rel. 3 U (http://www.xmlspy.com) by Amjad Khan (Electronic Data Systems LTD) -->
+<DBMapDef>
+	<DataSource id="java:OracleDS"/>
+	<Tables>
+		<Table alias="TC" name="TASK_COUNTS"/>
+	</Tables>
+	<Mapping>
+		<ds>
+			<Task>
+				<TaskNumber>${TC.TASK_NUMBER}</TaskNumber>
+				<AgeCategory>${TC.AGE_CATEGORY}</AgeCategory>
+				<TaskDate>${TC.TASK_DATE}</TaskDate>
+				<TaskCount>${TC.TASK_COUNT}</TaskCount>
+				<CourtCode>${TC.ADMIN_COURT_CODE}</CourtCode>
+				<CreatingCourt>${TC.CREATING_COURT}</CreatingCourt>
+				<CreatingSection>${TC.CREATING_SECTION}</CreatingSection>
+			</Task>
+		</ds>
+	</Mapping>
+</DBMapDef>

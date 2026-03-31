@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- 
+	Service: Env
+	Method:  getUserDetails()
+	File:    get_user_details.xml
+	Author:  Chris Hutt
+	Created: 15 April 2005
+	Description: 
+		Retrive details of current user connection. Supports the About screen
+--> 
+<service-method>
+	<pipeline>
+		<Query>
+  			<QueryDef location="uk/gov/dca/caseman/env_service/user_query_def.xml"/>
+  			<QueryExtension pivotNode="/User">
+  			</QueryExtension>
+  	    </Query>
+	</pipeline>
+	<Security roles="viewOnly medium high wcSuper scSuper bmsSuper aeSuper dmSuper cpSuper admin edsAdmin ccbcMan ccbcUser ccbcSGB2 ccbcTape"/>
+</service-method>

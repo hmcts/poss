@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: Co
+	Method:  getAddressHistory()
+	File:    map_get_address_history.xml
+	Author:  Phil Haferer (EDS)
+	Created: 08 September 2005
+	Description: 
+		Retrieve the Historical Addresses for a particular CO Party.
+-->
+<DBMapDef>
+	<DataSource id="java:OracleDS"/>
+	<Tables>
+		<Table alias="GA" name="GIVEN_ADDRESSES"/>
+	</Tables>
+	<Mapping>
+		<ds>
+			<AddressHistory>
+				<Address>
+					<Status>${EXISTING_VALUE}</Status>
+					<AddressSurrogateId>${GA.ADDRESS_ID}</AddressSurrogateId>
+					<AddressId>${GA.ADDRESS_ID}</AddressId>
+					<Line>${GA.ADDRESS_LINE1}</Line>
+					<Line>${GA.ADDRESS_LINE2}</Line>
+					<Line>${GA.ADDRESS_LINE3}</Line>
+					<Line>${GA.ADDRESS_LINE4}</Line>
+					<Line>${GA.ADDRESS_LINE5}</Line>
+					<PostCode>${GA.POSTCODE}</PostCode>
+					<CreatedBy>${GA.UPDATED_BY}</CreatedBy>
+					<ValidFrom>${GA.VALID_FROM}</ValidFrom>
+					<ValidTo>${GA.VALID_TO}</ValidTo>
+				</Address>
+			</AddressHistory>
+		</ds>
+	</Mapping>
+</DBMapDef>

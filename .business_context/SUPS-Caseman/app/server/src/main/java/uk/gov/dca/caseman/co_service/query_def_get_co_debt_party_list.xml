@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: Co
+	Method:  getCoDebtPartyList()
+	File:    query_def_get_co_debt_party_list.xml
+	Author:  Phil Haferer (EDS)
+	Created: 02 September 2005
+	Description: 
+		Retrieve the list of parties associated with a Case.
+-->
+<QueryDef>
+  <DBMapDef location="uk/gov/dca/caseman/co_service/map_get_co_debt_party_list.xml"/>
+  <Query pivotNode="/ds/Parties/Party" tables="CPR P">
+	<Join>
+		    CPR.PARTY_ROLE_CODE != 'SOLICITOR' 
+		AND P.PARTY_ID           = CPR.PARTY_ID 
+	</Join>
+	<Alias name="CPR.PARTY_KEY" select="CPR.PARTY_ROLE_CODE || '_' || CPR.CASE_PARTY_NO"/>
+    <Modify notModifiable="true"/>
+  </Query>
+</QueryDef>

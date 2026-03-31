@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- ====================================================================== -->
+<!--  -->
+<!-- FILENAME: $Source: C:/CVSRepository/serveroas/src/uk/gov/dca/caseman/wordprocessing_templates/Notice/N441A/N441A-FO.xml,v $ -->
+<!--  -->
+<!-- AUTHOR: $Author: narges $-->
+<!--  -->
+<!-- DATE: $Date: 2006/06/28 16:58:15 $ -->
+<!--  -->
+<!-- Version: $Revision: 1.12 $ -->
+<!--  -->
+<!-- DESCRIPTION: This stylesheet is used to create an XSL:FO document that -->
+<!-- can be processed into a PDF version.  Business logic -->
+<!-- is embedded to generate the correct document text for the order -->
+<!-- required. -->
+<!--  -->
+<!-- INPUTS: XML document containing: the answers to questions asked of the -->
+<!-- user; case data retrieved from the database; HTML representing the  -->
+<!-- body of the document content (already edited by the user). -->
+<!--  -->
+<!-- OUTPUTS: XML document with FO tags containing instructions for the -->
+<!-- creation of a PDF document. -->
+<!--  -->
+
+<!-- 
+@author Sandeep Mullangi, Logica
+@version 0.1 
+Change Hisstory
+Sep 10, 2008 Sandeep Mullangi - subtracting $vdPaidBeforeJudgment from total amount as part of RFC 629
+-->
+
+<!-- ====================================================================== -->
+<root xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:fo="http://www.w3.org/1999/XSL/Format" xmlns="http://eds.com/supsfo">
+	<variables>@word.processing.url.xsl@supsfo.xsl</variables>
+	<addressee>
+		<judgmentdebtornosol/>
+	</addressee>
+	<header>
+		<fo:block font-size="16pt" font-weight="bold">Certificate of Satisfaction or Cancellation of Judgment Debt</fo:block>
+	</header>
+	<courtcase>
+		<court>
+			<xsl:copy-of select="$vdCourtHeaderBlock"/>
+		</court>
+		<caseparameters>
+			<parameter>
+				<name>
+					<fo:block font-weight="bold">Claim Number</fo:block>
+					<fo:block font-weight="bold" font-size="6pt">Always quote this</fo:block>
+				</name>
+				<value>
+					<fo:block>
+						<xsl:value-of select="$vdClaimNumber"/>
+					</fo:block>
+				</value>
+			</parameter>
+			<parameter>
+				<name>
+					<fo:block font-weight="bold">Date</fo:block>
+				</name>
+				<value>
+					<fo:block>
+						<xsl:value-of select="$vdEventDate"/>
+					</fo:block>
+				</value>
+			</parameter>
+			<dobparameter partyType="subject"/>
+		</caseparameters>
+	</courtcase>
+	<bodyintroright>
+	<xsl:choose>
+		<xsl:when test="$vdCourtCode = '335'">
+			<fo:block><fo:inline text-align="right"><ccbcSeal/></fo:inline></fo:block>
+		</xsl:when>
+		<xsl:otherwise>
+			<fo:block><fo:inline text-align="center"><seal/></fo:inline></fo:block>
+		</xsl:otherwise>
+	</xsl:choose>
+	</bodyintroright>
+	
+	<body>
+	<fo:block space-after="1.0cm"/>
+	<fo:block font-weight="bold" text-align="left" space-after="0.5cm">To the <xsl:value-of select="$vdJudgmentAgainstRole"/></fo:block>
+	
+		<fo:block space-after="0.5cm">
+			This confirms, for the purpose of the Register of Judgments, Orders and Fines Regulations 2005, that:
+		</fo:block>
+		<fo:block space-after="0.5cm" text-indent="1cm">
+			<xsl:value-of select="$vdJudgmentStatusValue1"/>
+		</fo:block>
+		<fo:block space-after="0.5cm">
+			A notification will be issued to the Keeper of the Register of Judgments, Orders and Fines for the entry to be
+		</fo:block>
+		<fo:block space-after="0.5cm" text-indent="1cm">
+			<xsl:value-of select="$vdJudgmentStatusValue2"/>
+		</fo:block>
+		<fo:block space-after="1.6cm" text-indent="1cm">
+			<xsl:if test="$vdJudgmentCourtCode != $vdCourtCode">
+				This judgment was registered by <xsl:value-of select="$vdJudgmentCourtName2"/> and the case was transferred to this court.
+			</xsl:if>
+		</fo:block>
+		<fo:block font-weight="bold" space-after="0.5cm" text-align="center">
+			This certificate is only valid if sealed by the court
+		</fo:block>
+
+		<fo:block space-before="2.0cm">
+			<fo:table table-layout="fixed" border-style="solid" border-top-width="0.05cm">
+			<fo:table-column column-width="7.0cm"></fo:table-column>
+			<fo:table-column column-width="12.0cm"></fo:table-column>
+				<fo:table-body>
+					<fo:table-row keep-with-next="always">
+						<fo:table-cell padding-top="1.0cm" padding-left="0.1cm">
+							<fo:block space-after="0.5cm" font-weight="bold"><xsl:call-template name="convertcase"><xsl:with-param name="toconvert"><xsl:value-of select="$vdJudgmentAgainstRole"/></xsl:with-param><xsl:with-param name="conversion">proper</xsl:with-param></xsl:call-template>'s Name:</fo:block>
+						</fo:table-cell>
+						<fo:table-cell padding-top="1.0cm">
+							<fo:block space-after="0.5cm" font-size="10pt"><xsl:value-of select="$vdJudgmentAgainstName"/></fo:block>
+						</fo:table-cell>
+					</fo:table-row>
+					<fo:table-row keep-with-next="always">
+						<fo:table-cell number-columns-spanned="2" padding-left="0.1cm">
+							<fo:block space-after="0.5cm" font-size="10pt"><fo:inline font-weight="bold"><xsl:call-template name="convertcase"><xsl:with-param name="toconvert"><xsl:value-of select="$vdJudgmentAgainstRole"/></xsl:with-param><xsl:with-param name="conversion">proper</xsl:with-param></xsl:call-template>'s address at time of judgment </fo:inline><fo:inline font-style="italic">(if different from above)</fo:inline></fo:block>
+						</fo:table-cell>
+					</fo:table-row>
+					<fo:table-row keep-with-next="always">
+					<fo:table-cell number-columns-spanned="2" padding-left="1cm">
+						<xsl:choose>
+							<xsl:when test="$vdJudgmentAddressDifferent = 'Y'">
+								<fo:block space-after="0.5cm">
+									<xsl:call-template name="format-address-single-line">
+										<xsl:with-param name="theAddress">
+											<xsl:copy-of select="$vdJudgmentAgainstAddress2"/>
+										</xsl:with-param>
+									</xsl:call-template>
+								</fo:block>								
+							</xsl:when>
+							<xsl:otherwise>
+								<fo:block space-after="0.5cm">As Above</fo:block>								
+							</xsl:otherwise>
+						</xsl:choose>
+						</fo:table-cell>
+					</fo:table-row>
+					<fo:table-row keep-with-next="always">
+						<fo:table-cell padding-left="0.1cm">
+							<fo:block space-after="0.5cm" font-weight="bold">Date of judgment:</fo:block>
+						</fo:table-cell>
+						<fo:table-cell>
+							<fo:block space-after="0.5cm" font-size="10pt"><xsl:value-of select="$vdJudgmentDateOut"/></fo:block>
+						</fo:table-cell>
+					</fo:table-row>
+					<fo:table-row keep-with-next="always">
+						<fo:table-cell padding-left="0.1cm">
+							<fo:block space-after="0.5cm" font-weight="bold">Amount of judgment:</fo:block>
+						</fo:table-cell>
+						<fo:table-cell>
+							<fo:block space-after="0.5cm" font-size="10pt">
+								&#163;<xsl:call-template name="correctCalculation">
+									<xsl:with-param name="value"><xsl:value-of select="$vdTotal - $vdPaidBeforeJudgment"/></xsl:with-param>
+								</xsl:call-template>
+							</fo:block>
+						</fo:table-cell>
+					</fo:table-row>
+					<xsl:if test="$vdJudgmentStatus != 'CANCELLED' and string-length($vdJudgmentStatus) > 0"> 
+						<fo:table-row keep-with-next="always">
+							<fo:table-cell padding-left="0.1cm">
+								<fo:block space-after="0.5cm" font-weight="bold">
+									<xsl:choose>
+										<xsl:when test="$vdJudgmentStatus = 'SET ASIDE'">
+											Date judgment was set aside:
+										</xsl:when>
+										<xsl:when test="$vdJudgmentStatus = 'SATISFIED'">
+											Date of final payment:
+										</xsl:when>
+										<xsl:otherwise/>
+									</xsl:choose>
+								</fo:block>
+							</fo:table-cell>
+							<fo:table-cell>
+								<fo:block space-after="0.2cm" font-size="10pt"><xsl:value-of select="$vdFinalDate"/></fo:block>
+							</fo:table-cell>
+						</fo:table-row>
+					</xsl:if>
+				</fo:table-body>
+			</fo:table>
+		</fo:block>
+	</body>
+	<defaultFooter id="N441A"/>
+</root>

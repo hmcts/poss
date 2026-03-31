@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: WarrantReturn
+	Method:  getWarrantReturns()
+	File:    getWarrantReturns.xml
+	Author:  Tun Shwe
+	Created: 
+	Description: 
+		Retrieves a list of warrant returns recorded on a warrant record specified.
+	
+	Change History:
+		22-Mar-2007 Chris Vincent: Removed the Constraint and the OrderBy from the /WarrantEvent
+					PivotNode as part of revamp in query_def.  Part of CaseMan Defect 6000.
+		02-Sep-2010 Chris Vincent: Added Warrant Id constraint to the WarrantEvent/Outputs/Output
+					PivotNode. Trac 3326.
+		14-Oct-2016 Chris Vincent - returns an indication of whether a party on the case has requested confidentiality.  Trac 5880
+-->
+<service-method>
+  <pipeline>
+    <Query service="warrantreturns" name="getWarrantReturns">
+      <QueryDef location="uk/gov/dca/caseman/warrant_returns_service/query_def_WarrantReturns.xml"/>
+      <QueryExtension pivotNode="/ds/WarrantReturns/WarrantEvents/WarrantEvent">
+        <Param name="param.warrantID" xpath="/params/param[@name = 'warrantID']"/>
+      </QueryExtension>
+	  <QueryExtension pivotNode="/ds/WarrantReturns/WarrantEvents/WarrantEvent/Outputs/Output">
+		<Param name="param.warrantID" xpath="/params/param[@name = 'warrantID']"/>
+	  </QueryExtension>
+      <QueryExtension pivotNode="/ds/PaymentDetails/HomeWarrantPaymentsExist">
+        <Param name="param.warrantID" xpath="/params/param[@name = 'warrantID']"/>
+      </QueryExtension>
+      <QueryExtension pivotNode="/ds/PaymentDetails/ForeignWarrantPaymentsExist">
+        <Param name="param.warrantID" xpath="/params/param[@name = 'warrantID']"/>
+      </QueryExtension>
+      <QueryExtension pivotNode="/ds/AdditionalInfo/WelshParties">
+        <Param name="param.warrantID" xpath="/params/param[@name = 'warrantID']"/>
+      </QueryExtension>
+	  <QueryExtension pivotNode="/ds/AdditionalInfo/FlagConfidentiality">
+        <Param name="param.warrantID" xpath="/params/param[@name = 'warrantID']"/>
+      </QueryExtension>
+    </Query>
+  </pipeline>
+  <Security roles="medium high wcSuper scSuper bmsSuper aeSuper dmSuper cpSuper ccbcMan ccbcUser ccbcSGB2"/>		  
+</service-method>

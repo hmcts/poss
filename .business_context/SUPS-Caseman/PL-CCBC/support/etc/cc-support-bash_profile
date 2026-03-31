@@ -1,0 +1,48 @@
+##############################################################################
+# File               : .bash_profile                                         #
+# Desc               : Ops support BASH Profile                              #
+# Application        : CCBC                                                  #
+# Product history                                                            #
+# Date      Ver   Who   Desc                                                 #
+# ----      ---   ---   ----                                                 #
+# 22/06/07  1.0   DG    New File                                             #
+#                                                                            #
+##############################################################################
+# execute the normal profile so that all environment variables are accessable.
+
+###########
+# Get The Aliases And Functions
+############
+if [ -f ~/.bashrc ]; then
+        . ~/.bashrc
+fi
+
+############
+# Set Base Deployment Location
+############
+declare -rx BASE_DIR=/app/cccis
+
+############
+# Set Project Specific Variables
+############
+declare -rx APP_NAME=ccbc
+declare -rx APP_ID=cc
+declare -rx SYSTEM_ID=ccbc
+############
+# Read In Common Variables For Our Application
+############
+if [ -f ${HOME}/etc/${APP_ID}-support-common-variables ]; then
+      . ${HOME}/etc/${APP_ID}-support-common-variables
+else
+    echo "No such file:"
+    echo ${HOME}/etc/${APP_ID}-support-common-variables
+fi
+############
+# Read In Common Functions For Our Application
+############
+if [ -f ${BASE_DIR}/${APP_NAME}/bin/${APP_ID}-common-functions ]; then
+      . ${BASE_DIR}/${APP_NAME}/bin/${APP_ID}-common-functions
+else
+    echo "No such file:"
+    echo ${BASE_DIR}/${APP_NAME}/bin/${APP_ID}-common-functions
+fi

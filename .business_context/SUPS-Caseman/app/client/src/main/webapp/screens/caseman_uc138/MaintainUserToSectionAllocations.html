@@ -1,0 +1,198 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3c.org/TR/html4/strict.dtd">
+<html>
+  <head>
+  	<title>MaintainUserToSectionAllocations</title>
+    <link href="MaintainUserToSectionAllocations.css" type="text/css" rel="stylesheet" title="Default">
+	<script type="text/javascript" src="../../Framework.js"></script>
+	<script type="text/javascript" src="../../CaseManIncludeFiles.js"></script>
+	<script type="text/javascript" src="MaintainUserToSectionAllocations.js"></script>
+  </head>
+  <body>
+    <form name="MaintainUTSAlloc" id="MaintainUTSAlloc">
+	
+	<!-- Framework Navigation Menu -->
+	<script type="text/javascript">MenuBarRenderer.createInline();</script>
+    
+      <table class="layout">        
+        <tr>
+          <td>
+            <div class="panel">
+            <table class="content">
+              <tr>
+                <td>
+                  <table>
+                    <tr>
+                      <td>
+                        <label for="Header_UserIDTxt">User ID</label>
+                      </td>
+                      <td>
+                        <input type="text" id="Header_UserIDTxt" size=8>
+                      </td>
+                      <td>
+                        &nbsp;<input id="Header_UserIDLOVBtn" type="button" value="LOV">
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>
+                        <label for="Header_SectionTxt">Section</label>
+                      </td>
+                      <td>
+                        <input type="text" id="Header_SectionTxt" size=20>
+                      </td>
+                      <td>
+                        &nbsp;<input id="Header_SectionLOVBtn" type="button" value="LOV">
+                      </td>
+                    </tr>
+                    <tr>                   
+                      <td colspan=3 align=right>
+                        <hr>
+                          <input type="button" id = "Header_AllocateBtn" value="Allocate User To Section">
+                      </td>
+                    </tr>    
+                  </table>
+                </td>
+                <td>
+                  <table>
+                    <tr style="width:100%;">  
+                      <td>
+                        <script type="text/javascript">
+                              Grid.createInline("Header_SectionResultsGrid",
+                                           ["Section"],
+                                             4,			                       
+                                             1	                                 
+                                           );
+                        </script>
+                      </td>
+                      <td>   
+                        <script type="text/javascript">
+                                Grid.createInline("Header_UsersResultsGrid",
+                                           ["User ID","Name", "Section"],
+                                             4,			                       
+                                             1	                                 
+                                           );
+                        </script>
+                      </td>
+                    </tr>  
+                  </table>
+                </td>
+              </tr>
+            </table>
+            </div>
+            <div class="panel">                       
+            <table class="content">
+              <tr style="height:121px;"><td></td></tr>
+              <tr>               
+                <td style="width:950px;">                   
+                  <table align=center>
+                    <tr>
+                      <td>
+                        <label for="Master_UserIdTxt">User ID</label>
+                      </td>
+                      <td>
+                        <input type="text" id="Master_UserIdTxt" size=8>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>
+                        <label for="Master_UserNameTxt">Name</label>
+                      </td>
+                      <td>
+                        <input type="text" id="Master_UserNameTxt" size=40>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>
+                        <label for="Master_UserExtensionTxt">Extension</label>
+                      </td>
+                      <td>
+                        <input type="text" id="Master_UserExtensionTxt" size=10>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td align=center colspan=2>   
+                        <script type="text/javascript">
+                                Grid.createInline("Master_AllocationsHistoryResultsGrid",
+                                           ["From Date","To Date", "Section"],
+                                             8,			                       
+                                             1	                                 
+                                           );
+                        </script>
+                      </td>
+                    </tr>                        
+                  </table>                   
+                </td>
+              </tr>
+              <tr style="height:121px;"><td></td></tr>
+            </table>
+            </div>
+          </td>
+        </tr>
+      </table>
+      <script type="text/javascript">
+	     ActionBarRenderer.createInline(
+		"status_bar",
+		[
+			{id: "Status_CloseBtn", label: "Close"}
+		]
+	    );
+      </script>
+      <!--  Form Extension Popups -->
+      <!-- Details of Claim popup -->
+	  <div class="popup" id="AlterUserToSection_Popup">
+		<table class="content">
+		  <tr>
+			<td>
+			  <label for="Popup_UserIDTxt">User Id</label>
+			</td>
+            <td>
+              <input type="text" id="Popup_UserIDTxt" Value="Add">
+			</td>
+			<td>
+			  &nbsp;<input id="PUUserIDLOVBtn" type="button" value="LOV">
+			</td>
+		  </tr>		  
+		  <tr>
+			<td>
+			  <label for="Popup_SectionTxt">Section</label>
+			</td>
+            <td>
+              <input type="text" id="Popup_SectionTxt" Value="Add">
+			</td>
+			<td>
+			 &nbsp;<input id="Popup_SectionLOVBtn" type="button" value="LOV">
+			</td>
+		  </tr>
+		  <tr>
+			<td colspan=3 align=right>
+			  <input type="button" id="Popup_AddBtn" Value="Add">
+			</td>            
+		  </tr>
+		  <tr>
+		    <td colspan=3>
+		      <script type="text/javascript">
+                                Grid.createInline("Popup_AllocationResultsGrid",
+                                           ["User ID", "Section"],
+                                             4,			                       
+                                             1	                                 
+                                           );
+              </script>
+		    <td>
+		  </tr>
+		  <tr>
+			<td>
+			</td>
+            <td>
+              <input type="button" id="Popup_SaveBtn" Value="Save">
+			</td>
+			<td>
+			  <input type="button" id="Popup_CloseBtn" Value="Close">
+			</td>
+		  </tr>
+		</table>
+	  </div>
+      <!-- End Details of Claim popup -->   
+      <script type="text/javascript">LOVPopupRenderer.createInline( "UserIDLOV", "UserID", ["User ID", "Name", "Section"], 10, 1, true);</script>
+      <script type="text/javascript">LOVPopupRenderer.createInline( "SectionLOV", "Section", ["Section"], 10, 1, true);</script>			                                
+    </form>
+  </body>
+</html>

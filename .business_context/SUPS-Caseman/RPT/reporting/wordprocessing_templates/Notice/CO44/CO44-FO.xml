@@ -1,0 +1,222 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- ====================================================================== -->
+<!--  -->
+<!-- FILENAME: $Source: C:/CVSRepository/serveroas/src/uk/gov/dca/caseman/wordprocessing_templates/Notice/CO44/CO44-FO.xml,v $ -->
+<!--  -->
+<!-- AUTHOR: $Author: ian $-->
+<!--  -->
+<!-- DATE: $Date: 2006/06/02 12:16:49 $ -->
+<!--  -->
+<!-- Version: $Revision: 1.9 $ -->
+<!--  -->
+<!-- DESCRIPTION: This stylesheet is used to create an XSL:FO document that -->
+<!-- can be processed into a PDF version.  Business logic -->
+<!-- is embedded to generate the correct document text for the order -->
+<!-- required. -->
+<!--  -->
+<!-- INPUTS: XML document containing: the answers to questions asked of the -->
+<!-- user; case data retrieved from the database; HTML representing the  -->
+<!-- body of the document content (already edited by the user). -->
+<!--  -->
+<!-- OUTPUTS: XML document with FO tags containing instructions for the -->
+<!-- creation of a PDF document. -->
+<!--  -->
+<!-- ====================================================================== -->
+<root xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:fo="http://www.w3.org/1999/XSL/Format" xmlns="http://eds.com/supsfo">
+	<variables>@word.processing.url.xsl@supsfo.xsl</variables>
+	<addressee>
+			<blank/>
+			<creditor/>
+			<debtor/>
+	</addressee>
+	<header>
+		<fo:block font-size="16pt" font-weight="bold">Notice of Intention to Revoke an</fo:block>
+		<fo:block font-size="16pt" font-weight="bold">Administration Order</fo:block>
+	</header>
+	<courtcase>
+		<court>
+			<xsl:copy-of select="$vdCourtHeaderBlock"/>
+		</court>
+		<caseparameters>
+			<parameter>
+				<name>
+					<fo:block font-weight="bold">AO/CAEO Number</fo:block>
+				</name>
+				<value>
+					<fo:block>
+						<xsl:value-of select="$vdCONumber"/>
+					</fo:block>
+				</value>
+			</parameter>
+			<parameter>
+				<name>
+					<fo:block font-weight="bold">Creditor</fo:block>
+					<fo:block font-size="9pt">(including ref.)</fo:block>
+				</name>
+				<value>
+					<xsl:call-template name="display-creditor-name-and-reference-template">
+						<xsl:with-param name="addressee">
+							<xsl:value-of select="$addressee"/>
+						</xsl:with-param>
+					</xsl:call-template>
+				</value>
+			</parameter>				
+			<parameter>
+				<name>
+					<fo:block font-weight="bold">Debtor</fo:block>
+				</name>
+				<value>
+					<fo:block hyphenate="true">
+						<xsl:value-of select="$vdCODebtorName"/>
+					</fo:block>
+				</value>
+			</parameter>
+		</caseparameters>
+	</courtcase>
+	<bodyintroright><fo:block><fo:inline text-align="center"><seal/></fo:inline></fo:block></bodyintroright>
+	
+	<body>
+	<editable useid="N100A4">
+		<fo:block space-after="0.8cm"/>
+		<fo:block font-weight="bold">
+			To the debtor
+		</fo:block>
+		<fo:block font-weight="bold">
+			You have failed to pay the sums due in accordance with the administration order made on <xsl:value-of select="$vdCODate"/>
+		</fo:block>
+		<fo:block space-after="0.4cm">
+			There are currently <xsl:value-of select="$vdCOPaymentsMissed"/> instalments outstanding, amounting in total to &#163;<xsl:value-of select="$vdCOBalance"/>
+		</fo:block>
+		<fo:block font-weight="bold" space-after="0.2cm">
+			The administration order will be revoked unless within 16 days of the date shown on the postmark you either:
+		</fo:block>
+		<fo:block space-after="0.4cm">
+			<fo:table table-layout="fixed">
+			<fo:table-column column-width="19.28cm" />
+			<fo:table-body>
+			<fo:table-row>
+			<fo:table-cell padding-left="0.8cm" padding-right="0.2cm">
+			<list type="bullet">
+				<list-item>
+					<fo:block space-after="0.2cm">
+						make the payments due under the order (total shown above) or
+					</fo:block>
+				</list-item>
+				<list-item>
+					<fo:block space-after="0.2cm">
+						explain your reasons for failing to make payments and make a proposal to pay the outstanding sum (in addition to the instalments ordered) or
+					</fo:block>
+				</list-item>
+				<list-item>
+					<fo:block space-after="0.2cm">
+						make a request to the court to vary the rate of payment ordered
+					</fo:block>
+				</list-item>
+			</list>
+			</fo:table-cell>
+			</fo:table-row>
+			</fo:table-body>
+			</fo:table>
+		</fo:block>
+		<fo:block space-after="0.4cm">
+			Give your reasons for failing to make payments below (together with any proposals you wish to make for future payment)
+		</fo:block>
+	</editable>
+		<fo:block>
+			<fo:table table-layout="fixed">
+				<fo:table-column column-width="19.28cm"/>
+				<fo:table-body>
+					<fo:table-row>
+						<fo:table-cell padding-left="0.2cm" padding-right="0.2cm" border-style="solid" border-width="0.02cm" height="4.0cm">
+							<fo:block space-after="0.4cm">
+								&#xa0;
+							</fo:block>
+						</fo:table-cell>
+					</fo:table-row>
+				</fo:table-body>
+			</fo:table>
+		</fo:block>
+		<fo:block space-after="1.2cm">
+			<fo:table table-layout="fixed">
+				<fo:table-column column-width="8.64cm"/>
+				<fo:table-column column-width="2.5cm"/>
+				<fo:table-column column-width="1.5cm"/>
+				<fo:table-column column-width="6.64cm"/>
+				<fo:table-body>
+					<fo:table-row>
+						<fo:table-cell border-left-style="solid" border-left-width="0.02cm">
+							<fo:block space-after="0.4cm"/>
+						</fo:table-cell>
+						<fo:table-cell border-right-style="solid" border-right-width="0.02cm">
+							<fo:block space-after="0.4cm"/>
+						</fo:table-cell>
+						<fo:table-cell/>
+						<fo:table-cell border-left-style="solid" border-left-width="0.02cm" border-right-style="solid" border-right-width="0.02cm">
+							<fo:block space-after="0.4cm"/>
+						</fo:table-cell>
+					</fo:table-row>
+					<fo:table-row>
+						<fo:table-cell padding-left="0.2cm" padding-right="0.2cm" padding-top="0.6cm" border-left-style="solid" border-left-width="0.02cm">
+							<fo:block space-after="0.1cm">
+								Signed
+							</fo:block>
+						</fo:table-cell>
+						<fo:table-cell padding-left="0.2cm" padding-right="0.2cm" padding-top="0.6cm" border-right-style="solid" border-right-width="0.02cm">
+							<fo:block space-after="0.1cm" text-align="right">
+								(debtor)
+							</fo:block>
+						</fo:table-cell>
+						<fo:table-cell/>
+						<fo:table-cell padding-left="0.2cm" padding-right="0.2cm" padding-top="0.6cm" border-left-style="solid" border-left-width="0.02cm" border-right-style="solid" border-right-width="0.02cm">
+							<fo:block space-after="0.1cm" font-weight="bold">
+								Dated
+							</fo:block>
+						</fo:table-cell>
+					</fo:table-row>
+					<fo:table-row>
+						<fo:table-cell border-left-style="solid" border-left-width="0.02cm" border-bottom-style="solid" border-bottom-width="0.02cm">
+							<fo:block space-after="0.4cm"/>
+						</fo:table-cell>
+						<fo:table-cell border-right-style="solid" border-right-width="0.02cm" border-bottom-style="solid" border-bottom-width="0.02cm">
+							<fo:block space-after="0.4cm"/>
+						</fo:table-cell>
+						<fo:table-cell/>
+						<fo:table-cell border-left-style="solid" border-left-width="0.02cm" border-right-style="solid" border-right-width="0.02cm" border-bottom-style="solid" border-bottom-width="0.02cm">
+							<fo:block space-after="0.4cm"/>
+						</fo:table-cell>
+					</fo:table-row>
+				</fo:table-body>
+			</fo:table>
+		</fo:block>
+		<fo:block space-after="0.4cm">
+			If you pay the amount shown above within the 16 day time limit, the administration order will remain in force.
+		</fo:block>
+		<fo:block>
+			If you are unable to pay the amount shown above but you complete and return the form within the 16 day time limit, the court will either:
+		</fo:block>
+		<fo:block>
+		<fo:table table-layout="fixed">
+			<fo:table-column column-width="19.28cm" />
+			<fo:table-body>
+			<fo:table-row>
+			<fo:table-cell padding-left="0.8cm" padding-right="0.2cm">
+			<list type="bullet">
+				<list-item>
+					<fo:block space-after="0.2cm">
+						<fo:inline font-weight="bold">revoke, vary or suspend the order </fo:inline>(you will be told what the court has decided and you will be given the opportunity to object)
+					</fo:block>
+				</list-item>
+				<list-item>
+					<fo:block space-after="0.2cm">
+						<fo:inline font-weight="bold">fix a hearing date </fo:inline>(you will be told when to come to court)
+					</fo:block>
+				</list-item>
+			</list>
+			</fo:table-cell>
+			</fo:table-row>
+			</fo:table-body>
+			</fo:table>
+		</fo:block>
+	</body>
+	<defaultFooter id="CO44" CO="true"/>
+</root>

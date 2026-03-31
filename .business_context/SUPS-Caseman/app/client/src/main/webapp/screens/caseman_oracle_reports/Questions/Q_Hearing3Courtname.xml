@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--Question xmlns="http://eds.com/questionxhtml" xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd"-->
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>Q_Hearing2Courtname</Id>
+	<Label>Hearing Court Name</Label>
+	<ObjectName>Hearing2Courtname</ObjectName>
+	<Html>
+		<input id="Hearing2Courtname" type="text" size="25"></input>
+	</Html>
+	<Javascript>
+		<XPath>/ds/var/page/OracleReportForm/Hearing2Courtname</XPath>
+		<ReportVariableName>REPORT_VALUE_7</ReportVariableName>
+		<ReportVariableValue>Services.getValue(Hearing2Courtname.dataBinding)</ReportVariableValue>
+		<HintText>Hearing court name</HintText>
+		<isMandatory>
+			return false;
+		</isMandatory>
+		<isReadOnly>
+			return true;
+		</isReadOnly>
+		<initialise></initialise>
+		<transformToDisplay>
+			return (null != value) ? value.toUpperCase() : null;
+		</transformToDisplay>
+		<transformToModel>
+			return (null != value) ? value.toUpperCase() : null;
+		</transformToModel>		
+		<setDefault>
+		</setDefault>
+		<validateOn>
+		</validateOn>
+		<validate>
+		</validate>
+		<miscCode>
+		</miscCode>
+	</Javascript>
+</Question>

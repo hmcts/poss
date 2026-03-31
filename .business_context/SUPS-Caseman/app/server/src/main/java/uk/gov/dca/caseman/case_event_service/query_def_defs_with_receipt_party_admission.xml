@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	v1.0 Chris Hutt 4/2/2005
+	
+-->
+<QueryDef>
+	<DBMapDef location="uk/gov/dca/caseman/case_event_service/map_defs_with_receipt_party_admission.xml"/>
+	<Query pivotNode="/Case/Parties/Party" tables="CE">
+	   	<Join>
+	   		CE.PARTY_ROLE_CODE IN ('DEFENDANT' , 'PT 20 DEF')
+	   		AND CE.STD_EVENT_ID = 60
+			AND CE.DELETED_FLAG != 'Y'
+	   	</Join>
+          	<Modify notModifiable="true"/>
+	</Query>
+</QueryDef>
+
+
+             

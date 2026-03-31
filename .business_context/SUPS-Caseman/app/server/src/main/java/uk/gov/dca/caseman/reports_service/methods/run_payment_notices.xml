@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: Reports
+	Method:  runPaymentNotices()
+	File:    run_payment_notices.xml
+	Author:  Kevin Gichohi (EDS)
+	Created: 07 November 2005
+	Description: 
+		Calls the Custom Processor that builds the XML that is eventually passed to reports service.
+-->
+<service-method>
+	<pipeline> 
+		<Java callStyle="new">
+			<Source class="uk.gov.dca.caseman.reports_service.classes.PaymentNoticesCustomProcessor"/>
+		</Java>
+	</pipeline>
+	<Dependencies>
+	</Dependencies>		
+	<Security roles="viewOnly medium high wcSuper scSuper bmsSuper aeSuper dmSuper edsAdmin cpSuper"/>		
+</service-method>

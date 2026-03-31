@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: Reports
+	Method:  reprintReport()
+	File:    reprint_report.xml
+	Author:  Anoop Sehdev (Valtech)
+	Created: 23 January 2006
+	Description: 
+		Call ReprintReportCustomProcessor custom processor to submit 
+		a report for reprinting to SUPSReporting.
+-->
+<service-method>
+	<pipeline> 
+		<Java callStyle="new">
+			<Source class="uk.gov.dca.caseman.reports_service.classes.ReprintReportCustomProcessor"/>
+		</Java>
+	</pipeline>
+	<Transaction type="Supports" />	
+	<Security roles="viewOnly medium high wcSuper bmsSuper aeSuper dmSuper cpSuper scSuper ccbcMan ccbcUser ccbcSGB2"/>	
+</service-method>

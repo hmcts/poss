@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>347</Id>
+	<Label>Enter initial payment date</Label>
+	<ObjectName>InitialPaymentDate</ObjectName>
+	<Html>
+		<script type="text/javascript">
+			WP_DatePickerRenderer.createInline("InitialPaymentDate");
+		</script>
+	</Html>
+	
+	<Context screenId="CJR055"><isVisible>false</isVisible></Context>
+			
+	<Javascript>
+		<XPath>/ds/EnterVariableData/PossessionOrder/initialPaymentDate</XPath>
+		<componentName>##label##</componentName>
+		<isMandatory>return true;</isMandatory>
+		<HintText>Enter the date of the initial payment</HintText>	
+		<enableOn>HasInitialPayment.dataBinding</enableOn>
+		<isEnabled>return('Y' == Services.getValue(HasInitialPayment.dataBinding));</isEnabled>
+		<logicOn>HasInitialPayment.dataBinding</logicOn>
+		<logic>
+			if('Y' != Services.getValue(HasInitialPayment.dataBinding))
+			{	Services.setValue(InitialPaymentDate.dataBinding, "");
+			}
+		</logic>
+		<miscCode>
+			InitialPaymentDate.weekends = false;
+		</miscCode>
+		<validateOn>InitialPaymentDate.dataBinding</validateOn>
+		<validate>
+				var  checkDate = Services.getValue(InitialPaymentDate.dataBinding);
+				var err = null;
+				
+				if( false != isFutureDate(checkDate) )
+				{	
+					if( isNonWorkingDate(checkDate) )
+					{	err = ErrorCode.getErrorCode("CaseMan_dateNonWorkingDay_Msg");
+					}
+				}
+				else
+				{	err = ErrorCode.getErrorCode("CaseMan_dateCannotBeInThePast_Msg");
+				}	
+				return err;
+		</validate>
+	</Javascript>
+</Question>

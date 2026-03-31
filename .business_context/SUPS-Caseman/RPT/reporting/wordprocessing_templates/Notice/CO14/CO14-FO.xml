@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- ====================================================================== -->
+<!--  -->
+<!-- FILENAME: $Source: C:/CVSRepository/serveroas/src/uk/gov/dca/caseman/wordprocessing_templates/Notice/CO14/CO14-FO.xml,v $ -->
+<!--  -->
+<!-- AUTHOR: $Author: ian $-->
+<!--  -->
+<!-- DATE: $Date: 2006/06/02 12:14:44 $ -->
+<!--  -->
+<!-- Version: $Revision: 1.12 $ -->
+<!--  -->
+<!-- DESCRIPTION: This stylesheet is used to create an XSL:FO document that -->
+<!-- can be processed into a PDF version.  Business logic -->
+<!-- is embedded to generate the correct document text for the order -->
+<!-- required. -->
+<!--  -->
+<!-- INPUTS: XML document containing: the answers to questions asked of the -->
+<!-- user; case data retrieved from the database; HTML representing the  -->
+<!-- body of the document content (already edited by the user). -->
+<!--  -->
+<!-- OUTPUTS: XML document with FO tags containing instructions for the -->
+<!-- creation of a PDF document. -->
+<!--  -->
+<!-- ====================================================================== -->
+<root xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:fo="http://www.w3.org/1999/XSL/Format" xmlns="http://eds.com/supsfo">
+	<variables>@word.processing.url.xsl@supsfo.xsl</variables>
+	<addressee>
+			<blank/>
+			<creditorInclPending/>
+			<debtor/>
+			<employer sic='true'/>
+	</addressee>
+	<header>
+		<fo:block font-size="16pt" font-weight="bold">Notice of Application for</fo:block>
+		<fo:block font-size="16pt" font-weight="bold">Consolidated Attachment</fo:block>
+		<fo:block font-size="16pt" font-weight="bold">of Earnings Order</fo:block>
+	</header>
+	<courtcase>
+		<court>
+			<xsl:copy-of select="$vdCourtHeaderBlock"/>
+		</court>
+		<caseparameters>
+			<parameter>
+				<name>
+					<fo:block font-weight="bold">Consolidated A/E No.</fo:block>
+				</name>
+				<value>
+					<fo:block>
+						<xsl:value-of select="$vdCONumber"/>
+					</fo:block>
+				</value>
+			</parameter>		
+			<parameter>
+				<name>
+					<fo:block font-weight="bold">Creditor</fo:block>
+					<fo:block font-size="9pt">(including ref.)</fo:block>
+				</name>
+				<value>
+					<xsl:call-template name="display-creditor-name-and-reference-template">
+						<xsl:with-param name="addressee">
+							<xsl:value-of select="$addressee"/>
+						</xsl:with-param>
+					</xsl:call-template>										
+				</value>
+			</parameter>				
+			<parameter>
+				<name>
+					<fo:block font-weight="bold">Debtor</fo:block>
+				</name>
+				<value>
+					<fo:block hyphenate="true">
+						<xsl:value-of select="$vdCODebtorName"/>
+					</fo:block>
+				</value>
+			</parameter>
+			<parameter>
+				<name>
+					<fo:block font-weight="bold">Employer's Ref.</fo:block>
+				</name>
+				<value>
+					<fo:block hyphenate="true">
+						<xsl:value-of select="$vdCOEmployerReference"/>
+					</fo:block>
+				</value>
+			</parameter>
+		</caseparameters>
+	</courtcase>
+	<bodyintroright><fo:block><fo:inline text-align="center"><seal/></fo:inline></fo:block></bodyintroright>
+	
+	<body>
+	
+		<fo:block space-after="0.4cm">
+			<xsl:value-of select="$vdCAEOInitiator"/>
+		</fo:block>
+		<fo:block>
+			This will mean that:
+		</fo:block>
+		<list type="bullet">
+			<list-item>
+				<fo:block>all existing attachment of earnings orders will be brought together with:</fo:block>
+			</list-item>
+		</list>
+			<fo:block space-before="0.4cm" space-after="0.4cm">
+				<fo:table table-layout="fixed">
+					<fo:table-column column-width="79.4pt"/>
+					<fo:table-column column-width="160pt"/>
+					<fo:table-column column-width="214pt"/>
+					<fo:table-column column-width="85pt"/>
+					<fo:table-body>			
+						<xsl:copy-of select="$vdDebtorNoticeCOTable"/>
+					</fo:table-body>
+				</fo:table>
+			</fo:block>
+		<list type="bullet">
+			<list-item>
+				<fo:block>the employer will be required to make only one deduction from his employee's earnings</fo:block>
+			</list-item>
+			<list-item>
+				<fo:block>the court will hold the money and pay regular dividends</fo:block>
+			</list-item>
+			<list-item>
+				<fo:block>the court will deduct an administration fee of <xsl:value-of select="$vdFeeRate"/>p per &#163; from the money paid into court</fo:block>
+			</list-item>
+		</list>
+
+		<fo:block space-before="0.4cm" space-after="0.4cm" text-align="right">
+			<fo:inline font-weight="bold">Dated </fo:inline><xsl:value-of select="$vdEventDate"/>
+		</fo:block>
+		<fo:block space-after="0.4cm">
+			<fo:inline  font-weight="bold">If you (either the Creditor or the Debtor) object </fo:inline>to a consolidated order being made, you must give your reasons in the space provided below and return the form to the court.  You have 16 days from the date of the postmark to do this.  
+			A consolidated order will <fo:inline text-decoration="underline">not</fo:inline> be made only in exceptional circumstances.  The court will inform the parties of its decision.
+		</fo:block>		
+		<fo:block font-weight="bold" space-after="3.5cm">I object to a consolidated order being made because</fo:block>
+		<signature signaturetype="COsignature"/>
+	</body>
+	<defaultFooter id="CO14" CO="true"/>
+</root>

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: CounterVerification
+	Method:  getCounterPaymentsByUserStatus()
+	File:    get_counter_payments_by_user_status.xml
+	Author:  Mark Hallam
+	Created: 23 November 2005
+	Description: 
+		Gets the number of payments for a particular user
+	Change History:
+		04/08/2006 - Chris Vincent: fixed defect 4141 by adding security role ccbcMan to the service.
+-->
+<service-method>
+	<pipeline>
+		<Query>
+			<QueryDef location="uk/gov/dca/caseman/counter_verification_service/query_def_payments_by_user_exists.xml"/>
+			<QueryExtension pivotNode="/PaymentsFound">
+				<Param name="param.adminCourtCode" xpath="/params/param[@name = 'adminCourtCode']"/>
+				<Param name="param.inputBy" xpath="/params/param[@name = 'inputBy']"/>
+			</QueryExtension>
+		</Query>
+	</pipeline>
+	<Security roles="viewOnly medium high wcSuper scSuper bmsSuper aeSuper dmSuper edsAdmin admin cpSuper ccbcMan"/>
+</service-method>

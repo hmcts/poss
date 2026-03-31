@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	v1.0 Chris Hutt 29/9/2005
+    V1.1 Chris Hutt 06/04/2006 : DEFECT UCT78: JUDGMENT_TYPE CHANGED FROM 'JUDGES' TO 'DETERMINATION'
+	V1.2 Chris Hutt 19/05/2006 : Fefect 78 : Registration test (AND JDG.SENT_TO_RTL IS NULL) removed
+	V1.3 Chris Vincent 21/11/2007: UCT_Group2 Defect 1622, wrap IP.DELETED_FLAG round NVL() and check
+		 only for values of 'N' which is what CCBC Batch sets it to.
+-->
+<QueryDef>
+	<DBMapDef location="uk/gov/dca/caseman/judgment_service/map_parties_with_judgment_for_redetermination.xml"/>
+	<Query pivotNode="/JudgmentsForRedetermination/Judgment" tables="JDG">
+	   	<LinkedJoin type="root" key="JDG.JUDG_SEQ">
+	   		<Join>
+	   			(JDG.STATUS IS NULL OR JDG.STATUS = 'VARIED') AND
+				JDG.JUDGMENT_TYPE = 'DETERMINATION' 				
+	   		</Join>
+	   	</LinkedJoin>
+        <Modify notModifiable="true"/>
+	</Query>
+	<Query pivotNode="/JudgmentsForRedetermination/Judgment/InFavour/Parties/Party" tables="IP">
+	   	<LinkedJoin type="query" key="IP.CASE_PARTY_NO IP.PARTY_ROLE_CODE">
+	   		<Parent key="JDG.JUDG_SEQ" tables="JDG"/>
+	   		<Join>
+	   			IP.CASE_NUMBER = JDG.CASE_NUMBER AND
+	   			IP.JUDG_SEQ = JDG.JUDG_SEQ AND
+	   			NVL(IP.DELETED_FLAG, 'N') = 'N'
+		   	</Join>
+		</LinkedJoin>
+        <Modify notModifiable="true"/>
+	</Query>
+</QueryDef>

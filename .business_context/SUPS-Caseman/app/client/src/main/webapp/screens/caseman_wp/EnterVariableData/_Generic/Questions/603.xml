@@ -1,0 +1,34 @@
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>603</Id>
+	<Label>Fatal Accident Act sum to go to</Label>
+	<ObjectName>FatalAccidentSumTo</ObjectName>
+
+	<Html>	
+		<select id="FatalAccidentSumTo">
+			<option value=""></option>
+			<option value="CHILD">Child dependent</option>
+			<option value="CLM">Claimant</option>
+			<option value="BOTH">Both</option>
+		</select>
+	</Html>		
+
+		
+	<Javascript>
+		<XPath>/ds/EnterVariableData/Settlement/fatalAccidentSumTo</XPath>
+		<componentName>##label##</componentName>
+		<isMandatory>return true;</isMandatory>
+		<HintText>Select who is the Fatal Accident Act sum to go to</HintText>		
+		<enableOn>ApportionSum.dataBinding, ApportionSumAct.dataBinding</enableOn>
+		<isEnabled>return('Y' == Services.getValue(ApportionSum.dataBinding) &amp;&amp;
+							'LAW' != Services.getValue(ApportionSumAct.dataBinding));
+		
+		</isEnabled>
+		<logicOn>ApportionSum.dataBinding, ApportionSumAct.dataBinding</logicOn>
+		<logic>
+			if('Y' != Services.getValue(ApportionSum.dataBinding) ||
+							'LAW' == Services.getValue(ApportionSumAct.dataBinding))
+			{	Services.setValue(FatalAccidentSumTo.dataBinding, "");
+			}
+		</logic>	
+	</Javascript>
+</Question>

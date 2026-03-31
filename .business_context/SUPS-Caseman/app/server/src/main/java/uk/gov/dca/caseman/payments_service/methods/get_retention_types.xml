@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: Payments
+	Method: getRetentionTypes()
+	File: get_retention_types.xml
+	Author: Steve Blair
+	Description:
+		Get retention types from CCBC_REF_CODES table.
+-->
+<service-method>
+	<pipeline>
+		<Query>
+			<QueryDef location="uk/gov/dca/caseman/payments_service/query_def_retention_types.xml" />
+			<QueryExtension pivotNode="/RetentionTypes/RetentionType">
+				<Constraint>
+					CRC.RV_DOMAIN = 'RETENTION TYPE' AND
+					CRC.RV_LOW_VALUE != 'JGMT(500+)'
+				</Constraint>
+				<Ordering>
+					CRC.RV_MEANING
+				</Ordering>
+			</QueryExtension>
+		</Query>
+	</pipeline>
+	<Security roles="medium high wcSuper scSuper bmsSuper aeSuper dmSuper cpSuper" />
+</service-method>

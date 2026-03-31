@@ -1,0 +1,30 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: Payout
+	Method:  confirmDividendPayment()
+	File:    confirm_dividend_payment.xml
+	Author:  A. Bonnar (EDS)
+	Created: 23rd February 2006
+	Description: 
+		Get the count of dividend payments.
+-->
+<service-method>
+	<pipeline>
+		<SQLLite format-output="true"
+				 resultset-element="ds"
+				 row-element="dividendPayment"
+				 field-name-as="element" >
+			<DataSource id="java:OracleDS"/>
+				<Param name="param.transactionNumber" xpath="/params/param[@name='transactionNumber']"/>
+				<Param name="param.adminCourtCode" xpath="/params/param[@name='adminCourtCode']"/>
+			<SQL>
+				SELECT COUNT(*) AS "dividendPayment"
+					FROM CANDIDATE_DIVIDEND_PAYMENTS CDP
+					WHERE CDP.CDP_TRANSACTION_NUMBER = ${param.transactionNumber}
+					AND CDP.ADMIN_COURT_CODE = ${param.adminCourtCode}
+					AND CDP.CDP_DIV_NUMBER IS NOT NULL
+			</SQL>
+		</SQLLite>
+	</pipeline>
+	<Security roles="viewOnly medium high wcSuper scSuper bmsSuper aeSuper dmSuper edsAdmin"/>	
+</service-method>

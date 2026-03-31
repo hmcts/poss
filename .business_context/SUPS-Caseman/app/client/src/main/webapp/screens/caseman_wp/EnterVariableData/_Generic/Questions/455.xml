@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>455</Id>
+	<Label>Details of Other N79A contempt</Label>
+	<ObjectName>OtherN39ComtemptDtls</ObjectName>
+	<Html>	
+		<input type="text" id="OtherN39ComtemptDtls"></input>
+	</Html>			
+	<Javascript>
+		<XPath>/ds/EnterVariableData/DisobedienceCommit/otherN39ComtemptDtls</XPath>
+		<componentName>##label##</componentName>
+		<isMandatory>return true;</isMandatory>
+		<HintText>Enter any other details of N79A contempt, if applicable</HintText>	
+		<enableOn>N79AContemptDetails2.dataBinding</enableOn>
+		<isEnabled>return('O' == Services.getValue(N79AContemptDetails2.dataBinding));</isEnabled>		
+		<logicOn>N79AContemptDetails2.dataBinding</logicOn>
+		<logic>
+			if('O' != Services.getValue(N79AContemptDetails2.dataBinding))
+			{	Services.setValue(OtherN39ComtemptDtls.dataBinding, "");
+			}
+		</logic>
+	</Javascript>
+</Question>

@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>9145</Id>
+	<Label>Select from the following</Label>
+	<ObjectName>SpecificOR</ObjectName>
+	<Html>
+		<select id="SpecificOR">
+			<option value=""></option>
+			<option value="OR">The official receiver</option>
+			<option value="OOR">One of the official receivers</option>
+		</select>
+	</Html>			
+	<Javascript>
+		<XPath>/ds/EnterVariableData/specificOR</XPath>
+        <HintText>Select from the following</HintText>
+		<isEnabled>return true</isEnabled>
+		<mandatoryOn>SpecificOR.dataBinding</mandatoryOn>
+		<isMandatory>return true;</isMandatory>
+        <Context ScreenId="O_11_1_2_3_4">
+            <enableOn>SpecificOR.dataBinding</enableOn>
+            <isEnabled>return WPU.calculateEventEnablement(691);</isEnabled>
+            <mandatoryOn>SpecificOR.dataBinding</mandatoryOn>
+            <isMandatory>return WPU.calculateEventEnablement(691);</isMandatory>
+        </Context>
+	</Javascript>
+</Question>  

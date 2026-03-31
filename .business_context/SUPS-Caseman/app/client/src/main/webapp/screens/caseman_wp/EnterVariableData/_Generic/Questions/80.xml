@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>80</Id>
+	<Label>Hire purchase agreement</Label>
+	<ObjectName>HirePurchaseAgreement</ObjectName>
+	
+	
+	<Context screenId="CJR351"><isVisible>false</isVisible></Context>
+	
+	
+	<Html>
+	  <input id="HirePurchaseAgreement" type="checkbox"/>
+	</Html>
+	
+	
+	
+	<Javascript>
+		<XPath>/ds/EnterVariableData/Order/hashpagreement</XPath>		
+		<isEnabled>
+		   return true;
+		</isEnabled>
+		<HintText>Check box if a hire purchase agreement</HintText>
+		<modelValue>checked: "Y", unchecked: "N"</modelValue>
+		 <initialise>		  	
+		  	Services.setValue(HirePurchaseAgreement.dataBinding,'Y');
+		 </initialise>
+		 <isMandatory>return false;</isMandatory>
+		 <mandatoryOn>HirePurchaseAgreement.dataBinding</mandatoryOn>
+		 
+		 <Context screenId="CJR351"><isVisible>false</isVisible></Context>
+	</Javascript>
+</Question>

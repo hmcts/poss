@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<DBMapDef>
+	<DataSource id="java:OracleDS"/>
+	<Tables>
+		<Table alias="CE" name="CASE_EVENTS"/>
+	</Tables>
+	<Mapping>
+		<CaseEvents>
+			<CaseEvent>			
+				<EventSeq>${CE.EVENT_SEQ}</EventSeq>
+				<!-- <CaseEventSequence>${param.caseEventSequence}</CaseEventSequence> -->
+                        <CaseEventSequence></CaseEventSequence>
+				<CaseNumber>${CE.CASE_NUMBER}</CaseNumber>
+				<DeftCaseNumber>${CE.DEFT_CASE_NUMBER}</DeftCaseNumber>
+				<DeftID>${CE.DEFT_ID}</DeftID>
+				<EventID>${CE.STD_EVENT_ID}</EventID>
+				<Requestor>${CE.REQUESTER}</Requestor>
+				<Details>${CE.DETAILS}</Details>
+				<EventDate>${CE.EVENT_DATE}</EventDate>
+				<Result>${CE.RESULT}</Result>
+				<WarrantNumber>${CE.WRT_NUMBER}</WarrantNumber>
+				<JudgSequence>${CE.JUDG_SEQ}</JudgSequence>
+				<VarySequence>${CE.VARY_SEQ}</VarySequence>
+				<Deleted>${CE.DELETED_FLAG}</Deleted>
+				<UserName>${CE.USERNAME}</UserName>
+				<ReceiptDate>${CE.RECEIPT_DATE}</ReceiptDate>
+				<Court>${CE.CRT_CODE}</Court>
+				<ResultDate>${CE.RESULT_DATE}</ResultDate>
+				<!-- <PartyRoleCode>${CE.PARTY_ROLE_CODE}</PartyRoleCode>
+				<CasePartyNo>${CE.CASE_PARTY_NO}</CasePartyNo> -->
+			</CaseEvent>
+		</CaseEvents>
+	</Mapping>
+</DBMapDef>

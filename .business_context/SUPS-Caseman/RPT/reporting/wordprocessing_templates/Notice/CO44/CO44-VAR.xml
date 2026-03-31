@@ -1,0 +1,384 @@
+<variabledata xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="..\Notice-VAR.xsd">
+	<!-- Set this to <division>'Q'</division> or <division>'C'</division> to remove the 
+	county court sections in the Notes and set it to '<division></division>' to add it -->
+	<division></division>
+	<court>
+		<name>Camberley</name>
+		<type>Q</type>
+		<address>
+			<line1>Yorktown House</line1>
+			<line2>Frimley Road</line2>
+			<line3>Camberley</line3>
+			<line4>Surrey</line4>
+			<line5></line5>
+			<postcode></postcode>
+		</address>
+		<telephonenumber>01234 567 890</telephonenumber>
+		<faxnumber>01234 567 890</faxnumber>
+	</court>
+	<claim>
+		<number>1234</number>
+		<issuefee>10.23</issuefee>
+		<dateofissue>24-FEB-2005</dateofissue>
+		<claimant>
+			<id>1</id>
+			<number>1</number>
+			<name>Mr. Claimant</name>
+			<reference>abc</reference>
+			<address>
+				<line1>4 Roundwood Avenue</line1>
+				<line2>Stockley Park</line2>
+				<line3>Uxbridge</line3>
+				<line4>Middx.</line4>
+				<line5></line5>
+				<postcode>UB11 1BQ</postcode>
+			</address>
+			<dx>GT5555</dx>
+			<representativeid>1111</representativeid>
+			<solicitorsurrogateid>111</solicitorsurrogateid>
+			<solicitorreference>QQQ1111</solicitorreference>
+		</claimant>
+		<claimant>
+			<id>2</id>
+			<number>2</number>
+			<name>Mr. Claimant2</name>
+			<reference>abc</reference>
+			<address>
+				<line1>2 Roundwood Avenue</line1>
+				<line2>Stockley Park</line2>
+				<line3>Uxbridge</line3>
+				<line4>Middx.</line4>
+				<line5></line5>
+				<postcode>UB11 1BQ</postcode>
+			</address>
+			<dx>GT5555</dx>
+		</claimant>
+		<defendant>
+			<id>1</id>
+			<number>1</number>
+			<name>Mr. Defendant</name>
+			<reference>xyz</reference>
+			<address>
+				<line1>4 Roundwood Avenue</line1>
+				<line2>Stockley Park</line2>
+				<line3>Uxbridge</line3>
+				<line4>Middx.</line4>
+				<line5></line5>
+				<postcode>UB11 1BQ</postcode>
+			</address>
+			<dx>IOIIOOII</dx>
+		</defendant>
+		<representative>
+			<id>1111</id>
+			<number>1</number>
+			<name>Paul Boulton</name>
+			<reference>QQQ1111</reference>
+			<address>
+				<line1>3 St sasaviors CL</line1>
+				<line2>Barton Segrave</line2>
+				<line3>Kettering</line3>
+				<line4>Northants</line4>
+				<line5>England</line5>
+				<postcode>NN153JG</postcode>
+			</address>
+			<surrogateid>111</surrogateid>
+		</representative>
+		<hearing>
+			<date>10-DEC-2004</date>
+			<time>10:30</time>
+			<court>
+				<name>Fleet</name>
+				<type>Q</type>
+				<address>
+					<line1>line1</line1>
+					<line2>line2</line2>
+					<line3>line3</line3>
+					<line4>lin4</line4>
+					<line5></line5>
+					<postcode>postcode</postcode>
+				</address>
+				<telephonenumber>01111 222 333</telephonenumber>
+				<faxnumber>02222 333 444</faxnumber>
+			</court>
+			<attendees></attendees>
+			<preliminaryhearingreason></preliminaryhearingreason>
+		</hearing>
+	</claim>
+	<event>
+		<date>01-NOV-2004</date>
+		<producedby>Mr. Producer</producedby>
+		<SubjectCasePartyNumber>1</SubjectCasePartyNumber>
+		<SubjectPartyRoleCode>DEFENDANT</SubjectPartyRoleCode>
+		<InstigatorList>
+			<Instigator>
+				<CasePartyNumber>1</CasePartyNumber>
+				<CasePartyRoleCode>CLAIMANT</CasePartyRoleCode>
+			</Instigator>
+			<Instigator>
+				<CasePartyNumber>2</CasePartyNumber>
+				<CasePartyRoleCode>CLAIMANT</CasePartyRoleCode>
+			</Instigator>
+		</InstigatorList>
+	</event>
+	<order>
+		<instalmentamount>789.123</instalmentamount>
+		<instalmentperiod>FOR</instalmentperiod>
+		<osnomicbalance>12345</osnomicbalance>
+		<perrate>12.124</perrate>
+		<debtor>
+			<id>1</id>
+			<name>Mr Debtor</name>
+				<address>
+					<line1>Debtor line1</line1>
+					<line2>Debtor line2</line2>
+					<line3>Debtor line3</line3>
+					<line4>Debtor line4</line4>
+					<line5>Debtor line5</line5>
+					<postcode>Debotr pc</postcode>
+				</address>
+			<employerref>EMP10001</employerref>
+			<casenumber>DEB01110</casenumber>
+		</debtor>
+		<employer>
+			<id>1</id>
+			<name>Mr Employer</name>
+				<address>
+					<line1>Employer line1</line1>
+					<line2>Employer line2</line2>
+					<line3>Employer line3</line3>
+					<line4>Employer line4</line4>
+					<line5>Employer line5</line5>
+					<postcode>Employer pc</postcode>
+				</address>
+			<employerref>Employer10001</employerref>
+			<casenumber>Employer01110</casenumber>
+		</employer>
+		<coorder>
+			<debts>
+				<debt>
+					<debtstatus>LIVE</debtstatus>
+					<creditor>
+						<id>1</id>
+						<name>Mr Creditor 1</name>
+							<address>
+								<line1>Creditor 1 line1</line1>
+								<line2>Creditor 1 line2</line2>
+								<line3>Creditor 1 line3</line3>
+								<line4>Creditor 1 line4</line4>
+								<line5>Creditor 1 line5</line5>
+								<postcode>Creditor pc</postcode>
+							</address>
+					</creditor>
+					<balance>100</balance>
+					<debtcasenumber>CRED111</debtcasenumber>
+				</debt>
+				<debt>
+					<debtstatus>LIVE</debtstatus>
+					<creditor>
+						<id>2</id>
+						<name>Mr Creditor 2</name>
+							<address>
+								<line1>Creditor line1</line1>
+								<line2>Creditor line2</line2>
+								<line3>Creditor line3</line3>
+								<line4>Creditor line4</line4>
+								<line5>Creditor line5</line5>
+								<postcode>Creditor pc</postcode>
+							</address>
+					</creditor>
+					<balance>200</balance>
+					<debtcasenumber>CRED222</debtcasenumber>
+				</debt>
+				<debt>
+					<debtstatus>LIVE</debtstatus>
+					<creditor>
+						<id>3</id>
+						<name>Mr Creditor 3</name>
+							<address>
+								<line1>Creditor line1</line1>
+								<line2>Creditor line2</line2>
+								<line3>Creditor line3</line3>
+								<line4>Creditor line4</line4>
+								<line5>Creditor line5</line5>
+								<postcode>Creditor pc</postcode>
+							</address>
+					</creditor>
+					<balance>300</balance>
+					<debtcasenumber>CRED333</debtcasenumber>
+				</debt>
+				<debt>
+					<debtstatus>LIVE</debtstatus>
+					<creditor>
+						<id>4</id>
+						<name>Mr Creditor 4</name>
+							<address>
+								<line1>Creditor 4 line1</line1>
+								<line2>Creditor 4 line2</line2>
+								<line3>Creditor 4 line3</line3>
+								<line4>Creditor 4 line4</line4>
+								<line5>Creditor 4 line5</line5>
+								<postcode>Creditor pc</postcode>
+							</address>
+					</creditor>
+					<balance>400</balance>
+					<debtcasenumber>CRED444</debtcasenumber>
+				</debt>
+				<debt>
+					<debtstatus>LIVE</debtstatus>
+					<creditor>
+						<id>5</id>
+						<name>Mr Creditor 5</name>
+							<address>
+								<line1>Creditor 5 line1</line1>
+								<line2>Creditor 5 line2</line2>
+								<line3>Creditor 5 line3</line3>
+								<line4>Creditor 5 line4</line4>
+								<line5>Creditor 5 line5</line5>
+								<postcode>Creditor pc</postcode>
+							</address>
+					</creditor>
+					<balance>500</balance>
+					<debtcasenumber>CRED555</debtcasenumber>
+				</debt>
+				<debt>
+					<debtstatus>LIVE</debtstatus>
+					<creditor>
+						<id>6</id>
+						<name>Mr Creditor 6</name>
+							<address>
+								<line1>Creditor 6 line1</line1>
+								<line2>Creditor 6 line2</line2>
+								<line3>Creditor 6 line3</line3>
+								<line4>Creditor 6 line4</line4>
+								<line5>Creditor 6 line5</line5>
+								<postcode>Creditor pc</postcode>
+							</address>
+					</creditor>
+					<balance>600</balance>
+					<debtcasenumber>CRED666</debtcasenumber>
+				</debt>
+				<debt>
+					<debtstatus>LIVE</debtstatus>
+					<creditor>
+						<id>7</id>
+						<name>Mr Creditor 7</name>
+							<address>
+								<line1>Creditor 7 line1</line1>
+								<line2>Creditor 7 line2</line2>
+								<line3>Creditor 7 line3</line3>
+								<line4>Creditor 7 line4</line4>
+								<line5>Creditor 7 line5</line5>
+								<postcode>Creditor pc</postcode>
+							</address>
+					</creditor>
+					<balance>700</balance>
+					<debtcasenumber>CRED777</debtcasenumber>
+				</debt>
+				<debt>
+					<debtstatus>LIVE</debtstatus>
+					<creditor>
+						<id>8</id>
+						<name>Mr Creditor 8</name>
+							<address>
+								<line1>Creditor 8 line1</line1>
+								<line2>Creditor 8  line2</line2>
+								<line3>Creditor 8 line3</line3>
+								<line4>Creditor 8 line4</line4>
+								<line5>Creditor 8 line5</line5>
+								<postcode>Creditor pc</postcode>
+							</address>
+					</creditor>
+					<balance>800</balance>
+					<debtcasenumber>CRED888</debtcasenumber>
+				</debt>
+				<debt>
+					<debtstatus>DELEDTED</debtstatus>
+					<creditor>
+						<id>9</id>
+						<name>Mr Creditor 9</name>
+							<address>
+								<line1>Creditor 9 line1</line1>
+								<line2>Creditor 9 line2</line2>
+								<line3>Creditor 9 line3</line3>
+								<line4>Creditor 9 line4</line4>
+								<line5>Creditor 9 line5</line5>
+								<postcode>Creditor pc</postcode>
+							</address>
+					</creditor>
+					<balance>900</balance>
+					<debtcasenumber>CRED999</debtcasenumber>
+					<newdebt>Y</newdebt>
+				</debt>
+			</debts>
+			<suspendvaried>Suspend</suspendvaried>
+			<suspendreason>Blab! Blab! Blab! Blab! Blab! Blab! Blab! Blab! Blab! Blab! Blab!</suspendreason>
+			<hearingorder>N</hearingorder>
+			<moneyincourt>12121</moneyincourt>
+			<coststext>This is the text for Dev R6</coststext>
+			<frequency>MTH</frequency>
+			<firstpaymentdate>21-Aug-2112</firstpaymentdate>
+			<reviewper>Y</reviewper>
+			<reviewinter>a Month</reviewinter>
+			<reviewmonths>3</reviewmonths>
+			<applicant>
+				<name>Bob T Builder</name>
+				<address>
+					<line1>Applicant 1 line1</line1>
+					<line2>Applicant 1 line2</line2>
+					<line3>Applicant 1 line3</line3>
+					<line4>Applicant 1 line4</line4>
+					<line5>Applicant 1 line5</line5>
+					<postcode>Creditor pc</postcode>
+				</address>
+			</applicant>
+			<objector>Dominic Bowers</objector>
+			<ordermade>N</ordermade>
+			<disstruckadj>ADJ</disstruckadj>
+			<objectingcreditor>Matthew Smith</objectingcreditor>
+			<malefemale>F</malefemale>
+			<debtordesc>Muppett</debtordesc>
+			<commitalperiod>13</commitalperiod>
+			<responsetime>12</responsetime>
+			<daten61a>15-Mar-2005</daten61a>
+			<fineamount>1234</fineamount>
+			<finedate>14-Mar-2005</finedate>
+			<reviewrequester>COURT</reviewrequester>
+			<amount>1234</amount>
+			<paymentsmissed>5</paymentsmissed>
+		</coorder>
+	</order>
+
+	<judgment>
+		<!-- Set this to '<registered>Y</registered>' to activate 
+		     the installments payment outputs and to remove the section change it to
+		     '<registered>N</registered>' -->
+		<judgmentdate>10-Sep-2004</judgmentdate>
+		<judgmentdatedisplayed>10 September 2004</judgmentdatedisplayed>
+		<judge>Mr Miaggi</judge>
+		<judgmentpluscost>2000000</judgmentpluscost>
+		<amount>1000000</amount>
+		<costs>5000</costs>
+		<judgmentstatus></judgmentstatus>
+		<finaldateofpayment>01-Mar-2008</finaldateofpayment>
+		<judgmentcourtcode>REA</judgmentcourtcode>
+		<address>
+			<line1>23 Bowling Lane</line1>
+			<line2>For Columbine</line2>
+			<line3>Farenheight</line3>
+			<line4>911</line4>
+			<line5>USA</line5>
+			<postcode>OO111OO</postcode>
+		</address>
+		<result></result>
+		<applcationtovaryapplicant></applcationtovaryapplicant>
+		<determinationperiod></determinationperiod>
+		<registered>Y</registered>
+		<paidbeforejudgment>1000</paidbeforejudgment>
+		<firstpaymentdate>15-Mar-2005</firstpaymentdate>
+		<paymentinfulldate></paymentinfulldate>
+		<instalmentamount>2000.897</instalmentamount>
+		<instalmentperiod>FOR</instalmentperiod>
+		<judgmentforthwith>N</judgmentforthwith>
+	</judgment>
+	
+</variabledata>

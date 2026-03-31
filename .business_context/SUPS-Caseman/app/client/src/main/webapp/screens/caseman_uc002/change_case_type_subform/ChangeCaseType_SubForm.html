@@ -1,0 +1,80 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3c.org/TR/html4/strict.dtd">
+<html>
+
+	<head>
+		<title>ChangeCaseType_SubForm</title>
+		<link href="ChangeCaseType_SubForm.css" type="text/css" rel="stylesheet">
+		<script type="text/javascript" src="../../../Framework.js"></script>
+    	<script type="text/javascript" src="../../../CaseManSubFormIncludeFiles.js"></script>
+		<script type="text/javascript" src="ChangeCaseType_SubForm.js"></script>
+  	</head>
+
+	<body>
+	
+    	<form id="changeCaseTypeSubform" class="subform">
+
+			<div class="panel">
+				<table class="content" style="height:267px;">
+					<tr>
+						<td align="center">
+							<label>Please select a new Case Type.  A list of values is available.</label>
+						</td>
+					</tr>
+					
+					<tr>
+						<td align="center">
+						
+							<table>
+								<tr>
+									<td style="width:125px;" align="left"><label for='ChangeCaseType_OldCaseType'>Old Case Type</label></td>
+									<td align="left">
+										<input id="ChangeCaseType_OldCaseType" type="text" size=30>
+									</td>
+									<td align="left">&nbsp;</td>
+								</tr>
+								<tr>
+									<td style="width:125px;" align="left"><label for='ChangeCaseType_NewCaseType'>New Case Type</label></td>
+									<td align="left">
+										<script type="text/javascript">
+											AutoCompletionRenderer.createInline("ChangeCaseType_NewCaseType");
+										</script>
+									</td>
+									<td align="left">
+										&nbsp;<input id="ChangeCaseType_NewCaseTypeLOVButton" type="Button" value="LOV">
+									</td>
+								</tr>
+							</table>
+
+						</td>
+					</tr>
+				</table>
+			</div>
+			
+			<!-- Subform action bar -->
+			<script type="text/javascript">
+				ActionBarRenderer.createInline(
+					"changeCaseType_statusbar",
+					[
+						{id: "ChangeCaseType_OkButton", label: "Ok"},	
+						{id: "ChangeCaseType_CancelButton", label: "Cancel"}
+					]
+				);
+			</script>
+
+			<!-- New Case Type LOV Button -->
+			<script type="text/javascript">
+				LOVPopupRenderer.createInline( 
+					"ChangeCaseType_NewCaseTypeLOVGrid", 
+					"New Case Type", 
+					["Value", "Description"], 
+					10, 
+					1, 
+					true 
+				);
+			</script>
+
+		</form>
+    
+    </body>
+    
+</html>

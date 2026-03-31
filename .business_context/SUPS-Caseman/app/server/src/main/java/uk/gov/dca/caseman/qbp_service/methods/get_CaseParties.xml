@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- 
+	Service: Qbp
+	Method:  getCaseParties()
+	File:    get_case_parties.xml
+	Author:  Chris Hutt
+	Created: 17 Nov 2004
+	Description: 
+		Retrieves details of cases and associated parties based on
+        criteria supplied.
+                
+     Chris Hutt 2nd October 2007 : Performance
+     	Calls java class to generate dynamic Sql
+     	
+--> 
+<service-method>
+	<pipeline>
+		<Query>
+			<QueryDef location="uk/gov/dca/caseman/qbp_service/query_def_caseparties.xml"/>
+			<QueryExtension pivotNode="/PartyQueryResults/PartyQueryResult">
+				<Param name="owningCourtCode" xpath="/params/param[@name = 'owningCourtCode']"/>
+				<Param name="caseNumber" xpath="/params/param[@name='caseNumber']"/>
+				<Param name="partyName" xpath="/params/param[@name='partyName']"/>
+				<Param name="partyType" xpath="/params/param[@name='partyType']"/>
+				<Param name="address1" xpath="/params/param[@name='address1']"/>
+				<Param name="address2" xpath="/params/param[@name='address2']"/>
+				<Param name="owningCourtName" xpath="/params/param[@name='owningCourtName']"/>	
+				<Param name="pageNumber" xpath="/params/param[@name='pageNumber']"/>		
+				<Param name="pageSize" xpath="/params/param[@name='pageSize']"/>
+				<Param name="insolvencyNumber" xpath="/params/param[@name='insolvencyNumber']"/>
+				<SQL type="select" generator="uk.gov.dca.caseman.qbp_service.java.QbpCaseSearchGenerator"/>
+				
+			</QueryExtension>
+		</Query>
+	</pipeline>
+	<Security roles="viewOnly medium high wcSuper scSuper bmsSuper aeSuper dmSuper cpSuper ccbcMan ccbcUser ccbcSGB2"/> 		
+</service-method>

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: Payments
+	Method: checkOutstandingPaymentsExist()
+	File: map_check_outstanding_payments_exist.xml
+	Author: Chris Vincent
+-->
+<DBMapDef>
+	<DataSource id="java:OracleDS" />
+	<Tables>
+		<Table alias="PY" name="PAYMENTS" />
+	</Tables>
+	<Mapping>
+		<OutstandingPaymentsExist>${OUTSTANDING_PAYMENTS}</OutstandingPaymentsExist>
+	</Mapping>
+</DBMapDef>

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<QueryDef>
+  <DBMapDef location="uk/gov/dca/caseman/case_event_service/map_is_coded_party.xml"/>
+  <Query pivotNode="/IsCodedParty" tables="CPR CP">
+    <SQL type="select">
+		SELECT DECODE(COUNT(*),0,'N','Y') AS "CPR.IS_CODED_PARTY" 
+		FROM   CASE_PARTY_ROLES CPR
+		,      CODED_PARTIES    CP
+		WHERE  CPR.CASE_NUMBER = ${param.caseNumber}
+		AND    CPR.PARTY_ROLE_CODE = ${param.partyRoleCode}
+		AND    CPR.CASE_PARTY_NO = ${param.casePartyNumber}
+		AND    CPR.PARTY_ID = CP.PARTY_ID
+    </SQL>
+    <Modify notModifiable="true"/>
+  </Query>    
+</QueryDef>

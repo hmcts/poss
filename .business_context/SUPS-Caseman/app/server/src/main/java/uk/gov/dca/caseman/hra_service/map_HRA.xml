@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<DBMapDef>
+	<DataSource id="java:OracleDS"/>
+	<Tables>
+		<Table alias="ED" name="ECHR_DETAILS"/>
+		<Table alias="EAP" name="ECHR_ARTICLE_PROTOCOL"/>
+		<Table alias="CE" name="CASE_EVENTS"/>
+		<Table alias="PT" name="PARTIES"/>
+		<Table alias="CPR" name="CASE_PARTY_ROLES"/>
+		<Table alias="PR" name="PARTY_ROLES"/>
+	</Tables>
+	<Mapping>
+		<ds>
+			<HumanRightsAct>
+			   <Cases>
+				<Case>
+        			<CaseNumber>${CE.CASE_NUMBER}</CaseNumber>
+        			<EventDate>${ED.EVENT_DATE}</EventDate>
+        			<ApplicationJudge>${ED.JUDGE_NAME}</ApplicationJudge>
+        			<UserID>${ED.USERNAME}</UserID>
+        			<ApplicationDate>${ED.DATE_OF_APPLN}</ApplicationDate>
+        			<Outcome>${ED.OUTCOME_OF_APPLN}</Outcome>
+        			<DeletedFlag>${ED.DELETED_FLAG}</DeletedFlag>
+        			<PartyType>${ED.PARTY_MADE_APPLN}</PartyType>
+        			<PartyName>${ED.NAME_OF_PARTY}</PartyName>
+        			<EventSequence>${CE.EVENT_SEQ}</EventSequence>
+        			<Parties>
+          				<Party>
+            				<PartyId>${PT.PARTY_ID}</PartyId>
+            				<Name>${PT.PERSON_REQUESTED_NAME}</Name>
+            				<Number>${CPR.CASE_PARTY_NO}</Number>
+            				<Role>${PR.PARTY_ROLE_DESCRIPTION}</Role>
+          				</Party>            
+        			</Parties>
+        			<Articles>
+          				<Article>
+            				<Number>${EAP.VALS_LOW_VALUE}</Number>
+            				<Description>${EAP.DESCRIPTION}</Description>
+          				</Article>          
+        			</Articles>
+        			<Protocols>
+          				<Protocol>
+            				<Number>${EAP.VALS_LOW_VALUE}</Number>
+            				<Description>${EAP.DESCRIPTION}</Description>
+          				</Protocol>          
+        			</Protocols>
+      			</Case>
+      			</Cases>
+    		</HumanRightsAct>
+		</ds>
+	</Mapping>
+</DBMapDef>
+
+

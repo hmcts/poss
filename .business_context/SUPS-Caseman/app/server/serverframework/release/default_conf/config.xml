@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration xmlns="http://java.sun.com/xml/ns/jax-rpc/ri/config">
+	<service name="Security" 
+		targetNamespace="${project.base-url}/xmlquery2/SecurityServiceServicePort" 
+		typeNamespace="${project.base-url}/types" 
+		packageName="uk.gov.dca.db.security"> 
+	    	<interface name="uk.gov.dca.db.security.SecurityServiceService" servantName="uk.gov.dca.db.security.SecurityBean"/> 
+		<!--
+		<typeMappingRegistry>
+			<typeMapping encodingStyle="http://schemas.xmlsoap.org/soap/encoding/">
+				<entry schemaType="BusinessException"
+					javaType="uk.gov.dca.db.exception.BusinessException"
+					serializerFactory="uk.gov.dca.db.exception.BusinessException_SOAPSerializer"
+					deserializerFactory="uk.gov.dca.db.exception.BusinessException_SOAPBuilder" 
+					/>
+			</typeMapping>
+		</typeMappingRegistry>
+		-->
+	</service>  
+</configuration> 

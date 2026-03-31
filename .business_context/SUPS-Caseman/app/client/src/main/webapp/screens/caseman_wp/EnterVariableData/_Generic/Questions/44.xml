@@ -1,0 +1,266 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>44</Id>
+	<Label>First instalment date (if applicable)</Label>
+	<ObjectName>InstalmentDate</ObjectName>
+	<Html>
+	  <script type="text/javascript">WP_DatePickerRenderer.createInline("InstalmentDate", false);</script>
+	</Html>
+	
+	<Context screenId="N32_2"><isVisible>false</isVisible></Context>
+	<Context screenId="N32_5"><isVisible>false</isVisible></Context>
+	<Context screenId="CJR090"><isVisible>false</isVisible></Context>
+    <Context screenId="CO28"><isVisible>false</isVisible></Context>
+    <Context screenId="CO31"><isVisible>false</isVisible></Context>
+
+	<Javascript>
+		<XPath>/ds/EnterVariableData/Judgment/instalmentdate</XPath>
+		<HintText>Enter the date first instalment is due (leave blank if not applicable)</HintText>
+		<mandatoryOn>InstalmentAmount.dataBinding</mandatoryOn>
+		<isMandatory>		 
+		        var val = Services.getValue(InstalmentAmount.dataBinding);       
+		        return( null != val &amp;&amp; val.length != 0 );
+		</isMandatory>
+	    <transformToModel>
+			return transformDateToModel(value);
+		</transformToModel>
+		<transformToDisplay>
+			if (value != null)
+			{
+				if (value.search(CaseManValidationHelper.YYYYMMDD_DATE_PATTERN) != -1)
+				{
+					return CaseManUtils.convertDateToDisplay(value);
+				}
+			}
+			return value;
+		</transformToDisplay>
+		<enableOn>InstalmentAmount.dataBinding</enableOn>
+		<isEnabled>
+		   var val = Services.getValue(InstalmentAmount.dataBinding); 
+		   return ( null != val &amp;&amp; val.length != 0 );		   		
+		</isEnabled>
+		<logicOn>InstalmentAmount.dataBinding</logicOn>
+		<logic>	   
+		   var val = Services.getValue(InstalmentAmount.dataBinding); 
+		   if(!( null != val &amp;&amp; val.length != 0 ) )
+		   {  Services.setValue(InstalmentDate.dataBinding);
+		   }
+		</logic>
+		<validateOn>InstalmentDate.dataBinding, JudgmentOrderDate.dataBinding</validateOn>
+		<validate>
+		   	var orderDate  = Services.getValue(JudgmentOrderDate.dataBinding);
+		   	var instalDate = Services.getValue(InstalmentDate.dataBinding);		   	   
+		   	var isBefore = compareDateStrings(orderDate ,instalDate);
+		   	var err = null;
+		   	if( -1 == isBefore )
+			{  err = ErrorCode.getErrorCode("CaseMan_paymentdate_preceeds_orderdate");			    
+			} 		  
+		   	return err;
+		</validate>
+		
+		<Context ScreenId="CJR040">
+			<enableOn>JudgmentForthwith.dataBinding,InstalmentAmount.dataBinding</enableOn>
+			<isEnabled>
+			 var isen = true;
+			 if('Y' == Services.getValue(JudgmentForthwith.dataBinding))
+			 {	isen = false;
+			 }
+			 else
+			 {
+			  	var val = Services.getValue(InstalmentAmount.dataBinding); 
+			  	
+		   		if( null == val || val.length == 0 )
+		   		{  isen = false;
+		   		}
+		   	 }
+		   	
+		   	 return isen;
+			</isEnabled>
+		</Context>
+		
+		<Context ScreenId="CJR041">
+			<enableOn>JudgmentForthwith.dataBinding,InstalmentAmount.dataBinding</enableOn>
+			<isEnabled>
+			 var isen = true;
+			 if('Y' == Services.getValue(JudgmentForthwith.dataBinding))
+			 {	isen = false;
+			 }
+			 else
+			 {
+			  	var val = Services.getValue(InstalmentAmount.dataBinding); 
+			  	
+		   		if( null == val || val.length == 0 )
+		   		{  isen = false;
+		   		}
+		   	 }
+		   	
+		   	 return isen;
+			</isEnabled>
+		</Context>
+		
+		<Context ScreenId="CJR042">
+			<enableOn>JudgmentForthwith.dataBinding,InstalmentAmount.dataBinding</enableOn>
+			<isEnabled>
+			 var isen = true;
+			 if('Y' == Services.getValue(JudgmentForthwith.dataBinding))
+			 {	isen = false;
+			 }
+			 else
+			 {
+			  	var val = Services.getValue(InstalmentAmount.dataBinding); 
+			  	
+		   		if( null == val || val.length == 0 )
+		   		{  isen = false;
+		   		}
+		   	 }
+		   	
+		   	 return isen;
+			</isEnabled>
+		</Context>
+		
+		<Context ScreenId="CJR043">
+			<enableOn>JudgmentForthwith.dataBinding,InstalmentAmount.dataBinding</enableOn>
+			<isEnabled>
+			 var isen = true;
+			 if('Y' == Services.getValue(JudgmentForthwith.dataBinding))
+			 {	isen = false;
+			 }
+			 else
+			 {
+			  	var val = Services.getValue(InstalmentAmount.dataBinding); 
+			  	
+		   		if( null == val || val.length == 0 )
+		   		{  isen = false;
+		   		}
+		   	 }
+		   	
+		   	 return isen;
+			</isEnabled>
+		</Context>
+		
+		<Context ScreenId="CJR065A">
+			<!--validateOn>InstalmentDate.dataBinding</validateOn>
+			<validate>
+			    var err = null;
+				if( !isFutureDate(Services.getValue(InstalmentDate.dataBinding)))
+				{	err = ErrorCode.getErrorCode("CaseMan_dateCannotBeInThePast_Msg");
+				}
+				return err;
+		  </validate-->
+		  <enableOn>JudgmentForthwith.dataBinding, PaymentDate.dataBinding</enableOn>
+		  <isEnabled>
+		  		var payDate = Services.getValue(PaymentDate.dataBinding);				
+				return('Y' != Services.getValue(JudgmentForthwith.dataBinding) &amp;&amp; ( null == payDate || "" == payDate ));
+		  </isEnabled>
+		  <logicOn>JudgmentForthwith.dataBinding, PaymentDate.dataBinding</logicOn>
+			<logic>
+				var payDate = Services.getValue(PaymentDate.dataBinding);				
+				if('Y' == Services.getValue(JudgmentForthwith.dataBinding) || ( null != payDate &amp;&amp; "" != payDate ))
+				{	Services.setValue(InstalmentDate.dataBinding, "");
+				}
+			</logic>
+		</Context>
+		<Context ScreenId="CJR050">
+			<enableOn>PaymentDate.dataBinding, HasCostOrder.dataBinding, AmountOrdered.dataBinding, CostType.dataBinding</enableOn>
+			<isEnabled>
+			var amo = Services.getValue(AmountOrdered.dataBinding);	
+			var costType = Services.getValue(CostType.dataBinding);
+			if (('A' == costType || 'M' == costType) &amp;&amp; !( null != amo &amp;&amp; amo > 0 )) {
+				return false; }
+			else {
+				var val = Services.getValue(PaymentDate.dataBinding);
+				var hco = Services.getValue(HasCostOrder.dataBinding);
+				var cam = Services.getValue(CostAmount.dataBinding);
+				return(  ('Y'  == hco  ||  (null != cam &amp;&amp; cam > 0) || ( null != amo &amp;&amp; amo > 0 )) &amp;&amp; ((null == val)  || ("" == val))  ); }	
+			</isEnabled>
+			<logicOn>PaymentDate.dataBinding, HasCostOrder.dataBinding, AmountOrdered.dataBinding</logicOn>
+			<logic>
+			   var val = Services.getValue(PaymentDate.dataBinding);		   
+				var hco = Services.getValue(HasCostOrder.dataBinding);
+				var amo = Services.getValue(AmountOrdered.dataBinding);	
+				if( ('Y'  != hco  &amp;&amp;  ( null == amo || "" == amo )) || ((null != val)  &amp;&amp; ("" != val))  )
+				{	Services.setValue(InstalmentDate.dataBinding, "");
+				}
+			</logic>
+			<isMandatory>return true;</isMandatory>
+			<HintText>Enter the first instalment date in the format DD-MON-YYYY</HintText>
+			<validateOn>InstalmentDate.dataBinding</validateOn>
+			<validate>
+				var checkDate = Services.getValue(InstalmentDate.dataBinding);
+				var isValid = isFutureDate(checkDate);
+				var err = null;
+				if( false != isValid)
+				{	
+					if(isNonWorkingDate( checkDate ))
+					{	err = ErrorCode.getErrorCode("CaseMan_dateNonWorkingDay_Msg");
+					}
+				}
+				else
+				{ 	err = ErrorCode.getErrorCode("CaseMan_dateCannotBeInThePast_Msg");
+				}
+				return err;
+			</validate>
+			<miscCode>InstalmentDate.weekends = false;</miscCode>
+		</Context>
+		<Context ScreenId="CJR051">
+			<HintText>Enter the first installment date in the format DD-MON-YYYY</HintText>
+			<isMandatory>return true;</isMandatory>
+			<validateOn>InstalmentDate.dataBinding</validateOn>
+			<validate>
+				var checkDate = Services.getValue(InstalmentDate.dataBinding);
+				var isValid = isFutureDate(checkDate);
+				var err = null;
+				if( false != isValid)
+				{	
+					if(isNonWorkingDate( checkDate ))
+					{	err = ErrorCode.getErrorCode("CaseMan_dateNonWorkingDay_Msg");
+					}
+				}
+				else
+				{ 	err = ErrorCode.getErrorCode("CaseMan_dateCannotBeInThePast_Msg");
+				}
+				return err;
+			</validate>
+			<miscCode>InstalmentDate.weekends = false;</miscCode>
+			
+			<enableOn>PaymentDate.dataBinding, HasCostOrder.dataBinding</enableOn>
+			<isEnabled>
+			   var val = Services.getValue(PaymentDate.dataBinding);
+			   
+			   return(( null == val || 0 == val.length)
+			   		&amp;&amp;	
+			   ('Y' == Services.getValue(HasCostOrder.dataBinding)));
+			   
+			</isEnabled>
+			<logicOn>PaymentDate.dataBinding, HasCostOrder.dataBinding</logicOn>
+			<logic>
+				 var val = Services.getValue(PaymentDate.dataBinding);
+			     if(( null != val &amp;&amp; 0 != val.length)
+			   		||	
+			   ('Y' != Services.getValue(HasCostOrder.dataBinding)))
+			   {   Services.setValue(InstalmentDate.dataBinding, "");
+			   }
+			</logic>
+		</Context>
+		<Context ScreenId="CJR052">
+			<HintText>Enter the first instalment date in the format DD-MON-YYYY</HintText>
+			<validateOn>InstalmentDate.dataBinding</validateOn>
+			<validate>
+				var checkDate = Services.getValue(InstalmentDate.dataBinding);
+				var isValid = isFutureDate(checkDate);
+				var err = null;
+				if( false != isValid)
+				{	
+					if(isNonWorkingDate( checkDate ))
+					{	err = ErrorCode.getErrorCode("CaseMan_dateNonWorkingDay_Msg");
+					}
+				}
+				else
+				{ 	err = ErrorCode.getErrorCode("CaseMan_dateCannotBeInThePast_Msg");
+				}
+				return err;
+			</validate>
+			<miscCode>InstalmentDate.weekends = false;</miscCode>
+		</Context>
+	</Javascript>
+</Question>

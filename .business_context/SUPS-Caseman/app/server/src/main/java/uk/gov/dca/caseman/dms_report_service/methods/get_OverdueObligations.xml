@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: DmsReport
+	Method:  getOverdueObligations()
+	File:    get_overdue_obligations.xml
+	Author:  Troy Baines
+	Created: 20 November 2004
+	Description: 
+        Retrieves List of Obligations which are overdue
+
+Change History 
+	11 Oct 2006	Chris Hutt	TD:5638 - pagination added
+	28/01/2013	Chris Vincent, Trac 4767, added new parameters of Start Date, End Date and Obligation Type, and also
+				added call to ObligationSearchGenerator to handle the optional parameters in querying for records.
+-->
+<service-method>
+	<pipeline>
+		<Query>
+			<QueryDef location="uk/gov/dca/caseman/dms_report_service/query_def_DMS.xml"/>
+			<QueryExtension pivotNode="/ds/OverdueObligations/Obligation">
+				<Param name="CourtCode" xpath="/params/param[@name = 'CourtCode']"/>
+				<Param name="startDate" xpath="/params/param[@name = 'startDate']"/>
+				<Param name="endDate" xpath="/params/param[@name = 'endDate']"/>
+				<Param name="obligationType" xpath="/params/param[@name = 'obligationType']"/>
+				<Param name="pageNumber" xpath="/params/param[@name = 'pageNumber']"/>
+				<Param name="pageSize" xpath="/params/param[@name = 'pageSize']"/>
+				
+				<SQL type="select" generator="uk.gov.dca.caseman.dms_report_service.java.ObligationSearchGenerator"/>
+				
+			</QueryExtension>
+		</Query>
+	</pipeline>
+	<Security roles="viewOnly medium high wcSuper scSuper bmsSuper aeSuper dmSuper edsAdmin ccbcMan"/>
+</service-method>

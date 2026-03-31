@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- ====================================================================== -->
+<!--  -->
+<!-- FILENAME: $Source: C:/CVSRepository/serveroas/src/uk/gov/dca/caseman/wordprocessing_templates/Notice/L_1_6/L_1_6-FO.xml,v $ -->
+<!--  -->
+<!-- AUTHOR: $Author: jay $-->
+<!--  -->
+<!-- DATE: $Date: 2006/06/19 10:55:30 $ -->
+<!--  -->
+<!-- Version: $Revision: 1.19 $ -->
+<!--  -->
+<!-- DESCRIPTION: This stylesheet is used to create an XSL:FO document that -->
+<!-- can be processed into a PDF version.  Business logic -->
+<!-- is embedded to generate the correct document text for the order -->
+<!-- required. -->
+<!--  -->
+<!-- INPUTS: XML document containing: the answers to questions asked of the -->
+<!-- user; case data retrieved from the database; HTML representing the  -->
+<!-- body of the document content (already edited by the user). -->
+<!--  -->
+<!-- OUTPUTS: XML document with FO tags containing instructions for the -->
+<!-- creation of a PDF document. -->
+<!--  -->
+<!-- ====================================================================== -->
+<root xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:fo="http://www.w3.org/1999/XSL/Format" xmlns="http://eds.com/supsfo">
+	<variables>@word.processing.url.xsl@supsfo.xsl</variables>
+	<layout yourRef="true">letter</layout>
+	<logo/>
+	<addressee>
+		<subject/>
+	</addressee>	
+	<body>
+		<editable>
+		<fo:block space-after="0.4cm">Dear <xsl:value-of select="$vdGreeting"/></fo:block>
+		<fo:block space-after="0.4cm" font-size="12pt" font-weight="bold" text-align="center">Re: Case Number: <xsl:value-of select="$vdClaimNumber"/>&#xa0;<xsl:value-of select="$vdClaimantName"/> v <xsl:value-of select="$vdDefendant1Name"/>
+		</fo:block>
+ 		<xsl:choose>
+			<xsl:when test="$vdWhatToDo = '1'">
+				<fo:block space-after="0.4cm">
+					Please find enclosed a copy of the Defence filed in this action. In view of its contents, please give your directions as how you wish to proceed:
+				</fo:block>
+				<fo:block space-after="0.4cm">
+					i) Withdraw the action
+				</fo:block>
+				<fo:block space-after="0.4cm">
+					ii) Proceed to hearing/transfer
+				</fo:block>
+				<fo:block space-after="0.4cm">
+					iii) Adjourn the action generally
+				</fo:block>
+				<fo:block space-after="0.4cm">
+					iv) Other (Please state)
+				</fo:block>
+			</xsl:when>
+			<xsl:when test="$vdWhatToDo = '2'">
+				<fo:block space-after="0.8cm">
+					Please find enclosed a copy of the form of Admission filed in this action. Please inform the Court if you accept the offer of payment contained therein.
+				</fo:block>
+			</xsl:when>
+			<xsl:when test="$vdWhatToDo = '3'">
+				<fo:block space-after="0.8cm">
+					Please find enclosed a copy of the Defendant's reply to your application for possession (form N11B).
+					This matter has today been referred to the District Judge for consideration. The application would normally be considered by the District Judge within 5 working days and the order or a reply dispatched within 10 working days of issue.
+				</fo:block>
+			</xsl:when>
+			<xsl:when test="$vdWhatToDo = '4'">
+				<fo:block space-after="0.8cm">
+					Please find enclosed your Landlord and Tenant Exclusion Order approved by the District Judge.
+				</fo:block>
+			</xsl:when>
+			<xsl:when test="$vdWhatToDo = '5'">
+				<fo:block space-after="0.8cm">
+					<xsl:copy-of select="$vdWhatToDoOther"/>
+				</fo:block>
+			</xsl:when>
+		</xsl:choose>
+		<fo:block space-after="1.5cm"><xsl:value-of select="$vdLetterEnding"/></fo:block>
+		<fo:block><xsl:value-of select="$vdName"/></fo:block>
+		<fo:block><xsl:value-of select="$vdSection"/> Section</fo:block>
+		<fo:block space-after="4cm">Ext <xsl:value-of select="$vdExtension"/></fo:block>
+		</editable>
+	</body>
+	<letterfooter id="L_1_6"/>
+</root>

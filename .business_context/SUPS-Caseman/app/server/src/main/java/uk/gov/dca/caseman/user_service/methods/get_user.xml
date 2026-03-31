@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: User
+	Method:  getUser()
+	File:    get_user.xml
+	Author:  Ian Stainer
+	Created: 21/04/2006
+	Description: 
+        Fetches the user profile for the given user id.
+	Changed by Nilesh Mistry as part of RFC 521 (TRAC ticket #11) to bring back user details in conjunction with a custom processor
+-->
+<service-method>
+	<pipeline>
+		<Query>
+			<QueryDef location="uk/gov/dca/caseman/user_service/query_def_get_user.xml"/>
+			<QueryExtension pivotNode="/ds/MaintainUser">
+				<Param name="param.userId" xpath="/params/param[@name = 'userBeingEdited']"/>
+				<Param name="param.courtId" xpath="/params/param[@name = 'courtId']"/>				
+				<Constraint>DU.USER_ID = ${param.userId}</Constraint>
+				<Constraint>UC.COURT_CODE (+) = ${param.courtId}</Constraint>
+				<Constraint>UR.ROLE_ID (+) != 'admin'</Constraint>
+				<Constraint>UR.ROLE_ID (+) != 'sAdmin'</Constraint>
+			</QueryExtension>
+		</Query>
+		<Java>
+			<Source class="uk.gov.dca.caseman.user_service.java.GetUserCustomProcessor"/>
+		</Java>
+	</pipeline>
+	<Security roles="viewOnly medium high wcSuper scSuper bmsSuper aeSuper dmSuper edsAdmin admin cpSuper ccbcMan ccbcUser ccbcSGB2 ccbcTape"/>			
+</service-method>

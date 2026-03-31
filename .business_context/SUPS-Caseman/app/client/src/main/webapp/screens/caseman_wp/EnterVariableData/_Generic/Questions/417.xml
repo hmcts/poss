@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>417</Id>
+	<Label>Which party must allow inspection?</Label>
+	<ObjectName>AllowInspectParty</ObjectName>
+	<Html>
+		<select id="AllowInspectParty">
+			<option value=""></option>
+			<option value="CLM">Claimant</option>
+			<option value="DEF">Defendant</option>
+			<option value="OTH">Other</option>
+		</select>
+	</Html>
+	
+	<Javascript>
+		<XPath>/ds/EnterVariableData/SmallTrack/allowInspectParty</XPath>
+		<HintText>Which party must allow inspection</HintText>
+		<isMandatory>return false;</isMandatory>
+		<enableOn>IsInspectDirns.dataBinding</enableOn>
+		<isEnabled>return('Y' == Services.getValue(IsInspectDirns.dataBinding));</isEnabled>
+		<logicOn>IsInspectDirns.dataBinding</logicOn>
+		<logic>
+			if('Y' != Services.getValue(IsInspectDirns.dataBinding))
+			{	Services.setValue(AllowInspectParty.dataBinding, "");
+			}
+		</logic>
+		
+		<Context ScreenId="CJR023C">
+			<isMandatory>return true;</isMandatory>
+		</Context>
+	</Javascript>
+</Question>

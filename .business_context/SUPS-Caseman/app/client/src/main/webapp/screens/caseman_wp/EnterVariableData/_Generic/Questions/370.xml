@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>370</Id>
+	<Label>What has been ordered</Label>
+	<ObjectName>OrderDetails2</ObjectName>
+	<Html>
+		<select id="OrderDetails2">
+			<option value=""></option>
+			<option value="LQ">To file questionnaires before a given date</option>
+			<option value="HRG">A hearing to explain default</option>
+		</select>
+	</Html>			
+	<Javascript>
+		<XPath>/ds/EnterVariableData/FailureToFile/orderDetails2</XPath>
+		<componentName>##label##</componentName>
+		<!-- 
+		DO NOT change isMandatory value to "return false". 
+		Refer to 369.xml for details. This is because PartiesFailedToFile depends on this question to 
+		implement it's mandatory behaviour
+		-->
+		<isMandatory>return true;</isMandatory> 
+		<HintText>Select the details about what has been ordered</HintText>	
+	</Javascript>
+</Question>

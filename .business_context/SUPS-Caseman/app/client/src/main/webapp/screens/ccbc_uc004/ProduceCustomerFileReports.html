@@ -1,0 +1,120 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN">
+<html>
+
+	<head>
+		<title>Print Customer File Reports</title>
+		<meta http-equiv="Content-Type"
+                 content="text/html; charset=ISO-8859-1">
+		<link type="text/css" rel="stylesheet" title="Default" href="../CCBCStylesheet.css">
+		<link href="ProduceCustomerFileReports.css" type="text/css" rel="stylesheet">
+
+	    <script type="text/javascript" src="../../Framework.js"></script>
+	    <script type="text/javascript" src="../../CaseManUtils.js"></script>
+	    <script type="text/javascript" src="../../Messages.js"></script>
+	    <script type="text/javascript" src="../CCBCShared.js"></script>
+		<script type="text/javascript" src="ProduceCustomerFileReports.js"></script>
+	</head>
+
+	<body>
+		<form name="ProduceCustomerFileReports" action="" id="ProduceCustomerFileReports">
+
+			<div  class="popup" id="Print_Popup">
+
+				<table  class="content">
+					<tr>
+						<td><label>Print</label></td>
+					</tr>
+				</table>
+
+				<div class="panel">
+					<table class="content" cellpadding="0" cellspacing="0">
+						<tr>
+							<td align="center">
+								<select style="width: 95%;" id="Print_Options_Sel" name="Print_Options_Sel">
+								<option value="Choose Print Option">Choose Print Option
+								<option value="Report of Files Logged">Report of Files Logged
+								<option value="Report of Files Loaded">Report of Files Loaded
+								<option value="Report of Unprocessed Files">Report of Unprocessed Files
+								</select>
+						    </td>
+						</tr>
+						<tr>
+							<td align="right">
+								<input id="Print_Print_Btn" type="button" value="Print" style="width: 75px; ">
+								<input id="Print_Close_Btn" type="button" value="Close" style="width: 75px; ">
+							</td>
+						</tr>
+					</table>
+				</div>
+			</div>
+
+			<table width="100%">
+  				<tr>
+   					<td>
+   						<script type="text/javascript">MenuBarRenderer.createInline();</script>
+   					</td>
+   				</tr>
+			</table>
+
+			<div class="panel">
+				<table class="content" >
+					<tr>
+						<td colspan="3" style="height: 160px;">
+							&nbsp;
+						</td>
+					</tr>
+					<tr>
+						<td colspan="3" style="height: 50px;">
+							&nbsp;
+						</td>
+					</tr>
+					<tr>
+						<td colspan="3" style="height: 23px;">
+							&nbsp;
+						</td>
+					</tr>
+					<tr>
+						<td width="25%">
+							&nbsp;
+						</td>
+						<td width="20%">
+							<label>Start Date</label>
+						</td>
+						<td width="40%">
+							<script type="text/javascript">DatePickerRenderer.createInline("Main_Start_Date_Cal", true);</script>
+						</td>
+					</tr>
+
+					<tr>
+						<td>
+							&nbsp;
+						</td>
+						<td>
+							<label>End Date</label>
+						</td>
+						<td>
+							<script type="text/javascript">DatePickerRenderer.createInline("Main_End_Date_Cal", true);</script>
+						</td>
+					</tr>
+					<tr>
+						<td colspan="3" style="height: 270px;">
+							&nbsp;
+						</td>
+					</tr>
+				</table>
+			</div>
+
+			<script type="text/javascript">	ActionBarRenderer.createInline(	"statusbar",
+										[
+										 {id: "Main_Print_Btn", label:   "Print"},
+										 {id: "Main_Clear_Btn", label:   "Clear"},
+										 {id: "Main_Exit_Btn", label:   "Close"}
+				                        ]);
+		   </script>
+
+		</form>
+	</body>
+
+</html>
+
+

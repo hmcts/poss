@@ -1,0 +1,49 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3c.org/TR/html4/strict.dtd">
+
+<html>
+
+	<head>
+		<title>FailedOvernightTransfers</title>
+		<link href="FailedOvernightTransfers.css" type="text/css" rel="stylesheet">
+		<script type="text/javascript" src="../../Framework.js"></script>
+		<script type="text/javascript" src="../../ConcatCommon.js"></script>
+		<script type="text/javascript" src="FailedOvernightTransfers.js"></script>
+	</head>
+	
+	<body>
+		<form name="FailedOvernightTransfers" id="failedOvernightTransfers">
+			
+			<!-- Framework Navigation Menu -->
+			<script type="text/javascript">MenuBarRenderer.createInline();</script>
+	
+			<table class="layout">
+				<tr>
+					<td>
+						<div class="panel">
+							<table class="content" style="height:570px;">
+								<tr>
+									<td valign="top">
+										<script type="text/javascript">Grid.createInline("Master_FailedTransfersGrid", ["Type", "Number", "Sending Court", "Receiving Court"], 33, 1);</script>
+									</td>
+								</tr>
+							</table>
+						</div>
+					</td>                
+				</tr>
+			</table>
+	
+			<!-- Status Bar Panel -->
+			<script type="text/javascript">
+				ActionBarRenderer.createInline(
+					"status_bar",
+					[
+						{id: "Status_CloseButton", label: "Close"}
+					]
+				);
+			</script>
+			<!-- End Status Bar Panel -->
+
+		</form>
+	</body>
+
+</html>

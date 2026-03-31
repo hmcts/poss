@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: Court
+	Method:  getCourtAndAddrType()
+	File:    map_def_court_and_addr_type.xml
+	Author:  Chris Hutt
+	Created: 16 feb 2006
+	Description: 
+		Court details and specified address type.
+				
+	Change History:
+
+-->
+<DBMapDef>
+  <DataSource id="java:OracleDS"/>
+  <Tables>
+    <Table alias="CT" name="COURTS"/>
+    <Table alias="GA" name="GIVEN_ADDRESSES"/>
+  </Tables>
+  <Mapping>
+    <Courts>
+    	<Court>
+    		<Code>${CT.CODE}</Code>
+    		<Name>${CT.NAME}</Name>	
+			<ContactDetails>
+				<Addresses>
+				<Address>
+					<AddressId>${GA.ADDRESS_ID}</AddressId>
+					<Line>${GA.ADDRESS_LINE1}</Line>
+					<Line>${GA.ADDRESS_LINE2}</Line>
+					<Line>${GA.ADDRESS_LINE3}</Line>
+					<Line>${GA.ADDRESS_LINE4}</Line>
+					<Line>${GA.ADDRESS_LINE5}</Line>
+					<PostCode>${GA.POSTCODE}</PostCode>
+					<DateFrom>${GA.VALID_FROM}</DateFrom>
+					<DateTo>${GA.VALID_TO}</DateTo>
+					<AddressTypeCode>${GA.ADDRESS_TYPE_CODE}</AddressTypeCode>
+				</Address>
+				</Addresses>
+				<DX>${CT.DX_NUMBER}</DX>
+				<TelephoneNumber>${CT.TEL_NO}</TelephoneNumber>
+				<FaxNumber>${CT.FAX_NO}</FaxNumber>
+				<DistrictRegistry>${CT.DISTRICT_REGISTRY}</DistrictRegistry>
+			</ContactDetails>
+    	</Court>
+    </Courts>	
+  </Mapping>
+</DBMapDef>

@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<DBMapDef>
+	<DataSource id="java:SupsDS"/>
+	<Tables>
+		<Table alias="S" name="COURT_SESSION"/>
+		<Table alias="SR" name="SERIES"/>
+        <Table alias="CSC" name="COURT_SESSION_CAPACITY"/>		
+		<Table alias="P" name="POLICY"/>
+		<Table alias="HT" name="HEARINGTYPES"/>
+		<Table alias="HC" name="HEARINGCATEGORIES"/>
+		<Table alias="J" name="JUDGE"/>
+		<Table alias="CR" name="COURTROOM"/>
+		<Table alias="C" name="COURT"/>
+		<Table alias="SR" name="SERIES"/>
+		<Table alias="SJC" name="SESSION_JUDGE_COURTROOM"/>
+		<Table alias="SJ" name="SESSION_JUDGE"/>
+		<Table alias="SC" name="SESSION_COURTROOM"/>
+		<Table alias="NLR" name="NONLISTINGREASONS"/>
+		<Table alias="DS" name="DATE_SERIES"/>
+		<Table alias="JT" name="JUDGETYPES"/>
+		<Table alias="JJT" name="JUDGE_JUDGETYPE"/>
+		<Table alias="JC" name="JUDGECATEGORIES"/>
+  	</Tables>
+  	
+  	<Mapping>
+        <Sessions>
+      		<Session>
+      			<Id>${S.COURT_SESSION_ID}</Id>
+      			<CourtId>${SR.COURT_ID}</CourtId>
+      			<Date>${S.SESSION_DATE}</Date>
+      			<Start>${SR.START_TIME}</Start>
+      			<End>${SR.END_TIME}</End>
+      			<Capacity>
+      			    <Total>${CSC.TOTAL_CAPACITY}</Total>
+      			    <Remaining>${CSC.REMAINING_CAPACITY}</Remaining>
+      			</Capacity>
+      			<IsListing>${SR.ISLISTING}</IsListing>
+      			<JudgeCourtrooms>
+          			<JudgeCourtroom>
+          				<Judge>
+          					<Id>${J.JUDGE_ID}</Id>
+          					<Name>${J.JUDGE_NAME}</Name>
+              			    <IsActive>${SJ.ISACTIVE}</IsActive>
+              			    <JudgeJudgeType>
+              			        <Id>${JJT.JUDGE_JUDGETYPE_ID}</Id>
+              			        <JudgeType>
+              			            <Id>${JT.JUDGETYPE_ID}</Id>
+              			            <Name>${JT.JUDGETYPENAME}</Name>
+              			            <Abbrev>${JT.JUDGETYPEABBREV}</Abbrev>
+              			        </JudgeType>
+              			    </JudgeJudgeType>
+          				</Judge>
+          				<Courtroom>
+          					<Id>${CR.COURTROOM_ID}</Id>
+          					<Name>${CR.COURTROOM_NAME}</Name>
+          	  			    <IsActive>${SC.ISACTIVE}</IsActive>
+          				</Courtroom>
+          			</JudgeCourtroom>
+          		</JudgeCourtrooms>
+          		<Judges>
+          			<Judge>
+      					<Id>${J.JUDGE_ID}</Id>
+      					<Name>${J.JUDGE_NAME}</Name>
+          			</Judge>
+          		</Judges>
+          		<Courtrooms>
+      				<Courtroom>
+      					<Id>${CR.COURTROOM_ID}</Id>
+      					<Name>${CR.COURTROOM_NAME}</Name>
+      				</Courtroom>
+      			</Courtrooms>
+      			<Policy>
+      				<Id>${P.POLICY_ID}</Id>
+      				<Overbook>${P.OVERBOOK_PERCENT}</Overbook>
+      				<MaxConcurrent>${P.MAX_CONCURRENT}</MaxConcurrent>
+      				<IsUnlimitedConcurrent>${P.ISUNLIMITEDCONCURRENT}</IsUnlimitedConcurrent>
+      				<MaxComplex>${P.MAX_COMPLEX}</MaxComplex>
+      				<IsUnlimitedComplex>${P.ISUNLIMITEDCOMPLEX}</IsUnlimitedComplex>
+      				<Priority>${P.PRIORITY}</Priority>
+      				<HearingTypes>
+          				<HearingType>
+          					<Id>${HT.HEARINGTYPE_ID}</Id>
+          					<DisplayName>${HT.DISPLAY_NAME}</DisplayName>
+          					<HearingCategory>
+          						<Id>${HC.HEARINGCATEGORY_ID}</Id>
+          						<Name>${HC.HEARINGCATEGORY_NAME}</Name>
+          					</HearingCategory>
+          				</HearingType>
+      				</HearingTypes>
+      			</Policy>
+      			<NonListingReason>
+      			    <Id>${NLR.NONLISTINGREASON_ID}</Id>
+      			    <Reason>${NLR.REASON_TEXT}</Reason>
+      			</NonListingReason>
+      			<AdditionalInformation>${SR.ADDITIONALINFORMATION}</AdditionalInformation>      			
+    		</Session>
+	    </Sessions>
+  	</Mapping>
+</DBMapDef>

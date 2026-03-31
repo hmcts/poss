@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--Question xmlns="http://eds.com/questionxhtml" xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd"-->
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>Q_DateOfHearing_CO</Id>
+	<Label>Date of Hearing</Label>
+	<ObjectName>DateOfHearing</ObjectName>
+	<Html>
+		<script type="text/javascript">
+			DatePickerRenderer.createInline("DateOfHearing", false);
+		</script>
+	</Html>
+	<Javascript>
+		<XPath>/ds/var/page/OracleReportForm/DateOfHearing</XPath>
+		<ReportVariableName>HRG_DAT</ReportVariableName>
+		<ParameterType>HT</ParameterType>
+		<ReportVariableCode>12195</ReportVariableCode>
+		<ReportVariableValue>Services.getValue(DateOfHearing.dataBinding)</ReportVariableValue>
+		<HintText>Enter the date for the Hearing (format DD-MON-YYYY)</HintText>
+		<isMandatory>return true;</isMandatory>
+		<initialise></initialise>
+		<setDefault>
+		</setDefault>		
+		<validateOn>
+			DateOfHearing.dataBinding
+		</validateOn>
+		<validate>
+			    var dateOfHearing = Services.getValue(DateOfHearing.dataBinding);
+			    var dateOfHearingObj = CaseManUtils.isBlank(dateOfHearing) ? null : CaseManUtils.createDate(dateOfHearing);
+			    var ec = null;
+			    if(dateOfHearingObj != null)
+			    {
+			      ec = validateHearingDate(dateOfHearingObj);     
+			    }
+			    return ec;			
+		</validate>
+		<miscCode>
+			function validateHearingDate(dateObj)
+			{    
+			  //debugger;
+			  var todayDateObj = CaseManUtils.createDate(getTodaysDate());
+			  if(CaseManUtils.compareDates(dateObj, todayDateObj) == 1 || CaseManUtils.compareDates(dateObj, todayDateObj) == 0)
+			  {
+			    ec = ErrorCode.getErrorCode("CaseMan_dateCanOnlyBeInTheFuture_Msg");
+			    return faildedValidation (ec);
+			  }
+			  else
+			  {
+				return null;
+			  }      
+			  return null;   
+			}			
+		</miscCode>
+	</Javascript>
+</Question>

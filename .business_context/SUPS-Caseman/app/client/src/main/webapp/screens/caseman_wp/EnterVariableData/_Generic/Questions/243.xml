@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>243</Id>
+	<Label>Statement of Issues ordered?</Label>
+	<ObjectName>OrderIssuesStmt</ObjectName>
+	<Html>	
+		<input type="checkbox" id="OrderIssuesStmt"></input>
+	</Html>
+	<Javascript>
+		<XPath>/ds/EnterVariableData/FastTrack/orderIssuesStmt</XPath>
+		<HintText>Check box if Statement of issues ordered</HintText>		
+		<modelValue>checked: "Y", unchecked: "N"</modelValue>
+		<enableOn>ExchangeReports.dataBinding</enableOn>
+		<isEnabled>return('Y' == Services.getValue(ExchangeReports.dataBinding));</isEnabled>
+		<logicOn>ExchangeReports.dataBinding</logicOn>
+		<logic>
+			if('Y' != Services.getValue(ExchangeReports.dataBinding))
+			{	Services.setValue(OrderIssuesStmt.dataBinding, "N");
+			}
+		</logic>
+		<Context ScreenId="CJR060">
+			<HintText>Check box if statement of issues ordered</HintText>
+		</Context>
+	</Javascript>
+</Question>

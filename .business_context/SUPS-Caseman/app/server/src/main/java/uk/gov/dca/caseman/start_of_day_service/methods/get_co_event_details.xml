@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: StartOfDay
+	Method:  getCoEventDetails()
+	File:    get_co_event_details.xml
+	Author:  Kevin Gichohi (EDS)
+	Created: 02 December 2005
+	Description: 
+		Retrives CO event details associcated with a certain event ID from the CO_EVENTS table 
+		
+	Change History:
+	30 May 2006	Chris Hutt	Retrieve EventDate and ReceiptDate (TD3395)
+	24 Aug 2006	Kevin Gichohi. Inserted Union for use with event 174 only. (TD4686)
+-->
+<service-method>
+	<pipeline>
+		<SQLLite format-output="true"
+				 resultset-element="ds"
+				 row-element="CoEventDetails"
+				 field-name-as="element" >
+			<DataSource id="java:OracleDS"/>
+				<Param name="param.eventId" xpath="/params/param[@name='eventId']"/>
+				<Param name="param.courtId" xpath="/params/param[@name='courtId']"/>
+			<SQL>
+			
+    			SELECT EO1.ORDER_TYPE_ID 	AS "CoOrderTypeId"
+    			,      CE.CO_EVENT_SEQ   	AS "CoEventSeq"   
+    			,	   CE.EVENT_DATE	 	AS "EventDate"
+    			,  	   CE.RECEIPT_DATE	 	AS "ReceiptDate"   
+    			,	   CE.STD_EVENT_ID   	AS "StandardEventId"  
+    			, 	   CE.CO_NUMBER 		AS "CoNumber"  	      
+       			FROM   EVENT_OUTPUTS 			EO1
+    			,      CO_EVENTS 				CE
+				,      CONSOLIDATED_ORDERS 		CO               
+    			WHERE  EO1.ISSUE_STAGE  	=   'CO'  
+				AND    CO.ADMIN_COURT_CODE 	= 	${param.courtId} 
+				AND    CO.CO_NUMBER 		= 	CE.CO_NUMBER
+    			AND    EO1.STD_EVENT_ID 	= 	${param.eventId}
+    			AND    CE.STD_EVENT_ID  	= 	EO1.STD_EVENT_ID
+    			AND    CE.PROCESS_STAGE		= 	'AUTO'
+    			AND    CE.STD_EVENT_ID 	   !=    174
+			    AND    EO1.CODE  			= ( 
+			                      			    SELECT MAX (EO.CODE)
+			                       			    FROM   EVENT_OUTPUTS EO  
+			                       			    WHERE  EO.ISSUE_STAGE  = 'CO'
+			                       			    AND    EO.STD_EVENT_ID = ${param.eventId} 
+			                       			  )  
+                UNION 
+                
+                SELECT EO.ORDER_TYPE_ID  	 AS "CoOrderTypeId"     
+          		,      CE.CO_EVENT_SEQ   	 AS "CoEventSeq"   
+    			,	   CE.EVENT_DATE	  	 AS "EventDate"
+    			,  	   CE.RECEIPT_DATE	 	 AS "ReceiptDate"   
+    			,	   CE.STD_EVENT_ID       AS "StandardEventId"  
+           		,      CE.CO_NUMBER 		 AS "CoNumber"  
+           		FROM   EVENT_OUTPUTS         EO
+          		,      CO_EVENTS             CE
+          		,      CONSOLIDATED_ORDERS   CO
+          		WHERE EO.ISSUE_STAGE         = 'CO'  
+          		AND   CO.CO_NUMBER           = CE.CO_NUMBER
+          		AND   CO.ADMIN_COURT_CODE    = ${param.courtId} 
+          		AND   CE.STD_EVENT_ID        = ${param.eventId} 
+          		AND   CE.STD_EVENT_ID  		 = 174
+          		AND   EO.STD_EVENT_ID        = CE.STD_EVENT_ID    
+          		AND   CE.PROCESS_STAGE       = 'AUTO'    
+          		AND   EO.ORDER_TYPE_ID       = CE.REPORT_VALUE_1
+          
+          		ORDER BY  "CoNumber"        			   
+                
+
+			</SQL>
+		</SQLLite>
+	</pipeline>
+	<Security roles="viewOnly medium high wcSuper scSuper bmsSuper aeSuper dmSuper edsAdmin cpSuper"/>
+</service-method>

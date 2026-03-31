@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<service-method>
+	<pipeline>
+		<Query>
+			<QueryDef location="uk/gov/dca/test_project/cases_service/user_query_def.xml"/>
+			<QueryExtension pivotNode="/User">
+				<Param name="param.user" xpath="/params/param[@name='user']"/>
+				<Constraint>d.user_id = ${param.user}</Constraint>
+			</QueryExtension>
+		</Query>
+	</pipeline>
+	<Dependencies>
+		<Dependency serviceName="Test"/> 
+	</Dependencies>
+	<Security roles="user"/>
+</service-method>

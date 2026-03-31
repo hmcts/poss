@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: Co
+	Method:  getCreditorCodedParty()/getPayeeCodedParty()
+	File:    map_get_coded_party.xml
+	Author:  Phil Haferer (EDS)
+	Created: 12 September 2005
+	Description: 
+		Retrieve the details of Coded Party in a format suitable for Consolidated Order Allowed Debts.
+-->
+<DBMapDef>
+	<DataSource id="java:OracleDS"/>
+	<Tables>
+	    <Table alias="CP" name="CODED_PARTIES"/>
+	    <Table alias="P"  name="PARTIES"/>
+	    <Table alias="GA" name="GIVEN_ADDRESSES"/>    
+	</Tables>
+	<Mapping>
+		<ds>
+			<Party>
+				<CPCode>${CP.CODE}</CPCode>
+				<PartyId>${P.PARTY_ID}</PartyId>
+				<Name>${P.PERSON_REQUESTED_NAME}</Name> 
+				<DX>${P.DX_NUMBER}</DX>
+				<TelNo>${P.TEL_NO}</TelNo>
+				<FaxNo>${P.FAX_NUMBER}</FaxNo>
+				<Email>${P.EMAIL_ADDRESS}</Email>
+				<Address>
+					<Status/>
+					<AddressSurrogateId>${GA.ADDRESS_ID}</AddressSurrogateId>
+					<AddressId>${GA.ADDRESS_ID}</AddressId>
+					<Line>${GA.ADDRESS_LINE1}</Line>
+					<Line>${GA.ADDRESS_LINE2}</Line>
+					<Line>${GA.ADDRESS_LINE3}</Line>
+					<Line>${GA.ADDRESS_LINE4}</Line>
+					<Line>${GA.ADDRESS_LINE5}</Line>
+					<PostCode>${GA.POSTCODE}</PostCode>
+					<CreatedBy>${GA.UPDATED_BY}</CreatedBy>
+					<ValidFrom>${GA.VALID_FROM}</ValidFrom>
+					<ValidTo>${GA.VALID_TO}</ValidTo>
+				</Address>
+				<AddressHistory>
+				</AddressHistory>
+			</Party>
+		</ds>
+	</Mapping>
+</DBMapDef>

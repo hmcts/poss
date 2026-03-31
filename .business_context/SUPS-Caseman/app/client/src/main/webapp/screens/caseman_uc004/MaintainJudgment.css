@@ -1,0 +1,198 @@
+/****************************************** GRIDS *******************************************/
+
+/* Header Panel - List of Parties on Case Grid */
+div#Header_PartyListGrid
+{
+	margin: 5px;
+	width: 350px;
+}
+div#Header_PartyListGrid .col0 { width: 110px; }
+div#Header_PartyListGrid .col1 { width: 50px; }
+div#Header_PartyListGrid .col2 { width: 158px; }
+
+/* Master Panel - Judgment Against Grid */
+div#Master_AgainstGrid
+{
+	width: 390px;
+	margin: 5px;	
+}
+div#Master_AgainstGrid .col0 { width: 75px; }
+div#Master_AgainstGrid .col1 { width: 80px; }
+div#Master_AgainstGrid .col2 { width: 50px; }
+div#Master_AgainstGrid .col3 { width: 149px; }
+
+/* Master Panel - In Favour Of Grid */
+div#Master_InFavourListGrid
+{
+	width: 390px;
+	margin: 5px;
+}
+div#Master_InFavourListGrid .col0 { width: 110px; }
+div#Master_InFavourListGrid .col1 { width: 50px; }
+div#Master_InFavourListGrid .col2 { width: 198px; }
+
+/* Add Judgment Popup - In Favour Of Grid */
+div#AddJudgment_InFavourOfGrid .col0 { width: 110px; }
+div#AddJudgment_InFavourOfGrid .col1 { width: 50px; }
+div#AddJudgment_InFavourOfGrid .col2 { width: 157px; }
+
+/* Add In Favour Of Popup - In Favour Of Grid */
+div#AddInFavourOf_Grid
+{
+	width: 350px;
+	margin: 5px;
+}
+div#AddInFavourOf_Grid .col0 { width: 110px; }
+div#AddInFavourOf_Grid .col1 { width: 50px; }
+div#AddInFavourOf_Grid .col2 { width: 157px; }
+
+/* Application to Set Aside Popup - Application Grid */
+div#AppToSetAside_Grid
+{
+	width: 436px;
+	margin-left: 5px;
+	margin-right: 5px;
+}
+div#AppToSetAside_Grid .col0 { width: 100px; }
+div#AppToSetAside_Grid .col1 { width: 100px; }
+div#AppToSetAside_Grid .col2 { width: 100px; }
+div#AppToSetAside_Grid .col3 { width: 100px; }
+
+/* Application to Vary Popup - Application Grid */
+div#AppToVary_Grid
+{
+	width: 795px;
+	margin: 5px;	
+}
+div#AppToVary_Grid .col0 { width: 91px; }
+div#AppToVary_Grid .col1 { width: 100px; }
+div#AppToVary_Grid .col2 { width: 60px; }
+div#AppToVary_Grid .col3 { width: 38px; }
+div#AppToVary_Grid .col4 { width: 50px; }
+div#AppToVary_Grid .col5 { width: 120px; }
+div#AppToVary_Grid .col6 { width: 100px; }
+div#AppToVary_Grid .col7 { width: 100px; }
+div#AppToVary_Grid .col8 { width: 80px; }
+
+/************************************* LOV POPUPS *****************************************/
+
+#selectAddJudgment_Against_LOV
+{
+	width: 393px;
+	left: 450px;
+	top: 150px;			
+}
+#selectAddJudgment_Against_LOV .col0 { width: 110px; }
+#selectAddJudgment_Against_LOV .col1 { width: 50px; }
+#selectAddJudgment_Against_LOV .col2 { width: 157px; }
+
+/***************************************** POP-UPS ******************************************/
+
+div#AddJudgment
+{
+	visibility: hidden;
+	position: absolute;
+	left: 300px;
+	top: 60px;
+	width: 600px;
+}
+
+div#AddInFavourOf
+{
+	visibility: hidden;
+	position: absolute;
+	left: 440px;
+	top: 150px;
+	width: 385px;
+}
+
+div#AppToSetAside
+{
+	visibility: hidden;
+	position: absolute;
+	left: 345px;
+	top: 320px;
+	width: 600px;
+}
+
+div#AddSetAside
+{
+	visibility: hidden;
+	position: absolute;
+	left: 395px;
+	top: 370px;
+	width: 500px;
+}
+
+div#AppToVary
+{
+	visibility: hidden;
+	position: absolute;
+	left: 75px;
+	top: 75px;
+	width: 810px;
+}
+
+div#AddVary
+{
+	visibility: hidden;
+	position: absolute;
+	left: 225px;
+	top: 150px;
+	width: 500px;
+}
+
+div#N35Variation_PopUp
+{
+	visibility: hidden;
+	position: absolute;
+	left: 200px;
+	top: 70px;
+	width: 550px !important;
+}
+
+#Outputs_Popup
+{
+	visibility: hidden;
+	position: absolute;
+	left: 50px;
+	top: 50px;
+	width: 880px;
+	height: 460px;
+}
+
+div#Outputs_Popup_Content
+{
+	height: 400px;
+	overflow: scroll;
+}
+
+/************************************ SUBFORMS *****************************************/
+		
+#judgmentPayee_subform
+{
+	left: 50%;
+	top: 50%;
+	margin-left: -300px;
+	margin-top: -207px;
+	width: 600px;
+	height: 405px;
+}
+
+#hearingDetails_subform
+{
+	left: 50%;
+	top: 50%;
+	margin-left: -425px;
+	margin-top: -176px;
+	width: 850px;
+	height: 352px;
+}
+
+#addJudgment_subform
+{
+	top: 10%;
+	left: 25%;
+	width: 650px;
+	height: 555px;
+}

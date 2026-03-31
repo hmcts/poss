@@ -1,0 +1,48 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: Payout
+	Method:  updateCoCaseEvents()
+	File:    update_co_case_events.xml
+	Author:  ABonnar (EDS)
+	Created: 10-Mar-2006
+	Description: 
+
+    Change History:
+    06-Apr-2006 Phil Haferer: Removed ADMIN_COURT_CODE from WHERE clause, as it was incorrect, and the correct would 
+                not have been found. Also, removed all constants and turned them into parameters.
+    27-Apr-2006 Phil Haferer: Added the TO_DATE() function for the column CREATED_DATE.
+    28-Apr-2006 Phil Haferer: Added SELECT of AD.DEBT_STATUS for appending to the EVENT_DETAILS. Previously the 
+                calling Java method was appending the status, but it was using a value which may have been 
+                updated since it was retrieved.
+    10-May-2006 Phil Haferer: Removed 'details' as a parameter, and construct it here instead, in order to avoid 
+                an additional round trip to the database to fetch the Debtor's Name.
+                TD 3343: Complete Payout Balance Calculation Performance
+-->
+<service-method>
+	<pipeline>
+		<SQLLite output="input">
+			<DataSource id="java:OracleDS"/>
+			<Param name="param.stdEventId"     xpath="/params/param[@name='stdEventId']"/>
+			<Param name="param.createdDate"    xpath="/params/param[@name='createdDate']"/>
+			<Param name="param.transferStatus" xpath="/params/param[@name='transferStatus']"/>
+			<Param name="param.debtSequenceNo" xpath="/params/param[@name='debtSequenceNo']"/>
+			<SQL type="update" tables="COE">
+				UPDATE CO_CASE_EVENTS COE
+		        SET    COE.STD_EVENT_ID    = ${param.stdEventId}
+		        ,      COE.CREATED_DATE    = TO_DATE(${param.createdDate}, 'YYYY-MM-DD')
+		        ,      COE.EVENT_DETAILS   = ${param.debtSequenceNo} 
+		        ||                           ' '
+		        ||                           (SELECT CO.DEBTOR_NAME
+		                                      FROM   CONSOLIDATED_ORDERS CO
+		                                      WHERE  CO.CO_NUMBER = COE.CO_NUMBER)
+		        ||                           ' - CO DEBT '
+                ||    		                 (SELECT AD.DEBT_STATUS
+                    		                  FROM   ALLOWED_DEBTS AD
+                    		                  WHERE  AD.DEBT_SEQ = ${param.debtSequenceNo})
+		        ,      COE.TRANSFER_STATUS = ${param.transferStatus}
+		        WHERE  COE.ALD_DEBT_SEQ    = ${param.debtSequenceNo}
+			</SQL>
+		</SQLLite>
+	</pipeline>
+	<Security roles="viewOnly medium high wcSuper scSuper bmsSuper aeSuper dmSuper edsAdmin"/>		
+</service-method>

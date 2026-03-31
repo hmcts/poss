@@ -1,0 +1,105 @@
+<Group id="9012">
+	<ServicesRequired>
+		<mapping name="updateCo" serviceName="updateCo"/>
+		<service name="updateCo" cache="none" url="Co" method="updateCo"/>
+	</ServicesRequired>
+	<Protocols>
+		<OnSave>
+			<function>updateCo</function>
+			<functionCallback>UpdateCOCallback</functionCallback>
+		</OnSave>
+	</Protocols>
+	
+	<JavaScript>	
+	
+	//CO_STATUS_DIS = "CO status set to DISMISSED";
+	//CO_STATUS_STRUCK = "CO status set to STRUCK OUT";
+	
+	function updateCo() {       
+		var coNode = Services.getNode( "/ds/MaintainCO" );
+		var orderDateNode = coNode.selectSingleNode("/OrderDate");		    
+		var susDate = Services.getValue( "/ds/EnterVariableData/DateSuspendedUntil" );	    
+		/**if co status has been suspended**/
+		if (null != susDate &amp;&amp; "" != susDate) {
+			XML.replaceNodeTextContent( coNode.selectSingleNode("/COStatus"), "SUSPENDED");
+		   }
+		var newStatus = getNewStatus( WP.GetScreenProcess());
+		XML.replaceNodeTextContent( coNode.selectSingleNode("/COStatus"), newStatus );
+		var root = XML.createDOM();
+		root.loadXML("&lt;ds>&lt;/ds>");
+		root.selectSingleNode("/ds").appendChild(coNode);
+		var params = new ServiceParams();
+		params.addDOMParameter("co", root );			
+		Services.callService("updateCo", params, UpdateCOCallback, true); }
+	
+	var oldStatus = "";
+	var newStatus = "";
+	
+	function getNewStatus(process) {
+		newStatus = "";
+		var output = process.getOutput().getCJRReference();
+		newStatus = WPU.getValue(WPU.NODE_XPATHS['COStatus']);  /**start by getting the existing status**/		
+		oldStatus = newStatus;
+		if('CO23' == output) {
+			newStatus = Services.getValue("/ds/EnterVariableData/DisStrAdj");
+			if (null != newStatus &amp;&amp; "" != newStatus) {
+				if ('ADJ' == newStatus) {
+					newStatus = WPU.getValue(WPU.NODE_XPATHS['COStatus']);  }
+			 	else if ('DIS' == newStatus) {
+					newStatus = "DISMISSED"; }
+			 	else if ('STRUCK' == newStatus) {
+					newStatus = "STRUCK OUT"; } } }
+		else if ('CO26' == output)	{	
+			/**assume correct from QA (otherwise change here) **/
+			newStatus = Services.getValue("/ds/EnterVariableData/RevokedDischarged"); }
+		else if ('CO27' == output || 'CO32' == output)	{
+			newStatus = Services.getValue(COStatus.dataBinding); }
+		else if ('CO34' == output) {
+			newStatus = Services.getValue("/ds/EnterVariableData/DisStrAdj");
+			if (null != newStatus &amp;&amp; "" != newStatus)	{
+				if ('ADJ' == newStatus) { 
+					newStatus = WPU.getValue( WPU.NODE_XPATHS['COStatus'] ); }
+			 	else if ('DIS' == newStatus) {
+			 		newStatus = "DISMISSED"; }			 		
+			 	else if ('STRUCK' == newStatus) {
+			 		newStatus = "STRUCK OUT"; } } }
+		else if ('CO19' == output)  {
+			newStatus = "SUSPENDED"; }
+								
+		return newStatus.toUpperCase();
+	}
+
+	function UpdateCOCallback(){}
+	
+
+	UpdateCOCallback.onSuccess = function(dom) 
+	{  
+		if(null != dom)
+		{
+			/** td 4532, 4827 - putting a value for (co) event screen to pick up (upon returning to it) and inform user regarding co status change **/
+			if(newStatus != oldStatus) WPS.setValue(ManageCOEventsParams.CO_STATUS, newStatus);
+			Save_All(); 
+		}
+		else
+		{
+			alert(Messages.NO_RESULTS_MESSAGE);
+		}
+	}
+
+
+	UpdateCOCallback.onBusinessException = function(exception)  
+	{
+
+		alert(Messages.FAILEDSAVE_MESSAGE); 
+	}
+
+	UpdateCOCallback.onSystemException = function(exception) 
+	{
+
+		alert(Messages.FAILEDSAVE_MESSAGE); 
+	}		
+
+	</JavaScript>
+
+
+</Group>

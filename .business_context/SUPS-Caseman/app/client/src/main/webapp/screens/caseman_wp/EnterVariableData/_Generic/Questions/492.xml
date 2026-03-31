@@ -1,0 +1,26 @@
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>492</Id>
+	<Label>Date of judgment/order</Label>
+	<ObjectName>JudgementOrOrderDate</ObjectName>
+	<Html>	
+		<script type="text/javascript">
+			WP_DatePickerRenderer.createInline("JudgementOrOrderDate");
+		</script>
+	</Html>			
+	<Javascript>
+		<XPath>/ds/EnterVariableData/ThirdPartyDebt/judgementOrOrderDate</XPath>
+		<componentName>##label##</componentName>
+		<isMandatory>return true;</isMandatory>
+		<HintText>Enter the judgment/order date in the format DD-MON-YYYY</HintText>
+		<validateOn>JudgementOrOrderDate.dataBinding</validateOn>
+		<validate>
+			return isInPast( Services.getValue(JudgementOrOrderDate.dataBinding));
+		</validate>			
+		
+		
+		<Context ScreenId="CJR093">
+			<validate>return isWorkingDayInPast(Services.getValue(JudgementOrOrderDate.dataBinding));</validate>
+			<miscCode>JudgementOrOrderDate.weekends = false;</miscCode>
+		</Context>
+	</Javascript>
+</Question>

@@ -1,0 +1,44 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: Payout
+	Method:  getPaymentOrderNumber1ForUpdate()
+	File:    get_payment_order_number_1_for_update.xml
+	Author:  Phil Haferer (EDS)
+	Created: 16-Jan-2006
+	Description: 
+		Method to implement SUPS implementation of the Legacy stored procedure "p_payout_update()".
+		
+	Change History:
+	03-Apr-2006 Phil Haferer: Change method name from "get_payment_order_number_1_for_update.xml"
+	            to "get_payment_order_number_1_for_update.xml".
+	            
+	21-sep-2007 Chris Hutt: Defect Caseman 6434
+				PAYEE_NAME returned (to compare with that on the payable order).
+-->
+<service-method>
+	<pipeline>
+		<SQLLite format-output="true"
+				 resultset-element="Payments"
+				 row-element="Payment"
+				 field-name-as="element" >
+			<DataSource id="java:OracleDS"/>
+			<Param name="param.transactionNumber" xpath="/params/param[@name='transactionNumber']"/>
+			<Param name="param.adminCourtCode" xpath="/params/param[@name='adminCourtCode']"/>
+			<SQL>
+				SELECT PAY.PAYABLE_ORDER_NUMBER_1 AS "PayableOrderNumber1"
+				,      PAY.PAYMENT_FOR            AS "PaymentFor"
+				,	   PAY.PAYEE_NAME			  AS "PayeeName"
+				,      PAY.PAYOUT_DATE            AS "PayoutDate"
+				,      PAY.PAYOUT_REPORT_ID       AS "PayoutReportId"				
+				,      PAY.AMOUNT      			  AS "Amount"	
+				,      PAY.OVERPAYMENT_AMOUNT     AS "OverpaymentAmount"	
+   				,      PAY.RETENTION_TYPE         AS "RetentionType"
+				FROM   PAYMENTS PAY 
+				WHERE  PAY.TRANSACTION_NUMBER = ${param.transactionNumber}
+				AND    PAY.ADMIN_COURT_CODE = ${param.adminCourtCode}
+				FOR UPDATE OF PAY.PAYABLE_ORDER_NUMBER_1
+			</SQL>
+		</SQLLite>
+	</pipeline>
+	<Security roles="viewOnly medium high wcSuper scSuper bmsSuper aeSuper dmSuper edsAdmin"/>		
+</service-method>

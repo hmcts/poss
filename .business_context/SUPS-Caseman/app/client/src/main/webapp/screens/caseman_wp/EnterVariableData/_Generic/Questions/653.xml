@@ -1,0 +1,17 @@
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>653</Id>
+	<Label>Litigation friend - postcode</Label>
+	<ObjectName>LitFriendPostCode</ObjectName>
+	<Html>	
+		<input type="text" id="LitFriendPostCode" size="8"></input>
+	</Html>		
+	
+	<Javascript>
+		<XPath>/ds/EnterVariableData/InvestmentSchedule/Address/PostCode</XPath>
+		<componentName>##label##</componentName>
+		<isMandatory>return false;</isMandatory>
+		<HintText>Enter the postcode of the Litigation friend address</HintText>			
+		<validateOn>LitFriendPostCode.dataBinding</validateOn>
+		<validate>return WPU.validatePostcode(Services.getValue(LitFriendPostCode.dataBinding));</validate>
+	</Javascript>
+</Question>

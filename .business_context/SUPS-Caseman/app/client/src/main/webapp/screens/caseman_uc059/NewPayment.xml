@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Change History
+    TRAC Ticket 707.
+    17-06-2009 Mark Groen - Incorporate changes defined by Chris Vincent re scalabilty for Navigate to View Payments.
+    Added node  EnforcementType
+-->
+<Payment>
+	<TransactionNumber />
+	<EnforcementNumber />
+	<EnforcementType />
+    <EnforcementParent />
+    <Amount />
+	<AmountCurrency />
+	<PaymentType />
+	<RetentionType />
+	<OverpaymentAmount />
+	<OverpaymentAmountCurrency />
+	<AmountNowDue />
+	<CounterPayment />
+	<PaymentDate />
+	<ReleaseDate />
+	<PayoutDate />
+	<RDDate />
+	<Notes />
+	<Lodgment>
+		<Name />
+		<PartyRole />
+		<CasePartyNumber />
+		<Address>
+			<Line />
+			<Line />
+			<Line />
+			<Line />
+			<Line />
+			<PostCode />
+			<Reference />
+		</Address>
+	</Lodgment>
+	<PONumber1 />
+	<PONumber2 />
+	<POTotal />
+	<POTotalCurrency />
+	<ReceiptRequired />
+	<BailiffKnowledge />
+	<IssuingCourt />
+	<AdminCourt />
+	<EnforcementCourt />
+	<VerificationReportID />
+	<CreatedBy />
+	<Payee>
+		<Name />
+		<Code />
+		<PartyID />
+		<Address>
+			<Line />
+			<Line />
+			<Line />
+			<Line />
+			<Line />
+			<PostCode />
+			<Reference />
+		</Address>
+		<DX />
+	</Payee>
+	<Overpayee>
+		<Name />
+		<Address>
+			<Line />
+			<Line />
+			<Line />
+			<Line />
+			<Line />
+			<PostCode />
+		</Address>
+	</Overpayee>
+	<Passthrough />
+	<Error />
+	<DebtSeq />
+	<RelatedTransactionNumber />
+	<RelatedAdminCourt />
+	<PayoutReportID />
+	<OldRetentionType />
+	<OldAmount />
+	<OldError />
+	<ReportNumber />
+	<ReportType />
+</Payment>

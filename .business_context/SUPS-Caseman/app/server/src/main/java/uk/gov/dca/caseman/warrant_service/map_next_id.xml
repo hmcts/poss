@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<DBMapDef>
+	<DataSource id="java:OracleDS"/>
+		<Tables>
+			<Table alias="S" name="SYSTEM_DATA" />
+			<Table alias="E" name="ENFORCEMENT_LETTERS" />
+			<Table alias="D" name="DUAL"/>
+		</Tables>
+		<Mapping>
+			<ds>
+				<Warrant>
+					<WarrantID>${VAL}</WarrantID>
+					<EnforcementLetter>${E.LETTER}</EnforcementLetter>
+					<SequenceNumber>${S.ITEM_VALUE}</SequenceNumber>
+					<a/>
+				</Warrant>
+			</ds>
+		</Mapping>
+</DBMapDef>

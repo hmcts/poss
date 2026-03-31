@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>276</Id>
+	<Label>Claim transferred to</Label>
+	<ObjectName>ClaimTransferTo</ObjectName>
+	<Context screenId="CJR020"><isVisible>false</isVisible></Context>
+	<Html>
+		<select id="ClaimTransferTo">
+			<option value=""></option>
+			<option value="NT">has not been transferred</option>
+			<option value="CTC">To a civil trial centre</option>
+			<option value="RCJ">To The Royal Courts Of Justice</option>
+		</select>
+	</Html>
+	<Javascript>
+		<XPath>/ds/EnterVariableData/MultiTrackAllocation/claimTransferTo</XPath>
+		<componentName>##label##</componentName>
+		<HintText>Enter the details about claim transferred to - List available</HintText>				
+		<mandatoryOn>ClaimTransferTo.dataBinding</mandatoryOn>
+		<isMandatory>return true;</isMandatory>
+	</Javascript>
+</Question>

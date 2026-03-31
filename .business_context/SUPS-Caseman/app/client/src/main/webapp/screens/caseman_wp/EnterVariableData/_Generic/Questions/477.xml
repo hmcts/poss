@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>477</Id>
+	<Label>Total from N84</Label>
+	<ObjectName>N84Total</ObjectName>
+	<Html>	
+		<input type="text" size="1" id="DefaultCurrency477"></input>
+		<input type="text" id="N84Total"></input>
+	</Html>			
+	<Javascript>
+		<XPath>/ds/EnterVariableData/HardshipPayment/n84Total</XPath>
+		<componentName>##label##</componentName>
+		<isMandatory>return true;</isMandatory>
+		<HintText>Enter the amount not to be paid</HintText>	
+		<validateOn>N84Total.dataBinding</validateOn>		
+		<validate>
+			var val = Services.getValue(N84Total.dataBinding);
+			var err  = WPU.validateCurrency(val);
+			if( null == err )
+			{	Services.setValue(N84Total.dataBinding, WPU.formatToTwoDP(val));
+			}
+			return err;
+		</validate>
+		<miscCode>
+			function DefaultCurrency477() {}
+			DefaultCurrency477.dataBinding = "/ds/EnterVariableData/curr1";
+			DefaultCurrency477.tabIndex = -1;
+			DefaultCurrency477.maxLength = 1;
+			DefaultCurrency477.isReadOnly = function(){return true;}
+			DefaultCurrency477.isTemporary = function(){return true;}
+			DefaultCurrency477.transformToDisplay = function(value){
+				return WPS.__CaseManUtils().transformCurrencySymbolToDisplay(value,null,null); }
+			DefaultCurrency477.transformToModel = function(value){
+				return WPS.__CaseManUtils().transformCurrencySymbolToModel(value,null,null); }
+		</miscCode>
+	</Javascript>
+</Question>

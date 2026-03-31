@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>152</Id>
+	<Label>Time of hearing</Label>
+	<ObjectName>HearingTime2</ObjectName>
+	
+	<Context screenId="CJR053"><isVisible>false</isVisible></Context>
+	<Context screenId="CJR055"><isVisible>false</isVisible></Context>
+	<Context screenId="CJR083"><isVisible>false</isVisible></Context>
+    <Context screenId="CO03"><isVisible>false</isVisible></Context>
+    <Context screenId="CO05"><isVisible>false</isVisible></Context>
+    <Context screenId="CO09"><isVisible>false</isVisible></Context>
+    <Context screenId="CO10"><isVisible>false</isVisible></Context>
+    <Context screenId="CO13"><isVisible>false</isVisible></Context>
+    <Context screenId="CO15"><isVisible>false</isVisible></Context>
+    <Context screenId="CO16"><isVisible>false</isVisible></Context>
+    <Context screenId="CO17"><isVisible>false</isVisible></Context>
+    <Context screenId="CO18"><isVisible>false</isVisible></Context>
+    <Context screenId="CO19"><isVisible>false</isVisible></Context>
+    <Context screenId="CO20"><isVisible>false</isVisible></Context>
+    <Context screenId="CO21"><isVisible>false</isVisible></Context>
+    <Context screenId="CO23"><isVisible>false</isVisible></Context>
+    <Context screenId="CO24"><isVisible>false</isVisible></Context>
+    <Context screenId="CO25"><isVisible>false</isVisible></Context>
+    <Context screenId="CO26"><isVisible>false</isVisible></Context>
+    <Context screenId="CO27"><isVisible>false</isVisible></Context>
+    <Context screenId="CO32"><isVisible>false</isVisible></Context>
+    <Context screenId="CO33"><isVisible>false</isVisible></Context>
+    <Context screenId="CO34"><isVisible>false</isVisible></Context>
+    <Context screenId="CO35"><isVisible>false</isVisible></Context>
+    <Context screenId="CO36"><isVisible>false</isVisible></Context>
+    <Context screenId="CO37"><isVisible>false</isVisible></Context>
+	<Context screenId="CO52"><isVisible>false</isVisible></Context>
+	<Context screenId="CO29"><isVisible>false</isVisible></Context>
+	<Context screenId="CO30"><isVisible>false</isVisible></Context>
+	<Context screenId="CO28"><isVisible>false</isVisible></Context>
+    <Context screenId="CO31"><isVisible>false</isVisible></Context>
+    <Context screenId="CO41"><isVisible>false</isVisible></Context>
+    <Context screenId="CJR052"><isVisible>false</isVisible></Context>
+	<Context screenId="CJR053"><isVisible>false</isVisible></Context>
+	<Context screenId="CJR073"><isVisible>false</isVisible></Context>
+	<Context screenId="O_8_12"><isVisible>false</isVisible></Context>
+	<Context screenId="O_5_5"><isVisible>false</isVisible></Context>
+	<Context screenId="O_5_6"><isVisible>false</isVisible></Context>
+	<Context screenId="N33"><isVisible>false</isVisible></Context>
+	<Context screenId="O_10_18"><isVisible>false</isVisible></Context>
+	<Context screenId="O_10_17"><isVisible>false</isVisible></Context>
+	<Context screenId="CJR353"><isVisible>false</isVisible></Context>
+	<Html>	
+		<input id="HearingTime2" type="text" maxlength="5" size="5"></input>
+	</Html>
+	<Context screenId="O_11_1_2_3_4"><isVisible>false</isVisible></Context>
+	<Context screenId="CJR065B"><isVisible>false</isVisible></Context>
+	<Context screenId="CJR060"><isVisible>false</isVisible></Context>
+	<Context screenId="CJR080"><isVisible>false</isVisible></Context>
+	<Context screenId="CJR081"><isVisible>false</isVisible></Context>
+	<Context screenId="CJR054"><isVisible>false</isVisible></Context>
+	<Context screenId="CJR061"><isVisible>false</isVisible></Context>
+	<Context screenId="CJR082"><isVisible>false</isVisible></Context>
+	<Context screenId="CJR083"><isVisible>false</isVisible></Context>
+	<Context screenId="CJR090"><isVisible>false</isVisible></Context>
+	<Context screenId="CJR092"><isVisible>false</isVisible></Context>
+	<Context screenId="CJR170"><isVisible>false</isVisible></Context>
+	<Context screenId="CJR178"><isVisible>false</isVisible></Context>
+	<Context screenId="CJR072"><isVisible>false</isVisible></Context>
+	<Context screenId="CJR094"><isVisible>false</isVisible></Context>
+	<Context screenId="CJR050"><isVisible>false</isVisible></Context>
+	<Context screenId="CJR175"><isVisible>false</isVisible></Context>
+	<Context screenId="CJR065"><isVisible>false</isVisible></Context>
+	<Context screenId="CJR065C"><isVisible>false</isVisible></Context>
+	<Context screenId="CJR065_DO"><isVisible>false</isVisible></Context>
+	<Context screenId="CJR043"><isVisible>false</isVisible></Context>
+	<Context screenId="N32"><isVisible>false</isVisible></Context>	
+	
+	<Javascript>
+		<XPath>/ds/EnterVariableData/Service/hearingTime2</XPath>
+		<HintText>Enter the hearing time in 24 hour format (HH:MM eg. 14:30)</HintText>
+		<isMandatory>return true;</isMandatory>
+		<isReadOnly>return false;</isReadOnly>	
+		<validate>	  
+	       var timeInSecs = Services.getValue(HearingTime2.dataBinding);
+		   return validateTimeAt(timeInSecs);    
+		</validate>	
+		<transformToDisplay>
+			if( null != value ){ return WPU.transformTimeToDisplay(value); }
+			return "";
+		</transformToDisplay>
+		<transformToModel>
+			if( null != value )
+			{ return WPU.transformTimeToModel (value);}
+			return "";
+			</transformToModel>
+			
+			
+		<Context ScreenId="CJR030">
+			<isReadOnly>return false;</isReadOnly>
+		</Context>
+		<Context ScreenId="CJR052">
+			<isReadOnly>return false;</isReadOnly>
+		</Context>
+		<Context ScreenId="CJR053">
+			<isReadOnly>return false;</isReadOnly>
+		</Context>
+		
+	</Javascript>
+</Question>

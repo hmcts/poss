@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<service-method>
+	<pipeline>
+		<Query>
+			<QueryDef location="uk/gov/dca/transformation/leg2_casetransfer_service/query_def_join.xml"/>
+			<QueryExtension pivotNode="/params/ds/ManageCase">
+				<Param name="param.caseNumber" xpath="/params/param[@name = 'caseNumber']"/>
+				<Constraint>C.CASE_NUMBER = ${param.caseNumber}</Constraint>
+			</QueryExtension>
+		</Query>
+		<Java>
+			<Source class="uk.gov.dca.transformation.leg2_casetransfer_service.SupsCallCentralProcessor"/>
+		</Java>
+	</pipeline>
+	<Security roles="user"/>
+</service-method>

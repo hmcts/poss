@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- 
+	Service: Hearingtype
+	Method:  getHearingTypeList()
+	File:    get_hearing_type_list.xml
+	Author:  Chris Hutt
+	Created: 27 Oct 2005
+	Description: 
+		Return a list of Hearing Types falling within the classification supplied by the client
+                (eg Ae or Case)
+  --> 
+<service-method>
+	<pipeline>
+		<Query>
+  			<QueryDef location="uk/gov/dca/caseman/hearingtype_service/query_def.xml"/>
+  				<QueryExtension pivotNode="/HearingTypes/HearingType">
+  					<Param name="param.hearingTypeList" xpath="/params/param[@name = 'hearingTypeList']"/>
+   					<Constraint>CRC.RV_DOMAIN = ${param.hearingTypeList}</Constraint>
+  				</QueryExtension>
+  		</Query>
+  	</pipeline>
+	<Security roles="viewOnly medium high wcSuper scSuper bmsSuper aeSuper dmSuper cpSuper ccbcMan ccbcUser ccbcSGB2"/>	
+</service-method>

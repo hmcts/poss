@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<service-method>
+	<pipeline>
+		<Query>
+			<QueryDef location="uk/gov/dca/test_project/cases_service/delete_party_query_def.xml"/>
+			<QueryExtension pivotNode="/Party">
+				<Param name="param.party" xpath="/params/param[@name='party']"/>
+				<Constraint>CTCR.CPR_A_PARTY_ID = ${param.party}</Constraint>
+			</QueryExtension>
+		</Query>
+	</pipeline>
+	<Security roles="user"/>
+</service-method>

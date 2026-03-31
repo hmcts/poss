@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<DBMapDef>
+	<DataSource id="java:OracleDS"/>
+	<Tables>
+		<Table alias="O" name="OBLIGATIONS"/>	
+	</Tables>
+	<Mapping>
+	<ds>
+		<ObligationSequence>${O.OBLIGATIONCOUNT}</ObligationSequence>
+	</ds>
+	</Mapping>	
+</DBMapDef>

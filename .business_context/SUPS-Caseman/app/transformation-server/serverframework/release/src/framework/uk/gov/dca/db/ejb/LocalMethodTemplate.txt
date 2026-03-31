@@ -1,0 +1,49 @@
+    /**
+     * @ejb.interface-method view-type="local"
+	 * @ejb.permission role-name="${method.roles}"
+	 * @ejb.transaction type="${method.transaction.type}"
+	 *
+	 * @wlws:exclude
+     * 
+     * @param params
+     * @param sw
+     * @throws BusinessException
+     * @throws SystemException
+     */
+    public void ${method.name}Local (String params, StringWriter stream) throws BusinessException, SystemException
+    {
+        final String methodName = "${method.name}";
+        try {
+            service.executeTemplate(methodName, params, stream);
+        } 
+        catch(BusinessException e) {
+        	log.error(e.getMessage(),e);
+        	// need to rollback explicitly
+        	rollback();
+        	throw e;
+        }
+        catch(SystemException e) {
+        	log.error(e.getMessage(),e);
+        	// NOTE: following comment should be true but JBOSS prepends undesired text
+        	// to the error msg if throw a runtime exception - therefore rollback explicitly (for now) 
+        	// [rollback is automatic because SystemException extends RuntimeException]
+        	rollback();
+        	throw e;
+        }
+        catch(RuntimeException e) {
+        	log.error(e.getMessage(),e);
+        	// NOTE: following comment should be true but JBOSS prepends undesired text
+        	// to the error msg if throw a runtime exception - therefore rollback explicitly (for now) 
+        	// [rollback is automatic because SystemException extends RuntimeException]
+        	rollback();
+        	throw new SystemException("Service call '" + SERVICE_NAME + "." + methodName + "' failed : " + e.getMessage());
+        }
+        catch (Throwable e) {
+        	//make sure catch all other possible exceptions
+        	log.error(e.getMessage(),e);
+        	// need to rollback explicitly
+        	rollback();
+            throw new SystemException("Service call '" + SERVICE_NAME + "." + methodName + "' failed : " + e.getMessage());
+        }
+    }
+

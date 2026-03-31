@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>689</Id>
+	<Label>Payable by date</Label>
+	<ObjectName>PayableByDate</ObjectName>
+	<Html>
+		<script type="text/javascript">WP_DatePickerRenderer.createInline("PayableByDate", false);</script>
+	</Html>
+	<Javascript>
+        <XPath>/ds/EnterVariableData/LQAndHearing/PayableByDate</XPath>
+		<HintText>Enter date by which fee must be paid</HintText>
+		<enableOn>HearingDateReqd.dataBinding</enableOn>
+		<isEnabled>
+			return( 'Y' == Services.getValue(HearingDateReqd.dataBinding));
+		</isEnabled>
+		<mandatoryOn>HearingDateReqd.dataBinding</mandatoryOn>
+		<isMandatory>
+			return( 'Y' == Services.getValue(HearingDateReqd.dataBinding));
+		</isMandatory>
+		<logicOn>HearingDateReqd.dataBinding</logicOn>
+		<logic>
+		 	if( 'Y' != Services.getValue(HearingDateReqd.dataBinding))
+		 	{	Services.setValue(PayableByDate.dataBinding, "");
+		 	}
+		</logic>
+ 		<validateOn>PayableByDate.dataBinding</validateOn>      
+        <validate>
+            //Validation: Date cannot be in the past
+            var checkDate = Services.getValue(PayableByDate.dataBinding); 
+			var err = null;
+			if( false == isFutureDate(checkDate))
+			{ 	err = ErrorCode.getErrorCode("CaseMan_dateCannotBeInThePast_Msg");
+			}		
+			return err;
+		</validate>
+		<transformToModel>
+			return transformDateToModel(value);
+		</transformToModel>
+		<transformToDisplay>
+			if (value != null)
+			{
+				if (value.search(CaseManValidationHelper.YYYYMMDD_DATE_PATTERN) != -1)
+				{
+					return CaseManUtils.convertDateToDisplay(value);
+				}
+			}
+			return value;
+		</transformToDisplay>
+		<miscCode>
+			HearingDate.weekends = false;
+		</miscCode>
+	</Javascript>			
+</Question>

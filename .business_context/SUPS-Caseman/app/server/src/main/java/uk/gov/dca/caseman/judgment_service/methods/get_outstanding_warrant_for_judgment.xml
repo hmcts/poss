@@ -1,0 +1,92 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: Judgment
+	Method:  getOutstandingWarrantForJudgment()
+	File:    get_outstanding_warrant_for_judgment.xml
+	Author:  Phil Haferer
+	Created: 21-Aug-2006
+	Description: 
+        Get details of any outstanding Warrant for a given Judgment.
+        (TD CASEMAN 4323: UC004 Maintain Judgments - Set aside after warrant issued should cause warrant returns).
+
+	Change History:
+-->
+<service-method>
+	<pipeline>
+		<SQLLite format-output="true"
+				 resultset-element="ds"
+				 row-element="Warrant"
+				 field-name-as="element" >			
+			<DataSource id="java:OracleDS"/>
+			<Param name="param.caseNumber"           xpath="/params/param[@name='caseNumber']"/>
+			<Param name="param.againstPartyRoleCode" xpath="/params/param[@name='againstPartyRoleCode']"/>			
+			<Param name="param.againstCasePartyNo"   xpath="/params/param[@name = 'againstCasePartyNo']"/>
+			<Param name="param.judgSeq"              xpath="/params/param[@name = 'judgSeq']"/>
+			<SQL>												
+                SELECT W.WARRANT_ID           AS "WarrantId"
+                ,      W.DEF1_PARTY_ROLE_CODE AS "Def1PartyRoleCode"
+                ,      W.DEF1_CASE_PARTY_NO   AS "Def1CasePartyNo"
+                ,      W.DEF2_PARTY_ROLE_CODE AS "Def2PartyRoleCode"
+                ,      W.DEF2_CASE_PARTY_NO   AS "Def2CasePartyNo"
+                FROM   WARRANTS W
+                WHERE  W.CASE_NUMBER = ${param.caseNumber}
+                AND  (
+                      (    W.DEF1_PARTY_ROLE_CODE = ${param.againstPartyRoleCode}
+                       AND W.DEF1_CASE_PARTY_NO   = ${param.againstCasePartyNo}
+                      )
+                      OR    
+                      (    W.DEF2_PARTY_ROLE_CODE = ${param.againstPartyRoleCode}
+                       AND W.DEF2_CASE_PARTY_NO   = ${param.againstCasePartyNo}
+                      )
+                     )
+                AND  (W.REP_PARTY_ROLE_CODE, W.REP_CASE_PARTY_NO) IN 
+                     ((SELECT IP1.PARTY_ROLE_CODE 
+                       ,      IP1.CASE_PARTY_NO
+                       FROM   INFAVOUR_PARTIES IP1
+                       WHERE  IP1.JUDG_SEQ     = ${param.judgSeq}
+                       AND   (IP1.DELETED_FLAG = 'N'
+                       OR     IP1.DELETED_FLAG IS NULL)
+                      ) UNION ALL 
+                      (SELECT CPR2CPR.CPR_B_PARTY_ROLE_CODE
+                       ,      CPR2CPR.CPR_B_CASE_PARTY_NO
+                       FROM   INFAVOUR_PARTIES        IP2
+                       ,      CPR_TO_CPR_RELATIONSHIP CPR2CPR
+                       WHERE  IP2.JUDG_SEQ     = ${param.judgSeq}
+                       AND   (IP2.DELETED_FLAG = 'N'
+                       OR     IP2.DELETED_FLAG IS NULL)
+                       AND    CPR2CPR.CPR_A_CASE_NUMBER     = IP2.CASE_NUMBER
+                       AND    CPR2CPR.CPR_A_PARTY_ROLE_CODE = IP2.PARTY_ROLE_CODE 
+                       AND    CPR2CPR.CPR_A_CASE_PARTY_NO   = IP2.CASE_PARTY_NO
+                       AND    CPR2CPR.DELETED_FLAG          = 'N'
+                      )
+                     )
+                AND  (W.WARRANT_ID NOT IN 
+                      (SELECT WR1.WARRANT_ID
+                       FROM   WARRANT_RETURNS WR1
+                       ,      RETURN_CODES    RC1
+                       WHERE  WR1.WARRANT_ID       = W.WARRANT_ID
+                       AND    WR1.DEFENDANT_ID     = 1
+                       AND    WR1.ERROR_INDICATOR IS NOT NULL
+                       AND    WR1.ERROR_INDICATOR  != 'Y'
+                       AND    RC1.RETURN_CODE      = WR1.RETURN_CODE 
+                       AND    RC1.ADMIN_COURT_CODE = WR1.RETURN_CODE_COURT_CODE 
+                       AND    RC1.RETURN_TYPE      = 'F')
+                      OR     (    W.DEFENDANT2 IS NOT NULL
+                              AND W.WARRANT_ID NOT IN 
+                                 (SELECT WR2.WARRANT_ID
+                                  FROM   WARRANT_RETURNS WR2
+                                  ,      RETURN_CODES    RC2
+                                  WHERE  WR2.WARRANT_ID       = W.WARRANT_ID
+                                  AND    WR2.DEFENDANT_ID     = 2
+                                  AND    WR2.ERROR_INDICATOR IS NOT NULL
+                                  AND    WR2.ERROR_INDICATOR  != 'Y'
+                                  AND    RC2.RETURN_CODE      = WR2.RETURN_CODE 
+                                  AND    RC2.ADMIN_COURT_CODE = WR2.RETURN_CODE_COURT_CODE 
+                                  AND    RC2.RETURN_TYPE      = 'F')
+                             )
+                      )
+			</SQL>
+		</SQLLite>		
+	</pipeline>
+	<Security roles="viewOnly medium high wcSuper scSuper bmsSuper aeSuper dmSuper cpSuper ccbcMan ccbcUser ccbcSGB2"/>
+</service-method>

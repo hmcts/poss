@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<service-method>
+	<pipeline>
+		<SQLLite>
+			<DataSource id="java:SupsDS"/>
+			<SQL type="insert">
+				INSERT INTO TIMESTAMPTESTTABLE (ID, TIME, DATE_) VALUES ('3', SYSDATE, SYSDATE)
+			</SQL>
+		</SQLLite>
+	</pipeline>
+	<Security roles="user"/>
+</service-method>

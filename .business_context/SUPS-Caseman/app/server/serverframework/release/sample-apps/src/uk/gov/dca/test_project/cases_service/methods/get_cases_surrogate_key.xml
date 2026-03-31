@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<service-method>
+	<pipeline>
+		<Query>
+			<QueryDef location="uk/gov/dca/test_project/cases_service/surrogate_key_query_def.xml"/>
+			<QueryExtension pivotNode="/Cases/Case">
+				<Param name="param.caseNumber" xpath="/params/param[@name='caseNumber']"/>
+				<Constraint>c.case_number = ${param.caseNumber}</Constraint>
+			</QueryExtension>
+		</Query>
+	</pipeline>
+	<Security roles="user"/>
+</service-method>

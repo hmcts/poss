@@ -1,0 +1,154 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3c.org/TR/html4/strict.dtd">
+
+<html>
+
+	<head>
+		<title>TestScreenLoader</title>
+		<link href="TestScreenLoader.css" type="text/css" rel="stylesheet">
+		<script type="text/javascript" src="../../Framework.js"></script>
+		<script type="text/javascript" src="../../ConcatCommon.js"></script>  
+	    <script type="text/javascript" src="TestScreenLoader.js"></script> 
+	</head>
+
+	<body>
+	    <form name="TestScreenLoader" id="testScreenLoader">
+	    
+	    	<!-- Framework Navigation Menu -->
+			<script type="text/javascript">MenuBarRenderer.createInline();</script>
+
+			<table class="layout">
+			
+		      	<!-- Header Panel -->
+				<tr>
+					<td>
+						<div class="panel">					
+	 						<table class="content">
+								<tr>
+									<td class="defaultLabel"><label for='Header_ScreenSelectList'>Select a Screen</label></td>
+									<td>
+										<script type="text/javascript">
+											FwSelectElementRenderer.createInline( "Header_ScreenSelectList", 15);
+										</script>
+									</td>
+								</tr>
+							</table>
+						</div>
+					</td>
+				</tr>
+			
+		      	<!-- Panel -->
+				<tr>
+					<td>
+						<div class="panel" style="height:530px;">					
+	 					   <table class="content" style="margin:5px;">
+								<tr>
+									<td class="defaultLabel"><label for='Params_CaseNumber'>Case Number</label></td>
+									<td><input id="Params_CaseNumber" type="text" size=15></td>
+								</tr>
+								<tr>
+									<td class="defaultLabel"><label for='Params_CONumber'>CO Number</label></td>
+									<td><input id="Params_CONumber" type="text" size=15></td>
+								</tr>
+								<tr>
+									<td class="defaultLabel"><label for='Params_AENumber'>AE Number</label></td>
+									<td><input id="Params_AENumber" type="text" size=15></td>
+								</tr>
+								<tr>
+									<td class="defaultLabel"><label for='Params_WarrantNumber'>Warrant Number</label></td>
+									<td><input id="Params_WarrantNumber" type="text" size=15></td>
+								</tr>
+								<tr>
+									<td class="defaultLabel"><label for='Params_EventSequence'>Event Sequence</label></td>
+									<td><input id="Params_EventSequence" type="text" size=15></td>
+								</tr>
+								<tr>
+									<td class="defaultLabel"><label for='Params_EventId'>Event Id</label></td>
+									<td><input id="Params_EventId" type="text" size=15></td>
+								</tr>
+								<tr>
+									<td class="defaultLabel"><label for='Params_EventType'>Event Type</label></td>
+									<td>
+										<script type="text/javascript">
+											FwSelectElementRenderer.createInline( "Params_EventType", 3);
+										</script>
+									</td>
+								</tr>
+								<tr>
+									<td class="defaultLabel"><label for='Params_Mechanism'>Mechanism</label></td>
+									<td>
+										<script type="text/javascript">
+											FwSelectElementRenderer.createInline( "Params_Mechanism", 3);
+										</script>
+									</td>
+								</tr>
+								<tr>
+									<td class="defaultLabel"><label for='Params_Action'>Action</label></td>
+									<td>
+										<script type="text/javascript">
+											FwSelectElementRenderer.createInline( "Params_Action", 3);
+										</script>
+									</td>
+								</tr>
+								<tr>
+									<td class="defaultLabel"><label for='Params_MaintenanceMode'>Maintenance Mode</label></td>
+									<td>
+										<script type="text/javascript">
+											FwSelectElementRenderer.createInline( "Params_MaintenanceMode", 3);
+										</script>
+									</td>
+								</tr>
+								<tr>
+									<td class="defaultLabel"><label for='Params_ObligationType'>Obligation Type</label></td>
+									<td>
+										<script type="text/javascript">
+											FwSelectElementRenderer.createInline( "Params_ObligationType", 10);
+										</script>
+									</td>
+								</tr>
+								<tr>
+									<td class="defaultLabel"><label for='Params_DefaultDays'>Default Days</label></td>
+									<td><input id="Params_DefaultDays" type="text" size=15></td>
+								</tr>
+								<tr>
+									<td class="defaultLabel"><label for='Params_COMode'>Mode (Maintain Debts)</label></td>
+									<td>
+										<script type="text/javascript">
+											FwSelectElementRenderer.createInline( "Params_COMode", 5);
+										</script>
+									</td>
+								</tr>
+								<tr>
+									<td class="defaultLabel"><label for='Params_EnforcementNumber'>Enforcement Number</label></td>
+									<td><input id="Params_EnforcementNumber" type="text" size=15></td>
+								</tr>
+								<tr>
+									<td class="defaultLabel"><label for='Params_EnforcementType'>Enforcement Type</label></td>
+									<td>
+										<script type="text/javascript">
+											FwSelectElementRenderer.createInline( "Params_EnforcementType", 5);
+										</script>
+									</td>
+								</tr>
+							</table>
+						</div>
+	    			</td>
+	    		</tr>
+	    		<!-- End Panel -->
+	    	</table>
+										
+			<!-- Status Bar Panel -->
+			<script type="text/javascript">
+				ActionBarRenderer.createInline(
+					"status_bar",
+					[
+						{id: "Status_GoButton", label: "Go"},
+						{id: "Status_ClearButton", label: "Clear"},
+						{id: "Status_CloseButton", label: "Close"}
+					]
+				);
+			</script>
+	   		<!-- End Status Bar Panel -->
+					
+	    </form>
+	</body>
+</html>

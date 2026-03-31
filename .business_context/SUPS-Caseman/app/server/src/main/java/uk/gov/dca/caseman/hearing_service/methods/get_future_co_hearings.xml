@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: Hearing
+	Method:  getFutureCoHearings
+	Author:  Chris Hutt (EDS) 
+	Created: 19 July 2005
+	Description: 
+		Use SQLLite to retrieve scheduled hearings associated with a consolidated order 
+		
+		Change History
+		v1.1	Chris Hutt	8/08/05	HearingType added.
+
+-->
+<service-method>
+	<pipeline>
+		<SQLLite format-output="true"
+				 resultset-element="Hearings"
+				 row-element="Hearing"
+				 field-name-as="element" >
+			<DataSource id="java:OracleDS"/>
+			<Param name="param.coNumber" xpath="/params/param[@name='coNumber']"/>
+			<SQL>
+				SELECT 
+					 H.HRG_DATE AS "HearingDate"
+					,H.HRG_TYPE AS "HearingType"
+				FROM 	HEARINGS H
+				WHERE 	H.CO_NUMBER = ${param.coNumber}
+				AND  (	H.HRG_DATE &gt; SYSDATE OR H.HRG_DATE = SYSDATE )
+				AND		H.HRG_OUTCOME  IS NULL
+			</SQL>
+		</SQLLite>
+  	</pipeline>
+	<Security roles="user"/>
+</service-method>

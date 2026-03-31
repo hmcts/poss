@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: Payments
+	Method: exitCreateUpdates()
+	File: exit_create_updates.xml
+	Author: Steve Blair
+	Description:
+		Perform finalization tasks on exit if payments have been created.
+-->
+<service-method>
+	<pipeline>
+		<Java callStyle="new">
+			<Source class="uk.gov.dca.caseman.reports_service.classes.ProduceCreatePaymentsReportsProcessor" />
+		</Java>
+		<SQLLite output="input">
+			<DataSource id="java:OracleDS" />
+			<Param name="param.reportType" xpath="/params/param[@name = 'reportData']/ReportData/ReportType" />
+			<Param name="param.reportDate" xpath="/params/param[@name = 'reportData']/ReportData/ReportDate" />
+			<Param name="param.reportNumber" xpath="/params/param[@name = 'reportData']/ReportData/ReportNumber" />
+			<Param name="param.courtId" xpath="/params/param[@name = 'reportData']/ReportData/CourtCode" />
+			<SQL type="update" tables="P">
+				UPDATE	PAYMENTS P
+				SET		P.VERIFICATION_DATE = TO_DATE(${param.reportDate}, 'YYYY-MM-DD')
+				WHERE	P.VERIFICATION_REPORT_ID = ${param.reportType} || ${param.reportNumber} AND
+							P.ADMIN_COURT_CODE = ${param.courtId}
+			</SQL>
+		</SQLLite>
+		<SQLLite output="input">
+			<DataSource id="java:OracleDS" />
+			<Param name="param.reportType" xpath="/params/param[@name = 'reportData']/ReportData/ReportType" />
+			<Param name="param.reportNumber" xpath="/params/param[@name = 'reportData']/ReportData/ReportNumber" />
+			<Param name="param.courtId" xpath="/params/param[@name = 'reportData']/ReportData/CourtCode" />
+			<SQL type="update" tables="DCS">
+				UPDATE	DCS DCS
+				SET		DCS.FINAL = 'Y'
+				WHERE	DCS.REPORT_ID = ${param.reportType} || ${param.reportNumber} AND
+							DCS.ADMIN_COURT_CODE = ${param.courtId}
+			</SQL>
+		</SQLLite>
+	</pipeline>
+	<Dependencies>
+		<Dependency serviceName="Reports" />
+	</Dependencies>
+	<Security roles="medium high wcSuper scSuper bmsSuper aeSuper dmSuper cpSuper" />
+</service-method>

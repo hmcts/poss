@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--Question xmlns="http://eds.com/questionxhtml" xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd"-->
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>Q_OtherReferralReason</Id>
+	<Label>Other</Label>
+	<ObjectName>OtherReferralReason</ObjectName>
+	<Html>
+		<input id="OtherReferralReason" type="text" size="70"></input>
+	</Html>
+	<Javascript>
+		<XPath>/ds/var/page/OracleReportForm/OtherReferralReason</XPath>
+		<ReportVariableName>REFERRAL_REASON_OTH</ReportVariableName>
+		<ReportVariableValue>Services.getValue(OtherReferralReason.dataBinding)</ReportVariableValue>
+		<ReportVariableCode>2110</ReportVariableCode>
+		<HintText>Reason for referral</HintText>
+		<mandatoryOn>ReasonForReferral.dataBinding</mandatoryOn>
+		<isMandatory>
+			return !OtherReferralReason.isReadOnly();
+		</isMandatory>
+		<setDefault></setDefault>
+		<validateOn></validateOn>
+		<validate></validate>
+		<readOnlyOn>ReasonForReferral.dataBinding</readOnlyOn>
+		<isReadOnly>
+			var reasonForReferral = Services.getValue(ReasonForReferral.dataBinding);
+			var valueTest = Services.getValue( REF_DATA_XPATH + "/ReasonForReferralList/ReasonForReferral[./Description = " + ReasonForReferral.dataBinding + "]/Value" );
+			if (reasonForReferral == "OTH" || valueTest == "OTH")
+			{
+				return false;
+			}
+			else
+			{
+				return true;
+			}
+		</isReadOnly>
+		<maxLength></maxLength>
+		<transformToDisplay>
+			return (null != value) ? value.toUpperCase() : null;
+		</transformToDisplay>
+		<transformToModel>
+			return (null != value) ? value.toUpperCase() : null;
+		</transformToModel>
+		<initialise></initialise>
+		<logicOn></logicOn>
+		<logic></logic>
+		<miscCode></miscCode>
+		<IsQuestion></IsQuestion>
+	</Javascript>
+</Question>

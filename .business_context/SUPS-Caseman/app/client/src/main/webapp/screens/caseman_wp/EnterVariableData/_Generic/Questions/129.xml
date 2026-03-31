@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>129</Id>
+	<Label>Case summary to be included in bundle?</Label>
+	<ObjectName>CaseSumIncluded</ObjectName>
+	
+	<Context screenId="CJR199">
+		<isVisible>true</isVisible>
+		<Label>Is a case summary to be prepared?</Label>
+	</Context>
+	
+	
+	<Html>		
+		<input id="CaseSumIncluded" type="checkbox"></input>
+	</Html>
+	<Javascript>
+		<XPath>/ds/EnterVariableData/TrialNotice/caseSumIncluded</XPath>
+		<HintText>Check box if a case summary to be included in the bundle</HintText>
+		<isMandatory>return false;</isMandatory>
+		<modelValue>checked: "Y", unchecked: "N"</modelValue>
+		<enableOn>DirectionsGiven.dataBinding</enableOn>
+		  <isEnabled>return( 'Y' == Services.getValue(DirectionsGiven.dataBinding));</isEnabled>
+		  <logicOn>DirectionsGiven.dataBinding</logicOn>
+		  <logic>
+		  	if( 'Y' != Services.getValue(DirectionsGiven.dataBinding))
+		  	{	Services.setValue(CaseSumIncluded.dataBinding, "");
+		  	}
+		  </logic>	
+		 
+		  <Context ScreenId="CJR199">
+		  	<enableOn></enableOn>
+			<isEnabled></isEnabled>
+			<logicOn></logicOn>		
+			<logic></logic>
+			<HintText>Check box if a case summary is to be prepared</HintText>
+		  </Context>		
+	</Javascript>
+</Question>

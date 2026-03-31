@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>441</Id>
+	<Label>Name of prison</Label>
+	<ObjectName>PrisonName</ObjectName>
+
+    <Context screenId="CO37"><isVisible>false</isVisible></Context>
+
+	<Html>	
+		<input type="text" id="PrisonName"></input>
+	</Html>			
+	<Javascript>
+		<XPath>/ds/EnterVariableData/DisobedienceArrest/prisonName</XPath>
+		<componentName>##label##</componentName>
+		<isMandatory>return true;</isMandatory>
+		<HintText>Enter the prison name</HintText>	
+		
+		<Context ScreenId="CJR083">
+			<enableOn>IsNewN79AsReqd.dataBinding</enableOn>
+			<isEnabled>
+				if(IsNewN79AsReqd.isEnabled())
+				{  	if( 'Y' == Services.getValue(IsNewN79AsReqd.dataBinding))
+					{	return true;
+					}
+					return false;
+				}
+				return true;
+			</isEnabled>
+			<logicOn>IsNewN79AsReqd.dataBinding</logicOn>
+			<logic>
+				if( IsNewN79AsReqd.isEnabled() &amp;&amp; 'Y' != Services.getValue(IsNewN79AsReqd.dataBinding))
+				{	Services.setValue(PrisonName.dataBinding, "");
+				}
+			</logic>
+		</Context>	
+		
+		<Context ScreenId="CJR104">
+			<enableOn>DefRemandorDetnd.dataBinding</enableOn>
+			<isEnabled>
+			
+				var val = ('R' == Services.getValue(DefRemandorDetnd.dataBinding));
+				return val;	
+				
+			</isEnabled>
+			<logicOn>DefRemandorDetnd.dataBinding</logicOn>
+			<logic>
+				if('R' != Services.getValue(DefRemandorDetnd.dataBinding))
+				{	Services.setValue(PrisonName.dataBinding, "");
+				}
+			</logic>	
+		</Context>
+		
+		<Context ScreenId="CO05">
+			<HintText>This is the establishment that the offender will be sent to</HintText>	
+		</Context>
+		
+		<Context ScreenId="CO24">
+			<enableOn>FineOrPrison.dataBinding</enableOn>
+			<isEnabled>
+				var v1 = Services.getValue(FineOrPrison.dataBinding);
+				return (v1 == 'PRISON');
+			</isEnabled>
+			<logicOn>FineOrPrison.dataBinding</logicOn>
+			<logic>
+				var v1 = Services.getValue(FineOrPrison.dataBinding);
+				if(v1 != 'PRISON')
+				{	Services.setValue(PrisonName.dataBinding, "");
+				}
+			</logic>
+		</Context>
+		
+		
+	</Javascript>
+</Question>

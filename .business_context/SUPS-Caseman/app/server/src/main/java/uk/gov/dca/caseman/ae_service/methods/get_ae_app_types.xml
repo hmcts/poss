@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: Ae
+	Method:  getAeAppTypes()
+	File:    get_ae_app_types.xml
+	Author:  
+	Created: 
+	Description: 
+	    Lists of AE Application Types, used when creating an Attachment of Earnings (AE) application
+-->
+<service-method>
+	<pipeline>
+		<Query>
+			<QueryDef location="uk/gov/dca/caseman/ae_service/query_def_ae_app_types.xml"/>
+			<QueryExtension pivotNode="/AEAppTypes/AEAppType" tables="REF">				
+			</QueryExtension>
+		</Query>
+	</pipeline>
+    <Security roles="medium high wcSuper scSuper bmsSuper aeSuper dmSuper cpSuper"/>   	
+</service-method>

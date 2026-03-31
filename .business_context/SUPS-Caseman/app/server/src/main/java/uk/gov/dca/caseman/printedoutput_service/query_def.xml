@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- 
+	Service: Printedoutput
+	Method:  getOutstandingOutputs()
+	File:    query_def.xml
+	Author:  Chris Hutt
+	Created: 23 Nov 2004
+	Description: 
+		Retrieves outstanding WP outputs for specified case/user
+		
+    Change History
+    	11/05/2007: Chris Hutt: Privot nodes combined to ensure that cases with no output are not returned
+	    03/07/2007: Chris Vincent - Added join on Report_Queue table to return the ReportId.  CaseMan Defect 6213.
+	    28/01/2008: ChrisHutt TD Caseman 6496: Performance SQL tuned to exclude MAX function (equiv now done by a 
+	    			custom processor).
+	    Dec 08      Restore performance change made by Valtech.
+	    20/08/09    Mark Groen - TRAC 1219. Scalability change
+--> 
+<QueryDef>
+<DBMapDef location="uk/gov/dca/caseman/printedoutput_service/map.xml"/>
+  <Query pivotNode="/Cases/Case" tables="CE WPO RQ">
+    <Join>
+		WPO.OUTPUT_ID =
+        (   SELECT /*+ PUSH_SUBQ */
+            MAX (WPO2.OUTPUT_ID)
+            FROM   WP_OUTPUT WPO2
+            WHERE  WPO2.EVENT_SEQ = WPO.EVENT_SEQ
+            AND    WPO2.PRINTED = 'N'
+            AND    WPO2.FINAL_IND = 'Y'
+            AND    WPO2.XMLSOURCE IS NOT NULL
+            AND    WPO2.USER_ID = WPO.USER_ID
+         )
+        AND CE.DELETED_FLAG = 'N'
+        AND WPO.EVENT_SEQ = CE.EVENT_SEQ
+        AND RQ.DOCUMENT_ID = WPO.XMLSOURCE
+    </Join>
+    <OrderBy>CE.EVENT_SEQ</OrderBy>
+	<Modify notModifiable="true"/>
+  </Query>
+</QueryDef>
+
+
+

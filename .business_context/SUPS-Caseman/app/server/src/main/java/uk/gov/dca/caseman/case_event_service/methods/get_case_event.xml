@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<service-method>
+	<pipeline>
+		<Query>
+			<QueryDef location="uk/gov/dca/caseman/case_event_service/query_def_get_case_event.xml"/>
+			<QueryExtension pivotNode="/CaseEvent">
+				<Param name="param.caseEventSeq" xpath="/params/param[@name = 'caseEventSeq']"/>
+				<Constraint>CE.EVENT_SEQ = ${param.caseEventSeq}</Constraint>
+			</QueryExtension>
+		</Query>
+	</pipeline>
+	<Security roles="user"/>
+</service-method>

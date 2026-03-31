@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- 
+	14/08/2006 - MGG - defect 4215 - Default value not being set correctly. 
+	Moved from the setDefault method - as setDefault needs a setDefaultOn and use an initialise tag
+	19/12/2006 - CV - Added F6 keybinding to LOV via WarrantTypeLOVGrid.raise configuration.
+	Temp_Caseman defects 299/334.
+-->
+<!--Question xmlns="http://eds.com/questionxhtml" xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd"-->
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>CM_OSWF_QUESTION_4</Id>
+	<Label>Warrant Type</Label>
+	<ObjectName>WarrantType</ObjectName>
+	<Html>
+		<input id="WarrantType" type="text" size="10"></input>
+		<!-- <select id="WarrantType"></select> -->
+		<input id="WarrantTypeLOVButton" type="Button" value="LOV"/>
+		<script type="text/javascript">
+			LOVPopupRenderer.createInline( "WarrantTypeLOVGrid", "Warrant Types", ["Type", "Description"], 10, 1, true );	
+		</script>	
+	</Html>
+	<Javascript>
+		<XPath>/ds/var/page/OracleReportForm/WarrantType</XPath>
+		<ReportVariableName>P_WARRANT_TYPE</ReportVariableName>
+		<ReportVariableValue>Services.getValue(WarrantType.dataBinding)</ReportVariableValue>
+		<HintText>Enter the type of warrant required. Use % for all types.</HintText>
+		<isMandatory>return true;</isMandatory>	
+		<maxLength>10</maxLength>	
+		<initialise>
+			Services.setValue(WarrantType.dataBinding, "%");
+		</initialise>		
+		<validate>
+				return validateWarrantType();	
+		</validate>	
+		<miscCode>
+			OracleReportForm.refDataServices = [
+				{name:"WarrantTypes", dataBinding:REF_DATA_XPATH, serviceName:"getWarrantTypes", serviceParams:[]},
+				{name:"SystemDate", dataBinding:REF_DATA_XPATH, serviceName:"getSystemDate", serviceParams:[]}
+			];
+			WarrantType.srcData = REF_DATA_XPATH + "/WarrantTypes";
+			WarrantType.rowXPath = "WarrantType";
+			WarrantType.keyXPath = "Type";
+			WarrantType.displayXPath = "Type";
+			
+			function validateWarrantType()
+			{
+				var enteredValue = Services.getValue(WarrantType.dataBinding);
+				if (enteredValue == "%")
+				{
+					return null;
+				}
+				var found = false;
+				var ec = null;
+				var numberOfWarrantTypes = Services.getNodes(REF_DATA_XPATH + "/WarrantTypes/WarrantType").length;
+				for(var i=1; i &lt;= numberOfWarrantTypes; i++)
+				{
+					var type = Services.getValue(REF_DATA_XPATH + "/WarrantTypes/WarrantType[" + i + "]/Type");
+					if (type == enteredValue)
+					{
+						found = true;
+						break;
+					}
+				}
+				if (!found)
+				{
+					Services.setFocus("WarrantType");
+					ec = ErrorCode.getErrorCode("CaseMan_warrantTypeInvalid_Msg");
+					faildedValidation (ec);
+				}
+				return ec;
+			}			
+			
+			function WarrantTypeLOVButton() {}
+			
+			function WarrantTypeLOVGrid() {};
+			WarrantTypeLOVGrid.dataBinding = WarrantType.dataBinding;
+			WarrantTypeLOVGrid.srcData = REF_DATA_XPATH + "/WarrantTypes";
+			WarrantTypeLOVGrid.rowXPath = "WarrantType";
+			WarrantTypeLOVGrid.keyXPath = "Type";
+			WarrantTypeLOVGrid.columns = [
+				{xpath: "Type"},
+				{xpath: "Description"}
+			];
+			WarrantTypeLOVGrid.raise = {
+				eventBinding: {
+					singleClicks: [ {element: "WarrantTypeLOVButton"} ],
+					keys: [ { key: Key.F6, element: "WarrantType" } ]
+				}
+			};
+			WarrantTypeLOVGrid.nextFocusedAdaptorId = function() {
+				return "WarrantType";
+			}	
+							
+		</miscCode>
+	</Javascript>
+</Question>

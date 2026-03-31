@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--Question xmlns="http://eds.com/questionxhtml" xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd"-->
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>Q_IsDebtorMaleOrFemale</Id>
+	<Label>Is debtor Male or Female</Label>
+	<ObjectName>IsDebtorMaleOrFemale</ObjectName>
+	<Html>
+		<select id="IsDebtorMaleOrFemale">
+			<option value=""></option>
+			<option value="M">MALE</option>
+			<option value="F">FEMALE</option>
+		</select>
+	</Html>
+	<Javascript>
+		<XPath>/ds/var/page/OracleReportForm/IsDebtorMaleOrFemale</XPath>
+		<ReportVariableName>HIS_HER</ReportVariableName>
+		<ReportVariableValue>Services.getValue(IsDebtorMaleOrFemale.dataBinding)</ReportVariableValue>
+		<ReportVariableCode>800</ReportVariableCode>
+		<HintText>Enter M for Male or F for Female</HintText>
+		<isMandatory>return true;</isMandatory>
+		<initialise></initialise>
+		<setDefault>
+		</setDefault>		
+		<validateOn>
+		</validateOn>
+		<validate>
+		</validate>
+		<miscCode>
+		</miscCode>
+	</Javascript>
+</Question>

@@ -1,0 +1,30 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: TransferCase
+	Method:  completeTransferCaseUpdateWft()
+	File:    complete_transfer_case_update_wft.xml
+	Author:  Chris Vincent
+	Created: 11-Jun-2012
+	Description: 
+		Method to update some of the fields of the WINDOW_FOR_TRAIL records that have been created
+		since the case was marked in transfer.  This is to cater for those transfers that fail after starting and
+		are left unnoticed for some time.  Trac 4692.
+-->
+<service-method>
+	<pipeline>
+		<SQLLite output="input">
+			<DataSource id="java:OracleDS"/>
+			<Param name="param.caseNumber" xpath="/params/param[@name='caseNumber']"/>
+			<Param name="param.adminCourtCode" xpath="/params/param[@name='adminCourtCode']"/>
+			<SQL type="update" tables="WFT">
+				UPDATE WINDOW_FOR_TRIAL WFT
+				SET    WFT.WFT_EXTRACTED_FOR_DM = NULL
+				,      WFT.WFT_PREVIOUS_COURT   = WFT.WFT_CURRENT_COURT
+				,      WFT.WFT_CURRENT_COURT    = ${param.adminCourtCode}
+				WHERE  WFT.WFT_CASE_NUMBER      = ${param.caseNumber}
+				AND	   WFT.WFT_PREVIOUS_COURT IS NULL
+			</SQL>
+		</SQLLite>
+	</pipeline>
+	<Security roles="viewOnly medium high wcSuper scSuper bmsSuper aeSuper dmSuper edsAdmin"/>		
+</service-method>

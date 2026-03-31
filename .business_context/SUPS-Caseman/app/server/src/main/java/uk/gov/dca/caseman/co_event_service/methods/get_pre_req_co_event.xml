@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: CoEvent
+	Method:  isEventForCo
+	Author:  Chris Hutt (EDS) 
+	Created: 18 July 2005
+	Description: 
+		Use SQLLite to return details of pre-requisite consolidated order event.
+		"SubsequentResponseFiled" is returned in case the event which is being enetered
+		requires a check to be made as a whether a pre-requisite event has has a subsequent
+		response filed.
+
+	ChangeHistory:
+	31-July-2006 : TD3965 - response filed check not correct.
+-->
+<service-method>
+	<pipeline>
+		<SQLLite format-output="true"
+				 resultset-element="PreRequisiteEvents"
+				 row-element="Event"
+				 field-name-as="element" >
+			<DataSource id="java:OracleDS"/>
+			<Param name="param.eventId" xpath="/params/param[@name='eventId']"/>
+			<Param name="param.coNumber" xpath="/params/param[@name='coNumber']"/>
+			<SQL>
+				SELECT 
+						COE.STD_EVENT_ID	AS "EventId"
+					   ,COE.EVENT_DATE		AS "EventDate"
+					   ,COE.SERVICE_DATE	AS "ServiceDate"
+					   ,'true'				AS "RecordedAgainstCo"
+					   ,(	SELECT 
+								DECODE(COUNT(*),0,'false','true') 
+						 	FROM    CO_EVENTS COE1
+							WHERE ( COE1.EVENT_DATE &gt; COE.EVENT_DATE 
+							OR 		COE1.EVENT_DATE = COE.EVENT_DATE)
+							AND     COE1.CO_NUMBER =  COE.CO_NUMBER
+							AND     COE1.STD_EVENT_ID IN ('858', '859', '878', '879')
+							AND 	COE1.ERROR_INDICATOR != 'Y'
+						) 	AS "ResponseFiled"	
+				FROM    CO_EVENTS COE
+				WHERE   COE.STD_EVENT_ID 		= ${param.eventId}
+				AND     COE.CO_NUMBER 			= ${param.coNumber}
+				AND 	(COE.ERROR_INDICATOR    = 'N' OR COE.ERROR_INDICATOR is NULL)
+			</SQL>
+		</SQLLite>
+  	</pipeline>
+	<Security roles="user"/>
+</service-method>

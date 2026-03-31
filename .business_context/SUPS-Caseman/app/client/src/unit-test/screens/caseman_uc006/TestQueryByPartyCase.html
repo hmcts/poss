@@ -1,0 +1,238 @@
+<html>
+    <head>
+            <title>ManageEventsCase</title>
+
+            <script type="text/javascript" src="../../../clientframework/dist/Framework.js"></script>
+            <script type="text/javascript" src="../../caseman-dist/MockFormController.js"></script>
+            <script type="text/javascript" src="../../caseman-dist/CaseManFormParameters.js"></script>
+            <script type="text/javascript" src="../../caseman-dist/CaseManUtils.js"></script>
+            <script type="text/javascript" src="../../caseman-dist/CaseManValidationHelper.js"></script>
+            <script type="text/javascript" src="../../caseman-dist/ConcatCommon.js"></script>
+
+            <script type="text/javascript" src="../../../caseman/screens/caseman_uc006/QueryByPartyCase.js"></script>
+            <script type="text/javascript" src="../../clientframework/dist/com/sups/client/MockServices.js"></script>
+
+            <script type="text/javascript" src="../../jsunit/app/jsUnitCore.js"></script>
+            <script type="text/javascript" src="../../jsunit/app/mock4js.js"></script>
+
+
+            <script type="text/javascript">    
+                Mock4JS.addMockSupport(this);
+
+                function setUp()
+                {
+                    Mock4JS.clearMocksToVerify();
+                }
+
+                function tearDown()
+                {
+                    Mock4JS.verifyAllMocks();
+                }
+
+                function test_Header_Button_Enable0()
+                {
+                    var services = mock(MockServices);
+                    Services = services.proxy();
+                    // expectations
+                    services.stubs().getValue(ANYTHING).will(returnValue(''));
+                    services.stubs().getValue(Header_InsolvNo.dataBinding).will(returnValue("1234"));
+                    services.stubs().getValue(Header_InsolvYear.dataBinding).will(returnValue("2134"));
+                    services.stubs().getValue(Header_OwningCourtCode.dataBinding).will(returnValue("282"));
+
+                    services.stubs().getAdaptorById('Header_InsolvNo').will(returnValue({getValid : function()
+                    {
+                        return Header_InsolvNo.validate() == null;
+                    }}));
+                    services.stubs().getAdaptorById('Header_InsolvYear').will(returnValue({getValid : function()
+                    {
+                        return Header_InsolvYear.validate() == null;
+                    }}));
+                    services.stubs().getAdaptorById('Header_CaseNumber').will(returnValue({getValid : function()
+                    {
+                        return Header_CaseNumber.validate() == null;
+                    }}));
+
+
+                    var ec = Header_SearchBtn.isEnabled();
+                    assertTrue(ec);
+                }
+
+                function test_Header_Button_Enable1()
+                {
+                    //false because insolvency year is invalid
+                    var services = mock(MockServices);
+                    var errorCode = mock({prototype:{getErrorCode:function()
+                    {
+                    }}});
+                    Services = services.proxy();
+                    ErrorCode = errorCode.proxy();
+                    // expectations
+                    services.stubs().getValue(ANYTHING).will(returnValue(''));
+                    services.stubs().getValue(Header_InsolvNo.dataBinding).will(returnValue("1234"));
+                    services.stubs().getValue(Header_InsolvYear.dataBinding).will(returnValue("213"));
+                    services.stubs().getValue(Header_OwningCourtCode.dataBinding).will(returnValue("282"));
+
+                    services.stubs().getAdaptorById('Header_InsolvNo').will(returnValue({getValid : function()
+                    {
+                        return Header_InsolvNo.validate() == null;
+                    }}));
+                    services.stubs().getAdaptorById('Header_InsolvYear').will(returnValue({getValid : function()
+                    {
+                        return Header_InsolvYear.validate() == null;
+                    }}));
+
+                    errorCode.stubs().getErrorCode(ANYTHING).will(returnValue('Error'));
+
+                    // execute
+                    var ec = Header_SearchBtn.isEnabled();
+                    assertFalse(ec);
+                }
+
+                function test_Header_Button_Enable2()
+                {
+                    //false because insolvency year is blank
+                    var services = mock(MockServices);
+                    Services = services.proxy();
+                    // expectations
+                    services.stubs().getValue(ANYTHING).will(returnValue(''));
+                    services.stubs().getValue(Header_InsolvNo.dataBinding).will(returnValue("1234"));
+                    services.stubs().getValue(Header_OwningCourtCode.dataBinding).will(returnValue("282"));
+
+                    services.stubs().getAdaptorById('Header_InsolvNo').will(returnValue({getValid : function()
+                    {
+                        return Header_InsolvNo.validate() == null;
+                    }}));
+                    services.stubs().getAdaptorById('Header_InsolvYear').will(returnValue({getValid : function()
+                    {
+                        return Header_InsolvYear.validate() == null;
+                    }}));
+
+                    // execute
+                    var ec = Header_SearchBtn.isEnabled();
+                    assertFalse(ec);
+                }
+
+                function test_Header_Button_Enable3()
+                {
+                    //false because insolvency no is invalid
+
+                    var services = mock(MockServices);
+                    var errorCode = mock({prototype:{getErrorCode:function()
+                    {
+                    }}});
+                    Services = services.proxy();
+                    ErrorCode = errorCode.proxy();
+                    // expectations
+                    services.stubs().getValue(ANYTHING).will(returnValue(''));
+                    services.stubs().getValue(Header_InsolvNo.dataBinding).will(returnValue("123a"));
+                    services.stubs().getValue(Header_InsolvYear.dataBinding).will(returnValue("2134"));
+                    services.stubs().getValue(Header_OwningCourtCode.dataBinding).will(returnValue("282"));
+
+                    services.stubs().getAdaptorById('Header_InsolvNo').will(returnValue({getValid : function()
+                    {
+                        return Header_InsolvNo.validate() == null;
+                    }}));
+                    services.stubs().getAdaptorById('Header_InsolvYear').will(returnValue({getValid : function()
+                    {
+                        return Header_InsolvYear.validate() == null;
+                    }}));
+                    errorCode.stubs().getErrorCode(ANYTHING).will(returnValue('Error'));
+
+                    // execute
+                    var ec = Header_SearchBtn.isEnabled();
+                    assertFalse(ec);
+                }
+
+                function test_Header_Button_Enable4()
+                {
+                    //false because insolvency no is blank
+                    var services = mock(MockServices);
+                    Services = services.proxy();
+                    // expectations
+                    services.stubs().getValue(ANYTHING).will(returnValue(''));
+                    //services.stubs().getValue(Header_InsolvNo.dataBinding).will(returnValue("1234"));
+                    services.stubs().getValue(Header_InsolvYear.dataBinding).will(returnValue("2134"));
+                    services.stubs().getValue(Header_OwningCourtCode.dataBinding).will(returnValue("282"));
+
+                    services.stubs().getAdaptorById('Header_InsolvNo').will(returnValue({getValid : function()
+                    {
+                        return Header_InsolvNo.validate() == null;
+                    }}));
+                    services.stubs().getAdaptorById('Header_InsolvYear').will(returnValue({getValid : function()
+                    {
+                        return Header_InsolvYear.validate() == null;
+                    }}));
+                    // execute
+                    var ec = Header_SearchBtn.isEnabled();
+                    assertFalse(ec);
+                }
+
+                function test_Header_Button_Enable5()
+                {
+                    //false because court code is blank
+                    var services = mock(MockServices);
+                    Services = services.proxy();
+                    // expectations
+                    services.stubs().getValue(ANYTHING).will(returnValue(''));
+                    services.stubs().getValue(Header_InsolvNo.dataBinding).will(returnValue("1234"));
+                    services.stubs().getValue(Header_InsolvYear.dataBinding).will(returnValue("2134"));
+                    //services.stubs().getValue(Header_OwningCourtCode.dataBinding).will(returnValue("282"));
+
+                    services.stubs().getAdaptorById('Header_InsolvNo').will(returnValue({getValid : function()
+                    {
+                        return Header_InsolvNo.validate() == null;
+                    }}));
+                    services.stubs().getAdaptorById('Header_InsolvYear').will(returnValue({getValid : function()
+                    {
+                        return Header_InsolvYear.validate() == null;
+                    }}));
+                    // execute
+                    var ec = Header_SearchBtn.isEnabled();
+                    assertFalse(ec);
+                }
+
+                function test_insolvency_mandatory3()
+                {
+                    //insolvency year mandatory
+                    var services = mock(MockServices);
+                    Services = services.proxy();
+                    services.stubs().getValue(Header_InsolvNo.dataBinding).will(returnValue("3"));
+                    //debugger;
+                    var ec = Header_InsolvYear.isMandatory();
+                    assertTrue(ec);
+                }
+                function test_insolvency_mandatory4()
+                {
+                    //insolvency year not mandatory
+                    var services = mock(MockServices);
+                    Services = services.proxy();
+                    services.stubs().getValue(Header_InsolvNo.dataBinding).will(returnValue(""));
+                    var ec = Header_InsolvYear.isMandatory();
+                    assertFalse(ec);
+                }
+                function test_insolvency_mandatory1()
+                {
+                    //insolvency no mandatory
+                    var services = mock(MockServices);
+                    Services = null;
+                    Services = services.proxy();
+                    services.stubs().getValue(Header_InsolvYear.dataBinding).will(returnValue("2"));
+                    var ec = Header_InsolvNo.isMandatory();
+                    assertTrue(ec);
+                }
+                function test_insolvency_mandatory2()
+                {
+                    //insolvency no not mandatory
+                    var services = mock(MockServices);
+                    Services = null;
+                    Services = services.proxy();
+                    services.stubs().getValue(Header_InsolvYear.dataBinding).will(returnValue(""));
+                    var ec = Header_InsolvNo.isMandatory();
+                    assertFalse(ec);
+                }
+            </script>
+    </head>
+    <body>
+        This is a Test Page for test_Header_SearchBtn.isEnabled()
+    </body>
+</html>

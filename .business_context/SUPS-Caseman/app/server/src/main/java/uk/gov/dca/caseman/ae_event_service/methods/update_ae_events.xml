@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- 
+	Service: AeEvent
+	Method:  updateAeEvents()
+	File:    update_ae_events.xml
+	Author:  Chris Hutt
+	Created: 24 June 2005
+	Description: 
+		Despite name, this service is used to update the NDR and PER details associated with an AE.
+                This is an obvious change of use. Rename?
+	Change History
+	25/11/2015 - Chris Vincent: Added dependency for the Reports service.  Trac 5725
+  --> 
+<service-method>
+	<pipeline>
+		<Update>
+			<QueryDef location="uk/gov/dca/caseman/ae_event_service/query_def_update_ae_ndr_per_details.xml"/>
+			<DataSource xpath="/params/param[@name='aeEvents']"/>
+			<QueryExtension pivotNode="/ManageAEEvents">
+				<CheckExists table="AEA" fields="ae_number" onNotExist="skip" onExist="update"/>
+			</QueryExtension>
+		</Update>
+		<Java>
+			<Source class="uk.gov.dca.caseman.ae_event_service.java.UpdateAeEventsCustomProcessor"/>
+		</Java>
+	</pipeline>
+	<Dependencies>
+		<Dependency serviceName="WpOutput"/>
+		<Dependency serviceName="Reports"/>
+	</Dependencies>
+	<Security roles="medium high wcSuper scSuper bmsSuper aeSuper dmSuper cpSuper"/>	
+</service-method>

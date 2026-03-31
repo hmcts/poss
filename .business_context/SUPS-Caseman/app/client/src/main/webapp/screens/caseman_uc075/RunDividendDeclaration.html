@@ -1,0 +1,129 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3c.org/TR/html4/strict.dtd">
+<html>
+
+	<head>
+		<title>RunDividendDeclaration</title>
+		<link href="RunDividendDeclaration.css" type="text/css" rel="stylesheet" />
+		<script type="text/javascript" src="../../Framework.js"></script>
+		<script type="text/javascript" src="../../CaseManIncludeFiles.js"></script>
+		<script type="text/javascript" src="RunDividendDeclaration_Constants.js"></script>
+		<script type="text/javascript" src="RunDividendDeclaration_HelperFunctions.js"></script>
+		<script type="text/javascript" src="RunDividendDeclaration.js"></script>
+	</head>
+	
+	<body tabindex="-1">
+		<form name="RunDividendDeclaration" id="runDividendDeclaration">
+			
+			<!-- Exit Button -->
+			<div class="exitScreenAdaptor" id="exitScreenHandler"></div>
+			
+			<!-- Navigation -->
+			<table class="CaseManMenuBar">
+				<tr>
+					<td>&nbsp;</td>
+				</tr>
+			</table>
+			
+			<!-- Content -->
+			<table class="layout">
+				
+				<!-- Owning Court Panel -->
+				<tr>
+					<td>
+						<div class="panel">
+							<table class="content">
+								<tr>
+									<td align="right">
+										<table style="width:950px; margin:5px;">
+											<tr>
+												<td><label for='Header_OwningCourtCode'>Owning Court</label></td>
+												<td style="width:300px;">
+													<input id="Header_OwningCourtCode" type="text" size=5>
+													<input id="Header_OwningCourtName" type="text" size=25>
+												</td>
+											</tr>
+										</table>
+									</td>			
+								</tr>
+							</table>
+						</div>
+					</td>
+				</tr>
+				<!-- End Owning Court Panel -->
+				
+				<!-- Consolidated Order List Panel -->
+				<tr>
+					<td>
+						<div class="panel">
+							<table class="content">
+								<tr>
+									<td>
+										<table>
+											<tr>
+												<td>
+													<div style="margin-left:5px;">
+														<label>
+															<br />
+															Click Add or press F2 to add a new CO Number.<br />
+															When all records entered click Save or press F3 to commit and run the Dividend Pre-Payout List.<br />
+															Click Close or press F4 to QUIT.
+														</label>
+													</div>
+												</td>
+											</tr>
+											<tr>
+												<td valign="top">
+													<script type="text/javascript">Grid.createInline("PageOne_ConsolidatedOrderGrid", ["CO Number", "Debtor Name", "", "Monies in Court", "Status"], 25, 1);</script>
+												</td>
+											</tr>
+											<tr>
+												<td style="height:31px;" valign="top" align="right">
+													<input id="PageOne_AddButton" type="Button" value="Add" style="margin-right: 5px;"/>
+													<input id="PageOne_RemoveButton" type="Button" value="Remove" style="margin-right: 5px;"/>
+													<input id="PageOne_ResetButton" type="Button" value="Reset" style="margin-right: 5px;"/>
+												</td>
+											</tr>
+										</table>
+									</td>
+								</tr>
+							</table>
+						</div>
+					</td>
+				</tr>
+			</table>
+			<!-- End Consolidated Order List Panel -->
+			
+			<!-- Status -->
+			<script type="text/javascript">
+				ActionBarRenderer.createInline("status_bar", [
+						{ id: "Status_SaveButton", label: "Save"},
+						{ id: "Status_CloseButton", label: "Close"}
+					]
+				);
+			</script>
+			
+			<!-- Popups -->
+			
+			<!-- Add New Consolidated Order Popup -->
+			<div class="popup" id="AddNewConsolidatedOrder_Popup">
+				<table class="content">
+					<tr>
+						<td class="defaultLabel"><label for="AddNewConsolidatedOrderPopup_CONumber">CO Number</label></td>
+						<td><input id="AddNewConsolidatedOrderPopup_CONumber" type="text" size="15" style="margin-top:5px;"/></td>
+					</tr>
+					<tr style="height:2px;">
+						<td colspan=2>&nbsp;</td>
+					</tr>
+					<tr>
+						<td colspan=2 align="right">
+							<input class="popupButton" type="button" value="OK" id="AddNewConsolidatedOrderPopup_OkButton"/>
+							<input class="popupButton" type="button" value="Cancel" id="AddNewConsolidatedOrderPopup_CancelButton"/>
+						</td>
+					</tr>
+				</table>
+			</div>
+			<!-- End Add New Consolidated Order Popup -->
+			
+		</form>
+	</body>
+</html>

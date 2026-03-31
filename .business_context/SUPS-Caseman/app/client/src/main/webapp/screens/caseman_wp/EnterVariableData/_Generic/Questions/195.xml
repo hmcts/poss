@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>195</Id>
+	<Label>Party to comply</Label>
+	<ObjectName>PartyToComply</ObjectName>
+	<Html>	
+		<select id="PartyToComply">
+			<option value=""></option>
+			<option value="CLM">Claimant</option>
+			<option value="DEF">Defendant</option>
+			<option value="OTH">Other</option>
+		</select>
+	</Html>
+	<Javascript>
+		<XPath>/ds/EnterVariableData/FastTrack/partyToComply</XPath>
+		<HintText>Enter the party directed to comply</HintText>
+		<isMandatory>return true;</isMandatory>	
+		<enableOn>IsPartyToComply.dataBinding</enableOn>
+		<isEnabled>return( 'Y' == Services.getValue(IsPartyToComply.dataBinding));</isEnabled>
+		<logicOn>IsPartyToComply.dataBinding</logicOn>
+		<logic>
+			if( 'Y' != Services.getValue(IsPartyToComply.dataBinding))
+			{	Services.setValue(PartyToComply.dataBinding, "");
+			}
+		</logic>
+		
+		<Context ScreenId="CJR060">
+			<HintText>Select the party directed to comply</HintText>
+		</Context>
+	</Javascript>
+</Question>

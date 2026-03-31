@@ -1,0 +1,1 @@
+FCKLang.PreviewDocumentBtn			= 'Preview Document' ;

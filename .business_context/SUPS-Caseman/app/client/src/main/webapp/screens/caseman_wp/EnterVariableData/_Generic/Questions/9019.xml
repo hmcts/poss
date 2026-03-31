@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>9019</Id>
+	<Label>Date of filing of nominee's report</Label>
+	<ObjectName>FilingDate</ObjectName>
+	<Html>
+		<script type="text/javascript">WP_DatePickerRenderer.createInline("FilingDate", false);</script>
+	</Html>
+	<Javascript>
+        <XPath>/ds/EnterVariableData/FilingDate</XPath>
+		<HintText>Select the date of filing nominee's report</HintText>
+		<validate>
+			// Validation: Date cannot be in the future. Working day only.	
+			
+			var filingDate = Services.getValue(FilingDate.dataBinding);
+			var err = null;
+
+			if( true == isFutureDate(filingDate))
+			{	err = ErrorCode.getErrorCode("CaseMan_dateCannotBeInTheFuture_Msg");
+			}
+			else if( isNonWorkingDate(filingDate))
+		    {   err = ErrorCode.getErrorCode("CaseMan_dateNonWorkingDay_Msg"); 
+		    }
+
+		    return err;
+  <!--           return isWorkingDayInPast(Services.getValue(FilingDate.dataBinding));	-->
+		</validate>
+		<miscCode>
+			FilingDate.weekends = false;
+		</miscCode>
+		
+		<isMandatory>return true;</isMandatory>
+        <mandatoryOn>FilingDate.dataBinding</mandatoryOn>
+        <isEnabled>return true;</isEnabled>
+	</Javascript>
+</Question>
+

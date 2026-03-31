@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>9064</Id>
+	<Label>Date of affidavit support</Label>
+	<ObjectName>AffidavitSupportDate</ObjectName>
+	<Html>
+		<script type="text/javascript">WP_DatePickerRenderer.createInline("AffidavitSupportDate", false);</script>
+	</Html>
+	<Javascript>
+		<XPath>/ds/EnterVariableData/Filed/AffidavitSupportDate</XPath>
+		<HintText>Select the affidavit support date</HintText>
+		<validate>
+			//Date picker: error message “The value does not conform to a valid date format of DD-MMM-YYYY”.
+			//Validation: Date cannot be in the future
+			var err = null;
+			var isFuture = isFutureDate(Services.getValue(AffidavitSupportDate.dataBinding));
+			if( null != isFuture &amp;&amp; isFuture )
+			{ err = ErrorCode.getErrorCode("CaseMan_dateCannotBeInTheFuture_Msg");
+			}
+			return err;
+		</validate> 
+		<isMandatory>return true;</isMandatory>
+	</Javascript>
+</Question>

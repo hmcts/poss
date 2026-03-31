@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: Payout
+	Method:  getCompletePayoutStatus()
+	File:    get_complete_payout__status.xml
+	Author:  Anthony Bonnar (EDS)
+	Created: 01 Feb 2006
+	Description: 
+		Determine whether the given the Complete Payout Process has been run
+-->
+<service-method>
+	<pipeline>
+		<SQLLite format-output="true"
+				 resultset-element="ds"
+				 row-element="CompletePayout"
+				 field-name-as="element" >
+			<DataSource id="java:OracleDS"/>
+				<Param name="param.runDate" xpath="/params/param[@name='runDate']"/>
+				<Param name="param.systemDate" xpath="/params/param[@name='systemDate']"/>
+				<Param name="param.adminCourtCode" xpath="/params/param[@name='adminCourtCode']"/>
+			
+			<SQL>
+				
+			   	SELECT SD.ITEM                AS "item"
+        	   	,      TRUNC(SD.ITEM_VALUE,0) AS "itemValue"
+        		,      SD.ADMIN_COURT_CODE    AS "adminCourtCode"   
+  				FROM SYSTEM_DATA SD
+  				WHERE SD.ITEM 			= ${param.runDate}
+				AND SD.ITEM_VALUE 		= ${param.systemDate}
+				AND SD.ADMIN_COURT_CODE = ${param.adminCourtCode}
+  				
+  				
+			</SQL>
+		</SQLLite>
+	</pipeline>
+	<Security roles="viewOnly medium high wcSuper scSuper bmsSuper aeSuper dmSuper edsAdmin cpSuper"/>	
+</service-method>

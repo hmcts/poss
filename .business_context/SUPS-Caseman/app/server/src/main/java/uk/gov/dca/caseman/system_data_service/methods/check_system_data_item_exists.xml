@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: SystemData
+	Method:  checkSystemDataItemExists()
+	File:    check_system_data_item_exists.xml
+	Author:  Chris Vincent
+	Created: 
+	Description: 
+		Validation service used to help indicate whether or not a system data item
+		already exists on a particular court code or not.
+-->
+<service-method>
+	<pipeline>
+		<SQLLite format-output="true"
+				 resultset-element="SystemDataCheck"
+				 row-element="SystemDataItem"
+				 field-name-as="element" >
+			<DataSource id="java:OracleDS"/>
+			<Param name="param.item" xpath="/params/param[@name='item']"/>
+			<SQL>	
+				SELECT ITEM As "Item", ADMIN_COURT_CODE As "AdminCourtCode" 
+				FROM   SYSTEM_DATA SD
+				WHERE  SD.ITEM = ${param.item}
+			</SQL>
+		</SQLLite>
+  	</pipeline>
+	<Security roles="viewOnly medium high wcSuper scSuper bmsSuper aeSuper dmSuper cpSuper edsAdmin ccbcMan"/>
+</service-method>

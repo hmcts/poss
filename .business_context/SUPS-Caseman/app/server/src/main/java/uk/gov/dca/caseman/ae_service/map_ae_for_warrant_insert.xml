@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+Change History
+
+	04/12/2006  Defect UCT864
+						PartyFor Address detials required (added to warrant if party not represented)
+						
+	22/03/2007  defect prog testing 811 
+						Court postcode not being written to an 876 warrant (party for details)
+						This is because it was not included in this map.
+	11/11/2009 Chris Vincent - Map now returns Owning Court of Case instead of Issuing Court of AE.  Trac 1667.
+-->
+<DBMapDef>
+  <DataSource id="java:OracleDS"/>
+  <Tables>
+    <Table alias="CPR" name="CASE_PARTY_ROLES"/>
+    <Table alias="CPR2" name="CASE_PARTY_ROLES"/>
+    <Table alias="CPR3" name="CASE_PARTY_ROLES"/>
+    <Table alias="P"   name="PARTIES"/>
+   	<Table alias="P2"   name="PARTIES"/>
+   	<Table alias="P3"   name="PARTIES"/>
+   	<Table alias="P4"   name="PARTIES"/>
+    <Table alias="CP"   name="CODED_PARTIES"/>
+    <Table alias="CP2"   name="CODED_PARTIES"/>
+    <Table alias="GA" name="GIVEN_ADDRESSES"/>   
+    <Table alias="GA2" name="GIVEN_ADDRESSES"/> 
+    <Table alias="GA3" name="GIVEN_ADDRESSES"/> 
+    <Table alias="GA4" name="GIVEN_ADDRESSES"/> 
+    <Table alias="GA5" name="GIVEN_ADDRESSES"/> 
+    <Table alias="CT" name="COURTS"/>
+	<Table alias="A" name="AE_APPLICATIONS" />
+ 	<Table alias="CPR2CPR" name="CPR_TO_CPR_RELATIONSHIP"/>
+	<Table alias="C" name="CASES" />
+  </Tables> 
+   
+  <Mapping>
+  	<ds>
+			<AEApplication>
+				<AENumber>${A.AE_NUMBER}</AENumber>
+				<AEType>${A.AE_TYPE}</AEType>
+				<DateOfReceipt>${A.DATE_OF_RECEIPT}</DateOfReceipt>
+				<DateOfCreation>${A.DATE_OF_CREATION}</DateOfCreation>
+				<DateOfIssue>${A.DATE_OF_ISSUE}</DateOfIssue>
+				<AmountOfAE>${A.AMOUNT_OF_AE}</AmountOfAE>
+				<AmountOfAECurrency>${A.AMOUNT_OF_AE_CURRENCY}</AmountOfAECurrency>
+				<CaseNumber>${A.CASE_NUMBER}</CaseNumber>
+				<Court>
+					<CourtCode>${C.ADMIN_CRT_CODE}</CourtCode>
+					<Name>${CT.NAME}</Name>
+		        	<Address>
+    	        		<AddressId>${GA.ADDRESS_ID}</AddressId>
+    	        		<TypeCode>${GA.ADDRESS_TYPE_CODE}</TypeCode>
+        	    		<Line1>${GA.ADDRESS_LINE1}</Line1>
+            			<Line2>${GA.ADDRESS_LINE2}</Line2>
+	            		<Line3>${GA.ADDRESS_LINE3}</Line3>
+    	        		<Line4>${GA.ADDRESS_LINE4}</Line4>
+        	    		<Line5>${GA.ADDRESS_LINE5}</Line5>
+        	    		<PostCode>${GA.POSTCODE}</PostCode>
+		         	</Address>
+					<TelephoneNumber>${CT.TEL_NO}</TelephoneNumber>
+					<FaxNumber>${CT.FAX_NO}</FaxNumber>
+					<DXNumber>${CT.DX_NUMBER}</DXNumber>
+				</Court>
+
+			<PartyFor>
+	    	   	<PartyId>${A.PARTY_FOR_CASE_PARTY_NO}</PartyId>
+	    	   	<Code>${CP.CODE}</Code>
+	    	   	<PartyType>${A.PARTY_FOR_PARTY_ROLE_CODE}</PartyType>
+				<Name>${P.PERSON_REQUESTED_NAME}</Name>
+				<Address>
+    	        	<AddressId>${GA5.ADDRESS_ID}</AddressId>
+    	        	<TypeCode>${GA5.ADDRESS_TYPE_CODE}</TypeCode>
+       	    		<Line1>${GA5.ADDRESS_LINE1}</Line1>
+            		<Line2>${GA5.ADDRESS_LINE2}</Line2>
+	            	<Line3>${GA5.ADDRESS_LINE3}</Line3>
+    	        	<Line4>${GA5.ADDRESS_LINE4}</Line4>
+        	    	<Line5>${GA5.ADDRESS_LINE5}</Line5>
+					<PostCode>${GA5.POSTCODE}</PostCode>
+		         </Address>
+				<Representative>
+					<Name>${P3.PERSON_REQUESTED_NAME}</Name>
+					<Number>${CPR3.CASE_PARTY_NO}</Number>
+					<PartyType>${CPR3.PARTY_ROLE_CODE}</PartyType>
+					<Code>${CP2.CODE}</Code>
+					<Reference>${CPR2CPR.PERSONAL_REFERENCE}</Reference>
+			        <Address>
+		    	        <AddressId>${GA2.ADDRESS_ID}</AddressId>
+		    	        <TypeCode>${GA2.ADDRESS_TYPE_CODE}</TypeCode>
+       	    			<Line1>${GA2.ADDRESS_LINE1}</Line1>
+            			<Line2>${GA2.ADDRESS_LINE2}</Line2>
+	            		<Line3>${GA2.ADDRESS_LINE3}</Line3>
+    	        		<Line4>${GA2.ADDRESS_LINE4}</Line4>
+        	    		<Line5>${GA2.ADDRESS_LINE5}</Line5>
+						<PostCode>${GA2.POSTCODE}</PostCode>
+			         </Address>
+					<TelephoneNumber>${P3.TEL_NO}</TelephoneNumber>
+					<FaxNumber>${P3.FAX_NUMBER}</FaxNumber>
+					<Email>${P3.EMAIL_ADDRESS}</Email>
+					<DXNumber>${P3.DX_NUMBER}</DXNumber>
+				</Representative>
+			</PartyFor>
+			<PartyAgainst>
+	    	    <Number>${A.PARTY_AGAINST_CASE_PARTY_NO}</Number>
+				<Name>${P2.PERSON_REQUESTED_NAME}</Name>
+				<PartyType>${A.PARTY_AGAINST_PARTY_ROLE_CODE}</PartyType>
+		        <Address>
+    	        	<AddressId>${GA3.ADDRESS_ID}</AddressId>
+    	        	<TypeCode>${GA3.ADDRESS_TYPE_CODE}</TypeCode>
+       	    		<Line1>${GA3.ADDRESS_LINE1}</Line1>
+            		<Line2>${GA3.ADDRESS_LINE2}</Line2>
+	            	<Line3>${GA3.ADDRESS_LINE3}</Line3>
+    	        	<Line4>${GA3.ADDRESS_LINE4}</Line4>
+        	    	<Line5>${GA3.ADDRESS_LINE5}</Line5>
+					<PostCode>${GA3.POSTCODE}</PostCode>
+		         </Address>
+		         <Employer>
+		         	<PartyId>${A.DEBTORS_EMPLOYERS_PARTY_ID}</PartyId>
+		         	<Name>${P4.PERSON_REQUESTED_NAME}</Name>
+		        	<Address>
+	    	        	<AddressId>${GA4.ADDRESS_ID}</AddressId>
+	    	        	<TypeCode>${GA4.ADDRESS_TYPE_CODE}</TypeCode>
+	       	    		<Line1>${GA4.ADDRESS_LINE1}</Line1>
+	            		<Line2>${GA4.ADDRESS_LINE2}</Line2>
+		            	<Line3>${GA4.ADDRESS_LINE3}</Line3>
+	    	        	<Line4>${GA4.ADDRESS_LINE4}</Line4>
+	        	    	<Line5>${GA4.ADDRESS_LINE5}</Line5>
+						<PostCode>${GA4.POSTCODE}</PostCode>
+		         	</Address>
+		         </Employer>
+			</PartyAgainst>				
+		</AEApplication>
+	 </ds>
+	</Mapping>
+</DBMapDef>

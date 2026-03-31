@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: DmsReport
+	Method:  deleteOverdueObligations()
+	File:   delete_overdue_obligations.xml
+	Author:  Troy Baines
+	Created: 20 November 2004
+	Description: 
+        Deletes Obligations which are overdue
+
+    Change History:
+	11 Oct 2006 Chris Hutt TD:5638 performance issues. Revamp.
+	28/01/2013	Chris Vincent, Trac 4767, replaced SQLLite update with call to Java Custom Processor to handle optional parameters.
+-->
+<service-method>
+	<pipeline>
+		<Java>
+			<Source class="uk.gov.dca.caseman.dms_report_service.java.OverdueObligationDeletionHandler"/>
+		</Java>
+	</pipeline>
+	<Security roles="medium high wcSuper scSuper bmsSuper aeSuper dmSuper edsAdmin ccbcMan"/>
+</service-method>

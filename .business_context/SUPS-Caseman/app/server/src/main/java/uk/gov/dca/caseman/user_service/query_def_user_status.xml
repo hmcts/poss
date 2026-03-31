@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+	
+<QueryDef>
+  <DBMapDef location="uk/gov/dca/caseman/user_service/map_user_status.xml"/>
+  <Query pivotNode="/Users/User" tables="DU, UC">
+    <Join>
+    	UC.USER_ID (+) = DU.USER_ID AND
+    	UC.HOME_FLAG (+) = 'Y'
+    </Join>
+    <Modify notModifiable="true" />
+  </Query>
+</QueryDef>

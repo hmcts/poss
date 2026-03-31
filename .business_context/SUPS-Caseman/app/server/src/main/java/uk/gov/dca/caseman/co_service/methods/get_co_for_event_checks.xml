@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: Co
+	Method:  getCoForEventChecks
+	Author:  Chris Hutt (EDS) 
+	Created: 19 July 2005
+	Description: 
+		Use SQLLite to get Consolidated Order detail necessary to support checks associated
+		with the entry of Consolidated Order Events. 
+	
+	Change History
+		4 Jan 2006  Chris Hutt
+		Defect temp_caseman 392: COType returned (used to determine if precondition event is relevant).
+
+-->
+<service-method>
+	<pipeline>
+		<SQLLite format-output="true"
+				 resultset-element="ds"
+				 row-element="CO"
+				 field-name-as="element" >
+			<DataSource id="java:OracleDS"/>
+			<Param name="param.coNumber" xpath="/params/param[@name='coNumber']"/>
+			<SQL>
+				SELECT 
+						CO.INSTAL_AMOUNT  				AS "InstalmentAmount"
+				   		,CO.FREQUENCY					AS "PaymentFrequency"
+                   		,CO.FIRST_PAYMENT_DATE			AS "FirstPaymentDate"
+                   		,CO.REVOKED_DISCHARGED_DATE 	AS "RevokedDischargedDate"
+                   		,CO.CO_STATUS 					AS "Status"
+                   		,CO.CO_TYPE						AS "COType"
+                   		,CASE
+				     		WHEN 	  CO.PROTECTED_EARNINGS_RATE IS NOT NULL 
+                                 AND  CO.INSTAL_AMOUNT IS NOT NULL
+                                 AND  CO.FREQUENCY IS NOT NULL
+                            THEN 	  'Y'
+				     		ELSE 	  'N'      
+						END 							AS "PerNdrDetailsComplete"
+				FROM 	CONSOLIDATED_ORDERS CO
+				WHERE 	CO.CO_NUMBER = ${param.coNumber}
+
+			</SQL>
+		</SQLLite>
+  	</pipeline>
+	<Security roles="user"/>
+</service-method>

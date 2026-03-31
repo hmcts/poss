@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<DBMapDef>
+  <DataSource id="java:OracleDS"/>
+  <Tables>
+    <Table alias="CE" name="CASE_EVENTS"/>
+  </Tables>  
+  <Mapping>
+	<CaseEvent>
+		<CaseEventSeq>${CE.EVENT_SEQ}</CaseEventSeq>
+		<EventDetails>${CE.DETAILS}</EventDetails>
+		<DeletedFlag>${CE.DELETED_FLAG}</DeletedFlag>
+	</CaseEvent>
+  </Mapping>
+</DBMapDef>

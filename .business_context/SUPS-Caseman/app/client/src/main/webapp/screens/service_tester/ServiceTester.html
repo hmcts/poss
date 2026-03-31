@@ -1,0 +1,93 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3c.org/TR/html4/strict.dtd">
+
+<html>
+
+	<head>
+		<title>Service Tester</title>
+		<link href="ServiceTester.css" type="text/css" rel="stylesheet">	
+		<script type="text/javascript" src="../../Framework.js"></script>
+		<script type="text/javascript" src="../../ConcatCommon.js"></script>
+		<script type="text/javascript" src="ServiceTester.js"></script>
+	</head>
+	
+	<body tabindex="-1">
+		<form id="ServiceTester" name="serviceTester">
+			
+			<!-- Framework Navigation Menu -->
+			<script type="text/javascript">MenuBarRenderer.createInline();</script>
+			
+			<table class="layout"> 
+				<tr>
+					<td>
+						<div class="panel">					
+							<table class="content" style="height:570px;">
+								<tr>
+									<td align="left" valign="top">
+										<table style="margin-top:5px;">
+											<tr>
+												<td class="screenLabel"><label for="Service_Name">Service Name</label></td>
+												<td colspan="3"><script type="text/javascript">AutoCompletionRenderer.createInline("Service_Name");</script></td>
+											</tr>
+											<tr>
+												<td class="screenLabel"><label for="Method_Name">Method Name</label></td>
+												<td colspan="3"><script type="text/javascript">AutoCompletionRenderer.createInline("Method_Name");</script></td>
+											</tr>
+											<tr>
+												<td class="screenLabel"><label for="Param1">Params</label></td>
+												<td><input id="Param1Name" type="text" size="20"/></td>
+												<td colspan="2"><script type="text/javascript">ZoomFieldRenderer.createInline("Param1");</script></td>
+											</tr>
+											<tr>
+												<td>&nbsp;</td>
+												<td><input id="Param2Name" type="text" size="20"/></td>
+												<td colspan="2"><script type="text/javascript">ZoomFieldRenderer.createInline("Param2");</script></td>
+											</tr>
+											<tr>
+												<td>&nbsp;</td>
+												<td><input id="Param3Name" type="text" size="20"/></td>
+												<td colspan="2"><script type="text/javascript">ZoomFieldRenderer.createInline("Param3");</script></td>
+											</tr>
+											<tr>
+												<td>&nbsp;</td>
+												<td><input id="Param4Name" type="text" size="20"/></td>
+												<td colspan="2"><script type="text/javascript">ZoomFieldRenderer.createInline("Param4");</script></td>
+											</tr>
+											<tr>
+												<td>&nbsp;</td>
+												<td><input id="Param5Name" type="text" size="20"/></td>
+												<td><script type="text/javascript">ZoomFieldRenderer.createInline("Param5");</script></td>
+												<td align="right"><input id="ExecuteButton" type="Button" value="Execute" style="margin-roght: 5px;"/></td>
+											</tr>
+											<tr>
+												<td colspan="4"><hr/></td>							
+											</tr>
+											<tr>
+												<td valign="top" class="screenLabel"><label for="Output_XML">Output XML</label></td>
+												<td colspan="3">
+													<textarea id="Output_XML" cols="165" rows="25">
+													</textarea>
+												</td>
+											</tr>										
+										</table>									
+									</td>								
+								</tr>
+							</table>
+						</div>
+					</td>
+				</tr>
+			</table>
+			
+			<!-- Status Bar Panel -->
+			<script type="text/javascript">
+				ActionBarRenderer.createInline(
+					"status_bar",
+					[
+						{id: "CloseButton", label: "Close"}
+					]
+				);
+			</script>
+			<!-- End Status Bar Panel -->
+					
+		</form>
+	</body>
+</html>

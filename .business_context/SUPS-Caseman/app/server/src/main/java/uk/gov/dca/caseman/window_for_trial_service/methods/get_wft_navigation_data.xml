@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	v1.0 Chris Hutt 3/2/2005
+-->
+<service-method>
+	<pipeline>
+		<Java callStyle="new">
+			<Source class="uk.gov.dca.caseman.window_for_trial_service.java.GetWftNavigationDataCustomProcessor"/>
+		</Java>
+	</pipeline>
+	<Security roles="user"/>
+</service-method>
+

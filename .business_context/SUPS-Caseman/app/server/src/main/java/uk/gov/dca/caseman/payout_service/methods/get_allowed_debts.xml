@@ -1,0 +1,54 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: Payout
+	Method:  getAllowedDebts()
+	File:    get_allowed_debts.xml
+	Author:  Anthony Bonnar
+	Created: 6th March 2006
+	Description: 
+		Get the sequence number of all the allowed debts matching the search criterion
+		
+    Change History:
+    06-Apr-2006 Phil Haferer: Removed Admin Court Code from WHERE clause, as not required.
+    10-May-2006 Phil Haferer: Added in the selects for the result set columns "debtDividendsTotal",
+                "debtTotalPassthroughs" and "debtAllowedAmount", in order to avoid numerous additional 
+                trips to the database.
+                TD 3343: Complete Payout Balance Calculation Performance.
+-->
+<service-method>
+	<pipeline>
+		<SQLLite format-output="true"
+				 resultset-element="AllowedDebts"
+				 row-element="AllowedDebt"
+				 field-name-as="element" >
+			<DataSource id="java:OracleDS"/>
+				<Param name="param.coNumber"       xpath="/params/param[@name='coNumber']"/>
+			<SQL>
+	    		SELECT AD.DEBT_SEQ 	                      AS "debtSequenceNumber"
+                ,      AD.DEBT_STATUS	                  AS "debtStatus" 		
+                ,      AD.CASEMAN_DEBT		              AS "caseManDebt"
+                ,      AD.DEBT_CO_NUMBER                  AS "debtCoNumber"
+                ,      AD.DEBT_CASE_NUMBER                AS "debtCaseNumber"
+                ,      AD.DEFT_PARTY_ROLE_CODE            AS "deftPartyRoleCode"
+                ,      AD.DEFT_CASE_PARTY_NO              AS "deftCasePartyNo"
+                ,      (SELECT NVL(SUM(DD.DD_AMOUNT),0) 
+				        FROM   DEBT_DIVIDENDS DD
+				        WHERE  DD.DD_ALD_SEQ       = AD.DEBT_SEQ
+				        AND    DD.CREATED          = 'Y') AS "debtDividendsTotal"
+                ,      (SELECT NVL(SUM(PAY.AMOUNT), 0)
+        				FROM   PAYMENTS      PAY
+        				,      ALLOWED_DEBTS AD1
+        				WHERE  PAY.ALD_DEBT_SEQ    = AD.DEBT_SEQ
+        				AND    AD1.DEBT_SEQ        = PAY.ALD_DEBT_SEQ
+        				AND    AD1.DEBT_STATUS NOT IN ('DELETED', 'PENDING', 'PAID')
+        				AND    PAY.PASSTHROUGH     = 'Y'
+        				AND    PAY.ERROR_INDICATOR = 'N')  AS "debtTotalPassthroughs"
+			    ,      AD.DEBT_AMOUNT_ALLOWED              AS "debtAllowedAmount"
+				FROM   ALLOWED_DEBTS AD
+				WHERE  AD.DEBT_CO_NUMBER        = ${param.coNumber}
+				AND    AD.DEBT_STATUS IN ('LIVE', 'SCHEDULE2')
+			</SQL>
+		</SQLLite>
+	</pipeline>
+	<Security roles="viewOnly medium high wcSuper scSuper bmsSuper aeSuper dmSuper edsAdmin"/>	
+</service-method>

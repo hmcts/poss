@@ -1,0 +1,59 @@
+<Group id="31">
+	<ServicesRequired/>
+	<Protocols>
+		<OnSave>
+			<function>UpdateCaseEventDetails</function>
+			<functionCallback>UpdateCaseEventDetailsCallback</functionCallback>
+		</OnSave>
+	</Protocols>
+	<JavaScript>
+	function decodeToFullText(code) {
+		if ("GA" == code) return "gone away"
+		else if ("INSF" == code) return "insufficient address"
+		else if ("NK" == code) return "not known at the address given"
+		else if ("NOADD" == code) return "no such address"
+		else if ("NA" == code) return "no answer"		  
+		else if ("IA" == code) return "address incomplete"
+		else if ("AI" == code) return "address inaccessible"
+		return "" + code + " - (no explanatory text)"; }
+		
+	function UpdateCaseEventDetails() {
+		/** only update case event details when CCBC **/
+		if ("335" == WPU.getCaseOwningCourt()) {
+			var serviceName = "updateCaseEventDetails";	  	    	  
+			var eventNode = Services.getNode("ds/CaseEvent");
+			var dom = XML.createDOM(null,null,null);
+			dom.loadXML("&lt;CaseEvents/&gt;");
+			dom.selectSingleNode("/CaseEvents").appendChild(eventNode.cloneNode(true));
+			eventNode = dom.selectSingleNode("/CaseEvents/CaseEvent");	  	  	  	  
+			var statusNode = XML.createElement(eventNode, "Status");
+			statusNode.appendChild(XML.createTextNode(eventNode, "DETAILS_CHANGED"));
+			eventNode.appendChild(statusNode);
+			var answer = "";
+			var EnvelopeMarkAnswer = Services.getValue(ProcessEnvelopeMark.dataBinding);
+			if ("OTH" == EnvelopeMarkAnswer) {
+				answer = Services.getValue(EnvelopeMarkOther.dataBinding); }
+			else {
+				answer = decodeToFullText(EnvelopeMarkAnswer); }
+			eventNode.selectSingleNode("EventDetails").text = answer.toUpperCase();
+			var params = new ServiceParams();
+			params.addDOMParameter("caseEvent", dom);				
+			Services.callService(serviceName, params, UpdateCaseEventDetailsCallback, true); }
+		else {
+			Save_All(); } }
+	
+	function UpdateCaseEventDetailsCallback() {}
+	
+	UpdateCaseEventDetailsCallback.onSuccess = function(dom) {   
+		if(null != dom) {   
+			Save_All(); }
+		else {
+			alert(Messages.NO_RESULTS_MESSAGE); } }
+	
+	UpdateCaseEventDetailsCallback.onBusinessException = function(exception) {
+		alert(Messages.FAILEDSAVE_MESSAGE); }
+
+	UpdateCaseEventDetailsCallback.onSystemException = function(exception) {
+		alert(Messages.FAILEDSAVE_MESSAGE); }	
+	</JavaScript>
+</Group>

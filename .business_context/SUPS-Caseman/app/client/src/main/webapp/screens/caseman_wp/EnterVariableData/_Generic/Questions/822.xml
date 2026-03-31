@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>822</Id>
+	<Label>Paragraph number of Section 23(2)</Label>
+	<ObjectName>EnterOUPText</ObjectName>
+	<Html>
+		<input type="text" id="EnterOUPText" size="5"></input>
+	</Html>
+	<Javascript>
+		<XPath>/ds/EnterVariableData/EnterOUPText</XPath>
+		<componentName>##label##</componentName>
+		<HintText>Enter text to define paragraph</HintText>
+		<isMandatory>return true;</isMandatory>
+		<mandatoryOn>EnterOUPText.dataBinding</mandatoryOn>
+		<validateOn>EnterOUPText.dataBinding</validateOn>
+		<validate>
+			var parNo = Services.getValue(EnterOUPText.dataBinding);
+			var err = null;
+			if( CaseManValidationHelper.validateNumber(parNo) == false )
+			{	err = ErrorCode.getErrorCode("Caseman_nonNumericPartyCode_Msg");
+			}
+			return err;
+		</validate>
+	</Javascript>
+</Question>

@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>343</Id>
+	<Label>Cost type</Label>
+	<ObjectName>CostType2</ObjectName>
+	<Html>
+		<select id="CostType2">
+			<option value=""></option>
+			<option value="F">Fixed</option>
+			<option value="A">Assessed</option>		
+		</select>
+	</Html>			
+	<Javascript>
+		<XPath>/ds/EnterVariableData/InterimCosts/PossessionOrder/costType2</XPath>
+		<componentName>##label##</componentName>
+		<isMandatory>return true;</isMandatory>
+		<HintText>Select the type of costs</HintText>
+		
+		<Context ScreenId="CJR052">
+			<enableOn>HasCostOrder.dataBinding</enableOn>
+			<isEnabled>return('Y' == Services.getValue(HasCostOrder.dataBinding));</isEnabled>
+			<logicOn>HasCostOrder.dataBinding</logicOn>
+			<logic>
+				if('Y' != Services.getValue(HasCostOrder.dataBinding))
+				{	Services.setValue(CostType2.dataBinding, "");
+				}
+			</logic>
+		</Context>
+		<Context ScreenId="CJR054">
+			<enableOn>HasCostOrder.dataBinding</enableOn>
+			<isEnabled>return('Y' == Services.getValue(HasCostOrder.dataBinding));</isEnabled>
+			<logicOn>HasCostOrder.dataBinding</logicOn>
+			<logic>
+				if('Y' != Services.getValue(HasCostOrder.dataBinding))
+				{	Services.setValue(CostType2.dataBinding, "");
+				}
+			</logic>
+		</Context>				
+	</Javascript>
+</Question>

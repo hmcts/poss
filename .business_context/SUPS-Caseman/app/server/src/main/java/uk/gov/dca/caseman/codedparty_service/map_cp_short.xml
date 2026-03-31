@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Called by: uk/gov/dca/caseman/codedparty_service/query_def_cp_short.xml
+
+
+	v1.0: Chris Hutt       03/02/2005   <CourtCode> tag added
+
+-->
+<DBMapDef>
+  <DataSource id="java:OracleDS"/>
+  <Tables>
+    <Table alias="CP" name="CODED_PARTIES"/> 
+  </Tables>
+  <Mapping>
+     <CodedParty>
+    	<Code>${CP.CODE}</Code>
+    </CodedParty>
+  </Mapping>
+</DBMapDef>

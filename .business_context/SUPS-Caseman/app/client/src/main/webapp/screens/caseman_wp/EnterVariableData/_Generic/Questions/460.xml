@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>460</Id>
+	<Label>Affidavit of expenses by whom?</Label>
+	<ObjectName>AffidavitExpensesBy</ObjectName>
+	<Html>	
+		<input type="text" id="AffidavitExpensesBy"></input>
+	</Html>			
+	<Javascript>
+		<XPath>/ds/EnterVariableData/SuspCOforDisobedience/affidavitExpensesBy</XPath>
+		<componentName>##label##</componentName>
+		<isMandatory>return true;</isMandatory>
+		<HintText>Enter the name of the person swearing the affidavit</HintText>	
+		
+		<Context ScreenId="CJR083">
+			<enableOn>IsNewN79AsReqd.dataBinding</enableOn>
+			<isEnabled>
+				if(IsNewN79AsReqd.isEnabled())
+				{  	if( 'Y' == Services.getValue(IsNewN79AsReqd.dataBinding))
+					{	return true;
+					}
+					return false;
+				}
+				return true;
+			</isEnabled>
+			<logicOn>IsNewN79AsReqd.dataBinding</logicOn>
+			<logic>
+				if( IsNewN79AsReqd.isEnabled() &amp;&amp; 'Y' != Services.getValue(IsNewN79AsReqd.dataBinding))
+				{	Services.setValue(AffidavitExpensesBy.dataBinding, "");
+				}
+			</logic>
+		</Context>			
+	</Javascript>
+</Question>

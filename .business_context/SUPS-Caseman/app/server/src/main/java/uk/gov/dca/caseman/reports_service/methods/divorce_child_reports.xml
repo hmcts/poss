@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: Reports
+	Method: divorceChildReports()
+	File: divorce_child_reports.xml
+	Author: Steve Blair
+	Description:
+		Set parent_id = id for all rows with a given parent_id.
+-->
+<service-method>
+	<pipeline>
+		<SQLLite output="input">
+			<DataSource id="java:OracleDS" />
+			<Param name="param.parentId" xpath="/params/param[@name = 'parentId']" />
+			<SQL type="update" tables="R">
+				UPDATE	REPORT_QUEUE R
+				SET		R.PARENT_ID = R.ID
+				WHERE	R.PARENT_ID = ${param.parentId}
+			</SQL>
+		</SQLLite>
+	</pipeline>
+	<Security roles="medium high wcSuper scSuper bmsSuper aeSuper dmSuper cpSuper" />
+</service-method>

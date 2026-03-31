@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>442</Id>
+	<Label>Duration of committal</Label>
+	<ObjectName>CommitalDuration</ObjectName>
+	
+	<Context screenId="CJR104"><isVisible>false</isVisible></Context>
+	<Html>	
+		<input type="text" id="CommitalDuration" size="3"></input>
+	</Html>			
+	<Javascript>
+		<XPath>/ds/EnterVariableData/DisobedienceArrest/commitalDuration</XPath>
+		<componentName>##label##</componentName>
+		<isMandatory>return true;</isMandatory>
+		<HintText>The committal period required (in days)</HintText>	
+    	<validateOn>CommitalDuration.dataBinding</validateOn>
+		<validate>return WPU.validateInteger(Services.getValue(CommitalDuration.dataBinding));</validate>
+		<Context ScreenId="CJR083">
+			<enableOn>IsNewN79AsReqd.dataBinding</enableOn>
+			<isEnabled>
+				if(IsNewN79AsReqd.isEnabled())
+				{  	if( 'Y' == Services.getValue(IsNewN79AsReqd.dataBinding))
+					{	return true;
+					}
+					return false;
+				}
+				return true;
+			</isEnabled>
+			<logicOn>IsNewN79AsReqd.dataBinding</logicOn>
+			<logic>
+				if( IsNewN79AsReqd.isEnabled() &amp;&amp; 'Y' != Services.getValue(IsNewN79AsReqd.dataBinding))
+				{	Services.setValue(CommitalDuration.dataBinding, "");
+				}
+			</logic>
+		</Context>	
+		
+		<Context ScreenId="CO24">
+			<enableOn>FineOrPrison.dataBinding</enableOn>
+			<isEnabled>
+				var v1 = Services.getValue(FineOrPrison.dataBinding);
+				return (v1 == 'PRISON');
+			</isEnabled>
+			<logicOn>FineOrPrison.dataBinding</logicOn>
+			<logic>
+				var v1 = Services.getValue(FineOrPrison.dataBinding);
+				if(v1 != 'PRISON')
+				{	Services.setValue(CommitalDuration.dataBinding, "");
+				}
+			</logic>
+		</Context>
+        <Context ScreenId="CO37">
+            <initialise>Services.setValue(CommitalDuration.dataBinding, "14");</initialise>
+        </Context>
+				
+	</Javascript>
+</Question>

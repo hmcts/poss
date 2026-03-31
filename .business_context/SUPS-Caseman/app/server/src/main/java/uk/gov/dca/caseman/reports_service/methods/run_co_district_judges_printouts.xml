@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: Reports
+	Method:  runCoDistrictJudgesPrintouts()
+	File:    run_co_district_judges_printouts.xml
+	Author:  Kevin Gichohi (EDS)
+	Created: 17 October 2005
+	Description: 
+		Calls the Custom Processor that builds the XML that is eventually passed to reports service.
+-->
+<service-method>
+	<pipeline> 
+		<Java callStyle="new">
+			<Source class="uk.gov.dca.caseman.reports_service.classes.CoDistrictJudgesPrintoutsCustomProcessor"/>
+		</Java>
+	</pipeline>
+	<Dependencies>
+		<Dependency serviceName="Judgment"/>	
+		<Dependency serviceName="Co"/>		
+	</Dependencies>		
+	<Security roles="viewOnly medium high wcSuper scSuper bmsSuper aeSuper dmSuper edsAdmin cpSuper"/>		
+</service-method>

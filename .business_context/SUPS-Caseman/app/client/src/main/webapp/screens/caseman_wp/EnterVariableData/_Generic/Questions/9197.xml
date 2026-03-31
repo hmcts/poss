@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>9197</Id>
+	<Label>Fee</Label>
+	<ObjectName>Fee</ObjectName>
+	<Html>	
+		<input id="DefaultCurrency9197" type="text" size="1"></input> 
+		<input type="text" size="10" id="Fee"></input>
+	</Html>			
+	<Javascript>
+		<XPath>/ds/EnterVariableData/fee</XPath>
+		<HintText>Enter fee to be returned</HintText>
+		<miscCode>
+			function DefaultCurrency9197() {}
+			DefaultCurrency9197.dataBinding = "/ds/EnterVariableData/curr1";
+			DefaultCurrency9197.tabIndex = -1;
+			DefaultCurrency9197.maxLength = 1;
+			DefaultCurrency9197.isReadOnly = function(){return true;}
+			DefaultCurrency9197.isTemporary = function(){return true;}
+			DefaultCurrency9197.transformToDisplay = function(value){
+				return WPS.__CaseManUtils().transformCurrencySymbolToDisplay(value,null,null); }
+			DefaultCurrency9197.transformToModel = function(value){
+				return WPS.__CaseManUtils().transformCurrencySymbolToModel(value,null,null); }
+		</miscCode>
+		
+     	<Context ScreenId="L_5_1">
+            <mandatoryOn>RequestFor.dataBinding,ReturnProcessType.dataBinding</mandatoryOn>
+            <isMandatory> return return9197();</isMandatory>
+            <enableOn>RequestFor.dataBinding,ReturnProcessType.dataBinding</enableOn>
+            <isEnabled>return return9197();</isEnabled>
+            <logicOn>RequestFor.dataBinding,ReturnProcessType.dataBinding</logicOn>
+            <logic>
+                if(!return9197())
+                {   
+                    Services.setValue(Fee.dataBinding, "");
+                 }
+                 
+            </logic>        
+            <miscCode>
+				function DefaultCurrency9197() {}
+				DefaultCurrency9197.dataBinding = "/ds/EnterVariableData/curr1";
+				DefaultCurrency9197.tabIndex = -1;
+				DefaultCurrency9197.maxLength = 1;
+				DefaultCurrency9197.isReadOnly = function(){return true;}
+				DefaultCurrency9197.isTemporary = function(){return true;}
+				DefaultCurrency9197.transformToDisplay = function(value){
+					return WPS.__CaseManUtils().transformCurrencySymbolToDisplay(value,null,null); }
+				DefaultCurrency9197.transformToModel = function(value){
+					return WPS.__CaseManUtils().transformCurrencySymbolToModel(value,null,null); }
+					
+				function return9197(){
+				    var  n9197 = false;
+				    if(
+				        ("ATT" == Services.getValue(RequestFor.dataBinding))||
+				        ("OTH" == Services.getValue(RequestFor.dataBinding))||
+				        ("OFQ" == Services.getValue(RequestFor.dataBinding))||
+				        ((null != Services.getValue(ReturnProcessType.dataBinding))&amp;&amp;
+				        ("" != Services.getValue(ReturnProcessType.dataBinding)))
+				    ){
+				         n9197 = true;
+				    }
+				    return n9197;
+				}
+            </miscCode>      
+        </Context>
+    	<validate>
+            // Validation: only numeric characters allowed and two decimal places.
+            // Error message: Currency amounts must be in the format of 0.00.
+            // Max length: 999999.99
+            var value = Services.getValue(Fee.dataBinding);     
+             
+            var maxVal = 999999.99;      
+            var err = null;
+          
+            if( '0.00 ' != value )
+            {   err = validateCurrencyValue(value, maxVal);
+              if( null == err)
+              { 
+                var returnVal = WPU.formatToTwoDP(value);
+                Services.setValue(Fee.dataBinding, returnVal);
+              } 
+            }
+            return err;                           
+        </validate>
+        <transformToModel>        
+          if( null == value || "" == value )
+          {  return "0.00 ";
+          }
+          else
+          { return value;
+          }
+        </transformToModel>
+        <transformToDisplay>            
+            if( '0.00 ' == value) return "0.00";
+            return value;           
+        </transformToDisplay>           
+    </Javascript>	
+</Question>

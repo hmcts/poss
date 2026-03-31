@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>259</Id>
+	<Label>Direction to Respond?</Label>
+	<ObjectName>RespondDirn</ObjectName>
+	<Html>	
+		<input type="checkbox" id="RespondDirn"></input>
+	</Html>
+	<Javascript>
+		<XPath>/ds/EnterVariableData/FastTrack/respondDirn</XPath>
+		<HintText>Check box if there is  direction to respond </HintText>
+		<isMandatory>return true;</isMandatory>	
+		<modelValue>checked: "Y", unchecked: "N"</modelValue>
+		<enableOn>RFIDirn.dataBinding</enableOn>
+		<isEnabled>return('Y' == Services.getValue(RFIDirn.dataBinding));</isEnabled>
+		<logicOn>RFIDirn.dataBinding</logicOn>
+		<logic>
+			if('Y' != Services.getValue(RFIDirn.dataBinding))
+			{	Services.setValue(RespondDirn.dataBinding, "N");
+			}
+		</logic>
+	</Javascript>
+</Question>

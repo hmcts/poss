@@ -1,0 +1,79 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: Payments
+	Method: getEnforcementAe(), getEnforcementCase(), getEnforcementCo(), getEnforcementForeignWarrant(), getEnforcementHomeWarrant()
+	File: map_enforcement.xml
+	Author: Steve Blair
+	
+	Change History:
+	01/12/2011 - Chris Vincent, added MoneyInCourt node for Trac 4587
+-->
+<DBMapDef>
+	<DataSource id="java:OracleDS" />
+	<Tables>
+		<Table alias="AE" name="AE_APPLICATIONS" />
+		<Table alias="P" name="PARTIES" />
+		<Table alias="CPR" name="CASE_PARTY_ROLES" />
+		<Table alias="C" name="CASES" />
+		<Table alias="CO" name="CONSOLIDATED_ORDERS" />
+		<Table alias="CP" name="CODED_PARTIES" />
+		<Table alias="W" name="WARRANTS" />
+		<Table alias="AD" name="ALLOWED_DEBTS" />
+		<Table alias="AEE" name="AE_EVENTS" />
+		<Table alias="G" name="GIVEN_ADDRESSES" />
+		<Table alias="PY" name="PAYMENTS" />
+		<Table alias="DV" name="DIVIDENDS" />
+		<Table alias="CT"  name="COURTS" />
+		<Table alias="F"  name="FEES_PAID" />
+		<Table alias="WR"  name="WARRANT_RETURNS" />
+		<Table alias="RC"  name="RETURN_CODES" />
+		<Table alias="CPR2CPR"  name="CPR_TO_CPR_RELATIONSHIP" />
+        <Table alias="CE"  name="CASE_EVENTS" />
+	</Tables>
+	<Mapping>
+		<Enforcement>
+			<Number>${C.ENFORCEMENT_NUMBER}</Number>
+			<Type>${C.ENFORCEMENT_TYPE}</Type>
+			<CourtCode>${C.COURT_CODE}</CourtCode>
+			<CourtName>${C.COURT_NAME}</CourtName>
+			<CaseNumber>${C.CASE_NUMBER}</CaseNumber>
+			<CaseStatus>${C.CASE_STATUS}</CaseStatus>
+			<Parties>
+				<Party>
+					<PartyID>${C.PARTY_ID}</PartyID>
+					<Code>${C.PARTY_CODE}</Code>
+					<Name>${C.PARTY_NAME}</Name>
+					<Role>${C.PARTY_ROLE}</Role>
+					<Number>${C.PARTY_NUMBER}</Number>
+					<PayeeFlag>${C.PAYEE_FLAG}</PayeeFlag>
+					<Address>
+						<Line>${C.PARTY_ADDR1}</Line>
+						<Line>${C.PARTY_ADDR2}</Line>
+						<Line>${C.PARTY_ADDR3}</Line>
+						<Line>${C.PARTY_ADDR4}</Line>
+						<Line>${C.PARTY_ADDR5}</Line>
+						<PostCode>${C.PARTY_POSTCODE}</PostCode>
+						<Reference>${C.REFERENCE}</Reference>
+					</Address>
+					<DX>${C.DX_NUMBER}</DX>
+				</Party>
+			</Parties>
+			<!--
+				For Case, AE, or Warrant, COInfo holds CO Number if a CO is attached
+				For CO, COInfo holds the old CO # if exists and CO status is 'LIVE' or 'DEBTOR PAYING' or holds the string 'NOT LIVE' otherwise
+			-->
+			<COInfo>${C.CO_INFO}</COInfo>
+			<COType>${C.CO_TYPE}</COType>
+			<PreIssueBalance>${C.PRE_ISSUE_BALANCE}</PreIssueBalance>
+			<NumberEvents>${C.NO_EVENTS}</NumberEvents>
+			<OutstandingBalance>${C.BALANCE}</OutstandingBalance>
+			<OutstandingDebt>${C.DEBT}</OutstandingDebt>
+			<WarrantID>${C.WARRANT_ID}</WarrantID>
+			<WarrantType>${C.WARRANT_TYPE}</WarrantType>
+			<WarrantExecutingCourt>${C.WARRANT_EXECUTING_COURT}</WarrantExecutingCourt>
+			<WarrantIssuingCourt>${C.WARRANT_ISSUING_COURT}</WarrantIssuingCourt>
+			<DividendsExist>${DV.DIVIDENDS_EXIST}</DividendsExist>
+			<MoneyInCourt>${C.MONEY_IN_COURT}</MoneyInCourt>
+		</Enforcement>
+	</Mapping>
+</DBMapDef>

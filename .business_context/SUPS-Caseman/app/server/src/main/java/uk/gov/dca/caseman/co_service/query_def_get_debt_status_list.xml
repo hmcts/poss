@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: Co
+	Method:  getDebtStatusList()
+	File:    query_def_get_debt_status_list.xml
+	Author:  Phil Haferer (EDS)
+	Created: 01 September 2005
+	Description: 
+		Retrieve the list of 'Allowed Debt' Debt Status.
+-->
+<QueryDef>
+  <DBMapDef location="uk/gov/dca/caseman/co_service/map_get_debt_status_list.xml"/>
+  <Query pivotNode="/DebtStatus/Status" tables="REF">
+    <Join>
+		REF.RV_DOMAIN = 'ALLOWED_DEBTS.DEBT_STATUS'         
+    </Join>
+    <Modify notModifiable="true"/>
+  </Query>
+</QueryDef>

@@ -1,0 +1,198 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- ====================================================================== -->
+<!--  -->
+<!-- FILENAME: $Source: C:/CVSRepository/serveroas/src/uk/gov/dca/caseman/wordprocessing_templates/Notice/CJR103/CJR103-FO.xml,v $ -->
+<!--  -->
+<!-- AUTHOR: $Author: f_vdd $-->
+<!--  -->
+<!-- DATE: $Date: 2006/03/21 14:01:14 $ -->
+<!--  -->
+<!-- Version: $Revision: 1.9 $ -->
+<!--  -->
+<!-- DESCRIPTION: This stylesheet is used to create an XSL:FO document that -->
+<!-- can be processed into a PDF version.  Business logic -->
+<!-- is embedded to generate the correct document text for the order -->
+<!-- required. -->
+<!--  -->
+<!-- INPUTS: XML document containing: the answers to questions asked of the -->
+<!-- user; case data retrieved from the database; HTML representing the  -->
+<!-- body of the document content (already edited by the user). -->
+<!--  -->
+<!-- OUTPUTS: XML document with FO tags containing instructions for the -->
+<!-- creation of a PDF document. -->
+<!--  -->
+<!-- ====================================================================== -->
+<root xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:fo="http://www.w3.org/1999/XSL/Format" xmlns="http://eds.com/supsfo">
+	<variables>@word.processing.url.xsl@supsfo.xsl</variables>
+	<addressee copies="2">
+		<blank/>
+	</addressee>
+	<suppressaddress/>
+	<header>
+		<fo:block font-size="16pt" font-weight="bold">Remand order</fo:block>
+		<fo:block font-size="16pt" font-weight="bold">(Housing Act 1996)</fo:block>
+		<fo:block font-size="16pt" font-weight="bold">(Bail granted)</fo:block>
+	</header>
+	<courtcase>
+		<court>
+			<xsl:copy-of select="$vdCourtHeaderBlock"/>
+		</court>
+		<caseparameters>
+			<parameter>
+				<name>
+					<fo:block font-weight="bold">Claim Number</fo:block>
+				</name>
+				<value>
+					<fo:block>
+						<xsl:value-of select="$vdClaimNumber"/>
+					</fo:block>
+				</value>
+			</parameter>
+			<parameter>
+				<name>
+					<fo:block font-weight="bold">Claimant</fo:block>
+					<fo:block font-size="9pt">(including ref.)</fo:block>
+				</name>
+				<value>
+					<fo:block hyphenate="true">
+						<xsl:value-of select="$vdClaimantName"/>
+					</fo:block>
+					<fo:block font-size="9pt" hyphenate="true">
+						<xsl:value-of select="$vdClaimantReference"/>
+					</fo:block>
+				</value>
+			</parameter>
+			<parameter>
+				<name>
+					<fo:block font-weight="bold">Defendant</fo:block>
+					<fo:block font-size="9pt">(including ref.)</fo:block>
+				</name>
+				<value>
+					<fo:block hyphenate="true">
+						<xsl:value-of select="$vdDefendantName"/>
+					</fo:block>
+					<fo:block font-size="9pt" hyphenate="true">
+						<xsl:value-of select="$vdDefendantReference"/>
+					</fo:block>
+				</value>
+			</parameter>
+			<parameter>
+				<name>
+					<fo:block font-weight="bold">Date</fo:block>
+				</name>
+				<value>
+					<fo:block>
+						<xsl:value-of select="$vdEventDate"/>
+					</fo:block>
+				</value>
+			</parameter>
+		</caseparameters>
+	</courtcase>
+	<bodyintroright><fo:block space-before="0.4cm"><fo:inline text-align="center"><seal/></fo:inline></fo:block></bodyintroright>
+
+	<body>
+		<editable useid="N100CC">
+		<fo:block>
+			On <xsl:value-of select="$vdOrderDate"/>, <xsl:value-of select="$vdJudge"/>
+		</fo:block>
+		<fo:block space-before="0.4cm">
+			sitting at <xsl:value-of select="$vdCourtNameDescription"/>, <xsl:value-of select="$vdHearingCourtAddress"/>
+		</fo:block>
+		<fo:block space-before="0.4cm">
+			considered the order made on <xsl:value-of select="$vdInjunctionDate"/>
+		</fo:block>
+		<fo:block space-before="0.4cm" space-after="0.4cm">
+			and heard evidence that the defendant had disobeyed the order. Details of the breach(es) of the order which are alleged by the claimant are set out <xsl:value-of select="$vdBreachAttached"/>
+		</fo:block>
+		<xsl:if test="string-length($vdBreachDetails) > 0">
+			<fo:block space-after="0.4cm">
+				<xsl:copy-of select="$vdBreachDetails"/>
+			</fo:block>
+		</xsl:if>
+		<fo:block>			
+			<fo:inline font-weight="bold">and the court orders</fo:inline> that
+		</fo:block>
+		<fo:block>			
+			1. The defendant be remanded on bail <xsl:if test="string-length($vdBailConditions) > 0"><xsl:value-of select="normalize-space($vdBailConditions)"/></xsl:if>.
+		</fo:block>
+		<fo:block space-after="0.4cm">
+			2. The defendant attend the court at the next hearing. The date, time and place of the next hearing are shown on the <fo:inline font-weight="bold">Notice of hearing which is attached to this order</fo:inline>.
+		</fo:block>
+		<xsl:if test="string-length($vdBailConditions) > 0">
+			<fo:block>
+				<fo:inline font-weight="bold">Bail conditions</fo:inline>
+			</fo:block>
+			<fo:block>
+				The defendant shall be released on bail
+			</fo:block>
+			<xsl:if test="string-length($vdRecognizanceSum) > 0">
+				<fo:block>
+					- <xsl:value-of select="$vdRecognizanceSum"/>
+				</fo:block>
+			</xsl:if>
+			<xsl:if test="string-length($vdSureties) > 0">
+				<fo:block>
+					- <xsl:value-of select="$vdSureties"/>
+				</fo:block>
+			</xsl:if>
+			<xsl:if test="string-length($vdBailConditions1) > 0">
+				<fo:block>
+					- <xsl:value-of select="$vdBailConditions1"/>
+				</fo:block>
+				<fo:block start-indent="2cm">
+					<xsl:value-of select="$vdBailConditions2"/>
+				</fo:block>
+				<fo:block start-indent="2cm">
+					<xsl:value-of select="$vdBailConditions3"/>
+				</fo:block>
+			</xsl:if>
+		</xsl:if>
+
+		</editable>
+		<fo:block space-after="1cm"/>
+
+		<fo:table table-layout="fixed">
+			<fo:table-column column-width="10cm"></fo:table-column>
+			<fo:table-column column-width="9.28cm"></fo:table-column>
+			<fo:table-body>
+				<fo:table-row>					
+					<fo:table-cell padding-left="0.1cm" border-top-style="solid" border-top-width="0.02cm" border-left-style="solid" border-left-width="0.02cm" >
+						<fo:block font-weight="bold" font-size="9pt" space-before="0.1cm" space-after="0.3cm">Warning to the defendant:</fo:block>
+					</fo:table-cell>
+					<fo:table-cell padding-left="0.1cm" border-top-style="solid" border-top-width="0.02cm" border-right-style="solid" border-right-width="0.02cm">
+						<fo:block font-weight="bold" font-size="9pt" space-before="0.1cm" space-after="0.3cm">To the defendant:</fo:block>
+					</fo:table-cell>
+				</fo:table-row>
+				<fo:table-row>					
+					<fo:table-cell padding-left="0.1cm" border-bottom-style="solid" border-bottom-width="0.02cm" border-left-style="solid" border-left-width="0.02cm">
+						<fo:block font-size="9pt" space-after="0.1cm" padding-left="0.1cm">
+							The order of <xsl:value-of select="$vdInjunctionDate"/> continues in force.
+						</fo:block>						
+						<fo:block font-size="9pt" space-after="0.2cm">
+							The court has the power to send you to prison if it finds that any of the allegations made against you are true.
+						</fo:block>
+					</fo:table-cell>
+					<fo:table-cell padding-left="0.2cm" padding-right="0.1cm" border-right-style="solid" border-right-width="0.02cm">
+						<fo:block font-size="9pt" space-after="0.1cm">
+							You have been remanded on bail as set out above. You must attend before the court at the next hearing. Once you arrive at court, you may not leave the building without the consent of the court.
+						</fo:block>
+					</fo:table-cell>
+				</fo:table-row>
+				<fo:table-row>										
+					<fo:table-cell border-top-style="solid" border-top-width="0.02cm"  border-left-style="solid" border-left-width="0.02cm"
+						border-right-style="solid" border-right-width="0.02cm" border-bottom-style="solid" border-bottom-width="0.02cm" height="4.7cm">						
+						<address suppressborder="true">
+							<xsl:copy-of select="$vdSubjectAddressMultiLine"/>
+						</address>						
+					</fo:table-cell>
+					<fo:table-cell padding-left="0.2cm" padding-right="0.1cm" padding-top="1.0cm" border-bottom-style="solid" border-bottom-width="0.02cm" border-right-style="solid" border-right-width="0.02cm">
+							<fo:block font-size="10pt" space-before="0.3cm">Signed ____________________________________________</fo:block>
+							<fo:block font-size="10pt" font-style="italic" space-before="1.0cm">(Name and Title) ____________________________________</fo:block>
+							<fo:block font-size="10pt" space-before="1.0cm">Date ______________________________________________</fo:block>
+					</fo:table-cell>
+				</fo:table-row>
+			</fo:table-body>
+		</fo:table>	
+	</body>
+	<defaultFooter id="CJR103"/>
+</root>

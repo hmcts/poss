@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- ====================================================================== -->
+<!--  -->
+<!-- FILENAME: $Source: C:/CVSRepository/serveroas/src/uk/gov/dca/caseman/wordprocessing_templates/Notice/O_7_8/O_7_8-FO.xml,v $ -->
+<!--  -->
+<!-- AUTHOR: $Author: narges $-->
+<!--  -->
+<!-- DATE: $Date: 2006/06/27 12:44:24 $ -->
+<!--  -->
+<!-- Version: $Revision: 1.25 $ -->
+<!--  -->
+<!-- DESCRIPTION: This stylesheet is used to create an XSL:FO document that -->
+<!-- can be processed into a PDF version.  Business logic -->
+<!-- is embedded to generate the correct document text for the order -->
+<!-- required. -->
+<!--  -->
+<!-- INPUTS: XML document containing: the answers to questions asked of the -->
+<!-- user; case data retrieved from the database; HTML representing the  -->
+<!-- body of the document content (already edited by the user). -->
+<!--  -->
+<!-- OUTPUTS: XML document with FO tags containing instructions for the -->
+<!-- creation of a PDF document. -->
+<!-- 04 AUG 2010 T Baines - CM6 TRAC 3087 -->
+<!-- ====================================================================== -->
+<root xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:fo="http://www.w3.org/1999/XSL/Format" xmlns="http://eds.com/supsfo">
+	<variables>@word.processing.url.xsl@supsfo.xsl</variables>
+	<addressee>
+		<blank/>
+		<subject/>
+		<instigators/>
+	</addressee>
+	<header>
+		<fo:block font-size="16pt" font-weight="bold">Judgment for Delivery of Goods</fo:block>
+	</header>
+	<courtcase>
+		<court>
+			<xsl:copy-of select="$vdCourtHeaderBlock"/>
+		</court>
+		<caseparameters>
+			<parameter>
+				<name>
+					<fo:block font-weight="bold">Case Number</fo:block>
+				</name>
+				<value>
+					<fo:block>
+						<xsl:value-of select="$vdClaimNumber"/>
+					</fo:block>
+				</value>
+			</parameter>
+			<parameter>
+				<name>
+					<fo:block font-weight="bold">Claimant</fo:block>
+					<fo:block font-size="9pt">(including ref.)</fo:block>
+				</name>
+				<value>
+					<fo:block hyphenate="true">
+						<xsl:value-of select="$vdClaimantName"/>
+					</fo:block>
+					<fo:block font-size="9pt" hyphenate="true">
+						<xsl:value-of select="$vdClaimantReference"/>
+					</fo:block>
+				</value>
+			</parameter>
+			<parameter>
+				<name>
+					<fo:block font-weight="bold">Defendant</fo:block>
+                    <fo:block font-size="9pt">(including ref.)</fo:block>
+				</name>
+				<value>
+					<fo:block hyphenate="true">
+						<xsl:value-of select="$vdDefendantName"/>
+					</fo:block>
+					<fo:block font-size="9pt" hyphenate="true">
+						<xsl:value-of select="$vdDefendantReference"/>
+					</fo:block>
+				</value>
+			</parameter>
+			<dobparameter partyType="subject"/>
+		</caseparameters>
+	</courtcase>
+	<body><editable useid="N100AB">
+		<fo:block space-after="0.6cm"/>
+		<fo:block>
+			Before <xsl:value-of select="$vdJudge"/> sitting at <xsl:value-of select="$vdHearingCourtNameDescription"/>, <xsl:value-of select="$vdHearingCourtAddress"/>
+		</fo:block>
+		<fo:block space-after="0.4cm">
+			<xsl:copy-of select="$vdHearingAttendees"/>.
+		</fo:block>
+		<fo:block space-after="0.4cm">
+			<fo:inline font-weight="bold">It is adjudged</fo:inline> that the defendant having failed to comply with the terms of a 
+			<xsl:value-of select="$vdHPCSAgreement"/> dated <xsl:value-of select="$vdAgreementDate"/> made between the claimant and the defendant <xsl:value-of select="$vdDefendantSubjectName"/>,
+			the claimant recovers against the defendant, <xsl:value-of select="$vdDefendantSubjectName"/>, the following goods of the claimant, being goods subject to the agreement and wrongfully kept by the defendant, 
+			namely: <xsl:copy-of select="$vdGoodsDetained"/> and
+			recovers against the defendant <xsl:value-of select="$vdCostAssessed"/>.
+		</fo:block>
+		<fo:block>
+        <!-- Order/goodsdetained-->
+			<fo:inline font-weight="bold"> And It is ordered</fo:inline> that the defendant, <xsl:value-of select="$vdDefendantSubjectName"/>, do return the goods to the claimant by <xsl:value-of select="$vdGoodsReturnDate"/>.
+		</fo:block>
+		<fo:block space-after="0.4cm">
+			<fo:inline font-weight="bold">And</fo:inline> that the defendant do pay 
+			<xsl:choose>
+				<xsl:when test="$vdIsCostAssesssed='Y'">
+					<xsl:value-of select="$vdCostAssessed"/>&#xA0;					
+					<xsl:value-of select="$vdCostPaidPeriod" />					
+				</xsl:when>
+				<xsl:otherwise>his costs to be assessed the amount of the cost when taxed with 14 days of taxation</xsl:otherwise>
+			</xsl:choose>.    
+		</fo:block>
+		<fo:block text-align="right">
+			<fo:inline font-weight="bold">Dated</fo:inline>&#xA0;<xsl:value-of select="$vdOrderDate"/>
+		</fo:block>
+
+	</editable></body>
+	<footnote noteextent="9.3">
+		<fo:block space-after="0.1cm" font-size="8pt" font-family="Times">
+			<fo:table table-layout="fixed" width="100%">
+				<fo:table-column column-width="9.2cm"/>
+				<fo:table-column column-width="9.6cm"/>
+				<fo:table-body table-layout="fixed">
+					<fo:table-row keep-with-next="always">
+						<fo:table-cell number-columns-spanned="2" border-top-style="solid" border-top-width="0.02cm" border-left-style="solid" border-left-width="0.02cm" border-right-style="solid" border-right-width="0.02cm">
+							<fo:block text-align="center" font-size="10pt" font-weight="bold">Take Notice</fo:block>
+						</fo:table-cell>
+					</fo:table-row>
+					<fo:table-row keep-with-next="always">
+						<fo:table-cell border-left-style="solid" border-left-width="0.02cm" padding-left="0.1cm">
+							<fo:block space-after="0.4cm" font-weight="bold">To the defendant</fo:block>
+							<fo:block space-after="0.4cm" font-weight="bold">
+								If you do not pay in accordance with this order your goods may be removed and sold or other enforcement proceedings may be taken against you.
+							</fo:block>
+							<fo:block>
+								If judgment is for more than &#163;5000 the claimant is entitled to interest.
+							</fo:block>
+							<fo:block text-align="center" font-weight="bold">Address for Payment</fo:block>
+						</fo:table-cell>
+						<fo:table-cell number-rows-spanned="2" border-right-style="solid" border-right-width="0.02cm" border-bottom-style="solid" border-bottom-width="0.02cm" padding-left="0.1cm" padding-right="0.1cm">
+							<fo:block>
+								Details of this judgment will be entered in a public register, the Register of Judgments, Orders and Fines. They will then be passed to credit reference agencies, who will supply them to credit grantors and others seeking information on your financial standing.
+								<fo:inline font-weight="bold">This will make it difficult for you to get credit.</fo:inline> A list of the credit reference agencies is available from Registry Trust Ltd, 173/175 Cleveland Street, London, W1T 6QR.
+							</fo:block>
+							<fo:block space-after="0.4cm">
+								<fo:inline font-weight="bold">If you pay in full within one month,</fo:inline> you can ask the court to cancel the entry on the Register. You will need to give 
+								the court proof of payment. If you <fo:inline font-weight="bold">also</fo:inline> want a Certificate of Cancellation from the court, there is a fee for this. If you pay 
+								the debt in full after one month, you can ask the court to mark the entry as satisfied and, for a fee, obtain a Certificate of Satisfaction 
+								to prove that the debt has been paid.
+							</fo:block>
+							<fo:block text-align="center" font-weight="bold">How to Pay</fo:block>
+							<list type="bullet">
+								<list-item><fo:block font-weight="bold">PAYMENT(S) MUST BE MADE to the person named at the address for payment quoting their reference and the court case number.</fo:block></list-item>
+								<list-item><fo:block font-weight="bold">DO NOT bring or send payments to the court. THEY WILL NOT BE ACCEPTED.</fo:block></list-item>
+								<list-item><fo:block>You should allow <fo:inline text-decoration="underline">at least</fo:inline> 4 days for your payment to reach the claimant or his representative.</fo:block></list-item>
+								<list-item><fo:block>Make sure that you keep records and can account for all payments made. Proof may be required if there is any disagreement. It is not safe to send cash unless you use registered post.</fo:block></list-item>
+								<list-item><fo:block>A leaflet giving further advice about payment can be obtained from the court.</fo:block></list-item>
+								<list-item><fo:block>If you need more information you should contact the claimant or his representative.</fo:block></list-item>
+							</list>
+						</fo:table-cell>
+					</fo:table-row>
+					<fo:table-row keep-with-next="always">
+						<fo:table-cell border-style="solid" border-width="0.02cm">
+							<address suppressborder="true">
+								<xsl:call-template name="payee"/>
+							</address>
+						</fo:table-cell>
+					</fo:table-row>
+				</fo:table-body>
+			</fo:table>
+		</fo:block>
+	</footnote>
+	<defaultFooter id="O_7_8"/>
+</root>

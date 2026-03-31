@@ -1,0 +1,32 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: Hearing
+	Method:  updateCoEventDetails()
+	File:    update_co_event_details.xml
+	Author:  Phil Haferer (EDS)
+	Created: 27 July 2006
+	Description: 
+		Update the DETAILS column the given CO Event.
+
+        The HRG_SEQ alone is enough to uniquely identify the CO row,
+        but using the additional constraints is more robust, and may allow an 
+        existing index to used to locate row.
+-->
+<service-method>
+	<pipeline>
+		<SQLLite output="input">
+			<DataSource id="java:OracleDS"/>
+			<Param name="param.details" xpath="/params/param[@name='details']"/>
+			<Param name="param.coNumber" xpath="/params/param[@name='coNumber']"/>
+			<Param name="param.hrgSeq" xpath="/params/param[@name='hrgSeq']"/>
+			<SQL type="update" tables="COE">
+                UPDATE CO_EVENTS COE 
+                SET    COE.DETAILS      = ${param.details}
+                WHERE  COE.CO_NUMBER    = ${param.coNumber}
+                AND    COE.STD_EVENT_ID = 200
+                AND    COE.HRG_SEQ      = ${param.hrgSeq}
+			</SQL>
+		</SQLLite>
+	</pipeline>
+	<Security roles="user"/>
+</service-method>

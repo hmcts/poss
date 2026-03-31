@@ -1,0 +1,189 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- ====================================================================== -->
+<!--  -->
+<!-- FILENAME: $Source: C:/CVSRepository/serveroas/src/uk/gov/dca/caseman/wordprocessing_templates/Notice/O_10_1/O_10_1-FO.xml,v $ -->
+<!--  -->
+<!-- AUTHOR: $Author: jay $-->
+<!--  -->
+<!-- DATE: $Date: 2006/06/22 07:05:46 $ -->
+<!--  -->
+<!-- Version: $Revision: 1.16 $ -->
+<!--  -->
+<!-- DESCRIPTION: This stylesheet is used to create an XSL:FO document that -->
+<!-- can be processed into a PDF version.  Business logic -->
+<!-- is embedded to generate the correct document text for the order -->
+<!-- required. -->
+<!--  -->
+<!-- INPUTS: XML document containing: the answers to questions asked of the -->
+<!-- user; case data retrieved from the database; HTML representing the  -->
+<!-- body of the document content (already edited by the user). -->
+<!--  -->
+<!-- OUTPUTS: XML document with FO tags containing instructions for the -->
+<!-- creation of a PDF document. -->
+<!--  -->
+<!-- 
+@author Sandeep Mullangi
+@version 0.1 
+Change Hisstory
+Sep 10, 2008 Sandeep Mullangi - Printing insolvency number if present as part of RFC 486
+-->
+
+<!-- ====================================================================== -->
+<root xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:fo="http://www.w3.org/1999/XSL/Format" xmlns="http://eds.com/supsfo">
+	<variables>@word.processing.url.xsl@supsfo.xsl</variables>
+	<layout>order</layout>
+	<duplex/>	
+	<addressee>
+		<blank/>
+		<debtorparty/>
+		<creditorparty/>
+		<company/>
+		<applicant/>
+		<petitioner/>
+		<trustee/>
+		<insolvencypractitioner/>
+		<officialreceiver/>
+	</addressee>
+	<header>
+		<fo:block font-size="10pt" font-weight="bold">Form 4.13 / Rule 4.20</fo:block>
+		<fo:block font-size="16pt" font-weight="bold" text-align="left">Notice to Official Receiver of Winding-Up Order</fo:block>
+	</header>
+	<courtcase>
+		<court>
+			<xsl:copy-of select="$vdCourtHeaderBlock"/>
+		</court>
+		<caseparameters>
+			<!-- adding insolvency number-->
+            <parameter>
+                <name>
+                    <fo:block font-weight="bold">
+                        <xsl:choose>
+                            <xsl:when test="string-length($vdInsolvencyNumber) > 0">Insolvency Number</xsl:when>
+                            <xsl:otherwise>Case Number</xsl:otherwise>
+                        </xsl:choose>
+                    </fo:block>
+                </name>
+                <value>
+                    <fo:block>
+                        <xsl:choose>
+                            <xsl:when test="string-length($vdInsolvencyNumber) > 0">
+                                <xsl:value-of select="substring($vdInsolvencyNumber,1,4)"/> of <xsl:value-of select="substring($vdInsolvencyNumber,5,4)"/>
+                            </xsl:when>
+                            <xsl:otherwise>
+                                <xsl:value-of select="$vdClaimNumber"/>
+                            </xsl:otherwise>
+                        </xsl:choose>
+                    </fo:block>
+                </value>
+			</parameter>
+            <parameter>
+				<name>
+					<fo:block font-weight="bold"><xsl:value-of select="$vdSubjectPartyRole"/></fo:block>
+				</name>
+				<value>
+					<fo:block hyphenate="true">
+						<xsl:value-of select="$vdSubjectName"/>
+					</fo:block>
+				</value>
+			</parameter>
+		</caseparameters>
+	</courtcase>
+	
+	<body><editable useid="N10092">
+		<fo:block space-after="0.8cm"/>
+		<fo:block font-weight="bold" space-after="0.4cm" font-size="12pt">
+			In Bankruptcy
+		</fo:block>
+		<fo:block font-weight="bold" space-after="0.4cm">
+			Before <xsl:value-of select="$vdJudge"/>
+		</fo:block>
+		<fo:block space-after="0.4cm">
+			To the Official Receiver of the Court
+		</fo:block>
+		<fo:block space-after="0.4cm">
+			<xsl:call-template name="format-address-multi-line">
+				<xsl:with-param name="party">
+					<xsl:copy-of select="$vdUnFormattedReceiverAddress"/>
+				</xsl:with-param>
+			</xsl:call-template>
+			<xsl:value-of select="$vdOfficialReceiverPartyTelephone"/>
+		</fo:block>
+		<fo:block>
+			Order pronounced this day by <xsl:value-of select="$vdJudge"/>
+		</fo:block>
+		<fo:block space-after="0.4cm">
+			for Winding up the under-mentioned company under the Insolvency Act 1986
+		</fo:block>
+		<fo:block>
+			Name of Company:
+		</fo:block>
+		<fo:block start-indent="1cm" space-after="0.4cm">
+			<xsl:value-of select="$vdSubjectName"/>
+		</fo:block>
+		<fo:block>
+			Registered office of company:
+		</fo:block>
+		<fo:block start-indent="1cm" space-after="0.4cm">
+			<xsl:call-template name="format-address-multi-line">
+				<xsl:with-param name="party">
+					<xsl:copy-of select="$vdCompanyAddress"/>
+				</xsl:with-param>
+			</xsl:call-template>
+		</fo:block>
+		<fo:block>
+			<xsl:choose>
+				<xsl:when test="$vdPetitionerHasSolicitor = 'Y' ">
+					Solicitor's
+				</xsl:when>
+				<xsl:otherwise>
+					Petitioner's
+				</xsl:otherwise>
+			</xsl:choose>
+		</fo:block>
+		<fo:block start-indent="1cm" space-after="0.4cm">
+			<xsl:choose>
+				<xsl:when test="$vdPetitionerHasSolicitor = 'Y' ">
+					<xsl:call-template name="format-address-multi-line">
+						<xsl:with-param name="party">
+							<xsl:copy-of select="$vdPetitionerSolAddress" />
+						</xsl:with-param>
+					</xsl:call-template>
+				</xsl:when>
+				<xsl:otherwise>
+					<xsl:call-template name="format-address-multi-line">
+						<xsl:with-param name="party">
+							<xsl:copy-of select="$vdPetitionerAddress"/>
+						</xsl:with-param>
+					</xsl:call-template>
+				</xsl:otherwise>
+			</xsl:choose>												
+		</fo:block>
+		<xsl:choose>
+			<xsl:when test="$vdPetitionerHasSolicitor = 'Y' ">
+				<fo:block start-indent="1cm">
+					Tel: <xsl:value-of select="$vdPetitionerSolTelephone"/>
+				</fo:block>
+				<fo:block start-indent="1cm" space-after="0.4cm">
+					Ref: <xsl:value-of select="$vdPetitionerSolReference"/>
+				</fo:block>
+			</xsl:when>
+			<xsl:otherwise>
+				<fo:block start-indent="1cm">
+					Tel: <xsl:value-of select="$vdPetitionerTelephone"/>
+				</fo:block>
+				<fo:block start-indent="1cm" space-after="0.4cm">
+					Ref: <xsl:value-of select="$vdPetitionerReference"/>
+				</fo:block>
+			</xsl:otherwise>
+		</xsl:choose>
+		<fo:block space-after="0.4cm">
+			Date of Presentation of petition: <xsl:value-of select="$vdPetitionDate"/>
+		</fo:block>
+		<fo:block>
+			Dated <xsl:value-of select="$vdOrderDate"/>			
+  		</fo:block>
+
+	</editable>
+	</body>
+	<defaultFooter id="O_10_1"/>
+</root>

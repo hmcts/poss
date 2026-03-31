@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<service-method>
+	<pipeline>
+		<Query>
+  		  <QueryDef location="uk/gov/dca/caseman/window_for_trial_service/query_def_max_case_wft_id.xml"/>
+  		  <QueryExtension pivotNode="/Case">
+  	     	    <Param name="param.caseNumber" xpath="/params/param[@name = 'caseNumber']"/>
+		    <SQL type="select">
+		         SELECT MAX(WFT_ID) AS "WFT.MAX_ID" FROM WINDOW_FOR_TRIAL WFT
+		         WHERE WFT.WFT_CASE_NUMBER = ${param.caseNumber}
+           </SQL>
+  		  </QueryExtension>
+  	    </Query>
+	</pipeline>
+	<Security roles="user"/>
+</service-method>
+
+
+
+

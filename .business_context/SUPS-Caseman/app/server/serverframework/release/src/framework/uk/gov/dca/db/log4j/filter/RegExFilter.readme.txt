@@ -1,0 +1,38 @@
+Filter Configuration
+==========================================================================================
+Class: 		uk.gov.dca.db.log4j.filter.RegExFilter
+Description:	A basic log4j filter which will deny messges with the default regular expression.
+==========================================================================================
+1. 	Load the class through adding a jar to the library path of the oc4j container using the
+	$ORACLE_HOME/j2ee/<oc4jname>/server.xml
+
+	<init-library path="/u01/app/oracle/j2ee1/j2ee/supslib/oasStartup.jar"/>
+	<init-library path="/u01/app/oracle/j2ee1/j2ee/supslib/log4j-1.2.8.jar"/>
+	<!--Include the JAR which is used to filter passwords-->
+	<init-library path="/u01/app/oracle/j2ee1/j2ee/supslib/sups-log4j-ext.jar"/>
+
+2. 	Provide your appender with a Filter and specify whether you want the LoggingEvent to be 
+	logged or not
+
+	<appender name="RootAppender" class="org.apache.log4j.RollingFileAppender">
+	
+		.... 
+		[ommitted for clarity]
+		....
+	
+		<filter class="uk.gov.dca.db.log4j.filter.RegExFilter"/>
+	
+		<!-- 
+			this is the equivalent of not setting any of the available 
+			parameters as in the Filter declaration above
+		-->
+		<filter class="uk.gov.dca.db.log4j.filter.RegExFilter">
+    		<param name="LevelToMatch" value="ERROR"/>  
+        	<param name="AcceptOnMatch" value="false"/>
+	        <param name="SearchRegEx" value="(.*)\\b(pass)\\b:\\W'(.*)'(.*)"/>
+		</filter>
+	
+	</appender>
+==========================================================================================
+	
+	

@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>9213</Id>
+	<Label>Date of hearing</Label>
+	<ObjectName>SelectHearingDate</ObjectName>
+	<Html>
+		<table>
+		<tr>	
+			<td><script type="text/javascript">
+					WP_DatePickerRenderer.createInline("SelectHearingDate");</script></td>
+			<td><input id="HearingDatePopupBtn" type="button" value="Select"></input></td>
+		</tr>
+		</table>
+		
+		<div class="popup" id="HearingDate_Popup">
+		<table  class="content">
+			<tr>
+				<td><script type="text/javascript">Grid.createInline("SelectHearingDateGrid", ["Code", "Venue", "Type", "Date", "Time", "Outcome"] , 4, 1);</script></td>
+			</tr>
+			<tr style="height: 2px;"><td> </td></tr>
+			<tr><td align="right">
+					<input type="button" value="OK" id="SelectHearingDate_OKBtn"></input>
+					<input type="button" value="Cancel" id="SelectHearingDate_CancelBtn"></input></td>
+			</tr>
+		</table>
+		</div>
+
+	</Html>	
+	
+	<Context screenId="L_4_11"><isVisible>false</isVisible></Context>
+			
+	<Javascript>
+		<XPath>/ds/EnterVariableData/selectHearingDate</XPath>
+		<HintText>Select from the following</HintText>
+		
+		<isMandatory>return ("3" == Services.getValue(SelectLetter.dataBinding))</isMandatory> 
+		<mandatoryOn>SelectLetter.dataBinding</mandatoryOn>
+		<isReadOnly>return true;</isReadOnly>
+		<enableOn>SelectLetter.dataBinding</enableOn>
+		<isEnabled>return ("3" == Services.getValue(SelectLetter.dataBinding))</isEnabled>
+		<logicOn>SelectLetter.dataBinding</logicOn>
+		<logic>
+			if("3" != Services.getValue(SelectLetter.dataBinding))
+			{	
+				Services.setValue(SelectHearingDate.dataBinding, "");
+			}
+		</logic>
+		<initialise>			 	
+	 		var casenumber = Services.getValue("/ds/ManageCase/CaseNumber");  			 	
+	   		loadHearing( casenumber);		   	
+	 	</initialise>
+        
+		<Context ScreenId="L_4_11">
+			<isMandatory>return false;</isMandatory> 
+			<mandatoryOn>SelectHearingDate.dataBinding</mandatoryOn>
+			<enableOn>SelectHearingDate.dataBinding</enableOn>
+			<isEnabled>return false;</isEnabled>
+			<logicOn>SelectHearingDate.dataBinding</logicOn>
+			<logic></logic>
+			<initialise></initialise>
+		 	<miscCode></miscCode>
+		</Context>
+		
+
+	 	<miscCode>
+
+			//------------------------- SelectHearingDateGrid  --------------------------------------
+			
+            function SelectHearingDateGrid(){}
+            SelectHearingDateGrid.dataBinding = "/ds/EnterVariableData/Service/selectHearingGrid";
+            SelectHearingDateGrid.srcData  	= "/ds/MaintainHearing/Hearings";
+            SelectHearingDateGrid.rowXPath 	= "Hearing"; 
+            SelectHearingDateGrid.keyXPath 	= "HearingID";
+            SelectHearingDateGrid.columns	= [
+            	{xpath: "VenueCode"},
+				{xpath: "VenueName"},
+				{xpath: "TypeOfHearing"},
+				{xpath: "Date", sort: CaseManUtils.sortGridDatesDsc, defaultSort:"true", defaultSortOrder:"descending", transformToDisplay: CaseManUtils.formatGridDate},
+				{xpath: "Time",  transformToDisplay: CaseManUtils.convertSecondsToTime},
+                {xpath: "HearingOutcome"} ];
+            
+
+
+			//------------------------- HearingDatePopupBtn  ----------------------------------------
+	
+			function HearingDatePopupBtn() {}
+		
+			HearingDatePopupBtn.actionBinding = function() 
+			{	
+				Services.dispatchEvent("HearingDate_Popup", PopupGUIAdaptor.EVENT_RAISE); 
+			}
+			HearingDatePopupBtn.tabIndex = __tabIdx++;	
+	
+	
+			//------------------------  SelectHearingDate_OKBtn  ---------------------------------------------
+				
+			function SelectHearingDate_OKBtn(){}
+			SelectHearingDate_OKBtn.actionBinding = function()
+			{ 	
+				var hid = Services.getValue(SelectHearingDateGrid.dataBinding);
+				var dateSel = Services.getValue("/ds/MaintainHearing/Hearings/Hearing[./HearingID = '"+hid+"']/Date");
+				Services.setValue(SelectHearingDate.dataBinding, dateSel);				
+				FormController.getInstance().hideFormExtensionPopup("HearingDate_Popup");
+			}
+	
+			//------------------------  SelectHearingDate_CancelBtn  -----------------------------------------
+				
+			function SelectHearingDate_CancelBtn(){}
+			SelectHearingDate_CancelBtn.actionBinding = function()
+			{ 	
+				FormController.getInstance().hideFormExtensionPopup("HearingDate_Popup");
+			}			
+		
+        </miscCode>		
+        
+		<Context ScreenId="L_9_1_2_3_4_9_10">
+			<isMandatory>return true;</isMandatory>
+			<mandatoryOn>SelectLetter2.dataBinding</mandatoryOn>
+			<isReadOnly>return false;</isReadOnly>
+			<enableOn>SelectLetter2.dataBinding</enableOn>
+			<isEnabled>
+				var v = Services.getValue(SelectLetter2.dataBinding);
+				return(v == "5" || v == "6");
+			</isEnabled>
+			<logicOn>SelectLetter2.dataBinding</logicOn>
+			<logic>
+				var v = Services.getValue(SelectLetter2.dataBinding);
+				if(v != "5" &amp;&amp; v != "6")
+				{	
+					Services.setValue(SelectHearingDate.dataBinding, "");
+				}
+			</logic>
+			<miscCode>
+				HearingDatePopupBtn.enableOn = [SelectLetter2.dataBinding];
+				HearingDatePopupBtn.isEnabled = function()
+				{		
+					var v = Services.getValue(SelectLetter2.dataBinding);
+					return(v == "5" || v == "6");
+				}		
+			</miscCode>
+		</Context>	
+
+		<Context ScreenId="L_10_1_2_15_16">
+			<miscCode>
+				HearingDatePopupBtn.enableOn = [SelectLetter.dataBinding];
+				HearingDatePopupBtn.isEnabled = function()
+				{		
+					return ("3" == Services.getValue(SelectLetter.dataBinding))
+				}			
+			</miscCode>
+		</Context>			
+	</Javascript>
+</Question>
+

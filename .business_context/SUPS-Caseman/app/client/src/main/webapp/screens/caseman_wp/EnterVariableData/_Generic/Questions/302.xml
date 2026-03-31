@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>302</Id>
+	<Label>Parties to try and agree nature of cost</Label>
+	<ObjectName>PartiesAgreeCostNature</ObjectName>
+	<Html>
+		<input type="checkbox" id="PartiesAgreeCostNature"></input>
+	</Html>
+	
+	<Javascript>
+		<XPath>/ds/EnterVariableData/SmallTrack/partiesAgreeCostNature</XPath>
+		<HintText>Check box if parties are to try and agree nature and cost of remedial work required</HintText>
+		<modelValue>checked: "Y", unchecked: "N"</modelValue>
+		<enableOn>BringOrigDocs.dataBinding, DirectionsTypeReqd.dataBinding, 
+				IsWorkMaterialsFiledList.dataBinding, IsPartiesToAgreeRepairs.dataBinding
+		</enableOn>
+		<isEnabled>
+			var val2 = Services.getValue(DirectionsTypeReqd.dataBinding);
+			if(IsWorkMaterialsFiledList.isEnabled() &amp;&amp; 'SD' != val2 &amp;&amp; !SketchPlansPhotosReqd.isEnabled() &amp;&amp; 'RDDT' != val2 ){ return true; }
+			else if( 'SPEC'  == val2 || 'HW' == val2 || IsPartiesToAgreeRepairs.isEnabled() ){ return false; }
+			
+		<!--	return((val2 != "RDDT") &amp;&amp; !SketchPlansPhotosReqd.isEnabled()); -->
+		</isEnabled>
+		<logicOn>BringOrigDocs.dataBinding, DirectionsTypeReqd.dataBinding</logicOn>
+		<logic>
+			var val2 = Services.getValue(DirectionsTypeReqd.dataBinding);
+			if(!IsWorkMaterialsFiledList.isEnabled() || 'SD' == val2 || SketchPlansPhotosReqd.isEnabled() || 'RDDT' == val2 )
+			{	Services.setValue(PartiesAgreeCostNature.dataBinding, "N");
+			}
+	
+		</logic>		
+	</Javascript>
+</Question>

@@ -1,0 +1,307 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- ====================================================================== -->
+<!--  -->
+<!-- FILENAME: $Source: C:/CVSRepository/serveroas/src/uk/gov/dca/caseman/wordprocessing_templates/Notice/CO25/CO25-FO.xml,v $ -->
+<!--  -->
+<!-- AUTHOR: $Author: anoop $-->
+<!--  -->
+<!-- DATE: $Date: 2006/06/09 08:54:53 $ -->
+<!--  -->
+<!-- Version: $Revision: 1.15 $ -->
+<!--  -->
+<!-- DESCRIPTION: This stylesheet is used to create an XSL:FO document that -->
+<!-- can be processed into a PDF version.  Business logic -->
+<!-- is embedded to generate the correct document text for the order -->
+<!-- required. -->
+<!--  -->
+<!-- INPUTS: XML document containing: the answers to questions asked of the -->
+<!-- user; case data retrieved from the database; HTML representing the  -->
+<!-- body of the document content (already edited by the user). -->
+<!--  -->
+<!-- OUTPUTS: XML document with FO tags containing instructions for the -->
+<!-- creation of a PDF document. -->
+<!--  -->
+<!--
+	Change History:
+	09/08/2010	Nilesh Mistry	Trac 2859, changes to include vdCOFrequency variable.
+	10 Jan 2011, Chris Vincent. Trac 4134. Reference HM Courts & Tribunals Service instead of Her Majesty's Courts Service
+	30 Aug 2012, Chris Vincent.  Trac 4714, replaced hard coded opening hours with variable vdCourtAvailability.
+-->
+<!-- ====================================================================== -->
+<root xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:fo="http://www.w3.org/1999/XSL/Format" xmlns="http://eds.com/supsfo">
+	<variables>@word.processing.url.xsl@supsfo.xsl</variables>
+	<addressee>
+		<blank/>
+		<creditor/>
+		<debtor/>
+	</addressee>
+	<header>
+		<fo:block font-size="16pt" font-weight="bold">Administration Order</fo:block>
+	</header>
+	<courtcase>
+		<court>
+			<xsl:copy-of select="$vdCourtHeaderBlock"/>
+		</court>
+		<caseparameters>
+			<parameter>
+				<name>
+					<fo:block font-weight="bold">AO Number</fo:block>
+				</name>
+				<value>
+					<fo:block>
+						<xsl:value-of select="$vdCONumber"/>
+					</fo:block>
+				</value>
+			</parameter>
+			<parameter>
+				<name>
+					<fo:block font-weight="bold">Creditor</fo:block>
+					<fo:block font-size="9pt">(including ref.)</fo:block>
+				</name>
+				<value>
+					<xsl:call-template name="display-creditor-name-and-reference-template">
+						<xsl:with-param name="addressee">
+							<xsl:value-of select="$addressee"/>
+						</xsl:with-param>
+					</xsl:call-template>
+				</value>
+			</parameter>				
+			<parameter>
+				<name>
+					<fo:block font-weight="bold">Debtor</fo:block>
+				</name>
+				<value>
+					<fo:block hyphenate="true">
+						<xsl:value-of select="$vdCODebtorName"/>
+					</fo:block>
+				</value>
+			</parameter>
+			<dobparameter partyType="debtor"/>
+		</caseparameters>
+	</courtcase>
+	<bodyintroright><fo:block><fo:inline text-align="center"><seal/></fo:inline></fo:block></bodyintroright>
+	
+	<body>
+	<editable useid="N100A2">
+		<fo:block font-weight="bold">
+			Before <xsl:value-of select="$vdJudge"/> sitting at <xsl:value-of select="$vdHearingAtCourtNameDescription"/>, <xsl:value-of select="$vdHearingAtCourtAddress"/>
+		</fo:block>
+		<fo:block space-after="0.4cm">
+			<xsl:value-of select="$vdCOHearingAttendees"/>
+		</fo:block>
+		<fo:block>
+			<fo:inline font-weight="bold">An order </fo:inline>is made for the administration of the debtor's estate in the following terms:
+		</fo:block>
+		<fo:block space-after="0.4cm">
+			<fo:inline font-weight="bold">It is ordered </fo:inline>that the debtor pay into the office of this court the debts listed in the schedule below <xsl:value-of select="$vdCompType"/> by <xsl:value-of select="$vdCOFrequency"/> 
+			instalments of <xsl:value-of select="$vdCOInstalmentAmount"/> until this order is satisfied, the first instalment is to be paid by <xsl:value-of select="$vdOrderFirstPaymentDate"/>&#xa0;<xsl:value-of select="$vdReviewPeriod"/>
+		</fo:block>
+		<fo:block>
+			<fo:table table-layout="fixed">
+				<fo:table-column column-width="9.64cm"/>
+				<fo:table-column column-width="9.64cm"/>
+				<fo:table-body>
+					<fo:table-row>
+						<fo:table-cell>
+							<fo:block font-weight="bold">
+								Schedule of debts
+							</fo:block>
+						</fo:table-cell>
+						<fo:table-cell>
+							<fo:block text-align="right">
+								<fo:inline font-weight="bold">Dated </fo:inline><xsl:value-of select="$vdEventDate"/>
+							</fo:block>
+						</fo:table-cell>
+					</fo:table-row>
+				</fo:table-body>
+			</fo:table>
+		</fo:block>
+	</editable>		
+
+		<fo:block space-after="0.2cm">
+			<fo:table table-layout="fixed" width="100%" font-family="Times">
+			<fo:table-column column-width="9.64cm" />
+			<fo:table-column column-width="9.64cm" />
+			<fo:table-body>
+				<fo:table-row border-style="solid" border-top-width="0.02cm">
+					<fo:table-cell>
+						<fo:table table-layout="fixed">
+							<fo:table-column column-width="7.2cm" />
+							<fo:table-column column-width="2.44cm" />
+							<fo:table-body>
+								<fo:table-row>
+									<fo:table-cell padding-left="0.00cm" padding-right="0.00cm" border-top-style="solid" border-top-width="0.02cm" border-left-style="solid" border-left-width="0.02cm" border-right-style="solid" border-right-width="0.02cm">
+										<fo:block text-align="center" font-weight="bold">Name of creditor</fo:block>
+									</fo:table-cell>
+									<fo:table-cell padding-left="0.02cm" padding-right="0.02cm" border-top-style="solid" border-top-width="0.02cm" border-left-style="solid" border-left-width="0.02cm" border-right-style="solid" border-right-width="0.02cm">
+										<fo:block text-align="center" font-weight="bold">&#163; Amount</fo:block>
+									</fo:table-cell>									
+								</fo:table-row>
+								<xsl:copy-of select="$vdDebtorTable2"/>								
+							</fo:table-body>
+						</fo:table>
+					</fo:table-cell>
+
+					<fo:table-cell>
+						<fo:table table-layout="fixed">
+							<fo:table-column column-width="7.2cm" />
+							<fo:table-column column-width="2.44cm" />
+							<fo:table-body>
+								<fo:table-row>
+									<fo:table-cell padding-left="0.00cm" padding-right="0.00cm" border-top-style="solid" border-top-width="0.02cm" border-left-style="solid" border-left-width="0.02cm" border-right-style="solid" border-right-width="0.02cm">
+										<fo:block text-align="center" font-weight="bold">Name of creditor</fo:block>
+									</fo:table-cell>
+									<fo:table-cell padding-left="0.00cm" padding-right="0.00cm" border-top-style="solid" border-top-width="0.02cm" border-left-style="solid" border-left-width="0.02cm" border-right-style="solid" border-right-width="0.02cm">
+										<fo:block text-align="center" font-weight="bold">&#163; Amount</fo:block>
+									</fo:table-cell>									
+								</fo:table-row>
+								<xsl:copy-of select="$vdDebtorTable3"/>								
+							</fo:table-body>
+						</fo:table>
+					</fo:table-cell>
+				</fo:table-row>
+				<fo:table-row>
+					<fo:table-cell/>
+					<fo:table-cell>
+						<fo:table table-layout="fixed">
+							<fo:table-column column-width="7.2cm" />
+							<fo:table-column column-width="2.44cm" />
+							<fo:table-body>
+								<fo:table-row>
+									<fo:table-cell padding-right="0.2cm">
+										<fo:block text-align="right">
+											Fees due to the court for carrying out this order
+										</fo:block>
+									</fo:table-cell>
+									<fo:table-cell border-style="solid" border-width="0.02cm" text-align="right" padding-right="0.2cm">
+										<fo:block>
+											<xsl:value-of select="$vdFeeAmount"/>
+										</fo:block>
+									</fo:table-cell>									
+								</fo:table-row>
+								<fo:table-row>
+									<fo:table-cell padding-right="0.2cm">
+										<fo:block text-align="right" font-weight="bold">
+											TOTAL
+										</fo:block>
+									</fo:table-cell>
+									<fo:table-cell border-style="solid" border-width="0.02cm" text-align="right" padding-right="0.2cm">
+										<fo:block>
+											<xsl:value-of select="$vdOsNomicBalance"/>
+										</fo:block>
+									</fo:table-cell>								
+								</fo:table-row>
+							</fo:table-body>
+						</fo:table>					
+					</fo:table-cell>
+				</fo:table-row>
+			</fo:table-body>
+		</fo:table>
+	</fo:block>
+
+		<fo:block font-weight="bold">
+			To the debtor
+			<list type="bullet">
+				<list-item>
+					<fo:block>If you do not keep up your payments this order may be revoked.  This means that your creditors will be able to pursue the money owed to them separately.</fo:block>
+				</list-item>
+				<list-item>
+					<fo:block>If you cannot pay as ordered or you change your address, you should contact the court immediately.</fo:block>
+				</list-item>
+			</list>
+		</fo:block>
+	</body>
+
+	<footnote noteextent="7">
+		<fo:block font-size="8pt" text-align="justify" font-family="Times">
+			Details of this administration order will be entered on a public register, the Register of Judgments, Orders and Fines. They will then be passed to credit reference agencies, who will supply them to credit grantors and others seeking information on your financial standing.
+			<fo:inline font-weight="bold">This will make it difficult for you to get credit. </fo:inline>A list of the credit reference agencies is available from Registry Trust Ltd, 173/175 Cleveland Street, London, W1T 6QR. <fo:inline font-weight="bold">If you pay in full within one month, </fo:inline>
+			you can ask the court to cancel the entry on the Register. You will also need to give the court proof of payment. If you <fo:inline font-weight="bold">also</fo:inline> want a Certificate of Cancellation from the court, there is a fee for this. If you pay the debt in full after one month, 
+			you can ask the court to mark the entry as satisfied and, for a fee, obtain a Certificate of Satisfaction to prove that the debt has been paid.
+		</fo:block>
+		<fo:block font-size="8pt">
+			<fo:table table-layout="fixed">
+				<fo:table-column column-width="9.64cm" />
+				<fo:table-column column-width="9.64cm" />
+				<fo:table-body>
+					<fo:table-row>
+						<fo:table-cell padding-left="6.45pt" padding-right="6.45pt" border-top-style="solid" border-top-width="0.02cm" border-left-style="solid" border-left-width="0.02cm" border-bottom-style="solid" border-bottom-width="0.02cm">
+							<fo:block keep-together.within-page="always" font-weight="bold">
+								You must make payments into court
+							</fo:block>
+							<fo:block keep-together.within-page="always" font-weight="bold">
+								You can pay the court by calling at the court office which is open <xsl:value-of select="$vdCourtAvailability"/> Monday to Friday
+							</fo:block>
+							<fo:block keep-together.within-page="always">
+								You may only pay by:
+							</fo:block>
+							<fo:block keep-together.within-page="always">
+								<list type="bullet">
+									<list-item>
+										<fo:block>cash</fo:block>
+									</list-item>
+									<list-item>
+										<fo:block>banker's or giro draft</fo:block>
+									</list-item>
+									<list-item>
+										<fo:block>cheque supported by a cheque card</fo:block>
+									</list-item>
+									<list-item>
+										<fo:block>cheque (unsupported cheques may be accepted, subject to clearance, if the Court Manager agrees)</fo:block>
+									</list-item>
+								</list>
+							</fo:block>
+							<fo:block keep-together.within-page="always">
+								Cheques and drafts must be made payable to HM Courts &amp; Tribunals Service and crossed. <fo:inline font-style="italic">Please bring this form with you.</fo:inline>
+							</fo:block>
+							<fo:block keep-together.within-page="always" font-weight="bold">
+								By post
+							</fo:block>
+							<fo:block keep-together.within-page="always">
+								You may only pay by:
+							</fo:block>
+						</fo:table-cell>
+						<fo:table-cell padding-left="6.45pt" padding-right="6.45pt" border-top-style="solid" border-top-width="0.02cm" border-right-style="solid" border-right-width="0.02cm" border-bottom-style="solid" border-bottom-width="0.02cm">
+							<fo:block keep-together.within-page="always">
+								<list type="bullet">
+									<list-item>
+										<fo:block>postal order</fo:block>
+									</list-item>
+									<list-item>
+										<fo:block>banker's or giro draft</fo:block>
+									</list-item>
+									<list-item>
+										<fo:block>cheque (cheques may be accepted, subject to clearance, if the Court Manager agrees).</fo:block>
+									</list-item>
+								</list>
+							</fo:block>
+							<fo:block keep-together.within-page="always">
+								The payment must be made out to HM Courts &amp; Tribunals Service and crossed.  This method of payment is at your own risk.
+							</fo:block>
+							<fo:block keep-together.within-page="always">
+								And you must:
+							</fo:block>
+							<fo:block keep-together.within-page="always">
+								<list type="bullet">
+									<list-item>
+										<fo:block>pay the postage</fo:block>
+									</list-item>
+									<list-item>
+										<fo:block>enclose this form</fo:block>
+									</list-item>
+									<list-item>
+										<fo:block>enclose a self addressed envelope so that the court can return this form with a receipt</fo:block>
+									</list-item>
+								</list>
+							</fo:block>
+							<fo:block keep-together.within-page="always">
+								<fo:inline font-style="italic">The court cannot accept stamps or payments by bank and giro credit transfers.</fo:inline>
+							</fo:block>
+						</fo:table-cell>
+					</fo:table-row>
+				</fo:table-body>
+			</fo:table>
+		</fo:block>
+	</footnote>
+	<defaultFooter id="CO25" CO="true"/>
+</root>

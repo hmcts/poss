@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>265</Id>
+	<Label>Has the Judge given reasons?</Label>
+	<ObjectName>IsJudgeReasons</ObjectName>
+	
+	<Context screenId="CJR060"><isVisible>false</isVisible></Context>
+	
+	<Html>	
+		<select id="IsJudgeReasons">
+			<option value=""></option>
+			<option value="N">No</option>
+			<option value="M">Multiple</option>
+			<option value="S">Single</option>
+		</select>
+	</Html>
+	<Javascript>
+		<XPath>/ds/EnterVariableData/FastTrack/isJudgeReasons</XPath>
+		<HintText>Check box if the judge given reasons for allocation</HintText>
+		<isMandatory>return true;</isMandatory>	
+		
+		<Context ScreenId="CJR020">
+			<enableOn>TrialDateFixed.dataBinding</enableOn>
+			<isEnabled>return(TrialDateFixed.isEnabled());</isEnabled>
+			<logicOn>TrialDateFixed.dataBinding</logicOn>
+			<logic>
+				if(!TrialDateFixed.isEnabled())
+				{	Services.setValue(IsJudgeReasons.dataBinding, "");
+				}
+			</logic>
+		</Context>
+				
+	</Javascript>
+</Question>

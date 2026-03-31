@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<service-method>
+	<pipeline>
+		<Query>
+			<QueryDef location="uk/gov/dca/caseman/case_event_service/query_def_get_hearing_type.xml"/>
+			<QueryExtension pivotNode="/HearingType">
+				<Param name="param.hrgSeq" xpath="/params/param[@name = 'hrgSeq']"/>
+				<Constraint>H.HRG_SEQ = ${param.hrgSeq}</Constraint>
+			</QueryExtension>
+		</Query>
+	</pipeline>
+	<Security roles="user"/>
+</service-method>

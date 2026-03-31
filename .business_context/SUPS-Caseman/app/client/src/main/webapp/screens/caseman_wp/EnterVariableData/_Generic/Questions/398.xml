@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>398</Id>
+	<Label>Order date</Label>
+	<ObjectName>OrderDate2</ObjectName>
+	
+	<Context screenId="CJR201">
+		<isVisible>true</isVisible>
+		<Label>Date of any Order (if applicable)</Label>
+	</Context>
+	<Context screenId="CJR202">
+		<isVisible>true</isVisible>
+		<Label>Date of any Order (if applicable)</Label>
+	</Context>
+	<Context screenId="O_9_1">
+		<isVisible>true</isVisible>
+		<Label>Date of order</Label>
+	</Context>
+	<Context screenId="FE45">
+		<isVisible>true</isVisible>
+		<Label>Date of order being enforced</Label>
+	</Context>
+	
+	<Html>
+		<script type="text/javascript">WP_DatePickerRenderer.createInline("OrderDate2");</script>
+	</Html>
+	
+	<Javascript>
+		<XPath>/ds/EnterVariableData/AttendForQuestion/orderDate2</XPath>
+		<HintText>Enter the date of the judgment/order in the format DD-MON-YYYY</HintText>
+		<mandatoryOn>OrderDate2.dataBinding</mandatoryOn>
+		<isMandatory>return true;</isMandatory>
+		<initialise>
+			Services.setValue(OrderDate2.dataBinding, WPU.getEventReceiptDate());
+		</initialise>
+		<validateOn>OrderDate2.dataBinding</validateOn>
+		<validate>
+			var err = null;
+			if( isFutureDate( Services.getValue(OrderDate2.dataBinding)))
+			{	err = ErrorCode.getErrorCode("CaseMan_dateCannotBeInTheFuture_Msg");
+			}
+			return err;
+		</validate>
+		<enableOn>IsN39Reqd.dataBinding</enableOn>
+		<isEnabled>
+			var N39En = IsN39Reqd.isEnabled();
+			var isN39Req = Services.getValue(IsN39Reqd.dataBinding);
+			return( !N39En || 'Y' == isN39Req);
+		</isEnabled>
+		<logicOn>IsN39Reqd.dataBinding, HearingDate2.dataBinding</logicOn>
+		<logic>
+			var N39En = IsN39Reqd.isEnabled();
+			var isN39Req = Services.getValue(IsN39Reqd.dataBinding);
+			if( N39En &amp;&amp; 'Y' != isN39Req)
+			{	Services.setValue(OrderDate2.dataBinding, "");
+			}
+			
+			Services.setValue(OrderDate2.dataBinding, 
+									Services.getValue(HearingDate2.dataBinding));
+		</logic>
+		
+		<Context ScreenId="CJR093">
+			<enableOn>OrderDate2.dataBinding</enableOn>
+			<isEnabled>return true;</isEnabled>
+			<logicOn>OrderDate2.dataBinding</logicOn>
+			<logic></logic>
+			<HintText>Enter date interim charging order made, in the format DD-MON-YYYY</HintText>
+			<validate>return(isWorkingDayInPast(Services.getValue(OrderDate2.dataBinding)));</validate>
+			<miscCode>OrderDate2.weekends = false;</miscCode>
+		</Context>
+		
+		<Context ScreenId="CJR201">
+			<isMandatory>return false;</isMandatory>
+			<enableOn></enableOn>
+			<isEnabled></isEnabled>
+			<logicOn></logicOn>		
+			<logic></logic>
+			<HintText>Enter date of Order, where applicable, in format DD-MMM-YYYY</HintText>
+			<validate>return isInPast(Services.getValue(OrderDate2.dataBinding));</validate>
+		</Context>
+		<Context ScreenId="CJR202">
+			<isMandatory>return false;</isMandatory>
+			<enableOn></enableOn>
+			<isEnabled></isEnabled>
+			<logicOn></logicOn>		
+			<logic></logic>
+			<HintText>Enter date of Order, where applicable, in format DD-MMM-YYYY</HintText>
+			<validate>return isInPast(Services.getValue(OrderDate2.dataBinding));</validate>
+		</Context>
+		<Context ScreenId="O_9_1">
+			<HintText>Select the judgment date</HintText>
+			<logicOn>OrderDate2.dataBinding</logicOn>
+			<logic></logic>
+			<enableOn>OrderDate2.dataBinding</enableOn>
+			<isEnabled>return true;</isEnabled>
+	    </Context>
+		<Context ScreenId="FE45">
+			<enableOn>OrderDate2.dataBinding</enableOn>
+			<isEnabled>return true;</isEnabled>
+			<logicOn>OrderDate2.dataBinding</logicOn>
+			<logic></logic>
+			<HintText>Enter date order being enforced was made, in the format DD-MON-YYYY</HintText>
+			<validate>return(isWorkingDayInPast(Services.getValue(OrderDate2.dataBinding)));</validate>
+			<miscCode>OrderDate2.weekends = false;</miscCode>
+			<initialise></initialise>	
+		</Context>
+
+	</Javascript>
+</Question>

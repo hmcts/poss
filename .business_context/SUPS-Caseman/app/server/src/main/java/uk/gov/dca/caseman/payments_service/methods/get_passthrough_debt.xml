@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: Payments
+	Method: getPassthroughDebt()
+	File: get_passthrough_debt.xml
+	Author: Tony White
+	Description:
+		Get details of a CO Debt.
+-->
+<service-method>
+	<pipeline>		
+		<SQLLite format-output="true"
+			resultset-element="ds"
+			row-element="Debt"
+			field-name-as="element"
+		>
+			<DataSource id="java:OracleDS" />
+			<Param name="param.debtSeq" xpath="/params/param[@name = 'debtSeq']" />
+			<Param name="param.coNumber" xpath="/params/param[@name = 'coNumber']" />
+			<SQL>
+				SELECT	AD.DEBT_SEQ AS "DebtSeq",
+							AD.DEBT_AMOUNT_ALLOWED AS "Amount",
+							AD.DEBT_STATUS AS "Status",
+							AD.DEFT_PARTY_ROLE_CODE AS "DefendantPartyRoleCode",
+							AD.DEFT_CASE_PARTY_NO AS "DefendantCasePartyNumber",
+							AD.DEBT_AMOUNT_ORIGINAL AS "OriginalDebt",
+							AD.DEBT_CASE_NUMBER AS "CaseNumber"
+				FROM	ALLOWED_DEBTS AD
+				WHERE	AD.DEBT_SEQ = ${param.debtSeq} AND
+							AD.DEBT_CO_NUMBER = ${param.coNumber}
+				FOR		UPDATE
+			</SQL>
+		</SQLLite>
+	</pipeline>
+	<Security roles="medium high wcSuper scSuper bmsSuper aeSuper dmSuper" />
+</service-method>

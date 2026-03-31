@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: Judgment
+	Method:  getJudgmentPayee()
+	File:    get_judgment_payee.xml
+	Author:  Chris Vincent
+	Created: 25 January 2006
+	Description: 
+		Retrieves the Payee associated with the National Coded Party Solicitor of Claimant
+		Number 1 of the Case passed in as a parameter.  Used for CCBC Cases.
+	Change History:
+-->
+<service-method>
+	<pipeline>
+		<Query>
+			<QueryDef location="uk/gov/dca/caseman/judgment_service/query_def_get_judgment_payee.xml"/>
+			<QueryExtension pivotNode="/PayeeDetails/Payee">
+				<Param name="param.caseNumber" xpath="/params/param[@name = 'caseNumber']"/>
+			</QueryExtension>
+		</Query>
+	</pipeline>
+	<Security roles="viewOnly medium high wcSuper scSuper bmsSuper aeSuper dmSuper cpSuper ccbcMan ccbcUser ccbcSGB2"/>
+</service-method>

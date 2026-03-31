@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>9087</Id>
+	<Label>Balance due</Label>
+	<ObjectName>Balancedue</ObjectName>
+	<Html>	
+		<input id="DefaultCurrency9087" type="text" size="1"></input>	
+		<input type="text" id="Balancedue"></input>
+	</Html>
+	<Javascript>
+        <XPath>/ds/EnterVariableData/Balancedue</XPath>
+		<HintText>Enter balance due (if applicable)</HintText>	
+		<mandatoryOn>WarrantSuspended.dataBinding</mandatoryOn>
+		<isMandatory>return("Y" != Services.getValue(WarrantSuspended.dataBinding));</isMandatory>
+        <enableOn>WarrantSuspended.dataBinding</enableOn>
+        <isEnabled>return("Y" != Services.getValue(WarrantSuspended.dataBinding)); </isEnabled>
+        <logicOn>WarrantSuspended.dataBinding</logicOn>
+        <logic>	
+        	if( "Y" == Services.getValue(WarrantSuspended.dataBinding)) {
+        		Services.setValue(Balancedue.dataBinding, "");
+        	}
+        </logic>           
+		<validateOn>Balancedue.dataBinding</validateOn>
+		<validate>
+			var val = Services.getValue(Balancedue.dataBinding);
+			var err = null;
+			var maxVal = 999999.99;
+			
+			if('0.00' != val)
+			{
+				err = validateCurrencyValue(val, maxVal);
+				if( null == err )
+				{ 	
+					var fVal = WPU.formatToTwoDP(val);
+					Services.setValue(Balancedue.dataBinding, fVal);
+				}
+			}
+			return err;
+		</validate>
+        <miscCode>
+			function DefaultCurrency9087() {}
+			DefaultCurrency9087.dataBinding = "/ds/EnterVariableData/curr1";
+			DefaultCurrency9087.tabIndex = -1;
+			DefaultCurrency9087.maxLength = 1;
+			DefaultCurrency9087.isReadOnly = function(){return true;}
+			DefaultCurrency9087.isTemporary = function(){return true;}
+			DefaultCurrency9087.transformToDisplay = function(value){
+				return WPS.__CaseManUtils().transformCurrencySymbolToDisplay(value,null,null); }
+			DefaultCurrency9087.transformToModel = function(value){
+				return WPS.__CaseManUtils().transformCurrencySymbolToModel(value,null,null); }
+		</miscCode>
+	</Javascript>
+</Question>  

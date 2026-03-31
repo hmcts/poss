@@ -1,0 +1,45 @@
+<web-service>
+    <display-name>Business Services</display-name>
+    <destination-path>${ear.dir}/${application.name}.ear</destination-path>
+    <temporary-directory>tmp</temporary-directory>
+    <context>/${application.name}_server</context>
+    <option name="source-path">${ear.dir}/${application.name}.ear</option>
+
+    <stateless-session-ejb-service>
+        <uri>/Security</uri>
+        <ejb-name>SecurityService</ejb-name>
+    </stateless-session-ejb-service>
+    
+    <stateless-session-ejb-service>
+        <uri>/Authentication</uri>
+        <ejb-name>AuthenticationService</ejb-name>
+    </stateless-session-ejb-service>
+    
+
+    <stateless-session-ejb-service>
+		<uri>/Cases</uri>
+		<ejb-name>CasesService</ejb-name>
+    </stateless-session-ejb-service>
+
+    <stateless-session-ejb-service>
+		<uri>/Echo</uri>
+		<ejb-name>EchoService</ejb-name>
+    </stateless-session-ejb-service>
+
+    <stateless-session-ejb-service>
+		<uri>/Linked</uri>
+		<ejb-name>LinkedService</ejb-name>
+    </stateless-session-ejb-service>
+
+    <stateless-session-ejb-service>
+		<uri>/Test</uri>
+		<ejb-name>TestService</ejb-name>
+    </stateless-session-ejb-service>
+
+    <stateless-session-ejb-service>
+		<uri>/Testdata</uri>
+		<ejb-name>TestdataService</ejb-name>
+    </stateless-session-ejb-service>
+
+	
+</web-service>

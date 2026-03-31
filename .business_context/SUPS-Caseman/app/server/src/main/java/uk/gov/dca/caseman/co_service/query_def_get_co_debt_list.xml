@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: Co
+	Method:  getCoDebtList()
+	File:    query_def_get_co_debt_list.xml
+	Author:  Phil Haferer (EDS)
+	Created: 17 August 2005
+	Description: 
+		Retrieve the list of Debts associated with a Consolidated Order.
+
+	Change History:
+	11-01-2006 Phil Haferer: Comms Method and Welsh Indicator for Creditor/Payee moved into the ALLOWED_DEBTS.
+-->
+<QueryDef>
+  <DBMapDef location="uk/gov/dca/caseman/co_service/map_get_co_debt_list.xml"/>
+  <Query pivotNode="/ds/MaintainCO/Debts/Debt" tables="AD CRT">
+	<LinkedJoin type="root" key="AD.DEBT_SEQ">
+		<Join>
+		CRT.CODE (+)= AD.DEBT_ADMIN_COURT_CODE
+		</Join>
+	</LinkedJoin>
+	<OrderBy>AD.DEBT_SEQ</OrderBy>
+	<Alias name="AD.PARTY_KEY" select="DECODE( AD.DEFT_CASE_PARTY_NO, null, null, AD.DEFT_PARTY_ROLE_CODE || '_' || AD.DEFT_CASE_PARTY_NO )"/>
+	<Alias name="DIVIDENDS" select="( SELECT NVL(SUM(DD.DD_AMOUNT),0)
+		FROM   DEBT_DIVIDENDS DD
+		WHERE  DD.DD_ALD_SEQ = AD.DEBT_SEQ
+		AND    DD.CREATED = 'Y' )"/>
+	<Alias name="PASSTHROUGHS" select="( SELECT NVL(SUM(PY.AMOUNT),0)
+		FROM   PAYMENTS      PY
+		WHERE  PY.ALD_DEBT_SEQ = AD.DEBT_SEQ
+		AND    PY.PASSTHROUGH = 'Y'
+		AND    PY.ERROR_INDICATOR != 'Y' )"/>
+	<Alias name="ADDRESS_ALIAS" select="'GA'"/>
+  </Query>
+  
+  <Query pivotNode="/ds/MaintainCO/Debts/Debt/Creditor" tables="CP P">
+	<LinkedSQL type="query" key="P.PARTY_ID">
+		<Parent key="AD.DEBT_SEQ" tables="AD"/>
+		<SQL>
+		(SELECT  AD.DEBT_SEQ             AS "AD.DEBT_SEQ"
+		,        P.PARTY_ID              AS "P.PARTY_ID"
+		,        P.PERSON_REQUESTED_NAME AS "P.PERSON_REQUESTED_NAME"
+		,        P.DX_NUMBER             AS "P.DX_NUMBER"
+		,        P.TEL_NO                AS "P.TEL_NO"
+		,        P.FAX_NUMBER            AS "P.FAX_NUMBER"
+		,        P.EMAIL_ADDRESS         AS "P.EMAIL_ADDRESS"
+		,        GA.ADDRESS_ID           AS "GA.ADDRESS_ID"
+		,        GA.ADDRESS_LINE1        AS "GA.ADDRESS_LINE1"
+		,        GA.ADDRESS_LINE2        AS "GA.ADDRESS_LINE2"
+		,        GA.ADDRESS_LINE3        AS "GA.ADDRESS_LINE3"
+		,        GA.ADDRESS_LINE4        AS "GA.ADDRESS_LINE4"
+		,        GA.ADDRESS_LINE5        AS "GA.ADDRESS_LINE5"
+		,        GA.POSTCODE             AS "GA.POSTCODE"
+		,        GA.ADDRESS_TYPE_CODE    AS "GA.ADDRESS_TYPE_CODE"
+		,        GA.UPDATED_BY           AS "GA.UPDATED_BY"
+		,        GA.VALID_FROM           AS "GA.VALID_FROM"
+		,        GA.VALID_TO             AS "GA.VALID_TO"
+		,        NULL                    AS "CP.CODE"
+		,        'EXISTING'              AS "STATUS"
+		,        GA.ORA_ROWSCN           AS "GA_ORA_ROWSCN"
+		,        NULL                    AS "CP_ORA_ROWSCN"
+		,        P.ORA_ROWSCN            AS "P_ORA_ROWSCN"
+		FROM     ALLOWED_DEBTS   AD
+		,        PARTIES         P
+		,        GIVEN_ADDRESSES GA
+		WHERE    AD.DEBT_CO_NUMBER    = ${param.coNumber}
+		AND      GA.ALD_SEQ           = AD.DEBT_SEQ
+		AND      GA.PARTY_ID          = P.PARTY_ID
+		AND     (GA.ADDRESS_TYPE_CODE = 'CO CRED')
+		AND      GA.VALID_TO          IS NULL
+		) UNION (
+		SELECT   AD.DEBT_SEQ             AS "AD.DEBT_SEQ"
+		,        P.PARTY_ID              AS "P.PARTY_ID"
+		,        P.PERSON_REQUESTED_NAME AS "P.PERSON_REQUESTED_NAME"
+		,        P.DX_NUMBER             AS "P.DX_NUMBER"
+		,        P.TEL_NO                AS "P.TEL_NO"
+		,        P.FAX_NUMBER            AS "P.FAX_NUMBER"
+		,        P.EMAIL_ADDRESS         AS "P.EMAIL_ADDRESS"
+		,        GA.ADDRESS_ID           AS "GA.ADDRESS_ID"
+		,        GA.ADDRESS_LINE1        AS "GA.ADDRESS_LINE1"
+		,        GA.ADDRESS_LINE2        AS "GA.ADDRESS_LINE2"
+		,        GA.ADDRESS_LINE3        AS "GA.ADDRESS_LINE3"
+		,        GA.ADDRESS_LINE4        AS "GA.ADDRESS_LINE4"
+		,        GA.ADDRESS_LINE5        AS "GA.ADDRESS_LINE5"
+		,        GA.POSTCODE             AS "GA.POSTCODE"
+		,        GA.ADDRESS_TYPE_CODE    AS "GA.ADDRESS_TYPE_CODE"
+		,        GA.UPDATED_BY           AS "GA.UPDATED_BY"
+		,        GA.VALID_FROM           AS "GA.VALID_FROM"
+		,        GA.VALID_TO             AS "GA.VALID_TO"
+		,        CP.CODE                 AS "CP.CODE"
+		,        'EXISTING'              AS "STATUS"
+		,        GA.ORA_ROWSCN           AS "GA_ORA_ROWSCN"
+		,        CP.ORA_ROWSCN           AS "CP_ORA_ROWSCN"
+		,        P.ORA_ROWSCN            AS "P_ORA_ROWSCN"
+		FROM     ALLOWED_DEBTS   AD
+		,        CODED_PARTIES   CP
+		,        PARTIES         P
+		,        GIVEN_ADDRESSES GA
+		WHERE    AD.DEBT_CO_NUMBER    = ${param.coNumber}
+		AND      CP.PARTY_ID          = AD.CP_CREDITOR_ID
+		AND      P.PARTY_ID           = CP.PARTY_ID
+		AND      GA.PARTY_ID          = P.PARTY_ID
+		AND      GA.ADDRESS_TYPE_CODE = 'CODED PARTY'
+		)
+		</SQL>
+	</LinkedSQL>
+  </Query>
+  
+  <Query pivotNode="/ds/MaintainCO/Debts/Debt/Payee" tables="CP P">
+	<LinkedSQL type="query" key="P.PARTY_ID">
+		<Parent key="AD.DEBT_SEQ" tables="AD"/>
+		<SQL>
+		(SELECT  AD.DEBT_SEQ             AS "AD.DEBT_SEQ"
+		,        P.PARTY_ID              AS "P.PARTY_ID"
+		,        P.PERSON_REQUESTED_NAME AS "P.PERSON_REQUESTED_NAME"
+		,        P.DX_NUMBER             AS "P.DX_NUMBER"
+		,        P.TEL_NO                AS "P.TEL_NO"
+		,        P.FAX_NUMBER            AS "P.FAX_NUMBER"
+		,        P.EMAIL_ADDRESS         AS "P.EMAIL_ADDRESS"
+		,        GA.ADDRESS_ID           AS "GA.ADDRESS_ID"
+		,        GA.ADDRESS_LINE1        AS "GA.ADDRESS_LINE1"
+		,        GA.ADDRESS_LINE2        AS "GA.ADDRESS_LINE2"
+		,        GA.ADDRESS_LINE3        AS "GA.ADDRESS_LINE3"
+		,        GA.ADDRESS_LINE4        AS "GA.ADDRESS_LINE4"
+		,        GA.ADDRESS_LINE5        AS "GA.ADDRESS_LINE5"
+		,        GA.POSTCODE             AS "GA.POSTCODE"
+		,        GA.ADDRESS_TYPE_CODE    AS "GA.ADDRESS_TYPE_CODE"
+		,        GA.UPDATED_BY           AS "GA.UPDATED_BY"
+		,        GA.VALID_FROM           AS "GA.VALID_FROM"
+		,        GA.VALID_TO             AS "GA.VALID_TO"
+		,        NULL                    AS "CP.CODE"
+		,        'EXISTING'              AS "STATUS"
+		,        GA.ORA_ROWSCN           AS "GA_ORA_ROWSCN"
+		,        NULL                    AS "CP_ORA_ROWSCN"
+		,        P.ORA_ROWSCN            AS "P_ORA_ROWSCN"
+		FROM     ALLOWED_DEBTS   AD
+		,        PARTIES         P
+		,        GIVEN_ADDRESSES GA
+		WHERE    AD.DEBT_CO_NUMBER    = ${param.coNumber}
+		AND      GA.ALD_SEQ           = AD.DEBT_SEQ
+		AND      GA.PARTY_ID          = P.PARTY_ID
+		AND     (GA.ADDRESS_TYPE_CODE = 'CO PAYEE')
+		AND      GA.VALID_TO          IS NULL
+		) UNION (
+		SELECT   AD.DEBT_SEQ             AS "AD.DEBT_SEQ"
+		,        P.PARTY_ID              AS "P.PARTY_ID"
+		,        P.PERSON_REQUESTED_NAME AS "P.PERSON_REQUESTED_NAME"
+		,        P.DX_NUMBER             AS "P.DX_NUMBER"
+		,        P.TEL_NO                AS "P.TEL_NO"
+		,        P.FAX_NUMBER            AS "P.FAX_NUMBER"
+		,        P.EMAIL_ADDRESS         AS "P.EMAIL_ADDRESS"
+		,        GA.ADDRESS_ID           AS "GA.ADDRESS_ID"
+		,        GA.ADDRESS_LINE1        AS "GA.ADDRESS_LINE1"
+		,        GA.ADDRESS_LINE2        AS "GA.ADDRESS_LINE2"
+		,        GA.ADDRESS_LINE3        AS "GA.ADDRESS_LINE3"
+		,        GA.ADDRESS_LINE4        AS "GA.ADDRESS_LINE4"
+		,        GA.ADDRESS_LINE5        AS "GA.ADDRESS_LINE5"
+		,        GA.POSTCODE             AS "GA.POSTCODE"
+		,        GA.ADDRESS_TYPE_CODE    AS "GA.ADDRESS_TYPE_CODE"
+		,        GA.UPDATED_BY           AS "GA.UPDATED_BY"
+		,        GA.VALID_FROM           AS "GA.VALID_FROM"
+		,        GA.VALID_TO             AS "GA.VALID_TO"
+		,        CP.CODE                 AS "CP.CODE"
+		,        'EXISTING'              AS "STATUS"
+		,        GA.ORA_ROWSCN           AS "GA_ORA_ROWSCN"
+		,        CP.ORA_ROWSCN           AS "CP_ORA_ROWSCN"
+		,        P.ORA_ROWSCN            AS "P_ORA_ROWSCN"
+		FROM     ALLOWED_DEBTS   AD
+		,        CODED_PARTIES   CP
+		,        PARTIES         P
+		,        GIVEN_ADDRESSES GA
+		WHERE    AD.DEBT_CO_NUMBER    = ${param.coNumber}
+		AND      CP.PARTY_ID          = AD.CP_PAYEE_ID
+		AND      P.PARTY_ID           = CP.PARTY_ID
+		AND      GA.PARTY_ID          = P.PARTY_ID
+		AND      GA.ADDRESS_TYPE_CODE = 'CODED PARTY')
+		</SQL>
+	</LinkedSQL>
+  </Query>
+
+</QueryDef>

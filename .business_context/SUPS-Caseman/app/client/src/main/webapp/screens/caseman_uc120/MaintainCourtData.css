@@ -1,0 +1,129 @@
+/**
+  * Change History:
+  * 10/02/2010 - Chris Vincent.  Added courtFieldLabel and tinkered with addNewCourt_subform height and width as part of Trac 2629
+  * 08/11/2011 - Chris Vincent.  Added subform and LOV Subform styles for Trac 4591
+  * 05/09/2012 - Chris Vincent.  Resized addNewCourt_subform.  Trac 4718
+  */
+
+form#MaintainCourtData
+{
+	display: inline;
+}
+
+#Master_CourtAddressType
+{
+	width: 200px;
+}
+
+#CourtData_AccountType
+{
+	width: 100px;
+}
+
+/* Default label column style */
+td.courtFieldLabel
+{
+	width: 170px;
+}
+
+/************************************** SUBFORMS ******************************************/
+
+#addNewCourt_subform
+{
+	width: 960px;
+	height: 407px;
+	left: 50%;
+	top: 50%;
+	margin-left: -480px;
+	margin-top: -204px;
+}
+
+#addNewAddress_subform
+{
+	width: 600px;
+	height: 198px;
+	left: 50%;
+	top: 50%;
+	margin-left: -300px;
+	margin-top: -99px;
+}
+
+#changeCourtName_subform
+{
+	left: 50%;
+	top: 50%;
+	margin-left: -250px;
+	margin-top: -127px;
+	width: 500px;
+	height: 253px;
+}
+
+/**************************************** GRIDS *******************************************/
+
+#QueryPopup_CourtResultsGrid .col0 { width: 35px; }
+#QueryPopup_CourtResultsGrid .col1 { width: 185px; }
+#QueryPopup_CourtResultsGrid .col2 { width: 35px; }
+#QueryPopup_CourtResultsGrid .col3 { width: 100px; }
+
+#Master_CourtAddressGrid
+{
+	width: 470px;
+	margin: 5px;
+}
+#Master_CourtAddressGrid .col0 { width: 90px; }
+#Master_CourtAddressGrid .col1 { width: 174px; }
+#Master_CourtAddressGrid .col2 { width: 174px; }
+
+/************************************* LOV POPUPS *****************************************/
+
+#Query_CourtNameLOVGrid
+{
+	height: 302px;
+	width: 372px;
+	left: 50%;
+	top: 50%;
+	margin-left: -186px;
+	margin-top: -151px;
+}
+
+#CourtData_GroupingCourtLOVGrid
+{
+	height: 302px;
+	width: 372px;
+	left: 50%;
+	top: 50%;
+	margin-left: -186px;
+	margin-top: -151px;
+}
+
+#CourtData_DMCourtLOVGrid
+{
+	height: 302px;
+	width: 372px;
+	left: 50%;
+	top: 50%;
+	margin-left: -186px;
+	margin-top: -151px;
+}
+
+#CourtData_PrintersLOVGrid
+{
+	height: 302px;
+	width: 372px;
+	left: 50%;
+	top: 50%;
+	margin-left: -186px;
+	margin-top: -151px;
+}
+
+/*************************************** POPUPS *******************************************/
+
+div#QueryCourt_Popup
+{
+	visibility: hidden;
+	position: absolute;
+	left: 50%;
+	margin-left: -207px;
+	top: 150px;
+	width: 415px;
+}

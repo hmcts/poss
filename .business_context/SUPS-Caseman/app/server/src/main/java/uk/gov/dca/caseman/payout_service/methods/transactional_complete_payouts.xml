@@ -1,0 +1,33 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: Payout
+	Method:  transactionalCompletePayouts()
+	File:    transactional_complete_payouts.xml
+	Author:  Phil Haferer (EDS)
+	Created: 27-Jan-2006
+	Description: 
+		Method to implement SUPS implementation of the Legacy stored procedure "p_payout_update()".
+
+    Change History:
+    31-Mar-2006 Phil Haferer: Removed the Transaction (type="RequiresNew") tag, as doesn't need to be 
+                in a separate transaction after all.
+    10-Apr-2006 Phil Haferer: Added dependencies for Bms and CoEvent.
+    12-Apr-2006 Phil Haferer: Added further dependenc for CaseEvent.
+-->
+<service-method>
+	<pipeline>
+		<Java callStyle="new">
+			<Source class="uk.gov.dca.caseman.payout_service.classes.TransactionalCompletePayoutsCustomProcessor"/>
+		</Java>
+	</pipeline>
+	<Dependencies>
+		<Dependency serviceName="Payments"/>
+		<Dependency serviceName="SystemData"/>
+		<Dependency serviceName="SystemDate"/>
+		<Dependency serviceName="Dom"/>
+		<Dependency serviceName="Bms"/>
+		<Dependency serviceName="CoEvent"/>
+		<Dependency serviceName="CaseEvent"/>
+	</Dependencies>		
+	<Security roles="viewOnly medium high wcSuper scSuper bmsSuper aeSuper dmSuper edsAdmin"/>			
+</service-method>

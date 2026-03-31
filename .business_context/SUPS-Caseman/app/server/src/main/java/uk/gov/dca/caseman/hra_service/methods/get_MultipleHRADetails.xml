@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: Hra
+	Method:  getMultipeHRADetails()
+	File:    get_multipeHRADetails.xml
+	Author:  David Turner
+	Created: 22 march 2005
+	Description: 
+		Retrieve HRA details between specified dates
+-->
+<service-method>
+	<pipeline>
+		<NewQuery>
+			<QueryDef location="uk/gov/dca/caseman/hra_service/query_def_hra.xml"/>
+			<QueryExtension pivotNode="/ds/HumanRightsAct/Cases/Case">
+				<Param name="param.StartDate" xpath="/params/param[@name = 'StartDate']"/>
+				<Param name="param.EndDate" xpath="/params/param[@name = 'EndDate']"/>
+				<Constraint>ED.EVENT_DATE between TO_DATE(${param.StartDate},'YYYY-MM-DD') and TO_DATE(${param.EndDate},'YYYY-MM-DD') and CE.EVENT_SEQ = ED.EVENT_SEQ </Constraint>
+			</QueryExtension>
+		</NewQuery>
+	</pipeline>
+	<Security roles="wcSuper scSuper bmsSuper aeSuper dmSuper cpSuper ccbcMan ccbcUser ccbcSGB2"/>	
+</service-method>

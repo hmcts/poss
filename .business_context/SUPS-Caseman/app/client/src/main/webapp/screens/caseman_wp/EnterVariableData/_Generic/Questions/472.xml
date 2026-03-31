@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>472</Id>
+	<Label>Amount of costs of attending</Label>
+	<ObjectName>AttendCostAmt</ObjectName>
+	<Html>	
+		<input type="text" size="1" id="DefaultCurrency472"></input>
+		<input type="text" id="AttendCostAmt" size="9" maxlength="9"></input>
+	</Html>			
+	<Javascript>
+		<XPath>/ds/EnterVariableData/SuspCOforDisobedience/attendCostAmt</XPath>
+		<componentName>##label##</componentName>
+		<isMandatory>return true;</isMandatory>
+		<HintText>Enter the amount of costs (max 999999.99)</HintText>
+		<maxLength>9</maxLength>		
+		<enableOn>HasCostOrder.dataBinding</enableOn>
+		<isEnabled>return('Y' == Services.getValue(HasCostOrder.dataBinding));</isEnabled>
+		<logicOn>HasCostOrder.dataBinding</logicOn>
+		<logic>
+			if('Y' != Services.getValue(HasCostOrder.dataBinding))
+			{	Services.setValue(AttendCostAmt.dataBinding, "");
+			}			
+		</logic>	
+		<validateOn>AttendCostAmt.dataBinding</validateOn>
+		<validate>
+			var val = Services.getValue(AttendCostAmt.dataBinding);
+			var max = 999999.99;
+			var err = validateCurrencyValue(val, max);
+			if( null == err )
+			{	Services.setValue(AttendCostAmt.dataBinding, WPU.formatToTwoDP(val));
+			}
+			return err;
+		</validate>
+		<miscCode>
+			function DefaultCurrency472() {}
+			DefaultCurrency472.dataBinding = "/ds/EnterVariableData/curr1";
+			DefaultCurrency472.tabIndex = -1;
+			DefaultCurrency472.maxLength = 1;
+			DefaultCurrency472.isReadOnly = function(){return true;}
+			DefaultCurrency472.isTemporary = function(){return true;}
+			DefaultCurrency472.transformToDisplay = function(value){
+				return WPS.__CaseManUtils().transformCurrencySymbolToDisplay(value,null,null); }
+			DefaultCurrency472.transformToModel = function(value){
+				return WPS.__CaseManUtils().transformCurrencySymbolToModel(value,null,null); }
+		</miscCode>
+	</Javascript>
+</Question>

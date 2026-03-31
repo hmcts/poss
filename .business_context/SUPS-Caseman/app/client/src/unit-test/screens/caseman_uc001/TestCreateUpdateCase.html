@@ -1,0 +1,136 @@
+<html>
+<head>
+    <title>CreateUpdateCase</title>
+    <script type="text/javascript">
+
+    </script>
+
+    <script type="text/javascript" src="../../../clientframework/dist/Framework.js"></script>
+    <script type="text/javascript" src="../../caseman-dist/CaseManUtils.js"></script>
+
+    <script type="text/javascript"
+            src="../../../caseman/screens/caseman_uc001/CreateUpdateCase_HelperFunctions.js"></script>
+    <script type="text/javascript" src="../../../caseman/screens/caseman_uc001/CreateUpdateCase.js"></script>
+    <script type="text/javascript" src="../../clientframework/dist/com/sups/client/MockServices.js"></script>
+    <script type="text/javascript" src="../../jsunit/app/jsUnitCore.js"></script>
+    <script type="text/javascript" src="../../jsunit/app/mock4js.js"></script>
+
+    <script type="text/javascript">
+
+        // var Services = null;
+
+        Mock4JS.addMockSupport(this);
+
+        function setUp()
+        {
+            Mock4JS.clearMocksToVerify();
+        }
+
+        function tearDown()
+        {
+            Mock4JS.verifyAllMocks();
+        }
+
+        function test_Header_CaseNumber_validate()
+        {
+            var parameter = "/ds/ManageCase/CaseNumber";
+            var services = mock(MockServices);
+            Services = services.proxy();
+            // expectations
+            services.expects(once()).getValue(parameter);
+
+            // execute
+            var ec = Header_CaseNumber.validate();
+            assertEquals(null, ec);
+        }
+
+        //checks if the caseNumber field is disabled when InsolvSeq number is entered
+        function test_Header_CaseNumber_not_enabled()
+        {
+            var services = mock(MockServices);
+            services.stubs().getValue(ANYTHING).will(returnValue(''));
+            services.stubs().getValue(Header_InsolvNo.dataBinding).will(returnValue("1234"));
+
+            Services = services.proxy();
+
+            assertFalse(Header_CaseNumber.isEnabled());
+
+        }
+
+        //checks if the caseNumber field is enabled when nothing is set (by default)
+        function test_Header_CaseNumber_enabled()
+        {
+            var services = mock(MockServices);
+            services.stubs().getValue(ANYTHING).will(returnValue(''));
+
+            Services = services.proxy();
+
+            assertTrue(Header_CaseNumber.isEnabled());
+
+        }
+
+        //checks if the insolv fiedls are disabled when the CaseNumber is added
+        function test_Header_InsolvencyNumber_not_enabled()
+        {
+            var services = mock(MockServices);
+            services.stubs().getValue(ANYTHING).will(returnValue(''));
+            services.stubs().getValue(Header_CaseNumber.dataBinding).will(returnValue("1234"));
+
+            Services = services.proxy();
+
+            assertFalse(Header_InsolvNo.isEnabled());
+            assertFalse(Header_InsolvYear.isEnabled());
+
+        }
+
+        //checks if the InsolvNo fields are enabled by default
+        function test_Header_InsolvencyNumber_enabled()
+        {
+            var services = mock(MockServices);
+            services.stubs().getValue(ANYTHING).will(returnValue(''));
+
+            Services = services.proxy();
+
+            assertTrue(Header_InsolvNo.isEnabled());
+            assertTrue(Header_InsolvYear.isEnabled());
+
+        }
+
+        //checking if the court fields are enabled when Insolv numbers are added.
+        function test_Header_OwningCourt_enabled()
+        {
+            var services = mock(MockServices);
+            services.stubs().getValue(ANYTHING).will(returnValue(''));
+            services.stubs().getValue(Header_InsolvNo.dataBinding).will(returnValue("1234"));
+            services.stubs().getValue(Header_InsolvYear.dataBinding).will(returnValue("1234"));
+            services.stubs().countNodes(ANYTHING).will(returnValue('0'));
+            Services = services.proxy();
+
+            assertTrue(Header_OwningCourtCode.isEnabled());
+            assertTrue(Header_OwningCourtName.isEnabled());
+            assertTrue(Header_OwningCourtLOVButton.isEnabled());
+
+        }
+
+        //checking if the owning court fields are disabled by default
+        function test_Header_OwningCourt_not_enabled()
+        {
+            var services = mock(MockServices);
+            services.stubs().getValue(ANYTHING).will(returnValue(''));
+            services.stubs().countNodes(ANYTHING).will(returnValue(0));
+
+            Services = services.proxy();
+
+            assertTrue(Header_OwningCourtCode.isEnabled());
+            assertTrue(Header_OwningCourtName.isEnabled());
+            assertTrue(Header_OwningCourtLOVButton.isEnabled());
+
+        }
+
+
+    </script>
+</head>
+<body>
+This is a Test Page for test_Header_CaseNumber_validate()
+</body>
+</html>

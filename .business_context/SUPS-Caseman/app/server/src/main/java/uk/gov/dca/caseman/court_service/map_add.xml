@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: Court
+	Method:  addCourt
+	File:    map_add.xml
+	Author:  Chris Vincent (EDS)
+	Created: 24 November 2005
+	Description: Adds a new Court
+	Change History
+	09-Feb-2010 - Chris Vincent, Trac 2629, included the Welsh Court Name fields in the map
+	05/09/2012 - Chris Vincent: Added DR Telephone, DR Opening Hours and By Appointment Flag.  Trac 4718
+-->
+<DBMapDef>
+  <DataSource id="java:OracleDS"/>
+  <Tables>
+    <Table alias="CT" name="COURTS"/>
+    <Table alias="P" name="PERSONALISE"/>
+  </Tables>
+  <Mapping>
+	<Court>
+		<Code>${CT.CODE}</Code>
+		<Name>${CT.NAME}</Name>
+		<WelshHighCourtName>${CT.WELSH_HIGH_COURT_NAME}</WelshHighCourtName>
+		<WelshCountyCourtName>${CT.WELSH_COUNTY_COURT_NAME}</WelshCountyCourtName>
+		<Id>${CT.ID}</Id>
+		<DistrictRegistry>${CT.DISTRICT_REGISTRY}</DistrictRegistry>			
+		<InService>${CT.CASEMAN_INSERVICE}</InService>
+		<SUPSCourt>${CT.SUPS_CENTRALISED_FLAG}</SUPSCourt>
+		<GroupingCourtCode>${CT.WFT_GROUPING_COURT}</GroupingCourtCode>
+		<ContactDetails>
+			<DXNumber>${CT.DX_NUMBER}</DXNumber>
+			<TelephoneNumber>${CT.TEL_NO}</TelephoneNumber>
+			<FaxNumber>${CT.FAX_NO}</FaxNumber>
+			<DRTelephoneNumber>${CT.DR_TEL_NO}</DRTelephoneNumber>
+		</ContactDetails>
+		<OpenFrom>${P.OPEN_FROM}</OpenFrom>
+		<OpenTo>${P.CLOSED_AT}</OpenTo>
+		<AccountType>${P.ACCOUNT_TYPE}</AccountType>
+		<AccountingCode>${P.ACCOUNTING_CODE}</AccountingCode>
+		<BailiffOpenFrom>${P.BAILIFF_OPENING}</BailiffOpenFrom>
+		<BailiffOpenTo>${P.BAILIFF_CLOSING}</BailiffOpenTo>
+		<BailiffTelephoneNumber>${P.BAILIFF_TELEPHONE}</BailiffTelephoneNumber>
+		<BailiffFaxNumber>${P.BAILIFF_FAX}</BailiffFaxNumber>
+		<DROpenFrom>${P.DR_OPEN_FROM}</DROpenFrom>
+		<DROpenTo>${P.DR_CLOSED_AT}</DROpenTo>
+		<ByAppointment>${P.BY_APPOINTMENT_IND}</ByAppointment>
+	</Court>
+  </Mapping>
+</DBMapDef>

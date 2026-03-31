@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: Payments
+	Method: updatePassthroughDebt()
+	File: update_passthrough_debt.xml
+	Author: Tony White
+	Description:
+		Updates the Status of a CO debt.
+-->
+<service-method>	
+	<pipeline>		
+		<SQLLite format-output="true"
+				 resultset-element="ds"
+				 row-element="Debt"
+				 field-name-as="element" >
+			<DataSource id="java:OracleDS"/>
+			<Param name="param.debtSeq" xpath="/params/param[@name = 'debtSeq']"/>
+			<Param name="param.debtStatus" xpath="/params/param[@name = 'debtStatus']"/>
+			<SQL type="update" tables="AD">
+				UPDATE ALLOWED_DEBTS AD
+				SET AD.DEBT_STATUS = ${param.debtStatus}
+				WHERE AD.DEBT_SEQ = ${param.debtSeq}				
+			</SQL>
+		</SQLLite>
+	</pipeline>
+	<Dependencies>
+		<Dependency serviceName="WarrantReturns" />
+		<Dependency serviceName="Bms" />
+		<Dependency serviceName="Warrant" />
+	</Dependencies>
+	<Security roles="medium high wcSuper scSuper bmsSuper aeSuper dmSuper" />
+</service-method>

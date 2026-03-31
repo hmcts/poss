@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project-config>
+	<lookup-items>
+		<item id="java:AuthorisationDS" class="uk.gov.dca.db.impl.JNDIConfigurationItem">java:SupsDS</item>
+		<!-- *** uncomment the following and update values appropriately in order to test outside web service *** -->
+		<!--<item id="java:AuthorisationDS" class="uk.gov.dca.db.impl.JDBCConfigurationItem">
+			<driver>oracle.jdbc.driver.OracleDriver</driver>
+			<url>jdbc:oracle:thin:@oracle:1521:sups</url>
+			<user>test</user>
+			<pass>test</pass>
+		</item>-->
+		<!-- *** update the following value to specify the database schema to validate against *** -->
+		<item id="validation:schema" class="uk.gov.dca.db.impl.StringConfigurationItem">TEST</item>
+		<!-- *** Comment out the following line or change the value to 'active' to activate security *** -->
+		<item id="security:status" class="uk.gov.dca.db.impl.StringConfigurationItem">inactive</item>
+	</lookup-items>
+</project-config>

@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>212</Id>
+	<Label>Issue details</Label>
+	<ObjectName>IssueDetails</ObjectName>
+	<Html>	
+		<input type="text" id="IssueDetails"></input>
+	</Html>
+	<Javascript>
+		<XPath>/ds/EnterVariableData/FastTrack/issueDetails</XPath>
+		<HintText>Enter details of the issue</HintText>
+		<isMandatory>return true;</isMandatory>
+		<!--enableOn>ExpertRefused.dataBinding,IsSingleExpert.dataBinding, IsInstructionNotified.dataBinding</enableOn>
+		<isEnabled>
+			var enbld = false;
+			if('Y' == Services.getValue(ExpertRefused.dataBinding))
+			{	if('Y' == Services.getValue(IsSingleExpert.dataBinding));
+				{	enbld = ('Y' == Services.getValue(IsInstructionNotified.dataBinding));
+				}
+			}
+			return enbld;
+		</isEnabled>	
+		<logicOn>ExpertRefused.dataBinding,IsSingleExpert.dataBinding, IsInstructionNotified.dataBinding</logicOn>
+		<logic>
+			if(	'Y' != Services.getValue(ExpertRefused.dataBinding)  || 
+				'Y' != Services.getValue(IsSingleExpert.dataBinding) ||
+				'Y' != Services.getValue(IsInstructionNotified.dataBinding))
+			{				
+				 Services.setValue(IssueDetails.dataBinding, "");				
+			}
+		</logic-->
+		<enableOn>IsInstructionNotified.dataBinding</enableOn>
+		<isEnabled>return('Y' == Services.getValue(IsInstructionNotified.dataBinding));</isEnabled>
+		<logicOn>IsInstructionNotified.dataBinding</logicOn>
+		<logic>
+			if('Y' != Services.getValue(IsInstructionNotified.dataBinding))
+			{	Services.setValue(IssueDetails.dataBinding, "");
+			}
+		</logic>
+	</Javascript>
+</Question>

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+Service: JudgmentRefdata
+	Method:  getJudgmentTypes()
+	File:    get_judgment_types.xml
+	Author:  Troy Baines
+	Created: 20 November 2004
+	Description: 
+        Retrieves the list of judgment types for the judgment window
+-->
+<service-method>
+	<pipeline>
+		<Query>
+			<QueryDef location="uk/gov/dca/caseman/judgment_refdata_service/query_def_type.xml"/>
+			<QueryExtension pivotNode="/JudgmentTypes/Type">
+				<Constraint>CRC.RV_DOMAIN = 'JUDGMENT_TYPE'</Constraint>
+			</QueryExtension>
+		</Query>
+	</pipeline>
+	<Security roles="viewOnly medium high wcSuper scSuper bmsSuper aeSuper dmSuper cpSuper ccbcMan ccbcUser ccbcSGB2"/>
+</service-method>

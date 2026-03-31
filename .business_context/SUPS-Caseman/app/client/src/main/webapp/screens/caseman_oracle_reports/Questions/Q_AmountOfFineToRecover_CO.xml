@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--Question xmlns="http://eds.com/questionxhtml" xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd"-->
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>Q_AmountOfFineToRecover_CO</Id>
+	<Label>Amount of fine to recover</Label>
+	<ObjectName>AmountOfFineToRecover_CO</ObjectName>
+	<Html>
+		<input id="DefaultCurrency" type="text" size="1"></input>
+		<input id="AmountOfFineToRecover_CO" type="text" size="5"></input>
+	</Html>
+	<Javascript>
+		<XPath>/ds/var/page/OracleReportForm/AmountOfFineToRecover_CO</XPath>
+		<ReportVariableName>REPORT_VALUE_1</ReportVariableName>
+		<ReportVariableValue>Services.getValue(AmountOfFineToRecover_CO.dataBinding)</ReportVariableValue>
+		<ReportVariableCode>1405</ReportVariableCode>
+		<HintText>Enter the amount of fine to be recovered</HintText>
+		<mandatoryOn></mandatoryOn>
+		<isMandatory>return true;</isMandatory>
+		<setDefault></setDefault>
+		<validateOn></validateOn>
+		<validate>
+			var value = Services.getValue(this.dataBinding);
+			if (!CaseManUtils.isBlank(value)) {
+				if (!CaseManValidationHelper.validateFloatNumber(value))
+				{
+					return ErrorCode.getErrorCode("CaseMan_Reports_Enter_Number");
+				}
+				//return CaseManValidationHelper.validatePattern(value, CaseManValidationHelper.NUMERIC_PATTERN, "CaseMan_Reports_Enter_Number");
+			}
+			else 
+			{
+				return null;
+			}
+		</validate>
+		<readOnlyOn></readOnlyOn>
+		<isReadOnly></isReadOnly>
+		<maxLength></maxLength>
+		<transformToDisplay>
+			return (null != value) ? value.toUpperCase() : null;
+		</transformToDisplay>
+		<transformToModel>
+			return (null != value) ? value.toUpperCase() : null;
+		</transformToModel>
+		<initialise></initialise>
+		<logicOn></logicOn>
+		<logic></logic>
+		<miscCode></miscCode>
+		<IsQuestion></IsQuestion>
+	</Javascript>
+</Question>

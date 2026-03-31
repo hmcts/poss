@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<service-method>
+	<pipeline>
+<!-- 	standard sequence generation is in report_query_def.xml.
+		<GetSequenceNumber 
+			sequenceName="PRJSEQ" 
+			crownCourtNode="/params/param[@name='reportRequest']/Report/AdminCrownCourt"
+			pivotNode="/params/param[@name='reportRequest']/Report"
+			keyXPath="PrintJobId">
+			<DataSource id="java:OracleDS"/>
+		</GetSequenceNumber>
+-->
+		<Update>
+			<QueryDef location="uk/gov/dca/caseman/reports_service/report_query_def.xml"/>
+			<DataSource xpath="/params/param[@name='reportRequest']"/>
+		</Update>
+	</pipeline>
+	<Security roles="viewOnly medium high wcSuper scSuper bmsSuper aeSuper dmSuper edsAdmin cpSuper"/>
+	<Transaction type="RequiresNew" />
+</service-method>

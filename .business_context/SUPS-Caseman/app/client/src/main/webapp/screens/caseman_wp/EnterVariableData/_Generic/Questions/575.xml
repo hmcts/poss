@@ -1,0 +1,29 @@
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>575</Id>
+	<Label>Time at which order ceases</Label>
+	<ObjectName>OrderCeaseTime</ObjectName>
+	<Html>	
+		<input type="text" id="OrderCeaseTime" size="5" maxlength="5"></input>
+	</Html>			
+	<Javascript>
+		<XPath>/ds/EnterVariableData/Interlocutory/orderCeaseTime</XPath>
+		<componentName>##label##</componentName>
+		<isMandatory>return true;</isMandatory>
+		<HintText>Enter time at which order ceases, in 24 hour format (HH:MM e.g. 14:30)</HintText>	
+        <validateOn>OrderCeaseTime.dataBinding</validateOn>
+		<validate>	  
+	       var timeInSecs = Services.getValue(OrderCeaseTime.dataBinding);
+		   return validateTimeAt(timeInSecs);    
+		</validate>
+		<transformToDisplay>return WPU.transformTimeToDisplay(value);</transformToDisplay>
+		<transformToModel>return WPU.transformTimeToModel(value);</transformToModel>	
+		<enableOn>OrderToProduce.dataBinding</enableOn>
+		<isEnabled>return( 'N16' == Services.getValue(OrderToProduce.dataBinding));</isEnabled>
+		<logicOn>OrderToProduce.dataBinding</logicOn>
+		<logic>
+			if( 'N16' != Services.getValue(OrderToProduce.dataBinding))
+			{	Services.setValue(OrderCeaseTime.dataBinding, "");
+			}
+		</logic>				
+	</Javascript>
+</Question>

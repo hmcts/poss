@@ -1,0 +1,78 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3c.org/TR/html4/strict.dtd">
+<html>
+
+	<head>
+		<title>AddNewWFT_SubForm</title>
+		<link href="AddNewWFT_SubForm.css" type="text/css" rel="stylesheet">
+		<script type="text/javascript" src="../../../Framework.js"></script>
+    	<script type="text/javascript" src="../../../ConcatCommon.js"></script>
+		<script type="text/javascript" src="../WindowForTrialConstants.js"></script>
+		<script type="text/javascript" src="../WindowForTrialHelperFunctions.js"></script>
+		<script type="text/javascript" src="AddNewWFT_SubForm.js"></script>
+  	</head>
+
+	<body>
+	
+    	<form id="addNewWFTSubform" class="subform">
+
+			<div class="panel" style="height:227px;">
+				<table class="content">
+					<tr>
+						<td><label for='AddWindowForTrialPopup_Track'>Track</label></td>
+						<td>
+							<select id="AddWindowForTrialPopup_Track" style="margin-top: 5px;"></select>
+						</td>
+					</tr>
+					<tr>
+						<td><label for='AddWindowForTrialPopup_StartDate'>Start Date</label></td>
+						<td>
+							<script type="text/javascript">DatePickerRenderer.createInline("AddWindowForTrialPopup_StartDate", true);</script>
+						</td>
+					</tr>
+					<tr>
+						<td><label for='AddWindowForTrialPopup_EndDate'>End Date</label></td>
+						<td>
+							<script type="text/javascript">DatePickerRenderer.createInline("AddWindowForTrialPopup_EndDate", true);</script>
+						</td>
+					</tr>
+					<tr>
+						<td><label for='AddWindowForTrialPopup_Days'>Estimated Time</label></td>
+						<td>
+							Days &nbsp;<input id="AddWindowForTrialPopup_Days" type="text" size=3>&nbsp;
+							Hours &nbsp;<input id="AddWindowForTrialPopup_Hours" type="text" size=1>&nbsp;
+							Mins &nbsp;<input id="AddWindowForTrialPopup_Mins" type="text" size=2>
+						</td>
+					</tr>
+					<tr>
+						<td><label for='AddWindowForTrialPopup_CaseManagementConferenceDate'>Case Management Conference Date</label></td>
+						<td>
+							<script type="text/javascript">DatePickerRenderer.createInline("AddWindowForTrialPopup_CaseManagementConferenceDate", true);</script>
+						</td>
+					</tr>
+					<tr>
+						<td><label for='AddWindowForTrialPopup_CaseManagementConferenceFlag'>Case Management Conference</label></td>
+						<td><input id="AddWindowForTrialPopup_CaseManagementConferenceFlag" type="checkbox"></td>
+					</tr>
+					<tr>
+						<td><label for='AddWindowForTrialPopup_Notes'>Notes</label></td>
+						<td><input id="AddWindowForTrialPopup_Notes" type="text" size=50></td>
+					</tr>
+				</table>
+			</div>
+			
+			<!-- Subform action bar -->
+			<script type="text/javascript">
+				ActionBarRenderer.createInline(
+					"addNewWFT_statusbar",
+					[
+						{id: "AddWindowForTrialPopup_OkButton", label: "Ok"},	
+						{id: "AddWindowForTrialPopup_CancelButton", label: "Cancel"}
+					]
+				);
+			</script>
+
+		</form>
+    
+    </body>
+    
+</html>

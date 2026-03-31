@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--Question xmlns="http://eds.com/questionxhtml" xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd"-->
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>24</Id>
+	<Label>Is judgment forthwith</Label>
+	<ObjectName>JudgmentForthwith</ObjectName>
+	<Html>
+		<input type="checkbox" id="JudgmentForthwith"/>
+	</Html>		
+	<Context screenId="CJR049"><isVisible>false</isVisible></Context>	
+	<Context screenId="N32_2"><isVisible>false</isVisible></Context>
+	<Context screenId="N32_5"><isVisible>false</isVisible></Context>
+	<Context screenId="CJR050"><isVisible>false</isVisible></Context>
+	<Context screenId="CJR051"><isVisible>false</isVisible></Context>
+	<Context screenId="CJR052"><isVisible>false</isVisible></Context>
+	<Context screenId="CJR053"><isVisible>false</isVisible></Context>
+	<Context screenId="CJR055"><isVisible>false</isVisible></Context>
+	<Context screenId="CJR090"><isVisible>false</isVisible></Context>
+    <Context screenId="CO28"><isVisible>false</isVisible></Context>
+    <Context screenId="CO31"><isVisible>false</isVisible></Context>
+	
+	<Javascript>
+		<XPath>/ds/EnterVariableData/Judgment/forthwith</XPath>
+		<HintText>Check box if judgment is forthwith</HintText>
+		<modelValue>checked: "Y", unchecked: "N"</modelValue>
+		<logicOn>JudgmentForthwith.dataBinding</logicOn>
+		<logic>
+			var val = Services.getValue(JudgmentForthwith.dataBinding);
+			if( 'Y' == val)
+			{	Services.setValue(PaymentDate.dataBinding, "");
+				Services.setValue(InstalmentAmount.dataBinding, "");
+				Services.setValue(InstalmentPeriod.dataBinding, "");
+				Services.setValue(InstalmentDate.dataBinding, "");
+			}
+			else {
+				Services.setValue(JudgmentForthwith.dataBinding, "N");
+			}
+			
+		</logic>
+		<initialise>Services.setValue(JudgmentForthwith.dataBinding, "N");</initialise>
+		<!--isMandatory>return false;</isMandatory>
+		<mandatoryOn>JudgmentForthwith.dataBinding</mandatoryOn-->
+		<Context ScreenId="CJR043">
+			<initialise><!-- empty initialise to override default N setting, instead should come from determination judgment --></initialise>
+	    </Context>
+	</Javascript>
+</Question>

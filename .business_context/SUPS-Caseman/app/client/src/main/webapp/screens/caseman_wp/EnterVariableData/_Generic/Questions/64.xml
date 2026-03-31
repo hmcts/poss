@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>64</Id>
+	<Label>Other Document</Label>
+	<ObjectName>OtherDocument</ObjectName>
+	<Html>		
+		<textarea id="OtherDocument" cols="30" rows="3"></textarea>
+	</Html>
+	<Javascript>
+		<XPath>/ds/EnterVariableData/Service/otherDocument</XPath>
+		<HintText>Enter description of other document type served</HintText>
+		<isMandatory>
+			return true;
+		</isMandatory>
+		<mandatoryOn>DocumentServed.dataBinding</mandatoryOn>
+		<enableOn>DocumentServed.dataBinding</enableOn>
+		<isEnabled>		
+			return( 'OTH' == Services.getValue(DocumentServed.dataBinding));
+		</isEnabled>
+		<logicOn>DocumentServed.dataBinding</logicOn>
+		<logic>			
+			if('OTH' != Services.getValue(DocumentServed.dataBinding))
+			{	
+				Services.setValue(OtherDocument.dataBinding, "");
+			}
+		</logic>		
+		<transformToModel>return WPU.encodeLineBreaks( this, value );</transformToModel>
+		<transformToDisplay>return WPU.decodeLineBreaks( this, value );</transformToDisplay>
+	</Javascript>
+</Question>

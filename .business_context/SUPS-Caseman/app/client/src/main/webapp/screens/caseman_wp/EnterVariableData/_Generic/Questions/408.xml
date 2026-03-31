@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>408</Id>
+	<Label>Title of other party</Label>
+	<ObjectName>OtherPartyTitle6</ObjectName>
+	<Html>
+		<input type="text" id="OtherPartyTitle6"></input>
+	</Html>
+	
+	<Javascript>
+		<XPath>/ds/EnterVariableData/SmallTrack/otherPartyTitle6</XPath>
+		<HintText>Enter the other party's name</HintText>
+		<isMandatory>return true;</isMandatory>
+		<enableOn>WhoClarifiesCase.dataBinding</enableOn>
+		<isEnabled>return('OTH' == Services.getValue(WhoClarifiesCase.dataBinding));</isEnabled>
+		<logicOn>WhoClarifiesCase.dataBinding</logicOn>
+		<logic>
+			if('OTH' != Services.getValue(WhoClarifiesCase.dataBinding))
+			{	Services.setValue(OtherPartyTitle6.dataBinding, "");
+			}
+		</logic>
+	</Javascript>
+</Question>

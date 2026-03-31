@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: Dom
+	Method:  getDom()
+	File:    query_def_get_dom.xml
+	Author:  Phil Haferer (EDS), Ian Stainer (Valtech)
+	Created: 06 July 2005
+	Description: 
+		Retrieve determination of means details.
+	Change History:
+		Chris Vincent (03/07/2006) - Added handlers for the editable amount fields to ensure all
+		values returned are to two decimal places.
+-->
+<QueryDef>
+  <DBMapDef location="uk/gov/dca/caseman/dom_service/map_get_dom.xml"/>
+  <Query pivotNode="/ds/DeterminationOfMeans" tables="CO">
+	<Handlers>
+		<Handler name="CO.DOM_BANK_CREDIT" class="uk.gov.dca.caseman.common.java.CurrencyHandler"/>
+		<Handler name="CO.DOM_SAVINGS_AMOUNT" class="uk.gov.dca.caseman.common.java.CurrencyHandler"/>
+		<Handler name="CO.DOM_DISALLOWED_EXPENSES" class="uk.gov.dca.caseman.common.java.CurrencyHandler"/>
+		<Handler name="CO.DOM_INCOME" class="uk.gov.dca.caseman.common.java.CurrencyHandler"/>
+		<Handler name="CO.DOM_TOTAL_EXPENSES" class="uk.gov.dca.caseman.common.java.CurrencyHandler"/>
+		<Handler name="CO.DOM_OFFER" class="uk.gov.dca.caseman.common.java.CurrencyHandler"/>
+		<Handler name="CO.DOM_DISPOSABLE_INCOME" class="uk.gov.dca.caseman.common.java.CurrencyHandler"/>
+		<Handler name="CO.INSTAL_AMOUNT" class="uk.gov.dca.caseman.common.java.CurrencyHandler"/>
+	</Handlers>
+  	<Alias name="EXISTING_VALUE" select="'EXISTING'"/>
+    <Modify/>
+  </Query>
+</QueryDef>

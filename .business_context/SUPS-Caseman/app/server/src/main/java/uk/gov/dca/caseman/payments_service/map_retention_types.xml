@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: Payments
+	Method: getRetentionTypes()
+	File: map_retention_types.xml
+	Author: Steve Blair
+-->
+<DBMapDef>
+	<DataSource id="java:OracleDS" />
+	<Tables>
+		<Table alias="CRC" name="CCBC_REF_CODES" />
+	</Tables>
+	<Mapping>
+		<RetentionTypes>
+			<RetentionType>
+				<Display>${CRC.RV_MEANING}</Display>
+				<Code>${CRC.RV_LOW_VALUE}</Code>
+			</RetentionType>
+		</RetentionTypes>
+	</Mapping>
+</DBMapDef>

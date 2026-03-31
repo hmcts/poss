@@ -1,0 +1,39 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: Codedparty
+	Method:  addNatCodedParty()
+	File:    addNatCodedParty.xml
+	Author:  Phil Haferer
+	Created: 30 November 2005
+	Description: 
+		Persists a National Coded Party.
+		This consists the party itself, stored in CODED_PARTIES, PARTIES and GIVEN_ADDRESSES.
+		For CCBC National Coded Parties it also includes Payee name, address and bank details.
+		These are stored in PARTIES, GIVEN_ADDRESSES and PAYEES.
+		The Payee name and address rows are linked to the CCBC National Coded Party itself
+		using PARTY_TO_PARTY_RELATIONSHIP.
+		
+		National Coded Parties come in two flavours :-
+		- CCBC National Coded Parties, which a Court Code of 335, and a Code in the range 1500-1999.
+		- Non CPC National Coded Parties, which a Court Code of 0, and a Code in the range 7000-9999.
+
+	Change History:
+	04-Apr-2006 Phil Haferer: TD 3217: "Problems with National Coded Parties created without a Payee"
+	            Removed <Transform> that introduced extra pivot nodes as no longer needed - as the order
+	            of table inserts can controlled by the order of the table alias named in the pivot node.
+-->
+<service-method>
+	<pipeline>
+		<Add>
+  			<QueryDef location="uk/gov/dca/caseman/codedparty_service/query_def_update_nat_coded_party.xml"/>
+			<DataSource xpath="/params/param[@name='natCodedParty']"/>
+			<QueryExtension pivotNode="/CodedParty">
+				<CheckExists table="NP" fields="PARTY_ID" onNotExist="add" onExist="fail"/>
+			</QueryExtension>
+		</Add>
+		<Transform>
+			<Template location="uk/gov/dca/caseman/codedparty_service/transforms/clear.xsl"/>
+		</Transform>		
+  	</pipeline>
+	<Security roles="ccbcMan"/>
+</service-method>

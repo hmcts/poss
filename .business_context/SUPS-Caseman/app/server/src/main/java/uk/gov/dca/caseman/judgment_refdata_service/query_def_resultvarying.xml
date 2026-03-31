@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<QueryDef>
+<DBMapDef location="uk/gov/dca/caseman/judgment_refdata_service/map_resultvarying.xml"/>
+  <Query pivotNode="/JudgmentResultsVary/Result" tables="CRC">
+    <Join>
+    	CRC.RV_DOMAIN = 'RESULT_VARYING'
+   </Join>
+   <OrderBy>CRC.RV_LOW_VALUE</OrderBy>
+   <Modify notModifiable="true"/>	
+  </Query>
+</QueryDef>

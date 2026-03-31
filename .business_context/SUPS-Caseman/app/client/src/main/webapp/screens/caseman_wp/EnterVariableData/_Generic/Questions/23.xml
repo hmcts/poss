@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--Question xmlns="http://eds.com/questionxhtml" xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd"-->
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>23</Id>
+	<Label>Corrected defendant name</Label>
+	<ObjectName>NewDefendantName</ObjectName>
+	<Html>
+		<input type="text" id="NewDefendantName"/>
+	</Html>
+	<Javascript>
+		<XPath>/ds/EnterVariableData/Defendant/newdefendantname</XPath>
+		<HintText>Enter the corrected name for the defendant</HintText>
+		<mandatoryOn>DefNameCorrected.dataBinding</mandatoryOn>
+		<isMandatory>
+		  return('Y' == Services.getValue(DefNameCorrected.dataBinding));
+		</isMandatory>
+		<enableOn>DefNameCorrected.dataBinding</enableOn>
+		<isEnabled>
+		  return ('Y' == Services.getValue(DefNameCorrected.dataBinding));
+		</isEnabled>
+		<logicOn>DefNameCorrected.dataBinding</logicOn>
+		<logic>
+			if('Y' != Services.getValue(DefNameCorrected.dataBinding))
+			{	Services.setValue(NewDefendantName.dataBinding, "");
+			}
+		</logic>
+		<transformToModel>
+			return (null != value) ? value.toUpperCase() : null;		
+		</transformToModel>		
+		<transformToDisplay>
+			return (null != value) ? value.toUpperCase() : null;
+		</transformToDisplay>
+	</Javascript>
+</Question>

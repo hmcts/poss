@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>414</Id>
+	<Label>'Unless Order' on Clarification?</Label>
+	<ObjectName>UOClarification</ObjectName>
+	<Html>
+		<input type="checkbox" id="UOClarification"></input>
+	</Html>
+	
+	<Javascript>
+		<XPath>/ds/EnterVariableData/SmallTrack/uOClarification</XPath>
+		<HintText>Check box if 'Unless Order' is attached to this part of the directions</HintText>
+		<modelValue>checked: "Y", unchecked: "N"</modelValue>
+		<enableOn>IsPartyToClarify.dataBinding</enableOn>
+		<isEnabled>return('Y' == Services.getValue(IsPartyToClarify.dataBinding));</isEnabled>
+		<logicOn>IsPartyToClarify.dataBinding</logicOn>
+		<logic>
+			if('Y' != Services.getValue(IsPartyToClarify.dataBinding))
+			{	Services.setValue(UOClarification.dataBinding, "N");
+			}
+		</logic>
+	</Javascript>
+</Question>

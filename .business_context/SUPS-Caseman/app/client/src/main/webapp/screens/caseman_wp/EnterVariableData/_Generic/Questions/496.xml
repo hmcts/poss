@@ -1,0 +1,22 @@
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>496</Id>
+	<Label>Branch address 1</Label>
+	<ObjectName>BranchAdd1</ObjectName>
+	<Html>	
+		<input type="text" id="BranchAdd1" size="50"></input>
+	</Html>			
+	<Javascript>
+		<XPath>/ds/EnterVariableData/ThirdPartyDebt/Branch/Address/Line[1]</XPath>
+		<componentName>##label##</componentName>
+		<isMandatory>return true;</isMandatory>
+		<HintText>First line of branch address</HintText>	
+		<enableOn>IsBankOrBuildSoc.dataBinding</enableOn>
+		<isEnabled>return('Y' == Services.getValue(IsBankOrBuildSoc.dataBinding));</isEnabled>
+		<logicOn>IsBankOrBuildSoc.dataBinding</logicOn>
+		<logic>
+			if('Y' != Services.getValue(IsBankOrBuildSoc.dataBinding))
+			{	Services.setValue(BranchAdd1.dataBinding);
+			}
+		</logic>		
+	</Javascript>
+</Question>

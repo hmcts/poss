@@ -1,0 +1,258 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3c.org/TR/html4/strict.dtd">
+
+<html>
+
+	<head>
+		<title>CreateUpdateHearing</title>
+		<link href="Hearing.css" type="text/css" rel="stylesheet">
+		<script type="text/javascript" src="../../Framework.js"></script>
+		<script type="text/javascript" src="../../ConcatCommon.js"></script>
+		<script type="text/javascript" src="HearingConstants.js"></script>
+		<script type="text/javascript" src="HearingHelperFunctions.js"></script>
+		<script type="text/javascript" src="HearingCommon.js"></script>
+		<script type="text/javascript" src="CreateUpdateHearing.js"></script>
+		<script type="text/javascript" src="Hearing_AuditCode.js"></script>
+		<script type="text/javascript" src="Hearing_MenuBarCode.js"></script>
+	</head>
+
+	<body>
+		<form name="CreateUpdateHearing" id="CreateUpdateHearing">
+		 
+			<!-- Framework Navigation Menu -->
+			<script type="text/javascript">MenuBarRenderer.createInline();</script>
+			
+			<table class="layout">
+						
+				<!-- Header Panel -->
+				<tr>
+					<td>
+						<div class="panel">
+							<table class="content">
+								<tr>
+									<td>
+										<table>
+											<tr>
+												<td class="defaultLabel"><label for='Header_CaseNumber'>Case Number</label></td>
+												<td><input id="Header_CaseNumber" type="text" size=15></td>
+												
+												<td class="defaultLabel"><label for='Header_OwningCourtCode'>Owning Court</label></td>
+												<td>
+													<input id="Header_OwningCourtCode" type="text" size=5>
+													<input id="Header_OwningCourtName" type="text" size=25>
+												</td>
+											</tr>
+											<tr>
+												<td colspan=2>
+													<!-- Party Grid Read only -->
+													<script type="text/javascript">Grid.createInline("Header_PartyTypeListGrid", ["Party Type", "Number", "Name"], 3, 1);</script>
+												</td>
+												<td colspan=2>&nbsp;</td>
+											</tr>
+										</table>
+									</td>
+								</tr>
+							</table>
+						</div>
+					</td>
+				</tr>
+				<!-- End Header Panel -->
+				<tr>
+					<td>
+						<div class="panel">
+							<table class="content" style="height:450px;">
+								<tr>			    		 
+									<td>
+										<table style="height:445px;">
+											<tr>
+												<td valign="top">
+													<!-- Hearing Grid -->
+													<script type="text/javascript">
+														Grid.createInline(
+															"Master_HearingsListGrid",		// The HTML id of the grid
+															["Type", "Date", "Venue"], // An array of strings containing the column headers
+															23,			// The number of rows in the grid
+															1	// The number of rows which are grouped together in coloured stripe.
+														); 
+													</script>									
+												</td>
+											</tr>			    					
+											<tr>
+												<td valign="bottom" align="right">			    						
+													<table>											
+														<tr>
+															<td>&nbsp;<input id="Master_AddHearingButton" type="Button" value="Add Hearing"></td>									
+														</tr>												
+													</table>											
+												</td>
+											</tr>									
+										</table>							
+									</td>
+															
+									<td class="spacer">&nbsp;</td>
+									
+									<!-- Hearing Details Panel -->
+									<td valign="top">			    		
+										<table>				
+											
+											<tr>
+		
+												<td valign="top" colspan=3>						    			
+													<!-- Hearing Detail Panel -->
+		
+													<table>
+														<tr>
+															<td valign="top">
+																<table>
+																	<tr>
+																		<td><label for='HearingDetails_DateOfRequestToList'>Date of Request to List</label></td>
+																		<td colspan=3>
+																			<script type="text/javascript">
+																				DatePickerRenderer.createInline("HearingDetails_DateOfRequestToList", true);
+																			</script>
+																		</td>			        												
+																	</tr>
+																	<tr>
+																		<td><label for='HearingDetails_HearingType_Code'>Hearing Type</label></td>
+																		<td colspan=3>
+																			<input id="HearingDetails_HearingType_Code" type="text" size=5>
+																			<input id="HearingDetails_HearingType_Name" type="text" size=40>
+																		</td>
+																	</tr>
+																	<tr>
+																		<td><label for='HearingDetails_HearingOnDate'>On</label></td>
+																		<td colspan=3>
+																			<table>
+																				<tr>
+																					<td>
+																						<script type="text/javascript">
+																							DatePickerRenderer.createInline("HearingDetails_HearingOnDate", false);
+																						</script>
+																					</td>
+																					<td>
+																						<input id="HearingDetails_HearingOnDay" type="text" size=12>
+																					</td>
+																					<td>
+																						<label for='HearingDetails_HearingOnTime'>at</label>
+																					</td>
+																					<td>
+																						<input id="HearingDetails_HearingOnTime" type="text" size=3>
+																					</td>
+																					<td>
+																				</tr>
+																			</table>
+																		</td>		        												
+																	</tr>														
+																	<tr>
+																		<td><label for='HearingDetails_HearingTimeAllowedHours'>Time Allowed</label></td>
+																		<td colspan=3>
+																			<input id="HearingDetails_HearingTimeAllowedHours" type="text" size=1>
+																			Hours
+																			<input id="HearingDetails_HearingTimeAllowedMins" type="text" size=1>
+																			Minutes
+																		</td>
+																	</tr>
+																	<tr>
+																		<td><label for='HearingDetails_VenueCode'>Venue</label></td>
+																		<td colspan=3>
+																			<input id="HearingDetails_VenueCode" type="text" size=5>
+																			<input id="HearingDetails_VenueName" type="text" size=40>
+																		</td>
+																	</tr>
+																	<tr>
+																		<td><label for='HearingDetails_ContactDetails_Address_Line1'>Address</label></td>
+																		<td colspan=3><input id="HearingDetails_ContactDetails_Address_Line1" type="text" size=50></td>
+																	</tr>
+																	<tr>
+																		<td>&nbsp;</td>
+																		<td colspan=3><input id="HearingDetails_ContactDetails_Address_Line2" type="text" size=50></td>
+																	</tr>
+																	<tr>
+																		<td>&nbsp;</td>
+																		<td colspan=3><input id="HearingDetails_ContactDetails_Address_Line3" type="text" size=50></td>
+																	</tr>
+																	<tr>
+																		<td>&nbsp;</td>
+																		<td colspan=3><input id="HearingDetails_ContactDetails_Address_Line4" type="text" size=50></td>
+																	</tr>
+																	<tr>
+																		<td>&nbsp;</td>
+																		<td colspan=3><input id="HearingDetails_ContactDetails_Address_Line5" type="text" size=50></td>
+																	</tr>
+																	<tr>
+																		<td><label for='HearingDetails_ContactDetails_Address_Postcode'>Postcode</label></td>
+																		<td colspan=3><input id="HearingDetails_ContactDetails_Address_Postcode" type="text" size=8></td>
+																	</tr>
+																	<tr>
+																		<td><label for='HearingDetails_ContactDetails_Address_DXNumber'>DX Number</label></td>
+																		<td colspan=3><input id="HearingDetails_ContactDetails_Address_DXNumber" type="text" size=24></td>
+																	</tr>
+																	<tr>
+																		<td><label for='HearingDetails_ContactDetails_TelephoneNumber'>Telephone Number</label></td>
+																		<td colspan=3><input id="HearingDetails_ContactDetails_TelephoneNumber" type="text" size=24></td>
+																	</tr>
+																	<tr>
+																		<td><label for='HearingDetails_ContactDetails_FaxNumber'>FAX Number</label></td>
+																		<td colspan=3><input id="HearingDetails_ContactDetails_FaxNumber" type="text" size=24></td>
+																	</tr>
+																	<tr>
+																		<td><label for='HearingDetails_HearingOutcomeCode'>Hearing Outcome</label></td>
+																		<td>
+																			<input id="HearingDetails_HearingOutcomeCode" type="text" size=5>
+																		</td>
+																		<td>
+																			<script type="text/javascript">
+																				AutoCompletionRenderer.createInline("HearingDetails_HearingOutcome");
+																			</script>
+																		</td>
+																		<td>&nbsp;<input id="HearingDetails_HearingOutcome_LOVBtn" type="Button" size="8" value="LOV"></td>
+																	</tr>
+																</table>			        									
+															</td>
+														</tr>
+													</table>
+												</td>
+											</tr>
+										</table>
+									</td>
+									<!-- End Hearing Details Panel -->
+								</tr>
+							</table>
+						</div>
+					</td>    		
+				</tr>
+			</table>
+		
+			<!-- Status Bar Panel -->
+			<script type="text/javascript">
+				ActionBarRenderer.createInline(
+					"status_bar",
+					[
+						{id: "Status_Save", label: "Save"},
+						{id: "Status_Close", label: "Close"}
+					]
+				);
+			</script>
+			<!-- End Status Bar Panel -->
+
+			<!-- Hearing Outcome LOV Popup -->
+			<script type="text/javascript">
+				LOVSubformRenderer.createInline( "selectHearingOutcomeLOV", "Select Hearing Outcome", [ "Code", "Description"], 10, 1, true );
+			</script>
+			
+			<!-- Logics -->
+			<div class="logic" id="loadData"></div>
+			<div class="logic" id="updateDetailsLogic"></div>
+				 
+			<!-- AUDIT PANELS -->
+			<div class="auditPanel" id="currentlySelectedHearingPanel"></div>
+	
+			<!-- AUDIT SELECTOR ADAPTOR -->
+			<script type="text/javascript">AuditSelectorRenderer.createInline( "Audit_PanelSelector" );</script>
+			
+			<!-- SUBFORMS -->
+			<div class="popup popupsubform" id="audit_subform"></div>
+			<div class="popup popupsubform" id="addHearing_subform"></div>
+				 
+		</form>
+	</body>
+</html>

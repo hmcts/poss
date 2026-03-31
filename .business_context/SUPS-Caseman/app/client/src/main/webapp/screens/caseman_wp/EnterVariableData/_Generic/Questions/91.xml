@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>91</Id>
+	<Label>Date of payment/first instalment</Label>
+	<ObjectName>DateOfPayment</ObjectName>
+	<Html>
+	  <script type="text/javascript">WP_DatePickerRenderer.createInline("DateOfPayment", false);</script>
+	</Html>
+	<Context screenId="N32_2"><isVisible>false</isVisible></Context>
+	<Context screenId="O_5_5">
+		<isVisible>true</isVisible>
+		<Label>Date of payment</Label>
+	</Context>	
+	<Javascript>
+		<XPath>/ds/EnterVariableData/Order/dateofpayment</XPath>
+		<isMandatory>return true;</isMandatory>	
+		<mandatoryOn>DateOfPayment.dataBinding</mandatoryOn>
+		<HintText>Select or enter the date the payment is due</HintText>
+		<validateOn>DateOfPayment.dataBinding, OrderDateMade.dataBinding</validateOn>
+		<validate> 
+		  	var order = Services.getValue(OrderDateMade.dataBinding);
+		   	var payment = Services.getValue(DateOfPayment.dataBinding);
+		   	var err = null;
+			   
+			if( -1 == compareDateStrings(order,payment) )
+			{  err = ErrorCode.getErrorCode("CaseMan_payment_installment_preceeds_order_date");			   
+		    }
+		    return err;
+		</validate>
+		
+		<Context ScreenId="O_5_5">
+			<Label>Date of payment</Label>
+			<isMandatory>return true;</isMandatory>
+			<enableOn>PayBy.dataBinding</enableOn>
+	        <isEnabled>
+	   			var v1 = Services.getValue(PayBy.dataBinding);
+	   			return(v1 == 'G');
+	      
+	        </isEnabled>  
+	        <logicOn>PayBy.dataBinding</logicOn>
+	        <logic>
+	     	   	var v1 = Services.getValue(PayBy.dataBinding);
+	   			if(v1 != 'G')
+	   			{
+	   				Services.setValue(DateOfPayment.dataBinding, "");
+	   			}
+	        </logic>
+			<validateOn></validateOn>
+			<validate></validate>
+		</Context>
+		
+		<Context ScreenId="O_1_3_4">
+			<validateOn>DateOfPayment.dataBinding</validateOn>
+			<validate>
+			var checkDate = Services.getValue(DateOfPayment.dataBinding); 
+			var err = null;
+			
+			if( false == isFutureDate(checkDate))
+			{ 	err = ErrorCode.getErrorCode("CaseMan_dateCannotBeInThePast_Msg");
+			}
+			
+			return err;
+		   </validate>
+		</Context>
+		
+	</Javascript>
+</Question>

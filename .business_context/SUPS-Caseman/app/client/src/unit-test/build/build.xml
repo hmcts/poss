@@ -1,0 +1,134 @@
+<!--
+  - Ant build script for CaseMan Integration tests.
+-->
+<project name="SUPS Client Framework Integration Test" default="compile" basedir=".">
+
+    <property name="project.root" location="../.."/>
+
+    <property environment="env"/>
+
+
+    <!-- Set this value to point to a JVM higher than 1.5
+      -  This is necessary in order to run Selenium.
+      -->
+    <property name="jvm" value="c:\Program Files\Java\jre6"/>
+
+    <echo>
+        Loading default properties from. ${user.home}/sups_antuser.properties
+        To set any property as default for your workstation place it in the file
+        ${user.home}/sups_antuser.properties
+    </echo>
+	<property file="${user.home}/sups_antuser.properties"/>
+
+    <property name="test.dir" location="${project.root}/test"/>
+    <property name="build.dir" location="${test.dir}/build"/>
+    <property name="src.dir" location="${test.dir}/java"/>
+    <property name="classes.dir" location="${test.dir}/classes"/>
+    <property name="config.dir" location="${test.dir}/config"/>
+    <property name="jar.name" value="fw-integration.jar"/>
+
+    <property environment="env" />
+    <property name="lib" value="${sups.tools}" />
+    <property name="lib.oracle.ojdbc.dir" value="${lib}/java/oracle" />
+    <property name="lib.dbunit.dir" value="${lib}/extracted/dbunit-2.3.0-prj" />
+    <property name="lib.log4j.dir" value="${lib}/extracted/jakarta-log4j-1.2.8/dist/lib" />
+    <property name="lib.slf4j.dir" value="${lib}/extracted/slf4j-1.5.6" />
+    <property name="lib.junit.dir" value="${lib}/extracted/junit3.8.1" />
+    <property name="lib.selenium.rc.dir" value="${lib}/extracted/selenium-remote-control-1.0-beta-1/selenium-server-1.0-beta-1" />
+    <property name="lib.selenium.client.dir" value="${lib}/extracted/selenium-remote-control-1.0-beta-1/selenium-java-client-driver-1.0-beta-1" />
+
+    <path id="project.classpath">
+        <pathelement location="${classes.dir}"/>
+        <fileset dir="..\lib">
+            <include name="**/sups-test-common-*.jar"/>
+        </fileset>
+        <fileset dir="${lib.oracle.ojdbc.dir}">
+            <include name="ojdbc14.jar" />
+        </fileset>
+        <fileset dir="${lib.dbunit.dir}">
+            <include name="dbunit-2.3.0.jar" />
+        </fileset>
+        <fileset dir="${lib.log4j.dir}">
+            <include name="log4j-1.2.8.jar" />
+        </fileset>
+        <fileset dir="${lib.slf4j.dir}">
+            <include name="slf4j-api-1.5.6.jar" />
+            <include name="slf4j-jdk14-1.5.6.jar" />
+            <include name="slf4j-simple-1.5.6.jar" />
+        </fileset>
+        <fileset dir="${lib.junit.dir}">
+            <include name="junit.jar" />
+        </fileset>
+        <fileset dir="${lib.selenium.rc.dir}">
+            <include name="selenium-server.jar" />
+        </fileset>
+        <fileset dir="${lib.selenium.client.dir}">
+            <include name="selenium-java-client-driver.jar" />
+        </fileset>
+    </path>
+
+    <target name="compile" depends="clean, copy-resources, configure-property-files">
+        <javac destdir="${classes.dir}" source="1.4" target="1.4">
+            <src path="${src.dir}"/>
+            <classpath refid="project.classpath"/>
+        </javac>
+    </target>
+
+    <target name="clean">
+        <delete dir="${classes.dir}"/>
+        <mkdir dir="${classes.dir}"/>
+    </target>
+
+    <target name="copy-resources">
+        <copy todir="${classes.dir}">
+            <fileset dir="${src.dir}">
+                <exclude name="**/*.java"/>
+            </fileset>
+        </copy>
+    </target>
+
+    <target name="runtests" depends="compile">
+        <echo message="Running JUnit tests"/>
+        <echo message="** Ensure that SeleniumServer and OAS is running **"/>
+        <junit printsummary="yes" haltonfailure="no" showoutput="yes" dir="${project.root}">
+            <classpath refid="project.classpath"/>
+            <classpath path="${config.dir}"/>
+
+            <formatter type="plain" usefile="true"/>
+            <batchtest fork="yes" todir="${build.dir}">
+                <fileset dir="${classes.dir}">
+                    <include name="**/*Test*"/>
+                </fileset>
+            </batchtest>
+        </junit>
+    </target>
+
+    <!-- Configure all files -->
+    <target name="configure-property-files"
+            description="configures both property files for both test and production code.">
+        <!-- Templatise data -->
+        <echo level="info" message="Templatising production configuration files"/>
+        <copy todir="${config.dir}" overwrite="true">
+            <fileset dir="${config.dir}">
+                <include name="*.template"/>
+            </fileset>
+            <filterchain>
+                <filterreader classname="org.apache.tools.ant.filters.ExpandProperties"/>
+            </filterchain>
+            <mapper type="glob" from="*.template" to="*"/>
+        </copy>
+    </target>
+
+    <target name="start-selenium">
+        <echo message="starting Selenium with JVM at ${jvm}" />
+        <java jar="${lib.selenium.rc.dir}/selenium-server.jar"
+            jvm="${jvm}/bin/java"
+           fork="true"
+           failonerror="true"
+           maxmemory="128m">
+         <arg value="-multiWindow"/>
+         <classpath refid="project.classpath"/>
+       </java>
+    </target>
+
+</project>

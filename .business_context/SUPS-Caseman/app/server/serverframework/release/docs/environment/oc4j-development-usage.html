@@ -1,0 +1,381 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html>
+	<head>
+		<title>Configuring OC4J to develop applications using the SUPS Server and Client Frameworks</title>
+	</head>
+<body>
+<P>
+<strong>Installing OC4J (oc4j-9.0.4.zip)</strong>
+<BR>
+Unzip ServerFramework\release\oc4j-9.0.4.zip into &lt;OC4J_HOME&gt; this will result in the directory structure
+<strong>Note:</strong> This oc4j is fully self contrained and has java extensions from j2sdk 1.4.1_07 in the <OC4J_HOME>/java-ext directory
+<BR>
+<BR>
+The main directories after installation are &lt;OC4J_HOME&gt;, &lt;OC4J_HOME&gt;\j2ee\home\conf
+<BR>
+and &lt;OC4J_HOME&gt;\j2ee\home
+</P>
+<P>
+edit &lt;OC4J_HOME&gt;\j2ee\home\application.xml and add the line
+<BR>
+&lt;library path="C:/j2sdk1.4.2_07/lib/tools.jar"/&gt;
+<BR>
+after the other lines &lt;library path="...."/&gt;
+</P>
+<p>
+<a href="http://localhost:7070/examples/jsp/dates/date.jsp">http://localhost:7070/examples/jsp/dates/date.jsp</a>
+(this will test your tools.jar setting above)
+<br>
+or go to
+<a href="http://localhost:7070" title="OracleOC4JAdmin" target="_blank">
+http://localhost:7070
+</a>
+click JSP, click execute on one of the Execute links
+<br>
+<ul><li><strong>Now add the Admin console (/adminoc4j)</strong></li>
+<li>ctrl-c to shut down oc4j
+<li>edit &lt;OC4J_HOME&gt;\j2ee\home\config\application.xml
+<li>add the following entry
+<li>
+ <!--StartFragment -->
+<span style="FONT-FAMILY: arial">
+ &nbsp;&nbsp;&nbsp;&nbsp;&lt;web-module id="admin_web" path="../../home/applications/admin_web.war"/&gt;
+</span>
+<li>			
+<span style="FONT-FAMILY: arial">
+ &nbsp;&nbsp;&nbsp;&nbsp;&lt;ejb-module id="admin_ejb" path="../../home/applications/admin_ejb.jar"/&gt;
+</span>
+<br>
+<br>
+ edit &lt;OC4J_HOME&gt;\j2ee\home\config\http-web-site.xml and make sure the following&nbsp;entry exists
+<br>
+ &nbsp;&nbsp;&nbsp; &lt;web-app application="default" name="admin_web" root="/adminoc4j"/&gt;
+<br>
+<br>
+ The files in these directories which all SUPS Framework based projects will use are;
+<br>
+ &lt;OC4J_HOME&gt;\j2ee\home\config
+<br>
+ &lt;OC4J_HOME&gt;\j2ee\home\applications ( drop your
+<strong>
+ war
+</strong>
+ and
+<strong>
+ ear
+</strong>
+ files here)
+<br>
+ &lt;OC4J_HOME&gt;\j2ee\home\config\application.xml
+<br>
+ &lt;OC4J_HOME&gt;\j2ee\home\config\http-web-site.xml
+<br>
+ &lt;OC4J_HOME&gt;\j2ee\home\config\datasources.xml
+</p>
+
+		<p>
+<strong>
+ Add a datasource for your project
+<br>
+</strong>
+ edit &lt;OC4J_HOME&gt;\j2ee\home\config\datasources.xml
+<br>
+ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;data-source
+<br>
+ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; class="oracle.jdbc.pool.OracleDataSource"
+<br>
+ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; name="SupsDS"
+<br>
+ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; location="java:SupsDS"
+<br>
+ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; xa-location="java:SupsXADS"
+<br>
+ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ejb-location="java:SupsDS"
+<br>
+ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; connection-driver="oracle.jdbc.driver.OracleDriver"
+<br>
+ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; username="test"
+<br>
+ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; password="test"
+<br>
+ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; url="jdbc:oracle:thin:@oracle:1521:sups"
+<br>
+ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; inactivity-timeout="30"
+<br>
+ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; /&gt;
+<br>
+ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+<br>
+ &nbsp;&lt;data-source
+<br>
+ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; class="oracle.jdbc.pool.OracleDataSource"
+<br>
+ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; name="CrestDS"
+<br>
+ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; location="java:CrestDS"
+<br>
+ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; xa-location="java:CrestXADS"
+<br>
+ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ejb-location="java:CrestDS"
+<br>
+ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; connection-driver="oracle.jdbc.driver.OracleDriver"
+<br>
+ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; username="fwk_dev01"
+<br>
+ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; password="fwk_dev01"
+<br>
+ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; url="jdbc:oracle:thin:@168.185.39.19:1521:crestft"
+<br>
+ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; inactivity-timeout="30"
+<br>
+ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; /&gt;&nbsp;
+<br>
+<br>
+ &nbsp;&lt;data-source
+<br>
+ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; class="oracle.jdbc.pool.OracleDataSource"
+<br>
+ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; name="CasemanDS"
+<br>
+ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; location="java:CasemanDS"
+<br>
+ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; xa-location="java:CasemanXADS"
+<br>
+ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ejb-location="java:CasemanDS"
+<br>
+ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; connection-driver="oracle.jdbc.driver.OracleDriver"
+<br>
+ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; username="fwk_dev01"
+<br>
+ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; password="fwk_dev01"
+<br>
+ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; url="jdbc:oracle:thin:@168.185.39.19:1521:casemdev"
+<br>
+ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; inactivity-timeout="30"
+<br>
+ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; /&gt;
+<br>
+<br>
+<strong>
+ Drop Xalan libraries for using in starting OC4J
+</strong>
+ (this is for the support exception from Oracle for AOS)
+<br>
+ copy serverframework/release/lib/xalan to &lt;OC4J_HOME&gt;\xalan the xalan.jar found in this directory should not contain the package org.apache.bcel or the package org.apache.xsltc
+</p>
+
+		<p>
+<strong>
+ Drop the JDOM libraries into
+<br>
+</strong>
+<OC4J_HOME>
+ \j2ee\home\applib
+<br>
+ jaxen-core.jar
+<br>
+ jaxen-jdom.jar
+<br>
+ jdom.jar
+<br>
+<br>
+ Starting oc4j using the above xalan libraries
+<br>
+ C:\oc4j-9.0.4\j2ee\home&gt;
+<br>
+ # rem make sure that you jdk is at the start of your path
+<br>
+<br>
+<strong>
+ Create&nbsp;OC4J start script
+<br>
+</strong>
+ set OC4J_OPTS="-server -Xmx256M -Xms128M"
+<br>
+ start %JAVA_HOME%\bin\javaw&nbsp;%OC4J_OPTS% -Xbootclasspath/a:c:/oc4j-9.0.4/xalan/xalan.jar;/oc4j-9.0.4/xalan/xml-apis.jar;/oc4j-9.0.4/xalan/xercesImpl.jar&nbsp; -jar oc4j.jar
+</p>
+
+		<p>
+<strong>
+ Create OC4J shutdown script
+</strong>
+</p>
+
+		<p>
+<strong>
+<br>
+</strong>
+ java -jar admin.jar ormi://localhost:23791 admin password -shutdown
+</p>
+
+		<p>
+<strong>
+ Add a JMS Queue (
+</strong>
+ if your project uses the Async.jar for Report/XSLFO)
+</p>
+
+		<p>
+ &nbsp;
+</p>
+
+		<p>
+<strong>
+ Deploying a Project into your OC4J
+<br>
+</strong>
+<strong>
+ editing the application.xml and the http-web-site.xml files
+<br>
+</strong>
+ &nbsp;
+		<span style="FONT-FAMILY: arial">
+ &lt;web-module id="admin_web" path="../../home/applications/crest.war"/&gt;
+</span>
+<br style="FONT-FAMILY: arial">
+
+		<span style="FONT-FAMILY: arial">
+ &nbsp;&lt;ejb-module id="admin_ejb" path="../../home/applications/admin_ejb.jar"/&gt;
+</span>
+<br>
+<br>
+ edit
+<OC4J_HOME>
+ \j2ee\home\config\http-web-site.xml and make sure the following&nbsp;entry exists
+<br>
+ &nbsp;&nbsp;&nbsp; &lt;web-app application="default" name="admin_web" root="/adminoc4j"/&gt;
+<br>
+ Add a JMS Queue (if your project uses the Async.jar for Report/XSLFO)
+</p>
+
+		<p>
+ &nbsp;
+</p>
+
+		<p>
+<strong>
+ OC4J command line deployment options
+</strong>
+</p>
+
+		<p>
+ java -jar ${oc4j.home}/admin.jar ${oc4j.deploy.ormi} ${oc4j.deploy.username} ${oc4j.deploy.password} -deploy -file ${dist.dir}/${dist.name} -deploymentName ${module.name}
+</p>
+
+		<p>
+<strong>
+ Deploy the EAR
+</strong>
+
+ java -jar ./admin.jar ormi://localhost:23791 admin&nbsp;password -deploy -file /path/to/the/ediary.ear -deploymentName ediary
+<BR> java -jar ./admin.jar ormi://localhost:23791 admin&nbsp;password -deploy -file /path/to/the/ediary.ear -deploymentName ediary
+</p>
+
+		<p>
+ java -jar ./admin.jar ormi://localhost:23791 admin&nbsp;password -deploy -file applications/crest.ear -deploymentName crest-server java -jar ./admin.jar ormi://localhost:23791 admin&nbsp;password -deploy -file applications/crest.ear -deploymentName crest-server
+</p>
+
+		<p>
+<strong>
+ Binding the&nbsp;application ear which is in the ear Binding the&nbsp;application ear which is in the ear
+<br>
+</strong>
+ java -jar ./admin.jar ormi://localhost:23791 admin [thepassword] -bindWebApp ediary ediary http-web-site /ediary
+</p>
+
+		<p>
+<strong>
+ Bind the webapps in the ear
+</strong>
+
+ java -jar ./admin.jar ormi://localhost:23791 admin password -bindWebApp crest-server&nbsp;crest_web http-web-site /crest_server
+<BR>
+ bind the content servlet web application from crest-server which was injected by the Framework build
+<BR>
+ java -jar ./admin.jar ormi://localhost:23791 admin password -bindWebApp crest-server sups-content http-web-site /crest
+<BR>
+ bind the webservices servlet web application from crest-server which was injected by the Framework build
+<BR> java -jar ./admin.jar ormi://localhost:23791 admin password -bindWebApp crest-server&nbsp;crest_web http-web-site /crest_server
+<br>
+ bind the web application from crest-server which was addded to crest.ear
+<br>
+ java -jar ./admin.jar ormi://localhost:23791 admin password -bindWebApp crest-server crest http-web-site /crest
+</p>
+
+		<p>
+<strong>
+ Deploy the WAR outside of the EAR
+<br>
+</strong>
+ java -jar ./admin.jar ormi://localhost:23791 jazn.com/admin test -bindWebApp ediary-client /path/to/the/ediary.war http-web-site /ediary
+<br>
+</p>
+
+		<p>
+ java -jar ./admin.jar ormi://localhost:23791 admin&nbsp;password -deploy -file applications/crest.war -deploymentName crest-client java -jar ./admin.jar ormi://localhost:23791 admin&nbsp;password -deploy -file applications/crest.war -deploymentName crest-client
+</p>
+
+		<p>
+ &nbsp;
+</p>
+
+		<p>
+
+ &nbsp;go to
+<strong>
+ Using the JMX Console (Unsupported by ORACLE, but works
+<BR>
+</strong> &nbsp;go to
+<a href="http://localhost:7070/adminoc4j">
+ http://localhost:7070/adminoc4j
+</a>
+<br>
+ user: admin
+<br>
+ with the password you used when installing oc4j (if you forgot what you typed in you can just run the -install again)
+</p>
+
+		<p>
+<strong>
+ Extras on about your OC4J Installation
+<br>
+</strong>
+<a href="http://localhost:7070/dmsoc4j/Spy">
+ http://localhost:7070/dmsoc4j/Spy
+</a>
+<br>
+<span style="FONT-FAMILY: arial">
+ For your OC4J standalone instance, there are&nbsp;metrics available using the Spy servlet. The Spy servlet is part of the DMS (Dynamic Monitoring Service, )&nbsp;application which is deployed by default into the default web application.
+<BR> For your OC4J standalone instance, there are&nbsp;metrics available using the Spy servlet. The Spy servlet is part of the DMS (Dynamic Monitoring Service,
+<SPAN style="FONT-FAMILY: arial">
+ a subsystem to collect and display runtime data for various aspects of the product and applications that it is running
+</SPAN> )&nbsp;application which is deployed by default into the default web application.
+<br>
+<br>
+</span>
+<span style="COLOR: rgb(0,0,0); FONT-FAMILY: arial">
+ "Spy is a pre-packaged servlet that reports performance metrics for OC4J standalone. Spy reports performance data for an OC4J process."
+</span>
+ <!--StartFragment -->
+<font size="2">
+<span style="FONT-WEIGHT: bold;FONT-FAMILY: arial">
+ Resetting DMS Data
+</span>
+
+ To reset the performance data, you send a URL to the Spy servlet to inform it that it should&nbsp; do a reset.&nbsp; This basically involves tacking on an "operation=reset" parameter onto a Spy URL.
+<BR> To reset the performance data, you send a URL to the Spy servlet to inform it that it should&nbsp; do a reset.&nbsp; This basically involves tacking on an "operation=reset" parameter onto a Spy URL.
+<br>
+<br>
+ The basic form of the URL to perform a reset looks likes:
+</font>
+</p>
+
+		<div style="MARGIN-LEFT: 40px">
+<font style="COLOR: rgb(0,0,0); FONT-FAMILY: arial" size="2">
+ "http://localhost:7070/dms/Spy?operation=reset&amp;name=/name1&amp;recurse=all"
+<br style="FONT-FAMILY: arial">
+</font>
+</div>
+</body>
+</html>

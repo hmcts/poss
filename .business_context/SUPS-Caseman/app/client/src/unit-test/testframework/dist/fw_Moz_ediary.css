@@ -1,0 +1,1462 @@
+div.testPanel
+{
+border: solid 1px black;
+margin-top: 10px;
+margin-left: 10px;
+width: 400px;
+}
+div.FUnitPass
+{
+font-weight: normal;
+background-color: #00FF00;
+margin-left: 20px;
+width: 400px;
+}
+div.FUnitFail
+{
+font-weight: normal;
+background-color: #FF0000;
+margin-left: 20px;
+width: 400px;
+}
+div.FUnitTestTitle
+{
+font-size: 14px;
+font-weight: bold;
+margin-bottom: 10px;
+}
+div.FUnitTestSubTitle
+{
+font-size: 12px;
+font-weight: bold;
+margin-left: 10px;
+}
+div.testResult
+{
+font-weight: bold;
+}
+.action_bar
+{
+background: #c1bdb0;
+width: 100%;
+height: 33px;
+margin-top: 10px;
+overflow: hidden;
+}
+.action_bar table.action_bar_container
+{
+border: 0px;
+border-collapse: collapse;
+border-spacing: 0px;
+padding: 0px;
+width: 100%;
+height: 100%;
+}
+.action_bar tr.action_bar_container_row
+{
+height: 100%;
+}
+.action_bar td.status_label
+{
+font-weight: bolder;
+padding-left: 2px;
+padding-right: 10px;
+}
+.action_bar td.status_message
+{
+font-weight: bolder;
+color: red;
+width: 100%;
+}
+.action_bar .button_container
+{
+display: inline;
+float: right;
+padding: 7px 0px 3px 0px;
+margin-right: 50px;
+white-space: nowrap;
+}
+.action_bar .button_container input
+{
+width: 80px;
+margin-left: 5px;
+}
+div.autocomplete
+{
+width: 180px;
+padding: 1px;
+}
+div.autocomplete div.dropdown
+{
+border: 1px solid black;
+}
+table.autocomplete_table
+{
+width: 100%;
+border: none;
+padding: 0px;
+border-collapse: collapse;
+margin: 0px;
+}
+tr.autocomplete_tablerow
+{
+padding: 0px;
+margin: 0px;
+}
+td.autocomplete_rowscell
+{
+padding: 0px;
+margin: 0px;
+}
+td.autocomplete_scrollcell
+{
+width: 16px;
+padding: 0px;
+margin: 0px;
+}
+div.autocomplete_row
+{
+white-space: nowrap;
+overflow: hidden;
+}
+div.autocomplete_rowhidden
+{
+visibility: hidden;
+}
+div.autocomplete_rowselected
+{
+background: Highlight;
+color: HighlightText;
+}
+div.autocomplete_rowSelectedNotSubmissible
+{
+background: Highlight;
+border: solid 1px Highlight !important;
+}
+div.autocomplete_rowNotSubmissible
+{
+}
+div.button
+{
+position: relative;
+background: ThreeDFace center no-repeat;
+border: solid 1px;
+border-color: ThreeDLightShadow ThreeDDarkShadow ThreeDDarkShadow ThreeDLightShadow;
+cursor: default;
+font-size: 0px;
+}
+div.button.not_submissible
+{
+}
+div.button div.button_inner
+{
+position: absolute;
+border: solid 1px;
+border-color: ThreeDHighlight ThreeDShadow ThreeDShadow ThreeDHighlight;
+background-image: none !important;
+text-align: center;
+top: 0px;
+left: 0px;
+right: 0px;
+bottom: 0px;
+}
+div.button.pressed
+{
+border-color: ThreeDShadow !important;
+}
+div.button div.button_inner.pressed
+{
+border-color: ThreeDLightShadow !important;
+}
+td.buttonfield_button_container
+{
+font-size: xx-small;
+}
+td.buttonfield_button_container div.button.pressed
+{
+}
+td.buttonfield_button_container div.button
+{
+height: 16px;
+width: 16px;
+background: ThreeDFace url(./images/arrow_down.gif) no-repeat center;
+}
+div.datepicker
+{
+width: 160px;
+padding: 1px;
+}
+td.calendar_prevmonth
+{
+width: 20px;
+height: 18px;
+background-image: url(./images/prev.gif);
+background-position: center;
+background-repeat: no-repeat;
+}
+td.calendar_nextmonth
+{
+width: 20px;
+height: 18px;
+background-image: url(./images/next.gif);
+background-position: center;
+background-repeat: no-repeat;
+}
+td.calendar_controls
+{
+text-align: center;
+font-weight: bold;
+color: white;
+}
+div.calendar_container input
+{
+width: 40px;
+}
+div.datepicker div.calendar_container
+{
+width: 100%;
+border: solid 1px black;
+background-color: #4682B4;
+margin: -1px;
+}
+div.datepicker table.navtable
+{
+width: 100%;
+border-collapse: collapse;
+}
+div.datepicker table.caltable
+{
+width: 100%;
+padding: 2px;
+}
+table.caltable th
+{
+width: 14%;
+background: #87CEFA;
+color: white;
+}
+table.caltable td
+{
+background-color: white;
+text-align: center;
+}
+table.caltable td.weekend
+{
+background-color: #DBEAF5;
+}
+table.caltable td.today
+{
+background-color: yellow !important;
+}
+table.caltable td.selected
+{
+background-color: #FFB6C1 !important;
+}
+div.datepicker div.disabled td.dropdown_button_container div.button
+{
+background-image: url(./images/cal_disabled.gif);
+}
+div.datepicker div.readonly td.dropdown_button_container div.button
+{
+background-image: url(./images/cal_disabled.gif);
+}
+div.datepicker td.dropdown_button_container div.button
+{
+background-image: url(./images/cal.gif);
+}
+div.dropdown_container
+{
+position: relative;
+width: 100%;
+cursor: default;
+border: 0px;
+background: white;
+}
+div.dropdown_container.raised
+{
+z-index: 1;
+}
+div.dropdown_container div.dropdown_table_border
+{
+border: 2px inset threedface;
+}
+div.dropdown_container.invalid div.dropdown_table_border
+{
+border: 2px solid #ff0000;
+}
+div.dropdown_container.notSubmissible div.dropdown_table_border
+{
+border: 2px solid @client_framework.colour.not_submissible@;
+}
+td.dropdown_button_container div.button
+{
+height: 16px;
+width: 16px;
+background: ThreeDFace url(./images/arrow_down.gif) no-repeat center;
+}
+td.dropdown_button_container div.button.pressed
+{
+}
+div.disabled td.dropdown_button_container div.button
+{
+background-image: url(./images/arrow_down_disabled.gif);
+}
+div.disabled input.dropdown_field
+{
+background-color: threedface;
+}
+div.mandatory input.dropdown_field
+{
+background-color: #ddbbff;
+}
+div.readonly input.dropdown_field
+{
+background-color: #aaccff;
+}
+div.readonly td.dropdown_button_container div.button
+{
+background-image: url(./images/arrow_down_disabled.gif);
+}
+div.readOnlyInputField_and_dropdown_not_raised input.dropdown_field
+{
+background: Highlight !important;
+color: HighlightText !important;
+}
+div.dropdown
+{
+position: absolute;
+visibility: hidden;
+background: InfoBackground;
+left: 0px;
+right: 0px;
+}
+div.dropdown_container.raised div.dropdown
+{
+visibility: visible;
+}
+div.dropdown.above
+{
+bottom: 21px;
+}
+div.dropdown.below
+{
+top: 21px;
+}
+table.dropdown_table
+{
+border-collapse: collapse;
+width: 100%;
+}
+td.dropdown_field_container
+{
+padding: 0px 1px;
+width: 100%;
+background: white;
+}
+input.dropdown_field
+{
+border: 0px;
+width: 100%;
+}
+td.dropdown_button_container
+{
+font-size: xx-small;
+}
+.dropdownNotSubmissible
+{
+}
+form.form_notsubmissable input.submitButton
+{
+background: ;
+}
+div.framedfield_table_border
+{
+border: 2px inset threedface;
+}
+table.framedfield_container
+{
+border-collapse: collapse;
+width: 100%;
+}
+td.framedfield_field_container
+{
+padding: 0px 1px;
+width: 100%;
+background: white;
+}
+input.framedfield_field
+{
+border: 0px;
+width: 100%;
+}
+textarea.framedfield_field
+{
+border: 0px;
+width: 100%;
+overflow: hidden;
+}
+div.framedfield_invalid div.framedfield_table_border
+{
+border: 2px solid #ff0000;
+}
+div.framedfield_server_invalid div.framedfield_table_border
+{
+border: 2px solid @client_framework.colour.not_submissible@;
+}
+div.framedfield_disabled input.framedfield_field
+{
+background-color: threedface;
+}
+div.framedfield_mandatory input.framedfield_field
+{
+background-color: #ddbbff;
+}
+div.framedfield_readonly input.framedfield_field
+{
+background-color: #aaccff;
+}
+div.framedfield_disabled textarea.framedfield_field
+{
+background-color: threedface;
+}
+div.framedfield_mandatory textarea.framedfield_field
+{
+background-color: #ddbbff;
+}
+div.framedfield_readonly textarea.framedfield_field
+{
+background-color: #aaccff;
+}
+div.fwselectelement
+{
+padding: 1px;
+}
+div.fwselectelement div.dropdown
+{
+border: 1px solid black;
+}
+table.fwselectelement_table
+{
+width: 100%;
+border: none;
+padding: 0px;
+border-collapse: collapse;
+margin: 0px;
+}
+table.fwselectelement_temp_table
+{
+border: none;
+padding: 0px;
+border-collapse: collapse;
+margin: 0px;
+font-family: Tahoma, Verdana, Arial, Helvetica;
+font-size: 12px;
+}
+tr.fwselectelement_tablerow
+{
+padding: 0px;
+margin: 0px;
+}
+td.fwselectelement_rowscell
+{
+padding: 0px;
+margin: 0px;
+}
+td.fwselectelement_scrollcell
+{
+width: 16px;
+padding: 0px;
+margin: 0px;
+}
+div.fwselectelement_row
+{
+white-space: nowrap;
+overflow: hidden;
+padding-left: 2px;
+padding-right: 0px;
+}
+div.fwselectelement_rowhidden
+{
+visibility: hidden;
+}
+div.fwselectelement_rowselected
+{
+background: Highlight;
+color: HighlightText;
+}
+div.fwselectelement_rowSelectedNotSubmissible
+{
+background: Highlight;
+border: solid 1px Highlight !important;
+}
+div.fwselectelement_rowNotSubmissible
+{
+}
+div.grid
+{
+padding: 1px;
+border: solid 1px white;
+cursor: default;
+background: white;
+text-align: left;
+}
+div.grid.disabled
+{
+color: #888888;
+}
+div.grid.grid_focus
+{
+border: dashed 1px black !important;
+}
+div.grid form
+{
+display: inline;
+}
+div.grid form div.grid_table_border
+{
+border: solid 1px black;
+background: #eeeeee !important;
+}
+div.grid form table
+{
+border-collapse: collapse;
+width: 100%;
+padding: 0px;
+}
+div.grid form table tr td
+{
+padding: 0px;
+}
+div.grid form table tr td.grid_vscroll_cell
+{
+width: 16px;
+height: 100%;
+}
+div.grid div.grid_header_row
+{
+border-top: solid 1px ThreeDHighlight;
+border-left: solid 1px ThreeDHighlight;
+border-right: solid 1px ThreeDShadow;
+border-bottom: solid 1px ThreeDShadow;
+background: ThreeDFace;
+}
+div.grid div.grid_header_row span.grid_header_cell
+{
+border-left: solid 1px ThreeDHighlight;
+border-right: solid 1px ThreeDShadow;
+padding-left: 1px;
+padding-right: 1px;
+white-space: nowrap;
+overflow: hidden;
+display: table-cell;
+background-position: right;
+background-repeat: no-repeat;
+}
+div.grid span.grid_header_cell.sort_none
+{
+background-image: url(./images/square.gif);
+}
+div.grid span.grid_header_cell.sort_asc
+{
+background-image: url(./images/arrow_up.gif);
+}
+div.grid span.grid_header_cell.sort_dsc
+{
+background-image: url(./images/arrow_down.gif);
+}
+div.grid .grid_row_not_submissible
+{
+}
+div.grid div.grid_row_container
+{
+position: relative;
+background: #eeeeee;
+}
+div.grid div.grid_row
+{
+border-width: 1px !important;
+border-style: solid;
+border-color: #eeeeee;
+}
+div.grid.grid_focus div.grid_row.cursor
+{
+border-style: dashed !important;
+border-color: black !important;
+}
+div.grid span.grid_cell
+{
+border-left: 1px solid ThreeDHighlight;
+border-right: 1px solid ThreeDShadow;
+padding-left: 1px;
+padding-right: 1px;
+white-space: nowrap;
+overflow: hidden;
+display: table-cell;
+}
+div.grid div.grid_row.lo
+{
+border-color: #eeeeee;
+}
+div.grid div.grid_row.hi
+{
+background: #ddddff;
+border-color: #ddddff;
+}
+div.grid.disabled div.grid_row.hi
+{
+background: #dddddd;
+border-color: #dddddd;
+}
+div.grid div.grid_row.selected_and_cursor
+{
+background: Highlight !important;
+border-color: black !important;
+color: HighlightText !important;
+}
+div.grid div.grid_row.selected
+{
+background: Highlight !important;
+border-color: Highlight !important;
+color: HighlightText !important;
+}
+div.grid div.grid_row.selected_and_not_submissible
+{
+background: Highlight !important; border-color: Highlight !important; color: HighlightText !important;
+}
+div.grid div.grid_row.selected_and_cursor_and_not_submissible
+{
+@client_framework.colour.grid_row_selected_and_cursor_and_not_submissible@
+}
+div.grid.disabled div.grid_row.selected
+{
+background: #aaaaaa !important;
+border-color: #aaaaaa !important;
+}
+div.grid.disabled div.grid_row.selected_and_cursor
+{
+background: #aaaaaa !important;
+border-color: #aaaaaa !important;
+}
+div.grid div.grid_row.hidden
+{
+visibility: hidden;
+}
+div.grid.grid_invalid
+{
+background: #ff0000 !important;
+border: solid 1px #ff0000 !important;
+}
+div.grid.grid_readOnly
+{
+background: #aaccff !important;
+}
+div.grid.grid_readOnly div.grid_row
+{
+background: #aaccff !important;
+border-color: #aaccff !important;
+}
+div.grid div.grid_row.grid_row_readOnly
+{
+background: #aaccff !important;
+border-color: #aaccff !important;
+}
+div.grid.grid_readOnly div.grid_row.selected
+{
+background: Highlight !important;
+border-color: Highlight !important;
+color: #aaccff !important;
+}
+div.grid.grid_not_submissible
+{
+background:  !important;
+border: solid 1px  !important;
+}
+input.disabled
+{
+background-color: threedface;
+color: greytext;
+}
+input.mandatory
+{
+background-color: #ddbbff;
+}
+input.readOnly
+{
+background-color: #aaccff;
+border: #555555 2px solid;
+}
+input.invalid
+{
+border: 2px solid #ff0000;
+}
+input.notSubmissible
+{
+border: 2px solid @client_framework.colour.not_submissible@;
+}
+.logic
+{
+display: none;
+}
+div.lovPopup div.panel
+{
+padding: 10px;
+}
+div.edit_panel table.roles_layout tr td div.grid .col0
+{
+width: 180px;
+}
+div.edit_panel table.roles_layout tr td input.arrow_button
+{
+width: 30px;
+}
+div.edit_panel table.roles_layout tr td div.panel
+{
+background-color: transparent;
+}
+div.manage_users
+{
+width: 100%;
+left: 0px;
+top: 10px;
+position: absolute;
+}
+div.manage_users div.panel div.search_panel
+{
+padding-top: 20px;
+padding-bottom: 20px;
+}
+div.manage_users div.panel div.edit_panel
+{
+padding-top: 75px;
+padding-bottom: 75px;
+}
+div.MenuBaseDiv
+{
+background-color: threedface;
+position: relative;
+padding: 2px 0px;
+cursor: default;
+height: 24px;
+z-index: 2;
+}
+div.MenuBaseDiv div.MenuBarDiv
+{
+display: table-row;
+width: 100%;
+}
+div.MenuBaseDiv div.MenuBarDiv div.MenuBarButtonDiv
+{
+display: table-cell;
+}
+div.MenuBaseDiv div.MenuBarDiv div.MenuBarButtonDiv input
+{
+margin-left: 2px;
+margin-right: 2px;
+width: 137px;
+}
+div.MenuPanelDiv
+{
+display: table;
+position: absolute;
+visibility: hidden;
+background-color: threedface;
+border: 2px outset;
+}
+div.MenuPanelDiv table td.menuItemCell
+{
+background-color: threedface;
+}
+div.MenuPanelDiv table td.menuItemCell.divisionAbove
+{
+border-top: 1px solid threedhighlight;
+}
+div.MenuPanelDiv table td.menuItemCell.divisionBelow
+{
+border-bottom: 1px solid threedshadow;
+}
+div.MenuPanelDiv table td div.menuItemDiv
+{
+position: relative;
+border-left: 1px solid threedface;
+border-right: 1px solid threedface;
+padding: 2px 0px 2px 5px;
+white-space: nowrap;
+}
+div.MenuPanelDiv table td div.enabled_action_unselected
+{
+color: black;
+background-color: threedface;
+padding-right: 10px;
+}
+div.MenuPanelDiv table td div.disabled_action_unselected
+{
+color: gray;
+background-color: threedface;
+padding-right: 10px;
+}
+div.MenuPanelDiv table td div.enabled_action_selected
+{
+color: #ffffff;
+background-color: navy;
+padding-right: 10px;
+}
+div.MenuPanelDiv table td div.disabled_action_selected
+{
+color: gray;
+background-color: navy;
+padding-right: 10px;
+}
+div.MenuPanelDiv table td div.submenu
+{
+color: black;
+background-color: threedface;
+padding-right: 15px;
+background: url(./images/menu_arrow_right.gif) no-repeat center right;
+}
+div.MenuPanelDiv table td div.submenu.submenu_disabled
+{
+color: gray;
+background-image: url(./images/menu_arrow_right_disabled.gif);
+}
+div.MenuPanelDiv table td div.submenu.submenu_selected
+{
+color: white;
+background-color: navy;
+background-image: url(./images/menu_arrow_right_highlighted.gif);
+}
+div.MenuPanelDiv table td div.submenu.submenu_disabled_selected
+{
+color: gray;
+background-color: navy;
+}
+div.MenuPanelDiv table td div.divisionAbove
+{
+border-top: 2px solid threedface;
+}
+div.MenuPanelDiv table td div.divisionBelow
+{
+border-bottom: 2px solid threedface;
+}
+div.MenuBaseDiv div.MenuBarDiv div.MenuBarButton
+{
+display: table-cell;
+border: 2px solid #f8f8f8;
+padding: 2px 5px;
+margin-left: 5px;
+margin-right: 5px;
+}
+div.MenuBaseDiv div.MenuBarDiv div.MenuBarButton.MenuBarButtonInset
+{
+border-style: inset !important;
+}
+div.MenuBaseDiv div.MenuBarDiv div.MenuBarButton.MenuBarButtonOutset
+{
+border-style: outset !important;
+}
+div.MenuBaseDiv div.MenuBarDiv div.MenuBarButtonActive
+{
+color: black;
+}
+div.MenuBaseDiv div.MenuBarDiv div.MenuBarButtonInactive
+{
+color: gray;
+}
+div.panel
+{
+background-color: #b1c9da;
+margin-top: 10px;
+margin-left: 10px;
+margin-right: 10px;
+margin-bottom: 0px;
+}
+div.panel.noMargin
+{
+margin-top: 0px;
+margin-left: 0px;
+margin-right: 0px;
+margin-bottom: 0px;
+}
+div.panel.panel_disabled
+{
+}
+div.popup
+{
+position: absolute;
+top: 0px;
+left: 0px;
+background-color: #ececd9;
+border: solid black 2px;
+padding: 0px;
+margin: 0px;
+visibility: hidden;
+}
+div.popup table.content
+{
+margin-bottom: 10px;
+}
+div.popupTitle
+{
+background-color: #c1bdb0;
+text-align: center;
+font-size: 14pt;
+font-weight: bold;
+color: #222222;
+width: 100%;
+}
+div.popup table.popup_layout
+{
+width: 100%;
+border-collapse: collapse;
+}
+div.standard_dialog div.popup
+{
+display: table;
+}
+div.standard_dialog div.popup div.popupTitle
+{
+text-align: left;
+}
+div.standard_dialog div.popup div.message_container
+{
+padding: 10px;
+}
+div.popup.lovsubform
+{
+border: solid black 2px;
+}
+div.popupsubform
+{
+border: solid black 2px;
+}
+form.subform
+{
+display: inline !important;
+}
+div.popup_fullscreen
+{
+border: 0px;
+}
+div.popuphelp
+{
+position: absolute;
+border: solid 1px black;
+margin: 0px;
+padding: 1px;
+background:  InfoBackground;
+visibility: hidden;
+top: 0px;
+left: 0px;
+}
+div.popuphelp iframe
+{
+padding: 0px;
+margin: 0px;
+border: 0px;
+top: 0px;
+left: 0px;
+}
+body.popuphelp
+{
+border: solid 1px black;
+padding: 0px;
+margin: 0px;
+overflow: hidden;
+background-color: InfoBackground;
+}
+body.popuphelp table
+{
+border-collapse: collapse;
+padding: 0px;
+margin: 0px;
+}
+body.popuphelp table td
+{
+white-space: nowrap;
+}
+div.progressClass
+{
+visibility: hidden;
+background: transparent;
+background-image: url(./images/transparent.gif);
+position: absolute;
+top: 0px;
+left: 0px;
+z-index: 9999;
+right: 0px;
+bottom: 0px;
+}
+div.progressContainerClass
+{
+position: relative;
+left: 10%;
+width: 80%;
+top: 100px;
+height: 50px;
+}
+html.progress_page
+{
+padding: 0px;
+margin: 0px;
+height: 100%;
+}
+body.progress_page
+{
+background: #ececd9;
+height: 42px;
+margin: 0px;
+padding: 2px;
+border: 2px solid black;
+}
+body.progress_page div#progress_bar
+{
+width: 0%;
+height: 20px;
+background-color: red;
+}
+div.grid_filter
+{
+padding: 1px;
+}
+div.grid_filter .grid_filter_cell
+{
+padding-left: 0px;
+padding-right: 0px;
+}
+.grid_label
+{
+padding: 1px;
+border: 0px !important;
+background-color: #b1c9da !important;
+width: 200px;
+}
+div.scrollbar
+{
+position: relative;
+background: #e8e8e8;
+}
+div.scrollbar_vertical
+{
+width: 16px;
+height: 100%;
+}
+div.scrollbar_horizontal
+{
+height: 16px;
+width: 100%;
+}
+div.scrollbar div.button
+{
+position: absolute;
+width: 14px;
+height: 14px;
+}
+div.scrollbar.scrollbar_vertical div.dec
+{
+top: 0px;
+background-image: url(./images/arrow_up.gif);
+}
+div.scrollbar.scrollbar_vertical div.inc
+{
+bottom: 0px;
+background-image: url(./images/arrow_down.gif);
+}
+div.scrollbar.scrollbar_horizontal div.dec
+{
+left: 0px;
+background-image: url(./images/arrow_left.gif);
+}
+div.scrollbar.scrollbar_horizontal div.inc
+{
+top: 0px;
+right: 0px;
+background-image: url(./images/arrow_right.gif);
+}
+div.scrollbar div.scrollbar_container
+{
+position: relative;
+}
+div.scrollbar_vertical div.scrollbar_container
+{
+width: 16px;
+top: 16px;
+}
+div.scrollbar_horizontal div.scrollbar_container
+{
+height: 16px;
+left: 16px;
+}
+div.scrollbar div.scrollbar_slider
+{
+position: absolute;
+}
+div.scrollbar_vertical div.scrollbar_container div.scrollbar_slider
+{
+top: 0px;
+width: 14px;
+}
+div.scrollbar_vertical div.scrollbar_container div.scrollbar_slider div.button_inner
+{
+}
+div.scrollbar_horizontal div.scrollbar_container div.scrollbar_slider
+{
+top: 0px;
+height: 14px;
+}
+div.scrollbar_horizontal div.scrollbar_container div.scrollbar_slider div.button_inner
+{
+}
+select
+{
+font-family: Tahoma, Verdana, Arial, Helvetica;
+font-size: 12px;
+}
+select.invalid
+{
+color: white;
+background-color: #ff0000;
+border-color: #ff0000;
+border-style: solid;
+}
+select.selectNotSubmissible
+{
+color: white;
+}
+select.option.selectOptionNotSubmissible
+{
+color: white;
+}
+select.invalid option
+{
+color: white;
+background-color: #ff0000 !important;
+border-color: #ff0000 !important;
+border-style: solid !important;
+}
+select.mandatory option
+{
+background-color: #ddbbff !important;
+border-color: #ddbbff !important;
+border-style: solid !important;
+}
+select.disabled option
+{
+background-color: threedface !important;
+color: greytext !important;
+}
+.selectOptionSubmissible
+{
+}
+div.pagedArea
+{
+position: relative;
+border: 0px;
+background-color: #b1c9da;
+}
+div.page
+{
+position: absolute;
+top: 0px;
+left: 0px;
+border: 0px;
+visibility: hidden;
+}
+div.page.pageNotSubmissible
+{
+}
+div.tabbedArea div.pagedArea
+{
+border-style: solid;
+border-width: 0px 1px 1px;
+border-color: ThreeDHighlight ThreeDShadow ThreeDShadow ThreeDHighlight
+}
+table.tabselector td.tabCell
+{
+border: 1px solid;
+border-color: ThreeDShadow ThreeDHighlight ThreeDHighlight ThreeDShadow;
+background-color: #cdd4da;
+width: 120px;
+padding: 1px;
+cursor: default;
+}
+table.tabselector td.tabCell.tabCellNotSubmissible
+{
+background-color: background-color: #ffa500 !important; !important;
+}
+table.tabselector td.tabCell.tabCellSelected
+{
+background-color: #b1c9da;
+border-color: ThreeDHighlight ThreeDShadow #b1c9da ThreeDHighlight;
+font-weight: bolder;
+}
+table.tabselector td.tabCellDisabled
+{
+color: greytext !important;
+border-color: grey;
+border-bottom-color: ThreeDHighlight;
+}
+table.tabselector td.tabCell div.tabCellDiv
+{
+border: 1px solid #cdd4da;
+padding-left: 3px;
+padding-right: 1px;
+}
+table.tabselector td.tabCell.tabCellNotSubmissible div.tabCellDiv
+{
+background-color: border: 1px solid #ffa500 !important;;
+}
+table.tabselector td.tabCell div.tabCellDiv.tabCellDivFocus
+{
+border: 1px dotted black;
+}
+table.tabselector td.tabSpacer
+{
+border: 0px;
+border-bottom: 1px ThreeDHighlight solid;
+display: none;
+}
+table.tabselector
+{
+width: 100%;
+border-collapse: collapse;
+}
+textarea.disabled
+{
+background-color: threedface;
+color: greytext;
+}
+textarea.mandatory
+{
+background-color: #ddbbff;
+}
+textarea.readOnly
+{
+background-color: #aaccff;
+border: #555555 2px solid;
+}
+textarea.invalid
+{
+border: 2px solid #ff0000;
+}
+textarea.notSubmissible
+{
+border: 2px solid @client_framework.colour.not_submissible@;
+}
+textarea.textInputElementDefaultStyle
+{
+}
+input.textInputElementDefaultStyle
+{
+}div.wordProcessing
+{
+position: relative;
+top: 0px;
+left: 0px;
+}
+span.SUPSVAR
+{
+background-color:#ffff00;
+color:#000000;
+}
+span.SUPSVAR_NONEDITABLE
+{
+background-color:#0099FF;
+color:#000000;
+}
+img.wordProcessing
+{
+position:absolute;
+left:0px;
+top:0px;
+visibility: hidden;
+}
+div.zoom_field
+{
+width: 160px;
+padding: 1px;
+background: white;
+}
+div.zoom_field div.zoomfield_container
+{
+position: relative;
+}
+div.zoom_field div.raised
+{
+z-index: 1;
+}
+div.zoom_field div.popup
+{
+display: table;
+}
+div.zoom_field div.popup div.panel
+{
+padding: 10px;
+}
+div.zoom_field div.popup table.popup_layout
+{
+border: 0px;
+padding: 0px;
+border-collapse: collapse;
+border-spacing: 0px;
+margin: -2px;
+}
+div.zoom_field div.popup table.popup_layout td.actionbar_container
+{
+padding: 0px;
+}
+div.zoom_field div.popup table.popup_layout td.popup_contents
+{
+padding: 0px;
+}
+div.zoom_field td.buttonfield_button_container div.buttonfield_button
+{
+background-image: url(./images/magnify.gif);
+}
+div.zoom_field div.framedfield_disabled td.buttonfield_button_container div.buttonfield_button
+{
+background-image: url(./images/magnify_disabled.gif);
+}
+body
+{
+font-family: Tahoma, Verdana, Arial, Helvetica;
+font-size: 12px;
+color: #222222;
+margin: 0px;
+background-color: #ececd9;
+}
+input
+{
+font-family: Tahoma, Verdana, Arial, Helvetica;
+font-size: 12px;
+}
+textarea
+{
+font-family: Tahoma, Verdana, Arial, Helvetica;
+font-size: 12px;
+}
+label
+{
+font-weight: bold;
+padding-left: 5px;
+}
+.notSubmissible
+{
+border: 2px solid @client_framework.colour.not_submissible@;
+}
+.invalid
+{
+border: 2px solid #ff0000;
+}
+.disabled
+{
+background-color: threedface;
+color: greytext;
+}
+.mandatory
+{
+background-color: #ddbbff;
+}
+.readOnly
+{
+background-color: #aaccff;
+border: #555555 2px solid;
+}
+table.layout
+{
+width: 984px;
+border: 0px;
+margin: 0px;
+padding: 0px;
+background-color: #ececd9;
+border-collapse: collapse;
+border-spacing: 0;
+}
+table.layout > tr
+{
+padding: 0px;
+margin: 0px;
+border: 0px;
+}
+table.layout td
+{
+padding: 0px;
+margin: 0px;
+border: 0px;
+}
+table.content > th
+{
+padding: 0px;
+margin: 0px;
+border: 0px;
+text-align: center;
+}
+table.content
+{
+width: 100%;
+border-collapse: collapse;
+margin: 0px;
+}
+div.popup table.content
+{
+margin: 10px;
+}
+table.action_bar
+{
+width: 100%;
+border-collapse: collapse;
+margin: 10px;
+background-color: #b1c9ba;
+}
+table.action_bar td
+{
+padding-right: 50px;
+padding-top: 4px;
+padding-bottom: 4px;
+}
+table.label_layout
+{
+width: 100%;
+border-collapse: collapse;
+padding: 0px;
+margin: 0px;
+}
+div.scrolling_region
+{
+position: absolute;
+}
+table.header
+{
+background-color: #c1bdb0;
+width: 100%;
+}
+table.header td#header_left
+{
+text-align: left;
+width: 15%;
+}
+table.header td#header_title
+{
+font-weight: bold;
+font-size: 14pt;
+text-align: center;
+}
+table.header td#header_right
+{
+text-align: right;
+width: 15%;
+}
+table.navigation
+{
+width: 100%;
+height: 24px;
+margin: 0px;
+background-color: #b1c9ba;
+}
+table.navigation td
+{
+padding: 1px;
+text-align: left;
+}
+table.navigation td input
+{
+width: 137px;
+}

@@ -1,0 +1,244 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- File history
+08/05/2006 - Created DJWright
+12/06/2006 - Added packages to the views zip. DJWright
+14/06/2006 - Added schema build. DJWright
+04/07/2006 - Added update to Caseman version number. DJWright
+10/07/2006 - Added service catalogue build. DJWright
+29/09/2006 - Added PROJECT.BASE parameter to XSL service catalogue generation. DJWright
+13/12/2006 - Added Refdata zip.  DJWright
+28/06/2007 - Added Batch zip.  CJHutt
+27/02/2008 - Added build-reports-templates-only.  Chris Vincent
+29/10/2009 - Chris Vincent: changed build.num.major to CCBC_ and bulid.num.minor to build.app.num
+03/11/2009 - Chris Vincent: copy-and-zip-batch no longer called as part of build-deployment target
+27/11/2009 - Chris Vincent: copy-and-zip-refdata no longer called as part of build-deployment target
+29/10/2010 - Chris Vincent: removed copy-and-zip-batch and copy-and-zip-refdata, and introduced a new
+			 target build-everything.
+-->
+<project name="caseman-common" default="build-deployment" basedir=".">
+
+	<property environment="env"/>
+	<property file="CasemanBuildDeployment.properties"/>
+    <property file="Xalan.properties"/>
+
+	<target name="clean">
+		<delete dir="${deploy.working.dir}"/>
+	</target>
+
+	<target name="clean-schemas">
+		<delete>
+			<fileset dir="${caseman.location.schemas}" includes="**/*map*.xsd" />
+			<fileset dir="${schema_templates.dir}" includes="sups_*_types.xsd" />
+		</delete>
+	</target>
+
+	<target name="prepare" depends="clean, clean-schemas">
+		<mkdir dir="${deploy.oas.app.home.dir}"/>
+	</target>
+
+    <target name="ensure-debug-false">
+	    <replaceregexp file="../client/caseman/applicationconfig.xml"
+	                   byline="false">
+	        <regexp pattern="debug=&quot;true&quot;"/>
+	        <substitution expression="debug=&quot;false&quot;"/>
+	    </replaceregexp>
+    </target>
+
+    <target name="version-number">
+        <replaceregexp file="../client/caseman/screens/caseman_about/AboutCaseman.xml"
+                       byline="false">
+            <regexp pattern="&lt;Version&gt;(.*)&lt;/Version&gt;"/>
+            <substitution expression="&lt;Version&gt;Caseman_CCBC_${build.app.num}&lt;/Version&gt;"/>
+        </replaceregexp>
+
+        <tstamp>
+          <format property="date.now" pattern="dd/MM/yyyy"/>
+        </tstamp>
+
+        <replaceregexp file="../client/caseman/screens/caseman_about/AboutCaseman.xml"
+                       byline="false">
+            <regexp pattern="Date&gt;(.*)&lt;/Date&gt;"/>
+            <substitution expression="Date&gt;${date.now}&lt;/Date&gt;"/>
+        </replaceregexp>
+    </target>
+
+    <target name="build-all" depends="version-number, ensure-debug-false">
+
+		<!-- Client build -->
+		<ant target="clean"
+			dir="${basedir}/../client"
+			antfile="caseman_client_build.xml"
+			inheritall="false">
+		</ant>
+
+		<ant target="clean-precompile"
+			dir="${basedir}/../client"
+			antfile="caseman_client_build.xml"
+			inheritall="false">
+		</ant>
+
+		<ant target="deploy-war-4CM"
+			dir="${basedir}/../client"
+			antfile="caseman_client_build.xml"
+			inheritall="false">
+		</ant>
+
+		<!-- Server build -->
+		<ant target="clean"
+			dir="${basedir}/../server"
+			antfile="caseman_server_build.xml"
+			inheritall="false">
+		</ant>
+
+		<ant target="deploy_incl_wp"
+			antfile="caseman_server_build.xml"
+			inheritall="false"
+			dir="../server">
+			<property name="user.dir" value="."/>
+		</ant>
+
+		<!-- Word Processing & Oracle Reports build -->
+		<ant target="clean"
+			dir="${basedir}/../server"
+			antfile="wp_build_all.xml"
+			inheritall="false">
+		</ant>
+
+		<ant target="default"
+			dir="${basedir}/../server"
+			antfile="wp_build_all.xml"
+			inheritall="false">
+		</ant>
+
+		<!-- XMLtoXSD build -->
+		<ant target="run"
+			dir="${basedir}/../server/XMLtoXSD"
+			antfile="build.xml"
+			inheritall="false">
+		</ant>
+
+	</target>
+
+	<target name="copy-and-zip" depends="prepare, build-all, service-catalogue">
+		<!-- war -->
+		<copy file="${caseman.location.war}" todir="${deploy.oas.dir}"/>
+		<!-- ear -->
+		<copy file="${caseman.location.ear}" todir="${deploy.oas.dir}"/>
+		<!-- reporting templates -->
+		<zip destfile="${deploy.working.dir}/${reporting.templates.zip}">
+			<zipfileset dir="${caseman.location.reporting-templates}" prefix="${reporting_templates.dir.name}"/>
+		</zip>
+		<!-- cache-config -->
+		<copy todir="${deploy.oas.app.home.dir}">
+			<fileset dir="${caseman.location.cache-config}"/>
+		</copy>
+		<!-- Schemas & Service Catalogue -->
+		<zip destfile="${deploy.oas.dir}/${schemas.zip}">
+			<zipfileset dir="${caseman.location.schemas}" includes="**/*map*.xsd" prefix="${schemas.dir.name}"/>
+			<zipfileset dir="${schema_templates.dir}" includes="sups_*_types.xsd" prefix="${schemas.dir.name}"/>
+            <zipfileset dir="${caseman.location.servicecatalogue}" includes="ServiceCatalogue.html" prefix="ServiceCatalogue"/>
+		</zip>
+	</target>
+
+	<!-- Build the artefact that we send to CM -->
+	<target name="build-deployment" depends="copy-and-zip">
+		<zip destfile="${deploy.zip}" basedir="${deploy.oas.dir}"/>
+	</target>
+
+    <target name="service-catalogue" if="createServiceCatalogue">
+
+        <echo message="Service Catalogue (Xalan XML parser 2.7.0 or higher required)..."/>
+        <echo message="Step 1/3 - Building author history from clearcase (allow 25 mins)..."/>
+        <!--<exec executable="cmd.exe" dir="../server/src/uk/gov/dca/caseman">
+            <arg line="/c cleartool find . -name *.xml -exec &quot;cleartool lshistory -fmt %e\t%En\t%u\t%d\n %CLEARCASE_XPN%&quot; > c:/temp/rawCleartoolOutput.txt"/>
+        </exec>//-->
+
+        <echo message="Step 2/3 - Processing raw author history file..."/>
+        <javac srcdir="${caseman.location.servicecatalogue}"
+               classpath="${env.PROJECT.BASE}/serverframework/release/lib/jdom/jdom.jar"/>
+        <exec executable="java" dir="${caseman.location.servicecatalogue}">
+            <arg line="-cp ${env.PROJECT.BASE}/serverframework/release/lib/jdom/jdom.jar;. SortAuthors"/>
+        </exec>
+
+        <echo message="Step 3/3 - Creating service catalogue..."/>
+        <exec executable="java" dir="${caseman.location.servicecatalogue}">
+            <arg line="-cp ${xalan.install.dir}/xalan.jar org.apache.xalan.xslt.Process -IN ${env.PROJECT.BASE}/../client/caseman-dist/applicationconfig.xml -XSL ApplicationConfig.xsl -OUT ServiceCatalogue.html -param pSrcRoot ${env.PROJECT.BASE}"/>
+        </exec>
+        <delete file="${caseman.location.servicecatalogue}/Artefacts.xml"/>
+        <echo message="Service catalogue completed"/>
+    </target>
+
+    <target name="setup-service-catalogue">
+        <!-- Set property to exist if a service catalogue is required -->
+        <property name="createServiceCatalogue" value="true"/>
+    </target>
+
+    <target name="build-deployment-inc-service-catalogue" depends="setup-service-catalogue, build-deployment">
+    </target>
+
+    <target name="build-service-catalogue-only" depends="setup-service-catalogue, service-catalogue">
+    </target>
+	
+    <target name="build-reports-templates-only" depends="prepare">
+	
+		<!-- Word Processing & Oracle Reports build -->
+		<ant target="clean"
+			dir="${basedir}/../server"
+			antfile="wp_build_all.xml"
+			inheritall="false">
+		</ant>
+
+		<ant target="default"
+			dir="${basedir}/../server"
+			antfile="wp_build_all.xml"
+			inheritall="false">
+		</ant>
+		
+		<zip destfile="${deploy.working.dir}/${reporting.templates.zip}">
+			<zipfileset dir="${caseman.location.reporting-templates}" prefix="${reporting_templates.dir.name}"/>
+		</zip>
+	</target>
+	
+	<target name="zip-other-components">
+		<!-- DDL component -->
+		<zip destfile="${deploy.working.dir}/${schema.zip}">
+			<zipfileset dir="${basedir}/../../DDL" />
+		</zip>
+		
+		<!-- REFDATA component -->
+		<zip destfile="${deploy.working.dir}/${refdata.zip}">
+			<zipfileset dir="${basedir}/../../REFDATA/DML" />
+		</zip>
+		
+		<!-- PL-CASEMAN component -->
+		<zip destfile="${deploy.working.dir}/${cm-polarlake.zip}">
+			<zipfileset dir="${basedir}/../../PL-CASEMAN/app" />
+		</zip>
+		
+		<!-- PL_CCBC component -->
+		<zip destfile="${deploy.working.dir}/${ccbc-polarlake.zip}">
+			<zipfileset dir="${basedir}/../../PL-CCBC/app" />
+		</zip>
+	</target>
+	
+	<target name="build-everything" depends="copy-and-zip, zip-other-components" >
+		<zip destfile="${deploy.zip}" basedir="${deploy.oas.dir}"/>
+	</target>
+	
+	<target name="build-everything-no-app" depends="build-reports-templates-only, zip-other-components">
+	</target>
+	
+    <target name="build-java-docs" depends="prepare">
+		<ant target="generate-javadocs"
+			antfile="caseman_server_build.xml"
+			inheritall="false"
+			dir="../server">
+			<property name="user.dir" value="."/>
+		</ant>
+		
+		<zip destfile="${deploy.working.dir}/${javadoc.zip}">
+			<zipfileset dir="${caseman.location.javadoc}" prefix="javadoc"/>
+		</zip>
+	</target>
+
+</project>

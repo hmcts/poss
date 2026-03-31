@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<service-method>
+	<pipeline>
+		<Query>
+			<QueryDef location="uk/gov/dca/test_project/cases_service/cases_query_def.xml"/>
+			<QueryExtension pivotNode="/Cases/Case">
+				<Param name="param.caseType" xpath="/params/param[@name='caseType']"/>
+				<Param name="param.adminCourtCode" xpath="/params/param[@name='adminCourtCode']"/>
+				<Constraint>C.CASE_TYPE = ${param.caseType}</Constraint>
+				<Constraint condition="count(/params/param[@name='adminCourtCode']) &gt; 0">C.ADMIN_CRT_CODE = ${param.adminCourtCode}</Constraint>
+			</QueryExtension>
+		</Query>
+	</pipeline>
+	<Security roles="user"/>
+</service-method>

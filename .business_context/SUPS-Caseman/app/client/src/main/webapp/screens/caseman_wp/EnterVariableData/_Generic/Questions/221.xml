@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>221</Id>
+	<Label>Other party</Label>
+	<ObjectName>PartyToPayOther</ObjectName>
+	<Html>
+		<input type="text" id="PartyToPayOther"></input>
+	</Html>
+	<Javascript>
+		<XPath>/ds/EnterVariableData/FastTrack/partyToPayOther</XPath>
+		<HintText>Enter the party or parties</HintText>
+		<isMandatory>return true;</isMandatory>	
+		<enableOn>IsSingleExpert.dataBinding,PartyToPay.dataBinding</enableOn>
+		<isEnabled>return(	'Y' == Services.getValue(IsSingleExpert.dataBinding) &amp;&amp;
+							'OTH' == Services.getValue(PartyToPay.dataBinding) );
+		</isEnabled>
+		<logicOn>PartyToPay.dataBinding</logicOn>
+		<logic>
+			if(	'Y' != Services.getValue(IsSingleExpert.dataBinding) ||
+				'OTH' != Services.getValue(PartyToPay.dataBinding))
+			{	Services.setValue(PartyToPayOther.dataBinding, "");
+			}
+		</logic>
+		
+		<Context ScreenId="CJR060">
+			<HintText>Enter the party or parties e.g. claimant, defendant 1 etc</HintText>
+		</Context>
+	</Javascript>
+</Question>

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: Codedparty
+	Method:  getCodedPartyShort()
+	File:    query_def_cp_short.xml
+	Author:  Chris Hutt
+	Description:
+		This method is used to determine whether or not a particular Coded Party 
+		Code is already exists.
+
+	Change History:
+	V1.0: Chris Hutt       03/02/05 
+	07-Dec-2005 Phil Haferer (EDS): Added 'notModifiable="true"' to prevent unnecessary SCN being returned.
+-->
+<QueryDef>
+  <DBMapDef location="uk/gov/dca/caseman/codedparty_service/map_cp_short.xml"/>
+  <Query pivotNode="/CodedParty/Code" tables="CP">
+	<Join/>
+	<Modify notModifiable="true"/>
+  </Query>
+</QueryDef>

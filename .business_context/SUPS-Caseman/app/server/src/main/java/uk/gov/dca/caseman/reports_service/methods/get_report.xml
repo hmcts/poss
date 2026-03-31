@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: Reports
+	Method:  getReport()
+	File:    get_report.xml
+	Author:  Anoop Sehdev (Valtech)
+	Created: 05 December 2005
+	Description: 
+		Gets status of report submitted to SUPSReporting by using GetReport pipeline method.
+-->
+<service-method>
+	<pipeline>
+		<GetReport xpath="/params/param[@name='ReportReference']">
+			<ReportStore id="java:OracleDS"/>
+		</GetReport>	
+	</pipeline>
+	<Security roles="viewOnly medium high wcSuper scSuper bmsSuper aeSuper dmSuper cpSuper ccbcMan ccbcUser ccbcSGB2"/>
+	<Transaction type="RequiresNew" />	
+</service-method>

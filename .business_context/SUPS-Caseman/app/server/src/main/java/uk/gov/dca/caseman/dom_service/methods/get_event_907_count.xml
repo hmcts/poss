@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: Dom
+	Method:  getEvent907Count()
+	File:    get_event_907_count.xml
+	Author:  Ian Stainer (Valtech)
+	Created: 26 September 2005
+	Description: 
+		Returns a count of how many 907 events exist for the consolidated order. If the count is zero 
+		the client knows that this is the first time the dom calculator has been entered and so creates
+		an event 907.
+-->
+<service-method>
+	<pipeline>
+		<SQLLite format-output="true"
+				 resultset-element="ResultSet"
+				 row-element="Row"
+				 field-name-as="element" >			
+			<DataSource id="java:OracleDS"/>
+			<Param name="param.coNumber" xpath="/params/param[@name = 'coNumber']"/>
+			<SQL>				
+				SELECT COUNT(coe.std_event_id) as "Count"
+				FROM   co_events coe
+				WHERE  coe.co_number = ${param.coNumber}
+				AND    coe.std_event_id = '907'
+			</SQL>
+		</SQLLite>
+	</pipeline>
+	<Security roles="user"/>
+</service-method>

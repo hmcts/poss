@@ -1,0 +1,198 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- edited with XMLSPY v5 rel. 3 U (http://www.xmlspy.com) by Amjad Khan (Electronic Data Systems LTD) -->
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+	<xsd:element name="BMS" type="BMS_type"/>
+	<xsd:simpleType name="typeOfWarrant">
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="A"/>
+			<xsd:enumeration value="M"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="boolean">
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="N"/>
+			<xsd:enumeration value="Y"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="warrantType">
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="HOME"/>
+			<xsd:enumeration value="FOREIGN"/>
+			<xsd:enumeration value="ALL"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:complexType name="BMS_type">
+		<xsd:sequence>
+			<xsd:element name="BMSRule" type="bmsRuleType" maxOccurs="unbounded"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="bmsRuleType">
+		<xsd:sequence>
+			<xsd:element name="BmsSection" type="bmsSectionType"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="bmsSectionType">
+		<xsd:sequence>
+			<xsd:choice>
+				<xsd:element name="Warrant" type="warrantParam" maxOccurs="unbounded"/>
+				<xsd:element name="WarrantReturn" type="warrantReturnParam" maxOccurs="unbounded"/>
+				<xsd:element name="Payout" type="payoutParam" maxOccurs="unbounded"/>
+				<xsd:element name="Payment" type="paymentParam" maxOccurs="unbounded"/>
+				<xsd:element name="DividendDeclaration" type="dividendDeclarationParam" maxOccurs="unbounded"/>
+			</xsd:choice>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="warrantParam">
+		<xsd:sequence>
+			<xsd:element name="Required" type="warrantParamRequired" minOccurs="0"/>
+			<xsd:element name="MatchData" type="warrantParamTypeMatch"/>
+			<xsd:element name="NonMatchingData" type="warrantParamType"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="warrantParamRequired">
+		<xsd:sequence>
+			<xsd:element name="CourtCode" type="boolean"/>
+			<xsd:element name="ReceiptDateRequired" type="boolean" minOccurs="0"/>
+			<xsd:element name="ProcessingDateRequired" type="boolean" minOccurs="0"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="warrantParamType">
+		<xsd:sequence>
+			<xsd:element name="ActionId" type="xsd:string"/>
+			<xsd:element name="CountIncrement" type="xsd:int"/>
+			<xsd:element name="Task" type="xsd:string"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="warrantParamTypeMatch">
+		<xsd:sequence>
+			<xsd:element name="TypeOfWarrant" type="typeOfWarrant" minOccurs="0"/>
+			<xsd:element name="BmsType" type="xsd:string"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="warrantReturnParam">
+		<xsd:sequence>
+			<xsd:element name="Required" type="warrantReturnParamRequired" minOccurs="0"/>
+			<xsd:element name="MatchData" type="warrantReturnParamTypeMatch"/>
+			<xsd:element name="NonMatchingData" type="warrantReturnParamType"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="warrantReturnParamRequired">
+		<xsd:sequence>
+			<xsd:element name="WarrantId" type="boolean"/>
+			<xsd:element name="ReceiptDateRequired" type="boolean" minOccurs="0"/>
+			<xsd:element name="ProcessingDateRequired" type="boolean" minOccurs="0"/>
+			<xsd:element name="CourtCode" type="boolean"/>
+			<!-- <xsd:element name="WarrantNumberRequired" type="boolean" minOccurs="0"/>
+			<xsd:element name="IssuedByRequired" type="boolean" minOccurs="0"/> -->
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="warrantReturnParamType">
+		<xsd:sequence>
+			<xsd:element name="ActionId" type="xsd:string"/>
+			<xsd:element name="CountIncrement" type="xsd:int"/>
+			<xsd:element name="Task" type="xsd:string"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="warrantReturnParamTypeMatch">
+		<xsd:sequence>
+			<xsd:element name="ManuallyCreatedReturn" type="boolean" minOccurs="0"/>
+			<xsd:element name="ReturnCode" type="xsd:string" minOccurs="0"/>
+			<xsd:element name="ReturnType" type="xsd:string" minOccurs="0"/>
+			<xsd:element name="WarrantType" type="warrantType"/>
+			<xsd:element name="BmsType" type="xsd:string"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="payoutParam">
+		<xsd:sequence>
+			<xsd:element name="Required" type="payoutParamRequired" minOccurs="0"/>
+			<xsd:element name="MatchData" type="payoutParamTypeMatch"/>
+			<xsd:element name="NonMatchingData" type="payoutParamType"/>
+		</xsd:sequence>
+		<!-- Subject to Change -->
+	</xsd:complexType>
+	<xsd:complexType name="payoutParamRequired">
+		<xsd:sequence>
+			<xsd:element name="CourtCode" type="boolean"/>
+			<xsd:element name="CountIncrement" type="xsd:string" minOccurs="0"/>
+			<xsd:element name="ReceiptDateRequired" type="boolean" minOccurs="0"/>
+			<xsd:element name="ProcessingDateRequired" type="boolean" minOccurs="0"/>
+		</xsd:sequence>
+		<!-- Subject to Change -->
+	</xsd:complexType>
+	<xsd:complexType name="payoutParamType">
+		<xsd:sequence>
+			<xsd:element name="Task" type="xsd:string"/>
+		</xsd:sequence>
+		<!-- Subject to Change -->
+	</xsd:complexType>
+	<xsd:complexType name="payoutParamTypeMatch">
+		<xsd:sequence>
+			<xsd:element name="PayoutType" type="xsd:string" minOccurs="0"/>
+			<xsd:element name="BmsType" type="xsd:string"/>
+		</xsd:sequence>
+		<!-- Subject to Change -->
+	</xsd:complexType>
+	<xsd:complexType name="paymentParam">
+		<xsd:sequence>
+			<xsd:element name="Required" type="paymentParamRequired" minOccurs="0"/>
+			<xsd:element name="MatchData" type="paymentParamTypeMatch"/>
+			<xsd:element name="NonMatchingData" type="paymentParamType"/>
+		</xsd:sequence>
+		<!-- Subject to Change -->
+	</xsd:complexType>
+	<xsd:complexType name="paymentParamRequired">
+		<xsd:sequence>
+			<xsd:element name="CourtCode" type="boolean"/>
+			<xsd:element name="ReceiptDateRequired" type="boolean" minOccurs="0"/>
+			<xsd:element name="ProcessingDateRequired" type="boolean" minOccurs="0"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="paymentParamType">
+		<xsd:sequence>
+			<xsd:element name="CountIncrement" type="xsd:int" minOccurs="0"/>
+			<xsd:element name="Task" type="xsd:string"/>
+		</xsd:sequence>
+		<!-- Subject to Change -->
+	</xsd:complexType>
+	<xsd:complexType name="paymentParamTypeMatch">
+		<xsd:sequence>
+			<xsd:element name="PaymentType" type="xsd:string"/>
+			<xsd:element name="BmsType" type="xsd:string"/>
+		</xsd:sequence>
+		<!-- Subject to Change -->
+	</xsd:complexType>
+	<xsd:complexType name="dividendDeclarationParam">
+		<xsd:sequence>
+			<xsd:element name="Required" type="dividendDeclarationParamRequired" minOccurs="0"/>
+			<xsd:element name="MatchData" type="dividendDeclarationParamTypeMatch"/>
+			<xsd:element name="NonMatchingData" type="dividendDeclarationParamType"/>
+		</xsd:sequence>
+		<!-- Subject to Change -->
+	</xsd:complexType>
+	<xsd:complexType name="dividendDeclarationParamRequired">
+		<xsd:sequence>
+			<xsd:element name="CourtCode" type="boolean"/>
+			<xsd:element name="CountIncrement" type="xsd:string"/>
+			<xsd:element name="ReceiptDateRequired" type="boolean" minOccurs="0"/>
+			<xsd:element name="ProcessingDateRequired" type="boolean" minOccurs="0"/>
+		</xsd:sequence>
+		<!-- Subject to Change -->
+	</xsd:complexType>
+	<xsd:complexType name="dividendDeclarationParamType">
+		<xsd:sequence>
+			<xsd:element name="ReceiptDateRequired" type="boolean" minOccurs="0"/>
+			<xsd:element name="ProcessingDateRequired" type="boolean" minOccurs="0"/>
+			<xsd:element name="Task" type="xsd:string"/>
+		</xsd:sequence>
+		<!-- Subject to Change -->
+	</xsd:complexType>
+	<xsd:complexType name="dividendDeclarationParamTypeMatch">
+		<xsd:sequence>
+			<xsd:element name="PayoutType" type="xsd:string"/>
+			<xsd:element name="ReceiptDateRequired" type="boolean" minOccurs="0"/>
+			<xsd:element name="ProcessingDateRequired" type="boolean" minOccurs="0"/>
+			<xsd:element name="BmsType" type="xsd:string"/>
+		</xsd:sequence>
+		<!-- Subject to Change -->
+	</xsd:complexType>
+</xsd:schema>

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: Co
+	Method:  getCoExists()
+	File:    get_co_exists.xml
+	Author:  Kevin Gichohi (EDS)
+	Created: 14 October 2005
+	Description: 
+		Determine whether the given consolidated order actually exists.
+	Change History:
+		04/08/2006 - Chris Vincent: fixed defect 4141 by adding security role ccbcMan to the service.
+-->
+<service-method>
+	<pipeline>
+		<SQLLite format-output="true"
+				 resultset-element="ds"
+				 row-element="Co"
+				 field-name-as="element" >
+			<DataSource id="java:OracleDS"/>
+			<Param name="param.coNumber" xpath="/params/param[@name='coNumber']"/>
+			<SQL>
+				SELECT 	DISTINCT CO.CO_NUMBER 	AS "coNumber"
+				,      	CO.ADMIN_COURT_CODE  	AS "AdminCourtCode" 
+				FROM 	CONSOLIDATED_ORDERS CO
+				WHERE 	CO.CO_NUMBER = ${param.coNumber}
+			</SQL>
+		</SQLLite>
+	</pipeline>
+	<Security roles="viewOnly medium high wcSuper scSuper bmsSuper aeSuper dmSuper edsAdmin cpSuper ccbcMan"/>
+</service-method>

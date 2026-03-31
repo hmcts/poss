@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<QueryDef>
+	<DBMapDef location="uk/gov/dca/caseman/obligation_service/map_get_obligation_rules.xml"/>
+	<Query pivotNode="/Obligation/ObligationRule" tables="OE OBR">
+		<Join>
+			OE.EVENT_ID (+)  = OBR.EVENT_ID
+    		</Join>
+		<Modify notModifiable="true"/>
+	</Query>
+</QueryDef>

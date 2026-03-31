@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>207</Id>
+	<Label>Is simultaneous exchange ordered?</Label>
+	<ObjectName>IsSimExchange</ObjectName>
+	<Html>	
+		<input type="checkbox" id="IsSimExchange"></input>
+	</Html>
+	<Javascript>
+		<XPath>/ds/EnterVariableData/FastTrack/isSimExchange</XPath>
+		<HintText>Check box if simultaneous exchange is  ordered</HintText>
+		<modelValue>checked: "Y", unchecked: "N"</modelValue>
+		<enableOn>IsWitnessOfFact.dataBinding</enableOn>
+		<isEnabled>return('Y' == Services.getValue(IsWitnessOfFact.dataBinding));</isEnabled>
+		<logicOn>IsWitnessOfFact.dataBinding</logicOn>
+		<logic>
+			if('Y' != Services.getValue(IsWitnessOfFact.dataBinding))
+			{	Services.setValue(IsSimExchange.dataBinding, "N");
+			}
+		</logic>
+	</Javascript>
+</Question>

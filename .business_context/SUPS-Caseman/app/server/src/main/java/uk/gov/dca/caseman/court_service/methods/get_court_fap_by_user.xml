@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: Court
+	Method:  getCourtFapByUser
+	File:    get_court_fap_by_user.xml
+	Author:  Chris Vincent (EDS)
+	Created: 8 February 2008
+	Description: Retrieves the court fap id associated with a user's default printer court.
+	If the user does not have a default printer court defined, the user's home court is used.
+	Created following CaseMan Defect 6181.
+-->
+<service-method>
+	<pipeline>
+		<SQLLite format-output="true"
+				 resultset-element="Court"
+				 row-element="CourtDetails"
+				 field-name-as="element" >			
+			<DataSource id="java:OracleDS"/>
+			<Param name="param.courtId" xpath="/params/param[@name = 'courtId']"/>
+			<Param name="param.userId" xpath="/params/param[@name = 'userId']"/>
+			<SQL>												
+				SELECT  c.code as "Code",
+						c.fap_id as "FAPId"
+				FROM    courts c, dca_user du
+				WHERE   du.user_id = ${param.userId}	
+				AND     NVL(du.printer_court_code, ${param.courtId}) = c.code
+			</SQL>
+		</SQLLite>		
+	</pipeline>
+	<Security roles="viewOnly medium high wcSuper scSuper bmsSuper aeSuper dmSuper admin"/>		
+</service-method>

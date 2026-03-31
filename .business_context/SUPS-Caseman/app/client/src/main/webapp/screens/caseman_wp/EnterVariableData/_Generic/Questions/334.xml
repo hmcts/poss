@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>334</Id>
+	<Label>Daily payment amount</Label>
+	<ObjectName>DailyPaymentAmt</ObjectName>
+	
+	<Html>
+		<input type="text" size="1" id="DefaultCurrency334"></input>
+		<input type="text" id="DailyPaymentAmt" size="9" maxlength="9"></input>
+	</Html>
+	
+	<Context screenId="CJR053"><isVisible>false</isVisible></Context>
+	<Context screenId="CJR055"><isVisible>false</isVisible></Context>
+	
+	<Javascript>
+		<XPath>/ds/EnterVariableData/InterimCosts/PossessionOrder/dailyPaymentAmt</XPath>
+		<componentName>##label##</componentName>
+		<HintText>Enter the additional daily amount (max 999999.99)</HintText>
+		<maxLength>9</maxLength>
+		<isMandatory>return true;</isMandatory>
+		<enableOn>HasAddDailyPayments.dataBinding</enableOn>
+		<isEnabled>return('Y' == Services.getValue(HasAddDailyPayments.dataBinding));</isEnabled>
+		<logicOn>HasAddDailyPayments.dataBinding</logicOn>
+		<logic>
+			if('Y' != Services.getValue(HasAddDailyPayments.dataBinding))
+			{	Services.setValue(DailyPaymentAmt.dataBinding, "");
+			}
+		</logic>
+		<validateOn>DailyPaymentAmt.dataBinding</validateOn>
+		<validate>
+
+			var val = Services.getValue(DailyPaymentAmt.dataBinding);
+			var err = validateCurrencyValue(val, 999999.99 );
+			if( null == err )
+			{	var fVal = WPU.formatToTwoDP(Services.getValue(DailyPaymentAmt.dataBinding));
+				Services.setValue(DailyPaymentAmt.dataBinding, fVal);
+			}
+			return err;
+		</validate>
+		<miscCode>
+			function DefaultCurrency334() {}
+			DefaultCurrency334.dataBinding = "/ds/EnterVariableData/curr1";
+			DefaultCurrency334.tabIndex = -1;
+			DefaultCurrency334.maxLength = 1;
+			DefaultCurrency334.isReadOnly = function(){return true;}
+			DefaultCurrency334.isTemporary = function(){return true;}
+			DefaultCurrency334.transformToDisplay = function(value){
+				return WPS.__CaseManUtils().transformCurrencySymbolToDisplay(value,null,null); }
+			DefaultCurrency334.transformToModel = function(value){
+				return WPS.__CaseManUtils().transformCurrencySymbolToModel(value,null,null); }
+        </miscCode>
+		<Context ScreenId="CJR052">
+			<isEnabled>return true;</isEnabled>
+		</Context>
+	</Javascript>
+</Question>  

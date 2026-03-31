@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>9128</Id>
+	<Label>Provisions for the injunction</Label>
+	<ObjectName>ProvisionInjunction</ObjectName>
+	<Html>
+		<textarea id="ProvisionInjunction" rows="5" cols="80"></textarea>	
+	</Html>			
+	<Javascript>
+        <XPath>/ds/EnterVariableData/provisionInjunction</XPath>
+		<HintText>Enter provisions for the injunction</HintText>
+        <Context ScreenId="O_2_6">
+            <mandatoryOn>ProvisionInjunction.dataBinding</mandatoryOn> 
+            <isMandatory>return true;</isMandatory> 
+        </Context>
+        <isEnabled>return true;</isEnabled> 
+		<transformToModel>return WPU.encodeLineBreaks( this, value );</transformToModel>
+		<transformToDisplay>return WPU.decodeLineBreaks( this, value );</transformToDisplay>              
+	</Javascript>
+</Question>  

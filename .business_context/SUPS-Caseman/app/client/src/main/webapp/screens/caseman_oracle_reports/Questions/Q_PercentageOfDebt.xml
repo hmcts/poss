@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- 
+	31/08/2006 - MGG - defect 4926 - Changed validation so must be between 1 and 100, instaed of 0 and 100
+-->
+<!--Question xmlns="http://eds.com/questionxhtml" xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd"-->
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>Q_PercentageOfDebt</Id>
+	<Label>The % of debt</Label>
+	<ObjectName>PercentageOfDebt</ObjectName>
+	<Html>
+		<input id="PercentageOfDebt" type="text" size="3"></input>
+	</Html>
+	<Javascript>
+		<XPath>/ds/var/page/OracleReportForm/PercentageOfDebt</XPath>
+		<ReportVariableName>REPORT_VALUE_1</ReportVariableName>
+		<ReportVariableValue>Services.getValue(PercentageOfDebt.dataBinding)</ReportVariableValue>
+		<HintText>Enter the % of debt that must be reached before the court pays out</HintText>
+		<isMandatory>return true;</isMandatory>
+		<maxLength>3</maxLength>		
+		<validate>
+			var value = Services.getValue(this.dataBinding);
+			var errCode = null;
+			if (!CaseManUtils.isBlank(value)) 
+			{
+				errCode = CaseManValidationHelper.validatePattern(value, CaseManValidationHelper.NUMERIC_PATTERN, "CaseMan_Reports_Enter_Number");
+			}
+			if (errCode == null)
+			{
+				// defect 4926 - should be less than 1, not 0
+				if ((value &lt; 1) || (value &gt; 100))
+				{
+					errCode = ErrorCode.getErrorCode("CaseMan_Reports_PercentageNotInCorrectRange_Msg");
+				}
+			}
+			return errCode;
+		</validate>
+	</Javascript>
+</Question>

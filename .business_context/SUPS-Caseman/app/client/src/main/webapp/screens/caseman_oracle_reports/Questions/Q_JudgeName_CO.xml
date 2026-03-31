@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--Question xmlns="http://eds.com/questionxhtml" xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd"-->
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>Q_JudgeName</Id>
+	<Label>Judge Name</Label>
+	<ObjectName>JudgeName</ObjectName>
+	<Html>
+	
+					<input id="JudgeName" type="text" size="25"></input>		
+		
+	</Html>
+	<Javascript>
+		<XPath>/ds/var/page/OracleReportForm/JudgeName</XPath>
+		<ReportVariableName>JDG_NAME</ReportVariableName>
+		<ReportVariableValue>Services.getValue(JudgeTitle.dataBinding) + " " + Services.getValue(JudgeName.dataBinding)</ReportVariableValue>
+		<ReportVariableCode>12080</ReportVariableCode>
+		<HintText>Enter the Judge's surname (e.g. District Judge Smith)</HintText>
+		<isMandatory>return true;</isMandatory>
+		<initialise></initialise>
+		<transformToDisplay>
+			return (null != value) ? CaseManUtils.superInitCaps(value) : null;
+		</transformToDisplay>
+		<transformToModel>
+			return (null != value) ? CaseManUtils.superInitCaps(value) : null;
+		</transformToModel>		
+		<setDefault>
+		</setDefault>		
+		<validateOn>
+		</validateOn>
+		<validate>
+		</validate>
+		<miscCode>			
+		</miscCode>
+	</Javascript>
+</Question>

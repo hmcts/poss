@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: StartOfDay
+	Method:  getAeEventOutputs()
+	File:    get_ae_event_outputs.xml
+	Author:  Chris Hutt
+	Created: 5 dec 2005
+	Description: 
+		Get EventOutputs associated with a specified AE event
+	Change History:
+	25/11/2015 - Chris Vincent: change to return Case Number in the query.  Trac 5725
+-->
+<service-method>
+	<pipeline>
+		<SQLLite format-output="true"
+				 resultset-element="AeEventOutputs"
+				 row-element="AeEventOutput"
+				 field-name-as="element" >
+			<DataSource id="java:OracleDS"/>
+				<Param name="param.aeEventSeq" xpath="/params/param[@name='aeEventSeq']"/>			
+			<SQL>
+     				SELECT
+        					eo.std_event_id 	as "StandardEventId"
+        				, 	eo.issue_stage 		as "IssueStage"
+        				, 	eo.order_type_id 	as "OrderType"
+        				,	eo.code 			as "Code"
+       	 				,	ae.report_value_1 	as "ReportValue1"
+        				,	ae.process_stage 	as "ProcessStage"
+        				,	ae.ae_number 		as "AeNumber"
+        				,	ae.event_date     	as "EventDate"
+						,	aa.case_number		as "CaseNumber"
+     				FROM
+							event_outputs eo,
+							ae_events ae,
+							ae_applications aa
+     				WHERE
+							ae.ae_event_seq 	= ${param.aeEventSeq}
+     				AND 	eo.std_event_id 	= ae.std_event_id
+     				AND 	((eo.issue_stage is not null AND eo.issue_stage = ae.issue_stage)
+	   						OR 
+          					(eo.issue_stage is null))
+					AND		aa.ae_number = ae.ae_number
+     				ORDER BY eo.code,eo.order_type_id
+			</SQL>
+		</SQLLite>
+	</pipeline>
+	<Security roles="viewOnly medium high wcSuper scSuper bmsSuper aeSuper dmSuper edsAdmin"/>
+</service-method>

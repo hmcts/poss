@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: Payments
+	Method: searchPayments(), searchValidPayments(), searchOverpayments(), searchValidAdhocPayoutPayments()
+	File: query_def_search_payments.xml
+	Author: Steve Blair
+-->
+<QueryDef>
+	<DBMapDef location="uk/gov/dca/caseman/payments_service/map_search_payments.xml" />
+	<Query pivotNode="/SearchResults/Payment" tables="P">
+		<Modify notModifiable="true" />
+	</Query>
+</QueryDef>

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>210</Id>
+	<Label>Is a single expert direction made?</Label>
+	<ObjectName>IsSingleExpert</ObjectName>
+	<Html>	
+		<input type="checkbox" id="IsSingleExpert"></input>
+	</Html>
+	<Javascript>
+		<XPath>/ds/EnterVariableData/FastTrack/isSingleExpert</XPath>
+		<HintText>Check box if there is a single expert direction made</HintText>	
+		<modelValue>checked: "Y", unchecked: "N"</modelValue>
+		<enableOn>ExpertRefused.dataBinding</enableOn>
+		<isEnabled>return('Y' != Services.getValue(ExpertRefused.dataBinding));</isEnabled>
+		<logicOn>ExpertRefused.dataBinding</logicOn>
+		<logic>
+			if('Y' == Services.getValue(ExpertRefused.dataBinding))
+			{	Services.setValue(IsSingleExpert.dataBinding, "N");
+			}
+		</logic>
+		<Context ScreenId="CJR020">
+			<enableOn>TrialDateFixed.dataBinding, ExpertRefused.dataBinding</enableOn>
+			<isEnabled>
+				var v1 = Services.getValue(ExpertRefused.dataBinding);
+				return(TrialDateFixed.isEnabled()&amp;&amp; v1 != 'Y');
+			</isEnabled>
+			<logicOn>TrialDateFixed.dataBinding, ExpertRefused.dataBinding</logicOn>
+			<logic>
+				var v1 = Services.getValue(ExpertRefused.dataBinding);
+				if(!TrialDateFixed.isEnabled()|| v1 == 'Y')
+				{	Services.setValue(IsSingleExpert.dataBinding, "N");
+				}
+			</logic>
+		</Context>
+	</Javascript>
+</Question>

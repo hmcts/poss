@@ -1,0 +1,157 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3c.org/TR/html4/strict.dtd">
+<html>
+
+	<head>
+		<title>MaintainSystemData</title>
+		<link href="MaintainSystemData.css" type="text/css" rel="stylesheet">
+		<script type="text/javascript" src="../../Framework.js"></script>
+		<script type="text/javascript" src="../../ConcatCommon.js"></script>
+		<script type="text/javascript" src="MaintainSystemDataConstants.js"></script>
+		<script type="text/javascript" src="MaintainSystemDataHelperFunctions.js"></script>
+		<script type="text/javascript" src="MaintainSystemData.js"></script>
+	</head>
+	
+	<body>
+		<form name="MaintainSystemData" id="maintainSystemData">
+			 
+			<!-- Framework Navigation Menu -->
+			<script type="text/javascript">MenuBarRenderer.createInline();</script>
+			
+			<!-- Start Master Panel -->
+			<table class="layout">				
+				<tr>
+					<td>						
+						<div class="panel">
+							<table class="content" style="height:570px;">
+			    				<tr>
+									<td valign="top">
+		
+										<div class="tabbedArea" id="myTabbedArea" >
+		
+											<script type="text/javascript">
+												TabSelector.createInline( "myTabSelector", 
+																		  [ 
+																			  { tabLabel: "PER Details",         pageId: "SystemData_PERDetailsPage"},
+																			  { tabLabel: "Other System Data",   pageId: "SystemData_OtherDataPage"},
+																			  { tabLabel: "Court Specific Data", pageId: "SystemData_CourtSpecificPage"}
+																		  ]
+												);
+											</script>
+		
+											<div class="pagedArea" id="myPagedArea">
+		
+												<div class="page" id="SystemData_PERDetailsPage">
+		
+													<table>
+														<tr>
+															<td valign="top">
+																<table>
+																	<tr>
+																		<td class="defaultLabel"><label for='PERDetails_DetailCode'>Select PER Detail</label></td>
+																		<td style="width:50px;"><input id="PERDetails_DetailCode" type="text" size="10"/></td>
+																		<td><script type="text/javascript">AutoCompletionRenderer.createInline("PERDetails_Prompt");</script></td>
+																		<td style="width:88px;"><input id="PERDetails_PERLOVButton" type="Button" value="LOV"/></td>
+																		<td><input id="PERDetails_SearchButton" type="button" value="Search"></td>
+																	</tr>
+																	<tr>
+																		<td colspan=5>
+																			<script type="text/javascript">Grid.createInline("PERDetails_PERDetailsGrid", ["Item", "","Value"], 28, 1);</script>
+																		</td>
+																	</tr>
+																	<tr>
+																		<td colspan=3 align="right">
+																			<input type="button" id="PERDetails_UpdateButton" value="Update">
+																			&nbsp;<input type="button" id="PERDetails_ClearButton" value="Clear" style="margin-right:105px;">
+																		</td>
+																		<td colspan=2>&nbsp;</td>
+																	</tr>
+																</table>
+															</td>
+														</tr>
+													</table>
+												
+												</div>
+												
+												<div class="page" id="SystemData_OtherDataPage">
+		
+													<table>
+														<tr>
+															<td valign="top">
+																<script type="text/javascript">Grid.createInline("OtherData_OtherDataGrid", ["Item", "","Value"], 30, 1);</script>
+															</td>
+														</tr>
+														<tr>
+															<td align="right">
+																<input type="button" id="OtherData_AddButton" value="Add">
+																&nbsp;<input type="button" id="OtherData_UpdateButton" value="Update">
+															</td>
+														</tr>
+													</table>
+												
+												</div>
+												
+												<div class="page" id="SystemData_CourtSpecificPage">
+		
+													<table>
+														<tr>
+															<td valign="top">
+																<table>
+																	<tr>
+																		<td class="defaultLabel"><label for='CourtSpecific_CourtCode'>Select Court</label></td>
+																		<td style="width:50px;"><input id="CourtSpecific_CourtCode" type="text" size="5"/></td>
+																		<td><script type="text/javascript">AutoCompletionRenderer.createInline("CourtSpecific_CourtName");</script></td>
+																		<td style="width:88px;"><input id="CourtSpecific_CourtLOVButton" type="Button" value="LOV"/></td>
+																		<td><input id="CourtSpecific_SearchButton" type="button" value="Search"></td>
+																	</tr>
+																	<tr>
+																		<td colspan=5>
+																			<script type="text/javascript">Grid.createInline("CourtSpecific_ResultsGrid", ["Item", "","Value"], 28, 1);</script>
+																		</td>
+																	</tr>
+																	<tr>
+																		<td colspan=3 align="right">
+																			<input type="button" id="CourtSpecific_AddButton" value="Add">
+																			&nbsp;<input type="button" id="CourtSpecific_UpdateButton" value="Update">
+																			&nbsp;<input type="button" id="CourtSpecific_ClearButton" value="Clear">
+																		</td>
+																		<td colspan=2>&nbsp;</td>
+																	</tr>
+																</table>
+															</td>
+														</tr>
+													</table>
+												
+												</div>
+											
+											</div>
+											
+										</div>
+									</td>
+								</tr>
+							</table>
+						</div>
+					</td>
+				</tr>
+															
+			</table>
+	  
+			<!-- Status Bar Panel -->
+			<script type="text/javascript">
+				ActionBarRenderer.createInline(
+					"status_bar",
+					[ { id: "Status_CloseButton", label: "Close" } ]
+				);
+			</script>
+
+			<!-- LOV POPUPs -->
+			<script type="text/javascript">LOVSubformRenderer.createInline( "CourtSpecific_CourtLOVGrid", "Courts", ["Code", "Court"], 10, 1, true );</script>
+			<script type="text/javascript">LOVSubformRenderer.createInline( "PERDetails_PERLOVGrid", "Protected Earnings Rates", ["Detail Code", "Prompt"], 10, 1, true );</script>
+
+			<!-- SUBFORMS -->
+			<div class="popup popupsubform" id="maintainSystemData_subform"></div>
+																				
+		</form>
+
+	</body>
+
+</html>

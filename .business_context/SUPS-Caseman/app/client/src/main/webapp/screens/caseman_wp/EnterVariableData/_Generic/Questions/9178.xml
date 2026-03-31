@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>9178</Id>
+	<Label>Select letter</Label>
+	<ObjectName>SelectLetter</ObjectName>
+	<Html>
+		<select id="SelectLetter">
+			<option value=""></option>
+			<option value="1">Acknowledge receipt detailed assessment</option>
+			<option value="2">Return assessment enquiry and request more info</option>
+			<option value="3">Notice of vacation of assessment hearing</option>
+			<option value="4">Request to collect bundle</option>
+		</select>
+	</Html>			
+	<Javascript>
+		<XPath>/ds/EnterVariableData/selectLetter</XPath>
+		<HintText>Select letter</HintText>
+		<isEnabled>return true</isEnabled>
+		<isMandatory>return true;</isMandatory>
+		<mandatoryOn>SelectLetter.dataBinding</mandatoryOn>
+	</Javascript>
+</Question>

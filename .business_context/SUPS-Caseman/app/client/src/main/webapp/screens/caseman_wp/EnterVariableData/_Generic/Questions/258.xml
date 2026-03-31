@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>258</Id>
+	<Label>Days allowed for service of request</Label>
+	<ObjectName>ReqServiceDays</ObjectName>
+	<Html>	
+		<input type="text" size="3" id="ReqServiceDays"></input>
+	</Html>
+	<Javascript>
+		<XPath>/ds/EnterVariableData/FastTrack/reqServiceDays</XPath>
+		<HintText>Enter the number of days allowed for service of request</HintText>
+		<isMandatory>return true;</isMandatory>	
+		<enableOn>RFIDirn.dataBinding</enableOn>
+		<isEnabled>return('Y' == Services.getValue(RFIDirn.dataBinding));</isEnabled>
+		<logicOn>RFIDirn.dataBinding</logicOn>
+		<logic>
+			if('Y' != Services.getValue(RFIDirn.dataBinding))
+			{	Services.setValue(ReqServiceDays.dataBinding, "");
+			}
+		</logic>
+		<validateOn>ReqServiceDays.dataBinding</validateOn>
+		<validate>
+			var val = Services.getValue(ReqServiceDays.dataBinding);
+			var err = WPU.validateInteger( val);
+			if( null == err )
+			{	if( val &lt;= 0)
+				{	err = ErrorCode.getErrorCode("CaseMan_negativeAmountEntered_Msg");
+				}
+			}
+			
+			return err;
+		</validate>
+	</Javascript>
+</Question>

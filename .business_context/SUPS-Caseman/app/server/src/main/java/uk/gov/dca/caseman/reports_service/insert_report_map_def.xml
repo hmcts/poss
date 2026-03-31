@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<QueryDef>
+	<DBMapDef location="uk/gov/dca/caseman/reports_service/insert_report_map_map.xml"/>
+	<Query pivotNode="/insert_report_map" tables="RM">
+		<Modify>
+			<CheckExists table="RM" fields="LEGACY_PATH FILE_NAME" useOptimisticLock="false" onExist="skip" onNotExist="add"/>	
+		</Modify>
+	</Query>
+</QueryDef>

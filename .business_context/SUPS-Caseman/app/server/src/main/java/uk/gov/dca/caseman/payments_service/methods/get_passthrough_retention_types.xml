@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: Payments
+	Method:  getPassthroughRetentionTypes()
+	File:    get_passthrough_retention_types.xml
+	Author:  Tony White
+	Description: 
+        List of Retention Types for Passthrough Payments
+-->
+<service-method>
+	<pipeline>
+		<Query>
+			<QueryDef location="uk/gov/dca/caseman/payments_service/query_def_retention_types.xml" />
+			<QueryExtension pivotNode="/RetentionTypes/RetentionType">
+				<Constraint>
+					CRC.RV_DOMAIN = 'PASSTHROUGH RETENTION TYPE'
+				</Constraint>
+				<Ordering>
+					CRC.RV_MEANING
+				</Ordering>
+			</QueryExtension>
+		</Query>
+	</pipeline>
+	<Security roles="medium high wcSuper scSuper bmsSuper aeSuper dmSuper cpSuper" />
+</service-method>

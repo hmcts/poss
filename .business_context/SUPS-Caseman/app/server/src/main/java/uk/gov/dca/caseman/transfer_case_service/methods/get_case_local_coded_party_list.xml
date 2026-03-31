@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: TransferCase
+	Method:  getCaseLocalCodedPartyList()
+	File:    get_case_local_coded_party_list.xml
+	Author:  Phil Haferer (EDS)
+	Created: 27 July 2005
+	Description: 
+		Retrieve the details of the Coded Parties that are linked into a Case,
+		ready to convert them to non-coded parties.
+-->
+<service-method>
+	<pipeline>
+		<Query>
+			<QueryDef location="uk/gov/dca/caseman/transfer_case_service/query_def_case_local_coded_party_list.xml"/>
+			<QueryExtension pivotNode="/CaseLocalCodedPartyList/CaseLocalCodedParty">
+				<Param name="param.caseNumber" xpath="/params/param[@name = 'caseNumber']"/>
+				<Constraint>CPR.CASE_NUMBER = ${param.caseNumber}</Constraint>
+			</QueryExtension>
+		</Query>
+	</pipeline>
+	<Security roles="user"/>
+</service-method>

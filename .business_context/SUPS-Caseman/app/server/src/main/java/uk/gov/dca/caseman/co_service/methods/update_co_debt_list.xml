@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: Co
+	Method:  updateCoDebtList()
+	File:    update_co_debt_list.xml
+	Author:  Phil Haferer (EDS)
+	Created: 19 August 2005
+	Description: 
+		Update the list of Debts associated with a Consolidated Order.
+-->
+<service-method>
+	<pipeline>
+		<Transform>
+			<Template location="uk/gov/dca/caseman/co_service/transforms/update_co_debt_list.xsl"/>
+		</Transform>
+		<Update>
+			<QueryDef location="uk/gov/dca/caseman/co_service/query_def_modify_co_debt_list.xml"/>
+			<DataSource xpath="/params/param[@name='co']"/>
+		</Update>
+		<Java callStyle="new">
+			<Source class="uk.gov.dca.caseman.co_service.java.UpdateCoFeeAmountCustomProcessor"/>
+		</Java>
+	</pipeline>
+	<Security roles="medium high wcSuper scSuper bmsSuper aeSuper dmSuper"/>
+</service-method>

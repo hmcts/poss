@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Change History -->
+<!-- //27-June-2006 Kevin Gichohi (EDS): Retrieve caseNumber from the Header since the one in WPData is null -->
+<!-- //05-July-2006 Kevin Gichohi (EDS): Retrieve only hearings in the past as specified in UC088 and UC089  -->
+<!-- //06-July-2006 Kevin Gichohi (EDS): If there is no past hearing, insert some words ("There is no hearing in the past") into the mandatory field -->
+<!--
+	19/12/2006 - CV - Added F6 keybinding to LOV via SelectHearing_Popup.raise configuration.
+	Temp_Caseman defects 299/334.
+-->
+<!--Question xmlns="http://eds.com/questionxhtml" xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd"-->
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>Q_SelectTheLastHearingUsingLOV</Id>
+	<Label>Select the Last Hearing</Label>
+	<ObjectName>SelectTheLastHearingUsingLOV</ObjectName>
+	<Html>
+		<input id="SelectTheLastHearingUsingLOV" type="text" size="70"></input>
+		<input id="SelectTheLastHearingUsingLOVButton" type="Button" value="LOV"/>
+		<!-- Hearingin Venue Selection popup -->
+		<div class="popup" id="SelectHearing_Popup">
+			<table class="content">
+				<tr><td>
+					<script type="text/javascript">Grid.createInline("SelectHearingGrid", ["Court Code", "Court Name", "Type", "Date", "Time"] , 2, 1);</script>
+				</td></tr>
+				<tr style="height: 2px;">
+					<td> </td>
+				</tr>
+				<tr><td align="right">
+					<input type="button" value="OK" id="SelectHearing_OKBtn"></input>
+					<input type="button" value="Cancel" id="SelectHearing_CancelBtn"></input></td>
+				</tr>
+			</table>
+		</div>		
+	</Html>
+	<Javascript>
+		<XPath>/ds/var/page/OracleReportForm/SelectTheLastHearingUsingLOV</XPath>
+		<ReportVariableName>REPORT_VALUE_5</ReportVariableName>
+		<ReportVariableValue>Services.getValue(SelectHearingGrid.dataBinding)</ReportVariableValue>
+		<HintText>Select last hearing for this case</HintText>
+		<isMandatory>return true;</isMandatory>
+		<initialise>
+			//var casenumber = Services.getValue("/ds/var/app/WPData/WordProcessing/Case/CaseNumber"); 
+			
+			//27-June-2006 Kevin Gichohi (EDS): Retrieve caseNumber from the Header since the one in WPData is null
+			var casenumber = Services.getValue(Header_CaseNumber.dataBinding);
+			//alert(casenumber); 			 	
+		   	loadHearing( casenumber);
+		</initialise>
+		<setDefault>
+		</setDefault>
+		<transformToDisplay>
+			//debugger;
+			var v = Services.getValue("/ds/var/tmp/contatenatedLastHearingValue");
+			return v;
+	    </transformToDisplay>		
+		<validateOn>
+		</validateOn>
+		<validate>
+		</validate>
+		<miscCode>
+			var MAINTAIN_HEARING = "/ds/MaintainHearing/Hearings";  
+		
+			function SelectHearing_Popup(){}
+			SelectHearing_Popup.raise = {
+				eventBinding: {
+					singleClicks: [ {element: "SelectTheLastHearingUsingLOVButton"} ],
+					keys: [ { key: Key.F6, element: "SelectTheLastHearingUsingLOV" } ]
+				}
+			};
+			SelectHearing_Popup.lower = {
+				eventBinding: {
+					singleClicks: [ {element: "SelectHearing_CancelBtn"} ],
+					keys: [ { key: Key.F4, element: "SelectHearing_Popup" } ]
+				}
+			};			
+
+			function SelectTheLastHearingUsingLOVButton() {}
+			SelectTheLastHearingUsingLOVButton.tabIndex = __tabIdx++;	
+
+			function SelectHearing_OKBtn(){}
+			SelectHearing_OKBtn.actionBinding = function()
+			{	
+				
+				var hearingId = Services.getValue(SelectHearingGrid.dataBinding);
+				//06-July-2006 Kevin Gichohi (EDS): If there is no past hearing, insert some words ("There is no hearing in the past") into the mandatory field 
+				if (null != hearingId &amp;&amp; "" != hearingId)
+				{
+					var type = Services.getValue( MAINTAIN_HEARING+"/Hearing[./HearingID="+hearingId+"]/TypeOfHearingCode");
+				 	var code = Services.getValue( MAINTAIN_HEARING+"/Hearing[./HearingID="+hearingId+"]/VenueCode");
+				 	var name = Services.getValue( MAINTAIN_HEARING+"/Hearing[./HearingID="+hearingId+"]/VenueName");
+				 	var date = Services.getValue( MAINTAIN_HEARING+"/Hearing[./HearingID="+hearingId+"]/Date");
+				 	var time = Services.getValue( MAINTAIN_HEARING+"/Hearing[./HearingID="+hearingId+"]/Time");
+				 	var ln1  = Services.getValue( MAINTAIN_HEARING+"/Hearing[./HearingID="+hearingId+"]/Address/Line[1]");
+				 	var ln2  = Services.getValue( MAINTAIN_HEARING+"/Hearing[./HearingID="+hearingId+"]/Address/Line[2]");
+				 	var ln3  = Services.getValue( MAINTAIN_HEARING+"/Hearing[./HearingID="+hearingId+"]/Address/Line[3]");
+				 	var ln4  = Services.getValue( MAINTAIN_HEARING+"/Hearing[./HearingID="+hearingId+"]/Address/Line[4]");
+				 	var ln5  = Services.getValue( MAINTAIN_HEARING+"/Hearing[./HearingID="+hearingId+"]/Address/Line[5]");
+				 	var pcd  = Services.getValue( MAINTAIN_HEARING+"/Hearing[./HearingID="+hearingId+"]/Address/PostCode");
+				 	
+				 	strTime = transformToDisplayTime(time, VAR_PAGE_XPATH + "/Tmp/Hearing/ValidTime2");
+				 	Services.setValue("/ds/var/tmp/contatenatedLastHearingValue", type + " " + date  + " " + strTime + " " + name);		
+				 	Services.setValue(SelectTheLastHearingUsingLOV.dataBinding, type + " " + date  + " " + strTime + " " + name);	 	
+					
+					Services.setValue(Hearing2Courtname.dataBinding, name);
+					//Services.setValue(NEW_HEARING_TMP_PATH + "/Address/AddressId", addressId);
+					Services.setValue(Hearing2VenueAddressLine1.dataBinding, ln1);
+					Services.setValue(Hearing2VenueAddressLine2.dataBinding, ln2);			
+					Services.setValue(Hearing2VenueAddressLine3.dataBinding, ln3);
+					Services.setValue(Hearing2VenueAddressLine4.dataBinding, ln4);
+					Services.setValue(Hearing2VenuePostcode.dataBinding, pcd);	
+				}
+				else
+				{
+					Services.setValue("/ds/var/tmp/contatenatedLastHearingValue", "There is no hearing in the past");		
+				 	Services.setValue(SelectTheLastHearingUsingLOV.dataBinding, "");	 	
+					
+				}								
+
+				FormController.getInstance().hideFormExtensionPopup("SelectHearing");
+			}
+			
+			
+			//------------------------  SelectVenue_CancelBtn  -----------------------------------------
+			
+			function SelectHearing_CancelBtn(){}
+			
+			
+			//------------------------ SelectHearingGrid      ------------------------------------------
+			
+			function SelectHearingGrid(){}
+			SelectHearingGrid.dataBinding = "/ds/OracleReportForm/Service/selectHearingGrid";
+			SelectHearingGrid.helpText = "Select the hearing venue";
+			SelectHearingGrid.srcData	= "/ds/MaintainHearing/Hearings"; 
+			SelectHearingGrid.keyXPath  = "HearingID";
+			SelectHearingGrid.rowXPath	= "Hearing";   //[./Date > "+systemdate+"]";  
+			SelectHearingGrid.columns = [
+				{xpath: "VenueCode"},
+				{xpath: "VenueName"},
+				{xpath: "TypeOfHearing"},
+				{xpath: "Date", sort: CaseManUtils.sortGridDatesDsc, defaultSort:"true", defaultSortOrder:"descending", transformToDisplay: CaseManUtils.formatGridDate},
+				{xpath: "Time",  transformToDisplay: CaseManUtils.convertSecondsToTime}
+			];	
+			
+			function loadHearing( caseNumber )
+			{
+				var params = new ServiceParams();
+				params.addSimpleParameter("caseNumber", caseNumber);
+				
+				//05-July-2006 Kevin Gichohi (EDS): Retrieve only hearings in the past as specified in UC088 and UC089
+				//Services.callService("getHearing", params, HearingHandler, true);
+				
+				Services.callService("getPastHearing", params, HearingHandler, true);
+			}
+
+			function HearingHandler(){};
+			HearingHandler.onSuccess = function(dom)
+			{  	
+				//debugger;
+				Services.replaceNode("/ds/MaintainHearing", dom.selectSingleNode("/ds/MaintainHearing") );
+			}
+			
+			// This method ensures a time is transformed from the DOM to display correctly.
+			// Even if invalid must be displayed as the user entered.
+			function transformToDisplayTime(pTime, validTimeFlagXPath)
+			{	
+				if(Services.getValue(validTimeFlagXPath) == "N")
+				{
+					return pTime;
+				}
+				
+				if( null != pTime &amp;&amp; !isNaN(pTime) )
+				{
+					var convertedTime = CaseManUtils.convertSecondsToTime(pTime);
+					if( null != convertedTime )
+					{
+						if(CaseManValidationHelper.validateTime(convertedTime))
+						{
+							return convertedTime;
+						}
+					}
+				}
+				return pTime;
+			}			
+		</miscCode>
+	</Javascript>
+</Question>

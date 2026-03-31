@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<QueryDef>
+<DBMapDef location="uk/gov/dca/caseman/judgment_refdata_service/map_type.xml"/>
+  <Query pivotNode="/JudgmentTypes/Type" tables="CRC">
+    <Join>
+    	CRC.RV_DOMAIN = 'JUDGMENT_TYPE'
+   </Join>
+   <OrderBy>CRC.RV_LOW_VALUE</OrderBy>
+   <Modify notModifiable="true"/>	
+  </Query>
+</QueryDef>

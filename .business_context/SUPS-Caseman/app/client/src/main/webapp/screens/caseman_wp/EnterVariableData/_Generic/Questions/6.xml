@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>6</Id>
+	<Label>Date by which documents are to be filed</Label>
+	<ObjectName>DocsFiledByDate</ObjectName>
+	<Html>
+	    <script type="text/javascript">WP_DatePickerRenderer.createInline("DocsFiledByDate", false);</script>
+	</Html>
+	<Javascript>
+		<XPath>/ds/EnterVariableData/Documents/filedDate</XPath>
+		<componentName>##label##</componentName>
+		<HintText>Enter the date for the documents to be filed</HintText>
+		<isMandatory>return false;</isMandatory>
+		<mandatoryOn>DocsFiledByDate.dataBinding</mandatoryOn>
+		<transformToModel>
+			return transformDateToModel(value);
+		</transformToModel>
+		<transformToDisplay>
+			if (value != null)
+			{
+				if (value.search(CaseManValidationHelper.YYYYMMDD_DATE_PATTERN) != -1)
+				{
+					return CaseManUtils.convertDateToDisplay(value);
+				}
+			}
+			return value;
+		</transformToDisplay>			
+		<initialise>
+			var expiryDate = Services.getValue("/ds/MaintainObligations/Obligations/Obligation[last()]/ExpiryDate");						
+			Services.setValue(DocsFiledByDate.dataBinding, "");
+			Services.setValue(DocsFiledByDate.dataBinding, expiryDate);		
+		</initialise>	
+	</Javascript>
+</Question>

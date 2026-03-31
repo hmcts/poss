@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<QueryDef>
+  <DBMapDef location="uk/gov/dca/caseman/co_event_service/map_update_co_events.xml"/>
+  <Query pivotNode="/ManageCOEvents/COEvents/COEvent" tables="COE">
+	<Join/>
+        <Modify>
+          <Field name="COE.CO_NUMBER" xpath="../../CONumber"/>
+	</Modify>
+  </Query>
+</QueryDef>

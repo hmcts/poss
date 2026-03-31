@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Question>
+	<Id>868</Id>
+	<Label>Joint Judgment</Label>
+	<ObjectName>JointJudgment</ObjectName>
+	<Html>
+		<input id="JointJudgment" type="checkbox"></input>
+	</Html>
+	<Context screenId="CJR050"><isVisible>false</isVisible></Context>
+	<Context screenId="CJR051"><isVisible>false</isVisible></Context>
+	<Context screenId="CJR052"><isVisible>false</isVisible></Context>
+	<Context screenId="CJR090"><isVisible>false</isVisible></Context>
+	<Context screenId="N32_2"><isVisible>false</isVisible></Context>
+	<Context screenId="N32_5"><isVisible>false</isVisible></Context>
+	<Javascript>
+		<XPath>/ds/EnterVariableData/Judgment/JointJudgment</XPath>
+		<componentName>Joint Judgment</componentName>
+		<HintText>Check box if Joint Judgment</HintText>		
+		<isMandatory>return false;</isMandatory>
+		<isReadOnly>if (null != WP &amp;&amp; null != WP.GetScreenProcess()) { 
+			/** if not a ccbc court then return true **/
+			if ("335" != WPU.getCaseEventCourtCode()) { return true; } else { return false; }
+			}
+		</isReadOnly>
+		<modelValue>checked: "Y", unchecked: "N"</modelValue>
+	</Javascript>
+</Question>		

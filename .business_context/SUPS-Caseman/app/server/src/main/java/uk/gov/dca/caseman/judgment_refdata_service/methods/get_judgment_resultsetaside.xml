@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+Service: JudgmentRefdata
+	Method:  getJudgmentResultsetaside()
+	File:    get_judgment_resultsetaside.xml
+	Author:  Troy Baines
+	Created: 20 November 2004
+	Description: 
+        Retrieves the list of set aside results for the judgment window
+-->
+<service-method>
+	<pipeline>
+		<Query>
+			<QueryDef location="uk/gov/dca/caseman/judgment_refdata_service/query_def_resultsetaside.xml"/>
+			<QueryExtension pivotNode="/JudgmentResultsAside/Result">
+				<Constraint>CRC.RV_DOMAIN = 'RESULT_SET_ASIDE'</Constraint>
+			</QueryExtension>
+		</Query>
+	</pipeline>
+	<Security roles="viewOnly medium high wcSuper scSuper bmsSuper aeSuper dmSuper cpSuper ccbcMan ccbcUser ccbcSGB2"/>
+</service-method>

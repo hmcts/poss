@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: Dom
+	Method:  getFeeElement()
+	File:    get_fee_element.xml
+	Author:  Ian Stainer (Valtech)
+	Created: 13 July 2005
+	Description: 
+		Returns the sum of fees from consolidated orders
+	Amended:
+		Mark Groen - 17 April 2007 - Caseman 6145
+		Changed so now returns the actual fee emelmnt (e.g. 15%) and not the total fees
+		Old code removed
+			SELECT NVL(co.fee_amount,0) as "Amount"
+			FROM   consolidated_orders co
+			WHERE  co.co_number = ${param.coNumber}	
+-->
+<service-method>
+	<pipeline>
+		<SQLLite format-output="true"
+				 resultset-element="ResultSet"
+				 row-element="Row"
+				 field-name-as="element" >			
+			<DataSource id="java:OracleDS"/>
+			<Param name="param.coNumber" xpath="/params/param[@name = 'coNumber']"/>
+			<SQL>												
+				SELECT NVL(co.fee_rate,0) as "Amount"
+				FROM   consolidated_orders co
+				WHERE  co.co_number = ${param.coNumber}		
+			</SQL>
+		</SQLLite>
+	</pipeline>
+	<Security roles="user"/>
+</service-method>

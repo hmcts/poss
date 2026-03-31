@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: WpOutput
+	Method:  deleteReturnReportMapRow()
+	File:    delete_return_report_map_row.xml
+	Author:  Chris Vincent
+	Created: 21/01/2015
+	Description: 
+		Delete any REPORT_MAP rows associated with a particular warrant return that have yet to be
+		processed i.e. the LEGACY_PATH column ends in either 'input' or 'process'.
+	Change History:
+-->
+<service-method>
+	<pipeline>
+		<SQLLite output="input">
+			<DataSource id="java:OracleDS"/>
+			<Param name="param.returnId" xpath="/params/param[@name = 'returnId']"/>
+			<SQL type="update" tables="T">
+				DELETE FROM report_map rm
+				WHERE rm.report_queue_id IN (
+					SELECT rq.id 
+					FROM report_queue rq, wp_output wo
+					WHERE wo.warrant_returns_id IS NOT NULL
+					AND wo.warrant_returns_id = ${param.returnId}	
+					AND wo.final_ind = 'Y'
+					AND rq.document_id = wo.xmlsource
+				)
+				AND (rm.legacy_path LIKE '%input' OR rm.legacy_path like '%process')				
+			</SQL>
+		</SQLLite>	
+	</pipeline>
+	<Security roles="medium high wcSuper scSuper bmsSuper aeSuper dmSuper cpSuper ccbcMan ccbcUser ccbcSGB2"/>				
+</service-method>

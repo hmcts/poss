@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>9182</Id>
+	<Label>Bailiff's name</Label>
+	<ObjectName>BailiffName</ObjectName>
+	<Html>
+		<input type="text" size="70" id="BailiffName"/>
+	</Html>
+	<Javascript>
+		<XPath>/ds/EnterVariableData/bailiffName</XPath>
+		<HintText>Enter Bailiff's name</HintText>
+		<isEnabled>return true</isEnabled>
+		<mandatoryOn>BailiffName.dataBinding</mandatoryOn>
+		<isMandatory>return true;</isMandatory>
+		<initialise>                
+<!--               WPU.loadBailiffRefData();-->
+				   WPU.loadBailiffRefData("/ds/var/app/currentCourt");
+        </initialise>
+		
+<!--		<Context ScreenId="N54">-->
+			<!-- When used in the context of screen N54 the court information is in a different part of the dom-->
+<!--
+			<initialise>                
+				   WPU.loadBailiffRefData("/ds/var/app/currentCourt");
+			</initialise>			
+		</Context>
+-->		
+	</Javascript>
+</Question>

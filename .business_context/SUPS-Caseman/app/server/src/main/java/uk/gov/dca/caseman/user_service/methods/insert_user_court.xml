@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: User
+	Method: insertUserCourt()
+	File: insert_user_court.xml
+	Author: Ian Stainer
+	Description:
+		Inserts a new record into the USER_COURT table when reactivating a deactivated user profile.
+-->
+<service-method>
+	<pipeline>
+		<SQLLite output="input">
+			<DataSource id="java:OracleDS" />
+			<Param name="param.userId" xpath="/params/param[@name='maintainUser']/ds/MaintainUser/UserId" />
+			<Param name="param.dateFrom" xpath="/params/param[@name='maintainUser']/ds/MaintainUser/DateFrom" />
+			<Param name="param.homeFlag" xpath="/params/param[@name='maintainUser']/ds/MaintainUser/HomeFlag" />
+			<Param name="param.courtCode" xpath="/params/param[@name='maintainUser']/ds/MaintainUser/CourtCode" />
+			<Param name="param.sectionName" xpath="/params/param[@name='maintainUser']/ds/MaintainUser/SectionForBMS" />
+			<SQL type="update" tables="UC">
+				INSERT INTO USER_COURT (
+					USER_ID, DATE_FROM, HOME_FLAG, COURT_CODE, SECTION_NAME
+				) values (
+					${param.userId}, 
+					TO_DATE(${param.dateFrom}, 'YYYY-MM-DD'), 
+					${param.homeFlag}, 
+					${param.courtCode}, 
+					${param.sectionName}
+				)			
+			</SQL>
+		</SQLLite>
+	</pipeline>
+	<Security roles="admin" />
+</service-method>

@@ -1,0 +1,238 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- ====================================================================== -->
+<!--  -->
+<!-- FILENAME: $Source: C:/CVSRepository/serveroas/src/uk/gov/dca/caseman/wordprocessing_templates/Notice/CJR036/CJR036-FO.xml,v $ -->
+<!--  -->
+<!-- AUTHOR: $Author: narges $-->
+<!--  -->
+<!-- DATE: $Date: 2006/06/28 16:56:57 $ -->
+<!--  -->
+<!-- Version: $Revision: 1.10 $ -->
+<!--  -->
+<!-- DESCRIPTION: This stylesheet is used to create an XSL:FO document that -->
+<!-- can be processed into a PDF version.  Business logic -->
+<!-- is embedded to generate the correct document text for the order -->
+<!-- required. -->
+<!--  -->
+<!-- INPUTS: XML document containing: the answers to questions asked of the -->
+<!-- user; case data retrieved from the database; HTML representing the  -->
+<!-- body of the document content (already edited by the user). -->
+<!--  -->
+<!-- OUTPUTS: XML document with FO tags containing instructions for the -->
+<!-- creation of a PDF document. -->
+<!--  -->
+<!-- ====================================================================== -->
+<root xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:fo="http://www.w3.org/1999/XSL/Format" xmlns="http://eds.com/supsfo">
+	<variables>@word.processing.url.xsl@supsfo.xsl</variables>
+	<addressee>
+		<blank/>
+		<subject/>
+		<instigators/>
+	</addressee>
+	<header>
+		<fo:block font-size="16pt" font-weight="bold">Default Costs Certificate</fo:block>
+	</header>
+	<courtcase>
+		<court>
+			<xsl:copy-of select="$vdCourtHeaderBlock"/>
+		</court>
+		<caseparameters>
+			<parameter>
+				<name>
+					<fo:block font-weight="bold">Claim Number</fo:block>
+				</name>
+				<value>
+					<fo:block>
+						<xsl:value-of select="$vdClaimNumber"/>
+					</fo:block>
+				</value>
+			</parameter>
+			<parameter>
+				<name>
+					<fo:block font-weight="bold"><xsl:value-of select="$vdInstigatorPartyRole"/></fo:block>
+					<fo:block font-size="9pt">(including ref.)</fo:block>
+				</name>
+				<value>
+					<fo:block hyphenate="true">
+						<xsl:value-of select="$vdInstigatorName"/>
+					</fo:block>
+					<fo:block font-size="9pt" hyphenate="true">
+						<xsl:value-of select="$vdInstigatorReference"/>
+					</fo:block>
+				</value>
+			</parameter>
+			<parameter>
+				<name>
+					<fo:block font-weight="bold"><xsl:value-of select="$vdSubjectPartyRole"/></fo:block>
+					<fo:block font-size="9pt">(including ref.)</fo:block>
+				</name>
+				<value>
+					<fo:block hyphenate="true">
+						<xsl:value-of select="$vdSubjectName"/>
+					</fo:block>
+					<fo:block font-size="9pt" hyphenate="true">
+						<xsl:value-of select="$vdSubjectReference"/>
+					</fo:block>
+				</value>
+			</parameter>
+			<parameter>
+				<name>
+					<fo:block font-weight="bold">Date</fo:block>
+				</name>
+				<value>
+					<fo:block>
+						<xsl:value-of select="$vdEventDate"/>
+					</fo:block>
+				</value>
+			</parameter>
+			<dobparameter partyType="instigator"/>
+		</caseparameters>
+	</courtcase>
+	<bodyintroright><fo:block space-before="0.4cm"><fo:inline text-align="center"><seal/></fo:inline></fo:block></bodyintroright>
+	
+	<body>
+
+		<fo:block space-before="0.4cm" space-after="0.4cm">
+			As you have not raised any points of dispute on the <xsl:value-of select="$vdSubjectPartyRoleLower"/>'s bill of costs, the costs of the claim have been allowed and the total sum of &#163;<xsl:value-of select="$vdSumPayable"/> is now payable.
+		</fo:block>
+		<fo:block space-after="0.4cm">
+			You must pay this amount to the <xsl:value-of select="$vdSubjectPartyRoleLower"/>&#xa0;<xsl:value-of select="$vdSumPayableWithin"/>.
+		</fo:block>
+		<xsl:if test="$vdInterestEntitlement = 'Y'">
+			<fo:block space-after="0.2cm">
+				The date from which any entitlement to interest under this certificate is to run is :-
+			</fo:block>
+			<fo:block space-after="0.2cm">
+				1. as to the amount of the bill as assessed excluding the costs of assessment, <xsl:value-of select="$vdOrderDate"/>
+			</fo:block>
+			<fo:block space-after="0.4cm">
+				2. and as to &#163;<xsl:value-of select="$vdSumPayable2"/> being the fixed costs of assessment, the date of this certificate. 
+			</fo:block>
+		</xsl:if>
+	</body>
+		<footnote noteextent="9">
+			<fo:block font-family="Times" font-size="9pt" text-align="justify">
+				<fo:table table-layout="fixed">
+					<fo:table-column column-width="10cm"></fo:table-column>
+					<fo:table-column column-width="9.28cm"></fo:table-column>
+					<fo:table-body>
+						<fo:table-row keep-with-next="always">
+							<fo:table-cell number-columns-spanned="2" border-top-style="solid" border-top-width="0.02cm" border-left-style="solid" border-left-width="0.02cm" border-right-style="solid" border-right-width="0.02cm">
+								<fo:block space-after="0.1cm" space-before="0.1cm" text-align="center" font-weight="bold" font-size="10pt">Take Notice</fo:block>
+							</fo:table-cell>
+						</fo:table-row>
+						<fo:table-row keep-with-next="always">
+							<fo:table-cell padding-left="0.1cm" border-bottom-style="solid" border-bottom-width="0.02cm" border-left-style="solid" border-left-width="0.02cm">
+								<fo:block space-after="0.4cm" padding-left="0.1cm">
+									To the <xsl:copy-of select="$vdInstigatorPartyRoleLower"/>
+								</fo:block>
+								<fo:block font-size="8pt" space-after="0.1cm">
+									If you do not pay in accordance with this order your goods may be removed and sold or other enforcement proceedings may be taken against you.
+									If your circumstances change and you cannot pay, ask at the court office what you can do.
+								</fo:block>
+								<xsl:if test="$vdCourtOrDistrict != 'District Registry'">
+									<fo:block space-after="0.1cm" font-size="8pt">
+										Further interest may be added if judgment has been given for &#163;5000 or more or is in respect of a debt which attracts contractual or statutory interest for late payment.
+									</fo:block>
+								</xsl:if>
+								<fo:block text-align="center">
+									<fo:inline font-weight="bold">Address for Payment</fo:inline>
+								</fo:block>
+							</fo:table-cell>
+							<fo:table-cell number-rows-spanned="2" padding-left="0.2cm" padding-right="0.1cm" border-bottom-style="solid" border-bottom-width="0.02cm" border-right-style="solid" border-right-width="0.02cm">
+						
+									<fo:block font-size="8pt" space-after="0.2cm">
+										If you do not pay as ordered, this judgment may be registered  on the Register of Judgments, Orders and Fines. This may make it difficult for you to get credit. 
+									</fo:block>
+									<fo:block font-size="8pt">
+										<fo:inline font-weight="bold">If you pay in full within one month</fo:inline> you can ask the court to cancel the entry on the Register.
+										You will need to give proof of payment. You can (for a fee) also obtain a Certificate of Cancellation from the court.
+										If you pay the debt in full after one month you can ask the court to mark the entry on the Register as satisfied and (for a fee) obtain a Certificate of Satisfaction to prove that the debt has been paid.
+									</fo:block>
+					
+								<fo:block space-before="0.4cm">
+									<fo:table table-layout="fixed">
+										<fo:table-column column-width="9.0cm"/>
+										<fo:table-body>
+											<fo:table-row padding-after="0.1cm">
+												<fo:table-cell>
+													<fo:block text-align="center">
+														<fo:inline font-weight="bold" font-size="10pt">How to Pay</fo:inline>
+													</fo:block>
+												</fo:table-cell>
+											</fo:table-row>
+											<fo:table-row>
+												<fo:table-cell>
+													<list type="bullet">
+														<list-item>
+															<fo:block font-size="8pt">
+																<fo:inline font-weight="bold">Payment(s) must be made to the person named at the address for payment quoting their reference and the court case number.</fo:inline>
+															</fo:block>
+														</list-item>
+													</list>
+													<list type="bullet">
+														<list-item>
+															<fo:block font-size="8pt">
+																<fo:inline font-weight="bold">DO NOT bring or send payments to the court - they will not be accepted</fo:inline>
+															</fo:block>
+														</list-item>
+													</list>
+													<list type="bullet">
+														<list-item>
+															<fo:block font-size="8pt">
+																You should allow at least 4 days for your payment to reach the claimant (defendant) or his representative.
+															</fo:block>
+														</list-item>
+													</list>	
+													<list type="bullet">
+														<list-item>
+															<fo:block font-size="8pt">
+																Make sure that you keep records and can account for all payments made.Proof may be required if there is any disagreement.
+																It is not safe to send cash unless you use registered post.
+															</fo:block>
+														</list-item>
+													</list>
+													<list type="bullet">
+														<list-item>
+															<fo:block font-size="8pt">
+																A leaflet giving further advice about payment can be obtained from the court.
+															</fo:block>
+														</list-item>
+													</list>
+													<list type="bullet">
+														<list-item>
+															<fo:block font-size="8pt">
+																If you need more information you should contact the claimant (defendant) or his representative.
+															</fo:block>
+														</list-item>
+													</list>
+												</fo:table-cell>
+											</fo:table-row>
+										</fo:table-body>									
+									</fo:table>
+								</fo:block>	
+							</fo:table-cell>
+						</fo:table-row>
+						<fo:table-row keep-with-next="always">
+							<fo:table-cell border-top-style="solid" border-top-width="0.02cm"  border-left-style="solid" border-left-width="0.02cm"
+								border-right-style="solid" border-right-width="0.02cm" border-bottom-style="solid" border-bottom-width="0.02cm">
+								
+								<address suppressborder="true">
+									<xsl:choose>
+										<xsl:when test="$vdSubjectHasRepresentative = 'Y'">
+											<xsl:copy-of select="$vdSubjectRepresentativeAddressMultiLine"/>
+										</xsl:when>
+										<xsl:otherwise>
+											<xsl:copy-of select="$vdSubjectAddressMultiLine"/>
+										</xsl:otherwise>
+									</xsl:choose>								
+								</address>
+								
+							</fo:table-cell>
+						</fo:table-row>
+					</fo:table-body>
+				</fo:table>	
+			</fo:block>
+		</footnote>
+	<defaultFooter id="CJR036"/>
+</root>

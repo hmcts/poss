@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- 
+Change History
+	29/01/2013 - Chris Vincent, hide field for the CJR032 outputs (Trac 4763)
+-->
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>145</Id>
+	<Label>What is enclosed?</Label>
+	<ObjectName>Enclosed</ObjectName>
+	<Html>		
+		<select id="Enclosed">
+			<option value=""></option>
+			<option value="D">Defence</option>
+			<option value="C">Counterclaim</option>
+			<option value="DC">Defence and Counterclaim</option>
+		</select>
+	</Html>
+	<Context screenId="CJR032A"><isVisible>false</isVisible></Context>
+	<Context screenId="CJR032B"><isVisible>false</isVisible></Context>
+	<Context screenId="CJR032C"><isVisible>false</isVisible></Context>
+	<Javascript>
+		<XPath>/ds/EnterVariableData/Filed/enclosed</XPath>
+		<HintText>What is enclosed</HintText>
+		<isMandatory>return true;</isMandatory>
+		<enableOn>SelectItemLsB.dataBinding</enableOn>
+		<isEnabled>
+			var val = Services.getValue(SelectItemLsB.dataBinding);
+			return( 'CDF' == val || 'CDSF' == val);
+		</isEnabled>
+		<logicOn>SelectItemLsB.dataBinding</logicOn>
+		<logic>
+			var val = Services.getValue(SelectItemLsB.dataBinding);
+			if( 'CDF' != val &amp;&amp; 'CDSF' != val)
+			{	Services.setValue(Enclosed.dataBinding, "");
+			}
+		</logic>
+	</Javascript>
+</Question>

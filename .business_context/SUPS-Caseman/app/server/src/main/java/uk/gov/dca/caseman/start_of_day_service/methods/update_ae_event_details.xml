@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: StartOfDay
+	Method:  updateAeEventDetails()
+	File:    update_ae_event_details.xml
+	Author:  Kevin Gichohi (EDS)
+	Created: 17 November 2005
+	Description: 
+		Updated AE event process stage associcated with an event ID on the AE_EVENTS table 
+	Change History:
+		11/11/2009 Chris Vincent - Changed query so searched for AE's where parent Case Owning Court is equal to courtId rather than
+		querying on AE Issuing Court.  Trac 1667.
+		15/01/2015 Chris Vincent - method also updates SOD_REFERENCE as well as part of the BIF release.
+-->
+<service-method>
+	<pipeline>
+		<SQLLite output = "input" >
+			<DataSource id="java:OracleDS"/>
+				<Param name="param.eventIdOne" xpath="/params/param[@name='eventId1']"/>
+				<Param name="param.eventIdTwo" xpath="/params/param[@name='eventId2']"/>
+				<Param name="param.eventIdThree" xpath="/params/param[@name='eventId3']"/>
+				<Param name="param.courtId" xpath="/params/param[@name='courtId']"/>
+				<Param name="param.parentId" xpath="/params/param[@name='parentId']"/>
+				
+			<SQL type = "update" tables = "AE">
+
+				UPDATE AE_EVENTS AE
+				SET AE.PROCESS_STAGE = 'REP'
+					,AE.SOD_REFERENCE = ${param.parentId}
+				WHERE AE.STD_EVENT_ID  IN (${param.eventIdOne}, ${param.eventIdTwo}, ${param.eventIdThree})
+				AND AE.PROCESS_STAGE = 'AUTO'
+				AND AE.AE_NUMBER IN (SELECT AEA.AE_NUMBER
+                           			 FROM  AE_APPLICATIONS AEA, CASES C
+				                     WHERE C.CASE_NUMBER = AEA.CASE_NUMBER
+									 AND C.ADMIN_CRT_CODE = ${param.courtId} )	
+			</SQL>
+		</SQLLite>
+	</pipeline>
+	<Security roles="viewOnly medium high wcSuper scSuper bmsSuper aeSuper dmSuper edsAdmin"/>
+	<Transaction type="RequiresNew" />
+	
+</service-method>

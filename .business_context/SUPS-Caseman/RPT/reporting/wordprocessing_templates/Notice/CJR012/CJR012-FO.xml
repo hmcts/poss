@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- ====================================================================== -->
+<!--  -->
+<!-- FILENAME: $Source: C:/CVSRepository/serveroas/src/uk/gov/dca/caseman/wordprocessing_templates/Notice/CJR012/CJR012-FO.xml,v $ -->
+<!--  -->
+<!-- AUTHOR: $Author: jay $-->
+<!--  -->
+<!-- DATE: $Date: 2006/07/03 11:39:31 $ -->
+<!--  -->
+<!-- Version: $Revision: 1.6 $ -->
+<!--  -->
+<!-- DESCRIPTION: This stylesheet is used to create an XSL:FO document that -->
+<!-- can be processed into a PDF version.  Business logic -->
+<!-- is embedded to generate the correct document text for the order -->
+<!-- required. -->
+<!--  -->
+<!-- INPUTS: XML document containing: the answers to questions asked of the -->
+<!-- user; case data retrieved from the database; HTML representing the  -->
+<!-- body of the document content (already edited by the user). -->
+<!--  -->
+<!-- OUTPUTS: XML document with FO tags containing instructions for the -->
+<!-- creation of a PDF document. -->
+<!--  -->
+<!-- ====================================================================== -->
+<root xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:fo="http://www.w3.org/1999/XSL/Format" xmlns="http://eds.com/supsfo">
+	<variables>@word.processing.url.xsl@supsfo.xsl</variables>
+	<addressee>
+		<claimants/>
+	</addressee>
+	<header>
+		<fo:block font-size="16pt" font-weight="bold">Notice of Defence that Amount</fo:block>
+		<fo:block font-size="16pt" font-weight="bold">Claimed Has Been Paid</fo:block>
+	</header>
+	<courtcase>
+		<court>
+			<xsl:copy-of select="$vdCourtHeaderBlock"/>
+		</court>
+		<caseparameters>
+			<parameter>
+				<name>
+					<fo:block font-weight="bold">Claim Number</fo:block>
+				</name>
+				<value>
+					<fo:block>
+						<xsl:value-of select="$vdClaimNumber"/>
+					</fo:block>
+				</value>
+			</parameter>
+			<parameter>
+				<name>
+					<fo:block font-weight="bold">Claimant</fo:block>
+					<fo:block font-size="9pt">(including ref.)</fo:block>
+				</name>
+				<value>
+					<fo:block hyphenate="true">
+						<xsl:value-of select="$vdClaimantName"/>
+					</fo:block>
+					<fo:block font-size="9pt" hyphenate="true">
+						<xsl:value-of select="$vdClaimantReference"/>
+					</fo:block>
+				</value>
+			</parameter>
+			<parameter>
+				<name>
+					<fo:block font-weight="bold"><xsl:value-of select="$vdSubjectPartyRole"/></fo:block>
+					<fo:block font-size="9pt">(including ref.)</fo:block>
+				</name>
+				<value>
+					<fo:block hyphenate="true">
+						<xsl:value-of select="$vdSubjectName"/>
+					</fo:block>
+					<fo:block font-size="9pt" hyphenate="true">
+						<xsl:value-of select="$vdSubjectReference"/>
+					</fo:block>
+				</value>
+			</parameter>
+			<parameter>
+				<name>
+					<fo:block font-weight="bold">Date</fo:block>
+				</name>
+				<value>
+					<fo:block>
+						<xsl:value-of select="$vdEventDate"/>
+					</fo:block>
+				</value>
+			</parameter>
+		</caseparameters>
+	</courtcase>
+	<body>
+		<fo:block font-size="12pt" font-weight="bold" space-after="0.3cm" space-before="0.3cm">The defendant says that the amount you are claiming has been paid (see attached Form N9B)</fo:block>
+		<fo:block font-size="12pt" font-weight="bold" space-after="0.3cm">Please tell the court what you wish to do by completing the lower half of this form and returning it to the court on or before <xsl:value-of select="$vdFormReturnDate" />. You must send a copy of the completed form to the defendant as well as to the court.</fo:block>
+		<fo:block font-weight="bold" text-align="center">Important notes for claimant</fo:block>
+		<list type="bullet">
+			<list-item><fo:block font-size="9pt">If you disagree with the defendant and wish to proceed with your claim, the court will contact you and tell you what to do next. If the defendant is an individual and lives in, or carries on business in, another court's area, the claim may be transferred to that court.</fo:block></list-item>
+			<list-item><fo:block font-size="9pt">If you do not return this form to the court by the date shown, your claim will be stayed. The only action which you will be able to take will be to apply to a judge for an order lifting the stay. A fee is payable on the application.</fo:block></list-item>
+		</list>
+		<fo:block space-after="0.3cm"/>
+		<getFooter></getFooter>			
+		<fo:block space-after="0.3cm"/>
+		<leader/>
+		<fo:block>
+			<fo:table table-layout="fixed">
+				<fo:table-column column-width="10.34cm"/>
+				<fo:table-column column-width="8.39cm"/>
+				<fo:table-body table-layout="fixed">
+					<fo:table-row>
+						<fo:table-cell>
+							<fo:block font-size="16pt" font-weight="bold" space-after="0.5cm">Claimant's Reply</fo:block>
+							<fo:block font-size="12pt" font-weight="bold" space-after="0.3cm">To the court</fo:block>
+							<fo:block font-size="12pt" space-after="0.3cm">I have read Form N9B and</fo:block>
+							<fo:block font-size="10pt" font-style="italic" space-after="0.1cm">please tick 1 or 2 and 3</fo:block>
+						</fo:table-cell>
+						<fo:table-cell>
+							<courtcase>
+								<court>
+									<xsl:copy-of select="$vdCourtHeaderBlock"/>
+								</court>
+								<caseparameters>
+									<parameter>
+										<name>
+											<fo:block font-weight="bold">Claim Number</fo:block>
+										</name>
+										<value>
+											<fo:block><xsl:value-of select="$vdClaimNumber"/></fo:block>
+										</value>
+									</parameter>
+									<parameter>
+										<name>
+											<fo:block font-weight="bold">Claimant</fo:block>
+											<fo:block font-size="9pt">(including ref.)</fo:block>
+										</name>
+										<value>
+											<fo:block hyphenate="true"><xsl:value-of select="$vdClaimantName"/></fo:block>
+											<fo:block font-size="9pt" hyphenate="true"><xsl:value-of select="$vdClaimantReference"/></fo:block>
+										</value>
+									</parameter>
+									<parameter>
+										<name>
+											<fo:block font-weight="bold"><xsl:value-of select="$vdSubjectPartyRole"/></fo:block>
+											<fo:block font-size="9pt">(including ref.)</fo:block>
+										</name>
+										<value>
+											<fo:block hyphenate="true"><xsl:value-of select="$vdSubjectName"/></fo:block>
+											<fo:block font-size="9pt" hyphenate="true"><xsl:value-of select="$vdSubjectReference"/></fo:block>
+										</value>
+									</parameter>
+								</caseparameters>
+							</courtcase>
+						</fo:table-cell>
+					</fo:table-row>
+				</fo:table-body>
+			</fo:table>
+		</fo:block>
+		<fo:block space-after="0.3cm"/>
+		<list type="checkBoxWithLabel">
+			<list-item>
+				<bulletText>1</bulletText>
+				<fo:block font-size="12pt">I wish to proceed with the claim.</fo:block>
+			</list-item>
+		</list>
+		<fo:block font-size="12pt" font-weight="bold">    or</fo:block>
+		<list type="checkBoxWithLabel">
+			<list-item>
+				<bulletText>2</bulletText>
+				<fo:block font-size="12pt">I do not wish to proceed with the claim.</fo:block>
+			</list-item>
+			<list-item>
+				<bulletText>3</bulletText>
+				<fo:block space-after="0.8cm" font-size="12pt">I have sent a copy of this completed form to the defendant.</fo:block>
+			</list-item>
+		</list>
+
+		<signature signaturetype="claimant"/>
+	</body>
+	<defaultFooter id="CJR012" suppress="true"/>
+</root>
+

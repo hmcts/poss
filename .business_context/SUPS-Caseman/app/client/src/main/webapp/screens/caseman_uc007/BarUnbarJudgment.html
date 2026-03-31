@@ -1,0 +1,105 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3c.org/TR/html4/strict.dtd">
+<html>
+	<head>
+		<title>BarUnbarJudgment</title>
+		<link href="BarUnbarJudgment.css" type="text/css" rel="stylesheet" title="Default">
+		<script type="text/javascript" src="../../Framework.js"></script>
+		<script type="text/javascript" src="../../ConcatCommon.js"></script>
+		<script type="text/javascript" src="BarUnbarJudgment.js"></script> 
+	</head>
+	<body>
+		<form name="BarUnbarJudgment" id="BarUnbarJudgment">
+      
+			<!-- Framework Navigation Menu -->
+			<script type="text/javascript">MenuBarRenderer.createInline();</script>
+		
+			<table class="layout">
+				
+				<!-- Case Details Panel -->
+				<tr>
+					<td>
+						<div class="panel">
+							<table class="content">
+								<tr>
+									<td>
+										<table>
+											<tr>
+												<td class="defaultLabel">	
+													<label for="CaseDetail_CaseNumber">Case Number</label>
+												</td>
+												<td>
+													<input id="CaseDetail_CaseNumber" type="text" size="15">
+												</td>                     
+											</tr>
+										</table> 
+									</td>
+								</tr>
+							</table>
+						</div>
+					</td>
+				</tr>
+				<!-- End Case Details Panel -->
+
+				<!-- Start Defendants Bar Details panel -->  
+				<tr>
+					<td>
+						<div class="panel">
+							<table class="content">     
+								<tr>  
+									<td>
+										<table style="height:535px;">
+											<tr>
+												<td class="forty">&nbsp;</td>
+												<td class="thirty" id="right_td">
+													<script type="text/javascript">
+														Grid.createInline("Defendants_ResultsGrid",
+															["Party Type", "Party Number","Party Name", "Bar"],
+															29,			                       
+															1	                                 
+														);
+													</script>
+												</td>
+												<td class="forty">&nbsp;</td>
+											</tr>
+											<tr>
+												<td>&nbsp;</td>
+												<td id="right_td2">
+													<input type="button" id="Parties_MaintainBarButton" value="Alter Bar" >
+												</td>
+												<td>&nbsp;</td>
+											</tr>
+										</table>
+									</td>
+								</tr>  
+							</table>
+						</div>
+					</td>
+				</tr>
+				<!-- End Defendants Bar Details panel -->
+
+			</table>
+	  
+			<!-- Status Bar Panel -->
+			<script type="text/javascript">
+				ActionBarRenderer.createInline(
+					"status_bar",
+					[
+						{id: "Status_SaveButton", label: "Save"},
+						{id: "Status_CloseButton", label: "Close"}
+					]
+				);
+			</script>
+			<!-- End Status Bar Panel -->
+	  
+			<!-- AUDIT PANELS -->
+			<div class="auditPanel" id="currentlySelectedDefendantPanel"></div>
+		
+			<!-- AUDIT SELECTOR ADAPTOR -->
+			<script type="text/javascript">AuditSelectorRenderer.createInline( "Audit_PanelSelector" );</script>
+			
+			<!-- SUBFORMS -->
+			<div class="popup popupsubform" id="audit_subform"></div>
+	  
+		</form>
+	</body>
+</html>

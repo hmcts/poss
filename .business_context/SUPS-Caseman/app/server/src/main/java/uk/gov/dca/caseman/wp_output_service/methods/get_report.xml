@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: WpOutput
+	Method:  getReport()
+	File:    get_report.xml
+	Author:  Frederik Vandendriessche (EDS)
+	Created: 02 September 2005
+	Description: 
+		Retrieve Output from SUPS Reporting component.
+-->
+<service-method>
+	<pipeline>
+		<GetReport xpath="/params/param[@name='ReportReference']">
+			<ReportStore id="java:OracleDS"/>
+		</GetReport>	
+	</pipeline>
+	<Security roles="viewOnly medium high wcSuper scSuper bmsSuper aeSuper dmSuper cpSuper ccbcMan ccbcUser ccbcSGB2"/>
+</service-method>

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>9177</Id>
+	<Label>Enter reasons for non service</Label>
+	<ObjectName>ReasonsNonService</ObjectName>
+	<Html>
+		<input type="text" size="75" id="ReasonsNonService"/>
+	</Html>
+	<Javascript>
+		<XPath>/ds/EnterVariableData/reasonsNonService</XPath>
+		<HintText>Enter reasons for non service</HintText>
+		<isMandatory>return true;</isMandatory>
+		<enableOn>SelectLetter2.dataBinding</enableOn>
+		<isEnabled>
+			var v = Services.getValue(SelectLetter2.dataBinding);
+			return(v == "5" || v == "6");
+		</isEnabled>
+		<logicOn>SelectLetter2.dataBinding</logicOn>
+		<logic>
+			var v = Services.getValue(SelectLetter2.dataBinding);
+			if(v != "5" &amp;&amp; v != "6")
+			{	
+				Services.setValue(ReasonsNonService.dataBinding, "");
+			}
+		</logic>
+		
+	</Javascript>
+</Question>

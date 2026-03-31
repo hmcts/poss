@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project name="caseman_client_build" default="war" basedir=".">
+
+	<!-- TEMP TEMP TEMP -->
+	<!-- LOAD STANDARD PROPERTIES FROM ENVIRONMENT VARIABLES AND PROPERTY FILES -->
+	<import file="../build/build-setup-env.xml" />
+	<!-- TEMP TEMP TEMP -->
+
+	<import file="wp-build.xml" />
+	<import file="oracle-reports-build.xml" />
+	<import file="precompile-build.xml" description="import sups applications precompile targets" />
+	<import file="concat-build.xml" description="concatenates javascript files into one file for improved browser performance" />
+
+	<target name="init">
+
+		<!-- Fail the build if the WorkProcessing controller folder is missing.-->
+		<if>
+			<not>
+				<available property="WPCtrl-project-exists" value="true" file="${wpctrl.dir}/WP.js" type="file" />
+			</not>
+			<then>
+				<fail message="Please create wordprocessing controller folder from ClearCase. Could not find ${wpctrl.dir}" />
+			</then>
+		</if>
+
+		<!--
+			Assume the target platform is OAS - make sure the OAS home directory has been specified			
+		-->
+		<if>
+			<not>
+				<isset property="oas.home" />
+			</not>
+			<then>
+				<fail message="You have not specified the OAS home directory (oas.home) so I am terminating." />
+			</then>
+		</if>
+	</target>
+
+	<target name="HTML4Compliance">
+		<echo>Applying HTML4 Compliance.</echo>
+		<echo>${caseman-wp.dir}</echo>
+		<replace dir="${caseman-wp.dir}/EnterVariableData/generated" value="">
+			<include name="*.html" />
+			<replacetoken>
+				<![CDATA[xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"]]>
+			</replacetoken>
+		</replace>
+		<replace dir="${caseman-wp.dir}/EnterVariableData/generated" value="">
+			<include name="*.html" />
+			<replacetoken>
+				<![CDATA[xmlns:html="http://www.w3.org/TR/REC-html40"]]>
+			</replacetoken>
+		</replace>
+		<replace dir="${caseman-wp.dir}/EnterVariableData/generated" value="">
+			<include name="*.html" />
+			<replacetoken>
+				<![CDATA[</input>]]></replacetoken>
+		</replace>
+		<echo>${caseman-oracle-reports.dir}</echo>
+		<replace dir="${caseman-oracle-reports.dir}/generated" value="">
+			<include name="*.html" />
+			<replacetoken>
+				<![CDATA[xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"]]>
+			</replacetoken>
+		</replace>
+		<replace dir="${caseman-oracle-reports.dir}/generated" value="">
+			<include name="*.html" />
+			<replacetoken>
+				<![CDATA[xmlns:html="http://www.w3.org/TR/REC-html40"]]>
+			</replacetoken>
+		</replace>
+		<replace dir="${caseman-oracle-reports.dir}/generated" value="">
+			<include name="*.html" />
+			<replacetoken>
+				<![CDATA[</input>]]></replacetoken>
+		</replace>
+		<replace dir="${caseman-oracle-reports.dir}/generated" value="">
+			<include name="*.html" />
+			<replacetoken>
+				<![CDATA[<table>
+			</table>]]></replacetoken>
+	</replace>
+</target>
+
+<target name="create-caseman-dist" depends="init, concatErrorFiles,  
+		generate-wp-CFG-2, generate-oracle-reports-CFG-1, generate-wp-html, 
+		generate-oracle-reports-html, HTML4Compliance, generate-wp-javascript, 
+		generate-oracle-reports-javascript">
+
+	<antcall target="generate-wp-CFG-applicationconfig-forms-OAS" />
+	<antcall target="generate-oracle-reports-CFG-applicationconfig-forms-OAS" />
+	<antcall target="generateWordProcessingController" />
+
+	<!-- This will concatenate the files and store them relative to the precompile.base.dir -->
+	<ant antfile="concat-build.xml" target="concat-screens" inheritrefs="true" inheritAll="true">
+		<property name="precompile.base.dir" value="${assemble.dir}" />
+	</ant>
+
+</target>
+
+<target name="update-files-for-platform">
+	<!-- Assume target platform is OAS - update the web.xml and applicationconfig.xml to work with OAS -->
+	<echo>Updating applicationconfig.xml and web.xml for deployment to OAS</echo>
+
+	<!-- ApplicationConfig must be updated to use OAS url builder -->
+	<replace file="${assemble.dir}/applicationconfig.xml">
+		<replacetoken>
+			<![CDATA[<services baseURL="/caseman" securePort="@SECUREPORT@" URLBuilder="@URLBUILDER@">]]></replacetoken>
+		<replacevalue>
+			<![CDATA[<services baseURL="/caseman" securePort="4443" URLBuilder="OASURLBuilder">]]></replacevalue>
+	</replace>
+
+	<!-- Update web.xml and replace the JBoss servlet container v2.4 with an empty value for OAS -->
+	<!-- DO NOT CHANGE THE SPACING IN THE REPLACETOKEN BELOW -->
+	<replace file="${assemble.dir}/WEB-INF/web.xml" value="">
+		<replacetoken>
+			<![CDATA[id="WebApp_9" version="2.4"
+xmlns="http://java.sun.com/xml/ns/j2ee"
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd"]]>
+		</replacetoken>
+	</replace>
+	<!-- PRECOMPILE: -->
+	<replaceregexp byline="true">
+		<regexp pattern="/Framework[^js]*js" />
+		<substitution expression="/${framework-js-file}" />
+		<fileset dir="${assemble.dir}">
+			<include name="**/*.html" />
+			<include name="**/*.xml" />
+			<include name="**/*.xsl" />
+			<include name="**/*.js" />
+			<include name="**/*.jsp" />
+		</fileset>
+	</replaceregexp>
+</target>
+
+<target name="war" depends="create-caseman-dist, update-files-for-platform">
+</target>
+
+<target name="generateWordProcessingController" depends="init" description="Generate Wordprocessing controller by concatenating all JS files in ${wpctrl.dir} and it's sub-directories">
+	<echo message="Copying WordProcessing Controller to ${assemble.dir}/screens/caseman_wp/" />
+	<!-- concat.force defaults to yes, so no need to delete WordProcessing.js -->
+	<concat destfile="${assemble.dir}/screens/caseman_wp/WordProcessing.js" fixlastline="yes">
+		<fileset dir="${wpctrl.dir}/Framework">
+			<include name="*.js" />
+		</fileset>
+		<fileset dir="${wpctrl.dir}">
+			<include name="*.js" />
+		</fileset>
+		<fileset dir="${wpctrl.dir}/CaseMan">
+			<include name="*.js" />
+		</fileset>
+		<fileset dir="${wpctrl.dir}/CaseManORA">
+			<include name="*.js" />
+		</fileset>
+	</concat>
+</target>
+
+<target name="concatErrorFiles" depends="init">
+	<copy file="${assemble.dir}/error_msg_build/FW_ErrorMsgs.xml" todir="${application-xmldir}" overwrite="true" />
+	<xslt extension=".xml" in="${application-xmldir}/data.xml" out="${application-xmldir}/allErrors.xml" basedir="${application-xmldir}" style="${assemble.dir}/error_msg_build/joiner.xsl" destdir="${application-xmldir}" force="yes" />
+</target>
+
+<target name="clean" depends="init">
+	<delete dir="${build.dir}" />
+	<delete dir="${assemble.dir}" />
+	<delete dir="caseman/WEB-INF/classes/uk" includeEmptyDirs="true" />
+	<antcall target="clean-wp" />
+	<antcall target="clean-oracle-reports-test-area" />
+</target>
+</project>

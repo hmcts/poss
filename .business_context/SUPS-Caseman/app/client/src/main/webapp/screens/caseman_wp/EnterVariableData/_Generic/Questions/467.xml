@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>467</Id>
+	<Label>Date expenses paid</Label>
+	<ObjectName>ExpensesPaidDate</ObjectName>
+	<Html>		
+		<script type="text/javascript">
+			WP_DatePickerRenderer.createInline("ExpensesPaidDate");
+		</script>
+
+	</Html>			
+	<Javascript>
+		<XPath>/ds/EnterVariableData/SuspCOforDisobedience/expensesPaidDate</XPath>
+		<componentName>##label##</componentName>
+		<isMandatory>return true;</isMandatory>
+		<HintText>Enter date expenses were paid, in format DD-MMM-YYYY</HintText>
+		<enableOn>HasExpenseReq.dataBinding</enableOn>
+		<isEnabled>return('Y' == Services.getValue(HasExpenseReq.dataBinding));</isEnabled>
+		<logicOn>HasExpenseReq.dataBinding</logicOn>
+		<logic>
+			if('Y' != Services.getValue(HasExpenseReq.dataBinding))
+			{	Services.setValue(ExpensesPaidDate.dataBinding, "");
+			}
+		</logic>			
+		<validateOn>ExpensesPaidDate.dataBinding</validateOn>
+		<validate>
+			var future = isFutureDate(Services.getValue(ExpensesPaidDate.dataBinding));
+			var err = null;
+			if( future )
+			{	err = ErrorCode.getErrorCode("CaseMan_dateCannotBeInTheFuture_Msg");
+			}
+			return err;
+		</validate>		
+	</Javascript>
+</Question>

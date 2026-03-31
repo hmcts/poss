@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>170</Id>
+	<Label>Is Date or Window for Trial Fixed?</Label>
+	<ObjectName>TrialDateFixed</ObjectName>
+	<Html>	
+		<select id="TrialDateFixed">
+			<option value=""></option>
+			<option value="FIX">On a date which has been fixed</option>
+			<option value="TBF">On a date to be fixed between 2 dates</option>
+			<option value="NA">Not applicable</option>			
+		</select>
+	</Html>
+	<Javascript>
+		<XPath>/ds/EnterVariableData/FastTrack/trialDateFixed</XPath>
+		<HintText>Is the trial on a fixed date or a date to be fixed</HintText>
+		<isMandatory>return true;</isMandatory>	
+		<logicOn>TrialDateFixed.dataBinding</logicOn>
+		<logic>
+			if( 'FIX' == Services.getValue(TrialDateFixed.dataBinding))
+			{	Services.setValue(VenueCode.dataBinding, WPU.getHomeCourtCode());
+			}
+			else
+			{	Services.setValue(VenueCode.dataBinding, "");
+			}
+		</logic>
+		<validateOn>TrialDateFixed.dataBinding</validateOn>
+		<validate>
+			var val = Services.getValue(TrialDateFixed.dataBinding);
+			if("TBF" == val) getWindowsForTrial();
+			return null;		
+		</validate>
+		<Context ScreenId="CJR020">
+			<enableOn>TransferCase.dataBinding, FurtherDirections.dataBinding</enableOn>
+			<isEnabled>
+				var val2 = Services.getValue(FurtherDirections.dataBinding);
+				return('Y' == val2);	
+			</isEnabled>
+			<logicOn>TransferCase.dataBinding, FurtherDirections.dataBinding</logicOn>
+			<logic>
+				var val2 = Services.getValue(FurtherDirections.dataBinding);
+				if('Y' != val2)
+				{	Services.setValue(TrialDateFixed.dataBinding, "");
+				}		
+			</logic>
+			<isMandatory>return true;</isMandatory>	
+		</Context>
+		<Context ScreenId="CJR060">
+			<isEnabled>
+				return("335" != WPU.getCaseEventCourtCode());	
+			</isEnabled>
+			<logicOn>TrialDateFixed.dataBinding</logicOn>
+			<logic>
+				if("335" == WPU.getCaseEventCourtCode())
+				{	
+					Services.setValue(TrialDateFixed.dataBinding, "NA");
+				}		
+			</logic>
+		</Context>
+	</Javascript>
+</Question>
+
+     
+    
+     

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<service-method>
+	<pipeline>
+		<Java callStyle="new">
+			<Source class="uk.gov.dca.caseman.case_event_service.java.InsertCaseEventBMSCustomProcessor"/>
+		</Java>
+		<Add>
+			<QueryDef location="uk/gov/dca/caseman/case_event_service/query_def_insert_case_event_row.xml"/>
+			<DataSource xpath="/params/param name='caseEvent'"/>
+			<QueryExtension pivotNode="/CaseEvent">
+				<CheckExists table="CE" fields="EVENT_SEQ" onNotExist="add" onExist="fail"/>
+			</QueryExtension>
+		</Add>
+		<Java callStyle="new">
+			<Source class="uk.gov.dca.caseman.case_event_service.java.InsertCaseEventUpdatesCustomProcessor"/>
+		</Java>
+	</pipeline>
+	<Dependencies>
+		<Dependency serviceName="Bms"/>
+		<Dependency serviceName="NonWorkingDay"/>		
+		<Dependency serviceName="UserCourt"/>	
+		<Dependency serviceName="Ccbc"/>	
+	</Dependencies>			
+	<Security roles="user"/>
+</service-method>

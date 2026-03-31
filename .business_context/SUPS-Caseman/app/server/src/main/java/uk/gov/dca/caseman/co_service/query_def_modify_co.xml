@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: Co
+	Method:  getCo()
+	File:    query_def_modify_co.xml
+	Author:  Phil Haferer (EDS)
+	Created: 04 August 2005
+	Description: 
+		Retrieving details for a Consolidated Order.
+-->
+<QueryDef>
+  <DBMapDef location="uk/gov/dca/caseman/co_service/map_modify_co.xml"/>
+  <Query pivotNode="/ds/MaintainCO" tables="CO">
+	<Join/>
+    <Modify/>
+  </Query>
+  <Query pivotNode="/ds/MaintainCO/Debtor" tables="P">
+	<Join/>
+    <Modify>
+		<CheckExists table="P" fields="PARTY_ID" onNotExist="add" onExist="update"/>
+		<Field name="P.PARTY_ID" sequenceTable="PARTIES_SEQUENCE"/>
+	</Modify>
+  </Query>
+  <Query pivotNode="/ds/MaintainCO/Debtor/AddressHistory/Address" tables="GA">
+	<Join/>
+    <Modify>
+		<CheckExists 
+			condition="Status != 'EXISTING'"
+			onConditionTrue="continue" onConditionFalse="skip"
+			table="GA" fields="ADDRESS_ID" onNotExist="add" onExist="update"/>
+		<Field name="GA.ADDRESS_ID"        sequenceTable="ADDR_SEQUENCE"/>
+		<Field name="GA.ADDRESS_TYPE_CODE" value="CO DEBTOR"/>
+		<Field name="GA.CO_NUMBER"         property="CO.CO_NUMBER"/>
+		<Field name="GA.PARTY_ID"          property="P.PARTY_ID"/>
+	</Modify>
+  </Query>
+  <Query pivotNode="/ds/MaintainCO/Debtor/Address" tables="GA">
+	<Join/>
+    <Modify>		
+		<CheckExists 
+			condition="Status != 'EXISTING'"
+			onConditionTrue="continue" onConditionFalse="skip"
+			table="GA" fields="ADDRESS_ID" onNotExist="add" onExist="update"/>
+		<Field name="GA.ADDRESS_ID"        sequenceTable="ADDR_SEQUENCE"/>
+		<Field name="GA.ADDRESS_TYPE_CODE" value="CO DEBTOR"/>
+		<Field name="GA.CO_NUMBER"         property="CO.CO_NUMBER"/>
+		<Field name="GA.PARTY_ID"          property="P.PARTY_ID"/>
+	</Modify>
+  </Query>
+  <Query pivotNode="/ds/MaintainCO/Employer" tables="P">
+	<Join/>
+    <Modify>
+		<CheckExists table="P" fields="PARTY_ID" onNotExist="add" onExist="update"/>
+		<Field name="P.PARTY_ID" sequenceTable="PARTIES_SEQUENCE"/>
+	</Modify>
+  </Query>
+  <Query pivotNode="/ds/MaintainCO/Employer/AddressHistory/Address" tables="GA">
+	<Join/>
+    <Modify>
+		<CheckExists 
+			condition="Status != 'EXISTING'"
+			onConditionTrue="continue" onConditionFalse="skip"
+			table="GA" fields="ADDRESS_ID" onNotExist="add" onExist="update"/>
+		<Field name="GA.ADDRESS_ID"        sequenceTable="ADDR_SEQUENCE"/>
+		<Field name="GA.ADDRESS_TYPE_CODE" value="CO EMPLOYER"/>
+		<Field name="GA.CO_NUMBER"         property="CO.CO_NUMBER"/>
+		<Field name="GA.PARTY_ID"          property="P.PARTY_ID"/>
+	</Modify>
+  </Query>
+  <Query pivotNode="/ds/MaintainCO/Employer/Address" tables="GA">
+	<Join/>
+    <Modify>		
+		<CheckExists 
+			condition="Status != 'EXISTING'"
+			onConditionTrue="continue" onConditionFalse="skip"
+			table="GA" fields="ADDRESS_ID" onNotExist="add" onExist="update"/>
+		<Field name="GA.ADDRESS_ID"        sequenceTable="ADDR_SEQUENCE"/>
+		<Field name="GA.ADDRESS_TYPE_CODE" value="CO EMPLOYER"/>
+		<Field name="GA.CO_NUMBER"         property="CO.CO_NUMBER"/>
+		<Field name="GA.PARTY_ID"          property="P.PARTY_ID"/>
+	</Modify>
+  </Query>
+  <Query pivotNode="/ds/MaintainCO/Workplace/AddressHistory/Address" tables="GA">
+	<Join/>
+    <Modify>
+		<CheckExists 
+			condition="Status != 'EXISTING'"
+			onConditionTrue="continue" onConditionFalse="skip"
+			table="GA" fields="ADDRESS_ID" onNotExist="add" onExist="update"/>
+		<Field name="GA.ADDRESS_ID"        sequenceTable="ADDR_SEQUENCE"/>
+		<Field name="GA.ADDRESS_TYPE_CODE" value="CO WORKPLACE"/>
+		<Field name="GA.CO_NUMBER"         property="CO.CO_NUMBER"/>
+	</Modify>
+  </Query>
+  <Query pivotNode="/ds/MaintainCO/Workplace/Address" tables="GA">
+	<Join/>
+    <Modify>
+		<CheckExists 
+			condition="Status != 'EXISTING'"
+			onConditionTrue="continue" onConditionFalse="skip"
+			table="GA" fields="ADDRESS_ID" onNotExist="add" onExist="update"/>
+		<Field name="GA.ADDRESS_ID"        sequenceTable="ADDR_SEQUENCE"/>
+		<Field name="GA.ADDRESS_TYPE_CODE" value="CO WORKPLACE"/>
+		<Field name="GA.CO_NUMBER"         property="CO.CO_NUMBER"/>
+	</Modify>
+  </Query>
+</QueryDef>

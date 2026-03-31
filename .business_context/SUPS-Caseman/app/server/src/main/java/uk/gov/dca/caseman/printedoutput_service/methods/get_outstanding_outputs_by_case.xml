@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: Printedoutput
+	Method:  getOutstandingOutputsByCase()
+	File:    get_outstanding_outputs_by_case.xml
+	Author:  Mark Groen
+	Created: 05-Aug-2009
+	Description: 
+		Retrieves outstanding WP outputs for specified case/user
+
+	Change History
+
+-->
+<service-method>
+    <pipeline>
+        <NewQuery>
+            <QueryDef location="uk/gov/dca/caseman/printedoutput_service/query_def_get_outstanding_output_by_case.xml"/>
+                <QueryExtension pivotNode="/Cases/Case">
+                    <Param name="param.caseNumber" xpath="/params/param[@name = 'caseNumber']"/>
+                    <Param name="param.userName" xpath="/params/param[@name = 'userId']"/>
+                    <Constraint>CE.CASE_NUMBER = ${param.caseNumber}</Constraint>
+                    <Constraint>WPO.USER_ID = ${param.userName}</Constraint>
+                </QueryExtension>
+        </NewQuery>
+    </pipeline>
+	<Security roles="viewOnly medium high wcSuper scSuper bmsSuper aeSuper dmSuper cpSuper ccbcMan ccbcUser ccbcSGB2"/>
+</service-method>

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- 
+	Service: Parties
+	Method:  getPartyIds()
+	File:    get_party_ids.xml
+	Description: Gets all party IDs for partys associated with a given case.
+	Change History
+		01/08/2006 - Chris Vincent fixed defect 4111 by adding security roles to the service.
+		04/08/2006 - Chris Vincent: fixed defect 4141 by adding security role ccbcMan to the service.
+-->
+<service-method>
+	<pipeline>
+		<Query>
+			<QueryDef location="uk/gov/dca/caseman/parties_service/query_def_party_ids.xml" />
+			<QueryExtension pivotNode="/Parties/Party">
+				<Param name="param.caseNumber" xpath="/params/param[@name = 'caseNumber']" />
+			</QueryExtension>
+		</Query>
+	</pipeline>
+	<Security roles="user medium high scSuper bmsSuper aeSuper dmSuper cpSuper wcSuper ccbcMan" />
+</service-method>

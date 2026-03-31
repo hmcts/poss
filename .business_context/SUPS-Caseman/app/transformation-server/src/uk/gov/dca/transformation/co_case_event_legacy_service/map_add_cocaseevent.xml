@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<DBMapDef>
+	<DataSource id="java:OracleDS"/>
+	<Tables>
+		<Table alias="CCE" name="CO_CASE_EVENTS"/>
+	</Tables>
+	<Mapping>
+			<ds>
+				<CoCaseEvent>
+					<CourtCode>${CCE.ADMIN_COURT_CODE}</CourtCode>
+					<CoNumber>${CCE.CO_NUMBER}</CoNumber>
+					<EventId>${CCE.STD_EVENT_ID}</EventId>
+					<CreatedDate>${CCE.CREATED_DATE}</CreatedDate>
+					<EventDetails>${CCE.EVENT_DETAILS}</EventDetails>
+					<TransferStatus>${CCE.TRANSFER_STATUS}</TransferStatus>
+					<AldDebtSeq>${CCE.ALD_DEBT_SEQ}</AldDebtSeq>
+					<TransferDate>${CCE.TRANSFER_DATE}</TransferDate>
+					<CaseNumber>${CCE.CASE_NUMBER}</CaseNumber>
+				</CoCaseEvent>
+			</ds>
+	</Mapping>
+</DBMapDef>

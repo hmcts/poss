@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: TransferCase
+	Method:  completeTransferCase()
+	File:    map_complete_transfer_case.xml
+	Author:  Phil Haferer (EDS)
+	Created: 19 July 2005
+	Description: 
+		'Mapping' for the completion of transferring a SUPS to SUPS case. 
+-->
+<DBMapDef>
+	<DataSource id="java:OracleDS"/>
+	<Tables>
+	    <Table alias="C" name="CASES"/>
+	</Tables>
+	<Mapping>
+		<TransferCase>
+			<CaseNumber>${C.CASE_NUMBER}</CaseNumber>
+			<PreviousCourtCode>${C.PREVIOUS_COURT}</PreviousCourtCode>
+			<OwningCourtCode>${C.ADMIN_CRT_CODE}</OwningCourtCode>
+			<TransferCourtCode>${C.TRANS_CRT_CODE}</TransferCourtCode>
+			<CaseType>${C.CASE_TYPE}</CaseType>
+			<NewCaseType>${C.TRANS_CASE_TYPE}</NewCaseType>
+			<CaseStatus>${C.STATUS}</CaseStatus>
+			<TransferReason>${C.TRANSFER_REASON}</TransferReason>
+			<DateTransferredIn>${C.DATE_TRANSFERRED_IN}</DateTransferredIn>
+			<TransferReceiptDate>${C.XFER_RECEIPT_DATE}</TransferReceiptDate>
+			<TransferStatus>${C.TRANSFER_STATUS}</TransferStatus>
+			<InsolvencyNumber>${C.INSOLVENCY_NUMBER}</InsolvencyNumber>
+		</TransferCase>
+	</Mapping>
+</DBMapDef>

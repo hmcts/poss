@@ -1,0 +1,422 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>35</Id>
+	<Label>Date of order</Label>
+	<ObjectName>OrderDate</ObjectName>
+	<Html>
+		<script type="text/javascript">WP_DatePickerRenderer.createInline("OrderDate", false);</script>
+        
+	</Html>
+	
+	<Context screenId="O_5_5">
+		<isVisible>true</isVisible>
+		<Label>Date of judgment order</Label>
+	</Context>
+	<Context screenId="FE45">
+		<isVisible>true</isVisible>
+		<Label>Date application made</Label>
+	</Context>
+	
+	<Javascript>
+		<XPath>/ds/EnterVariableData/JudgmentOrder/Date</XPath>
+		<HintText>Select the judgment date</HintText>
+		<mandatoryOn>OrderDate.dataBinding</mandatoryOn>
+		<isMandatory>return true;</isMandatory>				
+		<initialise>Services.setValue(OrderDate.dataBinding, WPU.getEventReceiptDate());</initialise>
+		<validateOn>OrderDate.dataBinding</validateOn>
+		<validate>
+			//Date picker: error message “The value does not conform to a valid date format of DD-MMM-YYYY”.
+			//Validation: Date cannot be in the future
+			var err = null;
+			var isFuture = isFutureDate(Services.getValue(OrderDate.dataBinding));
+			if( null != isFuture &amp;&amp; isFuture )
+			{ err = ErrorCode.getErrorCode("CaseMan_dateCannotBeInTheFuture_Msg");
+			}
+			return err;
+		</validate>
+
+		<Context ScreenId="CJR065_DO">
+			<initialise>Services.setValue(OrderDate.dataBinding, WPU.getWarrantReturnDate());</initialise>	
+		</Context>
+		<Context ScreenId="CJR036">	
+			<HintText>Enter order date giving rise to this bill in format DD-MON-YYYY</HintText>
+			<miscCode>OrderDate.weekends = false;</miscCode>
+			<initialise></initialise>
+			<validateOn>OrderDate.dataBinding</validateOn>
+			<validate>
+				return(isWorkingDayInPast(Services.getValue(OrderDate.dataBinding)));
+			</validate>	
+			<enableOn>InterestEntitlement.dataBinding</enableOn>
+			<isEnabled>return('Y' == Services.getValue(InterestEntitlement.dataBinding));</isEnabled>
+			<logicOn>InterestEntitlement.dataBinding</logicOn>
+			<logic>
+				if('Y' != Services.getValue(InterestEntitlement.dataBinding))
+				{
+					Services.setValue(OrderDate.dataBinding, "");
+				}	
+				else
+				{
+					Services.setValue(OrderDate.dataBinding, WPU.getEventReceiptDate());
+				}		
+			</logic>		
+		</Context>
+
+		<Context ScreenId="CJR037">			
+			<HintText>Enter order date giving rise to this bill in format DD-MON-YYYY</HintText>
+			<miscCode>OrderDate.weekends = false;</miscCode>
+			<initialise></initialise>
+			<validateOn>OrderDate.dataBinding</validateOn>
+			<validate>
+				return(isWorkingDayInPast(Services.getValue(OrderDate.dataBinding)));
+			</validate>
+			<enableOn>InterestEntitlement.dataBinding</enableOn>
+			<isEnabled>return('Y' == Services.getValue(InterestEntitlement.dataBinding));</isEnabled>
+			<logicOn>InterestEntitlement.dataBinding</logicOn>
+			<logic>
+				if('Y' != Services.getValue(InterestEntitlement.dataBinding))
+				{
+					Services.setValue(OrderDate.dataBinding, "");
+				}	
+				else
+				{
+					Services.setValue(OrderDate.dataBinding, WPU.getEventReceiptDate());
+				}	
+			</logic>		
+		</Context>
+		<Context ScreenId="CJR050">
+			<HintText>Enter the judgment date in the format DD-MON-YYYY</HintText>
+			<miscCode>OrderDate.weekends = false;</miscCode>	
+			<validateOn>OrderDate.dataBinding</validateOn>
+			<validate>
+				return(isWorkingDayInPast(Services.getValue(OrderDate.dataBinding)));
+			</validate>
+			<logicOn>HearingDate2.dataBinding</logicOn>
+			<logic>Services.setValue( OrderDate.dataBinding, Services.getValue(HearingDate2.dataBinding));</logic>	
+		</Context>
+		<Context ScreenId="CJR051">
+			<HintText>Enter the judgment date in the format DD-MON-YYYY</HintText>
+			<miscCode>OrderDate.weekends = false;</miscCode>	
+			<validateOn>OrderDate.dataBinding</validateOn>
+			<validate>
+				return(isWorkingDayInPast(Services.getValue(OrderDate.dataBinding)));
+			</validate>	
+		</Context>
+		<Context ScreenId="CJR052">
+			<HintText>Enter the judgment date in the format DD-MON-YYYY</HintText>
+			<validateOn>OrderDate.dataBinding</validateOn>
+			<validate>								
+				return(isWorkingDayInPast(Services.getValue(OrderDate.dataBinding)));
+			</validate>	
+			<miscCode>OrderDate.weekends = false;</miscCode>
+		</Context>
+		<Context ScreenId="CJR065B">
+			<logicOn>HearingDate2.dataBinding</logicOn>
+			<logic>				               				
+				Services.setValue(OrderDate.dataBinding, Services.getValue(HearingDate2.dataBinding));</logic>
+			<validateOn>OrderDate.dataBinding, DateOfApplication.dataBinding</validateOn>
+			<validate>
+				var valVal = Services.getValue(OrderDate.dataBinding);
+			
+				if( isFutureDate(valVal) )
+				{	return ErrorCode.getErrorCode("CaseMan_dateCannotBeInTheFuture_Msg");					
+				}
+				var appDate = Services.getValue(DateOfApplication.dataBinding);
+				if( null != appDate &amp;&amp; "" != appDate )
+				{	if( compareDateStrings(valVal, appDate) > 0)
+					{	return ErrorCode.getErrorCode("CaseMan_datePreceedsApplicationDate_Msg");
+					}
+				}
+			
+				return null;
+			</validate>
+		</Context>
+		<Context ScreenId="CJR053">
+			<HintText>Enter the judgment date in the format DD-MON-YYYY</HintText>
+			<validate>								
+				return(isWorkingDayInPast(Services.getValue(OrderDate.dataBinding)));
+			</validate>
+			<miscCode>OrderDate.weekends = false;</miscCode>
+		</Context>
+		<Context ScreenId="CJR055">
+			<HintText>Enter the judgment date in the format DD-MON-YYYY</HintText>
+			<validate>								
+				return(isWorkingDayInPast(Services.getValue(OrderDate.dataBinding)));
+			</validate>
+			<miscCode>OrderDate.weekends = false;</miscCode>
+		</Context>
+		<Context ScreenId="CJR054">
+			<HintText>Enter the judgment date in the format DD-MON-YYYY</HintText>
+			<validate>								
+				return(isWorkingDayInPast(Services.getValue(OrderDate.dataBinding)));
+			</validate>
+			<miscCode>OrderDate.weekends = false;</miscCode>
+		</Context>
+		
+		<Context ScreenId="CJR061">
+			<HintText>Enter the order date in the format DD-MMM-YYYY</HintText>
+			<validate>								
+				return(isWorkingDayInPast(Services.getValue(OrderDate.dataBinding)));
+			</validate>
+			<miscCode>OrderDate.weekends = false;</miscCode>
+		</Context>
+		<Context ScreenId="CJR080">
+			<enableOn>IsN39Reqd.dataBinding</enableOn>
+			<initialise></initialise>			
+			<isEnabled>
+				return( !IsN39Reqd.isEnabled() || 'Y' == Services.getValue(IsN39Reqd.dataBinding));
+			</isEnabled>
+			<logicOn>IsN39Reqd.dataBinding</logicOn>
+			<logic>
+				if( IsN39Reqd.isEnabled() &amp;&amp; 'Y' != Services.getValue(IsN39Reqd.dataBinding))
+				{	Services.setValue(OrderDate.dataBinding, "");
+				}
+				else
+				{	Services.setValue(OrderDate.dataBinding, WPU.getEventReceiptDate());
+				}
+			</logic>
+			<validate>								
+				return(isWorkingDayInPast(Services.getValue(OrderDate.dataBinding)));
+			</validate>
+			<miscCode>OrderDate.weekends = false;</miscCode>
+		</Context>
+		
+		<Context ScreenId="CJR090">
+			<HintText>Enter the date in the format DD-MMM-YYYY</HintText>
+			<validate>								
+				return(isWorkingDayInPast(Services.getValue(OrderDate.dataBinding)));
+			</validate>
+			<miscCode>OrderDate.weekends = false;</miscCode>
+		</Context>
+		
+		<Context ScreenId="CJR091">
+			<HintText>Enter the date in the format DD-MMM-YYYY</HintText>
+			<validate>								
+				return(isInPast(Services.getValue(OrderDate.dataBinding)));
+			</validate>			
+		</Context>
+		
+		<Context ScreenId="CJR092">
+			<HintText>Enter the date in the format DD-MMM-YYYY</HintText>		
+		</Context>
+		
+		<Context ScreenId="CJR100">
+			<HintText>Enter the date in the format DD-MMM-YYYY</HintText>
+			<validate>								
+				return(isInPast(Services.getValue(OrderDate.dataBinding)));
+			</validate>			
+		</Context>
+		<Context ScreenId="CJR101">
+			<HintText>Enter the date in the format DD-MMM-YYYY</HintText>
+			<validate>								
+				return(isInPast(Services.getValue(OrderDate.dataBinding)));
+			</validate>			
+		</Context>
+		<Context ScreenId="CJR103">
+			<HintText>Enter the date in the format DD-MMM-YYYY</HintText>
+			<validate>								
+				return(isInPast(Services.getValue(OrderDate.dataBinding)));
+			</validate>			
+		</Context>
+		<Context ScreenId="CJR104">
+			<HintText>Enter the date in the format DD-MMM-YYYY</HintText>
+			<validate>								
+				return(isInPast(Services.getValue(OrderDate.dataBinding)));
+			</validate>			
+		</Context>
+		
+		<Context ScreenId="O_10_2">
+			<validateOn>OrderDate.dataBinding</validateOn>
+			<validate>
+				//Validation: Date cannot be in the future	
+				return(isWorkingDayInPast(Services.getValue(OrderDate.dataBinding)));
+			</validate>		
+		</Context>
+		
+		<Context ScreenId="O_10_3">
+			<validateOn>OrderDate.dataBinding</validateOn>
+			<validate>
+				//Validation: Date cannot be in the future	
+				return(isWorkingDayInPast(Services.getValue(OrderDate.dataBinding)));
+			</validate>
+			<logicOn>OrderDate.dataBinding,ExtensionPeriod.dataBinding</logicOn>
+			<logic>
+				var extensionPeriod = Services.getValue(ExtensionPeriod.dataBinding);
+				var orderDate       = Services.getValue(OrderDate.dataBinding);
+				var extensionDate   = addExtensionDate( extensionPeriod, orderDate, "false");
+				Services.setValue( "/ds/EnterVariableData/dateOfExtension", extensionDate);			
+			</logic>
+			<miscCode>
+				function addExtensionDate(extensionValue,dateString,dateType){
+					oneDay  = 24*60*60*1000;
+					var extensionDate = null;
+					var pivotDate = WPU.getDateObject(dateString,dateType);
+					if( null !=pivotDate  &amp;&amp; null != extensionValue ){
+						var pivotDateMillis = pivotDate.getTime(); 
+						var extensionValueMillis = extensionValue*oneDay;
+						var extensionDate = new Date(extensionValueMillis+pivotDateMillis);
+					}
+					
+					if( null != extensionDate)
+					{ 	var year = extensionDate.getYear();
+						var day = extensionDate.getDate();
+						if( day &lt; 10) day = "0"+day;
+						var mnth = extensionDate.getMonth() + 1;
+						if( mnth &lt; 10 ) mnth = "0"+mnth;
+						return year + "-" + mnth + "-" + day;
+					}
+					return "";
+				}		
+			</miscCode>	
+		</Context>
+		
+        <Context ScreenId="O_3_1_2_5_1">
+            <validate>
+                //Date picker: error message “The value does not conform to a valid date format of DD-MMM-YYYY”.
+                //Validation: Date cannot be in the future  
+                 return isInPast(Services.getValue(OrderDate.dataBinding),"false");
+            </validate>      
+        </Context>
+        
+        
+        <Context ScreenId="O_7_8">
+            <mandatoryOn>AssessedCosts.dataBinding,CostPaid.dataBinding,InstalmentDate2.dataBinding</mandatoryOn>
+            <isMandatory>return return35();</isMandatory>
+            <enableOn>AssessedCosts.dataBinding,CostPaid.dataBinding,InstalmentDate2.dataBinding</enableOn>
+            <isEnabled>return return35();</isEnabled>
+            <logicOn>AssessedCosts.dataBinding,CostPaid.dataBinding,InstalmentDate2.dataBinding</logicOn>
+            <logic>
+                if(!return35()){  
+                      Services.setValue(OrderDate.dataBinding, "");
+                }    
+                else
+                {
+                	Services.setValue(OrderDate.dataBinding, WPU.getEventReceiptDate());
+                }   
+            </logic>
+            <validate>
+                //Date picker: error message “The value does not conform to a valid date format of DD-MMM-YYYY”.
+                //Validation: Date cannot be in the future
+                return isInPast(Services.getValue(OrderDate.dataBinding),"false");
+            </validate>
+            <miscCode>
+                    function return35(){
+                        v35 = false;
+                        if(
+                            ("N" == Services.getValue(AssessedCosts.dataBinding)&amp;&amp; AssessedCosts.isEnabled())||
+                            "F" == Services.getValue(CostPaid.dataBinding) ||
+                            "BGD" == Services.getValue(CostPaid.dataBinding)||
+                            InstalmentDate2.isEnabled()
+                          ){
+                                v35 = true;                
+                          }
+                        return v35;
+                    }
+            </miscCode>
+        </Context>
+        
+        <Context ScreenId="O_10_1">
+            <isMandatory>return true;</isMandatory>
+            <mandatoryOn>OrderDate.dataBinding</mandatoryOn>
+            <isEnabled>return true;</isEnabled>
+            <validate>
+                //Date picker: error message “The value does not conform to a valid date format of DD-MMM-YYYY”.
+                //Validation: Date cannot be in the past
+                return isInPast(Services.getValue(OrderDate.dataBinding),"false");
+            </validate>
+        </Context>
+        
+        <Context ScreenId="O_10_6">
+            <isMandatory>return true;</isMandatory>
+            <mandatoryOn>OrderDate.dataBinding</mandatoryOn>
+             <isEnabled>return true;</isEnabled>
+            <validate>
+                //Date picker: error message “The value does not conform to a valid date format of DD-MMM-YYYY”.
+                //Validation: Date cannot be in the future
+                return isInPast(Services.getValue(OrderDate.dataBinding),"false");
+            </validate>
+        </Context>
+        
+        <Context ScreenId="O_10_7">
+            <isMandatory>return true;</isMandatory>
+            <mandatoryOn>OrderDate.dataBinding</mandatoryOn>
+             <isEnabled>return true;</isEnabled>
+            <validate>
+                //Date picker: error message “The value does not conform to a valid date format of DD-MMM-YYYY”.
+                //Validation: Date cannot be in the future
+                return isInPast(Services.getValue(OrderDate.dataBinding),"false");
+            </validate>
+        </Context>
+        
+        <Context ScreenId="O_10_11">
+            <isEnabled>return true;</isEnabled>
+            <validate>
+                //Date picker: error message “The value does not conform to a valid date format of DD-MMM-YYYY”.
+                //Validation: Date cannot be in the future
+                return isInPast(Services.getValue(OrderDate.dataBinding),"false");
+            </validate>
+        </Context>
+        
+        
+        <Context ScreenId="O_10_12">
+            <isEnabled>return true;</isEnabled>
+            <validate>
+                //Date picker: error message “The value does not conform to a valid date format of DD-MMM-YYYY”.
+                //Validation: Date cannot be in the future
+                return isInPast(Services.getValue(OrderDate.dataBinding),"false");
+            </validate>
+        </Context>
+        
+        
+        <Context ScreenId="O_10_14">
+            <HintText>Select the judgment date</HintText>
+            <isEnabled>return true;</isEnabled>
+            <validate>
+                //Date picker: error message “The value does not conform to a valid date format of DD-MMM-YYYY”.
+                //Validation: Date cannot be in the future
+                return isInPast(Services.getValue(OrderDate.dataBinding),"false");
+            </validate>
+        </Context>
+        
+           
+        <Context ScreenId="O_10_19">
+            <isEnabled>return true;</isEnabled>
+            <validate>
+                //Date picker: error message “The value does not conform to a valid date format of DD-MMM-YYYY”.
+                //Validation: Date cannot be in the future
+                return isInPast(Services.getValue(OrderDate.dataBinding),"false");
+            </validate>
+        </Context>
+        
+         <Context ScreenId="O_11_1_2_3_4">
+          	 <isEnabled>return true;</isEnabled>
+             <validate>
+                //Date picker: error message “The value does not conform to a valid date format of DD-MMM-YYYY”.
+                //Validation: Date cannot be in the future
+                return isInPast(Services.getValue(OrderDate.dataBinding),"false");
+            </validate>
+        
+        </Context>
+		<Context ScreenId="N33">
+			<HintText>Enter the judgment date in the format DD-MON-YYYY</HintText>
+			<miscCode>OrderDate.weekends = false;</miscCode>	
+			<validateOn>OrderDate.dataBinding</validateOn>
+			<validate>
+				return(isWorkingDayInPast(Services.getValue(OrderDate.dataBinding)));
+			</validate>	
+		</Context>    
+
+		<Context ScreenId="FE45">
+			<initialise></initialise>
+			<HintText>Enter date of application made</HintText>			
+			<isEnabled>
+				return true;
+			</isEnabled>
+			<validate>								
+				return(isWorkingDayInPast(Services.getValue(OrderDate.dataBinding)));
+			</validate>
+			<miscCode>OrderDate.weekends = false;</miscCode>
+		</Context>		
+        
+	</Javascript>
+</Question>
+

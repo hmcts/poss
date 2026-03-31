@@ -1,0 +1,57 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: CoEvent
+	Method:  addCoEvent200()/insertCoEventRowExt()
+	File:    map_co_event_ext.xml
+	Author:  Phil Haferer (EDS)
+	Created: 01-Aug-2006
+	Description: 
+		Add a Consolidated Order Event (with Extended fields).
+        Derived from map_co_event.xml.
+
+	Change History:
+	24-Aug-2006 Phil Haferer: (TD CASEMAN 4700: CO Event 975 Process Stage not set to AUTO).
+	    Identified that like CO Event 200 (that prompted the creation of this file) another tag was missing, 
+	    namely ProcessStage.
+	    Renamed the file, from map_co_event_200.xml to map_co_event_ext.xml.
+	    Added the new tag ProcessStage.
+-->
+<DBMapDef>
+  <DataSource id="java:OracleDS"/>
+  <Tables>
+    <Table alias="COE" name="CO_EVENTS"/>
+  </Tables>  
+  <Mapping>
+	<COEvent>
+	
+		<CONumber>${COE.CO_NUMBER}</CONumber>
+		<StandardEventId>${COE.STD_EVENT_ID}</StandardEventId>
+		<StandardEventDescription></StandardEventDescription>
+		<EventDetails>${COE.DETAILS}</EventDetails>
+		<EventDate>${COE.EVENT_DATE}</EventDate>
+		<UserName>${COE.USERNAME}</UserName>
+		<ReceiptDate>${COE.RECEIPT_DATE}</ReceiptDate>
+		<IssueStage>${COE.ISSUE_STAGE}</IssueStage>
+		<Service>${COE.SERVICE_STATUS}</Service>
+		<BailiffId>${COE.BAILIFF_IDENTIFIER}</BailiffId>
+		<ServiceDate>${COE.SERVICE_DATE}</ServiceDate>
+		<ErrorInd>${COE.ERROR_INDICATOR}</ErrorInd>
+		<OwningCourtCode></OwningCourtCode>
+		<DebtSeqNumber>${COE.ALD_DEBT_SEQ}</DebtSeqNumber>
+		
+ 		<!-- THE FOLLOWING ARE POPULATED SERVER-SIDE -->
+ 		<COEventSeq>${COE.CO_EVENT_SEQ}</COEventSeq>
+ 		<BMSTask>${COE.BMS_TASK_NUMBER}</BMSTask>
+ 		<StatsModule>${COE.STATS_MODULE}</StatsModule>
+ 		<ProcessStage>${COE.PROCESS_STAGE}</ProcessStage>
+ 		<HrgSeq>${COE.HRG_SEQ}</HrgSeq>
+ 		<AgeCategory>${COE.AGE_CATEGORY}</AgeCategory>
+ 		<WarrantId>${COE.WARRANT_ID}</WarrantId>
+ 		<ProcessDate>${COE.PROCESS_DATE}</ProcessDate>
+		<CreatingCourt>${COE.CREATING_COURT}</CreatingCourt>
+		<CreatingSection>${COE.CREATING_SECTION}</CreatingSection>	
+	</COEvent>
+  </Mapping>
+</DBMapDef>
+
+

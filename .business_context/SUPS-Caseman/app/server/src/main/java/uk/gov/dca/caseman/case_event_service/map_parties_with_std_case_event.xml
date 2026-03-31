@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+v1.0 Chris Hutt 4/2/2005
+-->
+<DBMapDef>
+<DataSource id="java:OracleDS"/>
+<Tables>
+  <Table alias="CE" name="CASE_EVENTS"/>
+</Tables>
+  <Mapping>  
+    <Case>
+  	<Parties>
+  	  <Party>
+  	    <!--SubjectPartyKey>${CE.CASE_PARTY_NO}</SubjectPartyKey-->
+  	    <CasePartyNumber>${CE.CASE_PARTY_NO}</CasePartyNumber>
+  	    <PartyRoleCode>${CE.PARTY_ROLE_CODE}</PartyRoleCode>
+  	  </Party>
+  	</Parties>
+    </Case>	
+  </Mapping>
+</DBMapDef>

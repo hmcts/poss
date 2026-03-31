@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: MaintainPerDetails
+	Method:  updatePerDetail
+	File:    update_per_detail.xml
+	Author:  pz9j2w
+	Created: 05 Sep 2005
+	Description:
+		Updates a record in per_details
+-->
+<service-method>
+	<pipeline>
+		<Update>
+			<QueryDef location="uk/gov/dca/caseman/maintain_per_details_service/query_def_modify.xml"/>
+			<DataSource xpath="/params/param[@name='details']"/>
+
+			<QueryExtension pivotNode="/PerDetails/PerDetail">				
+				<CheckExists table="PD" fields="ORDER_NUMBER" onNotExist="fail" onExist="update"/>
+			</QueryExtension>
+		</Update>
+	</pipeline>
+	<Security roles="edsAdmin"/>
+</service-method>

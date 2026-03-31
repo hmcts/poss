@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<DBMapDef>
+  <DataSource id="java:OracleDS"/>
+  <Tables>
+    <Table alias="CE" name="CASE_EVENTS"/>
+  </Tables>  
+  <Mapping>
+	<CaseEvents>
+		<CaseEvent>
+			<Status></Status>
+			<CaseEventSeq>${CE.EVENT_SEQ}</CaseEventSeq>
+			<EventDetails>${CE.DETAILS}</EventDetails>
+		</CaseEvent>
+	</CaseEvents>
+  </Mapping>
+</DBMapDef>

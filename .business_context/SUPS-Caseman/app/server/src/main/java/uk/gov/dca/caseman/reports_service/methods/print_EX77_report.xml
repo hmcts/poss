@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: Reports
+	Method:  printEX77Report()
+	File:    print_EX77_report.xml
+	Author:  Chris Vincent
+	Created: 19 Jan 2015
+	Description: 
+		Prints the EX77 report and possibly the version that requires Welsh translation cover letters too.
+-->
+<service-method>
+	<pipeline> 
+		<Java callStyle="new">
+			<Source class="uk.gov.dca.caseman.reports_service.classes.PrintEX77ReportCustomProcessor"/>
+		</Java>
+	</pipeline>	
+	<Security roles="viewOnly medium high wcSuper scSuper bmsSuper aeSuper dmSuper edsAdmin cpSuper"/>		
+</service-method>

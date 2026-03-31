@@ -1,0 +1,276 @@
+echo "Reading in variables from cc-common-variables"
+##############################################################################
+# File               : cc-common-variables                                   #
+# Desc               : File holds common script variables                    #
+# Product history                                                            #
+# Date      Ver   Who   Desc                                                 #
+# ----      ---   ---   ----                                                 #
+# 19/03/06  1.0   IE    New File                                             #
+# 19/11/06  1.1   BP    Added in new varibles for EDI transfer scripts.      #
+#                       Updated JVM Memory properties                        #
+#                       Updated SQLHOME value                                #
+# 21/11/06  1.2   BP    Removed redundant varibles and re-structured file.   #
+# 21/11/06  1.3   BP    Added in new "CAT Specific Settings" group and also  #
+#                       added in APP_PL_CIRCUIT_ID variable                  #
+# 22/11/06  1.4   SA    Moved values CCBC_EDI_SERVER* into main part of      #
+#                       of the script. TD:3899                               #
+# 23/11/06  1.5   SA    Fix defect 3903                                      # 
+# 26/11/06  1.6   WK    Fix defect 3923                                      #
+# 29/11/06  1.7   WK    Fix defect 3938                                      #
+# 06/12/06  1.8   WK    Fix defect 3966                                      #
+# 14/12/06  1.9   WK    Fix defect 4071					     #
+# 18/12/06  2.0   WK    Fix defect 4142                                      #
+# 21/12/06  2.1   WK    FIX defect 4390                                      #
+# 15/02/07  2.2   DG    Revised to include PL properties                     #
+# 05/03/07  2.3   WK    Fixing defect 4477                                   #
+# 09/03/07  2.4   DG    Added TEST_DUMP_FILES                                #
+# 27/03/07  2.5   WK    Fixing defect 4794                                   #
+# 28/03/07  2.6   AG    Fixing defect 4808                                   #
+# 02/04/07  2.7   WK    Fixing defect 4831                                   #
+# 30/04/07  2.8   DG	Added CCBC_DUMMY_DIR                                 #
+# 30/07/07  2.9   DG    Added CCBC_MCOL_PRINTERS_FILE                        #
+# 22/09/07  3.0   AG    Fixed defect 5344 (new value for RS_TIMEOUT)         #
+# 02/10/09  4.0   Nilesh Mistry Added changes for MCOL Forms Printing        #
+# 06/05/15  4.1   Andrew Hayes Added CPT_N1_FILE_SIZE                        #
+#                                                                            #
+##############################################################################
+
+############
+# Oracle Settings
+############
+declare -x                     ORACLE_BASE=/u01/app/oracle
+declare -x                     ORACLE_HOME=$ORACLE_BASE/product/10.2.0/server_1
+declare -x                     SQLPLUS=${ORACLE_HOME}/bin/sqlplus
+declare -x                     TNS_ADMIN=${ORACLE_BASE}/network/admin
+declare -x                     PATH=${ORACLE_HOME}/bin:${PATH}
+
+############
+# AutoSys Settings
+############
+if [ ! -z $__owner ]; then
+    declare -rx USER=${USER:-$__owner}
+    declare -rx LOGNAME=${LOGNAME:-$__owner}
+    declare -rx USERNAME=${USERNAME:-$__owner}
+    declare -rx BASH_ENV=~/.bashrc
+fi
+
+############
+# Java Settings
+############
+declare -x                     JAVA_HOME=/opt/java
+declare -x                     JAVA_FLAGS_MX=mx2048M
+declare -x                     JAVA_FLAGS_MS=ms128M
+declare -x                     PATH=$JAVA_HOME/bin:${PATH}
+
+############
+# PolarLake Settings
+############
+declare -x		       POLARLAKE_HOME=/opt/polarlake-4.2.0.40
+declare -x                     POLARLAKE_LIB_DIR=$POLARLAKE_HOME/polarlake/lib
+declare -x                     POLARLAKE_DNS=""
+declare -x                     PL_ERR_DIR=${HOME}/logs
+
+############
+# Application PolarLake Settings
+############
+declare -x                     RELEASE_SERIES=$(/bin/cat ${BASE_DIR}/${APP_NAME}/etc/${APP_ID}-release)
+declare -x                     STUMP=${APP_ID}-polarlake
+declare -x                     APP_PL_DIR=${BASE_DIR}/${APP_NAME}/${STUMP}
+declare -x                     APP_PL_CIRCUIT_DIR=${APP_PL_DIR}/circuits
+declare -x                     APP_PL_XML_DIR=${APP_PL_DIR}/xml
+declare -x                     APP_PL_PROPERTIES_DIR=${APP_PL_DIR}/properties
+declare -x                     APP_PL_PROPERTIES_FILENAME=${APP_PL_PROPERTIES_DIR}/${APP_NAME}.props
+declare -x                     APP_PL_LOG_DIR=${HOME}/logs
+declare -x                     HOSTNAME=$(/bin/hostname)
+declare -x                     UNIX_EPOCH_TIMESTAMP=$(/bin/date +%s)
+declare -x                     PID=$$
+declare -x                     SHELL_CIRCUIT_ID=${HOSTNAME}_${PID}_${UNIX_EPOCH_TIMESTAMP}
+declare -x                     APP_PL_CIRCUIT_ID=ccbc_load_customer_media_data
+declare -x 		       CCBC_PROCESS_NEW_CLAIMS_BOOT_PORT=10222
+declare -x  		       CCBC_PROCESS_NEW_CLAIMS_PORT=11222
+declare -x		       CCBC_PROCESS_NEW_CLAIMS_AUTO_SHUTDOWN=true
+declare -x  		       CCBC_PROCESS_NEW_CLAIMS_DISK_DIR=/incoming/disk
+declare -x  		       CCBC_PROCESS_NEW_CLAIMS_EDI_DIR=/incoming/edi
+declare -x  		       CCBC_PROCESS_NEW_CLAIMS_DIRTY_DIR=/archive/temparch/datafiles
+declare -x  		       CCBC_PROCESS_NEW_CLAIMS_ARCHIVE_DIR=/archive/temparch/datafiles
+declare -x		       CCBC_MCOL_UPDATE_PORT=11224
+declare -x		       CCBC_MCOL_UPDATE_BOOT_PORT=10224
+declare -x   		       CCBC_LOAD_JUDGMENTS_PORT=11225
+declare -x		       CCBC_LOAD_JUDGMENTS_BOOT_PORT=10225
+declare -x		       CCBC_LOAD_WARRANTS_PORT=11226
+declare -x		       CCBC_LOAD_WARRANTS_BOOT_PORT=10226
+declare -x		       CCBC_WARRANT_RETURNS_PORT=11223
+declare -x		       CCBC_WARRANT_RETURNS_BOOT_PORT=10223
+declare -x		       CCCIS_REPORT_FTP_PORT=11221
+declare -x		       CCCIS_REPORT_FTP_BOOT_PORT=10221
+
+############
+# SMB Printer Settings
+############
+declare -x                     SMB_USER_NAME=test
+declare -x                     SMB_PASSWORD=Passw0rd
+
+############
+# MCOL Printer Settings
+############
+declare -x                     MC_SMB_SERVER=168.185.38.101
+declare -x                     MC_SMB_PRINTER=CSP00008
+declare -x                     MC_SMB_USERNAME=test
+declare -x                     MC_SMB_PASSWORD=Passw0rd
+
+############
+# Database User Settings
+############
+declare -x                     DB_USER=ccbc01
+declare -x                     DB_IDENTIFIER=ccbc01
+declare -x                     DB_PASSWORD=ccbc01
+declare -x                     DB_INSTANCE=supsdb02
+declare -x                     ORA=${DB_USER}/${DB_PASSWORD}@${DB_INSTANCE}
+declare -x 		       DB_CONNECT_STRING=jdbc:oracle:thin:@uktps660:1521:supsdb02
+declare -x		       DB_MC_CONNECT_STRING=jdbc:oracle:thin:@uktps660:1521:supsdb02
+declare -x		       DB_MC_USER=ccbc_mc
+declare -x		       DB_MC_PASSWORD=ccbc_mc
+declare -x		       DB_CMCS_CONNECT_STRING=jdbc:oracle:thin:@uktps660:1521:supsdb02	
+declare -x		       DB_CMCS_USER=casm_central
+declare -x		       DB_CMCS_PASSWORD=casm_central
+
+############
+# RepMan & Printer Settings
+############
+
+declare -x                     COURT_ID=335
+declare -x                     STORAGE_DURATION=-1
+declare -x                     PRINT_SERVER=168.185.38.101
+declare -x                     PRINTER_NAME=CSP00008
+declare -x                     TEMP_DIR=/app/cccis/shared-store
+declare -x                     QUEUE_PACKAGE_LOC=ccbc01
+declare -ix                    RS_TIMEOUT=300
+declare -ix                    PL_TIMEOUT=90
+declare -x                     QUEUE_ENV_ID=casemanit03
+declare -x                     QUEUE_USER_NAME=aq_user
+
+############
+# Adobe Output Server Pro Settings
+############
+declare -x                     JFHOMEDIR=/modules/jfsrvr
+declare -x                     ADOBE_DIR=/opt/adobe_central_output_server
+declare -x                     ADOBE_INI=${ADOBE_DIR}/SUPS1/etc/jfmerge.ini 
+
+############
+# Washington Print Server FTP Values
+############
+declare -x                     WASH_SPOOL_DIR=${HOME}/wash_spool
+declare -x                     WASH_SERVER=localhost
+declare -x                     WASH_SERVER_LOGIN=ftpserver
+declare -x                     WASH_SERVE_PASSWORD=ftpserver
+
+############
+# CCCIS Media Centre FTP Values
+############
+declare -x                     MEDIA_CENTRE_SERVER=localhost
+declare -x                     MEDIA_CENTRE_LOGIN=ccbcmc
+declare -x                     MEDIA_CENTRE_PASSWORD=ccbcmc
+
+############
+# CCCIS EDI Server Values
+############
+declare -x                     CCBC_EDI_SERVER=168.185.39.114
+declare -x                     CCBC_EDI_SERVER_USER=anonymous
+declare -x                     CCBC_EDI_SERVER_PASSWORD=anonymous
+declare -x                     CCCIS_EDI_SERVER_CSV_DIR=ftp
+
+############
+# Application Settings
+############
+declare -x                     ONLINE_SCRIPTS_EXEC=${BASE_DIR}/${APP_NAME}/bin/online
+declare -x                     OFFLINE_SCRIPTS_EXEC=${BASE_DIR}/${APP_NAME}/bin/offline
+declare -x                     SQL_SCRIPTS_EXEC=${BASE_DIR}/${APP_NAME}/bin/sql
+declare -x                     MENU_SCRIPTS_EXEC=${BASE_DIR}/${APP_NAME}/bin/menu
+declare -x                     PATH=${BASE_DIR}/${APP_NAME}/bin:${BASE_DIR}/${APP_NAME}/bin/offline:$PATH
+declare -x                     CCBC_PROFILE=Y
+declare -x                     CCBC_PRINT_DIR=${HOME}/lis
+declare -x                     CCBC_WORK_DIR=${HOME}/work
+declare -x                     CCBC_BASEARCHIVE_DIR=${HOME}/archive
+declare -x                     JETSPOOL_DIRECTORY=${HOME}/jetspool
+declare -x                     JET_BACK=${JETSPOOL_DIRECTORY}/back
+declare -x                     CCBC_CONTROL_DIR=${HOME}/control
+declare -x                     CCBC_TRANS_DIR=${HOME}/transfer
+declare -x                     CCBC_JETFORM_DIR=${BASE_DIR}/${APP_NAME}/jftemplates
+declare -x                     SPOOL_DIRECTORY=${HOME}/spool
+declare -x		       SQLPATH=${SQL_SCRIPTS_EXEC}
+declare -x 		       CCBC_MCOLCOPY_DIR=/home/ccbc/mcolcopy
+declare -x                     MCOL_COPY_USER=mcolcopy
+declare -x                     SCRIPT_LOG_DIR=${HOME}/logs
+declare -x                     CCBC_LOGFILE=$SCRIPT_LOG_DIR/dailylog.lis
+declare -x                     CCBC_OVERNIGHT_LOGFILE=$CCBC_WORK_DIR/sm_f3.lis
+declare -x                     CCBC_FTP=${HOME}/ftp
+declare -x                     CCBC_ARCHIVE_DIR=${CCBC_BASEARCHIVE_DIR}/temparch
+declare -x                     CCBC_DATA_ARCHIVE_DIR=${CCBC_ARCHIVE_DIR}/datafiles
+declare -x                     CCBC_MCOL_ARCHIVE_DIR=${CCBC_ARCHIVE_DIR}/mcol
+declare -x                     CCBC_ORIG_DATA_ARCHIVE_DIR=${CCBC_DATA_ARCHIVE_DIR}/original
+declare -x                     USER_ID=CCBC_BATCH
+declare -x                     ISO_DATE_TODAY=$(/bin/date +%Y-%m-%d)
+declare -x                     ARCHIVE_DURATION=185
+declare -x                     TEST_DUMP_FILES=$HOME/dump_files
+declare -x                     GRACE_PERIOD='+7'
+declare -x                     CCBC_DUMMY_DIR=dummypath
+declare -x                     CCBC_MCOL_PRINTERS_FILE=${BASE_DIR}/${APP_NAME}/etc/cc-mcol-printers
+declare -x                     CCBC_MCOL_STAGING_SERVER=supsftp1
+declare -x                     CCBC_MCOL_STAGING_SERVER_USER=ccbcedi
+declare -x                     CCBC_MCOL_STAGING_SERVER_PASSWORD=password
+declare -x                     CCBC_MCOL_STAGING_SERVER_DIR=/mcol
+declare -x                     CCBC_MCOL_FILE_REGEXP="((\s|^)MCOL-[A-Z]{3}-[0-9]{10}.tar(\s|$))"
+
+# new CPT settings added by trac #5095 and #5587
+declare -x                     CPT_WORK_DIR=$HOME/work_dir
+declare -x                     CPT_LOG_DIR=$HOME/cpt_logfile_dir
+declare -x                     CPT_LOGFILE=$HOME/cpt_logfile_dir/cpt_
+declare -x                     CPT_PRINTERS=$HOME/cpt_printers
+declare -x                     CPT_LIBERATA=$HOME/cpt_liberata
+declare -x                     CPT_DISCHQ=$HOME/cpt_dischq
+declare -x                     CPT_N1_FILE_SIZE=150
+
+############
+# Set The Ops User Menu Filename for the Media Centre & Report Server
+############
+if [ -z $__owner ]; then
+        if [ -d ${HOME}/incoming ]; then
+                # Set User Menu Filename for the Media Centre
+                declare -x START_MENU=$MENU_SCRIPTS_EXEC/BC_OP_MC_M1.sh
+        else
+                # Set User Menu Filename for the Report Server
+                declare -x START_MENU=$MENU_SCRIPTS_EXEC/BC_OP_M1.sh
+        fi
+fi
+
+############
+# CAT Specific Settings
+############
+declare -x                     EXP=${ORACLE_HOME}/bin/exp
+declare -x                     IMP=${ORACLE_HOME}/bin/imp
+
+############
+# EDI Retrieval Settings
+############
+declare -x                     CCBC_MC_REPORT_DIR=${HOME}/reports
+declare -x                     CCBC_MC_BATCH_LOGFILE=${SCRIPT_LOG_DIR}/dailylog.lis
+declare -x                     CCBC_EDI_CONTROL_FILE=ccbc_edi_control.dat
+declare -x                     CCBC_EDI_CONTROL_FILE_MD5SUM=d4eec57112aca417561b062ce54f8975
+declare -x                     CCBC_EDI_CONTROL_FILE_DIR=/control
+declare -x                     CCBC_EDI_INPUT_FILE_DIR=/
+declare -x                     CCBC_MC_EDI_REPORT_FILENAME=${ISO_DATE_TODAY}_CCBC_EDI_Report.txt
+declare -x                     CCBC_EDI_REPORT=${CCBC_MC_REPORT_DIR}/${CCBC_MC_EDI_REPORT_FILENAME}
+declare -x                     CCBC_MC_EDI_TEMP_REPORT_FILENAME=CCBC_EDI_TEMP_Report.txt
+declare -x                     CCBC_EDI_TEMP_REPORT=${CCBC_MC_REPORT_DIR}/${CCBC_MC_EDI_TEMP_REPORT_FILENAME}
+declare -x                     CCBC_MC_EDI_FILEIN_DIR=${HOME}/incoming/edi
+declare -x                     CCBC_MC_DISK_FILEIN_DIR=${HOME}/incoming/disk
+declare -x                     CCBC_MC_EDI_STAGING_DIR=${HOME}/staging/edi
+declare -x                     CCBC_MC_EDI_PREVAL_STAGING_DIR=${HOME}/staging/ediprep
+declare -x                     CCBC_MC_DISK_PREVAL_STAGING_DIR=${HOME}/staging/diskprep
+declare -x                     CCBC_FILE_REGEXP="((\s|^)[0-9]{4}([jJ]([gG]|[eE])|[pP][dD]|[wW]([tT]|[eE]))[.][0-9]{3}(\s|$))"
+
+############
+# Common CCCIS
+############
+declare -x                     PATH=${BASE_DIR}/common/bin:${PATH}
+declare -x                     COMMON_EXEC=${BASE_DIR}/common/bin

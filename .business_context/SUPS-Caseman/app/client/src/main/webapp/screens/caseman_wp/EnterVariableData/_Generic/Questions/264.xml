@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>264</Id>
+	<Label>Date for filing Listing Questionnaire</Label>
+	<ObjectName>FilingLQDate</ObjectName>
+	<Html>	
+		<script type="text/javascript">
+			WP_DatePickerRenderer.createInline("FilingLQDate");
+		</script>
+	</Html>
+	<Javascript>
+		<XPath>/ds/EnterVariableData/FastTrack/filingLQDate</XPath>
+		<HintText>Enter date for filing Listing Questionnaire in the format DD-MON-YYYY</HintText>
+		<isMandatory>return true;</isMandatory>
+		<mandatoryOn>FilingLQDate.dataBinding</mandatoryOn>	
+		<enableOn>IsLQADirnMade.dataBinding</enableOn>
+		<isEnabled>return('Y' == Services.getValue(IsLQADirnMade.dataBinding));</isEnabled>
+		<logicOn>IsLQADirnMade.dataBinding</logicOn>
+		<logic>
+			if('Y' != Services.getValue(IsLQADirnMade.dataBinding))
+			{	Services.setValue(FilingLQDate.dataBinding, "");
+			}
+		</logic>
+		<validateOn>FilingLQDate.dataBinding</validateOn>
+		<validate>
+			//cannot be in past : working day only
+			
+			var checkDate = Services.getValue(FilingLQDate.dataBinding); 
+			var err = null;
+			
+			if( false == isFutureDate(checkDate))
+			{ 	err = ErrorCode.getErrorCode("CaseMan_dateCannotBeInThePast_Msg");
+			}
+			else if( isNonWorkingDate(checkDate))
+		    {   err = ErrorCode.getErrorCode("CaseMan_dateNonWorkingDay_Msg"); 
+		    }
+			
+			return err;
+		</validate>	
+		<!--initialise>		  	
+		  	loadNonWorkingDays();
+		</initialise-->
+		<miscCode>
+		    FilingLQDate.weekends = false;
+		</miscCode>
+	</Javascript>
+</Question>

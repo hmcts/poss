@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: Hearing
+	Method:  updateHearingCO()
+	File:    update_hearingCO.xml
+	Author:  Troy Baines
+	Created: 20 November 2004
+	Description: 
+        Update a hearing record for a consolidated order
+-->
+<service-method>
+	<pipeline>
+		<Update>
+			<QueryDef location="uk/gov/dca/caseman/hearing_service/query_def_modifyCO.xml"/>
+			<DataSource xpath="/params/param[@name='HearingID']"/>
+			<QueryExtension pivotNode="/ds/MaintainHearing/Hearings/Hearing">
+				<CheckExists table="H" fields="hrg_seq" onNotExist="add" onExist="update"/>
+			</QueryExtension>
+		</Update>
+		<Java>
+			<!-- 
+				 The CO event will needs to be inserted after the eventId has been generated for a new hearing
+				 because the hrg_seq is a FK on CO_EVENTS
+			-->
+			<Source class="uk.gov.dca.caseman.hearing_service.java.InsertCoEvent200CreateHearingCustomProcessor"/>
+		</Java>
+	</pipeline>
+	<Dependencies>
+		<Dependency serviceName="CoEvent"/>
+	</Dependencies>
+	<Security roles="medium high wcSuper scSuper bmsSuper aeSuper dmSuper cpSuper"/>
+</service-method>

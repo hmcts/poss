@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>9188</Id>
+	<Label>New number</Label>
+	<ObjectName>NewNum</ObjectName>
+	<Html>
+	  <input id="NewNum" type="text" size="35" ></input>
+	</Html>
+
+	<Javascript>
+		<XPath>/ds/EnterVariableData/newNum</XPath>
+		<HintText>Enter the new number</HintText>
+	    <Context ScreenId="L_5_1">
+            <mandatoryOn>RequestFor.dataBinding, RCJNum.dataBinding</mandatoryOn>
+            <isMandatory>return return9188();</isMandatory>
+            <enableOn>RequestFor.dataBinding, RCJNum.dataBinding</enableOn>
+            <isEnabled>return return9188()</isEnabled>
+            <logicOn>RequestFor.dataBinding, RCJNum.dataBinding</logicOn>
+            <logic>
+            if(!return9188()){
+                Services.setValue(NewNum.dataBinding,"");
+            }
+            </logic>
+            <miscCode>
+                function return9188(){
+                    var n9188 = false;
+                    if(
+                        "RCJ" == Services.getValue(RequestFor.dataBinding)||
+                       ( null != Services.getValue(RCJNum.dataBinding)&amp;&amp;
+                        "" != Services.getValue(RCJNum.dataBinding))
+                    ){
+                        n9188 = true;
+                    }
+                    return n9188;
+                }
+            </miscCode>
+        </Context>
+	</Javascript>	
+</Question>

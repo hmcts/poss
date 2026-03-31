@@ -1,0 +1,77 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3c.org/TR/html4/strict.dtd">
+<!-- Change History
+	15/02/2011 - Chris Vincent, changed status bar to a normal one to allow error messages to be displayed.  Trac 4215.
+-->
+<html>
+
+	<head>
+		<title>TransferCO_SubForm</title>
+		<link href="TransferCO_SubForm.css" type="text/css" rel="stylesheet">
+		<script type="text/javascript" src="../../../Framework.js"></script>
+    	<script type="text/javascript" src="../../../CaseManSubFormIncludeFiles.js"></script>
+		<script type="text/javascript" src="TransferCO_SubForm.js"></script>
+  	</head>
+
+	<body>
+	
+    	<form id="transferCOSubform" class="subform">
+
+			<div class="panel">
+				<table class="content" style="height:267px;">
+					<tr>
+						<td align="center">
+							<label>Please select a new Court.  A list of courts is available.</label>
+						</td>
+					</tr>
+					
+					<tr>
+						<td align="center">
+							<table>
+								<tr>
+									<td style="width:125px;" align="left"><label for='TransferCO_Court_Code'>Court Code</label></td>
+									<td align="left">
+										<input id="TransferCO_Court_Code" type="text" size=3>										
+									</td>
+									<td>
+										<script type="text/javascript">
+											AutoCompletionRenderer.createInline("TransferCO_Court_Name");
+										</script>
+									</td>
+									<td>
+										<input id="TransferCO_CourtName_LovBtn" type="button" value="LOV">
+									</td>
+								</tr>	
+							</table>
+						</td>
+					</tr>
+				</table>
+			</div>
+			
+			<!-- Subform action bar -->
+			<script type="text/javascript">
+				ActionBarRenderer.createInline(
+					"transferCO_statusbar",
+					[
+						{id: "TransferCO_TransferButton", label: "Transfer"},	
+						{id: "TransferCO_CloseButton", label: "Close"}
+					]
+				);
+			</script>
+			
+			<!-- New Court LOV Button -->
+			<script type="text/javascript">
+				LOVPopupRenderer.createInline( 
+					"TransferCO_CourtName_LOVGrid", 
+					"Select Court", 
+					["Code", "Name"], 
+					10, 
+					1, 
+					true 
+				);
+			</script>
+
+		</form>
+    
+    </body>
+    
+</html>

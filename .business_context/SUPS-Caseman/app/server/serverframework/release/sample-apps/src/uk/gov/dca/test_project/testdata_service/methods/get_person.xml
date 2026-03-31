@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<service-method>
+	<pipeline>
+		<Query>
+			<QueryDef location="uk/gov/dca/test_project/testdata_service/person_query_def.xml"/>
+			<QueryExtension pivotNode="/People/Person">
+				<Param name="param.Surname" xpath="/params/param[@name='surname']"/>
+				<Constraint>P.SURNAME = ${param.Surname}</Constraint>
+			</QueryExtension>
+		</Query>
+	</pipeline>
+	<Security roles="user"/>
+</service-method>

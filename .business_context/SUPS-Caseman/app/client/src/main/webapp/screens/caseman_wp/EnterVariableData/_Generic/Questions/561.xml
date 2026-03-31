@@ -1,0 +1,22 @@
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>561</Id>
+	<Label>Other conditions</Label>
+	<ObjectName>OtherConditions</ObjectName>
+	<Html>	
+		<input type="text" id="OtherConditions"></input>
+	</Html>			
+	<Javascript>
+		<XPath>/ds/EnterVariableData/Remand/otherConditions</XPath>
+		<componentName>##label##</componentName>
+		<isMandatory>return true;</isMandatory>
+		<HintText>Enter details of other conditions if set</HintText>		
+		<enableOn>BailConditionsSet.dataBinding</enableOn>
+		<isEnabled>return( 'Y' == Services.getValue(BailConditionsSet.dataBinding));</isEnabled>
+		<logicOn>BailConditionsSet.dataBinding</logicOn>
+		<logic>
+			if( 'Y' != Services.getValue(BailConditionsSet.dataBinding))
+			{	Services.setValue(OtherConditions.dataBinding, "");
+			}
+		</logic>			
+	</Javascript>
+</Question>

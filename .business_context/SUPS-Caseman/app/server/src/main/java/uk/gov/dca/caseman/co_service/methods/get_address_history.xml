@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: Co
+	Method:  getAddressHistory()
+	File:    get_address_history.xml
+	Author:  Phil Haferer (EDS)
+	Created: 08 September 2005
+	Description: 
+		Retrieve the Historical Addresses for a particular CO Party.
+		For the addressTypeCode's 'CO EMPLOYER', 'CO WORKPLACE' or 'CO DEBTOR', a coNumber parameter is required.
+		For the addressTypeCode's 'CO CRED' or 'CO PAYEE', a debtSeq parameter is required.
+-->
+<service-method>
+	<pipeline>
+		<Query>
+			<QueryDef location="uk/gov/dca/caseman/co_service/query_def_get_address_history.xml"/>
+			<QueryExtension pivotNode="/ds/AddressHistory/Address">
+				<Param name="param.addressTypeCode" xpath="/params/param[@name = 'addressTypeCode']"/>
+				<Param name="param.coNumber"        xpath="/params/param[@name = 'coNumber']"/>
+				<Param name="param.debtSeq"         xpath="/params/param[@name = 'debtSeq']"/>
+				<Constraint>
+					      GA.ADDRESS_TYPE_CODE = ${param.addressTypeCode}
+					AND ((GA.ADDRESS_TYPE_CODE IN ('CO EMPLOYER','CO WORKPLACE','CO DEBTOR')
+                    AND   GA.CO_NUMBER         = ${param.coNumber})
+                    OR   (GA.ADDRESS_TYPE_CODE IN ('CO CRED','CO PAYEE')
+                    AND   GA.ALD_SEQ           = ${param.debtSeq}))					    
+				</Constraint>
+			</QueryExtension>
+		</Query>
+	</pipeline>
+	<Security roles="viewOnly medium high wcSuper scSuper bmsSuper aeSuper dmSuper cpSuper"/>		
+</service-method>

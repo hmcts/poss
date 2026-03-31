@@ -1,0 +1,346 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: Audit
+	Method:  getAuditData()
+	File:    get_audit_data.xml
+	Author:  Phil Haferer (EDS)
+	Created: 09 August 2005
+	Description: 
+		Generic method for retrieving Audit Data, given a parameter structure of the form...
+			<params>
+			  <param name='pageSize'>50</param>
+			  <param name='pageNumber'>1</param>
+			  <param name='auditKeys'>
+			  	<Tables>
+				  	<Table>
+				  		<TableName>CASES</TableName>
+				  		<Key>
+				  			<Column>AUT00001</Column>
+				  		</Key>
+				  	</Table>
+				  	<Table>
+				  		<TableName>CASE_PARTY_ROLES</TableName>
+				  		<Key>
+				  			<Column>AUT00001</Column>
+				  			<Column>SOLICITOR</Column>
+				  			<Column>1</Column>
+				  		</Key>
+				  	</Table>
+			  	</Tables>
+			  </param>
+			</params>
+
+		Note that, the number of <Table> nodes allowed is limited to 10,
+		given the static nature of 'where' clause implementation.
+		
+		The elements of the primary key specified in the <Column> nodes need to be 
+		specified in the same order that they are specified in the schema, as this 
+		will be the order in which that they are written into the AMENDMENTS table by the 
+		audit trigger.
+-->
+<service-method>
+	<pipeline>
+		<Query>
+			<QueryDef location="uk/gov/dca/caseman/audit_service/query_def_get_audit_data.xml"/>
+			<QueryExtension pivotNode="/ds/AuditList/Audit">
+				<Param name="param.pageNumber" xpath="/params/param[@name='pageNumber']"/>
+				<Param name="param.pageSize"   xpath="/params/param[@name='pageSize']"/>
+				<Paged pageNumber="${param.pageNumber}" pageSize="${param.pageSize}"/>
+
+				<!-- TABLE 01 -->
+				<Param name="param.T01"    xpath="/params/param[@name = 'auditKeys']/Tables/Table[1]/TableName"/>
+				<Param name="param.T01K01" xpath="/params/param[@name = 'auditKeys']/Tables/Table[1]/Key/Column[1]"/>
+				<Param name="param.T01K02" xpath="/params/param[@name = 'auditKeys']/Tables/Table[1]/Key/Column[2]"/>
+				<Param name="param.T01K03" xpath="/params/param[@name = 'auditKeys']/Tables/Table[1]/Key/Column[3]"/>
+				<Param name="param.T01K04" xpath="/params/param[@name = 'auditKeys']/Tables/Table[1]/Key/Column[4]"/>
+				<Param name="param.T01K05" xpath="/params/param[@name = 'auditKeys']/Tables/Table[1]/Key/Column[5]"/>
+				<Param name="param.T01K06" xpath="/params/param[@name = 'auditKeys']/Tables/Table[1]/Key/Column[6]"/>
+				<Param name="param.T01K07" xpath="/params/param[@name = 'auditKeys']/Tables/Table[1]/Key/Column[7]"/>
+				<Param name="param.T01K08" xpath="/params/param[@name = 'auditKeys']/Tables/Table[1]/Key/Column[8]"/>
+				<Param name="param.T01K09" xpath="/params/param[@name = 'auditKeys']/Tables/Table[1]/Key/Column[9]"/>
+				<Param name="param.T01K10" xpath="/params/param[@name = 'auditKeys']/Tables/Table[1]/Key/Column[10]"/>
+				<Param name="param.T01K11" xpath="/params/param[@name = 'auditKeys']/Tables/Table[1]/Key/Column[11]"/>
+				<Param name="param.T01K12" xpath="/params/param[@name = 'auditKeys']/Tables/Table[1]/Key/Column[12]"/>
+
+				<!-- TABLE 02 -->
+				<Param name="param.T02"    xpath="/params/param[@name = 'auditKeys']/Tables/Table[2]/TableName"/>
+				<Param name="param.T02K01" xpath="/params/param[@name = 'auditKeys']/Tables/Table[2]/Key/Column[1]"/>
+				<Param name="param.T02K02" xpath="/params/param[@name = 'auditKeys']/Tables/Table[2]/Key/Column[2]"/>
+				<Param name="param.T02K03" xpath="/params/param[@name = 'auditKeys']/Tables/Table[2]/Key/Column[3]"/>
+				<Param name="param.T02K04" xpath="/params/param[@name = 'auditKeys']/Tables/Table[2]/Key/Column[4]"/>
+				<Param name="param.T02K05" xpath="/params/param[@name = 'auditKeys']/Tables/Table[2]/Key/Column[5]"/>
+				<Param name="param.T02K06" xpath="/params/param[@name = 'auditKeys']/Tables/Table[2]/Key/Column[6]"/>
+				<Param name="param.T02K07" xpath="/params/param[@name = 'auditKeys']/Tables/Table[2]/Key/Column[7]"/>
+				<Param name="param.T02K08" xpath="/params/param[@name = 'auditKeys']/Tables/Table[2]/Key/Column[8]"/>
+				<Param name="param.T02K09" xpath="/params/param[@name = 'auditKeys']/Tables/Table[2]/Key/Column[9]"/>
+				<Param name="param.T02K10" xpath="/params/param[@name = 'auditKeys']/Tables/Table[2]/Key/Column[10]"/>
+				<Param name="param.T02K11" xpath="/params/param[@name = 'auditKeys']/Tables/Table[2]/Key/Column[11]"/>
+				<Param name="param.T02K12" xpath="/params/param[@name = 'auditKeys']/Tables/Table[2]/Key/Column[12]"/>
+
+				<!-- TABLE 03 -->
+				<Param name="param.T03"    xpath="/params/param[@name = 'auditKeys']/Tables/Table[3]/TableName"/>
+				<Param name="param.T03K01" xpath="/params/param[@name = 'auditKeys']/Tables/Table[3]/Key/Column[1]"/>
+				<Param name="param.T03K02" xpath="/params/param[@name = 'auditKeys']/Tables/Table[3]/Key/Column[2]"/>
+				<Param name="param.T03K03" xpath="/params/param[@name = 'auditKeys']/Tables/Table[3]/Key/Column[3]"/>
+				<Param name="param.T03K04" xpath="/params/param[@name = 'auditKeys']/Tables/Table[3]/Key/Column[4]"/>
+				<Param name="param.T03K05" xpath="/params/param[@name = 'auditKeys']/Tables/Table[3]/Key/Column[5]"/>
+				<Param name="param.T03K06" xpath="/params/param[@name = 'auditKeys']/Tables/Table[3]/Key/Column[6]"/>
+				<Param name="param.T03K07" xpath="/params/param[@name = 'auditKeys']/Tables/Table[3]/Key/Column[7]"/>
+				<Param name="param.T03K08" xpath="/params/param[@name = 'auditKeys']/Tables/Table[3]/Key/Column[8]"/>
+				<Param name="param.T03K09" xpath="/params/param[@name = 'auditKeys']/Tables/Table[3]/Key/Column[9]"/>
+				<Param name="param.T03K10" xpath="/params/param[@name = 'auditKeys']/Tables/Table[3]/Key/Column[10]"/>
+				<Param name="param.T03K11" xpath="/params/param[@name = 'auditKeys']/Tables/Table[3]/Key/Column[11]"/>
+				<Param name="param.T03K12" xpath="/params/param[@name = 'auditKeys']/Tables/Table[3]/Key/Column[12]"/>
+
+				<!-- TABLE 4 -->
+				<Param name="param.T04"    xpath="/params/param[@name = 'auditKeys']/Tables/Table[4]/TableName"/>
+				<Param name="param.T04K01" xpath="/params/param[@name = 'auditKeys']/Tables/Table[4]/Key/Column[1]"/>
+				<Param name="param.T04K02" xpath="/params/param[@name = 'auditKeys']/Tables/Table[4]/Key/Column[2]"/>
+				<Param name="param.T04K03" xpath="/params/param[@name = 'auditKeys']/Tables/Table[4]/Key/Column[3]"/>
+				<Param name="param.T04K04" xpath="/params/param[@name = 'auditKeys']/Tables/Table[4]/Key/Column[4]"/>
+				<Param name="param.T04K05" xpath="/params/param[@name = 'auditKeys']/Tables/Table[4]/Key/Column[5]"/>
+				<Param name="param.T04K06" xpath="/params/param[@name = 'auditKeys']/Tables/Table[4]/Key/Column[6]"/>
+				<Param name="param.T04K07" xpath="/params/param[@name = 'auditKeys']/Tables/Table[4]/Key/Column[7]"/>
+				<Param name="param.T04K08" xpath="/params/param[@name = 'auditKeys']/Tables/Table[4]/Key/Column[8]"/>
+				<Param name="param.T04K09" xpath="/params/param[@name = 'auditKeys']/Tables/Table[4]/Key/Column[9]"/>
+				<Param name="param.T04K10" xpath="/params/param[@name = 'auditKeys']/Tables/Table[4]/Key/Column[10]"/>
+				<Param name="param.T04K11" xpath="/params/param[@name = 'auditKeys']/Tables/Table[4]/Key/Column[11]"/>
+				<Param name="param.T04K12" xpath="/params/param[@name = 'auditKeys']/Tables/Table[4]/Key/Column[12]"/>
+
+				<!-- TABLE 05 -->
+				<Param name="param.T05"    xpath="/params/param[@name = 'auditKeys']/Tables/Table[5]/TableName"/>
+				<Param name="param.T05K01" xpath="/params/param[@name = 'auditKeys']/Tables/Table[5]/Key/Column[1]"/>
+				<Param name="param.T05K02" xpath="/params/param[@name = 'auditKeys']/Tables/Table[5]/Key/Column[2]"/>
+				<Param name="param.T05K03" xpath="/params/param[@name = 'auditKeys']/Tables/Table[5]/Key/Column[3]"/>
+				<Param name="param.T05K04" xpath="/params/param[@name = 'auditKeys']/Tables/Table[5]/Key/Column[4]"/>
+				<Param name="param.T05K05" xpath="/params/param[@name = 'auditKeys']/Tables/Table[5]/Key/Column[5]"/>
+				<Param name="param.T05K06" xpath="/params/param[@name = 'auditKeys']/Tables/Table[5]/Key/Column[6]"/>
+				<Param name="param.T05K07" xpath="/params/param[@name = 'auditKeys']/Tables/Table[5]/Key/Column[7]"/>
+				<Param name="param.T05K08" xpath="/params/param[@name = 'auditKeys']/Tables/Table[5]/Key/Column[8]"/>
+				<Param name="param.T05K09" xpath="/params/param[@name = 'auditKeys']/Tables/Table[5]/Key/Column[9]"/>
+				<Param name="param.T05K10" xpath="/params/param[@name = 'auditKeys']/Tables/Table[5]/Key/Column[10]"/>
+				<Param name="param.T05K11" xpath="/params/param[@name = 'auditKeys']/Tables/Table[5]/Key/Column[11]"/>
+				<Param name="param.T05K12" xpath="/params/param[@name = 'auditKeys']/Tables/Table[5]/Key/Column[12]"/>
+
+				<!-- TABLE 06 -->
+				<Param name="param.T06"    xpath="/params/param[@name = 'auditKeys']/Tables/Table[6]/TableName"/>
+				<Param name="param.T06K01" xpath="/params/param[@name = 'auditKeys']/Tables/Table[6]/Key/Column[1]"/>
+				<Param name="param.T06K02" xpath="/params/param[@name = 'auditKeys']/Tables/Table[6]/Key/Column[2]"/>
+				<Param name="param.T06K03" xpath="/params/param[@name = 'auditKeys']/Tables/Table[6]/Key/Column[3]"/>
+				<Param name="param.T06K04" xpath="/params/param[@name = 'auditKeys']/Tables/Table[6]/Key/Column[4]"/>
+				<Param name="param.T06K05" xpath="/params/param[@name = 'auditKeys']/Tables/Table[6]/Key/Column[5]"/>
+				<Param name="param.T06K06" xpath="/params/param[@name = 'auditKeys']/Tables/Table[6]/Key/Column[6]"/>
+				<Param name="param.T06K07" xpath="/params/param[@name = 'auditKeys']/Tables/Table[6]/Key/Column[7]"/>
+				<Param name="param.T06K08" xpath="/params/param[@name = 'auditKeys']/Tables/Table[6]/Key/Column[8]"/>
+				<Param name="param.T06K09" xpath="/params/param[@name = 'auditKeys']/Tables/Table[6]/Key/Column[9]"/>
+				<Param name="param.T06K10" xpath="/params/param[@name = 'auditKeys']/Tables/Table[6]/Key/Column[10]"/>
+				<Param name="param.T06K11" xpath="/params/param[@name = 'auditKeys']/Tables/Table[6]/Key/Column[11]"/>
+				<Param name="param.T06K12" xpath="/params/param[@name = 'auditKeys']/Tables/Table[6]/Key/Column[12]"/>
+
+				<!-- TABLE 07 -->
+				<Param name="param.T07"    xpath="/params/param[@name = 'auditKeys']/Tables/Table[7]/TableName"/>
+				<Param name="param.T07K01" xpath="/params/param[@name = 'auditKeys']/Tables/Table[7]/Key/Column[1]"/>
+				<Param name="param.T07K02" xpath="/params/param[@name = 'auditKeys']/Tables/Table[7]/Key/Column[2]"/>
+				<Param name="param.T07K03" xpath="/params/param[@name = 'auditKeys']/Tables/Table[7]/Key/Column[3]"/>
+				<Param name="param.T07K04" xpath="/params/param[@name = 'auditKeys']/Tables/Table[7]/Key/Column[4]"/>
+				<Param name="param.T07K05" xpath="/params/param[@name = 'auditKeys']/Tables/Table[7]/Key/Column[5]"/>
+				<Param name="param.T07K06" xpath="/params/param[@name = 'auditKeys']/Tables/Table[7]/Key/Column[6]"/>
+				<Param name="param.T07K07" xpath="/params/param[@name = 'auditKeys']/Tables/Table[7]/Key/Column[7]"/>
+				<Param name="param.T07K08" xpath="/params/param[@name = 'auditKeys']/Tables/Table[7]/Key/Column[8]"/>
+				<Param name="param.T07K09" xpath="/params/param[@name = 'auditKeys']/Tables/Table[7]/Key/Column[9]"/>
+				<Param name="param.T07K10" xpath="/params/param[@name = 'auditKeys']/Tables/Table[7]/Key/Column[10]"/>
+				<Param name="param.T07K11" xpath="/params/param[@name = 'auditKeys']/Tables/Table[7]/Key/Column[11]"/>
+				<Param name="param.T07K12" xpath="/params/param[@name = 'auditKeys']/Tables/Table[7]/Key/Column[12]"/>
+
+				<!-- TABLE 08 -->
+				<Param name="param.T08"    xpath="/params/param[@name = 'auditKeys']/Tables/Table[8]/TableName"/>
+				<Param name="param.T08K01" xpath="/params/param[@name = 'auditKeys']/Tables/Table[8]/Key/Column[1]"/>
+				<Param name="param.T08K02" xpath="/params/param[@name = 'auditKeys']/Tables/Table[8]/Key/Column[2]"/>
+				<Param name="param.T08K03" xpath="/params/param[@name = 'auditKeys']/Tables/Table[8]/Key/Column[3]"/>
+				<Param name="param.T08K04" xpath="/params/param[@name = 'auditKeys']/Tables/Table[8]/Key/Column[4]"/>
+				<Param name="param.T08K05" xpath="/params/param[@name = 'auditKeys']/Tables/Table[8]/Key/Column[5]"/>
+				<Param name="param.T08K06" xpath="/params/param[@name = 'auditKeys']/Tables/Table[8]/Key/Column[6]"/>
+				<Param name="param.T08K07" xpath="/params/param[@name = 'auditKeys']/Tables/Table[8]/Key/Column[7]"/>
+				<Param name="param.T08K08" xpath="/params/param[@name = 'auditKeys']/Tables/Table[8]/Key/Column[8]"/>
+				<Param name="param.T08K09" xpath="/params/param[@name = 'auditKeys']/Tables/Table[8]/Key/Column[9]"/>
+				<Param name="param.T08K10" xpath="/params/param[@name = 'auditKeys']/Tables/Table[8]/Key/Column[10]"/>
+				<Param name="param.T08K11" xpath="/params/param[@name = 'auditKeys']/Tables/Table[8]/Key/Column[11]"/>
+				<Param name="param.T08K12" xpath="/params/param[@name = 'auditKeys']/Tables/Table[8]/Key/Column[12]"/>
+
+				<!-- TABLE 09 -->
+				<Param name="param.T09"    xpath="/params/param[@name = 'auditKeys']/Tables/Table[9]/TableName"/>
+				<Param name="param.T09K01" xpath="/params/param[@name = 'auditKeys']/Tables/Table[9]/Key/Column[1]"/>
+				<Param name="param.T09K02" xpath="/params/param[@name = 'auditKeys']/Tables/Table[9]/Key/Column[2]"/>
+				<Param name="param.T09K03" xpath="/params/param[@name = 'auditKeys']/Tables/Table[9]/Key/Column[3]"/>
+				<Param name="param.T09K04" xpath="/params/param[@name = 'auditKeys']/Tables/Table[9]/Key/Column[4]"/>
+				<Param name="param.T09K05" xpath="/params/param[@name = 'auditKeys']/Tables/Table[9]/Key/Column[5]"/>
+				<Param name="param.T09K06" xpath="/params/param[@name = 'auditKeys']/Tables/Table[9]/Key/Column[6]"/>
+				<Param name="param.T09K07" xpath="/params/param[@name = 'auditKeys']/Tables/Table[9]/Key/Column[7]"/>
+				<Param name="param.T09K08" xpath="/params/param[@name = 'auditKeys']/Tables/Table[9]/Key/Column[8]"/>
+				<Param name="param.T09K09" xpath="/params/param[@name = 'auditKeys']/Tables/Table[9]/Key/Column[9]"/>
+				<Param name="param.T09K10" xpath="/params/param[@name = 'auditKeys']/Tables/Table[9]/Key/Column[10]"/>
+				<Param name="param.T09K11" xpath="/params/param[@name = 'auditKeys']/Tables/Table[9]/Key/Column[11]"/>
+				<Param name="param.T09K12" xpath="/params/param[@name = 'auditKeys']/Tables/Table[9]/Key/Column[12]"/>
+
+				<!-- TABLE 10 -->
+				<Param name="param.T10"    xpath="/params/param[@name = 'auditKeys']/Tables/Table[10]/TableName"/>
+				<Param name="param.T10K01" xpath="/params/param[@name = 'auditKeys']/Tables/Table[10]/Key/Column[1]"/>
+				<Param name="param.T10K02" xpath="/params/param[@name = 'auditKeys']/Tables/Table[10]/Key/Column[2]"/>
+				<Param name="param.T10K03" xpath="/params/param[@name = 'auditKeys']/Tables/Table[10]/Key/Column[3]"/>
+				<Param name="param.T10K04" xpath="/params/param[@name = 'auditKeys']/Tables/Table[10]/Key/Column[4]"/>
+				<Param name="param.T10K05" xpath="/params/param[@name = 'auditKeys']/Tables/Table[10]/Key/Column[5]"/>
+				<Param name="param.T10K06" xpath="/params/param[@name = 'auditKeys']/Tables/Table[10]/Key/Column[6]"/>
+				<Param name="param.T10K07" xpath="/params/param[@name = 'auditKeys']/Tables/Table[10]/Key/Column[7]"/>
+				<Param name="param.T10K08" xpath="/params/param[@name = 'auditKeys']/Tables/Table[10]/Key/Column[8]"/>
+				<Param name="param.T10K09" xpath="/params/param[@name = 'auditKeys']/Tables/Table[10]/Key/Column[9]"/>
+				<Param name="param.T10K10" xpath="/params/param[@name = 'auditKeys']/Tables/Table[10]/Key/Column[10]"/>
+				<Param name="param.T10K11" xpath="/params/param[@name = 'auditKeys']/Tables/Table[10]/Key/Column[11]"/>
+				<Param name="param.T10K12" xpath="/params/param[@name = 'auditKeys']/Tables/Table[10]/Key/Column[12]"/>
+
+				<Constraint>
+					(   (A.TABLE_NAME = UPPER(${param.T01}))
+					AND (A.PK01     = ${param.T01K01})
+					AND (A.PK02     IS NULL OR A.PK02 = ${param.T01K02})
+					AND (A.PK03     IS NULL OR A.PK03 = ${param.T01K03})
+					AND (A.PK04     IS NULL OR A.PK04 = ${param.T01K04})
+					AND (A.PK05     IS NULL OR A.PK05 = ${param.T01K05})
+					AND (A.PK06     IS NULL OR A.PK06 = ${param.T01K06})
+					AND (A.PK07     IS NULL OR A.PK07 = ${param.T01K07})
+					AND (A.PK08     IS NULL OR A.PK08 = ${param.T01K08})
+					AND (A.PK09     IS NULL OR A.PK09 = ${param.T01K09})
+					AND (A.PK10     IS NULL OR A.PK10 = ${param.T01K10})
+					AND (A.PK11     IS NULL OR A.PK11 = ${param.T01K11})
+					AND (A.PK12     IS NULL OR A.PK12 = ${param.T01K12})
+					) OR 
+					(   (A.TABLE_NAME = UPPER(${param.T02}))
+					AND (A.PK01     = ${param.T02K01})
+					AND (A.PK02     IS NULL OR A.PK02 = ${param.T02K02})
+					AND (A.PK03     IS NULL OR A.PK03 = ${param.T02K03})
+					AND (A.PK04     IS NULL OR A.PK04 = ${param.T02K04})
+					AND (A.PK05     IS NULL OR A.PK05 = ${param.T02K05})
+					AND (A.PK06     IS NULL OR A.PK06 = ${param.T02K06})
+					AND (A.PK07     IS NULL OR A.PK07 = ${param.T02K07})
+					AND (A.PK08     IS NULL OR A.PK08 = ${param.T02K08})
+					AND (A.PK09     IS NULL OR A.PK09 = ${param.T02K09})
+					AND (A.PK10     IS NULL OR A.PK10 = ${param.T02K10})
+					AND (A.PK11     IS NULL OR A.PK11 = ${param.T02K11})
+					AND (A.PK12     IS NULL OR A.PK12 = ${param.T02K12})
+					) OR 
+					(   (A.TABLE_NAME = UPPER(${param.T03}))
+					AND (A.PK01     = ${param.T03K01})
+					AND (A.PK02     IS NULL OR A.PK02 = ${param.T03K02})
+					AND (A.PK03     IS NULL OR A.PK03 = ${param.T03K03})
+					AND (A.PK04     IS NULL OR A.PK04 = ${param.T03K04})
+					AND (A.PK05     IS NULL OR A.PK05 = ${param.T03K05})
+					AND (A.PK06     IS NULL OR A.PK06 = ${param.T03K06})
+					AND (A.PK07     IS NULL OR A.PK07 = ${param.T03K07})
+					AND (A.PK08     IS NULL OR A.PK08 = ${param.T03K08})
+					AND (A.PK09     IS NULL OR A.PK09 = ${param.T03K09})
+					AND (A.PK10     IS NULL OR A.PK10 = ${param.T03K10})
+					AND (A.PK11     IS NULL OR A.PK11 = ${param.T03K11})
+					AND (A.PK12     IS NULL OR A.PK12 = ${param.T03K12})
+					) OR 
+					(   (A.TABLE_NAME = UPPER(${param.T04}))
+					AND (A.PK01     = ${param.T04K01})
+					AND (A.PK02     IS NULL OR A.PK02 = ${param.T04K02})
+					AND (A.PK03     IS NULL OR A.PK03 = ${param.T04K03})
+					AND (A.PK04     IS NULL OR A.PK04 = ${param.T04K04})
+					AND (A.PK05     IS NULL OR A.PK05 = ${param.T04K05})
+					AND (A.PK06     IS NULL OR A.PK06 = ${param.T04K06})
+					AND (A.PK07     IS NULL OR A.PK07 = ${param.T04K07})
+					AND (A.PK08     IS NULL OR A.PK08 = ${param.T04K08})
+					AND (A.PK09     IS NULL OR A.PK09 = ${param.T04K09})
+					AND (A.PK10     IS NULL OR A.PK10 = ${param.T04K10})
+					AND (A.PK11     IS NULL OR A.PK11 = ${param.T04K11})
+					AND (A.PK12     IS NULL OR A.PK12 = ${param.T04K12})
+					) OR 
+					(   (A.TABLE_NAME = UPPER(${param.T05}))
+					AND (A.PK01     = ${param.T05K01})
+					AND (A.PK02     IS NULL OR A.PK02 = ${param.T05K02})
+					AND (A.PK03     IS NULL OR A.PK03 = ${param.T05K03})
+					AND (A.PK04     IS NULL OR A.PK04 = ${param.T05K04})
+					AND (A.PK05     IS NULL OR A.PK05 = ${param.T05K05})
+					AND (A.PK06     IS NULL OR A.PK06 = ${param.T05K06})
+					AND (A.PK07     IS NULL OR A.PK07 = ${param.T05K07})
+					AND (A.PK08     IS NULL OR A.PK08 = ${param.T05K08})
+					AND (A.PK09     IS NULL OR A.PK09 = ${param.T05K09})
+					AND (A.PK10     IS NULL OR A.PK10 = ${param.T05K10})
+					AND (A.PK11     IS NULL OR A.PK11 = ${param.T05K11})
+					AND (A.PK12     IS NULL OR A.PK12 = ${param.T05K12})
+					) OR 
+					(   (A.TABLE_NAME = UPPER(${param.T06}))
+					AND (A.PK01     = ${param.T06K01})
+					AND (A.PK02     IS NULL OR A.PK02 = ${param.T06K02})
+					AND (A.PK03     IS NULL OR A.PK03 = ${param.T06K03})
+					AND (A.PK04     IS NULL OR A.PK04 = ${param.T06K04})
+					AND (A.PK05     IS NULL OR A.PK05 = ${param.T06K05})
+					AND (A.PK06     IS NULL OR A.PK06 = ${param.T06K06})
+					AND (A.PK07     IS NULL OR A.PK07 = ${param.T06K07})
+					AND (A.PK08     IS NULL OR A.PK08 = ${param.T06K08})
+					AND (A.PK09     IS NULL OR A.PK09 = ${param.T06K09})
+					AND (A.PK10     IS NULL OR A.PK10 = ${param.T06K10})
+					AND (A.PK11     IS NULL OR A.PK11 = ${param.T06K11})
+					AND (A.PK12     IS NULL OR A.PK12 = ${param.T06K12})
+					) OR 
+					(   (A.TABLE_NAME = UPPER(${param.T07}))
+					AND (A.PK01     = ${param.T07K01})
+					AND (A.PK02     IS NULL OR A.PK02 = ${param.T07K02})
+					AND (A.PK03     IS NULL OR A.PK03 = ${param.T07K03})
+					AND (A.PK04     IS NULL OR A.PK04 = ${param.T07K04})
+					AND (A.PK05     IS NULL OR A.PK05 = ${param.T07K05})
+					AND (A.PK06     IS NULL OR A.PK06 = ${param.T07K06})
+					AND (A.PK07     IS NULL OR A.PK07 = ${param.T07K07})
+					AND (A.PK08     IS NULL OR A.PK08 = ${param.T07K08})
+					AND (A.PK09     IS NULL OR A.PK09 = ${param.T07K09})
+					AND (A.PK10     IS NULL OR A.PK10 = ${param.T07K10})
+					AND (A.PK11     IS NULL OR A.PK11 = ${param.T07K11})
+					AND (A.PK12     IS NULL OR A.PK12 = ${param.T07K12})
+					) OR 
+					(   (A.TABLE_NAME = UPPER(${param.T08}))
+					AND (A.PK01     = ${param.T08K01})
+					AND (A.PK02     IS NULL OR A.PK02 = ${param.T08K02})
+					AND (A.PK03     IS NULL OR A.PK03 = ${param.T08K03})
+					AND (A.PK04     IS NULL OR A.PK04 = ${param.T08K04})
+					AND (A.PK05     IS NULL OR A.PK05 = ${param.T08K05})
+					AND (A.PK06     IS NULL OR A.PK06 = ${param.T08K06})
+					AND (A.PK07     IS NULL OR A.PK07 = ${param.T08K07})
+					AND (A.PK08     IS NULL OR A.PK08 = ${param.T08K08})
+					AND (A.PK09     IS NULL OR A.PK09 = ${param.T08K09})
+					AND (A.PK10     IS NULL OR A.PK10 = ${param.T08K10})
+					AND (A.PK11     IS NULL OR A.PK11 = ${param.T08K11})
+					AND (A.PK12     IS NULL OR A.PK12 = ${param.T08K12})
+					) OR 
+					(   (A.TABLE_NAME = UPPER(${param.T09}))
+					AND (A.PK01     = ${param.T09K01})
+					AND (A.PK02     IS NULL OR A.PK02 = ${param.T09K02})
+					AND (A.PK03     IS NULL OR A.PK03 = ${param.T09K03})
+					AND (A.PK04     IS NULL OR A.PK04 = ${param.T09K04})
+					AND (A.PK05     IS NULL OR A.PK05 = ${param.T09K05})
+					AND (A.PK06     IS NULL OR A.PK06 = ${param.T09K06})
+					AND (A.PK07     IS NULL OR A.PK07 = ${param.T09K07})
+					AND (A.PK08     IS NULL OR A.PK08 = ${param.T09K08})
+					AND (A.PK09     IS NULL OR A.PK09 = ${param.T09K09})
+					AND (A.PK10     IS NULL OR A.PK10 = ${param.T09K10})
+					AND (A.PK11     IS NULL OR A.PK11 = ${param.T09K11})
+					AND (A.PK12     IS NULL OR A.PK12 = ${param.T09K12})
+					) OR 
+					(   (A.TABLE_NAME = UPPER(${param.T10}))
+					AND (A.PK01     = ${param.T10K01})
+					AND (A.PK02     IS NULL OR A.PK02 = ${param.T10K02})
+					AND (A.PK03     IS NULL OR A.PK03 = ${param.T10K03})
+					AND (A.PK04     IS NULL OR A.PK04 = ${param.T10K04})
+					AND (A.PK05     IS NULL OR A.PK05 = ${param.T10K05})
+					AND (A.PK06     IS NULL OR A.PK06 = ${param.T10K06})
+					AND (A.PK07     IS NULL OR A.PK07 = ${param.T10K07})
+					AND (A.PK08     IS NULL OR A.PK08 = ${param.T10K08})
+					AND (A.PK09     IS NULL OR A.PK09 = ${param.T10K09})
+					AND (A.PK10     IS NULL OR A.PK10 = ${param.T10K10})
+					AND (A.PK11     IS NULL OR A.PK11 = ${param.T10K11})
+					AND (A.PK12     IS NULL OR A.PK12 = ${param.T10K12})
+					) 
+				</Constraint>
+			</QueryExtension>
+		</Query>
+	</pipeline>
+	<Security roles="viewOnly medium high wcSuper scSuper bmsSuper aeSuper dmSuper cpSuper ccbcMan ccbcUser ccbcSGB2 ccbcTape admin edsAdmin"/> 		
+</service-method>

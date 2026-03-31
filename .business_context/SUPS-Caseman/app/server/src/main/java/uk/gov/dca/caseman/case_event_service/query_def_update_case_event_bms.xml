@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<QueryDef>
+  <DBMapDef location="uk/gov/dca/caseman/case_event_service/map_update_case_event_bms.xml"/>
+  <Query pivotNode="/CaseEvents/CaseEvent" tables="CE">
+	<Join/>
+    <Modify>
+    	 <CheckExists table="CE" fields="EVENT_SEQ" onNotExist="skip" onExist="update" useOptimisticLock="false"/>
+    </Modify>
+  </Query>
+</QueryDef>

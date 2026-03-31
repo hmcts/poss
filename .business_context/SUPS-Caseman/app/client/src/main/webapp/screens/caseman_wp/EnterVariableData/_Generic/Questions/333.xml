@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>333</Id>
+	<Label>Any additional daily payments.</Label>
+	<ObjectName>HasAddDailyPayments</ObjectName>
+	<Html>
+		<input type="checkbox" id="HasAddDailyPayments"></input>
+	</Html>
+	
+	<Context screenId="CJR052"><isVisible>false</isVisible></Context>
+	<Context screenId="CJR053"><isVisible>false</isVisible></Context>
+	<Context screenId="CJR055"><isVisible>false</isVisible></Context>
+	
+	<Javascript>
+		<XPath>/ds/EnterVariableData/InterimCosts/PossessionOrder/hasAddDailyPayments</XPath>
+		<componentName>##label##</componentName>
+		<HintText>Check box if  there are any additional daily payments</HintText>
+		<modelValue>checked: "Y", unchecked: "N"</modelValue>
+	</Javascript>
+</Question>  

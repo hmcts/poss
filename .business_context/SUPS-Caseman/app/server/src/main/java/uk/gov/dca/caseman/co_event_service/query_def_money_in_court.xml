@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+Change History:
+ 	15/08/2006 Chris Hutt TD3975. writtem because original SQLLite method exposed a framework limitation
+-->
+<QueryDef>
+  <DBMapDef location="uk/gov/dca/caseman/co_event_service/map_money_in_court.xml"/>
+  <Query pivotNode="/ds/MoneyInCourt/ReleaseableMoney" tables="PY">
+  	<SQL type="select">
+		SELECT 
+			NVL(SUM(PY.AMOUNT),0) 	as "PY.RELEASEABLE_AMOUNT"
+		FROM
+			PAYMENTS PY
+		WHERE
+			TRUNC(PY.RELEASE_DATE) &lt; TRUNC(SYSDATE)
+		AND PY.SUBJECT_NO = ${param.coNumber}
+		AND PY.PAYOUT_DATE IS NULL
+		AND PY.RD_DATE IS NULL
+		AND PY.PASSTHROUGH = 'N'
+		AND PY.RETENTION_TYPE = 'AO/CAEO'
+		AND PY.AMOUNT_CURRENCY = 'GBP'  
+  	</SQL>
+  </Query>
+  <Query pivotNode="/ds/MoneyInCourt/NonReleaseableMoney" tables="PY">
+  	<SQL type="select">
+		SELECT 
+			NVL(SUM(PY.AMOUNT),0) 	as "PY.NON_RELEASEABLE_AMOUNT"
+		FROM
+			PAYMENTS PY
+		WHERE
+		   (TRUNC(PY.RELEASE_DATE) &gt; TRUNC(SYSDATE)
+		OR 	TRUNC(PY.RELEASE_DATE) = TRUNC(SYSDATE))
+		AND PY.SUBJECT_NO = ${param.coNumber}
+		AND PY.PAYOUT_DATE IS NULL
+		AND PY.RD_DATE IS NULL
+		AND PY.PASSTHROUGH = 'N'
+		AND PY.RETENTION_TYPE = 'AO/CAEO'
+		AND PY.AMOUNT_CURRENCY = 'GBP' 
+  	</SQL>
+  </Query>
+  <Query pivotNode="/ds/MoneyInCourt/Currency" tables="PY">
+  	<SQL type="select">
+	SELECT
+      'GBP' As "PY.CURRENCY"
+	FROM DUAL
+  	</SQL>
+  </Query>
+</QueryDef>

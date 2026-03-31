@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- 
+
+Extracts Reference data/scripts appropriate for Migration and Test Environments
+and zips them into seperate handovers
+ 
+File history
+07/12/2006 - Chris Hutt: Created 
+12/12/2006 - Chris Hutt: extended to zip up all dbase related artefacts
+15/06/2007 - Chris Hutt: extened to include scripts
+11/07/07   - chris Hutt: scripts excluded (these are part of the batch build)
+-->
+<project name="caseman-refdata" default="full_extract" basedir=".">
+
+	<property environment="env"/>
+	<property file="CasemanDBhandover.properties"/>
+
+
+	<target name="clean">
+		<delete dir="${output.dir.name}"/>
+	</target>
+
+
+    	<target name="full_extract" depends="zip-all">
+	</target>
+
+
+    	<target name="copy-all" depends="copy-refdata-migration, copy-refdata-test, copy-views, copy-packages">
+	</target>
+
+
+    	<target name="copy-refdata-migration" depends="clean">
+		<!-- common data -->
+		<copy todir="${output.refdata.migration.dir.name}" overwrite="true">
+			<fileset dir="${caseman.location.refdata.data.common}"/>
+		</copy>
+
+		<!-- common scripts -->
+		<copy todir="${output.refdata.migration.dir.name}" overwrite="true">
+			<fileset dir="${caseman.location.refdata.scripts.common}"/>
+		</copy>
+
+		<!-- migration specific data -->
+		<copy todir="${output.refdata.migration.dir.name}" overwrite="true">
+			<fileset dir="${caseman.location.refdata.data.migration}"/>
+		</copy>
+
+		<!-- postmigration specific data -->
+		<copy todir="${output.refdata.migration.dir.name}" overwrite="true">
+			<fileset dir="${caseman.location.refdata.data.postmigration}"/>
+		</copy>
+
+		<!-- migration specific scripts -->
+		<copy todir="${output.refdata.migration.dir.name}" overwrite="true">
+			<fileset dir="${caseman.location.refdata.scripts.migration}"/>
+		</copy>
+
+
+		<!-- post migration specific scripts -->
+		<copy todir="${output.refdata.migration.dir.name}" overwrite="true">
+			<fileset dir="${caseman.location.refdata.scripts.postmigration}"/>
+		</copy>
+	</target>
+ 
+    	<target name="copy-refdata-test" depends="clean">
+		<!-- common data -->
+		<copy todir="${output.refdata.test.dir.name}" overwrite="true">
+			<fileset dir="${caseman.location.refdata.data.common}"/>
+		</copy>
+
+		<!-- common scripts -->
+		<copy todir="${output.refdata.test.dir.name}" overwrite="true">
+			<fileset dir="${caseman.location.refdata.scripts.common}"/>
+		</copy>
+
+		<!-- migration specific data -->
+		<copy todir="${output.refdata.test.dir.name}" overwrite="true">
+			<fileset dir="${caseman.location.refdata.data.test}"/>
+		</copy>
+
+		<!-- migration specific scripts -->
+		<copy todir="${output.refdata.test.dir.name}" overwrite="true">
+			<fileset dir="${caseman.location.refdata.scripts.test}"/>
+		</copy>
+	</target>
+
+    	<target name="copy-views" depends="clean">
+		<copy todir="${output.views.dir.name}" overwrite="true">
+			<fileset dir="${caseman.location.views}"/>
+		</copy>
+	</target>
+
+   	<target name="copy-packages" depends="clean">
+		<copy todir="${output.packages.dir.name}" overwrite="true">
+			<fileset dir="${caseman.location.packages}"/>
+		</copy>
+	</target>
+
+
+   	<target name="copy-scripts" depends="clean">
+		<copy todir="${output.scripts.dir.name}" overwrite="true">
+			<fileset dir="${caseman.location.scripts}"/>
+		</copy>
+	</target>
+
+
+    	<target name="zip-all" depends="copy-all">
+		<zip destfile="${output.zip.name}">
+			<zipfileset dir="${output.dir.name}"/>
+		</zip>
+	</target>
+</project>
+
+

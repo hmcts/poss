@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+Change History:
+    26-Jul-2006 Phil Haferer: Removed the space from the end of "${COE.RECEIPT_DATE }", which was preventing the 
+                mapping from working.
+                (TD 4018: Performance: Pagination required when displaying list of Case Events).
+	22-Mar-2007 Chris Vincent: Added the UserAlias node under COEvent.  CaseMan Defect 6000.
+	22-Mar-2007 Mark Groen: TD 6039. Added tag ...Output\ReportId
+	
+	-->
+<DBMapDef>
+  <DataSource id="java:OracleDS"/>
+  <Tables>
+    <Table alias="COE"  name="CO_EVENTS"/>
+    <Table alias="CO" 	name="CONSOLIDATED_ORDERS"/>
+    <Table alias="CT"  	name="COURTS"/>
+    <Table alias="REF2" name="CCBC_REF_CODES"/>
+    <Table alias="SE"  	name="STANDARD_EVENTS"/>
+    <Table alias="GA"  	name="GIVEN_ADDRESSES"/>
+    <Table alias="GA2" 	name="GIVEN_ADDRESSES"/>
+    <Table alias="H"  	name="HEARINGS"/>
+    <Table alias="AD"  	name="ALLOWED_DEBTS"/>
+    <Table alias="P"  	name="PARTIES"/>
+    <Table alias="PY" name="PAYMENTS"/>
+    <Table alias="DV" name="DIVIDENDS"/>
+	<Table alias="WO" name="WP_OUTPUT"/>
+	<Table alias="RO" name="REPORT_OUTPUT"/>
+	<Table alias="RQ" name="REPORT_QUEUE"/>
+  </Tables>  
+  <Mapping>
+	<ManageCOEvents>
+
+		<CONumber>${CO.CO_NUMBER}</CONumber>
+		<OldCONumber>${CO.OLD_NUMBER}</OldCONumber>
+		<OwningCourtCode>${CO.ADMIN_COURT_CODE}</OwningCourtCode>
+		<OwningCourtName>${CT.NAME}</OwningCourtName>
+		<COType>${CO.CO_TYPE}</COType>
+		<HearingsExist>${H.HEARINGS_EXIST}</HearingsExist>
+		<PaymentsExist>${PY.PAYMENTS_EXIST}</PaymentsExist>
+		<DividendsExist>${DV.DIVIDENDS_EXIST}</DividendsExist>
+
+                <!-- The following CO fields might be updated as a result of CO_EVENT add/update -->
+		<AoN60date>${CO.AO_N60_DATE}</AoN60date>
+ 		<AttachmentArrearsDate>${CO.ATTACHMENT_ARREARS_DATE}</AttachmentArrearsDate>
+ 		<AttachmentLapsedDate>${CO.ATTACHMENT_LAPSED_DATE}</AttachmentLapsedDate>
+		<RevokedDischargedDate>${CO.REVOKED_DISCHARGED_DATE}</RevokedDischargedDate>
+		<OrderDate>${CO.ORDER_DATE}</OrderDate>
+		<COStatus>${CO.CO_STATUS}</COStatus>
+                <!-- End of list of fields on CO which might be updated -->
+
+		<Debtor>
+			<PartyName>${CO.DEBTOR_NAME}</PartyName>
+			<ContactDetails>
+				<Address>
+					<Line>${GA.ADDRESS_LINE1}</Line>
+				</Address>
+			</ContactDetails>
+		</Debtor>
+<COEvents>
+<COEvent>
+	<COEventSeq>${COE.CO_EVENT_SEQ}</COEventSeq>
+    <WordProcessingOutputFinal/>
+	<StandardEventId>${COE.STD_EVENT_ID}</StandardEventId>
+	<StandardEventDescription>${SE.DESCRIPTION}</StandardEventDescription>
+	<StandardEventCategory>${SE.CATEGORY}</StandardEventCategory>
+	<EditDetails>${SE.EDIT_DETAILS}</EditDetails>
+	<IssueStage>${COE.ISSUE_STAGE}</IssueStage>
+	<EventDetails>${COE.DETAILS}</EventDetails>
+    <ErrorInd>${COE.ERROR_INDICATOR}</ErrorInd>
+	<Service>${COE.SERVICE_STATUS}</Service>
+	<BailiffId>${COE.BAILIFF_IDENTIFIER}</BailiffId>
+	<EventDate>${COE.EVENT_DATE}</EventDate>
+	<ReceiptDate>${COE.RECEIPT_DATE}</ReceiptDate>
+	<ServiceDate>${COE.SERVICE_DATE}</ServiceDate>
+	<ProcessDate>${COE.PROCESS_DATE}</ProcessDate>
+	<CreditorName>${P.PERSON_REQUESTED_NAME}</CreditorName>
+	<UserName>${COE.USERNAME}</UserName>
+	<UserAlias>${COE.USERALIAS}</UserAlias>
+	<BMSTask>${COE.BMS_TASK_NUMBER}</BMSTask>
+	<StatsModule>${COE.STATS_MODULE}</StatsModule>
+	<Obsolete>${REF2.OBSOLETE}</Obsolete>
+	<AgeCategory>${COE.AGE_CATEGORY}</AgeCategory>
+	<WarrantId>${COE.WARRANT_ID}</WarrantId>
+	<DebtSeqNumber>${COE.ALD_DEBT_SEQ}</DebtSeqNumber>
+	<CreatingCourt>${COE.CREATING_COURT}</CreatingCourt>
+	<CreatingSection>${COE.CREATING_SECTION}</CreatingSection>
+	<Status>${STATUS}</Status>
+	<Outputs>
+			<Output>
+						<Type>${OUTPUT.TYPE}</Type>
+						<Final>${OUTPUT.FINAL_IND}</Final>
+						<OutputId>${OUTPUT.OUTPUT_ID}</OutputId>
+						<Description>${OUTPUT.DESCRIPTION}</Description>
+						<DocumentId>${OUTPUT.DOCUMENT_ID}</DocumentId>
+						<ReportId>${OUTPUT.REPORT_ID}</ReportId>
+			</Output>
+	</Outputs>
+</COEvent>
+</COEvents>
+</ManageCOEvents>
+  </Mapping>
+</DBMapDef>

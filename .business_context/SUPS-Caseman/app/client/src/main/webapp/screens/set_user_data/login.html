@@ -1,0 +1,95 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3c.org/TR/html4/strict.dtd">
+<html>
+	<head>
+		<title>Login</title>
+		<link href="Login.css" type="text/css" rel="stylesheet">
+		<script type="text/javascript" src="../../Framework.js"></script>
+		<script type="text/javascript" src="../../ConcatCommon.js"></script> 
+		<script type="text/javascript" src="Login.js"></script>
+	</head>
+		
+	<body>
+		<form name="Login" id="login">
+				
+			<!-- Framework Navigation Menu -->
+			<script type="text/javascript">MenuBarRenderer.createInline();</script>
+					
+			<table class="layout">
+				<tr>
+					<td>
+						<div class="panel">
+							<table class="content" style="height:570px;">
+								<tr>
+									<td align="center">
+										<label>Please note that it is no longer possible to change the user name being used.  Your username will depend upon who you are logged in as.  If you skip login, your user will always be 'anonymous'.</label>
+									</td>
+								</tr>
+								<tr>
+									
+									<td align="center">
+										<table style="width:475px;">
+											<tr>
+												<td align="left" class="defaultLabel"><label for='UserName'>User Name</label></td>
+												<td align="left" colspan=3>
+													<input id="UserName" type="text" size="30"/>
+												</td>
+											</tr>
+											<tr>
+												<td align="left" class="defaultLabel"><label for='UserAlias'>User Alias</label></td>
+												<td align="left" colspan=3>
+													<input id="UserAlias" type="text" size="30"/>
+												</td>
+											</tr>
+											<tr>
+												<td align="left" class="defaultLabel"><label for='UserRole'>User Role</label></td>
+												<td align="left" colspan=3>
+													<input id="UserRole" type="text" size="30"/>
+												</td>
+											</tr>
+											<tr>
+												<td align="left" class="defaultLabel"><label for='CourtId'>Court Id</label></td>
+												<td align="left" colspan=3>
+													<input id="CourtId" type="text" size="5"/>
+												</td>
+											</tr>
+											<tr>
+												<td align="left" class="defaultLabel"><label for='OwningCourt_Code'>Admin Crown Court</label></td>
+												<td align="left">
+													<input id="OwningCourt_Code" type="text" size="5"/>
+												</td>
+												<td align="left">
+													<script type="text/javascript">AutoCompletionRenderer.createInline("OwningCourt_Name");</script>
+												</td>
+												<td align="left">
+													&nbsp;<input id="OwningCourt_LOVButton" type="Button" value="LOV"/>
+												</td>
+											</tr>
+											<tr>
+												<td align="right" colspan=4><input type="button" id="UserData_SetButton" value="Set Details"/></td>
+											</tr>
+										</table>
+									</td>
+								</tr>
+							</table>
+						</div>
+					</td>
+				</tr>			
+			</table> 
+			
+			<!-- Status Bar Panel -->
+			<script type="text/javascript">
+				ActionBarRenderer.createInline(
+					"status_bar",
+					[
+						{id: "Status_CloseButton", label: "Close"}
+					]
+				);
+			</script>
+			<!-- End Status Bar Panel -->
+			
+			<!-- LOV Popup -->
+			<script type="text/javascript">LOVSubformRenderer.createInline( "OwningCourt_LOVGrid", "Courts", ["Code", "Name"], 10, 1, true );</script>
+			
+		</form>
+	</body>
+</html>

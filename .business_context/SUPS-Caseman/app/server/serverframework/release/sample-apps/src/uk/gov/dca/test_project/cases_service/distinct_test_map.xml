@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<DBMapDef>
+	<DataSource id="java:SupsDS"/>
+	<Tables>
+		<Table alias="CPR" name="CASE_PARTY_ROLES" />
+	</Tables>
+	<Mapping>
+		<CasePartyRoles>	
+			<CasePartyRole>	
+				<CaseId>${CPR.CASE_NUMBER}</CaseId>			
+				<Role>${CPR.PARTY_ROLE_CODE}</Role>							
+			</CasePartyRole>
+		</CasePartyRoles>	
+	</Mapping>
+</DBMapDef>

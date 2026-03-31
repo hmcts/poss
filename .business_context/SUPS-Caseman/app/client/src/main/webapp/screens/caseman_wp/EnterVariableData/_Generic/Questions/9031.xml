@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>9031</Id>
+	<Label>Select type of prepaid post</Label>
+	<ObjectName>PrepaidPost</ObjectName>
+	<Html>
+		<select id="PrepaidPost">
+		  <option value=""></option>
+		  <option value="FC">First Class</option>
+		  <option value="SC">Second Class</option>	
+		  <option value="REG">Registered</option>
+		  <option value="REC">Recorded</option>	 		  
+		</select>
+	</Html>
+	<Javascript>
+        <XPath>/ds/EnterVariableData/PrepaidPost</XPath>
+		<HintText>Select the Prepaid Post used (if applicable)</HintText>
+		<isMandatory>return true;</isMandatory>	
+        <mandatoryOn>PrepaidPost.dataBinding</mandatoryOn>  
+        <isEnabled>return true;</isEnabled>    
+	</Javascript>
+</Question>

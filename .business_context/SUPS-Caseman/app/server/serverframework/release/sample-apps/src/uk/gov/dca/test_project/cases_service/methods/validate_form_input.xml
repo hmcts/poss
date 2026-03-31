@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<service-method>
+	<pipeline>
+		<ValidateForm 
+			formId="myForm" 
+			value="params" 
+			schema="uk/gov/dca/test_project/cases_service/xml_schemas/get_case_params.xsd">
+		</ValidateForm>
+	</pipeline>
+	<Security roles="user"/>
+</service-method>

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: Payments
+	Method: checkPayoutExists()
+	File: check_payout_exists.xml
+	Author: Steve Blair
+	Description:
+		Check payout not being printed before allowing commit on payment maintenance.
+-->
+<service-method>
+	<pipeline>
+		<Query>
+			<QueryDef location="uk/gov/dca/caseman/payments_service/query_def_check_payout_exists.xml" />
+			<QueryExtension pivotNode="/PayoutExists">
+				<Param name="param.transactionNumber" xpath="/params/param[@name = 'transactionNumber']" />
+				<Param name="param.courtCode" xpath="/params/param[@name = 'courtCode']" />
+			</QueryExtension>
+		</Query>
+	</pipeline>
+	<Security roles="medium high wcSuper scSuper bmsSuper aeSuper dmSuper" />
+</service-method>

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+Change History
+		Chris Hutt 4th October 2007 : Performance
+     				Java class now used to generate dynamic Sql
+     				
+-->
+<QueryDef>
+	<DBMapDef location="uk/gov/dca/caseman/qbp_service/map_warrantparties.xml"/>
+	<Query pivotNode="/PartyQueryResults/PartyQueryResult" tables="W CT">
+		<Modify notModifiable="true"/>	
+	</Query>
+</QueryDef>

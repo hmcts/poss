@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- 
+	15/08/2006 - MGG - defect 4251 - Default value not being set correctly. 
+	Should default to sysDate
+	02/04/2008 - Chris Vincent (CaseMan Defect 6525): Changed the initialise to default to system
+	date -1 day and changed validate so end date can only be in the past.
+-->
+<!--Question xmlns="http://eds.com/questionxhtml" xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd"-->
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>CM_BEFF_QUESTION_3</Id>
+	<Label>End Date</Label>
+	<ObjectName>Params_EndDate_Txt</ObjectName>
+	<Html>
+	   <script type="text/javascript">
+			DatePickerRenderer.createInline("Params_EndDate_Txt", false);
+	  </script>
+	</Html>
+	<Javascript>
+		<XPath>/ds/var/page/OracleReportForm/EndDate</XPath>
+		<ReportVariableName>P_END_DATE</ReportVariableName>
+		<ReportVariableValue>CaseManUtils.convertDateToDisplay(Services.getValue(Params_EndDate_Txt.dataBinding))</ReportVariableValue>
+		<HintText>Enter the End Date</HintText>
+		<isMandatory>return true;</isMandatory>
+		<initialise>
+		    var todaysDate = CaseManUtils.createDate(getTodaysDate()); 
+		    todaysDate.setDate( todaysDate.getDate() - 1 );
+		    var DateValue = CaseManUtils.convertDateToPattern(todaysDate,"YYYY-MM-DD");
+			Services.setValue(Params_EndDate_Txt.dataBinding, DateValue);
+		</initialise>
+		<validateOn>
+			Params_EndDate_Txt.dataBinding
+		</validateOn>	
+		<validate>
+			var ec = null;
+			var endDate = Services.getValue(Params_EndDate_Txt.dataBinding);
+			var endDateObj = CaseManUtils.isBlank(endDate) ? null : CaseManUtils.createDate(endDate);
+			if ( endDateObj != null )
+			{
+				ec = validateDateInPast(endDateObj);
+			}
+			return ec;	
+		</validate>
+		<miscCode>
+			Params_EndDate_Txt.weekends = true;		
+		</miscCode>			
+	</Javascript>
+</Question>

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<DBMapDef>
+	<DataSource id="java:OracleDS"/>
+	<Tables>
+		<Table alias="NCP" name="NATIONAL_CODED_PARTIES"/>
+		<Table alias="CP" name="CODED_PARTIES"/>
+		<Table alias="P" name="PARTIES"/>
+	</Tables>
+	<Mapping>
+		<Customers>
+			<Customer>
+				<CustomerCode>${NCP.CODE}</CustomerCode>
+				<CustomerName>${P.PERSON_REQUESTED_NAME}</CustomerName>
+			</Customer>
+		</Customers>
+	</Mapping>
+</DBMapDef>

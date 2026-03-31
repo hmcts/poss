@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Question>
+	<Id>352</Id>
+	<Label>Instalment amount</Label>
+	<ObjectName>IntalmentAmount2</ObjectName>
+	<Html>	
+		<input type="text" id="DefaultCurrency352" size="1"></input>
+		<input type="text" id="IntalmentAmount2" size="11"></input>
+	</Html>			
+	<Javascript>
+		<XPath>/ds/EnterVariableData/Judgment/instalmentamount</XPath>
+		<componentName>##label##</componentName>
+		<isMandatory>return true;</isMandatory>
+		<HintText>Enter the instalment amount</HintText>
+		<validateOn>InitialPaymentAmnt.dataBinding</validateOn>
+		<validate>
+			var val = Services.getValue(IntalmentAmount2.dataBinding);
+			var maxVal = 99999999.99;         	           
+			var err = validateCurrencyValue(val, maxVal, true);
+			if( null == err ) {
+				var fVal = WPU.formatToTwoDP(val);
+				Services.setValue(IntalmentAmount2.dataBinding, fVal); }
+			return err;
+		</validate>
+		<miscCode>
+			function DefaultCurrency352() {}
+			DefaultCurrency352.dataBinding = "/ds/EnterVariableData/curr1";
+			DefaultCurrency352.tabIndex = -1;
+			DefaultCurrency352.maxLength = 1;
+			DefaultCurrency352.isReadOnly = function(){return true;}
+			DefaultCurrency352.isTemporary = function(){return true;}
+			DefaultCurrency352.transformToDisplay = function(value){
+				return WPS.__CaseManUtils().transformCurrencySymbolToDisplay(value,null,null); }
+			DefaultCurrency352.transformToModel = function(value){
+				return WPS.__CaseManUtils().transformCurrencySymbolToModel(value,null,null); }
+        </miscCode>
+        
+		<Context ScreenId="N33">
+			<isMandatory>return false;</isMandatory>
+            <validateOn>IntalmentAmount2.dataBinding</validateOn>
+            <validate>
+	            var value = Services.getValue(IntalmentAmount2.dataBinding);      
+	            var maxVal = 99999999.99;         
+	            var err = validateCurrencyValue(value, maxVal, true);
+	            if( null == err) { 
+	                var returnVal = WPU.formatToTwoDP(value);
+	                Services.setValue(IntalmentAmount2.dataBinding, returnVal); } 
+	            return err; 
+            </validate>
+		</Context>		
+		<Context ScreenId="CJR054">
+			<validate>
+				var value = Services.getValue(IntalmentAmount2.dataBinding);		    		    				    
+			    var max = "99999999.99";
+				var err = validateCurrencyValue( value, max)
+				if (null ==  err) {
+					Services.setValue(IntalmentAmount2.dataBinding, WPU.formatToTwoDP(value)); }
+				return err;
+			</validate>
+		</Context>
+		
+		<Context ScreenId="O_1_3_4">
+			<isMandatory>return false;</isMandatory>
+			<validateOn>IntalmentAmount2.dataBinding</validateOn>
+			<validate>
+				var val = Services.getValue(IntalmentAmount2.dataBinding);
+				var maxVal = 999999.99;
+				var err = validateCurrencyValue(val, maxVal);
+				if (null == err) { 	
+					var fVal = WPU.formatToTwoDP(val);
+					Services.setValue(IntalmentAmount2.dataBinding, fVal); }
+				return err;
+			</validate>
+		</Context>    
+        <Context ScreenId="O_7_8">
+            <mandatoryOn>CostPaid.dataBinding</mandatoryOn>
+            <isMandatory>return ("INST" == Services.getValue(CostPaid.dataBinding));</isMandatory>
+            <enableOn>CostPaid.dataBinding</enableOn>
+            <isEnabled>return ("INST" == Services.getValue(CostPaid.dataBinding));</isEnabled>
+            <logicOn>CostPaid.dataBinding</logicOn>
+            <logic>if("INST" != Services.getValue(CostPaid.dataBinding)){
+                    Services.setValue(IntalmentAmount2.dataBinding, ""); }
+            </logic>
+            <validateOn>IntalmentAmount2.dataBinding</validateOn>
+            <validate>
+	            var value = Services.getValue(IntalmentAmount2.dataBinding);      
+	            var maxVal = 99999999.99;         
+	            var err = validateCurrencyValue(value, maxVal);
+	              if( null == err) { 
+	                var returnVal = WPU.formatToTwoDP(value);
+	                Services.setValue(IntalmentAmount2.dataBinding, returnVal); } 
+	            return err;                             
+	        </validate>
+                
+	        <transformToModel>        
+	          if (null == value || "" == value)  { return "0.00 "; }
+	          else { return value; }
+	        </transformToModel>
+	        <transformToDisplay>      
+	            if ('0.00 ' == value) return "0.00";
+	            return value;           
+	        </transformToDisplay>                       
+         </Context>
+	</Javascript>
+</Question>

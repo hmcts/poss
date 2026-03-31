@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<DBMapDef>
+	<DataSource id="java:OracleDS"/>
+	<Tables>
+		<Table alias="ED" name="ECHR_DETAILS"/>
+		<Table alias="EAP" name="ECHR_ARTICLE_PROTOCOL"/>
+	</Tables>
+	<Mapping>
+		<ds>
+			<HumanRightsAct>
+			   <Cases>
+					<Case>
+	        			<CaseNumber>${ED.DEFT_CASE_NUMBER}</CaseNumber>
+	        			<EventDate>${ED.EVENT_DATE}</EventDate>
+	        			<ApplicationJudge>${ED.JUDGE_NAME}</ApplicationJudge>
+	        			<UserID>${ED.USERNAME}</UserID>
+	        			<ApplicationDate>${ED.DATE_OF_APPLN}</ApplicationDate>
+	        			<Outcome>${ED.OUTCOME_OF_APPLN}</Outcome>
+	        			<DeletedFlag>${ED.DELETED_FLAG}</DeletedFlag>
+	        			<PartyType>${ED.PARTY_MADE_APPLN}</PartyType>
+	        			<PartyName>${ED.NAME_OF_PARTY}</PartyName>
+	        			<EventSequence>${ED.EVENT_SEQ}</EventSequence>
+	        			<Details>${ED.PLAINTIFF_DETAILS_1}</Details>
+	        			<Protocols>
+	          				<Protocol>
+	            				<Number>${EAP.VALS_LOW_VALUE}</Number>
+	            				<Description>${EAP.DESCRIPTION}</Description>
+	          				</Protocol> 
+	          			</Protocols>
+	          			<Articles>
+	          				<Article>
+            					<Number>${EAP.VALS_LOW_VALUE}</Number>
+            					<Description>${EAP.DESCRIPTION}</Description>
+	          				</Article>           
+	        			</Articles>
+	      			</Case>
+      			</Cases>
+    		</HumanRightsAct>
+		</ds>
+	</Mapping>
+</DBMapDef>
+
+

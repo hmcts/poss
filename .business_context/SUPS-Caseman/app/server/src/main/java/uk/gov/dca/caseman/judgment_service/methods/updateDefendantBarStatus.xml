@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- 
+	Service: Judgment
+	Method:  updateDefendantBarStatus()
+	File:    update_DefendantBarStatusxml
+	Author:  Troy Baines
+	Created: 20 November 2004
+	Description: 
+       Updates the Bar status of a defendant
+-->
+<service-method>
+	<pipeline>
+		<Update>
+			<QueryDef location="uk/gov/dca/caseman/judgment_service/query_def_modify_barstatus.xml"/>
+			<DataSource xpath="/params/param[@name='CaseNumber']"/>
+			<QueryExtension pivotNode="/ds/JudgmentDetails/Defendants/Defendant">
+				<CheckExists table="CPR" fields="PARTY_ROLE_CODE CASE_PARTY_NO PARTY_ID" onNotExist="skip" onExist="update"/>
+			</QueryExtension>
+		</Update>
+	</pipeline>
+	<Security roles="medium high wcSuper scSuper bmsSuper aeSuper dmSuper cpSuper ccbcMan ccbcUser"/>
+</service-method>

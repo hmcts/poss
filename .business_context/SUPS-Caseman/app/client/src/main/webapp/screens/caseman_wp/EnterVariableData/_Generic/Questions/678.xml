@@ -1,0 +1,23 @@
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>678</Id>
+	<Label>Who is to serve claim?</Label>
+	<ObjectName>PartyServingClaim</ObjectName>
+	<Html>	
+		<select id="PartyServingClaim">
+			<option value=""></option>
+			<option value="CLM">Part 20 Claimant</option>
+			<option value="CRT">Court</option>
+		</select>
+	</Html>	
+	  
+	<Javascript>
+		<XPath>/ds/EnterVariableData/ServedBy</XPath>
+		<componentName>##label##</componentName>
+		<isMandatory>return true;</isMandatory>
+		<HintText>Select who is to serve claim</HintText>		
+	</Javascript>
+</Question>
+
+    
+       
+

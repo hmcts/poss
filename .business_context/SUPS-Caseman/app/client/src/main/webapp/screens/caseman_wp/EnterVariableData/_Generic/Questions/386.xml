@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>386</Id>
+	<Label>Details of non-money judgment/order</Label>
+	<ObjectName>NonMoneyOrderDetails</ObjectName>
+	<Html>	
+		<input type="text" id="NonMoneyOrderDetails"></input>
+	</Html>			
+	<Javascript>
+		<XPath>/ds/EnterVariableData/AttendForQuestion/nonMoneyOrderDetails</XPath>
+		<componentName>##label##</componentName>
+		<isMandatory>return true;</isMandatory>
+		<HintText>Enter free text details of non-money judgment/order to follow word 'to'</HintText>
+		<enableOn>JudgmentOrderType.dataBinding</enableOn>
+		<isEnabled>
+			var val = Services.getValue(JudgmentOrderType.dataBinding);
+			return( 'N' == val || 'B' == val);
+		</isEnabled>
+		<logicOn>JudgmentOrderType.dataBinding</logicOn>
+		<logic>
+			var val = Services.getValue(JudgmentOrderType.dataBinding);
+			if( 'N' != val &amp;&amp; 'B' != val)
+			{	Services.setValue(NonMoneyOrderDetails.dataBinding, "");
+			}
+		</logic>
+	</Javascript>
+</Question>

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<DBMapDef>
+	<DataSource id="java:SupsDS"/>
+	<Tables>
+		<Table alias="P" name="PERSON"/>
+		<Table alias="A" name="ADDRESS"/>
+	</Tables>
+	<Mapping>
+		<People>
+			<Person>
+				<Id>${P.ID}</Id>
+				<Firstname>${P.FIRSTNAME}</Firstname>
+				<Surname>${P.SURNAME}</Surname>
+				<Dob>${P.DOB}</Dob>
+				<Addresses>
+					<Address>
+						<Id>${A.ID}</Id>
+						<Line1>${A.LINE_1}</Line1>
+						<Line2>${A.LINE_2}</Line2>
+						<Town>${A.TOWN}</Town>
+						<Postcode>${A.POSTCODE}</Postcode>
+					</Address>
+				</Addresses>
+			</Person>
+		</People>
+	</Mapping>
+</DBMapDef>

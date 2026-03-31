@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<DBMapDef>
+  <DataSource id="java:OracleDS"/>
+  <Tables>
+    <Table alias="P" name="PARTIES"/>
+    <Table alias="GA" name="GIVEN_ADDRESSES"/>
+  </Tables>  
+  <Mapping>
+	<ds>
+		<DeleteNonCodedParty>
+			<PartyId>${P.PARTY_ID}</PartyId>
+			<AddressId>${GA.ADDRESS_ID}</AddressId>
+		</DeleteNonCodedParty>
+	</ds>
+  </Mapping>
+</DBMapDef>

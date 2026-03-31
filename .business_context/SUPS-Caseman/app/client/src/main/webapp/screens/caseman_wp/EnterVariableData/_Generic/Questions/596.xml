@@ -1,0 +1,46 @@
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>596</Id>
+	<Label>Enter amount paid in satisfaction</Label>
+	<ObjectName>SatisfactionAmnt</ObjectName>
+ 
+	<Html>	
+		<input type="text" size="1" id="DefaultCurrency596"></input>
+		<input type="text" id="SatisfactionAmnt" size="12" maxlength="12"></input>
+	</Html>			
+	<Javascript>
+		<XPath>/ds/EnterVariableData/Settlement/satisfactionAmnt</XPath>
+		<componentName>##label##</componentName>
+		<isMandatory>return true;</isMandatory>
+		<HintText>Enter amount paid in satisfaction</HintText>
+		<maxLength>12</maxLength>	
+		<enableOn>IsSumPaidInSat.dataBinding</enableOn>
+		<isEnabled>return('Y' == Services.getValue(IsSumPaidInSat.dataBinding));</isEnabled>
+		<logicOn>IsSumPaidInSat.dataBinding</logicOn>
+		<logic>
+			if('Y' != Services.getValue(IsSumPaidInSat.dataBinding))
+			{	Services.setValue(SatisfactionAmnt.dataBinding, "");
+			}
+		</logic>	
+		<validateOn>SatisfactionAmnt.dataBinding</validateOn>
+		<validate>
+			var val = Services.getValue(SatisfactionAmnt.dataBinding);
+			var err = validateCurrencyValue(val, 999999999.99);
+			if( null == err )
+			{	Services.setValue(SatisfactionAmnt.dataBinding, WPU.formatToTwoDP(val));
+			}
+			return err;
+		</validate>
+		<miscCode>
+			function DefaultCurrency596() {}
+			DefaultCurrency596.dataBinding = "/ds/EnterVariableData/curr1";
+			DefaultCurrency596.tabIndex = -1;
+			DefaultCurrency596.maxLength = 1;
+			DefaultCurrency596.isReadOnly = function(){return true;}
+			DefaultCurrency596.isTemporary = function(){return true;}
+			DefaultCurrency596.transformToDisplay = function(value){
+				return WPS.__CaseManUtils().transformCurrencySymbolToDisplay(value,null,null); }
+			DefaultCurrency596.transformToModel = function(value){
+				return WPS.__CaseManUtils().transformCurrencySymbolToModel(value,null,null); }
+		</miscCode>
+	</Javascript>
+</Question>

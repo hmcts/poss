@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<DBMapDef>
+	<DataSource id="java:OracleDS"/>
+	<Tables>
+		<Table alias="J" name="JUDGMENTS"/>
+		<Table alias="IP" name="INFAVOUR_PARTIES"/>
+		<Table alias="P" name="PARTIES"/>
+		<Table alias="V" name="VARIATIONS"/>
+	</Tables>
+	<Mapping>
+  		<Judgments>
+			<Judgment>				
+				<JudgSeq>${J.JUDG_SEQ}</JudgSeq>
+				<JudgSupsSequence></JudgSupsSequence>                    
+				<CaseNumber>${J.DEFT_CASE_NUMBER}</CaseNumber>    
+				<DefendantID>${J.DEFT_ID}</DefendantID>  
+				<JudgmentFor>${J.JUDGMENT_FOR}</JudgmentFor>            
+				<Type>${J.JUDGMENT_TYPE}</Type>                
+				<Joint>${J.JOINT_JUDGMENT}</Joint>               
+				<Date>${J.JUDGMENT_DATE}</Date>            
+				<InFavourParties>
+					<Party>
+						<JudgmentSequence>${IP.JUDG_SEQ}</JudgmentSequence>
+						<PartyRoleCode>${IP.PARTY_ROLE_CODE}</PartyRoleCode>
+						<CasePartyNumber>${IP.CASE_PARTY_NO}</CasePartyNumber>
+						<Name>${P.PERSON_REQUESTED_NAME}</Name>
+						<CaseNumber>${IP.CASE_NUMBER</CaseNumber>
+					</Party>
+				</InFavourParties>      
+				<SentToRTL>${J.SENT_TO_RTL}</SentToRTL>                  
+				<StatusToRTL>${J.STATUS_TO_RTL}</StatusToRTL>                
+				<DateOfFinalPayment>${J.DATE_OF_FINAL_PAYMENT}</DateOfFinalPayment>        
+				<Status>${J.STATUS}</Status>                       
+				<Amount>${J.JUDGMENT_AMOUNT}</Amount>              
+				<TotalCosts>${J.TOTAL_COSTS}</TotalCosts>                  
+				<PaidBeforeJudgment>${J.PAID_BEFORE_JUDGMENT}</PaidBeforeJudgment>         
+				<Total>${J.TOTAL}</Total>                       
+				<InstalmentAmount>${J.INSTALMENT_AMOUNT}</InstalmentAmount>            
+				<InstalmentPeriod>${J.INSTALMENT_PERIOD}</InstalmentPeriod>            
+				<FirstPaymentDate>${J.FIRST_PAYMENT_DATE}</FirstPaymentDate>           
+				<PayeeName>${J.PAYEE_NAME}</PayeeName>                   
+				<PayeeAddr1>${J.PAYEE_ADDR_1}</PayeeAddr1>                 
+				<PayeeAddr2>${J.PAYEE_ADDR_2}</PayeeAddr2>                 
+				<PayeeAddr3>${J.PAYEE_ADDR_3}</PayeeAddr3>                 
+				<PayeeAddr4>${J.PAYEE_ADDR_4}</PayeeAddr4>                 
+				<PayeeAddr5>${J.PAYEE_ADDR_5}</PayeeAddr5>                 
+				<PayeePostcode>${J.PAYEE_POSTCODE}</PayeePostcode>               
+				<PayeeTelNo>${J.PAYEE_TEL_NO}</PayeeTelNo>                 
+				<PayeeRef>${J.PAYEE_REFERENCE}</PayeeRef>              
+				<PayReceiptDate>${J.PAY_RECEIPT_DATE}</PayReceiptDate>             
+				<CourtCode>${J.JUDGMENT_COURT_CODE}</CourtCode>                 
+				<Variations> 
+					<Variation>
+						<VarSeq>${V.VARY_SEQ}</VarSeq>  
+						<VarSupsSequence></VarSupsSequence>          
+						<JudgSeq>${V.JUDG_SEQ}</JudgSeq>
+						<JudgSupsSequence></JudgSupsSequence>					            
+						<ApplicationDate>${V.APPLICATION_DATE}</ApplicationDate>    
+						<Requester>${V.REQUESTER}</Requester>           
+						<OfferAmount>${V.OFFER_AMOUNT}</OfferAmount>        
+						<OfferPeriod>${V.OFFER_PERIOD}</OfferPeriod>        
+						<FirstPaymentDate>${V.FIRST_PAYMENT_DATE}</FirstPaymentDate>  
+						<Response>${V.PLAINTIFF_RESPONSE}</Response>  
+						<Result>${V.RESULT}</Result>             
+						<ResultDate>${V.RESULT_DATE}</ResultDate>         
+						<DeteminationAmount>${V.DETERMINATION_AMOUNT}</DeteminationAmount>
+						<DeterminationPeriod>${V.DETERMINATION_PERIOD}</DeterminationPeriod>
+						<Objection>${V.OBJECTION}</Objection>          
+						<Objector>${V.OBJECTOR}</Objector>            
+						<ResponseDate>${V.RESPONSE_DATE}</ResponseDate>       
+						<HearingReq>${V.HEARING_REQD}</HearingReq>        
+						<ObjectionDate>${V.OBJECTION_DATE}</ObjectionDate>       
+					</Variation>
+				</Variations>    
+	 		</Judgment>
+   		</Judgments> 
+ 	</Mapping>
+</DBMapDef> 

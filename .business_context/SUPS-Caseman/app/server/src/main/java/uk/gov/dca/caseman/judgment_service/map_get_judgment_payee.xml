@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: Judgment
+	Method:  getJudgmentPayee()
+	File:    map_get_judgment_payee.xml
+	Author:  Chris Vincent
+	Created: 25 January 2006
+	Description: 
+		Retrieves the Payee associated with the National Coded Party Solicitor of Claimant
+		Number 1 of the Case passed in as a parameter.  Used for CCBC Cases.
+	Change History:
+-->
+<DBMapDef>
+  <DataSource id="java:OracleDS"/>
+  <Tables>
+    <Table alias="CPR"  name="CASE_PARTY_ROLES"/>
+    <Table alias="CPR2CPR"  name="CPR_TO_CPR_RELATIONSHIP"/>
+    <Table alias="GA" name="GIVEN_ADDRESSES"/>
+    <Table alias="P2P" name="PARTY_TO_PARTY_RELATIONSHIP"/>
+    <Table alias="P"  name="PARTIES"/>
+    <Table alias="PY"  name="PAYEES"/>
+  </Tables>
+  <Mapping>
+	<PayeeDetails>
+		<Payee>
+			<Name>${P.PERSON_REQUESTED_NAME}</Name>
+			<Reference>${GA.REFERENCE}</Reference>
+			<ContactDetails>
+				<Address>
+					<Line>${GA.ADDRESS_LINE1}</Line>
+					<Line>${GA.ADDRESS_LINE2}</Line>
+					<Line>${GA.ADDRESS_LINE3}</Line>
+					<Line>${GA.ADDRESS_LINE4}</Line>
+					<Line>${GA.ADDRESS_LINE5}</Line>
+					<PostCode>${GA.POSTCODE}</PostCode>
+				</Address>
+				<DX>${P.DX_NUMBER}</DX>
+				<TelephoneNumber>${P.TEL_NO}</TelephoneNumber>
+				<FaxNumber>${P.FAX_NUMBER}</FaxNumber>
+				<EmailAddress>${P.EMAIL_ADDRESS}</EmailAddress>
+			</ContactDetails>
+			<BankDetails>
+				<BankName>${PY.BANK_NAME}</BankName>
+				<AccountNumber>${PY.BANK_ACC_NO}</AccountNumber>
+				<SortCode>${PY.BANK_SORT_CODE}</SortCode>
+				<AccountHolder>${PY.ACC_HOLDER}</AccountHolder>
+				<SlipCode>
+					<Line/>
+					<Line/>
+				</SlipCode>
+				<BankInformation>
+					<Line>${PY.BANK_INFO_1}</Line>
+					<Line>${PY.BANK_INFO_2}</Line>
+				</BankInformation>
+				<GiroAccountNumber>${PY.GIRO_ACC_NO}</GiroAccountNumber>
+				<GiroTransaction>
+					<Code>${PY.GIRO_TRANS_CODE_1}</Code>
+					<Code>${PY.GIRO_TRANS_CODE_2}</Code>
+				</GiroTransaction>
+				<APACSTransactionCode>${PY.APACS_TRANS_CODE}</APACSTransactionCode>
+			</BankDetails>
+		</Payee>
+	</PayeeDetails>
+  </Mapping>
+</DBMapDef>

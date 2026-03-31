@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:fo="http://www.w3.org/1999/XSL/Format" xmlns="http://eds.com/supsfo">
+	<variables>@word.processing.url.xsl@supsfo.xsl</variables>
+	<addressee>
+		<blank/>
+		<warrantPartyFor />
+		<warrantPartiesAgainst />
+	</addressee>
+	<header>
+		<fo:block font-size="16pt" font-weight="bold">General Form of Judgment or Order</fo:block>
+	</header>
+	<courtcase>
+		<court>
+			<xsl:copy-of select="$vdWarrantCourtHeaderBlock"/>
+		</court>
+		<caseparameters>
+			<parameter>
+				<name>
+					<fo:block font-weight="bold">Case Number</fo:block>
+				</name>
+				<value>
+					<fo:block>
+						<xsl:value-of select="$vdWarrantCaseNumber"/>
+					</fo:block>
+				</value>
+			</parameter>
+			<parameter>
+				<name>
+					<fo:block font-weight="bold">Warrant Number</fo:block>
+				</name>
+				<value>
+					<fo:block>
+						<xsl:value-of select="$vdWarrantNumber"/>
+					</fo:block>
+				</value>
+			</parameter>
+			<parameter>
+				<name>
+					<fo:block font-weight="bold">Local Number</fo:block>
+				</name>
+				<value>
+					<fo:block>
+						<xsl:value-of select="$vdWarrantLocalNumber"/>
+					</fo:block>
+				</value>
+			</parameter>
+			<parameter>
+				<name>
+					<fo:block font-weight="bold">
+						<xsl:call-template name="variableRoleCredDebt">
+							<xsl:with-param name="role">jcreditor</xsl:with-param>
+						</xsl:call-template>
+					</fo:block>
+					<fo:block font-size="9pt">(including ref.)</fo:block>
+				</name>
+				<value>
+					<fo:block hyphenate="true">
+						<xsl:value-of select="$vdPartyForName"/>
+					</fo:block>
+					<fo:block font-size="9pt" hyphenate="true">
+						<xsl:value-of select="$vdPartyForReference"/>
+					</fo:block>
+				</value>
+			</parameter>
+			<parameter>
+				<name>
+					<fo:block font-weight="bold">
+						<xsl:call-template name="variableRoleCredDebt">
+							<xsl:with-param name="role">jdebtor</xsl:with-param>
+						</xsl:call-template>
+					</fo:block>
+					<fo:block font-size="9pt">(including ref.)</fo:block>
+				</name>
+				<value>
+					<fo:block hyphenate="true">
+						<xsl:value-of select="$vdPartyAgainstName"/>
+					</fo:block>
+					<fo:block font-size="9pt" hyphenate="true">
+						<xsl:value-of select="$vdPartyAgainstReference"/>
+					</fo:block>
+				</value>
+			</parameter>
+		</caseparameters>
+	</courtcase>
+	<bodyintroright><fo:block space-before="0.4cm"><fo:inline text-align="center"><seal/></fo:inline></fo:block></bodyintroright>
+	<body>
+		<editable useid="N100CF">
+			<fo:block space-before="1.0cm" space-after="0.4cm">
+				Before <xsl:value-of select="$vdJudge"/> sitting at <xsl:value-of select="$vdHearingAtCourtNameDescription"/>, <xsl:value-of select="$vdHearingAtCourtAddress"/>.
+			</fo:block>
+			<fo:block space-after="0.4cm">
+				<xsl:copy-of select="$vdHearingAttendees"/>	
+			</fo:block>
+			<fo:block space-after="0.4cm">
+				<fo:inline font-weight="bold">IT IS ORDERED THAT </fo:inline> 
+			</fo:block>
+			<fo:block space-after="0.4cm">
+				<cursor/>
+			</fo:block>
+			<fo:block space-after="0.4cm">
+				Dated <xsl:value-of select="$vdWarrantReceiptDate"/>
+			</fo:block>
+		</editable> 
+	</body>
+	<defaultFooter id="CJR065_DO"/>
+</root>

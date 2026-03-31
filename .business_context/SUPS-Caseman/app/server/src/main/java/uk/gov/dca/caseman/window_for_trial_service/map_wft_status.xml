@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+v1.0 Chris Hutt 4/2/2005
+-->
+<DBMapDef>
+<DataSource id="java:OracleDS"/>
+<Tables>
+  <Table alias="WFT" name="WINDOW_FOR_TRIAL"/>
+</Tables>
+  <Mapping>
+    <WindowsForTrial>
+      <WindowForTrial>
+	<CaseNumber>${WFT.WFT_CASE_NUMBER}</CaseNumber>
+	<Status>${WFT.WFT_STATUS}</Status>
+      </WindowForTrial>
+    </WindowsForTrial>		
+  </Mapping>
+</DBMapDef>

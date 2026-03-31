@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>810</Id>
+	<Label>Applicant</Label>
+	<ObjectName>Applicant</ObjectName>
+	<Html>
+		<select id="Applicant">
+			<option value=""></option>
+			<option value="COURT">The court by its own initiative</option>
+			<option value="CRED">The creditor</option>
+			<option value="DEB">The debtor</option>
+			<option value="EM">The debtor’s employer</option>
+		</select>
+	</Html>
+	<Javascript>
+		<XPath>/ds/EnterVariableData/Applicant</XPath>
+		<componentName>##label##</componentName>
+		<HintText>Select the name of the CAEO Initiator - List available.</HintText>
+		<isMandatory>return true;</isMandatory>
+		<mandatoryOn>Applicant.dataBinding</mandatoryOn>
+	</Javascript>
+</Question>

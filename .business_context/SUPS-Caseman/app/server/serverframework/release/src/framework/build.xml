@@ -1,0 +1,15 @@
+<project name="OASStartup" default="build-startup">
+	
+	<path id="project.path">
+		<fileset dir="C:/Projects/sups/tools/extracted/jakarta-log4j-1.2.8/dist/lib" includes="log4j-1.2.8.jar"/>
+		<fileset dir="D:/OraHome_1/j2ee/home" includes="oc4j.jar"/>
+		<pathelement location="D:/OraHome_1/j2ee/home/oc4j.jar"/>
+		<pathelement location="C:/Projects/sups/tools/extracted/jakarta-log4j-1.2.8/dist/lib/log4j-1.2.8.jar"/>
+	</path>
+	
+	<target name="build-startup">
+		<javac srcdir="./" destdir="./" includes="uk/**/OASLog4JStartup.java" classpathref="project.path" debug="true"/>
+		<jar destfile="./sups-init.jar" basedir="./" includes="uk/**/OASLog4JStartup.class"/>
+    </target>
+	
+</project>

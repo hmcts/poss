@@ -1,0 +1,1005 @@
+p_user    = system
+p_pwd     = elephant
+p_sid     = XE
+fourth parameter  = !!! parameter added by the tool!!!
+-- Make any necessary changes to the database contents for the test to work.
+
+=========================================================================
+== Delete data from the following MCOL_CCBC tables.
+=========================================================================
+
+-- DELETE FROM mcol_ccbc.case_data_request_t
+
+4 rows deleted.
+
+-- DELETE FROM mcol_ccbc.awaiting_data
+
+0 rows deleted.
+
+-- DELETE FROM mcol_ccbc.mcol_mig_claim_data_t
+
+0 rows deleted.
+
+-- DELETE FROM mcol_ccbc.mcol_mig_party_data_t
+
+0 rows deleted.
+
+-- DELETE FROM mcol_ccbc.mcol_mig_judgment_data_t
+
+0 rows deleted.
+
+-- DELETE FROM mcol_ccbc.mcol_mig_warrant_data_t
+
+0 rows deleted.
+
+-- DELETE FROM mcol_ccbc.mcol_mig_event_data_t
+
+0 rows deleted.
+
+-- DELETE FROM mcol_ccbc.mcol_mig_claim_data_t_arch
+
+4 rows deleted.
+
+-- DELETE FROM mcol_ccbc.mcol_mig_party_data_t_arch
+
+16 rows deleted.
+
+-- DELETE FROM mcol_ccbc.mcol_mig_judgment_data_t_arch
+
+8 rows deleted.
+
+-- DELETE FROM mcol_ccbc.mcol_mig_warrant_data_t_arch
+
+8 rows deleted.
+
+-- DELETE FROM mcol_ccbc.mcol_mig_event_data_t_arch
+
+0 rows deleted.
+
+-- DELETE FROM mcol_ccbc.error_log
+
+0 rows deleted.
+
+-- DELETE FROM mcol_ccbc.execution_log
+
+0 rows deleted.
+
+=========================================================================
+== Delete data from MCOL tables.
+=========================================================================
+
+-- DELETE FROM mcol.warrant
+
+8 rows deleted.
+
+-- DELETE FROM mcol.judgment
+
+8 rows deleted.
+
+-- DELETE FROM mcol.paymentschedule
+
+8 rows deleted.
+
+-- DELETE FROM mcol.claim
+
+4 rows deleted.
+
+-- DELETE FROM mcol.defendants
+
+24 rows deleted.
+
+-- DELETE FROM mcol.flowstate
+
+0 rows deleted.
+
+-- DELETE FROM mcol.payment
+
+0 rows deleted.
+
+-- DELETE FROM mcol.part_admission_schedule
+
+0 rows deleted.
+
+-- DELETE FROM mcol.part_admission
+
+0 rows deleted.
+
+-- DELETE FROM mcol.defence_and_counterclaim
+
+0 rows deleted.
+
+-- DELETE FROM mcol.ack_of_service
+
+0 rows deleted.
+
+-- DELETE FROM mcol.document
+
+20 rows deleted.
+
+-- DELETE FROM mcol.case_party_role_event
+
+32 rows deleted.
+
+-- DELETE FROM mcol.legacy_user_case_party_role
+
+0 rows deleted.
+
+-- DELETE FROM mcol.case_party_role
+
+12 rows deleted.
+
+-- DELETE FROM mcol.case
+
+4 rows deleted.
+
+-- DELETE FROM mcol.muser
+
+2 rows deleted.
+
+-- DELETE FROM mcol.mcol_update_request
+
+4 rows deleted.
+
+
+-- Disable the party to party_details constraint to be able to delete from party_details.
+
+-- ALTER TABLE mcol.party DISABLE CONSTRAINT fk_party
+
+Table altered.
+
+-- ALTER TABLE mcol.party DISABLE CONSTRAINT fk_party_2
+
+Table altered.
+
+-- DELETE FROM mcol.direct_debit_details
+
+2 rows deleted.
+
+-- DELETE FROM mcol.party_details
+
+14 rows deleted.
+
+-- DELETE FROM mcol.party
+
+14 rows deleted.
+
+
+-- Renable the constraints.
+
+-- ALTER TABLE mcol.party ENABLE CONSTRAINT fk_party
+
+Table altered.
+
+-- ALTER TABLE mcol.party ENABLE CONSTRAINT fk_party_2
+
+Table altered.
+
+-- Reset ALL MCOL and MCOL_CCBC sequences to ensure consistent ids in the .out files when comparing against the .out.good files.
+Resetting sequence MCOL.PAYEE_SEQ to start at 1
+Resetting sequence MCOL.WARRANT_SEQ to start at 1
+Resetting sequence MCOL.CERTIFICATE_SEQ to start at 5
+Resetting sequence MCOL.PART_ADMISSION_SCHEDULE_SEQ to start at 1
+Resetting sequence MCOL.DIRECT_DEBIT_DETAILS_SEQ to start at 1
+Resetting sequence MCOL.MUSER_SEQ to start at 1
+Resetting sequence MCOL.PAYMENTSCHEDULE_SEQ to start at 1
+Resetting sequence MCOL.PAYMENT_SEQ to start at 1
+Resetting sequence MCOL.PARTY_DETAILS_SEQ to start at 1
+Resetting sequence MCOL.DOCUMENT_SEQ to start at 1
+Resetting sequence MCOL.CASE_PARTY_ROLE_SEQ to start at 1
+Resetting sequence MCOL.CASE_SEQ to start at 1
+Resetting sequence MCOL.PARTY_SEQ to start at 1
+Resetting sequence MCOL.AUDIT_EVENT_SEQ to start at 4
+Resetting sequence MCOL.AUDIT_SESSION_SEQ to start at 4
+Resetting sequence MCOL_CCBC.TAPES_SEQUENCE to start at 1
+Resetting sequence MCOL_CCBC.TAPE_FILES_SEQUENCE to start at 1
+Resetting sequence MCOL_CCBC.MCOL_DATA_T_SEQ to start at 240
+Resetting sequence MCOL_CCBC.REJECTED_UPDATE_SEQ to start at 1
+Resetting sequence MCOL_CCBC.DELIVERED_BATCH_SEQ to start at 1
+Resetting sequence MCOL.MCOL_UPDATE_REQUEST_SEQ to start at 1
+Resetting sequence MCOL_CCBC.EXECUTION_LOG_SEQ to start at 1
+Resetting sequence MCOL_CCBC.ERROR_LOG_SEQ to start at 1
+Resetting sequence MCOL.CASE_PARTY_ROLE_EVENT_SEQ to start at 1
+
+PL/SQL procedure successfully completed.
+
+========================================================================
+== POPULATE MCOL TABLES
+========================================================================
+
+====================================================
+== DISABLE PARTY AND PARTY_DETAILS CONSTRAINTS
+====================================================
+
+-- ALTER TABLE mcol.party ENABLE CONSTRAINT fk_party
+
+Table altered.
+
+-- ALTER TABLE mcol.party DISABLE CONSTRAINT fk_party_2
+
+Table altered.
+
+====================================================
+== Set up a registered Organisational SDT user
+====================================================
+
+-- INSERT INTO mcol.party
+
+1 row created.
+
+-- INSERT INTO mcol.party_details
+
+1 row created.
+
+-- INSERT INTO mcol.direct_debit_details
+
+1 row created.
+
+-- INSERT INTO mcol.muser
+
+1 row created.
+
+====================================================
+== Set up a registered Solicitor SDT user
+====================================================
+
+-- INSERT INTO mcol.party
+
+1 row created.
+
+-- INSERT INTO mcol.party_details
+
+1 row created.
+
+-- INSERT INTO mcol.direct_debit_details
+
+1 row created.
+
+-- INSERT INTO mcol.muser
+
+1 row created.
+
+====================================================
+== ENABLE PARTY AND PARTY_DETAILS CONSTRAINTS
+====================================================
+
+-- ALTER TABLE mcol.party ENABLE CONSTRAINT fk_party
+
+Table altered.
+
+-- ALTER TABLE mcol.party ENABLE CONSTRAINT fk_party_2
+
+Table altered.
+
+====================================================
+== Set up the Organisational SDT skeletal case
+====================================================
+
+-- INSERT INTO mcol.case
+
+1 row created.
+
+-- INSERT INTO mcol.case_party_role (Claimant)
+
+1 row created.
+
+-- INSERT INTO mcol.case_party_role (Defendant 1)
+
+1 row created.
+
+-- INSERT INTO mcol.case_party_role (Defendant 2)
+
+1 row created.
+
+-- INSERT INTO mcol.case_party_role_event (Claimant)
+
+1 row created.
+
+====================================================
+== Set up the Solicitor SDT skeletal case
+====================================================
+
+-- INSERT INTO mcol.case
+
+1 row created.
+
+-- INSERT INTO mcol.case_party_role (Claimant)
+
+1 row created.
+
+-- INSERT INTO mcol.case_party_role (Defendant 1)
+
+1 row created.
+
+-- INSERT INTO mcol.case_party_role (Defendant 2)
+
+1 row created.
+
+-- INSERT INTO mcol.case_party_role_event (Claimant)
+
+1 row created.
+
+========================================================================
+== POPULATE MCOL_CCBC TABLES
+========================================================================
+
+========================================================================
+Test 1 Data Description:
+A new Case data is created if there is no existing record in MCOL for
+the exported CaseMan case.
+New Case record.
+New Case Party Records (linked to Registeredd user and party records).
+New Case Party Role Events are created.
+
+========================================================================
+
+-- INSERT INTO mcol_ccbc.case_data_request_t
+
+1 row created.
+
+-- INSERT INTO mcol_ccbc.awaiting_data
+
+1 row created.
+
+-- INSERT INTO mcol_ccbc.mcol_mig_claim_data_t
+
+1 row created.
+
+-- INSERT INTO mcol_ccbc.mcol_mig_party_data_t (** CLAIMANT **)
+
+1 row created.
+
+-- INSERT INTO mcol_ccbc.mcol_mig_party_data_t (** DEFENDANT 1 **)
+
+1 row created.
+
+-- INSERT INTO mcol_ccbc.mcol_mig_party_data_t (** DEFENDANT 2 **)
+
+1 row created.
+
+-- INSERT INTO mcol_ccbc.mcol_mig_party_data_t (** SOLICITOR **)
+
+1 row created.
+
+========================================================================
+Test 2 Data Description:
+The data population process overwrites existing MCOL CASE table
+values with the data from CaseMan where it is different.
+Link Case party role(s) to registered user and party records.
+
+Expected Outcome:
+Case: amount_claimed, court_fee, solicitors_costs, claim_total
+are updated.
+
+========================================================================
+
+-- INSERT INTO mcol_ccbc.case_data_request_t
+
+1 row created.
+
+-- INSERT INTO mcol_ccbc.awaiting_data
+
+1 row created.
+
+-- INSERT INTO mcol_ccbc.mcol_mig_claim_data_t
+
+1 row created.
+
+-- INSERT INTO mcol_ccbc.mcol_mig_party_data_t (** CLAIMANT **)
+
+1 row created.
+
+-- INSERT INTO mcol_ccbc.mcol_mig_party_data_t (** DEFENDANT 1 **)
+
+1 row created.
+
+-- INSERT INTO mcol_ccbc.mcol_mig_party_data_t (** DEFENDANT 2 **)
+
+1 row created.
+
+-- INSERT INTO mcol_ccbc.mcol_mig_party_data_t (** SOLICITOR **)
+
+1 row created.
+
+
+Commit complete.
+
+'#####################'
+'##  Tests Started  ##'
+'#####################'
+=========================================================================
+TABLES *** BEFORE *** DATA POPULATION
+=========================================================================
+
+=========================================================================
+Select data from the following MCOL_CCBC tables related to the Data Population.
+(A number of date fields have been commented out to allow for .out and .out.good comparison
+, they can be temporarily uncommented out, if required, but must not be in a final .out.good file)
+=========================================================================
+
+=====================================================
+mcol_ccbc.case_data_request_t
+=====================================================
+
+REQUEST_ID CASE_NUM C M
+---------- -------- - -
+REASON
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+         1 2QA09811 C
+
+
+         2 A0JW1234 C
+
+
+
+2 rows selected.
+
+=====================================================
+mcol_ccbc.awaiting_data
+=====================================================
+
+SDT_REQUEST_ID                        CASE_NUM
+------------------------------------- --------
+1                                     2QA09811
+2                                     A0JW1234
+
+2 rows selected.
+
+=====================================================
+mcol_ccbc.mcol_mig_claim_data_t
+=====================================================
+
+CASE_NUM  CRED_CODE ST AMOUNT_CLAIMED  COURT_FEE SOLICITORS_COSTS
+-------- ---------- -- -------------- ---------- ----------------
+PARTICULARS_OF_CLAIM
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+2QA09811       1700 CI            100         10               20
+Particulars of claim  = 1172 chars. Particulars of claim  = 1172 chars. Particulars of claim  = 1172 chars. Particulars of claim  = 1172 chars. Particulars of claim  = 1172 chars. Particulars of claim  = 1172 chars. Particulars of claim  = 1172 chars. Particulars of claim  = 1172 chars. Particulars of claim  = 1172 chars. Particulars of claim  = 1172 chars. Particulars of claim  = 1172 chars. Particulars of claim  = 1172 chars. Particulars of claim  = 1172 chars. Particulars of claim  = 1172 chars. Particulars of claim  = 1172 chars. Particulars of claim  = 1172 chars. Particulars of claim  = 1172 chars. Particulars of claim  = 1172 chars. Particulars of claim  = 1172 chars. Particulars of claim  = 1172 chars. Particulars of claim  = 1172 chars. Particulars of claim  = 1172 chars. Particulars of claim  = 1172 chars. Particulars of claim  = 1172 chars. Particulars of claim  = 1172 chars. Particulars of claim  = 1172 chars. Particulars of claim  = 1172 chars. Particulars of claim  = 1172
+ chars. Particulars of claim  = 1172 chars. Particulars of claim  = 1172 chars. Particulars of claim  = 1172 chars. Particulars of claim  = 1172 chars. Particulars of claim
+
+A0JW1234       1701 CI            100         10               20
+Particulars of claim  = 1172 chars. Particulars of claim  = 1172 chars. Particulars of claim  = 1172 chars. Particulars of claim  = 1172 chars. Particulars of claim  = 1172 chars. Particulars of claim  = 1172 chars. Particulars of claim  = 1172 chars. Particulars of claim  = 1172 chars. Particulars of claim  = 1172 chars. Particulars of claim  = 1172 chars. Particulars of claim  = 1172 chars. Particulars of claim  = 1172 chars. Particulars of claim  = 1172 chars. Particulars of claim  = 1172 chars. Particulars of claim  = 1172 chars. Particulars of claim  = 1172 chars. Particulars of claim  = 1172 chars. Particulars of claim  = 1172 chars. Particulars of claim  = 1172 chars. Particulars of claim  = 1172 chars. Particulars of claim  = 1172 chars. Particulars of claim  = 1172 chars. Particulars of claim  = 1172 chars. Particulars of claim  = 1172 chars. Particulars of claim  = 1172 chars. Particulars of claim  = 1172 chars. Particulars of claim  = 1172 chars. Particulars of claim  = 1172
+ chars. Particulars of claim  = 1172 chars. Particulars of claim  = 1172 chars. Particulars of claim  = 1172 chars. Particulars of claim  = 1172 chars. Particulars of claim
+
+
+2 rows selected.
+
+=====================================================
+mcol_ccbc.mcol_mig_party_data_t
+=====================================================
+
+CASE_NUM  CRED_CODE PARTY_ROLE CASE_PARTY_NO B REFERENCE                 DATE_OF_SERVICE      PERSON_REQUESTED_NAME                                                  PERSON_DOB           ADDRESS_LINE1                       ADDRESS_LINE2                       ADDRESS_LINE3                       ADDRESS_LINE4                       ADDRESS_LINE5                       POSTCODE PAYEE_NAME                                                             PAYEE_ADDRESS_LINE1                 PAYEE_ADDRESS_LINE2                 PAYEE_ADDRESS_LINE3                 PAYEE_ADDRESS_LINE4                 PAYEE_ADDRESS_LINE5                 PAYEE_PO
+-------- ---------- ---------- ------------- - ------------------------- -------------------- ---------------------------------------------------------------------- -------------------- ----------------------------------- ----------------------------------- ----------------------------------- ----------------------------------- ----------------------------------- -------- ---------------------------------------------------------------------- ----------------------------------- ----------------------------------- ----------------------------------- ----------------------------------- ----------------------------------- --------
+2QA09811       1700 SOLICITOR              1   SOLICITOR REFERENCE                            SOLICITOR FIRSTNAME           SURNAME0123456789X0123456789Y0123456789Z 30-MAR-1974 00:00:00 SOLICITOR ADLINE1                   SOLICITOR ADLINE2                                                                                                                               B37 7ES
+2QA09811       1700 CLAIMANT               1   CLAIMANT REFERENCE                             CLAIMANT FIRSTNAME            SURNAME0123456789X0123456789Y0123456789Z 31-MAR-1974 00:00:00 CLAIMANT ADLINE1                    CLAIMANT ADLINE2                                                                                                                                B13 9PP
+2QA09811       1700 DEFENDANT              1 N                           01-JAN-2013 00:01:00 DEFENDANT 1 FIRSTNAME         SURNAME0123456789X0123456789Y0123456789Z 01-APR-1974 00:00:00 DEFENDANT 1 ADLINE1                 DEFENDANT 1 ADLINE2                 DEFENDANT 1 ADLINE3                 DEFENDANT 1 ADLINE4                                                     B13 9PP
+2QA09811       1700 DEFENDANT              2 N                           01-JAN-2013 00:02:00 DEFENDANT 2 FIRSTNAME         SURNAME0123456789X0123456789Y0123456789Z 02-APR-1974 00:00:00 DEFENDANT 2 ADLINE1                 DEFENDANT 2 ADLINE2                 DEFENDANT 2 ADLINE3                 DEFENDANT 2 ADLINE4                                                     B13 9PP
+A0JW1234       1701 SOLICITOR              1   SOLICITOR REFERENCE                            SOLICITOR FIRSTNAME           SURNAME0123456789X0123456789Y0123456789Z 30-MAR-1974 00:00:00 SOLICITOR ADLINE1                   SOLICITOR ADLINE2                                                                                                                               B37 7ES  CORRESPONDANCE PAYEE                                                   CORRESPONDANCE ADLINE1              CORRESPONDANCE ADLINE2                                                                                                                          CORR COD
+A0JW1234       1701 CLAIMANT               1   CLAIMANT REFERENCE                             CLAIMANT FIRSTNAME            SURNAME0123456789X0123456789Y0123456789Z 31-MAR-1974 00:00:00 CLAIMANT ADLINE1                    CLAIMANT ADLINE2                                                                                                                                B13 9PP
+A0JW1234       1701 DEFENDANT              1 N                           01-FEB-2013 00:01:00 DEFENDANT 1 FIRSTNAME         SURNAME0123456789X0123456789Y0123456789Z 01-APR-1974 00:00:00 DEFENDANT 1 ADLINE1                 DEFENDANT 1 ADLINE2                 DEFENDANT 1 ADLINE3                 DEFENDANT 1 ADLINE4                                                     B13 9PP
+A0JW1234       1701 DEFENDANT              2 N                           01-FEB-2013 00:02:00 DEFENDANT 2 FIRSTNAME         SURNAME0123456789X0123456789Y0123456789Z 02-APR-1974 00:00:00 DEFENDANT 2 ADLINE1                 DEFENDANT 2 ADLINE2                 DEFENDANT 2 ADLINE3                 DEFENDANT 2 ADLINE4                                                     B13 9PP
+
+8 rows selected.
+
+=====================================================
+mcol_ccbc.mcol_mig_judgment_data_t
+=====================================================
+
+no rows selected
+
+=====================================================
+mcol_ccbc.mcol_mig_warrant_data_t
+=====================================================
+
+no rows selected
+
+=====================================================
+mcol_ccbc.mcol_mig_event_data_t
+=====================================================
+
+no rows selected
+
+=========================================================================
+== Select data from the following MCOL_CCBC ARCH tables related to the Data Population.
+=========================================================================
+
+=====================================================
+mcol_ccbc.mcol_mig_claim_data_t_arch
+=====================================================
+
+no rows selected
+
+=====================================================
+mcol_ccbc.mcol_mig_party_data_t_arch
+=====================================================
+
+no rows selected
+
+=====================================================
+mcol_ccbc.mcol_mig_judgment_data_t_arch
+=====================================================
+
+no rows selected
+
+=====================================================
+mcol_ccbc.mcol_mig_warrant_data_t_arch
+=====================================================
+
+no rows selected
+
+=====================================================
+mcol_ccbc.mcol_mig_event_data_t_arch
+=====================================================
+
+no rows selected
+
+=====================================================
+mcol_ccbc.error_log
+=====================================================
+
+no rows selected
+
+=====================================================
+mcol_ccbc.execution_log
+=====================================================
+
+no rows selected
+
+=========================================================================
+Select data from the following subset of MCOL tables.
+
+NOTE: A number of date (being set to current date or timestamp) fields
+have been commented out to allow for .out and .out.good comparison
+, they can be temporarily uncommented out, if required, but must
+not be in a final .out.good file.
+=========================================================================
+=====================================================
+MCOL.mcol_update_request
+=====================================================
+
+no rows selected
+
+=====================================================
+MCOL.muser
+=====================================================
+
+  MUSER_ID    VERSION   PARTY_ID EMAILADDRESS                                                                                                                                                                                                                                                          TYPE CREDENTIAL_ID                          ADMINISTRATOR
+---------- ---------- ---------- --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- ---------- -------------------------------------- -------------
+       100          0        200 sdtuser@org.com                                                                                                                                                                                                                                                          0 SDTORG1                                            1
+       101          0        201 sdtuser@sol.com                                                                                                                                                                                                                                                          0 SDTSOL1                                            1
+
+2 rows selected.
+
+=====================================================
+MCOL.party
+=====================================================
+
+CASE_CASE_ID CASE_CLA CPR_ROLE_TYPE CPR_ROLE_NUMBER   PARTY_ID    VERSION PARTY_DETAILS_ID PAR  SOLICITOR DIRECT_DEBIT_DETAILS_ID C     NCP_ID BU H
+------------ -------- ------------- --------------- ---------- ---------- ---------------- --- ---------- ----------------------- - ---------- -- -
+                                                           200          0              300 ORG          0                     400 G       1700 VV
+                                                           201          0              301 ORG          1                     401 G       1701 VV
+
+2 rows selected.
+
+=====================================================
+MCOL.party_details
+=====================================================
+
+CASE_CASE_ID CASE_CLA PARTY_DETAILS_ID    VERSION   PARTY_ID TITL FIRST_NAME                     SECOND_NAME                    DATE_OF_BIRTH        ADDRESSLINE1                   ADDRESSLINE2                   ADDRESSLINE3                   ADDRESSLINE4                   POSTCODE ADDRESSLINE5                   DXNUMBER                                                                                                                                                                                                                                                        FAXNUMBER                    TELEPHONE_NUMBER     EMAIL                                                                                                                                                                                                                                                           MAR MARITAL_STATUS_OTHER        ADDRESS_UPDATE
+------------ -------- ---------------- ---------- ---------- ---- ------------------------------ ------------------------------ -------------------- ------------------------------ ------------------------------ ------------------------------ ------------------------------ -------- ------------------------------ --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- ---------------------------- -------------------- --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- --- --------------------------- --------------
+                                   300          0        200 Mr   SdtOrgUser                     OrgSurname                                          200 Org Avenue                 Org Bridge                     Orgton                         Orgshire                       ORGC ODE                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               0
+                                   301          0        201 Mr   SdtSolUser                     SolSurname                                          201 Sol Avenue                 Sol Bridge                     Solton                         Solshire                       SOLC ODE                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               0
+
+2 rows selected.
+
+=====================================================
+MCOL.case
+=====================================================
+
+   CASE_ID    VERSION CLAIM_NU AMOUNT_CLAIMED AMO CLAIM_COURT_FEE CLA SOLICITOR_COST SOL CLAIM_TOTAL CLA CLAIM_DESCRIPTION              SDT_REQUEST_ID
+---------- ---------- -------- -------------- --- --------------- --- -------------- --- ----------- --- ------------------------------ -------------------------------------
+       500          0 2QA09836            100 GBP              50 GBP             20 GBP         170 GBP Organisation skeletal case
+       501          0 A0JW1234              0 GBP               0 GBP              0 GBP           0 GBP Solicitor skeletal case
+
+2 rows selected.
+
+=====================================================
+MCOL.case_party_role
+=====================================================
+
+CASE_CASE_ID CASE_CLA CASE_PARTY_ROLE_ID    VERSION    USER_ID   PARTY_ID REFERENCE                 ROLE_TYPE ROLE_NUMBER DEFENDANT_PASSWORD                                 FIRST_NAME                     SECOND_NAME                      ARCHIVED LAS LAS LA LAST_CLAIM_STATUS_DATE
+------------ -------- ------------------ ---------- ---------- ---------- ------------------------ ---------- ----------- -------------------------------------------------- ------------------------------ ------------------------------ ---------- --- --- -- ---------------------------------------------------------------------------
+         500 2QA09836                600          0                                                         0                                                                A                              Claimant                                0
+         500 2QA09836                601          0                                                         1           1 Password                                           A                              Defendant1                              0
+         500 2QA09836                602          0                                                         1           2 Password2                                          A                              Defendant2                              0
+         501 A0JW1234                610          0                                                         0                                                                A                              Claimant                                0
+         501 A0JW1234                611          0                                                         1           1 Password                                           A                              Defendant1                              0
+         501 A0JW1234                612          0                                                         1           2 Password2                                          A                              Defendant2                              0
+
+6 rows selected.
+
+=====================================================
+MCOL.case_party_role_event
+=====================================================
+
+CASE_CASE_ID CASE_CLA CPR_ROLE_TYPE CPR_ROLE_NUMBER CASE_PARTY_ROLE_EVENT_ID    VERSION CASE_PARTY_ROLE_ID EV EVENT_REJECT_CODE EVENT_RETURN_CODE EVENT_RETURN_INFO                                                                                                                                      CLAIM_TRANSFER_COURT_NAME                                                                                                                    WARRANT_ SDT_REQUEST_ID                        NCP_ID_FROM  NCP_ID_TO JUDGMENT_TYPE JOINT_JUDGMENT      TOTAL PAYMENT_TYPE INSTALMENT_AMOUNT  FREQUENCY FIRST_PAYMENT_DATE   IN_FULL_BY_DATE
+------------ -------- ------------- --------------- ------------------------ ---------- ------------------ -- ----------------- ----------------- ------------------------------------------------------------------------------------------------------------------------------------------------------ -------------------------------------------------------------------------------------------------------------------------------------------- -------- ------------------------------------- ----------- ---------- ------------- -------------- ---------- ------------ ----------------- ---------- -------------------- --------------------
+         500 2QA09836             0                                      700          0                600 CI
+         501 A0JW1234             0                                      710          0                610 CI
+
+2 rows selected.
+
+=====================================================
+MCOL.document
+=====================================================
+
+no rows selected
+
+=====================================================
+MCOL.defendants
+=====================================================
+
+no rows selected
+
+=====================================================
+MCOL.claim
+=====================================================
+
+no rows selected
+
+=====================================================
+MCOL.judgment
+=====================================================
+
+no rows selected
+
+=====================================================
+MCOL.paymentschedule
+=====================================================
+
+no rows selected
+
+=====================================================
+MCOL.warrant
+=====================================================
+
+no rows selected
+
+=============================================================
+CALL DATA POPULATION: mcol_ccbc.mcol_pop_main.populate_mcol
+=============================================================
+
+PL/SQL procedure successfully completed.
+
+===
+OUTPUT PARAMETERS FOR: mcol_ccbc.mcol_pop_main.populate_mcol
+===
+
+O_CASES_COMPLETED_POP_COUNT
+--------------------------------
+2
+
+
+O_CASES_COMPLETED_EXCEP_COUNT
+--------------------------------
+0
+
+
+O_CASES_FAILED_NO_POP_COUNT
+--------------------------------
+0
+
+=========================================================================
+TABLES *** AFTER *** DATA POPULATION
+=========================================================================
+
+=========================================================================
+Select data from the following MCOL_CCBC tables related to the Data Population.
+(A number of date fields have been commented out to allow for .out and .out.good comparison
+, they can be temporarily uncommented out, if required, but must not be in a final .out.good file)
+=========================================================================
+
+=====================================================
+mcol_ccbc.case_data_request_t
+=====================================================
+
+REQUEST_ID CASE_NUM C M
+---------- -------- - -
+REASON
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+         1 2QA09811 C Y
+
+
+         2 A0JW1234 C Y
+
+
+
+2 rows selected.
+
+=====================================================
+mcol_ccbc.awaiting_data
+=====================================================
+
+no rows selected
+
+=====================================================
+mcol_ccbc.mcol_mig_claim_data_t
+=====================================================
+
+no rows selected
+
+=====================================================
+mcol_ccbc.mcol_mig_party_data_t
+=====================================================
+
+no rows selected
+
+=====================================================
+mcol_ccbc.mcol_mig_judgment_data_t
+=====================================================
+
+no rows selected
+
+=====================================================
+mcol_ccbc.mcol_mig_warrant_data_t
+=====================================================
+
+no rows selected
+
+=====================================================
+mcol_ccbc.mcol_mig_event_data_t
+=====================================================
+
+no rows selected
+
+=========================================================================
+== Select data from the following MCOL_CCBC ARCH tables related to the Data Population.
+=========================================================================
+
+=====================================================
+mcol_ccbc.mcol_mig_claim_data_t_arch
+=====================================================
+
+CASE_NUM  CRED_CODE ST AMOUNT_CLAIMED  COURT_FEE SOLICITORS_COSTS
+-------- ---------- -- -------------- ---------- ----------------
+PARTICULARS_OF_CLAIM
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+2QA09811       1700 CI            100         10               20
+Particulars of claim  = 1172 chars. Particulars of claim  = 1172 chars. Particulars of claim  = 1172 chars. Particulars of claim  = 1172 chars. Particulars of claim  = 1172 chars. Particulars of claim  = 1172 chars. Particulars of claim  = 1172 chars. Particulars of claim  = 1172 chars. Particulars of claim  = 1172 chars. Particulars of claim  = 1172 chars. Particulars of claim  = 1172 chars. Particulars of claim  = 1172 chars. Particulars of claim  = 1172 chars. Particulars of claim  = 1172 chars. Particulars of claim  = 1172 chars. Particulars of claim  = 1172 chars. Particulars of claim  = 1172 chars. Particulars of claim  = 1172 chars. Particulars of claim  = 1172 chars. Particulars of claim  = 1172 chars. Particulars of claim  = 1172 chars. Particulars of claim  = 1172 chars. Particulars of claim  = 1172 chars. Particulars of claim  = 1172 chars. Particulars of claim  = 1172 chars. Particulars of claim  = 1172 chars. Particulars of claim  = 1172 chars. Particulars of claim  = 1172
+ chars. Particulars of claim  = 1172 chars. Particulars of claim  = 1172 chars. Particulars of claim  = 1172 chars. Particulars of claim  = 1172 chars. Particulars of claim
+
+A0JW1234       1701 CI            100         10               20
+Particulars of claim  = 1172 chars. Particulars of claim  = 1172 chars. Particulars of claim  = 1172 chars. Particulars of claim  = 1172 chars. Particulars of claim  = 1172 chars. Particulars of claim  = 1172 chars. Particulars of claim  = 1172 chars. Particulars of claim  = 1172 chars. Particulars of claim  = 1172 chars. Particulars of claim  = 1172 chars. Particulars of claim  = 1172 chars. Particulars of claim  = 1172 chars. Particulars of claim  = 1172 chars. Particulars of claim  = 1172 chars. Particulars of claim  = 1172 chars. Particulars of claim  = 1172 chars. Particulars of claim  = 1172 chars. Particulars of claim  = 1172 chars. Particulars of claim  = 1172 chars. Particulars of claim  = 1172 chars. Particulars of claim  = 1172 chars. Particulars of claim  = 1172 chars. Particulars of claim  = 1172 chars. Particulars of claim  = 1172 chars. Particulars of claim  = 1172 chars. Particulars of claim  = 1172 chars. Particulars of claim  = 1172 chars. Particulars of claim  = 1172
+ chars. Particulars of claim  = 1172 chars. Particulars of claim  = 1172 chars. Particulars of claim  = 1172 chars. Particulars of claim  = 1172 chars. Particulars of claim
+
+
+2 rows selected.
+
+=====================================================
+mcol_ccbc.mcol_mig_party_data_t_arch
+=====================================================
+
+CASE_NUM  CRED_CODE PARTY_ROLE CASE_PARTY_NO B REFERENCE                 DATE_OF_SERVICE      PERSON_REQUESTED_NAME                                                  PERSON_DOB           ADDRESS_LINE1                       ADDRESS_LINE2                       ADDRESS_LINE3                       ADDRESS_LINE4                       ADDRESS_LINE5                       POSTCODE PAYEE_NAME                                                             PAYEE_ADDRESS_LINE1                 PAYEE_ADDRESS_LINE2                 PAYEE_ADDRESS_LINE3                 PAYEE_ADDRESS_LINE4                 PAYEE_ADDRESS_LINE5                 PAYEE_PO
+-------- ---------- ---------- ------------- - ------------------------- -------------------- ---------------------------------------------------------------------- -------------------- ----------------------------------- ----------------------------------- ----------------------------------- ----------------------------------- ----------------------------------- -------- ---------------------------------------------------------------------- ----------------------------------- ----------------------------------- ----------------------------------- ----------------------------------- ----------------------------------- --------
+2QA09811       1700 SOLICITOR              1   SOLICITOR REFERENCE                            SOLICITOR FIRSTNAME           SURNAME0123456789X0123456789Y0123456789Z 30-MAR-1974 00:00:00 SOLICITOR ADLINE1                   SOLICITOR ADLINE2                                                                                                                               B37 7ES
+2QA09811       1700 CLAIMANT               1   CLAIMANT REFERENCE                             CLAIMANT FIRSTNAME            SURNAME0123456789X0123456789Y0123456789Z 31-MAR-1974 00:00:00 CLAIMANT ADLINE1                    CLAIMANT ADLINE2                                                                                                                                B13 9PP
+2QA09811       1700 DEFENDANT              1 N                           01-JAN-2013 00:01:00 DEFENDANT 1 FIRSTNAME         SURNAME0123456789X0123456789Y0123456789Z 01-APR-1974 00:00:00 DEFENDANT 1 ADLINE1                 DEFENDANT 1 ADLINE2                 DEFENDANT 1 ADLINE3                 DEFENDANT 1 ADLINE4                                                     B13 9PP
+2QA09811       1700 DEFENDANT              2 N                           01-JAN-2013 00:02:00 DEFENDANT 2 FIRSTNAME         SURNAME0123456789X0123456789Y0123456789Z 02-APR-1974 00:00:00 DEFENDANT 2 ADLINE1                 DEFENDANT 2 ADLINE2                 DEFENDANT 2 ADLINE3                 DEFENDANT 2 ADLINE4                                                     B13 9PP
+A0JW1234       1701 SOLICITOR              1   SOLICITOR REFERENCE                            SOLICITOR FIRSTNAME           SURNAME0123456789X0123456789Y0123456789Z 30-MAR-1974 00:00:00 SOLICITOR ADLINE1                   SOLICITOR ADLINE2                                                                                                                               B37 7ES  CORRESPONDANCE PAYEE                                                   CORRESPONDANCE ADLINE1              CORRESPONDANCE ADLINE2                                                                                                                          CORR COD
+A0JW1234       1701 CLAIMANT               1   CLAIMANT REFERENCE                             CLAIMANT FIRSTNAME            SURNAME0123456789X0123456789Y0123456789Z 31-MAR-1974 00:00:00 CLAIMANT ADLINE1                    CLAIMANT ADLINE2                                                                                                                                B13 9PP
+A0JW1234       1701 DEFENDANT              1 N                           01-FEB-2013 00:01:00 DEFENDANT 1 FIRSTNAME         SURNAME0123456789X0123456789Y0123456789Z 01-APR-1974 00:00:00 DEFENDANT 1 ADLINE1                 DEFENDANT 1 ADLINE2                 DEFENDANT 1 ADLINE3                 DEFENDANT 1 ADLINE4                                                     B13 9PP
+A0JW1234       1701 DEFENDANT              2 N                           01-FEB-2013 00:02:00 DEFENDANT 2 FIRSTNAME         SURNAME0123456789X0123456789Y0123456789Z 02-APR-1974 00:00:00 DEFENDANT 2 ADLINE1                 DEFENDANT 2 ADLINE2                 DEFENDANT 2 ADLINE3                 DEFENDANT 2 ADLINE4                                                     B13 9PP
+
+8 rows selected.
+
+=====================================================
+mcol_ccbc.mcol_mig_judgment_data_t_arch
+=====================================================
+
+no rows selected
+
+=====================================================
+mcol_ccbc.mcol_mig_warrant_data_t_arch
+=====================================================
+
+no rows selected
+
+=====================================================
+mcol_ccbc.mcol_mig_event_data_t_arch
+=====================================================
+
+no rows selected
+
+=====================================================
+mcol_ccbc.error_log
+=====================================================
+
+no rows selected
+
+=====================================================
+mcol_ccbc.execution_log
+=====================================================
+
+no rows selected
+
+=========================================================================
+Select data from the following subset of MCOL tables.
+
+NOTE: A number of date (being set to current date or timestamp) fields
+have been commented out to allow for .out and .out.good comparison
+, they can be temporarily uncommented out, if required, but must
+not be in a final .out.good file.
+=========================================================================
+=====================================================
+MCOL.mcol_update_request
+=====================================================
+
+MCOL_UPDATE_REQUEST_ID EV STATUS                           CLAIM_NU ISSUE_DATE                                                                  WARRANT_ ENF ENFORCING_COURT_NAME                                      FEE C SDT_REQUEST_ID                        EV PROCESSED_DATE                                                              EVENT_REJECT_CODE EVENT_REJ_CODE_COMB_JUDG_WARR DELIVERY_STATUS                DEFENDANT_NUMBER ER
+---------------------- -- -------------------------------- -------- --------------------------------------------------------------------------- -------- --- -------------------------------------------------- ---------- - ------------------------------------- -- --------------------------------------------------------------------------- ----------------- ----------------------------- ------------------------------ ---------------- --
+ERROR_MESSAGE
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+                     1 ZZ Accepted                         2QA09811                                                                                                                                                          1                                                                                                                                                                    Not sent
+
+
+                     2 ZZ Accepted                         A0JW1234                                                                                                                                                          2                                                                                                                                                                    Not sent
+
+
+
+2 rows selected.
+
+=====================================================
+MCOL.muser
+=====================================================
+
+  MUSER_ID    VERSION   PARTY_ID EMAILADDRESS                                                                                                                                                                                                                                                          TYPE CREDENTIAL_ID                          ADMINISTRATOR
+---------- ---------- ---------- --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- ---------- -------------------------------------- -------------
+       100          0        200 sdtuser@org.com                                                                                                                                                                                                                                                          0 SDTORG1                                            1
+       101          0        201 sdtuser@sol.com                                                                                                                                                                                                                                                          0 SDTSOL1                                            1
+
+2 rows selected.
+
+=====================================================
+MCOL.party
+=====================================================
+
+CASE_CASE_ID CASE_CLA CPR_ROLE_TYPE CPR_ROLE_NUMBER   PARTY_ID    VERSION PARTY_DETAILS_ID PAR  SOLICITOR DIRECT_DEBIT_DETAILS_ID C     NCP_ID BU H
+------------ -------- ------------- --------------- ---------- ---------- ---------------- --- ---------- ----------------------- - ---------- -- -
+           1 2QA09811             1               1          2          0                2 ORG          0
+           1 2QA09811             1               2          3          0                3 ORG          0
+           1 2QA09811             0                        200          0              300 ORG          0                     400 G       1700 VV
+         501 A0JW1234             0                          4          0                4 ORG          0
+         501 A0JW1234             1               1          5          0                5 ORG          0
+         501 A0JW1234             1               2          6          0                6 ORG          0
+                                                           201          0              301 ORG          1                     401 G       1701 VV
+
+7 rows selected.
+
+=====================================================
+MCOL.party_details
+=====================================================
+
+CASE_CASE_ID CASE_CLA PARTY_DETAILS_ID    VERSION   PARTY_ID TITL FIRST_NAME                     SECOND_NAME                    DATE_OF_BIRTH        ADDRESSLINE1                   ADDRESSLINE2                   ADDRESSLINE3                   ADDRESSLINE4                   POSTCODE ADDRESSLINE5                   DXNUMBER                                                                                                                                                                                                                                                        FAXNUMBER                    TELEPHONE_NUMBER     EMAIL                                                                                                                                                                                                                                                           MAR MARITAL_STATUS_OTHER        ADDRESS_UPDATE
+------------ -------- ---------------- ---------- ---------- ---- ------------------------------ ------------------------------ -------------------- ------------------------------ ------------------------------ ------------------------------ ------------------------------ -------- ------------------------------ --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- ---------------------------- -------------------- --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- --- --------------------------- --------------
+           1 2QA09811                2          0          2      DEFENDANT 1 FIRSTNAME          SURNAME0123456789X0123456789Y0 01-APR-1974 00:00:00 DEFENDANT 1 ADLINE1            DEFENDANT 1 ADLINE2            DEFENDANT 1 ADLINE3            DEFENDANT 1 ADLINE4            B13 9PP                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                0
+           1 2QA09811                3          0          3      DEFENDANT 2 FIRSTNAME          SURNAME0123456789X0123456789Y0 02-APR-1974 00:00:00 DEFENDANT 2 ADLINE1            DEFENDANT 2 ADLINE2            DEFENDANT 2 ADLINE3            DEFENDANT 2 ADLINE4            B13 9PP                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                0
+           1 2QA09811              300          0        200 Mr   SdtOrgUser                     OrgSurname                                          200 Org Avenue                 Org Bridge                     Orgton                         Orgshire                       ORGC ODE                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               0
+         501 A0JW1234                4          0          4      CLAIMANT FIRSTNAME             SURNAME0123456789X0123456789Y0                      CLAIMANT ADLINE1               CLAIMANT ADLINE2                                                                             B13 9PP                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                0
+         501 A0JW1234                5          0          5      DEFENDANT 1 FIRSTNAME          SURNAME0123456789X0123456789Y0 01-APR-1974 00:00:00 DEFENDANT 1 ADLINE1            DEFENDANT 1 ADLINE2            DEFENDANT 1 ADLINE3            DEFENDANT 1 ADLINE4            B13 9PP                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                0
+         501 A0JW1234                6          0          6      DEFENDANT 2 FIRSTNAME          SURNAME0123456789X0123456789Y0 02-APR-1974 00:00:00 DEFENDANT 2 ADLINE1            DEFENDANT 2 ADLINE2            DEFENDANT 2 ADLINE3            DEFENDANT 2 ADLINE4            B13 9PP                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                0
+                                   301          0        201 Mr   SdtSolUser                     SolSurname                                          201 Sol Avenue                 Sol Bridge                     Solton                         Solshire                       SOLC ODE                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               0
+
+7 rows selected.
+
+=====================================================
+MCOL.case
+=====================================================
+
+   CASE_ID    VERSION CLAIM_NU AMOUNT_CLAIMED AMO CLAIM_COURT_FEE CLA SOLICITOR_COST SOL CLAIM_TOTAL CLA CLAIM_DESCRIPTION              SDT_REQUEST_ID
+---------- ---------- -------- -------------- --- --------------- --- -------------- --- ----------- --- ------------------------------ -------------------------------------
+         1          0 2QA09811            100 GBP              10 GBP             20 GBP         130 GBP
+       500          0 2QA09836            100 GBP              50 GBP             20 GBP         170 GBP Organisation skeletal case
+       501          0 A0JW1234            100 GBP              10 GBP             20 GBP         130 GBP Solicitor skeletal case
+
+3 rows selected.
+
+=====================================================
+MCOL.case_party_role
+=====================================================
+
+CASE_CASE_ID CASE_CLA CASE_PARTY_ROLE_ID    VERSION    USER_ID   PARTY_ID REFERENCE                 ROLE_TYPE ROLE_NUMBER DEFENDANT_PASSWORD                                 FIRST_NAME                     SECOND_NAME                      ARCHIVED LAS LAS LA LAST_CLAIM_STATUS_DATE
+------------ -------- ------------------ ---------- ---------- ---------- ------------------------ ---------- ----------- -------------------------------------------------- ------------------------------ ------------------------------ ---------- --- --- -- ---------------------------------------------------------------------------
+           1 2QA09811                  1          0        100        200 CLAIMANT REFERENCE                0                                                                Mr SdtOrgUser                  OrgSurname                              0 REQ CLA
+           1 2QA09811                  2          0                     2                                   1           1                                                    DEFENDANT 1 FIRSTNAME          SURNAME0123456789X0123456789Y0          0 REQ
+           1 2QA09811                  3          0                     3                                   1           2                                                    DEFENDANT 2 FIRSTNAME          SURNAME0123456789X0123456789Y0          0 REQ
+         500 2QA09836                600          0                                                         0                                                                A                              Claimant                                0
+         500 2QA09836                601          0                                                         1           1 Password                                           A                              Defendant1                              0
+         500 2QA09836                602          0                                                         1           2 Password2                                          A                              Defendant2                              0
+         501 A0JW1234                610          0        101          4 CLAIMANT REFERENCE                0                                                                CLAIMANT FIRSTNAME             SURNAME0123456789X0123456789Y0          0 REQ CLA
+         501 A0JW1234                611          0                     5                                   1           1 Password                                           DEFENDANT 1 FIRSTNAME          SURNAME0123456789X0123456789Y0          0
+         501 A0JW1234                612          0                     6                                   1           2 Password2                                          DEFENDANT 2 FIRSTNAME          SURNAME0123456789X0123456789Y0          0
+
+9 rows selected.
+
+=====================================================
+MCOL.case_party_role_event
+=====================================================
+
+CASE_CASE_ID CASE_CLA CPR_ROLE_TYPE CPR_ROLE_NUMBER CASE_PARTY_ROLE_EVENT_ID    VERSION CASE_PARTY_ROLE_ID EV EVENT_REJECT_CODE EVENT_RETURN_CODE EVENT_RETURN_INFO                                                                                                                                      CLAIM_TRANSFER_COURT_NAME                                                                                                                    WARRANT_ SDT_REQUEST_ID                        NCP_ID_FROM  NCP_ID_TO JUDGMENT_TYPE JOINT_JUDGMENT      TOTAL PAYMENT_TYPE INSTALMENT_AMOUNT  FREQUENCY FIRST_PAYMENT_DATE   IN_FULL_BY_DATE
+------------ -------- ------------- --------------- ------------------------ ---------- ------------------ -- ----------------- ----------------- ------------------------------------------------------------------------------------------------------------------------------------------------------ -------------------------------------------------------------------------------------------------------------------------------------------- -------- ------------------------------------- ----------- ---------- ------------- -------------- ---------- ------------ ----------------- ---------- -------------------- --------------------
+           1 2QA09811             0                                        1          0                  1 CI
+           1 2QA09811             1               1                        2          0                  2 DS
+           1 2QA09811             1               2                        3          0                  3 DS
+         500 2QA09836             0                                      700          0                600 CI
+         501 A0JW1234             0                                      710          0                610 CI
+         501 A0JW1234             1               1                        5          0                611 DS
+         501 A0JW1234             1               2                        6          0                612 DS
+
+7 rows selected.
+
+=====================================================
+MCOL.document
+=====================================================
+
+CASE_CASE_ID CASE_CLA DOCUMENT_ID    VERSION CASE_PARTY_ROLE_ID CLAIMANT_ID REPRESENTATIVE_ID REP DOC STATEMENT_OF_TRUTH_ROLE STATEMENT_OF_TRUTH_SIGNATURE                                 STATEMENT_OF_TRUTH_POSITION                GUIDANCE REFERENCE                STA LEGACY_FORM_ID
+------------ -------- ----------- ---------- ------------------ ----------- ----------------- --- --- ----------------------- ------------------------------------------------------------ ---------------------------------------- ---------- ------------------------ --- --------------
+           1 2QA09811           1          0                  1         300               300 REG CLA                       0 Data Population                                                                                                1                          REQ
+         501 A0JW1234           2          0                610           4               301 REG CLA                       1 Data Population                                                                                                1                          REQ
+
+2 rows selected.
+
+=====================================================
+MCOL.defendants
+=====================================================
+
+CASE_CASE_ID CASE_CLA PARTY_DETAILS_ID DOCUMENT_ID DEFENDANT_NUMBER
+------------ -------- ---------------- ----------- ----------------
+           1 2QA09811                2           1                1
+           1 2QA09811                3           1                2
+         501 A0JW1234                5           2                1
+         501 A0JW1234                6           2                2
+
+4 rows selected.
+
+=====================================================
+MCOL.claim
+=====================================================
+
+CASE_CASE_ID CASE_CLA DOCUMENT_ID AMOUNT_CLAIMED AMO  COURT_FEE COU CLAIM_TOTAL CLA
+------------ -------- ----------- -------------- --- ---------- --- ----------- ---
+PARTICULARS
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+SOLICITOR_COST SOL   INTEREST SEND_TO_DEFENDANT    HRA1998 INTEREST_OWED_DATE   INTEREST_CLAIM_DATE  INTEREST_AMOUNT INT INTEREST_DAILY_AMOUNT INT SDT_REQUEST_ID
+-------------- --- ---------- ----------------- ---------- -------------------- -------------------- --------------- --- --------------------- --- -------------------------------------
+           1 2QA09811           1            100 GBP         10 GBP         130 GBP
+Particulars of claim  = 1172 chars. Particulars of claim  = 1172 chars. Particulars of claim  = 1172 chars. Particulars of claim  = 1172 chars. Particulars of claim  = 1172 chars. Particulars of claim  = 1172 chars. Particulars of claim  = 1172 chars. Particulars of claim  = 1172 chars. Particulars of claim  = 1172 chars. Particulars of claim  = 1172 chars. Particulars of claim  = 1172 chars. Particulars of claim  = 1172 chars. Particulars of claim  = 1172 chars. Particulars of claim  = 1172 chars. Particulars of claim  = 1172 chars. Particulars of claim  = 1172 chars. Particulars of claim  = 1172 chars. Particulars of claim  = 1172 chars. Particulars of claim  = 1172 chars. Particulars of claim  = 1172 chars. Particulars of claim  = 1172 chars. Particulars of claim  = 1172 chars. Particulars of claim  = 1172 chars. Particulars of claim  = 1172 chars. Particulars of claim  = 1172 chars. Particulars of claim  = 1172 chars. Particulars of claim  = 1172 chars. Particulars of claim  = 1172
+ chars. Particulars of claim  = 1172 chars. Particulars of claim  = 1172 chars. Particulars of claim  = 1172 chars. Particulars of claim  = 1172 chars. Particulars of claim
+            20 GBP          0                 0
+
+         501 A0JW1234           2            100 GBP         10 GBP         130 GBP
+Particulars of claim  = 1172 chars. Particulars of claim  = 1172 chars. Particulars of claim  = 1172 chars. Particulars of claim  = 1172 chars. Particulars of claim  = 1172 chars. Particulars of claim  = 1172 chars. Particulars of claim  = 1172 chars. Particulars of claim  = 1172 chars. Particulars of claim  = 1172 chars. Particulars of claim  = 1172 chars. Particulars of claim  = 1172 chars. Particulars of claim  = 1172 chars. Particulars of claim  = 1172 chars. Particulars of claim  = 1172 chars. Particulars of claim  = 1172 chars. Particulars of claim  = 1172 chars. Particulars of claim  = 1172 chars. Particulars of claim  = 1172 chars. Particulars of claim  = 1172 chars. Particulars of claim  = 1172 chars. Particulars of claim  = 1172 chars. Particulars of claim  = 1172 chars. Particulars of claim  = 1172 chars. Particulars of claim  = 1172 chars. Particulars of claim  = 1172 chars. Particulars of claim  = 1172 chars. Particulars of claim  = 1172 chars. Particulars of claim  = 1172
+ chars. Particulars of claim  = 1172 chars. Particulars of claim  = 1172 chars. Particulars of claim  = 1172 chars. Particulars of claim  = 1172 chars. Particulars of claim
+            20 GBP          0                 0
+
+
+2 rows selected.
+
+=====================================================
+MCOL.judgment
+=====================================================
+
+no rows selected
+
+=====================================================
+MCOL.paymentschedule
+=====================================================
+
+no rows selected
+
+=====================================================
+MCOL.warrant
+=====================================================
+
+no rows selected
+
+'#####################'
+'## Tests Completed ##'
+'#####################'

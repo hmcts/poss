@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- edited with XMLSpy v2005 rel. 3 U (http://www.altova.com) by ayhaga (EDS Egypt) -->
+<xs:schema xmlns:pl="http://www.polarlake.com/platform/1.0" xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="http://www.polarlake.com/platform/1.0" elementFormDefault="qualified">
+	<xs:element name="array">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="array_element" minOccurs="0" maxOccurs="unbounded">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="index" type="xs:string"/>
+							<xs:element name="CUST_CODE" type="xs:string"/>
+							<xs:element name="DATE_RECD" type="xs:date"/>
+							<xs:element name="DATE_TO_OPS" type="xs:date"/>
+							<xs:element name="FORMAT" type="xs:string"/>
+							<xs:element name="FILE_NAME" type="xs:string"/>
+							<xs:element name="NO_RECORDS" type="xs:string"/>
+							<xs:element name="DEGAUSSED" type="xs:string"/>
+							<xs:element name="DATE_FROM_OPS" type="xs:date"/>
+							<xs:element name="DATE_RETD_CUST" type="xs:date"/>
+							<xs:element name="COMMENTS" type="xs:string"/>
+							<xs:element name="DATE_TO_BE_RETURNED" type="xs:date"/>
+							<xs:element name="DATE_PROCESSED" type="xs:date"/>
+							<xs:element name="OUTPUTS" type="xs:string"/>
+							<xs:element name="FEES" type="xs:string"/>
+							<xs:element name="FEES_CURRENCY" type="xs:string"/>
+							<xs:element name="STATUS" type="xs:string"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+</xs:schema>

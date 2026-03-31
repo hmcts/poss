@@ -1,0 +1,53 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+v1.0 Chris Hutt 2/2/2005
+
+	Change History:
+	04-Apr-2006 Phil Haferer: TD 2591: "UC024 - Maintain Window for Trial (WFT) - WFT_EXTRACTED_FOR_DM not nulled on amendment".
+	            Add the tag <WftExtractedForDm>, so that the column WFT_EXTRACTED_FOR_DM can be updated by the client.
+	            Setting this column to NULL when a Window For Trail is amended will enable a Polar Lake circuit to pick 
+	            up the change and distribute it to Diary Managers via the Caseman Central Server.
+
+-->
+<DBMapDef>
+<DataSource id="java:OracleDS"/>
+<Tables>
+<Table alias="WFT" name="WINDOW_FOR_TRIAL"/>
+<Table alias="WFE" name="WFT_EXCLUSIONS"/>
+</Tables>
+  <Mapping>
+	  <WindowsForTrial>
+	    <WindowForTrial>
+			<CaseNumber>${WFT.WFT_CASE_NUMBER}</CaseNumber>
+			<CurrentCourtCode>${WFT.WFT_CURRENT_COURT}</CurrentCourtCode>
+			<!--DatesSet>${WFT.DATES_SET}</DatesSet-->
+			<WFTId>${WFT.WFT_ID}</WFTId>
+			<Status></Status>
+			<!-- Status>${WFT.STATUS}</Status -->
+			<Track>${WFT.WFT_TRACK}</Track>
+			<StartAndEndDatesSet></StartAndEndDatesSet>
+			<StartDate>${WFT.WFT_START_DATE}</StartDate>
+			<EndDate>${WFT.WFT_END_DATE}</EndDate>
+			<Days>${WFT.WFT_ESTIMATED_DAYS}</Days>
+			<Hours>${WFT.WFT_ESTIMATED_HOURS}</Hours>
+			<Mins>${WFT.WFT_ESTIMATED_MINS}</Mins>
+            <WftExtractedForDm>${WFT.WFT_EXTRACTED_FOR_DM}</WftExtractedForDm>
+			<WFTStatus>${WFT.WFT_STATUS}</WFTStatus>
+			<StatusDate>${WFT.WFT_OUTCOME_DATE}</StatusDate>
+			<Judge>${WFT.WFT_JUDGES_NAME}</Judge>
+			<ReasonForAdjournment>${WFT.WFT_REASON_FOR_ADJ}</ReasonForAdjournment>
+			<CMCDate>${WFT.WFT_CASE_MANAGE_CONF_DATE}</CMCDate>
+			<CMCFlag>${WFT.WFT_CASE_MANAGE_CONF_FLAG}</CMCFlag>
+			<Notes>${WFT.WFT_NOTES}</Notes>	
+			<ExcludedDatesGenerated></ExcludedDatesGenerated>			
+			<Dates>					
+			  <Date>
+			    <Id>${WFE.WFE_WFT_ID}</Id>
+			    <Value>${WFE.WFE_EXCLUSION_DATE}</Value>
+			    <Excluded></Excluded>
+			  </Date>
+			</Dates>				
+	    </WindowForTrial>
+	  </WindowsForTrial>		
+  </Mapping>
+</DBMapDef>

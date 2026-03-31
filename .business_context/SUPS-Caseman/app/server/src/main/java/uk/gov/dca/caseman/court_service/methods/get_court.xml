@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- 
+	Service: Court
+	Method:  getCourt()
+	File:    get_court.xml
+	Author:  Chris Hutt
+	Created: 5 Nov 2004
+	Description: 
+		Retrieve details for specified court
+	Change History
+		01/08/2006 - Chris Vincent fixed defect 4111 by adding security roles to the service.
+		04/08/2006 - Chris Vincent: fixed defect 4141 by adding security role ccbcMan to the service.
+--> 
+<service-method>
+	<pipeline>
+		<Query>
+  			<QueryDef location="uk/gov/dca/caseman/court_service/query_def.xml"/>
+  				<QueryExtension pivotNode="/Courts/Court">
+    					<Param name="param.courtId" xpath="/params/param[@name = 'courtId']"/>
+    					<Constraint>CT.CODE = ${param.courtId}</Constraint>
+  				</QueryExtension>
+		</Query>	
+  	</pipeline>
+	<Security roles="viewOnly medium high wcSuper scSuper bmsSuper aeSuper dmSuper cpSuper ccbcMan"/>	
+</service-method>

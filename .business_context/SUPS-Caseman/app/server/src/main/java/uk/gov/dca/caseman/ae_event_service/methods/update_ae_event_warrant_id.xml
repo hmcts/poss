@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: AeEvent
+	Method:  updateAeEventWarrantId()
+	File:    update_ae_event_warrant_id.xml
+	Author:  Chris Hutt
+	Created: 5 June 2006
+	Description: 
+		Update the warrant id on an AE event. This is needed for events 876 and 856 (they create warrants). TD3445
+
+    Change History:
+
+-->
+<service-method>
+	<pipeline>
+		<SQLLite output="input">
+			<DataSource id="java:OracleDS"/>
+			<Param name="param.aeEventSeq"		xpath="/params/param[@name='aeEventSeq']"/>
+			<Param name="param.warrantId"		xpath="/params/param[@name='warrantId']"/>
+			<SQL type="update" tables="AE_EVENTS">
+				UPDATE AE_EVENTS AE
+				SET	AE.WARRANT_ID = ${param.warrantId}
+				WHERE AE.AE_EVENT_SEQ = ${param.aeEventSeq}
+			</SQL>
+		</SQLLite>
+	</pipeline>
+	<Security roles="viewOnly medium high wcSuper scSuper bmsSuper aeSuper dmSuper edsAdmin"/>	
+	<!-- Transaction type="RequiresNew" / -->	
+</service-method>

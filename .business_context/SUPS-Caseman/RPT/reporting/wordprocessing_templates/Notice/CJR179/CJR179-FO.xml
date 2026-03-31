@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- ====================================================================== -->
+<!--  -->
+<!-- FILENAME: $Source: C:/CVSRepository/serveroas/src/uk/gov/dca/caseman/wordprocessing_templates/Notice/CJR179/CJR179-FO.xml,v $ -->
+<!--  -->
+<!-- AUTHOR: $Author: jay $-->
+<!--  -->
+<!-- DATE: $Date: 2006/04/18 10:42:57 $ -->
+<!--  -->
+<!-- Version: $Revision: 1.9 $ -->
+<!--  -->
+<!-- DESCRIPTION: This stylesheet is used to create an XSL:FO document that -->
+<!-- can be processed into a PDF version.  Business logic -->
+<!-- is embedded to generate the correct document text for the order -->
+<!-- required. -->
+<!--  -->
+<!-- INPUTS: XML document containing: the answers to questions asked of the -->
+<!-- user; case data retrieved from the database; HTML representing the  -->
+<!-- body of the document content (already edited by the user). -->
+<!--  -->
+<!-- OUTPUTS: XML document with FO tags containing instructions for the -->
+<!-- creation of a PDF document. -->
+<!--  -->
+<!-- ====================================================================== -->
+<!-- Change History:
+--> 
+<root xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:fo="http://www.w3.org/1999/XSL/Format" xmlns="http://eds.com/supsfo">
+	<variables>@word.processing.url.xsl@supsfo.xsl</variables>
+	<addressee>
+		<claimant/>
+	</addressee>
+	<header>
+		<fo:block font-size="16pt" font-weight="bold">
+			Notice of Issue <xsl:value-of select="$vdDuplicateEvent" />
+		</fo:block>
+		<fo:block font-size="12pt" >(non-money claim)</fo:block>
+	</header>
+	<courtcase>
+		<court>
+			<xsl:copy-of select="$vdCourtHeaderBlock"/>
+		</court>
+		<caseparameters>
+			<parameter>
+				<name>
+					<fo:block font-weight="bold">Claim Number</fo:block>
+				</name>
+				<value>
+					<fo:block>
+						<xsl:value-of select="$vdClaimNumber"/>
+					</fo:block>
+				</value>
+			</parameter>
+			<parameter>
+				<name>
+					<fo:block font-weight="bold">Claimant</fo:block>
+					<fo:block font-size="9pt">(including ref.)</fo:block>
+				</name>
+				<value>
+					<fo:block hyphenate="true">
+						<xsl:value-of select="$vdClaimantName"/>
+					</fo:block>
+					<fo:block font-size="9pt" hyphenate="true">
+						<xsl:value-of select="$vdClaimantReference"/>
+					</fo:block>
+				</value>
+			</parameter>
+			<parameter>
+				<name>
+					<fo:block font-weight="bold">Defendant</fo:block>
+					<fo:block font-size="9pt">(including ref.)</fo:block>
+				</name>
+				<value>
+					<fo:block hyphenate="true">
+						<xsl:value-of select="$vdDefendantName"/>
+					</fo:block>
+					<fo:block font-size="9pt" hyphenate="true">
+						<xsl:value-of select="$vdDefendantReference"/>
+					</fo:block>
+				</value>
+			</parameter>
+			<parameter>
+				<name>
+					<fo:block font-weight="bold">Issue Fee</fo:block>
+				</name>
+				<value>
+					<fo:block>&#163;<xsl:call-template name="correctCalculation">
+							<xsl:with-param name="value"><xsl:value-of select="$vdIssueFee"/></xsl:with-param>
+						</xsl:call-template>
+					</fo:block>
+				</value>
+			</parameter>
+		</caseparameters>
+	</courtcase>
+	<bodyintroleft/>
+	<body>
+		<fo:block space-after="2.0cm"/>
+		<fo:block font-family="Times" font-size="12pt">Your claim was issued on <xsl:value-of select="$vdClaimDateOfIssue"/>.</fo:block>
+		<xsl:if test="$vdServedBy = 'court'">
+			<fo:block space-after="0.8cm"/>
+			<fo:block font-family="Times" font-size="12pt">
+			The court sent it to the defendant<xsl:if test="$vdNumberOfDefendants>1">s</xsl:if> by first class post on <xsl:choose><xsl:when test="$vdServiceDate != $emptyDate"><xsl:value-of select="$vdPostedDate"/></xsl:when><xsl:otherwise><xsl:value-of select="$emptyDate"/></xsl:otherwise></xsl:choose>
+			and it will be deemed served on <xsl:choose><xsl:when test="$vdServiceDate != $emptyDate"><xsl:value-of select="$vdServiceDate"/></xsl:when><xsl:otherwise><xsl:value-of select="$emptyDate"/></xsl:otherwise></xsl:choose>. The defendant<xsl:if test="$vdNumberOfDefendants>1">s have</xsl:if><xsl:if test="$vdNumberOfDefendants=1"> has</xsl:if> until <xsl:choose><xsl:when test="$vdServiceDate != $emptyDate"><xsl:value-of select="$vdServiceReplyDate"/></xsl:when><xsl:otherwise><xsl:value-of select="$emptyDate"/></xsl:otherwise></xsl:choose> to reply.
+			</fo:block>
+		</xsl:if>
+		<xsl:if test="$vdServedBy = 'claimant'">
+			<fo:block font-family="Times" font-size="12pt">The claim form<xsl:if test="($vdParticularsEnclosed = 'Y') "> which includes particulars of claim</xsl:if> is returned to you, with the relevant response forms for you to serve on the defendant<xsl:if test="$vdNumberOfDefendants > 1">s</xsl:if>.</fo:block>
+		</xsl:if>
+	</body>
+
+	<footnote noteextent="8.4">
+		<fo:block font-family="Times" font-size="12pt" text-align="left" space-before="20pt">
+			<fo:block space-after="0.8cm"/>
+			<fo:table table-layout="fixed" width="100%">
+				<fo:table-column column-width="8.00cm"/>
+				<fo:table-column column-width="10.87cm"/>
+				<fo:table-body padding="0.1in">
+					<fo:table-row>
+						<!--1,1&2-->
+						<fo:table-cell number-columns-spanned="2" border-width="0.01in" border-top-style="solid" border-left-style="solid" border-right-style="solid">
+							<fo:block font-weight="bold" text-align="center">Notes for guidance</fo:block>
+						</fo:table-cell>
+					</fo:table-row>
+
+					<fo:table-row>
+						<!--2,1-->
+						<fo:table-cell border-width="0.01in" border-left-style="solid" padding="0.05in" border-bottom-style="solid">
+							<list type="bullet">
+								<list-item>									
+									<fo:block>The claim form and the particulars of claim, if served separately, must be served on the defendant within 4 months of the date of issue (6 months if you are serving outside England and Wales). You may be able to apply to extend the time for serving the claim form but the application must generally be made before the 4 month or 6 month period expires.</fo:block>
+								</list-item>
+								<list-item>
+									<fo:block>You must inform the court immediately if your claim is settled or discontinued.</fo:block>
+								</list-item>
+							</list>
+						</fo:table-cell>
+						<!--2,2-->
+						<fo:table-cell border-width="0.01in" border-right-style="solid" padding="0.05in" border-bottom-style="solid">
+							<fo:block font-weight="bold">The defendant may</fo:block>
+							<list type="bullet">
+								<list-item>
+									<fo:block>
+										<fo:inline font-weight="bold">admit the truth of the whole or any part of your claim.</fo:inline> The court will send you a copy of the defendant's admission and tell you what to do next.</fo:block>
+								</list-item>
+								<list-item>
+									<fo:block>
+										<fo:inline font-weight="bold">file an acknowledge of service.</fo:inline> This will allow the defendant 28 days from the date of service of your particulars of claim to file a defence or contest the court's jurisdiction.</fo:block>
+								</list-item>
+								<list-item>
+									<fo:block>
+										<fo:inline font-weight="bold">dispute the whole claim.</fo:inline> The court will send you a copy of the defence.</fo:block>
+								</list-item>
+								<list-item>
+									<fo:block>
+										<fo:inline font-weight="bold">not reply at all.</fo:inline> You may make an application to the court for judgment. A fee may be payable.</fo:block>
+								</list-item>
+							</list>
+						</fo:table-cell>
+					</fo:table-row>
+				</fo:table-body>
+			</fo:table>
+		</fo:block>
+	</footnote>
+	<defaultFooter id="CJR179"/>
+</root>

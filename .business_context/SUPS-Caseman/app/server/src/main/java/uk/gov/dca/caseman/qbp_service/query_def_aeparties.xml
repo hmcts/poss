@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    Change History:
+    01-Sep-2006 Phil Haferer: Removed test for "GA2.PARTY_ID IS NULL" in the GA2 sub-query, now that 
+                GIVEN_ADDRESSES.PARTY_ID is populated for all Case parties.
+                TD CASEMAN 4958: PARTY_ID not populated in GIVEN_ADDRESSES.
+
+	5-oct-2006 a) Chris Hutt TD5618: employer name held in PARTIES.PERSON_REQUESTED_NAME. Retrieved via a
+			   sub-query because including as part of the main select addeda full table scan.... checked with DBAs
+			    b)(Phil Haferer/chris hutt) At the same time updated so that solicitors are looked up via the CPR_TO_CPR_RELATIONSHIP 
+			   table.
+  
+    16-Oct-2006 Chris Hutt Related to TD5618: defendant address not restricted to 'SERVICE' (or workplace address not searched on)
+	17-Oct-2006 Chris Hutt Related to TD5618: employer addresses now searched on.
+	19-Dec-2006 Chris Hutt TD temp_caseman 291: searching on address combinations for SOLICITOR and EMPLOYER used a
+						   'OR' instead of an 'AND'
+
+	Chris Hutt 	26 sept 2007 
+					Inclusion of params in query changes to avoid OR's and NULL tests by use of NVL 
+					(in response to a performance requirement.
+	
+	Troy Baines	18 Aug 2009
+					CCN0042 Scalability Changes - Removal of UNION that searches for Judgment Debtors who 
+					are coded parties (this is never the case).
+-->
+<QueryDef> 
+	<DBMapDef location="uk/gov/dca/caseman/qbp_service/map_aeparties.xml"/>
+	<Query pivotNode="/PartyQueryResults/PartyQueryResult" tables="AE PR P GA CT CP CPR C P2">
+		<SQL type="select">
+			SELECT * FROM (
+				SELECT ROW_NUMBER() OVER (ORDER BY rownum) AS R,"AE.AE_NUMBER","AE.CASE_NUMBER","GA.ADDRESS_LINE1", "GA.ADDRESS_LINE2", "P.PERSON_REQUESTED_NAME" FROM	
+				(SELECT /*+ leading(AE CPR P) */ AE.AE_NUMBER AS "AE.AE_NUMBER", 
+					AE.CASE_NUMBER AS "AE.CASE_NUMBER", 
+					GA.ADDRESS_LINE1 AS "GA.ADDRESS_LINE1", 
+					GA.ADDRESS_LINE2 AS "GA.ADDRESS_LINE2", 
+					P.PERSON_REQUESTED_NAME AS "P.PERSON_REQUESTED_NAME" 
+				FROM GIVEN_ADDRESSES GA, CASE_PARTY_ROLES CPR, PARTIES P, AE_APPLICATIONS AE
+				WHERE CPR.PARTY_ROLE_CODE = AE.PARTY_AGAINST_PARTY_ROLE_CODE
+						AND CPR.CASE_PARTY_NO = AE.PARTY_AGAINST_CASE_PARTY_NO
+						AND CPR.CASE_NUMBER      = AE.CASE_NUMBER
+						AND P.PARTY_ID         = CPR.PARTY_ID 
+						AND GA.ADDRESS_ID IN (
+							SELECT GA2.ADDRESS_ID
+							FROM   GIVEN_ADDRESSES GA2
+							WHERE ( (GA2.CASE_NUMBER = CPR.CASE_NUMBER AND 
+								GA2.PARTY_ROLE_CODE = CPR.PARTY_ROLE_CODE AND 
+								GA2.CASE_PARTY_NO = CPR.CASE_PARTY_NO AND 
+								GA2.ADDRESS_LINE1 LIKE NVL(UPPER (${param.address1}), GA2.ADDRESS_LINE1 )AND
+								GA2.ADDRESS_LINE2 LIKE NVL(UPPER (${param.address2}), GA2.ADDRESS_LINE2 )AND 
+								GA2.VALID_TO IS NULL )
+						))
+						AND
+						( 	AE.ISSUING_CRT_CODE = ${param.owningCourtCode} AND 
+						    AE.CASE_NUMBER LIKE NVL(UPPER (${param.caseNumber}), AE.CASE_NUMBER )AND
+						    AE.AE_NUMBER LIKE NVL(UPPER (${param.aeNumber}), AE.AE_NUMBER )AND
+						    P.PERSON_REQUESTED_NAME LIKE NVL(UPPER (${param.partyName}), P.PERSON_REQUESTED_NAME )AND
+							( ${param.empName} IS NULL OR (	SELECT P2.PERSON_REQUESTED_NAME 
+															FROM PARTIES P2
+															WHERE P2.PARTY_ID = AE.DEBTORS_EMPLOYERS_PARTY_ID) LIKE UPPER(${param.empName}) )										 
+						)
+				UNION ALL
+				 SELECT /*+ leading(AE CPR1 P) */ AE.AE_NUMBER AS "AE.AE_NUMBER", 
+					AE.CASE_NUMBER AS "AE.CASE_NUMBER", 
+					GA.ADDRESS_LINE1 AS "GA.ADDRESS_LINE1", 
+					GA.ADDRESS_LINE2 AS "GA.ADDRESS_LINE2", 
+					P.PERSON_REQUESTED_NAME AS "P.PERSON_REQUESTED_NAME" 
+				FROM GIVEN_ADDRESSES GA, CASE_PARTY_ROLES CPR, CASE_PARTY_ROLES CPR1, 
+				     CPR_TO_CPR_RELATIONSHIP CPR2CPR, PARTIES P,  AE_APPLICATIONS AE
+				WHERE 		CPR1.PARTY_ROLE_CODE 	= AE.PARTY_AGAINST_PARTY_ROLE_CODE
+						AND CPR1.CASE_PARTY_NO 		= AE.PARTY_AGAINST_CASE_PARTY_NO
+						AND CPR1.CASE_NUMBER    	= AE.CASE_NUMBER
+                        AND CPR2CPR.CPR_A_CASE_NUMBER     = CPR1.CASE_NUMBER    
+                        AND CPR2CPR.CPR_A_PARTY_ROLE_CODE = CPR1.PARTY_ROLE_CODE
+                        AND CPR2CPR.CPR_A_CASE_PARTY_NO   = CPR1.CASE_PARTY_NO  
+                        AND CPR2CPR.DELETED_FLAG          = 'N'
+                        AND CPR.CASE_NUMBER               = CPR2CPR.CPR_B_CASE_NUMBER     
+                        AND CPR.PARTY_ROLE_CODE           = CPR2CPR.CPR_B_PARTY_ROLE_CODE 
+                        AND CPR.CASE_PARTY_NO             = CPR2CPR.CPR_B_CASE_PARTY_NO                                
+						AND P.PARTY_ID         = CPR1.PARTY_ID 
+						AND GA.ADDRESS_ID IN (
+							SELECT GA2.ADDRESS_ID
+							FROM   GIVEN_ADDRESSES GA2
+							WHERE ( (GA2.CASE_NUMBER = CPR.CASE_NUMBER AND 
+								GA2.PARTY_ROLE_CODE = CPR.PARTY_ROLE_CODE AND 
+								GA2.CASE_PARTY_NO = CPR.CASE_PARTY_NO AND 
+								(( ${param.address1} IS not NULL and GA2.ADDRESS_LINE1 LIKE UPPER(${param.address1}) ) AND 
+								( ${param.address2} IS not NULL and GA2.ADDRESS_LINE2 LIKE UPPER(${param.address2}) )) AND 
+								GA2.VALID_TO IS NULL )
+						))
+						AND	
+						( 	AE.ISSUING_CRT_CODE = ${param.owningCourtCode} AND
+						    AE.CASE_NUMBER LIKE NVL(UPPER (${param.caseNumber}), AE.CASE_NUMBER )AND
+						    AE.AE_NUMBER LIKE NVL(UPPER (${param.aeNumber}), AE.AE_NUMBER )AND
+						    P.PERSON_REQUESTED_NAME LIKE NVL(UPPER (${param.partyName}), P.PERSON_REQUESTED_NAME )AND
+							( ${param.empName} IS NULL OR (	SELECT P2.PERSON_REQUESTED_NAME 
+															FROM PARTIES P2
+															WHERE P2.PARTY_ID = AE.DEBTORS_EMPLOYERS_PARTY_ID) LIKE UPPER(${param.empName}) )	
+						)						
+
+				UNION ALL
+				SELECT /*+ leading(AE CPR1 P) */ AE.AE_NUMBER AS "AE.AE_NUMBER", 
+					AE.CASE_NUMBER AS "AE.CASE_NUMBER", 
+					CP.ADDRESS_LINE1 AS "GA.ADDRESS_LINE1", 
+					CP.ADDRESS_LINE2 AS "GA.ADDRESS_LINE2", 
+					P.PERSON_REQUESTED_NAME AS "P.PERSON_REQUESTED_NAME" 
+				FROM CODED_PARTIES CP,  CASE_PARTY_ROLES CPR, CASE_PARTY_ROLES CPR1, 
+                     CPR_TO_CPR_RELATIONSHIP CPR2CPR,  AE_APPLICATIONS AE, PARTIES P
+				WHERE 		CPR1.PARTY_ROLE_CODE = AE.PARTY_AGAINST_PARTY_ROLE_CODE
+						AND CPR1.CASE_PARTY_NO = AE.PARTY_AGAINST_CASE_PARTY_NO
+						AND CPR1.CASE_NUMBER   = AE.CASE_NUMBER
+                        AND CPR2CPR.CPR_A_CASE_NUMBER     = CPR1.CASE_NUMBER    
+                        AND CPR2CPR.CPR_A_PARTY_ROLE_CODE = CPR1.PARTY_ROLE_CODE
+                        AND CPR2CPR.CPR_A_CASE_PARTY_NO   = CPR1.CASE_PARTY_NO  
+                        AND CPR2CPR.DELETED_FLAG          = 'N'
+                        AND CPR.CASE_NUMBER               = CPR2CPR.CPR_B_CASE_NUMBER     
+                        AND CPR.PARTY_ROLE_CODE           = CPR2CPR.CPR_B_PARTY_ROLE_CODE 
+                        AND CPR.CASE_PARTY_NO             = CPR2CPR.CPR_B_CASE_PARTY_NO   
+						AND P.PARTY_ID         = CPR1.PARTY_ID 
+						AND ( ${param.address1} IS not NULL and CP.ADDRESS_LINE1 LIKE UPPER(${param.address1}))
+						AND	( ${param.address2} IS not NULL and CP.ADDRESS_LINE2 LIKE UPPER(${param.address2}))
+						AND   CP.PARTY_ID = CPR.PARTY_ID 
+						AND
+						( 	AE.ISSUING_CRT_CODE = ${param.owningCourtCode} AND
+							AE.CASE_NUMBER LIKE NVL(UPPER (${param.caseNumber}), AE.CASE_NUMBER )AND
+						    AE.AE_NUMBER LIKE NVL(UPPER (${param.aeNumber}), AE.AE_NUMBER )AND
+						    P.PERSON_REQUESTED_NAME LIKE NVL(UPPER (${param.partyName}), P.PERSON_REQUESTED_NAME )AND
+							( ${param.empName} IS NULL OR (	SELECT P2.PERSON_REQUESTED_NAME 
+															FROM PARTIES P2
+															WHERE P2.PARTY_ID = AE.DEBTORS_EMPLOYERS_PARTY_ID) LIKE UPPER(${param.empName}) )	
+						)
+				UNION ALL
+				 SELECT /*+ leading(AE CPR P) */ AE.AE_NUMBER AS "AE.AE_NUMBER", 
+					AE.CASE_NUMBER AS "AE.CASE_NUMBER", 
+					GA.ADDRESS_LINE1 AS "GA.ADDRESS_LINE1", 
+					GA.ADDRESS_LINE2 AS "GA.ADDRESS_LINE2", 
+					P.PERSON_REQUESTED_NAME AS "P.PERSON_REQUESTED_NAME" 
+				 FROM GIVEN_ADDRESSES GA, CASE_PARTY_ROLES CPR, PARTIES P, AE_APPLICATIONS AE
+				 WHERE CPR.PARTY_ROLE_CODE 		= AE.PARTY_AGAINST_PARTY_ROLE_CODE
+						AND CPR.CASE_PARTY_NO 	= AE.PARTY_AGAINST_CASE_PARTY_NO
+						AND CPR.CASE_NUMBER     = AE.CASE_NUMBER
+						AND P.PARTY_ID         	= CPR.PARTY_ID 
+						AND GA.ADDRESS_ID IN (
+							SELECT GA2.ADDRESS_ID
+							FROM   GIVEN_ADDRESSES GA2
+							WHERE (( GA2.PARTY_ID = AE.DEBTORS_EMPLOYERS_PARTY_ID AND 
+								GA2.ADDRESS_TYPE_CODE = 'EMPLOYER' AND
+								(( ${param.address1} IS not NULL and GA2.ADDRESS_LINE1 LIKE UPPER(${param.address1}) ) AND 
+								( ${param.address2} IS not NULL and GA2.ADDRESS_LINE2 LIKE UPPER(${param.address2}) )) AND 
+								GA2.VALID_TO IS NULL )
+						))
+						AND	
+						( 	AE.ISSUING_CRT_CODE = ${param.owningCourtCode} AND
+							AE.CASE_NUMBER LIKE NVL(UPPER (${param.caseNumber}), AE.CASE_NUMBER )AND
+						    AE.AE_NUMBER LIKE NVL(UPPER (${param.aeNumber}), AE.AE_NUMBER )AND
+						    P.PERSON_REQUESTED_NAME LIKE NVL(UPPER (${param.partyName}), P.PERSON_REQUESTED_NAME )AND
+							( ${param.empName} IS NULL OR (	SELECT P2.PERSON_REQUESTED_NAME 
+															FROM PARTIES P2
+															WHERE P2.PARTY_ID = AE.DEBTORS_EMPLOYERS_PARTY_ID) LIKE UPPER(${param.empName}) )	
+						)						
+	
+				ORDER BY 2,1,5,3,4
+				) )
+			WHERE R&lt;(${param.pageNumber}*${param.pageSize})+1 AND R>(${param.pageNumber}-1)*${param.pageSize}
+        </SQL>
+		<Modify notModifiable="true"/>	
+	</Query>
+</QueryDef>	

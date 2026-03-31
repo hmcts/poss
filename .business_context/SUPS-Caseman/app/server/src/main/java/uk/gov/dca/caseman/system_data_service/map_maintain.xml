@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<DBMapDef>
+  <DataSource id="java:OracleDS"/>
+  <Tables>
+    <Table alias="SD" name="SYSTEM_DATA"/>
+  </Tables>
+  <Mapping>
+	  <SystemData>
+		  <NonPerData>
+				<SystemDataList>
+					<SystemDataItem>
+						<Item>${SD.ITEM}</Item>
+						<ItemValueCurrency>${SD.ITEM_VALUE_CURRENCY}</ItemValueCurrency>
+						<ItemValue>${SD.ITEM_VALUE}</ItemValue>
+						<AdminCourtCode>${SD.ADMIN_COURT_CODE}</AdminCourtCode>
+					</SystemDataItem>
+				</SystemDataList>
+		  </NonPerData>
+	</SystemData>
+  </Mapping>
+</DBMapDef>

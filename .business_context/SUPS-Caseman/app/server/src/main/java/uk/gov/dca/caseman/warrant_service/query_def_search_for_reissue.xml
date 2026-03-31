@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<QueryDef>
+    <DBMapDef location="uk/gov/dca/caseman/warrant_service/map_search_for_reissue.xml"/>
+    <Query pivotNode="/ds/Warrants/Warrant" tables="W C">
+        <Modify notModifiable="true"/>
+		<Join>
+		C.CODE = W.CURRENTLY_OWNED_BY
+		</Join>
+	</Query>
+</QueryDef>

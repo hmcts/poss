@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- 
+	17/08/2006 - MGG - defect 4429 - Address line 5 not getting updated when set to current court.
+						Added code in logic method.
+	14/11/2007 - Chris Vincent.  Changed the logic function to use the court's office address if present
+				 and if not, use the first court address returned by the service.  CaseMan Defect 6465.
+-->
+<!--Question xmlns="http://eds.com/questionxhtml" xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd"-->
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>Q_Hearing2Courtname</Id>
+	<Label>Hearing Court Name</Label>
+	<ObjectName>Hearing2Courtname</ObjectName>
+	<Html>
+		<input id="Hearing2Courtname" type="text" size="25"></input>
+	</Html>
+	<Javascript>
+		<XPath>/ds/var/page/OracleReportForm/Hearing2Courtname</XPath>
+		<ReportVariableName>REPORT_VALUE_7</ReportVariableName>
+		<ReportVariableValue>Services.getValue(Hearing2Courtname.dataBinding)</ReportVariableValue>
+		<HintText>Hearing court name</HintText>
+		<isMandatory>
+			return false;
+		</isMandatory>
+		<isReadOnly>
+			return true;
+		</isReadOnly>
+		<initialise></initialise>
+		<transformToDisplay>
+			return (null != value) ? value.toUpperCase() : null;
+		</transformToDisplay>
+		<transformToModel>
+			return (null != value) ? value.toUpperCase() : null;
+		</transformToModel>		
+		<setDefault>
+		</setDefault>
+		<logicOn>
+			Hearing2AtThisOfficeAddress.dataBinding, REF_DATA_XPATH + "/OwningCourt/Courts/Court"
+		</logicOn>
+		<logic>
+			try{
+				var sourceEvent = event.getXPath()
+				if ((sourceEvent == Hearing2AtThisOfficeAddress.dataBinding) || (sourceEvent == REF_DATA_XPATH + "/OwningCourt/Courts[position() = 1]"))
+				{
+					var thisOffice = Services.getValue(Hearing2AtThisOfficeAddress.dataBinding);
+					if (!CaseManUtils.isBlank(thisOffice))
+					{
+						if (thisOffice == "Y")
+						{
+							var officeAddressExists = Services.exists(REF_DATA_XPATH + "/OwningCourt/Courts/Court/ContactDetails/Address[./AddressType = 'OFFICE']");
+							if ( officeAddressExists )
+							{
+								// Use court office address
+								var rootXpath =  REF_DATA_XPATH + "/OwningCourt/Courts/Court/ContactDetails/Address[./AddressType = 'OFFICE']";
+							}
+							else
+							{
+								// No court office address so use the first address returned
+								var rootXpath = REF_DATA_XPATH + "/OwningCourt/Courts/Court/ContactDetails/Address[1]";
+							}
+							// Retrieve the address fields
+							var name = Services.getValue(REF_DATA_XPATH + "/OwningCourt/Courts/Court/Name");	
+							var address1 = Services.getValue(rootXpath + "/Line[1]");	
+							var address2 = Services.getValue(rootXpath + "/Line[2]");
+							var address3 = Services.getValue(rootXpath + "/Line[3]");
+							var address4 = Services.getValue(rootXpath + "/Line[4]");
+							var address5 = Services.getValue(rootXpath + "/Line[5]");		
+							var postCode = Services.getValue(rootXpath + "/PostCode");
+							// Set the address fields
+							Services.startTransaction();			
+							Services.setValue(Hearing2Courtname.dataBinding, name);
+							Services.setValue(Hearing2VenueAddressLine1.dataBinding, address1);
+							Services.setValue(Hearing2VenueAddressLine2.dataBinding, address2);
+							Services.setValue(Hearing2VenueAddressLine3.dataBinding, address3);
+							Services.setValue(Hearing2VenueAddressLine4.dataBinding, address4);
+							Services.setValue(Hearing2VenueAddressLine5.dataBinding, address5);
+							Services.setValue(Hearing2VenuePostcode.dataBinding, postCode);
+							Services.endTransaction();			
+						}
+					}
+				}
+			}
+			catch(e)
+			{
+				// Exception may arise depending upon the event. So do nothing.
+			}
+		</logic>		
+		<validateOn>
+		</validateOn>
+		<validate>
+		</validate>
+		<miscCode>
+		</miscCode>
+	</Javascript>
+</Question>

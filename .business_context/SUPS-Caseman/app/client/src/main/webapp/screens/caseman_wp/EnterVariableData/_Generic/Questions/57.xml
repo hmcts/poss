@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Question>
+	<Id>57</Id>
+	<Label>Process not served</Label>
+	<ObjectName>NotServed</ObjectName>
+	<Html>
+		<select id="NotServed">
+		   <option value=""></option>
+		   <option value="APP">application</option>		   
+		   <option value="CLM">claim form</option>
+		   <option value="JDG">judgment</option>
+		   <option value="ORD">order</option>
+		   <option value="OFQ">order for questioning</option>
+		   <option value="OTH">other</option>		  
+		   <option value="PRT">particulars of claim </option>		   		   		   
+		</select>
+	</Html>
+	<Javascript>
+		<XPath>/ds/EnterVariableData/Process/notserved</XPath>
+		<isMandatory>return true;</isMandatory>	
+		<mandatoryOn>NotServed.dataBinding</mandatoryOn>		
+		<HintText>Select the details of the process not served</HintText>				
+		 <isEnabled>if (null != WP &amp;&amp; null != WP.GetScreenProcess &amp;&amp; null != WP.GetScreenProcess()) {
+			var stdEvtId = WP.GetScreenProcess().getEvent();
+		  	if(12 == stdEvtId) {  
+		  		return true; }
+		  	else {
+			  	Services.setValue(NotServed.dataBinding, 'CLM');
+			  	return false; } }
+		  </isEnabled>		
+	</Javascript>
+</Question>

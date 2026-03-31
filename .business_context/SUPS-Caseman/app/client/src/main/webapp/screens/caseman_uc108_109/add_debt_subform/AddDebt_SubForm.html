@@ -1,0 +1,286 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3c.org/TR/html4/strict.dtd">
+<html>
+	
+	<head>
+		<title>AddDebt_SubForm</title>
+		<link href="AddDebt_SubForm.css" type="text/css" rel="stylesheet">  
+		<script type="text/javascript" src="../../../Framework.js"></script>
+		<script type="text/javascript" src="../../../ConcatCommon.js"></script>
+		<script type="text/javascript" src="../MaintainCOVariables.js"></script>	
+		<script type="text/javascript" src="../MaintainCOFunctions.js"></script>	
+		<script type="text/javascript" src="AddDebt_SubForm.js"></script>
+	</head>
+	
+	<body>
+		<form id="addDebtSubform" class="subform">
+			<div class="panel">
+				<table class="content" style="height:428px;">
+					<tr>
+						<td valign="top">
+							<table>
+								<tr>
+									<td colspan="2" align="center">
+										 <h3>Add Debt</h3>
+									 </td>
+								</tr>			
+								<tr>				
+									<td valign="top">
+										<table>
+											<tr>										
+												<td nowrap><label for='AddDebt_AmountAllowed'>Amount Allowed &nbsp;</label></td>							
+												<td>
+													<input id="AddDebt_AmountAllowedCurrency" type="text" size="1"/>
+													<input id="AddDebt_AmountAllowed" type="text" size="11"/>
+												</td>
+											</tr>						
+											<tr>										
+												<td><label for='AddDebt_CaseNumber'>Case Number</label></td>							
+												<td>
+													<input id="AddDebt_CaseNumber" type="text" size="18"/> 
+												</td>							
+											</tr>
+											<tr>
+												<td><label for='AddDebt_CaseParty'>Party</label></td>
+												<td>
+													<input id="AddDebt_CaseParty" type="text" size="18"/>
+													<input id="AddDebt_Defendant_LOVBtn" type="Button" size="8" value="Select Debtor"/>
+												</td>
+											</tr>
+											<tr>
+												<td><label for='AddDebt_CourtCode'>Court</label></td>
+												<td>
+													<table style="margin-left: -3px;">
+														<tr>
+															<td>
+																<input id="AddDebt_CourtCode" type="text" size="5"/>
+															</td>
+															<td>
+																<script type="text/javascript">
+																	AutoCompletionRenderer.createInline("AddDebt_CourtName");
+																</script>
+															</td>
+															<td>
+																<input id="AddDebt_Court_LOV" type="Button" size="8" value="LOV"/>
+															</td>
+														</tr>
+													</table>
+												</td>
+											</tr>
+											<tr>										
+												<td><label for='AddDebt_Status'>Status</label></td>
+												<td><select id="AddDebt_Status"/></td>
+											</tr>
+										</table>
+									</td>
+									<td valign="top">
+											<!-- set up tabbed area -->
+										<div class="tabbedArea" id="COAddDebtTabbedArea">					
+											<script type="text/javascript">
+												TabSelector.createInline("COAddDebtTabSelector",
+													[ {tabLabel: "Creditor", pageId: "TabAddDebtCreditor"}, 
+													  {tabLabel: "Payee", pageId: "TabAddDebtPayee"}
+													]
+												);
+											</script>				
+											<div class="pagedArea" id="COAddDebtCreditorPayeePagedArea">						
+												<div class="page" id="TabAddDebtCreditor">
+													<table class="content">
+														<tr>
+															<td><label for='AddDebt_CreditorCode'>Name</label></td>
+															<td colspan=3>
+																<input id="AddDebt_CreditorCode" type="text" size="5"/>
+																<input id="AddDebt_CreditorName" type="text" size="39"/>
+																<input id="AddDebt_Creditor_LOVBtn" type="Button" size="8" value="LOV"/>
+															</td>
+																										
+														</tr>
+														<tr>
+															<td><label for="AddDebt_Creditor_Address_Line1">Address</label></td>
+															<td colspan=3><input type="text" id="AddDebt_Creditor_Address_Line1" size="50"/></td>											
+														</tr>
+														<tr>
+															<td>&nbsp;</td>
+															<td colspan=3><input type="text" id="AddDebt_Creditor_Address_Line2" size="50"/></td>											
+														</tr>
+														<tr>
+															<td>&nbsp;</td>
+															<td colspan=3><input type="text" id="AddDebt_Creditor_Address_Line3" size="50"/></td>
+														</tr>
+														<tr>
+															<td>&nbsp;</td>
+															<td colspan=3><input type="text" id="AddDebt_Creditor_Address_Line4" size="50"/></td>
+														</tr>
+														<tr>
+															<td>&nbsp;</td>
+															<td colspan=3><input type="text" id="AddDebt_Creditor_Address_Line5" size="50"/></td>
+														</tr>
+														<tr>
+															<td><label for="AddDebt_Creditor_Address_Postcode">Postcode</label></td>
+															<td colspan=3><input type="text" id="AddDebt_Creditor_Address_Postcode" size="15"/></td>
+														</tr>
+														<tr>
+															<td><label for='AddDebt_Creditor_Address_DXNo'>DX Number</label></td>
+															<td><input id="AddDebt_Creditor_Address_DXNo" type="text" size="18"/></td>
+															<td><label for='AddDebt_Creditor_Address_TelNo'>Tel Number</label></td>
+															<td><input id="AddDebt_Creditor_Address_TelNo" type="text" size="17"/></td>
+														</tr>										
+														<tr>
+															<td><label for='AddDebt_Creditor_Address_FaxNo'>Fax Number</label></td>
+															<td><input id="AddDebt_Creditor_Address_FaxNo" type="text" size="18"/></td>
+															<td><label for='AddDebt_Creditor_Address_Email'>Email Address</label></td>
+															<td><input id="AddDebt_Creditor_Address_Email" type="text" size="25"/></td>
+														</tr>
+														<tr>
+															<td><label for='AddDebt_Creditor_Address_CommMethod'>Communication Method</label></td>
+															<td colspan=3><select id="AddDebt_Creditor_Address_CommMethod"/></td>
+														</tr>
+														<tr>
+															<td><label for='AddDebt_Creditor_Address_Welsh'>Translation To Welsh</label></td>
+															<td colspan=3><input id="AddDebt_Creditor_Address_Welsh" type="checkbox"/></td>
+														</tr>
+														<tr>
+															<td><label for='AddDebt_CreditorReference'>Reference</label></td>
+															<td colspan="3"><input type="text" id="AddDebt_CreditorReference" size="20"/></td>
+														</tr>
+													</table>
+												</div>
+												<div class="page" id="TabAddDebtPayee">
+													<table class="content">
+														<tr>
+															<td><label for='AddDebt_PayeeCode'>Name</label></td>
+															<td colspan="3">
+																<input id="AddDebt_PayeeCode" type="text" size="5"/>
+																<input id="AddDebt_PayeeName" type="text" size="39"/>
+																<input id="AddDebt_Payee_LOVBtn" type="Button" size="8" value="LOV"/>
+															</td>
+																										
+														</tr>
+														<tr>
+															<td><label for="AddDebt_Payee_Address_Line1">Address</label></td>
+															<td colspan=3><input type="text" id="AddDebt_Payee_Address_Line1" size="50"/></td>
+															
+														</tr>
+														<tr>
+															<td>&nbsp;</td>
+															<td colspan=3><input type="text" id="AddDebt_Payee_Address_Line2" size="50"/></td>
+															
+														</tr>
+														<tr>
+															<td>&nbsp;</td>
+															<td colspan=3><input type="text" id="AddDebt_Payee_Address_Line3" size="50"/></td>
+														</tr>
+														<tr>
+															<td>&nbsp;</td>
+															<td colspan=3><input type="text" id="AddDebt_Payee_Address_Line4" size="50"/></td>
+														</tr>
+														<tr>
+															<td>&nbsp;</td>
+															<td colspan=3><input type="text" id="AddDebt_Payee_Address_Line5" size="50"/></td>
+														</tr>
+														<tr>
+															<td><label for="AddDebt_Creditor_Payee_Postcode">Postcode</label></td>
+															<td colspan=3><input type="text" id="AddDebt_Payee_Address_Postcode" size="15"/></td>
+														</tr>
+														<tr>
+															<td><label for='AddDebt_Payee_Address_DXNo'>DX Number</label></td>
+															<td><input id="AddDebt_Payee_Address_DXNo" type="text" size="18"/></td>
+															<td><label for='AddDebt_Payee_Address_TelNo'>Tel Number</label></td>
+															<td><input id="AddDebt_Payee_Address_TelNo" type="text" size="18"/></td>
+														</tr>
+													
+														<tr>
+															<td><label for='AddDebt_Payee_Address_FaxNo'>Fax Number</label></td>
+															<td><input id="AddDebt_Payee_Address_FaxNo" type="text" size="18"/></td>
+															<td><label for='AddDebt_Payee_Address_Email'>Email Address</label></td>
+															<td><input id="AddDebt_Payee_Address_Email" type="text" size="25"/></td>
+														</tr>
+														<tr>
+															<td><label for='AddDebt_Payee_Address_CommMethod'>Communication Method</label></td>
+															<td colspan=3><select id="AddDebt_Payee_Address_CommMethod"/></td>
+														</tr>
+														<tr>
+															<td><label for='AddDebt_Payee_Address_Welsh'>Translation To Welsh</label></td>
+															<td colspan=3><input id="AddDebt_Payee_Address_Welsh" type="checkbox"/></td>
+														</tr>
+														
+														<tr>
+															<td><label for='AddDebt_Payee'>Payee</label></td>
+															<td colspan=3><input id="AddDebt_Payee" type="checkbox"></td>
+														</tr>
+														<tr>
+															<td><label for='AddDebt_PayeeReference'>Reference</label></td>
+															<td colspan="3"><input type="text" id="AddDebt_PayeeReference" size="20"/></td>
+														</tr>								
+													</table>
+												</div>
+											</div>
+										</div>
+									</td>				
+								</tr>
+							</table>
+						</td>
+					</tr>
+				</table>			
+			</div>
+	
+			<!-- Status Bar Panel -->
+			<script type="text/javascript">
+				ActionBarRenderer.createInline(
+					"status_bar",
+					[
+						{id: "AddDebt_OKBtn", label: "OK"},
+						{id: "AddDebt_CancelBtn", label: "Cancel"}
+					]
+				);
+			</script>
+			<!-- End Status Bar Panel -->
+	
+			<!-- MaintainDebt_AddCreditorFromCase Popup -->
+			<div class="popup" id="MaintainDebt_AddCreditorFromCasePopup">
+				<table class="content">
+					<tr>
+						<td align = "center">
+							<h3>Select Creditor</h3>
+						</td>
+					</tr>
+					<tr>
+						<td valign="top">
+							<table>
+								<tr><td>
+									<!--Address Grid -->
+									<script type="text/javascript">
+										Grid.createInline("AddDebt_SelectCreditorFromCaseGrid", [ "Type", "Number", "Name"], 10, 1);
+									</script>
+								</td></tr>
+							</table>
+						</td>
+					</tr>
+					<tr><td>&nbsp;</td></tr>
+					<tr>
+						<td align="right">
+							<input class="popupButton" type="button" value="OK" id="AddCreditorFromCase_Popup_OKBtn"/>
+							<input class="popupButton" type="button" value="Cancel" id="AddCreditorFromCase_Popup_CancelBtn"/>						
+						</td>
+					</tr>
+				</table>
+			</div>
+			<!-- End MaintainDebt_AddCreditorFromCase Popup -->
+			
+			<!-- LOV POPUPs -->
+	
+			<!-- Court LOV -->
+			<script type="text/javascript">
+				LOVPopupRenderer.createInline( "selectCourtLOV", "Select Court", [ "Code", "Court"], 10, 1, true );
+			</script>			
+			<!-- Add Debt defendant LOV -->
+			<script type="text/javascript">
+				LOVPopupRenderer.createInline( "AddDebt_Defendant_LOV", "Parties", [ "Type", "Number", "Name"], 10, 1, true );
+			</script>	
+			
+			<!-- SUBFORMS -->
+			<div class="popup popupsubform" id="codedPartySearch_subform"></div>
+			
+		</form>
+	</body>
+
+</html>

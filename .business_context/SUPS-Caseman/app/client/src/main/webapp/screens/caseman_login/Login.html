@@ -1,0 +1,42 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3c.org/TR/html4/strict.dtd">
+
+<html>
+
+	<head>
+		<title>login</title>
+		<script type="text/javascript" src="../../Framework.js"></script>
+		<script type="text/javascript" src="../../CaseManIncludeFiles.js"></script>
+		<script type="text/javascript" src="Login.js"></script>
+	</head>
+	
+	<body tabindex="-1">
+		<form id="Login" name="login">
+			<table class="layout"> 
+				<tr>
+					<td>
+						<div class="panel">					
+							<table class="content" style="height:600px;">
+								<tr>
+									<td align="center">
+										<table>
+											<tr>
+												<td><script type="text/javascript">LoginRenderer.createInline("LoginComponent");</script></td>
+											</tr>
+										</table>									
+									</td>								
+								</tr>
+							</table>
+						</div>
+					</td>
+				</tr>
+			</table>
+			
+			<!-- Status Bar Panel -->
+			<script type="text/javascript">
+				ActionBarRenderer.createInline("status_bar", []);
+			</script>
+			<!-- End Status Bar Panel -->
+				
+		</form>
+	</body>
+</html>

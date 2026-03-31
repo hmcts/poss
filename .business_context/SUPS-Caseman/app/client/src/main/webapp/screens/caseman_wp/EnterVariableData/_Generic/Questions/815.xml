@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+    <Id>815</Id>
+    <Label>Enter case number</Label>
+    <ObjectName>EnterCaseNumber</ObjectName>
+    <Html>
+        <script type="text/javascript">
+            AutoCompletionRenderer.createInline("EnterCaseNumber");     
+        </script>
+    </Html>
+    <Javascript>
+        <XPath>/ds/EnterVariableData/EnterCaseNumber</XPath>
+        <componentName>##label##</componentName>
+        <HintText>Enter the case number of the varied debt </HintText>
+        <isMandatory>return true;</isMandatory>
+        <mandatoryOn>EnterCaseNumber.dataBinding</mandatoryOn>
+        <initialise>
+                WPU.createCaseList();
+        </initialise>
+        <miscCode>
+            EnterCaseNumber.srcData = REF_DATA_XPATH + "/DebtCaseNumbers";
+            EnterCaseNumber.rowXPath = "DebtCaseNumber"; //
+            EnterCaseNumber.keyXPath = ".";
+            EnterCaseNumber.displayXPath = ".";
+        </miscCode>
+    
+        <Context ScreenId="CO18">
+            <enableOn>WhatIsVaried.dataBinding</enableOn>
+            <isEnabled>return('DEBT'== Services.getValue(WhatIsVaried.dataBinding));</isEnabled>
+            <logicOn>WhatIsVaried.dataBinding</logicOn>
+            <logic>if('DEBT' !=  Services.getValue(WhatIsVaried.dataBinding))
+            {
+                Services.setValue(EnterCaseNumber.dataBinding, "");
+            }
+        </logic>
+    </Context>  
+    </Javascript>
+
+
+
+</Question>

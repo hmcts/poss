@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: Reports
+	Method:  produceFamilyStatisticsReport()
+	File:    produce_family_statistics_report.xml
+	Author:  Chris Vincent
+	Created: 18 March 2015
+	Description: 
+		Calls the Custom Processor that builds the XML that is eventually passed to reports service.
+-->
+<service-method>
+	<pipeline> 
+		<Java callStyle="new">
+			<Source class="uk.gov.dca.caseman.reports_service.classes.ProduceFamilyStatsReportCustomProcessor"/>
+		</Java>
+	</pipeline>
+	<Security roles="viewOnly medium high wcSuper scSuper bmsSuper aeSuper dmSuper ccbcMan cpSuper"/>	
+</service-method>

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<DBMapDef>
+	<DataSource id="java:OracleDS"/>
+	<Tables>
+		<Table alias="RP" name="REJECT_PAID_WO_DETAILS"/>
+		<Table alias="RR" name="REJECT_REASONS"/>
+	</Tables>
+	<Mapping>
+		<RejectedPaids>
+			<RejectedPaid>
+				<CaseNumber>count(${RP.CASE_NUMBER})</CaseNumber>
+			</RejectedPaid>
+		</RejectedPaids>
+	</Mapping>
+</DBMapDef>

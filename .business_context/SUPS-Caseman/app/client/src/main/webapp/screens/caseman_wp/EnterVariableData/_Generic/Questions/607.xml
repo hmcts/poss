@@ -1,0 +1,38 @@
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>607</Id>
+	<Label>Enter sex of child</Label>
+	<ObjectName>ChildSex</ObjectName>
+ 
+	<Html>	
+		<select id="ChildSex">
+			<option value=""></option>
+			<option value="F">Female</option>
+			<option value="M">Male</option>
+		</select>
+	</Html>		
+		
+	<Javascript>
+		<XPath>/ds/EnterVariableData/Settlement/childSex</XPath>
+		<componentName>##label##</componentName>
+		<isMandatory>return true;</isMandatory>
+		<HintText>Select the sex of child</HintText>
+		<enableOn>ApportionSum.dataBinding, FatalAccidentSumTo.dataBinding, ApportionSumAct.dataBinding</enableOn>
+		<isEnabled> var isEnb = ('Y' == Services.getValue(ApportionSum.dataBinding) &amp;&amp;
+							'CLM' != Services.getValue(FatalAccidentSumTo.dataBinding));		
+					if( isEnb )
+					{	isEnb = ( 'LAW' != Services.getValue(ApportionSumAct.dataBinding));
+					}
+					return isEnb;
+		</isEnabled>
+		<logicOn>ApportionSum.dataBinding, FatalAccidentSumTo.dataBinding, ApportionSumAct.dataBinding</logicOn>
+		<logic>
+			if('Y' != Services.getValue(ApportionSum.dataBinding) ||
+							'CLM' == Services.getValue(FatalAccidentSumTo.dataBinding))
+			{	Services.setValue(ChildSex.dataBinding, "");
+			}
+			else if( 'LAW' == Services.getValue(ApportionSumAct.dataBinding))
+			{	Services.setValue(ChildSex.dataBinding, "");
+			}
+		</logic>			
+	</Javascript>
+</Question>

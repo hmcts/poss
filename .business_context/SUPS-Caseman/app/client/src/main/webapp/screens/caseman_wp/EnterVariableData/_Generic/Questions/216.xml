@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>216</Id>
+	<Label>Issue details</Label>
+	<ObjectName>IssueDetails2</ObjectName>
+	<Html>	
+		<input type="text" id="IssueDetails2"></input>
+	</Html>
+	<Javascript>
+		<XPath>/ds/EnterVariableData/FastTrack/issueDetails2</XPath>
+		<HintText>Enter details of the issue</HintText>
+		<isMandatory>return true;</isMandatory>	
+		<enableOn>IsSingleExpert.dataBinding</enableOn>
+		<isEnabled>return('Y' == Services.getValue(IsSingleExpert.dataBinding));</isEnabled>
+		<logicOn>IsSingleExpert.dataBinding</logicOn>
+		<logic>
+			if('Y' != Services.getValue(IsSingleExpert.dataBinding))
+			{	Services.setValue(IssueDetails2.dataBinding, "");
+			}
+		</logic>
+	</Javascript>
+</Question>

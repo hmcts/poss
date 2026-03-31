@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<service-method>
+	<pipeline>
+		<InvokeReport project="${uk.gov.dca.caseman.reportConfig}" xpath="params/param[@name='ReportRequest']">
+			<ReportStore id="java:OracleDS"/>
+			<Destination>ReportsLow</Destination>
+		</InvokeReport>
+	</pipeline>
+	<Security roles="viewOnly medium high wcSuper scSuper bmsSuper aeSuper dmSuper cpSuper"/>	
+	<Transaction type="RequiresNew" />
+</service-method>

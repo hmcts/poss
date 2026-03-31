@@ -1,0 +1,26 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: CaseEvent
+	Method:  updateCaseEvents()
+	File:    update_case_events.xml
+	Description: 
+	    Updates a list of Case Events that has been manually modified through the client GUI.
+	Change History:
+		04/12/2012 - Chris Vincent: Added dependency to WpOutput service.  Trac 4761
+		18/10/2013 - Chris Vincent, Trac 4997.  Added dependencies for Warrant, WarrantReturns
+					 and SystemDate as part of CCBC SDT
+-->
+<service-method>
+	<pipeline>
+		<Java callStyle="new">
+			<Source class="uk.gov.dca.caseman.case_event_service.java.UpdateCaseEventDispatcherCustomProcessor"/>
+		</Java>
+	</pipeline>
+	<Dependencies>
+		<Dependency serviceName="WpOutput"/>
+		<Dependency serviceName="Warrant"/>
+		<Dependency serviceName="WarrantReturns"/>
+		<Dependency serviceName="SystemDate"/>
+	</Dependencies>	
+	<Security roles="medium high wcSuper scSuper bmsSuper aeSuper dmSuper cpSuper ccbcMan ccbcUser ccbcSGB2"/>	
+</service-method>

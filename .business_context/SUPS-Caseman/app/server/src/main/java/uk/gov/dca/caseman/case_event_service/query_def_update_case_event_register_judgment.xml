@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: CaseEvent
+	Method:  updateCaseEventRegisterJudgment
+	File:    query_def_update_case_event_register_judgment.xml
+	Author:  Chris Hutt (EDS)
+	Created: 05 may 2006
+	Description: 
+        Enables case event to be updated with decision as to whether judgment
+        to be updated.
+		Introduced as part of RFC1473
+
+	Change History:
+
+-->
+<QueryDef>
+  <DBMapDef location="uk/gov/dca/caseman/case_event_service/map_update_case_event_register_judgment.xml"/>
+  <Query pivotNode="/CaseEvent" tables="CE">
+	<Join/>
+    <Modify/>
+  </Query>
+</QueryDef>

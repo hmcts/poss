@@ -1,0 +1,197 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- ====================================================================== -->
+<!--  -->
+<!-- FILENAME: $Source: C:/CVSRepository/serveroas/src/uk/gov/dca/caseman/wordprocessing_templates/Notice/CJR028/CJR028-FO.xml,v $ -->
+<!--  -->
+<!-- AUTHOR: $Author: f_vdd $-->
+<!--  -->
+<!-- DATE: $Date: 2006/03/21 14:01:15 $ -->
+<!--  -->
+<!-- Version: $Revision: 1.7 $ -->
+<!--  -->
+<!-- DESCRIPTION: This stylesheet is used to create an XSL:FO document that -->
+<!-- can be processed into a PDF version.  Business logic -->
+<!-- is embedded to generate the correct document text for the order -->
+<!-- required. -->
+<!--  -->
+<!-- INPUTS: XML document containing: the answers to questions asked of the -->
+<!-- user; case data retrieved from the database; HTML representing the  -->
+<!-- body of the document content (already edited by the user). -->
+<!--  -->
+<!-- OUTPUTS: XML document with FO tags containing instructions for the -->
+<!-- creation of a PDF document. -->
+<!--  -->
+<!-- ====================================================================== -->
+<root xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:fo="http://www.w3.org/1999/XSL/Format" xmlns="http://eds.com/supsfo">
+..\Notice-FO.xsd">
+	<variables>@word.processing.url.xsl@supsfo.xsl</variables>
+	<layout>order</layout>
+	<duplex/>
+	<addressee>
+		<blank/>
+		<claimants/>
+		<defendants/>
+		<part20claimants/>
+		<part20defendants/>
+	</addressee>
+	<header>
+		<fo:block font-size="16pt" font-weight="bold">Notice of Trial Date</fo:block>
+	</header>
+	<courtcase>
+		<court>
+			<xsl:copy-of select="$vdCourtHeaderBlock"/>
+		</court>
+		<caseparameters>
+			<parameter>
+				<name>
+					<fo:block font-weight="bold">Claim Number</fo:block>
+				</name>
+				<value>
+					<fo:block>
+						<xsl:value-of select="$vdClaimNumber"/>
+					</fo:block>
+				</value>
+			</parameter>
+			<parameter>
+				<name>
+					<fo:block font-weight="bold">Date</fo:block>
+				</name>
+				<value>
+					<fo:block>
+						<xsl:value-of select="$vdEventDate"/>
+					</fo:block>
+				</value>
+			</parameter>
+		</caseparameters>
+	</courtcase>
+
+	<body>
+	<editable useid="N10085">
+
+		<fo:block space-after="0.4cm">
+			The trial of the above <xsl:value-of select="$vdTrialNoticeRespect"/> will take place at <xsl:value-of select="$vdHearingTime"/>
+
+		</fo:block>
+		<fo:block space-after="0.4cm">
+			on <xsl:value-of select="$vdHearingDate"/>
+		</fo:block>
+		<fo:block space-after="0.4cm">
+			<fo:table table-layout="fixed">
+				<fo:table-column column-width="2.0cm"/>
+				<fo:table-column column-width="17.0cm"/>
+				<fo:table-body>
+					<fo:table-row>
+						<fo:table-cell>
+							<fo:block>at</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border-top-style="solid" border-right-style="solid" border-left-style="solid" border-bottom-style="solid"
+							border-top-width="0.02cm" border-right-width="0.02cm" border-left-width="0.02cm" border-bottom-width="0.02cm"
+							padding-right="0.2cm" padding-left="0.2cm" padding-bottom="0.2cm" padding-top="0.2cm" >
+								<fo:block><xsl:value-of select="$vdHearingCourtNameDescription"/>, <xsl:value-of select="$vdHearingCourtAddress"/></fo:block>
+						</fo:table-cell>
+					</fo:table-row>
+				</fo:table-body>
+			</fo:table>
+		</fo:block>
+		<fo:block font-weight="bold" space-after="0.4cm">
+			Any application in the case must be made to the court where the case is to be tried.
+		</fo:block>
+		<xsl:if test = "string-length($vdJudge) > 0">
+			<fo:block space-after="0.4cm">
+				<xsl:value-of select = "$vdJudge"/> has ordered that:
+			</fo:block>
+		</xsl:if>
+		<xsl:if test = "string-length($vdTimeAllowed) > 0">
+			<fo:block space-after="0.4cm">
+				The time allowed for the trial is <xsl:value-of select = "normalize-space($vdTimeAllowed)"/>.
+			</fo:block>
+		</xsl:if>
+		<xsl:if test = "string-length($vdTimetable) > 0">
+			<fo:block space-after="0.4cm">
+				<xsl:choose>
+					<xsl:when test="$vdTimetable = 'AGPTS'">The timetable for the trial may be agreed by the parties, subject to the approval of the trial judge.</xsl:when>
+					<xsl:when test="$vdTimetable = 'STA'">The timetable for the trial (subject to the approval of the trial judge) will be that:</xsl:when>
+				</xsl:choose>
+			</fo:block>
+		</xsl:if>
+		<xsl:if test = "string-length($vdCrossExaminationTime) > 0">
+			<fo:block space-after="0.4cm">
+				<xsl:value-of select = "normalize-space($vdCrossExaminationTime)"/>
+			</fo:block>
+		</xsl:if>
+
+		<xsl:if test = "string-length($vdClaimantTime) > 0">
+			The time allowed for the claimant's evidence is <xsl:value-of select="$vdClaimantTime"/>
+		</xsl:if>
+		<xsl:if test = "string-length($vdDefendantTime) > 0">
+			The time allowed for the defendant's evidence is <xsl:value-of select="$vdDefendantTime"/>
+		</xsl:if>
+		<xsl:if test = "string-length($vdSubmissionTime) > 0">
+			<fo:block space-after="0.4cm">
+				The time allowed for submissions on behalf of each party is <xsl:value-of select = "$vdSubmissionTime"/>
+			</fo:block>
+		</xsl:if>
+		<xsl:if test="$vdTimetable = 'STA'">
+			<xsl:if test = "string-length($vdRemainingTime) > 0">
+				<fo:block space-after="0.4cm">
+					The remainder of the time allowed for the trial (being <xsl:value-of select="$vdRemainingTime"/>) is reserved for the judge to consider and give judgment and to deal with costs.
+				</fo:block>
+			</xsl:if>
+		</xsl:if>
+		<xsl:if test = "$vdClmShallLodge = 'Y'">
+			<fo:block space-after="0.4cm">
+				The claimant shall lodge at the court at least 7 days before the hearing an indexed bundle of documents contained in a ring binder and with each page clearly numbered.
+			</fo:block>
+		</xsl:if>
+		<xsl:if test = "$vdCaseSummary = 'Y'">
+			<fo:block space-after="0.4cm">
+				A case summary (which should not exceed 250 words) outlining the matters still in issue, and referring where appropriate to the relevant documents shall be included in the bundle for the assistance of the judge in reading the papers before the trial.
+			</fo:block>
+		</xsl:if>
+		<xsl:if test = "$vdAgreeBundle = 'Y'">
+			<fo:block space-after="0.4cm">
+				The parties shall seek to agree the contents of the trial bundle and the case summary.
+			</fo:block>
+		</xsl:if>
+		<xsl:if test = "$vdInformCourt = 'Y'">
+			<fo:block space-after="0.4cm">
+				Each party must inform the court immediately if the claim is settled whether or not it is then possible to file a draft consent order to give effect to their agreement.
+			</fo:block>
+		</xsl:if>
+		<fo:block space-after="0.8cm">
+			<fo:inline font-weight="bold">Please note:</fo:inline> This case may be released to another Judge, possibly at a different Court.
+		</fo:block>
+		<fo:block space-after="0.8cm">
+			<fo:inline font-weight="bold">Date: </fo:inline> <xsl:value-of select="$datetoday"/>
+		</fo:block>
+		</editable>
+	</body>
+
+		<footnote noteextent="3.0">
+		<xsl:if test="$vdFastTrack = 'Y'">
+		<fo:block space-after="0.2cm">
+		<fo:table table-layout="fixed" width="100%" font-size="10pt" font-family="Times">
+					<fo:table-column column-width="19cm"/>
+					<fo:table-body>
+						<fo:table-row>
+							<fo:table-cell border-top-style="solid" border-right-style="solid" border-left-style="solid" border-bottom-style="solid"
+								border-top-width="0.02cm" border-right-width="0.02cm" border-left-width="0.02cm" border-bottom-width="0.02cm"
+								padding-right="0.2cm" padding-left="0.2cm" padding-bottom="0.2cm" padding-top="0.2cm" >
+								<fo:block font-size="9pt">	
+									<fo:inline font-weight="bold">Note:</fo:inline> You should read the notes for guidance on the first page of the pre-trial checklist and note 
+										particularly the possible sanctions for failure to complete and return it.
+								</fo:block>	
+							</fo:table-cell>
+						</fo:table-row>
+					</fo:table-body>
+				</fo:table>
+			</fo:block>
+	</xsl:if>
+			<xsl:if test="$vdFastTrack != 'Y'">
+				<fo:block space-after="3cm">
+					&#xA0;
+				</fo:block>
+			</xsl:if>
+		</footnote>
+	<defaultFooter id="CJR028"/>
+</root>

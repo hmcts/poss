@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--Question xmlns="http://eds.com/questionxhtml" xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd"-->
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>Q_JudgeTitle</Id>
+	<Label>Title of Judge Who Made the Original Order</Label>
+	<ObjectName>JudgeTitle</ObjectName>
+	<Html>
+
+					<select id="JudgeTitle">
+						<option value=""></option>			
+						<option value="Circuit Judge">Circuit Judge</option>
+						<option value="Deputy Circuit Judge">Deputy Circuit Judge</option>
+						<option value="District Judge">District Judge</option>
+						<option value="Deputy District Judge">Deputy District Judge</option>
+						<option value="Her Honour Judge">Her Honour Judge</option>
+						<option value="His Honour Judge">His Honour Judge</option>
+						<option value="High Court Judge">High Court Judge</option>
+						<option value="Mr Justice">Mr Justice</option>
+						<option value="Mrs Justice">Mrs Justice</option>
+						<option value="Recorder">Recorder</option>
+					</select>					
+	
+	</Html>
+	<Javascript>
+		<XPath>/ds/var/page/OracleReportForm/JudgeTitle</XPath>
+		<ReportVariableName>DISTRICT_JUDGE_TITLE</ReportVariableName>
+		<ReportVariableValue>Services.getValue(JudgeTitle.dataBinding) + " " + Services.getValue(JudgeWhoMadeOriginalTheOrder.dataBinding)</ReportVariableValue>
+		<ReportVariableCode>2010</ReportVariableCode>
+		<HintText>Enter the Judge's title</HintText>
+		<isMandatory>return true;</isMandatory>
+		<initialise></initialise>	
+		<setDefault>
+		</setDefault>		
+		<validateOn>
+		</validateOn>
+		<validate>
+		</validate>
+		<miscCode>		
+		</miscCode>
+	</Javascript>
+</Question>

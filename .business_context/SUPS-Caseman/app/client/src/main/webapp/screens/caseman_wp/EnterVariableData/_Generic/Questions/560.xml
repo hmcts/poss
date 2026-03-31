@@ -1,0 +1,22 @@
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>560</Id>
+	<Label>Medical examination ordered?</Label>
+	<ObjectName>IsMedExamOrdered</ObjectName>
+	<Html>	
+		<input type="checkbox" id="IsMedExamOrdered"></input>
+	</Html>			
+	<Javascript>
+		<XPath>/ds/EnterVariableData/Remand/isMedExamOrdered</XPath>
+		<componentName>##label##</componentName>
+		<modelValue>checked: "Y", unchecked: "N"</modelValue>
+		<HintText>Check box if a medical examination has been ordered</HintText>
+		<enableOn>HasFurtherBailConditions.dataBinding</enableOn>
+		<isEnabled>return( 'Y' == Services.getValue(HasFurtherBailConditions.dataBinding));</isEnabled>
+		<logicOn>HasFurtherBailConditions.dataBinding</logicOn>
+		<logic>
+			if( 'Y' != Services.getValue(HasFurtherBailConditions.dataBinding))
+			{	Services.setValue(IsMedExamOrdered.dataBinding, "N");
+			}
+		</logic>			
+	</Javascript>
+</Question>

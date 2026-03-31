@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<pmc:server xmlns:pmc="http://www.polarlake.com/pmc/1.0" name="ccbc_create_and_transmit_judgment_status_rtl_file_boot_circuit" classname="com.polarlake.platform.Platform" description="A new PolarLake Server" circuit="file:///{pl$caseman_home}/Common/server/ccbc_create_and_transmit_judgment_status_rtl_file_boot_circuit.cir" encoding="">
+    <pmc:classpath>
+        <pmc:pathelement location="{pl$commonclasspath}"/>
+        <pmc:pathelement location="{pl$polarlake_lib}/design.jar"/>
+        <pmc:pathelement location="{pl$polarlake_home}/openjms/lib/openjms-client-0.7.5-rc1.jar"/>
+        <pmc:pathelement location="{pl$polarlake_home}/openjms/lib/openjms-rmi-0.7.5-rc1.jar"/>
+        <pmc:pathelement location="{pl$polarlake_home}/openjms/lib/jta_1.0.1.jar"/>
+        <pmc:pathelement location="{pl$tomcatclasspath}"/>
+    </pmc:classpath>
+    <pmc:argument value="-b"/>
+    <pmc:argument value="circuit"/>
+    <pmc:argument value="-j"/>
+    <pmc:argument value="file:///{pl$polarlake_home}/polarlake/lib/plsystem.jar"/>
+	<pmc:sysproperty name="-Dftp_casemanrtl_password" value=""/>
+    <pmc:sysproperty name="-Dftp_casemanrtl_archive_server_address" value="ftp://192.168.9.150"/>
+    <pmc:sysproperty name="-Dapp_pl_dir" value="c:\SUPS\Caseman-CCBC\PL-CASEMAN\app\caseman\cm-polarlake"/>
+    <pmc:sysproperty name="-Dftp_casemanrtlserver_address" value="ftp://192.168.9.150"/>
+    <pmc:sysproperty name="-Dapp_pl_sups_connect_string" value="jdbc:oracle:thin:@192.168.9.205:1521:supsdb01"/>
+    <pmc:sysproperty name="-Dapp_pl_sups_id" value="erswellg_cm"/>
+    <pmc:sysproperty name="-Dshell_circuit_id" value="ccbc-rtl-file"/>
+    <pmc:sysproperty name="-Dftp_casemanrtl_archive_folderpath" value="/"/>
+    <pmc:sysproperty name="-Dftp_casemanrtl_username" value=""/>
+    <pmc:sysproperty name="-Dpl_properties_url" value="c:\SUPS\Caseman-CCBC\PL-CASEMAN\app\caseman\cm-polarlake\Common\config\caseman.props"/>
+    <pmc:sysproperty name="-Dftp_casemanrtl_folderpath" value="/"/>
+    <pmc:sysproperty name="-Dapp_pl_log_dir" value="C:/SUPS/pl-logs"/>
+    <pmc:sysproperty name="-Dapp_pl_sups_pw" value="erswellg_cm"/>
+    <pmc:documenttracking>
+        <pmc:trackingsetting name="enabled" value="false"/>
+        <pmc:trackingsetting name="errors_critical" value="false"/>
+        <pmc:trackingsetting name="track_empties" value="false"/>
+        <pmc:trackingsetting name="base64_encoding" value=" false"/>
+        <pmc:trackingsetting name="template" value=""/>
+        <pmc:trackingsetting name="mode" value="synchronous"/>
+    </pmc:documenttracking>
+</pmc:server>

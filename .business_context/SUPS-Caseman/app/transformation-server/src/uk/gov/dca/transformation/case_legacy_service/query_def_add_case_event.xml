@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<QueryDef>
+	<DBMapDef location="uk/gov/dca/transformation/case_legacy_service/map_add_case_event.xml"/>
+	<Query pivotNode="/CaseEvents/CaseEvent" tables="CE">
+		<Join/>
+		<Modify>
+			<CheckExists table="CE" fields="EVENT_SEQ" onNotExist="add" onExist="skip"/>
+			<Field name="CE.EVENT_SEQ" sequenceTable="EVENT_SEQUENCE"/>
+		</Modify>
+	</Query>		
+</QueryDef>

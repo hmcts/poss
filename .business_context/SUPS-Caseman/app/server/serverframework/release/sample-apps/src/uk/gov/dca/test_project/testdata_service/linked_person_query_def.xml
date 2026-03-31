@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<QueryDef>
+	<DBMapDef location="uk/gov/dca/test_project/testdata_service/person_map.xml"/>
+
+	<Query pivotNode="/People/Person" tables="P">
+		<LinkedJoin key="P.ID" type="root">
+			<Join/>
+		</LinkedJoin>
+		<OrderBy>P.ID ASC</OrderBy>
+		<Modify>
+			<Field name="P.ID" sequenceTable="PERSON_SEQUENCE"/>
+			<CheckExists table="P" fields="ID" onExist="update" onNotExist="add" />
+		</Modify>
+	</Query>
+
+	<Query pivotNode="/People/Person/Addresses/Address" tables="A">
+		<LinkedJoin key="A.ID" type="sub">
+			<Parent key="P.ID" tables="P" />
+			<Join>
+				A.PERSON_ID = P.ID
+			</Join>
+		</LinkedJoin>
+		<Modify>
+			<CheckExists table="A" fields="ID" onExist="update" onNotExist="add" />
+			<Field name="A.PERSON_ID" property="P.ID"/>
+			<Field name="A.ID" sequenceTable="PERSON_ADDRESS_SEQUENCE"/>
+		</Modify>
+	</Query>
+
+<!--
+	<Query pivotNode="/People/Person/Addresses/Address" tables="A">
+		<LinkedJoin key="A.PERSON_ID" type="sub">
+			<Parent key="A.ID" tables="A" />
+		</LinkedJoin>
+		<Modify>
+			<CheckExists table="A" fields="ID" onExist="update" onNotExist="add" />
+			<Field name="A.PERSON_ID" property="P.ID"/>
+			<Field name="A.ID" sequenceTable="PERSON_ADDRESS_SEQUENCE"/>
+		</Modify>
+	</Query>
+-->	
+
+</QueryDef>

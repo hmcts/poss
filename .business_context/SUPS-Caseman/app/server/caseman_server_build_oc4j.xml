@@ -1,0 +1,398 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project name="caseman_server_build_oc4j" default="deploy-wp" basedir=".">
+	<property environment="env"/>	
+	<echo level="verbose">Loading default properties from. ${user.home}/sups_antuser.properties</echo>
+	<property file="${user.home}/sups_antuser.properties"/>
+	<property file="oc4j.properties"/>
+	
+	<property name="application_base" value="c:/SUPS/build/caseman/caseman_server_oc4j"/>
+    	
+	<target name="-check-properties">
+	    <property name="error.label" value="FMAN-ERROR:"/>          
+    	<fail unless="target.platform" message="${error.label} target.platform=[OAS|JBOSS] property must be set to build."/>
+	    <fail unless="oas.server.dir" message="${error.label} oas.server.dir property specifying the location of either OAS|OC4J base directory must be set to build."/>
+
+		<property name="drop_dir" value="c:/SUPS/build/caseman/caseman_server_oc4j/${target.platform}"/>
+
+	</target>
+    
+	<echo>target.platform = ${target.platform}</echo>
+	<echo>do.deploy.environment = ${do.deploy.environment}</echo>
+	<property name="jboss_platform" value="JBOSS"/>
+	<property name="oas_platform" value="OAS"/>
+	
+	<!-- -->
+<!--	<import file="" />-->
+	
+	<target name="init" depends="-check-properties">
+		<!-- Copy all files from clearcase into the local machine.  This improves the build performance -->
+		<sync todir="${application_base}/lib">
+			<fileset dir="${basedir}/lib"/>
+		</sync>
+		<!-- Always remove the xmlquery2.xml so a new one is copied across each time -->
+		<!-- This is done because we update it's ejb-jar.xml during the build -->
+		<delete file="${application_base}/serverframework/release/lib/SUPS-${target.platform}/xmlquery2.jar"/>
+		<sync todir="${application_base}/serverframework">
+			<fileset dir="${basedir}/serverframework"/>
+		</sync>
+		<copy todir="${application_base}/serverframework/release/dist">
+			<fileset dir="${basedir}/rsc/dist/"/>
+		</copy>
+		<sync todir="${application_base}/src">
+			<fileset dir="${basedir}/src"/>
+		</sync>
+		
+		<!-- copy server cache config files to deployment folder -->
+		<mkdir dir="${service_config_directory}"/>
+		<copy todir="${service_config_directory}">
+			<fileset dir="${basedir}/cache-config"/>
+		</copy>	
+		<!-- reset all properties files to an undeployed state -->
+		<copy todir="${application_base}/src" overwrite="true">
+			<fileset dir="${basedir}/src" includes="**/*.properties"/>
+		</copy>
+		<sync todir="${application_base}/rsc">
+			<fileset dir="${basedir}/rsc"/>
+		</sync>
+		<sync todir="${application_base}/conf">
+			<fileset dir="${basedir}/conf"/>
+		</sync>		
+		<copy todir="${application_base}">
+			<fileset dir="${basedir}">
+				<include name="*.properties"/>
+				<include name="*.xml"/>
+			</fileset>
+		</copy>
+		<copy todir="${application_base}/serverframework/release/build/META-INF" overwrite="true">
+			<fileset dir="${basedir}/rsc">
+				<include name="application.xml"/>
+			</fileset>
+		</copy>
+		<copy todir="${application_base}/serverframework/release/" overwrite="true">
+			<fileset dir="${basedir}/rsc">
+				<include name="build.xml"/>
+			</fileset>
+		</copy>
+		<copy todir="${application_base}/serverframework/release/dist" overwrite="true">
+			<fileset dir="${basedir}/rsc/dist">
+				<include name="build.xml"/>
+			</fileset>
+		</copy>
+		<copy todir="${application_base}/web-config">
+			<fileset dir="${basedir}/web-config"/>
+		</copy>		
+	
+		<!-- Update the framework xmlquery2 security bean so that it can call the Caseman services it needs when retrieving the ldap printer list -->
+		<ant antfile="caseman_server_update_xmlquery2.xml" target="update_xmlquery2" inheritall="false">
+			<!-- The order here is important - set the resources dir before changing the basedir -->
+			<property name="resources.dir" value="${basedir}/build_resources"/>									
+			<property name="basedir" value="${application_base}"/>			
+			<property name="target.platform" value="${target.platform}"/>						
+		</ant>
+		
+	</target>	
+	
+    <taskdef resource="net/sf/antcontrib/antcontrib.properties">
+        <classpath>
+
+
+            <fileset dir="${basedir}/ServerFramework/release/lib/ant-contrib">
+                <include name="**/*.jar"/>
+            </fileset>
+        </classpath>
+    </taskdef>
+    
+	<target name="deploy-clean" depends="clean, init, undeploy">
+		<!-- Call the real build file, using the local version of the code -->
+		<delete dir="${application_base}/build" failonerror="true"/>
+		<property name="default_ant_file" value="${basedir}/ServerFramework/release/build.xml"/>
+		<echo>${default_ant_file}</echo>		
+		<ant antfile="${default_ant_file}" target="build-app__clean_build_deploy" inheritall="false">
+			<property name="basedir" value="${application_base}/ServerFramework/release"/>
+			<property name="env.PROJECT_BASE" value="${application_base}"/>
+			<property name="target.platform" value="${target.platform}"/>
+			<property name="oas.server.dir" value="${oas.server.dir}"/>	
+			<property name="release_dir" value="${application_base}/ServerFramework/release"/>
+		</ant>
+        <if>  
+            <equals arg1="${target.platform}" arg2="${oas_platform}"/>
+            <then>   
+                <antcall target="_oc4j__deploy-ear"/>
+                <antcall target="_oc4j__bind-ear-web-modules"/>
+            </then>
+        </if>        
+	</target>
+
+	<target name="substitute-report-tokens" if="do.deploy.environment">
+	<echo>${application_base}/src</echo>	
+	<echo>${basedir}/src</echo>		
+		<copy todir="${application_base}/src" overwrite="true">
+			<fileset dir="${basedir}/src" includes="**/*.properties"/>
+			<filterset>
+				<filtersfile file="${environment.properties.file}"/>
+			</filterset>
+		</copy>
+	</target>		
+
+	<target name="deploy" depends="init, substitute-report-tokens, create_mdb_jar">
+		<!-- properties being immutable, if nothing has been set, by here we default to OAS -->
+		<property name="target.platform" value="OAS"/>
+		<mkdir dir="${drop_dir}"/>
+		
+		<property name="default_ant_file" value="${basedir}/ServerFramework/release/build.xml"/>
+		<echo>${default_ant_file}</echo>
+		<ant antfile="${default_ant_file}" target="build-app__build_deploy_no_external" inheritall="false">
+			<property name="basedir" value="${application_base}/ServerFramework/release"/>
+			<property name="env.PROJECT_BASE" value="${application_base}"/>
+			<property name="release_dir" value="${application_base}/ServerFramework/release"/>			
+			<property name="oas.deploy.dir" value="${drop_dir}"/>			
+		</ant>
+		<echo>${target.platform}</echo>
+        <if>  
+            <equals arg1="${target.platform}" arg2="${oas_platform}"/>
+	        <then>   
+                <antcall target="_oc4j__deploy-ear"/>   
+                <antcall target="_oc4j__bind-ear-web-modules"/>
+			</then>
+		</if>		
+	</target>
+
+	<target name="deploy-wp" depends="init, substitute-report-tokens, create_mdb_jar">
+		<!-- properties being immutable, if nothing has been set, by here we default to OAS -->
+		<property name="target.platform" value="OAS"/>
+		<mkdir dir="${drop_dir}"/>
+		
+		<property name="default_ant_file" value="${basedir}/ServerFramework/release/build.xml"/>
+		<echo>${default_ant_file}</echo>
+		<ant antfile="${default_ant_file}" target="build-app__build_deploy" inheritall="false">
+			<property name="basedir" value="${application_base}/ServerFramework/release"/>
+			<property name="env.PROJECT_BASE" value="${application_base}"/>
+				<property name="release_dir" value="${application_base}/ServerFramework/release"/>			
+			<property name="oas.deploy.dir" value="${drop_dir}"/>			
+		</ant>
+		<echo>${target.platform}</echo>
+        <if>  
+            <equals arg1="${target.platform}" arg2="${oas_platform}"/>
+	        <then>   
+                <antcall target="_oc4j__deploy-ear"/>   
+                <antcall target="_oc4j__bind-ear-web-modules"/>
+	        	<antcall target="_oc4j__bind-ear-wp-web-module"/>
+			</then>
+		</if>
+	</target>
+
+	<target name="oc4j__start">
+		<property name="default_ant_file" value="${basedir}/ServerFramework/release/build.xml"/>
+		<echo>${default_ant_file}</echo>
+		<echo>${oc4j.xbootclasspath}</echo>
+		<ant antfile="${default_ant_file}" target="oc4j__start">
+			<property name="basedir" value="${application_base}/ServerFramework/release"/>
+			<property name="env.PROJECT_BASE" value="${application_base}"/>
+			<property name="target.platform" value="${oas_platform}"/>
+			<property name="oas.server.dir" value="${oas.server.dir}"/>	
+			<property name="release_dir" value="${application_base}/ServerFramework/release"/>
+		</ant>
+	</target>
+	<target name="oc4j__stop">
+		<property name="default_ant_file" value="${basedir}/ServerFramework/release/build.xml"/>
+		<echo>${default_ant_file}</echo>
+		<ant antfile="${default_ant_file}" target="oc4j__stop">
+			<property name="basedir" value="${application_base}/ServerFramework/release"/>
+			<property name="env.PROJECT_BASE" value="${application_base}"/>
+			<property name="target.platform" value="${oas_platform}"/>
+			<property name="oas.server.dir" value="${oas.server.dir}"/>	
+			<property name="release_dir" value="${application_base}/ServerFramework/release"/>
+		</ant>
+	</target>
+	
+	<target name="_oc4j__deploy-ear">
+		<property name="default_ant_file" value="${basedir}/ServerFramework/release/build.xml"/>
+		<echo>default_ant_file = ${default_ant_file}</echo>
+		
+		<echo>basedir          = ${application_base}/ServerFramework/release</echo>
+		<echo>env.PROJECT_BASE = ${application_base}</echo> 
+		<echo>target.platform  = ${oas_platform}</echo> 
+		<echo>oas.server.dir   = ${oas.server.dir}</echo>
+		<echo>release_dir      = ${application_base}/ServerFramework/release</echo>
+		
+		<ant antfile="${default_ant_file}" target="oc4j__deploy-ear">
+			<property name="basedir" value="${application_base}/ServerFramework/release"/>
+			<property name="env.PROJECT_BASE" value="${application_base}"/>
+			<property name="target.platform" value="${oas_platform}"/>
+			<property name="oas.server.dir" value="${oas.server.dir}"/>	
+			<property name="release_dir" value="${application_base}/ServerFramework/release"/>
+		</ant>
+	</target>	
+
+	<target name="oc4j__debug">
+		<echo>
+			starting oc4j in debug mode on -Xrunjdwp:transport=dt_socket,address=8787,server=y,suspend=y
+			Check oc4j.properties to confirm these properties
+		</echo>
+		<property name="default_ant_file" value="${basedir}/ServerFramework/release/build.xml"/>
+		<echo>${default_ant_file}</echo>
+		<ant antfile="${default_ant_file}" target="oc4j__debug">
+			<property name="basedir" value="${application_base}/ServerFramework/release"/>
+			<property name="env.PROJECT_BASE" value="${application_base}"/>
+			<property name="target.platform" value="${oas_platform}"/>
+			<property name="oas.server.dir" value="${oas.server.dir}"/>	
+			<property name="release_dir" value="${application_base}/ServerFramework/release"/>
+		</ant>
+	</target>
+
+	<target name="_oc4j__bind-ear-wp-web-module">
+	 <java output="fred.txt" description="Binds (HTTPS) the server_wordprocessing.war file to..." fork="true" dir="${oc4j.home.dir}" jar="${oc4j.home.dir}/j2ee/home/admin.jar">
+			            <arg value="${oc4j.admin.url}"/>
+			            <arg value="admin"/>
+			            <arg value="${oc4j.admin.password}"/>
+			            <arg value="-bindWebApp"/>
+			            <arg value="caseman_ear"/>
+			            <arg value="server_wordprocessing"/>
+			            <arg value="${ocj4.http.site}"/>
+			            <arg value="/casemanwp"/>
+		</java>
+	</target>
+	
+	<target name="_oc4j__bind-ear-web-modules">
+		<property name="default_ant_file" value="${basedir}/ServerFramework/release/build.xml"/>
+		<echo>default_ant_file = ${default_ant_file}</echo>
+		<echo>ocj4.http.site   = ${ocj4.http.site}</echo>		
+		<echo>oc4j.home.dir    = ${oc4j.home.dir}</echo>	
+		<echo>oc4j.check.port  = ${oc4j.check.port}</echo>			
+		<echo>application.name = ${application.name}</echo>						
+<!--					
+        <java description="Binds (HTTPS) the sups-invoker-${applications_name}.war file to /${application.name}_invoker, this application holds the AJAX Servlet" fork="true" dir="${oc4j.home.dir}" jar="${oc4j.home.dir}/j2ee/home/admin.jar">
+            <arg value="${oc4j.admin.url}"/>
+            <arg value="admin"/>
+            <arg value="${oc4j.admin.password}"/>
+            <arg value="-bindWebApp"/>
+            <arg value="${application.name}_ear"/>
+            <arg value="sups-invoker-${application.name}"/>
+            <arg value="${ocj4.https.site}"/>
+            <arg value="/${application.name}_invoker"/>
+        </java>
+-->
+<!--  	
+		COMMENT THIS BACK IN ONCE WE'VE MOVED TO FRMWK 9.0.7
+        <ant antfile="${default_ant_file}" target="oc4j__bind-ear-web-modules">
+            <property name="basedir" value="${application_base}/ServerFramework/release"/>
+            <property name="env.PROJECT_BASE" value="${application_base}"/>
+			<property name="target.platform" value="${oas_platform}"/>
+            <property name="oas.server.dir" value="${oas.server.dir}"/> 
+            <property name="release_dir" value="${application_base}/ServerFramework/release"/>
+        </ant>
+-->		
+
+        <ant antfile="caseman_server_bind_web_modules_oc4j.xml" target="oc4j__bind-ear-web-modules">
+            <property name="basedir" value="${application_base}/ServerFramework/release"/>
+            <property name="env.PROJECT_BASE" value="${application_base}"/>
+			<property name="target.platform" value="${oas_platform}"/>
+            <property name="oas.server.dir" value="${oas.server.dir}"/> 
+            <property name="release_dir" value="${application_base}/ServerFramework/release"/>
+        </ant>
+
+	</target>	
+			
+	<target name="clean">
+		<delete dir="${application_base}"/>
+		<delete dir="${service_config_directory}"/>
+	</target>
+    
+    <target name="oc4j__undeploy" depends="init">
+    	<property name="target.platform" value="${oas_platform}"/>
+    	<antcall target="-check-properties"/>
+        <antcall target="undeploy"/>
+    </target>
+    
+    <target name="undeploy" depends="-check-properties">
+        <if>  
+            <equals arg1="${target.platform}" arg2="${jboss_platform}"/>      
+            <then>
+            	<!-- there is no jboss -->
+                <delete file="${jboss.deploy.dir}/${application.name}.ear"/>
+            </then>
+            <else>
+                <macro__fman-private-undeploy-OC4J-ear deployment-name="${application.name}_server"/>
+            </else>
+       </if>                
+    </target>
+    
+    <macrodef name="macro__fman-private-undeploy-OC4J-ear">
+        <attribute name="deployment-name"/>           
+        <sequential>
+            <if>
+                <socket server="${oc4j.check.server}" port="${oc4j.check.port}"/>
+                <then>
+                    <!-- deploy to OC4J if that is where we are deploying to -->
+                    <java fork="true" dir="${oc4j.home.dir}" jar="${oc4j.home.dir}/j2ee/home/admin.jar">
+                        <arg value="${oc4j.admin.url}"/>
+                        <arg value="admin"/>
+                        <arg value="${oc4j.admin.password}"/>
+                        <arg value="-undeploy"/>
+                        <arg value="@{deployment-name}"/>
+                    </java>
+                </then>
+                <else>
+                    <fail message="OC4J is not running!!! Please start OC4J and try undeploying again"/>
+                </else>
+            </if>
+        </sequential>
+    </macrodef>
+    
+	<target name="oas-deploy-ear">
+		<property name="target.platform" value="${oas_platform}"/>
+		<antcall target="-check-properties"/>
+		<!-- deploy the ear if on oas, don&apos;t fail with the remove, as it may not be there in the first place -->
+		<echo>Removing EAR Application from OAS</echo>
+		<exec executable="${oas.server.dir}/dcm/bin/dcmctl.bat" failonerror="false">
+			<arg line="undeployapplication -co Familyman -a familyman_server"/>
+		</exec>
+		<echo>Deploying the Application to OAS using file: ${application_base}/build/${target.platform}/ear/familyman.ear</echo>
+		<exec executable="${oas.server.dir}/dcm/bin/dcmctl.bat">
+			<arg line="deployapplication -co Familyman -a familyman_server -f ${drop_dir}/familyman.ear"/>
+		</exec>
+	</target>
+	
+	<!-- Compile classes in src/uk/gov/dca/caseman/caseman_mdbs into build/platform-type/outofdate directory -->
+	<target name="compile_mdbs" depends="init">
+		<echo>application_base = ${application_base}</echo>
+		<echo>target.platform = ${target.platform}</echo>
+		<echo>target.platform = ${target.platform}</echo>
+        <path id="mdb_project_path">
+            <path path="${application_base}/serverframework/release/src/framework"/>
+            <fileset dir="${application_base}/serverframework/release/lib" includes="**/*.jar"/>
+        </path>
+		
+		<mkdir dir="${application_base}/build/${target.platform}/outofdate"/>
+				
+		 <javac sourcepath="" srcdir="${application_base}/src" destdir="${application_base}/build/${target.platform}/outofdate">
+			<classpath>
+                <path refid="mdb_project_path"/>
+            </classpath>			
+            
+            <include name="uk/gov/dca/caseman/caseman_mdbs/classes/**/*.java"/>
+        </javac>
+	</target>
+	
+	<!-- 
+		Generate CaseManMDB.jar in build/platform-type/jars/ directory. 
+		When Framework build script runs, it will automatically pick this jar file and add it to ear file
+		and also modify the application.xml. Notice that the ejb-jar.xml, Manifest.mf and orion-ejb.jar are NOT genereated automatically. 
+		They are stored in src/uk/gov/dca/caseman/caseman_mdbs/meta-inf directory. 
+		Some environment setting are used in these files, that should stay same across.
+	-->
+	<target name="create_mdb_jar" depends="compile_mdbs">
+		<mkdir dir="${application_base}/build/${target.platform}/jars"/>
+        <jar destfile="${application_base}/build/${target.platform}/jars/CaseManMDB.jar" manifest="${application_base}/src/uk/gov/dca/caseman/caseman_mdbs/meta-inf/Manifest.mf">
+            <metainf dir="${application_base}/src/uk/gov/dca/caseman/caseman_mdbs/meta-inf">
+                <include name="ejb-jar.xml"/>
+                <include name="orion-ejb-jar.xml"/>
+            </metainf>
+            <fileset dir="${application_base}/build/${target.platform}/outofdate">
+                <include name="uk/gov/dca/caseman/caseman_mdbs/**/*.class"/>
+            </fileset>
+        </jar>		
+	</target>	
+
+</project>

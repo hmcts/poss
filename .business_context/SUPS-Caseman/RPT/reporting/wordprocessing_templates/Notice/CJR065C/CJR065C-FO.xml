@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Change History:
+	30/07/2010	Chris Vincent	Trac 2768, changes to block spacing in editable section.
+-->
+<root xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:fo="http://www.w3.org/1999/XSL/Format" xmlns="http://eds.com/supsfo">
+	<variables>@word.processing.url.xsl@supsfo.xsl</variables>
+	<layout famenf="true">order</layout>
+	<duplex/>
+	<addressee>
+		<claimants/>
+		<defendants/>
+		<part20claimants/>
+		<part20defendants/>
+	</addressee>
+	<header>
+		<fo:block font-size="16pt" font-weight="bold">General Form of Judgment or Order</fo:block>
+	</header>
+	<courtcase>
+		<court>
+			<xsl:copy-of select="$vdCourtHeaderBlock"/>
+		</court>
+		<caseparameters>
+			<parameter>
+				<name>
+					<fo:block font-weight="bold">Claim Number</fo:block>
+				</name>
+				<value>
+					<fo:block>
+						<xsl:value-of select="$vdClaimNumber"/>
+					</fo:block>
+				</value>
+			</parameter>
+			<parameter>
+				<name>
+					<fo:block font-weight="bold">Date</fo:block>
+				</name>
+				<value>
+					<fo:block>
+						<xsl:value-of select="$vdEventDate"/>
+					</fo:block>
+				</value>
+			</parameter>
+		</caseparameters>
+	</courtcase>
+	<bodyintroright><fo:block space-before="0.4cm" space-after="1cm"><fo:inline text-align="center"><seal/></fo:inline></fo:block></bodyintroright>
+	<body>
+		<editable useid="N10085">
+			<fo:block space-after="1.0cm" />
+			<xsl:choose>
+				<xsl:when test="string-length($vdJudgeTitle) > 0">
+					<fo:block space-after="0.4cm">
+						Before <xsl:value-of select="$vdJudge"/> sitting at <xsl:value-of select="$vdHearingAtCourtNameDescription"/>, <xsl:value-of select="$vdHearingAtCourtAddress"/>.
+					</fo:block>
+					<fo:block space-after="0.4cm">
+						<xsl:copy-of select="$vdHearingAttendees"/>	
+					</fo:block>
+				</xsl:when>
+				<xsl:otherwise>
+					<fo:block space-after="0.4cm">
+						Before The Proper Officer sitting at <xsl:value-of select="$vdHearingAtCourtNameDescription"/>, <xsl:value-of select="$vdHearingAtCourtAddress"/>.
+					</fo:block>
+					<fo:block space-after="0.4cm">
+						<xsl:copy-of select="$vdHearingAttendees"/>	
+					</fo:block>
+				</xsl:otherwise>
+			</xsl:choose>
+			<fo:block space-after="0.4cm">
+				<fo:inline font-weight="bold">IT IS ORDERED THAT </fo:inline> 
+			</fo:block>
+			<fo:block space-after="0.4cm">
+				<cursor/>
+			</fo:block>
+			<fo:block space-after="0.4cm">
+				Dated <xsl:value-of select="$vdJudgmentDate"/>
+			</fo:block>
+		</editable> 
+	</body>
+	<defaultFooter id="CJR065C"/>
+</root>

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<QueryDef>
+	<DBMapDef location="uk/gov/dca/test_project/cases_service/d1115_map.xml"/>
+	<Tables>
+		<Table alias="E" name="ETHNIC_ORIGIN"/>
+		<Table alias="T" name="TAPE_FORMATS"/>
+		<Table alias="R" name="REJECT_REASONS"/>
+	</Tables>
+	
+	<Query pivotNode="/Updates/EthnicOrigin" tables="E">
+		<Modify>
+			<CheckExists table="E" fields="ETHNIC_ORIGIN_CODE" onExist="update" onNotExist="add"/>
+		</Modify>
+	</Query>
+	
+	<Query pivotNode="/Updates/EthnicOrigin/TapeFormat/RejectReasons" tables="R">
+		<Modify>
+			<CheckExists table="R" fields="REJECT_CODE" onExist="update" onNotExist="add"/>
+		</Modify>
+	</Query>
+	
+	<Query pivotNode="/Updates/EthnicOrigin/TapeFormat" tables="T">
+		<Modify>
+			<CheckExists table="T" fields="CODE" onExist="update" onNotExist="add"/>
+		</Modify>
+	</Query>
+</QueryDef>

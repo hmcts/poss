@@ -1,0 +1,27 @@
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>572</Id>
+	<Label>Violence or risk of harm</Label>
+	<ObjectName>RiskOfViolence</ObjectName>
+	<Html>	
+		<select id="RiskOfViolence">
+			<option value=""></option>
+			<option value="B">Court satisfied there is a risk of both violence and harm</option>
+			<option value="H">Court satisfied there is risk of harm</option>
+			<option value="V">Court satisfied there is risk of violence</option>
+		</select>
+	</Html>			
+	<Javascript>
+		<XPath>/ds/EnterVariableData/Interlocutory/riskOfViolence</XPath>
+		<componentName>##label##</componentName>
+		<isMandatory>return true;</isMandatory>
+		<HintText>Select if there is a risk of violence, harm or both</HintText>
+		<enableOn>POAApply.dataBinding</enableOn>
+		<isEnabled>return('Y' == Services.getValue(POAApply.dataBinding));</isEnabled>
+		<logicOn>POAApply.dataBinding</logicOn>
+		<logic>
+			if('Y' != Services.getValue(POAApply.dataBinding))
+			{	Services.setValue(RiskOfViolence.dataBinding, "");
+			}
+		</logic>			
+	</Javascript>
+</Question>

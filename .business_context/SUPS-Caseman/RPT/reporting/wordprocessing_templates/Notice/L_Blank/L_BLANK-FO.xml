@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- ====================================================================== -->
+<!--  -->
+<!-- FILENAME: $Source$ -->
+<!--  -->
+<!-- AUTHOR: $Author$-->
+<!--  -->
+<!-- DATE: $Date$ -->
+<!--  -->
+<!-- Version: $Revision$ -->
+<!--  -->
+<!-- DESCRIPTION: This stylesheet is used to create an XSL:FO document that -->
+<!-- can be processed into a PDF version.  Business logic -->
+<!-- is embedded to generate the correct document text for the order -->
+<!-- required. -->
+<!--  -->
+<!-- INPUTS: XML document containing: the answers to questions asked of the -->
+<!-- user; case data retrieved from the database; HTML representing the  -->
+<!-- body of the document content (already edited by the user). -->
+<!--  -->
+<!-- OUTPUTS: XML document with FO tags containing instructions for the -->
+<!-- creation of a PDF document. -->
+<!--  -->
+
+<!--
+Change History
+Dec 08, 2011 Nilesh Mistry - Adding in logic for new case type of COMPANY ADMIN ORDER. Trac 4586
+-->
+<!-- ====================================================================== -->
+<root xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:fo="http://www.w3.org/1999/XSL/Format" xmlns="http://eds.com/supsfo">
+	<variables>@word.processing.url.xsl@supsfo.xsl</variables>
+	<layout yourRef="true">letter</layout>
+	<logo/>
+	<addressee>
+		<blank/>
+		<subject/>
+		<selectedcreditor />
+		<employer sic="true"/>
+	</addressee>	
+	<body>
+		<editable useid="N10035">
+		<fo:block space-after="0.4cm">Dear <xsl:value-of select="$vdGreeting"/></fo:block>
+		
+		<!-- Added Insolvency Number block -->
+		<xsl:choose>
+			<xsl:when test="string-length(variabledata/claim/insolvencynumber) > 0">
+				<fo:block space-after="1.5cm" font-size="12pt" font-weight="bold" text-align="center">Re: <xsl:value-of select="substring($vdInsolvencyNumber,1,4)"/> of <xsl:value-of select="substring($vdInsolvencyNumber,5,4)"/>&#xa0;
+					<xsl:choose>
+						<xsl:when test="string-length(variabledata/aeeventid) >0">
+							<xsl:value-of select="$vdAeJudgmentCreditor"/> v <xsl:value-of select="$vdAeJudgmentDebtor"/>
+						</xsl:when>
+						<xsl:otherwise>
+							<xsl:choose>
+								<xsl:when test="$vdCaseType = 'APP TO SET STAT DEMD'">
+									<xsl:value-of select="$vdApplicantName"/>
+								</xsl:when>
+								<xsl:when test="$vdCaseType = 'CREDITORS PETITION'">
+									<xsl:value-of select="$vdDebtorName"/>
+								</xsl:when>
+								<xsl:when test="$vdCaseType = 'DEBTORS PETITION' or $vdCaseType='APP ON DEBT PETITION'">
+									<xsl:value-of select="$vdDebtorName"/>				
+								</xsl:when>	
+								<xsl:when test="$vdCaseType = 'APP INT ORD (INSOLV)'">
+									<xsl:value-of select="$vdDebtorName"/>				
+								</xsl:when>				
+								<xsl:when test="$vdCaseType = 'WINDING UP PETITION'">
+									<xsl:value-of select="$vdCompanyName"/> 				
+								</xsl:when>
+                                                                <xsl:when test="$vdCaseType = 'COMPANY ADMIN ORDER'">
+									<xsl:value-of select="$vdCompanyName"/> 				
+								</xsl:when>
+								<xsl:otherwise>
+									<xsl:value-of select="$vdClaimantName"/> v <xsl:value-of select="$vdDefendant1Name"/> 				
+								</xsl:otherwise>
+							</xsl:choose>					
+						</xsl:otherwise>
+					</xsl:choose>
+				</fo:block>	
+			</xsl:when>
+			<xsl:otherwise>
+				<fo:block space-after="1.5cm" font-size="12pt" font-weight="bold" text-align="center">Re: Case Number: <xsl:value-of select="$vdClaimNumber"/>&#xa0;
+					<xsl:choose>
+						<xsl:when test="string-length(variabledata/aeeventid) >0">
+							<xsl:value-of select="$vdAeJudgmentCreditor"/> v <xsl:value-of select="$vdAeJudgmentDebtor"/>
+						</xsl:when>
+						<xsl:otherwise>
+							<xsl:choose>
+								<xsl:when test="$vdCaseType = 'APP TO SET STAT DEMD'">
+									<xsl:value-of select="$vdApplicantName"/>
+								</xsl:when>
+								<xsl:when test="$vdCaseType = 'CREDITORS PETITION'">
+									<xsl:value-of select="$vdDebtorName"/>
+								</xsl:when>
+								<xsl:when test="$vdCaseType = 'DEBTORS PETITION' or $vdCaseType='APP ON DEBT PETITION'">
+									<xsl:value-of select="$vdDebtorName"/>				
+								</xsl:when>	
+								<xsl:when test="$vdCaseType = 'APP INT ORD (INSOLV)'">
+									<xsl:value-of select="$vdDebtorName"/>				
+								</xsl:when>				
+								<xsl:when test="$vdCaseType = 'WINDING UP PETITION'">
+									<xsl:value-of select="$vdCompanyName"/> 				
+								</xsl:when>
+                                                                <xsl:when test="$vdCaseType = 'COMPANY ADMIN ORDER'">
+									<xsl:value-of select="$vdCompanyName"/> 				
+								</xsl:when>
+								<xsl:otherwise>
+									<xsl:value-of select="$vdClaimantName"/> v <xsl:value-of select="$vdDefendant1Name"/> 				
+								</xsl:otherwise>
+							</xsl:choose>					
+						</xsl:otherwise>
+					</xsl:choose>
+				</fo:block>	
+			</xsl:otherwise>
+		</xsl:choose>
+		
+		<xsl:if test="string-length(variabledata/order/coorder/conumber) > 0">
+			<fo:block space-after="1.5cm" font-size="12pt" font-weight="bold" text-align="center">Re: AO/CAEO Number: <xsl:value-of select="$vdCONumber"/>&#xa0;<xsl:value-of select="$vdCOCreditorName"/> v <xsl:value-of select="$vdCODebtorName"/>
+			</fo:block>	
+		</xsl:if>		
+		<fo:block space-after="0.4cm">
+			<cursor/>
+		</fo:block>
+		<fo:block space-after="1.5cm"><xsl:value-of select="$vdLetterEnding"/>,</fo:block>
+		<fo:block><xsl:value-of select="$vdName"/></fo:block>
+		<fo:block><xsl:value-of select="$vdSection"/> Section</fo:block>
+		<fo:block>Ext <xsl:value-of select="$vdExtension"/></fo:block>
+		</editable>
+	</body>
+	<letterfooter id="L_BLANK"/>
+</root>

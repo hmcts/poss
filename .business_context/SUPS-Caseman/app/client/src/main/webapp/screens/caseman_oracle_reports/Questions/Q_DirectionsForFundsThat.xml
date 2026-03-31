@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--Question xmlns="http://eds.com/questionxhtml" xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd"-->
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>Q_DirectionsForFundsThat</Id>
+	<Label>Check box if Directions For Funds That have been paid into court</Label>
+	<ObjectName>DirectionsForFundsThat</ObjectName>
+	<Html> 
+		<input id="DirectionsForFundsThat" type="checkbox"/>
+	</Html>
+	<Javascript>
+		<XPath>/ds/var/page/OracleReportForm/DirectionsForFundsThat</XPath>
+		<ReportVariableName>STATUS OF FUNDS</ReportVariableName>
+		<ReportVariableValue>returnDefault(Services.getValue(DirectionsForFundsThat.dataBinding))</ReportVariableValue>
+		<ReportVariableCode>2550</ReportVariableCode>
+		<HintText></HintText>
+		<isMandatory>return false;</isMandatory>
+		<initialise>
+		</initialise>
+		<setDefault>
+			Services.setValue(DirectionsForFundsThat.dataBinding, "ARE");
+		</setDefault>
+		<validateOn>
+		</validateOn>
+		<validate>
+		</validate>
+		<miscCode>
+			DirectionsForFundsThat.modelValue = {checked: 'HAVE', unchecked: 'ARE'};
+			function returnDefault(value)
+			{
+				//debugger;
+				if (value == null)
+				{
+					return "ARE";
+				}
+				else
+				{
+					return value;
+				}
+			}			
+		</miscCode>
+	</Javascript>
+</Question>

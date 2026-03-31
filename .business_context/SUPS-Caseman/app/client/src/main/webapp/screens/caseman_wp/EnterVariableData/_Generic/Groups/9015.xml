@@ -1,0 +1,106 @@
+<Group id="9015">
+	<ServicesRequired>
+		<mapping name="updateCoDebtList" serviceName="updateCoDebtList"/>
+		<service name="updateCoDebtList" cache="none" url="Co" method="updateCoDebtList"/>
+	</ServicesRequired>
+	<Protocols>
+	
+		<OnSave>
+			<function>addUpdateCoDebtList</function>
+			<functionCallback>addUpdateCoDebtListCallback</functionCallback>
+		</OnSave>
+	</Protocols>
+	
+	<JavaScript>
+	function GetLoadedDebtNode(DebtSequence) {
+		var dom = THELOADEDDOM;
+		var debtnode = dom.selectSingleNode("/ds/MaintainCO/Debts/Debt[DebtSeq = '"+DebtSequence+"']");
+		return debtnode;
+	}
+	
+	function addUpdateCoDebtList()
+	{
+		
+		var service = "updateCoDebtList";
+		
+		//cloning the note
+		var DebtSequence = WPU.GetDebtSequence();
+		debtnode = GetLoadedDebtNode(DebtSequence);		
+		var debtStatus = WPU.GetDebtStatus(DebtSequence);
+		
+		//shouldn't be able to do anything with a deleted debt
+		// essential fix for CO28
+		if( 'DELETED' == debtStatus)
+		{	Save_All(); 
+			return;
+		}
+		
+		var process = WP.GetScreenProcess();
+		var output = process.getOutput().getCJRReference();
+		
+
+		if( output == "CO17" || output == "CO31" || output == "CO28")
+		{
+			debtStatus = "DELETED";
+		}
+		
+		else if(output == "CO29" || output == "CO16" || output == "CO15" )
+		{
+			debtStatus = "LIVE";
+		}
+		
+		else if (output == "CO30")
+		{
+			debtStatus = "SCHEDULE2";
+		}
+		
+	
+		
+		XML.setElementTextContent( debtnode, "./DebtStatus", debtStatus );	
+		var fullxml = WPU.getCODebtListXML();
+		var maintainCONode = fullxml.selectSingleNode("/ds/MaintainCO");
+		var coNumber = WPU.getValue(WPU.NODE_XPATHS['CONumber']); 
+		XML.setElementTextContent( maintainCONode, "CONumber",coNumber );	
+		var debtsNode = fullxml.selectSingleNode("/ds/MaintainCO/Debts");
+		debtsNode.appendChild(debtnode);
+		var params = new ServiceParams();		
+		params.addDOMParameter("co", fullxml );	
+		Services.callService(service, params, addUpdateCoDebtListCallback, true);
+		
+			
+	}
+
+	
+	function addUpdateCoDebtListCallback()
+	{
+	}
+	
+	addUpdateCoDebtListCallback.onSuccess = function(dom) 
+	{   
+		if(null != dom)
+		{   
+			Save_All(); 
+		}
+		else
+		{
+			alert(Messages.NO_RESULTS_MESSAGE);
+		}
+	}
+	
+	addUpdateCoDebtListCallback.onBusinessException = function(exception)  
+	{
+
+		alert(Messages.FAILEDSAVE_MESSAGE); 
+	}
+	
+	addUpdateCoDebtListCallback.onSystemException = function(exception) 
+	{
+
+		alert(Messages.FAILEDSAVE_MESSAGE); 
+	}
+
+	
+	</JavaScript>
+
+
+</Group>

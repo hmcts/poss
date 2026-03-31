@@ -1,0 +1,112 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3c.org/TR/html4/strict.dtd">
+<html>
+
+	<head>
+		<title>NewSolicitor_SubForm</title>
+		<link href="NewSolicitor_SubForm.css" type="text/css" rel="stylesheet">
+		<script type="text/javascript" src="../../../Framework.js"></script>
+    	<script type="text/javascript" src="../../../ConcatCommon.js"></script>
+		<script type="text/javascript" src="NewSolicitor_SubForm.js"></script>
+  	</head>
+
+	<body>
+	
+    	<form id="newSolicitorSubform" class="subform">
+
+			<div class="panel">
+				<table class="content">
+					<tr>
+						<td><label for='New_Solicitor_Popup_Code'>Solicitor</label></td>
+						<td>
+							<input id="New_Solicitor_Popup_Code" type="text" size="5" style="margin-top:5px;"/>
+							<input id="New_Solicitor_Popup_Name" type="text" size="40" style="margin-right:5px; margin-top:5px;"/>
+							<input id="New_Solicitor_Popup_CodeLOVButton" type="Button" value="LOV" style="margin-top:5px;"/>
+						</td>
+					</tr>
+					<tr>
+						<td><label for='New_Solicitor_Popup_ContactDetails_Address_Line1'>Address</label></td>
+						<td><input id="New_Solicitor_Popup_ContactDetails_Address_Line1" type="text" size="50"/></td>
+						<td>&nbsp;</td>
+					</tr>
+					<tr>
+						<td>&nbsp;</td>
+						<td><input id="New_Solicitor_Popup_ContactDetails_Address_Line2" type="text" size="50"/></td>
+						<td>&nbsp;</td>
+					</tr>
+					<tr>
+						<td>&nbsp;</td>
+						<td><input id="New_Solicitor_Popup_ContactDetails_Address_Line3" type="text" size="50"/></td>
+						<td>&nbsp;</td>
+					</tr>
+					<tr>
+						<td>&nbsp;</td>
+						<td><input id="New_Solicitor_Popup_ContactDetails_Address_Line4" type="text" size="50"/></td>
+						<td>&nbsp;</td>
+					</tr>
+					<tr>
+						<td>&nbsp;</td>
+						<td><input id="New_Solicitor_Popup_ContactDetails_Address_Line5" type="text" size="50"/></td>
+						<td>&nbsp;</td>
+					</tr>
+					<tr>
+						<td><label for='New_Solicitor_Popup_ContactDetails_Address_Postcode'>Postcode</label></td>
+						<td><input id="New_Solicitor_Popup_ContactDetails_Address_Postcode" type="text" size="15"/></td>
+						<td>&nbsp;</td>
+					</tr>
+					<tr>
+						<td><label for='New_Solicitor_Popup_ContactDetails_DX'>DX Number</label></td>
+						<td><input id="New_Solicitor_Popup_ContactDetails_DX" type="text" size="50"/></td>
+						<td>&nbsp;</td>
+					</tr>
+					<tr>
+						<td><label for='New_Solicitor_Popup_ContactDetails_TelephoneNumber'>Telephone Number</label></td>
+						<td><input id="New_Solicitor_Popup_ContactDetails_TelephoneNumber" type="text" size="30"/></td>
+						<td>&nbsp;</td>
+					</tr>
+					<tr>
+						<td><label for='New_Solicitor_Popup_ContactDetails_FaxNumber'>Fax Number</label></td>
+						<td><input id="New_Solicitor_Popup_ContactDetails_FaxNumber" type="text" size="30"/></td>
+						<td>&nbsp;</td>
+					</tr>
+					<tr>
+						<td><label for='New_Solicitor_Popup_ContactDetails_EmailAddress'>Email Address</label></td>
+						<td><input id="New_Solicitor_Popup_ContactDetails_EmailAddress" type="text" size="50"/></td>
+						<td>&nbsp;</td>
+					</tr>
+					<tr>
+						<td><label for='New_Solicitor_Popup_ContactDetails_PreferredMethodOfCommunication'>Communication Method</label></td>
+						<td><select id="New_Solicitor_Popup_ContactDetails_PreferredMethodOfCommunication"/></td>
+						<td>&nbsp;</td>
+					</tr>
+					<tr>
+						<td><label for='New_Solicitor_Popup_Reference'>Reference</label></td>
+						<td><input id="New_Solicitor_Popup_Reference" type="text" size="50"/></td>
+						<td>&nbsp;</td>
+					</tr>
+					<tr>
+						<td><label for='New_Solicitor_Popup_Payee'>Payee?</label></td>
+						<td><input id="New_Solicitor_Popup_Payee" type="checkbox"/></td>
+						<td>&nbsp;</td>
+					</tr>
+				</table>
+			</div>
+			
+			<!-- Subform action bar -->
+			<script type="text/javascript">
+				ActionBarRenderer.createInline(
+					"changeCaseType_statusbar",
+					[
+						{id: "New_Solicitor_Popup_OkButton", label: "Ok"},	
+						{id: "New_Solicitor_Popup_CancelButton", label: "Cancel"}
+					]
+				);
+			</script>
+			
+			<!-- SUBFORMS -->
+			<div class="popup popupsubform" id="codedPartySearch_subform"></div>
+
+		</form>
+    
+    </body>
+    
+</html>

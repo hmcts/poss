@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<service-method>
+	<pipeline>
+		<Java>
+			<Source class="uk.gov.dca.caseman.bms_service.java.BMSBusinessHelperCustomProcessor"/>
+		</Java>
+	</pipeline>
+	<Dependencies>
+		<Dependency serviceName="Warrant"/>
+		<Dependency serviceName="SystemDate"/>		
+	</Dependencies>			
+	<Security roles="user"/>
+</service-method>

@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>346</Id>
+	<Label>Enter initial payment amount</Label>
+	<ObjectName>InitialPaymentAmnt</ObjectName>
+	<Html>
+		<input type="text" size="1" id="DefaultCurrency346"></input>
+		<input type="text" id="InitialPaymentAmnt" size="11"></input>
+	</Html>
+	
+	<Context screenId="CJR055"><isVisible>false</isVisible></Context>
+			
+	<Javascript>
+		<XPath>/ds/EnterVariableData/PossessionOrder/initialPaymentAmnt</XPath>
+		<componentName>##label##</componentName>
+		<isMandatory>return true;</isMandatory>	
+		<HintText>Enter the initial payment required</HintText>	
+		<maxLength>11</maxLength>
+		<enableOn>HasInitialPayment.dataBinding</enableOn>
+		<isEnabled>return('Y' == Services.getValue(HasInitialPayment.dataBinding));</isEnabled>
+		<logicOn>HasInitialPayment.dataBinding</logicOn>
+		<logic>
+			if('Y' != Services.getValue(HasInitialPayment.dataBinding))
+			{	Services.setValue(InitialPaymentAmnt.dataBinding, "");
+			}
+		</logic>
+		<validateOn>InitialPaymentAmnt.dataBinding</validateOn>
+		<validate>
+			var val = Services.getValue(InitialPaymentAmnt.dataBinding);
+			var err = WPU.validateCurrency(val);
+			if( null == err )
+			{	var fVal = WPU.formatToTwoDP(val);
+				Services.setValue(InitialPaymentAmnt.dataBinding, fVal);
+			}
+			return err;
+		</validate>
+		<miscCode>
+			function DefaultCurrency346() {}
+			DefaultCurrency346.dataBinding = "/ds/EnterVariableData/curr1";
+			DefaultCurrency346.tabIndex = -1;
+			DefaultCurrency346.maxLength = 1;
+			DefaultCurrency346.isReadOnly = function(){return true;}
+			DefaultCurrency346.isTemporary = function(){return true;}
+			DefaultCurrency346.transformToDisplay = function(value){
+				return WPS.__CaseManUtils().transformCurrencySymbolToDisplay(value,null,null); }
+			DefaultCurrency346.transformToModel = function(value){
+				return WPS.__CaseManUtils().transformCurrencySymbolToModel(value,null,null); }
+        </miscCode>
+        
+		<Context ScreenId="CJR054">
+			<validate>
+				 var value = Services.getValue(InitialPaymentAmnt.dataBinding);
+			    var max = "99999999.99";
+				var err = validateCurrencyValue( value, max)
+				if( null ==  err )
+				{	Services.setValue(InitialPaymentAmnt.dataBinding, WPU.formatToTwoDP(value));
+				}
+				return err;
+			</validate>
+			<maxlength>11</maxlength>
+		</Context>
+	</Javascript>
+</Question>

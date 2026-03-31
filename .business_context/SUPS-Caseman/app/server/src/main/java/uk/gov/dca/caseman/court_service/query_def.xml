@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: Court
+	Method:  getCourt()/getCourts()
+	File:    query_def.xml
+	Description: 
+		Retrieve a list of Courts and their addresses.
+		
+	Change History:
+	16-Nov-2005 Phil Haferer: Performance re-organisation. Reduced to a single SELECT statement,
+		        and modified the transformation to compensate.
+-->
+<QueryDef>
+  <DBMapDef location="uk/gov/dca/caseman/court_service/map.xml"/>
+  <Query pivotNode="/Courts/Court" tables="CT">
+	<LinkedJoin type="root" key="CT.CODE">
+		<Join>
+             CT.CASEMAN_INSERVICE = 'Y'
+		</Join>
+	</LinkedJoin>
+  </Query>
+  
+  <Query pivotNode="/Courts/Court/ContactDetails/Address" tables="CT GA">
+	<LinkedJoin type="query" key="GA.ADDRESS_ID">
+		<Parent key="CT.CODE" tables="CT"/>
+		<Join>
+             CT.CASEMAN_INSERVICE = 'Y'
+		AND  GA.COURT_CODE        = CT.CODE
+        AND (GA.ADDRESS_TYPE_CODE = 'COURTHOUSE'
+        OR   GA.ADDRESS_TYPE_CODE = 'OFFICE')
+        AND  GA.VALID_TO IS NULL
+		</Join>
+	</LinkedJoin>
+  </Query>
+  
+</QueryDef>

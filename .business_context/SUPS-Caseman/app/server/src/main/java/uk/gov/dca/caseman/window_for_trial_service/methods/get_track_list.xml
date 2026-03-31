@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: WindowForTrial
+	Method:  getTrackList()
+	File:    get_track_list.xml
+	Author:  
+	Created: 
+	Description: 
+        List of Track Types for a Window for Trial
+-->
+<service-method>
+	<pipeline>
+		<Query>
+			<QueryDef location="uk/gov/dca/caseman/window_for_trial_service/query_def_track_list.xml"/>
+			<QueryExtension pivotNode="/TrackList/Track">
+				<Constraint>CCBC.RV_DOMAIN = 'WFT_TRACK'</Constraint>
+			</QueryExtension>
+		</Query>
+	</pipeline> 
+	<Security roles="viewOnly medium high wcSuper scSuper bmsSuper aeSuper dmSuper cpSuper ccbcMan ccbcUser ccbcSGB2"/> 			
+</service-method>

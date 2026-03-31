@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>9173</Id>
+	<Label>Select in respect of</Label>
+	<ObjectName>InRespectOf</ObjectName>
+	<Html>
+		<select id="InRespectOf">
+			<option value=""></option>
+			<option value="C">Claim</option>
+			<option value="PC">Possession claim</option>
+			<option value="OTH">Other</option>
+		</select>
+	</Html>			
+	<Javascript>
+		<XPath>/ds/EnterVariableData/inRespectOf</XPath>
+		<HintText>Select in respect of</HintText>
+		
+         <Context ScreenId="L_6_1_2_3_4_7">
+                <mandatoryOn>SelectLetter3.dataBinding,AmountFeePayment.dataBinding,PayableOrderAmount.dataBinding </mandatoryOn>
+                <isMandatory>return return9173();</isMandatory>
+                <enableOn>SelectLetter3.dataBinding,AmountFeePayment.dataBinding,PayableOrderAmount.dataBinding</enableOn>
+                <isEnabled>return return9173(); </isEnabled>
+                <logicOn>SelectLetter3.dataBinding,AmountFeePayment.dataBinding,PayableOrderAmount.dataBinding</logicOn>
+                <logic>if(!return9173())
+                    {
+                        Services.setValue(InRespectOf.dataBinding, "");
+                    }
+                </logic>
+                 <miscCode>
+                    function return9173(){
+                        var n9173 = false;
+                        if(
+                            ("4" == Services.getValue(SelectLetter3.dataBinding)&amp;&amp;
+                                AmountFeePayment.isEnabled())||
+                             ("4" == Services.getValue(SelectLetter3.dataBinding)&amp;&amp;
+                                PayableOrderAmount.isEnabled())   
+                        ){
+                            n9173 = true;
+                        }
+                        return n9173;
+                    }
+                </miscCode>
+        </Context>
+	</Javascript>
+</Question>

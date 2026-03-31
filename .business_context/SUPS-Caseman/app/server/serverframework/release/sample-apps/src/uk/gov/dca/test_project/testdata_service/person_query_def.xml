@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<QueryDef>
+	<DBMapDef location="uk/gov/dca/test_project/testdata_service/person_map.xml"/>
+
+	<Query pivotNode="/People/Person" tables="P">
+		<OrderBy>P.ID ASC</OrderBy>
+		<Modify>
+			<Field name="P.ID" sequenceTable="PERSON_SEQUENCE"/>
+			<CheckExists table="P" fields="ID" onExist="update" onNotExist="add" />
+		</Modify>
+	</Query>
+
+	<Query pivotNode="/People/Person/Addresses/Address" tables="A">
+		<Join>
+			A.PERSON_ID = ${P.ID}
+		</Join>
+		<Modify>
+			<CheckExists table="A" fields="ID" onExist="update" onNotExist="add" />
+			<Field name="A.PERSON_ID" property="P.ID"/>
+			<Field name="A.ID" sequenceTable="PERSON_ADDRESS_SEQUENCE"/>
+		</Modify>
+	</Query>
+
+</QueryDef>

@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project-config>
+	<lookup-items>
+		<item id="java:OracleDS" class="uk.gov.dca.db.impl.JNDIConfigurationItem">java:OracleDS</item>
+		
+		<item id="java:SUPSReportingDS" class="uk.gov.dca.db.impl.JNDIConfigurationItem">java:SUPSReportingDS</item>
+		
+		<!-- Use this piece of config to read and write report content to and from the database 
+			 NOTE: This should only be configured if the reporting server has also been configured to use the
+			 file store for this application. (See reporting-config.xml) -->
+		<item id="ContentStore" class="uk.gov.dca.db.impl.OracleContentProxyFactoryConfigurationItem">
+			<datasource>java:OracleDS</datasource>
+		</item>
+        
+		<!-- Use this piece of config to read and write report content to and from the file store
+			 Note: This should only be configured if the reporting server has also been configured to use the
+			 file store for this application. (See reporting-config.xml) -->
+        <!--<item id="ContentStore" class="uk.gov.dca.db.impl.FileStoreContentProxyFactoryConfigurationItem">-->
+            <!-- Used by the application to read content from the file store -->
+			<!--<filestoreRoot>//192.168.52.7/filestore/</filestoreRoot>-->
+            <!-- The name of the application, used to select the correct folder in the file store -->
+			<!--<appName>caseman</appName>-->
+            <!-- Directory used to store temporary data when writing to the file store
+				 Note: this must be a unique directory that will not be used by any other process -->
+            <!--<tempDir>c:/temp/transaction_log</tempDir>-->
+        <!--</item>-->
+		
+		<item id="DocumentManager" class="uk.gov.dca.db.impl.DocumentManagerConfigurationItem">
+			<datasource>java:OracleDS</datasource>
+		</item>
+
+		<!-- Passed to the reports server when a report is requested. The reporting server uses this text to
+			 locate the correct configuration settings from the reporting-config.xml file. --> 
+		<item id="uk.gov.dca.caseman.reportConfig" class="uk.gov.dca.db.impl.PropertyConfigurationItem">caseman</item>
+
+		<item id="validation:schema" class="uk.gov.dca.db.impl.StringConfigurationItem">casm2</item>
+
+		<item id="XSLFOFactory" class="uk.gov.dca.db.impl.FOPProcessorFactoryConfigurationItem"/>
+		
+		<item id="security:status" class="uk.gov.dca.db.impl.StringConfigurationItem">active</item>
+
+		<!-- Begin Jspell config -->
+		<item id="uk.gov.dca.caseman.jspell.dictionary.path" class="uk.gov.dca.db.impl.StringConfigurationItem">D:\oc4j-9.0.4\j2ee\home\</item>
+		
+		<item id="uk.gov.dca.caseman.jspell.language" class="uk.gov.dca.db.impl.StringConfigurationItem">English</item>
+		
+		<item id="uk.gov.dca.caseman.jspell.country" class="uk.gov.dca.db.impl.StringConfigurationItem">GB</item>
+		<!-- End Jspell config -->
+		
+		<item id="XSLFOHigh" class="uk.gov.dca.db.impl.AQConfigurationItem">
+		    <factory>java:comp/resource/reportingAQ/QueueConnectionFactories/myQCF</factory>
+		  	<jndi-name>java:comp/resource/reportingAQ/Queues/q1_xslfo_high</jndi-name>
+		</item>
+			
+		<item id="ReportsLow" class="uk.gov.dca.db.impl.AQConfigurationItem">
+			<factory>java:comp/resource/reportingAQ/QueueConnectionFactories/myQCF</factory>
+			<jndi-name>java:comp/resource/reportingAQ/Queues/q1_report_low</jndi-name>
+		</item>	
+		
+		<item id="java:AsyncDS" class="uk.gov.dca.db.impl.JNDIConfigurationItem">java:OracleDS</item>
+		
+		<item id="AsyncQueue" class="uk.gov.dca.db.impl.QueueConfigurationItem">
+			<factory>jms/QueueConnectionFactory</factory>
+			<jndi-name>jms/caseman_async_queue</jndi-name>
+			<min-pool-size>15</min-pool-size>
+			<max-pool-size>15</max-pool-size>
+		</item>
+		
+		<!--  These are used to check for the invoker servlet -->
+		<item id="application:serviceprefix" class="uk.gov.dca.db.impl.StringConfigurationItem">/caseman</item>
+		<item id="application:webprefix" class="uk.gov.dca.db.impl.StringConfigurationItem">/caseman</item>
+	</lookup-items>
+</project-config>

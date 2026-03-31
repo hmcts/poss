@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<QueryDef>
+  <DBMapDef location="uk/gov/dca/caseman/court_service/map_short.xml"/>
+  <Query pivotNode="/Courts/Court" tables="CT">
+	<Join>
+        CT.CASEMAN_INSERVICE = 'Y'
+	</Join>
+  </Query>
+</QueryDef>

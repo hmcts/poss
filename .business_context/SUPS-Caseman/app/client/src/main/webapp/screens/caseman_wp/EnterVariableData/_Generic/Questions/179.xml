@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>179</Id>
+	<Label>Date of service for request for further information</Label>
+	<ObjectName>FurtherInfoDate</ObjectName>
+	<Html>	
+		<script type="text/javascript">
+			WP_DatePickerRenderer.createInline("FurtherInfoDate");
+		</script>		
+	</Html>
+	<Javascript>
+		<XPath>/ds/EnterVariableData/FastTrack/furtherInfoDate</XPath>
+		<HintText>Enter date for service of request</HintText>
+		<mandatoryOn>FurtherInfoDate.dataBinding</mandatoryOn>
+		<isMandatory>return true;</isMandatory>	
+		<enableOn>FurtherInformation.dataBinding</enableOn>
+		<isEnabled>return('Y' == Services.getValue(FurtherInformation.dataBinding));</isEnabled>
+		<logicOn>FurtherInformation.dataBinding</logicOn>
+		<logic>
+			if('N' == Services.getValue(FurtherInformation.dataBinding))
+			{	Services.setValue(FurtherInfoDate.dataBinding, "");
+			}
+		</logic>
+			<validateOn>ShouldFileDocsDate.dataBinding</validateOn>
+		<validate>
+			//cannot be in past : working day only
+			
+			var checkDate = Services.getValue(FurtherInfoDate.dataBinding); 
+			var err = null;
+			
+			if( false == isFutureDate(checkDate))
+			{ 	err = ErrorCode.getErrorCode("CaseMan_dateCannotBeInThePast_Msg");
+			}
+			else if( isNonWorkingDate(checkDate))
+		    {   err = ErrorCode.getErrorCode("CaseMan_dateNonWorkingDay_Msg"); 
+		    }
+			
+			return err;
+		</validate>	
+		<!--initialise>		  	
+		  	loadNonWorkingDays();
+		</initialise-->
+		<miscCode>
+		    FurtherInfoDate.weekends = false;
+		</miscCode>		
+		
+		<Context ScreenId="CJR060">
+			<HintText>Enter date for service of request in the format DD-MMM-YYYY</HintText>
+		</Context>
+	</Javascript>
+</Question>

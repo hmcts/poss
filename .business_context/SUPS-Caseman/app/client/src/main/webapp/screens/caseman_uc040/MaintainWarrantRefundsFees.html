@@ -1,0 +1,163 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3c.org/TR/html4/strict.dtd">
+
+<html>
+
+	<head>
+		<title>MaintainWarrantRefundsFees</title>
+		<link href="MaintainWarrantRefundsFees.css" type="text/css" rel="stylesheet">
+		<script type="text/javascript" src="../../Framework.js"></script>
+		<script type="text/javascript" src="../../ConcatCommon.js"></script>
+		<script type="text/javascript" src="MaintainWarrantRefundsFees.js"></script>
+	</head>
+
+	<body>
+	  
+		<form name="MaintainWarrantRefundsFees" id="maintainWarrantRefundsFees">
+	  
+			<!-- Framework Navigation Menu -->
+			<script type="text/javascript">MenuBarRenderer.createInline();</script>
+			
+			<table class="layout">
+				<tr>
+					<td>
+						<!-- Warrant Details Panel -->
+						<div class="panel">
+							<table class="content">
+								<tr>
+									<td>
+										<table style="margin-top:5px; margin-bottom:5px;">
+											<tr>
+												<td class="defaultLabel"><label for="Header_WarrantNumber">Warrant Number</label></td>
+												<td style="width:333px;"><input id="Header_WarrantNumber" type="text" size="15"/></td>
+												<td class="defaultLabel"><label for="Header_CourtCode">Issuing Court</label></td>
+												<td>
+													<input id="Header_CourtCode" type="text" size="5"/>
+													&nbsp;<input id="Header_CourtName" type="text" size="25"/>
+												</td>
+											</tr>
+											<tr>
+												<td class="defaultLabel"><label for="Header_CaseNumber">Case Number</label></td>
+												<td><input id="Header_CaseNumber" type="text" size="15"/></td>
+												<td colspan="2">&nbsp;</td>
+											</tr>
+											<tr>
+												<td class="defaultLabel"><label for="Header_WarrantType">Type</label></td>
+												<td><input id="Header_WarrantType" type="text" size="15"/></td>
+												<td colspan="2">&nbsp;</td>
+											</tr>
+											<tr>
+												<td class="defaultLabel"><label for="Header_TotalFees">Total Fees</label></td>
+												<td>
+													<input id="Header_TotalFeesCurrency" type="text" size="1"/>&nbsp;
+													<input id="Header_TotalFees" type="text" size="15"/>
+												</td>
+												<td colspan="2">&nbsp;</td>
+											</tr>
+										</table>
+									</td>
+								</tr>
+							</table>
+						</div>
+						<!-- End Warrant Details Panel -->
+					</td>
+				</tr>
+			  
+				<tr>
+					<td>
+						<!-- Warrant Amounts Panel -->
+						<div class="panel">
+							<table class="content">
+								<tr>
+									<td style="width: 470px;">
+										<table style="height: 452px;">
+											<tr>
+												<td valign="top">
+													<script type="text/javascript">Grid.createInline("Master_WarrantAmountsGrid", ["Date", "", "Amount","Created By"], 20, 1);</script>
+												</td>
+											</tr>
+											<tr>
+												<td valign="top" align="right" colspan="2">
+													<table style="margin-right: 0px;">
+														<tr>
+															<td><input id="Master_AddAmountButton" type="button" value="Add"></td>
+															<td>&nbsp;<input id="Master_RemoveAmountButton" type="button" value="Remove"></td>
+														</tr>
+													</table>
+												</td>
+											</tr>
+										</table>
+									</td>
+									<td class="spacer">&nbsp;</td>
+									<td valign="top">
+										<table style="margin-top:5px;">
+											<tr>
+												<td class="defaultLabel"><label for="AmountDetails_Amount">Amount</label></td>
+												<td>
+													<input id="AmountDetails_AmountCurrency" type="text" size="1"/>&nbsp;
+													<input id="AmountDetails_Amount" type="text" size="15"/>
+												</td>
+											</tr>
+											<tr>
+												<td class="defaultLabel"><label for="AmountDetails_CreatedBy">Created By</label>&nbsp;</td>
+												<td><input id="AmountDetails_CreatedBy" type="text" size="30"></td>
+											</tr>
+										</table>
+									</td>
+								</tr>
+							</table>
+						</div>
+						<!-- End Warrant Amounts Panel -->
+					</td>
+				</tr>
+			</table>
+			
+			<!-- Status Bar Panel -->
+			<script type="text/javascript">
+				ActionBarRenderer.createInline(
+					"status_bar",
+					[
+						{id: "Status_SaveButton", label: "Save"},
+						{id: "Status_CloseButton", label: "Close"}
+					]
+				);
+			</script>
+			<!-- End Status Bar Panel -->
+		   
+			<!-- Add New Amount popup -->
+			<div class="popup" id="NewAmountPopup">
+				<table class="content">
+					<tr>
+						<td class="defaultLabel"><label for="AmountPopup_AmountType">Amount Type</label></td>
+						<td><select id="AmountPopup_AmountType"></select></td>
+					</tr>
+					<tr>
+						<td class="defaultLabel"><label for='AmountPopup_Amount'>Amount</label></td>
+						<td>
+							<input id="AmountPopup_AmountCurrency" type="text" size=1>
+							<input id="AmountPopup_Amount" type="text" size=15>
+							&nbsp;<input id="AmountPopup_AddButton" type="Button" value="Add">
+						</td>
+					</tr>
+					<tr>
+						<td colspan=2>
+							<script type="text/javascript">Grid.createInline("AmountPopup_NewAmountsGrid", ["Date", "", "Amount","Created By"], 3, 1);</script>
+						</td>
+					</tr>
+					<tr style="height:2px;">
+						<td colspan=2>&nbsp;</td>
+					</tr>
+					<tr>
+						<td align="right" colspan=2>
+							<input class="popupButton" id="AmountPopup_OkButton" type="Button" value="Ok">
+							<input class="popupButton" id="AmountPopup_CancelButton" type="Button" value="Cancel">
+						</td>
+					</tr>
+				</table>
+			</div>
+			<!-- End Add New Amount popup -->
+	
+		</form>
+	  
+	</body>
+
+</html>

@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Question>
+	<Id>9143</Id>
+	<Label>Time of petition adjourned to</Label>
+	<ObjectName>PetitionAdjournedTime</ObjectName>	
+	<Html>	
+		<input id="PetitionAdjournedTime" type="text" size="5"></input>
+	</Html>
+	<Javascript>
+		<XPath>/ds/EnterVariableData/petitionAdjournedTime</XPath>
+		<HintText>Enter the time of petition was adjourned to</HintText>
+		<validate>    
+           //Error: Time must be in the format hh:mi e.g. 13:00            
+           var timeInSecs = Services.getValue(PetitionAdjournedTime.dataBinding);
+           return validateTimeAt(timeInSecs);    
+        </validate>
+		<transformToDisplay>return transformToDisplayTime(value);</transformToDisplay>
+        <transformToModel>return transformToModelTime(value);</transformToModel>
+        <enableOn>PetitionAdjournedTime.dataBinding</enableOn>
+		<isEnabled>if (null != WP &amp;&amp; null != WP.GetScreenProcess &amp;&amp; null != WP.GetScreenProcess()) { 
+			var str = WPU.getValue( WPU.NODE_XPATHS['CaseEventId']);
+			return(str == 690); }
+		</isEnabled>
+       	<mandatoryOn>PetitionAdjournedTime.dataBinding</mandatoryOn>
+		<isMandatory>return true;</isMandatory>
+        <miscCode>
+function transformToModelTime(pTime) {
+    var convertedTime = null;
+    if(pTime != null) {
+        pTime = CaseManUtils.stripSpaces(pTime);
+        if(CaseManUtils.isBlank(pTime)) {
+            return null; }
+        if(CaseManValidationHelper.validateTime(pTime)) {
+            convertedTime = CaseManUtils.convertTimeToSeconds(pTime); }
+        if(convertedTime == null) {
+            convertedTime = pTime + INVALIDTIME; } }
+    return convertedTime; }
+
+function transformToDisplayTime(pTime) {   
+    var convertedTime = null;
+    if(pTime != null) {
+        var posOfInvalidString = pTime.indexOf(INVALIDTIME);
+        if(posOfInvalidString > -1) {
+            pTime = pTime.slice(0, posOfInvalidString);
+            convertedTime = pTime; }
+        else {
+            var convertedTime = CaseManUtils.convertSecondsToTime(pTime);
+            if(convertedTime != null) {
+                if(!CaseManValidationHelper.validateTime(convertedTime)) {           
+                    convertedTime = pTime; } }
+            else {
+                convertedTime = pTime; } } }
+    return convertedTime; }
+        </miscCode>                
+	</Javascript>
+</Question>

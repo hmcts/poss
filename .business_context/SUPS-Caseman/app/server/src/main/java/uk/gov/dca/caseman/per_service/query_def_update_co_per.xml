@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: Per
+	Method:  updateCoPer()
+	File:    query_def_update_co_per.xml
+	Author:  Phil Haferer (EDS), Ian Stainer (Valtech)
+	Created: 05 July 2005
+	Description: 
+		Add/update CO protected earnings rate details.
+-->
+<QueryDef>
+  <DBMapDef location="uk/gov/dca/caseman/per_service/map_update_co_per.xml"/>
+  <Query pivotNode="/ds/CalculatePER" tables="CO">
+    <Join/>
+    <Modify/>
+  </Query>
+  <Query pivotNode="/ds/CalculatePER/PerDetail" tables="CPI">
+    <Join/>
+    <Modify>
+		<!-- Only update those CO_PER_ITEMS which have a Status of NEW or MODIFIED,
+		     (i.e. not EXISTING). -->
+		<CheckExists 
+			condition="./Status != 'EXISTING'"
+			onConditionTrue="continue" onConditionFalse="skip"
+			table="CPI" fields="CO_PER_SEQ" onNotExist="add" onExist="update"/>
+
+		<Field name="CPI.CO_PER_SEQ" sequenceTable="CO_PER_SEQUENCE"/>
+		<Field name="CPI.CO_NUMBER"  property="CO.CO_NUMBER"/>
+    </Modify>
+  </Query>
+</QueryDef>

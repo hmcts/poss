@@ -1,0 +1,56 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3c.org/TR/html4/strict.dtd">
+<html>
+	<head>
+		<title>SysDate</title>
+		<link href="SysDate.css" type="text/css" rel="stylesheet">
+		<script type="text/javascript" src="../../Framework.js"></script>
+		<script type="text/javascript" src="../../ConcatCommon.js"></script>
+		<script type="text/javascript" src="SysDate.js"></script>
+	</head>
+		
+	<body>
+		<form name="overrideDate" id="overrideDate">
+			
+	    	<!-- Framework Navigation Menu -->
+			<script type="text/javascript">MenuBarRenderer.createInline();</script>
+				
+			<table class="layout">
+				<tr>
+					<td>
+						<div class="panel">
+							<table class="content" style="height:570px;">
+								<tr>
+									<td align="center">
+										<table style="width:475px;">
+											<tr>
+												<td class="defaultLabel"><label for='OverrideSystem_Date'>Override System Date</label></td>
+												<td>
+													<script type="text/javascript">
+														DatePickerRenderer.createInline("OverrideSystem_Date", false);
+													</script>
+												</td>
+											</tr>
+										</table>
+									</td>
+								</tr>
+							</table>
+						</div>
+					</td>
+				</tr>			
+			</table> 
+			
+			<!-- Status Bar Panel -->
+			<script type="text/javascript">
+				ActionBarRenderer.createInline(
+					"status_bar",
+					[
+						{id: "Status_ClearButton", label: "Clear"},
+						{id: "Status_CloseButton", label: "Close"}
+					]
+				);
+			</script>
+			<!-- End Status Bar Panel -->
+	
+		</form>
+	</body>
+</html>

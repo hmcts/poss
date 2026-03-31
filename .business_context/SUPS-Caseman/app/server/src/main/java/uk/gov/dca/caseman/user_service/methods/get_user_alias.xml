@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: User
+	Method:  getUserAlias()
+	File:    get_user_alias.xml
+	Author:  Chris Vincent
+	Created: 
+	Description: 
+		Retrieves a small summary of the user logged in including the user alias when the
+		user first navigates to the CaseMan menu to remain in reference data and be used
+		throughout the application.
+	Changed by Nilesh Mistry as part of RFC 521 (TRAC ticket #11) to bring back only business roles for a user
+-->
+<service-method>
+	<pipeline>
+		<Query>
+			<QueryDef location="uk/gov/dca/caseman/user_service/query_def_get_user_alias.xml"/>
+			<QueryExtension pivotNode="/UserData">
+				<Param name="param.userId" xpath="/params/param[@name = 'userId']"/>
+				<Constraint>DU.USER_ID = ${param.userId}</Constraint>
+				<Constraint>UR.ROLE_ID NOT IN ('admin','sAdmin')</Constraint>
+			</QueryExtension>
+		</Query>
+	</pipeline>
+	<Security roles="viewOnly medium high wcSuper scSuper bmsSuper aeSuper dmSuper edsAdmin admin cpSuper ccbcMan ccbcUser ccbcSGB2 ccbcTape"/>
+</service-method>

@@ -1,0 +1,245 @@
+<!-- Change History
+20/05/2011 - Chris Vincent, changed issue date used to the Case Event date.  Trac 3229.
+			 Also had to change createdBy to user /UserName instead of /User to pick up username (Trac 3077)
+-->
+<Group id="9005">
+	<ServicesRequired>
+		<mapping name="addWarrant" serviceName="addWarrant"/>
+		<service name="addWarrant" cache="none" url="/Warrant/Warrant" method="addWarrant">
+		</service>
+	</ServicesRequired>
+	<Protocols>
+		<OnSave>
+			<function>addWarrant</function>
+			<functionCallback>addWarrantCallback</functionCallback>
+		</OnSave>
+	</Protocols>
+	<JavaScript>	
+		
+function addWarrant() {
+  	  	  	
+	var warrantXML = WPU.getWarrentUpdateXML();	
+	var params = new ServiceParams();
+	var service = "addWarrant";		
+	var issueDate = Services.getValue("/ds/CaseEvent/EventDate ");
+	
+	if( null == issueDate)
+	{	//use receipt date instead (SY to verify)	  
+		var xpath = "/params/param/COES/ManageCOEvents/COEvents/COEvent[./COEvent/COEventSeq = /params/param/COEventSeq]/ReceiptDate"
+		issuedate = WPU.getValue( xpath );			
+	}
+	
+	var warrantType = "COMMITTAL";
+	var claimantName = null;
+	var ownedBy = Services.getValue("/ds/ManageCase/OwningCourtCode");
+	var issuedBy = Services.getValue("/ds/CaseEvent/CourtCode");
+	var executingCourtCode = issuedBy             ;//Services.getValue("/ds/EnterVariableData/HearingVenueCode");
+	var createdBy = Services.getValue("ds/CaseEvent/UserName");
+	var dateRequestRec = Services.getValue("/ds/CaseEvent/ReceiptDate");
+	var caseNum = Services.getValue("/ds/CaseEvent/CaseNumber");	
+	var eventid = Services.getValue("ds/CaseEvent/CaseEventSeq");
+	
+	//subject variables
+	var subjName = null;
+	var subjNum  = null;
+	var subjPartyType  = null;
+	var subjAddLn1  = null;
+	var subjAddLn2  = null;
+	var subjAddLn3  = null;
+	var subjAddLn4  = null;
+	var subjAddLn5  = null;
+	var subjPostCode  = null;
+		
+	//basic warrant details
+	XML.setElementTextContent(warrantXML, "/ds/Warrant/IssueDate", issueDate);
+	XML.setElementTextContent(warrantXML, "/ds/Warrant/WarrantType", warrantType);
+			
+	XML.setElementTextContent(warrantXML, "/ds/Warrant/OwnedBy", ownedBy);
+	XML.setElementTextContent(warrantXML, "/ds/Warrant/IssuedBy", issuedBy);
+	XML.setElementTextContent(warrantXML, "/ds/Warrant/ExecutingCourtCode", executingCourtCode);
+	XML.setElementTextContent(warrantXML, "/ds/Warrant/CreatedBy", createdBy);
+	XML.setElementTextContent(warrantXML, "/ds/Warrant/DateRequestReceived", dateRequestRec );
+	XML.setElementTextContent(warrantXML, "/ds/Warrant/CaseNumber", caseNum );
+	XML.setElementTextContent(warrantXML, "/ds/Warrant/CaseEventSeq", eventid );
+	
+	if ( issuedBy == "335" )
+	{
+		XML.setElementTextContent(warrantXML, "/ds/Warrant/CCBCWarrant", 'Y');
+	}
+		
+	var isOfficer = Services.getValue("/ds/EnterVariableData/DisobedienceArrest/isAgainstCoOfficer");
+	
+	if( null != isOfficer &amp;&amp; 'Y' == isOfficer)
+	{	
+		subjName =  Services.getValue(OfficerFullName.dataBinding);  OfficerAddLn1
+		//subjNum = 
+		//subjPartyType = 'COMPANY'
+		subjAddLn1 = Services.getValue(OfficerAddLn1.dataBinding);
+		subjAddLn2 = Services.getValue(OfficerAddLn2.dataBinding);
+		subjAddLn3 = Services.getValue(OfficerAddLn3.dataBinding);
+		subjAddLn4 = Services.getValue(OfficerAddLn4.dataBinding);
+		subjAddLn5 = Services.getValue(OfficerAddLn5.dataBinding);
+		subjPostCode = Services.getValue(OfficerPostcode.dataBinding);
+	
+	}
+	else     //use subject values
+	{	
+		//get subject details
+		var manageCaseDom = WPU.getCurrentCaseData();
+		var subjParty = WPU.getSubjectPartyNode(manageCaseDom, true );
+		
+		subjName = XML.getNodeTextContent( subjParty.selectSingleNode("/Name"));
+		subjNum = XML.getNodeTextContent( subjParty.selectSingleNode("/Number"));
+		subjPartyType = XML.getNodeTextContent( subjParty.selectSingleNode("/TypeCode"));
+		subjAddLn1 = XML.getNodeTextContent( subjParty.selectSingleNode("/ContactDetails/Address/Line[1]"));
+		subjAddLn2 = XML.getNodeTextContent( subjParty.selectSingleNode("/ContactDetails/Address/Line[2]"));
+		subjAddLn3 = XML.getNodeTextContent( subjParty.selectSingleNode("/ContactDetails/Address/Line[3]"));
+		subjAddLn4 = XML.getNodeTextContent( subjParty.selectSingleNode("/ContactDetails/Address/Line[4]"));
+		subjAddLn5 = XML.getNodeTextContent( subjParty.selectSingleNode("/ContactDetails/Address/Line[5]"));
+		subjPostCode = XML.getNodeTextContent( subjParty.selectSingleNode("/ContactDetails/Address/PostCode"));					
+	
+	}
+	
+	//populate subject details
+		var def1Node = warrantXML.selectSingleNode("//Defendant1");
+		XML.replaceNodeTextContent( def1Node.selectSingleNode("./Name"), subjName);
+		XML.replaceNodeTextContent( def1Node.selectSingleNode("./Number"), subjNum);
+		XML.replaceNodeTextContent( def1Node.selectSingleNode("./PartyType"), subjPartyType);
+		XML.replaceNodeTextContent( def1Node.selectSingleNode("./Address/Line[1]"), subjAddLn1);
+		XML.replaceNodeTextContent( def1Node.selectSingleNode("./Address/Line[2]"), subjAddLn2);
+		XML.replaceNodeTextContent( def1Node.selectSingleNode("./Address/Line[3]"), subjAddLn3);
+		XML.replaceNodeTextContent( def1Node.selectSingleNode("./Address/Line[4]"), subjAddLn4);
+		XML.replaceNodeTextContent( def1Node.selectSingleNode("./Address/Line[5]"), subjAddLn5);
+		XML.replaceNodeTextContent( def1Node.selectSingleNode("./Address/PostCode"), subjPostCode);
+	
+	
+   
+   
+   //get the instigator
+   var instNode = Services.getNodes("/ds/CaseEvent/InstigatorList/Instigator");  
+   var solSurId = null;
+   var ref = null;
+   var insClmNode = null;
+   
+   if( null != instNode &amp;&amp; instNode.length > 0)
+   {  var inst = instNode[0];
+      var casePartyNo = XML.getNodeTextContent( inst.selectSingleNode("./CasePartyNumber"));
+      var casePartyRole = XML.getNodeTextContent( inst.selectSingleNode("./PartyRoleCode"));
+      claimantName = Services.getValue("/ds/ManageCase/Parties/LitigiousParty[./TypeCode = '"+casePartyRole+"' and ./Number = '"+casePartyNo+"']/Name");	
+      insClmNode = Services.getNode("/ds/ManageCase/Parties/LitigiousParty[./TypeCode = '"+casePartyRole+"' and ./Number = '"+casePartyNo+"']");
+      solSurId = Services.getValue("/ds/ManageCase/Parties/LitigiousParty[./TypeCode = '"+casePartyRole+"' and ./Number = '"+casePartyNo+"']/SolicitorSurrogateId");
+	   ref = Services.getValue("/ds/ManageCase/Parties/LitigiousParty[./TypeCode = '"+casePartyRole+"' and ./Number = '"+casePartyNo+"']/Reference");
+   }
+   else
+   {	claimantName = Services.getValue("/ds/ManageCase/Parties/LitigiousParty[./TypeCode = 'CLAIMANT' and ./Number = '1']/Name");	
+   		insClmNode = Services.getNode("/ds/ManageCase/Parties/LitigiousParty[./TypeCode = 'CLAIMANT' and ./Number = '1']");
+   		solSurId = Services.getValue("/ds/ManageCase/Parties/LitigiousParty[./TypeCode = 'CLAIMANT' and ./Number = '1']/SolicitorSurrogateId");
+		ref = Services.getValue("/ds/ManageCase/Parties/LitigiousParty[./TypeCode = 'CLAIMANT' and ./Number = '1']/Reference");
+   }
+   
+  
+    
+	XML.setElementTextContent(warrantXML, "/ds/Warrant/Claimant/Name", claimantName);	
+	var solNode = null;
+	
+	
+	
+	if( null != solSurId &amp;&amp; "" != solSurId )
+	{		
+		//get the corresponding solicitor node
+		solNode = Services.getNode("/ds/ManageCase/Parties/Solicitor[./Status = 'EXISTING' and ./SurrogateId = '"+solSurId+"']");
+	}	 
+	else	//no solicitor: use instigator details (usually claimant)
+	{   solNode = insClmNode;
+		
+	}	
+
+		var dx    = XML.getNodeTextContent( solNode.selectSingleNode("/ContactDetails/DX"));	
+		var telNo = XML.getNodeTextContent( solNode.selectSingleNode("/ContactDetails/TelephoneNumber"));	
+		var faxNo = XML.getNodeTextContent( solNode.selectSingleNode("/ContactDetails/FaxNumber"));	
+		var email = XML.getNodeTextContent( solNode.selectSingleNode("/ContactDetails/EmailAddress"));	
+		var solName = XML.getNodeTextContent( solNode.selectSingleNode("/Name"));				
+		var number = XML.getNodeTextContent( solNode.selectSingleNode("/Number"));
+		var partyType = XML.getNodeTextContent( solNode.selectSingleNode("/Type"));
+		var code = 	XML.getNodeTextContent( solNode.selectSingleNode("/Code"));
+		
+		
+		//populate representative data		
+		var repNode = warrantXML.selectSingleNode("//Representative");
+		var adln1 = XML.getNodeTextContent( solNode.selectSingleNode("/ContactDetails/Address/Line[1]") );
+		var adln2 = XML.getNodeTextContent( solNode.selectSingleNode("/ContactDetails/Address/Line[2]") );
+		var adln3 = XML.getNodeTextContent( solNode.selectSingleNode("/ContactDetails/Address/Line[3]") );
+		var adln4 = XML.getNodeTextContent( solNode.selectSingleNode("/ContactDetails/Address/Line[4]") );
+		var adln5 = XML.getNodeTextContent( solNode.selectSingleNode("/ContactDetails/Address/Line[5]") );
+		var postCode =  XML.getNodeTextContent( solNode.selectSingleNode("/ContactDetails/Address/PostCode"));
+		XML.replaceNodeTextContent( repNode.selectSingleNode("./ContactDetails/Address/Line[1]"), adln1 );
+		XML.replaceNodeTextContent( repNode.selectSingleNode("./ContactDetails/Address/Line[2]"), adln2 );
+		XML.replaceNodeTextContent( repNode.selectSingleNode("./ContactDetails/Address/Line[3]"), adln3 );
+		XML.replaceNodeTextContent( repNode.selectSingleNode("./ContactDetails/Address/Line[4]"), adln4 );
+		XML.replaceNodeTextContent( repNode.selectSingleNode("./ContactDetails/Address/Line[5]"), adln5 );
+		XML.replaceNodeTextContent( repNode.selectSingleNode("./ContactDetails/Address/PostCode"), postCode );		
+		XML.replaceNodeTextContent( repNode.selectSingleNode("./ContactDetails/DX"), dx);		
+		XML.replaceNodeTextContent( repNode.selectSingleNode("./ContactDetails/TelephoneNumber"), telNo);
+		XML.replaceNodeTextContent( repNode.selectSingleNode("./ContactDetails/FaxNumber"), faxNo);
+		XML.replaceNodeTextContent( repNode.selectSingleNode("./ContactDetails/EmailAddress"), email);				
+		XML.replaceNodeTextContent( repNode.selectSingleNode("./Name"), solName);
+		XML.replaceNodeTextContent( repNode.selectSingleNode("./Reference"), ref);					
+										
+	params.addDOMParameter("warrantDetails", warrantXML);				
+	Services.callService(service, params, addWarrantCallback, true);
+}
+
+	
+function addWarrantCallback() { }
+
+addWarrantCallback.onSuccess = function(dom) {
+	
+	
+	if (null != dom) 
+	{
+		//add warrant number to datamodel
+		var warrNode = XML.createDOM();
+		warrNode.loadXML("&lt;Warrant&gt;&lt;/Warrant&gt;");
+		var warrNoNode = dom.selectSingleNode("/ds/Warrant/WarrantNumber");
+		var warrIDNode = dom.selectSingleNode("/ds/Warrant/WarrantID");
+		warrNode.selectSingleNode("/Warrant").appendChild(warrNoNode);
+		warrNode.selectSingleNode("/Warrant").appendChild(warrIDNode);
+		Services.addNode( warrNode , "/ds/EnterVariableData");
+				
+						
+		var process = WP.GetScreenProcess();
+		var request = process.getRequest();
+		var context = request.getContext();
+		
+		var eventNode = context.selectSingleNode("/WordProcessing/Event");
+		if (null != eventNode) {
+			eventNode.appendChild(warrNode.documentElement.cloneNode(true));		
+			eventNode.appendChild(warrIDNode.cloneNode(true));
+		}
+		
+		alert(Messages.WARRANT_CREATED_SUCCESSFULLY_HOME.replace(/XXX/, WPU.getValue( "//WarrantNumber", warrNoNode)));
+		
+		
+		Save_All();  
+	
+	
+	}
+	else {
+		alert(Messages.NO_RESULTS_MESSAGE); } }
+
+addWarrantCallback.onBusinessException = function(exception)  
+{
+
+	alert(Messages.FAILEDSAVE_MESSAGE); 
+}
+
+addWarrantCallback.onSystemException = function(exception) 
+{
+
+	alert(Messages.FAILEDSAVE_MESSAGE); 
+}
+
+
+	</JavaScript>
+</Group>
+

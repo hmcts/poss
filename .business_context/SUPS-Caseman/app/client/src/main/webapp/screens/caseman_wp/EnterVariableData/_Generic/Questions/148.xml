@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- 
+Change History
+	29/01/2013 - Chris Vincent, removed 'Allocation' from field label.  Trac 4763
+-->
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>148</Id>
+	<Label>Fee for filing Questionnaire</Label>
+	<ObjectName>AQFilingFee</ObjectName>
+	<Html>	
+		<input id="DefaultCurrency148" type="text" size="1"></input>
+		<input type="text" id="AQFilingFee" size="9" maxlength="9"></input>	
+	</Html>
+	
+	<Context screenId="CJR032A"><isVisible>false</isVisible></Context>
+	<Context screenId="CJR032B"><isVisible>false</isVisible></Context>
+	<Context screenId="CJR032C"><isVisible>false</isVisible></Context>
+	
+	<Javascript>
+		<XPath>/ds/EnterVariableData/Filed/aQFilingFee</XPath>
+		<HintText>Enter amount of fee for filing Questionnaire</HintText>
+		<maxLength>9</maxLength>		
+		<isMandatory>return false;</isMandatory>
+		<enableOn>AllocationPayable.dataBinding</enableOn>
+		<isEnabled>
+			return( 'Y' == Services.getValue(AllocationPayable.dataBinding));
+		</isEnabled>
+		<validateOn>AQFilingFee.dataBinding</validateOn>
+		<validate>
+			var val = Services.getValue(AQFilingFee.dataBinding);
+			var err = validateCurrencyValue(val, 999999.99, true);
+			if( null == err)
+			{	var fmVal = WPU.formatToTwoDP(val);
+				Services.setValue(AQFilingFee.dataBinding, fmVal);
+			}
+			return err;
+		</validate>
+		<logicOn>AllocationPayable.dataBinding</logicOn>
+		<logic>
+		 	if( 'Y' != Services.getValue(AllocationPayable.dataBinding))
+		 	{	Services.setValue(AQFilingFee.dataBinding, "");
+		 	}
+		</logic>
+		<miscCode>
+			function DefaultCurrency148() {}
+			DefaultCurrency148.dataBinding = "/ds/EnterVariableData/curr1";
+			DefaultCurrency148.tabIndex = -1;
+			DefaultCurrency148.maxLength = 1;
+			DefaultCurrency148.isReadOnly = function(){return true;}
+			DefaultCurrency148.isTemporary = function(){return true;}
+			DefaultCurrency148.transformToDisplay = function(value){
+				return WPS.__CaseManUtils().transformCurrencySymbolToDisplay(value,null,null); }
+			DefaultCurrency148.transformToModel = function(value){
+				return WPS.__CaseManUtils().transformCurrencySymbolToModel(value,null,null); }
+        </miscCode>
+	</Javascript>
+</Question>

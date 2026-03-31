@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<DBMapDef>
+	<DataSource id="java:OracleDS"/>
+	<Tables>
+		<Table alias="AE" name="AE_EVENTS"/>
+		<Table alias="C" name="CASES"/>
+		<Table alias="CE" name="CASE_EVENTS"/>
+		<Table alias="CPR" name="CASE_PARTY_ROLES"/>
+		<Table alias="CT" name="COURTS"/>
+		<Table alias="O" name="OBLIGATIONS"/>
+		<Table alias="OBR" name="OBLIGATION_RULES"/>
+		<Table alias="OT" name="OBLIGATION_TYPES"/>
+		<Table alias="P" name="PARTIES"/>
+		<Table alias="PR" name="PARTY_ROLES"/>
+		
+		<Table alias="SE" name="STANDARD_EVENTS"/>
+	</Tables>
+	<Mapping>
+		<ds>
+			<MaintainObligations>
+				<CaseNumber>${C.CASE_NUMBER}</CaseNumber>
+				<CaseType>${C.CASE_TYPE}</CaseType>
+				<OwningCourtCode>${C.ADMIN_CRT_CODE}</OwningCourtCode>
+				<OwningCourt>${CT.NAME}</OwningCourt>
+				<Parties>
+					<Party>
+						<PartyId>${P.PARTY_ID}</PartyId>
+						<Type>${PR.PARTY_ROLE_DESCRIPTION}</Type>
+						<TypeCode>${CPR.PARTY_ROLE_CODE}</TypeCode>
+						<Number>${CPR.CASE_PARTY_NO}</Number>
+						<Name>${P.PERSON_REQUESTED_NAME}</Name>
+					</Party>
+				</Parties>
+				<Obligations>
+					<Obligation>
+						<ObligationSeq>${O.OBLIGATION_SEQ}</ObligationSeq>
+						<Status>${STATUS}</Status>
+						<EventId>${CE.STD_EVENT_ID}</EventId>
+						<EventDate>${CE.EVENT_DATE}</EventDate>
+						<ObligationType>${O.OBLIGATION_TYPE}</ObligationType>
+						<Description>${OT.OBLIGATION_TEXT}</Description>
+						<Days/>
+						<ExpiryDate>${O.EXPIRY_DATE}</ExpiryDate>
+						<ExpiryDateStatus/>
+						<Notes>${O.NOTES}</Notes>
+						<LastUpdateUser>${O.LAST_USED_BY}</LastUpdateUser>
+						<EventType>${EVENTTYPE}</EventType>
+						<DeleteFlag>${O.DELETE_FLAG}</DeleteFlag>
+					</Obligation>
+				</Obligations>
+			</MaintainObligations>
+		</ds>
+	</Mapping>
+</DBMapDef>

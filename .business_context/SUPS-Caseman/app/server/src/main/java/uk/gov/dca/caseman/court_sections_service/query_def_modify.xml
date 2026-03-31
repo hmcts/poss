@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<QueryDef>
+  <DBMapDef location="uk/gov/dca/caseman/court_sections_service/map_SEC.xml"/>
+    <Query pivotNode="/ds/CourtDetails/Sections/Section" tables="SE">
+	<Join/>
+    <Modify>
+        <CheckExists table="SE" fields="SECTION_NAME ADMIN_COURT_CODE" onNotExist="add" onExist="skip"/>
+	</Modify>
+  </Query> 
+</QueryDef>

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<QueryDef>
+	<DBMapDef location="uk/gov/dca/caseman/reports_service/report_map.xml"/>
+	
+	<Query pivotNode="/Report" tables="P">
+		<Modify>
+			<CheckExists table="P" fields="print_job_id" onExist="skip" onNotExist="add"/>
+			<!-- see update_print_job.xml for alternative generation of sequence -->
+			<Field name="P.PRINT_JOB_ID" sequenceTable="prjseq"/>
+		</Modify>
+	</Query>
+	
+</QueryDef>

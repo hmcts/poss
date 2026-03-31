@@ -1,0 +1,340 @@
+
+Session altered.
+
+
+Session altered.
+
+
+** Module testing for procedure: obligations_purge, at: 2010-10-29 07:01:34 **
+
+
+
+
+
+
+
+
+
+PL/SQL procedure successfully completed.
+
+
+0 rows deleted.
+
+
+0 rows deleted.
+
+
+0 rows deleted.
+
+
+0 rows deleted.
+
+
+0 rows deleted.
+
+
+Commit complete.
+
+
+PL/SQL procedure successfully completed.
+
+
+Commit complete.
+
+Test Data BEFORE - courts
+
+        CODE ID NAME
+------------ -- ------------------------------
+        -989    TEST COURT
+
+Test Data BEFORE - cases
+
+CASE_NUMBER ADMIN_CRT_CODE
+----------- --------------
+-1010000              -989
+-2020000              -989
+-3030000              -989
+-4040000              -989
+-5050000              -989
+
+Test Data BEFORE - system_data
+
+no rows selected
+
+Test Data BEFORE - obligations
+
+OBLIGATION_SEQ OBLIGATION_TYPE EXPIRY_DATE         LAST_USED_BY                   DELETE_FLAG  CASE_NUMBER
+-------------- --------------- ------------------- ------------------------------ ------------ -----------
+        -11000               1 2009-10-28 07:01:34 test                           N            -1010000
+        -12000               2 2009-10-27 07:01:34 test                           N            -1010000
+        -13000               3 2009-10-26 07:01:34 test                           N            -1010000
+        -14000               4 2009-10-25 07:01:34 test                           N            -1010000
+        -21000               1 2009-10-29 07:01:34 test                           N            -2020000
+        -22000               2 2009-10-28 07:01:34 test                           N            -2020000
+        -23000               3 2009-10-27 07:01:34 test                           Y            -2020000
+        -24000               4 2009-10-26 07:01:34 test                           Y            -2020000
+        -31000               1 2009-10-29 07:01:34 test                           Y            -3030000
+        -32000               2 2009-10-28 07:01:34 test                           Y            -3030000
+        -33000               3 2009-10-27 07:01:34 test                           Y            -3030000
+        -34000               4 2009-10-26 07:01:34 test                           Y            -3030000
+        -41000               1 2009-11-08 07:01:34 test                           Y            -4040000
+        -42000               2 2009-11-07 07:01:34 test                           Y            -4040000
+        -43000               3 2009-11-06 07:01:34 test                           Y            -4040000
+        -44000               4 2009-11-05 07:01:34 test                           Y            -4040000
+        -51000               1 2009-10-28 07:01:34 test                           Y            -5050000
+        -52000               2 2009-10-27 07:01:34 test                           Y            -5050000
+        -53000               3 2009-10-26 07:01:34 test                           Y            -5050000
+        -54000               4 2009-10-25 07:01:34 test                           Y            -5050000
+
+20 rows selected.
+
+Test Data BEFORE - obligations_purge_errors
+
+no rows selected
+
+Test Data BEFORE - sups_amendments
+
+PK01                           PK02                           AMENDMENT_TYPE  PROCESS_ID                                                   TABLE_NAME
+------------------------------ ------------------------------ --------------- ------------------------------------------------------------ ------------------------------
+-11000                         -1010000                       Deleted         Obligation Purge                                             OBLIGATIONS
+-12000                         -1010000                       Deleted         Obligation Purge                                             OBLIGATIONS
+-13000                         -1010000                       Deleted         Obligation Purge                                             OBLIGATIONS
+-14000                         -1010000                       Deleted         Obligation Purge                                             OBLIGATIONS
+-21000                         -2020000                       Deleted         Obligation Purge                                             OBLIGATIONS
+-22000                         -2020000                       Deleted         Obligation Purge                                             OBLIGATIONS
+-31000                         -3030000                       Deleted         Obligation Purge                                             OBLIGATIONS
+-33000                         -3030000                       Deleted         Obligation Purge                                             OBLIGATIONS
+-41000                         -4040000                       Deleted         Obligation Purge                                             OBLIGATIONS
+-42000                         -4040000                       Deleted         Obligation Purge                                             OBLIGATIONS
+-43000                         -4040000                       Deleted         Obligation Purge                                             OBLIGATIONS
+-44000                         -4040000                       Deleted         Obligation Purge                                             OBLIGATIONS
+-51000                         -5050000                       Deleted         Obligation Purge                                             OBLIGATIONS
+-52000                         -5050000                       Deleted         Obligation Purge                                             OBLIGATIONS
+-53000                         -5050000                       Deleted         Obligation Purge                                             OBLIGATIONS
+-54000                         -5050000                       Deleted         Obligation Purge                                             OBLIGATIONS
+-1010000                                                      Deleted         Obligation Purge                                             CASES
+-2020000                                                      Deleted         Obligation Purge                                             CASES
+-3030000                                                      Deleted         Obligation Purge                                             CASES
+-4040000                                                      Deleted         Obligation Purge                                             CASES
+-5050000                                                      Deleted         Obligation Purge                                             CASES
+-989                                                          Deleted         Obligation Purge                                             COURTS
+-989                                                          Inserted        c                                                            COURTS
+-1010000                                                      Inserted        c                                                            CASES
+-11000                         -1010000                       Inserted        c                                                            OBLIGATIONS
+-12000                         -1010000                       Inserted        c                                                            OBLIGATIONS
+-13000                         -1010000                       Inserted        c                                                            OBLIGATIONS
+-14000                         -1010000                       Inserted        c                                                            OBLIGATIONS
+-2020000                                                      Inserted        c                                                            CASES
+-21000                         -2020000                       Inserted        c                                                            OBLIGATIONS
+-22000                         -2020000                       Inserted        c                                                            OBLIGATIONS
+-23000                         -2020000                       Inserted        c                                                            OBLIGATIONS
+-24000                         -2020000                       Inserted        c                                                            OBLIGATIONS
+-3030000                                                      Inserted        c                                                            CASES
+-31000                         -3030000                       Inserted        c                                                            OBLIGATIONS
+-32000                         -3030000                       Inserted        c                                                            OBLIGATIONS
+-33000                         -3030000                       Inserted        c                                                            OBLIGATIONS
+-34000                         -3030000                       Inserted        c                                                            OBLIGATIONS
+-4040000                                                      Inserted        c                                                            CASES
+-41000                         -4040000                       Inserted        c                                                            OBLIGATIONS
+-42000                         -4040000                       Inserted        c                                                            OBLIGATIONS
+-43000                         -4040000                       Inserted        c                                                            OBLIGATIONS
+-44000                         -4040000                       Inserted        c                                                            OBLIGATIONS
+-5050000                                                      Inserted        c                                                            CASES
+-51000                         -5050000                       Inserted        c                                                            OBLIGATIONS
+-52000                         -5050000                       Inserted        c                                                            OBLIGATIONS
+-53000                         -5050000                       Inserted        c                                                            OBLIGATIONS
+-54000                         -5050000                       Inserted        c                                                            OBLIGATIONS
+
+48 rows selected.
+
+Perform Tests 1 to 4 - also demonstrates that locked rows are skipped
+
+*************************
+Running obilgations_purge
+*************************
+
+Records found         : 9
+Records deleted       : 4
+Records failed        : 5
+
+Perform Test 5 - also demonstrates Oracle Errors are captured
+
+*************************
+Running obilgations_purge
+*************************
+
+Records found         : 5
+Records deleted       : 0
+Records failed        : 5
+
+PL/SQL procedure successfully completed.
+
+
+Rollback complete.
+
+Test Data AFTER - courts
+
+        CODE ID NAME
+------------ -- ------------------------------
+        -989    TEST COURT
+
+Test Data AFTER - cases
+
+CASE_NUMBER ADMIN_CRT_CODE
+----------- --------------
+-1010000              -989
+-2020000              -989
+-3030000              -989
+-4040000              -989
+-5050000              -989
+
+Test Data AFTER - obligations
+
+OBLIGATION_SEQ OBLIGATION_TYPE EXPIRY_DATE         LAST_USED_BY                   DELETE_FLAG  CASE_NUMBER
+-------------- --------------- ------------------- ------------------------------ ------------ -----------
+        -11000               1 2009-10-28 07:01:34 test                           N            -1010000
+        -12000               2 2009-10-27 07:01:34 test                           N            -1010000
+        -13000               3 2009-10-26 07:01:34 test                           N            -1010000
+        -14000               4 2009-10-25 07:01:34 test                           N            -1010000
+        -21000               1 2009-10-29 07:01:34 test                           N            -2020000
+        -22000               2 2009-10-28 07:01:34 test                           N            -2020000
+        -31000               1 2009-10-29 07:01:34 test                           Y            -3030000
+        -33000               3 2009-10-27 07:01:34 test                           Y            -3030000
+        -41000               1 2009-11-08 07:01:34 test                           Y            -4040000
+        -42000               2 2009-11-07 07:01:34 test                           Y            -4040000
+        -43000               3 2009-11-06 07:01:34 test                           Y            -4040000
+        -44000               4 2009-11-05 07:01:34 test                           Y            -4040000
+        -51000               1 2009-10-28 07:01:34 test                           Y            -5050000
+        -52000               2 2009-10-27 07:01:34 test                           Y            -5050000
+        -53000               3 2009-10-26 07:01:34 test                           Y            -5050000
+        -54000               4 2009-10-25 07:01:34 test                           Y            -5050000
+
+16 rows selected.
+
+Test Data AFTER - obligations_purge_errors
+
+OBLIGATION_SEQ CASE_NUMBER DESCRIPTION
+-------------- ----------- --------------------------------------------------
+        -52000 -5050000    Record locked by another process - therefore it ha
+                           s not been deleted!
+
+        -53000 -5050000    Record locked by another process - therefore it ha
+                           s not been deleted!
+
+        -54000 -5050000    Record locked by another process - therefore it ha
+                           s not been deleted!
+
+        -33000 -3030000    ORA-01428: argument '-1' is out of range
+                           ORA-06512: at "WESTM_CM.TEST", line 1
+                           ORA-04088: error during execution of trigger 'WEST
+                           M_CM.TEST'
+
+        -51000 -5050000    ORA-01428: argument '-1' is out of range
+                           ORA-06512: at "WESTM_CM.TEST", line 1
+                           ORA-04088: error during execution of trigger 'WEST
+                           M_CM.TEST'
+
+        -52000 -5050000    ORA-01428: argument '-1' is out of range
+                           ORA-06512: at "WESTM_CM.TEST", line 1
+                           ORA-04088: error during execution of trigger 'WEST
+                           M_CM.TEST'
+
+        -53000 -5050000    ORA-01428: argument '-1' is out of range
+                           ORA-06512: at "WESTM_CM.TEST", line 1
+                           ORA-04088: error during execution of trigger 'WEST
+                           M_CM.TEST'
+
+        -54000 -5050000    ORA-01428: argument '-1' is out of range
+                           ORA-06512: at "WESTM_CM.TEST", line 1
+                           ORA-04088: error during execution of trigger 'WEST
+                           M_CM.TEST'
+
+        -33000 -3030000    Record locked by another process - therefore it ha
+                           s not been deleted!
+
+        -51000 -5050000    Record locked by another process - therefore it ha
+                           s not been deleted!
+
+
+10 rows selected.
+
+Test Data AFTER - sups_amendments
+
+PK01                           PK02                           AMENDMENT_TYPE  PROCESS_ID                                                   TABLE_NAME
+------------------------------ ------------------------------ --------------- ------------------------------------------------------------ ------------------------------
+-24000                         -2020000                       Deleted         Obligation Purge                                             OBLIGATIONS
+-32000                         -3030000                       Deleted         Obligation Purge                                             OBLIGATIONS
+-34000                         -3030000                       Deleted         Obligation Purge                                             OBLIGATIONS
+-11000                         -1010000                       Deleted         Obligation Purge                                             OBLIGATIONS
+-12000                         -1010000                       Deleted         Obligation Purge                                             OBLIGATIONS
+-13000                         -1010000                       Deleted         Obligation Purge                                             OBLIGATIONS
+-14000                         -1010000                       Deleted         Obligation Purge                                             OBLIGATIONS
+-21000                         -2020000                       Deleted         Obligation Purge                                             OBLIGATIONS
+-22000                         -2020000                       Deleted         Obligation Purge                                             OBLIGATIONS
+-31000                         -3030000                       Deleted         Obligation Purge                                             OBLIGATIONS
+-33000                         -3030000                       Deleted         Obligation Purge                                             OBLIGATIONS
+-41000                         -4040000                       Deleted         Obligation Purge                                             OBLIGATIONS
+-42000                         -4040000                       Deleted         Obligation Purge                                             OBLIGATIONS
+-43000                         -4040000                       Deleted         Obligation Purge                                             OBLIGATIONS
+-44000                         -4040000                       Deleted         Obligation Purge                                             OBLIGATIONS
+-51000                         -5050000                       Deleted         Obligation Purge                                             OBLIGATIONS
+-52000                         -5050000                       Deleted         Obligation Purge                                             OBLIGATIONS
+-53000                         -5050000                       Deleted         Obligation Purge                                             OBLIGATIONS
+-54000                         -5050000                       Deleted         Obligation Purge                                             OBLIGATIONS
+-1010000                                                      Deleted         Obligation Purge                                             CASES
+-2020000                                                      Deleted         Obligation Purge                                             CASES
+-3030000                                                      Deleted         Obligation Purge                                             CASES
+-4040000                                                      Deleted         Obligation Purge                                             CASES
+-5050000                                                      Deleted         Obligation Purge                                             CASES
+-989                                                          Deleted         Obligation Purge                                             COURTS
+-989                                                          Inserted        c                                                            COURTS
+-1010000                                                      Inserted        c                                                            CASES
+-11000                         -1010000                       Inserted        c                                                            OBLIGATIONS
+-12000                         -1010000                       Inserted        c                                                            OBLIGATIONS
+-13000                         -1010000                       Inserted        c                                                            OBLIGATIONS
+-14000                         -1010000                       Inserted        c                                                            OBLIGATIONS
+-2020000                                                      Inserted        c                                                            CASES
+-21000                         -2020000                       Inserted        c                                                            OBLIGATIONS
+-22000                         -2020000                       Inserted        c                                                            OBLIGATIONS
+-23000                         -2020000                       Inserted        c                                                            OBLIGATIONS
+-24000                         -2020000                       Inserted        c                                                            OBLIGATIONS
+-3030000                                                      Inserted        c                                                            CASES
+-31000                         -3030000                       Inserted        c                                                            OBLIGATIONS
+-32000                         -3030000                       Inserted        c                                                            OBLIGATIONS
+-33000                         -3030000                       Inserted        c                                                            OBLIGATIONS
+-34000                         -3030000                       Inserted        c                                                            OBLIGATIONS
+-4040000                                                      Inserted        c                                                            CASES
+-41000                         -4040000                       Inserted        c                                                            OBLIGATIONS
+-42000                         -4040000                       Inserted        c                                                            OBLIGATIONS
+-43000                         -4040000                       Inserted        c                                                            OBLIGATIONS
+-44000                         -4040000                       Inserted        c                                                            OBLIGATIONS
+-5050000                                                      Inserted        c                                                            CASES
+-51000                         -5050000                       Inserted        c                                                            OBLIGATIONS
+-52000                         -5050000                       Inserted        c                                                            OBLIGATIONS
+-53000                         -5050000                       Inserted        c                                                            OBLIGATIONS
+-54000                         -5050000                       Inserted        c                                                            OBLIGATIONS
+-23000                         -2020000                       Deleted         Obligation Purge                                             OBLIGATIONS
+
+52 rows selected.
+
+
+10 rows deleted.
+
+
+52 rows deleted.
+
+
+16 rows deleted.
+
+
+5 rows deleted.
+
+
+0 rows deleted.
+
+
+1 row deleted.
+
+
+Commit complete.
+

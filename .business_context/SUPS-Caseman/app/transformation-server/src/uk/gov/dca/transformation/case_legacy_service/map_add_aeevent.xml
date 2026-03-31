@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<DBMapDef>
+	<DataSource id="java:OracleDS"/>
+	<Tables>
+		<Table alias="AEE" name="AE_EVENTS"/>
+	</Tables>
+	<Mapping>				
+		<AEEvents>
+			<AEEvent>
+				<EventSeq>${AEE.AE_EVENT_SEQ}</EventSeq>
+				<AEEventSequence></AEEventSequence>
+				<AENo>${AEE.AE_NUMBER}</AENo>
+				<EventDate>${AEE.EVENT_DATE}</EventDate>
+				<DateEntered>${AEE.DATE_ENTERED}</DateEntered>
+				<EventID>${AEE.STD_EVENT_ID}</EventID>
+				<IssueStage>${AEE.ISSUE_STAGE}</IssueStage>
+				<Details>${AEE.DETAILS}</Details>
+				<Error>${AEE.ERROR_INDICATOR}</Error>
+				<Username>${AEE.USERNAME}</Username>
+				<Bailiff>${AEE.BAILIFF_IDENTIFIER}</Bailiff>
+				<ServiceStatus>${AEE.SERVICE_STATUS}</ServiceStatus>
+				<ServiceDate>${AEE.SERVICE_DATE}</ServiceDate>
+				<ProcessStage>${AEE.PROCESS_STAGE}</ProcessStage>
+				<ProcessDate>${AEE.PROCESS_DATE}</ProcessDate>
+				<ReportValue1>${AEE.REPORT_VALUE_1}</ReportValue1>
+				<ReportValue2>${AEE.REPORT_VALUE_2}</ReportValue2>
+				<ReportValue3>${AEE.REPORT_VALUE_3}</ReportValue3>
+				<ReportValue4>${AEE.REPORT_VALUE_4}</ReportValue4>
+				<ReportValue5>${AEE.REPORT_VALUE_5}</ReportValue5>
+				<ReportValue6>${AEE.REPORT_VALUE_6}</ReportValue6>
+				<ReportValue7>${AEE.REPORT_VALUE_7}</ReportValue7>
+				<ReportValue8>${AEE.REPORT_VALUE_8}</ReportValue8>
+				<ReportValue9>${AEE.REPORT_VALUE_9}</ReportValue9>
+				<ReportValue10>${AEE.REPORT_VALUE_10}</ReportValue10>
+				<ReportValue11>${AEE.REPORT_VALUE_11}</ReportValue11>
+				<ReportValue12>${AEE.REPORT_VALUE_12}</ReportValue12>
+				<ReportValue12>${AEE.REPORT_VALUE_13}</ReportValue12>
+				<WarrantID>${AEE.WARRANT_NUMBER}</WarrantID>
+			</AEEvent>
+		</AEEvents>
+	</Mapping>
+</DBMapDef> 	

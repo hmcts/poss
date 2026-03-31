@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>68</Id>
+	<Label>Reason(s)</Label>
+	<ObjectName>AllocationReason</ObjectName>
+
+	<Context screenId="CO27">
+		<isVisible>true</isVisible>
+		<Label>Terms of Variation/Suspension</Label>
+	</Context>
+
+	<Html>
+	   <textarea id="AllocationReason" cols="30" rows="3"> 
+	   </textarea>
+	</Html>
+	<Javascript>
+		<XPath>/ds/EnterVariableData/Allocation/reasons</XPath>
+		<isMandatory>return false;</isMandatory>
+		<mandatoryOn>AllocationReason.dataBinding</mandatoryOn>	
+		<HintText>Enter the reason(s) for allocations</HintText>
+		<transformToModel>return WPU.encodeLineBreaks( this, value );</transformToModel>
+		<transformToDisplay>return WPU.decodeLineBreaks( this, value );</transformToDisplay>
+		
+		<Context ScreenId="CO27">
+			<HintText>Enter the terms of variation</HintText>
+		</Context>
+	
+		<Context ScreenId="CJR020">
+			<enableOn>IsJudgeReasons.dataBinding</enableOn>
+			<isEnabled>
+				var val = Services.getValue(IsJudgeReasons.dataBinding);
+				return('M' == val || 'S' == val);
+			</isEnabled>
+			<logicOn>IsJudgeReasons.dataBinding</logicOn>
+			<logic>
+				var val = Services.getValue(IsJudgeReasons.dataBinding);
+				if('M' != val &amp;&amp; 'S' != val)
+				{	Services.setValue(AllocationReason.dataBinding, "");
+				}
+			</logic>
+			<isMandatory>return true;</isMandatory>
+			<mandatoryOn>IsJudgeReasons.dataBinding</mandatoryOn>							
+		</Context>
+		
+		<Context ScreenId="CJR060">
+			<enableOn>IsLQADirnMade.dataBinding</enableOn>
+			<isEnabled>return('Y' == Services.getValue(IsLQADirnMade.dataBinding));</isEnabled>
+			<logicOn>IsLQADirnMade.dataBinding</logicOn>
+			<logic>
+				if('Y' != Services.getValue(IsLQADirnMade.dataBinding))
+				{	Services.setValue(AllocationReason.dataBinding, "");
+				}
+			</logic>
+			<isMandatory>return true;</isMandatory>
+		</Context>
+
+		<Context ScreenId="CO26">
+			<HintText>Enter the reason why the AO was revoked/discharged; because…</HintText>
+		</Context>
+		
+		<Context ScreenId="CO27">
+			<HintText>Enter the reason for varying/suspending the order</HintText>
+		</Context>
+		
+		<Context ScreenId="CO26">
+			<isMandatory>return true;</isMandatory>
+		</Context>
+		
+		<Context ScreenId="CO27">
+			<isMandatory>return true;</isMandatory>
+		</Context>
+		
+	</Javascript>
+</Question>

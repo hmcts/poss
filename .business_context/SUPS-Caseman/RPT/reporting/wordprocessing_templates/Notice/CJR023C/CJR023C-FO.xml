@@ -1,0 +1,411 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- ====================================================================== -->
+<!--  -->
+<!-- FILENAME: $Source: C:/CVSRepository/serveroas/src/uk/gov/dca/caseman/wordprocessing_templates/Notice/CJR023C/CJR023C-FO.xml,v $ -->
+<!--  -->
+<!-- AUTHOR: $Author: conganer $-->
+<!--  -->
+<!-- DATE: $Date: 2006/06/05 14:14:02 $ -->
+<!--  -->
+<!-- Version: $Revision: 1.10 $ -->
+<!--  -->
+<!-- DESCRIPTION: This stylesheet is used to create an XSL:FO document that -->
+<!-- can be processed into a PDF version.  Business logic -->
+<!-- is embedded to generate the correct document text for the order -->
+<!-- required. -->
+<!--  -->
+<!-- INPUTS: XML document containing: the answers to questions asked of the -->
+<!-- user; case data retrieved from the database; HTML representing the  -->
+<!-- body of the document content (already edited by the user). -->
+<!--  -->
+<!-- OUTPUTS: XML document with FO tags containing instructions for the -->
+<!-- creation of a PDF document. -->
+<!--  -->
+<!-- ====================================================================== -->
+<root xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:fo="http://www.w3.org/1999/XSL/Format" xmlns="http://eds.com/supsfo">
+	<variables>@word.processing.url.xsl@supsfo.xsl</variables>
+	<layout>order</layout>
+	<duplex/>
+	<addressee>
+		<blank/>
+		<claimants/>
+		<defendants/>
+		<part20claimants/>
+		<part20defendants/>
+	</addressee>
+	<header>
+		<fo:block font-size="16pt" font-weight="bold">Notice of Allocation to the Small</fo:block>
+		<fo:block font-size="16pt" font-weight="bold">Claims Track</fo:block>
+		<fo:block font-size="16pt" font-weight="bold">(with parties' consent)</fo:block>
+	</header>
+	<courtcase>
+		<court>
+			<xsl:copy-of select="$vdCourtHeaderBlock"/>
+		</court>
+		<caseparameters>
+			<parameter>
+				<name>
+					<fo:block font-weight="bold">Claim Number</fo:block>
+				</name>
+				<value>
+					<fo:block>
+						<xsl:value-of select="$vdClaimNumber"/>
+					</fo:block>
+				</value>
+			</parameter>
+			<parameter>
+				<name>
+					<fo:block font-weight="bold">Date</fo:block>
+				</name>
+				<value>
+					<fo:block>
+						<xsl:value-of select="$vdEventDate"/>
+					</fo:block>
+				</value>
+			</parameter>
+		</caseparameters>
+	</courtcase>
+	<bodyintroright><fo:block><fo:inline text-align="center"><seal/></fo:inline></fo:block></bodyintroright>
+
+	<body>
+		<editable useid="N10095">
+		<fo:block space-after="0.4cm">
+			<xsl:value-of select="$vdJudge"/> has considered the statements of case and allocation questionnaires filed and allocated the <xsl:value-of select="$vdAllocation"/> to <fo:inline font-weight="bold">the small claims track.</fo:inline>
+		</fo:block>
+				
+		<fo:block space-after="0.4cm">
+			The hearing of the <xsl:value-of select="$vdAllocation"/> will take place
+			<xsl:if test="$vdHearingTime != $emptyTime"> at <xsl:value-of select="$vdHearingTime"/></xsl:if>
+			<xsl:if test="$vdHearingDate1 != $emptyDate"> on the <xsl:value-of select="$vdHearingDate1"/></xsl:if>
+			<xsl:if test="$vdHearingDate1 = $emptyDate"> on a date to be fixed</xsl:if>
+			at <xsl:value-of select="$vdHearingCourtNameDescription"/>, <xsl:value-of select="$vdHearingCourtAddress"/> and should take no longer than <xsl:value-of select="normalize-space($vdHearingDuration)"/>.
+			<xsl:if test="$vdIsHearingDate = 'Y'">
+				<fo:block>
+				A hearing fee of &#163;<xsl:value-of select="$vdLQHearingFee"/> is payable by <xsl:value-of select="$vdLQPayableByDate"/> by <xsl:value-of select="$vdHearingWhoIsToPay"/> unless you make an application for a fee concession.  
+				Failure to pay the fee will result in the hearing being removed from the list.
+				</fo:block>	
+			</xsl:if>
+		</fo:block>
+			
+		<fo:block font-weight="bold" space-after="0.4cm">
+			<xsl:value-of select="$vdSmallClaimFormA4"/>
+		</fo:block>
+			
+		<xsl:choose><xsl:when test="$vdIsHearingDate = 'Y'">
+			<fo:block space-after="0.4cm">
+				The hearing fee will be refunded in full if the court receives notice in writing at least 7 days before the hearing date, that the case is settled or discontinued.
+			</fo:block>
+		</xsl:when></xsl:choose>	
+			
+		<xsl:choose>
+			<xsl:when test="$vdAllocationReasonGiven = 'Y' and string-length($vdAllocationReason) >0">
+				<fo:block space-after="0.4cm">The reasons the judge has given for allocation to this track are that <xsl:call-template name="formatTextAreaText">
+					<xsl:with-param name="text"><xsl:copy-of select="$vdAllocationReason"/>
+					</xsl:with-param></xsl:call-template>.
+				</fo:block>
+			</xsl:when>
+			<xsl:when test="$vdAllocationReasonGiven != 'Y' and string-length($vdAllocationReason) >0">
+				<fo:block space-after="0.4cm">The reason the judge has given for allocation to this track is that <xsl:call-template name="formatTextAreaText">
+					<xsl:with-param name="text"><xsl:copy-of select="$vdAllocationReason"/>
+					</xsl:with-param></xsl:call-template>.
+				</fo:block>
+			</xsl:when>
+		</xsl:choose>
+
+		<xsl:choose>
+			<xsl:when test="$vdSmallClaimTypeDirections = 'RTA'">
+				<fo:block space-after="0.4cm">
+						Each party shall deliver to every other party and to the court office copies of all documents on which he intends to rely at the hearing. These may include:
+				</fo:block>
+				<fo:block space-after="0.4cm">
+						<list type="bullet">
+							<list-item>
+								<fo:block space-after="0.4cm">
+									experts' reports (including medical report where damages for personal injury are claimed),
+								</fo:block>
+							</list-item>
+							<list-item>
+								<fo:block space-after="0.4cm">
+									witness statements,
+								</fo:block>
+							</list-item>
+							<list-item>
+								<fo:block space-after="0.4cm">
+									invoices and estimates for repairs,
+								</fo:block>
+							</list-item>
+							<list-item>
+								<fo:block space-after="0.4cm">
+									documents which relate to other losses, such as loss of earnings,
+								</fo:block>
+							</list-item>
+							<list-item>
+								<fo:block>
+									sketch plans and photographs.
+								</fo:block>
+							</list-item>
+						</list>
+				</fo:block>
+			</xsl:when>
+			<xsl:when test="$vdSmallClaimTypeDirections = 'BDCON'">
+				<fo:block space-after="0.4cm">
+						Each party shall deliver to every other party and to the court office copies of all documents on which he intends to rely at the hearing. These may include:
+				</fo:block>
+				<fo:block space-after="0.4cm">
+						<list type="bullet">
+							<list-item>
+								<fo:block space-after="0.4cm">
+									the contract,
+								</fo:block>
+							</list-item>
+							<list-item>
+								<fo:block space-after="0.4cm">
+									witness statements,
+								</fo:block>
+							</list-item>
+							<list-item>
+								<fo:block space-after="0.4cm">
+									experts' reports,
+								</fo:block>
+							</list-item>
+							<list-item>
+								<fo:block space-after="0.4cm">
+									photographs,
+								</fo:block>
+							</list-item>
+							<list-item>
+								<fo:block space-after="0.4cm">
+									invoices for work done or goods supplied,
+								</fo:block>
+							</list-item>
+							<list-item>
+								<fo:block space-after="0.4cm">
+									estimates for work to be done.
+								</fo:block>
+							</list-item>
+						</list>
+				</fo:block>
+			</xsl:when>
+			<xsl:when test="$vdSmallClaimTypeDirections = 'RDDT'">
+				<fo:block space-after="0.4cm">
+						Each party shall deliver to every other party and to the court office copies of all documents on which he intends to rely at the hearing. These may include:
+				</fo:block>
+				<fo:block space-after="0.4cm">
+						<list type="bullet">
+							<list-item>
+								<fo:block space-after="0.4cm">
+									the tenancy agreement and any inventory,
+								</fo:block>
+							</list-item>
+							<list-item>
+								<fo:block space-after="0.4cm">
+									the rent book or other evidence of rent and other payments made by the tenant to the landlord,
+								</fo:block>
+							</list-item>
+							<list-item>
+								<fo:block space-after="0.4cm">
+									photographs,
+								</fo:block>
+							</list-item>
+							<list-item>
+								<fo:block space-after="0.4cm">
+									witness statements,
+								</fo:block>
+							</list-item>
+							<list-item>
+								<fo:block>
+									invoices or estimates for work and goods.
+								</fo:block>
+							</list-item>
+						</list>
+				</fo:block>
+			</xsl:when>
+			<xsl:when test="$vdSmallClaimTypeDirections = 'HW'">
+				<fo:block space-after="0.4cm">
+						Each party shall deliver to every other party and to the court office copies of all documents on which he intends to rely at the hearing. These may include:
+				</fo:block>
+				<fo:block space-after="0.4cm">
+						<list type="bullet">
+							<list-item>
+								<fo:block space-after="0.4cm">
+									any written contract, brochure or booking form,
+								</fo:block>
+							</list-item>
+							<list-item>
+								<fo:block space-after="0.4cm">
+									photographs,
+								</fo:block>
+							</list-item>
+							<list-item>
+								<fo:block space-after="0.4cm">
+									documents showing payments made,
+								</fo:block>
+							</list-item>
+							<list-item>
+								<fo:block space-after="0.4cm">
+									witness statements,
+								</fo:block>
+							</list-item>
+							<list-item>
+								<fo:block>
+									letters.
+								</fo:block>
+							</list-item>
+						</list>
+				</fo:block>
+			</xsl:when>
+		</xsl:choose>
+
+		<xsl:if test="string-length($vdSmallClaimFormA1) > 0"><fo:block space-after="0.4cm"><xsl:value-of select="$vdSmallClaimFormA1"/></fo:block></xsl:if>
+		<xsl:if test="string-length($vdSmallClaimOriginalDocuments) > 0"><fo:block space-after="0.4cm"><xsl:value-of select="$vdSmallClaimOriginalDocuments"/></fo:block></xsl:if>
+		<xsl:if test="string-length($vdSmallClaimFormB4) > 0"><fo:block space-after="0.4cm"><xsl:value-of select="$vdSmallClaimFormB4"/></fo:block></xsl:if>
+		<xsl:if test="string-length($vdSmallClaimFormC4) > 0"><fo:block space-after="0.4cm"><xsl:value-of select="$vdSmallClaimFormC4"/></fo:block></xsl:if>
+		<xsl:if test="string-length($vdSmallClaimFormC5) > 0"><fo:block space-after="0.4cm"><xsl:value-of select="$vdSmallClaimFormC5"/></fo:block></xsl:if>
+		<xsl:if test="string-length($vdSmallClaimFormD4) > 0"><fo:block space-after="0.4cm"><xsl:value-of select="$vdSmallClaimFormD4"/></fo:block></xsl:if>
+		<xsl:if test="string-length($vdSmallClaimFormD5) > 0"><fo:block space-after="0.4cm"><xsl:value-of select="$vdSmallClaimFormD5"/></fo:block></xsl:if>
+		<xsl:if test="string-length($vdSmallClaimFormC6) > 0"><fo:block space-after="0.4cm"><xsl:value-of select="$vdSmallClaimFormC6"/></fo:block></xsl:if>
+		<xsl:if test="string-length($vdSmallClaimFormB5) > 0"><fo:block space-after="0.4cm"><xsl:value-of select="$vdSmallClaimFormB5"/></fo:block></xsl:if>
+		
+		<xsl:if test="$vdSmallClaimFormB6 ='Y'">
+			<fo:block space-after="0.4cm">
+					The parties should note that:
+			</fo:block>
+			<fo:block space-after="0.4cm">
+					(a)	In deciding the case the court will find it very helpful to have a sketch plan and photographs of the place where the accident happened,
+			</fo:block>
+			<fo:block space-after="0.4cm">
+					(b)	The court may decide not to take into account a document or the evidence of a witness if no copy of that document or no copy of a statement or report by that witness has been supplied to the other parties.
+			</fo:block>
+		</xsl:if>
+		<xsl:if test="$vdSmallClaimFormC8 ='Y'">
+			<fo:block space-after="0.4cm">
+				The parties should note that:
+			</fo:block>
+			<fo:block space-after="0.4cm">
+				(a)	In deciding the case the judge may find it helpful to have photographs showing the work in question,
+			</fo:block>
+			<fo:block space-after="0.4cm">
+				(b)	The judge may decide not to take into account a document or the evidence of a witness if no copy of that document or no copy of a statement or report by that witness has been supplied to the other parties.
+			</fo:block>
+		</xsl:if>
+		<xsl:if test="$vdSmallClaimFormD7 ='Y'">
+			<fo:block space-after="0.4cm">
+					The parties should note that:
+			</fo:block>
+			<fo:block space-after="0.4cm">
+					(a)	In deciding the case the judge may find it helpful to have photographs showing the condition of the property,
+			</fo:block>
+			<fo:block space-after="0.4cm">
+					(b)	The judge may decide to take into account a document or the evidence of a witness if no copy of that document or no copy of a statement or report by that witness has been supplied to the other parties.
+			</fo:block>
+		</xsl:if>
+		<xsl:if test="$vdSmallClaimFormE5 ='Y'">
+			<fo:block space-after="0.4cm">
+					If either party intends to show a video as evidence he must:
+			</fo:block>
+			<fo:block space-after="0.4cm">
+					(a)	Contact the court at once to make arrangements for him to do so, because the court may not have the necessary equipment, and
+			</fo:block>
+			<fo:block space-after="0.4cm">
+					(b)	provide the other party with a copy of the video or the opportunity to see it ( if he asks) at least 2 weeks before the hearing.
+			</fo:block>
+		</xsl:if>
+
+
+		<xsl:if test="string-length($vdSmallClaimFormE6) > 0"><fo:block space-after="0.4cm"><xsl:value-of select="$vdSmallClaimFormE6"/></fo:block></xsl:if>
+
+		<xsl:if test="string-length($vdSmallClaimFormF1) > 0"><fo:block space-after="0.4cm"><xsl:value-of select="$vdSmallClaimFormF1"/></fo:block></xsl:if>
+		
+		<xsl:if test="string-length($vdSmallClaimFormF7A) > 0"><fo:block space-after="0.4cm"><xsl:value-of select="$vdSmallClaimFormF7A"/></fo:block></xsl:if>
+
+		<xsl:if test="string-length($vdSmallClaimFormF2) > 0"><fo:block space-after="0.4cm"><xsl:value-of select="$vdSmallClaimFormF2"/></fo:block></xsl:if>
+
+		<xsl:if test="string-length($vdSmallClaimFormF7B) > 0"><fo:block space-after="0.4cm"><xsl:value-of select="$vdSmallClaimFormF7B"/></fo:block></xsl:if>
+
+		<xsl:if test="string-length($vdSmallClaimFormF4) > 0"><fo:block space-after="0.4cm"><xsl:value-of select="$vdSmallClaimFormF4"/></fo:block></xsl:if>
+
+		<xsl:if test="string-length($vdSmallClaimFormF7C) > 0"><fo:block space-after="0.4cm"><xsl:value-of select="$vdSmallClaimFormF7C"/></fo:block></xsl:if>
+
+		<xsl:if test="string-length($vdSmallClaimFormF5) > 0"><fo:block space-after="0.4cm"><xsl:value-of select="$vdSmallClaimFormF5"/></fo:block></xsl:if>
+
+		<xsl:if test="string-length($vdSmallClaimFormF6) > 0"><fo:block space-after="0.4cm"><xsl:value-of select="$vdSmallClaimFormF6"/></fo:block></xsl:if>
+
+		<xsl:if test="string-length($vdSmallClaimFormF8) > 0"><fo:block space-after="0.4cm"><xsl:value-of select="$vdSmallClaimFormF8"/></fo:block></xsl:if>
+
+		<xsl:if test="string-length($vdSmallClaimFormF9) > 0">
+			<fo:block space-after="0.4cm">
+				If either party intends to show a video as evidence he must
+			</fo:block>
+			<fo:block space-after="0.4cm">
+				(a)	contact the court at once to make arrangements for him to do so, because the court may not have the necessary equipment, and
+			</fo:block>
+			<fo:block space-after="0.4cm">
+				(b)	provide the other party with a copy of the video or the opportunity to see it at least <xsl:value-of select="$vdSmallClaimFormF9"/> before the hearing.
+			</fo:block>
+		</xsl:if>
+
+		<fo:block>
+			<fo:inline font-weight="bold">Date:</fo:inline>&#xa0;<xsl:value-of select="$datetoday"/>
+		</fo:block>
+		</editable>
+	</body>
+	<footnote noteextent="4">
+		<fo:block space-after="0.2cm">
+		<fo:table table-layout="fixed" width="100%" font-size="10pt" font-family="Times">
+				<fo:table-column column-width="9.62cm"/>
+				<fo:table-column column-width="9.62cm"/>
+				<fo:table-body>
+					<fo:table-row>
+						<fo:table-cell number-columns-spanned="2" border-top-style="solid" border-left-style="solid" border-right-style="solid"
+							border-top-width="0.02cm" border-left-width="0.02cm" border-right-width="0.02cm"
+							padding-right="0.1cm" padding-left="0.1cm" padding-bottom="0.1cm" padding-top="0.1cm" >
+							<fo:block font-size="10pt" text-align="center" font-weight="bold">Notes</fo:block>
+						</fo:table-cell>
+					</fo:table-row>
+					<fo:table-row>
+						<fo:table-cell border-left-style="solid" border-bottom-style="solid"
+							border-left-width="0.02cm" border-bottom-width="0.02cm"
+							padding-right="0.1cm" padding-left="0.1cm" padding-bottom="0.1cm" padding-top="0.1cm" >
+							<fo:block>
+								<list type="bullet">
+									<list-item>
+										<fo:block font-size="9pt">
+											If you cannot, or choose not to, attend the hearing, you must write and tell the court <fo:inline font-weight="bold">at least 7 days before the date of the hearing.</fo:inline>
+											The district judge will hear the case in your absence, but will take into account of your statement of case and any other documents you have filed.
+										</fo:block>
+									</list-item>
+									<list-item>
+										<fo:block font-size="9pt">
+											As you have consented to your <xsl:value-of select="$vdAllocation"/> being heard in the small claims track, any costs allowed to the successful party will be limited to the maximum sum which can be awarded in the fast track.
+										</fo:block>
+									</list-item>
+								</list>
+							</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border-right-style="solid" border-bottom-style="solid"
+							border-right-width="0.02cm" border-bottom-width="0.02cm"
+							padding-right="0.1cm" padding-left="0.1cm" padding-bottom="0.1cm" padding-top="0.1cm" >
+							<fo:block>
+								<list type="bullet">
+									<list-item>
+										<fo:block font-size="9pt">
+											If you do not attend the hearing and do not give notice that you will not attend, the district judge may strike out your claim, defence or counterclaim.
+											If the claimant attends but the defendant does not, the district judge may make a decision based on the evidence of the claimant only.
+										</fo:block>
+									</list-item>
+									<list-item>
+										<fo:block font-size="9pt">
+											Leaflets telling you more about small claims track are available from the court office, <fo:inline font-weight="bold">or online at</fo:inline> www.hmcourts-service.gov.uk/cms/infoabout.htm.
+										</fo:block>
+									</list-item>
+								</list>
+							</fo:block>
+						</fo:table-cell>
+					</fo:table-row>
+				</fo:table-body>
+			</fo:table>
+				
+		</fo:block>
+	</footnote>
+	<defaultFooter id="CJR023C"/>
+</root>

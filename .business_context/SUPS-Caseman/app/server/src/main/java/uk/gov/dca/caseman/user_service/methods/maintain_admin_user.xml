@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: User
+	Method: maintainAdminUser()
+	File: maintain_admin_user.xml
+	Author:  Chris Vincent
+	Created: 23-Jul-2014
+	Description:
+		Handles the maintenance of admin users
+-->
+<service-method>
+	<pipeline>
+		<Java>
+			<Source class="uk.gov.dca.caseman.user_service.java.MaintainAdminUserCustomProcessor"/>
+		</Java>
+	</pipeline>
+	<Security roles="viewOnly medium high wcSuper scSuper bmsSuper aeSuper dmSuper cpSuper edsAdmin admin sAdmin ccbcMan ccbcUser ccbcSGB2 ccbcTape"/>
+</service-method>

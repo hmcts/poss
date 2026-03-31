@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: Reports
+	Method:  runInitialCoStartOfDayReports()
+	File:    run_initial_co_start_of_day_reports.xml
+	Author:  Kevin Gichohi (EDS)
+	Created: 08 February 2006
+	Description: 
+		Calls the Custom Processor that builds the XML that is eventually passed to reports service.
+-->
+<service-method>
+	<pipeline> 
+		<Java callStyle="new">
+			<Source class="uk.gov.dca.caseman.reports_service.classes.CoInitialStartOfDayReportsCustomProcessor"/>
+		</Java>
+	</pipeline>
+	<Dependencies>
+	</Dependencies>		
+	<Security roles="viewOnly medium high wcSuper scSuper bmsSuper aeSuper dmSuper edsAdmin cpSuper"/>		
+</service-method>

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<DBMapDef>
+	<DataSource id="java:SupsDS2"/>
+	<Tables>
+		<Table alias="D" name="DCA_USER"/>
+	</Tables>
+	<Mapping>
+		  <User>
+			<UserId>${D.USER_ID}</UserId>
+			<Title>${D.TITLE}</Title>
+			<Forenames>${D.FORENAMES}</Forenames>
+			<Surname>${D.SURNAME}</Surname>
+			<UserShortName>${D.USER_SHORT_NAME}</UserShortName>
+			<JobTitle>${D.JOB_TITLE}</JobTitle>
+			<Extension>${D.EXTENSION}</Extension>	
+			<AccessSecurityLevel>${D.ACCESS_SECURITY_LEVEL}</AccessSecurityLevel>
+			<UserDefaultPrinter>${D.USER_DEFAULT_PRINTER}</UserDefaultPrinter>				
+		</User>
+	</Mapping>
+</DBMapDef>

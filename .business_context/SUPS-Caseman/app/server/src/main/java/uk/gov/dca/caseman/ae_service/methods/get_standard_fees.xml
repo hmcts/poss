@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: Ae
+	Method:  getStandardFees()
+	File:    get_standard_fees.xml
+	Author:  
+	Created: 
+	Description: 
+        List of Judgement and Maintenance Standard Fee values per court used when raising an AE Application
+    Change History
+	    22/06/2006 : looking for global items (ie ADMIN_COURT_CODE = 0)
+-->
+<service-method>
+	<pipeline>
+		<Query>
+			<QueryDef location="uk/gov/dca/caseman/ae_service/query_def_standard_fees.xml"/>
+			<QueryExtension pivotNode="/StandardFees/JudgmentFee">
+				<Constraint>S.ADMIN_COURT_CODE = '0'</Constraint>
+			</QueryExtension>			
+			<QueryExtension pivotNode="/StandardFees/MaintenanceFee">
+				<Param name="param.courtCode" xpath="/params/param[@name = 'courtId']"/>
+				<Constraint>S.ADMIN_COURT_CODE = '0'</Constraint>
+			</QueryExtension>
+		</Query>
+	</pipeline>
+   <Security roles="medium high wcSuper scSuper bmsSuper aeSuper dmSuper cpSuper"/>   	
+</service-method>

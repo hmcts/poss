@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: Co Dividends
+	Method:  getCoDividends()
+	File:    map_get_co_dividends.xml
+	Author:  Tim Connor (Valtech)
+	Created: 18 October 2005
+	Description: 
+		Retrieves the list of dividends for a Consolidated Order
+-->
+<DBMapDef>
+	<DataSource id="java:OracleDS"/>
+	<Tables>
+		<Table alias="D"  name="DIVIDENDS"/>
+		<Table alias="DD" name="DEBT_DIVIDENDS"/>		
+		<Table alias="AD" name="ALLOWED_DEBTS"/>
+		<Table alias="P"  name="PARTIES"/>
+		<Table alias="GA" name="GIVEN_ADDRESSES"/>
+	</Tables>
+	<Mapping>
+		<ds>
+			<MaintainCO>
+				<Dividends>
+					<Dividend>
+						<Number>${D.DIV_NUMBER}</Number>
+						<Date>${D.DIV_DATE}</Date>						
+						<ReportId>${D.DIV_REPORT_ID}</ReportId>
+						<Amount>${D.DIV_AMOUNT}</Amount>
+						<AmountCurrency>${D.DIV_AMOUNT_CURRENCY}</AmountCurrency>
+						<Fee>${D.DIV_FEE}</Fee>
+						<FeeCurrency>${D.DIV_FEE_CURRENCY}</FeeCurrency>
+						<CreatedBy>${D.DIV_CREATED_BY}</CreatedBy>
+						<Debts>
+							<Debt>
+								<Number/>
+								<CreditorName>${P.PERSON_REQUESTED_NAME}</CreditorName>
+								<DividendNumber>${DD.DD_DIV_NUMBER}</DividendNumber>
+								<PayeeDetails>${DD.DD_PAYEE_DETAILS}</PayeeDetails>
+								<Amount>${DD.DD_AMOUNT}</Amount>
+								<AmountCurrency>${DD.DD_AMOUNT_CURRENCY}</AmountCurrency>
+								<PONumber>${DD.DD_PO_NUMBER}</PONumber>
+								<TotalPO>${DD.DD_TOTAL_PO}</TotalPO>
+								<TotalPOCurrency>${DD.DD_TOTAL_PO_CURRENCY}</TotalPOCurrency>
+							</Debt>
+						</Debts>
+					</Dividend>
+				</Dividends>
+			</MaintainCO>
+		</ds>
+	</Mapping>
+</DBMapDef>

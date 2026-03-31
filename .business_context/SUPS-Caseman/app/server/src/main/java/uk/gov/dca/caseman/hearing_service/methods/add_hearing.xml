@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: Hearing
+	Method:  addHearing()
+	File:    add_hearing.xml
+	Author:  Troy Baines
+	Created: 20 November 2004
+	Description: 
+        Inserts a hearing record
+-->
+<service-method>
+	<pipeline>
+		<Update>
+			<QueryDef location="uk/gov/dca/caseman/hearing_service/query_def_modify.xml"/>
+			<DataSource xpath="/params/param[@name='HearingID']"/>
+			<QueryExtension pivotNode="/ds/MaintainHearing/Hearings/Hearing">
+				<CheckExists table="H" fields="hrg_seq" onNotExist="add" onExist="skip"/>
+			</QueryExtension>
+		</Update>
+	</pipeline>
+	<Security roles="medium high wcSuper scSuper bmsSuper aeSuper dmSuper cpSuper ccbcMan ccbcUser ccbcSGB2"/>
+</service-method>

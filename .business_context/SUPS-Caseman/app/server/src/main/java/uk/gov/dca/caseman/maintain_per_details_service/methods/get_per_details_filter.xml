@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: MaintainPerDetails
+	Method:  getPerDetailsFilter
+	File:    get_per_details_filter.xml
+	Author:  pz9j2w
+	Created: 05 Sep 2005
+	Description:
+		Gets selected records from per_details
+-->
+<service-method>
+	<pipeline>
+		<Query>
+  			<QueryDef location="uk/gov/dca/caseman/maintain_per_details_service/query_def.xml"/>
+  				<QueryExtension pivotNode="/PerDetails/PerDetail">    	
+					<Param name="param.code" xpath="/params/param[@name = 'code']"/>
+					<Param name="param.group" xpath="/params/param[@name = 'group']"/>
+					<Param name="param.category" xpath="/params/param[@name = 'category']"/>
+					<Param name="param.multiples" xpath="/params/param[@name = 'multiples']"/>
+					<Param name="param.order" xpath="/params/param[@name = 'order']"/>
+					<Param name="param.prompt" xpath="/params/param[@name = 'prompt']"/>
+    				<Constraint>
+						(
+							(
+								${param.code} IS NULL OR PD.DETAIL_CODE LIKE UPPER(${param.code}) 
+							) 
+							AND																									
+							(
+								${param.group} IS NULL OR PD.PER_GROUP = UPPER(${param.group})
+							) 
+							AND
+							(
+								${param.category} IS NULL OR PD.PER_CATEGORY = UPPER(${param.category})
+							) 
+							AND
+							(
+								${param.multiples} IS NULL OR PD.ALLOW_MULTIPLES = UPPER(${param.multiples})
+							)							
+							AND
+							(
+								${param.order} IS NULL OR PD.ORDER_NUMBER LIKE UPPER(${param.order})
+							)
+							AND
+							(
+								${param.prompt} IS NULL OR PD.PROMPT LIKE (${param.prompt})
+							) 							
+						)
+					</Constraint>
+					<OrderBy>PD.DETAIL_CODE</OrderBy>
+  				</QueryExtension>
+		</Query>
+  	</pipeline>
+	<Security roles="viewOnly medium high wcSuper scSuper bmsSuper aeSuper dmSuper cpSuper edsAdmin ccbcMan ccbcUser ccbcSGB2 ccbcTape admin"/>
+</service-method>

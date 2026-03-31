@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: Codedparty
+	Method:  getNatCodedPartyShort()
+	File:    getNatCodedPartyShort.xml
+	Author:  Chris Hutt
+	Description:
+		This method is used to determine whether or not a particular National Coded Party 
+		Code is already exists.
+
+	Change History:
+	07-Dec-2005 Phil Haferer (EDS): Changed the service to look up the Code in the CODED_PARTIES
+			    table, rather than the NATIONAL_CODED_PARTIES tables, so that this service 
+			    can be used test for the existing of the Non CPC National Coded Parties.
+-->
+<service-method>
+	<pipeline>
+		<Query>
+  			<QueryDef location="uk/gov/dca/caseman/codedparty_service/query_def_ncp_short.xml"/>
+			<QueryExtension pivotNode="/CodedParty/Code">
+				<Param name="param.codedPartyCode" xpath="/params/param[@name = 'codedPartyCode']"/>
+				<Constraint>CP.CODE = ${param.codedPartyCode}</Constraint>
+			</QueryExtension>
+		</Query>
+  	</pipeline>
+	<Security roles="viewOnly medium high wcSuper scSuper bmsSuper aeSuper dmSuper cpSuper edsAdmin ccbcMan"/>
+</service-method>

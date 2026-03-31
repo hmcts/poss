@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: Co Dividends
+	Method:  getDividendsDeclared()
+	File:    query_def_get_dividends_declared.xml
+	Author:  Chris Vincent (EDS)
+	Created: 05 January 2006
+	Description: 
+		Retrieves a list of all Consolidated Orders at the court specified that have previously had a dividend 
+		declared.
+-->
+<QueryDef>
+  <DBMapDef location="uk/gov/dca/caseman/co_dividend_service/map_get_dividends_declared.xml"/>
+  <Query pivotNode="/ConsolidatedOrderList/ConsolidatedOrder" tables="CO">
+	  <Join/>
+  </Query>
+
+</QueryDef>

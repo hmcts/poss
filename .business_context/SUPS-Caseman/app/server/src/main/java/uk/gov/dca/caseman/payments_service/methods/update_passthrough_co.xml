@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: Payments
+	Method: updatePassthroughCo()
+	File: update_passthrough_co.xml
+	Author: Tony White
+	Description:
+		Updates the Status and Fee Amount on a CO.
+-->
+<service-method>
+	<pipeline>		
+		<Update>
+			<QueryDef location="uk/gov/dca/caseman/payments_service/query_def_update_co.xml" />
+			<DataSource xpath="/params/param[@name='co']" />
+			<QueryExtension pivotNode="/Co">
+				<CheckExists table="CO" fields="CO_NUMBER" onNotExist="fail" onExist="update" />
+			</QueryExtension>
+		</Update>		
+	</pipeline>
+	<Dependencies>
+		<Dependency serviceName="WarrantReturns" />
+		<Dependency serviceName="Bms" />
+		<Dependency serviceName="Warrant" />
+	</Dependencies>
+	<Security roles="medium high wcSuper scSuper bmsSuper aeSuper dmSuper" />
+</service-method>

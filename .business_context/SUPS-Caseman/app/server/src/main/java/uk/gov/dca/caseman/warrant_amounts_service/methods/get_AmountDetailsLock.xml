@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: WarrantAmounts
+	Method:  getAmountDetailsLock()
+	File:    get_AmountDetailsLock.xml
+	Author:  Chris Vincent
+	Created: 
+	Description: 
+		Retrieves the warrant fee and refund records associated with a warrant as well as
+		a small summary of the warrant with SCN numbers to prevent two users adding fees /
+		refunds on the same warrant at the same time.
+-->
+<service-method>
+  <pipeline>
+    <Query>
+      <QueryDef location="uk/gov/dca/caseman/warrant_amounts_service/query_def_gad_lock.xml"/>
+      
+      <QueryExtension pivotNode="/ds/WarrantAmounts/Warrant">
+		<Param name="param.WarrantId" xpath="/params/param[@name = 'WarrantId']"/>
+        <Param name="param.ProcessNumber" xpath="/params/param[@name = 'ProcessNumber']"/>
+		<Param name="param.ProcessType" xpath="/params/param[@name = 'ProcessType']"/>
+		<Param name="param.IssuingCourtCode" xpath="/params/param[@name = 'IssuingCourtCode']"/>
+        <SQL type="select">
+			SELECT F.FEES_PAID_ID AS "F.FEES_PAID_ID",
+				F.PROCESS_NUMBER AS "F.PROCESS_NUMBER",
+				F.PROCESS_TYPE AS "F.PROCESS_TYPE",
+				F.ALLOCATION_DATE AS "F.ALLOCATION_DATE",
+				F.AMOUNT AS "F.AMOUNT",
+				F.AMOUNT_CURRENCY AS "F.AMOUNT_CURRENCY",
+				F.ISSUING_COURT AS "F.ISSUING_COURT",
+				F.USER_ID AS "F.USER_ID",
+				F.DATE_CREATED AS "F.DATE_CREATED",
+				F.DELETED_FLAG AS "F.DELETED_FLAG",
+				(SELECT CASE 
+					WHEN
+ 						F.AMOUNT &lt; 0 THEN 'REFUND' 
+					ELSE
+ 						'FEE' 
+					END
+				FROM FEES_PAID F1
+            	WHERE F1.FEES_PAID_ID = F.FEES_PAID_ID ) AS "F1.TYPE",
+            	'EXISTING' AS "EXISTING_VALUE",
+            	F.ORA_ROWSCN AS "F_ORA_ROWSCN"
+        	FROM FEES_PAID F
+			WHERE F.PROCESS_NUMBER = ${param.ProcessNumber} AND
+			F.PROCESS_TYPE = ${param.ProcessType} AND
+			F.ISSUING_COURT = ${param.IssuingCourtCode} AND
+			F.DELETED_FLAG = 'N'
+		</SQL>
+      </QueryExtension>
+		
+      <QueryExtension pivotNode="/ds/WarrantData">
+		<Param name="param.WarrantId" xpath="/params/param[@name = 'WarrantId']"/>
+        <SQL type="select">
+			SELECT W.WARRANT_ID AS "W.WARRANT_ID",
+            	W.ORA_ROWSCN AS "W_ORA_ROWSCN"
+        	FROM WARRANTS W
+			WHERE W.WARRANT_ID = ${param.WarrantId}
+		</SQL>
+      </QueryExtension>
+    </Query>
+  </pipeline>
+  <Security roles="wcSuper"/>
+</service-method>

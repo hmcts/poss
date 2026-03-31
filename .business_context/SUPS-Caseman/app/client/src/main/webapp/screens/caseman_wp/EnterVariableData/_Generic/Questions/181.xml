@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>181</Id>
+	<Label>Date for reply</Label>
+	<ObjectName>ReplyDate</ObjectName>
+	<Html>	
+		<script type="text/javascript">
+			WP_DatePickerRenderer.createInline("ReplyDate");			
+		</script>
+	</Html>
+	<Javascript>
+		<XPath>/ds/EnterVariableData/FastTrack/replyDate</XPath>
+		<HintText>Enter date for reply in the format DD-MON-YYYY</HintText>
+		<mandatoryOn>ReplyDate.dataBinding</mandatoryOn>
+		<isMandatory>return true;</isMandatory>	
+		<enableOn>IsReplyDate.dataBinding</enableOn>
+		<isEnabled>return('Y' == Services.getValue(IsReplyDate.dataBinding));</isEnabled>
+		<logicOn>IsReplyDate.dataBinding</logicOn>
+		<logic>
+			if('N' == Services.getValue(IsReplyDate.dataBinding))
+			{	Services.setValue(ReplyDate.dataBinding, "");
+			}
+		</logic>
+		<validateOn>ReplyDate.dataBinding</validateOn>
+		<validate>
+			//cannot be in past : working day only
+			
+			var checkDate = Services.getValue(ReplyDate.dataBinding); 
+			var err = null;
+			
+			if( false == isFutureDate(checkDate))
+			{ 	err = ErrorCode.getErrorCode("CaseMan_dateCannotBeInThePast_Msg");
+			}
+			else if( isNonWorkingDate(checkDate))
+		    {   err = ErrorCode.getErrorCode("CaseMan_dateNonWorkingDay_Msg"); 
+		    }
+			
+			return err;
+		</validate>	
+		<!--initialise>		  	
+		  	loadNonWorkingDays();
+		</initialise-->
+		<miscCode>
+		    ReplyDate.weekends = false;
+		</miscCode>		
+	</Javascript>
+</Question>

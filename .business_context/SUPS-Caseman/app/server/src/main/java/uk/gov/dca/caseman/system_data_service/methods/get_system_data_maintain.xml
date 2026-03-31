@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: SystemData
+	Method:  getSystemDataMaintain()
+	File:    get-system_data_maintain.xml
+	Author:  Tony White
+	Created: 5 Sept 2005
+	Description: 
+		Retrieve system data for specified court which is appropriate for maintenance
+		by the associated screen.
+-->
+<service-method>
+	<pipeline>
+		<Query>
+			<QueryDef location="uk/gov/dca/caseman/system_data_service/query_def_maintain.xml"/>
+			<QueryExtension pivotNode="/SystemData/NonPerData/SystemDataList/SystemDataItem">
+				<Param name="param.adminCourtCode" xpath="/params/param[@name = 'adminCourtCode']"/>
+				<Constraint>
+					SD.ADMIN_COURT_CODE = ${param.adminCourtCode}
+					AND 
+					(
+						SD.ITEM NOT LIKE UPPER('%_W') AND SD.ITEM NOT LIKE ('%_M')
+					)
+				</Constraint>				
+				<OrderBy>SD.ITEM</OrderBy>
+				<Hint>INDEX(SD, XIF1SYSTEM_DATA)</Hint>
+			</QueryExtension>
+		</Query>
+	</pipeline>
+	<Security roles="viewOnly medium high wcSuper scSuper bmsSuper aeSuper dmSuper cpSuper edsAdmin ccbcMan ccbcUser ccbcSGB2 ccbcTape admin"/>
+</service-method>

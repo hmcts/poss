@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: Co
+	Method:  getDebtStatusList()
+	File:    map_get_debt_status_list.xml
+	Author:  Phil Haferer (EDS)
+	Created: 01 September 2005
+	Description: 
+		Retrieve the list of 'Allowed Debt' Debt Status.
+-->
+<DBMapDef>
+	<DataSource id="java:OracleDS"/>
+	<Tables>
+		<Table alias="REF"  name="CCBC_REF_CODES"/>		
+	</Tables>
+	<Mapping>
+		<DebtStatus>
+			<Status>
+				<Value>${REF.RV_LOW_VALUE}</Value>
+			</Status>
+		</DebtStatus>
+	</Mapping>
+</DBMapDef>

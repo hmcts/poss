@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: TransferCase
+	Method:  getJurisdictionCaseTypeList()
+	File:    get_jurisdiction_case_type_list.xml
+	Author:  Phil Haferer (EDS)
+	Created: 21 June 2005
+	Description: 
+		In the 'Transfer Case' screen, having selected a destination Court, the user may then be 
+		required to select a new Case Type - i.e. a Case Type that is valid at the destination Court.
+		This service therefore retrieves a list of Case Types which match the jurisdiction of the 
+		destination Court.
+		The jurisdiction should be one of 'HC' for High Court, or 'CC' for County Court.
+		Case Types relating to Insolvency should not selected, as these are not transferred.
+		The column RV_IIT_CODE_1 in the CURRENT_CASE_TYPE domain defines 'Jurisdiction'.
+			Q    = Queens Bench District Registry
+			C    = Chancery Division District Registry
+			Null = County Court
+			(Queens Bench and Chancery divisions are subsets of District Registry).	
+			
+	Change History
+	
+	Chris Hutt 	25/09/07 TD 6442 
+	    		Need to exclude 'MAGS ORDER' case type from the list of alternatives offered.	
+-->
+<service-method>
+	<pipeline>
+		<SQLLite format-output="true"
+				 resultset-element="CaseTypes"
+				 row-element="CaseType"
+				 field-name-as="element" >
+			<DataSource id="java:OracleDS"/>
+			<Param name="param.jurisdiction" xpath="/params/param[@name = 'jurisdiction']"/>
+			<SQL>
+				SELECT REF.RV_LOW_VALUE   AS "Type"                    
+				,      REF.RV_MEANING     AS "Description"
+				FROM   CCBC_REF_CODES REF
+				WHERE  REF.RV_DOMAIN         = 'CURRENT_CASE_TYPE'
+				AND    REF.RV_HIGH_VALUE     = 'SOLVENCY'
+				AND    REF.RV_LOW_VALUE != 'MAGS ORDER'
+				AND(  (${param.jurisdiction} = 'HC' 
+				AND    NOT REF.RV_IIT_CODE_1 IS NULL)
+				OR(    ${param.jurisdiction} = 'CC' 
+				AND    REF.RV_IIT_CODE_1     IS NULL))
+			</SQL>
+		</SQLLite>
+	</pipeline>
+	<Security roles="medium high wcSuper scSuper bmsSuper aeSuper dmSuper cpSuper ccbcMan ccbcUser ccbcSGB2"/>
+</service-method>

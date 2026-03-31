@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: StartOfDay
+	Method:  getRunStartOfDayStatus()
+	File:    get_run_start_of_day_status.xml
+	Author:  Kevin Gichohi (EDS)
+	Created: 28 October 2005
+	Description: 
+		Determine whether the given the start of day reports have been run.
+-->
+<service-method>
+	<pipeline>
+		<SQLLite format-output="true"
+				 resultset-element="ds"
+				 row-element="StartOfDay"
+				 field-name-as="element" >
+			<DataSource id="java:OracleDS"/>
+				<Param name="param.runDate" xpath="/params/param[@name='runDate']"/>
+				<Param name="param.systemDate" xpath="/params/param[@name='systemDate']"/>
+				<Param name="param.adminCourtCode" xpath="/params/param[@name='adminCourtCode']"/>
+			
+			<SQL>
+				
+			   	SELECT SD.ITEM                AS "item"
+        	   	,      TRUNC(SD.ITEM_VALUE,0) AS "itemValue"
+        		,      SD.ADMIN_COURT_CODE    AS "adminCourtCode"   
+  				FROM SYSTEM_DATA SD
+  				WHERE SD.ITEM 			= ${param.runDate}
+				AND SD.ITEM_VALUE 		= ${param.systemDate}
+				AND SD.ADMIN_COURT_CODE = ${param.adminCourtCode}
+  				
+  				
+			</SQL>
+		</SQLLite>
+	</pipeline>
+	<Security roles="viewOnly medium high wcSuper scSuper bmsSuper aeSuper dmSuper edsAdmin cpSuper"/>	
+</service-method>

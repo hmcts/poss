@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<QueryDef>
+	<DBMapDef location="uk/gov/dca/caseman/ae_service/map_ae_fee_total.xml" />
+	<Query pivotNode="/OtherFees" tables="F">
+		<SQL type="select">
+			SELECT SUM(AMOUNT) AS "TOTAL" FROM FEES_PAID F
+			WHERE ${param.aeNumber} = F.PROCESS_NUMBER
+		</SQL>
+		<Modify notModifiable="true"/>
+	</Query>
+</QueryDef> 

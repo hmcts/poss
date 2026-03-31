@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>9115</Id>
+	<Label>Cost to be paid</Label>
+	<ObjectName>CostPaid</ObjectName>
+	<Html>
+		<select id="CostPaid">
+			<option value=""></option>
+			<option value="F">Forthwith</option>
+			<option value="BGD">By given date</option>
+			<option value="INST">By instalments</option>
+		</select>
+	</Html>			
+	<Javascript>
+        <XPath>/ds/EnterVariableData/CostPaid</XPath>
+		<HintText>Select from the following</HintText>
+		<mandatoryOn>CostPaid.dataBinding</mandatoryOn> 
+        <isEnabled>return true;</isEnabled> 
+        <Context ScreenId="O_7_8">
+            <mandatoryOn>AssessedCosts.dataBinding</mandatoryOn>
+            <isMandatory>return ("Y" == Services.getValue(AssessedCosts.dataBinding));</isMandatory>
+            <enableOn>AssessedCosts.dataBinding</enableOn>
+            <isEnabled>return ("Y" == Services.getValue(AssessedCosts.dataBinding));</isEnabled>
+            <logicOn>AssessedCosts.dataBinding</logicOn>
+            <logic>
+            if("Y" != Services.getValue(AssessedCosts.dataBinding)){
+                    Services.setValue(CostPaid.dataBinding, "");
+            }
+            </logic>
+       
+         </Context>
+	</Javascript>
+</Question>  

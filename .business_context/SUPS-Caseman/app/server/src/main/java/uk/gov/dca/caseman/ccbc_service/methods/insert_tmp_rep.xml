@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: CcbcBatch
+	Method:  insertTmpRep()
+	File:    insert_tmp_rep.xml
+	Author:  Chris Hutt
+	Created: 21 November 2005
+	Description: 
+		Insert Tmp_Rep row.
+		
+	v1.1 Chris Hutt 6/4/06.
+		 Rewritten as SQLLite as part of addressing UCT defect 465
+-->
+<service-method>
+	<pipeline>
+		<SQLLite output="input">
+			<DataSource id="java:OracleDS"/>
+			<Param name="param.reportId" xpath="/params/param[@name='TmpRep']/TmpRep/ReportId"/>
+			<Param name="param.userName" xpath="/params/param[@name='TmpRep']/TmpRep/UserName"/>
+			<Param name="param.parameter" xpath="/params/param[@name='TmpRep']/TmpRep/Parameter"/>
+			<Param name="param.value" xpath="/params/param[@name='TmpRep']/TmpRep/Value"/>
+			<Param name="param.jobNumber" xpath="/params/param[@name='TmpRep']/TmpRep/JobNumber"/>
+			<Param name="param.timeStamp" xpath="/params/param[@name='TmpRep']/TmpRep/TimeStamp"/>
+			<SQL type="update" tables="T">
+			    INSERT INTO TMP_REP T
+			    (	T.REPORT_ID
+				,	T.USERNAME
+				,	T.PARAMETER
+				,	T.VALUE
+				,	T.JOB_NUMBER
+				,	T.TIME_STAMP		    			    
+			    )VALUES
+			    (  	${param.reportId}
+			    ,	${param.userName}
+			    ,	${param.parameter}
+			    ,	${param.value}
+			    ,	${param.jobNumber}
+			    ,	${param.timeStamp}
+			    )				
+			</SQL>
+		</SQLLite>	
+	</pipeline>
+	<Security roles="medium high wcSuper scSuper bmsSuper aeSuper dmSuper admin"/>				
+</service-method>

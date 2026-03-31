@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>318</Id>
+	<Label>Is there a time estimate for hearing?</Label>
+	<ObjectName>IsHearingTimeEst</ObjectName>
+	<Html>		
+		<input type="checkbox" id="IsHearingTimeEst"></input>
+	</Html>
+	<Javascript>
+		<XPath>/ds/EnterVariableData/ConfNotice/isHearingTimeEst</XPath>
+		<HintText>Check box if there is a time estimation for hearing</HintText>						
+		<modelValue>checked: "Y", unchecked: "N"</modelValue>
+		
+		<Context ScreenId="CO02">
+			<isMandatory>return true;</isMandatory>
+		</Context>
+		
+	</Javascript>
+</Question>

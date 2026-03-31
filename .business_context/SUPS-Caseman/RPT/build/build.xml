@@ -1,0 +1,224 @@
+<!-- ===========================================================================
+ = SUPS
+ =
+ = Name:        build-app.xml
+ = Description: Top level build file for mcol workspace 
+ =
+ = $Revision: $
+ = $Author: $
+ = $Date: $
+ = $URL: $
+ =
+ = Copyright CGI UK 2016
+ =========================================================================== -->
+
+
+<project name="top-level" basedir=".">
+
+	<!-- Useful for debugging -->
+	<echo>Currently in buildfile :- ${ant.file} project name :- ${ant.project.name} </echo>
+
+	<!-- LOAD STANDARD PROPERTIES FROM ENVIRONMENT VARIABLES AND PROPERTY FILES -->
+	<import file="../build/build-setup-env.xml" />
+
+	<!-- List of all projects in order - note dirset cannot control order of execution -->
+	<filelist id="all-project-list" dir=".">
+		<file name="../client-ant-tasks/build.xml" />
+		<file name="../CommonFramework/build.xml" />
+		<file name="../ClientFramework/build.xml" />
+		<file name="../ServerFramework/build.xml" />
+		<file name="../TestFramework/build.xml" />
+	</filelist>
+
+	<!-- List of projects for which deploy is needed in order - note dirset cannot control order of execution -->
+	<filelist id="deploy-project-list" dir=".">
+		<file name="../CommonFramework/build.xml" />
+		<file name="../ClientFramework/build.xml" />
+		<file name="../ServerFramework/build.xml" />
+		<file name="../TestFramework/build.xml" />
+	</filelist>
+
+	<!-- TARGETS -->
+
+	<!-- General initialisation - ensure build directory (for classes) and dist directory (for jar) are present -->
+	<target name="init" description="Initialise">
+		<mkdir dir="../${logs.dir}" />
+	</target>
+
+	<!-- Delete all build artefacts -->
+	<target name="clean-application" description="Cleanup build and distribution folders for all projects">
+		<subant antfile="build.xml" target="clean" inheritrefs="true" inheritAll="false">
+			<filelist refid="all-project-list" />
+		</subant>
+		<delete dir="${lib.app.dir}" />
+		<delete dir="${lib.test.dir}" />
+		<delete dir="${junit.unit.test-reports.dir}" />
+		<delete dir="${junit.integ.test-reports.dir}" />
+		<delete verbose="true">
+			<fileset dir="../${logs.dir}" includes="framework*.*" />
+		</delete>
+	</target>
+
+	<!-- Delete deployed war in Wildfly -->
+	<target name="clean-wildfly" description="Cleanup wildfly.">
+	</target>
+
+	<!-- Start Wildfly. This should only be run on Hudson box or it interferes with Eclipse 
+         wildfly integration. -->
+	<target name="start-wildfly" if="isUnix" description="Start the ${app.server.instancename} instance of tc-server">
+		<exec executable="${app.server.dir}/????" failonerror="true" dir="${app.server.dir}">
+			<arg value="${app.server.instancename}" />
+			<arg value="start" />
+		</exec>
+	</target>
+
+	<!-- Stop wildfly instance. This should only be run on Hudson box or it interferes with Eclipse 
+         wildfly integration. -->
+	<target name="stop-wildfly" if="isUnix" description="Stop the ${app.server.instancename} instance of tc-server">
+		<exec executable="${app.server.dir}/????" failonerror="false" dir="${app.server.dir}">
+			<arg value="${app.server.instancename}" />
+			<arg value="stop" />
+			<arg value="--force" />
+		</exec>
+	</target>
+
+	<!-- Create mcol schema and objects for baseline database and migrate forward to current -->
+	<target name="build-baseline-database" depends="init" description="Builds the DB by creating schema and schema objects">
+		<ant antfile="build.xml" dir="${database.dir}" target="build-baseline-database" inheritrefs="true" inheritAll="false" />
+	</target>
+
+	<!-- Create mcol schema and objects for current database -->
+	<target name="build-current-database" depends="init" description="Builds the DB by creating schema and schema objects">
+		<ant antfile="build.xml" dir="${database.dir}" target="build-current-database" inheritrefs="true" inheritAll="false" />
+	</target>
+
+	<target name="update-dev-database" depends="configure-all-prop-files" description="Updates dev server specific tables">
+		<ant antfile="build.xml" dir="${database.dir}" target="update-dev-database" inheritrefs="true" inheritAll="false" />
+	</target>
+
+	<!-- Configures all template files required for build -->
+	<target name="configure-all-prop-files" depends="init" description="Build all properties files from templates">
+		<subant antfile="build.xml" target="configure-property-files" inheritrefs="true" inheritAll="false">
+			<filelist refid="all-project-list" />
+			<!--			<filelist>
+				<file name="../Servers/build.xml" />
+			</filelist> -->
+		</subant>
+	</target>
+
+	<!-- Compile and create distribution jar for all source code once to prove all compiles. -->
+	<target name="dist-all" depends="init, configure-all-prop-files" description="Compile and create distribution jar for all source code once ">
+		<subant antfile="build.xml" target="dist" inheritrefs="true" inheritAll="false">
+			<filelist refid="all-project-list" />
+		</subant>
+	</target>
+
+	<!-- Compile and create distribution jar for all test source code once to prove all compiles. -->
+	<target name="dist-all-tests" depends="init, configure-all-prop-files" description="Compile and create distribution jar for all test source code once ">
+		<subant antfile="build.xml" target="dist-tests" inheritrefs="true" inheritAll="false">
+			<filelist refid="all-project-list" />
+		</subant>
+	</target>
+
+	<!-- Compile and create distribution jar for all test source code once to prove all compiles. -->
+	<target name="deploy-all" depends="init, dist-all" description="Deploy all artefacts to application server ">
+		<subant antfile="build.xml" target="deploy" inheritrefs="true" inheritAll="false">
+			<filelist refid="deploy-project-list" />
+		</subant>
+
+		<!-- Copy log4j.xml file into the tc-server area if this is tc-server -->
+		<copy todir="${app.server.dir}/${app.server.instancename}/conf" overwrite="true">
+			<fileset dir="${utils.dir}/${src.dir}">
+				<include name="log4j.xml" />
+			</fileset>
+		</copy>
+	</target>
+
+	<!-- Compile and create distribution jar for all test source code once to prove all compiles. -->
+	<target name="deploy-batch" depends="init, dist-all" description="Deploy just Batch artefacts to application server ">
+		<subant antfile="build.xml" target="deploy" inheritrefs="true" inheritAll="false">
+			<filelist refid="deploy-batch-project-list" />
+		</subant>
+	</target>
+
+	<!-- Run unit tests in all modules -->
+	<target name="run-all-unit-tests" depends="dist-all, dist-all-tests" description="Run all unit tests">
+		<subant genericantfile="build.xml" inheritrefs="true" inheritAll="false">
+			<filelist refid="all-project-list" />
+			<target name="run-unit-tests" />
+		</subant>
+
+		<antcall target="generate-all-unit-test-reports" />
+	</target>
+
+	<!-- Run integration tests in all modules -->
+	<target name="run-all-integration-tests" depends="stop-wildfly, dist-all-tests, start-wildfly" description="Run all integration tests">
+		<subant antfile="build.xml" inheritrefs="true" inheritAll="false">
+			<filelist refid="all-but-batch-project-list" />
+			<target name="run-integration-tests" />
+		</subant>
+
+		<antcall target="generate-all-integ-test-reports" />
+	</target>
+
+	<!-- Run end to end tests in all modules -->
+	<target name="run-all-endtoend-tests" depends="stop-wildfly, dist-all-tests, start-wildfly" description="Run all endtoend tests">
+		<subant antfile="build.xml" inheritrefs="true" inheritAll="false">
+			<filelist refid="all-but-batch-project-list" />
+			<target name="run-endtoend-tests" />
+		</subant>
+
+		<antcall target="generate-all-endtoend-test-reports" />
+	</target>
+
+	<target name="generate-all-unit-test-reports" description="Generates the unit test reports once all unit tests have been run">
+		<mkdir dir="${junit.unit.test-reports.dir}" />
+		<junitreport todir="${junit.unit.test-reports.dir}">
+			<fileset dir="../">
+				<include name="**/${junit.unit.output.dir}/TEST-*.xml" />
+			</fileset>
+			<report format="frames" todir="${junit.unit.test-reports.dir}" />
+		</junitreport>
+	</target>
+
+	<target name="generate-all-integ-test-reports" description="Generates the integration test reports once all integration tests have been run">
+		<mkdir dir="${junit.integ.test-reports.dir}" />
+		<junitreport todir="${junit.integ.test-reports.dir}">
+			<fileset dir="../">
+				<include name="**/${junit.integ.output.dir}/TEST-*.xml" />
+				<include name="**/${junit.endtoend.output.dir}/TEST-*.xml" />
+			</fileset>
+			<report format="frames" todir="${junit.integ.test-reports.dir}" />
+		</junitreport>
+	</target>
+
+	<target name="generate-all-endtoend-test-reports" description="Generates the end to end test reports once all end to end tests have been run">
+		<mkdir dir="${junit.endtoend.test-reports.dir}" />
+		<junitreport todir="${junit.endtoend.test-reports.dir}">
+			<fileset dir="../">
+				<include name="**/${junit.endtoend.output.dir}/TEST-*.xml" />
+			</fileset>
+			<report format="frames" todir="${junit.endtoend.test-reports.dir}" />
+		</junitreport>
+	</target>
+
+	<!-- Generate Javadoc for all modules -->
+	<target name="generate-all-javadocs" depends="init" description="Generate code documentation for all modules">
+		<delete dir="${javadoc.dir}" />
+		<mkdir dir="${javadoc.dir}" />
+
+		<subant antfile="build.xml" target="generate_javadoc" inheritrefs="true" inheritAll="false">
+			<filelist refid="all-project-list" />
+		</subant>
+	</target>
+
+	<!-- Run diagnostics report -->
+	<target name="diagnostics" depends="init" description="Output diagnostics of ANT">
+		<diagnostics />
+	</target>
+
+	<!-- Echo properties used by ANT -->
+	<target name="echoproperties" depends="init" description="List ANT properties">
+		<echoproperties />
+	</target>
+</project>

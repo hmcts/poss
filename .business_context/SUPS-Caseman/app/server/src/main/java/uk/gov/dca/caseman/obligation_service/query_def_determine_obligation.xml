@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<QueryDef>
+<DBMapDef location="uk/gov/dca/caseman/obligation_service/map_determine_obligation.xml"/>
+	<Query pivotNode="/ds/ObligationSequence" tables="O">
+		<SQL type="select">
+			 SELECT MAX(OBLIGATION_SEQ)+1 AS "O.OBLIGATIONCOUNT" 
+			 FROM OBLIGATIONS O 
+			 WHERE O.CASE_NUMBER  = ${param.caseNumber} 
+		</SQL>
+		<Modify notModifiable="true"/>
+	</Query>
+</QueryDef>

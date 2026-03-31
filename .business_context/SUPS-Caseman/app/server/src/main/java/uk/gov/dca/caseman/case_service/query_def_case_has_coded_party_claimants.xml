@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<QueryDef>
+  <DBMapDef location="uk/gov/dca/caseman/case_service/map_case_has_coded_party_claimants.xml"/>
+  <Query pivotNode="/CaseHasCodedPartyClaimants" tables="CPR CP">
+    <SQL type="select">
+		SELECT DECODE(COUNT(*),0,'N','Y') AS "CPR.HAS_CODED_PARTY" 
+		FROM   CASE_PARTY_ROLES CPR
+		,      CODED_PARTIES    CP
+		WHERE  CPR.CASE_NUMBER = ${param.caseNumber}
+		AND    CPR.PARTY_ROLE_CODE = 'CLAIMANT'
+		AND    CPR.PARTY_ID = CP.PARTY_ID
+    </SQL>
+    <Modify notModifiable="true"/>
+  </Query>    
+</QueryDef>

@@ -1,0 +1,267 @@
+<!-- ===========================================================================
+ = SUPS
+ =
+ = Name:        build-setup-env.xml
+ = Description: Top level build file to define environment and standard properties. 
+ =
+ = $Revision: $
+ = $Author: $
+ = $Date: $
+ = $URL: $
+ =
+ = Copyright CGI UK 2016
+ =========================================================================== -->
+
+<project name="build-setup-env" basedir=".">
+
+	<!-- ###################### -->
+	<!-- TASKDEF TO GET STARTED -->
+	<!-- ###################### -->
+
+	<!-- Add ANT contrib for additional targets -->
+	<taskdef resource="net/sf/antcontrib/antcontrib.properties" />
+
+
+
+	<!-- ################# -->
+	<!-- LOAD ALL PROPERTY -->
+	<!-- ################# -->
+
+	<!-- Get ANT to tell us the directory where this script lives. -->
+	<dirname file="${ant.file.build-setup-env}" property="this.dir" />
+
+	<!-- Make environment variables available to this script. 
+         Provides all environment variables as Ant properties prefixed by "env.", 
+         for example, CLASSPATH would be accessible in Ant as ${env.CLASSPATH}. -->
+	<property environment="env" />
+
+	<!-- Load personalised properties; these override other configured properties -->
+	<property name="env.LOCAL_PROPERTIES" value="${this.dir}/local.properties" />
+	<property name="local.properties" value="${env.LOCAL_PROPERTIES}" />
+	<property file="${local.properties}" />
+	<!-- Ignored if does not exist -->
+	<if>
+		<equals arg1="${stream-to-deploy}" arg2="Stream1" />
+		<then>
+			<property name="my.oc4j.port" value="${my.oc4j.port.stream1}" />
+		</then>
+		<elseif>
+			<equals arg1="${stream-to-deploy}" arg2="Stream2" />
+			<then>
+				<property name="my.oc4j.port" value="${my.oc4j.port.stream2}" />
+			</then>
+		</elseif>
+		<else>
+			<property name="my.oc4j.port" value="${my.oc4j.port.stream1}" />
+		</else>
+	</if>
+
+	<!-- Check if env.properties exists and if not, create it -->
+	<if>
+		<not>
+			<isset property="env.properties.copied" />
+		</not>
+		<then>
+			<!-- Bootstrap the environment: do this before env.properties is loaded -->
+			<copy todir="../build" overwrite="true">
+				<fileset dir="../build">
+					<include name="env.properties.template" />
+				</fileset>
+				<filterchain>
+					<filterreader classname="org.apache.tools.ant.filters.ExpandProperties" />
+				</filterchain>
+				<mapper type="glob" from="*.template" to="*" />
+			</copy>
+			<property name="env.properties.copied" value="true" />
+		</then>
+	</if>
+
+	<!-- Load build properties -->
+	<property name="env.ENV_PROPERTIES" value="${this.dir}/env.properties" />
+	<property name="env.properties" value="${env.ENV_PROPERTIES}" />
+	<property file="${env.properties}" />
+	<!-- Ignored if does not exist -->
+
+	<!-- Load build properties -->
+	<property name="env.BATCH_PROPERTIES" value="${this.dir}/../batch/src/integ-test/filters/batch.properties" />
+	<property name="batch.properties" value="${env.BATCH_PROPERTIES}" />
+	<property file="${batch.properties}" />
+	<!-- Ignored if does not exist -->
+
+
+	<!-- Load deployment properties -->
+	<property name="env.DEPLOY_PROPERTIES" value="${this.dir}/deploy.properties" />
+	<property name="deploy.properties" value="${env.DEPLOY_PROPERTIES}" />
+	<property file="${deploy.properties}" />
+	<!-- Ignored if does not exist -->
+
+	<!-- Load Eclipse build properties -->
+	<property name="env.test_PROPERTIES" value="${this.dir}/test.properties" />
+	<property name="test.properties" value="${env.test_PROPERTIES}" />
+	<property file="${test.properties}" />
+
+	<!-- Derive name of jar file from ANT project name -->
+	<property name="dist.jar" value="${ant.project.name}.jar" />
+
+	<!-- Derive name of jar file from ANT project name -->
+	<property name="dist.war" value="${ant.project.name}.war" />
+
+	<!-- Derive name of test jar file from ANT project name -->
+	<property name="dist.test.jar" value="${ant.project.name}-test.jar" />
+
+
+
+	<!-- ################ -->
+	<!-- TASK DEFINITIONS -->
+	<!-- ################ -->
+
+	<!-- Add Tigris SVNANT -->
+	<taskdef resource="org/tigris/subversion/svnant/svnantlib.xml" />
+
+	<!-- yui-compressor task definition -->
+	<taskdef name="yui-compressor" classname="net.noha.tools.ant.yuicompressor.tasks.YuiCompressorTask">
+		<classpath>
+			<fileset dir="${ant.runtime.dir}/lib" includes="*.jar" />
+		</classpath>
+	</taskdef>
+
+	<!-- Add JaCoCo target -->
+	<taskdef uri="antlib:org.jacoco.ant" resource="org/jacoco/ant/antlib.xml">
+		<classpath>
+			<fileset dir="${ant.runtime.dir}/lib" includes="jacoco*.jar" />
+		</classpath>
+	</taskdef>
+
+	<!-- FOLLOWING TAKEN FROM ALL OTHER ANT SCRIPTS BUT COMMENTED OUT DUE TO CLASSPATH PROBLEMS -->
+	
+	<!-- Define classpath for compilation -->
+	<!--
+	<import file="../build/build-set-classpath.xml" />
+	-->
+
+	<!-- Add EJB generation target -->
+	<!--
+	<taskdef name="ejbdoclet" classname="xdoclet.modules.ejb.EjbDocletTask">
+		<classpath>
+			<fileset dir="C:/sups/tools.legacy/extracted/xdoclet-1.2.2/lib" includes="*.jar" />
+		</classpath>
+	</taskdef>
+	-->
+	
+	<!-- Add Test HTML generator target -->
+	<!--
+	<taskdef name="TestHTMLGenerator" classname="com.sups.ant.TestHTMLGenerator" classpath="${ant.runtime.dir}/lib/ant-tasks.jar" />
+	-->
+
+	<!-- Add File List Processor target -->
+	<!--
+	<taskdef name="filelistprocessor" classname="com.sups.ant.FileListProcessorTask" classpath="${ant.runtime.dir}/lib/ant-tasks.jar" />
+	-->
+
+	<!-- Add JavaScript minimise target -->
+	<taskdef name="jsmin" classname="net.matthaynes.jsmin.JSMin_Task" classpath="${jsmin.jar}" />
+
+	<!-- Add Wsee (JBOSS) xdoclet target -->
+	<!--
+	<taskdef name="wseedoclet" classname="xdoclet.modules.wsee.WseeDocletTask" classpathref="build.ant.classpath" />
+	-->
+
+	<!-- Add Convert service directory to bean name target -->
+	<!--
+	<taskdef name="convertServiceDirToBeanName" classname="uk.gov.dca.db.impl.ConvertServiceDirToBeanName" classpathref="build.ant.classpath" />
+	-->
+
+	<!-- Add doclet target -->
+	<!--
+	<taskdef name="doclet" classname="xdoclet.DocletTask">
+		<classpath>
+			<fileset dir="C:\sups\tools.legacy\extracted\xdoclet-1.2.2\lib" includes="*.jar" />
+		</classpath>
+	</taskdef>
+	-->
+
+	<!-- Add SUPS Bean generator target -->
+	<!--
+	<taskdef name="genbeans" classname="uk.gov.dca.db.impl.SUPSBeanGeneratorTask" classpathref="build.ant.classpath" />
+	-->
+
+	<!-- Add Message Driven Bean Deployment target -->
+	<!--
+	<taskdef name="genmdbs" classname="uk.gov.dca.db.async.MDBDeploymentTask" classpathref="project_path" />
+	-->
+
+	<!-- Add Services validation target -->
+	<!--
+	<taskdef name="validateservices" classname="uk.gov.dca.db.impl.ServicesValidationTask">
+		<classpath>
+			<path refid="validation.path" />
+			<pathelement location="${release}/lib/SUPS-${target.platform}/${framework.jar}" />
+		</classpath>
+	</taskdef>
+	-->
+	
+	<fileset dir="${tools.dir}/java/velocity" includes="*.jar" />
+
+
+	<!-- Set properties based on other property values -->
+	<condition property="tc-server.exists">
+		<equals arg1="${application.server}" arg2="tc-server" />
+	</condition>
+	<condition property="oas.exists">
+		<equals arg1="${application.server}" arg2="oas" />
+	</condition>
+	<condition property="remote-copy.exists">
+		<equals arg1="${application.server}" arg2="remote-copy" />
+	</condition>
+
+	<!-- Set property based on current operating system family -->
+	<condition property="isUnix">
+		<os family="unix" />
+	</condition>
+	<condition property="isWindows">
+		<os family="windows" />
+	</condition>
+	<if>
+		<isset property="isWindows" />
+		<then>
+			<property name="grails.executable" value="${env.GRAILS_HOME}/bin/grails.bat" />
+			<!-- <echo level="info" message="Operating system is windows" /> -->
+		</then>
+		<elseif>
+			<isset property="isUnix" />
+			<then>
+				<property name="grails.executable" value="${env.GRAILS_HOME}/bin/grails" />
+				<!-- <echo level="info" message="Operating system is unix" /> -->
+			</then>
+		</elseif>
+	</if>
+
+	<!-- wildfly Ant Task definitions -->
+	<!-- Do we have anything to setup for Wildfly???
+	<if>
+		<isset property="wildfly.exists" />
+		<then>
+			<path id="wildfly-ant-libs">
+				<fileset dir="${wildfly-lib.dir}/../">
+					<include name="lib/catalina-ant.jar" />
+					<include name="lib/wildfly-coyote.jar" />
+					<include name="lib/wildfly-util.jar" />
+					<include name="bin/wildfly-juli.jar" />
+				</fileset>
+			</path>
+
+			<taskdef name="deploy-wildfly" classname="org.apache.catalina.ant.DeployTask">
+				<classpath refid="wildfly-ant-libs" />
+			</taskdef>
+		</then>
+	</if>
+-->
+
+	<!-- svnSetting is necessary for linux -->
+	<svnSetting javahl="false" svnkit="true" id="svn.settings" />
+	<svn refid="svn.settings">
+		<status path="${basedir}" revisionProperty="buildNumber" />
+	</svn>
+</project>
+
+

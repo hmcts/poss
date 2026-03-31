@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<service-method>
+	<pipeline>
+		<Update>
+  			<QueryDef location="uk/gov/dca/caseman/receivedTapes_service/delete_tape_query_def.xml"/>
+			<DataSource xpath="/params/param[@name='Tapes']"/>
+  				
+  				
+  				<QueryExtension  pivotNode="/ReceivedTapes/ReceivedTape">
+  					<CheckExists table="T" fields="SEQNO" onNotExist="skip" onExist="delete" useOptimisticLock="false"/>
+  				</QueryExtension>
+  				
+  				<QueryExtension  pivotNode="/ReceivedTapes/ReceivedTape/TapeFiles/TapeFile">
+  						<Field name="TFI.SEQNO" xpath="/ReceivedTapes/ReceivedTape/LibraryNumber"/>
+						<CheckExists table="TFI" fields="SEQNO" onNotExist="skip" onExist="delete" useOptimisticLock="false"/>
+  				</QueryExtension>
+  				
+		</Update>
+		
+		
+  	</pipeline>
+	<Security roles="ccbcMan ccbcTape"/>
+</service-method>

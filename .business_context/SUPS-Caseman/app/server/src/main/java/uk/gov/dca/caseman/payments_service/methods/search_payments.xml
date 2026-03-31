@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: Payments
+	Method: searchPayments()
+	File: search_payments.xml
+	Author: Chris Vincent
+	Description:
+		Returns any payments linked to the enforcement number together with the enforcement type
+		specified.  Used to retrieve CO and AE payments by the View Payments screen (UC110).
+-->
+<service-method>
+	<pipeline>
+		<Query>
+			<QueryDef location="uk/gov/dca/caseman/payments_service/query_def_search_payments.xml" />
+			<QueryExtension pivotNode="/SearchResults/Payment">
+				<Param name="param.enforcementNumber" xpath="/params/param[@name = 'enforcementNumber']" />
+				<Param name="param.enforcementType" xpath="/params/param[@name = 'enforcementType']" />
+				<Constraint>
+					P.SUBJECT_NO = ${param.enforcementNumber} AND
+					P.PAYMENT_FOR = ${param.enforcementType}
+				</Constraint>
+			</QueryExtension>
+		</Query>
+	</pipeline>
+	<Security roles="viewOnly medium high wcSuper scSuper bmsSuper aeSuper dmSuper cpSuper ccbcMan ccbcUser ccbcSGB2"/>
+</service-method>

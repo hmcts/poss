@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>9156</Id>
+	<Label>Amount of counter claim fee</Label>
+	<ObjectName>CCFee</ObjectName>
+	<Html>
+		<input id="DefaultCurrency9156" type="text" size="1"></input> 
+		<input id="CCFee" type="text" ></input>
+	</Html>			
+	<Javascript>
+		<XPath>/ds/EnterVariableData/cCFee</XPath>
+		<HintText>Enter amount of counter claim fee</HintText>
+		<isEnabled>return true</isEnabled>
+		<isMandatory>return true;</isMandatory>
+		<mandatoryOn>CCFee.dataBinding</mandatoryOn>		
+		<validate>
+			//Validation: only numeric characters allowed and two decimal places.
+			//Error message: Currency amounts must be in the format of 0.00.
+			//Max length: 999999.99	
+			var value = Services.getValue(CCFee.dataBinding);		 
+	      	var maxVal = 999999.99;	     
+	      	var err = null;
+	      
+	      	if( '0.00 ' != value )
+		  	{   err = validateCurrencyValue(value, maxVal);
+		      if( null == err)
+		      { 
+		      	var returnVal = WPU.formatToTwoDP(value);
+			    Services.setValue(CCFee.dataBinding, returnVal);
+		      }	
+		  	}
+	      	return err;	   	      	    	      
+		</validate>
+		<transformToModel>		  
+		  if( null == value || "" == value )
+		  {  return "0.00 ";
+		  }
+		  else
+		  { return value;
+		  }
+		</transformToModel>
+		<transformToDisplay>			
+			if( '0.00 ' == value) return "0.00";
+			return value;			
+		</transformToDisplay>
+		<miscCode>
+			function DefaultCurrency9156() {}
+			DefaultCurrency9156.dataBinding = "/ds/EnterVariableData/curr1";
+			DefaultCurrency9156.tabIndex = -1;
+			DefaultCurrency9156.maxLength = 1;
+			DefaultCurrency9156.isReadOnly = function(){return true;}
+			DefaultCurrency9156.isTemporary = function(){return true;}
+			DefaultCurrency9156.transformToDisplay = function(value){
+				return WPS.__CaseManUtils().transformCurrencySymbolToDisplay(value,null,null); }
+			DefaultCurrency9156.transformToModel = function(value){
+				return WPS.__CaseManUtils().transformCurrencySymbolToModel(value,null,null); }
+		</miscCode>				
+	</Javascript>
+</Question>  

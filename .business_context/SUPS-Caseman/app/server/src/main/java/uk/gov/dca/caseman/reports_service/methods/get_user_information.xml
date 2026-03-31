@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- 
+	Service: Reports
+	Method:  getUserInformation()
+	File:    get_user_information.xml
+	Description: 
+		Retrieves relevant user information for use by the reports
+		
+    Change History
+	    03/07/2007: Chris Vincent - Is now called directly by the client so added security roles.  CaseMan Defect 6213.
+	     10/02/2010 - Mark Groen - Change SQL select so only queries on user id instead of user id and court code
+--> 
+<service-method>
+	<pipeline>
+		<SQLLite format-output="true"
+				 resultset-element="UserInformation"
+				 row-element="row"
+				 field-name-as="element" >
+			<DataSource id="java:OracleDS"/>
+			<Param name="param.userId" xpath="/params/param[@name='userId']"/>
+			<Param name="param.courtId" xpath="/params/param[@name='courtId']"/>
+			<SQL>
+							
+				select 
+					du.user_id as "USER_ID"              , 
+					du.user_default_printer as "PRINTER" , 
+					du.forenames || du.surname as "NAME" , 
+					du.user_short_name  as "ALIAS"       ,
+					du.extension as "EXTENSION"
+				from 
+					dca_user du 
+				where 
+					du.user_id = ${param.userId}
+
+			</SQL>
+		</SQLLite>
+	</pipeline>
+	<Security roles="viewOnly medium high wcSuper bmsSuper aeSuper dmSuper cpSuper scSuper ccbcMan ccbcUser ccbcSGB2"/>
+</service-method>

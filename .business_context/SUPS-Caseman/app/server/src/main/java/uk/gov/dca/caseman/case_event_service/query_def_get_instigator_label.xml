@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<QueryDef>
+  <DBMapDef location="uk/gov/dca/caseman/case_event_service/map_get_instigator_label.xml"/>
+  <Query pivotNode="/CaseEvent/Instigator" tables="CCBC">
+	<Join>
+		CCBC.RV_DOMAIN = 'INSTIGATOR_LABEL'
+	</Join>
+	<Modify notModifiable="true"/>
+  </Query>
+</QueryDef>

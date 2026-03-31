@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<DBMapDef>
+	<DataSource id="java:OracleDS"/>
+	
+	<Tables>
+		<Table alias="T" name="TAPES"/>	
+		<Table alias="TFI" name="TAPE_FILES" />					
+	</Tables>
+	
+	<Mapping>
+		<ReceivedTapes>
+			<ReceivedTape>
+				<LibraryNumber>${T.SEQNO}</LibraryNumber>
+				<TapeFiles>
+					<TapeFile>
+						<LibraryNumber>${TFI.SEQNO}</LibraryNumber>
+					</TapeFile>
+				</TapeFiles>
+			</ReceivedTape>
+		</ReceivedTapes>
+	</Mapping>
+</DBMapDef>

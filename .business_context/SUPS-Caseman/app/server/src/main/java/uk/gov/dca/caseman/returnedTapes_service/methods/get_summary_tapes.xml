@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<service-method>
+	<pipeline>
+		<Query>
+		
+			<QueryDef location="uk/gov/dca/caseman/returnedTapes_service/summary_tapes_query_def.xml"/>
+	
+			<QueryExtension pivotNode="/ReturnedTapes/ReturnedTape">
+				<Param name="param.LibraryNumber" xpath="/params/param[@name='Query']/Query/LibraryNumber"/>
+				<Param name="param.CustomerCode" xpath="/params/param[@name='Query']/Query/CustomerID"/>
+				<Param name="param.CustomerName" xpath="/params/param[@name='Query']/Query/CustomerDescription"/>
+				<Param name="param.DateReceived" xpath="/params/param[@name='Query']/Query/DateRecieved"/>
+				<Param name="param.DateReturned" xpath="/params/param[@name='Query']/Query/DateReturned"/>
+				<Param name="param.FileName" xpath="/params/param[@name='Query']/Query/FileName"/>
+				
+				<Param name="param.pageNumber" xpath="/params/param[@name='pageNumber']"/>
+				<Param name="param.pageSize" xpath="/params/param[@name='pageSize']"/>
+		
+				
+				<Paged pageNumber = "${param.pageNumber}" pageSize = "${param.pageSize}" />
+							
+				<Constraint>
+					T.SEQNO IN (
+					SELECT SEQNO FROM TAPE_FILES 
+					)
+				</Constraint>
+				<Constraint condition="/params/param[@name='Query']/Query/LibraryNumber != ''"  generator="uk.gov.dca.caseman.common.java.sql.LikeEqualsSQLGenerator" param="param.LibraryNumber" column="T.SEQNO" />
+	
+				<Constraint condition="/params/param[@name='Query']/Query/FileName != ''">
+					T.SEQNO IN (
+					SELECT SEQNO FROM TAPE_FILES WHERE FILE_NAME like ${param.FileName} 
+					)
+				</Constraint>
+				<Constraint condition="/params/param[@name='Query']/Query/CustomerID != ''" generator="uk.gov.dca.caseman.common.java.sql.LikeEqualsSQLGenerator" param="param.CustomerCode" column="T.CUST_CODE" />
+						
+				<Constraint condition="/params/param[@name='Query']/Query/CustomerDescription != ''" generator="uk.gov.dca.caseman.common.java.sql.LikeEqualsSQLGenerator" param="param.CustomerName" column="P.PERSON_REQUESTED_NAME" />
+	
+				<Constraint condition="/params/param[@name='Query']/Query/DateRecieved != ''" generator="uk.gov.dca.caseman.common.java.sql.LikeEqualsSQLGenerator" param="param.DateReceived" column="to_char(T.DATE_RECD,'DD-MON-YYYY')" />
+			
+				<Constraint condition="/params/param[@name='Query']/Query/DateReturned != ''" generator="uk.gov.dca.caseman.common.java.sql.LikeEqualsSQLGenerator" param="param.DateReturned" column="to_char(T.DATE_RETD_CUST,'DD-MON-YYYY')" />
+			</QueryExtension>
+		</Query>
+	</pipeline>
+	<Security roles="ccbcMan ccbcTape"/>
+</service-method>

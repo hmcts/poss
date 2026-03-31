@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>838</Id>
+	<Label>A description of the debtor</Label>
+	<ObjectName>DescOfDebtor</ObjectName>
+	<Html>		
+		<textarea id="DescOfDebtor" cols="30" rows="3"></textarea>
+	</Html>
+	<Javascript>
+		<XPath>/ds/EnterVariableData/DescOfDebtor</XPath>
+		<componentName>##label##</componentName>
+		<HintText>Enter a description of the debtor</HintText>
+		<isMandatory>return false;</isMandatory>
+		<mandatoryOn>DescOfDebtor.dataBinding</mandatoryOn>
+		<transformToModel>return WPU.encodeLineBreaks( this, value );</transformToModel>
+		<transformToDisplay>return WPU.decodeLineBreaks( this, value );</transformToDisplay>      		
+	</Javascript>
+</Question>

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>78</Id>
+	<Label>New address for service given</Label>
+	<ObjectName>NewAddressForService</ObjectName>
+	<Html>
+	  <select id="NewAddressForService" >
+	    <option value=""></option>
+	    <option value="ACK">Acknowledgment filed by solicitors giving a new address</option>
+	    <option value="ADDR">Defendant has a new address for service </option>
+	    <option value="NONE">No new address for service given </option>
+	  </select>
+	</Html>
+	<Javascript>
+		<XPath>/ds/EnterVariableData/newaddressforservice</XPath>
+		<isMandatory>return true;</isMandatory>
+		<mandatoryOn>NewAddressForService.dataBinding</mandatoryOn>	
+		<HintText>Select the new address for the service given</HintText>
+	</Javascript>
+</Question>

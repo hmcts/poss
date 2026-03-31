@@ -1,0 +1,178 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+
+<html>
+  <head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">  
+    <title>JsUnit Assertion Tests</title>
+    <link rel="stylesheet" type="text/css" href="./jsunit/css/jsUnitStyle.css">
+	<script language="JavaScript" type="text/javascript" src="./jsunit/app/jsUnitCore.js"></script>
+	
+	<script language="JavaScript" type="text/javascript" src="../WP.js"></script>
+
+	<script language="JavaScript" type="text/javascript" src="../WPCtrlVar.js"></script>
+	<script language="JavaScript" type="text/javascript" src="../WPCtrlErr.js"></script>
+	<script language="JavaScript" type="text/javascript" src="../WPCtrl.js"></script>
+	<script language="JavaScript" type="text/javascript" src="../WPS.js"></script>
+	<script language="JavaScript" type="text/javascript" src="../WPOutput.js"></script>
+	<script language="JavaScript" type="text/javascript" src="../WPRequest.js"></script>
+	<script language="JavaScript" type="text/javascript" src="../WPProcess.js"></script>
+
+	<script language="JavaScript" type="text/javascript" src="../CaseMan/CaseManCreateRequest.js"></script>
+	<script language="JavaScript" type="text/javascript" src="../CaseMan/CaseManEditOrViewRequest.js"></script>
+	<script language="JavaScript" type="text/javascript" src="../CaseMan/CaseManPrintRequest.js"></script>
+	<script language="JavaScript" type="text/javascript" src="../CaseMan/CaseManWPCtrl.js"></script>
+	<script language="JavaScript" type="text/javascript" src="../CaseMan/CaseManWPOutput.js"></script>
+	<script language="JavaScript" type="text/javascript" src="../CaseMan/CaseManWPRequest.js"></script>
+	<script language="JavaScript" type="text/javascript" src="../CaseMan/CaseManWPProcess.js"></script>
+
+
+	<script language="JavaScript" type="text/javascript">
+			
+			var wpctrl = null;
+
+			// JsUnit Assertion Tests		
+			function init()
+			{
+
+			}
+			
+			var tests = [
+						"testCreateController",
+						"testGetInstance",
+						"testConfigureController",
+						"testConfigureControllerXPaths"
+						];
+			
+			
+			function testCreateController()
+			{	
+				wpctrl = new CaseManWPCtrl();
+				assertNotNull("wpctrl MUST NOT be null after initialisation", wpctrl);	
+			}
+			function testGetInstance()
+			{
+				var inst = WPCtrl.GetInstance();
+				assertEquals("WPCtrl.GetInstance() returns unexpected singleton instance", wpctrl, inst);
+			}
+
+			function testConfigureController()
+			{
+				var cfg = wpctr.getConfigXML();
+				assertNotNull("WPCtrl.prototype.getConfigXML() returns null configxml", cfg);
+			}			
+				
+			function testConfigureControllerXPaths()
+			{
+				assertEquals("testConfigureControllerXPaths fails - CaseNumber xpath incorrect", "WordProcessing/Case/CaseNumber",CaseManWPXPath.CaseNumber);
+				assertEquals("testConfigureControllerXPaths fails - CaseType xpath incorrect", "WordProcessing/Case/CaseType",CaseManWPXPath.CaseType);
+				assertEquals("testConfigureControllerXPaths fails - StandardEventId xpath incorrect", "WordProcessing/Event/StandardEventId",CaseManWPXPath.EventStandardId);
+				assertEquals("testConfigureControllerXPaths fails - EventPK xpath incorrect", "WordProcessing/Event/CaseEventSeq",CaseManWPXPath.EventPK);
+			}	
+
+			function setup()
+			{
+			}		
+			
+			function teardown()
+			{
+				//Services.removeNode('/ds/data');
+			}	
+
+			function loadFromFile(fileName)
+			{
+				var dom = XML.createDOM(null, null, null);
+				dom.load(fileName);
+				Services.removeNode('/ds/data');
+				Services.addNode(dom, '/ds');
+			}
+
+			
+			dumpProperties = function(object, msg)
+			{
+				var cons;
+				try {
+					cons = object.constructor.toString();
+				}
+				catch(e) {
+					cons = "unknown";
+				}
+
+				var propNames = "";
+				var lines = 0;
+				for(var name in object)
+				{
+					var propValue;
+					try{
+					  if(object[name] == undefined)
+					  	propValue = "undefined";
+					  else
+					  		propValue = object[name].toString();
+					}
+					catch(e)
+					{
+					  propValue = "unknown";
+					}
+					propNames += name + ": " + propValue + "\n";
+
+					lines++;
+					if(lines > 10)
+					{
+						alert(msg + "class: " + cons + "\n" + propNames);
+						lines = 0;
+						propNames = "";
+					}
+
+				}
+
+				var output = msg + "class: " + cons + "\n" + propNames;
+				alert(output);
+				Logging.logMessage(output, Logging.LOGGING_LEVEL_TRACE);
+			}
+		</script>
+
+		<style>
+			div.testResults
+			{
+				font-weight: normal;
+				background-color: #00FF00;
+			}
+			div.testFailResults
+			{
+				font-weight: normal;
+				background-color: #FF0000;
+			}
+			div.testTitle
+			{
+				font-size: 14px;
+				font-weight: bold;
+			}
+			
+			div.testResult
+			{
+				font-weight: bold;
+			}
+		</style>
+	</head>
+
+	<body onload="init()">
+
+		<a href='test_list.html' target="_blank">Click to see test plan</a>
+
+		<br/>
+
+		
+		<DIV class="testPanel">
+			<DIV class="testTitle">Automated test results</DIV>
+			<DIV id="theTestResults" class="testResults"></DIV>
+			<DIV id="theTestFailures" class="testFailResults"></DIV>
+			<DIV id="theTestSummary" class="testResult"></DIV>	
+			<DIV id="theTestFailureSummary" class="testResult"></DIV>	
+		</DIV>
+
+
+
+
+
+	</body>
+</html>

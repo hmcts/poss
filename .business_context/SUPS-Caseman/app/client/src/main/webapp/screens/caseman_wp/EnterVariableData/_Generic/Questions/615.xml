@@ -1,0 +1,25 @@
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>615</Id>
+	<Label>Is sum invested subject to first charge</Label>
+	<ObjectName>SubToFirstCharge</ObjectName>
+
+	<Html>	
+		<input type="checkbox" id="SubToFirstCharge"></input>
+	</Html>			
+	<Javascript>
+		<XPath>/ds/EnterVariableData/Settlement/subToFirstCharge</XPath>
+		<componentName>##label##</componentName>
+		<modelValue>checked: "Y", unchecked: "N"</modelValue>
+		<HintText>Check box if the sum is invested subject to a first charge</HintText>		
+		<enableOn>InvestBeforeDate.dataBinding</enableOn>
+		<isEnabled>
+			return(InvestBeforeDate.isEnabled());	
+		</isEnabled>
+		<logicOn>InvestBeforeDate.dataBinding</logicOn>
+		<logic>
+			if(!InvestBeforeDate.isEnabled())
+			{	Services.setValue(SubToFirstCharge.dataBinding, "N");
+			}
+		</logic>		
+	</Javascript>
+</Question>

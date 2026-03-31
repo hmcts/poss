@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: TransferCase 
+	Method:  cancelTransferCase()
+	File:    map_cancel_transfer_case.xml
+	Author:  Phil Haferer (EDS)
+	Created: 24 June 2005
+	Description: 
+		'Mapping' for cancelling a case transfer.
+-->
+<DBMapDef>
+	<DataSource id="java:OracleDS"/>
+	<Tables>
+	    <Table alias="C" name="CASES"/>
+	</Tables>
+	<Mapping>
+		<TransferCase>
+			<CaseNumber>${C.CASE_NUMBER}</CaseNumber>
+			<OwningCourtCode></OwningCourtCode>
+		</TransferCase>
+	</Mapping>
+</DBMapDef>

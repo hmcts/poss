@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Change History:
+	06 Apr 2010, Chris Vincent.  Added WelshIndicator node for Employer party. Trac 2800.
+-->
+<DBMapDef>
+	<DataSource id="java:OracleDS" />
+	<Tables>
+		<Table alias="A" name="AE_APPLICATIONS" />
+		<Table alias="C" name="CASE_PARTY_ROLES" />
+		<Table alias="P" name="PARTIES" />
+		<Table alias="GA" name="GIVEN_ADDRESSES" />
+		<Table alias="F" name="FEES_PAID" />
+		<Table alias="PY" name="PAYMENTS" />
+	</Tables>
+	<Mapping>
+		<AEApplications>
+			<AEApplication>
+				<AENumber>${A.AE_NUMBER}</AENumber>
+				<AEType>${A.AE_TYPE}</AEType>
+				<DateOfReceipt>${A.DATE_OF_RECEIPT}</DateOfReceipt>
+				<DateOfCreation>${A.DATE_OF_CREATION}</DateOfCreation>
+				<DateOfIssue>${A.DATE_OF_ISSUE}</DateOfIssue>
+				<AmountOfAE>${A.AMOUNT_OF_AE}</AmountOfAE>
+				<Occupation>${A.DEBTOR_OCCUPATION}</Occupation>
+				<PayrollNo>${A.PAYROLL_NUMBER}</PayrollNo>
+				<NamedEmployer>${A.NAMED_EMPLOYER}</NamedEmployer>
+				<AEFee>${A.AE_FEE}</AEFee>
+				<CAPSSequence>${A.CAPS_SEQUENCE}</CAPSSequence>
+				<CourtCode>${A.ISSUING_CRT_CODE}</CourtCode>
+				<JudgementSeq>${A.JUDG_SEQ}</JudgementSeq>
+				<AmountOfAECurrency>${A.AMOUNT_OF_AE_CURRENCY}</AmountOfAECurrency>
+				<AEFeeCurrency>${A.AE_FEE_CURRENCY}</AEFeeCurrency>
+				<CaseNumber>${A.CASE_NUMBER}</CaseNumber>
+				<PartyAgainstPartyRoleCode>${A.PARTY_AGAINST_PARTY_ROLE_COD}</PartyAgainstPartyRoleCode><!-- missing last 'E' so can alias in query (30 char limit) -->
+				<PartyAgainstCasePartyNumber>${A.PARTY_AGAINST_CASE_PARTY_NO}</PartyAgainstCasePartyNumber>
+				<PartyAgainstRequestedName>${PARTY_AGAINST_NAME}</PartyAgainstRequestedName>
+				<PartyForPartyRoleCode>${A.PARTY_FOR_PARTY_ROLE_CODE}</PartyForPartyRoleCode>
+				<PartyForCasePartyNumber>${A.PARTY_FOR_CASE_PARTY_NO}</PartyForCasePartyNumber>
+				<PartyForRequestedName>${PARTY_FOR_NAME}</PartyForRequestedName>
+				<DebtorsEmployersPartyId>${A.DEBTORS_EMPLOYERS_PARTY_ID}</DebtorsEmployersPartyId>
+				<!--
+				<DebtorsEmplPrefCommsMethod>${A.DEBTORS_EMPL_PREF_COMMS_METHOD}</DebtorsEmplPrefCommsMethod>
+				<DebtorsEmplWelshindicator>${A.DEBTORS_EMPL_WELSH_INDICATOR}</DebtorsEmplWelshindicator>
+				-->
+				<TotalFees>
+					<TotalFee>${TOTAL_FEE}</TotalFee>					
+				</TotalFees>
+				<OtherFees>
+					<OtherFee>${OTHER_FEE}</OtherFee>
+				</OtherFees>
+				<Employer>	    		
+			    	<PartyId>${P.PARTY_ID}</PartyId>
+			        <PersonRequestedName>${P.PERSON_REQUESTED_NAME}</PersonRequestedName>
+				    <TypeCode>${P.PARTY_TYPE_CODE}</TypeCode>  	  
+			    	<ContactDetails>
+					  <WelshIndicator>${P.WELSH_INDICATOR}</WelshIndicator>
+			    	  <TelephoneNumber>${P.TEL_NO}</TelephoneNumber>
+					  <FaxNumber>${P.FAX_NUMBER}</FaxNumber>
+					  <EmailAddress>${P.EMAIL_ADDRESS}</EmailAddress>
+			    	  <Addresses>
+				          <Address>
+			    	        <AddressId>${GA.ADDRESS_ID}</AddressId>
+			    	        <TypeCode>${GA.ADDRESS_TYPE_CODE}</TypeCode>
+			        	    <Line>${GA.ADDRESS_LINE1}</Line>
+			            	<Line>${GA.ADDRESS_LINE2}</Line>
+				            <Line>${GA.ADDRESS_LINE3}</Line>
+			    	        <Line>${GA.ADDRESS_LINE4}</Line>
+			        	    <Line>${GA.ADDRESS_LINE5}</Line>
+			            	<PostCode>${GA.POSTCODE}</PostCode>
+			            	<ValidFrom>${GA.VALID_FROM}</ValidFrom>
+				            <ValidTo>${GA.VALID_TO}</ValidTo>
+				            <Reference>${GA.REFERENCE}</Reference>
+					        <PartyId>${GA.PARTY_ID}</PartyId>    			
+				          </Address>
+			          </Addresses>          
+				    </ContactDetails>		    	    
+				</Employer>
+			</AEApplication>
+		</AEApplications>
+	</Mapping>
+</DBMapDef>

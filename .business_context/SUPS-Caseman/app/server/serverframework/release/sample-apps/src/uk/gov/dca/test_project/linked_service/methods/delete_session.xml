@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<service-method>
+	<pipeline>
+		<Update>
+			<QueryDef location="uk/gov/dca/test_project/linked_service/session_query_def.xml"/>
+			<DataSource xpath="/params/param[@name='session']"/>
+			<QueryExtension pivotNode="/Sessions/Session">
+			</QueryExtension>
+		</Update>
+	</pipeline>
+	<Security roles="user"/>
+</service-method>

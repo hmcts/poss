@@ -1,0 +1,67 @@
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>662</Id>
+	<Label>Date of birth</Label>
+	<ObjectName>DateOfBirth</ObjectName>
+	<Html>	
+		<input type="text" class="datetext" id="DateOfBirth" size="11"/>
+        <!--<input type="text" id="DateOfBirth" size="11" maxlength="11"></input> -->
+        
+	</Html>		
+	
+	<Javascript>
+		<XPath>/ds/EnterVariableData/InvestmentSchedule/dateOfBirth</XPath>
+		<componentName>##label##</componentName>
+		<isMandatory>return true;</isMandatory>
+		<HintText>Enter date of birth in format DD-MON-YYYY</HintText>
+		<maxLength>11</maxLength>
+		<initialise>WPU.getSystemDate();</initialise>			
+		<validateOn>DateOfBirth.dataBinding</validateOn>
+        <!--
+		<validate>
+            dob = Services.getValue(DateOfBirth.dataBinding);
+            aValidDate = isValidDate(dob,"true");
+            if(aValidDate == true){
+                dateSeparator = "-";
+                if(dob.indexOf(dateSeparator) == -1){
+                    dateSeparator = "/";
+                }
+                dobStart = dob.substring(0,dob.indexOf(dateSeparator));
+                dobMid = dob.substring(dob.indexOf(dateSeparator)+1,dob.lastIndexOf(dateSeparator));
+                dobEnd = dob.substring(dob.lastIndexOf(dateSeparator)+1,dob.length);
+                
+                //call functions to parse date into output we use
+                dobMid = dobMid.toUpperCase();
+                if(dateSeparator == "/"){
+                    dateSeparator = "-";
+                }            
+                dob = dobStart+dateSeparator+dobMid+dateSeparator+dobEnd;                
+                Services.setValue(DateOfBirth.dataBinding,dob);
+                return isInPast(dob,"true");
+            }
+            else return aValidDate;
+        </validate>	
+		-->
+		<validate>	
+			// Additional validation required to ensure date is not in future
+			return 	CaseManValidationHelper.validateDateOfBirth(
+						DateOfBirth.dataBinding, 	                // XPath of date of birth field
+						REF_DATA_XPATH + "/SystemDate"	            // XPath of current system date
+					);	
+
+		</validate>		
+		<transformToModel>
+			// Transform Date of Birth to Model format
+			return (null != value) ? CaseManUtils.convertDateToPattern(value) : null;		
+		</transformToModel>		
+		<transformToDisplay>
+			return (null != value) ? value.toUpperCase() : null;
+		</transformToDisplay>	
+		<miscCode>
+		    DateOfBirth.weekends = true;
+			
+			// Call getSystemDate service and store in REF_DATA_XPATH
+			// enterVariableData.refDataServices = [
+		    // {name:"SystemDate", dataBinding:REF_DATA_XPATH, serviceName:"getSystemDate", serviceParams:[]}];			
+		</miscCode>				
+	</Javascript>
+</Question>

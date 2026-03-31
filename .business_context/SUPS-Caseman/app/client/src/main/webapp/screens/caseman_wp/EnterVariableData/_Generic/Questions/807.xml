@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>807</Id>
+	<Label>Details of alleged offence</Label>
+	<ObjectName>DetailsOfAllegedOffence</ObjectName>
+	<Html>
+		<textarea id="DetailsOfAllegedOffence" cols="30" rows="3">
+		</textarea>
+
+	</Html>
+	<Javascript>
+		<XPath>/ds/EnterVariableData/DetailsOfAllegedOffence</XPath>
+		<componentName>##label##</componentName>
+		<HintText>Enter Details of Offence</HintText>
+		<isMandatory>return true;</isMandatory>
+		<mandatoryOn>DetailsOfAllegedOffence.dataBinding</mandatoryOn>
+		<transformToModel>return WPU.encodeLineBreaks( this, value );</transformToModel>
+		<transformToDisplay>return WPU.decodeLineBreaks( this, value );</transformToDisplay>
+    </Javascript>
+</Question>

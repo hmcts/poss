@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: User
+	Method:  getUserBusinessRole()
+	File:    map_add_user_business_role.xml
+	Author:  Ian Stainer (Valtech)
+	Created: 09 November 2005
+	Description: 
+		The 'Mapping' for inserting new user details.
+    Change History:
+	05-Feb-2008 Chris Vincent: Added PrinterCourtCode for CaseMan Defect 6181
+	26-Sep-2008 Nilesh Mistry (Logica): Changed name as part of RFC 521 (TRAC ticket #11) and will add all user details 
+				except for possible admin role
+-->
+<DBMapDef>
+	<DataSource id="java:OracleDS"/>
+	<Tables>
+		<Table alias="DU" name="DCA_USER"/>
+		<Table alias="UC" name="USER_COURT"/>
+		<Table alias="UR" name="USER_ROLE"/>
+	</Tables>
+	<Mapping>
+		<ds>
+			<MaintainUser>
+				<UserId>${DU.USER_ID}</UserId>
+				<Title>${DU.TITLE}</Title>
+				<Forenames>${DU.FORENAMES}</Forenames>
+				<Surname>${DU.SURNAME}</Surname>
+				<UserShortName>${DU.USER_SHORT_NAME}</UserShortName>
+				<Extension>${DU.EXTENSION}</Extension>
+				<PrinterCourtCode>${DU.PRINTER_COURT_CODE}</PrinterCourtCode>
+				<DefaultPrinter>${DU.USER_DEFAULT_PRINTER}</DefaultPrinter>
+				<ActiveUser>${DU.ACTIVE_USER_FLAG}</ActiveUser>
+				<SectionForPrintouts>${DU.SECTION_FOR_PRINTOUTS}</SectionForPrintouts>
+				<UserCourt>
+					<CourtCode>${UC.COURT_CODE}</CourtCode>
+					<SectionForBMS>${UC.SECTION_NAME}</SectionForBMS>
+					<HomeFlag>${UC.HOME_FLAG}</HomeFlag>	
+					<DateFrom>${UC.DATE_FROM}</DateFrom>					
+					<UserRole>
+						<Role>${UR.ROLE_ID}</Role>
+					</UserRole>
+				</UserCourt>
+			</MaintainUser>
+		</ds>
+	</Mapping>
+</DBMapDef>

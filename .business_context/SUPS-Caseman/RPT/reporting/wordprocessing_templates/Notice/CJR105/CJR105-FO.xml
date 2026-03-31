@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- ====================================================================== -->
+<!--  -->
+<!-- FILENAME: $Source: C:/CVSRepository/serveroas/src/uk/gov/dca/caseman/wordprocessing_templates/Notice/CJR105/CJR105-FO.xml,v $ -->
+<!--  -->
+<!-- AUTHOR: $Author: jay $-->
+<!--  -->
+<!-- DATE: $Date: 2006/04/19 10:49:49 $ -->
+<!--  -->
+<!-- Version: $Revision: 1.10 $ -->
+<!--  -->
+<!-- DESCRIPTION: This stylesheet is used to create an XSL:FO document that -->
+<!-- can be processed into a PDF version.  Business logic -->
+<!-- is embedded to generate the correct document text for the order -->
+<!-- required. -->
+<!--  -->
+<!-- INPUTS: XML document containing: the answers to questions asked of the -->
+<!-- user; case data retrieved from the database; HTML representing the  -->
+<!-- body of the document content (already edited by the user). -->
+<!--  -->
+<!-- OUTPUTS: XML document with FO tags containing instructions for the -->
+<!-- creation of a PDF document. -->
+<!--  -->
+<!-- CHANGE HISTORY -->
+<!-- 01/02/2013 - Chris Vincent, minor changes to output content in line with LASPO terminology changes.  Trac 4769. -->
+<!-- ====================================================================== -->
+<root xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:fo="http://www.w3.org/1999/XSL/Format" xmlns="http://eds.com/supsfo">
+	<variables>@word.processing.url.xsl@supsfo.xsl</variables>
+	<addressee>
+		<blank/>
+		<claimants/>
+		<defendants/>
+		<part20claimants/>
+		<part20defendants/>
+	</addressee>
+	<header>
+		<fo:block font-size="16pt" font-weight="bold">Injunction Order</fo:block>
+		<fo:block font-size="12pt">Between <xsl:value-of select="$vdSubjectName"/>,&#xA0;<xsl:value-of select="$vdSubjectPartyRole"/></fo:block>
+		<fo:block font-size="12pt">and <xsl:value-of select="$vdInstigatorName"/>,&#xA0;<xsl:value-of select="$vdInstigatorPartyRole"/></fo:block>
+	</header>
+	<courtcase>
+		<court>
+			<xsl:copy-of select="$vdCourtHeaderBlock"/>
+		</court>
+		<caseparameters>
+			<parameter>
+				<name>
+					<fo:block font-weight="bold">Claim Number</fo:block>
+				</name>
+				<value>
+					<fo:block>
+						<xsl:value-of select="$vdClaimNumber"/>
+					</fo:block>
+				</value>
+			</parameter>
+			<parameter>
+				<name>
+					<fo:block font-weight="bold">Claimant</fo:block>
+					<fo:block font-size="9pt">(including ref.)</fo:block>
+				</name>
+				<value>
+					<fo:block hyphenate="true">
+						<xsl:value-of select="$vdClaimantName"/>
+					</fo:block>
+					<fo:block font-size="9pt" hyphenate="true">
+						<xsl:value-of select="$vdClaimantReference"/>
+					</fo:block>
+				</value>
+			</parameter>
+			<parameter>
+				<name>
+					<fo:block font-weight="bold">Defendant</fo:block>
+					<fo:block font-size="9pt">(including ref.)</fo:block>
+				</name>
+				<value>
+					<fo:block hyphenate="true">
+						<xsl:value-of select="$vdDefendantName"/>
+					</fo:block>
+					<fo:block font-size="9pt" hyphenate="true">
+						<xsl:value-of select="$vdDefendantReference"/>
+					</fo:block>
+				</value>
+			</parameter>
+		</caseparameters>
+	</courtcase>
+
+	<body>
+		<editable useid="N100BF">
+			<fo:block font-size="12pt">
+				<fo:block space-after="0.8cm"/>
+				<fo:block space-after="0.4cm" font-weight="bold" text-decoration="underline">
+					If you do not obey this order you will be guilty of contempt of court and you may be sent to prison
+				</fo:block>
+				<fo:block space-after="0.4cm">
+					On <xsl:value-of select="$vdInjunctionDateConsidered"/> the court considered an application for an injunction
+				</fo:block>
+				<fo:block space-after="0.4cm">
+					<fo:inline font-weight="bold">The Court ordered that </fo:inline><xsl:value-of select="$vdSubjectName"/>
+				</fo:block>
+				<fo:block space-after="0.4cm">
+					<fo:inline font-weight="bold">is forbidden </fo:inline> (<xsl:value-of select="$vdInjunctionLimitedCompanyClause"/>) <xsl:copy-of select="$vdInjunctionOrderDetails"/>
+				</fo:block>
+				<xsl:if test="$vdInjunctionForceDate != $emptyDate">
+					<fo:block space-after="0.4cm">
+						<fo:inline font-weight="bold">This order shall remain in force until </fo:inline><xsl:value-of select="$vdInjunctionForceDate"/> at <xsl:value-of select="$vdInjunctionForceTime"/> unless before then it is revoked by further order of the court
+					</fo:block>
+				</xsl:if>
+				<xsl:if test="string-length($vdInjunctionActsDetails) > 0">
+					<fo:block>
+						<fo:inline font-weight="bold">And it is ordered that </fo:inline><xsl:value-of select="$vdSubjectName"/>
+					</fo:block>
+					<fo:block>
+						<fo:inline font-weight="bold">shall </fo:inline><xsl:value-of select="$vdInjunctionActsDetails"/>
+					</fo:block>
+					<fo:block space-after="0.4cm">
+						on or before <xsl:value-of select="$vdInjunctionActsDate"/>
+					</fo:block>
+				</xsl:if>
+				<xsl:if test="string-length($vdInjunctionFurtherTerms) > 0">
+					<fo:block font-weight="bold">
+						It is further ordered that
+					</fo:block>
+					<fo:block space-after="0.4cm">
+						<xsl:value-of select="$vdInjunctionFurtherTerms"/>
+					</fo:block>
+				</xsl:if>
+				<xsl:if test="$vdHasFurtherHearing = 'Y'">
+					<fo:block font-weight="bold">
+						Notice of further hearing
+					</fo:block>
+					<fo:block>
+						The court will reconsider the application and whether the order should continue at a further hearing at <xsl:value-of select="$vdHearingCourtNameDescription"/>, <xsl:value-of select="$vdHearingCourtAddress"/> on <xsl:value-of select="$vdHearingDate"/> at <xsl:value-of select="$vdHearingTime"/>
+					</fo:block>
+					<fo:block space-after="0.4cm">
+						If you do not attend at the time shown the court may make an injunction order in your absence.
+					</fo:block>
+				</xsl:if>
+				<xsl:if test="$vdInjunctionDisplayOrderID != 'N16(1)' and $vdInjunctionOrder != 'Y'">
+					<fo:block space-after="0.4cm">
+						You are entitled to apply to the court to reconsider the order before the day.
+					</fo:block>
+				</xsl:if>
+				<xsl:if test="$vdInjunctionPOA = 'Y'">
+					<fo:block space-after="0.4cm">
+						The court is satisfied that <xsl:value-of select="$vdInjunctionViolenceHarm"/>.
+					</fo:block>
+					<fo:block space-after="0.4cm">
+						A power of arrest is attached to terms <xsl:value-of select="$vdInjunctionPOADetails"/> of this injunction whereby any constable may under the power given in section 91
+						of the Anti-social Behaviour Act 2003, arrest without warrant the <xsl:call-template name="convertcase"><xsl:with-param name="toconvert"><xsl:value-of select="$vdSubjectPartyRole"/></xsl:with-param><xsl:with-param name="conversion">lower</xsl:with-param></xsl:call-template> if the constable has reasonable cause for
+						suspecting the <xsl:call-template name="convertcase"><xsl:with-param name="toconvert"><xsl:value-of select="$vdSubjectPartyRole"/></xsl:with-param><xsl:with-param name="conversion">lower</xsl:with-param></xsl:call-template> is in breach of any of those terms of this injunction.
+					</fo:block>
+				</xsl:if>
+				<fo:block font-style="italic">
+					You may be able to get free legal aid advice. Go online at www.gov.uk/legal-aid for further information
+				</fo:block>
+			</fo:block>
+		</editable>
+	</body>
+	<defaultFooter id="CJR105">
+		<description>
+			<xsl:choose>
+				<xsl:when test="$vdInjunctionDisplayOrderID = 'N16'">
+					<fo:block>N16 General Form of injunction for interlocutory application or originating application</fo:block>
+				</xsl:when>
+				<xsl:otherwise>
+					<fo:block>N16(1) General Form of injunction for interlocutory application or originating application</fo:block>
+					<fo:block>Formal Parts - See complete N16 for wording of operating clauses</fo:block>
+				</xsl:otherwise>
+			</xsl:choose>
+		</description>
+	</defaultFooter>
+</root>

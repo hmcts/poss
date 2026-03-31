@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<QueryDef>
+    <DBMapDef location="uk/gov/dca/caseman/non_working_day_service/map_non_working_days_count.xml"/>
+    <Query pivotNode="/ds/NonWorkingDaysCount" tables="NWD">
+      <SQL type="select">
+	    SELECT COUNT(*) AS "NWD.DAY_COUNT"
+	    FROM   NON_WORKING_DAYS NWD
+	    WHERE  NWD.NON_WORKING_DATE BETWEEN TO_DATE(${param.receiptDate},'YYYY-MM-DD')
+	    AND    TO_DATE(${param.processingDate},'YYYY-MM-DD')
+		AND    NWD.ERROR_INDICATOR = 'N'
+      </SQL>
+      <Modify notModifiable="true"/>
+    </Query>
+</QueryDef>

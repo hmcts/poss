@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>9146</Id>
+	<Label>Petition to be</Label>
+	<ObjectName>PetitionWithdrawnDismissed</ObjectName>
+	<Html>
+		<select id="PetitionWithdrawnDismissed">
+			<option value=""></option>
+			<option value="W">Withdrawn</option>
+			<option value="D">Dismissed</option>
+		</select>
+	</Html>			
+	<Javascript>
+		<XPath>/ds/EnterVariableData/petitionWithdrawnDismissed</XPath>
+		<HintText>Select if petition is to be withdrawn or dismissed</HintText>
+		<isEnabled>return true</isEnabled>
+		<mandatoryOn>PetitionWithdrawnDismissed.dataBinding</mandatoryOn>
+		<isMandatory>return true;</isMandatory>
+        <Context ScreenId="O_11_1_2_3_4">
+            <enableOn>PetitionWithdrawnDismissed.dataBinding</enableOn>
+            <isEnabled>return WPU.calculateEventEnablement(692);</isEnabled>
+            <mandatoryOn>PetitionWithdrawnDismissed.dataBinding</mandatoryOn>
+            <isMandatory>return WPU.calculateEventEnablement(692);</isMandatory>
+        </Context>
+	</Javascript>
+</Question>  

@@ -1,0 +1,463 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Question>
+	<Id>167</Id>
+	<Label>Transfer court venue</Label>
+	<ObjectName>TransCourtName</ObjectName>
+	<Context screenId="CJR021">
+		<isVisible>true</isVisible>
+		<Label>Name of the CC Trial centre</Label>
+	</Context>
+	<Html>	
+		<table>
+			<tr>
+				<td><input id="TransCourtCode" type="text" size="5"></input></td>
+				<td><input id="TransCourtName" type="text" size="40"></input></td>
+				<td><input id="TransCourtLOVBtn" type="button" value="Select"></input></td>
+			</tr>
+		</table>	
+		<div class="popup" id="TransCourt_Popup">
+			<table class="content">
+				<tr><td>
+						<table>
+							<tr><td><label for="TransCourt_VenueCode">Venue</label></td>
+								<td><input type="text" id="TransCourt_VenueCode" size="3" maxlength="3"></input></td>
+								<td><script type="text/javascript">AutoCompletionRenderer.createInline("TransCourt_VenueName");</script></td>
+								<td><input id="TransCourt_VenueLOVBtn" type="button" value="LOV"></input></td>
+							</tr>
+						</table>
+					</td>
+				</tr>
+				<tr><td valign="top">
+						<table width="95%">
+							<tr><td><script type="text/javascript">
+										Grid.createInline("TransCourt_Address_Grid",["Address 1", "Address 2"], 12, 1); 
+									</script></td>
+							</tr>
+						</table>
+					</td>
+					<td><table>
+							<tr><td><label for="TransCourt_ContactDetails_Address_Line1">Address Details</label></td>
+								<td><input type="text" id="TransCourt_ContactDetails_Address_Line1" size="50"></input></td>
+							</tr>
+							<tr><td> </td>
+								<td><input type="text" id="TransCourt_ContactDetails_Address_Line2" size="50"></input></td>
+							</tr>
+							<tr><td>  </td>
+								<td><input type="text" id="TransCourt_ContactDetails_Address_Line3" size="50"></input></td>
+							</tr>
+							<tr>
+								<td> </td>
+								<td><input type="text" id="TransCourt_ContactDetails_Address_Line4" size="50"></input></td>
+							</tr>
+							<tr><td> </td>
+								<td><input type="text" id="TransCourt_ContactDetails_Address_Line5" size="50"></input></td>
+							</tr>
+							<tr>
+								<td><label for="TransCourt_ContactDetails_Address_Postcode">Postcode</label></td>
+								<td><input type="text" id="TransCourt_ContactDetails_Address_Postcode" size="15"></input></td>
+							</tr>
+							<tr><td><label for="TransCourt_ContactDetails_Address_DXNumber">DX Number</label></td>
+								<td><input type="text" id="TransCourt_ContactDetails_Address_DXNumber" size="30"></input></td>
+							</tr>
+							<tr><td><label for="TransCourt_ContactDetails_Address_TelephoneNumber">Telephone Number</label></td>
+								<td><input type="text" id="TransCourt_ContactDetails_Address_TelephoneNumber" size="30"></input></td>
+							</tr>
+							<tr><td><label for="TransCourt_ContactDetails_Address_FaxNumber">Fax Number</label></td>
+								<td><input type="text" id="TransCourt_ContactDetails_Address_FaxNumber" size="30"></input></td>
+							</tr>
+						</table>
+					</td>
+				</tr>
+				<tr style="height: 2px;"><td></td></tr>
+				<tr><td colspan="2" align="right">
+						<input type="button" value="OK" id="TransCourt_OKBtn"></input>
+						<input type="button" value="Cancel" id="TransCourt_CancelBtn"></input>
+					</td>
+				</tr>
+			</table>
+		</div>
+		<script type="text/javascript">
+			LOVPopupRenderer.createInline( "TransCourtCourtsLOVGrid", "Courts", ["Code", "Court"], 12, 1, true );
+		</script>
+	</Html>
+	<Javascript>
+		<XPath>/ds/EnterVariableData/FastTrack/transCourtName</XPath>
+		<HintText>Select the venue</HintText>
+		<mandatoryOn>TransferCase.dataBinding</mandatoryOn>
+		<initialise></initialise>		
+		<isMandatory>return( 'Y' == Services.getValue(TransferCase.dataBinding));</isMandatory>	
+		<isReadOnly>return true;</isReadOnly>
+		<enableOn>TransferCase.dataBinding</enableOn>
+		<isEnabled>
+			return ( 'Y' == Services.getValue(TransferCase.dataBinding));											
+		</isEnabled>
+		<logicOn>TransferCase.dataBinding</logicOn>
+		<logic>
+			var courtCode = Services.getValue(TransCourtCode.dataBinding);
+			var isEbld = ( 'Y' == Services.getValue(TransferCase.dataBinding));
+			if (isEbld) {	
+				if( null == courtCode || "" == courtCode) {
+					Services.setValue(TransCourtCode.dataBinding, WPU.getHomeCourtCode()); } }
+			else {
+				Services.setValue(TransCourtCode.dataBinding, ""); }			
+			Services.setValue( TransCourt_VenueCode.dataBinding, Services.getValue(TransCourtCode.dataBinding));			
+		</logic>
+		<miscCode>		
+var NEW_HEARING_VENUE_TMP_PATH = "/ds/var/page/Tmp/TransCourt";
+	
+//--------------------------------------- 	TransCourt_Popup  ---------------------------------------
+function TransCourt_Popup(){}
+	
+TransCourt_Popup.firstFocusedAdaptorId = function() {
+	return 'TransCourt_VenueCode'; }
+	
+TransCourt_Popup.nextFocusedAdaptorId = function() {
+	return 'TransCourt_VenueLOVBtn'; }
+			
+TransCourt_Popup.lower = {
+	eventBinding: {
+		singleClicks: [ {element: "TransCourt_CancelBtn"} ],
+		keys: [ { key: Key.F4, element: "TransCourt_Popup" } ]
+	}
+};
+				
+//--------------------------------------  TransCourtCode  -------------------------------------------
+function TransCourtCode(){}
+TransCourtCode.dataBinding = "/ds/EnterVariableData/FastTrack/transCourtCode";
+TransCourtCode.isReadOnly = function(){ return true; }
+//TransCourtCode.tabIndex = __tabIdx++;
+TransCourtCode.maxLength = 3;
+TransCourtCode.helpText = "Unique LCD three digit court location code – list available";
+TransCourtCode.mandatoryOn = [TransCourtName.dataBinding];
+TransCourtCode.isMandatory = function() { return TransCourtName.isMandatory(); }
+TransCourtCode.logicOn = [TransCourtCode.dataBinding];
+TransCourtCode.logic = function() {   
+	var code = Services.getValue(TransCourtCode.dataBinding);		     		
+   	var xpathName = REF_DATA_XPATH + "/Courts/Court[./Code = " + TransCourtCode.dataBinding + "]/Name";	 
+ 	var venueName = Services.getValue(xpathName); 	 	 	
+    Services.setValue(TransCourtName.dataBinding, venueName); }
+TransCourtCode.enableOn = [TransCourtName.dataBinding];
+TransCourtCode.isEnabled = function() {
+	var isEbld = TransCourtName.isEnabled(); 		
+	return isEbld; }
+
+function TransCourtLOVBtn() {}
+TransCourtLOVBtn.actionBinding = function()  {
+	Services.dispatchEvent("TransCourt_Popup", PopupGUIAdaptor.EVENT_RAISE); 
+	var venueCode = Services.getValue(TransCourtCode.dataBinding);
+	Services.setValue(TransCourt_VenueCode.dataBinding, venueCode); }
+TransCourtLOVBtn.tabIndex = __tabIdx++;
+TransCourtLOVBtn.enableOn = [TransCourtName.dataBinding];
+TransCourtLOVBtn.isEnabled = function() {
+	var isEbld = TransCourtName.isEnabled();		
+	return isEbld; }
+TransCourtLOVBtn.additionalBindings = {
+	eventBinding: {
+		keys: [ { key: Key.F6, element: "TransCourtCode" }, { key: Key.F6, element: "TransCourtName" } ]
+	}
+};
+
+function TransCourt_VenueCode(){}
+TransCourt_VenueCode.dataBinding = "/ds/EnterVariableData/FastTrack/transCourt_VenueCode";
+TransCourt_VenueCode.helpText = "Unique three digit court location code - list available.";
+TransCourt_VenueCode.maxLength = 3;
+TransCourt_VenueCode.logicOn = [TransCourt_VenueCode.dataBinding];
+TransCourt_VenueCode.logic = function() {	
+	var code = Services.getValue(TransCourt_VenueCode.dataBinding);
+	var xpathName = REF_DATA_XPATH + "/Courts/Court[./Code = " + TransCourt_VenueCode.dataBinding + "]/Name";	
+	var venueName = Services.getValue(xpathName);
+	if(venueName != null &amp;&amp; venueName != "") {
+		Services.setValue(TransCourt_VenueName.dataBinding, code);		
+		Services.setValue(TransCourtCourtsLOVGrid.dataBinding, code); }
+	else {
+		Services.setValue(TransCourt_VenueCode.dataBinding, "");
+		Services.setValue(TransCourt_VenueName.dataBinding, "");
+		Services.setValue(TransCourtCourtsLOVGrid.dataBinding, "");	} }
+
+function TransCourt_VenueName(){}
+TransCourt_VenueName.dataBinding = "/ds/EnterVariableData/FastTrack/transCourt_VenueName";
+//TransCourt_VenueName.tabIndex = __tabIdx++;
+TransCourt_VenueName.isReadOnly = function(){ return false; }
+TransCourt_VenueName.isTemporary = function(){ return true; }
+TransCourt_VenueName.maxLength = 30;
+TransCourt_VenueName.helpText = "Name of the Court.";
+TransCourt_VenueName.isMandatory = function(){ return true; }
+TransCourt_VenueName.validate = function(){ return null; }
+TransCourt_VenueName.srcData = REF_DATA_XPATH + "/Courts";
+TransCourt_VenueName.rowXPath = "Court";
+TransCourt_VenueName.keyXPath = "Code";
+TransCourt_VenueName.displayXPath = "Name";
+TransCourt_VenueName.logicOn  = [TransCourt_VenueName.dataBinding];
+TransCourt_VenueName.logic = function() {
+	var codeOrName = Services.getValue(TransCourt_VenueName.dataBinding);      
+	var xpath = REF_DATA_XPATH + "/Courts/Court[Code = " + TransCourt_VenueName.dataBinding + "]/Code";
+	var code = Services.getValue(xpath);
+	if(code == null || "" == code) {
+		var name = Services.getValue(TransCourt_VenueName.dataBinding);     
+		code = Services.getValue(REF_DATA_XPATH + "/Courts/Court[Name = " + TransCourt_VenueName.dataBinding + "]/Code");  }
+	if( code != null &amp;&amp; code != "") { 	
+		Services.setValue(TransCourt_VenueCode.dataBinding, code); }
+	else { 
+		Services.setValue(TransCourt_VenueName.dataBinding, "");
+		Services.setValue(TransCourt_VenueCode.dataBinding, "");
+		Services.setValue(TransCourt_ContactDetails_Address_Line1.dataBinding, "");
+		Services.setValue(TransCourt_ContactDetails_Address_Line2.dataBinding, "");
+		Services.setValue(TransCourt_ContactDetails_Address_Line3.dataBinding, "");
+		Services.setValue(TransCourt_ContactDetails_Address_Line4.dataBinding, "");
+		Services.setValue(TransCourt_ContactDetails_Address_Line5.dataBinding, "");
+		Services.setValue(TransCourt_ContactDetails_Address_Postcode.dataBinding, "");
+		Services.setValue(TransCourt_ContactDetails_Address_DXNumber.dataBinding, "");
+		Services.setValue(TransCourt_ContactDetails_Address_TelephoneNumber.dataBinding, "");
+		Services.setValue(TransCourt_ContactDetails_Address_FaxNumber.dataBinding, "");
+		Services.setValue(TransCourt_Address_Grid.dataBinding, "");	} }
+
+//---------------------------------- TransCourt_VenueLOVBtn ------------------------------
+function TransCourt_VenueLOVBtn() {}
+TransCourt_VenueLOVBtn.tabIndex = __tabIdx++;
+			
+//------------------------------------- TransCourt_ContactDetails_Address_Line1 ------------------------------------
+function TransCourt_ContactDetails_Address_Line1() {}
+TransCourt_ContactDetails_Address_Line1.dataBinding = NEW_HEARING_VENUE_TMP_PATH + "/Address/Line[1]";
+TransCourt_ContactDetails_Address_Line1.tabIndex = __tabIdx++;
+TransCourt_ContactDetails_Address_Line1.isReadOnly = function(){ return true;}
+TransCourt_ContactDetails_Address_Line1.isTemporary = function(){return true;}
+TransCourt_ContactDetails_Address_Line1.isMandatory = function(){return true;}
+TransCourt_ContactDetails_Address_Line1.transformToDisplay = function(value){	return (null != value) ? value.toUpperCase() : null;}
+TransCourt_ContactDetails_Address_Line1.transformToModel = function(value){	return (null != value) ? value.toUpperCase() : null;}	
+
+//----------------------------------------- TransCourt_ContactDetails_Address_Line2 -----------------------------------
+function TransCourt_ContactDetails_Address_Line2() {}
+TransCourt_ContactDetails_Address_Line2.dataBinding = NEW_HEARING_VENUE_TMP_PATH + "/Address/Line[2]";
+TransCourt_ContactDetails_Address_Line2.tabIndex = __tabIdx++;
+TransCourt_ContactDetails_Address_Line2.isReadOnly = function(){	return true;}
+TransCourt_ContactDetails_Address_Line2.isTemporary = function(){	return true;}
+TransCourt_ContactDetails_Address_Line2.isMandatory = function(){	return true;}
+TransCourt_ContactDetails_Address_Line2.transformToDisplay = function(value){	return (null != value) ? value.toUpperCase() : null;}
+TransCourt_ContactDetails_Address_Line2.transformToModel = function(value){	return (null != value) ? value.toUpperCase() : null;}	
+
+//-------------------------------------   TransCourt_ContactDetails_Address_Line3 ---------------------------------------
+function TransCourt_ContactDetails_Address_Line3() {}
+TransCourt_ContactDetails_Address_Line3.dataBinding = NEW_HEARING_VENUE_TMP_PATH + "/Address/Line[3]";
+TransCourt_ContactDetails_Address_Line3.tabIndex = __tabIdx++;
+TransCourt_ContactDetails_Address_Line3.isReadOnly = function(){	return true; }
+TransCourt_ContactDetails_Address_Line3.isMandatory = function(){	return false;}
+TransCourt_ContactDetails_Address_Line3.transformToDisplay = function(value){	return (null != value) ? value.toUpperCase() : null;}
+TransCourt_ContactDetails_Address_Line3.transformToModel = function(value){	return (null != value) ? value.toUpperCase() : null;}
+
+//--------------------------------------- TransCourt_ContactDetails_Address_Line4 --------------------------------------------
+function TransCourt_ContactDetails_Address_Line4() {}
+TransCourt_ContactDetails_Address_Line4.dataBinding = NEW_HEARING_VENUE_TMP_PATH + "/Address/Line[4]";
+TransCourt_ContactDetails_Address_Line4.tabIndex = __tabIdx++;
+TransCourt_ContactDetails_Address_Line4.isReadOnly = function(){ return true;}
+TransCourt_ContactDetails_Address_Line4.isMandatory = function(){	return false;}
+TransCourt_ContactDetails_Address_Line4.transformToDisplay = function(value){	return (null != value) ? value.toUpperCase() : null;}
+TransCourt_ContactDetails_Address_Line4.transformToModel = function(value){	return (null != value) ? value.toUpperCase() : null;}
+
+//-------------------------------------  TransCourt_ContactDetails_Address_Line5 ---------------------------------------------
+function TransCourt_ContactDetails_Address_Line5() {}
+TransCourt_ContactDetails_Address_Line5.dataBinding = NEW_HEARING_VENUE_TMP_PATH + "/Address/Line[5]";
+TransCourt_ContactDetails_Address_Line5.tabIndex = __tabIdx++;
+TransCourt_ContactDetails_Address_Line5.isReadOnly = function(){	return true;}
+TransCourt_ContactDetails_Address_Line5.isMandatory = function(){	return false;}
+TransCourt_ContactDetails_Address_Line5.transformToDisplay = function(value){	return (null != value) ? value.toUpperCase() : null;}
+TransCourt_ContactDetails_Address_Line5.transformToModel = function(value){	return (null != value) ? value.toUpperCase() : null;}
+
+//----------------------------------------- TransCourt_ContactDetails_Address_Postcode ----------------------------------------
+function TransCourt_ContactDetails_Address_Postcode() {}
+TransCourt_ContactDetails_Address_Postcode.dataBinding = NEW_HEARING_VENUE_TMP_PATH + "/Address/PostCode";
+TransCourt_ContactDetails_Address_Postcode.tabIndex = __tabIdx++;
+TransCourt_ContactDetails_Address_Postcode.isReadOnly = function(){	return true;}
+TransCourt_ContactDetails_Address_Postcode.isMandatory = function(){	return false;}
+TransCourt_ContactDetails_Address_Postcode.transformToDisplay = function(value){	return (null != value) ? value.toUpperCase() : null;}
+TransCourt_ContactDetails_Address_Postcode.transformToModel = function(value){	return (null != value) ? value.toUpperCase() : null;}
+
+//------------------------------------------ TransCourt_ContactDetails_Address_DXNumber ----------------------------------------
+function TransCourt_ContactDetails_Address_DXNumber() {}
+TransCourt_ContactDetails_Address_DXNumber.dataBinding = NEW_HEARING_VENUE_TMP_PATH + "/DXNumber";
+TransCourt_ContactDetails_Address_DXNumber.tabIndex = __tabIdx++;
+TransCourt_ContactDetails_Address_DXNumber.isReadOnly = function(){	return true;}
+TransCourt_ContactDetails_Address_DXNumber.isMandatory = function(){	return false;}
+
+//--------------------------------------------- TransCourt_ContactDetails_Address_TelephoneNumber -----------------------------
+function TransCourt_ContactDetails_Address_TelephoneNumber() {}
+TransCourt_ContactDetails_Address_TelephoneNumber.dataBinding = NEW_HEARING_VENUE_TMP_PATH + "/TelephoneNumber";
+TransCourt_ContactDetails_Address_TelephoneNumber.tabIndex = __tabIdx++;
+TransCourt_ContactDetails_Address_TelephoneNumber.isReadOnly = function(){	return true;}
+TransCourt_ContactDetails_Address_TelephoneNumber.isMandatory = function(){	return false;}
+TransCourt_ContactDetails_Address_TelephoneNumber.transformToDisplay = function(value){	return (null != value) ? value.toUpperCase() : null;}
+TransCourt_ContactDetails_Address_TelephoneNumber.transformToModel = function(value){	return (null != value) ? value.toUpperCase() : null;}
+
+//--------------------------------------------- TransCourt_ContactDetails_Address_FaxNumber -------------------------------------
+function TransCourt_ContactDetails_Address_FaxNumber() {}
+TransCourt_ContactDetails_Address_FaxNumber.dataBinding = NEW_HEARING_VENUE_TMP_PATH + "/FaxNumber";
+TransCourt_ContactDetails_Address_FaxNumber.tabIndex = __tabIdx++;
+TransCourt_ContactDetails_Address_FaxNumber.isReadOnly = function(){	return true;}
+TransCourt_ContactDetails_Address_FaxNumber.isMandatory = function(){	return false;}
+
+//------------------------------------  TransCourtCourtsLOVGrid  ----------------------------------------------
+function TransCourtCourtsLOVGrid() {};
+TransCourtCourtsLOVGrid.dataBinding = "/ds/var/page/SelectedLOVRow/OwningCourt";
+TransCourtCourtsLOVGrid.srcData = REF_DATA_XPATH + "/Courts";
+TransCourtCourtsLOVGrid.rowXPath = "Court";
+TransCourtCourtsLOVGrid.keyXPath = "Code";
+TransCourtCourtsLOVGrid.columns = [	{xpath: "Code"}, {xpath: "Name"} ];
+TransCourtCourtsLOVGrid.logicOn = [TransCourtCourtsLOVGrid.dataBinding];
+TransCourtCourtsLOVGrid.logic = function() {
+	var id = Services.getValue(TransCourtCourtsLOVGrid.dataBinding);
+	Services.setValue(TransCourt_VenueCode.dataBinding, id);
+	Services.setValue(TransCourt_VenueName.dataBinding, id); } 
+
+//--------------------------------	TransCourt_Address_Grid --------------------------------------------
+function TransCourt_Address_Grid(){};
+TransCourt_Address_Grid.dataBinding = "/ds/var/page/SelectedGridRow/SelectedAddress"; 
+TransCourt_Address_Grid.srcData = REF_DATA_XPATH + "/Courts/Court[Code = " + TransCourtCourtsLOVGrid.dataBinding + "]/ContactDetails"; 
+TransCourt_Address_Grid.rowXPath = "Address";		// Individual Court/venue
+TransCourt_Address_Grid.keyXPath = "AddressId";  	// Unique identifier for a Court/venue
+TransCourt_Address_Grid.columns = [   				// column bindings
+	{xpath: "Line[1]", sort: function(a,b){if(a &lt; b){return 1;};if(a &gt; b){return -1;};return 0;}},
+	{xpath: "Line[2]", sort: function(a,b){if(a &lt; b){return 1;};if(a &gt; b){return -1;};return 0;}} ];
+
+TransCourt_Address_Grid.retrieveOn = [TransCourtCourtsLOVGrid.dataBinding];
+TransCourt_Address_Grid.srcDataOn = [TransCourtCourtsLOVGrid.dataBinding];
+
+TransCourt_Address_Grid.logicOn = [TransCourt_Address_Grid.dataBinding,	TransCourtCourtsLOVGrid.dataBinding];
+TransCourt_Address_Grid.logic = function() {
+	var courtId = Services.getValue(TransCourtCourtsLOVGrid.dataBinding);
+	var addressId = Services.getValue(TransCourt_Address_Grid.dataBinding);
+	if (courtId != null &amp;&amp; addressId != null &amp;&amp; "" != courtId &amp;&amp; "" != addressId){
+		var b11 = REF_DATA_XPATH + "/Courts/Court[Code = ";
+		var b13 = "]/ContactDetails/";
+		var b12 = b13 + "Address[./AddressId = ";
+		var xpathAdd1 = b11+courtId+b12+addressId+"]/Line[1]";	
+		var xpathAdd2 = b11+courtId+b12+addressId+"]/Line[2]";	
+		var xpathAdd3 = b11+courtId+b12+addressId+"]/Line[3]";	
+		var xpathAdd4 = b11+courtId+b12+addressId+"]/Line[4]";	
+		var xpathAdd5 = b11+courtId+b12+addressId+"]/Line[5]";	
+		var xpathPostcode = b11+courtId+b12+addressId+"]/PostCode";	
+		var xpathDXNo  = b11+courtId+b13+"DX";	
+		var xpathTelNo = b11+courtId+b13+"TelephoneNumber";	
+		var xpathFaxNo = b11+courtId+b13+"FaxNumber";	
+		var add1 = Services.getValue(xpathAdd1);
+		var add2 = Services.getValue(xpathAdd2);
+		var add3 = Services.getValue(xpathAdd3); 	if(add3==null) add3="";	
+		var add4 = Services.getValue(xpathAdd4); 	if(add4==null) add4="";
+		var add5 = Services.getValue(xpathAdd5); 	if(add5==null) add5="";
+		var postcode = Services.getValue(xpathPostcode);		
+		var dxNo = Services.getValue(xpathDXNo); 	if(dxNo==null)  dxNo="";
+		var telNo = Services.getValue(xpathTelNo);	if(telNo==null) telNo="";
+		var faxNo = Services.getValue(xpathFaxNo);	if(faxNo==null) faxNo="";
+		Services.setValue(TransCourt_ContactDetails_Address_Line1.dataBinding, add1);
+		Services.setValue(TransCourt_ContactDetails_Address_Line2.dataBinding, add2);
+		Services.setValue(TransCourt_ContactDetails_Address_Line3.dataBinding, add3);
+		Services.setValue(TransCourt_ContactDetails_Address_Line4.dataBinding, add4);
+		Services.setValue(TransCourt_ContactDetails_Address_Line5.dataBinding, add5);
+		Services.setValue(TransCourt_ContactDetails_Address_Postcode.dataBinding, postcode);		
+		Services.setValue(TransCourt_ContactDetails_Address_DXNumber.dataBinding, dxNo);
+		Services.setValue(TransCourt_ContactDetails_Address_TelephoneNumber.dataBinding, telNo);
+		Services.setValue(TransCourt_ContactDetails_Address_FaxNumber.dataBinding, faxNo); } } 
+
+function setHomeCrtDetails() {			   				   	
+	var hcrtcode  =  WPU.getHomeCourtCode();		   
+	var addxpath = REF_DATA_XPATH + "/Courts/Court[./Code='"+hcrtcode+"']/ContactDetails/Address"; 
+	var xpathName = REF_DATA_XPATH + "/Courts/Court[./Code='"+hcrtcode+"']/Name";		   	 			   	 
+	Services.setValue(TransCourtCode.dataBinding, hcrtcode);
+	Services.setValue(TransCourt_VenueCode.dataBinding, hcrtcode);
+	Services.setValue( TransCourtName.dataBinding, Services.getValue(xpathName));	
+	var addAr = Services.getNodes( addxpath );
+   	if( null != addAr &amp;&amp; addAr.length == 1 )  {				   	 	
+   		var ln1 = Services.getValue(addxpath+"/Line[1]");
+   	 	var ln2 = Services.getValue(addxpath+"/Line[2]");
+   	 	var ln3 = Services.getValue(addxpath+"/Line[3]");
+   	 	var ln4 = Services.getValue(addxpath+"/Line[4]");
+   	 	var ln5 = Services.getValue(addxpath+"/Line[5]");
+   	 	var pcode = Services.getValue( addxpath+"/PostCode");
+   	 	Services.setValue(TransAdLine1.dataBinding, ln1);
+	 	Services.setValue(TransAdLine2.dataBinding, ln2);
+	 	Services.setValue(TransAdLine3.dataBinding, ln3);
+	 	Services.setValue(TransAdLine4.dataBinding, ln4);
+	 	Services.setValue(TransAdLine5.dataBinding, ln5);
+	 	Services.setValue(TransPostcode.dataBinding, pcode); } }	
+
+/**  PostBuildX 15a: Can only bind once all elements declared, that's why this code his here, and not above **/
+TransCourtCourtsLOVGrid.raise = {
+	eventBinding: {
+		singleClicks: [ {element: "TransCourt_VenueLOVBtn"} ],
+		keys: [ { key: Key.F6, element: "TransCourt_VenueCode" }, { key: Key.F6, element: "TransCourt_VenueName" } ] } };	
+	
+//-------------------------------------  TransCourt_OKBtn  ------------------------------------------
+function TransCourt_OKBtn(){}
+TransCourt_OKBtn.tabIndex = __tabIdx++;
+TransCourt_OKBtn.actionBinding = function() {		
+	var venueCode = Services.getValue(TransCourt_VenueCode.dataBinding);
+	var venueName = Services.getValue(TransCourt_VenueName.dataBinding);
+ 	var xpathName = REF_DATA_XPATH + "/Courts/Court[./Code = " + TransCourt_VenueName.dataBinding + "]/Name";	 
+ 	var checkVenueName = Services.getValue(xpathName);
+ 	if( null != checkVenueName &amp;&amp; checkVenueName.length > 0) {  
+ 		/**value of checkVenueName is actually a code  - replace code with venuename **/
+   		venueName = checkVenueName;	}
+	Services.setValue(TransCourtCode.dataBinding, venueCode);
+	if (null != TransAdLine1) {
+		Services.setValue(TransAdLine1.dataBinding,  Services.getValue(TransCourt_ContactDetails_Address_Line1.dataBinding));
+		Services.setValue(TransAdLine2.dataBinding,  Services.getValue(TransCourt_ContactDetails_Address_Line2.dataBinding));
+		Services.setValue(TransAdLine3.dataBinding,  Services.getValue(TransCourt_ContactDetails_Address_Line3.dataBinding));
+		Services.setValue(TransAdLine4.dataBinding,  Services.getValue(TransCourt_ContactDetails_Address_Line4.dataBinding));
+		Services.setValue(TransAdLine5.dataBinding,  Services.getValue(TransCourt_ContactDetails_Address_Line5.dataBinding));
+		Services.setValue(TransPostcode.dataBinding, Services.getValue(TransCourt_ContactDetails_Address_Postcode.dataBinding)); }		
+	Services.setValue(TransCourtName.dataBinding, venueName);			
+	FormController.getInstance().hideFormExtensionPopup("TransCourt"); }
+
+TransCourt_OKBtn.enableOn = [NEW_HEARING_VENUE_TMP_PATH + "/Address/Line[1]"];
+
+TransCourt_OKBtn.isEnabled = function() {	
+	var c = Services.getValue(NEW_HEARING_VENUE_TMP_PATH + "/Address/Line[1]");
+	if(c != null &amp;&amp; c!= "") { return true; }
+	else { return false; } }
+//-------------------------------------  TransCourt_CancelBtn  --------------------------------------	
+function TransCourt_CancelBtn(){}
+TransCourt_CancelBtn.tabIndex = __tabIdx++;
+
+		</miscCode>
+		<Context ScreenId="CJR020">
+			<initialise>/**WPU.loadCourt();**/ Services.setValue(TransCourtCode.dataBinding,""); </initialise>
+			<enableOn>TransferCase.dataBinding</enableOn>
+			<isEnabled>return ('Y' == Services.getValue(TransferCase.dataBinding));</isEnabled>
+			<logicOn>TransferCase.dataBinding</logicOn>
+			<logic>if('Y' != Services.getValue(TransferCase.dataBinding)) Services.setValue(TransCourtName.dataBinding, "");</logic>
+			<miscCode>
+				TransCourtCode.enableOn = [TransferCase.dataBinding];
+				TransCourtCode.isEnabled = function() { return('Y' == Services.getValue(TransferCase.dataBinding)); }
+				TransCourtCode.logicOn = [TransferCase.dataBinding];
+				TransCourtCode.logic = function() {
+					if('Y' != Services.getValue(TransferCase.dataBinding)) {
+						Services.setValue(TransCourtCode.dataBinding, ""); }
+					else {
+						Services.setValue(TransCourtCode.dataBinding, "");
+						setHomeCrtDetails(); } }
+				TransCourtLOVBtn.enableOn = [TransferCase.dataBinding];
+				TransCourtLOVBtn.isEnabled = function() { return('Y' == Services.getValue(TransferCase.dataBinding)); }</miscCode>
+		</Context>		
+		<Context ScreenId="CJR021">
+			<initialise>WPU.loadCourt(); Services.setValue(TransCourtCode.dataBinding,"");</initialise>
+			<mandatoryOn>ClaimTransferTo.dataBinding</mandatoryOn>
+			<isMandatory>return('CTC'==Services.getValue(ClaimTransferTo.dataBinding));</isMandatory>
+			<enableOn>ClaimTransferTo.dataBinding</enableOn>	
+			<isEnabled>return ('CTC'==Services.getValue(ClaimTransferTo.dataBinding));</isEnabled>
+			<logicOn>ClaimTransferTo.dataBinding</logicOn>
+			<logic>if('CTC' != Services.getValue(ClaimTransferTo.dataBinding)) Services.setValue(TransCourtName.dataBinding, "");</logic>
+			<miscCode>
+				TransCourtCode.enableOn = [ClaimTransferTo.dataBinding];
+				TransCourtCode.isEnabled = function() {
+					return ('CTC'==Services.getValue(ClaimTransferTo.dataBinding)); }
+				TransCourtCode.logicOn = [ClaimTransferTo.dataBinding];
+				TransCourtCode.logic = function() {
+					if('CTC'!=Services.getValue(ClaimTransferTo.dataBinding)) {
+						Services.setValue(TransCourtCode.dataBinding, ""); }
+					else {
+						Services.setValue(TransCourtCode.dataBinding,"");
+						setHomeCrtDetails(); } }
+				TransCourtLOVBtn.enableOn = [ClaimTransferTo.dataBinding];
+				TransCourtLOVBtn.isEnabled = function() { return ('CTC'==Services.getValue(ClaimTransferTo.dataBinding)); }		
+			</miscCode>
+		</Context>
+	</Javascript>
+</Question>

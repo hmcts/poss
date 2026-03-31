@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: CodedParty
+	Method:  getPaperTypeList
+	Author:  Chris Vincent (EDS) 
+	Created: 20 March 2005
+	Description: 
+		Use SQLLite to retrieve list of paper types
+-->
+<!-- service-method visibility="local" -->
+<service-method>
+	<pipeline>
+		<SQLLite format-output="true"
+				 resultset-element="PaperTypes"
+				 row-element="PaperType"
+				 field-name-as="element" >
+			<DataSource id="java:OracleDS"/>
+			<SQL>
+				SELECT CCBC.RV_LOW_VALUE As "Code"
+				,      CCBC.RV_MEANING As "Description"
+				FROM  CCBC_REF_CODES CCBC
+				WHERE CCBC.RV_DOMAIN = 'PAPER_TYPE'
+			</SQL>
+		</SQLLite>
+  	</pipeline>
+	<Security roles="viewOnly medium high wcSuper scSuper bmsSuper aeSuper dmSuper cpSuper edsAdmin ccbcMan"/>
+</service-method>

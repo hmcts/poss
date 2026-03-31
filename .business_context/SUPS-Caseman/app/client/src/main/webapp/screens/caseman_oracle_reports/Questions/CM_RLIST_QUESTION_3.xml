@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- 
+	10/08/2006 - MGG - defect 4186 - Added ref data calls as courts not there.
+	10/08/2006 - MGG - defect 4187 - Removed setDefault tag, as they do not work. Moved the code to a initialise tag.
+	21/09/2006 - MGG - defect 5270 - Added a param (courtCode) to refdata call as service had changed.  The service changed was getWarrantReturnCodes.
+-->
+<!--Question xmlns="http://eds.com/questionxhtml" xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd"-->
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>CM_RLIST_QUESTION_3</Id>
+	<Label>Return Code</Label>
+	<ObjectName>ReturnCode</ObjectName>
+	<Html>
+		<input id="ReturnCode" type="text" size="1"></input>
+	</Html>
+	<Javascript>
+		<XPath>/ds/var/page/OracleReportForm/ReturnCode</XPath>
+		<ReportVariableName>P_RETURN_CODE</ReportVariableName>
+		<ReportVariableValue>Services.getValue(ReturnCode.dataBinding)</ReportVariableValue>
+		<HintText>Code for the warrant return or % for all</HintText>
+		<isMandatory>return true;</isMandatory>
+		<initialise>
+			Services.setValue(ReturnCode.dataBinding, "%");
+		</initialise>
+		<validate>
+			return validateReturnCode();
+		</validate>
+		<transformToDisplay>
+			return (null != value) ? value.toUpperCase() : null;
+		</transformToDisplay>
+		<transformToModel>
+			return (null != value) ? value.toUpperCase() : null;
+		</transformToModel>			
+		<miscCode>
+			OracleReportForm.refDataServices = [
+				{name:"WarrantReturnCodes", dataBinding:REF_DATA_XPATH, serviceName:"getWarrantReturnCodes", serviceParams:[{ name: "courtCode", value: "/ds/var/app/currentCourt", type: "simple" }]},
+				{name:"Courts", dataBinding:REF_DATA_XPATH, serviceName:"getCourtsShort", serviceParams:[]},
+				{name:"SystemDate", dataBinding:REF_DATA_XPATH, serviceName:"getSystemDate", serviceParams:[]}
+			];		
+			
+			function validateReturnCode()
+			{
+				var enteredValue = Services.getValue(ReturnCode.dataBinding);
+				if (enteredValue == "%")
+				{
+					return null;
+				}
+				var found = false;
+				var ec = null;
+				var numberOfWarrantReturnCodes = Services.getNodes(REF_DATA_XPATH + "/ds/WarrantReturnCodes/WarrantReturnCode").length;
+				for(var i=1; i &lt;= numberOfWarrantReturnCodes; i++)
+				{
+					var code = Services.getValue(REF_DATA_XPATH + "/ds/WarrantReturnCodes/WarrantReturnCode[" + i + "]/Code");
+					if (code == enteredValue)
+					{
+						found = true;
+						break;
+					}
+				}
+				if (!found)
+				{
+					Services.setFocus("ReturnCode");
+					ec = ErrorCode.getErrorCode("CaseMan_invalidWarrantCode_Msg");
+					faildedValidation (ec);
+				}
+				return ec;
+			}				
+		</miscCode>
+	</Javascript>
+</Question>

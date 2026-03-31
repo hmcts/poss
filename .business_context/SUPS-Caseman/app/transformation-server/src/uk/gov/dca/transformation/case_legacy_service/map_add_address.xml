@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<DBMapDef>
+	<DataSource id="java:OracleDS"/>
+	<Tables>
+		<Table alias="A" name="ADDRESSES"/>
+	</Tables>
+	<Mapping>
+		<Addresses>
+			<Address>
+				<AddrSeq>${A.ADDR_SEQ}</AddrSeq>
+				<DeftCaseNumber>${A.DEFT_CASE_NUMBER}</DeftCaseNumber>
+				<DeftId>${A.DEFT_ID}</DeftId>							
+				<CourtCode>${A.CRT_CODE}</CourtCode>
+				<AddressType>${A.ADDR_TYPE}</AddressType>
+				<Line1>${A.ADDR_1}</Line1>
+				<Line2>${A.ADDR_2}</Line2>
+				<Line3>${A.ADDR_3}</Line3>
+				<Line4>${A.ADDR_4}</Line4>
+				<Line5>${A.ADDR_5}</Line5>
+				<Postcode>${A.POSTCODE}</Postcode>
+				<Username>${A.USERNAME}</Username>
+				<ValidFrom>${A.VALID_FROM}</ValidFrom>
+				<ValidTo>${A.VALID_TO}</ValidTo>
+				<DX>${D.DX}</DX>
+				<TelephoneNumber>${D.TEL_NO}</TelephoneNumber>
+			</Address>
+		</Addresses>	
+	</Mapping>
+</DBMapDef>

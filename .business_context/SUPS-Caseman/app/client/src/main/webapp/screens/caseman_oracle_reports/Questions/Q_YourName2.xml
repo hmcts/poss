@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--Question xmlns="http://eds.com/questionxhtml" xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd"-->
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>Q_YourName2</Id>
+	<Label>Your Name</Label>
+	<ObjectName>YourName2</ObjectName>
+	<Html>
+		<input id="YourName2" type="text" size="25"></input>
+	</Html>
+	<Javascript>
+		<XPath>/ds/var/page/OracleReportForm/YourName2</XPath>
+		<ReportVariableName>NAME</ReportVariableName>
+		<ParameterType></ParameterType>
+		<TableName></TableName>
+		<KeyName></KeyName>
+		<ColumnName></ColumnName>
+		<FieldType></FieldType>
+		<ReportVariableValue>Services.getValue(YourName2.dataBinding)</ReportVariableValue>
+		<ReportVariableCode>456</ReportVariableCode>
+		<HintText>Enter your name (max 20 characters)</HintText>
+		<mandatoryOn></mandatoryOn>
+		<isMandatory>return true;</isMandatory>
+		<setDefault></setDefault>
+		<validateOn></validateOn>
+		<validate></validate>
+		<readOnlyOn></readOnlyOn>
+		<isReadOnly></isReadOnly>
+		<maxLength>20</maxLength>
+		<transformToDisplay>
+			return (null != value) ? value.toUpperCase() : null;
+		</transformToDisplay>
+		<transformToModel>
+			return (null != value) ? value.toUpperCase() : null;
+		</transformToModel>	
+		<initialise></initialise>
+		<logicOn></logicOn>
+		<logic></logic>
+		<miscCode></miscCode>
+		<IsQuestion></IsQuestion>
+	</Javascript>
+</Question>

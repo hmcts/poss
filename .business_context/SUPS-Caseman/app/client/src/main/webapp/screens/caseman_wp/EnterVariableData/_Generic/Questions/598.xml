@@ -1,0 +1,19 @@
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>598</Id>
+	<Label>Is the claim/order in respect of</Label>
+	<ObjectName>ClaimFor</ObjectName>
+
+	<Html>	
+		<select id="ClaimFor">
+			<option value=""></option>
+			<option value="ACC">A fatal accident</option>
+			<option value="PTNT">A patient</option>
+		</select>
+	</Html>			
+	<Javascript>
+		<XPath>/ds/EnterVariableData/Settlement/claimFor</XPath>
+		<componentName>##label##</componentName>
+		<isMandatory>return true;</isMandatory>
+		<HintText>Select the claim/order in respect of fatal accident or patient</HintText>			
+	</Javascript>
+</Question>

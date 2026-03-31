@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: WarrantReturns
+	Method:  getCaseCreditorCode()
+	File:    get_case_creditor_code.xml
+	Author:  Phil Haferer (EDS)
+	Created: 16 January 2007
+	Description: 
+		Retrieve the MCOL Creditor Code for a Case.
+
+	Change History:
+-->
+<service-method>
+	<pipeline>
+		<SQLLite format-output="true"
+				 resultset-element="ds"
+				 row-element="Case"
+				 field-name-as="element" >
+			<DataSource id="java:OracleDS"/>
+			<Param name="param.caseNumber" xpath="/params/param[@name='caseNumber']"/>
+			<SQL>
+				SELECT C.CRED_CODE AS "CreditorCode" 
+				FROM   CASES C
+				WHERE  C.CASE_NUMBER = ${param.caseNumber}
+			</SQL>
+		</SQLLite>
+	</pipeline>
+	<Security roles="medium high wcSuper scSuper bmsSuper aeSuper dmSuper cpSuper ccbcMan ccbcUser ccbcSGB2"/>
+</service-method>

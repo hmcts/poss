@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>404</Id>
+	<Label>Direction discount evidence given?</Label>
+	<ObjectName>DiscountEvidenceDirnGiven</ObjectName>
+	<Html>
+		<input type="checkbox" id="DiscountEvidenceDirnGiven"></input>
+	</Html>
+	
+	<Javascript>
+		<XPath>/ds/EnterVariableData/SmallTrack/discountEvidenceDirnGiven</XPath>
+		<HintText>Check box if direction to discount evidence have been given?</HintText>
+		<modelValue>checked: "Y", unchecked: "N"</modelValue>
+		<enableOn>DirectionsTypeReqd.dataBinding</enableOn>
+		<isEnabled>
+			var val1 = Services.getValue(DirectionsTypeReqd.dataBinding);
+			return('HW' == val1);
+		</isEnabled>
+		<logicOn>DirectionsTypeReqd.dataBinding</logicOn>
+		<logic>
+			var val1 = Services.getValue(DirectionsTypeReqd.dataBinding);
+
+			if('HW' != val1)
+			{	Services.setValue(DiscountEvidenceDirnGiven.dataBinding, "N");
+			}
+		</logic>
+	</Javascript>
+</Question>

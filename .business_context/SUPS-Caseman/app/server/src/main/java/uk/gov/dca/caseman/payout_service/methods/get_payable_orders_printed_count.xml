@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: Payout
+	Method:  getPayableOrdersPrintedCount()
+	File:    get_payable_orders_printed_count.xml
+	Author:  A Bonnar (EDS)
+	Created: 21st Februrary 2006
+	Description: 
+		Get the count of payable orders just printed
+-->
+<service-method>
+	<pipeline>
+		<SQLLite format-output="true"
+				 resultset-element="ds"
+				 row-element="payableOrders"
+				 field-name-as="element" >
+			<DataSource id="java:OracleDS"/>
+				<Param name="param.adminCourtCode" xpath="/params/param[@name='adminCourtCode']"/>
+			
+			<SQL>
+			   	SELECT COUNT(*)   AS "payableOrders"
+  				FROM PAYABLE_ORDERS PO
+  				WHERE NVL(PO.PAYEE_NAME, '') != 'CANCELLED'
+  				AND PO.PRINT = 'Y'
+  				AND PO.ADMIN_COURT_CODE = ${param.adminCourtCode}
+			</SQL>
+		</SQLLite> 
+	</pipeline>
+	<Security roles="viewOnly medium high wcSuper scSuper bmsSuper aeSuper dmSuper edsAdmin"/>	
+</service-method>

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: CoEvent
+	Method:  getValidCOStatusList
+	Author:  Chris Hutt (EDS) 
+	Created: 12 August 2005
+	Description: 
+		Retrieve valid CO status list associated with a specified event 
+
+                
+-->
+<service-method>
+	<pipeline>
+		<Query>
+			<QueryDef location="uk/gov/dca/caseman/co_event_service/query_def_valid_co_status_list.xml"/>
+			<QueryExtension pivotNode="/ValidCOStatuses/ValidCOStatus">
+				<Param name="param.eventId" xpath="/params/param[@name = 'eventId']"/>
+				<Constraint>CCBC.RV_IIT_CODE_1 = ${param.eventId}</Constraint>
+			</QueryExtension>
+		</Query>
+	</pipeline>
+	<Security roles="user"/>
+</service-method>

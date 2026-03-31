@@ -1,0 +1,250 @@
+/* Form display inline style */
+form#manageEvents
+{
+	display: inline;
+}
+
+/* Set the width for particular labels */
+td.detailsLabel { width: 100px; }
+td.popupLabel { width: 125px; }
+
+/* Set the width of particular fields */
+#Master_EventDescription { width: 375px; }
+#AddEvent_Subject { width: 381px; }
+#EventDetails_Details { width: 350px; }
+#AddEvent_Details { width: 380px; }
+select#Header_CaseAllocatedTo { width: 150px; }
+
+/* Set the margins for particular fields */
+#AddEvent_DateReceived { margin-top: 5px; }
+
+/************************************** SUBFORMS ******************************************/
+
+#changeCaseType_subform
+{
+	left: 50%;
+	top: 50%;
+	margin-left: -350px;
+	margin-top: -160px;
+	width: 700px;
+	height: 320px;
+}
+
+#obsoleteCaseType_subform
+{
+	left: 50%;
+	top: 50%;
+	margin-left: -350px;
+	margin-top: -160px;
+	width: 700px;
+	height: 320px;
+}
+
+#resetCaseStatus_subform
+{
+	left: 50%;
+	top: 50%;
+	margin-left: -200px;
+	margin-top: -37px;
+	width: 400px;
+	height: 75px;
+}
+
+#selectEventOutput_subform
+{
+	left: 50%;
+	top: 50%;
+	margin-left: -190px;
+	margin-top: -130px;
+	width: 380px;
+	height: 259px;
+}
+
+/****************************************** GRID ********************************************/
+
+#Header_PartyTypeListGrid
+{
+	margin-top: 5px;
+	margin-left: 5px;
+	margin-right: 5px;
+	width: 350px;
+}
+
+#Header_PartyTypeListGrid .col0 { width: 110px; }
+#Header_PartyTypeListGrid .col1 { width: 50px; }
+#Header_PartyTypeListGrid .col2 { width: 157px; }
+
+#Master_EventGrid
+{
+	margin: 5px;
+	width: 460px;
+}
+
+#Master_EventGrid .col0 { width: 16px; }
+#Master_EventGrid .col1 { width: 75px; }
+#Master_EventGrid .col2 { width: 45px; }
+#Master_EventGrid .col3 { width: 220px; }
+#Master_EventGrid .col4 { width: 50px; }
+#Master_EventGrid .col5 { text-align: center; width: 10px; }
+
+#Master_EventGrid .errorClass
+{
+    background: #d3e7d3;
+    border-color: #d3e7d3;
+}
+
+#Master_EventGrid .errorEditOutputClass
+{
+    background: #d3e7d3;
+    border-color: #d3e7d3;
+}
+
+#Master_EventGrid .errorEditOutputClass .col0
+{
+	background: url('../caseman_wp/WordProcessor/wordprocessing/images/buttons/icon_edt_table.gif') center left no-repeat;
+}
+
+#Master_EventGrid .editOutputClass .col0
+{
+	background: url('../caseman_wp/WordProcessor/wordprocessing/images/buttons/icon_edt_table.gif') center left no-repeat;
+}
+
+#Master_EventGrid .errorOpenOutputClass
+{
+    background: #d3e7d3;
+    border-color: #d3e7d3;
+}
+
+#Master_EventGrid .errorOpenOutputClass .col0
+{
+	background: url('../caseman_wp/WordProcessor/wordprocessing/images/buttons/acrobat-icon.gif') center left no-repeat;
+}
+
+#Master_EventGrid .openOutputClass .col0
+{
+	background: url('../caseman_wp/WordProcessor/wordprocessing/images/buttons/acrobat-icon.gif') center left no-repeat;
+}
+
+#Master_EventGrid .errorFailOutputClass
+{
+    background: #d3e7d3;
+    border-color: #d3e7d3;
+}
+
+#Master_EventGrid .errorFailOutputClass .col0
+{
+	background: url('../caseman_wp/WordProcessor/wordprocessing/images/buttons/docError.gif') center left no-repeat;
+}
+
+#Master_EventGrid .failOutputClass .col0
+{
+	background: url('../caseman_wp/WordProcessor/wordprocessing/images/buttons/docError.gif') center left no-repeat;
+}
+
+#AddEvent_InstigatorGrid { width: 375px; }
+#AddEvent_InstigatorGrid .col0 { width: 110px; }
+#AddEvent_InstigatorGrid .col1 { width: 50px; }
+#AddEvent_InstigatorGrid .col2 { width: 182px; }
+
+#SubjectPopup_SubjectLOVGrid .col0 { width: 110px; }
+#SubjectPopup_SubjectLOVGrid .col1 { width: 50px; }
+#SubjectPopup_SubjectLOVGrid .col2 { width: 154px; }
+
+/***************************************** POP-UPS ******************************************/
+
+div#Details_Of_Claim_Popup
+{
+	visibility: hidden;
+	position: absolute;
+	width: 350px;
+	top: 50px;
+	left: 50%;
+	margin-left: -175px;
+}
+
+div#AddEvent_Popup
+{
+	visibility: hidden;
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	width: 565px;
+	height: 284px;
+	margin-top: -142px;
+	margin-left: -283px;
+}
+		
+div#SubjectLOV_Popup
+{
+	visibility: hidden;
+	position: absolute;
+	top: 50px;
+	width: 370px;
+	left: 50%;
+	margin-left: -185px;
+}
+
+/************************************* LOV POPUPS *****************************************/
+
+#Master_EventLOVGrid
+{
+	height: 302px;
+	width: 422px;
+	top: 50%;
+	left: 50%;
+	margin-left: -211px;
+	margin-top: -151px;
+}
+
+#AddEvent_DetailsLOVGrid
+{
+	width: 602px;
+	top: 50px;
+	left: 50%;
+	margin-left: -301px;
+}
+
+#AddEvent_DetailsLOVGrid .col0 { width: 200px; }
+#AddEvent_DetailsLOVGrid .col1 { width: 330px; }
+
+#AddEvent_BMSTaskLOVGrid
+{
+	width: 367px;
+	top: 50px;
+	left: 50%;
+	margin-left: -183px;
+}
+
+#AddEvent_BMSTaskLOVGrid .col0 { width: 300px; }
+
+#AddEvent_StatsModLOVGrid
+{
+	width: 367px;
+	top: 50px;
+	left: 50%;
+	margin-left: -183px;
+}
+
+#AddEvent_StatsModLOVGrid .col0 { width: 300px; }
+
+/**************************** ORACLE REPORT PROGRESS BAR **********************************/
+
+#ProgressIndicator_Popup
+{
+	visibility: hidden;
+	position: absolute;
+	width: 400px;
+	height: 150px;
+	top: 50%;
+	left: 50%;
+	margin-left: -200px;
+	margin-top: -75px;
+}
+
+#ProgressIndicator_Panel {
+	height: 100px;
+}
+
+#ProgressIndicator_ActionBarContainer {
+	width: 420px;
+}

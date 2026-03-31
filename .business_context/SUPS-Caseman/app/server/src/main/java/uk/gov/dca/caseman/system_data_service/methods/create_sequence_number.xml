@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<service-method>
+	<pipeline>
+		<SQLLite output="input">
+			<DataSource id="java:OracleDS"/>
+			<Param name="param.adminCourtCode" xpath="/params/param[@name='adminCourtCode']"/>
+			<Param name="param.item"           xpath="/params/param[@name='item']"/>
+			<SQL type="insert" tables="SD">
+				INSERT INTO 
+					system_data (item, item_value, admin_court_code) 
+				VALUES 
+					(${param.item}, 1, ${param.adminCourtCode})
+			</SQL>
+		</SQLLite>
+	</pipeline>
+	<Security roles="viewOnly medium high wcSuper scSuper bmsSuper aeSuper dmSuper"/>
+</service-method>

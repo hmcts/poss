@@ -1,0 +1,57 @@
+<XDtClass:forAllClasses><?xml version="1.0" encoding="UTF-8"?>
+
+<definitions name="<XDtClass:classTagValue tagName="soap.service" paramName="urn"/>" targetNamespace="http://localhost:8080/<XDtConfig:configParameterValue paramName="application_name"/>/<XDtClass:classTagValue tagName="soap.service" paramName="urn"/>/<XDtClass:classTagValue tagName="soap.service" paramName="urn"/>ServiceServicePort" xmlns:tns="http://localhost:8080/<XDtConfig:configParameterValue paramName="application_name"/>/<XDtClass:classTagValue tagName="soap.service" paramName="urn"/>/<XDtClass:classTagValue tagName="soap.service" paramName="urn"/>ServiceServicePort" xmlns="http://schemas.xmlsoap.org/wsdl/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/">
+  <types/>
+ 
+<XDtMethod:forAllMethods>
+  <XDtMethod:ifHasMethodTag tagName="wlws:part">
+	  <message name="<XDtClass:classTagValue tagName="soap.service" paramName="urn"/>ServiceService_<XDtMethod:methodName/>">
+	    <part name="String_1" type="xsd:string"/>
+	    <part name="String_2" type="xsd:string"/>
+	    <part name="String_3" type="xsd:string"/>
+	  </message>
+	  <message name="<XDtClass:classTagValue tagName="soap.service" paramName="urn"/>ServiceService_<XDtMethod:methodName/>Response">
+	    <part name="result" type="xsd:string"/>
+	  </message>
+  </XDtMethod:ifHasMethodTag>
+</XDtMethod:forAllMethods>
+
+<portType name="<XDtClass:classTagValue tagName="soap.service" paramName="urn"/>ServiceService">
+<XDtMethod:forAllMethods>
+  <XDtMethod:ifHasMethodTag tagName="wlws:part">
+  <operation name="<XDtMethod:methodName/>" parameterOrder="String_1 String_2 String_3">
+      <input message="tns:<XDtClass:classTagValue tagName="soap.service" paramName="urn"/>ServiceService_<XDtMethod:methodName/>"/>
+      <output message="tns:<XDtClass:classTagValue tagName="soap.service" paramName="urn"/>ServiceService_<XDtMethod:methodName/>Response"/>
+  </operation>
+  </XDtMethod:ifHasMethodTag>
+</XDtMethod:forAllMethods>
+
+</portType>
+
+ 
+ <binding name="<XDtClass:classTagValue tagName="soap.service" paramName="urn"/>ServiceServiceBinding" type="tns:<XDtClass:classTagValue tagName="soap.service" paramName="urn"/>ServiceService">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" style="rpc"/>
+    
+<XDtMethod:forAllMethods>
+  <XDtMethod:ifHasMethodTag tagName="wlws:part">
+    <operation name="<XDtMethod:methodName/>">
+      <soap:operation soapAction=""/>
+      <input>
+        <soap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" use="encoded" namespace="http://localhost:8080/<XDtConfig:configParameterValue paramName="application_name"/>/<XDtMethod:methodName/>/<XDtMethod:methodName/>ServiceServicePort"/></input>
+      <output>
+        <soap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" use="encoded" namespace="http://localhost:8080/<XDtConfig:configParameterValue paramName="application_name"/>/<XDtMethod:methodName/>/<XDtMethod:methodName/>ServiceServicePort"/></output>
+    </operation>
+  </XDtMethod:ifHasMethodTag>
+</XDtMethod:forAllMethods>
+
+ </binding> 
+  
+  <service name="<XDtClass:classTagValue tagName="soap.service" paramName="urn"/>">
+    <port name="<XDtClass:classTagValue tagName="soap.service" paramName="urn"/>ServiceServicePort" binding="tns:<XDtClass:classTagValue tagName="soap.service" paramName="urn"/>ServiceServiceBinding">
+      <soap:address location="REPLACE_WITH_ACTUAL_URL"/>
+    </port>
+  </service>
+</definitions>  
+  
+  
+</XDtClass:forAllClasses> 

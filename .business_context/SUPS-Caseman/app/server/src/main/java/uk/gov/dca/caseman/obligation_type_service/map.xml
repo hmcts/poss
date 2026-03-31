@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<DBMapDef>
+  <DataSource id="java:OracleDS"/>
+  <Tables>
+    <Table alias="O" name="OBLIGATION_TYPES"/>
+  </Tables>
+  <Mapping>
+    <ObligationTypes>
+    	<ObligationType>
+    		<Id>${O.OBLIGATION_TYPE}</Id>
+    		<Description>${O.OBLIGATION_TEXT}</Description>	
+    	</ObligationType>
+    </ObligationTypes>	
+  </Mapping>
+</DBMapDef>

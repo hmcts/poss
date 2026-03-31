@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<service-method>
+
+<pipeline>
+		<Query>
+			<QueryDef location="uk/gov/dca/caseman/utilities_service/get_fapId_query_def.xml"/>
+			<QueryExtension pivotNode="/Users/User">
+			<Modify></Modify>
+			    <Param name="param.CourtId" xpath="/params/param[@name='CourtId']"/>      
+			<Constraint>
+						CO.CODE = ${param.CourtId}
+			</Constraint>
+			</QueryExtension>
+		</Query>
+</pipeline>
+<Security roles="ccbcMan"/>
+	
+</service-method>

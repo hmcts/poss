@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: SuitorsCashStartOfDay
+	Method:  CheckStartOfDayStatus()
+	File:    check_start_of_day_status.xml
+	Author:  A. Bonnar (EDS)
+	Created: 14th Feb 2006
+	Description: 
+		Determine whether the Suitors Cash Start Of Day has been run.
+-->
+<service-method>
+	<pipeline>
+		<SQLLite format-output="true"
+				 resultset-element="ds"
+				 row-element="SodRun"
+				 field-name-as="element" >
+			<DataSource id="java:OracleDS"/>
+				<Param name="param.adminCourtCode" xpath="/params/param[@name='adminCourtCode']"/>
+				<Param name="param.todaysDate" xpath="/params/param[@name='todaysDate']"/>
+			<SQL>				
+			   	SELECT COUNT(*) AS "status" FROM SYSTEM_DATA 
+			   					WHERE ITEM           ='CFO RUNDATE' 
+			   					AND ADMIN_COURT_CODE = ${param.adminCourtCode}
+			   					AND ITEM_VALUE       = ${param.todaysDate}  				  				
+			</SQL>
+		</SQLLite>
+	</pipeline>
+	<Security roles="viewOnly medium high wcSuper scSuper bmsSuper aeSuper dmSuper edsAdmin"/>	
+</service-method>

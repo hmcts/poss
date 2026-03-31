@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Change History 
+04/07/2013 - Chris Vincent (Trac 4908). Changed case number validation method to use to common CaseManValidationHelper.validateCaseNumber method.
+-->
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>CM_DPA_QUESTION_1</Id>
+	<Label>Case Number</Label>
+	<ObjectName>CaseNumber</ObjectName>
+	<Html>
+		<input id="CaseNumber" type="text" size="15"></input>
+	</Html>
+	<Javascript>
+		<XPath>/ds/var/page/OracleReportForm/CaseNumber</XPath>
+		<ReportVariableName>P_CASE_NUMBER</ReportVariableName>
+		<ReportVariableValue>Services.getValue(CaseNumber.dataBinding)</ReportVariableValue>
+		<HintText>Enter the Case Number quoted on the Initial Report</HintText>
+		<isMandatory>return true;</isMandatory>
+		<transformToDisplay>
+			return (null != value) ? value.toUpperCase() : null;
+		</transformToDisplay>
+		<transformToModel>
+			return (null != value) ? value.toUpperCase() : null;
+		</transformToModel>
+		<maxLength>8</maxLength>
+		<logicOn>CaseNumber.dataBinding</logicOn>
+		<logic>
+			var caseNumber = Services.getValue(this.dataBinding);
+			if(!CaseManUtils.isBlank(caseNumber) &amp;&amp; CaseNumber.validate() == null) {
+				getCaseDetails(caseNumber);
+			}
+			else {
+				Services.setValue(_caseNumberExistsXPath, "false");
+			}
+		</logic>
+		<validate>
+			var caseNumber = Services.getValue(this.dataBinding);
+			var errCode = null;
+			if(!CaseManUtils.isBlank(caseNumber)) {
+				errCode = CaseManValidationHelper.validateCaseNumber(caseNumber);
+			}
+			return errCode;
+		</validate>
+		<miscCode>
+			Status_RunReportButton.validationList = ["CaseNumber"];
+			
+			var _caseNumberExistsXPath = "/ds/var/page/OracleReportForm/CaseNumberExists";
+			
+			Status_RunReportButton.enableOn = [_caseNumberExistsXPath];
+			Status_RunReportButton.isEnabled = function()
+			{
+				if(Services.getValue(_caseNumberExistsXPath) == "true") {
+					return true;
+				}
+		        return false;
+			}
+			
+			function getCaseDetails(caseNumber)
+			{
+				var params = new ServiceParams();
+				params.addSimpleParameter("caseNumber", caseNumber);
+				Services.callService("getCase", params, getCase, true);
+			}
+			
+			function getCase()
+			{
+			}
+			
+			getCase.onSuccess = function(dom)
+			{
+				//debugger;
+				if(dom != null) {
+					var results = dom.selectSingleNode("/ds/ManageCase");
+					if(results != null) {
+						var caseOwningCourtNode = results.selectSingleNode("/ds/ManageCase/OwningCourtCode");
+						var caseOwningCourt = XML.getNodeTextContent(caseOwningCourtNode);
+						if (Services.getValue(PAGE_XPATH + "/tmp/OwningCourtCode") == caseOwningCourt)
+						{
+							Services.replaceNode("/ds/ManageCase", results);
+							Services.setValue(_caseNumberExistsXPath, "true");
+						}
+						else
+						{
+							this.onError();
+						}
+					}
+					else {
+						this.onError();
+					}
+				}
+				else {
+					this.onError();
+				}
+			}
+			getCase.onError = function()
+			{
+				Services.setValue(_caseNumberExistsXPath, "false");
+				alert("Unknown Case Number. Please Enter Valid Case Number");
+				Services.setValue(CaseNumber.dataBinding, "");
+				Services.removeNode(DATA_XPATH + "/Parties");
+			}
+					
+		</miscCode>
+	</Javascript>
+</Question>

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<service-method>
+	<pipeline>
+		<Update>
+			<QueryDef location="uk/gov/dca/caseman/ae_service/query_def_update_employer.xml"/>			
+			<DataSource xpath="/params/param[@name='EmployerDetails']"/>
+			
+			<QueryExtension pivotNode="/Employers/Employer">
+				<CheckExists table="P" fields="PARTY_ID" onNotExist="add" onExist="update"/>
+			</QueryExtension>
+<!--			<QueryExtension pivotNode="/Employer/ContactDetails/Addresses/Address">
+				<CheckExists table="GA" fields="ADDRESS_ID" onNotExist="add" onExist="update"/>
+			</QueryExtension>
+-->		
+		</Update>
+	</pipeline>
+	<Security roles="user"/>
+</service-method>

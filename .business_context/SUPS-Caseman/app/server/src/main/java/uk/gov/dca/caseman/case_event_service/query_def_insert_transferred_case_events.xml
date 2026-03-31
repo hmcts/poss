@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<QueryDef>
+	<DBMapDef location="uk/gov/dca/caseman/case_event_service/map_transferred_case_events.xml"/>
+	<Query pivotNode="/CaseEvent" tables="CE">
+		<Join/>
+		<Modify>
+			<Field name="CE.EVENT_SEQ" sequenceTable="EVENT_SEQUENCE"/>
+			<Field name="CE.DELETED_FLAG" value="N"/>
+		</Modify>
+	</Query>
+</QueryDef>

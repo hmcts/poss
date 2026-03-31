@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- 
+	Service: Reports
+	Method:  runDistrictJudgesPrintouts()
+	File:    run_district_judges_printouts.xml
+	Author:  Chris Hutt
+	Created: 10 Nov 2005
+	Description: 
+		Run district judge printout reports based on criteria supplied.
+--> 
+<service-method>
+	<pipeline> 
+		<Java>
+			<Source class="uk.gov.dca.caseman.reports_service.classes.DistrictJudgesPrintoutsCustomProcessor"/>
+		</Java>
+	</pipeline>
+	<Dependencies>
+		<Dependency serviceName="Judgment"/>	
+		<Dependency serviceName="Case"/>		
+	</Dependencies>		
+	<Security roles="viewOnly medium high wcSuper scSuper bmsSuper aeSuper dmSuper edsAdmin cpSuper ccbcMan ccbcUser ccbcSGB2"/>		
+</service-method>
+
+

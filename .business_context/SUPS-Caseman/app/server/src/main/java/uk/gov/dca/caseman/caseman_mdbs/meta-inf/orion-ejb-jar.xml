@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE orion-ejb-jar PUBLIC "-//Evermind//DTD Enterprise JavaBeans 1.1 runtime//EN" "http://xmlns.oracle.com/ias/dtds/orion-ejb-jar.dtd">
+
+<orion-ejb-jar deployment-version="9.0.3.0.0">
+  <enterprise-beans>
+    <message-driven-deployment name="CaseManAsyncQueueProcessor" destination-location="jms/caseman_async_queue" connection-factory-location="jms/QueueConnectionFactory" listener-threads="15">
+      <env-entry-mapping name="uk.gov.dca.db.SupsConfig">uk/gov/dca/caseman/project_config.xml</env-entry-mapping>
+      <ejb-ref-mapping name="ejb/AeAmountsServiceLocal" location="AeAmountsService" />
+      <ejb-ref-mapping name="ejb/AeEventServiceLocal" location="AeEventService" />
+      <ejb-ref-mapping name="ejb/AeServiceLocal" location="AeService" />
+      <ejb-ref-mapping name="ejb/AuditServiceLocal" location="AuditService" />
+      <ejb-ref-mapping name="ejb/BailiffServiceLocal" location="BailiffService" />
+      <ejb-ref-mapping name="ejb/BmsServiceLocal" location="BmsService" />
+      <ejb-ref-mapping name="ejb/CasemanAsyncServiceLocal" location="CasemanAsyncService" />
+      <ejb-ref-mapping name="ejb/CasetypeServiceLocal" location="CasetypeService" />
+      <ejb-ref-mapping name="ejb/CaseEventServiceLocal" location="CaseEventService" />
+      <ejb-ref-mapping name="ejb/CaseServiceLocal" location="CaseService" />
+      <ejb-ref-mapping name="ejb/CcbcServiceLocal" location="CcbcService" />
+      <ejb-ref-mapping name="ejb/CodedpartyServiceLocal" location="CodedpartyService" />
+      <ejb-ref-mapping name="ejb/CounterVerificationServiceLocal" location="CounterVerificationService" />
+      <ejb-ref-mapping name="ejb/CourtSectionsServiceLocal" location="CourtSectionsService" />
+      <ejb-ref-mapping name="ejb/CourtServiceLocal" location="CourtService" />
+      <ejb-ref-mapping name="ejb/CoDividendServiceLocal" location="CoDividendService" />
+      <ejb-ref-mapping name="ejb/CoEventServiceLocal" location="CoEventService" />
+      <ejb-ref-mapping name="ejb/CoServiceLocal" location="CoService" />
+      <ejb-ref-mapping name="ejb/CurrencyServiceLocal" location="CurrencyService" />
+      <ejb-ref-mapping name="ejb/DmsReportServiceLocal" location="DmsReportService" />
+      <ejb-ref-mapping name="ejb/DomServiceLocal" location="DomService" />
+      <ejb-ref-mapping name="ejb/EndOfDayServiceLocal" location="EndOfDayService" />
+      <ejb-ref-mapping name="ejb/EnvServiceLocal" location="EnvService" />
+      <ejb-ref-mapping name="ejb/FailedTransfersServiceLocal" location="FailedTransfersService" />
+      <ejb-ref-mapping name="ejb/FeeServiceLocal" location="FeeService" />
+      <ejb-ref-mapping name="ejb/HearingoutcomeServiceLocal" location="HearingoutcomeService" />
+      <ejb-ref-mapping name="ejb/HearingtypeServiceLocal" location="HearingtypeService" />
+      <ejb-ref-mapping name="ejb/HearingServiceLocal" location="HearingService" />
+      <ejb-ref-mapping name="ejb/HraServiceLocal" location="HraService" />
+      <ejb-ref-mapping name="ejb/IssueStageServiceLocal" location="IssueStageService" />
+      <ejb-ref-mapping name="ejb/JudgmentRefdataServiceLocal" location="JudgmentRefdataService" />
+      <ejb-ref-mapping name="ejb/JudgmentServiceLocal" location="JudgmentService" />
+      <ejb-ref-mapping name="ejb/MaintainPerDetailsServiceLocal" location="MaintainPerDetailsService" />
+      <ejb-ref-mapping name="ejb/NonWorkingDayServiceLocal" location="NonWorkingDayService" />
+      <ejb-ref-mapping name="ejb/NoticeofissueServiceLocal" location="NoticeofissueService" />
+      <ejb-ref-mapping name="ejb/ObligationServiceLocal" location="ObligationService" />
+      <ejb-ref-mapping name="ejb/ObligationTypeServiceLocal" location="ObligationTypeService" />
+      <ejb-ref-mapping name="ejb/PartiesServiceLocal" location="PartiesService" />
+      <ejb-ref-mapping name="ejb/PartyroleServiceLocal" location="PartyroleService" />
+      <ejb-ref-mapping name="ejb/PaymentsServiceLocal" location="PaymentsService" />
+      <ejb-ref-mapping name="ejb/PayoutServiceLocal" location="PayoutService" />
+      <ejb-ref-mapping name="ejb/PerServiceLocal" location="PerService" />
+      <ejb-ref-mapping name="ejb/PrintedoutputServiceLocal" location="PrintedoutputService" />
+      <ejb-ref-mapping name="ejb/QbpServiceLocal" location="QbpService" />
+      <ejb-ref-mapping name="ejb/ReportsServiceLocal" location="ReportsService" />
+      <ejb-ref-mapping name="ejb/ServiceStatusServiceLocal" location="ServiceStatusService" />
+      <ejb-ref-mapping name="ejb/StartOfDayServiceLocal" location="StartOfDayService" />
+      <ejb-ref-mapping name="ejb/SuitorsCashStartOfDayServiceLocal" location="SuitorsCashStartOfDayService" />
+      <ejb-ref-mapping name="ejb/SystemDataServiceLocal" location="SystemDataService" />
+      <ejb-ref-mapping name="ejb/SystemDateServiceLocal" location="SystemDateService" />
+      <ejb-ref-mapping name="ejb/TransferCaseServiceLocal" location="TransferCaseService" />
+      <ejb-ref-mapping name="ejb/UserCourtServiceLocal" location="UserCourtService" />
+     <!-- <ejb-ref-mapping name="ejb/UserSectionServiceLocal" location="UserSectionService" /> -->
+      <ejb-ref-mapping name="ejb/UserServiceLocal" location="UserService" />
+      <ejb-ref-mapping name="ejb/WarranttypeServiceLocal" location="WarranttypeService" />
+      <ejb-ref-mapping name="ejb/WarrantAmountsServiceLocal" location="WarrantAmountsService" />
+      <ejb-ref-mapping name="ejb/WarrantReturnsServiceLocal" location="WarrantReturnsService" />
+      <ejb-ref-mapping name="ejb/WarrantReturnCodesServiceLocal" location="WarrantReturnCodesService" />
+      <ejb-ref-mapping name="ejb/WarrantServiceLocal" location="WarrantService" />
+      <ejb-ref-mapping name="ejb/WindowForTrialServiceLocal" location="WindowForTrialService" />
+      <ejb-ref-mapping name="ejb/WpOutputServiceLocal" location="WpOutputService" />
+      <ejb-ref-mapping name="ejb/CommandProcessorLocal" location="CommandProcessor" />
+      <ejb-ref-mapping name="ejb/SecurityServiceLocal" location="SecurityService" />
+      <resource-ref-mapping name="jms/caseman_async_queue" location="jms/caseman_async_queue" />
+      <resource-ref-mapping name="jms/QueueConnectionFactory" location="jms/QueueConnectionFactory" />
+    </message-driven-deployment>
+  </enterprise-beans>
+</orion-ejb-jar>
+

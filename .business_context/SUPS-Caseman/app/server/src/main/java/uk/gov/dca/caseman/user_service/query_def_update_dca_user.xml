@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<QueryDef>
+	<DBMapDef location="uk/gov/dca/caseman/user_service/map_update_dca_user.xml"/>
+	<Query pivotNode="/ds/MaintainUser" tables="DU">
+		<Modify>
+			<CheckExists table="DU" fields="USER_ID" onExist="update" onNotExist="fail"/>
+		</Modify>
+	</Query>
+</QueryDef>

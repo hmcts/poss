@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: Co
+	Method:  getOldNumberExistence()
+	File:    query_def_get_old_number_existence.xml
+	Author:  Phil Haferer (EDS)
+	Created: 01 September 2005
+	Description: 
+		Look for a Consolidated Order which has the given 'Old Number', and return it's CONumber is it exists.
+-->
+<QueryDef>
+  <DBMapDef location="uk/gov/dca/caseman/co_service/map_get_old_number_existence.xml"/>
+  <Query pivotNode="/ds/CONumber" tables="CO">
+	<Join/>
+	<Modify notModifiable="true"/>
+  </Query>
+</QueryDef>

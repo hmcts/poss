@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<service-method>
+	<pipeline>
+		<Add>
+  			<QueryDef location="uk/gov/dca/caseman/receivedTapes_service/add_tape_query_def.xml"/>
+			<DataSource xpath="/params/param[@name='Tapes']"/>
+  				<QueryExtension pivotNode="/ReceivedTapes/ReceivedTape">
+  					<CheckExists table="T" fields="SEQNO" onNotExist="add" onExist="fail" useOptimisticLock="false"/>
+  				</QueryExtension>
+  				
+  				<QueryExtension  pivotNode="/ReceivedTapes/ReceivedTape/TapeFiles/TapeFile" >
+  					<CheckExists table="TFI" fields="ORDERSEQ" onNotExist="add" onExist="fail" useOptimisticLock="false"/>
+  				</QueryExtension>
+  		</Add>
+		
+  	</pipeline>
+	<Security roles="ccbcMan ccbcTape"/>
+</service-method>

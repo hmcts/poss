@@ -1,0 +1,32 @@
+<?xml version = '1.0'?>
+<!DOCTYPE orion-application PUBLIC "-//ORACLE//DTD OC4J Application runtime 9.04//EN" "http://xmlns.oracle.com/ias/dtds/orion-application-9_04.dtd">
+<orion-application deployment-version="10.1.2.0.0" default-data-source="jdbc/OracleDS" treat-zero-as-null="true">
+	<security-role-mapping name="user">
+		<group name="jazn.com/administrators"/>
+		<user name="jazn.com/anonymous"/>
+		<user name="jazn.com/nobody"/>
+		<user name="jazn.com/admin"/>
+	</security-role-mapping>
+	<persistence path="persistence"/>
+	<principals path="principals.xml"/>
+	<jazn provider="XML" location="jazn-data.xml"/>
+	<log>
+		<file path="application.log"/>
+	</log>
+	<namespace-access>
+		<read-access>
+			<namespace-resource root="">
+				<security-role-mapping>
+					<group name="jazn.com/administrators"/>					
+				</security-role-mapping>
+			</namespace-resource>
+		</read-access>
+		<write-access>
+			<namespace-resource root="">
+				<security-role-mapping>
+					<group name="jazn.com/administrators"/>
+				</security-role-mapping>
+			</namespace-resource>
+		</write-access>
+	</namespace-access>
+</orion-application>

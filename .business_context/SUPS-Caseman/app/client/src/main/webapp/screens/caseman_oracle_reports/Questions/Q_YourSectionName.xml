@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--Question xmlns="http://eds.com/questionxhtml" xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd"-->
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>Q_YourSectionName</Id>
+	<Label>Your Section Name</Label>
+	<ObjectName>YourSectionName</ObjectName>
+	<Html>
+		<input id="YourSectionName" type="text" size="25"></input>
+	</Html>
+	<Javascript>
+		<XPath>/ds/var/page/OracleReportForm/YourSectionName</XPath>
+		<ReportVariableName>SECTION</ReportVariableName>
+		<ParameterType>A</ParameterType>
+		<TableName>USER_INFORMATION</TableName>
+		<KeyName>USER_ID</KeyName>
+		<ColumnName>SECTION</ColumnName>
+		<FieldType>VARCHAR</FieldType>		
+		<ReportVariableValue>Services.getValue(YourSectionName.dataBinding)</ReportVariableValue>
+		<HintText>Enter your section name (max 20 characters)</HintText>
+		<isMandatory>return false;</isMandatory>
+		<initialise></initialise>
+		<transformToDisplay>
+			return (null != value) ? value.toUpperCase() : null;
+		</transformToDisplay>
+		<transformToModel>
+			return (null != value) ? value.toUpperCase() : null;
+		</transformToModel>		
+		<setDefault>
+		</setDefault>		
+		<validateOn>
+		</validateOn>
+		<validate>
+		</validate>
+		<miscCode>
+		</miscCode>
+	</Javascript>
+</Question>

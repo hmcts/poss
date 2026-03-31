@@ -1,0 +1,14 @@
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>526</Id>
+	<Label>Name of first medical practitioner</Label>
+	<ObjectName>FirstMedPract</ObjectName>
+	<Html>	
+		<input type="text" id="FirstMedPract"></input>
+	</Html>			
+	<Javascript>
+		<XPath>/ds/EnterVariableData/Guardianship/firstMedPract</XPath>
+		<componentName>##label##</componentName>
+		<isMandatory>return true;</isMandatory>
+		<HintText>Enter the name of the first medical practitioner</HintText>			
+	</Javascript>
+</Question>

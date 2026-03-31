@@ -1,0 +1,88 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: Ae
+	Method:  getAeDetails()
+	File:    query_def_ae_details.xml
+
+	Change History:
+	26-Jun-2006 Phil Haferer: TD 3748: Performance: getAeDetails() includes an unnecessary LIKE clause.
+	    Replaced LIKE clauses with =.
+-->
+<QueryDef>
+	<DBMapDef location="uk/gov/dca/caseman/ae_service/map_ae_details.xml" />
+	
+	<Query pivotNode="/AEApplications/AEApplication" tables="A">
+		<LinkedSQL type="root" key="A.AE_NUMBER">
+			<SQL>
+			SELECT A.AE_NUMBER AS "A.AE_NUMBER",
+				A.AE_TYPE AS "A.AE_TYPE",
+				A.DATE_OF_RECEIPT AS "A.DATE_OF_RECEIPT",
+				A.DATE_OF_CREATION AS "A.DATE_OF_CREATION",
+				A.DATE_OF_ISSUE AS "A.DATE_OF_ISSUE",
+				A.AMOUNT_OF_AE AS "A.AMOUNT_OF_AE",
+				A.DEBTOR_OCCUPATION AS "A.DEBTOR_OCCUPATION",
+				A.PAYROLL_NUMBER AS "A.PAYROLL_NUMBER",
+				A.NAMED_EMPLOYER AS "A.NAMED_EMPLOYER",
+				A.AE_FEE AS "A.AE_FEE",
+				A.CAPS_SEQUENCE AS "A.CAPS_SEQUENCE",
+				A.ISSUING_CRT_CODE AS "A.ISSUING_CRT_CODE",
+				A.JUDG_SEQ AS "A.JUDG_SEQ",
+				A.AMOUNT_OF_AE_CURRENCY AS "A.AMOUNT_OF_AE_CURRENCY",
+				A.AE_FEE_CURRENCY AS "A.AE_FEE_CURRENCY",
+				A.CASE_NUMBER AS "A.CASE_NUMBER",
+				A.PARTY_AGAINST_PARTY_ROLE_CODE AS "A.PARTY_AGAINST_PARTY_ROLE_COD",
+				A.PARTY_AGAINST_CASE_PARTY_NO AS "A.PARTY_AGAINST_CASE_PARTY_NO",
+				A.PARTY_FOR_PARTY_ROLE_CODE AS "A.PARTY_FOR_PARTY_ROLE_CODE",
+				A.PARTY_FOR_CASE_PARTY_NO AS "A.PARTY_FOR_CASE_PARTY_NO",
+				A.DEBTORS_EMPLOYERS_PARTY_ID AS "A.DEBTORS_EMPLOYERS_PARTY_ID",
+				(SELECT DISTINCT P.PERSON_REQUESTED_NAME
+					FROM CASE_PARTY_ROLES C, PARTIES P
+					WHERE C.CASE_NUMBER = A.CASE_NUMBER
+					AND C.CASE_PARTY_NO = A.PARTY_AGAINST_CASE_PARTY_NO
+					AND C.PARTY_ROLE_CODE = A.PARTY_AGAINST_PARTY_ROLE_CODE
+					AND C.PARTY_ID = P.PARTY_ID ) AS "PARTY_AGAINST_NAME",
+				(SELECT DISTINCT P.PERSON_REQUESTED_NAME
+					FROM CASE_PARTY_ROLES C, PARTIES P
+					WHERE C.CASE_NUMBER = A.CASE_NUMBER
+					AND C.CASE_PARTY_NO = A.PARTY_FOR_CASE_PARTY_NO
+					AND C.PARTY_ROLE_CODE = A.PARTY_FOR_PARTY_ROLE_CODE
+					AND C.PARTY_ID = P.PARTY_ID ) AS "PARTY_FOR_NAME",
+				(SELECT SUM(F.AMOUNT) 
+					FROM FEES_PAID F
+					WHERE F.PROCESS_NUMBER = A.AE_NUMBER) AS "OTHER_FEE",
+				(SELECT SUM(PY.AMOUNT) 
+					FROM PAYMENTS PY
+					WHERE PY.SUBJECT_NO = A.AE_NUMBER
+					AND PY.PAYMENT_FOR = 'AE'
+					AND PY.ERROR_INDICATOR != 'Y'
+					AND PY.RD_DATE IS NULL) AS "TOTAL_FEE",
+				A.ORA_ROWSCN AS "A_ORA_ROWSCN"
+			FROM AE_APPLICATIONS A 
+			WHERE A.CASE_NUMBER = ${param.caseNumber}
+			</SQL>
+		</LinkedSQL>
+	</Query>
+	
+	<Query pivotNode="/AEApplications/AEApplication/Employer" tables="A P">
+		<LinkedJoin type="query" key="P.PARTY_ID">
+			<Parent key="A.AE_NUMBER" tables="A"/>
+			<Join>
+				P.PARTY_ID = A.DEBTORS_EMPLOYERS_PARTY_ID
+				AND A.CASE_NUMBER = ${param.caseNumber}
+			</Join>
+		</LinkedJoin>
+	</Query>
+	
+	<Query pivotNode="/AEApplications/AEApplication/Employer/ContactDetails/Addresses/Address" tables="A GA">
+		<LinkedJoin type="query" key="GA.ADDRESS_ID">
+			<Parent key="P.PARTY_ID" tables="P"/>
+			<Parent key="A.AE_NUMBER" tables="A"/>
+			<Join>
+				P.PARTY_ID = A.DEBTORS_EMPLOYERS_PARTY_ID
+				AND GA.PARTY_ID = A.DEBTORS_EMPLOYERS_PARTY_ID 
+				AND A.CASE_NUMBER = ${param.caseNumber} 
+			</Join>
+		</LinkedJoin>
+	</Query>
+
+</QueryDef>

@@ -1,0 +1,43 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Called by: uk/gov/dca/caseman/codedparty_service/updateCodedParty.xml
+	           uk/gov/dca/caseman/codedparty_service/getCodedParty.xml
+		   uk/gov/dca/caseman/codedparty_service/getCodedParties.xml
+	           uk/gov/dca/caseman/codedparty_service/getCodedPartiesFilter.xml
+
+	v1.0: Troy Baines
+	v1.1: Chris Hutt       20/12/04
+	V1.2: Chris Hutt       11/01/05 - checkexists promoted to the calling methods
+	v1.3: Phil Haferer     25/07/05 - New Address Type of 'CODED PARTY'.
+	      Phil Haferer     30/11/05 - Added ADDRESS_TYPE_CODE to Join tag.
+	      Phil Haferer     12/07/06 - Added Field tags to populate CODED_PARTIES name and address columns.
+	                       (TD 3949: Performance: Wildcard search on Coded Party name).
+-->
+<QueryDef>
+  <DBMapDef location="uk/gov/dca/caseman/codedparty_service/map.xml"/>
+  <Query pivotNode="/CodedParties/CodedParty" tables="P GA CP">
+	<Join>
+		    CP.PARTY_ID          = P.PARTY_ID  
+		AND GA.PARTY_ID          = P.PARTY_ID 
+		AND GA.ADDRESS_TYPE_CODE = 'CODED PARTY'
+	</Join>
+	<Modify>
+		<Field name="p.party_id" sequenceTable="parties_sequence"/>
+		
+		<CheckExists table="GA" fields="address_id" onNotExist="add" onExist="update"/>		
+		<Field name="ga.address_id" sequenceTable="addr_sequence"/>
+		<Field name="ga.party_id" property="p.party_id"/>
+		<Field name="ga.address_type_code" value="CODED PARTY"/>
+
+		<CheckExists table="CP" fields="code admin_court_code " onNotExist="add" onExist="update"/>
+		<Field name="cp.party_id"              property="p.party_id"/>
+        <Field name="cp.person_requested_name" xpath="Name"/>
+        <Field name="cp.address_line1"         xpath="ContactDetails/Address/Line[1]"/>
+        <Field name="cp.address_line2"         xpath="ContactDetails/Address/Line[2]"/>
+        <Field name="cp.address_line3"         xpath="ContactDetails/Address/Line[3]"/>
+        <Field name="cp.address_line4"         xpath="ContactDetails/Address/Line[4]"/>
+        <Field name="cp.address_line5"         xpath="ContactDetails/Address/Line[5]"/>
+        <Field name="cp.postcode"              xpath="ContactDetails/Address/PostCode"/>							
+	</Modify>
+  </Query>
+</QueryDef>

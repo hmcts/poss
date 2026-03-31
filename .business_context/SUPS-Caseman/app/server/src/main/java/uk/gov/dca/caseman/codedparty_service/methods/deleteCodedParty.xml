@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- 
+	Service: Codedparty
+	Method:  deleteCodedParty()
+	File:    deleteCodedParty.xml
+	Author:  Chris Hutt
+	Created: 20/12/04
+	Description: 
+		Delete a local coded party
+		Associated Use case:  UC017  Maintain Local Coded Parties
+--> 
+<service-method>
+  <pipeline>
+    <Update>
+	    <QueryDef location="uk/gov/dca/caseman/codedparty_service/query_def_cp_del.xml"/>
+		<DataSource xpath="/params/param[@name='codedPartyCode']"/>
+		<QueryExtension pivotNode="/CodedParties/CodedParty"> 
+		</QueryExtension>
+    </Update>
+  </pipeline>
+  <Security roles="cpSuper ccbcMan"/>
+</service-method>

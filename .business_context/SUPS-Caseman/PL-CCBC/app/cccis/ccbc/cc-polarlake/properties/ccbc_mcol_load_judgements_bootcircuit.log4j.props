@@ -1,0 +1,68 @@
+###################################################################################
+# File               : ccbc_mcol_load_judgements_bootcircuit.log4j.props          #
+# Desc               : Log4J property file for Polarlake circuit                  #
+#                      ccbc_mcol_load_judgements                                  #
+# Product history                                                                 #
+# Date      Ver   Who   Desc                                                      #
+# ----      ---   ---   ----                                                      #
+# 28/03/07  1.0    DG    New File                                                 #
+# 02/04/07  1.1    WK    Fixing Defect # 4822                                     #
+# 28/08/07  1.2    DG    Updated so that log file is rotated every day.           #
+#                                                                                 #
+###################################################################################
+
+# An example log4j configuration file that outputs to System.out.  The
+# output information consists of relative time, log level, thread
+# name, logger name, nested diagnostic context and the message in that
+# order.
+
+# For the general syntax of property based configuration files see the
+# documenation of org.apache.log4j.PropertyConfigurator.
+
+log4j.rootLogger=OFF, polarlake, rfaWarn, rfaDebug, rfaError
+
+# A1 is set to be a ConsoleAppender which outputs to System.out. 
+log4j.appender.polarlake=org.apache.log4j.ConsoleAppender
+log4j.appender.polarlake.Threshold=Warn
+
+log4j.appender.rfaDebug=org.apache.log4j.DailyRollingFileAppender
+log4j.appender.rfaDebug.Threshold=Info
+log4j.logger.com.debug=rfaDebug
+log4j.appender.rfaDebug.File=${ccbc_log}/ccbc_mcol_judg_info.log
+log4j.appender.rfaDebug.datePattern='.'yyyy-MM-dd
+
+log4j.appender.rfaWarn=org.apache.log4j.DailyRollingFileAppender
+log4j.appender.rfaWarn.Threshold=Warn
+log4j.logger.com.warn=rfaWarn
+log4j.appender.rfaWarn.File=${ccbc_log}/ccbc_mcol_judg_status.log
+log4j.appender.rfaWarn.datePattern='.'yyyy-MM-dd
+
+log4j.appender.rfaError=org.apache.log4j.DailyRollingFileAppender
+log4j.appender.rfaError.Threshold=Error
+log4j.logger.com.error=rfaError
+log4j.appender.rfaError.File=${ccbc_log}/ccbc_mcol_judg_error.log
+log4j.appender.rfaError.datePattern='.'yyyy-MM-dd
+
+# A1 uses PatternLayout.
+log4j.appender.polarlake.layout=org.apache.log4j.PatternLayout
+log4j.appender.rfaWarn.layout=org.apache.log4j.PatternLayout
+log4j.appender.rfaDebug.layout=org.apache.log4j.PatternLayout
+log4j.appender.rfaError.layout=org.apache.log4j.PatternLayout
+
+# The conversion pattern uses format specifiers. You might want to
+# change the pattern an watch the output format change.
+log4j.appender.polarlake.layout.ConversionPattern= %-5p %d{dd MMM yyyy HH:mm:ss}  [%t] %37c  %M %3x - %m%n
+log4j.appender.rfaWarn.layout.ConversionPattern= %-5p %d{dd MMM yyyy HH:mm:ss} %-4r %l [%t]  %M %3x - %m%n
+log4j.appender.rfaError.layout.ConversionPattern= %-5p %d{dd MMM yyyy HH:mm:ss} %-4r %l [%t] %37c  %M %3x - %m%n
+log4j.appender.rfaDebug.layout.ConversionPattern= %-5p %d{dd MMM yyyy HH:mm:ss} %-4r %l [%t] %37c  %M %3x - %m%n
+
+# In this example, we are not really interested in INNER loop or SWAP
+# messages. See the effects of uncommenting and changing the levels of
+# the following loggers.
+log4j.logger.com.polarlake.platform=ERROR
+log4j.logger.com.polarlake.scheduler=ERROR 
+log4j.logger.com.polarlake.platform.librarymodule.eventprocessors.PrintMessageEP=INFO
+log4j.logger.org.quartz=ERROR
+log4j.logger.com.polarlake.pmc=ERROR
+log4j.logger.SYSTEM=ERROR
+log4j.logger.PMC=ERROR

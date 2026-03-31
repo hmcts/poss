@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<DBMapDef>
+	<DataSource id="java:AuthorisationDS"/>
+	<Tables>
+		<Table alias="P" name="SUPS_USER_PERMISSIONS"/>
+	</Tables>
+	<Mapping>
+		<Permissions>
+			<Permission>
+				<User>${P.USER_ID}</User>
+				<Role>${P.ROLE_CD}</Role>
+				<Court>${P.COURT_ID}</Court>
+				<IsActive>${P.IS_ACTIVE}</IsActive>
+			</Permission>
+		</Permissions>
+	</Mapping>
+</DBMapDef>

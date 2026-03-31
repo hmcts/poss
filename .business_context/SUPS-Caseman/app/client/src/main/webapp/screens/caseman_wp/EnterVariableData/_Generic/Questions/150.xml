@@ -1,0 +1,1158 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>150</Id>
+	<Label>Hearing venue</Label>
+	<ObjectName>HearingVenueName</ObjectName>
+
+    <Context screenId="O_10_18">
+		<isVisible>false</isVisible>
+	</Context>
+
+	<Html>	
+		<table>
+			<tr>
+				<td><input id="HearingVenueCode" type="text" size="5" maxlength="3"></input></td>
+				<td><input id="HearingVenueName" type="text" size="40"></input></td>
+				<td><input id="HearingVenueLOVBtn" type="button" value="Select Existing Hearing"></input></td>
+				<td><input id="AltHearingVenueLOVBtn" type="button" value="Select Hearing Venue"></input></td>
+			</tr>
+		</table>
+		
+		<div class="popup" id="SelectHearing_Popup">
+			<table class="content">
+				<tr>
+					<td>
+						<script type="text/javascript">Grid.createInline("SelectHearingGrid", ["Court Code", "Court Name", "Type", "Date", "Time", "Outcome"] , 2, 1);</script>
+					</td>
+				</tr>
+				<tr style="height: 2px;">
+					<td> </td>
+				</tr>
+				<tr>
+					<td align="right">
+						<input type="button" value="OK" id="SelectHearing_OKBtn"></input>
+						<input type="button" value="Cancel" id="SelectHearing_CancelBtn"></input>
+					</td>
+				</tr>
+			</table>
+		</div>
+		
+		<div class="popup" id="SelectAltHearingVenue_Popup">
+			<table class="content">
+				<tr>
+					<td>
+						<table>
+							<tr>
+								<td><label for="AltHearing_VenueCode">Venue</label></td>
+								<td><input type="text" id="AltHearing_VenueCode" size="3" maxlength="3"></input></td>
+								<td><script type="text/javascript">AutoCompletionRenderer.createInline("AltHearing_VenueName");</script></td>
+								<td><input id="AltHearing_VenueLOVBtn" type="button" value="LOV"></input></td>
+							</tr>
+						</table>
+					</td>
+				</tr>
+				<tr>
+					<td valign="top">
+						<table width="95%">
+							<tr>
+								<td>
+									<script type="text/javascript">
+										Grid.createInline("AltHearing_Address_Grid",["Address 1", "Address 2"], 12, 1); 
+									</script>
+								</td>
+							</tr>
+						</table>
+					</td>
+					<td>
+						<table>
+							<tr>
+								<td><label for="AltHearing_ContactDetails_Address_Line1">Address Details</label></td>
+								<td><input type="text" id="AltHearing_ContactDetails_Address_Line1" size="50"></input></td>
+							</tr>
+							<tr>
+								<td> </td>
+								<td><input type="text" id="AltHearing_ContactDetails_Address_Line2" size="50"></input></td>
+							</tr>
+							<tr>
+								<td>  </td>
+								<td><input type="text" id="AltHearing_ContactDetails_Address_Line3" size="50"></input></td>
+							</tr>
+							<tr>
+								<td> </td>
+								<td><input type="text" id="AltHearing_ContactDetails_Address_Line4" size="50"></input></td>
+							</tr>
+							<tr>
+								<td> </td>
+								<td><input type="text" id="AltHearing_ContactDetails_Address_Line5" size="50"></input></td>
+							</tr>
+							<tr>
+								<td><label for="AltHearing_ContactDetails_Address_Postcode">Postcode</label></td>
+								<td><input type="text" id="AltHearing_ContactDetails_Address_Postcode" size="15"></input></td>
+							</tr>
+							<tr>
+								<td><label for="AltHearing_ContactDetails_Address_DXNumber">DX Number</label></td>
+								<td><input type="text" id="AltHearing_ContactDetails_Address_DXNumber" size="30"></input></td>
+							</tr>
+							<tr>
+								<td><label for="AltHearing_ContactDetails_Address_TelephoneNumber">Telephone Number</label></td>
+								<td><input type="text" id="AltHearing_ContactDetails_Address_TelephoneNumber" size="30"></input></td>
+							</tr>
+							<tr>
+								<td><label for="AltHearing_ContactDetails_Address_FaxNumber">Fax Number</label></td>
+								<td><input type="text" id="AltHearing_ContactDetails_Address_FaxNumber" size="30"></input></td>
+							</tr>						
+						</table>
+					</td>
+				</tr>
+				<tr style="height: 2px;">
+					<td></td>
+				</tr>
+				<tr>
+					<td colspan="2" align="right">
+						<input type="button" value="OK" id="AltHearing_OKBtn"></input>
+						<input type="button" value="Cancel" id="AltHearing_CancelBtn"></input>
+					</td>
+				</tr>
+			</table>
+		</div>
+		
+		<script type="text/javascript">
+			LOVPopupRenderer.createInline( "AltCourtCourtsLOVGrid", "Courts", ["Code", "Court"], 12, 1, true );
+		</script>				
+	</Html>
+	
+	<Context screenId="CJR082">
+		<isVisible>true</isVisible>
+		<Label>N79A Hearing venue</Label>
+	</Context>
+	
+	<Javascript>
+		<XPath>/ds/EnterVariableData/Hearing/Service/hearingVenueName</XPath>
+		<HintText>Select the hearing venue</HintText>
+		<isMandatory>return true;</isMandatory>	
+		<isReadOnly>return true;</isReadOnly>	
+		<initialise>			 	
+		 	var casenumber = Services.getValue("/ds/ManageCase/CaseNumber");    			 	
+		   	loadHearing( casenumber);
+		   	WPU.loadCourt();		   	
+		</initialise>
+		<enableOn>HearingVenueName.dataBinding</enableOn>
+		<isEnabled>return true;</isEnabled>	
+		<Context screenId="CO30">
+			<initialise>	
+				var dsDOM = WP.GetState(WP.GetScreenProcess(), WPState.ds_DOM);
+			 	var coNumberNode = dsDOM.selectSingleNode("/params/param/ds/MaintainCO/CONumber");
+				var coNumber = WPS.getNodeTextContent(coNumberNode);
+			   	loadCOHearings( conumber);
+			   	WPU.loadCourt();		   	
+			 </initialise>
+		</Context>	
+		<miscCode>		
+            var NEW_HEARING_VENUE_TMP_PATH_Q150 = "/ds/var/page/Tmp/AltCourt";
+			var MAINTAIN_HEARING = "/ds/MaintainHearing/Hearings";  
+					
+			function SelectHearing_Popup(){}
+				
+			SelectHearing_Popup.nextFocusedAdaptorId = function() {  
+				var adaptor = FormController.getInstance().getAdaptorById('HearingAdLine1');
+				if( null != adaptor ){ return 'HearingAdLine1'; }
+				else /**CJR030**/ {	return 'HearingDate2'; } }
+            SelectHearing_Popup.lower = {
+	            eventBinding: {
+		            singleClicks: [ {element: "SelectHearing_CancelBtn"} ],
+		            keys: [ { key: Key.F4, element: "SelectHearing_Popup" } ]
+	            }
+            };  
+
+			function HearingVenueCode(){}
+			HearingVenueCode.dataBinding = "/ds/EnterVariableData/Service/hearingVenueCode";	
+			HearingVenueCode.helpText = "Unique three digit court location code - list available";
+			HearingVenueCode.maxLength = 3;
+			HearingVenueCode.isReadOnly = function(){ return true; }
+			HearingVenueCode.tabIndex = __tabIdx++;
+			
+			function HearingVenueLOVBtn() {}
+			HearingVenueLOVBtn.tabIndex = __tabIdx++;	
+			
+			/**  PostBuildX 15a: Can only bind once all elements declared, that's why this code his here, and not above **/
+			SelectHearing_Popup.raise = {
+				eventBinding: {
+					singleClicks: [ {element: "HearingVenueLOVBtn"} ] }	};	
+			
+			function SelectHearing_OKBtn(){}
+			SelectHearing_OKBtn.actionBinding = function()
+			{	var hearingId = Services.getValue(SelectHearingGrid.dataBinding);
+			 	var code = Services.getValue( MAINTAIN_HEARING+"/Hearing[./HearingID="+hearingId+"]/VenueCode");
+			 	var name = Services.getValue( MAINTAIN_HEARING+"/Hearing[./HearingID="+hearingId+"]/VenueName");
+			 	var date = Services.getValue( MAINTAIN_HEARING+"/Hearing[./HearingID="+hearingId+"]/Date");
+			 	var time = Services.getValue( MAINTAIN_HEARING+"/Hearing[./HearingID="+hearingId+"]/Time");
+			 	var ln1  = Services.getValue( MAINTAIN_HEARING+"/Hearing[./HearingID="+hearingId+"]/Address/Line[1]");
+			 	var ln2  = Services.getValue( MAINTAIN_HEARING+"/Hearing[./HearingID="+hearingId+"]/Address/Line[2]");
+			 	var ln3  = Services.getValue( MAINTAIN_HEARING+"/Hearing[./HearingID="+hearingId+"]/Address/Line[3]");
+			 	var ln4  = Services.getValue( MAINTAIN_HEARING+"/Hearing[./HearingID="+hearingId+"]/Address/Line[4]");
+			 	var ln5  = Services.getValue( MAINTAIN_HEARING+"/Hearing[./HearingID="+hearingId+"]/Address/Line[5]");
+			 	var pcd  = Services.getValue( MAINTAIN_HEARING+"/Hearing[./HearingID="+hearingId+"]/Address/PostCode");
+			 	
+			 	Services.setValue(HearingVenueCode.dataBinding, code);
+			 	Services.setValue(HearingVenueName.dataBinding, name);
+			 	Services.setValue(HearingDate2.dataBinding, date);
+			 	Services.setValue(HearingTime2.dataBinding, time);
+              	Services.setValue(HearingAdLine1.dataBinding, ln1);
+    		 	Services.setValue(HearingAdLine2.dataBinding, ln2);
+    		 	Services.setValue(HearingAdLine3.dataBinding, ln3);
+    		 	Services.setValue(HearingAdLine4.dataBinding, ln4);
+    		 	Services.setValue(HearingAdLine5.dataBinding, ln5);
+               	Services.setValue(PostCode360.dataBinding, pcd);			 				
+             
+				FormController.getInstance().hideFormExtensionPopup("SelectHearing");
+			}
+			SelectHearing_OKBtn.tabIndex = __tabIdx++;
+		    SelectHearing_OKBtn.additionalBindings = {
+			    eventBinding: {
+				    doubleClicks: [ {element: "SelectHearingGrid"} ]
+			    }
+		    };
+			
+			function SelectHearing_CancelBtn(){}
+			SelectHearing_CancelBtn.tabIndex = __tabIdx++;
+			
+			function SelectHearingGrid(){}
+			SelectHearingGrid.dataBinding = "/ds/EnterVariableData/Service/selectHearingGrid";
+			SelectHearingGrid.helpText = "Select the hearing venue";
+			SelectHearingGrid.srcData	= "/ds/MaintainHearing/Hearings"; 
+			SelectHearingGrid.keyXPath  = "HearingID";
+			SelectHearingGrid.rowXPath	= "Hearing";  
+			SelectHearingGrid.columns = [
+				{xpath: "VenueCode"},
+				{xpath: "VenueName"},
+				{xpath: "TypeOfHearing"},
+				{xpath: "Date", sort: CaseManUtils.sortGridDatesDsc, defaultSort:"true", defaultSortOrder:"descending", transformToDisplay: CaseManUtils.formatGridDate},
+				{xpath: "Time",  transformToDisplay: CaseManUtils.convertSecondsToTime}, 
+				{xpath: "HearingOutcomeCode"}
+			];			
+			
+			function SelectAltHearingVenue_Popup(){}
+			
+			SelectAltHearingVenue_Popup.firstFocusedAdaptorId  = function(){
+				Services.setFocus("AltHearing_VenueCode"); /**force framework to move to first available field**/}
+			
+			SelectAltHearingVenue_Popup.nextFocusedAdaptorId = function() {
+				return 'AltHearing_VenueLOVBtn'; /**force framework to move to next available field**/}
+			
+			SelectAltHearingVenue_Popup.lower = {
+				eventBinding: {
+					singleClicks: [ {element: "AltHearing_CancelBtn"} ],
+					keys: [ { key: Key.F4, element: "SelectAltHearingVenue_Popup" } ]
+				}
+			};
+			
+			function AltCourtCode(){}
+			AltCourtCode.dataBinding = "/ds/EnterVariableData/FastTrack/AltCourtCode";
+			AltCourtCode.isReadOnly = function(){ return true; }
+			//AltCourtCode.tabIndex = __tabIdx++;
+			AltCourtCode.maxLength = 3;
+			AltCourtCode.helpText = "Unique LCD three digit court location code – list available";
+			AltCourtCode.mandatoryOn = [HearingVenueName.dataBinding];
+			AltCourtCode.isMandatory = function() {return HearingVenueName.isMandatory();}
+			AltCourtCode.logicOn = [AltCourtCode.dataBinding];
+			AltCourtCode.logic = function(xpath) {        		
+				var xpathName = REF_DATA_XPATH + "/Courts/Court[./Code = " + AltCourtCode.dataBinding + "]/Name";	 
+				var venueName = Services.getValue(xpathName); 	 				
+				Services.setValue(HearingVenueName.dataBinding, venueName); }			
+			AltCourtCode.enableOn = [HearingVenueName.dataBinding];
+			AltCourtCode.isEnabled = function() {
+				var isEbld = HearingVenueName.isEnabled();		
+				return isEbld; }
+				
+			function AltHearingVenueLOVBtn() {}
+			AltHearingVenueLOVBtn.actionBinding = function() {
+				Services.dispatchEvent("SelectAltHearingVenue_Popup", PopupGUIAdaptor.EVENT_RAISE); 
+				var venueCode = Services.getValue(HearingVenueCode.dataBinding);
+				Services.setValue(AltHearing_VenueCode.dataBinding, venueCode); }
+			AltHearingVenueLOVBtn.tabIndex = __tabIdx++;
+			AltHearingVenueLOVBtn.enableOn = [HearingVenueName.dataBinding];
+			AltHearingVenueLOVBtn.isEnabled = function() {
+				return true; }
+			AltHearingVenueLOVBtn.additionalBindings = {
+				eventBinding: {
+					keys: [ { key: Key.F6, element: "HearingVenueCode" }, { key: Key.F6, element: "HearingVenueName" } ]
+				}
+			};
+				
+			
+			function AltHearing_VenueCode(){}
+			AltHearing_VenueCode.tabIndex = __tabIdx++;
+			AltHearing_VenueCode.dataBinding = "/ds/EnterVariableData/FastTrack/AltHearing_VenueCode";
+			AltHearing_VenueCode.helpText = "Unique three digit court location code - list available.";
+			AltHearing_VenueCode.maxLength = 3;
+			AltHearing_VenueCode.logicOn = [AltHearing_VenueCode.dataBinding];
+			AltHearing_VenueCode.logic = function(xpath) {	
+				var code = Services.getValue(AltHearing_VenueCode.dataBinding);			
+				if(code != null &amp;&amp; code != ""){
+					Services.setValue(AltHearing_VenueName.dataBinding, code);		
+					Services.setValue(AltCourtCourtsLOVGrid.dataBinding, code);	
+					Services.setValue(AltHearing_VenueCode.dataBinding, code);	}
+				else{
+					Services.setValue(AltHearing_VenueName.dataBinding, "");
+					Services.setValue(AltHearing_VenueCode.dataBinding, "");
+					Services.setValue(AltHearing_ContactDetails_Address_Line1.dataBinding, "");
+					Services.setValue(AltHearing_ContactDetails_Address_Line2.dataBinding, "");
+					Services.setValue(AltHearing_ContactDetails_Address_Line3.dataBinding, "");
+					Services.setValue(AltHearing_ContactDetails_Address_Line4.dataBinding, "");
+					Services.setValue(AltHearing_ContactDetails_Address_Line5.dataBinding, "");
+					Services.setValue(AltHearing_ContactDetails_Address_Postcode.dataBinding, "");
+					Services.setValue(AltHearing_ContactDetails_Address_DXNumber.dataBinding, "");
+					Services.setValue(AltHearing_ContactDetails_Address_TelephoneNumber.dataBinding, "");
+					Services.setValue(AltHearing_ContactDetails_Address_FaxNumber.dataBinding, "");
+					Services.setValue(AltCourtCourtsLOVGrid.dataBinding, ""); } }
+
+			function AltHearing_VenueName(){}
+			AltHearing_VenueName.dataBinding = "/ds/EnterVariableData/FastTrack/AltHearing_VenueName";
+			AltHearing_VenueName.tabIndex = __tabIdx++; 
+			AltHearing_VenueName.isReadOnly = function(){ return false; }
+			AltHearing_VenueName.isTemporary = function(){ return true; }
+			AltHearing_VenueName.maxLength = 30;
+			AltHearing_VenueName.helpText = "Name of the Court.";
+			AltHearing_VenueName.isMandatory = function(){ return true; }
+			AltHearing_VenueName.validate = function(){ return null; }
+			AltHearing_VenueName.srcData = REF_DATA_XPATH + "/Courts";
+			AltHearing_VenueName.rowXPath = "Court";
+			AltHearing_VenueName.keyXPath = "Code";
+			AltHearing_VenueName.displayXPath = "Name";
+			AltHearing_VenueName.logicOn  = [AltHearing_VenueName.dataBinding];
+			AltHearing_VenueName.logic = function(xpath) {
+				var codeOrName = Services.getValue(AltHearing_VenueName.dataBinding);      	
+				var codeXPath = REF_DATA_XPATH + "/Courts/Court[Code = " + AltHearing_VenueName.dataBinding + "]/Code";
+				var code = Services.getValue(codeXPath);
+				if(code == null) {
+					name = Services.getValue(AltHearing_VenueName.dataBinding);     
+					code = Services.getValue(REF_DATA_XPATH + "/Courts/Court[Name = " + AltHearing_VenueName.dataBinding + "]/Code"); }
+				if( code != null &amp;&amp; code != "") { 	
+					Services.setValue(AltHearing_VenueCode.dataBinding, code);  }
+				else { 
+					Services.setValue(AltHearing_VenueName.dataBinding, "");
+					Services.setValue(AltHearing_VenueCode.dataBinding, "");
+					Services.setValue(AltHearing_ContactDetails_Address_Line1.dataBinding, "");
+					Services.setValue(AltHearing_ContactDetails_Address_Line2.dataBinding, "");
+					Services.setValue(AltHearing_ContactDetails_Address_Line3.dataBinding, "");
+					Services.setValue(AltHearing_ContactDetails_Address_Line4.dataBinding, "");
+					Services.setValue(AltHearing_ContactDetails_Address_Line5.dataBinding, "");
+					Services.setValue(AltHearing_ContactDetails_Address_Postcode.dataBinding, "");
+					Services.setValue(AltHearing_ContactDetails_Address_DXNumber.dataBinding, "");
+					Services.setValue(AltHearing_ContactDetails_Address_TelephoneNumber.dataBinding, "");
+					Services.setValue(AltHearing_ContactDetails_Address_FaxNumber.dataBinding, "");
+					Services.setValue(AltCourtCourtsLOVGrid.dataBinding, ""); } }
+
+			function AltHearing_ContactDetails_Address_Line1() {}
+			AltHearing_ContactDetails_Address_Line1.dataBinding = NEW_HEARING_VENUE_TMP_PATH_Q150 + "/Address/Line[1]";
+			AltHearing_ContactDetails_Address_Line1.tabIndex = __tabIdx++;
+			AltHearing_ContactDetails_Address_Line1.isReadOnly = function(){ return true;}
+			AltHearing_ContactDetails_Address_Line1.isTemporary = function(){return true;}
+			AltHearing_ContactDetails_Address_Line1.isMandatory = function(){return true;}
+			AltHearing_ContactDetails_Address_Line1.transformToDisplay = function(value){	return (null != value) ? value.toUpperCase() : null;}
+			AltHearing_ContactDetails_Address_Line1.transformToModel = function(value){	return (null != value) ? value.toUpperCase() : null;}	
+			
+			function AltHearing_ContactDetails_Address_Line2() {}
+			AltHearing_ContactDetails_Address_Line2.dataBinding = NEW_HEARING_VENUE_TMP_PATH_Q150 + "/Address/Line[2]";
+			AltHearing_ContactDetails_Address_Line2.tabIndex = __tabIdx++;
+			AltHearing_ContactDetails_Address_Line2.isReadOnly = function(){	return true;}
+			AltHearing_ContactDetails_Address_Line2.isTemporary = function(){	return true;}
+			AltHearing_ContactDetails_Address_Line2.isMandatory = function(){	return true;}
+			AltHearing_ContactDetails_Address_Line2.transformToDisplay = function(value){	return (null != value) ? value.toUpperCase() : null;}
+			AltHearing_ContactDetails_Address_Line2.transformToModel = function(value){	return (null != value) ? value.toUpperCase() : null;}	
+			
+			function AltHearing_ContactDetails_Address_Line3() {}
+			AltHearing_ContactDetails_Address_Line3.dataBinding = NEW_HEARING_VENUE_TMP_PATH_Q150 + "/Address/Line[3]";
+			AltHearing_ContactDetails_Address_Line3.tabIndex = __tabIdx++;
+			AltHearing_ContactDetails_Address_Line3.isReadOnly = function(){	return true; }
+			AltHearing_ContactDetails_Address_Line3.isMandatory = function(){	return false;}
+			AltHearing_ContactDetails_Address_Line3.transformToDisplay = function(value){	return (null != value) ? value.toUpperCase() : null;}
+			AltHearing_ContactDetails_Address_Line3.transformToModel = function(value){	return (null != value) ? value.toUpperCase() : null;}
+			
+			function AltHearing_ContactDetails_Address_Line4() {}
+			AltHearing_ContactDetails_Address_Line4.dataBinding = NEW_HEARING_VENUE_TMP_PATH_Q150 + "/Address/Line[4]";
+			AltHearing_ContactDetails_Address_Line4.tabIndex = __tabIdx++;
+			AltHearing_ContactDetails_Address_Line4.isReadOnly = function(){ return true;}
+			AltHearing_ContactDetails_Address_Line4.isMandatory = function(){	return false;}
+			AltHearing_ContactDetails_Address_Line4.transformToDisplay = function(value){	return (null != value) ? value.toUpperCase() : null;}
+			AltHearing_ContactDetails_Address_Line4.transformToModel = function(value){	return (null != value) ? value.toUpperCase() : null;}
+			
+			function AltHearing_ContactDetails_Address_Line5() {}
+			AltHearing_ContactDetails_Address_Line5.dataBinding = NEW_HEARING_VENUE_TMP_PATH_Q150 + "/Address/Line[5]";
+			AltHearing_ContactDetails_Address_Line5.tabIndex = __tabIdx++;
+			AltHearing_ContactDetails_Address_Line5.isReadOnly = function(){	return true;}
+			AltHearing_ContactDetails_Address_Line5.isMandatory = function(){	return false;}
+			AltHearing_ContactDetails_Address_Line5.transformToDisplay = function(value){	return (null != value) ? value.toUpperCase() : null;}
+			AltHearing_ContactDetails_Address_Line5.transformToModel = function(value){	return (null != value) ? value.toUpperCase() : null;}
+			
+			function AltHearing_ContactDetails_Address_Postcode() {}
+			AltHearing_ContactDetails_Address_Postcode.dataBinding = NEW_HEARING_VENUE_TMP_PATH_Q150 + "/Address/PostCode";
+			AltHearing_ContactDetails_Address_Postcode.tabIndex = __tabIdx++;
+			AltHearing_ContactDetails_Address_Postcode.isReadOnly = function(){	return true;}
+			AltHearing_ContactDetails_Address_Postcode.isMandatory = function(){	return false;}
+			AltHearing_ContactDetails_Address_Postcode.transformToDisplay = function(value){	return (null != value) ? value.toUpperCase() : null;}
+			AltHearing_ContactDetails_Address_Postcode.transformToModel = function(value){	return (null != value) ? value.toUpperCase() : null;}
+			
+			function AltHearing_ContactDetails_Address_DXNumber() {}
+			AltHearing_ContactDetails_Address_DXNumber.dataBinding = NEW_HEARING_VENUE_TMP_PATH_Q150 + "/DXNumber";
+			AltHearing_ContactDetails_Address_DXNumber.tabIndex = __tabIdx++;
+			AltHearing_ContactDetails_Address_DXNumber.isReadOnly = function(){	return true;}
+			AltHearing_ContactDetails_Address_DXNumber.isMandatory = function(){	return false;}
+			function AltHearing_ContactDetails_Address_DXNumber() {}
+			AltHearing_ContactDetails_Address_DXNumber.tabIndex = __tabIdx++;
+			AltHearing_ContactDetails_Address_DXNumber.isReadOnly = function(){	return true;}
+			AltHearing_ContactDetails_Address_DXNumber.isMandatory = function(){	return false;}
+			
+			function AltHearing_ContactDetails_Address_TelephoneNumber() {}
+			AltHearing_ContactDetails_Address_TelephoneNumber.dataBinding = NEW_HEARING_VENUE_TMP_PATH_Q150 + "/TelephoneNumber";
+			AltHearing_ContactDetails_Address_TelephoneNumber.tabIndex = __tabIdx++;
+			AltHearing_ContactDetails_Address_TelephoneNumber.isReadOnly = function(){	return true;}
+			AltHearing_ContactDetails_Address_TelephoneNumber.isMandatory = function(){	return false;}
+			AltHearing_ContactDetails_Address_TelephoneNumber.transformToDisplay = function(value){	return (null != value) ? value.toUpperCase() : null;}
+			AltHearing_ContactDetails_Address_TelephoneNumber.transformToModel = function(value){	return (null != value) ? value.toUpperCase() : null;}
+			
+			function AltHearing_ContactDetails_Address_FaxNumber() {}
+			AltHearing_ContactDetails_Address_FaxNumber.dataBinding = NEW_HEARING_VENUE_TMP_PATH_Q150 + "/FaxNumber";
+			AltHearing_ContactDetails_Address_FaxNumber.tabIndex = __tabIdx++;
+			AltHearing_ContactDetails_Address_FaxNumber.isReadOnly = function(){	return true;}
+			AltHearing_ContactDetails_Address_FaxNumber.isMandatory = function(){	return false;}
+			
+			function AltCourtCourtsLOVGrid() {};
+			AltCourtCourtsLOVGrid.dataBinding = "/ds/var/page/SelectedLOVRow/AltOwningCourt"; // Changed by Anoop
+			AltCourtCourtsLOVGrid.srcData = REF_DATA_XPATH + "/Courts";
+			AltCourtCourtsLOVGrid.rowXPath = "Court";
+			AltCourtCourtsLOVGrid.keyXPath = "Code";
+			AltCourtCourtsLOVGrid.columns = [ {xpath: "Code"}, {xpath: "Name"} ];
+			AltCourtCourtsLOVGrid.raise = {
+				eventBinding: {
+					singleClicks: [ {element: "AltHearing_VenueLOVBtn"} ],
+					keys: [ { key: Key.F6, element: "AltHearing_VenueCode" }, { key: Key.F6, element: "AltHearing_VenueName" } ] } };
+
+			AltCourtCourtsLOVGrid.logicOn = [AltCourtCourtsLOVGrid.dataBinding];
+			AltCourtCourtsLOVGrid.logic = function(xpath) {
+				var id = Services.getValue(AltCourtCourtsLOVGrid.dataBinding);
+				if (id != null &amp;&amp; id != "") {
+					var xpathCode = REF_DATA_XPATH + "/Courts/Court[Id = " + id + "]/Code";		
+					var xpathName = REF_DATA_XPATH + "/Courts/Court[Code = " + id + "]/Name";		
+					var courtCode = Services.getValue(xpathCode);
+					var courtName = Services.getValue(xpathName);
+					Services.setValue(AltHearing_VenueCode.dataBinding, id);
+					Services.setValue(AltHearing_VenueName.dataBinding, id); }
+				else {
+					Services.setValue(AltHearing_VenueCode.dataBinding, "");
+					Services.setValue(AltHearing_VenueName.dataBinding, ""); } } 
+					
+			function AltHearing_Address_Grid(){};
+			AltHearing_Address_Grid.dataBinding = "/ds/var/page/SelectedGridRow/SelectedAddress"; 
+			AltHearing_Address_Grid.srcData = REF_DATA_XPATH + "/Courts/Court[./Code = " + AltHearing_VenueCode.dataBinding + "]/ContactDetails"; 
+			AltHearing_Address_Grid.rowXPath = "Address";		// Individual Court/venue
+			AltHearing_Address_Grid.keyXPath = "AddressId";  	// Unique identifier for a Court/venue
+			AltHearing_Address_Grid.columns = [   				// column bindings
+				{xpath: "Line[1]", sort: function(a,b){if(a &lt; b){return 1;};if(a &gt; b){return -1;};return 0;}},
+				{xpath: "Line[2]", sort: function(a,b){if(a &lt; b){return 1;};if(a &gt; b){return -1;};return 0;}} ];			
+			AltHearing_Address_Grid.retrieveOn = [AltCourtCourtsLOVGrid.dataBinding, AltHearing_VenueCode.dataBinding, AltHearing_VenueName.dataBinding];
+			AltHearing_Address_Grid.srcDataOn = [AltCourtCourtsLOVGrid.dataBinding, AltHearing_VenueCode.dataBinding, AltHearing_VenueName.dataBinding];
+			
+			AltHearing_Address_Grid.logicOn = [AltHearing_Address_Grid.dataBinding, AltCourtCourtsLOVGrid.dataBinding, AltHearing_VenueCode.dataBinding, AltHearing_VenueName.dataBinding];
+			AltHearing_Address_Grid.logic = function(xpath) {
+				var courtId = Services.getValue(AltCourtCourtsLOVGrid.dataBinding);
+				var addressId = Services.getValue(AltHearing_Address_Grid.dataBinding);
+				if (courtId != null &amp;&amp; courtId != "" &amp;&amp; addressId != "" &amp;&amp; addressId != null) {	
+					var b11 = REF_DATA_XPATH + "/Courts/Court[./Code = ";
+					var b13 = "]/ContactDetails/";
+					var b12 = b13 + "Address[./AddressId = ";
+					var xpathAdd1 = b11+courtId+b12+addressId+"]/Line[1]";	
+					var xpathAdd2 = b11+courtId+b12+addressId+"]/Line[2]";	
+					var xpathAdd3 = b11+courtId+b12+addressId+"]/Line[3]";	
+					var xpathAdd4 = b11+courtId+b12+addressId+"]/Line[4]";	
+					var xpathAdd5 = b11+courtId+b12+addressId+"]/Line[5]";	
+					var xpathPostcode = b11+courtId+b12+addressId+"]/PostCode";	
+					var xpathDXNo  = b11+courtId+b13+"DX";	
+					var xpathTelNo = b11+courtId+b13+"TelephoneNumber";	
+					var xpathFaxNo = b11+courtId+b13+"FaxNumber";	
+					var add1 = Services.getValue(xpathAdd1);
+					var add2 = Services.getValue(xpathAdd2);
+					var add3 = Services.getValue(xpathAdd3); if(add3 == null)add3 = "";	
+					var add4 = Services.getValue(xpathAdd4); if(add4 == null)add4 = "";
+					var add5 = Services.getValue(xpathAdd5); if(add5 == null)add5 = "";
+					var postcode = Services.getValue(xpathPostcode);		
+					var dxNo = Services.getValue(xpathDXNo); if(dxNo == null)dxNo = "";
+					var telNo = Services.getValue(xpathTelNo); if(telNo == null)telNo = "";
+					var faxNo = Services.getValue(xpathFaxNo); if(faxNo == null)faxNo= "";
+					Services.setValue(AltHearing_ContactDetails_Address_Line1.dataBinding, add1);
+					Services.setValue(AltHearing_ContactDetails_Address_Line2.dataBinding, add2);
+					Services.setValue(AltHearing_ContactDetails_Address_Line3.dataBinding, add3);
+					Services.setValue(AltHearing_ContactDetails_Address_Line4.dataBinding, add4);
+					Services.setValue(AltHearing_ContactDetails_Address_Line5.dataBinding, add5);
+					Services.setValue(AltHearing_ContactDetails_Address_Postcode.dataBinding, postcode);		
+					Services.setValue(AltHearing_ContactDetails_Address_DXNumber.dataBinding, dxNo);
+					Services.setValue(AltHearing_ContactDetails_Address_TelephoneNumber.dataBinding, telNo);
+					Services.setValue(AltHearing_ContactDetails_Address_FaxNumber.dataBinding, faxNo); } } 
+			
+			function AltHearing_VenueLOVBtn() {}
+			AltHearing_VenueLOVBtn.tabIndex = __tabIdx++;			
+
+			function setCaseOwningCourtDetails() {	   	
+				var hcrtcode  =  WPU.getCaseOwningCourt();			   
+				var addxpath = REF_DATA_XPATH + "/Courts/Court[./Code='"+hcrtcode+"']/ContactDetails/Address"; 
+				var contdet = REF_DATA_XPATH + "/Courts/Court[./Code='"+hcrtcode+"']/ContactDetails"; 
+				var xpathName = REF_DATA_XPATH + "/Courts/Court[./Code='"+hcrtcode+"']/Name";			
+				Services.setValue(AltHearing_VenueCode.dataBinding, hcrtcode);			   	
+				Services.setValue(HearingVenueCode.dataBinding, hcrtcode);
+				Services.setValue( HearingVenueName.dataBinding, Services.getValue(xpathName));			
+				var addAr = Services.getNodes( addxpath );
+				if (null != addAr &amp;&amp; addAr.length == 1) {	
+					var addNode = addAr[0];
+					var ln1 = Services.getValue( addxpath+"/Line[1]" );
+					var ln2 = Services.getValue( addxpath+"/Line[2]" );
+					var ln3 = Services.getValue( addxpath+"/Line[3]" );
+					var ln4 = Services.getValue( addxpath+"/Line[4]" );
+					var ln5 = Services.getValue( addxpath+"/Line[5]" );
+					var pcode = Services.getValue( addxpath+"/PostCode" );
+					var dxNo = Services.getValue(contdet+"/DX");
+			   	 	var telNo = Services.getValue(contdet+"/TelephoneNumber");
+			   	 	var faxNo = Services.getValue(contdet+"/FaxNumber");
+			   	 	Services.setValue(HearingAdLine1.dataBinding, ln1);
+					Services.setValue(HearingAdLine2.dataBinding, ln2);
+					Services.setValue(HearingAdLine3.dataBinding, ln3);
+					Services.setValue(HearingAdLine4.dataBinding, ln4);
+					Services.setValue(HearingAdLine5.dataBinding, ln5);
+					Services.setValue(PostCode360.dataBinding, pcode );
+					Services.setValue("/ds/EnterVariableData/HearingAt/DX", dxNo);			
+				 	Services.setValue("/ds/EnterVariableData/HearingAt/Tel", telNo);
+				 	Services.setValue("/ds/EnterVariableData/HearingAt/Fax", faxNo); } }
+			
+			function AltHearing_OKBtn(){}
+			AltHearing_OKBtn.tabIndex = __tabIdx++;
+			AltHearing_OKBtn.actionBinding = function() {		
+				var venueCode = Services.getValue(AltHearing_VenueCode.dataBinding);
+				var venueName = Services.getValue(AltHearing_VenueName.dataBinding);				
+				var xpathName = REF_DATA_XPATH + "/Courts/Court[./Code = " + AltHearing_VenueName.dataBinding + "]/Name";	 
+				var checkVenueName = Services.getValue(xpathName);
+				if( null != checkVenueName &amp;&amp; checkVenueName.length > 0)  {
+					venueName = checkVenueName; }				
+				var ln1 = Services.getValue(AltHearing_ContactDetails_Address_Line1.dataBinding);
+				var ln2 = Services.getValue(AltHearing_ContactDetails_Address_Line2.dataBinding);
+				var ln3 = Services.getValue(AltHearing_ContactDetails_Address_Line3.dataBinding);
+				var ln4 = Services.getValue(AltHearing_ContactDetails_Address_Line4.dataBinding);
+				var ln5 = Services.getValue(AltHearing_ContactDetails_Address_Line5.dataBinding);
+				var pcd = Services.getValue(AltHearing_ContactDetails_Address_Postcode.dataBinding);
+				var dxNo = Services.getValue("/ds/var/page/Tmp/AltCourt/DXNumber");
+				var telNo = Services.getValue("/ds/var/page/Tmp/AltCourt/TelephoneNumber");
+				var faxNo = Services.getValue("/ds/var/page/Tmp/AltCourt/FaxNumber")		
+				if(venueCode == null || venueCode == "" || venueName == null || venueName == "") {
+					Services.setValue(HearingVenueCode.dataBinding, "");	
+					Services.setValue(HearingVenueName.dataBinding, "");					
+					Services.setValue(HearingAdLine1.dataBinding, "");
+					Services.setValue(HearingAdLine2.dataBinding, "");
+					Services.setValue(HearingAdLine3.dataBinding, "");
+					Services.setValue(HearingAdLine4.dataBinding, "");
+					Services.setValue(HearingAdLine5.dataBinding, "");
+					Services.setValue(PostCode360.dataBinding, "");	 }
+				else  {
+					Services.setValue(HearingVenueCode.dataBinding, venueCode);	
+					Services.setValue(HearingVenueName.dataBinding, venueName);					
+					Services.setValue(HearingAdLine1.dataBinding, ln1);
+					Services.setValue(HearingAdLine2.dataBinding, ln2);
+					Services.setValue(HearingAdLine3.dataBinding, ln3);
+					Services.setValue(HearingAdLine4.dataBinding, ln4);
+					Services.setValue(HearingAdLine5.dataBinding, ln5);
+					Services.setValue(PostCode360.dataBinding, pcd);
+					Services.setValue("/ds/EnterVariableData/HearingAt/DX", dxNo);			
+					Services.setValue("/ds/EnterVariableData/HearingAt/Tel", telNo);
+					Services.setValue("/ds/EnterVariableData/HearingAt/Fax", faxNo); }
+				FormController.getInstance().hideFormExtensionPopup("AltCourt"); }
+
+			AltHearing_OKBtn.enableOn = [NEW_HEARING_VENUE_TMP_PATH_Q150 + "/Address/Line[1]"];
+			AltHearing_OKBtn.isEnabled = function() {	
+				var c = Services.getValue(NEW_HEARING_VENUE_TMP_PATH_Q150 + "/Address/Line[1]");
+				if(c != null &amp;&amp; c!= "") {
+					return true; }
+				else {
+					return false; } }
+
+			function AltHearing_CancelBtn(){}
+			AltHearing_CancelBtn.tabIndex = __tabIdx++;
+			
+			function setHomeCrtDetails() {	   	
+				var hcrtcode  =  WPU.getHomeCourtCode();			   
+				var addxpath = REF_DATA_XPATH + "/Courts/Court[./Code='"+hcrtcode+"']/ContactDetails/Address"; 
+				var xpathName = REF_DATA_XPATH + "/Courts/Court[./Code='"+hcrtcode+"']/Name";
+				var contdet = REF_DATA_XPATH + "/Courts/Court[./Code='"+hcrtcode+"']/ContactDetails";
+				Services.setValue(AltHearing_VenueCode.dataBinding, hcrtcode);			   	
+				Services.setValue(HearingVenueCode.dataBinding, hcrtcode);
+				Services.setValue( HearingVenueName.dataBinding, Services.getValue(xpathName));
+				var addAr = Services.getNodes( addxpath );
+				if( null != addAr &amp;&amp; addAr.length == 1) {	
+					var addNode = addAr[0];
+					var ln1 = Services.getValue( addxpath+"/Line[1]");
+					var ln2 = Services.getValue( addxpath+"/Line[2]");
+					var ln3 = Services.getValue( addxpath+"/Line[3]");
+					var ln4 = Services.getValue( addxpath+"/Line[4]");
+					var ln5 = Services.getValue( addxpath+"/Line[5]");
+					var pcode = Services.getValue( addxpath+"/PostCode");
+					var dxNo = Services.getValue(contdet+"/DX");
+			   	 	var telNo = Services.getValue(contdet+"/TelephoneNumber");
+			   	 	var faxNo = Services.getValue(contdet+"/FaxNumber");
+					Services.setValue(HearingAdLine1.dataBinding, ln1);
+					Services.setValue(HearingAdLine2.dataBinding, ln2);
+					Services.setValue(HearingAdLine3.dataBinding, ln3);
+					Services.setValue(HearingAdLine4.dataBinding, ln4);
+					Services.setValue(HearingAdLine5.dataBinding, ln5);
+					Services.setValue(PostCode360.dataBinding, pcode );	
+					Services.setValue("/ds/EnterVariableData/HearingAt/DX", dxNo);			
+				 	Services.setValue("/ds/EnterVariableData/HearingAt/Tel", telNo);
+				 	Services.setValue("/ds/EnterVariableData/HearingAt/Fax", faxNo); } }
+		</miscCode>
+		<Context ScreenId="CJR030">
+			<initialise>	
+		 	var casenumber = Services.getValue("/ds/ManageCase/CaseNumber");  			 	
+		   	loadFutureHearing( casenumber);	
+		   	WPU.loadCourt();		   	
+		  </initialise>	
+		</Context>
+		<Context ScreenId="O_5_6">
+			<initialise>	
+		 	var casenumber = Services.getValue("/ds/ManageCase/CaseNumber");  			 	
+		   	loadFutureHearing( casenumber);	
+		   	WPU.loadCourt();		   	
+		  </initialise>	
+		</Context>
+		<Context ScreenId="CJR050">
+			<initialise>
+				var casenumber = Services.getValue("/ds/ManageCase/CaseNumber");  			 			   	
+			   	loadPastHearings( casenumber );
+			   	WPU.loadCourt();
+			 </initialise>
+		</Context>
+		<Context ScreenId="CJR052">
+			<initialise>
+				var casenumber = Services.getValue("/ds/ManageCase/CaseNumber");  			 			   	
+			   	loadPastHearings( casenumber );
+			   	WPU.loadCourt();
+			 </initialise>
+		</Context>
+		<Context ScreenId="CJR053">
+			<initialise>
+				var casenumber = Services.getValue("/ds/ManageCase/CaseNumber");  			 			   	
+			   	loadPastHearings( casenumber );
+			   	WPU.loadCourt();
+			 </initialise>
+		</Context>
+		<Context ScreenId="CJR055">
+			<initialise>
+				var casenumber = Services.getValue("/ds/ManageCase/CaseNumber");  			 			   	
+			   	loadPastHearings( casenumber );
+			   	WPU.loadCourt();
+			 </initialise>
+		</Context>
+		<Context ScreenId="CJR054">
+			<initialise>
+				var casenumber = Services.getValue("/ds/ManageCase/CaseNumber");  			 			   	
+			   	loadPastHearings( casenumber );
+			   	WPU.loadCourt();
+			 </initialise>
+		</Context>
+		<Context ScreenId="CJR060">
+			<initialise>
+				var casenumber = Services.getValue("/ds/ManageCase/CaseNumber");  			 			   	
+			   	loadPastHearings( casenumber );
+			 </initialise>
+		</Context>
+		
+		<Context ScreenId="CJR061">
+			<initialise>
+				var casenumber = Services.getValue("/ds/var/app/ManageCaseEventsParams/CaseNumber");
+				loadPastHearings( casenumber );
+				WPU.loadCourt();
+			 </initialise>
+		</Context>
+		
+		<Context ScreenId="CJR065">
+			<initialise>
+				var casenumber = Services.getValue("/ds/var/app/ManageCaseEventsParams/CaseNumber");
+				loadPastHearings( casenumber );
+				WPU.loadCourt();
+			</initialise>
+			<miscCode>
+				HearingVenueCode.enableOn = [HearingVenueName.dataBinding];
+				HearingVenueCode.isEnabled = function() { return true; }
+				/**HearingVenueCode.logicOn = [HearingVenueName.dataBinding];
+				   HearingVenueCode.logic = function(xpath) { WPU.loadCourt(); } **/
+				HearingVenueLOVBtn.enableOn = [HearingVenueName.dataBinding];
+				HearingVenueLOVBtn.isEnabled = function() { return true; }		
+				AltHearingVenueLOVBtn.enableOn = [HearingVenueName.dataBinding];
+				AltHearingVenueLOVBtn.isEnabled = function() { return true; }		
+			</miscCode>
+		</Context>
+		
+		<Context ScreenId="CJR065C">
+			<initialise>
+				var casenumber = Services.getValue("/ds/var/app/ManageCaseEventsParams/CaseNumber");
+				loadPastHearings( casenumber );
+				WPU.loadCourt();
+			</initialise>
+			<miscCode>
+				HearingVenueCode.enableOn = [HearingVenueName.dataBinding];
+				HearingVenueCode.isEnabled = function() { return true; }
+				/**HearingVenueCode.logicOn = [HearingVenueName.dataBinding];
+				   HearingVenueCode.logic = function(xpath) { WPU.loadCourt(); } **/
+				HearingVenueLOVBtn.enableOn = [HearingVenueName.dataBinding];
+				HearingVenueLOVBtn.isEnabled = function() { return true; }		
+				AltHearingVenueLOVBtn.enableOn = [HearingVenueName.dataBinding];
+				AltHearingVenueLOVBtn.isEnabled = function() { return true; }		
+			</miscCode>
+		</Context>
+		
+		<Context ScreenId="CJR043">
+			<initialise>
+				var casenumber = Services.getValue("/ds/var/app/ManageCaseEventsParams/CaseNumber");
+				loadPastHearings( casenumber );
+				WPU.loadCourt();
+			 </initialise>
+		</Context>		
+		<Context ScreenId="CJR175">
+			<initialise>
+				var casenumber = Services.getValue("/ds/var/app/ManageCaseEventsParams/CaseNumber");
+				loadPastHearings( casenumber );
+				WPU.loadCourt();
+			 </initialise>
+		</Context>		
+		<Context ScreenId="CJR065B">
+			<initialise>
+				var casenumber = Services.getValue("/ds/ManageCase/CaseNumber");  			 			   	
+			   	loadPastHearings( casenumber );
+			   	WPU.loadCourt();
+			 </initialise>
+		</Context>		
+		<Context ScreenId="CJR072">
+			<initialise>
+				var casenumber = Services.getValue("/ds/ManageCase/CaseNumber");  			 			   	
+			   	loadPastHearings( casenumber );
+			 </initialise>
+		</Context>		
+		<Context ScreenId="CJR073">
+			<initialise>
+				var casenumber = Services.getValue("/ds/ManageCase/CaseNumber");  			 			   	
+			   	loadPastHearings( casenumber );
+			   	WPU.loadCourt();
+			 </initialise>
+		</Context>		
+		<Context ScreenId="CJR080">
+			<initialise>
+				var casenumber = Services.getValue("/ds/var/app/ManageCaseEventsParams/CaseNumber");
+				loadPastHearings( casenumber );
+			   	Services.setValue(HearingVenueCode.dataBinding,"");
+			   	WPU.loadCourt();
+			 </initialise>
+			<enableOn>WhoConsidApp.dataBinding</enableOn>
+			<isEnabled>return('J' == Services.getValue(WhoConsidApp.dataBinding));</isEnabled>
+			<logicOn>WhoConsidApp.dataBinding</logicOn>
+			<logic>if('J' != Services.getValue(WhoConsidApp.dataBinding)) {Services.setValue(HearingVenueName.dataBinding, ""); }</logic>
+			<miscCode>
+				HearingVenueCode.enableOn = [WhoConsidApp.dataBinding];
+				HearingVenueCode.isEnabled = function() { return('J' == Services.getValue(WhoConsidApp.dataBinding)); }
+				HearingVenueCode.logicOn = [WhoConsidApp.dataBinding];
+				HearingVenueCode.logic = function(xpath) {
+					if('J' != Services.getValue(WhoConsidApp.dataBinding)) {
+						Services.setValue(HearingVenueCode.dataBinding, ""); }	
+					else {
+						setCaseOwningCourtDetails(); } }
+				HearingVenueLOVBtn.enableOn = [WhoConsidApp.dataBinding];
+				HearingVenueLOVBtn.isEnabled = function() {	return('J' == Services.getValue(WhoConsidApp.dataBinding));	}		
+				AltHearingVenueLOVBtn.enableOn = [WhoConsidApp.dataBinding];
+				AltHearingVenueLOVBtn.isEnabled = function() {	return('J' == Services.getValue(WhoConsidApp.dataBinding));	}			
+			</miscCode>
+		</Context>		
+		<Context ScreenId="CJR081">
+			<initialise>
+				var casenumber = Services.getValue("/ds/ManageCase/CaseNumber");  			 			   	
+			   	loadPastHearings( casenumber );
+			   	WPU.loadCourt();
+			 </initialise>
+		</Context>
+		<Context ScreenId="CJR082">
+			<initialise>
+				var casenumber = Services.getValue("/ds/ManageCase/CaseNumber");  			 			   	
+			   	loadPastHearings( casenumber );
+			   	WPU.loadCourt();
+			 </initialise>
+		</Context>		
+		<Context ScreenId="CJR092">
+			<initialise>
+				var casenumber = Services.getValue("/ds/ManageCase/CaseNumber");  			 			   	
+			   	loadPastHearings( casenumber );
+			   	WPU.loadCourt();
+			 </initialise>
+		</Context>
+		
+		<Context ScreenId="CJR094">
+			<initialise>
+				var casenumber = Services.getValue("/ds/ManageCase/CaseNumber");  			 			   	
+			   	loadPastHearings( casenumber );
+			   	WPU.loadCourt();
+			 </initialise>
+		</Context>
+		
+		<Context ScreenId="CJR101">
+			<initialise>
+				var casenumber = Services.getValue("/ds/ManageCase/CaseNumber");  			 			   	
+			   	loadPastHearings( casenumber );
+			   	WPU.loadCourt();
+			 </initialise>
+		</Context>
+		
+		<Context ScreenId="CJR104">
+			<initialise>
+				var casenumber = Services.getValue("/ds/ManageCase/CaseNumber");  			 			   	
+			   	loadPastHearings( casenumber );
+			   	WPU.loadCourt();
+			 </initialise>
+		</Context>
+		
+		<Context ScreenId="CJR105">
+			<initialise>
+				var casenumber = Services.getValue("/ds/ManageCase/CaseNumber");  			 			   	
+			   	loadPastHearings( casenumber );
+			   	WPU.loadCourt();
+			 </initialise>
+		</Context>
+		
+		<Context ScreenId="CJR170">
+			<initialise>
+				var casenumber = Services.getValue("/ds/ManageCase/CaseNumber");  			 			   	
+			   	loadPastHearings( casenumber );
+			 </initialise>
+		</Context>
+		
+	<Context ScreenId="CJR178">
+			<initialise>
+				var casenumber = Services.getValue("/ds/ManageCase/CaseNumber");  			 			   	
+			   	loadPastHearings( casenumber );
+			 </initialise>
+		</Context>
+		
+		<Context ScreenId="CO03">
+			<initialise>
+				var coNumber = WPU.getValue( WPU.NODE_XPATHS['CONumber'] );  			 			   	
+			   	loadCOPastHearings( coNumber );
+			   	WPU.loadCourt();	
+			 </initialise>
+		</Context>
+		
+		<Context ScreenId="CO05">
+			<initialise>
+				var coNumber = WPU.getValue( WPU.NODE_XPATHS['CONumber'] );  			 			   	
+			   	loadCOPastHearings( coNumber );
+			   	WPU.loadCourt();
+			 </initialise>
+		</Context>
+
+		<Context ScreenId="CO09">
+			<initialise>
+				var coNumber = WPU.getValue( WPU.NODE_XPATHS['CONumber'] ); 			 			   	
+			   	loadCOPastHearings( coNumber );
+			 </initialise>
+		</Context>
+		
+		<Context ScreenId="CO10">
+			<initialise>
+				var coNumber = WPU.getValue( WPU.NODE_XPATHS['CONumber'] );  			 			   	
+			   	loadCOPastHearings( coNumber );
+			 </initialise>
+		</Context>
+		
+		<Context ScreenId="CO13">
+			<initialise>
+				var coNumber = WPU.getValue( WPU.NODE_XPATHS['CONumber'] );  			 			   	
+			   	loadCOPastHearings( coNumber );
+			   	WPU.loadCourt();
+			 </initialise>
+		</Context>
+		
+		<Context ScreenId="CO15">
+			<initialise>
+				var coNumber = WPU.getValue( WPU.NODE_XPATHS['CONumber'] ); 			 			   	
+			   	loadCOPastHearings( coNumber );
+			   	WPU.loadCourt();
+			 </initialise>
+		</Context>
+		
+		<Context ScreenId="CO16">
+			<initialise>
+				var coNumber = WPU.getValue( WPU.NODE_XPATHS['CONumber'] ); 			 			   	
+			   	loadCOPastHearings( coNumber );
+			   	WPU.loadCourt();
+			 </initialise>
+		</Context>
+		
+		<Context ScreenId="CO17">
+			<initialise>
+				var coNumber = WPU.getValue( WPU.NODE_XPATHS['CONumber'] ); 			 			   	
+			   	loadCOPastHearings( coNumber );
+			   	WPU.loadCourt();
+			 </initialise>
+		</Context>
+		
+		<Context ScreenId="CO18">
+			<initialise>
+				var coNumber = WPU.getValue( WPU.NODE_XPATHS['CONumber'] );															 			   	
+			   	loadCOPastHearings( coNumber );
+			   	WPU.loadCourt();			   				   				   				   				   			   	
+			 </initialise>
+		</Context>
+		
+		<Context ScreenId="CO19">
+			<initialise>
+				var coNumber = WPU.getValue( WPU.NODE_XPATHS['CONumber'] );  			 			   	
+			   	loadCOPastHearings( coNumber );
+			   	WPU.loadCourt();
+			 </initialise>
+		</Context>
+	
+		<Context ScreenId="CO20">
+			<initialise>
+				var coNumber = WPU.getValue( WPU.NODE_XPATHS['CONumber'] ); 			 			   	
+			   	loadCOPastHearings( coNumber );
+			   	WPU.loadCourt();
+			 </initialise>
+		</Context>
+		
+		<Context ScreenId="CO21">
+			<initialise>
+				var coNumber = WPU.getValue( WPU.NODE_XPATHS['CONumber'] ); 			 			   	
+			   	loadCOPastHearings( coNumber );
+			 </initialise>
+		</Context>
+		
+		<Context ScreenId="CO23">
+			<initialise>
+				var coNumber = WPU.getValue( WPU.NODE_XPATHS['CONumber'] );			 			   	
+			   	loadCOPastHearings( coNumber );
+			 </initialise>
+		</Context>
+		
+		<Context ScreenId="CO24">
+			<initialise>
+				var coNumber = WPU.getValue( WPU.NODE_XPATHS['CONumber'] );			 			   	
+			   	loadCOPastHearings( coNumber );
+			   	WPU.loadCourt();
+			 </initialise>
+		</Context>
+		
+		<Context ScreenId="CO25">
+			<initialise>
+				var coNumber = WPU.getValue( WPU.NODE_XPATHS['CONumber'] ); 			 			   	
+			   	loadCOPastHearings( coNumber );
+			   	WPU.loadCourt();
+			 </initialise>
+		</Context>
+		
+		<Context ScreenId="CO26">
+			<initialise>
+				var coNumber = WPU.getValue( WPU.NODE_XPATHS['CONumber'] ); 			 			   	
+			   	loadCOPastHearings( coNumber );
+			   	WPU.loadCourt();
+			 </initialise>
+		</Context>
+		
+		<Context ScreenId="CO27">
+			<initialise>
+				var coNumber = WPU.getValue( WPU.NODE_XPATHS['CONumber'] );			 			   	
+			   	loadCOPastHearings( coNumber );
+			   	WPU.loadCourt();
+			 </initialise>
+		</Context>
+		
+		<Context ScreenId="CO28">
+			<initialise>
+				var coNumber = WPU.getValue( WPU.NODE_XPATHS['CONumber'] ); 			 			   	
+			   	loadCOPastHearings( coNumber );
+			   	WPU.loadCourt();
+			 </initialise>
+		</Context>
+		
+		<Context ScreenId="CO29">
+			<initialise>
+				var coNumber = WPU.getValue( WPU.NODE_XPATHS['CONumber'] );  			 			   	
+			   	loadCOPastHearings( coNumber );
+			   	WPU.loadCourt();
+			 </initialise>
+		</Context>
+		
+		<Context ScreenId="CO30">
+			<initialise>
+				var coNumber = WPU.getValue( WPU.NODE_XPATHS['CONumber'] );  			 			   	
+			   	loadCOPastHearings( coNumber );
+			   	WPU.loadCourt();
+			 </initialise>
+		</Context>
+		
+		<Context ScreenId="CO31">
+			<initialise>
+				var coNumber = WPU.getValue( WPU.NODE_XPATHS['CONumber'] );  			 			   	
+			   	loadCOPastHearings( coNumber );
+			   	WPU.loadCourt();
+			 </initialise>
+		</Context>
+		
+		<Context ScreenId="CO32">
+			<initialise>
+				var coNumber = WPU.getValue( WPU.NODE_XPATHS['CONumber'] );  			 			   	
+			   	loadCOPastHearings( coNumber );
+			 </initialise>
+		</Context>
+		
+		<Context ScreenId="CO33">
+			<initialise>
+				var coNumber = WPU.getValue( WPU.NODE_XPATHS['CONumber'] );  			 			   	
+			   	loadCOPastHearings( coNumber );
+			   	WPU.loadCourt();
+			 </initialise>
+		</Context>
+		
+		<Context ScreenId="CO34">
+			<initialise>
+				var coNumber = WPU.getValue( WPU.NODE_XPATHS['CONumber'] );  			 			   	
+			   	loadCOPastHearings( coNumber );
+			 </initialise>
+		</Context>
+		
+		<Context ScreenId="CO35">
+			<initialise>
+				var coNumber = WPU.getValue( WPU.NODE_XPATHS['CONumber'] );  			 			   	
+			   	loadCOPastHearings( coNumber );
+			 </initialise>
+		</Context>
+		
+		<Context ScreenId="CO36">
+			<initialise>
+				var coNumber = WPU.getValue( WPU.NODE_XPATHS['CONumber'] );  			 			   	
+			   	loadCOPastHearings( coNumber );
+			   	WPU.loadCourt();
+			 </initialise>
+		</Context>
+		
+		<Context ScreenId="CO37">
+			<initialise>
+				var coNumber = WPU.getValue( WPU.NODE_XPATHS['CONumber'] );  			 			   	
+			   	loadCOPastHearings( coNumber );
+			 </initialise>
+		</Context>
+		
+		<Context ScreenId="CO41">
+			<initialise>
+				var coNumber = WPU.getValue( WPU.NODE_XPATHS['CONumber'] );  			 			   	
+			   	loadCOPastHearings( coNumber );
+			   	WPU.loadCourt();
+			 </initialise>
+		</Context>
+		
+		<Context ScreenId="CO52">
+			<initialise>
+				var coNumber = WPU.getValue( WPU.NODE_XPATHS['CONumber'] );  			 			   	
+			   	loadCOPastHearings( coNumber );
+			   	WPU.loadCourt();
+			 </initialise>
+		</Context>
+		
+		<Context ScreenId="CJR090">
+			<initialise>
+				var casenumber = Services.getValue("/ds/ManageCase/CaseNumber");  			 			   	
+			   	loadPastHearings( casenumber );
+			   	WPU.loadCourt();
+			 </initialise>
+		</Context>
+		
+		<Context ScreenId="CJR083">
+			<initialise>				
+				var casenumber = Services.getValue("/ds/ManageCase/CaseNumber");  			 			   	
+			   	loadPastHearings( casenumber );
+			   	WPU.loadCourt();
+			 </initialise>
+			<enableOn>IsNewN79AsReqd.dataBinding</enableOn>
+			<isEnabled>
+				if(IsNewN79AsReqd.isEnabled()) {
+					if( 'Y' == Services.getValue(IsNewN79AsReqd.dataBinding)) return true;
+					return false; }
+				return true;
+			</isEnabled>
+			<logicOn>IsNewN79AsReqd.dataBinding</logicOn>
+			<logic>if( IsNewN79AsReqd.isEnabled() &amp;&amp; 'Y' != Services.getValue(IsNewN79AsReqd.dataBinding)) { Services.setValue(HearingVenueName.dataBinding, ""); }</logic>
+			<miscCode>HearingVenueCode.enableOn = [IsNewN79AsReqd.dataBinding];
+				HearingVenueCode.isEnabled = function() {		
+					if(IsNewN79AsReqd.isEnabled()) { 
+						if( 'Y' == Services.getValue(IsNewN79AsReqd.dataBinding)) {
+							return true; }
+						return false; }
+					return true; }
+				HearingVenueCode.logicOn = [IsNewN79AsReqd.dataBinding];
+				HearingVenueCode.logic = function(xpath) {	
+					if( IsNewN79AsReqd.isEnabled() &amp;&amp; 'Y' != Services.getValue(IsNewN79AsReqd.dataBinding)) {
+						Services.setValue(HearingVenueCode.dataBinding, ""); } }
+				HearingVenueLOVBtn.enableOn = [IsNewN79AsReqd.dataBinding];
+				HearingVenueLOVBtn.isEnabled = function() {		
+					if(IsNewN79AsReqd.isEnabled()) {
+					  	if( 'Y' == Services.getValue(IsNewN79AsReqd.dataBinding)) {
+					  		return true; }
+						return false; }
+					return true; }				
+				AltHearingVenueLOVBtn.enableOn = [IsNewN79AsReqd.dataBinding];
+				AltHearingVenueLOVBtn.isEnabled = function() {		
+					if(IsNewN79AsReqd.isEnabled()) {  
+						if( 'Y' == Services.getValue(IsNewN79AsReqd.dataBinding)) {
+							return true; }
+						return false; }
+					return true; }				
+			</miscCode>
+		</Context>
+        
+        <Context ScreenId="O_11_1_2_3_4">
+          <initialise>
+			var casenumber = Services.getValue("/ds/ManageCase/CaseNumber");  			 			   	
+			loadPastHearings( casenumber );
+			WPU.loadCourt();
+          </initialise>
+         </Context>
+          
+		<Context ScreenId="O_10_17">
+            <initialise>
+				var casenumber = Services.getValue("/ds/ManageCase/CaseNumber");  			 			   	
+				loadPastHearings( casenumber );
+				WPU.loadCourt();
+				setHomeCrtDetails();
+            </initialise>
+		</Context>
+		
+		<Context ScreenId="N33">
+            <initialise>
+				var casenumber = Services.getValue("/ds/ManageCase/CaseNumber");  			 			   	
+				loadPastHearings( casenumber );
+				WPU.loadCourt();
+				setHomeCrtDetails();
+            </initialise>
+		</Context>
+	
+		<Context ScreenId="O_5_5">
+            <initialise>
+				var casenumber = Services.getValue("/ds/ManageCase/CaseNumber");  			 			   	
+				loadPastHearings( casenumber );
+				WPU.loadCourt();
+				setHomeCrtDetails();
+            </initialise>
+		</Context>
+		
+		<Context ScreenId="O_5_6">
+			<initialise>WPU.getCurrentCaseHearings("hearings");setCaseOwningCourtDetails();</initialise>
+		</Context>
+		
+		<Context ScreenId="N32">
+			<initialise>WPU.loadCourt();</initialise>
+		</Context>
+		
+		<Context ScreenId="O_11_1_2_3_4">
+			<initialise></initialise>
+		</Context>		
+				
+	</Javascript>
+</Question>

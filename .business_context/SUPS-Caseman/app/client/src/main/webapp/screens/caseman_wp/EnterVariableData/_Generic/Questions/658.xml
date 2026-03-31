@@ -1,0 +1,27 @@
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>658</Id>
+	<Label>Beneficiary address line 3</Label>
+	<ObjectName>BeneficiaryAddL3</ObjectName>
+	<Html>	
+		<input type="text" id="BeneficiaryAddL3" size="50"></input>
+	</Html>		
+	
+	<Javascript>
+		<XPath>/ds/EnterVariableData/InvestmentSchedule/Beneficiary/Address/Line[3]</XPath>
+		<componentName>##label##</componentName>
+		<isMandatory>return false;</isMandatory>
+		<HintText>Enter the third line of Beneficiary address</HintText>	
+		<enableOn>Beneficiary.dataBinding</enableOn>
+		<isEnabled>
+			var val = Services.getValue(Beneficiary.dataBinding);
+			return( null != val &amp;&amp; "" != val);
+		</isEnabled>
+		<logicOn>Beneficiary.dataBinding</logicOn>		
+		<logic>
+			var val = Services.getValue(Beneficiary.dataBinding);
+			if( null == val || "" == val)
+			{	Services.setValue(BeneficiaryAddL3.dataBinding, "");
+			}
+		</logic>		
+	</Javascript>
+</Question>

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: Reports
+	Method:  noticeOfNonExecutionOfWarrants()
+	File:    notice_of_non_execution_of_warrants.xml
+	Author:  Anoop Sehdev (Valtech)
+	Created: 06 Februaury 2006
+	Description: 
+		Call NoticeOfNonExecutionOfWarrantsCustomProcessor custom processor to submit 
+		Notice on NonExecution Reports (CM_N317 and CM_N317_45) to SUPSReporting.
+-->
+<service-method>
+	<pipeline> 
+		<Java callStyle="new">
+			<Source class="uk.gov.dca.caseman.reports_service.classes.NoticeOfNonExecutionOfWarrantsCustomProcessor"/>
+		</Java>
+	</pipeline>	
+	<Security roles="viewOnly medium high wcSuper scSuper bmsSuper aeSuper dmSuper edsAdmin cpSuper"/>		
+</service-method>

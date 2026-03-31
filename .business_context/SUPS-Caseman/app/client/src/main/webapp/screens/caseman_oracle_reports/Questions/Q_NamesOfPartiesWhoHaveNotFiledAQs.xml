@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--Question xmlns="http://eds.com/questionxhtml" xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd"-->
+<!-- 
+Change History
+	06/02/2013 - Chris Vincent, changed references to Allocation Questionnaires to Directions Questionnaires.  Trac 4763
+-->
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>Q_NamesOfPartiesWhoHaveNotFiledAQs</Id>
+	<Label>Names of parties who have not filed DQs</Label>
+	<ObjectName>NamesOfPartiesWhoHaveNotFiledAQs</ObjectName>
+	<Html>
+		<input id="NamesOfPartiesWhoHaveNotFiledAQs" type="text" size="70"></input>
+	</Html>
+	<Javascript>
+		<XPath>/ds/var/page/OracleReportForm/NamesOfPartiesWhoHaveNotFiledAQs</XPath>
+		<ReportVariableName>EXCEPT</ReportVariableName>
+		<ReportVariableValue>Services.getValue(NamesOfPartiesWhoHaveNotFiledAQs.dataBinding)</ReportVariableValue>
+		<ReportVariableCode>2280</ReportVariableCode>
+		<HintText>Enter names of parties who have not filed DQs</HintText>
+		<mandatoryOn>AllPartiesFiledAQs.dataBinding</mandatoryOn>
+		<setDefault></setDefault>
+		<validateOn></validateOn>
+		<validate></validate>
+		<enableOn>AllPartiesFiledAQs.dataBinding</enableOn>
+		<isEnabled>
+			var allPartiesFiledAQs = Services.getValue(AllPartiesFiledAQs.dataBinding);
+			if (allPartiesFiledAQs == "Y")
+			{
+				Services.setValue(NamesOfPartiesWhoHaveNotFiledAQs.dataBinding, "");
+				return false;
+			}
+			else
+			{
+				return true;
+			}	
+		</isEnabled>		
+		<maxLength></maxLength>
+		<transformToDisplay>
+			return (null != value) ? value.toUpperCase() : null;
+		</transformToDisplay>
+		<transformToModel>
+			return (null != value) ? value.toUpperCase() : null;
+		</transformToModel>
+		<initialise></initialise>
+		<logicOn></logicOn>
+		<logic></logic>
+		<miscCode></miscCode>
+		<IsQuestion></IsQuestion>
+	</Javascript>
+</Question>

@@ -1,0 +1,30 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: Payout
+	Method:  updateAllowedDebtsByDebtSequence()
+	File:    update_allowed_debts_by_debt_sequence.xml
+	Author:  A Bonnar (EDS)
+	Created: 6th March 2006
+	Description: 
+		Method to implement the update of the Allowed Debts, setting status = PAID by debt_seq number
+
+    Change History:
+    06-Apr-2006 Phil Haferer: Removed Admin Court Code from WHERE clause, as it was not required.
+-->
+<service-method>
+	<pipeline>
+		<SQLLite output="input">
+			<DataSource id="java:OracleDS"/>
+			<Param name="param.coNumber"          xpath="/params/param[@name='coNumber']"/>
+			<Param name="param.status"            xpath="/params/param[@name='status']"/>
+			<Param name="param.debtSequenceNumber" xpath="/params/param[@name='debtSequenceNumber']"/>
+			<SQL type="update" tables="ALLOWED_DEBTS">
+				UPDATE ALLOWED_DEBTS AD
+				SET    AD.DEBT_STATUS           = ${param.status}
+				WHERE  AD.DEBT_CO_NUMBER        = ${param.coNumber}
+				AND	   AD.DEBT_SEQ				= ${param.debtSequenceNumber}
+			</SQL>
+		</SQLLite>
+	</pipeline>
+	<Security roles="viewOnly medium high wcSuper scSuper bmsSuper aeSuper dmSuper edsAdmin"/>		
+</service-method>

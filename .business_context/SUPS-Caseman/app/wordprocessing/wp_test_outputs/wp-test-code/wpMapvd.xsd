@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- edited with XMLSpy v2005 rel. 3 U (http://www.altova.com) by Cag Onganer (EDS LTD) -->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" attributeFormDefault="unqualified">
+	<xs:element name="Maps">
+		<xs:annotation>
+			<xs:documentation>Comment describing your root element</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence maxOccurs="unbounded">
+				<xs:element name="Map">
+					<xs:complexType>
+						<xs:all>
+							<xs:element name="AsIs">
+								<xs:complexType>
+									<xs:all>
+										<xs:element name="Outputs">
+											<xs:complexType>
+												<xs:sequence>
+													<xs:element name="Output">
+														<xs:complexType>
+															<xs:sequence>
+																<xs:element name="Comment"/>
+															</xs:sequence>
+															<xs:attribute name="cjr"/>
+															<xs:attribute name="n"/>
+															<xs:attribute name="event"/>
+															<xs:attribute name="heading"/>
+															<xs:attribute name="field"/>
+														</xs:complexType>
+													</xs:element>
+												</xs:sequence>
+											</xs:complexType>
+										</xs:element>
+									</xs:all>
+									<xs:attribute name="code"/>
+								</xs:complexType>
+							</xs:element>
+							<xs:element name="ToBe">
+								<xs:complexType>
+									<xs:all>
+										<xs:element name="Release"/>
+										<xs:element name="Origin"/>
+										<xs:element name="Outputs">
+											<xs:complexType>
+												<xs:sequence>
+													<xs:element name="Output">
+														<xs:complexType>
+															<xs:sequence>
+																<xs:element name="Comment"/>
+															</xs:sequence>
+															<xs:attribute name="release"/>
+															<xs:attribute name="cjr"/>
+															<xs:attribute name="reference"/>
+														</xs:complexType>
+													</xs:element>
+												</xs:sequence>
+											</xs:complexType>
+										</xs:element>
+									</xs:all>
+									<xs:attribute name="code"/>
+								</xs:complexType>
+							</xs:element>
+						</xs:all>
+					</xs:complexType>
+				</xs:element>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+</xs:schema>

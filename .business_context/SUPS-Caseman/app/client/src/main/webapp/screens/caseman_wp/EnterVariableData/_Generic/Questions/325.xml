@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>325</Id>
+	<Label>Interim costs certificate date</Label>
+	<ObjectName>InterimCostCertDate</ObjectName>
+	<Html>
+		<script type="text/javascript">
+			WP_DatePickerRenderer.createInline("InterimCostCertDate");
+		</script>
+	</Html>
+	<Javascript>
+		<XPath>/ds/EnterVariableData/FinalCosts/interimCostCertDate</XPath>
+		<componentName>##label##</componentName>
+		<HintText>Enter the date of interim costs certificate in the format DD-MON-YYYY</HintText>
+		<isMandatory>return true;</isMandatory>
+		<enableOn>InterimCostCert.dataBinding</enableOn>
+		<isEnabled>return('Y' == Services.getValue(InterimCostCert.dataBinding));</isEnabled>
+		<logicOn>InterimCostCert.dataBinding</logicOn>
+		<logic>
+			if('Y' != Services.getValue(InterimCostCert.dataBinding))
+			{	Services.setValue(InterimCostCertDate.dataBinding, "");
+			}
+		</logic>
+		<validateOn>InterimCostCertDate.dataBinding</validateOn>
+		<validate>
+			//cannot be in future: working days only
+			var iccDate = Services.getValue(InterimCostCertDate.dataBinding);
+			var err = null;
+
+			if( true == isFutureDate(iccDate))
+			{	err = ErrorCode.getErrorCode("CaseMan_dateCannotBeInTheFuture_Msg");
+			}
+
+		    return err;
+		</validate>
+
+	</Javascript>
+</Question>

@@ -1,0 +1,204 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="Word Processing Test Outputs" default="default">
+
+	<echo level="verbose">Setting property environment to 'env'.</echo>
+	<echo level="verbose">Expected to pick up the env.PROJECT_BASE, pointing at the source of the caseman server project.</echo>
+	<property environment="env" />
+
+	<echo level="verbose">Loading default properties from. ${user.home}/sups_antuser.properties</echo>
+	<property file="${user.home}/sups_antuser.properties" />
+
+	<property name="project.name.server" value="${name.eclipse.project.server}" />
+	<property name="project.name.common" value="${name.eclipse.project.common}" />
+	<property name="project.name.client" value="${name.eclipse.project.client}" />
+
+	<property name="wpsource" value="../../../${name.eclipse.project.server}" />
+	<property name="wpsourceclient" value="../../../client" />
+	
+	<property name="project.server.path" value="${wpsource}" />
+	<property name="project.common.path" value="${wpsource}/../${project.name.common}" />
+	<property name="project.client.path" value="${wpsourceclient}" />
+	<property name="project.rpt.path" value="../../../../RPT" />
+
+	<property name="wpbuild" value="${wp.buildir}" />
+
+	<property name="project.server.path.build" value="${wpbuild}/${project.name.server}" />
+	<property name="project.common.path.build" value="${wpbuild}/${project.name.common}" />
+	<property name="project.client.path.build" value="${wpbuild}/${project.name.client}" />
+
+	<property name="wpdeploy" value="${wp.deploydir}" />
+
+	<property name="project.server.path.deploy" value="${wpdeploy}/${project.name.server}" />
+	<property name="project.common.path.deploy" value="${wpdeploy}/${project.name.common}" />
+	<property name="project.client.path.deploy" value="${wpdeploy}/${project.name.client}" />
+
+
+	<property name="project.server.packagetree" value="wordprocessing_templates" />
+
+	<property name="word.processing.url.build" value="${project.server.path.build}/${project.server.packagetree}" />
+	<property name="word.processing.url.deploy" value="${project.server.path.build}/${project.server.packagetree}" />
+	
+	<property name="word.processing.url.xml.deployOAS" value="./" />
+	<property name="word.processing.url.xsl.deployOAS" value="./" />
+	<property name="word.processing.url.img" value="./"/>
+
+
+	<property name="deploy.template.dir" value="c:\usecase_templates" />
+	<property name="deploy.template.dir.xml" value="${deploy.template.dir}/xml" />
+	<property name="deploy.template.dir.xsl" value="${deploy.template.dir}/xsl" />
+	<property name="deploy.template.dir.pdf" value="${deploy.template.dir}/pdf" />
+
+	<!-- Output Variables BEGIN -->
+	<target name="Build_UseCase_variables" depends="init">
+		<antcall target="create-wp-question-xml" />
+		<antcall target="wp-mappings" />
+		<antcall target="generate-wp-variables" />
+	</target>	
+	
+	<target name="init">
+
+		<property environment="env"/>
+		<property name="dist" value="c:/SUPS/build/wp"/>
+		<property name="workspace" value="${env.PROJECT_BASE}\.."/>	
+		<property name="fop.conf.dir" value="C:/SUPS/SupsReporting/Reporting/src/META-INF" />
+		
+		<mkdir dir="${workspace}/wp/mappings"/>
+		
+	</target>
+
+	<taskdef name="xmldirectorylist" classname="uk.gov.dca.caseman.tools.XmlDirectoryListTask">
+		<classpath>
+			<pathelement location="${project.server.path}/lib/outputgeneratortask.jar" />
+		</classpath>
+	</taskdef>
+	
+	<target name="create-wp-question-xml" depends="init">
+		<dirname property="antfile.dir" file="${ant.file}"/>
+		<xmldirectorylist sourceDirectory="${antfile.dir}/${project.client.path}/caseman/screens/caseman_wp/EnterVariableData/_Generic/Questions"
+						destinationDirectory="${antfile.dir}/${project.client.path}/caseman/screens/caseman_wp/EnterVariableData/_Generic"
+						filename="Questions.xml"
+						root="Questions"
+						element="Question"
+						attribute="id"
+						fileExtension=".xml"
+		/>
+	</target>
+	
+	<target name="generate-wp-variables">
+		<delete file="${dist}/variables.wpml"/>
+		<delete file="${dist}/variables.doc"/>
+		<xslt in="${project.rpt.path}\wordprocessing_templates\_Generic\EnterVariableText.xsl" basedir="." style="variables.xsl" out="${dist}/variables.wpml" destdir="${dist}"></xslt>
+		<!--
+			<exec executable="${workspace}\wp_test_outputs\wp-test-code\wp-variables\wpml2doc.exe">
+			  <arg line="${dist}\variables.wpml ${dist}\variables.doc"/>
+			</exec>
+		-->
+	</target>
+
+
+	<target name="wp-mappings" depends="init">
+
+		<delete file="${dist}/mappings/variableToXpathMapping.xml"/>
+		<delete file="${dist}/mappings/XpathToDsMapping.xml"/>
+		<delete file="${dist}/mappings/DsToQuestionMapping.xml"/>
+		<delete file="${dist}/mappings/VariableToQuestionMapping.xml"/>
+
+		<xslt style="${project.server.path}/src/uk/gov/dca/caseman/noticeofissue_service/classes/gen_ds2wp_do.xsl" in="${project.server.path}/src/uk/gov/dca/caseman/noticeofissue_service/classes/src_convertDsToWpData.xsl" out="${project.server.path}/src/uk/gov/dca/caseman/noticeofissue_service/classes/convertDsToWpData.xsl"/>
+
+		<xslt style="variableToXpath.xsl" in="${project.rpt.path}/wordprocessing_templates/_Generic/EnterVariableText.xsl" out="${dist}/mappings/variableToXpathMapping.xml"/>
+		<xslt style="xpathToDs.xsl" in="${project.server.path}/src/uk/gov/dca/caseman/noticeofissue_service/classes/convertDsToWpData.xsl" out="${dist}/mappings/XpathToDsMapping.xml"/>
+		<xslt style="dsToQuestion.xsl" in="${project.client.path}/caseman/screens/caseman_wp/EnterVariableData/_Generic/Questions.xml" out="${dist}/mappings/DsToQuestionMapping.xml"/>
+		<xslt style="variableToQuestion.xsl" in="${dist}/mappings/variableToXpathMapping.xml" out="${dist}/mappings/VariableToQuestionMapping.xml"/>
+
+	</target>
+	<!-- Output Variables END -->
+
+	<!-- Output Templates BEGIN -->
+	
+	<target name="default" depends="Build_UseCase_templates"/>
+	
+	<target name="Build_UseCase_templates" depends="init">
+		<antcall target="clean" />
+		<antcall target="_templates.copy.source2build" />
+		<antcall target="_outputtemplategenerator" />
+		<antcall target="_copy_built_templates_to_deploy" />
+	</target>	
+	
+	<taskdef name="outputtemplategenerator" classname="uk.gov.dca.caseman.tools.OutputTemplateGeneratorTask" >
+		<classpath>
+			<pathelement location="${project.server.path}/lib/outputgeneratortask.jar" />
+			<pathelement location="${env.SUPS_TOOLS}/extracted/fop-1.0/build/fop.jar" />
+			<fileset dir="${env.SUPS_TOOLS}/extracted/fop-1.0/lib">
+				<include name="*.jar"/>
+			</fileset>
+		</classpath>
+	</taskdef>  
+
+	<target name="clean">
+		<echo>Deleting build and deploy directories</echo>
+		<delete dir="${project.server.path.build}" />
+		<delete dir="${project.common.path.build}" />
+		<delete dir="${project.client.path.build}" />
+		<delete dir="${project.server.path.deploy}" />
+		<delete dir="${project.common.path.deploy}" />
+		<delete dir="${project.client.path.deploy}" />
+		<delete dir="${deploy.template.dir}" />
+		<echo>Deleted build and deploy directories</echo>
+		<echo>Creating build and deploy directories</echo>
+		<mkdir dir="${project.server.path.build}" />
+		<mkdir dir="${project.common.path.build}" />
+		<mkdir dir="${project.client.path.build}" />
+		<mkdir dir="${project.server.path.deploy}" />
+		<mkdir dir="${project.common.path.deploy}" />
+		<mkdir dir="${project.client.path.deploy}" />
+		<mkdir dir="${deploy.template.dir}" />
+		<mkdir dir="${deploy.template.dir.xml}" />
+		<mkdir dir="${deploy.template.dir.xsl}" />
+		<mkdir dir="${deploy.template.dir.pdf}" />
+		<echo>Created build and deploy directories</echo>
+	</target>
+
+	<target name="_templates.copy.source2build">
+		<echo>Copying templates from</echo>
+		<echo>	${project.rpt.path}/${project.server.packagetree} </echo>
+		<echo>to</echo>
+		<echo>	${project.server.path.build}/${project.server.packagetree}</echo>
+		<copy todir="${project.server.path.build}/${project.server.packagetree}">
+			<fileset dir="${project.rpt.path}/${project.server.packagetree}" />
+			<filterset>
+				<filter token="word.processing.url" value="${word.processing.url.build}" />
+				<filter token="word.processing.url.deploy" value="${word.processing.url.deploy}" />
+				<filter token="sups.font" value="sups" />
+				<!-- new tokens for OAS Builds -->
+				<filter token="word.processing.url.xsl" value="${word.processing.url.build}/_Generic/" />
+				<filter token="word.processing.url.xml" value="${word.processing.url.build}/" />
+				<filter token="word.processing.url.xsl2" value="${word.processing.url.build}/_Generic/" />
+			</filterset>
+		</copy>
+		<echo>Copyied templates from ...</echo>
+		<echo>Tokens replaced</echo>
+		<echo> word.processing.url: ${word.processing.url.build}</echo>
+		<echo> word.processing.url.deploy: ${word.processing.url.deploy}</echo>
+		<echo> sups.font: sups</echo>
+	</target>
+
+	<target name="_outputtemplategenerator">
+		<outputtemplategenerator outputs="${project.server.path.build}/${project.server.packagetree}/OutputsUnderDevelopment.xml" src="${project.server.path.build}/${project.server.packagetree}/" fopConfDir="${fop.conf.dir}"/>
+	</target>
+
+	<target name="_copy_built_templates_to_deploy">
+		<echo>Copyied variable and formatting stylesheet templates from</echo>
+
+		<echo>Copy pdfs from ${project.rpt.path}/${project.server.packagetree}/</echo>
+		<echo>to</echo>
+		<echo>${deploy.template.dir}/pdf</echo>	
+		<copy todir="${deploy.template.dir.pdf}" flatten="true">
+			<fileset dir="${project.server.path.build}/${project.server.packagetree}">
+				<include name="**/*.pdf" />
+			</fileset>
+		</copy>		
+		<echo>Copyied pdf templates from</echo>
+	</target>
+	<!-- Output Templates END -->
+
+</project>

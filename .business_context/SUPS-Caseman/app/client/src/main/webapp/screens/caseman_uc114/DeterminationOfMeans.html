@@ -1,0 +1,234 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3c.org/TR/html4/strict.dtd">
+
+<html>
+
+	<head>
+		<title>DeterminationOfMeans</title>
+		<link href="DeterminationOfMeans.css" type="text/css" rel="stylesheet" title="Default">
+		<script type="text/javascript" src="../../Framework.js"></script>
+		<script type="text/javascript" src="../../ConcatCommon.js"></script>
+		<script type="text/javascript" src="DeterminationOfMeans.js"></script>
+		<script type="text/javascript" src="DeterminationOfMeans_MenuBarCode.js"></script>		                                    
+	</head>
+
+	<body>
+		<form name="DeterminationOfMeans" id="determinationOfMeans">
+	
+			<!-- Framework Navigation Menu -->
+			<script type="text/javascript">MenuBarRenderer.createInline();</script>
+	
+			<table class="layout">
+
+				<!-- Header Panel -->
+				<tr>
+					<td>
+						<div class="panel">
+							<table class="content">
+								<tr>
+									<td>
+										<table style="width:100%; margin-top:5px; margin-bottom: 5px;">
+											<tr>
+												<td class="defaultLabel"><label for='Header_CONumber'>CO Number</label></td>
+												<td><input id="Header_CONumber" type="text" size=15></td>
+												<td class="defaultLabel"><label for='Header_COType'>CO Type</label></td>
+												<td><input id="Header_COType" type="text" size=15></td>
+											</tr>
+											<tr>
+												<td class="defaultLabel"><label for='Header_DebtorName'>Debtor Name</label></td>
+												<td><input id="Header_DebtorName" type="text" size=90></td>
+											</tr>														
+										</table>												
+									</td>
+								</tr>																								
+							</table>
+						</div>
+					</td>
+				</tr>
+				<!-- End Header Panel -->
+	
+				<!-- Calculated Period Panel -->
+				<tr>
+					<td>				
+						<div class="panel">
+							<table class="content">						
+								<tr>
+									<td>
+										<table style="margin-top:5px; margin-bottom: 5px;">
+											<tr>
+												<td class="defaultLabel"><label for='Main_CalculatedPeriod'>Calculated Period</label></td>
+												<td><select id="Main_CalculatedPeriod"></select></td>
+											</tr>
+										</table>
+									</td>
+								</tr>	
+							</table>	
+						</div>
+					</td>
+				</tr>
+				<!-- End Calculated Period Panel -->
+
+				<!-- Main Panel -->
+				<tr>
+					<td>				
+						<div class="panel">
+							<table class="content" style="height:457px; width:100%;">
+								<tr>
+									<td>
+										<table>
+											<tr>
+												<td class="sectionLabel"><label>Part A</label></td>
+												<td class="label"><label for='Main_BankAccount'>Bank Account</label></td>
+												<td><input type="text" id="Main_BankAccountCurrency" size="1"/>&nbsp;<input id="Main_BankAccount" type="text" size=15></td>	
+												<td class="spacerLabel">&nbsp;</td>						
+												<td class="sectionLabel"><label>Part B</label></td>			
+												<td class="defaultLabel"><label for='Main_Expenses'>Expenses</label></td>
+												<td><input type="text" id="Main_ExpensesCurrency" size="1"/>&nbsp;<input id="Main_Expenses" type="text" size=15></td>
+											</tr>	
+											<tr>
+												<td class="sectionLabel">&nbsp;</td>
+												<td class="label"><label for='Main_Savings'>Savings/Building Society</label></td>
+												<td><input type="text" id="Main_SavingsCurrency" size="1"/>&nbsp;<input id="Main_Savings" type="text" size=15></td>							
+												<td class="spacerLabel">&nbsp;</td>														
+												<td>&nbsp;</td>			
+												<td>&nbsp;</td>
+												<td>&nbsp;</td>
+											</tr>	
+											<tr>
+												<td class="sectionLabel"><label>&nbsp;</label></td>
+												<td class="label"><label for='Main_ExpensesNotAllowed'>Expenses Not Allowed</label></td>
+												<td><input type="text" id="Main_ExpensesNotAllowedCurrency" size="1"/>&nbsp;<input id="Main_ExpensesNotAllowed" type="text" size=15></td>							
+												<td class="spacerLabel">&nbsp;</td>														
+												<td>&nbsp;</td>			
+												<td>&nbsp;</td>
+												<td>&nbsp;</td>
+											</tr>								
+											<tr>
+												<td class="sectionLabel"><label>&nbsp;</label></td>
+												<td class="label"><label for='Main_TotalIncome'>Total Income</label></td>
+												<td><input type="text" id="Main_TotalIncomeCurrency" size="1"/>&nbsp;<input id="Main_TotalIncome" type="text" size=15></td>							
+												<td class="spacerLabel">&nbsp;</td>														
+												<td>&nbsp;</td>			
+												<td>&nbsp;</td>
+												<td>&nbsp;</td>
+											</tr>														
+											<tr>
+												<td class="sectionLabel">&nbsp;</td>
+												<td colspan="2"><hr></td>
+												<td>&nbsp;</td>
+												<td>&nbsp;</td>																												
+											</tr>																				
+											<tr>
+												<td class="sectionLabel"><label>&nbsp;</label></td>
+												<td class="label"><label for='Main_Total'>Total</label></td>
+												<td><input type="text" id="Main_TotalCurrency" size="1"/>&nbsp;<input id="Main_Total" type="text" size=15></td>							
+												<td class="spacerLabel">&nbsp;</td>														
+												<td>&nbsp;</td>			
+												<td>&nbsp;</td>
+												<td>&nbsp;</td>
+											</tr>	
+											<tr>
+												<td>&nbsp;</td>
+											</tr>	
+											<tr>
+												<td class="sectionLabel"><label>&nbsp;</label></td>
+												<td>&nbsp;</td>
+												<td>&nbsp;</td>							
+												<td class="spacerLabel">&nbsp;</td>													
+												<td>&nbsp;</td>			
+												<td class="defaultLabel"><label for='Main_DebtorsOffer'>Debtor's Offer</label></td>
+												<td><input type="text" id="Main_DebtorsOfferCurrency" size="1"/>&nbsp;<input id="Main_DebtorsOffer" type="text" size=15></td>		
+											</tr>	
+											<tr>
+												<td>&nbsp;</td>
+											</tr>	
+											<tr>
+												<td class="sectionLabel"><label>Part C</label></td>
+												<td class="label"><label for='Main_TotalDisposableIncome'>Total Disposable Income</label></td>
+												<td><input type="text" id="Main_TotalDisposableIncomeCurrency" size="1"/>&nbsp;<input id="Main_TotalDisposableIncome" type="text" size=15></td>							
+												<td class="spacerLabel">&nbsp;</td>														
+												<td class="sectionLabel"><label>Part D</label></td>			
+												<td class="defaultLabel"><label for='Main_TotalDebts'>Total Debts</label></td>
+												<td><input type="text" id="Main_TotalDebtsCurrency" size="1"/>&nbsp;<input id="Main_TotalDebts" type="text" size=15></td>
+											</tr>							
+											<tr>
+												<td>&nbsp;</td>
+											</tr>	
+											<tr>
+												<td class="sectionLabel"><label>Part E</label></td>
+												<td class="label"><label for='Main_NumberOfInstalments'>Number of Instalments</label></td>
+												<td><input id="Main_NumberOfInstallments" type="text" size=15></td>							
+												<td class="spacerLabel">&nbsp;</td>														
+												<td>&nbsp;</td>			
+												<td class="defaultLabel"><label for='Main_CourtOrder'>Court Order</label></td>
+												<td><input type="text" id="Main_CourtOrderCurrency" size="1"/>&nbsp;<input id="Main_CourtOrder" type="text" size=15></td>
+											</tr>
+											<tr>
+												<td colspan="7">																																																
+												<table>
+													<tr>
+														<td>&nbsp;</td>
+													</tr>							
+													<tr>
+														<td class="reasonLabel"><label for='Main_ReasonForDisallowedExpenses'>Reason for Disallowed Expenses</label></td>
+														<td>
+															<script type="text/javascript">ZoomFieldRenderer.createInline("Main_ReasonForDisallowedExpenses");</script>
+														</td>
+													</tr>							
+												</table>
+												</td>
+											</tr>
+										</table>	
+									</td>
+								</tr>
+							</table>
+						</div>
+					</td>
+				</tr>
+				<!-- End Main Panel -->
+
+			</table>
+	
+			<!-- Status Bar Panel -->
+			<script type="text/javascript">
+				ActionBarRenderer.createInline("status_bar", 
+					[ {id: "Status_SaveBtn", label: "Save"}, 
+					  {id: "Status_CloseBtn", label: "Close"} ]
+				);
+			</script>
+			<!-- End Status Bar Panel -->
+
+			<!-- Progress Indicator Popup -->
+			<div class="popup" id="ProgressIndicator_Popup">
+				<div class="panel" id="ProgressIndicator_Panel">
+					<table class="content" cellspacing="5">
+						<tr>
+							<td>
+								<label for="Progress_Bar">Generating Report</label>
+							</td>
+						</tr>
+						<tr>
+							<td>
+								  <input id="Progress_Bar" type="text" size="67"/>
+							</td>
+						</tr>
+						<tr>
+							<td id="Progress_Status"></td>
+						</tr>
+					</table>
+				</div>
+				<div id="ProgressIndicator_ActionBarContainer">
+					<script type="text/javascript">
+						ActionBarRenderer.createInlineNoStatusBar(
+							"ProgressIndicator_ActionBar",
+							[
+								{label: "Cancel", id: "Popup_Cancel"}
+							]
+						);	
+					</script>	
+				</div>
+			</div>
+			<!-- End Progress Indicator Popup -->
+									
+		</form>
+	</body>
+</html>

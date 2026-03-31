@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<QueryDef>
+  <DBMapDef location="uk/gov/dca/caseman/case_event_service/map_case_event.xml"/>
+  <Query pivotNode="/CaseEvent" tables="CE">
+	<Join/>
+    <Modify>
+		<Field name="CE.EVENT_SEQ" sequenceTable="EVENT_SEQUENCE"/>
+		<Field name="CE.DELETED_FLAG" value="N"/>
+	</Modify>
+  </Query>
+  <Query pivotNode="/CaseEvent/InstigatorList/Instigator" tables="CEI">
+	<Join/>
+    <Modify>
+		<CheckExists table="CEI" fields="event_seq case_party_no party_role_code" onNotExist="add" onExist="fail"/>
+		<Field name="CEI.EVENT_SEQ" property="CE.EVENT_SEQ"/>
+		<Field name="CEI.CASE_NUMBER" property="CE.CASE_NUMBER"/>
+		<Field name="CEI.DELETE_FLAG" value="N"/>
+	</Modify>
+  </Query>
+</QueryDef>

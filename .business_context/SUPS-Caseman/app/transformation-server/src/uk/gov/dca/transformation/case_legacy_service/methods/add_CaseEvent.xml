@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<service-method>
+	<pipeline>
+		<Add>
+			<QueryDef location="uk/gov/dca/transformation/case_legacy_service/query_def_add_case_event.xml"/>
+			<DataSource xpath="/params/param name='caseEvents'"/>
+			<Param name="param.caseEventSequence" xpath="/params/param[@name = 'caseNumber']/CaseEvents/CaseEvent/CaseEventSequence"/>
+		</Add>
+	</pipeline>
+	<Security roles="user"/>
+</service-method>

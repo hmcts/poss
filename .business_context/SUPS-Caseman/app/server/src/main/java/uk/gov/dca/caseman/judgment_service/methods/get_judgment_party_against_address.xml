@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: Co
+	Method:  getJudgmentPartyAgainstAddress
+	Author:  Chris Hutt (EDS) 
+	Created: 7 april 2006
+	Description: 
+		Use SQLLite to address of party against at the time of judgment
+		
+	Change history
+		Chris Hutt TD ProgTesting 1067:
+		Test on VALID_TO column failing becauase of inappropriate use of TO_DATE function .
+		Tidied up the code by dropping use of TO_DATE function and at the same time
+		putting an NVL on JUDGMENT_DATE (I noticed there were 8 instances in live where null due to a 
+		legacy defect). At  the same time I took out a subselect on the GIVEN_ADDRESES table in interests
+		of performance.
+		04/05/2011, Chris Vincent.  Added third union to cater for Judgments against coded parties.  Trac 2865.
+
+-->
+<service-method>
+	<pipeline>
+		<SQLLite format-output="true"
+				 resultset-element="PartyAgainstAddresses"
+				 row-element="Address"
+				 field-name-as="element" >
+			<DataSource id="java:OracleDS"/>
+			<Param name="param.caseNumber" xpath="/params/param[@name='caseNumber']"/>
+			<SQL>
+				(
+					SELECT J.JUDG_SEQ					AS 	"JudgmentSeqNo"
+					,	   GA.ADDRESS_ID                AS 	"AddressId"
+					,      GA.ADDRESS_LINE1             AS 	"Line1"
+					,      GA.ADDRESS_LINE2             AS 	"Line2"
+					,      GA.ADDRESS_LINE3             AS 	"Line3"
+					,      GA.ADDRESS_LINE4             AS 	"Line4"
+					,      GA.ADDRESS_LINE5             AS 	"Line5"
+					,      GA.POSTCODE                  AS 	"PostCode"
+					FROM   GIVEN_ADDRESSES GA, JUDGMENTS J
+					WHERE  J.CASE_NUMBER 				= 	${param.caseNumber} 
+         			AND    GA.CASE_NUMBER  				= 	J.CASE_NUMBER
+					AND    GA.PARTY_ROLE_CODE 			= 	J.AGAINST_PARTY_ROLE_CODE
+				    AND    GA.CASE_PARTY_NO 			= 	J.AGAINST_CASE_PARTY_NO
+					AND    NVL(GA.VALID_TO, TRUNC(SYSDATE+1))  >= 	NVL(J.JUDGMENT_DATE, TRUNC(SYSDATE))
+				) UNION (
+					SELECT J.JUDG_SEQ					AS 	"JudgmentSeqNo"
+					,	   GA.ADDRESS_ID                AS 	"AddressId"
+					,      GA.ADDRESS_LINE1             AS 	"Line1"
+					,      GA.ADDRESS_LINE2             AS 	"Line2"
+					,      GA.ADDRESS_LINE3             AS 	"Line3"
+					,      GA.ADDRESS_LINE4             AS 	"Line4"
+					,      GA.ADDRESS_LINE5             AS 	"Line5"
+					,      GA.POSTCODE                  AS 	"PostCode"
+					FROM 	GIVEN_ADDRESSES GA, JUDGMENTS J, CASE_PARTY_ROLES CPR2
+					WHERE 	J.CASE_NUMBER 				= 	${param.caseNumber} 
+					AND 	CPR2.CASE_NUMBER 			= 	J.CASE_NUMBER 
+					AND		CPR2.CASE_PARTY_NO 			= 	J.AGAINST_CASE_PARTY_NO 
+					AND 	CPR2.PARTY_ROLE_CODE 		= 	J.AGAINST_PARTY_ROLE_CODE
+         			AND    	GA.CASE_NUMBER  			= 	J.CASE_NUMBER
+					AND    	GA.PARTY_ROLE_CODE 			= 	J.AGAINST_PARTY_ROLE_CODE
+				    AND    	GA.CASE_PARTY_NO 			= 	J.AGAINST_CASE_PARTY_NO
+					AND    	NVL(GA.VALID_TO, TRUNC(SYSDATE+1)) >= 	NVL(J.JUDGMENT_DATE, TRUNC(SYSDATE))
+				) UNION (
+					SELECT J.JUDG_SEQ					AS 	"JudgmentSeqNo"
+					,	   GA.ADDRESS_ID                AS 	"AddressId"
+					,      GA.ADDRESS_LINE1             AS 	"Line1"
+					,      GA.ADDRESS_LINE2             AS 	"Line2"
+					,      GA.ADDRESS_LINE3             AS 	"Line3"
+					,      GA.ADDRESS_LINE4             AS 	"Line4"
+					,      GA.ADDRESS_LINE5             AS 	"Line5"
+					,      GA.POSTCODE                  AS 	"PostCode"
+					FROM 	GIVEN_ADDRESSES GA, JUDGMENTS J, CASE_PARTY_ROLES CPR3
+					WHERE 	J.CASE_NUMBER 				= 	${param.caseNumber} 
+					AND 	CPR3.CASE_NUMBER 			= 	J.CASE_NUMBER 
+					AND		CPR3.CASE_PARTY_NO 			= 	J.AGAINST_CASE_PARTY_NO 
+					AND 	CPR3.PARTY_ROLE_CODE 		= 	J.AGAINST_PARTY_ROLE_CODE
+					AND    	GA.PARTY_ID		  			= 	CPR3.PARTY_ID
+					AND    	GA.ADDRESS_TYPE_CODE 		= 	'CODED PARTY'
+					AND    	NVL(GA.VALID_TO, TRUNC(SYSDATE+1)) >= 	NVL(J.JUDGMENT_DATE, TRUNC(SYSDATE))
+				)
+			</SQL>
+		</SQLLite>
+  	</pipeline>
+	<Security roles="viewOnly medium high wcSuper scSuper bmsSuper aeSuper dmSuper cpSuper ccbcMan ccbcUser"/>
+</service-method>

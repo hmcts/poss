@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: EndOfDay
+	Method:  getRunEndOfDayStatus()
+	File:    get_run_end_of_day_status.xml
+	Author:  Mark Hallam (EDS)
+	Created: 16 November 2005
+	Description: 
+		Determine whether the given the end of day report has been run.
+-->
+<service-method>
+	<pipeline>
+		<SQLLite format-output="true"
+				 resultset-element="ds"
+				 row-element="EndOfDay"
+				 field-name-as="element" >
+			<DataSource id="java:OracleDS"/>
+				<Param name="param.aeRunDate" xpath="/params/param[@name='aeRunDate']"/>
+				<Param name="param.systemDate" xpath="/params/param[@name='systemDate']"/>
+				<Param name="param.adminCourtCode" xpath="/params/param[@name='adminCourtCode']"/>
+			
+			<SQL>
+				
+			   	SELECT SD.ITEM                AS "item"
+        	   	,      TRUNC(SD.ITEM_VALUE,0) AS "itemValue"
+        		,      SD.ADMIN_COURT_CODE    AS "adminCourtCode"   
+  				FROM SYSTEM_DATA SD
+  				WHERE SD.ITEM 			= ${param.aeRunDate}
+				AND SD.ITEM_VALUE 		= ${param.systemDate}
+				AND SD.ADMIN_COURT_CODE = ${param.adminCourtCode}
+  				
+  				
+			</SQL>
+		</SQLLite>
+	</pipeline>
+	<Security roles="user"/>
+</service-method>

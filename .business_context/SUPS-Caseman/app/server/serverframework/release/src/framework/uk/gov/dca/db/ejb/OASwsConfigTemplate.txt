@@ -1,0 +1,25 @@
+<web-service>
+    <display-name>Business Services</display-name>
+    <destination-path>${ear.dir}/${application.name}.ear</destination-path>
+    <temporary-directory>tmp</temporary-directory>
+    <context>/${application.name}_server</context>
+    <option name="source-path">${ear.dir}/${application.name}.ear</option>
+
+    <stateless-session-ejb-service>
+        <uri>/Security</uri>
+        <ejb-name>SecurityService</ejb-name>
+    </stateless-session-ejb-service>
+    
+    <stateless-session-ejb-service>
+        <uri>/Authentication</uri>
+        <ejb-name>AuthenticationService</ejb-name>
+    </stateless-session-ejb-service>
+    
+<gen-beans:repeat>
+    <stateless-session-ejb-service>
+		<uri>/${service.name}</uri>
+		<ejb-name>${service.name}Service</ejb-name>
+    </stateless-session-ejb-service>
+</gen-beans:repeat>
+	
+</web-service>

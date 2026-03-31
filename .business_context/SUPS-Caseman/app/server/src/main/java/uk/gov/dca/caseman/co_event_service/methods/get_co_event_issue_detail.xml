@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: Co
+	Method:  getCoEventIssueDetail()
+	File: 	 get_co_event_issue_detail.xml
+	Author:  Chris Hutt (EDS) 
+	Created: 02 Aug 2006
+	Description: 
+		 Retrieve issue details associated with specific standard event
+	         for a specific CO. Introduced following the introduction of paginatioon - which means
+		 that not all events will be available to the client fo the purposes of this kind of validation.
+
+-->
+<service-method>
+	<pipeline>
+		<SQLLite format-output="true"
+				 resultset-element="Events"
+				 row-element="Event"
+				 field-name-as="element" >
+			<DataSource id="java:OracleDS"/>
+			<Param name="param.coNumber" xpath="/params/param[@name='coNumber']"/>
+			<Param name="param.eventId" xpath="/params/param[@name='eventId']"/>
+			<SQL>
+				SELECT  
+					COE.STD_EVENT_ID 	AS "StandardEventId"
+				,	COE.ISSUE_STAGE		AS "Stage"
+				, 	COE.RECEIPT_DATE	AS "ReceiptDate"
+				FROM	CO_EVENTS COE
+				WHERE 	COE.CO_NUMBER = ${param.coNumber}
+				AND 	COE.STD_EVENT_ID = ${param.eventId}
+				AND    (COE.ERROR_INDICATOR IS NULL OR COE.ERROR_INDICATOR = 'N')
+			</SQL>
+		</SQLLite>
+  	</pipeline>
+	<Security roles="user"/>
+</service-method>

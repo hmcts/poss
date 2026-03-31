@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>169</Id>
+	<Label>Are further directions given?</Label>
+	<ObjectName>FurtherDirections</ObjectName>
+	<Html>	
+		<input type="checkbox" id="FurtherDirections"></input>
+	</Html>
+	<Javascript>
+		<XPath>/ds/EnterVariableData/FastTrack/furtherDirections</XPath>
+		<HintText>Check box if further directions are given</HintText>		
+		<modelValue>checked: "Y", unchecked: "N"</modelValue>
+		<isEnabled>return true;</isEnabled>
+		<initialise>Services.setValue(FurtherDirections.dataBinding, "N");</initialise>
+	</Javascript>
+</Question>

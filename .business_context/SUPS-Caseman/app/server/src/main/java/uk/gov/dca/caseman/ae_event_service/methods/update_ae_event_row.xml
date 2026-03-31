@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<service-method>
+	<pipeline>
+		<Update>
+			<QueryDef location="uk/gov/dca/caseman/ae_event_service/query_def_update_ae_event_row.xml"/>
+			<DataSource xpath="/params/param"/>
+			<DataSource xpath="/params/param[@name='aeEvent']"/>
+			<QueryExtension pivotNode="/AEEvent">
+				<CheckExists table="AE" fields="ae_event_seq" onNotExist="skip" onExist="update"/>
+			</QueryExtension>
+		</Update>
+	</pipeline>
+	<Security roles="user"/>
+</service-method>

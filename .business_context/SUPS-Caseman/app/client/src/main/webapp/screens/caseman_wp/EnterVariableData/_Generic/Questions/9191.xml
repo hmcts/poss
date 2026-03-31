@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+Change History:
+	30-Jul 2010 Mark Groen TRAC 2233.  Ensure Judgment list is always enabled.
+				Changed isEnabled, isMandatory, added <Context ScreenId="N441A"> and removed
+				<Context ScreenId="L_3_9"> and <Context ScreenId="O_7_12_6">
+-->
+<Question>
+	<Id>9191</Id>
+	<Label>Select the judgment</Label>
+	<ObjectName>JudgmentSelection</ObjectName>
+	<Html>
+		<script type="text/javascript">Grid.createInline("JudgmentSelection", ["Date of Judgment", "Party against"," " , "Amount", "Judgment Type"] , 5, 1);</script>
+	</Html>
+	<Javascript>
+		<XPath>/ds/EnterVariableData/judgmentSelection</XPath>
+		<HintText>Select the judgment</HintText>
+		<isEnabled>return true;</isEnabled>
+		<isMandatory>return true;</isMandatory>
+		<initialise>WPU.createJudgmentList();</initialise>
+		<miscCode>
+			JudgmentSelection.srcData = REF_DATA_XPATH + "/Judgments";
+			JudgmentSelection.rowXPath = "Judgment[Status = 'SATISFIED' or Status = 'CANCELLED']";
+			JudgmentSelection.keyXPath = "JudgmentId";			
+			JudgmentSelection.columns = [
+				{xpath: "Date", transformToDisplay : CaseManUtils.formatGridDate},
+				{xpath: "PartyAgainstName"},
+				{xpath: "AmountCurrency"},
+				{xpath: "Amount", transformToDisplay : WPU.formatToTwoDP},
+				{xpath: "Type"} ];
+			JudgmentSelection.multipleSelection = false;	
+		</miscCode>		
+		<Context ScreenId="N441A">
+			<initialise>
+				WPU.createJudgmentList();
+				var selectedJudgment = Services.getValue("/ds/var/app/WPData/WordProcessing/Judgment/JudgSeq");
+				if ( null != selectedJudgment &amp;&amp; "" != selectedJudgment )
+				{
+					Services.setValue(JudgmentSelection.dataBinding, selectedJudgment);
+				}
+			</initialise>
+		</Context>
+	</Javascript>	
+	
+</Question>

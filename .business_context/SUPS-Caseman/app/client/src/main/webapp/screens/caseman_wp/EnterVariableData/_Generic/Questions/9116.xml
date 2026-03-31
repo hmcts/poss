@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>9116</Id>
+	<Label>Purpose of certificate</Label>
+	<ObjectName>CertificatePurpose</ObjectName>
+	<Html>
+		<select id="CertificatePurpose">
+			<option value=""></option>
+			<option value="EJ">Enforcing judgment by execution against goods</option>
+			<option value="AHC">Application made to High Court under section 42CCA</option>
+			<option value="ES">Enforcing a judgment against a serviceman</option>
+		</select>
+	</Html>			
+	<Javascript>
+        <XPath>/ds/EnterVariableData/CertificatePurpose</XPath>
+		<HintText>Select from the following purpose of the certificate</HintText>
+		<isMandatory>return true;</isMandatory>
+		<mandatoryOn>CertificatePurpose.dataBinding</mandatoryOn> 
+        <isEnabled>return true;</isEnabled> 
+	</Javascript>
+</Question>  

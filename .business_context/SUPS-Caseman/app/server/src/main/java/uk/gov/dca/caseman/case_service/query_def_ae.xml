@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<QueryDef>
+  <DBMapDef location="uk/gov/dca/caseman/case_service/map_ae.xml"/>
+  <Query pivotNode="/Case" tables="C">	    
+  </Query>
+  <Query pivotNode="/Case/Parties/Party" tables="P CPR">
+    <Join>
+    	CPR.CASE_NUMBER = ${C.CASE_NUMBER}
+		AND P.PARTY_ID = CPR.PARTY_ID
+		AND P.PARTY_TYPE_CODE != 'SOLICITOR'
+    </Join>
+  </Query>
+  <Query pivotNode="/Case/Parties/Party/ContactDetails/Addresses/Address" tables="CPR GA">
+	<SQL type="select">
+		SELECT DISTINCT GA.ADDRESS_ID                      AS "GA.ADDRESS_ID"
+		,      GA.ADDRESS_TYPE_CODE               AS "GA.ADDRESS_TYPE_CODE"
+		,      GA.ADDRESS_LINE1                   AS "GA.ADDRESS_LINE1"
+		,      GA.ADDRESS_LINE2                   AS "GA.ADDRESS_LINE2"
+		,      GA.ADDRESS_LINE3                   AS "GA.ADDRESS_LINE3"
+		,      GA.ADDRESS_LINE4                   AS "GA.ADDRESS_LINE4"
+		,      GA.ADDRESS_LINE5                   AS "GA.ADDRESS_LINE5"
+		,      GA.VALID_TO                        AS "GA.VALID_TO"
+		,      GA.VALID_FROM                      AS "GA.VALID_FROM"
+		,      GA.POSTCODE                        AS "GA.POSTCODE"
+		,      GA.PARTY_ID                        AS "GA.PARTY_ID"
+		,	   GA.REFERENCE						  AS "GA.REFERENCE"
+		,	   GA.CASE_NUMBER					  AS "GA.CASE_NUMBER"
+		,	   GA.PARTY_ROLE_CODE				  AS "GA.PARTY_ROLE_CODE"
+		,	   GA.CASE_PARTY_NO					  AS "GA.CASE_PARTY_NO"
+		,      GA.ORA_ROWSCN                      AS "GA_ORA_ROWSCN"
+		,      CPR.ORA_ROWSCN                     AS "CPR_ORA_ROWSCN"
+		FROM   CASE_PARTY_ROLES CPR
+		,      GIVEN_ADDRESSES  GA
+		WHERE  CPR.CASE_NUMBER = ${C.CASE_NUMBER}
+		AND    GA.CASE_NUMBER = ${C.CASE_NUMBER}
+		AND	   GA.CASE_NUMBER = CPR.CASE_NUMBER
+		AND	   GA.CASE_PARTY_NO = ${CPR.CASE_PARTY_NO} 
+		AND    GA.PARTY_ROLE_CODE = ${CPR.PARTY_ROLE_CODE}	
+	</SQL>
+  </Query>
+</QueryDef>

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: FailedTransfers
+	Method:  getFailedTransfers()
+	File:    map_get_failed_transfers.xml
+	Author:  Chris Vincent (EDS)
+	Created: 31 January 2006
+	Description: 
+		Retrieve the failed transfers on the date specified.
+-->
+<DBMapDef>
+	<DataSource id="java:OracleDS"/>
+	<Tables>
+	    <Table alias="C"   name="CASES"/>
+		<Table alias="W"   name="WARRANTS"/>
+		<Table alias="WR"  name="WARRANT_RETURNS"/>
+		<Table alias="CT"  name="COURTS"/>
+		<Table alias="AEA" name="AE_APPLICATIONS"/>
+		<Table alias="AEV" name="AE_EVENTS"/>
+		<Table alias="CCE" name="CO_CASE_EVENTS"/>
+		<Table alias="AD"  name="ALLOWED_DEBTS"/>
+	</Tables>
+	<Mapping>
+		<FailedTransfers>
+			<FailedTransfer>
+				<Type>${TRANSFER_TYPE}</Type>
+				<Number>${TRANSFER_NUMBER}</Number>
+				<SendingCourtCode>${TRANSFER_SENDING_COURT_CODE}</SendingCourtCode>
+				<SendingCourtName>${TRANSFER_SENDING_COURT_NAME}</SendingCourtName>
+				<ReceivingCourtCode>${TRANSFER_RECEIVING_COURT_CODE}</ReceivingCourtCode>
+				<ReceivingCourtName>${TRANSFER_RECEIVING_COURT_NAME}</ReceivingCourtName>
+			</FailedTransfer>
+		</FailedTransfers>
+	</Mapping>
+</DBMapDef>

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: Warrant
+	Method:  getWarrantSummary()
+	File:    get_warrant_summary.xml
+	Author:  Amjad Khan
+	Created: 23 Jun 2005
+	Description:
+		Retrieves Warrant Summary Data
+-->
+<service-method>
+	<pipeline>
+		<Query>
+			<QueryDef location="uk/gov/dca/caseman/warrant_service/query_def_get_warrant_summary.xml"/>
+			<QueryExtension pivotNode="/ds/Warrant">
+				<Param name="param.warrantID" xpath="/params/param[@name = 'warrantID']"/>
+				<Constraint>W.WARRANT_ID = ${param.warrantID}</Constraint>
+			</QueryExtension>
+		</Query>
+	</pipeline>
+	<Security roles="wcSuper"/>
+</service-method>

@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>86</Id>
+	<Label>Date of first instalment</Label>
+	<ObjectName>InstalmentDate2</ObjectName>
+	<Html>	  
+	  <script type="text/javascript">WP_DatePickerRenderer.createInline("InstalmentDate2", false);</script>
+	</Html>
+	<Context screenId="N32_5"><isVisible>false</isVisible></Context>
+	<Javascript>
+		<XPath>/ds/EnterVariableData/Order/instalmentdate</XPath>
+		<isMandatory>return true;</isMandatory>	
+		<mandatoryOn>InstalmentDate2.dataBinding</mandatoryOn>
+		<HintText>Enter the date of the first instalment or date of the payment in full</HintText>
+		<validateOn>InstalmentDate2.dataBinding, OrderDateMade.dataBinding</validateOn>
+		<validate>
+		   	var order = Services.getValue(OrderDateMade.dataBinding);
+		   	var instal = Services.getValue(InstalmentDate2.dataBinding);
+		   	var err = null;		   
+		   	if( -1 == compareDateStrings(order,instal) )
+			{  err = ErrorCode.getErrorCode("CaseMan_instalment_preceeds_order_date");
+		    }
+		    return err;
+		</validate>
+		
+		
+        <Context ScreenId="O_7_8">
+            <mandatoryOn>CostPaid.dataBinding</mandatoryOn>
+            <isMandatory>return ("INST" == Services.getValue(CostPaid.dataBinding));</isMandatory>
+            <enableOn>CostPaid.dataBinding</enableOn>
+            <isEnabled>return ("INST" == Services.getValue(CostPaid.dataBinding));</isEnabled>
+            <logicOn>CostPaid.dataBinding</logicOn>
+            <logic>
+            if("INST" != Services.getValue(CostPaid.dataBinding)){
+                    Services.setValue(InstalmentDate2.dataBinding, "");
+            }
+            </logic>
+       
+        <validateOn>InstalmentDate2.dataBinding</validateOn>
+        <validate>return isInFuture(Services.getValue(InstalmentDate2.dataBinding),"false");</validate>
+       
+       
+         </Context>
+        
+		
+	</Javascript>
+</Question>

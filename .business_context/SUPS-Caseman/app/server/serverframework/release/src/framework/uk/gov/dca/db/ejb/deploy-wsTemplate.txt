@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- Ant script to compile and package web services using deployment time configuration settings -->
+<project name="server_example" default="compile-ws" basedir=".">
+
+	<property name="lib" value="${dist.dir}/lib" />
+
+	<path id="project.path">
+		<pathelement location="${lib}/xmlquery2.jar" />
+		<fileset dir="${lib}/jdom" includes="*.jar" />	
+		<fileset dir="${lib}/jboss" includes="*.jar" />
+		<fileset dir="${lib}/ws" includes="*.jar" />
+		<fileset dir="${lib}" includes="${service.name}.jar" />
+		<fileset dir="${jboss.server.dir}/lib" includes="*.jar" />
+	</path>
+
+	<target name="compile-ws" depends="method_files_Uptodate" unless="method_files_NotUptodate">
+	  <echo>Change in source detected for wsdl, updating ${service.name}.jar</echo>
+	  <property environment="env" />
+	  <java classname="org.apache.tools.ant.Main" fork="true" failonerror="true">
+		  <classpath>
+		    <fileset dir="${ant.home}">
+		      <include name="**/*.jar"/>
+		    </fileset>
+		    <fileset dir="${env.JAVA_HOME}">
+			<include name="lib/tools.jar"/>
+		    </fileset>
+		  </classpath>
+		  <arg value="-buildfile"/>
+		  <arg value="${ant.file}"/>
+		  <arg value="compile-ws-int"/>
+		  <jvmarg value="-Djboss.server.dir=${jboss.server.dir}"/>
+		  <jvmarg value="-Ddist.dir=${dist.dir}"/>
+	  </java>
+	</target>
+	
+	<target name="method_files_Uptodate">
+	  <uptodate property="method_files_NotUptodate" targetfile="${basedir}/build/${service.name}/META-INF/wsdl/${service.name}.wsdl" >
+	    <srcfiles dir="${service.source_root}" includes="**/*.*"  />	
+	    <srcfiles dir="${dist.dir}" includes="${service.name}.jar"  />	
+	  </uptodate> 
+	</target>
+	
+	<target name="compile-ws-int">
+		<mkdir dir="${basedir}/META-INF" />
+		<mkdir dir="${basedir}/META-INF/wsdl" />
+		<!-- compile ws -->
+		<taskdef name="wscompile" classname="com.sun.xml.rpc.tools.ant.Wscompile" classpathref="project.path"/>
+		<wscompile define="true" base="${basedir}/META-INF/wsdl" classpathref="project.path" config="${basedir}/config/config.xml" />
+		
+		<!-- update component jar file with ws files -->
+		<jar destfile="${dist.dir}/${service.name}.jar" update="true">
+			<fileset dir="${basedir}" includes="META-INF/wsdl/**/*" />
+		</jar>
+		
+        <!-- Delete the final deployment descript tag from application.xml if it exists-->
+		<replace file="${dist.dir}/build/META-INF/application.xml" token="&lt;module&gt;&lt;ejb&gt;${service.name}.jar&lt;/ejb&gt;&lt;/module&gt;"
+		 value="" />		
+		
+		<!-- update application.xml deployment descriptor with jar file -->
+		<echo file="${dist.dir}/build/META-INF/application.xml" append="true">&lt;module&gt;&lt;ejb&gt;${service.name}.jar&lt;/ejb&gt;&lt;/module&gt;</echo>
+	</target>
+</project>

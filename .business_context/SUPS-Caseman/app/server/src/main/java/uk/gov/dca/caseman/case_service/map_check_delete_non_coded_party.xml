@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<DBMapDef>
+  <DataSource id="java:OracleDS"/>
+  <Tables>
+    <Table alias="CP" name="CODED_PARTIES"/>
+    <Table alias="CPR" name="CASE_PARTY_ROLES"/>
+  </Tables>  
+  <Mapping>
+	<ds>
+		<isCodedParty>${CP.IS_CODED_PARTY}</isCodedParty>
+		<isCasePartyRoles>${CPR.IS_CASE_PARTY_ROLES}</isCasePartyRoles>
+	</ds>
+  </Mapping>
+</DBMapDef>

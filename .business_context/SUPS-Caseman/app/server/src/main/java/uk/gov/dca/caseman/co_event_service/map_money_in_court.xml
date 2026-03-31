@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<DBMapDef>
+  <DataSource id="java:OracleDS"/>
+  <Tables>
+    <Table alias="PY" name="PAYMENTS"/>
+  </Tables>  
+  <Mapping>
+	<ds>
+		<MoneyInCourt>
+			<ReleaseableMoney>${PY.RELEASEABLE_AMOUNT}</ReleaseableMoney>
+			<NonReleaseableMoney>${PY.NON_RELEASEABLE_AMOUNT}</NonReleaseableMoney>
+    		<Currency>${PY.CURRENCY}</Currency>
+		</MoneyInCourt>
+	</ds>
+  </Mapping>
+</DBMapDef>
+
+

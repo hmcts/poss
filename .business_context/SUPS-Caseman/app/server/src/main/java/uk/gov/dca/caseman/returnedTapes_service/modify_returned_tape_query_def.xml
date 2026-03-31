@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<QueryDef>
+	<DBMapDef location="uk/gov/dca/caseman/returnedTapes_service/modify_returned_tape_map.xml"/>
+	
+	<Query pivotNode="/ReturnedTape" tables="T">
+		<Join/>
+		<Modify>
+		</Modify>
+	</Query>
+	<Query pivotNode="/ReturnedTape/TapeFiles/TapeFile" tables="T TFI ">
+	  
+	    <Join>	    	
+			TFI.SEQNO=${T.SEQNO} AND
+			TFI.SEQNO=T.SEQNO
+		</Join>
+		
+	</Query>
+	
+</QueryDef>

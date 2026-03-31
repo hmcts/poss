@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<QueryDef>
+  <DBMapDef location="uk/gov/dca/caseman/case_event_service/map_get_pre_req_not_case_status_list.xml"/>
+  <Query pivotNode="/PreRequisiteNotCaseStatuses/Status" tables="CCBC">
+	<Join>
+		CCBC.RV_DOMAIN = 'EVT_PRECONDIT_NOT_CASE_STATUS'
+	</Join>
+	<Modify notModifiable="true"/>
+  </Query>
+</QueryDef>

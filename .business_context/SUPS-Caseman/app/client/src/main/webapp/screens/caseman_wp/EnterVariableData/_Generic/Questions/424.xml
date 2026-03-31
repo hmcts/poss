@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>424</Id>
+	<Label>Enter details of 'Unless Order'</Label>
+	<ObjectName>UODetails2</ObjectName>
+	<Html>
+		<input type="text" id="UODetails2"></input>
+	</Html>
+	
+	<Javascript>
+		<XPath>/ds/EnterVariableData/SmallTrack/uODetails2</XPath>
+		<HintText>Enter details in full of 'Unless Order'</HintText>
+		<isMandatory>return true;</isMandatory>
+		<enableOn>UOInspectDirns.dataBinding, IsInspectDirns.dataBinding</enableOn>
+		<isEnabled>
+			var val1 = Services.getValue(UOInspectDirns.dataBinding);
+			var val2 = Services.getValue(IsInspectDirns.dataBinding);
+			return('Y' == val2 &amp;&amp; 'Y' == val1);
+		</isEnabled>
+		<logicOn>UOInspectDirns.dataBinding, IsInspectDirns.dataBinding</logicOn>
+		<logic>
+			var val1 = Services.getValue(UOInspectDirns.dataBinding);
+			var val2 = Services.getValue(IsInspectDirns.dataBinding);
+			if('Y' != val2 || 'Y' != val1)
+
+			{	Services.setValue(UODetails2.dataBinding, "");
+			}
+		</logic>
+	</Javascript>
+</Question>

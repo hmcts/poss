@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<service-config>
+
+	<service name="Ae"/>
+
+	<method name="getAeAppTypes">
+		<get>
+			<HTTPCache expires="endOfDay"/>
+		</get>
+	</method>
+	
+	<method name="getStandardFees">
+		<get>
+			<HTTPCache expires="endOfDay"/>
+		</get>
+	</method>
+
+</service-config>

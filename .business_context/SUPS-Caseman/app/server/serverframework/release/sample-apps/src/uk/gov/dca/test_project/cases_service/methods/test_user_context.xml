@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<service-method>
+	<pipeline>
+		<TestContext/>		<!-- adds a user item -->
+		<TestUserContext/>	<!-- gets the user item -->
+	</pipeline>
+	<Security roles="user"/>
+</service-method>

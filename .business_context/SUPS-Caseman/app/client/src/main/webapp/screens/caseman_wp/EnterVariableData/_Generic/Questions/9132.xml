@@ -1,0 +1,27 @@
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>9132</Id>
+	<Label>Anything further ordered</Label>
+	<ObjectName>AnythingFurther</ObjectName>
+	<Html>	
+		<textarea id="AnythingFurther" rows="5" cols="80"></textarea>
+	</Html>		
+	<Javascript>
+		<XPath>/ds/EnterVariableData/anythingFurther</XPath>
+		<HintText>Enter any further orders</HintText>
+		<isEnabled>return true</isEnabled>
+		<transformToModel>return WPU.encodeLineBreaks( this, value );</transformToModel>
+		<transformToDisplay>return WPU.decodeLineBreaks( this, value );</transformToDisplay>      		
+		<Context ScreenId="O_3_1_2_5_1">
+			<enableOn>ReasonSetAside.dataBinding</enableOn>
+			<isEnabled>return ("J" == Services.getValue(ReasonSetAside.dataBinding))</isEnabled>
+			<logicOn>ReasonSetAside.dataBinding</logicOn>
+			<logic>
+				if("J" != Services.getValue(ReasonSetAside.dataBinding))
+				{	
+					Services.setValue(AnythingFurther.dataBinding, "");
+				}
+			</logic>
+		</Context>		
+					
+	</Javascript>
+</Question>

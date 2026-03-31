@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- edited with XMLSpy v2005 rel. 3 U (http://www.altova.com) by Jarrod Stewart (EDS LTD) -->
+<!-- WP-1.13 made footer and variables optional again, to be able to use the root also for pagecomposition -->
+<!-- edited with XMLSPY v5 rel. 3 U (http://www.xmlspy.com) by Fred (Electronic Data Systems LTD) -->
+<xs:schema xmlns:ns1="http://eds.com/supsfo" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:fo="http://www.w3.org/1999/XSL/Format" targetNamespace="http://eds.com/supsfo" elementFormDefault="qualified" attributeFormDefault="unqualified">
+	<xs:element name="FetchRefText"/>
+	<xs:element name="courtcase">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="court" minOccurs="0"/>
+				<xs:element name="courtinfo" minOccurs="0" maxOccurs="unbounded"/>
+				<xs:element name="caseparameters" minOccurs="0">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="parameter" maxOccurs="unbounded">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element name="name"/>
+										<xs:element name="value"/>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="root">
+		<xs:annotation>
+			<xs:documentation>Comment describing your root element</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="variables" minOccurs="0"/>
+				<xs:element name="layout" minOccurs="0"/>
+				<xs:element name="duplex" minOccurs="0"/>
+				<xs:element name="addressee" minOccurs="0">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="blank" minOccurs="0"/>
+							<xs:element name="claimant" minOccurs="0"/>
+							<xs:element name="claimants" minOccurs="0"/>
+							<xs:element name="defendant" minOccurs="0"/>
+							<xs:element name="defendants" minOccurs="0"/>
+							<xs:element name="subject" minOccurs="0"/>
+							<xs:element name="instigators" minOccurs="0"/>
+							<xs:element name="witness" minOccurs="0"/>
+							<xs:element name="thirdparty" minOccurs="0"/>
+							<xs:element name="thirdpartybank" minOccurs="0"/>
+							<xs:element name="deponent" minOccurs="0"/>
+							<xs:element name="part20claimants" minOccurs="0"/>
+							<xs:element name="part20defendants" minOccurs="0"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="header" minOccurs="0"/>
+				<xs:element name="courtcase" minOccurs="0">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="court"/>
+							<xs:element name="courtinfo" minOccurs="0" maxOccurs="unbounded"/>
+							<xs:element name="caseparameters" minOccurs="0">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element name="parameter" maxOccurs="unbounded">
+											<xs:complexType>
+												<xs:sequence>
+													<xs:element name="name"/>
+													<xs:element name="value"/>
+												</xs:sequence>
+											</xs:complexType>
+										</xs:element>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="bodyintroleft" minOccurs="0"/>
+				<xs:element name="bodyintroright" minOccurs="0"/>
+				<xs:element name="body" minOccurs="0"/>
+				<xs:element name="footnote" minOccurs="0">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:any processContents="lax" maxOccurs="unbounded"/>
+						</xs:sequence>
+						<xs:attribute name="noteextent"/>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="defaultFooter" minOccurs="0">
+					<xs:complexType>
+						<xs:attribute name="id" type="xs:string" use="required"/>
+						<xs:attribute name="suppress" type="xs:boolean" use="optional" default="true"/>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="footer" minOccurs="0">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="docNRef" type="xs:string" minOccurs="0"/>
+							<xs:element name="docCJRRef" type="xs:string" minOccurs="0"/>
+							<xs:element name="address" minOccurs="0">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:any namespace="##local" maxOccurs="unbounded"/>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+						</xs:sequence>
+						<xs:attribute name="suppress" type="xs:boolean" default="false"/>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="letterfooter" minOccurs="0"/>
+				<xs:element name="pagespecification" minOccurs="0">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="height">
+								<xs:complexType/>
+							</xs:element>
+							<xs:element name="width"/>
+							<xs:element name="margin">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element name="top"/>
+										<xs:element name="bottom"/>
+										<xs:element name="left"/>
+										<xs:element name="right"/>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="leader"/>
+	<xs:element name="list">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="list-item" maxOccurs="unbounded"/>
+			</xs:sequence>
+			<xs:attribute name="type"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="getFooter"/>
+	<xs:element name="signature">
+		<xs:complexType>
+			<xs:attribute name="signaturetype"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="signature-small"/>
+	<xs:element name="duplicate"/>
+	<xs:element name="seal"/>
+	<xs:element name="editable">
+		<xs:annotation>
+			<xs:documentation>Wrap text to be editable in this element and you'll get the editor presented</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+</xs:schema>

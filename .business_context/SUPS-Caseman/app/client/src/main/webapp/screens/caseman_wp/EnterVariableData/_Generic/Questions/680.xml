@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>680</Id>
+	<Label>DX Number</Label>
+	<ObjectName>DX</ObjectName>
+	<Html>
+	   <input type="text" id="DX"></input>
+	</Html>
+	<Javascript>
+		<XPath>/ds/EnterVariableData/Solicitor/ContactDetails/dX</XPath>
+		<isMandatory>return false;</isMandatory>
+		<mandatoryOn>DX.dataBinding</mandatoryOn>	
+		<HintText>Enter DX Number</HintText>
+		<enableOn>NewAddressForService.dataBinding</enableOn>
+		<isEnabled>return('ACK' == Services.getValue(NewAddressForService.dataBinding));</isEnabled>
+		<logicOn>NewAddressForService.dataBinding</logicOn>
+		<logic>
+			
+			if('ACK' != Services.getValue(NewAddressForService.dataBinding))
+			{	Services.setValue(DX.dataBinding, "");
+			}
+			else if( null != solNode )
+			{	
+				var dxNode = solNode.selectSingleNode("./ContactDetails/DX");
+				if( null != dxNode)
+				{ Services.setValue(DX.dataBinding, XML.getNodeTextContent( dxNode ));}
+			}			
+		</logic>
+		<readOnlyOn>NewAddressForService.dataBinding</readOnlyOn>
+		<isReadOnly>return areAddressFieldsReadOnly();</isReadOnly>
+	</Javascript>
+</Question>

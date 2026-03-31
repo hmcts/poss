@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>9007</Id>
+	<Label>Period of Extension</Label>
+	<ObjectName>ExtensionPeriod</ObjectName>
+	<Html>
+		<input id="ExtensionPeriod" type="text" size="5" value=""></input>	  
+	
+	</Html>
+	<Javascript>
+        <XPath>/ds/EnterVariableData/ExtensionPeriod</XPath>
+		<HintText>Enter extension period in days</HintText>
+        <isMandatory>return true;</isMandatory>
+        <mandatoryOn>ExtensionPeriod.dataBinding</mandatoryOn>
+        <isEnabled>return true;</isEnabled>
+         
+        <initialise>
+        // Text field for extension period. Default to 14 days
+        Services.setValue(ExtensionPeriod.dataBinding, "14");
+        </initialise>
+	</Javascript>
+</Question>

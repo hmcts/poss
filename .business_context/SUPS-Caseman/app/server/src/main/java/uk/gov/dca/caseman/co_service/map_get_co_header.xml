@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: Co
+	Method:  getCoHeader()
+	File:    map_get_co_header.xml
+	Author:  Phil Haferer (EDS)
+	Created: 08 September 2005
+	Description: 
+		Retrieves summary details for a Consolidated Order, 
+		together with the associated Allowed Debts.
+-->
+<DBMapDef>
+	<DataSource id="java:OracleDS"/>
+	<Tables>
+		<Table alias="CO"      name="CONSOLIDATED_ORDERS"/>
+		<Table alias="CRT"     name="COURTS"/>
+		<Table alias="CRTTRAN" name="COURTS"/>
+	</Tables>
+	<Mapping>
+		<ds>
+			<MaintainCO>
+				<CONumber>${CO.CO_NUMBER}</CONumber>
+				<OldNumber>${CO.OLD_NUMBER}</OldNumber>
+				<OwningCourtCode>${CO.ADMIN_COURT_CODE}</OwningCourtCode>
+				<OwningCourt>${CRT.NAME}</OwningCourt>
+				<COType>${CO.CO_TYPE}</COType>
+				<COStatus>${CO.CO_STATUS}</COStatus>
+				<DebtorName>${CO.DEBTOR_NAME}</DebtorName>
+			</MaintainCO>
+		</ds>
+	</Mapping>
+</DBMapDef>

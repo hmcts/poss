@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>249</Id>
+	<Label>Evidence subject matter</Label>
+	<ObjectName>SubjectMatter</ObjectName>
+	<Html>	
+		<input type="text" id="SubjectMatter"></input>
+	</Html>
+	<Javascript>
+		<XPath>/ds/EnterVariableData/FastTrack/subjectMatter</XPath>
+		<HintText>Enter evidence subject matter</HintText>
+		<isMandatory>return true;</isMandatory>	
+		<enableOn>PermitExpertWitnesses.dataBinding</enableOn>
+		<isEnabled>return('Y' == Services.getValue(PermitExpertWitnesses.dataBinding));</isEnabled>
+		<logicOn>PermitExpertWitnesses.dataBinding</logicOn>
+		<logic>
+			if('Y' != Services.getValue(PermitExpertWitnesses.dataBinding))
+			{	Services.setValue(SubjectMatter.dataBinding, "");
+			}
+		</logic>
+	</Javascript>
+</Question>

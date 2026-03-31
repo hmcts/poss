@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>809</Id>
+	<Label>Date of A/E order</Label>
+	<ObjectName>DateOfAEOrder</ObjectName>
+
+	<Html>
+	    <script type="text/javascript">WP_DatePickerRenderer.createInline("DateOfAEOrder");</script>	                                  
+	</Html>
+	
+	<Javascript>
+		<XPath>/ds/EnterVariableData/DateOfAEOrder</XPath>
+		<componentName>##label##</componentName>
+		<HintText>Enter Date of A/E Order</HintText>
+		<isMandatory>return true;</isMandatory>
+		<mandatoryOn>DateOfAEOrder.dataBinding</mandatoryOn>
+		<validateOn>DateOfAEOrder.dataBinding</validateOn>
+		<validate>
+			//cannot be in future: working days only
+			var orderDate = Services.getValue(DateOfAEOrder.dataBinding);
+			var err = null;
+
+			if( true == isFutureDate(orderDate))
+			{	err = ErrorCode.getErrorCode("CaseMan_dateCannotBeInTheFuture_Msg");
+			}
+			else if( isNonWorkingDate(orderDate))
+		    {   err = ErrorCode.getErrorCode("CaseMan_dateNonWorkingDay_Msg"); 
+		    }
+
+		    return err;
+		</validate>
+		<miscCode>
+			DateOfAEOrder.weekends = false;
+		</miscCode>
+
+	</Javascript>
+</Question>

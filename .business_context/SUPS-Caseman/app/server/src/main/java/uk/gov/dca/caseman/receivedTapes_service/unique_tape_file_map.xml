@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<DBMapDef>
+	<DataSource id="java:OracleDS"/>
+	
+	<Tables>
+		<Table alias="TFI" name="TAPE_FILES" />		
+	</Tables>
+	<Mapping>
+			<TapeFiles>
+					<TapeFile>
+						<FileName>${TFI.FILE_NAME}</FileName>
+					</TapeFile>
+			</TapeFiles>
+	</Mapping>
+</DBMapDef>

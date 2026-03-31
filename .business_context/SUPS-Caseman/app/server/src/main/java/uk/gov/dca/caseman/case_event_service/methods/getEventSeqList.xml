@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: Judgment
+	Method:  getEventseqList
+	Author:  Mark Groen (EDS) 
+	Created: 07 Feb 08
+	Description: 
+		Use SQLLite to retrieve a list of event 140 event seqs
+-->
+<service-method>
+	<pipeline>
+		<SQLLite format-output="true"
+				 resultset-element="Events"
+				 row-element="Event"
+				 field-name-as="element" >
+			<DataSource id="java:OracleDS"/>
+			<Param name="param.stdEventId" xpath="/params/param[@name='stdEventId']"/>
+			<Param name="param.judgSeq" xpath="/params/param[@name='judgSeq']"/>
+			<SQL>
+				SELECT CE.EVENT_SEQ AS "EventSeq"                    
+				FROM   CASE_EVENTS CE
+				WHERE  CE.STD_EVENT_ID = ${param.stdEventId}
+				AND    CE.JUDG_SEQ = ${param.judgSeq}
+				ORDER BY CE.EVENT_SEQ DESC
+			</SQL>
+		</SQLLite>
+  	</pipeline>
+	<Security roles="user"/>
+</service-method>

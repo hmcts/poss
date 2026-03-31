@@ -1,0 +1,57 @@
+<Group id="9017">
+	<ServicesRequired>
+		<mapping name="getCoDebtList" serviceName="getCoDebtList"/>
+		<service name="getCoDebtList" cache="none" url="Co" method="getCoDebtList"/>
+	</ServicesRequired>
+	<Protocols>
+	
+		<OnSave>
+			<function>getCoDebtList</function>
+			<functionCallback>getCoDebtListCallback</functionCallback>
+		</OnSave>
+	</Protocols>
+	
+	<JavaScript>
+	function getCoDebtList()
+	{
+		var coNumber = WPU.getValue( WPU.NODE_XPATHS['CONumber'] );
+		var service = "getCoDebtList";		
+		var params = new ServiceParams();
+		params.addSimpleParameter("coNumber", coNumber);							
+		Services.callService(service, params, getCoDebtListCallback, true);
+	}
+	
+	function getCoDebtListCallback()
+	{
+	}
+	
+	getCoDebtListCallback.onSuccess = function(dom) 
+	{   
+		if(null != dom)
+		{
+			THELOADEDDOM = dom;
+			Save_All(); 
+		}
+		else
+		{
+			alert(Messages.NO_RESULTS_MESSAGE);
+		}
+	}
+	
+	getCoDebtListCallback.onBusinessException = function(exception)  
+	{
+
+		alert(Messages.FAILEDSAVE_MESSAGE); 
+	}
+	
+	getCoDebtListCallback.onSystemException = function(exception) 
+	{
+
+		alert(Messages.FAILEDSAVE_MESSAGE); 
+	}
+
+	
+	</JavaScript>
+
+
+</Group>

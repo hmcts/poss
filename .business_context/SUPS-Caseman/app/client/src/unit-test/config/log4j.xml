@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE log4j:configuration SYSTEM "log4j.dtd">
+
+
+<log4j:configuration xmlns:log4j="http://jakarta.apache.org/log4j/">
+
+  <!-- <renderer renderedClass="com.bt.nhs.nasp.rts.logging.LogEvent"
+    renderingClass="com.bt.nhs.nasp.rts.logging.LogEventRenderer"/> -->
+
+  <!--
+   *
+   * APPENDER DETAILS:
+   * The threshold (if defined) within any appender will override the level defined on the corresponding logger.
+   *
+  -->
+
+  <appender name="ConsoleAppender" class="org.apache.log4j.ConsoleAppender">
+    <!-- Threshold above which this appender will not log for any category -->
+    <param name="Threshold" value="DEBUG"/>
+    <layout class="org.apache.log4j.PatternLayout">
+      <param name="ConversionPattern" value="%d{ISO8601} %p [%t] %c - %m%n"/>
+    </layout>
+  </appender>
+
+  <appender name="SeleniumAppender" class="org.apache.log4j.DailyRollingFileAppender">
+    <param name="DatePattern" value="'.'yyyy-MM-dd"/>
+    <param name="File" value="CaseManClientTestOutput.log"/>
+    <param name="Append" value="true"/>
+    <layout class="org.apache.log4j.PatternLayout">
+      <param name="ConversionPattern" value="%d{ISO8601} %p [%t] %c - %m%n"/>
+    </layout>
+  </appender>
+
+  <!--
+   * LOGGER DETAILS:
+  -->
+
+  <!-- Base logger for SUPS Diagnostic events within SUPS -->
+  <!-- N.B the additivity is set to 'false' to avoid logging on the
+       console too. -->
+  <logger name="uk.gov.dca" additivity="true">
+    <level value="debug"/>
+      <appender-ref ref="SeleniumAppender"/>
+  </logger>
+
+  <root>
+    <!--
+      * Set default to OFF to suppress any logging outside our SUPS packages.
+      * Our SUPS specific packages will enable logging as appropriate.
+    -->
+    <level value="debug"/>
+      <appender-ref ref="ConsoleAppender"/>
+  </root>
+
+</log4j:configuration>

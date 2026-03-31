@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<DBMapDef>
+  <DataSource id="java:OracleDS"/>
+  <Tables>
+    <Table alias="W" name="WARRANTS"/>
+  </Tables>
+  <Mapping>
+    <ds>
+      <WarrantAmounts>
+        <Warrant>
+          <WarrantID>${W.WARRANT_ID}</WarrantID>
+          <WarrantFee>${W.WARRANT_FEE}</WarrantFee>
+        </Warrant>
+      </WarrantAmounts>
+    </ds>
+  </Mapping>
+</DBMapDef>

@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsl:stylesheet xmlns:ora="http://www.oracle.com/XSL/Transform/java" xmlns:supsfo="http://eds.com/supsfo" xmlns:fo="http://www.w3.org/1999/XSL/Format" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="1.0" xmlns:ns0="xmlns" ns0:xsl="http://www.w3.org/1999/XSL/Transform"><xsl:import href="supsfo.xsl"/><xsl:strip-space elements="*"/><xsl:output method="xml"/><xsl:template match="/"><editableSections><div class="EDITME" id="N100AB"><div><font size="2" face="Times New Roman">
+		<div style="margin-bottom: 0.4cm;">
+			Enclosed is a copy of an application made by the debtor for a variation of the order made in this case.
+		</div>		
+		<div><table width="100%"><colgroup><col width="20" align="center" valign="top"/><col/></colgroup><tr><td style="width: 12;">•</td><td><div>The court will make an order in the terms of the debtor's application unless you write to the court with your objections. You have 16 days from the date of the postmark to do this.</div></td></tr><tr><td style="width: 12;">•</td><td><div>Only <span style="font-weight: bold;">one</span> box should be ticked.</div></td></tr><tr><td style="width: 12;">•</td><td><div>Please remember to sign and date the form.</div></td></tr></table></div>
+		<div/>	
+	</font></div></div></editableSections></xsl:template><xsl:template name="pagesequence"><xsl:param name="addressee"/></xsl:template></xsl:stylesheet>

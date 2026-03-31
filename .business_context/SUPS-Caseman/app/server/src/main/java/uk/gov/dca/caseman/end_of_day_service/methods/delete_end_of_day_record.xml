@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: EndOfDay
+	Method:  deleteEndOfDayRecord()
+	File:    delete_end_of_day_record.xml
+	Author:  Chris Vincent
+	Created: 
+	Description: 
+		Updates the current day's end of day record(s) on the court specified so the valid
+		flag reads 'N'.
+-->
+<service-method>
+	<pipeline>
+		<Update>
+			<QueryDef location="uk/gov/dca/caseman/end_of_day_service/query_def_delete_end_of_day_record.xml"/>
+			<DataSource xpath="/params/param[@name='paymentData']"/>
+			<QueryExtension pivotNode="/EndOfDayRecords/PaymentSummaries/PaymentSummary">
+				<CheckExists table="PS" fields="ADMIN_COURT_CODE DCS_DATE VALID INOUT" onNotExist="fail" onExist="update"/>
+				<SQL type="update" tables="PS">
+					UPDATE PAYMENT_SUMMARY PS 
+					SET    PS.VALID = 'N'
+					WHERE  PS.ADMIN_COURT_CODE = ${PS.ADMIN_COURT_CODE}
+					AND    PS.DCS_DATE   = ${PS.DCS_DATE}
+					AND    PS.VALID = 'Y'
+					AND    PS.INOUT = ${PS.INOUT}
+				</SQL>
+			</QueryExtension>
+		</Update>
+	</pipeline>
+	<Security roles="scSuper"/>		
+</service-method>

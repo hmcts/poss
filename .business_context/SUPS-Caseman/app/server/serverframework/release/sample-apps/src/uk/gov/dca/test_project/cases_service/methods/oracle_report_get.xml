@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<service-method>
+	<pipeline>
+		<GetReport xpath="/params/param[@name='ReportReference']">
+			<ReportStore id="java:SupsDS"/>
+		</GetReport>
+	</pipeline>
+	<Security roles="user"/>
+</service-method>

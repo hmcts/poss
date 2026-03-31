@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsl:stylesheet xmlns:ora="http://www.oracle.com/XSL/Transform/java" xmlns:supsfo="http://eds.com/supsfo" xmlns:fo="http://www.w3.org/1999/XSL/Format" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="1.0" xmlns:ns0="xmlns" ns0:xsl="http://www.w3.org/1999/XSL/Transform"><xsl:import href="supsfo.xsl"/><xsl:strip-space elements="*"/><xsl:output method="xml"/><xsl:template match="/"><editableSections><div class="EDITME" id="N100BD"><div><font size="2" face="Times New Roman">
+		<div><span style="font-weight: bold;"><xsl:value-of xmlns="http://eds.com/supsfo" select="$vdJudge"/> ordered</span> that, instead of the conditions mentioned in the judgment of this action dated <xsl:value-of xmlns="http://eds.com/supsfo" select="$vdOriginalOrderDate"/>, the operation of the order shall be suspended on the following conditions, namely:</div>
+		<div style="padding-left: 1cm;"><xsl:value-of xmlns="http://eds.com/supsfo" select="$vdChangedCondition"/></div>
+		<div><span style="font-weight: bold;">And</span> that the terms of the regulated agreement referred to in the judgment be further modified in the following respect:</div>
+		<div style="padding-left: 1cm;"><xsl:value-of xmlns="http://eds.com/supsfo" select="$vdFurtherModifications"/></div>
+		<div style="margin-bottom: 0.6cm;"><span style="font-weight: bold;">Or</span> that the suspension of the operation of the order in the judgment in this action dated <xsl:value-of xmlns="http://eds.com/supsfo" select="$vdOriginalOrderDate"/>, be revoked and that the defendant <xsl:value-of xmlns="http://eds.com/supsfo" select="$vdSubjectName"/> do return the goods specified in the judgment to the claimant by <xsl:value-of xmlns="http://eds.com/supsfo" select="$vdGoodsReturnDate"/></div>
+		<div style="margin-bottom: 0.6cm;"><span style="font-weight: bold;">And</span> that the defendant <xsl:value-of xmlns="http://eds.com/supsfo" select="$vdSubjectName"/> do pay <xsl:choose xmlns="http://eds.com/supsfo"><xsl:when test="$vdGoodsCostsAre = 'A'">costs of those proceedings when assessed</xsl:when><xsl:otherwise>the sum of £<xsl:value-of select="$vdGoodsCostAmount"/> for costs</xsl:otherwise></xsl:choose> to the claimant 
+			<xsl:choose xmlns="http://eds.com/supsfo">
+				<xsl:when test="$vdGoodsCostToBePaid = 'FD'">within 14 days of assessment.</xsl:when>
+				<xsl:when test="$vdGoodsCostToBePaid = 'GD'">by <xsl:value-of select="$vdGoodsPaymentDate"/>.</xsl:when>
+				<xsl:when test="$vdGoodsCostToBePaid = 'MTH'">by instalments of £<xsl:value-of select="$vdGoodsMonthlyInstalment"/> for every calendar month, the first instalment to reach the claimant by <xsl:value-of select="$vdGoodsFirstPaymentDate"/>.</xsl:when>
+			</xsl:choose>
+		</div>
+		<div style="text-align: right;">Dated <xsl:value-of xmlns="http://eds.com/supsfo" select="$datetoday"/></div>
+		</font></div></div></editableSections></xsl:template><xsl:template name="pagesequence"><xsl:param name="addressee"/></xsl:template></xsl:stylesheet>

@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- ====================================================================== -->
+<!--  -->
+<!-- FILENAME: $Source: C:/CVSRepository/serveroas/src/uk/gov/dca/caseman/wordprocessing_templates/Notice/O_10_15/O_10_15-FO.xml,v $ -->
+<!--  -->
+<!-- AUTHOR: $Author: jay $-->
+<!--  -->
+<!-- DATE: $Date: 2006/06/26 11:49:36 $ -->
+<!--  -->
+<!-- Version: $Revision: 1.18 $ -->
+<!--  -->
+<!-- DESCRIPTION: This stylesheet is used to create an XSL:FO document that -->
+<!-- can be processed into a PDF version.  Business logic -->
+<!-- is embedded to generate the correct document text for the order -->
+<!-- required. -->
+<!--  -->
+<!-- INPUTS: XML document containing: the answers to questions asked of the -->
+<!-- user; case data retrieved from the database; HTML representing the  -->
+<!-- body of the document content (already edited by the user). -->
+<!--  -->
+<!-- OUTPUTS: XML document with FO tags containing instructions for the -->
+<!-- creation of a PDF document. -->
+<!--  -->
+<!-- 
+@author Sandeep Mullangi
+@version 0.1
+Change Hisstory
+Oct 27, 2008 Sandeep Mullangi - Printing insolvency number if present as part of RFC 486
+-->
+<!-- ====================================================================== -->
+<root xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:fo="http://www.w3.org/1999/XSL/Format" xmlns="http://eds.com/supsfo">
+	<variables>@word.processing.url.xsl@supsfo.xsl</variables>
+	<layout>order</layout>
+	<duplex/>
+	<addressee>
+		<blank/>
+		<debtorparty/>
+		<creditorparty/>
+		<company/>
+		<applicant/>
+		<petitioner/>
+		<trustee/>
+		<insolvencypractitioner/>
+		<officialreceiver/>
+	</addressee>
+	<header>
+		<fo:block font-size="10pt" font-weight="bold">Form 6.71</fo:block>
+		<fo:block font-size="10pt" font-weight="bold">Rule 6.210</fo:block>
+		<fo:block font-size="16pt" font-weight="bold">Order of Annulment Under Section 282 of</fo:block>
+		<fo:block font-size="16pt" font-weight="bold">the Insolvency Act 1986</fo:block>
+	</header>
+	<courtcase>
+		<court>
+			<xsl:copy-of select="$vdCourtHeaderBlock"/>
+		</court>
+		<caseparameters>
+			<!-- adding insolvency number-->
+            <parameter>
+                <name>
+                    <fo:block font-weight="bold">
+                        <xsl:choose>
+                            <xsl:when test="string-length($vdInsolvencyNumber) > 0">Insolvency Number</xsl:when>
+                            <xsl:otherwise>Case Number</xsl:otherwise>
+                        </xsl:choose>
+                    </fo:block>
+                </name>
+                <value>
+                    <fo:block>
+                        <xsl:choose>
+                            <xsl:when test="string-length($vdInsolvencyNumber) > 0">
+                                <xsl:value-of select="substring($vdInsolvencyNumber,1,4)"/> of <xsl:value-of select="substring($vdInsolvencyNumber,5,4)"/>
+                            </xsl:when>
+                            <xsl:otherwise>
+                                <xsl:value-of select="$vdClaimNumber"/>
+                            </xsl:otherwise>
+                        </xsl:choose>
+                    </fo:block>
+                </value>
+			</parameter>
+			<parameter>
+				<name>
+					<fo:block font-weight="bold">Debtor</fo:block>
+				</name>
+				<value>
+					<fo:block hyphenate="true">
+						<xsl:value-of select="$vdSubjectName"/>
+					</fo:block>
+				</value>
+			</parameter>
+		</caseparameters>
+	</courtcase>
+	<body>
+			<editable useid="N1009B">
+			<fo:block space-after="0.8cm"/>
+			<fo:block font-weight="bold" space-after="0.4cm" font-size="12pt">
+				In Bankruptcy
+			</fo:block>
+			<fo:block space-after="0.4cm" font-weight="bold">
+				Before <xsl:value-of select="$vdJudge"/>
+			</fo:block>
+					
+			<fo:block space-after="0.4cm">
+				Upon the application of
+			</fo:block>
+			<fo:block start-indent="1cm" space-after="0.4cm">
+				<xsl:copy-of select="$vdInstigatorAddressMultiLine"/>
+			</fo:block>
+			<fo:block start-indent="1cm" space-after="0.4cm">
+				<xsl:value-of select="$vdDescriptionOfApplicant"/>
+			</fo:block>
+			<xsl:if test="string-length($vdHearingAttendees) > 0">
+				<fo:block space-after="0.4cm">
+					<xsl:copy-of select="$vdHearingAttendees"/>
+				</fo:block>
+			</xsl:if>
+			<fo:block space-after="0.4cm">
+				And upon reading the evidence filed
+			</fo:block>
+			<fo:block space-after="0.4cm">
+				And it appearing that <xsl:value-of select="$vdBankruptcyOrder"/>
+			</fo:block>
+			<fo:block space-after="0.4cm">
+				It is ordered that the bankruptcy order dated <xsl:value-of select="$vdBankruptcyDate"/> against <xsl:value-of select="$vdSubjectName"/> is hereby annulled
+			</fo:block>
+			<fo:block space-after="0.4cm">
+				And it is ordered that the petition filed on <xsl:value-of select="$vdPetitionDate"/> be dismissed
+			</fo:block>
+			<fo:block space-after="0.4cm">
+				And it is ordered that the registration of the petition as a pending action at the Land Charges Department of HM Land Registry on 
+				<xsl:value-of select="$vdRegistrationDate"/> under reference number <xsl:value-of select="$vdLRReference"/>
+				<xsl:if test="($vdWritDate != $emptyDate)"> and of the bankruptcy order on the register of writs and orders affecting land at the department on <xsl:value-of select="$vdWritDate"/> under reference number <xsl:value-of select="$vdWritReference"/>
+				</xsl:if> be vacated upon application made by the bankrupt.
+			</fo:block>
+			<fo:block space-after="0.4cm">
+				Dated  <xsl:value-of select="$vdOrderDate"/>
+			</fo:block>
+		</editable>
+	</body>			
+				
+	<footnote noteextent="3.8"> 
+		<fo:block font-family="Times" font-size="10pt" text-align="justify">		
+			<fo:block space-after="0.4cm" text-decoration="underline">
+				Notice to Bankrupt
+			</fo:block>
+			<fo:block space-after="0.4cm">
+			1. Should you, the bankrupt, require advertisement of this order in a local newspaper and/or the Gazette, you should, within <xsl:value-of select="$vdNotificationInDays"/> days, notify the Secretary of State, enclosing the prescribed fee, details of which can be obtained by contacting the official receiver.
+			</fo:block>
+			<fo:block space-after="0.4cm">
+			2. It is your responsibility and it is in your interest to ensure that the registration of the petition and of the bankruptcy order at HM Land Registry is cancelled.
+			</fo:block>
+		</fo:block>
+	</footnote>
+	<defaultFooter id="O_10_15"/>
+</root>

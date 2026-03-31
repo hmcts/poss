@@ -1,0 +1,9 @@
+	
+	<ejb-ref>
+		<ejb-ref-name>${service.name}Service</ejb-ref-name>
+		<ejb-ref-type>Session</ejb-ref-type>
+		<home>${service.package}.${service.name}ServiceHome</home>
+		<remote>${service.package}.${service.name}ServiceRemote</remote>
+		<ejb-link>${service.name}Service</ejb-link>
+	</ejb-ref>
+	

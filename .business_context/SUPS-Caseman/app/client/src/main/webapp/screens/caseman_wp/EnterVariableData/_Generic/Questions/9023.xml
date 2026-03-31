@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>9023</Id>
+	<Label>Affidavit of</Label>
+	<ObjectName>Affidavit</ObjectName>
+	<Html>
+		<input id="Affidavit" type="text" size="35"></input>
+	</Html>	
+	
+	<Javascript>
+        <XPath>/ds/EnterVariableData/Affidavit/name</XPath>
+		<HintText>Enter the name of deponent</HintText>	
+        <mandatoryOn>Affidavit.dataBinding</mandatoryOn> 
+		<isMandatory>return true;</isMandatory>	
+        <isEnabled>return true;</isEnabled>
+	</Javascript>
+</Question>

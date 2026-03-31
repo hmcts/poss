@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: SystemData
+	Method:  getSystemDataItem()
+	File:    get_system_data_item.xml
+	Author:  Chris Hutt
+	Created: 6 dec 2005
+	Description: 
+		Retrieve details for specified 'item' from system data
+-->
+<service-method>
+	<pipeline>
+		<SQLLite format-output="true"
+				 resultset-element="ds"
+				 row-element="SystemData"
+				 field-name-as="element" >
+			<DataSource id="java:OracleDS"/>
+				<Param name="param.courtCode" xpath="/params/param[@name='courtCode']"/>
+				<Param name="param.item" xpath="/params/param[@name='item']"/>			
+			<SQL>
+				SELECT  
+ 						ITEM      				As "Item"                             
+ 					,	ITEM_VALUE      		As "ItemValue"                       
+ 					,	ITEM_VALUE_CURRENCY     As "Currency"                 
+ 					,	ADMIN_COURT_CODE      	As "AdminCourtCode"                 
+				FROM 	SYSTEM_DATA SD
+				WHERE	SD.ADMIN_COURT_CODE =  ${param.courtCode}
+				AND 	SD.ITEM 			=  ${param.item}
+			</SQL>
+		</SQLLite>
+	</pipeline>
+	<Security roles="viewOnly medium high wcSuper scSuper bmsSuper aeSuper dmSuper edsAdmin"/>
+</service-method>

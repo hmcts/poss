@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<pmc:server xmlns:pmc="http://www.polarlake.com/pmc/1.0" name="ccbc_mcol_load_warrants" classname="com.polarlake.platform.Platform" description="PolarLake Server to invoke ccbc_mcol_load_warrants circuit" circuit="file:///C:/SUPS/PL-CCBC/app/cccis/ccbc/cc-polarlake/circuits/ccbc_mcol_load_warrants_bootcircuit.cir" encoding="">
+    <pmc:classpath>
+        <pmc:pathelement location="{pl$commonclasspath}"/>
+        <pmc:pathelement location="{pl$polarlake_lib}/design.jar"/>
+        <pmc:pathelement location="{pl$polarlake_home}/openjms/lib/openjms-client-0.7.5-rc1.jar"/>
+        <pmc:pathelement location="{pl$polarlake_home}/openjms/lib/openjms-rmi-0.7.5-rc1.jar"/>
+        <pmc:pathelement location="{pl$polarlake_home}/openjms/lib/jta_1.0.1.jar"/>
+        <pmc:pathelement location="{pl$tomcatclasspath}"/>
+    </pmc:classpath>
+    <pmc:argument value="-b"/>
+    <pmc:argument value="circuit"/>
+    <pmc:argument value="-j"/>
+    <pmc:argument value="file:///{pl$polarlake_home}/polarlake/lib/plsystem.jar"/>
+    <pmc:sysproperty name="-Dmedia_center_db_connect_string" value="jdbc:oracle:thin:@Linux01:1521:SUPSDB01"/>
+    <pmc:sysproperty name="-Dccbc_load_warrants_xmlt_boot_port" value="10004"/>
+    <pmc:sysproperty name="-Dmedia_center_db_user_name" value="erswellg_mcol"/>
+    <pmc:sysproperty name="-Ddb_connect_string" value="jdbc:oracle:thin:@Linux01:1521:SUPSDB01"/>
+    <pmc:sysproperty name="-Ddb_user_name" value="erswellg_cm"/>
+    <pmc:sysproperty name="-Dmedia_center_db_password" value="erswellg_mcol"/>
+    <pmc:sysproperty name="-Dapp_pl_dir" value="C:/SUPS/PL-CCBC/app/cccis/ccbc/cc-polarlake"/>
+    <pmc:sysproperty name="-Ddb_password" value="erswellg_cm"/>
+    <pmc:sysproperty name="-Dshell_circuit_id" value="ccbc_mcol_load_warrants-Run1"/>
+    <pmc:sysproperty name="-Dpl_properties_url" value="C:\SUPS\PL-CCBC\app\cccis\ccbc\cc-polarlake\properties\ccbc.props"/>
+    <pmc:sysproperty name="-Dccbc_load_warrants_xmlt_port" value="11004"/>
+    <pmc:sysproperty name="-Dapp_pl_log_dir" value="C:/SUPS/pl-logs"/>
+    <pmc:sysproperty name="-Dlog4j_file_name" value="ccbc_mcol_load_warrants_bootcircuit.log4j.props"/>
+    <pmc:documenttracking>
+        <pmc:trackingsetting name="enabled" value="false"/>
+        <pmc:trackingsetting name="errors_critical" value="false"/>
+        <pmc:trackingsetting name="track_empties" value="false"/>
+        <pmc:trackingsetting name="base64_encoding" value=" false"/>
+        <pmc:trackingsetting name="template" value=""/>
+        <pmc:trackingsetting name="mode" value="synchronous"/>
+    </pmc:documenttracking>
+</pmc:server>

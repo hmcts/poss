@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>684</Id>
+	<Label>Preferred Communication Method</Label>
+	<ObjectName>PCM</ObjectName>
+	<Html>
+	   <select id="PCM">
+	   	  <option value=""></option>	   	  
+	   	  <option value="LE">Letter</option>
+	   	  <option value="EM">Email</option>
+	   </select>
+	</Html>
+	<Javascript>
+		<XPath>/ds/EnterVariableData/Solicitor/ContactDetails/pCM</XPath>
+		<isMandatory>return false;</isMandatory>
+		<mandatoryOn>PCM.dataBinding</mandatoryOn>	
+		<HintText>Enter Preferred Communication Method</HintText>
+		<enableOn>NewAddressForService.dataBinding</enableOn>
+		<isEnabled>return('ACK' == Services.getValue(NewAddressForService.dataBinding));</isEnabled>
+		<logicOn>NewAddressForService.dataBinding</logicOn>
+		<logic>
+			if('ACK' != Services.getValue(NewAddressForService.dataBinding))
+			{	Services.setValue(PCM.dataBinding, "");
+			}
+			else if( null != solNode )
+			{	var pcmNode = solNode.selectSingleNode("./ContactDetails/PreferredCommunicationMethod");
+				if( null != pcmNode)
+				{  Services.setValue(PCM.dataBinding, XML.getNodeTextContent( pcmNode));}		 			
+			}
+		</logic>
+		<readOnlyOn>NewAddressForService.dataBinding</readOnlyOn>
+		<isReadOnly>return areAddressFieldsReadOnly();</isReadOnly>
+	</Javascript>
+</Question>
