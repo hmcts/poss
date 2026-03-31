@@ -36,13 +36,13 @@ export default function EventMatrixPage() {
       ...(roleFilter ? { role: roleFilter } : {}),
       ...(systemOnly ? { systemOnly: true } : {}),
     }, searchQuery);
-    return waTaskFilter ? filterEventsByWaTask(baseFiltered, waTaskFilter, waTasks, waMappings) : baseFiltered;
+    return waTaskFilter ? filterEventsByWaTask(baseFiltered as any, waTaskFilter, waTasks as any, waMappings) : baseFiltered;
   }, [events, stateFilter, roleFilter, systemOnly, searchQuery, waTaskFilter]);
-  const tableData = useMemo(() => prepareTableData(filteredEvents, filterOptions.roles), [filteredEvents, filterOptions.roles]);
-  const summary = useMemo(() => getEventMatrixSummary(events, filteredEvents), [events, filteredEvents]);
+  const tableData = useMemo(() => prepareTableData(filteredEvents as any, filterOptions.roles), [filteredEvents, filterOptions.roles]);
+  const summary = useMemo(() => getEventMatrixSummary(events, filteredEvents as any), [events, filteredEvents]);
 
   const handleExportCsv = useCallback(() => {
-    const csv = prepareCsvDownload(filteredEvents);
+    const csv = prepareCsvDownload(filteredEvents as any);
     const blob = new Blob([csv.content], { type: csv.mimeType });
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');

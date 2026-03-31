@@ -21,11 +21,11 @@ export default function WorkAllocationPage() {
   const [viewMode, setViewMode] = useState<ViewMode>('tables');
   const [expandedRows, setExpandedRows] = useState<Set<string>>(new Set());
 
-  const summary = getDashboardSummary(waTasks, waMappings);
-  const alignedRows = getAlignedTaskRows(waTasks, waMappings);
-  const partialRows = getPartialTaskRows(waTasks, waMappings);
-  const gapRows = getGapTaskRows(waTasks, waMappings);
-  const contextGroups = groupTasksByContext(waTasks);
+  const summary = getDashboardSummary(waTasks as any, waMappings);
+  const alignedRows = getAlignedTaskRows(waTasks as any, waMappings);
+  const partialRows = getPartialTaskRows(waTasks as any, waMappings);
+  const gapRows = getGapTaskRows(waTasks as any, waMappings);
+  const contextGroups = groupTasksByContext(waTasks as any);
 
   const toggleExpand = (taskName: string) => {
     setExpandedRows((prev) => {
@@ -37,7 +37,7 @@ export default function WorkAllocationPage() {
   };
 
   const handleExportCsv = () => {
-    const csv = exportAlignmentCsv(waTasks, waMappings);
+    const csv = exportAlignmentCsv(waTasks as any, waMappings);
     const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
     const url = URL.createObjectURL(blob);
     const link = document.createElement('a');
