@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: WpOutput
+	Method:  setXhtml()
+	File:    set_xhtml.xml
+	Author:  Frederik Vandendriessche (EDS)
+	Created: 02 September 2005
+	Description: 
+		Stores CaseMan Word Processing Output XHTML using the SUPS Reporting component.
+-->
+<service-method>
+	<pipeline>
+		<DocumentService save="/params/param[@name='xml-document']" get="/params/param[@name='document-id']"> 
+			<DocumentManager>DocumentManager</DocumentManager>
+			<ContentStore>ContentStore</ContentStore>
+		</DocumentService>
+	</pipeline>
+	<Security roles="viewOnly medium high wcSuper scSuper bmsSuper aeSuper dmSuper cpSuper ccbcMan ccbcUser ccbcSGB2"/>
+</service-method>

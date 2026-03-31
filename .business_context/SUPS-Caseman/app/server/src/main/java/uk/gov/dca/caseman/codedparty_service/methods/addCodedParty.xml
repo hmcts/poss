@@ -1,0 +1,24 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: Codedparty
+	Method:  addCodedParty()
+	File:    getCodedParty.xml
+	Description: 
+        Inserts a new Local Coded Party.
+
+    Change History:
+	v1.0: Chris Hutt       20/12/04
+	V1.1: Chris Hutt       11/01/05 - checkexists promoted to the calling methods
+-->
+<service-method>
+	<pipeline>
+		<Update>
+  			<QueryDef location="uk/gov/dca/caseman/codedparty_service/query_def.xml"/>
+			<DataSource xpath="/params/param[@name='codedPartyCode']"/>
+  				<QueryExtension pivotNode="/CodedParties/CodedParty">
+  					<CheckExists table="P" fields="party_id" onNotExist="add" onExist="fail"/>
+  				</QueryExtension>
+		</Update>
+  	</pipeline>
+	<Security roles="cpSuper ccbcMan"/>			
+</service-method>

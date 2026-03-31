@@ -1,0 +1,37 @@
+/*
+ * Created on 22-Mar-2005
+ *
+ */
+package uk.gov.dca.db.check.web;
+
+import uk.gov.dca.db.exception.SystemException;
+
+/**
+ * @author Michael Barker
+ * imported by Peter Neil from Ediary
+ *
+ */
+public class ViewCheck extends AbstractCheck {
+
+    /* (non-Javadoc)
+     * @see uk.gov.dca.ediary.reports.web.Check#execute()
+     */
+    public String execute() {
+        String result;
+        try {
+            result = Stream.getStreamAndView();
+        } catch (SystemException e) {
+            result = "Failed, " + e.getMessage();
+        }
+
+        return result;
+    }
+
+    /* (non-Javadoc)
+     * @see uk.gov.dca.ediary.reports.web.Check#getName()
+     */
+    public String getName() {
+        return "View";
+    }
+
+}

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- 
+	Service: Hearingtype
+	Method:  getHearingTypes()
+	File:    get_hearing_types.xml
+	Author:  Chris Hutt
+	Created: 5 Nov 2004
+	Description: 
+		Retrive list of current hearing types associated with cases
+--> 
+<service-method>
+	<pipeline>
+		<Query>
+  			<QueryDef location="uk/gov/dca/caseman/hearingtype_service/query_def.xml"/>
+  				<QueryExtension pivotNode="/HearingTypes/HearingType">
+   					<Constraint>CRC.RV_DOMAIN = 'CURRENT_HRG_TYPE'</Constraint>
+  				</QueryExtension>
+  		</Query>
+  	</pipeline>
+	<Security roles="viewOnly medium high wcSuper scSuper bmsSuper aeSuper dmSuper"/>	
+</service-method>
+

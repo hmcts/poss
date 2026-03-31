@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<QueryDef>
+  <DBMapDef location="uk/gov/dca/caseman/court_service/map_long.xml"/>
+  <Query pivotNode="/Courts/Court" tables="CT">
+  	<LinkedJoin type="root" key="CT.CODE">
+	<Join>
+        CT.CASEMAN_INSERVICE = 'Y'
+	</Join>
+	</LinkedJoin>
+  </Query>
+  <Query pivotNode="/Courts/Court/ContactDetails/Addresses/Address" tables="GA">
+  	<LinkedJoin type="query" key="GA.ADDRESS_ID">
+  		<Parent key="CT.CODE" tables="CT"/>
+		<Join>
+			GA.COURT_CODE = CT.CODE
+        	AND GA.VALID_TO IS NULL
+        	AND (GA.ADDRESS_TYPE_CODE = 'COURTHOUSE'
+        	OR   GA.ADDRESS_TYPE_CODE = 'OFFICE'
+			OR   GA.ADDRESS_TYPE_CODE = 'WELSH_OFFICE')
+    	</Join>		
+    </LinkedJoin>
+    <Modify notModifiable="true"/>	
+  </Query>
+</QueryDef>

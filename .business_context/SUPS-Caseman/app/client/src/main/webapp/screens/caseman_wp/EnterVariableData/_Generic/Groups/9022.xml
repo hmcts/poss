@@ -1,0 +1,87 @@
+<Group id="9022">
+	<ServicesRequired />		
+	<Protocols>
+		<OnSave>
+			<function>setLetterSubject</function>
+		</OnSave>
+	</Protocols>
+	<JavaScript>	
+		
+function setLetterSubject() 
+{  	
+	var aeSubj = WPU.getValue(WPU.NODE_XPATHS['AESubject']);
+	var partyRole = "PartyAgainst";
+	var roleCode = "PartyRoleCode";
+	var roleNumber = "CasePartyNumber";	
+	
+	if( null != aeSubj &amp;&amp; aeSubj.length > 0)
+	{	
+		if( aeSubj == "JUDGMENT CREDITOR")
+		{ 	partyRole = "PartyFor";
+		}
+		
+		roleCode = partyRole + roleCode;
+		roleNumber = partyRole + roleNumber;
+		
+		//get aeSubject info
+		var aeSubjRoleCode = WPU.getValue("//AE/AEApplication/"+roleCode);	
+		var aeSubjCasePartyNo = WPU.getValue("//AE/AEApplication/"+roleNumber);	
+		
+		//amend subject information
+		var subjNoNode = WPU.getNode(WPU.NODE_XPATHS['SubjectCasePartyNumber']);
+		var subjRoleNode = WPU.getNode(WPU.NODE_XPATHS['SubjectPartyRoleCode']);
+		
+		XML.replaceNodeTextContent(subjNoNode, aeSubjCasePartyNo);
+		XML.replaceNodeTextContent(subjRoleNode, aeSubjRoleCode);
+		
+		if( 100 == WPU.getValue(WPU.NODE_XPATHS['AEStandardEventId']))
+		{
+			// Just populate the AE Event ID, PArty Against and PartyFor and not AE Employer details 
+			// as for Event 100 the selected gets the letter.
+			Services.addNode(WPU.getNode("/params/param/AE/AEEvent/StandardEventId"), "/ds/EnterVariableData/AEEvent");
+			Services.addNode(WPU.getNode("/params/param/AE/AEEvent/EventDetails"), "/ds/EnterVariableData/AEEventDetails");
+			Services.addNode(WPU.getNode("/params/param/AE/AEApplication/PartyAgainstRequestedName"), "/ds/EnterVariableData/AEApplication");
+			Services.addNode(WPU.getNode("/params/param/AE/AEApplication/PartyForRequestedName"), "/ds/EnterVariableData/AEApplication");
+		}
+		else if( 105 == WPU.getValue(WPU.NODE_XPATHS['AEStandardEventId']))
+		{	
+			setAEEmployerDetails();
+		}
+		
+	}
+	else if( 105 == WPU.getValue(WPU.NODE_XPATHS['AEStandardEventId']))
+	{	
+		setAEEmployerDetails();
+	}
+	
+	Save_All();
+
+}	
+
+	function setAEEmployerDetails()
+	{
+		var namedEmpNode = WPU.getNode("//AE/AEApplication/NamedEmployer");
+		var personRequested = WPU.getNode("//AE/AEApplication/Employer/PersonRequestedName");	
+		var partyid = WPU.getValue("//AE/AEApplication/DebtorsEmployersPartyId");
+		var qxpath = "//AEApplication/Employer/ContactDetails/Addresses/Address[position() = last() and ./PartyId="+partyid+"]";
+		var aeEmplAddNode = WPU.getNode(qxpath);
+		
+		Services.addNode(namedEmpNode, "/ds/EnterVariableData/AEEmployer");
+		Services.addNode(personRequested, "/ds/EnterVariableData/AEEmployer");
+		Services.addNode(aeEmplAddNode, "/ds/EnterVariableData/AEEmployer");
+		
+		//remove subject information to supress output addressing
+		var subjNoNode = WPU.getNode(WPU.NODE_XPATHS['SubjectCasePartyNumber']);
+		var subjRoleNode = WPU.getNode(WPU.NODE_XPATHS['SubjectPartyRoleCode']);
+		
+		XML.replaceNodeTextContent(subjNoNode, "");
+		XML.replaceNodeTextContent(subjRoleNode, "");					
+		
+		Services.addNode(WPU.getNode("/params/param/AE/AEEvent/StandardEventId"), "/ds/EnterVariableData/AEEvent");
+		Services.addNode(WPU.getNode("/params/param/AE/AEApplication/PartyAgainstRequestedName"), "/ds/EnterVariableData/AEApplication");
+		Services.addNode(WPU.getNode("/params/param/AE/AEApplication/PartyForRequestedName"), "/ds/EnterVariableData/AEApplication");
+		Services.addNode(WPU.getNode("/params/param/AE/AEApplication/PayrollNo"), "/ds/EnterVariableData/AEApplication");
+	
+	}
+	</JavaScript>
+</Group>

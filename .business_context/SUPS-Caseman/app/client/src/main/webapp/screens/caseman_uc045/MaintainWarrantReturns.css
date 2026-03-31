@@ -1,0 +1,169 @@
+/***********************************************************************************
+                                   COMMON IDS AND CLASSES
+************************************************************************************/
+
+td#right_td
+{
+  text-align: right;
+}
+
+.forty
+{
+  width: 20pc;
+}
+
+.thirty
+{
+  width: 10pc;
+}
+
+.spacer
+{
+  height: 30px;
+}
+
+/***********************************************************************************
+                                   WARRANT DETAILS PANEL
+************************************************************************************/
+
+#Details_Results_Grid
+{
+	width: 467px;
+	margin: 5px;
+}
+
+#Details_Results_Grid .col0 { width: 16px; }
+#Details_Results_Grid .col1 { width: 80px; }
+#Details_Results_Grid .col2 { width: 40px; }
+#Details_Results_Grid .col3 { width: 280px; }
+#Details_Results_Grid .col4 { text-align: center; width: 10px; }
+
+#Details_Results_Grid .errorClass
+{
+    background: #d3e7d3;
+    border-color: #d3e7d3;
+}
+
+#Details_Results_Grid .errorEditOutputClass
+{
+    background: #d3e7d3;
+    border-color: #d3e7d3;
+}
+
+#Details_Results_Grid .errorOpenOutputClass
+{
+    background: #d3e7d3;
+    border-color: #d3e7d3;
+}
+
+#Details_Results_Grid .errorFailOutputClass
+{
+    background: #d3e7d3;
+    border-color: #d3e7d3;
+}
+
+#Details_Results_Grid .errorEditOutputClass .col0
+{
+	background: url('../caseman_wp/WordProcessor/wordprocessing/images/buttons/icon_edt_table.gif') center left no-repeat;
+}
+
+#Details_Results_Grid .editOutputClass .col0
+{
+	background: url('../caseman_wp/WordProcessor/wordprocessing/images/buttons/icon_edt_table.gif') center left no-repeat;
+}
+
+#Details_Results_Grid .errorOpenOutputClass .col0
+{
+	background: url('../caseman_wp/WordProcessor/wordprocessing/images/buttons/acrobat-icon.gif') center left no-repeat;
+}
+
+#Details_Results_Grid .openOutputClass .col0
+{
+	background: url('../caseman_wp/WordProcessor/wordprocessing/images/buttons/acrobat-icon.gif') center left no-repeat;
+}
+
+#Details_Results_Grid .errorFailOutputClass .col0
+{
+	background: url('../caseman_wp/WordProcessor/wordprocessing/images/buttons/docError.gif') center left no-repeat;
+}
+
+#Details_Results_Grid .failOutputClass .col0
+{
+	background: url('../caseman_wp/WordProcessor/wordprocessing/images/buttons/docError.gif') center left no-repeat;
+}
+
+/***********************************************************************************
+                                   LOV AND POPUPS
+************************************************************************************/
+
+select#Add_Defendant_Sel { width: 160px; }
+
+#SearchResultsLOVGrid
+{
+  width: 740px;
+  left: 50%;
+  margin-left: -370px;
+  top: 130px;
+}
+
+#SearchResultsLOVGrid .col0 { width: 150px; }
+#SearchResultsLOVGrid .col1 { width: 100px; }
+#SearchResultsLOVGrid .col2 { width: 100px; }
+#SearchResultsLOVGrid .col3 { width: 100px; }
+#SearchResultsLOVGrid .col4 { width: 100px; }
+#SearchResultsLOVGrid .col5 { width: 100px; }
+
+#CourtsLOVGrid
+{
+	height: 302px;
+	width: 372px;
+	left: 50%;
+	top: 50%;
+	margin-left: -186px;
+	margin-top: -151px;
+}
+
+#Header_ExecutingCourtDescription_Txt { margin-top: 5px; }
+
+#ReturnsLOVGrid
+{
+  width: 422px;
+  left: 300px;
+  top: 205px;
+}
+#ReturnsLOVGrid .col0 { width: 50px; }
+#ReturnsLOVGrid .col1 { width: 300px; }
+#Details_ReturnDescription_Txt { width: 385px; }
+
+div#Warrant_Returns_Popup
+{
+  visibility: hidden;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 350px;
+  height: 260px;
+  margin-left: -175px;
+  margin-top: -141px;
+}
+#Add_Return_Date { margin-top: 5px; }
+
+#ProgressIndicator_Popup
+{
+	visibility: hidden;
+	position: absolute;
+	width: 400px;
+	height: 150px;
+	top: 50%;
+	left: 50%;
+	margin-left: -200px;
+	margin-top: -75px;
+}
+
+#ProgressIndicator_Panel {
+	height: 100px;
+}
+
+#ProgressIndicator_ActionBarContainer {
+	width: 420px;
+}

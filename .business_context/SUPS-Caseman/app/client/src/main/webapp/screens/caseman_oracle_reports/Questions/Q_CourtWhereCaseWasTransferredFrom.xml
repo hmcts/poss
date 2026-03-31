@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--Question xmlns="http://eds.com/questionxhtml" xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd"-->
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>Q_CourtWhereCaseWasTransferredFrom</Id>
+	<Label>Court Where Case Was Transferred From</Label>
+	<ObjectName>CourtWhereCaseWasTransferredFrom</ObjectName>
+	<Html>
+		<input id="CourtWhereCaseWasTransferredFrom" type="text" size="70" ></input>
+	</Html>
+	<Javascript>
+		<XPath>/ds/var/page/OracleReportForm/CourtWhereCaseWasTransferredFrom</XPath>
+		<ReportVariableName>TRF_COURT</ReportVariableName>
+		<ReportVariableValue>Services.getValue(CourtWhereCaseWasTransferredFrom.dataBinding)</ReportVariableValue>
+		<ReportVariableCode>2290</ReportVariableCode>
+		<HintText></HintText>
+		<isMandatory>return true;</isMandatory>
+		<initialise>
+		</initialise>
+		<setDefault>
+		</setDefault>
+		<validateOn>
+		</validateOn>
+		<validate>
+		</validate>
+		<transformToDisplay>
+			 return (null != value) ? value.toUpperCase() : null;
+	    </transformToDisplay>
+        <transformToModel>
+             return (null != value) ? value.toUpperCase() : null;
+        </transformToModel>		
+		<miscCode>
+		</miscCode>
+	</Javascript>
+</Question>

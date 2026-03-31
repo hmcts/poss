@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<QueryDef>
+	<DBMapDef location="uk/gov/dca/caseman/rejectedPaid_service/rejected_paids_map_count.xml"/>
+	<Query pivotNode="/RejectedPaids/RejectedPaid" tables="RP RR">	
+		<Join>
+			RP.REJECT_CODE = RR.REJECT_CODE
+  	    </Join>
+		
+  		<Modify notModifiable="true">
+		</Modify>
+	</Query>
+</QueryDef>
+

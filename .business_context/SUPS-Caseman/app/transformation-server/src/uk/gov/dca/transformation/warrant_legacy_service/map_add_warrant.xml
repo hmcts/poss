@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<DBMapDef>
+	<DataSource id="java:OracleDS"/>
+	<Tables>
+		<Table alias="W" name="WARRANTS"/>
+	</Tables>
+	<Mapping>
+		<ds>
+			<Warrant>
+				<LocalNumber>${W.LOCAL_WARRANT_NUMBER}</LocalNumber>
+				<WarrantNumber>${W.WARRANT_NUMBER}</WarrantNumber>
+				<IssuedBy>${W.ISSUED_BY}</IssuedBy>
+				<CaseNumber>${W.CASE_NUMBER}</CaseNumber>
+				<BalanceAfterPaid>${W.BALANCE_AFTER_PAID}</BalanceAfterPaid>
+				<AmountOfWarrant>${W.WARRANT_AMOUNT}</AmountOfWarrant>
+				<IssueDate>${W.WARRANT_ISSUE_DATE}</IssueDate>
+				<WarrantType>${W.WARRANT_TYPE}</WarrantType>
+				<ExecutingCourtCode>${W.EXECUTED_BY}</ExecutingCourtCode>
+				<PlantiffName>${W.PLAINTIFF_NAME}</PlantiffName>
+				<RepCode>${W.REP_CODE}</RepCode>
+				<RepName>${W.REP_NAME}</RepName>
+				<RepLine1>${W.REP_ADDR_1}</RepLine1>
+				<RepLine2>${W.REP_ADDR_2}</RepLine2>
+				<RepLine3>${W.REP_ADDR_3}</RepLine3>
+				<RepLine4>${W.REP_ADDR_4}</RepLine4>
+				<RepPostCode>${W.REP_POSTCODE}</RepPostCode>
+				<RepTelephoneNumber>${W.REP_TEL}</RepTelephoneNumber>
+				<Reference>${W.REFERENCE}</Reference>
+				<RepDX>${W.REP_DX}</RepDX>
+				<Defendant1ID>${W.DEFENDANT1_ID}</Defendant1ID>
+				<DefendantName1>${W.DEFENDANT1}</DefendantName1>
+				<Def1Line1>${W.DEF1_ADDR_1}</Def1Line1>
+				<Def1Line2>${W.DEF1_ADDR_2}</Def1Line2>
+				<Def1Line3>${W.DEF1_ADDR_3}</Def1Line3>
+				<Def1Line4>${W.DEF1_ADDR_4}</Def1Line4>
+				<Def1Line5>${W.DEF1_ADDR_5}</Def1Line5>
+				<Def1PostCode>${W.DEF1_POSTCODE}</Def1PostCode>
+				<Defendant2ID>${W.DEFENDANT2_ID}</Defendant2ID>
+				<DefendantName2>${W.DEFENDANT2}</DefendantName2>
+				<Def2Line1>${W.DEF2_ADDR_1}</Def2Line1>
+				<Def2Line2>${W.DEF2_ADDR_2}</Def2Line2>
+				<Def2Line3>${W.DEF2_ADDR_3}</Def2Line3>
+				<Def2Line4>${W.DEF2_ADDR_4}</Def2Line4>
+				<Def2Line5>${W.DEF2_ADDR_5}</Def2Line5>
+				<Def2PostCode>${W.DEF2_POSTCODE}</Def2PostCode>
+				<HomeCourtIssueDate>${W.HOME_COURT_ISSUE_DATE}</HomeCourtIssueDate>
+				<BailiffAreaNo>${W.BAILIFF_IDENTIFIER}</BailiffAreaNo>
+				<LandRegistryFee>${W.LAND_REGISTRY_FEE}</LandRegistryFee>
+				<OriginalWarrantNumber>${W.ORIGINAL_WARRANT_NUMBER}</OriginalWarrantNumber>
+				<Fee>${W.WARRANT_FEE}</Fee>
+				<SolicitorsCosts>${W.SOLICITOR_COSTS}</SolicitorsCosts>
+				<BalanceOfDebt>${W.PREISSUE_BALANCE}</BalanceOfDebt>
+				<DatePrinted>${W.DATE_PRINTED}</DatePrinted>
+				<DateReprinted>${W.DATE_REPRINTED}</DateReprinted>
+				<ReprintedBy>${W.REPRINTED_BY}</ReprintedBy>
+				<CCBCWarrant>${W.CCBC_WARRANT}</CCBCWarrant>
+				<AdditionalNotes>${W.NOTES}</AdditionalNotes>
+				<ToTransfer>${W.TO_TRANSFER}</ToTransfer>
+				<TransferDate>${W.TRANSFER_DATE}</TransferDate>
+				<ReceiptDate>${W.RECEIPT_DATE}</ReceiptDate>
+			</Warrant>
+		</ds>
+	</Mapping>
+</DBMapDef>

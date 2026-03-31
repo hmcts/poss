@@ -1,0 +1,22 @@
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>563</Id>
+	<Label>Name of medical practitioner</Label>
+	<ObjectName>MPName</ObjectName>
+	<Html>	
+		<input type="text" id="MPName"></input>
+	</Html>			
+	<Javascript>
+		<XPath>/ds/EnterVariableData/Remand/mPName</XPath>
+		<componentName>##label##</componentName>
+		<isMandatory>return true;</isMandatory>
+		<HintText>Enter the name of the medical practitioner</HintText>	
+		<enableOn>IsMPEvidenceGiven.dataBinding</enableOn>
+		<isEnabled>return('Y' == Services.getValue(IsMPEvidenceGiven.dataBinding));</isEnabled>
+		<logicOn>IsMPEvidenceGiven.dataBinding</logicOn>
+		<logic>
+			if('Y' != Services.getValue(IsMPEvidenceGiven.dataBinding))
+			{	Services.setValue(MPName.dataBinding, "");
+			}
+		</logic>		
+	</Javascript>
+</Question>

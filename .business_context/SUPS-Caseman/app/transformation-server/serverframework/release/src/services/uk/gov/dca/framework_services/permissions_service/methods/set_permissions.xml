@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<service-method>
+	<pipeline>
+		<Update>
+			<QueryDef location="uk/gov/dca/framework_services/permissions_service/query_def.xml"/>
+			<DataSource xpath="/params/param[@name='permissions']"/>
+			<QueryExtension pivotNode="/Permissions/Permission">
+				<CheckExists table="P" fields="USER_ID ROLE_CD COURT_ID" onExist="update" onNotExist="add"/>
+			</QueryExtension>
+		</Update>
+	</pipeline>
+	<Security roles="user"/>
+</service-method>

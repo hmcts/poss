@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: User
+	Method:  getUserAliasCount()
+	File:    get_user_alias_count.xml
+	Author:  Ian Stainer (Valtech)
+	Created: 08 March 2006
+	Description: 
+		Used to determine if the given alias is already used by another user. 
+		The rule is that the alias must be unique across all users across all courts.
+-->
+<service-method>
+	<pipeline>
+		<SQLLite format-output="true"
+				 resultset-element="ResultSet"
+				 row-element="Row"
+				 field-name-as="element" >			
+			<DataSource id="java:OracleDS"/>
+			<Param name="param.userId" xpath="/params/param[@name = 'userBeingEdited']"/>			
+			<Param name="param.alias" xpath="/params/param[@name = 'alias']"/>
+			<SQL>				
+				SELECT user_id
+				,      user_short_name 
+				FROM   dca_user 
+				WHERE  user_short_name = ${param.alias}
+				AND    user_id != ${param.userId}
+			</SQL>
+		</SQLLite>
+		<Java>
+			<Source class="uk.gov.dca.caseman.user_service.java.UserAliasCountCustomProcessor"/>
+		</Java>						
+	</pipeline>
+	<Security roles="viewOnly medium high wcSuper scSuper bmsSuper aeSuper dmSuper cpSuper edsAdmin admin ccbcMan ccbcUser ccbcSGB2 ccbcTape"/>
+</service-method>

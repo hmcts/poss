@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>22</Id>
+	<Label>Reason for judgement</Label>
+	<ObjectName>DefLiability</ObjectName>
+	<Html>
+		<select id="DefLiability">
+		  <option value=""></option>		  
+		  <option value="ACK">No acknowledgement of service filed</option>
+		  <option value="DEF">No defence filed</option>
+		  <option value="LIAB">The defendant having admitted liability</option>
+		  <option value="LNAC">The defendant having admitted liability and offered an amount</option>
+		</select>
+	</Html>
+	<Javascript>
+		<XPath>/ds/EnterVariableData/judgmentreason</XPath>
+		<HintText>Select the reason why interlocutory judgment is applicable</HintText>
+		<isMandatory>return true;</isMandatory>
+		<mandatoryOn>DefLiability.dataBinding</mandatoryOn>
+	</Javascript>				
+</Question>

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: Payments
+	Method: getSchedule2Debts(), updateSchedule2Debts()
+	File: map_schedule2_debts.xml
+	Author: Tony White
+-->
+<DBMapDef>
+	<DataSource id="java:OracleDS" />
+	<Tables>
+		<Table alias="AD" name="ALLOWED_DEBTS" />		
+	</Tables>
+	<Mapping>
+		<Debts>
+			<Debt>
+				<DebtSeq>${AD.DEBT_SEQ}</DebtSeq>
+				<CONumber>${AD.DEBT_CO_NUMBER}</CONumber>
+				<Status>${AD.DEBT_STATUS}</Status>
+				<DebtAmountAllowed>${AD.DEBT_AMOUNT_ALLOWED}</DebtAmountAllowed>				
+			</Debt>				
+		</Debts>
+	</Mapping>
+</DBMapDef>

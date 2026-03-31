@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>183</Id>
+	<Label>By service of copies and statement?</Label>
+	<ObjectName>ByServiceCopies</ObjectName>
+	<Html>	
+		<input type="checkbox" id="ByServiceCopies"></input>
+	</Html>
+	<Javascript>
+		<XPath>/ds/EnterVariableData/FastTrack/byServiceCopies</XPath>
+		<HintText>Check box if disclosure is by services of copies and statement</HintText>
+		<!--isMandatory>return true;</isMandatory-->	
+		<modelValue>checked: "Y", unchecked: "N"</modelValue>
+		<enableOn>IsDisclosureOrdered.dataBinding</enableOn>
+		<isEnabled>return('Y' == Services.getValue(IsDisclosureOrdered.dataBinding));</isEnabled>
+		<logicOn>IsDisclosureOrdered.dataBinding</logicOn>
+		<logic>
+			if('Y' != Services.getValue(IsDisclosureOrdered.dataBinding))
+			{	Services.setValue(ByServiceCopies.dataBinding, "N");
+			}
+		</logic>
+	</Javascript>
+</Question>

@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Question>
+	<Id>867</Id>
+	<Label>Postcode</Label>
+	<ObjectName>PossessPostcode</ObjectName>
+	<Html>
+		<input id="PossessPostcode" type="text" size="8"></input>
+	</Html>
+	<Javascript>
+		<XPath>/ds/EnterVariableData/Possession/Address/PostCode</XPath>
+		<componentName>Possession postcode</componentName>
+		<HintText>Enter the possession postcode</HintText>		
+		<isMandatory>return false;</isMandatory>
+		<isReadOnly>if (null != WP &amp;&amp; null != WP.GetScreenProcess &amp;&amp; null != WP.GetScreenProcess()) { 
+				var localNumber = WPU.getValue("/params/param[@name='xml']/ds/Warrant/LocalNumber");
+				if (localNumber == "" || localNumber == null) return true; }
+		</isReadOnly>		
+		<mandatoryOn>PossessPostcode.dataBinding</mandatoryOn>
+		<initialise>
+			var partyAgainstNumber = WPU.getValue("/params/param[@name='xml']/WarrantReturn/PartyAgainstNumber");
+			var def1AddrPostCode = WPU.getValue("/params/param[@name='xml']/ds/Warrant/Defendant1/Address/PostCode");
+			var def2AddrPostCode = WPU.getValue("/params/param[@name='xml']/ds/Warrant/Defendant2/Address/PostCode");
+			var partyAgainstAddrPostCode = "";
+			if(partyAgainstNumber == 1) {
+				partyAgainstAddrPostCode = def1AddrPostCode;
+			} else {
+				partyAgainstAddrPostCode = def2AddrPostCode; }
+			var otherPossessAddrPostCode = WPU.getValue("/params/param[@name='xml']/ds/ManageCase/OtherPossessionAddress/Address/PostCode");
+			var possessAddrPostCode = "";			
+			if(otherPossessAddrPostCode != "") {
+				possessAddrPostCode = otherPossessAddrPostCode;
+			} else {
+				possessAddrPostCode = partyAgainstAddrPostCode; }
+			Services.setValue(PossessPostcode.dataBinding, possessAddrPostCode);
+		</initialise>		
+	</Javascript>
+</Question>		

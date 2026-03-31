@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: Per
+	Method:  getPerAllowanceCodes()
+	File:    query_def_get_per_allowance_codes.xml
+	Author:  Phil Haferer (EDS), Ian Stainer (Valtech)
+	Created: 01 June 2005
+	Description: 
+		The 'Query Definiton' for retreiving the 'Standard Allowance' reference data for 
+		Calculating the Protected Earnings Rate.
+-->
+<QueryDef>
+  <DBMapDef location="uk/gov/dca/caseman/per_service/map_get_per_allowance_codes.xml"/>
+  <Query pivotNode="/PerDetailList/PerDetail" tables="PER SDW SDM">
+    <Join>
+		    SUBSTR(SDW.ITEM, LENGTH(SDW.ITEM)-1, 2) = '_W' AND SUBSTR(SDW.ITEM, 1, LENGTH(SDW.ITEM)-2) = PER.DETAIL_CODE
+		AND SUBSTR(SDM.ITEM, LENGTH(SDM.ITEM)-1, 2) = '_M' AND SUBSTR(SDM.ITEM, 1, LENGTH(SDM.ITEM)-2) = PER.DETAIL_CODE   
+		AND SDW.ADMIN_COURT_CODE = 0
+		AND SDM.ADMIN_COURT_CODE = 0
+    </Join>
+    <OrderBy>PER.ORDER_NUMBER</OrderBy>
+    <Modify notModifiable="true"/>
+  </Query>
+</QueryDef>

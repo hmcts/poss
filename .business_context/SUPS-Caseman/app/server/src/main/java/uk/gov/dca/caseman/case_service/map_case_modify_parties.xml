@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<DBMapDef>
+  <DataSource id="java:OracleDS"/>
+  <Tables>
+    <Table alias="P" name="PARTIES"/>
+    <Table alias="SOLP" name="PARTIES"/>
+  </Tables>  
+  <Mapping>
+	<Parties>
+		<Solicitor>
+			<PartyId>${SOLP.PARTY_ID}</PartyId>
+			<Code></Code>
+			<ContactDetails>
+				<DX>${SOLP.DX_NUMBER}</DX>
+				<TelephoneNumber>${SOLP.TEL_NO}</TelephoneNumber>
+				<FaxNumber>${SOLP.FAX_NUMBER}</FaxNumber>
+				<EmailAddress>${SOLP.EMAIL_ADDRESS}</EmailAddress>
+			</ContactDetails>
+			<Name>${SOLP.PERSON_REQUESTED_NAME}</Name>
+		</Solicitor>
+		<LitigiousParty>
+			<PartyId>${P.PARTY_ID}</PartyId>
+			<ContactDetails>
+				<DX>${P.DX_NUMBER}</DX>
+				<TelephoneNumber>${P.TEL_NO}</TelephoneNumber>
+				<FaxNumber>${P.FAX_NUMBER}</FaxNumber>
+				<EmailAddress>${P.EMAIL_ADDRESS}</EmailAddress>
+			</ContactDetails>							
+			<TypeCode>${P.PARTY_TYPE_CODE}</TypeCode>
+			<Name>${P.PERSON_REQUESTED_NAME}</Name>
+			<DateOfBirth>${P.PERSON_DOB}</DateOfBirth>
+		</LitigiousParty>
+	</Parties>
+  </Mapping>
+</DBMapDef>

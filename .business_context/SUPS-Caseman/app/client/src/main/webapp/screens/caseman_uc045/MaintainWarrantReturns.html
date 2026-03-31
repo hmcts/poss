@@ -1,0 +1,354 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3c.org/TR/html4/strict.dtd">
+
+<html>
+
+	<head>
+		<title>MaintainWarrantReturns</title>
+		<link href="MaintainWarrantReturns.css" type="text/css" rel="stylesheet" title="Default">
+		<script type="text/javascript" src="../../Framework.js"></script>
+		<script type="text/javascript" src="../../CaseManIncludeFiles.js"></script>
+		<script type="text/javascript" src="../../AuditIncludeFiles.js"></script>
+		<script type="text/javascript" src="../caseman_wp/WordProcessing.js"></script>
+		<script type="text/javascript" src="MaintainWarrantReturns.js"></script>
+		<script type="text/javascript" src="MaintainWarrantReturns_AuditCode.js"></script>
+		<script type="text/javascript" src="MaintainWarrantReturns_MenuBarCode.js"></script>
+	</head>
+	
+	<body>
+	
+		<form name="MaintainWarrantReturns" id="MaintainWarrantReturns">
+	
+			<!-- Framework Navigation Menu -->
+			<script type="text/javascript">MenuBarRenderer.createInline();</script>
+		
+			<table class="layout">
+				<tr>
+					<td>
+						<!-- Warrant Header Panel -->
+						<div class="panel">
+							<table class="content">
+								<tr>
+									<td>
+										<table>
+											<tr>
+												<td class="defaultLabel"><label for="Header_ExecutingCourtId_Txt">Executed By</label></td>
+												<td><input id="Header_ExecutingCourtId_Txt" type="text" size="5" style="margin-top:5px;"/></td>
+												<td>
+													<script type="text/javascript">AutoCompletionRenderer.createInline("Header_ExecutingCourtDescription_Txt");</script>
+												</td>
+												<td><input id="CourtsLOVButton" type="Button" value="LOV" style="margin-top:5px;"/></td>
+												<td style="width:10px;">&nbsp;</td>
+												<td class="defaultLabel"><label for="Header_WarrantNumber_Txt">Warrant Number</label></td>
+												<td><input id="Header_WarrantNumber_Txt" type="text" size="15" style="margin-top:5px;"/></td>
+												<td style="width:10px;">&nbsp;</td>
+												<td class="defaultLabel"><label for="Header_CaseNumber_Txt">Case Number</label></td>
+												<td><input id="Header_CaseNumber_Txt" type="text" size="15" style="margin-top:5px;"/></td>
+											</tr>
+											<tr>
+												<td class="defaultLabel"><label for="Header_LocalNumber_Txt">Local Number</label></td>
+												<td colspan="4"><input id="Header_LocalNumber_Txt" type="text" size="15" style="margin-bottom:5px;"/></td>
+												<td class="defaultLabel"><label for="Header_CO_Txt">CO Number</label></td>
+												<td><input id="Header_CO_Txt" type="text" size="15" style="margin-bottom:5px;"/></td>
+												<td colspan="3" align="right"><input id="Header_Search_Btn" type="button" value="Search" style="margin-bottom:5px;"/></td>
+											</tr>
+										</table>
+									</td>
+								</tr>
+							</table>
+						</div>
+						<!-- End Warrant Header Panel -->
+					</td>
+				</tr>
+				
+				<tr>
+					<td>
+						<!-- Start Defendants Panel -->
+						<div class="panel">
+							<table class="content">
+								<tr>
+									<td>
+										<table>
+											<tr>
+												<td class="defaultLabel"><label for="Def_PartyFor_Txt">Party For</label></td>
+												<td colspan="3"><input id="Def_PartyFor_Txt" type="text" size="25" style="margin-top:5px;"/></td>
+												<td style="width:130px;"><label for="Def_PartyAgainst1_Txt">Party Against 1</label></td>
+												<td><input id="Def_PartyAgainst1_Txt" type="text" size="25" style="margin-top:5px;"/></td>
+												<td style="width:15px;">&nbsp;</td>
+												<td style="width:130px;"><label for="Def_PartyAgainst2_Txt">Party Against 2</label></td>
+												<td><input id="Def_PartyAgainst2_Txt" type="text" size="25" style="margin-top:5px;"/></td>
+											</tr>
+											<tr>
+												<td class="defaultLabel"><label for="Def_IssuingCourtId_Txt">Issuing Court</label></td>
+												<td><input id="Def_IssuingCourtId_Txt" type="text" size="3" style="margin-bottom:5px;"/></td>
+												<td><input id="Def_IssuingCourtDescription_Txt" type="text" size="25" style="margin-bottom:5px;"/></td>
+												<td style="width:15px;">&nbsp;</td>
+												<td style="width:130px;"><label for="Def_WarrantType_Txt">Warrant Type</label></td>
+												<td><input id="Def_WarrantType_Txt" type="text" size="15" style="margin-bottom:5px;"/></td>
+												<td colspan="3">&nbsp;</td>
+											</tr>
+										</table>
+									</td>
+								</tr>	
+							</table>
+						</div>
+						<!-- End Defendants Panel -->
+					</td>
+				</tr>
+
+				<tr>
+					<td>
+						<!-- Start Warrant Details Panel -->
+						<div class="panel">
+							<table class="content" style="height:430px;">
+								<tr>
+									<td style="width:350px;" valign="top">
+										<table>
+											<tr>
+												<td colspan="3" valign="top">
+													<script type="text/javascript">
+														Grid.createInline(
+														"Details_Results_Grid", 
+														[ "", "Date", "Code", "Return Text", "" ], 
+														20, 1 
+														);
+													</script>
+												</td> 
+											</tr>
+											<tr>
+												<td style="margin-left:5px;" colspan="3"><label for='Details_ReturnCode_Txt'>Select a Warrant Code</label></td>
+											</tr>
+											<tr>
+												<td><input id="Details_ReturnCode_Txt" type="text" size="3" style="margin-left:5px;"/></td>
+												<td>
+													<script type="text/javascript">
+														AutoCompletionRenderer.createInline("Details_ReturnDescription_Txt");
+													</script>
+												</td>
+												<td><input id="ReturnsLOVButton" type="button" value="LOV" style="margin-right:5px;"/></td>
+											</tr>
+											<tr>
+												<td colspan="3" align="right"><input id="Details_AddReturn_Btn" type="button" value="Add" style="margin-right:5px;"/></td>
+											</tr>
+										</table>
+									</td>
+						
+									<td class="spacer">&nbsp;</td>
+						
+									<td valign="top">
+										<table style="margin-top:5px;">
+											<tr>
+												<td class="defaultLabel"><label for="Details_Return_Date">Date Entered</label></td>
+												<td>
+													<script type="text/javascript">
+														DatePickerRenderer.createInline("Details_Return_Date", true);
+													</script>
+												</td>
+											</tr>
+											<tr>	
+												<td class="defaultLabel"><label for="Details_Code_Txt">Code</label></td>
+												<td><input id="Details_Code_Txt" type="text" size="3"/></td>
+											</tr>
+											<tr>
+												<td class="defaultLabel"><label for="Details_Return_Txt">Return Text</label></td>
+												<td><script type="text/javascript">ZoomFieldRenderer.createInline("Details_Return_Txt");</script></td>
+											</tr>
+											<tr>
+												<td class="defaultLabel"><label for="Details_AdditionalDetails_Txt">Additional Details</label></td>
+												<td>
+													<script type="text/javascript">
+														ZoomFieldRenderer.createInline("Details_AdditionalDetails_Txt");
+													</script>
+												</td>
+											</tr>
+											<tr>
+												<td class="defaultLabel"><label for="Details_Notice_Check">Notice</label></td>
+												<td><input id="Details_Notice_Check" type="checkbox"/></td>
+											</tr>
+											<tr>
+												<td class="defaultLabel"><label for="Details_Defendant_Sel">Party Against</label></td>
+												<td><input id="Details_Defendant_Sel" type="text" size="30"/></td>
+											</tr>
+											<tr>
+												<td class="defaultLabel"><label for="Details_Verified_Date">Verified</label></td>
+												<td>
+													<script type="text/javascript">
+														DatePickerRenderer.createInline("Details_Verified_Date", true);
+													</script>
+												</td>
+											</tr>
+											<tr>
+												<td class="defaultLabel"><label for="Details_Error_Check">Error</label></td>
+												<td><input id="Details_Error_Check" type="checkbox"/></td>
+											</tr> 
+											<tr>
+												<td class="defaultLabel"><label for="Details_Appointment_Date">Appointment Date</label></td>
+												<td>
+													<script type="text/javascript">
+														DatePickerRenderer.createInline("Details_Appointment_Date", true);
+													</script>
+												</td>
+											</tr>
+											<tr>
+												<td class="defaultLabel"><label for="Details_AppointmentTime_Txt">Appointment Time</label></td>
+												<td><input id="Details_AppointmentTime_Txt" type="text" size="5"/></td>
+											</tr>
+											<tr>
+												<td class="defaultLabel"><label for="Details_CreatedBy_Txt">Created By</label></td>
+												<td><input id="Details_CreatedBy_Txt" type="text" size="30"/></td>
+											</tr>
+											<tr>
+												<td class="defaultLabel"><label for="Details_Receipt_Date">Return Date</label></td>
+												<td>
+													<script type="text/javascript">
+														DatePickerRenderer.createInline("Details_Receipt_Date", true);
+													</script>
+												</td>
+											</tr>
+										</table>
+									</td>			
+								</tr>
+							</table>
+						</div>
+						<!-- End Warrant Details Panel -->
+					</td>
+				</tr>
+			</table>
+		
+			<!-- Status Bar Panel -->
+			<script type="text/javascript">
+				ActionBarRenderer.createInline(
+				"status_bar",
+				[ 
+					{id: "Status_Save_Btn", label: "Save"}, 
+					{id: "Status_Clear_Btn", label: "Clear"}, 
+					{id: "Status_Close_Btn", label: "Close"}
+				]
+				);
+			</script>
+			<!-- End Status Bar Panel -->
+		
+			<!-- Add Warrant Return Popup -->
+			<div class="popup" id="Warrant_Returns_Popup">
+				<table class="content">
+					<tr>
+						<td><label for="Add_Return_Date">Date Entered</label></td>
+						<td>
+							<script type="text/javascript">
+								DatePickerRenderer.createInline("Add_Return_Date", true);
+							</script>
+						</td>
+					</tr>
+					<tr>	
+						<td><label for="Add_Code_Txt">Code</label></td>
+						<td><input id="Add_Code_Txt" type="text" size="3"/></td>
+					</tr>
+					<tr>
+						<td><label for="Add_Return_Txt">Return Text</label></td>
+						<td>
+							<script type="text/javascript">
+								ZoomFieldRenderer.createInline("Add_Return_Txt");
+							</script>
+						</td>
+					</tr>
+					<tr>
+						<td><label for="Add_AdditionalDetails_Txt">Additional Details</label></td>
+						<td>
+							<script type="text/javascript">
+								ZoomFieldRenderer.createInline("Add_AdditionalDetails_Txt");
+							</script>
+						</td>
+					</tr>
+					<tr>
+						<td><label for="Add_Notice_Check">Notice</label></td>
+						<td><input id="Add_Notice_Check" type="checkbox"/></td>
+					</tr>
+					<tr>
+						<td><label for="Add_Defendant_Sel">Party Against</label></td>
+						<td><select id="Add_Defendant_Sel"/></td>
+					</tr>
+					<tr>
+						<td><label for="Add_Appointment_Date">Appointment Date</label></td>
+						<td>
+							<script type="text/javascript">
+								DatePickerRenderer.createInline("Add_Appointment_Date", true);
+							</script>
+						</td>
+					</tr>
+					<tr>
+						<td><label for="Add_AppointmentTime_Txt">Appointment Time</label></td>
+						<td><input id="Add_AppointmentTime_Txt" type="text" size="5"/></td>
+					</tr>
+					<tr>
+						<td><label for="Add_Receipt_Date">Return Date</label></td>
+						<td>
+							<script type="text/javascript">
+								DatePickerRenderer.createInline("Add_Receipt_Date", true);
+							</script>
+						</td>
+					</tr>
+					<tr style="height:2px;">
+						<td colspan="2"/>&nbsp;
+					</tr>
+					<tr align="right">
+						<td colspan="2" align="right">
+							<input type="button" value="Save" id="Add_Save_Btn" style="margin-right:5px; margin-bottom:5px;"/>
+							<input type="button" value="Cancel" id="Add_Cancel_Btn" style="margin-right:5px; margin-bottom:5px;"/>
+						</td>
+					</tr>
+				</table>
+			</div>
+			<!-- End Add Warrant Return Popup -->
+		
+			<!-- Progress Indicator Popup -->
+			<div class="popup" id="ProgressIndicator_Popup">
+				<div class="panel" id="ProgressIndicator_Panel">
+					<table class="content" cellspacing="5">
+						<tr>
+							<td><label for="Progress_Bar">Generating Report</label></td>
+						</tr>
+						<tr>
+							<td><input id="Progress_Bar" type="text" size="67"/></td>
+						</tr>
+						<tr>
+							<td id="Progress_Status"></td>
+						</tr>
+					</table>
+				</div>
+				<div id="ProgressIndicator_ActionBarContainer">
+					<script type="text/javascript">
+						ActionBarRenderer.createInlineNoStatusBar(
+							"ProgressIndicator_ActionBar",
+							[
+								{label: "Cancel", id: "Popup_Cancel"}
+							]
+						);	
+					</script>	
+				</div>
+			</div>
+			<!-- End Progress Indicator Popup -->
+		
+			<div class="logic" id="updateDetailsLogic"></div>
+			
+			<!-- Super Logic Adaptor -->
+			<div class="superLogic" id="launchOutputLogic"></div>
+		
+			<!-- LOV Popups -->
+			<script type="text/javascript">LOVPopupRenderer.createInline( "SearchResultsLOVGrid", "Search Results", ["Issued By", "Issue Date", "Warrant Number", "Local Number", "Case Number", "CO Number"], 10, 1, true );</script>
+			<script type="text/javascript">LOVSubformRenderer.createInline( "CourtsLOVGrid", "Courts", ["Code", "Name"], 10, 1, true );</script>
+			<script type="text/javascript">LOVPopupRenderer.createInline( "ReturnsLOVGrid", "Return Codes", ["Code", "Description"], 10, 1, true );</script>
+			
+			<!-- Audit Panels -->
+			<div class="auditPanel" id="currentlySelectedWarrantReturnPanel"></div>
+		
+			<!-- AUDIT SELECTOR ADAPTOR -->
+			<script type="text/javascript">AuditSelectorRenderer.createInline( "Audit_PanelSelector" );</script>
+			
+			<!-- SUBFORMS -->
+			<div class="popup popupsubform" id="audit_subform"></div>
+			<div class="popup popupsubform" id="ProgressBar_SubForm"></div>
+		
+		</form>
+	
+	</body>
+
+</html>

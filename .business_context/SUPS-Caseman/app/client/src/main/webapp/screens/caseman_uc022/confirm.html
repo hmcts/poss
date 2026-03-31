@@ -1,0 +1,30 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3c.org/TR/html4/strict.dtd">
+<html>
+	<head>
+		<title>SUPS CaseMan</title>
+		<link href="decisiondialog.css"  type="text/css" rel="stylesheet" title="Default">
+	    <script type="text/javascript" src="../../Messages.js"></script>
+		<script type="text/javascript">
+			function returnDecision(choice)
+			{
+				window.returnValue = choice;
+				self.close();
+			}
+		</script>
+	</head>
+	<body>
+		<table class="w_hundred">
+			<tr>
+				<td>
+					<script type="text/javascript">document.write(Messages.DEL_OO_MESSAGE)</script>
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<input class="dialogButton" type="button" value="Cancel" onclick="returnDecision('False')">
+					&nbsp;<input class="dialogButton"  type="button" value="OK" onclick="returnDecision('True')">
+				</td>
+			</tr>
+		</table>
+	</body>
+</html>

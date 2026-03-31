@@ -1,0 +1,216 @@
+<Group id="9013">
+	<ServicesRequired>
+		<mapping name="addWarrantForCo" serviceName="addWarrantForCo"/>
+		<service name="addWarrantForCo" cache="none" url="/Warrant/Warrant" method="addWarrantForCo">
+		</service>
+	</ServicesRequired>
+	<Protocols>
+		<OnSave>
+			<function>addCOWarrant</function>
+			<functionCallback>addCOWarrantCallback</functionCallback>
+		</OnSave>
+	</Protocols>
+	<JavaScript>	
+		
+function addCOWarrant() {
+  	  	  	
+	var warrantXML = WPU.getWarrentUpdateXML();	
+	var params = new ServiceParams();
+	var service = "addWarrantForCo";	
+	var xpath = "/params/param/COES/ManageCOEvents/COEvents/COEvent[./COEventSeq = /params/param/COEventSeq]/";
+	var issueDate = WPU.getValue( xpath + "ReceiptDate" );	
+	
+	var process = WP.GetScreenProcess();
+	var opt = process.getOutput().getCJRReference();					
+	var warrantType = "COMMITTAL";
+	
+	if( "X01" == opt )
+	{	warrantType = "AO";
+	}
+			
+	var claimantName = null;
+	var ownedBy = WPU.getValue("/params/param/COES/ManageCOEvents/OwningCourtCode");
+	var issuedBy = WPU.getValue("/params/param[@name = 'courtId']");
+	var executingCourtCode = issuedBy         
+	var createdBy = WPU.getValue("/params/param[@name = 'userId']");
+	var dateRequestRec = issueDate;
+	var coNumber = WPU.getValue("/params/param[@name = 'coNumber']");
+	var eventid = WPU.getValue( "/params/param/COEventSeq" );
+	var bailiffId = Services.getValue("/ds/EnterVariableData/EnterBailiffID");
+	var warrantAmount = Services.getValue("/ds/EnterVariableData/warrantAmount");
+		
+	MaintainCOFunctions.calculateCOTotals();		
+	var balanceOfDebt = Services.getValue( "/ds/MaintainCO/DebtSummary/BalanceDueFromDebtor" );		
+	balanceOfDebt = parseInt((( null != balanceOfDebt &amp;&amp; "" != balanceOfDebt ) ? balanceOfDebt : 0), 10);
+	warrantAmount = parseInt((( null != warrantAmount &amp;&amp; "" != warrantAmount) ? warrantAmount : 0), 10);
+	
+	var balAfterPaid = balanceOfDebt - warrantAmount;
+								
+	//basic warrant details
+	XML.setElementTextContent(warrantXML, "/ds/Warrant/IssueDate", issueDate);
+	
+			
+	XML.setElementTextContent(warrantXML, "/ds/Warrant/OwnedBy", ownedBy);
+	XML.setElementTextContent(warrantXML, "/ds/Warrant/IssuedBy", issuedBy);
+	XML.setElementTextContent(warrantXML, "/ds/Warrant/ExecutingCourtCode", executingCourtCode);
+	XML.setElementTextContent(warrantXML, "/ds/Warrant/CreatedBy", createdBy);
+	XML.setElementTextContent(warrantXML, "/ds/Warrant/DateRequestReceived", dateRequestRec );
+	XML.setElementTextContent(warrantXML, "/ds/Warrant/CONumber", coNumber );
+	XML.setElementTextContent(warrantXML, "/ds/Warrant/CaseEventSeq", eventid );
+	XML.setElementTextContent(warrantXML, "/ds/Warrant/Claimant/Representative/Reference", "CO NO: " + coNumber );
+	XML.setElementTextContent(warrantXML, "/ds/Warrant/AdditionalNotes", "GENERATED FROM CO APPLICATION" );
+	XML.setElementTextContent(warrantXML, "/ds/Warrant/BailiffAreaNo", bailiffId );
+	XML.setElementTextContent(warrantXML, "/ds/Warrant/AmountOfWarrant", warrantAmount);
+	XML.setElementTextContent(warrantXML, "/ds/Warrant/Fee", "0");
+	XML.setElementTextContent(warrantXML, "/ds/Warrant/BalanceOfDebt", balanceOfDebt );
+	XML.setElementTextContent(warrantXML, "/ds/Warrant/BalanceAfterPaid", balAfterPaid);
+	
+	XML.setElementTextContent(warrantXML, "/ds/Warrant/WarrantType", warrantType); 
+		
+	if ( issuedBy == "335" )
+	{
+		XML.setElementTextContent(warrantXML, "/ds/Warrant/CCBCWarrant", 'Y');
+	}
+	
+	//Claimant subject for: this is the 'Proper Officer' at the issueing court address
+	var cName = "PROPER OFFICER";
+	
+	//court address
+	var cRealName = "";
+	var cAdLn1 = "";
+	var cAdLn2 = "";
+	var cAdLn3 = "";
+	var cAdLn4 = "";
+	var cAdLn5 = "";
+	var cpCode = "";
+	var telNo = "";
+	var faxNo = "";
+	var emailAdd = ""
+	var dxNo = "";
+	
+	var warrantCourtCode = WPU.getValue( "/params/param/ds/MaintainCO/Courts/Court/CourtCode");
+	if ( warrantCourtCode == 335 ) {
+		cRealName = "THE COUNTY COURT BUSINESS CENTRE";
+	}
+	else if ( warrantCourtCode == 390 || warrantCourtCode == 391 ) {
+		cRealName = "THE COUNTY COURT MONEY CLAIMS CENTRE";
+	}
+	else {
+		cRealName = "THE COUNTY COURT AT " + WPU.getValue( "/params/param/ds/MaintainCO/Courts/Court/CourtName");
+	}
+
+	// Defect 5550; The address should be the owning court of the CO. Not only when output is X01.
+		cAdLn1 = WPU.getValue( "/params/param/ds/MaintainCO/Courts/Court/ContactDetails/Addresses/Address[./Type='OFFICE']/Line[1]");
+		cAdLn2 = WPU.getValue( "/params/param/ds/MaintainCO/Courts/Court/ContactDetails/Addresses/Address[./Type='OFFICE']/Line[2]" );
+		cAdLn3 = WPU.getValue( "/params/param/ds/MaintainCO/Courts/Court/ContactDetails/Addresses/Address[./Type='OFFICE']/Line[3]" );
+		cAdLn4 = WPU.getValue( "/params/param/ds/MaintainCO/Courts/Court/ContactDetails/Addresses/Address[./Type='OFFICE']/Line[4]" );
+		cAdLn5 = WPU.getValue( "/params/param/ds/MaintainCO/Courts/Court/ContactDetails/Addresses/Address[./Type='OFFICE']/Line[5]" );
+		cpCode = WPU.getValue( "/params/param/ds/MaintainCO/Courts/Court/ContactDetails/Addresses/Address[./Type='OFFICE']/PostCode" );
+		telNo = WPU.getValue( "/params/param/ds/MaintainCO/Courts/Court/ContactDetails/TelephoneNumber" );
+		faxNo = WPU.getValue( "/params/param/ds/MaintainCO/Courts/Court/ContactDetails/FaxNumber" );
+		emailAdd = "";
+		dxNo = WPU.getValue( "/params/param/ds/MaintainCO/Courts/Court/ContactDetails/DXNumber" );
+
+	cAdLn3 = (null != cAdLn3) ? cAdLn3 : "";
+	cAdLn4 = (null != cAdLn4) ? cAdLn4 : "";
+	cAdLn5 = (null != cAdLn3) ? cAdLn5 : "";
+				
+	
+	//Party For
+	XML.setElementTextContent(warrantXML, "/ds/Warrant/Claimant/Name", cName );	
+	
+	//Rep of party for
+	XML.setElementTextContent(warrantXML, "/ds/Warrant/Claimant/Representative/Name", cRealName );	
+	XML.setElementTextContent(warrantXML, "/ds/Warrant/Claimant/Representative/ContactDetails/Address/Line[1]", cAdLn1 );	
+	XML.setElementTextContent(warrantXML, "/ds/Warrant/Claimant/Representative/ContactDetails/Address/Line[2]", cAdLn2 );	
+	XML.setElementTextContent(warrantXML, "/ds/Warrant/Claimant/Representative/ContactDetails/Address/Line[3]", cAdLn3 );	
+	XML.setElementTextContent(warrantXML, "/ds/Warrant/Claimant/Representative/ContactDetails/Address/Line[4]", cAdLn4 );	
+	XML.setElementTextContent(warrantXML, "/ds/Warrant/Claimant/Representative/ContactDetails/Address/Line[5]", cAdLn5 );	
+	XML.setElementTextContent(warrantXML, "/ds/Warrant/Claimant/Representative/ContactDetails/Address/PostCode", cpCode );
+	XML.setElementTextContent(warrantXML, "/ds/Warrant/Claimant/Representative/ContactDetails/DX",  dxNo);
+	XML.setElementTextContent(warrantXML, "/ds/Warrant/Claimant/Representative/ContactDetails/TelephoneNumber", telNo );
+	XML.setElementTextContent(warrantXML, "/ds/Warrant/Claimant/Representative/ContactDetails/FaxNumber", faxNo );
+	XML.setElementTextContent(warrantXML, "/ds/Warrant/Claimant/Representative/ContactDetails/EmailAddress",  emailAdd);
+	
+	//Party Against
+	var dName = WPU.getValue(WPU.NODE_XPATHS['Debtor'] + "/DebtorName");
+	var dType = WPU.getValue(WPU.NODE_XPATHS['Debtor'] + "/PartyType");
+	var dNo = "1"
+	var dAdLn1 = WPU.getValue(WPU.NODE_XPATHS['Debtor'] + "/Address/Line[1]");
+	var dAdLn2 = WPU.getValue(WPU.NODE_XPATHS['Debtor'] + "/Address/Line[2]");
+	var dAdLn3 = WPU.getValue(WPU.NODE_XPATHS['Debtor'] + "/Address/Line[3]");
+	var dAdLn4 = WPU.getValue(WPU.NODE_XPATHS['Debtor'] + "/Address/Line[4]");
+	var dAdLn5 = WPU.getValue(WPU.NODE_XPATHS['Debtor'] + "/Address/Line[5]");
+	var dpCode = WPU.getValue(WPU.NODE_XPATHS['Debtor'] + "/Address/PostCode");
+	
+	XML.setElementTextContent(warrantXML, "/ds/Warrant/Defendant1/Name", dName );
+	XML.setElementTextContent(warrantXML, "/ds/Warrant/Defendant1/Number", dNo );
+	XML.setElementTextContent(warrantXML, "/ds/Warrant/Defendant1/PartyType", dType );
+	XML.setElementTextContent(warrantXML, "/ds/Warrant/Defendant1/Address/Line[1]", dAdLn1 );
+	XML.setElementTextContent(warrantXML, "/ds/Warrant/Defendant1/Address/Line[2]", dAdLn2 );
+	XML.setElementTextContent(warrantXML, "/ds/Warrant/Defendant1/Address/Line[3]", dAdLn3 );
+	XML.setElementTextContent(warrantXML, "/ds/Warrant/Defendant1/Address/Line[4]", dAdLn4 );
+	XML.setElementTextContent(warrantXML, "/ds/Warrant/Defendant1/Address/Line[5]", dAdLn5 );
+	XML.setElementTextContent(warrantXML, "/ds/Warrant/Defendant1/Address/PostCode", dpCode );
+	
+		
+	params.addDOMParameter("warrantDetails", warrantXML);				
+	Services.callService(service, params, addCOWarrantCallback, true);
+	
+
+}
+
+	
+function addCOWarrantCallback() { }
+
+addCOWarrantCallback.onSuccess = function(dom) {
+
+	if (null != dom) 
+	{
+		//add warrant number to datamodel
+		var warrNode = XML.createDOM();
+		warrNode.loadXML("&lt;Warrant&gt;&lt;/Warrant&gt;");
+		var warrNoNode = dom.selectSingleNode("/ds/Warrant/WarrantNumber");
+		// defect 3465; added warrantid to update warrant_id on CO Event
+		var warrIDNode = dom.selectSingleNode("/ds/Warrant/WarrantID");
+		warrNode.selectSingleNode("/Warrant").appendChild(warrNoNode);
+		warrNode.selectSingleNode("/Warrant").appendChild(warrIDNode);
+		Services.addNode( warrNode , "/ds/EnterVariableData");
+				
+						
+		var process = WP.GetScreenProcess();
+		var request = process.getRequest();
+		var context = request.getContext();
+		
+		var eventNode = context.selectSingleNode("/WordProcessing/Event");
+		if (null != eventNode) {
+			eventNode.appendChild(warrNode.documentElement.cloneNode(true));		
+			eventNode.appendChild(warrIDNode.cloneNode(true));
+		}
+		
+		alert(Messages.WARRANT_CREATED_SUCCESSFULLY_HOME.replace(/XXX/, WPU.getValue( "//WarrantNumber", warrNoNode)));
+		
+		
+		Save_All();  
+	
+	
+	}
+	else {
+		alert(Messages.NO_RESULTS_MESSAGE); } }
+
+addCOWarrantCallback.onBusinessException = function(exception)  
+{
+
+	alert(Messages.FAILEDSAVE_MESSAGE); 
+}
+
+addCOWarrantCallback.onSystemException = function(exception) 
+{
+
+	alert(Messages.FAILEDSAVE_MESSAGE); 
+}
+
+
+	</JavaScript>
+</Group>
+

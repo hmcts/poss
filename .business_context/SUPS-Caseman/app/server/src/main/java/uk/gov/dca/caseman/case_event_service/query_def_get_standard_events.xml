@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<QueryDef>
+  <DBMapDef location="uk/gov/dca/caseman/case_event_service/map_get_standard_events.xml"/>
+  <Query pivotNode="/StandardEvents/StandardEvent" tables="SE REF">
+	<Join>
+		SE.DATABASE_EVENT = 'N'                  AND
+		SE.CATEGORY       = REF.RV_LOW_VALUE     AND
+		REF.RV_DOMAIN     = 'CASE_EVENT_CATEGORY'
+	</Join>
+	<Modify notModifiable="true"/>
+  </Query>
+</QueryDef>

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: WpOutput
+	Method:  getWpOutputDetails
+	File:    get_wp_output_details.xml
+	Author:  Chris Vincent 
+	Created: 21 October 2015
+	Description: 
+		Retrieves the various event sequences for a WP_OUTPUT row to indicate what type
+		of record the output is linked to.
+-->
+<service-method>
+	<pipeline>
+		<SQLLite format-output="true" 
+				 resultset-element="ds"
+				 row-element="Output" 
+				 field-name-as="element">
+			<DataSource id="java:OracleDS"/>
+			<Param name="param.outputId" xpath="/params/param[@name = 'outputId']"/>
+			<SQL>
+				SELECT NVL(wp.event_seq, -1) AS "CaseEventSeq",
+					   NVL(wp.ae_event_seq, -1) AS "AeEventSeq",
+					   NVL(wp.co_event_seq, -1) AS "CoEventSeq",
+					   NVL(wp.warrant_returns_id, -1) AS "WarrantReturnId"
+				FROM wp_output wp
+				WHERE wp.output_id = ${param.outputId}
+			</SQL>
+		</SQLLite>
+	</pipeline>
+	<Security roles="viewOnly medium high wcSuper scSuper bmsSuper aeSuper dmSuper cpSuper ccbcMan ccbcUser ccbcSGB2"/>
+</service-method>

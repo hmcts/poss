@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: Payments
+	Method: getPaymentWithEnforcement()
+	File: get_payment_with_enforcement.xml
+	Author: Steve Blair
+	Description:
+		Pulls details of a payment and it's associated enforcement.
+-->
+<service-method>
+	<pipeline>
+		<Java>
+			<Source class="uk.gov.dca.caseman.payments_service.java.GetPaymentWithEnforcementCustomProcessor" />
+		</Java>
+	</pipeline>
+	<Security roles="medium high wcSuper scSuper bmsSuper aeSuper dmSuper" />
+</service-method>

@@ -1,0 +1,31 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: Reports
+	Method:  runCompletePayoutReports()
+	File:    run_complete_payout_reports.xml
+	Author:  Anthony Bonnar (EDS)
+	Created: 16 December 2005
+	Description: 
+		Calls the Custom Processor that builds the XML that is eventually passed to reports service.
+
+    Change History:
+    10-Apr-2006 Phil Haferer: Added dependency for CoEvent.
+    12-Apr-2006 Phil Haferer: Added further dependenc for CaseEvent.
+-->
+<service-method>
+	<pipeline> 
+		<Java callStyle="new">
+			<Source class="uk.gov.dca.caseman.reports_service.classes.CompletePayoutsCustomProcessor"/>
+		</Java>
+	</pipeline>
+	<Transaction type="Supports" />		
+	<Dependencies>
+		<Dependency serviceName="Payments"/>
+		<Dependency serviceName="Payout"/>
+		<Dependency serviceName="Bms"/>
+		<Dependency serviceName="Dom"/>
+		<Dependency serviceName="CoEvent"/>
+		<Dependency serviceName="CaseEvent"/>
+	</Dependencies>		
+	<Security roles="viewOnly medium high wcSuper scSuper bmsSuper aeSuper dmSuper edsAdmin cpSuper"/>		
+</service-method>

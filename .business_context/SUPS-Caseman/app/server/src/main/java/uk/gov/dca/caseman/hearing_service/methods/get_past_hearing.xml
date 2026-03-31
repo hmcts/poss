@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: Hearing
+	Method:  getPastHearing()
+	File:    get_past_hearing.xml
+	Author:  Kevin Gichohi (EDS)
+	Created: 05 July 2006
+	Description: 
+		Returns all the hearings in the past associated with the entered case number.
+-->
+
+<service-method>
+	<pipeline>
+		<NewQuery>
+			<QueryDef location="uk/gov/dca/caseman/hearing_service/query_def_case.xml"/>
+			<QueryExtension pivotNode="/ds/MaintainHearing">
+				<Param name="param.caseNumber" xpath="/params/param[@name = 'caseNumber']"/>
+				<Constraint>CA.CASE_NUMBER = ${param.caseNumber}</Constraint>
+			</QueryExtension>
+			<QueryExtension pivotNode="/ds/MaintainHearing/Hearings/Hearing">
+				<Constraint>TRUNC(H.HRG_DATE) &lt; TRUNC(SYSDATE)</Constraint>
+			</QueryExtension>
+		</NewQuery>
+	</pipeline>
+	<Security roles="viewOnly medium high wcSuper scSuper bmsSuper aeSuper dmSuper cpSuper ccbcMan ccbcUser ccbcSGB2"/>
+</service-method>

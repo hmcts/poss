@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: Warrant
+	Method:  addWarrant()
+	File:    add_warrant.xml
+	Author:  Tim Connor (EDS)
+	Created: 21 March 2005
+	Description: Inserts a new Warrant Record, inserts a new Case Event, Transfers the Warrant if necessary
+				 and inserts a record into the Fees_Paid table if it's a HomeWarrant.
+    Change Log:
+        04/12/2006 - Steve Blair - Changed to use query_def_add instead of query
+                     _def_update. Add has an additional node in the map for
+                     setting date_printed (needed for UCT defect 824).
+-->
+<service-method>
+	<pipeline>
+		<Java callStyle="new">
+			<Source class="uk.gov.dca.caseman.warrant_service.java.DataProcessor"/>
+		</Java>			
+		<Update>
+			<QueryDef location="uk/gov/dca/caseman/warrant_service/query_def_add.xml"/>
+			<DataSource xpath="/params/param[@name='warrantDetails']"/>
+		</Update>
+		<Java callStyle="new">
+			<Source class="uk.gov.dca.caseman.warrant_service.java.InsertWarrantCaseEventsCustomProcessor"/>
+		</Java>
+		<Java callStyle="new">
+			<Source class="uk.gov.dca.caseman.warrant_service.java.TransferNewWarrantCustomProcessor"/>
+		</Java>	
+		<Java callStyle="new">
+			<Source class="uk.gov.dca.caseman.warrant_service.java.InsertWarrantFeeCustomProcessor"/>
+		</Java>
+	</pipeline>
+	<Dependencies>
+		<Dependency serviceName="Court"/>		
+		<Dependency serviceName="Bms"/>				
+		<Dependency serviceName="WarrantReturns"/>						
+		<Dependency serviceName="WarrantAmounts"/>								
+		<Dependency serviceName="CaseEvent"/>		
+		<Dependency serviceName="SystemData"/>		
+	</Dependencies>			
+	<Security roles="medium high wcSuper scSuper bmsSuper aeSuper dmSuper cpSuper ccbcMan ccbcUser"/>			
+</service-method>

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>156</Id>
+	<Label>Case transferred to</Label>
+	<ObjectName>CaseTransferedTo</ObjectName>
+	<Html>
+		<select id="CaseTransferedTo">
+			<option value=""></option>
+			<option value="CCTC">County court trial centre</option>
+			<option value="RCJ">Royal courts of justice</option>       			
+		</select>
+	</Html>
+	<Javascript>
+		<XPath>/ds/EnterVariableData/Transfer/caseTransferedTo</XPath>		
+		<HintText>Enter the court type , where the case is transferred - list available</HintText>
+		<isMandatory>return true;</isMandatory>
+	</Javascript>
+</Question>

@@ -1,0 +1,24 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    Change History:
+    31-Aug-2006 Phil Haferer: Test for Coded Party Addresses was incorrect.
+                Originally, only Coded Party addresses had a non-null PARTY_ID.
+                However, some sources of Cases populate the PARTY_ID, test the 
+                Address Type Code instead.
+                TD CASEMAN 4958: PARTY_ID not populated in GIVEN_ADDRESSES.
+-->
+<QueryDef>
+  <DBMapDef location="uk/gov/dca/caseman/case_service/map_check_delete_non_coded_party_address.xml"/>
+  <Query pivotNode="/ds/isNonCodedPartyAddress" tables="GA">
+  	<!-- Check that the GIVEN_ADDRESSES row belongs to this Case,
+  	     and its' Address Type is not that of a Coded Party. -->
+    <SQL type="select">
+		SELECT DECODE(COUNT(*),0,'false','true') AS "GA.IS_NON_CODED_PARTY_ADDRESS" 
+		FROM   GIVEN_ADDRESSES GA
+		WHERE  GA.ADDRESS_ID  = ${param.addressId}
+		AND    GA.CASE_NUMBER = ${param.caseNumber}
+		AND    GA.ADDRESS_TYPE_CODE &lt;&gt; 'CODED PARTY'
+    </SQL>
+	<Modify notModifiable="true"/>
+  </Query> 
+</QueryDef>

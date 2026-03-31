@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: TransferCase
+	Method:  getChangedEventsList()
+	File:    get_changed_events_list.xml
+	Author:  Phil Haferer (EDS)
+	Created: 04 July 2005
+	Description: 
+		Each Standard Event Description may have had a different value in the past.
+		The previous descriptions are stored in the CHANGED_EVENTS table, together with a date range.
+		When the Events relating to a Case are displayed on the client, the current Standard Event 
+		description may need to be substituted for the description which was in place at the time 
+		that Case Event was created.
+		This service retrieves those rows which will be needed in order perform this substitution.
+-->
+<service-method>
+	<pipeline>
+		<SQLLite format-output="true"
+				 resultset-element="ChangedEventList"
+				 row-element="ChangeEvent"
+				 field-name-as="element" >
+			<DataSource id="java:OracleDS"/>
+			<Param name="param.caseNumber" xpath="/params/param[@name = 'caseNumber']"/>
+			<SQL>
+				SELECT CH.STD_EVENT_ID      AS "StandardEventId"
+				,      CH.RELEASE_DATE      AS "ReleaseDate"
+				,      CH.FINAL_DATE        AS "FinalDate"
+				,      CH.EVENT_DESCRIPTION AS "EventDescription"
+				FROM   CHANGED_EVENTS CH
+				WHERE  CH.STD_EVENT_ID IN 
+				(      SELECT DISTINCT CE.STD_EVENT_ID
+				       FROM   CASE_EVENTS CE 
+				       WHERE  CE.CASE_NUMBER = ${param.caseNumber}
+				       AND    CE.EVENT_DATE BETWEEN CH.RELEASE_DATE AND CH.FINAL_DATE)
+			</SQL>
+		</SQLLite>
+	</pipeline>
+	<Security roles="user"/>
+</service-method>

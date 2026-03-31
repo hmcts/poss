@@ -1,0 +1,378 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: Case
+	Method:  getCase()
+	File:    query_def_join.xml
+	Author:  Phil Haferer (EDS)
+	Created: November 2004
+	Description: 
+		Query Def to retrieve Case details.
+		
+	Change History:
+	19-Jul-2005 Phil Haferer: Changes to support Address Type of 'SERVICE' (for AE).
+	25-Jul-2005 Phil Haferer: New Address Type of 'CODED PARTY'.
+	14-Dec-2005 Phil Haferer: Removed the condition "CP.ADMIN_COURT_CODE (+)= ${C.ADMIN_CRT_CODE}" from 
+	            pivotNode "/ds/ManageCase/Parties/Solicitor" as it was unnecessary and was preventing non CPC
+	            National Coded Parties being retrieved (as these use Court 0).
+	            Similarly pivotNode "/ds/ManageCase/Parties/LitigiousParty".
+	21-Nov-2006 Chris Hutt : UCT681 Order by case_party_role, case_party_no added to litiguous party
+				retrievals ..... otherwise coded parties come at the bottom of the list
+				and this causes problems in word processing. Solicitors are ordered just by case_party_no
+	27-Nov-2006 Phil Haferer: Added the column HEARING_PRESENT_AT_CREATION to support client's call to word
+                processing.
+                (CASEMAN 5827: Issue 221 - CJR187 & 179 production)
+	20-Jun-2007 Chris Vincent: Added DEFT_LAST_DATE_FOR_REPLY on Litigious Parties for CCBC Defect UCT Group2 1385
+	July 16, 2008 Struan Kerr-Liddell : Added insolvency number and year
+	09-Oct-2008 Phil Barton: Restructure SQL for retrieving PY.PAYMENTS_EXIST for performance reasons.
+	28/01/2013 - Added PreferredCourtCode (Trac 4764) and Track (Trac 4763) retrievals.
+	14/10/2016 - Now retrieves the confidential column from the CASE_PARTY_ROLES table.  Trac 5880
+-->
+<QueryDef>
+  <DBMapDef location="uk/gov/dca/caseman/case_service/map_join.xml"/>
+  <Query pivotNode="/ds/ManageCase" tables="C CT CT2">
+	<SQL type="select">
+		SELECT C.CASE_NUMBER AS "C.CASE_NUMBER",
+			C.CASE_TYPE AS "C.CASE_TYPE",
+			C.INSOLVENCY_NUMBER AS "C.INSOLVENCY_NUMBER",
+			C.STATUS AS "C.STATUS",
+			C.ADMIN_CRT_CODE AS "C.ADMIN_CRT_CODE",
+			CT.NAME AS "CT.NAME",
+			C.CRED_CODE AS "C.CRED_CODE",
+			C.BRIEF_DETAILS_OF_CLAIM AS "C.BRIEF_DETAILS_OF_CLAIM",
+			C.PARTICULARS_OF_CLAIM AS "C.PARTICULARS_OF_CLAIM",
+			C.RECEIPT_DATE AS "C.RECEIPT_DATE",
+			C.AMOUNT_CLAIMED_CURRENCY AS "C.AMOUNT_CLAIMED_CURRENCY",			
+			C.AMOUNT_CLAIMED AS "C.AMOUNT_CLAIMED",
+			C.COURT_FEE_CURRENCY AS "C.COURT_FEE_CURRENCY",
+			C.COURT_FEE AS "C.COURT_FEE",
+			C.SOLICITORS_COSTS_CURRENCY AS "C.SOLICITORS_COSTS_CURRENCY",		
+			C.SOLICITORS_COSTS AS "C.SOLICITORS_COSTS",
+			C.TOTAL_CURRENCY AS "C.TOTAL_CURRENCY",					
+			C.TOTAL AS "C.TOTAL",
+			C.DATE_OF_ISSUE AS "C.DATE_OF_ISSUE",
+			C.TRACK AS "C.TRACK",
+			C.PREF_COURT_CODE AS "C.PREF_COURT_CODE",
+			CT2.NAME AS "CT2.NAME",
+			DECODE(C.PARTICULARS_OF_CLAIM,null,'false','true') AS "PARTICULARS_OF_CLAIM_PRESENT",
+			( SELECT DECODE(CE1.HRG_SEQ,NULL,'false','true') 
+				FROM   CASE_EVENTS CE1
+				WHERE  CE1.CASE_NUMBER = C.CASE_NUMBER
+				AND    CE1.STD_EVENT_ID = 1) AS "HEARING_PRESENT_AT_CREATION",
+			( SELECT DECODE(COUNT(*),0,'false','true') 
+				FROM   OBLIGATIONS OB
+				WHERE  OB.CASE_NUMBER = C.CASE_NUMBER
+				AND    OB.AE_EVENT_SEQ IS NULL
+				AND    DELETE_FLAG = 'N') AS "OB.ACTIVE_OBLIGATIONS",
+			( SELECT DECODE(COUNT(*),0,'false','true')
+				FROM   OBLIGATIONS OB
+				WHERE  OB.CASE_NUMBER = C.CASE_NUMBER
+				AND    OB.AE_EVENT_SEQ IS NULL
+				AND    DELETE_FLAG = 'Y')  AS "OB.DELETED_OBLIGATIONS", 
+			(SELECT DECODE(COUNT(*),0,'false','true') 
+			  FROM PAYMENTS
+			  WHERE EXISTS (
+			  (SELECT PY.SUBJECT_NO
+				FROM   PAYMENTS PY
+			   WHERE 
+			  	PY.PAYMENT_FOR = 'CASE' AND
+			  	PY.SUBJECT_NO = C.CASE_NUMBER)
+					UNION ALL
+			  (SELECT PY.SUBJECT_NO
+			   FROM PAYMENTS PY, AE_APPLICATIONS A
+			   WHERE 
+			  	PY.PAYMENT_FOR = 'AE' AND
+			  	A.CASE_NUMBER = C.CASE_NUMBER AND
+				PY.SUBJECT_NO = A.AE_NUMBER)
+					UNION ALL
+			  (SELECT PY.SUBJECT_NO
+			   FROM PAYMENTS PY, WARRANTS W
+			   WHERE 
+						  W.CASE_NUMBER = C.CASE_NUMBER AND
+						  PY.PAYMENT_FOR = 'HOME WARRANT' AND
+						  PY.SUBJECT_NO = W.WARRANT_NUMBER AND
+						  W.LOCAL_WARRANT_NUMBER IS NULL AND
+			  	PY.ENFORCEMENT_COURT_CODE = W.ISSUED_BY)
+					UNION ALL
+			  (SELECT PY.SUBJECT_NO
+			   FROM PAYMENTS PY, WARRANTS W
+			   WHERE 
+						  W.CASE_NUMBER = C.CASE_NUMBER AND
+						  PY.PAYMENT_FOR = 'FOREIGN WARRANT' AND
+						  PY.SUBJECT_NO = W.LOCAL_WARRANT_NUMBER AND
+			  	PY.ENFORCEMENT_COURT_CODE = W.CURRENTLY_OWNED_BY)
+			))  AS "PY.PAYMENTS_EXIST",
+			( SELECT REF.RV_IIT_CODE_1
+				FROM CCBC_REF_CODES REF
+				WHERE REF.RV_LOW_VALUE = C.CASE_TYPE AND
+					(REF.RV_DOMAIN = 'CURRENT_CASE_TYPE' OR
+         			REF.RV_DOMAIN = 'CASE_TYPE_OBSOLETE_BY_IIT') ) AS "REF.RV_IIT_CODE_1",
+			( SELECT REF.RV_IIT_CODE_2
+				FROM CCBC_REF_CODES REF
+				WHERE REF.RV_LOW_VALUE = C.CASE_TYPE AND
+					(REF.RV_DOMAIN = 'CURRENT_CASE_TYPE' OR
+         			REF.RV_DOMAIN = 'CASE_TYPE_OBSOLETE_BY_IIT') ) AS "REF.RV_IIT_CODE_2",
+         	'GA' AS "ADDRESS_TABLE_ALIAS",
+         	'true' AS "TRUE_VALUE",
+         	'N' AS "NO_VALUE",
+         	'EXISTING' AS "EXISTING_VALUE",
+			C.ORA_ROWSCN AS "C_ORA_ROWSCN",
+			CT.ORA_ROWSCN AS "CT_ORA_ROWSCN",			
+			CT2.ORA_ROWSCN AS "CT2_ORA_ROWSCN"
+		FROM CASES C, COURTS CT, COURTS CT2
+		WHERE CT.CODE = C.ADMIN_CRT_CODE
+		AND C.CASE_NUMBER = ${param.caseNumber}
+		AND CT2.CODE (+)= C.PREF_COURT_CODE
+	</SQL>
+  </Query>
+  <Query pivotNode="/ds/ManageCase/HearingDetails" tables="H GA CT">
+	<Join>
+		H.HRG_SEQ IN 
+			(SELECT MAX(H2.HRG_SEQ) 
+		     FROM   HEARINGS H2 
+			 WHERE  H2.CASE_NUMBER = ${C.CASE_NUMBER}
+			 )
+		AND H.ADDRESS_ID = GA.ADDRESS_ID
+		AND H.CRT_CODE = CT.CODE
+    </Join>		
+  </Query>
+  <Query pivotNode="/ds/ManageCase/OtherPossessionAddress/Address" tables="GA">
+	<Join>
+		GA.CASE_NUMBER = ${C.CASE_NUMBER} AND 
+		GA.ADDRESS_TYPE_CODE = 'POSSESSION' 
+    </Join>		
+  </Query>
+  <Query pivotNode="/ds/ManageCase/Parties/Solicitor" tables="SOLP CPR CP PR GA">
+	<SQL type="select">
+		(SELECT SOLP.PARTY_ID                     AS "SOLP.PARTY_ID"
+		,      CPR.CASE_PARTY_NO                  AS "CPR.CASE_PARTY_NO"
+		,      NULL                               AS "CP.CODE"
+		,	   GA.ADDRESS_ID                      AS "GA.ADDRESS_ID"
+		,      GA.ADDRESS_LINE1                   AS "GA.ADDRESS_LINE1"
+		,      GA.ADDRESS_LINE2                   AS "GA.ADDRESS_LINE2"
+		,      GA.ADDRESS_LINE3                   AS "GA.ADDRESS_LINE3"
+		,      GA.ADDRESS_LINE4                   AS "GA.ADDRESS_LINE4"
+		,      GA.ADDRESS_LINE5                   AS "GA.ADDRESS_LINE5"
+		,      GA.POSTCODE                        AS "GA.POSTCODE"
+		,      GA.PARTY_ID                        AS "GA.PARTY_ID"
+		,      SOLP.DX_NUMBER                     AS "SOLP.DX_NUMBER"
+		,      SOLP.TEL_NO                        AS "SOLP.TEL_NO"
+		,      SOLP.FAX_NUMBER                    AS "SOLP.FAX_NUMBER"
+		,      SOLP.EMAIL_ADDRESS                 AS "SOLP.EMAIL_ADDRESS"
+		,      CPR.PREFERRED_COMMUNICATION_METHOD AS "CPR.PREF_COMM_METHOD"
+		,      PR.PARTY_ROLE_DESCRIPTION          AS "PR.PARTY_ROLE_DESCRIPTION"
+		,      CPR.PARTY_ROLE_CODE                AS "CPR.PARTY_ROLE_CODE"
+		,      SOLP.PERSON_REQUESTED_NAME         AS "SOLP.PERSON_REQUESTED_NAME"
+		,      DECODE( CPR.PARTY_ROLE_CODE, null, null, CPR.PARTY_ROLE_CODE || '_' || CPR.CASE_PARTY_NO) AS "SOL_SURROGATE_ID"
+		,      CPR.ORA_ROWSCN                     AS "CPR_ORA_ROWSCN"
+		,      SOLP.ORA_ROWSCN                    AS "SOLP_ORA_ROWSCN"
+		,      NULL                               AS "CP_ORA_ROWSCN"
+		,      PR.ORA_ROWSCN                      AS "PR_ORA_ROWSCN"
+		,      GA.ORA_ROWSCN                      AS "GA_ORA_ROWSCN"
+		FROM   CASE_PARTY_ROLES CPR
+		,      PARTIES          SOLP
+		,      PARTY_ROLES      PR
+		,      GIVEN_ADDRESSES  GA
+		WHERE  CPR.CASE_NUMBER = ${C.CASE_NUMBER}
+		AND    CPR.PARTY_ROLE_CODE = 'SOLICITOR' 
+		AND    SOLP.PARTY_ID = CPR.PARTY_ID 
+		AND    PR.PARTY_ROLE_CODE = CPR.PARTY_ROLE_CODE 
+		AND    GA.CASE_NUMBER = ${C.CASE_NUMBER}
+		AND    GA.PARTY_ROLE_CODE = 'SOLICITOR'
+		AND    GA.CASE_PARTY_NO = CPR.CASE_PARTY_NO
+		AND    GA.ADDRESS_TYPE_CODE = 'SOLICITOR'
+		) UNION ALL (
+		SELECT SOLP.PARTY_ID                     AS "SOLP.PARTY_ID"
+		,      CPR.CASE_PARTY_NO                  AS "CPR.CASE_PARTY_NO"
+		,      CP.CODE                            AS "CP.CODE"
+		,	   GA.ADDRESS_ID                      AS "GA.ADDRESS_ID"
+		,      GA.ADDRESS_LINE1                   AS "GA.ADDRESS_LINE1"
+		,      GA.ADDRESS_LINE2                   AS "GA.ADDRESS_LINE2"
+		,      GA.ADDRESS_LINE3                   AS "GA.ADDRESS_LINE3"
+		,      GA.ADDRESS_LINE4                   AS "GA.ADDRESS_LINE4"
+		,      GA.ADDRESS_LINE5                   AS "GA.ADDRESS_LINE5"
+		,      GA.POSTCODE                        AS "GA.POSTCODE"
+		,      GA.PARTY_ID                        AS "GA.PARTY_ID"
+		,      SOLP.DX_NUMBER                     AS "SOLP.DX_NUMBER"
+		,      SOLP.TEL_NO                        AS "SOLP.TEL_NO"
+		,      SOLP.FAX_NUMBER                    AS "SOLP.FAX_NUMBER"
+		,      SOLP.EMAIL_ADDRESS                 AS "SOLP.EMAIL_ADDRESS"
+		,      CPR.PREFERRED_COMMUNICATION_METHOD AS "CPR.PREF_COMM_METHOD"
+		,      PR.PARTY_ROLE_DESCRIPTION          AS "PR.PARTY_ROLE_DESCRIPTION"
+		,      CPR.PARTY_ROLE_CODE                AS "CPR.PARTY_ROLE_CODE"
+		,      SOLP.PERSON_REQUESTED_NAME         AS "SOLP.PERSON_REQUESTED_NAME"
+		,      DECODE( CPR.PARTY_ROLE_CODE, null, null, CPR.PARTY_ROLE_CODE || '_' || CPR.CASE_PARTY_NO) AS "SOL_SURROGATE_ID"
+		,      CPR.ORA_ROWSCN                     AS "CPR_ORA_ROWSCN"
+		,      SOLP.ORA_ROWSCN                    AS "SOLP_ORA_ROWSCN"
+		,      CP.ORA_ROWSCN                      AS "CP_ORA_ROWSCN"
+		,      PR.ORA_ROWSCN                      AS "PR_ORA_ROWSCN"
+		,      GA.ORA_ROWSCN                      AS "GA_ORA_ROWSCN"
+		FROM   CASE_PARTY_ROLES CPR
+		,      PARTIES          SOLP
+		,      CODED_PARTIES    CP
+		,      PARTY_ROLES      PR
+		,      GIVEN_ADDRESSES  GA
+		WHERE  CPR.CASE_NUMBER = ${C.CASE_NUMBER}
+		AND    CPR.PARTY_ROLE_CODE = 'SOLICITOR' 
+		AND    SOLP.PARTY_ID = CPR.PARTY_ID 
+		AND    CP.PARTY_ID (+)= CPR.PARTY_ID 
+		AND    PR.PARTY_ROLE_CODE = CPR.PARTY_ROLE_CODE 
+		AND    GA.CASE_NUMBER IS NULL
+		AND    GA.PARTY_ROLE_CODE IS NULL
+		AND    GA.CASE_PARTY_NO IS NULL
+		AND    GA.PARTY_ID = CPR.PARTY_ID
+		AND    GA.ADDRESS_TYPE_CODE = 'CODED PARTY')
+		ORDER BY  "CPR.CASE_PARTY_NO"
+	</SQL>
+    <!-- If the Solicitor is a Coded Party then their Address relates directly to PARTIES table.
+         If they aren't a Coded Party then they may have a different Address for each Case in which 
+         they participate, hence to the need to be selected on the Case Number. -->
+  </Query> 
+  <Query pivotNode="/ds/ManageCase/Parties/LitigiousParty" tables="P CPR CP PR GA CPR2CPR">
+	<SQL type="select">
+		(SELECT P.PARTY_ID                        AS "P.PARTY_ID"
+		,      CPR.CASE_PARTY_NO                  AS "CPR.CASE_PARTY_NO"
+		,      NULL                               AS "CP.CODE"
+		,      GA.ADDRESS_ID                      AS "GA.ADDRESS_ID"
+		,      GA.ADDRESS_LINE1                   AS "GA.ADDRESS_LINE1"
+		,      GA.ADDRESS_LINE2                   AS "GA.ADDRESS_LINE2"
+		,      GA.ADDRESS_LINE3                   AS "GA.ADDRESS_LINE3"
+		,      GA.ADDRESS_LINE4                   AS "GA.ADDRESS_LINE4"
+		,      GA.ADDRESS_LINE5                   AS "GA.ADDRESS_LINE5"
+		,      GA.POSTCODE                        AS "GA.POSTCODE"
+		,      GA.VALID_FROM                      AS "GA.VALID_FROM"
+		,      GA.UPDATED_BY                      AS "GA.UPDATED_BY"
+		,      GA.PARTY_ID                        AS "GA.PARTY_ID"
+		,      P.DX_NUMBER                        AS "P.DX_NUMBER"
+		,      P.TEL_NO                           AS "P.TEL_NO"
+		,      P.FAX_NUMBER                       AS "P.FAX_NUMBER"
+		,      P.EMAIL_ADDRESS                    AS "P.EMAIL_ADDRESS"
+		,      CPR.PREFERRED_COMMUNICATION_METHOD AS "CPR.PREF_COMM_METHOD"
+		,      CPR.WELSH_INDICATOR                AS "CPR.WELSH_INDICATOR"
+		,      PR.PARTY_ROLE_DESCRIPTION          AS "PR.PARTY_ROLE_DESCRIPTION"
+		,      CPR.PARTY_ROLE_CODE                AS "CPR.PARTY_ROLE_CODE"
+		,      P.PERSON_REQUESTED_NAME            AS "P.PERSON_REQUESTED_NAME"
+		,      CPR.REFERENCE                      AS "CPR.REFERENCE"
+		,      CPR.DEFT_DATE_OF_SERVICE           AS "CPR.DEFT_DATE_OF_SERVICE"
+		,      CPR.LAST_DATE_FOR_SERVICE          AS "CPR.LAST_DATE_FOR_SERVICE"
+		,      CPR.DEFT_LAST_DATE_FOR_REPLY       AS "CPR.DEFT_DATE_FOR_REPLY"
+		,      P.PERSON_DOB                       AS "P.PERSON_DOB"
+		,      CPR.CONFIDENTIAL                   AS "CPR.CONFIDENTIAL"
+		,      CPR.PAYEE_FLAG                     AS "CPR.PAYEE_FLAG"
+        ,      CPR2CPR.CPR_B_CASE_PARTY_NO        AS "CPR2CPR.CPR_B_CASE_PARTY_NO"
+        ,      CPR2CPR.CPR_B_PARTY_ROLE_CODE      AS "CPR2CPR.CPR_B_PARTY_ROLE_CODE"
+        ,      CPR2CPR.PERSONAL_REFERENCE         AS "CPR2CPR.PERSONAL_REFERENCE"
+		,      DECODE( CPR.PARTY_ROLE_CODE, null, null, CPR.PARTY_ROLE_CODE || '_' || CPR.CASE_PARTY_NO) AS "LITP_SURROGATE_ID"
+		,      DECODE( CPR2CPR.CPR_B_PARTY_ROLE_CODE, null, null, CPR2CPR.CPR_B_PARTY_ROLE_CODE || '_' || CPR2CPR.CPR_B_CASE_PARTY_NO) AS "LITP_SOL_SURROGATE_ID"
+		,	   CPR.MEDIATION_NAME				  AS "CPR.MEDIATION_NAME"
+		,	   CPR.MEDIATION_TEL_NO				  AS "CPR.MEDIATION_TEL_NO"
+		,	   CPR.MEDIATION_EMAIL				  AS "CPR.MEDIATION_EMAIL"
+		,	   CPR.MEDIATION_AVAILABILITY		  AS "CPR.MEDIATION_AVAILABILITY"
+		,	   CPR.MEDIATION_NOTES				  AS "CPR.MEDIATION_NOTES"
+		,      CPR.ORA_ROWSCN                     AS "CPR_ORA_ROWSCN"
+		,      P.ORA_ROWSCN                       AS "P_ORA_ROWSCN"
+		,      NULL                               AS "CP_ORA_ROWSCN"
+		,      PR.ORA_ROWSCN                      AS "PR_ORA_ROWSCN"
+		,      GA.ORA_ROWSCN                      AS "GA_ORA_ROWSCN"
+		,      CPR2CPR.ORA_ROWSCN                 AS "CPR2CPR_ORA_ROWSCN"
+		FROM   CASE_PARTY_ROLES CPR
+		,      PARTIES          P
+		,      PARTY_ROLES      PR
+		,      GIVEN_ADDRESSES  GA
+		,      CPR_TO_CPR_RELATIONSHIP CPR2CPR 
+		WHERE  CPR.CASE_NUMBER = ${C.CASE_NUMBER} 
+		AND    CPR.PARTY_ROLE_CODE != 'SOLICITOR' 
+		AND    P.PARTY_ID = CPR.PARTY_ID 
+		AND    PR.PARTY_ROLE_CODE = CPR.PARTY_ROLE_CODE
+		AND    GA.CASE_NUMBER = ${C.CASE_NUMBER}
+		AND    GA.PARTY_ROLE_CODE = CPR.PARTY_ROLE_CODE
+		AND    GA.CASE_PARTY_NO = CPR.CASE_PARTY_NO
+		AND    GA.ADDRESS_TYPE_CODE = 'SERVICE'
+		AND    GA.VALID_TO IS NULL
+        	AND    CPR2CPR.CPR_A_CASE_NUMBER (+)= ${C.CASE_NUMBER} 
+		AND    CPR2CPR.CPR_A_CASE_PARTY_NO (+)= CPR.CASE_PARTY_NO
+		AND    CPR2CPR.CPR_A_PARTY_ROLE_CODE (+)= CPR.PARTY_ROLE_CODE
+		AND    CPR2CPR.CPR_B_PARTY_ROLE_CODE (+)= 'SOLICITOR' 
+		AND    CPR2CPR.DELETED_FLAG (+)= 'N' 
+		) UNION ALL (
+		SELECT P.PARTY_ID                         AS "P.PARTY_ID"
+		,      CPR.CASE_PARTY_NO                  AS "CPR.CASE_PARTY_NO"
+		,      CP.CODE                            AS "CP.CODE"
+		,      GA.ADDRESS_ID                      AS "GA.ADDRESS_ID"
+		,      GA.ADDRESS_LINE1                   AS "GA.ADDRESS_LINE1"
+		,      GA.ADDRESS_LINE2                   AS "GA.ADDRESS_LINE2"
+		,      GA.ADDRESS_LINE3                   AS "GA.ADDRESS_LINE3"
+		,      GA.ADDRESS_LINE4                   AS "GA.ADDRESS_LINE4"
+		,      GA.ADDRESS_LINE5                   AS "GA.ADDRESS_LINE5"
+		,      GA.POSTCODE                        AS "GA.POSTCODE"
+		,      GA.VALID_FROM                      AS "GA.VALID_FROM"
+		,      GA.UPDATED_BY                      AS "GA.UPDATED_BY"
+		,      GA.PARTY_ID                        AS "GA.PARTY_ID"
+		,      P.DX_NUMBER                        AS "P.DX_NUMBER"
+		,      P.TEL_NO                           AS "P.TEL_NO"
+		,      P.FAX_NUMBER                       AS "P.FAX_NUMBER"
+		,      P.EMAIL_ADDRESS                    AS "P.EMAIL_ADDRESS"
+		,      CPR.PREFERRED_COMMUNICATION_METHOD AS "CPR.PREF_COMM_METHOD"
+		,      CPR.WELSH_INDICATOR                AS "CPR.WELSH_INDICATOR"
+		,      PR.PARTY_ROLE_DESCRIPTION          AS "PR.PARTY_ROLE_DESCRIPTION"
+		,      CPR.PARTY_ROLE_CODE                AS "CPR.PARTY_ROLE_CODE"
+		,      P.PERSON_REQUESTED_NAME            AS "P.PERSON_REQUESTED_NAME"
+		,      CPR.REFERENCE                      AS "CPR.REFERENCE"
+		,      CPR.DEFT_DATE_OF_SERVICE           AS "CPR.DEFT_DATE_OF_SERVICE"
+		,      CPR.LAST_DATE_FOR_SERVICE          AS "CPR.LAST_DATE_FOR_SERVICE"
+		,      CPR.DEFT_LAST_DATE_FOR_REPLY       AS "CPR.DEFT_DATE_FOR_REPLY"
+		,      P.PERSON_DOB                       AS "P.PERSON_DOB"
+		,      CPR.CONFIDENTIAL                   AS "CPR.CONFIDENTIAL"
+		,      CPR.PAYEE_FLAG                     AS "CPR.PAYEE_FLAG"
+        ,      CPR2CPR.CPR_B_CASE_PARTY_NO        AS "CPR2CPR.CPR_B_CASE_PARTY_NO"
+        ,      CPR2CPR.CPR_B_PARTY_ROLE_CODE      AS "CPR2CPR.CPR_B_PARTY_ROLE_CODE"
+        ,      CPR2CPR.PERSONAL_REFERENCE         AS "CPR2CPR.PERSONAL_REFERENCE"
+		,      DECODE( CPR.PARTY_ROLE_CODE, null, null, CPR.PARTY_ROLE_CODE || '_' || CPR.CASE_PARTY_NO) AS "LITP_SURROGATE_ID"
+		,      DECODE( CPR2CPR.CPR_B_PARTY_ROLE_CODE, null, null, CPR2CPR.CPR_B_PARTY_ROLE_CODE || '_' || CPR2CPR.CPR_B_CASE_PARTY_NO) AS "LITP_SOL_SURROGATE_ID"
+		,	   CPR.MEDIATION_NAME				  AS "CPR.MEDIATION_NAME"
+		,	   CPR.MEDIATION_TEL_NO				  AS "CPR.MEDIATION_TEL_NO"
+		,	   CPR.MEDIATION_EMAIL				  AS "CPR.MEDIATION_EMAIL"
+		,	   CPR.MEDIATION_AVAILABILITY		  AS "CPR.MEDIATION_AVAILABILITY"
+		,	   CPR.MEDIATION_NOTES				  AS "CPR.MEDIATION_NOTES"
+		,      CPR.ORA_ROWSCN                     AS "CPR_ORA_ROWSCN"
+		,      P.ORA_ROWSCN                       AS "P_ORA_ROWSCN"
+		,      CP.ORA_ROWSCN                      AS "CP_ORA_ROWSCN"
+		,      PR.ORA_ROWSCN                      AS "PR_ORA_ROWSCN"
+		,      GA.ORA_ROWSCN                      AS "GA_ORA_ROWSCN"
+		,      CPR2CPR.ORA_ROWSCN                 AS "CPR2CPR_ORA_ROWSCN"
+		FROM   CASE_PARTY_ROLES CPR
+		,      PARTIES          P
+		,      CODED_PARTIES    CP
+		,      PARTY_ROLES      PR
+		,      GIVEN_ADDRESSES  GA
+		,      CPR_TO_CPR_RELATIONSHIP CPR2CPR 
+		WHERE  CPR.CASE_NUMBER = ${C.CASE_NUMBER} 
+		AND    CPR.PARTY_ROLE_CODE != 'SOLICITOR' 
+		AND    P.PARTY_ID = CPR.PARTY_ID 
+		AND    CP.PARTY_ID = CPR.PARTY_ID 
+		AND    PR.PARTY_ROLE_CODE = CPR.PARTY_ROLE_CODE
+		AND    GA.CASE_NUMBER IS NULL
+		AND    GA.PARTY_ROLE_CODE IS NULL
+		AND    GA.CASE_PARTY_NO IS NULL
+		AND    GA.PARTY_ID = CPR.PARTY_ID
+		AND    GA.ADDRESS_TYPE_CODE = 'CODED PARTY'
+        	AND    CPR2CPR.CPR_A_CASE_NUMBER (+)= ${C.CASE_NUMBER} 
+		AND    CPR2CPR.CPR_A_CASE_PARTY_NO (+)= CPR.CASE_PARTY_NO
+		AND    CPR2CPR.CPR_A_PARTY_ROLE_CODE (+)= CPR.PARTY_ROLE_CODE
+		AND    CPR2CPR.CPR_B_PARTY_ROLE_CODE (+)= 'SOLICITOR' 
+		AND    CPR2CPR.DELETED_FLAG (+)= 'N')
+		ORDER BY  "CPR.PARTY_ROLE_CODE", "CPR.CASE_PARTY_NO"
+	</SQL>
+    <!-- If the LitigiousParty is a Coded Party then their Address relates directly to PARTIES table.
+         If they aren't a Coded Party then they may have a different Address for each Case in which 
+         they participate, hence the need to select on the Case Number. -->
+  </Query>  
+  <Query pivotNode="/ds/ManageCase/Parties/HistoricalAddresses/Address" tables="GA">
+	<Join>
+		GA.CASE_NUMBER = ${C.CASE_NUMBER} AND 
+	    NOT GA.PARTY_ROLE_CODE = 'SOLICITOR' AND 
+		GA.ADDRESS_TYPE_CODE = 'SERVICE' AND  
+        GA.VALID_TO IS NOT NULL
+      </Join>	
+  </Query>
+ 
+</QueryDef>

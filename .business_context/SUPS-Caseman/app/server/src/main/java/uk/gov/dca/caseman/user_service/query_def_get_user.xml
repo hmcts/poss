@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<QueryDef>
+	<DBMapDef location="uk/gov/dca/caseman/user_service/map_get_user.xml"/>
+	<Query pivotNode="/ds/MaintainUser" tables="DU UC UR CT">
+		<Join>			
+			DU.USER_ID = UC.USER_ID (+) AND
+			UC.USER_ID = UR.USER_ID (+) AND
+			UC.COURT_CODE = UR.COURT_CODE (+) AND
+			UR.COURT_CODE = CT.CODE (+)			
+		</Join>
+	</Query>
+</QueryDef>

@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	19/12/2006 - CV - Added F6 keybinding to LOV via ReasonForReferralLOVGrid.raise configuration.
+	Temp_Caseman defects 299/334.
+-->
+<!--Question xmlns="http://eds.com/questionxhtml" xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd"-->
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>Q_ReasonForReferral</Id>
+	<Label>Reason for Referral</Label>
+	<ObjectName>ReasonForReferral</ObjectName>
+	<Html>
+		<input id="ReasonForReferral" type="text" size="70"></input>
+		<input id="ReasonForReferralLOVButton" type="Button" value="LOV"/>
+		<script type="text/javascript">
+				LOVPopupRenderer.createInline( "ReasonForReferralLOVGrid", "Types", ["Value", "Description"], 10, 1, true );
+        </script>
+	</Html>
+	<Javascript>
+		<XPath>/ds/var/page/OracleReportForm/ReasonForReferral</XPath>
+		<ReportVariableName>REFERRAL_REASON</ReportVariableName>
+		<ReportVariableValue>Services.getValue(ReasonForReferral.dataBinding)</ReportVariableValue>
+		<ReportVariableCode>2100</ReportVariableCode>
+		<HintText>Reason for referral - list available</HintText>
+		<mandatoryOn></mandatoryOn>
+		<isMandatory>return true;</isMandatory>
+		<setDefault></setDefault>		
+		<validateOn></validateOn>
+		<validate>
+			var description = Services.getValue(REF_DATA_XPATH + "/ReasonForReferralList/ReasonForReferral[./Value = " + ReasonForReferral.dataBinding + "]/Description");
+			var valueTest = Services.getValue( REF_DATA_XPATH + "/ReasonForReferralList/ReasonForReferral[./Description = " + ReasonForReferral.dataBinding + "]/Value" );
+			if (description == null &amp;&amp; valueTest == null)
+			{
+				// This is not a valid value - see list of Values
+				return ErrorCode.getErrorCode("CaseMan_Reports_Invalid_LOV_Msg");
+			}
+			else
+			{
+				return null;
+			}
+		</validate>
+		<readOnlyOn></readOnlyOn>
+		<isReadOnly></isReadOnly>
+		<maxLength></maxLength>
+		<transformToDisplay>
+			var description = Services.getValue( REF_DATA_XPATH + "/ReasonForReferralList/ReasonForReferral[./Value = " + ReasonForReferral.dataBinding + "]/Description" );
+			if (description != null)
+			{
+				return description;
+			}
+			else
+			{
+				return value;
+			}
+		</transformToDisplay>
+		<transformToModel>
+			return (null != value) ? value.toUpperCase() : null;
+		</transformToModel>
+		<initialise>
+			dom = getList("../LOV/ReasonForReferralList.xml"); 
+			Services.addNode(dom, REF_DATA_XPATH);
+		</initialise>
+		<logicOn></logicOn>
+		<logic></logic>
+		<miscCode>
+			ReasonForReferral.componentName =	"Reason for Referral";
+			ReasonForReferral.srcData = 		REF_DATA_XPATH + "/ReasonForReferralList";
+			ReasonForReferral.rowXPath = 		"ReasonForReferral";
+			ReasonForReferral.keyXPath =		"Value";
+			
+			function ReasonForReferralLOVButton() {};
+			ReasonForReferralLOVButton.tabIndex = __tabIdx++;
+			
+			function ReasonForReferralLOVGrid() {};
+			
+			ReasonForReferralLOVGrid.dataBinding = ReasonForReferral.dataBinding;
+			ReasonForReferralLOVGrid.srcData = REF_DATA_XPATH + "/ReasonForReferralList";
+			ReasonForReferralLOVGrid.rowXPath = "ReasonForReferral";
+			ReasonForReferralLOVGrid.keyXPath = "Value";
+			ReasonForReferralLOVGrid.columns = [
+				{xpath: "Value"},
+				{xpath: "Description"}
+			];
+			
+			ReasonForReferralLOVGrid.raise = {
+				eventBinding: {
+					singleClicks: [ {element: "ReasonForReferralLOVButton"} ],
+					keys: [ { key: Key.F6, element: "ReasonForReferral" } ]
+				}
+			};
+			
+			ReasonForReferralLOVGrid.nextFocusedAdaptorId = function() {
+				return "OtherReferralReason";
+			}
+		</miscCode>
+		<IsQuestion></IsQuestion>
+	</Javascript>
+</Question>

@@ -1,0 +1,161 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!--
+
+	Tests for the CaseManValidationHelper class.
+
+-->
+
+<html>
+  <head>
+    <title>Unit tests for validation helper</title>
+    <link rel="stylesheet" type="text/css" href="../../jsunit/css/jsUnitStyle.css">
+
+	<script type="text/javascript" src='./jsunit/app/jsUnitCore.js'></script>       
+   	<script type="text/javascript" src='./Framework.js'></script>	
+	<script type="text/javascript" src='./CaseManValidationHelper.js'></script> 	   	
+	<script type="text/javascript" src='./MockFormController.js'></script> 		
+  </head>
+  
+  <body>
+  
+	<form name="theForm" id="theForm" action="#" method="POST"></form>
+    
+    <script type="text/javascript">
+	
+	FormController.initialise(document.forms.theForm);	
+	
+	function setUp()
+	{
+	}
+      
+	function tearDown()
+	{
+	}
+	  
+	function exposeTestFunctionNames()
+	{
+		var functionNames = [
+							'testValidateNumber',
+							'testValidatePattern',
+							'testValidateTime',
+							'testValidatePostCode',
+							'testValidateInSpecifiedArray',
+							'testArrayContainsValue',
+							'testValidateFloatNumber',
+							'testValidateValueInRange',
+							'testValidateNotInReservedRange'
+							];
+		    
+		return functionNames;
+	}
+    	
+	/*
+	 * Tests the CaseManValidationHelper validate number functionality
+	 */
+	function testValidateNumber()
+	{
+		// TODO: THIS METHOD SHOULD BE RENAMED TO isNumber BECAUSE IT RETURNS BOOLEAN
+		assertTrue(CaseManValidationHelper.validateNumber("100"));
+		assertFalse(CaseManValidationHelper.validateNumber("100a"));	
+		assertFalse(CaseManValidationHelper.validateNumber("10a0"));	
+		assertFalse(CaseManValidationHelper.validateNumber("10.90"));						
+	}
+	
+	/*
+	 * Tests the CaseManValidationHelper validatePattern method.
+	 */
+	function testValidatePattern()
+	{
+		var errorCode = CaseManValidationHelper.validatePattern("a10", CaseManValidationHelper.NUMERIC_PATTERN, "dummyErrorCode");
+		assertEquals("Expected the pattern check to fail", MockAppController.MY_DUMMY_ERROR_MESSAGE, errorCode.m_message);
+		
+		errorCode = CaseManValidationHelper.validatePattern("100", CaseManValidationHelper.NUMERIC_PATTERN, "dummyErrorCode");
+		assertEquals("Expected the pattern check to pass", null, errorCode);
+	} 
+	
+	/**
+	 * Tests the CaseManValidationHelper validateTime method.
+	 */
+	function testValidateTime()
+	{
+		// The format for time is 00:00 - 24:00
+		var valid = CaseManValidationHelper.validateTime("00:1a");
+		assertEquals("Expected the time validation check to fail", false, valid);
+
+		valid = CaseManValidationHelper.validateTime("23:60");
+		assertEquals("Expected the time validation check to fail", false, valid);
+		
+		valid = CaseManValidationHelper.validateTime("00:00");
+		assertEquals("Expected the time validation check to pass", true, valid);
+		
+		valid = CaseManValidationHelper.validateTime("23:59");
+		assertEquals("Expected the time validation check to pass", true, valid);
+	}	
+
+	/**
+	 * Tests the CaseManValidationHelper validatePostCode method.
+	 */
+	function testValidatePostCode()
+	{
+		assertTrue(CaseManValidationHelper.validatePostCode("CT11 7PB"));
+		assertFalse(CaseManValidationHelper.validatePostCode("1T11 7PB"));		
+	}
+
+	/**
+	 * Tests the CaseManValidationHelper validateInSpecifiedArray method.
+	 */
+	function testValidateInSpecifiedArray()
+	{
+		var errorCode = CaseManValidationHelper.validateInSpecifiedArray("HERE", ["1", "2", "HERE"], "dummyErrorCode");
+		assertEquals("", null, errorCode);
+		errorCode = CaseManValidationHelper.validateInSpecifiedArray("NOT HERE", ["1", "2", "HERE"], "dummyErrorCode");
+		assertEquals("", MockAppController.MY_DUMMY_ERROR_MESSAGE, errorCode.getMessage());		
+	}
+
+	/**
+	 * Tests the CaseManValidationHelper arrayContainsValue method.
+	 */
+	function testArrayContainsValue()
+	{
+		assertTrue("", CaseManValidationHelper.arrayContainsValue(["1", "2", "HERE"], "HERE"));
+		assertFalse("", CaseManValidationHelper.arrayContainsValue(["1", "2", "HERE"], "NOT HERE"));		
+	}
+
+	/**
+	 * Tests the CaseManValidationHelper validateFloatNumber method.
+	 */
+	function testValidateFloatNumber()
+	{
+		assertTrue("", CaseManValidationHelper.validateFloatNumber("3.14"));
+		assertFalse("", CaseManValidationHelper.validateFloatNumber("a314"));		
+	}
+	
+	/**
+	 * Tests the CaseManValidationHelper validateValueInRange method.
+	 */
+	function testValidateValueInRange()
+	{
+		// It is in the range so null should be returned
+		var errorCode = CaseManValidationHelper.validateValueInRange(10, 9, 11, "dummyErrorCode");
+		assertEquals("", null, errorCode);	
+		// It is not in the range so an error message should be returned
+		errorCode = CaseManValidationHelper.validateValueInRange(12, 9, 11, "dummyErrorCode");
+		assertEquals("", MockAppController.MY_DUMMY_ERROR_MESSAGE, errorCode.getMessage());				
+	}
+
+	/**
+	 * Tests the CaseManValidationHelper validateNotInReservedRange method.
+	 */
+	function testValidateNotInReservedRange()
+	{
+		// It's not in the range so null should be returned
+		var errorCode = CaseManValidationHelper.validateNotInReservedRange(12, 9, 11, "dummyErrorCode");
+		assertEquals("", null, errorCode);		
+		// If it is in the range then an error message should be returned
+		errorCode = CaseManValidationHelper.validateNotInReservedRange(10, 9, 11, "dummyErrorCode");
+		assertEquals("", MockAppController.MY_DUMMY_ERROR_MESSAGE, errorCode.getMessage());						
+	}	
+
+    </script>
+  </body>
+</html>

@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: NonWorkingDay
+	Method:  getNonWorkingDaysForMonth()
+	File:    get_non_working_days_for_month.xml
+	Author:  Mark Hallam
+	Created: 16 March 2006
+	Description: 
+		Gets the date of the non working days for a particular month and year
+-->
+<service-method>
+	<pipeline>
+		<SQLLite format-output="true"
+				 resultset-element="NonWorkingDays"
+				 row-element="NonWorkingDay"
+				 field-name-as="element" >
+			<DataSource id="java:OracleDS"/>
+				<Param name="param.month" xpath="/params/param[@name='month']"/>
+				<Param name="param.year" xpath="/params/param[@name='year']"/>
+			
+			<SQL>
+				
+			   	SELECT TO_CHAR(NWD.NON_WORKING_DATE, 'dd')     AS "Day"
+  				FROM NON_WORKING_DAYS NWD
+  				WHERE NWD.ERROR_INDICATOR = 'N' 
+  				AND TO_CHAR(NWD.NON_WORKING_DATE, 'mm') = TO_NUMBER(${param.month})
+				AND TO_CHAR(NWD.NON_WORKING_DATE, 'yyyy') = TO_NUMBER(${param.year})
+  				
+  				
+			</SQL>
+		</SQLLite>
+  	</pipeline>
+	<Security roles="viewOnly medium high wcSuper scSuper bmsSuper aeSuper dmSuper cpSuper ccbcMan ccbcUser ccbcSGB2"/>
+</service-method>

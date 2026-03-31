@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: Warrant
+	Method:  searchWarrantsForReissue()
+	File:    search_warrants_for_reissue.xml
+	Author:  Paul Robinson (EDS)
+	Created: 14 August 2006
+	Description: Searches for a particular Warrant, or all Warrants related to a particular case or CO.
+				 Constrained by executed_by & issued_by
+-->
+<service-method>
+	<pipeline>
+		<Query>
+  			<QueryDef location="uk/gov/dca/caseman/warrant_service/query_def_search_for_reissue.xml"/>
+			<QueryExtension pivotNode="/ds/Warrants/Warrant">
+				<Param name="param.warrantNumber" xpath="/params/param[@name = 'warrantNumber']"/>
+				<Param name="param.caseNumber" xpath="/params/param[@name = 'caseNumber']"/>
+				<Param name="param.courtId" xpath="/params/param[@name = 'courtId']"/>
+				<Constraint>
+					W.CURRENTLY_OWNED_BY = (${param.courtId})
+	            	AND   W.EXECUTED_BY = (${param.courtId}) 
+	            	AND   W.CASE_NUMBER = UPPER (${param.caseNumber})  
+	            	AND   W.WARRANT_NUMBER = UPPER (${param.warrantNumber})
+				</Constraint>
+			</QueryExtension>
+  	    </Query>
+	</pipeline>
+	<Security roles="viewOnly medium high wcSuper scSuper bmsSuper aeSuper dmSuper cpSuper ccbcMan ccbcUser ccbcSGB2"/>		
+</service-method>

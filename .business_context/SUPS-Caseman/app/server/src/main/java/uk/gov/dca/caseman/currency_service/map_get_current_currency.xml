@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<DBMapDef>
+  <DataSource id="java:OracleDS"/>
+  <Tables>
+    <Table alias="CUR" name="CURRENCY" />
+  </Tables>
+  <Mapping>
+	<CurrentCurrency>
+		<CurrencyCode>${CUR.CURRENCY_CODE}</CurrencyCode>
+		<CurrencySymbol>${CUR.CURRENCY_SYMBOL}</CurrencySymbol>	
+	</CurrentCurrency>
+  </Mapping>
+</DBMapDef>

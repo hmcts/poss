@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>330</Id>
+	<Label>Enter amount ordered to be paid</Label>
+	<ObjectName>AmountOrdered</ObjectName>
+	<Html>
+		<input type="text" size="1" id="DefaultCurrency330"></input>
+		<input type="text" id="AmountOrdered" size="9" maxlength="9"></input>
+	</Html>
+	<Javascript>
+		<XPath>/ds/EnterVariableData/InterimCosts/PossessionOrder/amountOrdered</XPath>
+		<componentName>##label##</componentName>
+		<HintText>Enter amount ordered to be paid such as rent arrears</HintText>
+		<maxLength>9</maxLength>
+		<isMandatory>return false;</isMandatory>
+		<validateOn>AmountOrdered.dataBinding</validateOn>
+		<validate>
+			var val = Services.getValue(AmountOrdered.dataBinding);
+			var err = validateCurrencyValue(val, 999999.99);
+			if( null == err ) {
+				var fVal = WPU.formatToTwoDP(val);
+				Services.setValue(AmountOrdered.dataBinding, fVal);	}
+			return err;
+		</validate>
+	  	<transformToModel>        
+			if (null == value || "" == value) {
+				return "0.00"; }
+          	else { 
+          		return value; }
+        </transformToModel>
+        <transformToDisplay>            
+            if ("0.00" == value) return "0.00";
+            return value;           
+        </transformToDisplay>  
+		<miscCode>
+			function DefaultCurrency330() {}
+			DefaultCurrency330.dataBinding = "/ds/EnterVariableData/curr1";
+			DefaultCurrency330.tabIndex = -1;
+			DefaultCurrency330.maxLength = 1;
+			DefaultCurrency330.isReadOnly = function(){return true;}
+			DefaultCurrency330.isTemporary = function(){return true;}
+			DefaultCurrency330.transformToDisplay = function(value){
+				return WPS.__CaseManUtils().transformCurrencySymbolToDisplay(value,null,null); }
+			DefaultCurrency330.transformToModel = function(value){
+				return WPS.__CaseManUtils().transformCurrencySymbolToModel(value,null,null); }
+        </miscCode>
+		<Context ScreenId="CJR052">	
+			<HintText>Enter amount ordered to be paid</HintText>
+			<isMandatory>return true;</isMandatory>
+		</Context>
+		<Context ScreenId="CJR053">	
+			<HintText>Enter amount ordered to be paid</HintText>
+		</Context>
+		<Context ScreenId="CJR055">	
+			<HintText>Enter amount ordered to be paid</HintText>
+			<isMandatory>return true;</isMandatory>
+		</Context>
+	</Javascript>
+</Question>  

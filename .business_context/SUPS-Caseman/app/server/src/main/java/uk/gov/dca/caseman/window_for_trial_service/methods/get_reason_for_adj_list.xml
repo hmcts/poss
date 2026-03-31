@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: WindowForTrial
+	Method:  getReasonForAdjList()
+	File:    get_reason_for_adj_list.xml
+	Author:  
+	Created: 
+	Description: 
+        List of Reasons for Adjournment associated with a Reason for trial
+-->
+<service-method>
+	<pipeline>
+		<Query>
+			<QueryDef location="uk/gov/dca/caseman/window_for_trial_service/query_def_reason_for_adj_list.xml"/>
+			<QueryExtension pivotNode="/ReasonsForAdjournment/Reason">
+				<Constraint>CCBC.RV_DOMAIN = 'WFT_REASON'</Constraint>
+			</QueryExtension>
+		</Query>
+	</pipeline>
+	<Security roles="viewOnly medium high wcSuper scSuper bmsSuper aeSuper dmSuper cpSuper ccbcMan ccbcUser ccbcSGB2"/> 			
+</service-method>

@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Change History -->
+<!-- 12th Jan 2007 - TEMP_caseman defect 353 - MGG, added call to validateReprint() (this is detailed in Q2), to validate whether warrant can be re re printed -->
+<!-- 9Oct2007 - Caseman defect 6460. CJH: Warrant Search being done when field is blanked out. -->
+<!--Question xmlns="http://eds.com/questionxhtml" xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd"-->
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>CM_WAREX_REPRINT_QUESTION_3</Id>
+	<Label>Last	Warrant Number</Label>
+	<ObjectName>LastWarrantNumber</ObjectName>
+	<Html>
+		<input id="LastWarrantNumber" type="text" size="8"></input>
+	</Html>
+	<Javascript>
+		<XPath>/ds/var/page/OracleReportForm/LastWarrantNumber</XPath>
+		<ReportVariableName>P_TO_NO</ReportVariableName>
+		<ReportVariableValue>Services.getValue(LastWarrantNumber.dataBinding)</ReportVariableValue>
+		<HintText>Enter the ending warrant number for the range to reprint</HintText>
+		<isMandatory>return true;</isMandatory>
+		<maxLength>8</maxLength>
+		<transformToDisplay>
+			return (null != value) ? value.toUpperCase() : null;
+		</transformToDisplay>
+		<transformToModel>
+			return (null != value) ? value.toUpperCase() : null;
+		</transformToModel>	
+		<logicOn>LastWarrantNumber.dataBinding</logicOn>
+		<logic>
+			var value = Services.getValue(LastWarrantNumber.dataBinding);
+			if (!CaseManUtils.isBlank(value))
+			{
+			    Services.setValue(REPRINT_PAGE, "");
+				searchWarrants(LastWarrantNumber);
+				validateReprint();
+			}
+		</logic>		
+		<miscCode>
+			
+			LastWarrantNumber.onSuccess = function(dom) {
+			    if(dom != null) {
+			        var node = dom.selectSingleNode("/ds/Warrants");
+			        Services.replaceNode(SEARCH_RESULTS_XPATH_LAST, node);
+			        
+			        var count = Services.countNodes(SEARCH_RESULTS_XPATH_LAST + "/Warrant");
+			        if(count == 0) {
+			           alert("Last Warrant Number\r\n" + Messages.NO_RESULTS_MESSAGE); 
+			        } else if(count >= 1) {
+			        }
+			    }
+			}		
+		</miscCode>			
+	</Javascript>
+</Question>

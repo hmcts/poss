@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<DBMapDef>
+	<DataSource id="java:OracleDS"/>
+	<Tables>
+		<Table alias="D" name="DEFENDANTS"/>
+	</Tables>
+	<Mapping>
+		<Defendants>
+			<Defendant>
+				<CaseNumber>${D.CASE_NUMBER}</CaseNumber>
+				<DeftId>${D.ID}</DeftId>
+				<Name>${D.NAME}</Name>
+				<DateOfServiceRO>${D.DATE_OF_SERVICE_RO}</DateOfServiceRO>
+				<DateOfServiceOther>${D.DATE_OF_SERVICE_OTHER}</DateOfServiceOther>
+				<BarJudgment>${D.BAR_JUDGMENT}</BarJudgment>
+				<Solicitor>
+					<SolCode>${D.SOL_CODE}</SolCode>
+					<SolicitorName>${D.SOLICITOR_NAME}</SolicitorName>
+					<SolicitorAddrLine1>${D.SOLICITOR_ADDR_1}</SolicitorAddrLine1>
+					<SolicitorAddrLine2>${D.SOLICITOR_ADDR_2}</SolicitorAddrLine2>
+					<SolicitorAddrLine3>${D.SOLICITOR_ADDR_3}</SolicitorAddrLine3>
+					<SolicitorAddrLine4>${D.SOLICITOR_ADDR_4}</SolicitorAddrLine4>
+					<SolicitorAddrLine5>${D.SOLICITOR_ADDR_5}</SolicitorAddrLine5>
+					<SolicitorPostcode>${D.SOLICITOR_POSTCODE}</SolicitorPostcode>
+					<SolicitorTelNo>${D.SOLICITOR_TEL_NO}</SolicitorTelNo>
+					<SolicitorDX>${D.SOL_DX}</SolicitorDX>
+				</Solicitor>
+			</Defendant>
+		</Defendants>
+	</Mapping>
+</DBMapDef>

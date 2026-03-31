@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: StartOfDay
+	Method:  getOrderTypes()
+	File:    get_order_typeDetails.xml
+	Author:  Chris Hutt
+	Created: 5 dec 2005
+	Description: 
+		Get OrderType details for specified  order_type_id
+-->
+<service-method>
+	<pipeline>
+		<SQLLite format-output="true"
+				 resultset-element="ds"
+				 row-element="OrderType"
+				 field-name-as="element" >
+			<DataSource id="java:OracleDS"/>
+				<Param name="param.orderType" xpath="/params/param[@name='orderType']"/>			
+			<SQL>
+				SELECT
+  					OT.order_id  				as "OrderId"
+				,   	OT.display_order_id		as "DisplayOrderId"
+				, 	OT.previous_order_id 		as "PreviousOrderId"
+				, 	OT.order_description 		as "OrderDescription"
+				, 	OT.legal_description  		as "LegalDescription"
+				, 	OT.document_type 			as "DocumentType"
+				, 	OT.report_type 				as "ReportType"
+				, 	OT.module_name 				as "ModuleName"
+				, 	OT.module_group 			as "ModuleGroup"
+				, 	OT.selection_criteria 		as "SelectionCriteria"
+				, 	OT.doc_recipient 			as "DocumentRecipient"
+				, 	OT.doc_payee 				as "DocumentPayee"
+				, 	OT.printer_type 			as "PrinterType"
+				, 	OT.user_edit 				as "UserEdit"
+				, 	OT.file_prefix 				as "FilePrefix"
+				, 	OT.file_extension 			as "FileExtension"
+				FROM 
+					ORDER_TYPES OT
+				WHERE
+					OT.ORDER_ID = ${param.orderType}
+			</SQL>
+	</SQLLite>
+	</pipeline>
+	<Security roles="viewOnly medium high wcSuper scSuper bmsSuper aeSuper dmSuper edsAdmin"/>
+</service-method>

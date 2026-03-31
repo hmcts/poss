@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>225</Id>
+	<Label>Date for filing Report</Label>
+	<ObjectName>ReportFilingDate</ObjectName>
+	<Html>	
+		<script type="text/javascript">
+			WP_DatePickerRenderer.createInline("ReportFilingDate");
+		</script>
+	</Html>
+	<Javascript>
+		<XPath>/ds/EnterVariableData/FastTrack/reportFilingDate</XPath>
+		<HintText>Enter date for filing report in the format DD-MON-YYYY</HintText>
+		<isMandatory>return true;</isMandatory>	
+		<enableOn>IsSingleExpert.dataBinding, IsExpertsReportDate.dataBinding</enableOn>
+		<isEnabled>return('Y' == Services.getValue(IsSingleExpert.dataBinding)
+					&amp;&amp; 'Y' == Services.getValue(IsExpertsReportDate.dataBinding));
+		</isEnabled>
+		<logicOn>IsSingleExpert.dataBinding, IsExpertsReportDate.dataBinding</logicOn>
+		<logic>
+			if('Y' != Services.getValue(IsSingleExpert.dataBinding)
+					|| 'Y' != Services.getValue(IsExpertsReportDate.dataBinding))
+			{	Services.setValue(ReportFilingDate.dataBinding,"");
+			}
+		</logic>
+		<validateOn>ReportFilingDate.dataBinding</validateOn>
+		<validate>
+			//cannot be in past : working day only
+			
+			var checkDate = Services.getValue(ReportFilingDate.dataBinding); 
+			var err = null;
+			
+			if( false == isFutureDate(checkDate))
+			{ 	err = ErrorCode.getErrorCode("CaseMan_dateCannotBeInThePast_Msg");
+			}
+			else if( isNonWorkingDate(checkDate))
+		    {   err = ErrorCode.getErrorCode("CaseMan_dateNonWorkingDay_Msg"); 
+		    }
+			
+			return err;
+		</validate>	
+		<!--initialise>		  	
+		  	loadNonWorkingDays();
+		</initialise-->
+		<miscCode>
+		    ReportFilingDate.weekends = false;
+		</miscCode>	
+	</Javascript>
+</Question>

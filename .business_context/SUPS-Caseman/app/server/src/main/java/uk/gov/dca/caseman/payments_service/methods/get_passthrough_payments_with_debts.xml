@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: Payments
+	Method: getPassthroughPaymentsWithDebts()
+	File: get_passthrough_payments_with_debts.xml
+	Author: Tony White
+	Description:
+		Get details of passthrough payments along with debt balances.
+-->
+<service-method>
+	<pipeline>
+		<Java callStyle="new">
+			<Source class="uk.gov.dca.caseman.payments_service.java.GetPassthroughsWithDebtsCustomProcessor" />
+		</Java>
+	</pipeline>
+	<Dependencies>
+		<Dependency serviceName="Co" />
+	</Dependencies>
+	<Security roles="medium high wcSuper scSuper bmsSuper aeSuper dmSuper cpSuper" />
+</service-method>

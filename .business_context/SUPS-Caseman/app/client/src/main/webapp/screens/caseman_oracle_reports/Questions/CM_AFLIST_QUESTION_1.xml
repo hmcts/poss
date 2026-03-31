@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- 
+	09/01/2007 - MGG - temp_caseman defect 330 - Date cannot be in the future
+-->
+<!--Question xmlns="http://eds.com/questionxhtml" xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd"-->
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>CM_AFLIST_QUESTION_1</Id>
+	<Label>Issue Date</Label>
+	<ObjectName>IssueDate</ObjectName>
+	<Html>
+		<script type="text/javascript">
+			DatePickerRenderer.createInline("IssueDate", true);
+		</script>
+	</Html>
+	<Javascript>
+		<XPath>/ds/var/page/OracleReportForm/IssueDate</XPath>
+		<ReportVariableName>P_FEE_PROCESSING_DATE</ReportVariableName>
+		<ReportVariableValue>CaseManUtils.convertDateToDisplay(Services.getValue(IssueDate.dataBinding))</ReportVariableValue>
+		<HintText></HintText>
+		<isMandatory>return true;</isMandatory>
+		<initialise></initialise>
+		<setDefault>
+		</setDefault>		
+		<validateOn>IssueDate.dataBinding</validateOn>
+		<validate>
+			// temp_caseman defect 330 - MGG 09/01/07.  Date cannot be in the future
+			var dateOfIssue = Services.getValue(IssueDate.dataBinding);
+			var dateOfIssueObj = CaseManUtils.isBlank(dateOfIssue) ? null : CaseManUtils.createDate(dateOfIssue);
+			var todayDateObj = CaseManUtils.createDate(getTodaysDate());
+			var errCode = null;
+			if(dateOfIssueObj != null){
+				var comparison = CaseManUtils.compareDates(dateOfIssueObj, todayDateObj);
+				if(comparison == -1){
+					errCode = ErrorCode.getErrorCode("CaseMan_dateCannotBeInTheFuture_Msg");
+				}     
+			}
+			return errCode;	
+		</validate>
+		<miscCode>
+			Status_RunReportButton.validationList = ["IssueDate"];
+			IssueDate.weekends = true;
+			IssueDate.updateMode="clickCellMode";
+		</miscCode>
+	</Javascript>
+</Question>

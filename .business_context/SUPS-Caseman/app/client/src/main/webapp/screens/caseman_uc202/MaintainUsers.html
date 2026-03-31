@@ -1,0 +1,206 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3c.org/TR/html4/strict.dtd">
+
+<html>
+	<head>
+		<title>MaintainUsers</title>
+		<link href="MaintainUsers.css" type="text/css" rel="stylesheet" title="Default">
+		<script type="text/javascript" src="../../Framework.js"></script>
+		<script type="text/javascript" src="../../ConcatCommon.js"></script>
+		<script type="text/javascript" src="MaintainUsers.js"></script>
+		<script type="text/javascript" src="MaintainUsers_AuditCode.js"></script>
+	</head>
+
+	<body>
+		<form name="MaintainUsers" id="maintainUsers">
+
+			<!-- Framework Navigation Menu -->
+			<script type="text/javascript">MenuBarRenderer.createInline();</script>
+
+			<table class="layout">
+				<!-- Header Panel -->
+				<tr>
+					<td>
+						<div class="panel">
+							<table style="width:100%;">
+								<tr>
+									<td style="width:495px;">&nbsp;</td>
+									<td class="defaultLabel"><label for='Header_CourtCode'>Owning Court</label></td>
+									<td>
+										<input id="Header_CourtCode" type="text" size=3 style="margin-top:5px; margin-bottom:5px;"/>
+										<input id="Header_CourtName" type="text" size=48 style="margin-top:5px; margin-bottom:5px;"/>
+									</td>
+								</tr>
+							</table>
+						</div>
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<div class="panel">
+							<table class="content">
+								<tr>
+									<td class="defaultLabel"><label for='Header_User'>User Id</label></td>
+									<td>
+										<input id="Header_UserId" type="text" size=12 style="margin-top:5px; margin-bottom:5px;"/>
+										<input id="Header_UserIdLOVBtn" type="button" value="LOV" style="margin-top:5px; margin-bottom:5px;"/>
+									</td>
+								</tr>
+							</table>
+						</div>
+					</td>
+				</tr>
+				<!-- End Header Panel -->
+
+				<tr>
+					<td>
+						<div class="panel">
+							<table style="height:482px;">
+								<tr>
+									<td>
+										<table class="content">
+											<tr>
+												<td class="defaultLabel"><label for='Main_Title'>Title</label></td>
+												<td colspan="3"><input id="Main_Title" type="text" size=30 /></td>
+											</tr>
+											<tr>
+												<td colspan="4">&nbsp;</td>
+											</tr>
+											<tr>
+												<td class="defaultLabel"><label for='Main_Forenames'>Forenames</label></td>
+												<td colspan="3"><input id="Main_Forenames" type="text" size=70 /></td>
+											</tr>
+											<tr>
+												<td colspan="4">&nbsp;</td>
+											</tr>
+											<tr>
+												<td class="defaultLabel"><label for='Main_Surname'>Surname</label></td>
+												<td colspan="3"><input id="Main_Surname" type="text" size=35 /></td>
+											</tr>
+											<tr>
+												<td colspan="4">&nbsp;</td>
+											</tr>
+											<tr>
+												<td class="defaultLabel"><label for='Main_UserShortName'>Alias</label></td>
+												<td colspan="3"><input id="Main_UserShortName" type="text" size=35 /></td>
+											</tr>
+											<tr>
+												<td colspan="4">&nbsp;</td>
+											</tr>
+											<tr>
+												<td class="defaultLabel"><label for='Main_Extension'>Extension</label></td>
+												<td colspan="3"><input id="Main_Extension" type="text" size=40 /></td>
+											</tr>
+											<tr>
+												<td colspan="4">&nbsp;</td>
+											</tr>
+											<tr>
+												<td class="defaultLabel"><label for='Main_PrinterCourtCode'>Select Printer Court</label></td>
+												<td><input id="Main_PrinterCourtCode" type="text" size=5 style="margin-right:5px;"/></td>
+												<td>
+													<script type="text/javascript">AutoCompletionRenderer.createInline("Main_PrinterCourtName");</script>
+												</td>
+												<td align="left" style="width:150px;"><input id="Main_PrinterCourtLOVButton" type="Button" value="LOV" style="margin-left:5px;"/></td>
+											</tr>
+											<tr>
+												<td colspan="4">&nbsp;</td>
+											</tr>
+											<tr>
+												<td class="defaultLabel"><label for='Main_DefaultPrinter'>Printer</label></td>
+												<td colspan="2"><script type="text/javascript">AutoCompletionRenderer.createInline("Main_DefaultPrinter");</script></td>
+												<td><input id="Main_DefaultPrinterLOVBtn" type="Button" value="LOV" style="margin-left:5px;" /></td>
+											</tr>
+											<tr>
+												<td colspan="4">&nbsp;</td>
+											</tr>
+											<tr>
+												<td class="defaultLabel"><label for='Main_Section'>Section for Printouts</label></td>
+												<td colspan="3"><input id="Main_SectionForPrintouts" type="text" size=45 /></td>
+											</tr>
+											<tr>
+												<td colspan="4">&nbsp;</td>
+											</tr>
+											<tr>
+												<td class="defaultLabel"><label for='Main_Section'>Section for BMS</label></td>
+												<td colspan="3"><select id="Main_SectionForBMS" /></td>
+											</tr>
+											<tr>
+												<td colspan="4">&nbsp;</td>
+											</tr>
+											<tr>
+												<td class="defaultLabel"><label for='Main_Role'>Role</label></td>
+												<td colspan="3"><select id="Main_Role" /></td>
+												
+												<td class="defaultLabel"><label for='Main_SystemAdminIndicator'>System&nbsp;Admin&nbsp;Functionality</label></td>
+												<td>&nbsp;&nbsp;</td>
+												<td colspan="3"><input type="checkbox" id="Main_SystemAdminIndicator" /></td>
+											</tr>
+											
+											<tr>
+												<td colspan="4">&nbsp;</td>
+											</tr>
+										</table>
+									</td>
+								</tr>
+							</table>
+						</div>
+					</td>
+				</tr>
+			</table>
+
+			<!-- Status Bar Panel -->
+			<script type="text/javascript">
+				ActionBarRenderer.createInline("status_bar", 
+					[{id: "Status_SaveBtn", label: "Save"}, 
+					{id: "Status_DeactivateBtn", label: "Deactivate"},
+					{id: "Status_ClearBtn", label: "Clear"}, 
+					{id: "Status_CloseBtn", label: "Close"}]
+				);
+			</script>
+			<!-- End Status Bar Panel -->
+			
+			<!-- Progress Indicator Popup -->
+			<div class="popup" id="ProgressIndicator_Popup">
+				<div class="panel" id="ProgressIndicator_Panel">
+					<table class="content" cellspacing="5">
+						<tr>
+							<td><label for="Progress_Bar">Generating Report</label></td>
+						</tr>
+						<tr>
+							<td><input id="Progress_Bar" type="text" size="67"/></td>
+						</tr>
+						<tr>
+							<td id="Progress_Status"></td>
+						</tr>
+					</table>
+				</div>
+				<script type="text/javascript">
+					ActionBarRenderer.createInlineNoStatusBar(
+						"ProgressIndicator_ActionBar",
+						[
+							{label: "Cancel", id: "Popup_Cancel"}
+						]
+					);	
+				</script>	
+			</div>
+			<!-- End Progress Indicator Popup -->
+
+			<!-- LOV POPUPs -->
+			<script type="text/javascript">LOVPopupRenderer.createInline( "UsersLOV", "Users", ["UserId", "Forenames", "Surname"], 10, 1, true );</script>
+			<script type="text/javascript">LOVPopupRenderer.createInline( "PrintersLOV", "Printers", ["Print Share Name", "Printer Name"], 10, 1, true );</script>
+			<script type="text/javascript">LOVSubformRenderer.createInline( "Main_PrinterCourtLOVGrid", "Courts", ["Code", "Name"], 10, 1, true );</script>
+
+			<!-- Non-visual data change listeners -->
+			<div class="logic" id="changesMadeLogic"></div>
+
+			<!-- AUDIT PANELS -->
+			<div class="auditPanel" id="currentlySelectedUser"></div>
+
+			<!-- AUDIT SELECTOR ADAPTOR -->
+			<script type="text/javascript">AuditSelectorRenderer.createInline( "Audit_PanelSelector" );</script>
+
+			<!-- SUBFORMS -->
+			<div class="popup popupsubform" id="audit_subform"></div>
+
+		</form>
+	</body>
+</html>

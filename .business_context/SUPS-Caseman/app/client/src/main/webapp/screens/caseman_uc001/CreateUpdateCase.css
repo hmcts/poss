@@ -1,0 +1,201 @@
+form#createUpdateCase
+{
+	display: inline;
+}
+
+/* Footer Panel spacer column style */
+td.footerSpacer { width: 50px; }
+
+/* Sets the width of all the footer panel buttons */
+input.addUpdateButton { width: 110px; }
+
+/* Sets the widths of the select lists */
+#Master_PartyType { width: 200px; }
+#LitigiousParty_SelectSolicitor { width: 175px; }
+
+/* Sets the width for all party field label cells */
+.partyLabel { width: 200px; }
+.mediationLabel { width: 150px; }
+
+/* Specific margins for fields */
+#DetailsOfClaim_DateRequestReceived { margin-top: 5px; }
+#Notification_Date { margin-top: 5px; }
+
+.cucLabel { width: 100px;}
+.cucLabel2 { width: 110px; }
+.nopad { padding: 0 0 0 0;
+         margin: 0 0 0 0;
+       }
+	   
+#Header_CaseDetails { width: 150px;}
+select#Header_CaseAllocatedTo { width: 150px; margin-bottom:3px; }
+#Header_ParticularsOfClaimButton { width: 90px; margin-bottom:2px;}
+#Footer_DetailsOfClaimButton { margin-top:2px; margin-bottom:2px; }
+#Footer_HearingDetailsButton { margin-top:2px; margin-bottom:2px; }
+#Footer_OtherPossessionAddressButton { margin-top:2px; margin-bottom:2px; }
+	   
+#Mediation_Availability { width: 272px; }
+#Mediation_Notes { width: 272px; }
+	   
+/************************************** SUBFORMS ******************************************/
+
+#hearingDetails_subform
+{
+	left: 50%;
+	top: 50%;
+	margin-left: -425px;
+	margin-top: -176px;
+	width: 850px;
+	height: 352px;
+}
+
+#otherPossnAddress_subform
+{
+	width: 600px;
+	height: 222px;
+	left: 50%;
+	top: 50%;
+	margin-left: -300px;
+	margin-top: -111px;
+}
+
+#viewHistAddresses_subform
+{
+	width: 850px;
+	height: 248px;
+	left: 50%;
+	top: 50%;
+	margin-left: -425px;
+	margin-top: -124px;
+}
+
+#addNewAddress_subform
+{
+	width: 600px;
+	height: 198px;
+	left: 50%;
+	top: 50%;
+	margin-left: -300px;
+	margin-top: -99px;
+}
+
+#addNewAddress_subform
+{
+	width: 600px;
+	height: 198px;
+	left: 50%;
+	top: 50%;
+	margin-left: -300px;
+	margin-top: -99px;
+}
+
+#addNewSolicitor_subform
+{
+	width: 600px;
+	height: 390px;
+	left: 50%;
+	top: 50%;
+	margin-left: -300px;
+	margin-top: -195px;
+}
+
+/****************************************** GRID ********************************************/
+
+#masterGrid
+{
+	margin: 5px;
+	width: 395px;
+}
+
+#masterGrid .col0 { width: 125px; }
+#masterGrid .col1 { width: 47px; }
+#masterGrid .col2 { width: 141px; }
+#masterGrid .col3 { width: 46px; }
+
+/***************************************** POP-UPS ******************************************/
+
+div#Details_Of_Claim_Popup
+{
+	visibility: hidden;
+	position: absolute;
+	left: 50%;
+	margin-left: -175px;
+	margin-top: -107px;
+	top: 50%;
+	width: 350px;
+	height: 195px;
+}
+		
+div#Particulars_Of_Claim_Popup
+{
+	visibility: hidden;
+	position: absolute;
+	left: 50%;
+	top: 50%;
+	width: 450px;
+	height: 216px;
+	margin-left: -225px;
+	margin-top: -115px;
+}
+		
+div#Notification_Date_Popup
+{
+	visibility: hidden;
+	position: absolute;
+	left: 50%;
+	top: 50%;
+	width: 300px;
+	height: 75px;
+	margin-left: -150px;
+	margin-top: -47px;
+}
+		
+/************************************* LOV POPUPS *****************************************/
+
+#Header_CaseType
+{
+	width: 180px;
+}
+
+#Header_CaseTypeLOVGrid
+{
+	height: 302px;
+	width: 672px;
+	left: 50%;
+	margin-left: -336px;
+	top: 100px;
+}
+
+#Header_OwningCourtName
+{
+	width: 160px;
+	margin-top: 3px;
+}
+
+#Header_PreferredCourtName
+{
+	width: 160px;
+}
+
+#CourtsLOVGrid
+{
+	height: 302px;
+	width: 372px;
+	left: 50%;
+	margin-left: -186px;
+	top: 100px;
+}
+	
+/***************************************** TABS ********************************************/
+
+div#myTabbedArea
+{
+	margin: 0px;
+}
+
+div#myPagedArea
+{
+	margin: 0px;
+	height: 430px;
+	width: 535px;
+}

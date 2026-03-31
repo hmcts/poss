@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: SuitorsCashStartOfDay
+	Method:  getLatestItemDate()
+	File:    get_latest_item_date.xml
+	Author:  Anthony Bonnar
+	Created: 15 Novemeber 2005
+	Description: 
+		Retrieves the max(latest) 'Item Date' from the DCS Table
+-->
+<service-method>
+	<pipeline>
+		<SQLLite format-output="true"
+				 resultset-element="ResultSet"
+				 row-element="Row"
+				 field-name-as="element" >
+			<DataSource id="java:OracleDS"/>
+			<Param name="param.adminCourtCode" xpath="/params/param[@name = 'adminCourtCode']"/>
+			<SQL>
+				SELECT /*+ INDEX(DCS,XIF1DCS) */ MAX(TRUNC(ITEM_DATE)) AS "ItemDate" FROM DCS
+				WHERE ADMIN_COURT_CODE = ${param.adminCourtCode}
+			</SQL>
+		</SQLLite>
+	</pipeline>
+	<Security roles="viewOnly medium high wcSuper scSuper bmsSuper aeSuper dmSuper edsAdmin admin cpSuper"/>
+</service-method>
+

@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>9239</Id>
+	<Label>Type of proceedings</Label>
+	<ObjectName>TypeProceedings</ObjectName>
+	<Html>
+		<select id="TypeProceedings">
+			<option value=""></option>
+			<option value="M">Main</option>
+			<option value="SEC">Secondary</option>
+			<option value="TER">Territorial</option>
+		</select>
+	</Html>			
+	<Javascript>
+		<XPath>/ds/EnterVariableData/ECProceedingType</XPath>
+		<componentName>##label##</componentName>
+		<isMandatory>return true;</isMandatory>
+		<HintText>Select Type of Proceeding</HintText>
+		
+         
+		 <Context ScreenId="O_10_10">
+            <enableOn>ECRegulation.dataBinding</enableOn>
+			<isEnabled>
+				return ( 'Y' == Services.getValue(ECRegulation.dataBinding));											
+			</isEnabled>	
+			<logicOn>ECRegulation.dataBinding</logicOn>
+			<logic>
+				if( 'Y' != Services.getValue(ECRegulation.dataBinding))
+				{	Services.setValue(ECRegulation.dataBinding, "N");
+				}
+			</logic>
+         </Context>
+         
+         <Context ScreenId="O_10_12">
+            <enableOn>ECRegulation.dataBinding</enableOn>
+			<isEnabled>
+				return ( 'Y' == Services.getValue(ECRegulation.dataBinding));											
+			</isEnabled>	
+			<logicOn>ECRegulation.dataBinding</logicOn>
+			<logic>
+				if( 'Y' != Services.getValue(ECRegulation.dataBinding))
+				{	Services.setValue(ECRegulation.dataBinding, "N");
+				}
+			</logic>
+         </Context>
+         
+	</Javascript>
+</Question>    
+                                                       
+     

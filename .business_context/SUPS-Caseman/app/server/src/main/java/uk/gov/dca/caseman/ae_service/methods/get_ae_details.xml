@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<service-method>
+	<pipeline>
+		<NewQuery>
+			<QueryDef location="uk/gov/dca/caseman/ae_service/query_def_ae_details.xml"/>
+			<QueryExtension pivotNode="/AEApplications/AEApplication">
+				<Param name="param.caseNumber" xpath="/params/param[@name = 'caseNumber']"/>
+			</QueryExtension>
+		</NewQuery>
+	</pipeline>
+	<Security roles="user"/>
+</service-method>

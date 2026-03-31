@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>383</Id>
+	<Label>Enter claim number</Label>
+	<ObjectName>ClaimNumber</ObjectName>
+	<Html>	
+		<input type="text" id="ClaimNumber"></input>
+	</Html>	
+	
+	<Context screenId="L_14_1"><isVisible>false</isVisible></Context>
+	<Context screenId="FE45"><isVisible>false</isVisible></Context>
+		
+	<Javascript>
+		<XPath>/ds/EnterVariableData/AttendForQuestion/claimNumber</XPath>
+		<componentName>##label##</componentName>
+		<isMandatory>return true;</isMandatory>
+		<HintText>Accept default or amend, as appropriate</HintText>						
+		<!--initialise>
+			var caseNum = Services.getValue("/ds/ManageCase/CaseNumber");
+			Services.setValue(ClaimNumber.dataBinding, caseNum );
+		</initialise-->
+		<enableOn>IsN39Reqd.dataBinding, JudgmentThisCourt.dataBinding</enableOn>
+		<isEnabled>
+			var N39En = IsN39Reqd.isEnabled();
+			var isN39Req = Services.getValue(IsN39Reqd.dataBinding);
+			if( !N39En || 'Y' == isN39Req){ 
+				if( 'Y' != Services.getValue(JudgmentThisCourt.dataBinding)){ return true; }
+			}
+			return false;
+		</isEnabled>
+		<logicOn>IsN39Reqd.dataBinding, JudgmentThisCourt.dataBinding</logicOn>
+		<logic>
+			var N39En = IsN39Reqd.isEnabled();
+			var isN39Req = Services.getValue(IsN39Reqd.dataBinding);
+			
+			if( N39En &amp;&amp; 'Y' != isN39Req)
+			{	Services.setValue(ClaimNumber.dataBinding, "");				
+			}
+			else if( 'Y' == Services.getValue(ClaimNumber.dataBinding))
+			{	Services.setValue(ClaimNumber.dataBinding, "");				
+			}		
+			else
+			{	Services.setValue(ClaimNumber.dataBinding, Services.getValue("/ds/ManageCase/CaseNumber") );			
+			}			
+		</logic>
+		
+		<Context ScreenId="CJR091">
+			<enableOn>JudgmentThisCourt.dataBinding</enableOn>
+			<isEnabled>return( 'Y' != Services.getValue(JudgmentThisCourt.dataBinding))</isEnabled>
+			<logicOn>JudgmentThisCourt.dataBinding</logicOn>
+			<logic>
+				if( 'Y' != Services.getValue(JudgmentThisCourt.dataBinding))
+				{	Services.setValue(ClaimNumber.dataBinding, Services.getValue("/ds/ManageCase/CaseNumber"));
+				}
+				else
+				{	Services.setValue(ClaimNumber.dataBinding, "");
+				}
+			</logic>
+		</Context>
+		
+		<Context ScreenId="CJR093">
+			<enableOn>JudgmentThisCourt.dataBinding</enableOn>
+			<isEnabled>return( 'Y' != Services.getValue(JudgmentThisCourt.dataBinding))</isEnabled>
+			<logicOn>JudgmentThisCourt.dataBinding</logicOn>
+			<logic>
+				if( 'Y' != Services.getValue(JudgmentThisCourt.dataBinding))
+				{	Services.setValue(ClaimNumber.dataBinding, Services.getValue("/ds/ManageCase/CaseNumber"));
+				}
+				else
+				{	Services.setValue(ClaimNumber.dataBinding, "");
+				}
+			</logic>
+		</Context>
+		
+		<Context ScreenId="CJR094">
+			<enableOn>JudgmentThisCourt.dataBinding</enableOn>
+			<isEnabled>return( 'Y' != Services.getValue(JudgmentThisCourt.dataBinding))</isEnabled>
+			<logicOn>JudgmentThisCourt.dataBinding</logicOn>
+			<logic>
+				if( 'Y' != Services.getValue(JudgmentThisCourt.dataBinding))
+				{	Services.setValue(ClaimNumber.dataBinding, Services.getValue("/ds/ManageCase/CaseNumber"));
+				}
+				else
+				{	Services.setValue(ClaimNumber.dataBinding, "");
+				}
+			</logic>
+		</Context>
+		<Context ScreenId="L_14_1">
+			<enableOn>ClaimNumber.dataBinding</enableOn>
+			<isEnabled>return false;</isEnabled>
+			<logicOn>ClaimNumber.dataBinding</logicOn>
+			<logic></logic>
+		</Context>	
+		<Context ScreenId="FE45">
+			<enableOn>ClaimNumber.dataBinding</enableOn>
+			<isEnabled>return false;</isEnabled>
+			<logicOn>ClaimNumber.dataBinding</logicOn>
+			<logic></logic>
+		</Context>	
+	</Javascript>
+</Question>

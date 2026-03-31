@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--Question xmlns="http://eds.com/questionxhtml" xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd"-->
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>Q_OtherTransferReason</Id>
+	<Label>Other Transfer Reason</Label>
+	<ObjectName>OtherTransferReason</ObjectName>
+	<Html> 
+		<input id="OtherTransferReason" type="text" size="70" > </input>
+	</Html>
+	<Javascript>
+		<XPath>/ds/var/page/OracleReportForm/OtherTransferReason</XPath>
+		<ReportVariableName>TRF_REASON_OTHER</ReportVariableName>
+		<ReportVariableValue>Services.getValue(OtherTransferReason.dataBinding)</ReportVariableValue>
+		<ReportVariableCode>4180</ReportVariableCode>
+		<HintText></HintText>
+		<mandatoryOn>TransferReason.dataBinding</mandatoryOn>
+		<isMandatory>
+			var transferReason = Services.getValue(TransferReason.dataBinding);
+		    if (transferReason == "OTH")
+				{
+					return true;
+				}
+				else
+				{
+					return false;
+				}
+		</isMandatory>
+		<initialise></initialise>
+		<setDefault></setDefault>
+		<validateOn>
+		</validateOn>
+		<validate>
+		</validate>
+		<transformToDisplay>
+			 return (null != value) ? value.toUpperCase() : null;
+	    </transformToDisplay>
+        <transformToModel>
+             return (null != value) ? value.toUpperCase() : null;
+        </transformToModel>		
+		<readOnlyOn>TransferReason.dataBinding</readOnlyOn>
+		<isReadOnly>
+			var transferReason = Services.getValue(TransferReason.dataBinding);
+			if (transferReason == "OTH")
+				{
+					return false;
+				}
+				else
+				{
+					return true;
+				}
+		</isReadOnly>	
+		<miscCode>
+		</miscCode>
+	</Javascript>
+</Question>

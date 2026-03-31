@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- 
+	Service: Co
+	Method:  searchCo()
+	File:    search_co.xml
+	Author:  Chris Hutt
+	Created: 13 July 2005
+	Description: 
+		Search for Consolidated Orders and associated events based on criteria supplied.
+  --> 
+<service-method>
+	<pipeline>
+		<Query>
+			<QueryDef location="uk/gov/dca/caseman/co_service/query_def_search.xml"/>
+			<QueryExtension pivotNode="/Results/CoRecord">
+
+				<Param name="param.coNumber" xpath="/params/param[@name = 'coNumber']"/>
+				<Param name="param.owningCourtCode" xpath="/params/param[@name = 'owningCourtCode']"/>
+				<Param name="param.oldCoNumber" xpath="/params/param[@name = 'oldCoNumber']"/>													
+					
+				<Constraint>
+					(
+						${param.owningCourtCode} IS NULL OR CO.ADMIN_COURT_CODE = ${param.owningCourtCode}
+					) 
+					AND
+					(
+						${param.coNumber} IS NULL OR CO.CO_NUMBER = ${param.coNumber}
+					) 
+					AND																									
+					(
+						${param.oldCoNumber} IS NULL OR CO.OLD_NUMBER = ${param.oldCoNumber}
+					) 																				
+				</Constraint>
+				
+			</QueryExtension>
+		</Query>
+	</pipeline>
+	<Security roles="viewOnly medium high wcSuper scSuper bmsSuper aeSuper dmSuper cpSuper"/>	
+</service-method>

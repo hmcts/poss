@@ -1,0 +1,2532 @@
+div.testPanel
+{
+	border: solid 1px black;
+	margin-top: 10px;
+	margin-left: 10px;
+	width: 400px;
+}
+
+div.FUnitPass
+{
+	font-weight: normal;
+	background-color: #00FF00;
+	margin-left: 20px;
+	width: 400px;
+}
+div.FUnitFail
+{
+	font-weight: normal;
+	background-color: #FF0000;
+	margin-left: 20px;
+	width: 400px;
+}
+			
+div.FUnitTestTitle
+{
+	font-size: 14px;
+	font-weight: bold;
+	margin-bottom: 10px;
+}
+
+div.FUnitTestSubTitle
+{
+	font-size: 12px;
+	font-weight: bold;
+	margin-left: 10px;
+}
+
+div.testResult
+{
+	font-weight: bold;
+}
+
+.action_bar
+{
+	background: #bdbdbd;
+	width: 100%;
+	height: 33px;
+	margin-top: 10px;
+	overflow: hidden;
+} 
+
+.action_bar table.action_bar_container
+{
+	border: 0px;
+	border-collapse: collapse;
+	border-spacing: 0px;
+	padding: 0px;
+	width: 100%;
+	height: 100%;
+}
+
+.action_bar tr.action_bar_container_row
+{
+	height: 100%;
+}
+
+.action_bar td.status_label
+{
+	font-weight: bolder;
+	padding-left: 2px;
+	padding-right: 10px;
+}
+
+.action_bar td.status_message
+{
+	font-weight: bolder;
+	color: #ffffff;
+	width: 100%;
+}
+
+.action_bar .button_container
+{
+	/*
+		This display value is required to avoid an IE bug,
+		which causes the margins inside float elements to be
+		doubled. See http://brunildo.org/test/IEFloat2xMargin.html
+	*/
+	display: inline;
+	float: right;
+	padding: 7px 0px 3px 0px;
+	margin-right: 50px;
+	white-space: nowrap;
+}
+
+.action_bar .button_container input
+{
+	width: 80px;
+	margin-left: 5px;
+}
+div.autocomplete
+{
+	width: 180px;
+
+	/* Mozilla requires extra 1px of padding for some reason */
+/*isMoz
+	padding: 1px;
+isMoz*/
+}
+
+div.autocomplete div.dropdown
+{
+	border: 1px solid black;
+}
+
+table.autocomplete_table
+{
+	width: 100%;
+	border: none;
+	padding: 0px;
+	border-collapse: collapse;
+	margin: 0px;
+}
+
+tr.autocomplete_tablerow
+{
+	padding: 0px;
+	margin: 0px;
+}
+
+
+td.autocomplete_rowscell
+{
+	padding: 0px;
+	margin: 0px;
+}
+
+
+td.autocomplete_scrollcell
+{
+	width: 16px;
+	padding: 0px;
+	margin: 0px;
+}
+
+div.autocomplete_row
+{
+	white-space: nowrap;
+	overflow: hidden;
+
+	text-overflow: ellipsis;
+
+}
+
+div.autocomplete_rowhidden
+{
+	visibility: hidden;
+}
+
+
+div.autocomplete_rowselected
+{
+	background: #aaaaaa;
+	color: #ffffff;
+}
+
+
+div.autocomplete_rowSelectedNotSubmissible
+{
+	background: #aaaaaa;
+	border: solid 1px #aaaaaa !important;
+	color: #7c7c7c !important;
+}
+
+div.autocomplete_rowNotSubmissible
+{
+	color: #7c7c7c !important;
+}
+div.button
+{
+  position: relative;
+  background: #d4d0c8 center no-repeat;
+  border: solid 1px;
+  border-color: #d4d0c8 #404040 #404040 #d4d0c8;
+  
+  cursor: default;
+  
+  	/*
+		Make font size as small as possible, as IE sizes the divs of the button
+		to be atleast the height of a single line of text. Make this minimum as
+		small as possible. If text is really needed inside the button, you'll
+		need to override this font-size attribute in another, more specific CSS
+		class or on a button by button basis using an ID selector - just be aware
+		that doing so may cause the button to grow!
+	*/
+	font-size: 0px;
+}
+
+div.button.not_submissible
+{
+	border: 1px #7c7c7c solid !important;
+}
+
+div.button div.button_inner
+{
+  position: absolute;
+  border: solid 1px;
+  border-color: #ffffff #808080 #808080 #ffffff;
+  
+  background-image: none !important;
+
+  text-align: center;
+
+  top: 0px;
+  left: 0px;
+
+  /* 
+  	Internet Explorer
+ 	Note the use of CSS expressions (now removed). Due to the performance overhead of
+ 	IE CSS expressions, it is recommended that where buttons are of a
+ 	fixed size, a normal (non-expression) CSS width is specified.
+  */
+
+  
+
+
+/* This was above in the isIE section
+  width: expression(this.parentNode.offsetWidth-4);
+  height: expression(this.parentNode.offsetHeight-4);*/
+/* You must calculate your own values with each refresh / render.*/
+
+  /* Mozilla */
+/*isMoz
+  right: 0px;
+  bottom: 0px;
+isMoz*/
+}
+
+div.button.pressed
+{
+	border-color: #808080 !important;
+}
+
+
+div.button div.button_inner.pressed
+{
+	border-color: #d4d0c8 !important;
+}
+
+/* The table cell which contains the button to raise the dropdown */
+td.buttonfield_button_container
+{
+	/*
+		Make font size as small as possible, as IE sizes the content child divs of this
+		container to be atlease the height of a single line of text. Make this minimum as
+		small as possible. If text is really needed inside this container, you'll need to
+		set the font-size attribute on the relavant child elements - just be aware that
+		doing so may cause this container to grow!
+	*/
+	font-size: xx-small;
+}
+
+
+td.buttonfield_button_container div.button.pressed
+{
+	/* When the button is pressed, set the border colour to the same as the button face, so that it appears pressed */
+/*	border-color: ButtonFace;*/
+}
+
+
+td.buttonfield_button_container div.button
+{
+	/*
+	Height of button is the same as it's enclosing container cell
+	*/
+	height: 16px;
+	
+	/*
+	Width of button is 16pixels. This may be overriden by specific usages
+	of the dropdown field. For instance, the autocomplete field may want
+	a button which has width of 24px. This could be achieved as:
+	
+		div.autocomplete div.dropdown_container div.dropdown_button
+		{
+			width: 24px;
+		}
+	*/
+	width: 16px;
+
+
+	/*
+		Background color set to the standard buttonface color for the OS
+		
+		Default button image is a downward arrow - this may be overridden by
+		a more specific definition. eg:
+		
+		div.datepicker div.dropdown_container div.button
+		{
+			background-image: url(cal.gif);
+		}
+		
+		Image is centred and does not repeat by default
+	*/ 
+	background: #d4d0c8 url(./images/arrow_down.gif) no-repeat center;
+	
+	/*
+		Annoyingly, IE seems to always put a 1px padding around the contents of table cells.
+		This fixes it. The input field also needs the same fix.
+	*/
+
+	margin: -1px;
+
+}
+
+/* Need to set dimensions of inner div of drop down button explicitly on IE - 100% doesn't work! */
+
+td.buttonfield_button_container div.button div.button_inner
+{
+	width: 14px;
+	height: 14px;
+}
+
+div.datepicker
+{
+	width: 160px;
+	
+	/* Mozilla requires extra 1px of padding for some reason */
+/*isMoz
+	padding: 1px;
+isMoz*/
+}
+
+td.calendar_prevmonth
+{
+	width: 20px;
+	height: 18px;
+	background-image: url(./images/prev.gif);
+	background-position: center;
+	background-repeat: no-repeat;
+}
+
+td.calendar_nextmonth
+{
+	width: 20px;
+	height: 18px;
+	background-image: url(./images/next.gif);
+	background-position: center;
+	background-repeat: no-repeat;
+}
+
+td.calendar_controls
+{
+	text-align: center;
+	font-weight: bold;
+	color: white;
+}
+
+div.calendar_container input
+{
+	width: 40px;
+}
+
+div.datepicker div.calendar_container
+{
+	width: 100%;
+	border: solid 1px black;
+	background-color: #4682B4;
+	
+	/* Make sure that border doesn't cause dropdown to grow in size */
+	margin: -1px;
+}
+
+
+div.datepicker table.navtable
+{
+	width: 100%;
+	border-collapse: collapse;
+}
+
+
+div.datepicker table.caltable
+{
+	width: 100%;
+	
+	padding: 2px;
+}
+
+table.caltable th
+{
+	/* Seven days a week - 14% is 100% / 7 approximately */
+	width: 14%;
+	
+	background: #87CEFA;
+	color: white;
+}
+
+table.caltable td
+{
+	background-color: white;
+	text-align: center;
+}
+
+table.caltable td.weekend
+{
+	background-color: #DBEAF5;
+}
+
+table.caltable td.today
+{
+	background-color: yellow !important;
+}
+
+table.caltable td.selected
+{
+	background-color: #FFB6C1 !important;
+}
+
+div.datepicker div.disabled td.dropdown_button_container div.button
+{
+	background-image: url(./images/cal_disabled.gif);
+}
+
+div.datepicker div.readonly td.dropdown_button_container div.button
+{
+	background-image: url(./images/cal_disabled.gif);
+}
+
+div.datepicker td.dropdown_button_container div.button
+{
+	background-image: url(./images/cal.gif);
+}
+/* Class definitions for the common drop down component */
+
+
+/* Style for the div which contains all the drop down field's components */
+div.dropdown_container
+{
+	/* Children are positioned relative to this container */
+	position: relative;
+	
+	/* Set width to be as wide as the parent */
+	width: 100%;
+	cursor: default;
+	border: 0px;
+	
+	background: white;
+}
+
+/*
+	When the dropdown is raised, lift the whole contain up in the z-index
+	so that clipping of the dropdown does not occur
+*/
+div.dropdown_container.raised
+{
+	z-index: 1;
+}
+
+/*
+	D695 - Table borders in IE cause problems when subforms are closed. Put
+	the border on the div which contains the table. Border is wrapped around
+	both input field and button which shows the drop down
+	
+	If the border width is changed here then change the border width in
+	DropDownFieldRenderer._render() method
+	
+	Defect 1029. Border width must be specified in pixels such that
+	framework select component can determine value.
+*/
+div.dropdown_container div.dropdown_table_border
+{
+	border: 2px inset #d4d0c8;
+}
+
+
+/*
+	When the drop down is invalid make the container border solid red
+*/
+div.dropdown_container.invalid div.dropdown_table_border
+{
+	border: 2px solid #888888;
+}
+
+/*
+	When the drop down is server invalid make the container border solid orange
+*/
+div.dropdown_container.notSubmissible div.dropdown_table_border
+{
+	border: 2px solid @client_framework.colour.not_submissible@;	
+}
+
+td.dropdown_button_container div.button
+{
+	/*
+	Height of button is the same as it's enclosing container cell
+	*/
+	height: 16px;
+	
+	/*
+	Width of button is 16pixels. This may be overriden by specific usages
+	of the dropdown field. For instance, the autocomplete field may want
+	a button which has width of 24px. This could be achieved as:
+	
+		div.autocomplete div.dropdown_container div.dropdown_button
+		{
+			width: 24px;
+		}
+	*/
+	width: 16px;
+
+
+	/*
+		Background color set to the standard buttonface color for the OS
+		
+		Default button image is a downward arrow - this may be overridden by
+		a more specific definition. eg:
+		
+		div.datepicker div.dropdown_container div.button
+		{
+			background-image: url(cal.gif);
+		}
+		
+		Image is centred and does not repeat by default
+	*/ 
+	background: #d4d0c8 url(./images/arrow_down.gif) no-repeat center;
+	
+	/*
+		Annoyingly, IE seems to always put a 1px padding around the contents of table cells.
+		This fixes it. The input field also needs the same fix.
+	*/
+
+	margin: -1px;
+
+}
+
+
+/* Need to set dimensions of inner div of drop down button explicitly on IE - 100% doesn't work! */
+
+td.dropdown_button_container div.button div.button_inner
+{
+	width: 14px;
+	height: 14px;
+}
+
+
+
+td.dropdown_button_container div.button.pressed
+{
+	/* When the button is pressed, set the border colour to the same as the button face, so that it appears pressed */
+/*	border-color: ButtonFace;*/
+}
+
+div.disabled td.dropdown_button_container div.button
+{
+	/* When dropdown is disabled, show a suitable disable image in the button */
+	background-image: url(./images/arrow_down_disabled.gif);
+}
+
+div.disabled input.dropdown_field
+{
+	background-color: #888888;
+}
+
+
+div.mandatory input.dropdown_field
+{
+	background-color: #dddddd;
+}
+
+div.readonly input.dropdown_field
+{
+	background-color: #aaaaaa;
+}
+
+div.readonly td.dropdown_button_container div.button
+{
+	/* When dropdown is read only, show a suitable disable image in the button */
+	background-image: url(./images/arrow_down_disabled.gif);
+}
+
+/*
+    Special case for read only drop down field as used by
+    framework seelct element.
+*/
+div.readOnlyInputField_and_dropdown_not_raised input.dropdown_field
+{
+	background: #aaaaaa !important;
+	color: #ffffff !important;
+}
+
+
+/* Styles for the div element which is the popup */
+div.dropdown
+{
+	/* Absolute positioning is relative to the parent dropdown_container that has position: relative; */
+	position: absolute;
+
+	/* Drop down is not visible unless the dropdown_container also has the raised class */
+	visibility: hidden;
+
+	/* Same width as the entire field - use right for Mozilla */
+
+	width: 100%;
+
+
+	/* Default to the same background colour as a tooltip */
+	background: #fcfcfc;
+	
+	/* Left edge of the drop down is aligned with the left edge of field */
+	left: 0px;
+
+
+	/* On mozilla, use right: 0px instead of width */
+/*isMoz
+	right: 0px;
+isMoz*/	
+}
+
+
+/* When the dropdown field has class raised set, show the dropdown */
+div.dropdown_container.raised div.dropdown
+{
+	visibility: visible;
+}
+
+
+/* Position the drop down above the field */
+div.dropdown.above
+{
+	bottom: 21px;
+}
+
+      
+/* Position the drop down below the field */
+div.dropdown.below
+{
+	top: 21px;
+}
+
+/* Table which lays out the input field and button */
+table.dropdown_table
+{
+	/* Just using table for layout - don't want any cell borders */
+	border-collapse: collapse;
+
+	/* Table is as wide as the parent div element */
+	width: 100%;
+}
+
+/* Table cell which contains the textinput field */ 
+td.dropdown_field_container
+{
+	padding: 0px 1px;
+	width: 100%;
+	background: white;
+}
+
+/* The input field */
+input.dropdown_field
+{
+	/*
+		Annoyingly, IE seems to always put a 1px padding around the contents of table cells.
+		This fixes it. The button also needs the same fix.
+	*/
+
+	margin: -1px;
+
+
+	/*
+		Get rid of the border around the the input field - we draw a border on the div that
+		which surrounds the table which contains both the input field and button
+	*/
+	border: 0px;
+	
+	/* Field width is controlled by the width of the table cell in which it is placed. */
+	width: 100%;
+}
+
+
+/* The table cell which contains the button to raise the dropdown */
+td.dropdown_button_container
+{
+	/*
+		Make font size as small as possible, as IE sizes the content child divs of this
+		container to be atlease the height of a single line of text. Make this minimum as
+		small as possible. If text is really needed inside this container, you'll need to
+		set the font-size attribute on the relavant child elements - just be aware that
+		doing so may cause this container to grow!
+	*/
+	font-size: xx-small;
+}
+
+.dropdownNotSubmissible
+{
+	background-color: #7c7c7c !important; border-color: #7c7c7c !important; border-style: solid;
+}
+
+/*
+.selectOptionNotSubmissible
+{
+	background-color: #7c7c7c !important;
+}
+
+.selectOptionSubmissible
+{
+	background-color: #ffffff !important;
+}
+*/
+form.form_notsubmissable input.submitButton
+{
+	background: #7c7c7c !important;;
+}
+/*
+	D695 - Table borders in IE cause problems when subforms are closed. Put
+	the border on the div which contains the table. Border is wrapped around
+	both input field and button which shows the drop down
+	
+	If the border width is changed here then change the border width in
+	FramedFieldRenderer._render() and ZoomFieldRenderer.positionPopup()
+	methods
+*/
+div.framedfield_table_border
+{
+	border: 2px inset #d4d0c8;
+}
+
+/* Table which lays out the framedfield */
+table.framedfield_container
+{
+	/* Just using table for layout - don't want any cell borders */
+	border-collapse: collapse;
+
+	/* Table is as wide as the parent div element */
+	width: 100%;
+}
+
+
+/* Table cell which contains the textinput field */ 
+td.framedfield_field_container
+{
+	padding: 0px 1px;
+	width: 100%;
+	background: white;
+}
+
+
+/* The input field - text input box */
+input.framedfield_field
+{
+	/*
+		Annoyingly, IE seems to always put a 1px padding around the contents of table cells.
+		This fixes it. Any other components in table cells within the framed field's table
+		will need the same fix
+	*/
+
+	margin: -1px;
+
+
+	/*
+		Get rid of the border around the the input field - we draw a border on the div that
+		which surrounds the table which contains both the input field and button
+	*/
+	border: 0px;
+	
+	/* Field width is controlled by the width of the table cell in which it is placed. */
+	width: 100%;
+}
+
+/* The input field - single row text area */
+textarea.framedfield_field
+{
+	/*
+		Annoyingly, IE seems to always put a 1px padding around the contents of table cells.
+		This fixes it. Any other components in table cells within the framed field's table
+		will need the same fix
+	*/
+
+	margin: -1px;
+
+
+	/*
+		Get rid of the border around the the input field - we draw a border on the div that
+		which surrounds the table which contains both the input field and button
+	*/
+	border: 0px;
+	
+	/* Field width is controlled by the width of the table cell in which it is placed. */
+	width: 100%;
+	
+	/* Turn off scroll bar */
+	overflow: hidden;
+}
+
+div.framedfield_invalid div.framedfield_table_border
+{
+	/* When the framedfield is invalid make the border solid red */
+	border: 2px solid #888888;	
+}
+
+div.framedfield_server_invalid div.framedfield_table_border
+{
+	/* When the framedfield is server invalid make the border solid orange */
+	border: 2px solid @client_framework.colour.not_submissible@;	
+}
+
+div.framedfield_disabled input.framedfield_field
+{
+	background-color: #888888;
+}
+
+div.framedfield_mandatory input.framedfield_field
+{
+	background-color: #dddddd;
+}
+
+div.framedfield_readonly input.framedfield_field
+{
+	background-color: #aaaaaa;
+}
+
+div.framedfield_disabled textarea.framedfield_field
+{
+	background-color: #888888;
+}
+
+div.framedfield_mandatory textarea.framedfield_field
+{
+	background-color: #dddddd;
+}
+
+div.framedfield_readonly textarea.framedfield_field
+{
+	background-color: #aaaaaa;
+}
+
+div.fwselectelement
+{
+	/* Mozilla requires extra 1px of padding for some reason */
+/*isMoz
+	padding: 1px;
+isMoz*/
+}
+
+div.fwselectelement div.dropdown
+{
+    /* For present use autocomplete colour */
+    
+    /* Note that the border width must be defined in pixels so
+       that the framework select can determine border values. */
+       
+	border: 1px solid black;
+}
+
+table.fwselectelement_table
+{
+	width: 100%;
+	border: none;
+	padding: 0px;
+	border-collapse: collapse;
+	margin: 0px;
+}
+
+table.fwselectelement_temp_table
+{
+	/* Note that these style sheet parameters are used
+	   in the calculation of the row width for dynamic sized
+	   select dropdowns. Therefore, the settings here should
+	   match those of table.fwselectelement_table except
+	   that the width should not be specified.
+	*/
+	
+	border: none;
+	padding: 0px;
+	border-collapse: collapse;
+	margin: 0px;
+	
+	/* Temporary table used to calculate row width is not a child of
+	   document body. As such it does not pick up these parameters */
+	   
+	font-family: Tahoma, Verdana, Arial, Helvetica;
+    font-size: 12px;
+    
+}
+
+tr.fwselectelement_tablerow
+{
+	padding: 0px;
+	margin: 0px;
+}
+
+
+td.fwselectelement_rowscell
+{
+	padding: 0px;
+	margin: 0px;
+}
+
+
+td.fwselectelement_scrollcell
+{
+	width: 16px;
+	padding: 0px;
+	margin: 0px;
+}
+
+div.fwselectelement_row
+{
+	white-space: nowrap;
+	overflow: hidden;
+	
+	/* Note padding must be defined in pixels such that values
+	   can be determined within framework select component */
+	
+	padding-left: 2px;
+	padding-right: 0px;
+	
+
+	text-overflow: ellipsis;
+
+}
+
+div.fwselectelement_rowhidden
+{
+	visibility: hidden;
+}
+
+
+div.fwselectelement_rowselected
+{
+	background: #aaaaaa;
+	color: #ffffff;
+}
+
+
+div.fwselectelement_rowSelectedNotSubmissible
+{
+	background: #aaaaaa;
+	border: solid 1px #aaaaaa !important;
+	color: #7c7c7c !important;
+}
+
+div.fwselectelement_rowNotSubmissible
+{
+	color: #7c7c7c !important;
+}
+div.grid
+{
+  padding: 1px;
+  border: solid 1px white;
+  cursor: default;
+  background: white;
+  text-align: left;
+}
+
+
+div.grid.disabled
+{
+	color: #888888;
+}
+
+div.grid.grid_focus
+{ 
+  border: dashed 1px black !important;
+}
+
+div.grid form
+{
+  display: inline;
+}
+
+/*
+	D695 - Table borders in IE cause problems when subforms are closed. Put
+	the border on the div which contains the table.
+
+	DIR Changes: Set background colour to prevent grid colouration issues in IE7.
+*/
+div.grid form div.grid_table_border
+{
+  border: solid 1px black;
+  background: #eeeeee !important;
+}
+
+div.grid form table
+{ 
+  border-collapse: collapse;
+  width: 100%;
+  padding: 0px;
+}
+
+div.grid form table tr td
+{ 
+  padding: 0px;
+}
+
+div.grid form table tr td.grid_vscroll_cell
+{ 
+  width: 16px;
+  height: 100%;
+}
+
+
+div.grid div.grid_header_row
+{
+  border-top: solid 1px #ffffff;
+  border-left: solid 1px #ffffff;
+  border-right: solid 1px #808080;
+  border-bottom: solid 1px #808080;
+  background: #d4d0c8;
+}
+
+div.grid div.grid_header_row span.grid_header_cell
+{
+  border-left: solid 1px #ffffff;
+  border-right: solid 1px #808080;
+  padding-left: 1px;
+  padding-right: 1px;
+
+  white-space: nowrap; 
+  
+  overflow: hidden;
+
+  /* Mozilla */
+/*isMoz
+  display: table-cell;
+isMoz*/
+
+  /* IE */
+
+  display: inline-block;
+
+
+  background-position: right;
+  background-repeat: no-repeat;
+}
+
+div.grid span.grid_header_cell.sort_none
+{
+  background-image: url(./images/square.gif);
+}
+
+div.grid span.grid_header_cell.sort_asc
+{ 
+  background-image: url(./images/arrow_up.gif);
+}
+
+
+div.grid span.grid_header_cell.sort_dsc
+{ 
+  background-image: url(./images/arrow_down.gif);
+}
+
+div.grid .grid_row_not_submissible
+{
+	color: #7c7c7c !important;
+}
+
+div.grid div.grid_row_container
+{
+  position: relative;
+  background: #eeeeee;
+}
+
+div.grid div.grid_row
+{
+  border-width: 1px !important;
+  border-style: solid;
+  border-color: #eeeeee;  
+}
+
+div.grid.grid_focus div.grid_row.cursor
+{ 
+  border-style: dashed !important;
+  border-color: black !important;
+}
+
+
+div.grid span.grid_cell
+{
+  border-left: 1px solid #ffffff;
+  border-right: 1px solid #808080;
+  padding-left: 1px;
+  padding-right: 1px;
+  
+  white-space: nowrap; 
+  overflow: hidden;
+  
+  text-overflow: ellipsis;
+
+
+  /* Mozilla */
+/*isMoz
+  display: table-cell;
+isMoz*/
+
+  /* IE */
+
+  display: inline-block;
+
+}
+
+div.grid div.grid_row.lo
+{
+  border-color: #eeeeee;
+}
+
+div.grid div.grid_row.hi
+{
+  background: #e1e1e1;
+  border-color: #e1e1e1;
+}
+
+div.grid.disabled div.grid_row.hi
+{
+  background: #dddddd;
+  border-color: #dddddd;
+}
+
+div.grid div.grid_row.selected_and_cursor
+{
+  background: #aaaaaa !important;
+  border-color: black !important;
+  color: #ffffff !important;
+}
+
+
+div.grid div.grid_row.selected
+{ 
+  background: #aaaaaa !important;
+  border-color: #aaaaaa !important;
+  color: #ffffff !important;
+}
+
+div.grid div.grid_row.selected_and_not_submissible
+{ 
+	background: Highlight !important; border-color: Highlight !important; color: #7c7c7c !important;
+}
+
+div.grid div.grid_row.selected_and_cursor_and_not_submissible
+{ 
+	@client_framework.colour.grid_row_selected_and_cursor_and_not_submissible@
+}
+
+div.grid.disabled div.grid_row.selected
+{
+	background: #aaaaaa !important;
+	border-color: #aaaaaa !important;
+}
+
+div.grid.disabled div.grid_row.selected_and_cursor
+{
+	background: #aaaaaa !important;
+	border-color: #aaaaaa !important;
+}
+
+div.grid div.grid_row.hidden
+{ 
+  visibility: hidden;
+}
+
+div.grid.grid_invalid
+{
+	background: #888888 !important;
+	border: solid 1px #888888 !important;
+}
+
+div.grid.grid_readOnly
+{
+	background: #aaaaaa !important;
+}
+
+div.grid.grid_readOnly div.grid_row
+{
+	background: #aaaaaa !important;
+	border-color: #aaaaaa !important;
+}
+
+div.grid div.grid_row.grid_row_readOnly
+{ 
+	background: #aaaaaa !important;
+	border-color: #aaaaaa !important;
+}
+
+div.grid.grid_readOnly div.grid_row.selected
+{
+  background: #aaaaaa !important;
+  border-color: #aaaaaa !important;
+  color: #aaaaaa !important;
+}
+
+div.grid.grid_not_submissible
+{
+	background: #7c7c7c !important; !important;
+	border: solid 1px #7c7c7c !important; !important;
+}
+input.disabled
+{
+  background-color: #888888;
+  color: #aaaaaa;
+}
+
+input.mandatory
+{
+  background-color: #dddddd;
+}
+
+input.readOnly
+{
+  background-color: #aaaaaa;
+  border: #aaaaaa 2px solid;
+}
+
+input.invalid
+{
+	border: 2px solid #888888;
+}
+
+input.notSubmissible
+{
+	border: 2px solid @client_framework.colour.not_submissible@;	
+}
+.logic
+{
+	/* logic elements are never displayed */
+	display: none;
+}
+
+div.lovPopup div.panel
+{
+	padding: 10px;
+}
+
+
+/**
+ * Assigned/Available Roles table grid column widths
+ */
+div.edit_panel table.roles_layout tr td div.grid .col0
+{
+	width: 180px;
+}
+
+/**
+ * Assigned/Available Roles table left/right arrow buttons
+ */
+div.edit_panel table.roles_layout tr td input.arrow_button
+{
+	width: 30px;
+}
+
+/**
+ * Override panel CSS default background colour. Use transparent so if Edit
+ * Panel is used 'standalone' whatever colour the background is shows through
+ */
+div.edit_panel table.roles_layout tr td div.panel
+{
+	background-color: transparent;
+}
+
+/**
+ * Manage Users adaptor screen position
+ */
+div.manage_users
+{
+	width: 100%;
+	left: 0px;
+	top: 10px;
+	position: absolute;
+}
+
+/**
+ * User ID search panel height
+ */
+div.manage_users div.panel div.search_panel
+{
+	padding-top: 20px;
+	padding-bottom: 20px;
+}
+
+/**
+ * Assigned/Available Roles edit panel height
+ */
+div.manage_users div.panel div.edit_panel
+{
+	padding-top: 75px;
+	padding-bottom: 75px;
+}
+
+/*
+ * CSS Stylesheet for navigation menu bar
+ *
+*/
+
+div.MenuBaseDiv
+{
+	background-color: threedface;
+	position: relative;
+	padding: 2px 0px;
+/*
+ * E348 - Use the default cursor style for menu button, menu panel and quick links.
+ * Setting the height of this div prevents components on the form moving when any
+ * quick link buttons are rendered during adaptor configuration.
+ */
+	cursor: default;
+	height: 24px;
+
+	z-index: 2;
+}
+
+div.MenuBaseDiv div.MenuBarDiv
+{
+/*isMoz
+    display: table-row;
+    width: 100%;
+isMoz*/
+}
+
+div.MenuBaseDiv div.MenuBarDiv div.MenuBarButtonDiv
+{
+
+	display: inline;
+
+
+/*isMoz
+	display: table-cell;
+isMoz*/
+
+/*
+ * Center the quick link buttons vertically in the div
+ *
+ * Good try, but making positioning relative cuases
+ * button contents to move around at times
+ */
+	//position: relative;
+	//top: 2px;
+
+}
+
+div.MenuBaseDiv div.MenuBarDiv div.MenuBarButtonDiv input
+{
+	margin-left: 2px;
+	margin-right: 2px;
+	width: 137px;
+}
+
+div.MenuPanelDiv
+{
+/*isMoz
+  display: table;
+isMoz*/
+
+    position: absolute;
+    visibility: hidden;
+    background-color: threedface;
+    border: 2px outset;   
+}
+
+div.MenuPanelDiv table td.menuItemCell
+{
+	background-color: threedface;
+}
+
+div.MenuPanelDiv table td.menuItemCell.divisionAbove
+{
+    border-top: 1px solid threedhighlight;
+}
+
+div.MenuPanelDiv table td.menuItemCell.divisionBelow
+{
+    border-bottom: 1px solid threedshadow;
+}
+
+div.MenuPanelDiv table td div.menuItemDiv
+{
+    position: relative;
+    
+    border-left: 1px solid threedface;
+    border-right: 1px solid threedface;
+    
+    padding: 2px 0px 2px 5px;
+    
+    white-space: nowrap;
+}
+
+div.MenuPanelDiv table td div.enabled_action_unselected
+{
+    color: black;
+    background-color: threedface;
+    
+    padding-right: 10px;
+    
+}
+
+div.MenuPanelDiv table td div.disabled_action_unselected
+{
+    
+    color: gray;
+    background-color: threedface;
+    
+    padding-right: 10px;
+    
+}
+
+div.MenuPanelDiv table td div.enabled_action_selected
+{
+    color: #ffffff;
+    background-color: navy;
+    
+    padding-right: 10px;   
+}
+
+div.MenuPanelDiv table td div.disabled_action_selected
+{
+    color: gray;
+    background-color: navy;
+    
+    padding-right: 10px;   
+}
+
+div.MenuPanelDiv table td div.submenu
+{
+    color: black;
+    background-color: threedface;
+    
+    padding-right: 15px;
+
+	background: url(./images/menu_arrow_right.gif) no-repeat center right;
+}
+
+div.MenuPanelDiv table td div.submenu.submenu_disabled
+{
+    color: gray;
+
+    background-image: url(./images/menu_arrow_right_disabled.gif);
+}
+
+div.MenuPanelDiv table td div.submenu.submenu_selected
+{
+    color: white;
+    background-color: navy;
+    background-image: url(./images/menu_arrow_right_highlighted.gif);
+}
+
+div.MenuPanelDiv table td div.submenu.submenu_disabled_selected
+{
+    color: gray;
+    background-color: navy;
+}
+
+div.MenuPanelDiv table td div.divisionAbove
+{
+    border-top: 2px solid threedface;
+}
+
+div.MenuPanelDiv table td div.divisionBelow
+{
+    border-bottom: 2px solid threedface;
+}/**
+ * CSS Style sheet for menu component
+ *
+*/
+
+div.MenuBaseDiv div.MenuBarDiv div.MenuBarButton
+{   
+
+  display: inline;
+
+ 
+/*isMoz
+  display: table-cell;
+isMoz*/ 	
+
+    
+    /* 
+    Defect 740. Make navigation menu and additional quicklink menu
+    buttons look more like buttons than labels by defining a border
+    colour lighter than the general background.
+    
+    border: 2px solid threedface; 
+    */
+    
+    border: 2px solid #f8f8f8;
+	padding: 2px 5px;
+	margin-left: 5px;
+	margin-right: 5px;
+}
+
+div.MenuBaseDiv div.MenuBarDiv div.MenuBarButton.MenuBarButtonInset
+{
+	border-style: inset !important;
+}
+
+div.MenuBaseDiv div.MenuBarDiv div.MenuBarButton.MenuBarButtonOutset
+{
+	border-style: outset !important;
+}
+
+div.MenuBaseDiv div.MenuBarDiv div.MenuBarButtonActive
+{
+    color: black;
+}
+
+div.MenuBaseDiv div.MenuBarDiv div.MenuBarButtonInactive
+{
+    color: gray;
+}
+div.panel
+{
+	background-color: #c4c4c4;
+	margin-top: 10px;
+	margin-left: 10px;
+	margin-right: 10px;
+	margin-bottom: 0px;
+}
+
+
+div.panel.noMargin
+{
+	margin-top: 0px;
+	margin-left: 0px;
+	margin-right: 0px;
+	margin-bottom: 0px;
+}
+
+
+div.panel.panel_disabled
+{
+	/* background-color: #888888; */
+}
+/* styles for form extension & selection style popups */
+div.popup
+{
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  background-color: #ececec;
+  border: solid black 2px;
+  padding: 0px;
+  margin: 0px;
+  visibility: hidden;
+}
+
+
+/* Popups ususally only have a single data entry panel, 
+   so make sure it's got a margin at the bottom */
+div.popup table.content
+{
+  margin-bottom: 10px;
+}
+
+/*div.popup div.popupTitle*/
+div.popupTitle
+{
+  background-color: #bdbdbd;
+  text-align: center;
+  font-size: 14pt;
+  font-weight: bold;
+  color: #222222;
+  width: 100%;  
+}
+
+div.popup table.popup_layout
+{
+	width: 100%;
+	border-collapse: collapse;
+}
+
+/**
+ * Style for StandardDialogs
+ */
+div.standard_dialog div.popup
+{
+/*
+	Make the popup shrink wrap around the message container
+*/
+/*isMoz
+	display: table;
+isMoz*/
+
+	display: inline-block;
+
+}
+
+div.standard_dialog div.popup div.popupTitle
+{
+/*
+    Title should be left justified
+*/
+    text-align: left;
+}
+
+div.standard_dialog div.popup div.message_container
+{
+/*
+	They have a 10px padding around their message
+*/
+	padding: 10px;
+}
+
+/**
+ * Style for subform popups
+ */
+div.popup.lovsubform
+{
+	border: solid black 2px;
+}
+
+div.popupsubform
+{
+	border: solid black 2px;
+}
+
+form.subform
+{
+	/*
+	 * Prevent subforms overwriting the bottom border
+	 */
+   	display: inline !important;
+}
+/* styles for Popups in fullpage mode. */
+div.popup_fullscreen
+{
+  border: 0px;
+}
+
+/*
+ On IE tool tip border is on the BODY Element, so no border on the
+ DIV otherwise we get a two pixel border.
+*/
+
+div.popuphelp
+{
+  position: absolute;
+  margin: 0px;
+  padding: 0px;
+  background:  fcfcfc;
+  visibility: hidden;
+  
+  top: 0px;
+  left: 0px;
+}
+
+
+/*isMoz
+div.popuphelp
+{
+  position: absolute;
+  border: solid 1px black;
+  margin: 0px;
+  padding: 1px;
+  background:  fcfcfc;
+  visibility: hidden;
+  
+  top: 0px;
+  left: 0px;
+}
+isMoz*/
+
+/*
+	On IE, we place popup help in an iframe, so that it floats above SELECT elements.
+	Below are the styles applied to the document within the iframe containing the
+	popup help
+*/
+
+div.popuphelp iframe
+{
+	padding: 0px;
+	margin: 0px;
+	border: 0px;
+	top: 0px;
+	left: 0px;
+}
+
+body.popuphelp
+{
+	border: solid 1px black;
+	padding: 0px;
+	margin: 0px;
+	overflow: hidden;
+    background-color: fcfcfc;
+}
+
+body.popuphelp table
+{
+	border-collapse: collapse;
+	padding: 0px;
+	margin: 0px;
+}
+
+body.popuphelp table td
+{
+	white-space: nowrap;
+}
+div.progressClass
+{
+	/* The progress bar window is hidden by default */
+	visibility: hidden;
+
+	/*
+		Transparent background and transparent gif together ensure that this
+	`	div is invisible to the user, but absorbs all mouse clicks
+	*/
+	background: transparent;
+	background-image: url(./images/transparent.gif);
+	
+
+/*
+	Make sure that this div covers the entire screen, so that it captures any
+	mouse clicks. This effectively disables all controls and links on the
+	the underlying form. In Mozilla we can simply size the div to the size of
+	the body element, however IE doesn't support this, so we simply make the
+	div very large, to ensure it covers any reasonably sized screen
+*/
+
+	/* Position relative to the previous posisioning context (would expect this to be the body element) */
+	position: absolute;
+	
+	top: 0px;
+	left: 0px;
+
+	z-index: 9999;
+
+/*isMoz
+	right: 0px;
+	bottom: 0px;
+isMoz*/
+
+
+	width: 100%;
+	height: 2000px;
+
+}
+
+
+/*
+	Div element which contains the iframe which contains the actual progress bar.
+	Progress bar must be contained inside an iframe to prevent SELECT components
+	showing through the progress bar - this is an IE bug and iframes are the only
+	element which can overlay a SELECT component.
+*/
+div.progressContainerClass
+{
+	/* Position relative to the progressClass div */
+	position: relative;
+	
+	/* The div (and hence the iframe) is centred on the screen and occupies 80% of the width */
+	left: 10%;
+	width: 80%;
+	
+	/* Absolute position the progress bar vertically */
+	top: 100px;
+	height: 50px;
+}
+
+
+html.progress_page
+{
+	padding: 0px;
+	margin: 0px;
+	height: 100%;
+}
+
+/* Style of the body element of the document that contains the actual status bar */
+body.progress_page
+{
+	background: #ececec;
+	
+	/* Occupy the entire iframe */
+	height: 42px;
+	
+	margin: 0px;
+	
+	/* Small margin for elements inside the body tag */
+	padding: 2px;
+
+	border: 2px solid black;
+}
+
+body.progress_page div#progress_bar
+{
+	width: 0%;
+	height: 20px;
+	background-color: #404040;
+}
+
+div.grid_filter
+{
+  padding: 1px;
+}
+
+div.grid_filter .grid_filter_cell
+{
+  padding-left: 0px;
+  padding-right: 0px;
+}
+.grid_label
+{
+  padding: 1px;
+  border: 0px !important;
+  background-color: #c4c4c4 !important;
+  width: 200px;
+}
+
+
+div.scrollbar
+{
+  position: relative;
+  background: #e8e8e8;
+}
+
+div.scrollbar_vertical
+{
+  width: 16px;
+  
+  /* Mozilla */
+  height: 100%;
+
+  /* IE - stylesheets can't make this size correctly, it's fixed in the code */
+
+  
+
+}
+
+div.scrollbar_horizontal
+{
+  height: 16px;
+
+  /* Mozilla */
+  width: 100%;
+
+  /* IE - stylesheets can't make this size correctly, it's fixed in the code */
+}
+
+
+/*
+ Set the width and height of all buttons used in the scrollbar
+*/
+div.scrollbar div.button
+{
+  position: absolute;
+  width: 14px;
+  height: 14px;
+}
+
+
+/*
+  The increment and decrement buttons on a scrollbar are a fixed size, 
+  so override the CSS expressions used in IE to dynamically calculate height
+  and width of button's inner div element, as they have performance impacts.
+*/
+
+div.scrollbar div.dec div.button_inner
+{
+	width: 12px;
+	height: 12px;
+}
+div.scrollbar div.inc div.button_inner
+{
+	width: 12px;
+	height: 12px;
+}
+
+
+div.scrollbar.scrollbar_vertical div.dec
+{
+  top: 0px;
+  background-image: url(./images/arrow_up.gif);
+}
+
+div.scrollbar.scrollbar_vertical div.inc
+{
+  bottom: 0px;
+  background-image: url(./images/arrow_down.gif);
+}
+
+
+div.scrollbar.scrollbar_horizontal div.dec
+{
+  left: 0px;
+  background-image: url(./images/arrow_left.gif);
+}
+
+div.scrollbar.scrollbar_horizontal div.inc
+{
+  top: 0px;
+  right: 0px;
+  background-image: url(./images/arrow_right.gif);
+}
+
+
+div.scrollbar div.scrollbar_container
+{
+  position: relative;
+}
+
+div.scrollbar_vertical div.scrollbar_container
+{
+  width: 16px;
+  top: 16px;
+/*
+  The following does not work on either browser - height
+  needs to be calculated in the code instead.
+
+  height: 100%;
+  margin-top: 16px;
+  margin-bottom: 16px;
+*/
+}
+
+
+div.scrollbar_horizontal div.scrollbar_container
+{
+  height: 16px;
+  left: 16px;
+}
+
+
+
+div.scrollbar div.scrollbar_slider
+{ 
+  position: absolute;
+}
+
+div.scrollbar_vertical div.scrollbar_container div.scrollbar_slider
+{
+  top: 0px;
+  width: 14px;
+}
+
+div.scrollbar_vertical div.scrollbar_container div.scrollbar_slider div.button_inner
+{
+
+    height: 8px;
+    width: 12px;
+
+}
+
+
+div.scrollbar_horizontal div.scrollbar_container div.scrollbar_slider
+{
+  top: 0px;
+  height: 14px;
+}
+
+div.scrollbar_horizontal div.scrollbar_container div.scrollbar_slider div.button_inner
+{
+
+    height: 12px;
+    width: 8px;
+
+}
+
+
+select
+{
+  font-family: Tahoma, Verdana, Arial, Helvetica;
+  font-size: 12px;
+}
+
+select.invalid
+{
+/*
+ * White text on red background
+ */
+  color: white;
+  background-color: #888888;
+  border-color: #888888;
+  border-style: solid;
+}
+
+select.selectNotSubmissible
+{
+/*
+ * White text on orange background
+ */
+  	color: white;
+	background-color: #7c7c7c !important; border-color: #7c7c7c !important; border-style: solid;
+}
+
+select.option.selectOptionNotSubmissible
+{
+/*
+ * White text on orange background
+ */
+  	color: white;
+	background-color: #7c7c7c !important;
+}
+
+
+
+select.invalid option
+{
+/*
+ * White text on red background
+ */
+  color: white;
+  background-color: #888888 !important;
+  border-color: #888888 !important;
+  border-style: solid !important;
+}
+
+
+select.mandatory option
+{
+  background-color: #dddddd !important;
+  border-color: #dddddd !important;
+  border-style: solid !important;
+}
+
+select.disabled option
+{
+  background-color: #888888 !important;
+  color: #aaaaaa !important;
+}
+
+.selectOptionSubmissible
+{
+	background-color: #ffffff !important;
+}
+div.pagedArea
+{
+	position: relative;
+	border: 0px;
+	background-color: #c4c4c4;
+}
+
+div.page
+{
+	position: absolute;
+	top: 0px;
+	left: 0px;
+	border: 0px;
+	visibility: hidden;
+}
+
+/* this style doesn't do anything visible but it can be overwritten by the projects if required */
+div.page.pageNotSubmissible
+{
+	/*border: 0px solid;
+	border-color: @client_framework.colour.tabselector.not_submissible_tab.background@ !important;
+	background-image: url(./images/exclam2.gif);
+	background-position: top right;
+	background-repeat: no-repeat;*/
+}
+
+div.tabbedArea div.pagedArea
+{
+	border-style: solid;
+	
+	/* Border widths: top is 0px (1st value), left and right is 1px (2nd value) and bottom is 1px (3rd value) */
+	border-width: 0px 1px 1px;
+	
+	/* Border colours in order top, right, bottom and left - top value is ignored as border width is 0px */
+	border-color: #ffffff #808080 #808080 #ffffff
+}
+
+
+/* Styles for unselected tabcell */
+table.tabselector td.tabCell
+{
+	border: 1px solid;
+	
+	border-color: #808080 #ffffff #ffffff #808080;
+	
+	background-color: #d3d3d3;
+	
+	width: 120px;
+	padding: 1px;
+	cursor: default;
+}
+
+table.tabselector td.tabCell.tabCellNotSubmissible
+{
+	background-color: background-color: #cccccc !important; !important;
+	/*background-color: @client_framework.colour.tabselector.not_submissible_tab.background@ !important;
+	background-image: url(./images/exclam2.gif);
+	background-position: center right;
+	background-repeat: no-repeat;*/
+}
+
+/* Styles for a selected tabCell */
+table.tabselector td.tabCell.tabCellSelected
+{
+	background-color: #c4c4c4;
+	border-color: #ffffff #808080 #c4c4c4 #ffffff;
+
+	font-weight: bolder;
+}
+
+table.tabselector td.tabCellDisabled
+{
+	color: #aaaaaa !important;
+	border-color: grey;
+	border-bottom-color: #ffffff;
+}
+
+/*
+table.tabselector td.tabCellDisabled div.tabCellDiv
+{
+	color: gray !important;
+}
+*/
+
+table.tabselector td.tabCell div.tabCellDiv
+{
+	border: 1px solid #d3d3d3;
+	padding-left: 3px;
+	padding-right: 1px;
+}
+
+table.tabselector td.tabCell.tabCellNotSubmissible div.tabCellDiv
+{
+	background-color: border: 1px solid #cccccc !important;;
+}
+
+table.tabselector td.tabCell div.tabCellDiv.tabCellDivFocus
+{
+    border: 1px dotted black;
+}
+
+table.tabselector td.tabSpacer
+{
+	border: 0px;
+	border-bottom: 1px #ffffff solid;
+	display: none;
+} 
+
+table.tabselector
+{
+	width: 100%;
+	/*
+	 * Would prefer to use border-collapse here for IE, but unfortunately 
+	 * there appears to be a rendering bug in IE, where if a table is an
+	 * absolute positioned parent and has border-collapse set to collapse,
+	 * but it's cells have borders specified, then they are sometimes still
+	 * rendered even when the table (or one it's parents) has visibility:
+	 * hidden specified.
+	 *
+	 * In the context of tabbed areas this means that if you have two nested
+	 * tabbed areas then the borders of the tabs on the nested tab selector
+	 * always appear, even when the page containing the tested tabbed area
+	 * is not displayed.
+	 *
+	 * On IE we specify margin: -2px which affectively removes then unwanted
+	 * gaps between the tab selector and the pages. Unfortunately it does not
+	 * remove the spacing between the tabs, which seems to unavoidable.
+	 */
+/*isMoz
+	border-collapse: collapse;
+isMoz*/
+
+	margin: -2px;
+	
+}
+
+textarea.disabled
+{
+  background-color: #888888;
+  color: #aaaaaa;
+}
+
+textarea.mandatory
+{
+  background-color: #dddddd;
+}
+
+textarea.readOnly
+{
+  background-color: #aaaaaa;
+  border: #aaaaaa 2px solid;
+}
+
+textarea.invalid
+{
+	border: 2px solid #888888;
+}
+
+textarea.notSubmissible
+{
+	border: 2px solid @client_framework.colour.not_submissible@;	
+}
+
+textarea.textInputElementDefaultStyle
+{
+    /* In the framework the text area adaptor inherits from the
+       text input adaptor. This style is applied to the text
+       area when no other styling is required. */
+}
+input.textInputElementDefaultStyle
+{
+    /* The default style for text input boxes defines no style information.
+       It is used to reset the style of input boxes after they have been
+       set to a different style such as "invalid". */
+}div.wordProcessing
+{
+position: relative;
+top: 0px;
+left: 0px;
+}
+
+span.SUPSVAR
+{	
+background-color:#ffff00;
+color:#000000;
+}
+
+
+span.SUPSVAR_NONEDITABLE
+{	
+background-color:#0099FF;
+color:#000000;
+}
+
+img.wordProcessing
+{
+position:absolute;
+left:0px;
+top:0px;
+visibility: hidden;
+}
+div.zoom_field
+{
+	/*
+		Default width of zoom_field is 160px - this is totally arbitrary
+		and can be overridden on a field by field basis.
+	*/
+	width: 160px;
+	
+	/* Mozilla requires extra 1px of padding for some reason */
+/*isMoz
+	padding: 1px;
+isMoz*/
+	
+	background: white;
+}
+
+
+div.zoom_field div.zoomfield_container
+{
+	position: relative;
+}
+
+
+div.zoom_field div.raised
+{
+	z-index: 1;
+}
+
+
+div.zoom_field div.popup
+{
+	/*
+		Make the popup shrink wrap around the text area. W3C and IE have
+		different ideas about exactly how this should be done...
+	*/
+/*isMoz
+	display: table;
+isMoz*/
+
+	display: inline-block;
+
+}
+
+div.zoom_field div.popup div.panel
+{
+	/*
+		Panel area in the popup is padded, so that the textarea is surrounded
+		by the blue border of the panel
+	*/
+	padding: 10px;
+}
+
+
+div.zoom_field div.popup table.popup_layout
+{
+	border: 0px;
+	padding: 0px;
+	border-collapse: collapse;
+	border-spacing: 0px;
+	/*
+		Moz appears to add an arbitrary 2px of margin around
+		tables which we remove here
+	*/
+/*isMoz
+	margin: -2px;
+isMoz*/
+}
+
+div.zoom_field div.popup table.popup_layout td.actionbar_container
+{
+	padding: 0px;
+}
+
+div.zoom_field div.popup table.popup_layout td.popup_contents
+{
+	padding: 0px;
+}
+
+div.zoom_field td.buttonfield_button_container div.buttonfield_button
+{
+	/*
+		Use a magnifying glass image on the zoom field button
+	*/
+	background-image: url(./images/magnify.gif);
+}
+
+
+div.zoom_field div.framedfield_disabled td.buttonfield_button_container div.buttonfield_button
+{
+	/*
+		Use a greyed out version of the magnifying glass image on the zoom field button
+		when the zoom field is disabled
+	*/
+	background-image: url(./images/magnify_disabled.gif);
+}
+/* Global Defaults */
+body
+{
+  font-family: Tahoma, Verdana, Arial, Helvetica;
+  font-size: 12px;
+  color: #222222;
+  margin: 0px;
+  background-color: #ececec;
+}
+
+input
+{
+  font-family: Tahoma, Verdana, Arial, Helvetica;
+  font-size: 12px;
+}
+
+
+textarea
+{
+  font-family: Tahoma, Verdana, Arial, Helvetica;
+  font-size: 12px;
+}
+
+label
+{
+  font-weight: bold;
+  padding-left: 5px;
+}
+
+
+
+
+/*
+	These styles should be removed and replaced with
+	styles specific to the component. e.g. grid_disabled
+	instead of using disabled on grid.
+	
+	This is necessary because of IE's inability to handle
+	multiple class selectors. i.e. grid.disabled.
+	The composite form works around this problem although
+	it is less elegant
+*/
+
+.notSubmissible
+{
+  border: 2px solid @client_framework.colour.not_submissible@;
+}
+
+.invalid
+{
+  border: 2px solid #888888;
+}
+
+.disabled
+{
+  background-color: #888888;
+  color: #aaaaaa;
+}
+
+.mandatory
+{
+  background-color: #dddddd;
+}
+
+
+.readOnly
+{
+  background-color: #aaaaaa;
+  border: #aaaaaa 2px solid;
+}
+
+/*
+	END Styles to be removed.
+*/
+
+
+
+
+/*
+	Misc styles used in applications
+*/
+
+
+table.layout
+{
+  width: 984px;
+  border: 0px;
+  margin: 0px;
+  padding: 0px;
+  background-color: #ececec;
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
+table.layout > tr
+{
+  padding: 0px;
+  margin: 0px;
+  border: 0px;
+}
+
+table.layout td
+{
+  padding: 0px;
+  margin: 0px;
+  border: 0px;
+}
+
+table.content > th
+{
+  padding: 0px;
+  margin: 0px;
+  border: 0px;
+  text-align: center;
+}
+
+
+/* Content tables */
+table.content
+{
+  width: 100%;
+  border-collapse: collapse;
+  margin: 0px;
+}
+
+
+/* Content tables in popups still need margin */
+div.popup table.content
+{
+	margin: 10px;
+}
+
+
+
+/* Is this used ???? - should review once projects have moved over to ActionBarRenderer */
+table.action_bar
+{
+  width: 100%;
+  border-collapse: collapse;
+  margin: 10px;
+  background-color: #c0c0c0;
+}
+
+table.action_bar td
+{
+  padding-right: 50px;
+  padding-top: 4px;
+  padding-bottom: 4px;
+}
+
+table.label_layout
+{
+  width: 100%;
+  border-collapse: collapse;
+  padding: 0px;
+  margin: 0px;
+}
+
+
+
+/* Divs with clip regions require absolute positioning on all browsers at this time */
+div.scrolling_region
+{
+  position: absolute;
+}
+
+
+
+
+
+/* Added the following to fix defect 69 */
+
+/* ApplicationView specific styles below here */
+
+/* Header table */
+table.header
+{
+  background-color: #bdbdbd;
+  width: 100%;
+}
+
+table.header td#header_left
+{
+  text-align: left;
+  width: 15%;
+}
+
+table.header td#header_title
+{
+  font-weight: bold;
+  font-size: 14pt;
+  text-align: center;
+}
+
+table.header td#header_right
+{
+  text-align: right;
+  width: 15%;
+}
+
+
+table.navigation
+{
+  width: 100%;
+  height: 24px;
+  margin: 0px;
+  background-color: #c0c0c0;
+}
+
+
+table.navigation td
+{
+  padding: 1px;
+  text-align: left;
+}
+
+table.navigation td input
+{
+  width: 137px;
+}
+

@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: User
+	Method:  updateUser()
+	File:    update_user.xml
+	Author:  Ian Stainer (Valtech)
+	Created: 09 November 2005
+	Description: 
+		Update a user's details.
+-->
+
+<!--
+	Change History:
+	25-Sep-2008, Sandeep Mullangi: Added field ROLE_ID since the primary key was extended.
+       04-Dec-2008: Sandeep Mullangi: Adding SQLLite to update USER_ROLE table
+
+-->
+<service-method>
+	<pipeline>
+		<Update>
+			<QueryDef location="uk/gov/dca/caseman/user_service/query_def_update_user.xml"/>
+			<DataSource xpath="/params/param[@name='maintainUser']"/>
+			<QueryExtension pivotNode="/ds/MaintainUser">
+				
+				<!-- DU.USER_ID is already in the map for the check exists -->
+				<CheckExists table="DU" fields="USER_ID" onExist="update" onNotExist="fail"/>
+				
+				<!-- UC.COURT_CODE is already in the map for the check exists -->
+				<CheckExists table="UC" fields="USER_ID COURT_CODE" onExist="update" onNotExist="fail"/>				
+				<Field name="UC.USER_ID" property="DU.USER_ID"/>																	
+				
+				<!-- We need to explicitly specify the USER_ID part of the PK because UR.USER_ID does not exists in the map -->
+				<!-- The same applies to UR.COURT_CODE which also does not exist in the map -->
+				<CheckExists table="UR" fields="USER_ID COURT_CODE" onExist="skip" onNotExist="fail"/>				
+				<Field name="UR.USER_ID" property="DU.USER_ID"/>									
+				<Field name="UR.COURT_CODE" property="UC.COURT_CODE"/> -->
+				<!--<Field name="UR.ROLE_ID" property="UR.ROLE_ID"/>-->
+				
+			</QueryExtension>
+		</Update>
+		
+		<SQLLite output="input">
+			<DataSource id="java:OracleDS" />
+			<Param name="param.userId" xpath="/ds/MaintainUser/UserId" />
+			<Param name="param.userRole" xpath="/ds/MaintainUser/Role" />
+			<Param name="param.courtCode" xpath="/ds/MaintainUser/CourtCode" />
+			<Param name="param.origRole" xpath="/ds/MaintainUser/OrigRole" />
+
+			<SQL type="update" tables="UR">
+				UPDATE USER_ROLE UR 
+				SET UR.ROLE_ID = ${param.userRole}
+				WHERE UR.USER_ID = ${param.userId}
+				AND UR.COURT_CODE = ${param.courtCode} 
+				AND UR.ROLE_ID = ${param.origRole}
+			</SQL>
+			
+		</SQLLite>
+	</pipeline>
+	<Security roles="viewOnly medium high wcSuper scSuper bmsSuper aeSuper dmSuper cpSuper edsAdmin admin ccbcMan ccbcUser ccbcSGB2 ccbcTape"/>
+</service-method>

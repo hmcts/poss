@@ -1,0 +1,3303 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<!-- edited with XMLSPY v5 rel. 4 U (http://www.xmlspy.com) by Cag Onganer (EDS) -->
+<rows>
+	<row>
+		<WPVariable>CMF_ISSUE_FEE</WPVariable>
+		<AsIs>
+			<Code>CMF_ISSUE_FEE</Code>
+			<BriefDescription>Issue fee</BriefDescription>
+			<SelectClause>'£' || to_char(cas.court_fee,'99999.99')</SelectClause>
+			<WhereClause>cases cas, case_events ce where cas.case_number = ce.case_number and ce.event_seq = P_EVENT_SEQ</WhereClause>
+		</AsIs>
+		<XslVariable name="vdIssueFee">
+			<ToBe>
+				<XPath>variabledata/claim/issuefee</XPath>
+				<SummaryInfo>The issue fee of the claim</SummaryInfo>
+				<Origin>From Database</Origin>
+			</ToBe>
+		</XslVariable>
+		<Outputs>
+			<Output>CJR179<ExtraInfo>Not in this release</ExtraInfo>
+			</Output>
+		</Outputs>
+	</row>
+	<row>
+		<WPVariable>CMF_ISSUE_FEE_179</WPVariable>
+		<AsIs>
+			<Code>CMF_ISSUE_FEE_179</Code>
+			<BriefDescription>In response to issue fee prompt</BriefDescription>
+			<SelectClause>ti.text_value</SelectClause>
+			<WhereClause>text_items ti, item_details id, case_events ce where ti.text_detail_code = id.code and id.domain= 'ISSUE_FEE_179' and ti.text_case_number = ce.case_number and ce.event_seq = P_EVENT_SEQ</WhereClause>
+		</AsIs>
+		<XslVariable name="vdIssueFee">
+			<ToBe>
+				<XPath>variabledata/claim/issuefee</XPath>
+				<SummaryInfo>The issue fee of the claim</SummaryInfo>
+				<Origin>From Database</Origin>
+			</ToBe>
+		</XslVariable>
+		<Outputs>
+			<Output>CJR179<ExtraInfo>Not in this release</ExtraInfo>
+			</Output>
+		</Outputs>
+	</row>
+	<row>
+		<WPVariable>CMF_ISSUE_FEE_185</WPVariable>
+		<AsIs>
+			<Code>CMF_ISSUE_FEE_185</Code>
+			<BriefDescription>In response to issue fee prompt</BriefDescription>
+			<SelectClause>ti.text_value</SelectClause>
+			<WhereClause>text_items ti, item_details id, case_events ce where ti.text_detail_code = id.code and id.domain= 'ISSUE_FEE_185' and ti.text_case_number = ce.case_number and ce.event_seq = P_EVENT_SEQ</WhereClause>
+		</AsIs>
+		<XslVariable name="vdIssueFee">
+			<ToBe>
+				<XPath>variabledata/claim/issuefee</XPath>
+				<SummaryInfo>The issue fee of the claim</SummaryInfo>
+				<Origin>From Database</Origin>
+			</ToBe>
+		</XslVariable>
+		<Outputs>
+			<Output>CJR185<ExtraInfo>Not in this release</ExtraInfo>
+			</Output>
+		</Outputs>
+	</row>
+	<row>
+		<WPVariable>CMF_ISSUE_FEE_186</WPVariable>
+		<AsIs>
+			<Code>CMF_ISSUE_FEE_186</Code>
+			<BriefDescription>In response to issue fee prompt</BriefDescription>
+			<SelectClause>ti.text_value</SelectClause>
+			<WhereClause>text_items ti, item_details id, case_events ce where ti.text_detail_code = id.code and id.domain = 'ISSUE_FEE_186' and ti.text_case_number = ce.case_number and ce.event_seq = P_EVENT_SEQ</WhereClause>
+		</AsIs>
+		<XslVariable name="vdIssueFee">
+			<ToBe>
+				<XPath>variabledata/claim/issuefee</XPath>
+				<SummaryInfo>The issue fee of the claim</SummaryInfo>
+				<Origin>From Database</Origin>
+			</ToBe>
+		</XslVariable>
+		<Outputs>
+			<Output>CJR186<ExtraInfo>Not in this release</ExtraInfo>
+			</Output>
+		</Outputs>
+	</row>
+	<row>
+		<WPVariable>SERVED BY</WPVariable>
+		<AsIs/>
+		<XslVariable name="vdServedBy">
+			<ToBe>
+				<XPath>variabledata/claim/issuefee</XPath>
+				<SummaryInfo>The notice can be served by the 'court' or the 'claimant'.</SummaryInfo>
+				<Origin>From Q &amp; A</Origin>
+			</ToBe>
+		</XslVariable>
+		<Outputs>
+			<Output>CJR0179<ExtraInfo>Not in this release</ExtraInfo>
+			</Output>
+			<Output>CJR0185<ExtraInfo>Not in this release</ExtraInfo>
+			</Output>
+			<Output>CJR186A <ExtraInfo>Not in this release</ExtraInfo>
+			</Output>
+		</Outputs>
+	</row>
+	<row>
+		<WPVariable>PARTIC_CLM_ENCLOSED</WPVariable>
+		<AsIs/>
+		<XslVariable name="vdParticularsEnclosed">
+			<ToBe>
+				<XPath>variabledata/claim/particulars</XPath>
+				<SummaryInfo>Indication of whether the particulars of the case are included. Choose Y or N.</SummaryInfo>
+				<Origin>From Q &amp; A</Origin>
+			</ToBe>
+		</XslVariable>
+		<Outputs>
+			<Output>CJR0179<ExtraInfo>Not in this release</ExtraInfo>
+			</Output>
+			<Output>CJR186A<ExtraInfo>Not in this release</ExtraInfo>
+			</Output>
+		</Outputs>
+	</row>
+	<row>
+		<WPVariable>CMF_CLM_CTRCLM_BOTH</WPVariable>
+		<AsIs>
+			<Code>CMF_CLM_CTRCLM_BOTH</Code>
+			<BriefDescription>Establishes if this output is a claim, counterclaim or both</BriefDescription>
+			<SelectClause>vv.description</SelectClause>
+			<WhereClause>text_items ti, item_details id, case_events ce, valid_values vv where ti.text_detail_code = id.code and id.domain = 'CLM_CTRCLM_BOTH' and ti.text_case_number = ce.case_number and ce.event_seq = P_EVENT_SEQ and vv.vals_low_value = nvl(ti.text_value,'CLM') and vv.vals_details_code = id.code</WhereClause>
+		</AsIs>
+		<XslVariable name="vdClaimCounterClaimBoth/vdAllocation">
+			<ToBe>
+				<XPath>variabledata/notice/claimcounterclaimboth</XPath>
+				<SummaryInfo>Allocation/Stayed eg claim or counter claim. choose from BTH (claim and counterclaim), CLM (claim) and CTR (courterclaim).</SummaryInfo>
+				<Values>
+					<Value name="CLM">Claim</Value>
+					<Value name="CTR">Courterclaim</Value>
+					<Value name="BTH">Claim and Counterclaim</Value>
+				</Values>
+				<Origin>Q&amp;A 
+					<Question>8</Question>
+				</Origin>
+			</ToBe>
+		</XslVariable>
+		<Outputs>
+			<Output>CJR018D</Output>
+			<Output>CJR020</Output>
+			<Output>CJR023B</Output>
+			<Output>CJR023D</Output>
+			<Output>CJR028</Output>
+			<Output>CJR069</Output>
+			<Output>CJR070</Output>
+			<Output>CJR071</Output>
+		</Outputs>
+	</row>
+	<row>
+		<WPVariable>CMF_JUDGE_NAME</WPVariable>
+		<AsIs>
+			<Code>CMF_JUDGE_NAME</Code>
+			<BriefDescription>Name of Judge</BriefDescription>
+			<SelectClause>ti.text_value</SelectClause>
+			<WhereClause>text_items ti, item_details id, case_events ce where ti.text_detail_code = id.code and id.domain = 'JUDGE_NAME' and ti.text_case_number = ce.case_number and ce.event_seq = P_EVENT_SEQ</WhereClause>
+		</AsIs>
+		<XslVariable name="vdJudge">
+			<ToBe>
+				<XPath>variabledata/judgment/judge</XPath>
+				<SummaryInfo>Name of Judge. </SummaryInfo>
+				<Origin>Q&amp;A
+					<Question>37</Question>
+					<Question>4</Question>
+				</Origin>
+			</ToBe>
+		</XslVariable>
+		<Outputs>
+			<Output>CJR020</Output>
+			<Output>CJR022</Output>
+			<Output>CJR023B</Output>
+			<Output>CJR023D</Output>
+			<Output>CJR037</Output>
+			<Output>CJR042</Output>
+			<Output>CJR043</Output>
+			<Output>CJR046</Output>
+			<Output>CJR049</Output>
+			<Output>CJR051</Output>
+			<Output>CJR053</Output>
+			<Output>CJR060</Output>
+			<Output>CJR061</Output>
+			<Output>CJR065</Output>
+			<Output>CJR065B</Output>
+			<Output>CJR069</Output>
+			<Output>CJR070</Output>
+			<Output>CJR071</Output>
+			<Output>CJR175</Output>
+			<Output>N35</Output>
+			<Output>N32(2)</Output>
+			<Output>N32(5)</Output>
+		</Outputs>
+	</row>
+	<row>
+		<WPVariable/>
+		<Outputs>
+			<Output>CJR069</Output>
+			<Output>CJR070</Output>
+			<Output>CJR071</Output>
+			<Output>CJR072</Output>
+			<Output>CJR175</Output>
+			<Output>CJR090</Output>
+			<Output>CJR091</Output>
+			<Output>CJR094</Output>
+			<Output>CJR101</Output>
+			<Output>CJR103</Output>
+			<Output>CJR170</Output>
+			<Output>CJR175</Output>
+			<Output>CJR177</Output>
+		</Outputs>
+		<XslVariable/>
+	</row>
+	<row>
+		<WPVariable/>
+		<Outputs>
+			<Output>CJR178</Output>
+			<Output>CJR351</Output>
+		</Outputs>
+		<XslVariable/>
+	</row>
+	<row>
+		<WPVariable>CMF_AQ_FILE_DATE</WPVariable>
+		<AsIs>
+			<Code>CMF_AQ_FILE_DATE</Code>
+			<BriefDescription>Date by which the allocation questionnaire must be filed.</BriefDescription>
+			<SelectClause>to_char(to_date(ti.text_value, 'DD-MON-YYYY'), 'DD fmMonth YYYY')</SelectClause>
+			<WhereClause>text_items ti, item_details id, case_events ce where ti.text_detail_code = id.code and id.domain = 'AQ_FILE_DATE' and ti.text_case_number = ce.case_number and ce.event_seq = P_EVENT_SEQ</WhereClause>
+		</AsIs>
+		<XslVariable name="vdAllocationQuestionaireFileDate">
+			<ToBe>
+				<XPath>variabledata/order/allocationquestionairefiledate</XPath>
+				<SummaryInfo>Allocation Questionaire file date</SummaryInfo>
+				<Origin>Q&amp;A
+					<Question>9</Question>
+				</Origin>
+			</ToBe>
+		</XslVariable>
+		<Outputs>
+			<Output>CJR071</Output>
+		</Outputs>
+	</row>
+	<row>
+		<WPVariable>CMF_ITEM_NOT_FILED</WPVariable>
+		<AsIs>
+			<Code>CMF_ITEM_NOT_FILED</Code>
+			<BriefDescription>IIT</BriefDescription>
+			<SelectClause>decode(ti.text_value, null, null, 'No ' || vv.description || ' having been filed')</SelectClause>
+			<WhereClause>text_items ti, item_details id, case_events ce, valid_values vv where ti.text_detail_code = id.code and id.domain = 'ITEM_NOT_FILED' and ti.text_case_number = ce.case_number and ce.event_seq = P_EVENT_SEQ and vv.vals_low_value = nvl(ti.text_value,'ACK') and vv.vals_details_code = id.code</WhereClause>
+		</AsIs>
+		<XslVariable name="vdItemNotFiled">
+			<ToBe>
+				<XPath>variabledata/judgment/itemnotfiled</XPath>
+				<SummaryInfo>item not filed. ACK (No Acknowledgement of service having been filed), DEF (No Defence having been filed)</SummaryInfo>
+				<Values>
+					<Value name="ACK">No Acknowledgement of service having been filed</Value>
+					<Value name="DEF">No Defence having been filed</Value>
+				</Values>
+				<Origin>Q&amp;A
+					<Question>21</Question>
+				</Origin>
+			</ToBe>
+		</XslVariable>
+		<Outputs>
+			<Output>CJR046</Output>
+		</Outputs>
+	</row>
+	<row>
+		<WPVariable>CMF_DEFT_LIABILITY</WPVariable>
+		<AsIs>
+			<Code>CMF_DEFT_LIABILITY</Code>
+			<BriefDescription>The defendant’s liability</BriefDescription>
+			<SelectClause>decode(ti.text_value, null, null, vv.description)</SelectClause>
+			<WhereClause>text_items ti, item_details id, case_events ce,valid_values vv where ti.text_detail_code = id.code and id.domain = 'DEFT_LIABILITY' and ti.text_case_number = ce.case_number and ce.event_seq = P_EVENT_SEQ and vv.vals_low_value = nvl(ti.text_value, 'LIAB') and vv.vals_details_code = id.code</WhereClause>
+		</AsIs>
+		<XslVariable name="vdDefendantLiability">
+			<ToBe>
+				<XPath>variabledata/judgment/defendantliability</XPath>
+				<SummaryInfo>Defendant Liability. Choice of 2 values: 'LIAB'(The defendant having admitted liability) and 'LNAC'(The defendant having admitted liability and offered an am)</SummaryInfo>
+				<Values>
+					<Value name="LIAB">The defendant having admitted liability</Value>
+					<Value name="LNAC">The defendant having admitted liability and offered an am</Value>
+				</Values>
+				<Origin>Q&amp;A
+					<Question>22</Question>
+				</Origin>
+			</ToBe>
+		</XslVariable>
+		<Outputs>
+			<Output>CJR046</Output>
+		</Outputs>
+	</row>
+	<row>
+		<WPVariable>CMF_HRG_ATTENDEES</WPVariable>
+		<XslVariable name="vdHearingAttendees">
+			<AsIs>
+				<Code>CMF_HRG_ATTENDEES</Code>
+				<BriefDescription>Hearing Attendees</BriefDescription>
+				<SelectClause>decode(ti.text_value, null, null, '19', lower(ti2.text_value), vv.description)</SelectClause>
+				<WhereClause>text_items ti, item_details id, text_items ti2, item_details id2, case_events ce, valid_values vv where ti.text_detail_code = id.code and id.domain = 'HRG_ATTENDEES' and ti.text_case_number = ce.case_number and ti2.text_detail_code=id2.code and id2.domain= 'HRG_ATTENDEES_OTHER' and ti2.text_case_number = ce.case_number and ce.event_seq = P_EVENT_SEQ and vv.vals_low_value = NVL(ti.text_value,'1') and vv.vals_details_code = id.code</WhereClause>
+			</AsIs>
+			<ToBe>
+				<XPath>variabledata/claim/hearing/attendees</XPath>
+				<SummaryInfo>Attendees at hearing. Choose from values in drop down. See below</SummaryInfo>
+				<Values>
+					<Value name="1">HEARING BOTH PARTIES IN PERSON</Value>
+					<Value name="2">HEARING THE SOLICITOR FOR THE CLAIMANT AND THE DEFENDANT IN PERSON</Value>
+					<Value name="3">HEARING THE SOLICITORS FOR BOTH PARTIES </Value>
+					<Value name="4">HEARING THE CLAIMANT IN PERSON AND THE SOLICITOR FOR THE DEFENDANT</Value>
+					<Value name="5">HEARING THE SOLICITOR FOR THE CLAIMANT AND THE DEFENDANT NOT ATTENDING</Value>
+					<Value name="6">HEARING THE SOLICITOR FOR THE DEFENDANT AND THE CLAIMANT NOT ATTENDING</Value>
+					<Value name="7">NEITHER PARTY ATTENDING</Value>
+					<Value name="8">HEARING COUNSEL FOR BOTH PARTIES</Value>
+					<Value name="9">HEARING COUNSEL FOR THE CLAIMANT AND THE SOLICITOR FOR THE DEFENDANT</Value>
+					<Value name="10">HEARING THE SOLICITOR FOR THE CLAIMANT AND THE COUNSEL FOR THE DEFENDANT </Value>
+					<Value name="11">HEARING COUNSEL FOR THE CLAIMANT AND THE DEFENDANT NOT ATTENDING</Value>
+					<Value name="12">HEARING COUNSEL FOR THE DEFENDANT AND THE CLAIMANT NOT ATTENDING</Value>
+					<Value name="13">READING THE EX PARTE APPLICATION</Value>
+					<Value name="14">HEARING THE CLAIMANT IN PERSON AND COUNSEL FOR THE DEFENDANT</Value>
+					<Value name="15">HEARING THE CLAIMANT IN PERSON AND THE DEFENDANT NOT ATTENDING</Value>
+					<Value name="16">HEARING COUNSEL FOR THE CLAIMANT AND THE DEFENDANT IN PERSON</Value>
+					<Value name="17">HEARING THE DEFENDANT IN PERSON AND THE CLAIMANT NOT ATTENDING</Value>
+					<Value name="18">THE COURTS OWN MOTION. THE COURT HAS MADE THIS ORDER OF ITS OWN INITIATIVE WITHOUT A HEARING. IF YOU OBJECT TO THE ORDER, YOU MUST MAKE AN APPLICATION TO HAVE IT SET ASIDE, VARIED OR STAYED WITHIN 7 DAYS OF RECEIVING IT</Value>
+					<Value name="19">OTHER</Value>
+				</Values>
+				<Origin>Q&amp;A</Origin>
+			</ToBe>
+		</XslVariable>
+		<Outputs>
+			<Output>CJR042</Output>
+			<Output>CJR043</Output>
+			<Output>CJR053</Output>
+			<Output>CJR060</Output>
+			<Output>CJR065</Output>
+			<Output>CJR065B</Output>
+			<Output>CJR070</Output>
+			<Output>CJR072</Output>
+			<Output>CJR090</Output>
+			<Output>CJR094</Output>
+			<Output>CJR170</Output>
+			<Output>CJR175</Output>
+			<Output>CJR178</Output>
+			<Output>N35</Output>
+			<Output>N32(2)</Output>
+			<Output>N32(5)</Output>
+		</Outputs>
+	</row>
+	<row>
+		<WPVariable>CMF_FORM_RETURN_DATE</WPVariable>
+		<AsIs/>
+		<XslVariable name="vdFormReturnDate">
+			<ToBe/>
+		</XslVariable>
+		<Outputs>
+			<Output>CJR011</Output>
+			<Output>CJR012</Output>
+			<Output>CJR013</Output>
+			<Output>CJR014</Output>
+		</Outputs>
+	</row>
+	<row>
+		<WPVariable>Called with CMF_HRG_ATTENDEES</WPVariable>
+		<XslVariable name="vdHearingAttendeesOther">
+			<AsIs>
+				<Code>CMF_HRG_ATTENDEES</Code>
+				<BriefDescription>Hearing Attendees</BriefDescription>
+				<SelectClause>decode(ti.text_value, null, null, '19', lower(ti2.text_value), vv.description)</SelectClause>
+				<WhereClause>text_items ti, item_details id, text_items ti2, item_details id2, case_events ce, valid_values vv where ti.text_detail_code = id.code and id.domain = 'HRG_ATTENDEES' and ti.text_case_number = ce.case_number and ti2.text_detail_code=id2.code and id2.domain= 'HRG_ATTENDEES_OTHER' and ti2.text_case_number = ce.case_number and ce.event_seq = P_EVENT_SEQ and vv.vals_low_value = NVL(ti.text_value,'1') and vv.vals_details_code = id.code</WhereClause>
+			</AsIs>
+		</XslVariable>
+		<Outputs>
+			<Output>CJR043</Output>
+			<Output>CJR053</Output>
+			<Output>CJR060</Output>
+			<Output>CJR065</Output>
+			<Output>CJR070</Output>
+			<Output>CJR072</Output>
+			<Output>CJR090</Output>
+			<Output>CJR094</Output>
+			<Output>CJR170</Output>
+			<Output>CJR175</Output>
+			<Output>CJR178</Output>
+		</Outputs>
+	</row>
+	<row>
+		<WPVariable>CMF_QUSTNR_RETURN_DATE</WPVariable>
+		<AsIs>
+			<Code>CMF_QUSTNR_RETURN_DATE</Code>
+			<BriefDescription>Date by which Questionnaire should be returned</BriefDescription>
+			<SelectClause>to_char(to_date(ti.text_value, 'DD-MON-YYYY'), 'DD fmMonth YYYY')</SelectClause>
+			<WhereClause>text_items ti, item_details id, case_events ce where ti.text_detail_code = id.code and id.domain = 'QUSTNR_RETURN_DATE' and ti.text_case_number = ce.case_number and ce.event_seq= P_EVENT_SEQ</WhereClause>
+		</AsIs>
+		<XslVariable name="vdQuestionaireReturnDate">
+			<ToBe>
+				<XPath>variabledata/notice/questionairereturndate</XPath>
+				<SummaryInfo>Listing Questionaire return date. Format: dd-mmm-yyyy </SummaryInfo>
+				<Origin>From Database</Origin>
+			</ToBe>
+		</XslVariable>
+		<Outputs>
+			<Output>CJR031</Output>
+			<Output>CJR176</Output>
+		</Outputs>
+	</row>
+	<row>
+		<WPVariable>CMF_ORD_DATE or called with CMF_PROCESS_DETAILS</WPVariable>
+		<XslVariable name="vdOrderDate">
+			<ExtraInfo> This is no longer required. This has been confirmed by Kathrin Miles.</ExtraInfo>
+			<AsIs>
+				<Code>CMF_ORD_DATE</Code>
+				<BriefDescription>Date of original order</BriefDescription>
+				<SelectClause>ltrim( to_char(to_date(ti.text_value, 'DD-MON-YYYY'),'DD fmMonthYYYY'),'0')</SelectClause>
+				<WhereClause>text_items ti, item_details id, case_events ce where ti.text_detail_code = id.code and id.domain = 'ORDER_DATE' and ti.text_case_number = ce.case_number and ce.event_seq = P_EVENT_SEQ</WhereClause>
+			</AsIs>
+			<AsIs>
+				<Code>CMF_PROCESS_DETAILS</Code>
+				<BriefDescription>IIT Details of the Process not served</BriefDescription>
+				<SelectClause>decode(ti.text_value, 'APP', ' for '|| lower(ti2.text_value), 'ORD', ' of ' || to_char(to_date(ti3.text_value, 'DD-MON-YYYY'),'DD fmMonth YYYY'), 'JDG', ' of ' || to_char(to_date(ti4.text_value, 'DD-MON-YYYY'),'DD fmMonth YYYY'), null)</SelectClause>
+				<WhereClause>text_items ti, item_details id, text_items ti2, item_details id2, text_items ti3, item_details id3, text_items ti4, item_details id4, case_events ce where ti.text_detail_code = id.code and id.domain = 'PROCESS_NOT_SERVED' and ti.text_case_number = ce.case_number and ti2.text_detail_code = id2.code and id2.domain = 'APPLICATION_FOR' and ti2.text_case_number = ce.case_number and ti3.text_detail_code = id3.code and id3.domain = 'ORDER_DATE' and ti3.text_case_number = ce.case_number and ti4.text_detail_code = id4.code and id4.domain = 'JUDGMENT_DATE' and ti4.text_case_number = ce.case_number and ce.event_seq = P_EVENT_SEQ</WhereClause>
+			</AsIs>
+		</XslVariable>
+		<Outputs>
+			<Output>CJR010</Output>
+			<Output>CJR090</Output>
+			<Output>CJR091</Output>
+			<Output>CJR101</Output>
+			<Output>CJR103</Output>
+		</Outputs>
+	</row>
+	<row>
+		<WPVariable>CMF_JUDGMENT_AMOUNT</WPVariable>
+		<AsIs>
+			<Code>CMF_JUDGMENT_AMOUNT</Code>
+			<BriefDescription>Entered amount of judgment</BriefDescription>
+			<SelectClause>ti.text_value</SelectClause>
+			<WhereClause>text_items ti, item_details id, case_events ce where ti.text_detail_code = id.code and id.domain = 'JUDGMENT_AMOUNT' and ti.text_case_number = ce.case_number and ce.event_seq = P_EVENT_SEQ</WhereClause>
+		</AsIs>
+		<XslVariable name="vdAmount">
+			<ToBe>
+				<XPath>variabledata/judgment/amount</XPath>
+				<SummaryInfo>The amount of the judgment</SummaryInfo>
+				<Origin>From Database</Origin>
+				<Origin>Q&amp;A
+					<Question>38</Question>
+				</Origin>
+			</ToBe>
+		</XslVariable>
+		<Outputs>
+			<Output>CJR040</Output>
+			<Output>CJR041</Output>
+			<Output>CJR042</Output>
+			<Output>CJR043</Output>
+			<Output>CJR049</Output>
+			<Output>CJR065A</Output>
+		</Outputs>
+	</row>
+	<row>
+		<WPVariable>CMF_N442_JDG_AMT</WPVariable>
+		<AsIs>
+			<Code>CMF_N442_JDG_AMT</Code>
+			<BriefDescription>IIT</BriefDescription>
+			<SelectClause>ltrim(to_char(jdg.total,'9,999,990.00'))</SelectClause>
+			<WhereClause>judgments jdg, case_events ce where ce.judg_seq = jdg.judg_seq and ce.event_seq = P_EVENT_SEQ</WhereClause>
+		</AsIs>
+		<XslVariable name="vdAmount">
+			<ToBe>
+				<XPath>variabledata/judgment/amount</XPath>
+				<SummaryInfo>The amount of the judgment</SummaryInfo>
+				<Origin>From Database</Origin>
+				<Origin>Q&amp;A
+					<Question>38</Question>
+				</Origin>
+			</ToBe>
+		</XslVariable>
+		<Outputs>
+			<Output>N442</Output>
+			<Output>N35</Output>
+			<Output>N35A</Output>
+			<Output>N441A</Output>
+			<Output>N442R</Output>
+		</Outputs>
+	</row>
+	<row>
+		<WPVariable>CMF_TOTAL_COSTS</WPVariable>
+		<AsIs>
+			<Code>CMF_TOTAL_COSTS</Code>
+			<BriefDescription>Total costs</BriefDescription>
+			<SelectClause>ti.text_value</SelectClause>
+			<WhereClause>text_items ti, item_details id, case_events ce where ti.text_detail_code = id.code and id.domain = 'TOTAL_COSTS' and ti.text_case_number = ce.case_number and ce.event_seq = P_EVENT_SEQ</WhereClause>
+		</AsIs>
+		<XslVariable name="vdCosts">
+			<ToBe>
+				<XPath>variabledata/judgment/costs</XPath>
+				<SummaryInfo>The costs awarded by the judge</SummaryInfo>
+				<Origin>From Database</Origin>
+				<Origin>Q&amp;A
+					<Question>39</Question>
+				</Origin>
+			</ToBe>
+		</XslVariable>
+		<Outputs>
+			<Output>CJR040</Output>
+			<Output>CJR041</Output>
+			<Output>CJR042</Output>
+			<Output>CJR043</Output>
+			<Output>CJR049</Output>
+			<Output>CJR065A</Output>
+		</Outputs>
+	</row>
+	<row>
+		<WPVariable/>
+		<AsIs>
+			<Code>CMF_TOTAL_COSTS</Code>
+			<BriefDescription>Total costs</BriefDescription>
+			<SelectClause>ti.text_value</SelectClause>
+			<WhereClause>text_items ti, item_details id, case_events ce where ti.text_detail_code = id.code and id.domain = 'TOTAL_COSTS' and ti.text_case_number = ce.case_number and ce.event_seq = P_EVENT_SEQ</WhereClause>
+		</AsIs>
+		<XslVariable name="vdCosts">
+			<ToBe>
+				<XPath>variabledata/judgment/costs</XPath>
+				<SummaryInfo>The costs awarded by the judge</SummaryInfo>
+				<Origin>From Database</Origin>
+				<Origin>Q&amp;A
+					<Question>39</Question>
+				</Origin>
+			</ToBe>
+		</XslVariable>
+		<Outputs>
+			<Output>N32(2)</Output>
+			<Output>N32(5)</Output>
+			<Output>N35</Output>
+			<Output>N35A</Output>
+		</Outputs>
+	</row>
+	<row>
+		<WPVariable>CMF_LOCAL_NUMBER</WPVariable>
+		<AsIs>
+			<Code>CMF_LOCAL_NUMBER</Code>
+			<BriefDescription>IIT Value supplied in response to the Local Number prompt</BriefDescription>
+			<SelectClause>ti.text_value</SelectClause>
+			<WhereClause>text_items ti, item_details id, case_events ce where ti.text_detail_code = id.code and id.domain = 'LOCAL_NUMBER' and ti.text_case_number = ce.case_number and ce.event_seq = P_EVENT_SEQ</WhereClause>
+		</AsIs>
+		<XslVariable name="vdLocalNumber"/>
+		<Outputs>
+			<Output>CJR010</Output>
+		</Outputs>
+	</row>
+	<row>
+		<WPVariable>CMF_PROCESS_NOT_SERVED</WPVariable>
+		<AsIs>
+			<Code>CMF_PROCESS_NOT_SERVED</Code>
+			<BriefDescription>IIT Description of Process not served</BriefDescription>
+			<SelectClause>decode(ti.text_value,'OTH', ti2.text_value, lower(vv.description))</SelectClause>
+			<WhereClause>text_items ti, item_details id, text_items ti2, item_details id2, case_events ce, valid_values vv where ti.text_detail_code = id.code and id.domain = 'PROCESS_NOT_SERVED' and ti.text_case_number = ce.case_number and ti2.text_detail_code = id2.code and id2.domain = 'PROC_NOT_SERVED_OTH' and ti2.text_case_number = ce.case_number and ce.event_seq = P_EVENT_SEQ and vv.vals_low_value = ti.text_value and vv.vals_details_code = id.code</WhereClause>
+		</AsIs>
+		<XslVariable name="vdProcessNotServed">
+			<ToBe>
+				<XPath>variabledata/notice/processnotserved</XPath>
+				<SummaryInfo>Name of the process that has not been served. Choices are: APP(application), CLM (claim form), JDG (judgement), ORD (order), OTH (other), PART (particulars of claim)</SummaryInfo>
+				<Values>
+					<Value name="APP">application</Value>
+					<Value name="CLM">claim form</Value>
+					<Value name="JDG">judgement</Value>
+					<Value name="ORD">order</Value>
+					<Value name="OTH">other</Value>
+					<Value name="PART">particulars of claim</Value>
+				</Values>
+				<Origin>Q&amp;A
+					<Question>57</Question>
+				</Origin>
+			</ToBe>
+		</XslVariable>
+		<Outputs>
+			<Output>CJR010</Output>
+		</Outputs>
+	</row>
+	<row>
+		<WPVariable>CMF_ENVELOPE_MARK</WPVariable>
+		<AsIs>
+			<Code>CMF_ENVELOPE_MARK</Code>
+			<BriefDescription>IIT Mark on returned envelope</BriefDescription>
+			<SelectClause>vv.description</SelectClause>
+			<WhereClause>text_items ti, item_details id, case_events ce, valid_values vv where ti.text_detail_code = id.code and id.domain = 'ENVELOPE_MARK' and ti.text_case_number = ce.case_number and ce.event_seq = P_EVENT_SEQ and vv.vals_low_value = ti.text_value and vv.vals_details_code = id.code</WhereClause>
+		</AsIs>
+		<XslVariable name="vdEnvelopeMark">
+			<ToBe>
+				<XPath>variabledata/notice/envelopemark</XPath>
+				<SummaryInfo>Details of envelope marking. Choose from: GA (gone away), INSF (insufficient address), NK (not known at the address given), NOADD (no such address)</SummaryInfo>
+				<Values>
+					<Value name="GA">gone away</Value>
+					<Value name="INSF">insufficient address</Value>
+					<Value name="NK">not known at the address given</Value>
+					<Value name="NOADD">no such address</Value>
+				</Values>
+				<Origin>Q&amp;A
+					<Question>62</Question>
+				</Origin>
+			</ToBe>
+		</XslVariable>
+		<Outputs>
+			<Output>CJR010</Output>
+		</Outputs>
+	</row>
+	<row>
+		<WPVariable>CMF_NAME</WPVariable>
+		<AsIs>
+			<Code>CMF_NAME</Code>
+			<BriefDescription>IIT User's name</BriefDescription>
+			<SelectClause>cm_general.superinitcap(ti.text_value)</SelectClause>
+			<WhereClause>text_items ti, item_details id, case_events ce where ti.text_detail_code = id.code and id.domain = 'NAME' and ti.text_case_number = ce.case_number and ce.event_seq = P_EVENT_SEQ</WhereClause>
+		</AsIs>
+		<XslVariable name="vdName">
+			<ToBe>
+				<XPath>variabledata/letter/name</XPath>
+				<SummaryInfo>User Name</SummaryInfo>
+				<Origin>Q&amp;A
+					<Question>63</Question>
+				</Origin>
+			</ToBe>
+		</XslVariable>
+		<Outputs>
+			<Output>CJR016</Output>
+		</Outputs>
+	</row>
+	<row>
+		<WPVariable>CMF_SECTION</WPVariable>
+		<AsIs>
+			<Code>CMF_SECTION</Code>
+			<BriefDescription>IIT User's section</BriefDescription>
+			<SelectClause>cm_general.superinitcap(ti.text_value)</SelectClause>
+			<WhereClause>text_items ti, item_details id, case_events ce where ti.text_detail_code = id.code and id.domain = 'SECTION' and ti.text_case_number = ce.case_number and ce.event_seq = P_EVENT_SEQ</WhereClause>
+		</AsIs>
+		<XslVariable name="vdSection">
+			<ToBe>
+				<XPath>variabledata/letter/section</XPath>
+				<SummaryInfo>Users section</SummaryInfo>
+				<Origin>Q&amp;A
+					<Question>64</Question>
+				</Origin>
+			</ToBe>
+		</XslVariable>
+		<Outputs>
+			<Output>CJR016</Output>
+		</Outputs>
+	</row>
+	<row>
+		<WPVariable>CMF_EXTENSION</WPVariable>
+		<AsIs>
+			<Code>CMF_EXTENSION</Code>
+			<BriefDescription>IIT User's telephone extension</BriefDescription>
+			<SelectClause>cm_general.superinitcap(ti.text_value)</SelectClause>
+			<WhereClause>text_items ti, item_details id, case_events ce where ti.text_detail_code = id.code and id.domain = 'EXTENSION' and ti.text_case_number = ce.case_number and ce.event_seq = P_EVENT_SEQ</WhereClause>
+		</AsIs>
+		<XslVariable name="vdExtension">
+			<ToBe>
+				<XPath>variabledata/letter/extension</XPath>
+				<SummaryInfo>Users extension</SummaryInfo>
+				<Origin>Q&amp;A
+					<Question>65</Question>
+				</Origin>
+			</ToBe>
+		</XslVariable>
+		<Outputs>
+			<Output>CJR016</Output>
+		</Outputs>
+	</row>
+	<row>
+		<WPVariable>CMF_FORM_COMPLETE_DATE</WPVariable>
+		<AsIs>
+			<Code>CMF_FORM_COMPLETE_DATE</Code>
+			<BriefDescription>Date by which the form must be completed</BriefDescription>
+			<SelectClause>to_char(to_date(ti.text_value, 'DD-MON-YYYY'), 'DD fmMonth YYYY')</SelectClause>
+			<WhereClause>text_items ti, item_details id, case_events ce where ti.text_detail_code = id.code and id.domain = 'FORM_COMPLETE_DATE' and ti.text_case_number = ce.case_number and ce.event_seq = P_EVENT_SEQ</WhereClause>
+		</AsIs>
+		<XslVariable name="vdFormCompleteDate"/>
+		<Outputs>
+			<Output>CJR023B</Output>
+		</Outputs>
+	</row>
+	<row>
+		<WPVariable>CMF_PRELIM_HRG_REASON</WPVariable>
+		<AsIs>
+			<Code>CMF_PRELIM_HRG_REASON</Code>
+			<BriefDescription>IIT Preliminary hearing reason</BriefDescription>
+			<SelectClause>decode(ti.text_value, 'SD', 'special directions are needed in this ' || vv2.description || ' to prepare for the final hearing which the judge would prefer to explain to you in person.','to consider whether the ' || vv2.description || ' can be disposed of because the ' || vv3.description || ' has no real prospect of success at a final hearing.')</SelectClause>
+			<WhereClause>text_items ti, item_details id, text_items ti2, item_details id2, text_items ti3, item_details id3, valid_values vv2,valid_values vv3,case_events ce where ti.text_detail_code = id.code and id.domain = 'PRELIM_HRG_REASON' and ti.text_case_number = ce.case_number and ti2.text_detail_code = id2.code and id2.domain = 'CLM_CTRCLM_BOTH' and ti2.text_case_number = ce.case_number and ti3.text_detail_code = id3.code and id3.domain = 'CLM_DEFT' and ti3.text_case_number = ce.case_number and ce.event_seq = P_EVENT_SEQ and vv2.vals_low_value = nvl(ti2.text_value, 'CLM') and vv2.vals_details_code = id2.code and vv3.vals_low_value = nvl(ti3.text_value, 'CLM') and vv3.vals_details_code= id3.code</WhereClause>
+		</AsIs>
+		<XslVariable name="vdPreliminaryHearingReason">
+			<ToBe>
+				<XPath>variabledata/claim/hearing/preliminaryhearingreason</XPath>
+				<SummaryInfo>Reason for preliminary hearing. Choose from DIS (dispose of the case) and SD (judge has special directions for the case)</SummaryInfo>
+				<Values>
+					<Value name="DIS">dispose of the case</Value>
+					<Value name="SD">judge has special directions for the case</Value>
+				</Values>
+				<Origin>Q&amp;A
+					<Question>69</Question>
+				</Origin>
+			</ToBe>
+		</XslVariable>
+		<Outputs>
+			<Output>CJR023D</Output>
+		</Outputs>
+	</row>
+	<row>
+		<WPVariable>CMF_HRG_TIME</WPVariable>
+		<AsIs>
+			<Code>CMF_HRG_TIME</Code>
+			<BriefDescription>Time of hearing</BriefDescription>
+			<SelectClause>ti.text_value</SelectClause>
+			<WhereClause>text_items ti, item_details id, case_events ce where ti.text_detail_code = id.code and id.domain = 'HRG_TIME' and ti.text_case_number = ce.case_number and ce.event_seq = P_EVENT_SEQ</WhereClause>
+		</AsIs>
+		<XslVariable name="vdHearingTime">
+			<ToBe>
+				<XPath>variabledata/claim/hearing/time</XPath>
+				<SummaryInfo>Time of the hearing</SummaryInfo>
+				<Origin>Q&amp;A
+					<Question>12</Question>
+				</Origin>
+			</ToBe>
+		</XslVariable>
+		<Outputs>
+			<Output>CJR020</Output>
+			<Output>CJR023D</Output>
+			<Output>CJR027</Output>
+			<Output>CJR028</Output>
+			<Output>CJR030</Output>
+			<Output>CJR046</Output>
+			<Output>CJR061</Output>
+			<Output>CJR072</Output>
+			<Output>CJR091</Output>
+			<Output>CJR105</Output>
+			<Output>CJR170</Output>
+			<Output>CJR177</Output>
+			<Output>CJR187</Output>
+			<Output>CJR189</Output>
+			<Output>CJR190</Output>
+		</Outputs>
+	</row>
+	<row>
+		<WPVariable>CMF_HRG_DATE_DSP</WPVariable>
+		<AsIs>
+			<Code>CMF_HRG_DATE_DISP</Code>
+			<BriefDescription>Date of hearing (displayed)</BriefDescription>
+			<SelectClause>to_char(to_date(ti.text_value, 'DD-MON-YYYY'), 'DD fmMonth YYYY')</SelectClause>
+			<WhereClause>text_items ti, item_details id, case_events ce where ti.text_detail_code = id.code and id.domain = 'HRG_DATE' and ti.text_case_number = ce.case_number and ce.event_seq= P_EVENT_SEQ</WhereClause>
+		</AsIs>
+		<XslVariable name="vdHearingDate">
+			<ToBe>
+				<XPath>variabledata/claim/hearing/date</XPath>
+				<SummaryInfo>Date of the hearing</SummaryInfo>
+				<Origin>Q&amp;A
+					<Question>11</Question>
+				</Origin>
+			</ToBe>
+		</XslVariable>
+		<Outputs>
+			<Output>CJR020</Output>
+			<Output>CJR023D</Output>
+			<Output>CJR027</Output>
+			<Output>CJR028</Output>
+			<Output>CJR030</Output>
+			<Output>CJR046</Output>
+			<Output>CJR061</Output>
+			<Output>CJR072</Output>
+			<Output>CJR091</Output>
+			<Output>CJR105</Output>
+			<Output>CJR170</Output>
+			<Output>CJR177</Output>
+			<Output>CJR187</Output>
+			<Output>CJR189</Output>
+			<Output>CJR190</Output>
+		</Outputs>
+	</row>
+	<row>
+		<WPVariable>CMF_SERVICE_ADDRESS</WPVariable>
+		<AsIs>
+			<Code>CMF_SERVICE_ADDRESS</Code>
+			<BriefDescription>Service address selected from user LOV</BriefDescription>
+			<SelectClause>decode (ti.text_value, 'ADDR', 'The defendant has given a new address for service of documents ', 'ACK', 'The acknowledgement was filed by the solicitors acting for the defendant who have given the following name and address for service of documents ' , null)</SelectClause>
+			<WhereClause>text_items ti, item_details id, case_events ce where ti.text_detail_code = id.code and id.domain = 'NEW_SERVICE_ADDR' and ti.text_case_number = ce.case_number and ce.event_seq = P_EVENT_SEQ</WhereClause>
+		</AsIs>
+		<XslVariable name="vdServiceAddress">
+			<ToBe>
+				<XPath>variabledata/notice/serviceaddress/address</XPath>
+				<SummaryInfo>New Service Address</SummaryInfo>
+				<Origin>From Database</Origin>
+			</ToBe>
+		</XslVariable>
+		<Outputs>
+			<Output>CJR011</Output>
+		</Outputs>
+	</row>
+	<row>
+		<WPVariable>CMF_SERVICE_ADDRESS1</WPVariable>
+		<AsIs>
+			<Code>CMF_SERVICE_ADDR_1</Code>
+			<BriefDescription>Selected service address line 1 selected from user LOV</BriefDescription>
+			<SelectClause>decode (ti.text_value, 'ADDR', cm_general.superinitcap(addr.addr_1),'ACK', cm_general.superinitcap(def.solicitor_addr_1), null)</SelectClause>
+			<WhereClause>text_items ti, item_details id, case_events ce,cases cas,defendants def,addresses addr where ti.text_detail_code = id.code and id.domain = 'NEW_SERVICE_ADDR' and ti.text_case_number = ce.case_number and  e.event_seq = P_EVENT_SEQ and cas.case_number = ce.case_number and def.case_number = ce.case_number and def.id = ce.deft_id and def.case_number = addr.deft_case_number and def.id = addr.deft_id and addr.valid_to is null and addr.addr_type = 'SERVICE' and addr.addr_seq = (select max(addr_seq) from addresses addr2 where ce.event_seq = P_EVENT_SEQ and def.case_number = ce.case_number and def.id = nvl(ce.deft_id,1) and def.case_number = addr2.deft_case_number and def.id = addr2.deft_id and addr2.valid_to is null and addr2.addr_type = 'SERVICE')</WhereClause>
+		</AsIs>
+		<XslVariable name="vdServiceAddress">
+			<ToBe>
+				<XPath>variabledata/notice/serviceaddress/address</XPath>
+				<SummaryInfo>New Service Address</SummaryInfo>
+				<Origin>From Database</Origin>
+			</ToBe>
+		</XslVariable>
+		<Outputs>
+			<Output>CJR011</Output>
+		</Outputs>
+	</row>
+	<row>
+		<WPVariable>CMF_SERVICE_ADDRESS2</WPVariable>
+		<AsIs>
+			<Code>CMF_SERVICE_ADDR_2</Code>
+			<BriefDescription>Selected service address line 2 selected from user LOV</BriefDescription>
+			<SelectClause>decode (ti.text_value, 'ADDR', cm_general.superinitcap(addr.addr_2),'ACK', cm_general.superinitcap(def.solicitor_addr_2), null)</SelectClause>
+			<WhereClause>text_items ti, item_details id, case_events ce,cases cas,defendants def,addresses addr where ti.text_detail_code = id.code and id.domain = 'NEW_SERVICE_ADDR' and ti.text_case_number = ce.case_number and ce.event_seq = P_EVENT_SEQ and cas.case_number = ce.case_number and def.case_number = ce.case_number and def.id = ce.deft_id and def.case_number = addr.deft_case_number and def.id = addr.deft_id and addr.valid_to is null and addr.addr_type = 'SERVICE' and addr.addr_seq = (select max(addr_seq) from addresses addr2 where ce.event_seq = P_EVENT_SEQ and def.case_number = ce.case_number and def.id = nvl(ce.deft_id,1) and def.case_number = addr2.deft_case_number and def.id = addr2.deft_id and addr2.valid_to is null and addr2.addr_type = 'SERVICE')</WhereClause>
+		</AsIs>
+		<XslVariable name="vdServiceAddress">
+			<ToBe>
+				<XPath>variabledata/notice/serviceaddress/address</XPath>
+				<SummaryInfo>New Service Address</SummaryInfo>
+				<Origin>From Database</Origin>
+			</ToBe>
+		</XslVariable>
+		<Outputs>
+			<Output>CJR011</Output>
+		</Outputs>
+	</row>
+	<row>
+		<WPVariable>CMF_SERVICE_ADDRESS3</WPVariable>
+		<AsIs>
+			<Code>CMF_SERVICE_ADDR_3</Code>
+			<BriefDescription>Selected service address line 3 selected from user LOV</BriefDescription>
+			<SelectClause>decode (ti.text_value, 'ADDR', cm_general.superinitcap(addr.addr_3),'ACK', cm_general.superinitcap(def.solicitor_addr_3), null)</SelectClause>
+			<WhereClause>text_items ti, item_details id, case_events ce,cases cas,defendants def,addresses addr where ti.text_detail_code = id.code and id.domain = 'NEW_SERVICE_ADDR' and ti.text_case_number = ce.case_number and ce.event_seq = P_EVENT_SEQ and cas.case_number = ce.case_number and def.case_number = ce.case_number and def.id = ce.deft_id and def.case_number = addr.deft_case_number and def.id = addr.deft_id and addr.valid_to is null and addr.addr_type = 'SERVICE' and addr.addr_seq = (select max(addr_seq) from addresses addr2 where ce.event_seq = P_EVENT_SEQ and def.case_number = ce.case_number and def.id = nvl(ce.deft_id,1) and def.case_number = addr2.deft_case_number and def.id = addr2.deft_id and addr2.valid_to is null and addr2.addr_type = 'SERVICE')</WhereClause>
+		</AsIs>
+		<XslVariable name="vdServiceAddress">
+			<ToBe>
+				<XPath>variabledata/notice/serviceaddress/address</XPath>
+				<SummaryInfo>New Service Address</SummaryInfo>
+				<Origin>From Database</Origin>
+			</ToBe>
+		</XslVariable>
+		<Outputs>
+			<Output>CJR011</Output>
+		</Outputs>
+	</row>
+	<row>
+		<WPVariable>CMF_SERVICE_ADDRESS4</WPVariable>
+		<AsIs>
+			<Code>CMF_SERVICE_ADDR_4</Code>
+			<BriefDescription>Selected service address line 4 selected from user LOV</BriefDescription>
+			<SelectClause>decode (ti.text_value, 'ADDR', cm_general.superinitcap(addr.addr_4),'ACK', cm_general.superinitcap(def.solicitor_addr_4), null)</SelectClause>
+			<WhereClause>text_items ti, item_details id, case_events ce,cases cas,defendants def,addresses addr where ti.text_detail_code = id.code and id.domain = 'NEW_SERVICE_ADDR' and ti.text_case_number = ce.case_number and ce.event_seq = P_EVENT_SEQ and cas.case_number = ce.case_number and def.case_number = ce.case_number and def.id = ce.deft_id and def.case_number = addr.deft_case_number and def.id = addr.deft_id and addr.valid_to is null and addr.addr_type = 'SERVICE' and addr.addr_seq = (select max(addr_seq) from addresses addr2 where ce.event_seq = P_EVENT_SEQ and def.case_number = ce.case_number and def.id = nvl(ce.deft_id,1) and def.case_number = addr2.deft_case_number and def.id = addr2.deft_id and addr2.valid_to is null and addr2.addr_type = 'SERVICE')</WhereClause>
+		</AsIs>
+		<XslVariable name="vdServiceAddress">
+			<ToBe>
+				<XPath>variabledata/notice/serviceaddress/address</XPath>
+				<SummaryInfo>New Service Address</SummaryInfo>
+				<Origin>From Database</Origin>
+			</ToBe>
+		</XslVariable>
+		<Outputs>
+			<Output>CJR011</Output>
+		</Outputs>
+	</row>
+	<row>
+		<WPVariable>CMF_SERVICE_ADDRESS5</WPVariable>
+		<AsIs>
+			<Code>CMF_SERVICE_ADDR_5</Code>
+			<BriefDescription>Selected service address line 5 selected from user LOV</BriefDescription>
+			<SelectClause>decode (ti.text_value, 'ADDR', cm_general.superinitcap(addr.addr_5),'ACK', def.solicitor_postcode, null)</SelectClause>
+			<WhereClause>text_items ti, item_details id, case_events ce,cases cas,defendants def,addresses addr where ti.text_detail_code = id.code and id.domain = 'NEW_SERVICE_ADDR' and ti.text_case_number = ce.case_number and ce.event_seq = P_EVENT_SEQ and cas.case_number = ce.case_number and def.case_number = ce.case_number and def.id = ce.deft_id and def.case_number = addr.deft_case_number and def.id = addr.deft_id and addr.valid_to is null and addr.addr_type = 'SERVICE' and addr.addr_seq = (select max(addr_seq) from addresses addr2 where ce.event_seq = P_EVENT_SEQ and def.case_number = ce.case_number and def.id = nvl(ce.deft_id,1) and def.case_number = addr2.deft_case_number and def.id = addr2.deft_id and addr2.valid_to is null and addr2.addr_type = 'SERVICE')</WhereClause>
+		</AsIs>
+		<XslVariable name="vdServiceAddress">
+			<ToBe>
+				<XPath>variabledata/notice/serviceaddress/address</XPath>
+				<SummaryInfo>New Service Address</SummaryInfo>
+				<Origin>From Database</Origin>
+			</ToBe>
+		</XslVariable>
+		<Outputs>
+			<Output>CJR011</Output>
+		</Outputs>
+	</row>
+	<row>
+		<WPVariable>CMF_SERVICE_POSTCODE</WPVariable>
+		<AsIs>
+			<Code>CMF_SERVICE_POSTCODE</Code>
+			<BriefDescription>Selected service postcode selected from user LOV</BriefDescription>
+			<SelectClause>decode (ti.text_value, 'ADDR', addr. postcode,'ACK', def. solicitor_addr_5, null)</SelectClause>
+			<WhereClause>text_items ti, item_details id, case_events ce,cases cas,defendants def,addresses addr where ti.text_detail_code = id.code and id.domain = 'NEW_SERVICE_ADDR' and ti.text_case_number = ce.case_number and ce.event_seq = P_EVENT_SEQ and cas.case_number = ce.case_number and def.case_number = ce.case_number and def.id = ce.deft_id and def.case_number = addr.deft_case_number and def.id = addr.deft_id and addr.valid_to is null and addr.addr_type = 'SERVICE' and addr.addr_seq = (select max(addr_seq) from addresses addr2 where ce.event_seq = P_EVENT_SEQ and def.case_number = ce.case_number and def.id = nvl(ce.deft_id,1) and def.case_number = addr2.deft_case_number and def.id = addr2.deft_id and addr2.valid_to is null and addr2.addr_type = 'SERVICE')</WhereClause>
+		</AsIs>
+		<XslVariable name="vdServiceAddress">
+			<ToBe>
+				<XPath>variabledata/notice/serviceaddress/address</XPath>
+				<SummaryInfo>New Service Address</SummaryInfo>
+				<Origin>From Database</Origin>
+			</ToBe>
+		</XslVariable>
+		<Outputs>
+			<Output>CJR011</Output>
+		</Outputs>
+	</row>
+	<row>
+		<WPVariable>CMF_ALL_PARTIES_AGREED</WPVariable>
+		<AsIs>
+			<Code>CMF_ALL_PARTIES_AGREED</Code>
+			<BriefDescription>Prints text ‘ALL PARTIES HAVING AGREED’ on output to prompt ‘Have all parties agreed?’ when answered ‘Y’</BriefDescription>
+			<SelectClause>decode(ti.text_value, 'Y', 'All parties having agreed', null)</SelectClause>
+			<WhereClause>text_items ti, item_details id, case_events ce where ti.text_detail_code = id.code and id.domain = 'ALL_PARTIES_AGREED' and ti.text_case_number = ce.case_number and ce.event_seq = P_EVENT_SEQ</WhereClause>
+		</AsIs>
+		<XslVariable name="vdAllPartiesAgree">
+			<ToBe>
+				<XPath>variabledata/order/allpartiesagree</XPath>
+				<SummaryInfo>Have All parties agreed. Choose from Y or N</SummaryInfo>
+				<Values>
+					<Value name="Y">Y</Value>
+					<Value name="N">N</Value>
+				</Values>
+				<Origin>Q&amp;A
+					<Question>73</Question>
+				</Origin>
+			</ToBe>
+		</XslVariable>
+		<Outputs>
+			<Output>CJR069</Output>
+		</Outputs>
+	</row>
+	<row>
+		<WPVariable>CMF_DATE_STAYED_UNTIL</WPVariable>
+		<AsIs>
+			<Code>CMF_DATE_STAYED_UNTIL</Code>
+			<BriefDescription>Date stay effective until</BriefDescription>
+			<SelectClause>to_char(to_date(ti.text_value, 'DD-MON-YYYY'), 'DD fmMonth YYYY')</SelectClause>
+			<WhereClause>text_items ti, item_details id, case_events ce where ti.text_detail_code = id.code and id.domain = 'DATE_STAYED_UNTIL' and ti.text_case_number = ce.case_number and ce.event_seq = P_EVENT_SEQ</WhereClause>
+		</AsIs>
+		<XslVariable name="vdDateStayedUntil">
+			<ToBe>
+				<XPath>variabledata/order/datestayeduntil</XPath>
+				<SummaryInfo>Date order stayed until</SummaryInfo>
+				<Origin>Q&amp;A
+					<Question>74</Question>
+				</Origin>
+			</ToBe>
+		</XslVariable>
+		<Outputs>
+			<Output>CJR069</Output>
+			<Output>CJR070</Output>
+		</Outputs>
+	</row>
+	<row>
+		<WPVariable>CMF_FD_AFTER_EXPIRY_DATE</WPVariable>
+		<AsIs>
+			<Code>CMF_FD_AFTER_EXPIRY_DATE</Code>
+			<BriefDescription>Date of action 14 days before expiry of stay</BriefDescription>
+			<SelectClause>to_char(to_date(ti.text_value, 'DD-MON-YYYY'), 'DD fmMonth YYYY')</SelectClause>
+			<WhereClause>text_items ti, item_details id, case_events ce where ti.text_detail_code = id.code and id.domain = 'FD_AFTER_EXPIRY_DATE' and ti.text_case_number = ce.case_number and ce.event_seq = P_EVENT_SEQ</WhereClause>
+		</AsIs>
+		<XslVariable name="vdFDExpiryDate">
+			<ToBe>
+				<XPath>variabledata/order/fdexpirydate</XPath>
+				<SummaryInfo>Date 14 days after expiry of stay</SummaryInfo>
+				<Origin>Q&amp;A
+					<Question>75</Question>
+				</Origin>
+			</ToBe>
+		</XslVariable>
+		<Outputs>
+			<Output>CJR069</Output>
+			<Output>CJR070</Output>
+		</Outputs>
+	</row>
+	<row>
+		<WPVariable>CMF_WORDING_REQD</WPVariable>
+		<AsIs>
+			<Code>CMF_WORDING_REQD</Code>
+			<BriefDescription>Selects the wording required from a LOV</BriefDescription>
+			<SelectClause>vv.description</SelectClause>
+			<WhereClause>text_items ti, item_details id, case_events ce, valid_values vv where ti.text_detail_code = id.code and id.domain = 'WORDING_REQD' and ti.text_case_number = ce.case_number and ce.event_seq = P_EVENT_SEQ and vv.vals_low_value = ti.text_value and vv.vals_details_code = id.code</WhereClause>
+		</AsIs>
+		<XslVariable name="vdWordingRequired">
+			<ToBe>
+				<XPath>variabledata/notice/wordingrequired</XPath>
+				<SummaryInfo>Wording required for notice of hearing. Selection options (values): The hearing of the claimant’s application for (HRGC); The hearing of the defendant’s application for (HRGD)</SummaryInfo>
+				<Values>
+					<Value name="HRGC">The hearing of the claimant’s application for (HRGC)</Value>
+					<Value name="HRGD">The hearing of the defendant’s application for (HRGD)</Value>
+				</Values>
+				<Origin>Q&amp;A
+					<Question>71</Question>
+				</Origin>
+			</ToBe>
+		</XslVariable>
+		<Outputs>
+			<Output>CJR027</Output>
+		</Outputs>
+	</row>
+	<row>
+		<WPVariable>CMF_APPLICATION_FOR</WPVariable>
+		<AsIs>
+			<Code>CMF_APPLICATION_FOR</Code>
+			<BriefDescription>Selects the details for what the application is for</BriefDescription>
+			<SelectClause>cm_general.superinitcap(ti.text_value)</SelectClause>
+			<WhereClause>text_items ti, item_details id, case_events ce where ti.text_detail_code = id.code and id.domain = 'APPLICATION_FOR' and ti.text_case_number = ce.case_number and ce.event_seq= P_EVENT_SEQ</WhereClause>
+		</AsIs>
+		<XslVariable name="vdApplicationFor">
+			<ToBe>
+				<XPath>variabledata/notice/applicationfor</XPath>
+				<SummaryInfo>Application for what notice is for.</SummaryInfo>
+				<Origin>Q&amp;A
+					<Question>72</Question>
+				</Origin>
+			</ToBe>
+		</XslVariable>
+		<Outputs>
+			<Output>CJR027</Output>
+		</Outputs>
+	</row>
+	<row>
+		<WPVariable>(N35) Other Judgement court</WPVariable>
+		<XslVariable name="vdOtherJudgmentCourt">
+			<ToBe>
+				<XPath>variabledata/judgment/otherjudgmentcourt</XPath>
+				<SummaryInfo>Name of other court where judgment was made</SummaryInfo>
+				<Origin>Q&amp;A
+					<Question>47</Question>
+				</Origin>
+			</ToBe>
+		</XslVariable>
+		<Outputs>
+			<Output>N32(2)</Output>
+			<Output>N32(5)</Output>
+			<Output>N35</Output>
+			<Output>N35A</Output>
+		</Outputs>
+	</row>
+	<row>
+		<WPVariable>CMF_CLM_DEFT</WPVariable>
+		<AsIs>
+			<Code>CMF_CLM_DEFT</Code>
+			<BriefDescription>Value selected from LOV to associated prompt to indicate claimant, defendant or claimant and defendant.</BriefDescription>
+			<SelectClause>vv.description</SelectClause>
+			<WhereClause>text_items ti, item_details id, case_events ce, valid_values vv where ti.text_detail_code = id.code and id.domain = 'CLM_DEFT' and ti.text_case_number = ce.case_number and ce.event_seq = P_EVENT_SEQ and vv.vals_low_value = ti.text_value and vv.vals_details_code = id.code</WhereClause>
+		</AsIs>
+		<XslVariable name="vdFiler">
+			<ToBe>
+				<XPath>variabledata/order/filer</XPath>
+				<SummaryInfo>The Claimant or Defendant to file documents. Choose from: CLM (claimant), DEF (defendant), BTH (claimant and defendant)</SummaryInfo>
+				<Values>
+					<Value name="CLM">Claimant</Value>
+					<Value name="DEF">Defendant</Value>
+					<Value name="BTH">Claimant and Defendant</Value>
+				</Values>
+				<Origin>Q&amp;A
+					<Question>3</Question>
+				</Origin>
+			</ToBe>
+		</XslVariable>
+		<Outputs>
+			<Output>CJR022</Output>
+		</Outputs>
+	</row>
+	<row>
+		<WPVariable>CMF_DOCUMENT</WPVariable>
+		<AsIs>
+			<Code>CMF_DOCUMENT</Code>
+			<BriefDescription>Free text document details.</BriefDescription>
+			<SelectClause>cm_general.superinitcap(ti.text_value)</SelectClause>
+			<WhereClause>text_items ti, item_details id, case_events ce where ti.text_detail_code = id.code and id.domain = 'DOCUMENT' and ti.text_case_number = ce.case_number and ce.event_seq = P_EVENT_SEQ</WhereClause>
+		</AsIs>
+		<XslVariable name="vdDocumentDetails">
+			<ToBe>
+				<XPath>variabledata/order/documentDetails</XPath>
+				<SummaryInfo>Details of document to be filed.</SummaryInfo>
+				<Origin>Q&amp;A
+					<Question>7</Question>
+				</Origin>
+			</ToBe>
+		</XslVariable>
+		<Outputs>
+			<Output>CJR022</Output>
+		</Outputs>
+	</row>
+	<row>
+		<WPVariable>CMF_DOCS_FILE_DATE</WPVariable>
+		<AsIs>
+			<Code>CMF_DOCS_FILE_DATE</Code>
+			<BriefDescription>Date by which documents should be filed</BriefDescription>
+			<SelectClause>to_char(to_date(ti.text_value, 'DD-MON-YYYY'), 'DD fmMonth YYYY')</SelectClause>
+			<WhereClause>text_items ti, item_details id, case_events ce where ti.text_detail_code = id.code and id.domain = 'DOCS_FILE_DATE' and ti.text_case_number = ce.case_number and ce.event_seq = P_EVENT_SEQ</WhereClause>
+		</AsIs>
+		<XslVariable name="vdFiledDate">
+			<ToBe>
+				<XPath>variabledata/order/filedDate</XPath>
+				<SummaryInfo>Date documents filed.</SummaryInfo>
+				<Origin>Q&amp;A
+					<Question>6</Question>
+				</Origin>
+			</ToBe>
+		</XslVariable>
+		<Outputs>
+			<Output>CJR022</Output>
+		</Outputs>
+	</row>
+	<row>
+		<WPVariable>CMF_DIVISION</WPVariable>
+		<AsIs>
+			<Code>CMF_DIVISION</Code>
+			<BriefDescription>Division (Chancery or Queen's Bench)</BriefDescription>
+			<SelectClause>cm_general.f_division(case_number)</SelectClause>
+			<WhereClause>case_events where event_seq = P_EVENT_SEQ</WhereClause>
+		</AsIs>
+		<XslVariable name="vdCourtDivision">
+			<ToBe>
+				<XPath>variabledata/division</XPath>
+				<SummaryInfo>The division, IIT Division (Chancery or Queen's Bench), derived from cm_general.f_division function using the casename as argument. This variable uses variable vdDistrictRegistry determine text output</SummaryInfo>
+				<Values>
+					<Value name="Q">In the High Court of Justice Queen's Bench Division</Value>
+					<Value name="C">In the High Court of Justice Chancery Division</Value>
+					<Value name="DEFAULT">In the</Value>
+				</Values>
+				<Origin>vdDistrictRegistry</Origin>
+			</ToBe>
+		</XslVariable>
+		<Outputs>
+			<Output>CJR010</Output>
+			<Output>CJR011</Output>
+			<Output>CJR012</Output>
+			<Output>CJR013</Output>
+			<Output>CJR014</Output>
+			<Output>CJR022</Output>
+			<Output>CJR023B</Output>
+			<Output>CJR023D</Output>
+			<Output>CJR027</Output>
+			<Output>CJR040</Output>
+			<Output>CJR041</Output>
+			<Output>CJR042</Output>
+			<Output>CJR043</Output>
+			<Output>CJR046</Output>
+			<Output>CJR049</Output>
+			<Output>CJR065</Output>
+			<Output>CJR065A</Output>
+			<Output>CJR065B</Output>
+			<Output>CJR069</Output>
+			<Output>CJR070</Output>
+			<Output>CJR071</Output>
+			<Output>CJR175</Output>
+			<Output>CJR176</Output>
+			<Output>CJR179</Output>
+			<Output>CJR183</Output>
+			<Output>CJR185</Output>
+			<Output>CJR187</Output>
+			<Output>CJR1424</Output>
+			<Output>N35</Output>
+			<Output>N35A</Output>
+			<Output>N32(2)</Output>
+			<Output>N32(5)</Output>
+			<Output>N441A</Output>
+			<Output>N442</Output>
+			<Output>N442R</Output>
+		</Outputs>
+	</row>
+	<row>
+		<WPVariable>CMF_COURT_NAME</WPVariable>
+		<AsIs>
+			<Code>CMF_COURT_NAME</Code>
+			<BriefDescription>Court name</BriefDescription>
+			<SelectClause>crt.name</SelectClause>
+			<WhereClause>personalise per, courts crt where crt.code = per.crt_code and P_EVENT_SEQ = P_EVENT_SEQ</WhereClause>
+		</AsIs>
+		<XslVariable name="vdCourtName">
+			<ToBe>
+				<XPath>variabledata/court/name</XPath>
+				<SummaryInfo>The name of the court. eg. Camberley, Telford, Basingstoke</SummaryInfo>
+				<Origin>From Database</Origin>
+			</ToBe>
+		</XslVariable>
+		<Outputs>
+			<Output>CJR010</Output>
+			<Output>CJR011</Output>
+			<Output>CJR012</Output>
+			<Output>CJR013</Output>
+			<Output>CJR014</Output>
+			<Output>CJR022</Output>
+			<Output>CJR023B</Output>
+			<Output>CJR023D</Output>
+			<Output>CJR027</Output>
+			<Output>CJR040</Output>
+			<Output>CJR041</Output>
+			<Output>CJR042</Output>
+			<Output>CJR043</Output>
+			<Output>CJR046</Output>
+			<Output>CJR049</Output>
+			<Output>CJR065</Output>
+			<Output>CJR065A</Output>
+			<Output>CJR065B</Output>
+			<Output>CJR069</Output>
+			<Output>CJR070</Output>
+			<Output>CJR071</Output>
+			<Output>CJR175</Output>
+			<Output>CJR176</Output>
+			<Output>CJR179</Output>
+			<Output>CJR183</Output>
+			<Output>CJR185</Output>
+			<Output>CJR187</Output>
+			<Output>CJR1424</Output>
+			<Output>N35</Output>
+			<Output>N35A</Output>
+			<Output>N32(2)</Output>
+			<Output>N32(5)</Output>
+			<Output>N441A</Output>
+			<Output>N442</Output>
+			<Output>N442R</Output>
+		</Outputs>
+	</row>
+	<row>
+		<WPVariable>CMF_COURT_TYPE</WPVariable>
+		<AsIs>
+			<Code>CMF_COURT_TYPE</Code>
+			<BriefDescription>Court Type (County Court or District Registry)</BriefDescription>
+			<SelectClause>cm_general.f_court_type(case_number)</SelectClause>
+			<WhereClause>case_events where event_seq = P_EVENT_SEQ</WhereClause>
+		</AsIs>
+		<XslVariable name="vdCourtOrDistrict">
+			<ToBe>
+				<XPath>variabledata/division</XPath>
+				<SummaryInfo>This variable used vdDistrictRegistry as test input to determine text output.</SummaryInfo>
+				<Values>
+					<Value name="vdDistrictRegistry">District Registry</Value>
+					<Value name="DEFAULT">County Court</Value>
+				</Values>
+				<Origin>vdDistrictRegistry</Origin>
+			</ToBe>
+		</XslVariable>
+		<Outputs>
+			<Output>CJR010</Output>
+			<Output>CJR011</Output>
+			<Output>CJR012</Output>
+			<Output>CJR013</Output>
+			<Output>CJR014</Output>
+			<Output>CJR022</Output>
+			<Output>CJR023B</Output>
+			<Output>CJR023D</Output>
+			<Output>CJR027</Output>
+			<Output>CJR040</Output>
+			<Output>CJR041</Output>
+			<Output>CJR042</Output>
+			<Output>CJR043</Output>
+			<Output>CJR046</Output>
+			<Output>CJR049</Output>
+			<Output>CJR065</Output>
+			<Output>CJR065A</Output>
+			<Output>CJR065B</Output>
+			<Output>CJR069</Output>
+			<Output>CJR070</Output>
+			<Output>CJR071</Output>
+			<Output>CJR175</Output>
+			<Output>CJR176</Output>
+			<Output>CJR179</Output>
+			<Output>CJR183</Output>
+			<Output>CJR185</Output>
+			<Output>CJR187</Output>
+			<Output>CJR1424</Output>
+			<Output>N35</Output>
+			<Output>N35A</Output>
+			<Output>N32(2)</Output>
+			<Output>N32(5)</Output>
+			<Output>N441A</Output>
+			<Output>N442</Output>
+			<Output>N442R</Output>
+		</Outputs>
+	</row>
+	<row>
+		<WPVariable>CMF_CLAIM_NUMBER</WPVariable>
+		<AsIs>
+			<Code>CMF_CLAIM_NUMBER</Code>
+			<BriefDescription>Case number</BriefDescription>
+			<SelectClause>case_number</SelectClause>
+			<WhereClause>case_events where event_seq = P_EVENT_SEQ</WhereClause>
+		</AsIs>
+		<XslVariable name="vdClaimNumber">
+			<ToBe>
+				<XPath>variabledata/claim/number</XPath>
+				<SummaryInfo>The Claim's Number, case number, select case_number from case_events where event_seq = P_EVENT_SEQ</SummaryInfo>
+				<Origin>From Database</Origin>
+			</ToBe>
+		</XslVariable>
+		<Outputs>
+			<Output>CJR010</Output>
+			<Output>CJR011</Output>
+			<Output>CJR012</Output>
+			<Output>CJR013</Output>
+			<Output>CJR014</Output>
+			<Output>CJR016</Output>
+			<Output>CJR022</Output>
+			<Output>CJR023B</Output>
+			<Output>CJR023D</Output>
+			<Output>CJR027</Output>
+			<Output>CJR040</Output>
+			<Output>CJR041</Output>
+			<Output>CJR042</Output>
+			<Output>CJR043</Output>
+			<Output>CJR046</Output>
+			<Output>CJR049</Output>
+			<Output>CJR065</Output>
+			<Output>CJR065A</Output>
+			<Output>CJR065B</Output>
+			<Output>CJR069</Output>
+			<Output>CJR070</Output>
+			<Output>CJR071</Output>
+			<Output>CJR175</Output>
+			<Output>CJR176</Output>
+			<Output>CJR179</Output>
+			<Output>CJR183</Output>
+			<Output>CJR185</Output>
+			<Output>CJR187</Output>
+			<Output>CJR1424</Output>
+			<Output>N35</Output>
+			<Output>N35A</Output>
+			<Output>N32(2)</Output>
+			<Output>N32(5)</Output>
+			<Output>N441A</Output>
+			<Output>N442</Output>
+			<Output>N442R</Output>
+		</Outputs>
+	</row>
+	<row>
+		<WPVariable>CMF_CLAIMANT</WPVariable>
+		<AsIs>
+			<Code>CMF_CLAIMANT</Code>
+			<BriefDescription>Claimant</BriefDescription>
+			<SelectClause>cm_general.superinitcap(cas.plaintiff_details_1)</SelectClause>
+			<WhereClause>cases cas, case_events ce where cas.case_number = ce.case_number and ce.event_seq = P_EVENT_SEQ</WhereClause>
+		</AsIs>
+		<XslVariable name="vdClaimantName">
+			<ToBe>
+				<XPath>variabledata/claim/claimant[id=$vdClaimantId]/name</XPath>
+				<SummaryInfo>Name of the claimant party. Can have many claimants to a case. This is numbered by the vdClaimantId</SummaryInfo>
+				<Values>
+					<Value>id =&lt; 1</Value>
+				</Values>
+				<Origin>From Database			</Origin>
+			</ToBe>
+		</XslVariable>
+		<Outputs>
+			<Output>CJR010</Output>
+			<Output>CJR011</Output>
+			<Output>CJR012</Output>
+			<Output>CJR013</Output>
+			<Output>CJR014</Output>
+			<Output>CJR016</Output>
+			<Output>CJR022</Output>
+			<Output>CJR023B</Output>
+			<Output>CJR023D</Output>
+			<Output>CJR027</Output>
+			<Output>CJR040</Output>
+			<Output>CJR041</Output>
+			<Output>CJR042</Output>
+			<Output>CJR043</Output>
+			<Output>CJR046</Output>
+			<Output>CJR049</Output>
+			<Output>CJR065</Output>
+			<Output>CJR065A</Output>
+			<Output>CJR065B</Output>
+			<Output>CJR069</Output>
+			<Output>CJR070</Output>
+			<Output>CJR071</Output>
+			<Output>CJR175</Output>
+			<Output>CJR176</Output>
+			<Output>CJR179</Output>
+			<Output>CJR183</Output>
+			<Output>CJR185</Output>
+			<Output>CJR187</Output>
+			<Output>CJR1424</Output>
+			<Output>N35</Output>
+			<Output>N35A</Output>
+			<Output>N32(2)</Output>
+			<Output>N32(5)</Output>
+		</Outputs>
+	</row>
+	<row>
+		<WPVariable>CMF_CLM_REFERENCE</WPVariable>
+		<AsIs>
+			<Code>CMF_CLM_REFERENCE</Code>
+			<BriefDescription>Claimant's Reference</BriefDescription>
+			<SelectClause>decode(cas.rep_name, null, cas.plaintiff_reference, cas.reference)</SelectClause>
+			<WhereClause>cases cas, case_events ce where cas.case_number = ce.case_number and ce.event_seq = P_EVENT_SEQ</WhereClause>
+		</AsIs>
+		<XslVariable name="vdClaimantReference">
+			<ToBe>
+				<XPath description="mainClaimantId">variabledata/claim/claimant[surrogateid = $mainClaimantId]/representativeid</XPath>
+				<XPath description="mainClaimantId">variabledata/claim/claimant[surrogateid = $mainClaimantId]/solicitorreference</XPath>
+				<XPath description="mainClaimantId">variabledata/claim/claimant[surrogateid = $mainClaimantId]/reference else variabledata/claim/claimant[number=1]/representativeid</XPath>
+				<XPath description="mainClaimantId">variabledata/claim/claimant[number=1]/solicitorreference or variabledata/claim/claimant[number=1]/reference</XPath>
+				<SummaryInfo>Reference of the party. Uses mainClaimantId as index to identify main claimant. If not provided, uses number.</SummaryInfo>
+				<Values>
+					<Value>=&lt; 1</Value>
+				</Values>
+				<Origin>From Database</Origin>
+			</ToBe>
+		</XslVariable>
+		<Outputs>
+			<Output>CJR010</Output>
+			<Output>CJR011</Output>
+			<Output>CJR012</Output>
+			<Output>CJR013</Output>
+			<Output>CJR014</Output>
+			<Output>CJR022</Output>
+			<Output>CJR023B</Output>
+			<Output>CJR023D</Output>
+			<Output>CJR027</Output>
+			<Output>CJR040</Output>
+			<Output>CJR041</Output>
+			<Output>CJR042</Output>
+			<Output>CJR043</Output>
+			<Output>CJR046</Output>
+			<Output>CJR049</Output>
+			<Output>CJR065</Output>
+			<Output>CJR065A</Output>
+			<Output>CJR065B</Output>
+			<Output>CJR069</Output>
+			<Output>CJR070</Output>
+			<Output>CJR071</Output>
+			<Output>CJR175</Output>
+			<Output>CJR176</Output>
+			<Output>CJR179</Output>
+			<Output>CJR183</Output>
+			<Output>CJR185</Output>
+			<Output>CJR187</Output>
+			<Output>CJR1424</Output>
+			<Output>N35</Output>
+			<Output>N35A</Output>
+			<Output>N32(2)</Output>
+			<Output>N32(5)</Output>
+		</Outputs>
+	</row>
+	<row>
+		<WPVariable>CMF_DEFENDANT</WPVariable>
+		<AsIs>
+			<Code>CMF_DEFENDANT</Code>
+			<BriefDescription>Defendant's Name</BriefDescription>
+			<SelectClause>decode(ce.deft_id,null,replace(cm_general.superinitcap(cm_general.f_defendant(ce.case_number)),'Other','other'),cm_general.superinitcap(def.name))</SelectClause>
+			<WhereClause>case_events ce, defendants def where ce.event_seq = P_EVENT_SEQ and def.case_number = ce.case_number and def.id = nvl(ce.deft_id,1)</WhereClause>
+		</AsIs>
+		<Outputs>
+			<Output>CJR010</Output>
+			<Output>CJR011</Output>
+			<Output>CJR012</Output>
+			<Output>CJR013</Output>
+			<Output>CJR014</Output>
+			<Output>CJR016</Output>
+			<Output>CJR022</Output>
+			<Output>CJR023B</Output>
+			<Output>CJR023D</Output>
+			<Output>CJR027</Output>
+			<Output>CJR040</Output>
+			<Output>CJR041</Output>
+			<Output>CJR042</Output>
+			<Output>CJR043</Output>
+			<Output>CJR046</Output>
+			<Output>CJR049</Output>
+			<Output>CJR065</Output>
+			<Output>CJR065A</Output>
+			<Output>CJR065B</Output>
+			<Output>CJR069</Output>
+			<Output>CJR070</Output>
+			<Output>CJR071</Output>
+			<Output>CJR175</Output>
+			<Output>CJR176</Output>
+			<Output>CJR179</Output>
+			<Output>CJR183</Output>
+			<Output>CJR185</Output>
+			<Output>CJR187</Output>
+			<Output>CJR1424</Output>
+			<Output>N32(2)</Output>
+			<Output>N441A</Output>
+		</Outputs>
+		<XslVariable name="vdDefendantName">
+			<ToBe>
+				<XPath>variabledata/claim/defendant[id=variabledata/claim/maindefendantid]/name</XPath>
+				<SummaryInfo>Name of the defendant party. Can have many defendants to a case. This is index by variabledata/claim/maindefendantid(mainDefendantId). If more than 1 defendant, uses vdNumberOfDefendants to determine extra text to be added to defendant name.</SummaryInfo>
+				<Values>
+					<Value name="&gt;2">$defendantName 'and others'</Value>
+					<Value name="2">$defendantName 'and 1 other'</Value>
+					<Value name="=&lt; 1">$defendantName</Value>
+				</Values>
+				<Origin>From Database</Origin>
+			</ToBe>
+		</XslVariable>
+	</row>
+	<row>
+		<WPVariable>CMF_DEFT_REFERENCE</WPVariable>
+		<AsIs>
+			<Code>CMF_DEFT_REFERENCE</Code>
+			<BriefDescription>Defendant's Reference</BriefDescription>
+			<SelectClause>decode(def.solicitor_name, null, addr.reference, def.solicitor_addr_5)</SelectClause>
+			<WhereClause>case_events ce, defendants def, addresses addr where ce.event_seq = P_EVENT_SEQ and def.case_number = ce.case_number and def.id = nvl(ce.deft_id,1) and def.case_number = addr.deft_case_number and def.id = addr.deft_id and addr.valid_to is null and addr.addr_type = 'SERVICE' and addr.addr_seq = (select max(addr_seq) from addresses addr2 where ce.event_seq = P_EVENT_SEQ and def.case_number = ce.case_number and def.id = nvl(ce.deft_id,1) and def.case_number = addr2.deft_case_number and def.id = addr2.deft_id and addr2.valid_to is null and addr2.addr_type = 'SERVICE')</WhereClause>
+		</AsIs>
+		<XslVariable name="vdDefendantReference">
+			<ToBe>
+				<XPath description="mainDefendantId">variabledata/claim/defendant[surrogateid = $mainDefendantId]/representativeid</XPath>
+				<XPath description="mainDefendantId">variabledata/claim/defendant[surrogateid = $mainDefendantId]/solicitorreference</XPath>
+				<XPath description="mainDefendantId">variabledata/claim/defendant[surrogateid = $mainDefendantId]/reference else variabledata/claim/defendant[number=1]/representativeid</XPath>
+				<XPath description="mainDefendantId">variabledata/claim/defendant[number=1]/solicitorreference or variabledata/claim/defendant[number=1]/reference</XPath>
+				<SummaryInfo>Reference of the party. Uses mainDefendantId as index to identify main defendant. If not provided, uses number.</SummaryInfo>
+				<Values>
+					<Value>=&lt; 1</Value>
+				</Values>
+				<Origin>From Database</Origin>
+			</ToBe>
+		</XslVariable>
+		<Outputs>
+			<Output>CJR010</Output>
+			<Output>CJR011</Output>
+			<Output>CJR012</Output>
+			<Output>CJR013</Output>
+			<Output>CJR014</Output>
+			<Output>CJR022</Output>
+			<Output>CJR023B</Output>
+			<Output>CJR023D</Output>
+			<Output>CJR027</Output>
+			<Output>CJR040</Output>
+			<Output>CJR041</Output>
+			<Output>CJR042</Output>
+			<Output>CJR043</Output>
+			<Output>CJR046</Output>
+			<Output>CJR049</Output>
+			<Output>CJR065</Output>
+			<Output>CJR065A</Output>
+			<Output>CJR065B</Output>
+			<Output>CJR069</Output>
+			<Output>CJR070</Output>
+			<Output>CJR071</Output>
+			<Output>CJR175</Output>
+			<Output>CJR176</Output>
+			<Output>CJR179</Output>
+			<Output>CJR183</Output>
+			<Output>CJR185</Output>
+			<Output>CJR187</Output>
+			<Output>CJR1424</Output>
+		</Outputs>
+	</row>
+	<row>
+		<WPVariable>CMF_EVENT_DATE</WPVariable>
+		<AsIs>
+			<Code>CMF_EVENT_DATE</Code>
+			<BriefDescription>Event date</BriefDescription>
+			<SelectClause>to_char(event_date, 'DD fmMonth YYYY')</SelectClause>
+			<WhereClause>case_events where event_seq = P_EVENT_SEQ</WhereClause>
+		</AsIs>
+		<XslVariable name="vdEventDate">
+			<ToBe>
+				<XPath>variabledata/claim/dateofissue</XPath>
+				<SummaryInfo>The date the notice was issued. </SummaryInfo>
+				<Origin>From Database</Origin>
+			</ToBe>
+		</XslVariable>
+		<Outputs>
+			<Output>CJR010</Output>
+			<Output>CJR011</Output>
+			<Output>CJR012</Output>
+			<Output>CJR013</Output>
+			<Output>CJR014</Output>
+			<Output>CJR022</Output>
+			<Output>CJR023B</Output>
+			<Output>CJR023D</Output>
+			<Output>CJR027</Output>
+			<Output>CJR040</Output>
+			<Output>CJR041</Output>
+			<Output>CJR042</Output>
+			<Output>CJR043</Output>
+			<Output>CJR046</Output>
+			<Output>CJR049</Output>
+			<Output>CJR065</Output>
+			<Output>CJR065A</Output>
+			<Output>CJR065B</Output>
+			<Output>CJR069</Output>
+			<Output>CJR070</Output>
+			<Output>CJR071</Output>
+			<Output>CJR175</Output>
+			<Output>CJR176</Output>
+			<Output>CJR179</Output>
+			<Output>CJR183</Output>
+			<Output>CJR185</Output>
+			<Output>CJR187</Output>
+			<Output>CJR1424</Output>
+			<Output>N441A</Output>
+			<Output>N442</Output>
+			<Output>N442R</Output>
+		</Outputs>
+	</row>
+	<row>
+		<WPVariable>CMF_COURT_LETTER_HEAD</WPVariable>
+		<AsIs>
+			<Code>CMF_COURT_LETTER_HEAD</Code>
+			<BriefDescription>Court’s type</BriefDescription>
+			<SelectClause>crt.name || ' COUNTY COURT' || decode(crt.district_registry, 'Y', ' AND DISTRICT REGISTRY')</SelectClause>
+			<WhereClause>courts crt, personalise per where P_EVENT_SEQ = P_EVENT_SEQ and per.crt_code = crt.code</WhereClause>
+		</AsIs>
+		<XslVariable name="vdCourt"/>
+		<Outputs>
+			<Output>CJR016</Output>
+		</Outputs>
+	</row>
+	<row>
+		<WPVariable>CMF_COURT_ADDR_1_LETTER_HEAD</WPVariable>
+		<AsIs>
+			<Code>CMF_COURT_ADDR_1_LETTER_HEAD</Code>
+			<BriefDescription>Court office’s address line 1</BriefDescription>
+			<SelectClause>cm_general.superinitcap(addr.addr_1)</SelectClause>
+			<WhereClause>personalise per, addresses addr where addr.crt_code = per.crt_code and P_EVENT_SEQ = P_EVENT_SEQ and addr.valid_to is null and addr.addr_type='OFFICE'</WhereClause>
+		</AsIs>
+		<XslVariable name="vdCourt"/>
+		<Outputs>
+			<Output>CJR016</Output>
+		</Outputs>
+	</row>
+	<row>
+		<WPVariable>CMF_COURT_ADDR_2_LETTER_HEAD</WPVariable>
+		<AsIs>
+			<Code>CMF_COURT_ADDR_2_LETTER_HEAD</Code>
+			<BriefDescription>Court office’s address line 2</BriefDescription>
+			<SelectClause>cm_general.superinitcap(addr.addr_2)</SelectClause>
+			<WhereClause>personalise per, addresses addr where addr.crt_code = per.crt_code and P_EVENT_SEQ = P_EVENT_SEQ and addr.valid_to is null and addr.addr_type='OFFICE'</WhereClause>
+		</AsIs>
+		<XslVariable name="vdCourt"/>
+		<Outputs>
+			<Output>CJR016</Output>
+		</Outputs>
+	</row>
+	<row>
+		<WPVariable>CMF_COURT_ADDR_3_LETTER_HEAD</WPVariable>
+		<AsIs>
+			<Code>CMF_COURT_ADDR_3_LETTER_HEAD</Code>
+			<BriefDescription>Court office’s address line 3</BriefDescription>
+			<SelectClause>cm_general.superinitcap(addr.addr_3)</SelectClause>
+			<WhereClause>personalise per, addresses addr where addr.crt_code = per.crt_code and P_EVENT_SEQ = P_EVENT_SEQ and addr.valid_to is null and addr.addr_type='OFFICE'</WhereClause>
+		</AsIs>
+		<XslVariable name="vdCourt"/>
+		<Outputs>
+			<Output>CJR016</Output>
+		</Outputs>
+	</row>
+	<row>
+		<WPVariable>CMF_COURT_ADDR_4_LETTER_HEAD</WPVariable>
+		<AsIs>
+			<Code>CMF_COURT_ADDR_4_LETTER_HEAD</Code>
+			<BriefDescription>Court office’s address line 4</BriefDescription>
+			<SelectClause>cm_general.superinitcap(addr.addr_4)</SelectClause>
+			<WhereClause>personalise per, addresses addr where addr.crt_code = per.crt_code and P_EVENT_SEQ = P_EVENT_SEQ and addr.valid_to is null and addr.addr_type='OFFICE'</WhereClause>
+		</AsIs>
+		<XslVariable name="vdCourt"/>
+		<Outputs>
+			<Output>CJR016</Output>
+		</Outputs>
+	</row>
+	<row>
+		<WPVariable>CMF_COURT_ADDR_5_LETTER_HEAD</WPVariable>
+		<AsIs>
+			<Code>CMF_COURT_ADDR_5_LETTER_HEAD</Code>
+			<BriefDescription>Court office’s address line 5</BriefDescription>
+			<SelectClause>cm_general.superinitcap(addr.addr_5)</SelectClause>
+			<WhereClause>personalise per, addresses addr where addr.crt_code = per.crt_code and P_EVENT_SEQ = P_EVENT_SEQ and addr.valid_to is null and addr.addr_type='OFFICE'</WhereClause>
+		</AsIs>
+		<XslVariable name="vdCourt"/>
+		<Outputs>
+			<Output>CJR016</Output>
+		</Outputs>
+	</row>
+	<row>
+		<WPVariable>CMF_COURT_POSTCODE_LETTER_HEAD</WPVariable>
+		<AsIs>
+			<Code>CMF_COURT_POSTCODE_LETTER_HEAD</Code>
+			<BriefDescription>Court Postcode</BriefDescription>
+			<SelectClause>addr.postcode</SelectClause>
+			<WhereClause>personalise per, addresses addr where addr.crt_code = per.crt_code and P_EVENT_SEQ = P_EVENT_SEQ and addr.valid_to is null and addr.addr_type='OFFICE'</WhereClause>
+		</AsIs>
+		<XslVariable name="vdCourt"/>
+		<Outputs>
+			<Output>CJR016</Output>
+		</Outputs>
+	</row>
+	<row>
+		<WPVariable>CMF_COURT_TEL_NO</WPVariable>
+		<AsIs>
+			<Code>CMF_COURT_TEL_NO</Code>
+			<BriefDescription>IIT Court Telephone No</BriefDescription>
+			<SelectClause>crt.tel_no</SelectClause>
+			<WhereClause>personalise per, courts crt where crt.code = per.crt_code and P_EVENT_SEQ = P_EVENT_SEQ</WhereClause>
+		</AsIs>
+		<XslVariable name="vdCourt"/>
+		<Outputs>
+			<Output>CJR010</Output>
+			<Output>CJR011</Output>
+			<Output>CJR012</Output>
+			<Output>CJR013</Output>
+			<Output>CJR014</Output>
+			<Output>CJR016</Output>
+			<Output>CJR022</Output>
+			<Output>CJR023B</Output>
+			<Output>CJR023D</Output>
+			<Output>CJR027 </Output>
+			<Output>CJR040</Output>
+			<Output>CJR041</Output>
+			<Output>CJR042</Output>
+			<Output>CJR043</Output>
+			<Output>CJR046</Output>
+			<Output>CJR049</Output>
+			<Output>CJR065</Output>
+			<Output>CJR065A</Output>
+			<Output>CJR065B</Output>
+			<Output>CJR069</Output>
+			<Output>CJR070</Output>
+			<Output>CJR071</Output>
+			<Output>CJR175</Output>
+			<Output>CJR176</Output>
+			<Output>CJR179</Output>
+			<Output>CJR183</Output>
+			<Output>CJR185</Output>
+			<Output>CJR187</Output>
+			<Output>CJR1424</Output>
+			<Output>N35</Output>
+			<Output>N35A</Output>
+			<Output>N32(2)</Output>
+			<Output>N32(5)</Output>
+			<Output>N441A</Output>
+			<Output>N442</Output>
+			<Output>N442R</Output>
+		</Outputs>
+	</row>
+	<row>
+		<WPVariable>CMF_COURT_FAX_NO</WPVariable>
+		<AsIs>
+			<Code>CMF_COURT_FAX_NO</Code>
+			<BriefDescription>Court Fax No</BriefDescription>
+			<SelectClause>crt.fax_no</SelectClause>
+			<WhereClause>personalise per, courts crt where crt.code = per.crt_code and P_EVENT_SEQ = P_EVENT_SEQ</WhereClause>
+		</AsIs>
+		<XslVariable name="vdCourt"/>
+		<Outputs>
+			<Output>CJR010</Output>
+			<Output>CJR011</Output>
+			<Output>CJR012</Output>
+			<Output>CJR013</Output>
+			<Output>CJR014</Output>
+			<Output>CJR016</Output>
+			<Output>CJR022</Output>
+			<Output>CJR023B</Output>
+			<Output>CJR023D</Output>
+			<Output>CJR027</Output>
+			<Output>CJR040</Output>
+			<Output>CJR041</Output>
+			<Output>CJR042</Output>
+			<Output>CJR043</Output>
+			<Output>CJR046</Output>
+			<Output>CJR049</Output>
+			<Output>CJR065</Output>
+			<Output>CJR065A</Output>
+			<Output>CJR065B</Output>
+			<Output>CJR069</Output>
+			<Output>CJR070</Output>
+			<Output>CJR071</Output>
+			<Output>CJR175</Output>
+			<Output>CJR176</Output>
+			<Output>CJR179</Output>
+			<Output>CJR183</Output>
+			<Output>CJR185</Output>
+			<Output>CJR187</Output>
+			<Output>CJR1424</Output>
+			<Output>N35</Output>
+			<Output>N35A</Output>
+			<Output>N32(2)</Output>
+			<Output>N32(5)</Output>
+			<Output>N441A</Output>
+			<Output>N442</Output>
+			<Output>N442R</Output>
+		</Outputs>
+	</row>
+	<row>
+		<WPVariable>CMF_RETURN_HOME_COURT</WPVariable>
+		<AsIs>
+			<Code>CMF_RETURN_HOME_COURT</Code>
+			<BriefDescription>IIT Explanation that document has been returned to the Home Court if that is not this court</BriefDescription>
+			<SelectClause>decode(ti.text_value, null, null, 'The document has been returned to the Home Court and any further correspondence has been sent there.')</SelectClause>
+			<WhereClause>text_items ti, item_details id, case_events ce where ti.text_detail_code = id.code and id.domain = 'LOCAL_NUMBER' and ti.text_case_number = ce.case_number and ce.event_seq = P_EVENT_SEQ</WhereClause>
+		</AsIs>
+		<XslVariable name="vdFromOtherCourt">
+			<ToBe>
+				<XPath>variabledata/notice/fromothercourt</XPath>
+				<SummaryInfo>Indicates that the notice is from another court. Choose from Y or N. Default N</SummaryInfo>
+				<Values>
+					<Value name="Y">Y</Value>
+					<Value name="N">N</Value>
+				</Values>
+				<Origin>Q&amp;A
+					<Question>55</Question>
+				</Origin>
+			</ToBe>
+		</XslVariable>
+		<Outputs>
+			<Output>CJR010</Output>
+		</Outputs>
+	</row>
+	<row>
+		<WPVariable>CMF_RECEIPT_DATE</WPVariable>
+		<AsIs>
+			<Code>CMF_RECEIPT_DATE</Code>
+			<BriefDescription>Receipt date</BriefDescription>
+			<SelectClause>to_char(receipt_date, 'DD fmMonth YYYY')</SelectClause>
+			<WhereClause>case_events where event_seq = P_EVENT_SEQ</WhereClause>
+		</AsIs>
+		<XslVariable name="vdReceiptDate">
+			<ToBe>
+				<XPath>variabledata/notice/receiptdate</XPath>
+				<SummaryInfo>The date the receipt was sent.</SummaryInfo>
+				<Origin>From Database</Origin>
+			</ToBe>
+		</XslVariable>
+		<Outputs>
+			<Output>CJR011</Output>
+		</Outputs>
+	</row>
+	<row>
+		<WPVariable>CMF_DEFT_INTENTION</WPVariable>
+		<AsIs>
+			<Code>CMF_DEFT_INTENTION</Code>
+			<BriefDescription>Claimants oral evidence entered at user prompt.</BriefDescription>
+			<SelectClause>vv.description</SelectClause>
+			<WhereClause>text_items ti, item_details id, case_events ce, valid_values vv where ti.text_detail_code = id.code and id.domain = 'DEFT_INTENTION' and ti.text_case_number = ce.case_number and ce.event_seq = P_EVENT_SEQ and vv.vals_low_value = ti.text_value and vv.vals_details_code = id.code</WhereClause>
+		</AsIs>
+		<XslVariable name="vdDefendantIntention">
+			<ToBe>
+				<XPath>variabledata/notice/defendantintention</XPath>
+				<SummaryInfo>Defendant Intention. Choose from: ALL (defend all of the claim), CTST (contest the court''s jurisdiction), PART (defend part of the claim)..</SummaryInfo>
+				<Values>
+					<Value name="ALL">defend all of the claim</Value>
+					<Value name="CTST">contest the court's jurisdiction</Value>
+					<Value name="PART">defend part of the claim</Value>
+				</Values>
+				<Origin>Q&amp;A
+					<Question>76</Question>
+				</Origin>
+			</ToBe>
+		</XslVariable>
+		<Outputs>
+			<Output>CJR011</Output>
+		</Outputs>
+	</row>
+	<row>
+		<WPVariable>CMF_DEFT_TO_FILE</WPVariable>
+		<AsIs>
+			<Code>CMF_DEFT_TO_FILE</Code>
+			<BriefDescription>Users selection to the claimants oral evidence entered at user LOV.</BriefDescription>
+			<SelectClause>(ti.text_value, 'CTST', 'an application to contest the court''s jurisdiction', 'a defence')</SelectClause>
+			<WhereClause>text_items ti, item_details id, case_events ce where ti.text_detail_code = id.code and id.domain = 'DEFT_INTENTION' and ti.text_case_number = ce.case_number and ce.event_seq = P_EVENT_SEQ</WhereClause>
+		</AsIs>
+		<XslVariable name="vdDefendantIntention">
+			<ToBe>
+				<XPath>variabledata/notice/defendantintention</XPath>
+				<SummaryInfo>Defendant Intention. Choose from: ALL (defend all of the claim), CTST (contest the court''s jurisdiction), PART (defend part of the claim)..</SummaryInfo>
+				<Values>
+					<Value>ALL<ExtraInfo>defend all of the claim</ExtraInfo>
+					</Value>
+					<Value>CTST<ExtraInfo>contest the court's jurisdiction</ExtraInfo>
+					</Value>
+					<Value>PART<ExtraInfo>defend part of the claim</ExtraInfo>
+					</Value>
+				</Values>
+				<Origin>Q&amp;A
+					<Question>76</Question>
+				</Origin>
+			</ToBe>
+		</XslVariable>
+		<Outputs>
+			<Output>CJR011</Output>
+		</Outputs>
+	</row>
+	<row>
+		<WPVariable>CMF_DEFT_CORRECT_NAME</WPVariable>
+		<AsIs>
+			<Code>CMF_DEFT_CORRECT_NAME</Code>
+			<BriefDescription>Defendant's Correct Name selected at user LOV.</BriefDescription>
+			<SelectClause>decode (ti.text_value, 'Y', 'The defendant''s name has been corrected to read ' || def.name, null)</SelectClause>
+			<WhereClause>text_items ti, item_details id, defendants def,case_events ce where ti.text_detail_code = id.code and id.domain = 'DEFT_NAME_CORRECTED' and ti.text_case_number = ce.case_number and ce.event_seq = P_EVENT_SEQ and nvl(ce.deft_id,1) = def.id and def.case_number = ce.case_number</WhereClause>
+		</AsIs>
+		<XslVariable name="vdDefendantNameCorrected">
+			<ToBe>
+				<XPath>variabledata/notice/defendantnamecorrected</XPath>
+				<SummaryInfo>Wether the defendant name was corrected. Choose from Y or N.</SummaryInfo>
+				<Values>
+					<Value name="Y">Y</Value>
+					<Value name="N">N</Value>
+				</Values>
+				<Origin>Q&amp;A
+					<Question>77</Question>
+				</Origin>
+			</ToBe>
+		</XslVariable>
+		<Outputs>
+			<Output>CJR011</Output>
+		</Outputs>
+	</row>
+	<row>
+		<WPVariable>CMF_PAID_BEFORE_JUDGMENT_WDG</WPVariable>
+		<AsIs>
+			<Code>CMF_PAID_BEFORE_JUDGMENT_WDG</Code>
+			<BriefDescription>Entered amount paid before judgment</BriefDescription>
+			<SelectClause>decode(ti.text_value, null, null, '0', null, '(less #' || ti.text_value || ' which you have already paid)')</SelectClause>
+			<WhereClause>text_items ti, item_details id, case_events ce where ti.text_detail_code = id.code and id.domain = 'PAID_BEFORE_JUDGMENT' and ti.text_case_number = ce.case_number and ce.event_seq = P_EVENT_SEQ</WhereClause>
+		</AsIs>
+		<XslVariable name="vdPaidBeforeJudgment">
+			<ToBe>
+				<XPath>variabledata/judgment/paidbeforejudgment</XPath>
+				<SummaryInfo>Amount paid before judgment. Depending on which event number is invoked, variable will be embedded with text.</SummaryInfo>
+				<Values>
+					<Value name="230">'less £' + vdPaidBeforeJudgment + 'which you have already paid'</Value>
+					<Value name="240">'less £' + vdPaidBeforeJudgment + 'which you have already paid'</Value>
+					<Value name="250">'less £' + vdPaidBeforeJudgment + 'which you have already paid'</Value>
+					<Value name="253">'less £' + vdPaidBeforeJudgment + 'which you have already paid'</Value>
+					<Value name="254">'less £' + vdPaidBeforeJudgment + 'which you have already paid'</Value>
+					<Value name="251">vdPaidBeforeJudgment</Value>
+				</Values>
+				<Origin>From Database</Origin>
+				<Origin>Q&amp;A
+					<Question>77</Question>
+				</Origin>
+			</ToBe>
+		</XslVariable>
+		<Outputs>
+			<Output>CJR040</Output>
+			<Output>CJR041</Output>
+			<Output>CJR042</Output>
+			<Output>CJR043</Output>
+			<Output>CJR049</Output>
+		</Outputs>
+	</row>
+	<row>
+		<WPVariable>CMF_PAID_BEFORE_JUDGMENT</WPVariable>
+		<AsIs>
+			<Code>CMF_PAID_BEFORE_JUDGMENT</Code>
+			<BriefDescription>Amount paid before judgment</BriefDescription>
+			<SelectClause>ti.text_value</SelectClause>
+			<WhereClause>text_items ti, item_details id, case_events ce where ti.text_detail_code = id.code and id.domain = 'PAID_BEFORE_JUDGMENT' and ti.text_case_number = ce.case_number and ce.event_seq = P_EVENT_SEQ</WhereClause>
+		</AsIs>
+		<XslVariable name="vdPaidBeforeJudgment">
+			<ToBe>
+				<XPath>variabledata/judgment/paidbeforejudgment</XPath>
+				<SummaryInfo>Amount paid before judgment. Depending on which event number is invoked, variable will be embedded with text.</SummaryInfo>
+				<Values>
+					<Value name="230">
+						<ExtraInfo>show varaible value with text ie. '(less £' + vdPaidBeforeJudgment + 'which you have already paid)'</ExtraInfo>
+					</Value>
+					<Value name="240">
+						<ExtraInfo>show varaible value with text ie. '(less £' + vdPaidBeforeJudgment + 'which you have already paid)'</ExtraInfo>
+					</Value>
+					<Value name="250">
+						<ExtraInfo>show varaible value with text ie. '(less £' + vdPaidBeforeJudgment + 'which you have already paid)'</ExtraInfo>
+					</Value>
+					<Value name="253">
+						<ExtraInfo>show varaible value with text ie. '(less £' + vdPaidBeforeJudgment + 'which you have already paid)'</ExtraInfo>
+					</Value>
+					<Value name="254">
+						<ExtraInfo>show varaible value with text ie. '(less £' + vdPaidBeforeJudgment + 'which you have already paid)'</ExtraInfo>
+					</Value>
+					<Value name="251">
+						<ExtraInfo>show varaible value</ExtraInfo>
+					</Value>
+				</Values>
+				<Origin>Q&amp;A
+					<Question>77</Question>
+				</Origin>
+			</ToBe>
+		</XslVariable>
+		<Outputs>
+			<Output>CJR065A</Output>
+		</Outputs>
+	</row>
+	<row>
+		<WPVariable>CMF_JUDGMENT_DATE_DISP</WPVariable>
+		<AsIs>
+			<Code>CMF_JUDGMENT_DATE_DISP</Code>
+			<BriefDescription>Display version of the judgment date</BriefDescription>
+			<SelectClause>to_char(to_date(ti.text_value, 'DD-MON-YYYY'), 'DD fmMonth YYYY')</SelectClause>
+			<WhereClause>text_items ti, item_details id, case_events ce where ti.text_detail_code = id.code and id.domain = 'JUDGMENT_DATE' and ti.text_case_number = ce.case_number and ce.event_seq = P_EVENT_SEQ</WhereClause>
+		</AsIs>
+		<XslVariable name="vdJudgmentDate">
+			<ToBe>
+				<XPath>variabledata/judgment/judgmentdate</XPath>
+				<SummaryInfo>The date of the Judgment. date format dd-mmm-yyyy</SummaryInfo>
+				<Origin>From Database</Origin>
+			</ToBe>
+		</XslVariable>
+		<Outputs>
+			<Output>CJR049</Output>
+			<Output>CJR065</Output>
+			<Output>CJR065B</Output>
+			<Output>N35</Output>
+			<Output>N35A</Output>
+		</Outputs>
+	</row>
+	<row>
+		<WPVariable>CMF_JUDGMENT_DATE</WPVariable>
+		<AsIs>
+			<Code>CMF_JUDGMENT_DATE</Code>
+			<BriefDescription>Judgment date</BriefDescription>
+			<SelectClause>ti.text_value</SelectClause>
+			<WhereClause>text_items ti, item_details id, case_events ce where ti.text_detail_code = id.code and id.domain = 'JUDGMENT_DATE' and ti.text_case_number = ce.case_number and ce.event_seq = P_EVENT_SEQ</WhereClause>
+		</AsIs>
+		<XslVariable name="vdJudgmentDate">
+			<ToBe>
+				<XPath>variabledata/judgment/judgmentdate</XPath>
+				<SummaryInfo>The date of the Judgment. date format dd-mmm-yyyy</SummaryInfo>
+				<Origin>From Database</Origin>
+			</ToBe>
+		</XslVariable>
+		<Outputs>
+			<Output>CJR065A</Output>
+			<Output>N32(2)</Output>
+			<Output>N32(5)</Output>
+		</Outputs>
+	</row>
+	<row>
+		<WPVariable>CMF_N442_JDG_DATE</WPVariable>
+		<AsIs>
+			<Code>CMF_N442_JDG_DATE</Code>
+			<BriefDescription>IIT</BriefDescription>
+			<SelectClause>to_char(jdg.judgment_date, 'DD fmMonth YYYY')</SelectClause>
+			<WhereClause>judgments jdg, case_events ce where ce.judg_seq = jdg.judg_seq and ce.event_seq = P_EVENT_SEQ</WhereClause>
+		</AsIs>
+		<XslVariable name="vdJudgmentDate">
+			<ToBe>
+				<XPath>variabledata/judgment/judgmentdate</XPath>
+				<SummaryInfo>The date of the Judgment. date format dd-mmm-yyyy</SummaryInfo>
+				<Origin>From Database</Origin>
+			</ToBe>
+		</XslVariable>
+		<Outputs>
+			<Output>N441A</Output>
+			<Output>N442</Output>
+			<Output>N442R</Output>
+		</Outputs>
+	</row>
+	<row>
+		<WPVariable>CMF_TOTAL_DISPLAYED</WPVariable>
+		<XslVariable>
+			<ExtraInfo>calculated field vdAmount + vdCost - vdPaidBeforeJudgment</ExtraInfo>
+		</XslVariable>
+		<Outputs>
+			<Output>CJR040</Output>
+			<Output>CJR041</Output>
+			<Output>CJR042</Output>
+			<Output>CJR043</Output>
+			<Output>CJR049</Output>
+			<Output>CJR065A</Output>
+		</Outputs>
+	</row>
+	<row>
+		<WPVariable>CMF_FW_FULL</WPVariable>
+		<XslVariable>
+			<ExtraInfo>derived from template</ExtraInfo>
+		</XslVariable>
+		<Outputs>
+			<Output>CJR040</Output>
+			<Output>CJR041</Output>
+			<Output>CJR042</Output>
+			<Output>CJR043</Output>
+			<Output>CJR049</Output>
+		</Outputs>
+	</row>
+	<row>
+		<WPVariable>CMF_BY_INSTALMENTS</WPVariable>
+		<XslVariable>
+			<ExtraInfo>derived from template</ExtraInfo>
+		</XslVariable>
+		<Outputs>
+			<Output>CJR040</Output>
+			<Output>CJR041</Output>
+			<Output>CJR042</Output>
+			<Output>CJR043</Output>
+			<Output>CJR049</Output>
+		</Outputs>
+	</row>
+	<row>
+		<WPVariable>CMF_INSTALMENT_AMOUNT</WPVariable>
+		<AsIs>
+			<Code>CMF_INSTALMENT_AMOUNT</Code>
+			<BriefDescription>Entered instalment amount</BriefDescription>
+			<SelectClause>ti.text_value</SelectClause>
+			<WhereClause>text_items ti, item_details id, case_events ce where ti.text_detail_code = id.code and id.domain = 'INSTALMENT_AMOUNT' and ti.text_case_number = ce.case_number and ce.event_seq = P_EVENT_SEQ</WhereClause>
+		</AsIs>
+		<Outputs>
+			<Output>CJR040</Output>
+			<Output>CJR041</Output>
+			<Output>CJR042</Output>
+			<Output>CJR043</Output>
+			<Output>CJR049</Output>
+			<Output>CJR065A</Output>
+			<Output>N32(2)</Output>
+			<Output>N32(5)</Output>
+		</Outputs>
+		<XslVariable name="vdInstalmentAmount">
+			<ToBe>
+				<XPath>variabledata/judgment/instalmentamount</XPath>
+				<SummaryInfo>Amount to pay per instalment. Numeric values</SummaryInfo>
+				<Origin>Q&amp;A
+					<Question>42</Question>
+				</Origin>
+			</ToBe>
+		</XslVariable>
+		<Outputs>
+			<Output>N35A</Output>
+		</Outputs>
+	</row>
+	<row>
+		<WPVariable>CMF_INSTALMENT_PERIOD</WPVariable>
+		<XslVariable name="vdInstalmentPeriod">
+			<AsIs>
+				<Code>CMF_INSTALMENT_PERIOD</Code>
+				<BriefDescription>Entered instalment period</BriefDescription>
+				<SelectClause>ti.text_value</SelectClause>
+				<WhereClause>text_items ti, item_details id, case_events ce where ti.text_detail_code = id.code and id.domain = 'INSTALMENT_PERIOD' and ti.text_case_number = ce.case_number and ce.event_seq = P_EVENT_SEQ</WhereClause>
+			</AsIs>
+			<AsIs>
+				<Code>CMF_INST_PERIOD_WDG</Code>
+				<BriefDescription>Entered instalment period</BriefDescription>
+				<SelectClause>decode(ti.text_value, null, null, 'per ' || rtrim(lower(vv.description), 'ly'))</SelectClause>
+				<WhereClause>text_items ti, item_details id, case_events ce, valid_values vv where ti.text_detail_code = id.code and id.domain = 'INSTALMENT_PERIOD' and ti.text_case_number = ce.case_number and ce.event_seq = P_EVENT_SEQ and vv.vals_low_value = nvl(ti.text_value,'WK') and vv.vals_details_code = id.code</WhereClause>
+			</AsIs>
+			<ToBe>
+				<XPath>variabledata/judgment/instalmentPeriod</XPath>
+				<SummaryInfo>Period between instalments. Choose from FW (forthwith) or FUL (by vdDeterminationPeriod)</SummaryInfo>
+				<Values>
+					<Value name="MTH">Month</Value>
+					<Value name="WK">Week</Value>
+				</Values>
+				<Origin>Q&amp;A
+					<Question>43</Question>
+				</Origin>
+			</ToBe>
+		</XslVariable>
+		<Outputs>
+			<Output>CJR040</Output>
+			<Output>CJR041</Output>
+		</Outputs>
+	</row>
+	<row>
+		<WPVariable>CMF_INST_PERIOD_WDG</WPVariable>
+		<XslVariable>
+			<ExtraInfo>derived from template - vdInstalmentPeriod</ExtraInfo>
+		</XslVariable>
+		<Outputs>
+			<Output>CJR040</Output>
+			<Output>CJR041</Output>
+			<Output>CJR042</Output>
+			<Output>CJR043</Output>
+			<Output>CJR049</Output>
+		</Outputs>
+	</row>
+	<row>
+		<WPVariable>CMF_FIRST_PAYMENT_BY</WPVariable>
+		<XslVariable>
+			<ExtraInfo>derived from template - vdInstalmentAmount</ExtraInfo>
+		</XslVariable>
+		<Outputs>
+			<Output>CJR040</Output>
+			<Output>CJR041</Output>
+			<Output>CJR042</Output>
+			<Output>CJR043</Output>
+			<Output>CJR049</Output>
+		</Outputs>
+	</row>
+	<row>
+		<WPVariable>CMF_FIRST_PYMT_DATE</WPVariable>
+		<AsIs>
+			<Code>CMF_FIRST_PYMT_DATE</Code>
+			<BriefDescription>Entered first instalment date</BriefDescription>
+			<SelectClause>to_char(to_date(ti.text_value, 'DD-MON-YYYY'), 'DD fmMonth YYYY')</SelectClause>
+			<WhereClause>text_items ti, item_details id, case_events ce where ti.text_detail_code = id.code and id.domain = 'FIRST_PAYMENT_DATE' and ti.text_case_number = ce.case_number and ce.event_seq = P_EVENT_SEQ</WhereClause>
+		</AsIs>
+		<XslVariable name="vdFirstPaymentDate">
+			<ToBe>
+				<XPath>variabledata/judgment/firstpaymentdate</XPath>
+				<SummaryInfo>First Instalment date. Date Format dd-mmm-yyyy</SummaryInfo>
+				<Origin>Q&amp;A
+					<Question>44</Question>
+				</Origin>
+				<Origin>From Database</Origin>
+			</ToBe>
+		</XslVariable>
+		<Outputs>
+			<Output>CJR040</Output>
+			<Output>CJR041</Output>
+			<Output>CJR042</Output>
+			<Output>CJR043</Output>
+			<Output>CJR049</Output>
+			<Output>N35</Output>
+			<Output>N35A</Output>
+		</Outputs>
+	</row>
+	<row>
+		<WPVariable>CMF_FIRST_PAYMENT_DATE</WPVariable>
+		<AsIs>
+			<Code>CMF_FIRST_PAYMENT_DATE</Code>
+			<BriefDescription>First payment date as stored to database (not displayed) i.e. in dd-mon-yyyy format.</BriefDescription>
+			<SelectClause>ti.text_value</SelectClause>
+			<WhereClause>text_items ti, item_details id, case_events ce where ti.text_detail_code = id.code and id.domain = 'FIRST_PAYMENT_DATE' and ti.text_case_number = ce.case_number and ce.event_seq = P_EVENT_SEQ</WhereClause>
+		</AsIs>
+		<XslVariable name="vdFirstPaymentDate">
+			<ToBe>
+				<XPath>variabledata/judgment/firstpaymentdate</XPath>
+				<SummaryInfo>First Instalment date</SummaryInfo>
+				<Origin>Q&amp;A</Origin>
+			</ToBe>
+		</XslVariable>
+		<Outputs>
+			<Output>CJR065A</Output>
+			<Output>N32(2)</Output>
+		</Outputs>
+	</row>
+	<row>
+		<WPVariable>CMF_PAYMENT_IN_FULL_DATE_ORIG</WPVariable>
+		<AsIs>
+			<Code>CMF_PAYMENT_IN_FULL_DATE_ORIG</Code>
+			<BriefDescription>Date by which full payment is to have been received</BriefDescription>
+			<SelectClause>to_char(to_date(ti.text_value, 'DD-MON-YYYY'), 'DD fmMonth YYYY')</SelectClause>
+			<WhereClause>text_items ti, item_details id, case_events ce where ti.text_detail_code = id.code and id.domain = 'PAYMENT_IN_FULL_DATE' and ti.text_case_number = ce.case_number and ce.event_seq = P_EVENT_SEQ</WhereClause>
+		</AsIs>
+		<XslVariable name="vdPaymentInFullDate">
+			<ToBe>
+				<XPath>variabledata/judgment/paymentinfulldate</XPath>
+				<SummaryInfo>Payment date for full payment. Date format dd-mmm-yyyy</SummaryInfo>
+				<Origin>From Database</Origin>
+			</ToBe>
+		</XslVariable>
+		<Outputs>
+			<Output>CJR040</Output>
+			<Output>CJR041</Output>
+			<Output>CJR042</Output>
+			<Output>CJR043</Output>
+			<Output>CJR049</Output>
+			<Output>CJR065A</Output>
+		</Outputs>
+	</row>
+	<row>
+		<WPVariable>CMF_UNTIL_DEBT_PAID</WPVariable>
+		<XslVariable>
+			<ExtraInfo>derived in template</ExtraInfo>
+		</XslVariable>
+		<Outputs>
+			<Output>CJR040</Output>
+			<Output>CJR041</Output>
+			<Output>CJR042</Output>
+			<Output>CJR043</Output>
+			<Output>CJR049</Output>
+		</Outputs>
+	</row>
+	<row>
+		<WPVariable>CMF_REGISTERED</WPVariable>
+		<AsIs>
+			<Code>CMF_REGISTERED</Code>
+			<BriefDescription>Judgment registered</BriefDescription>
+			<SelectClause>ti.text_value</SelectClause>
+			<WhereClause>text_items ti, item_details id, case_events ce where ti.text_detail_code = id.code and id.domain = 'REGISTERED_JDG' and ti.text_case_number = ce.case_number and ce.event_seq = P_EVENT_SEQ</WhereClause>
+		</AsIs>
+		<XslVariable name="vdRegistered">
+			<ToBe>
+				<XPath>variabledata/judgment/registered</XPath>
+				<SummaryInfo>Registered Judgment. Choose from Y or N</SummaryInfo>
+				<Values>
+					<Value name="Y">Y</Value>
+					<Value name="N">N</Value>
+				</Values>
+				<Origin>Q&amp;A
+					<Question>46</Question>
+				</Origin>
+			</ToBe>
+		</XslVariable>
+		<Outputs>
+			<Output>CJR040</Output>
+			<Output>CJR041</Output>
+			<Output>CJR042</Output>
+			<Output>CJR043</Output>
+			<Output>CJR049</Output>
+			<Output>CJR065A</Output>
+		</Outputs>
+	</row>
+	<row>
+		<WPVariable>CMF_FREE_TEXT_DIRNS</WPVariable>
+		<XslVariable>
+			<ExtraInfo>editable tags?</ExtraInfo>
+		</XslVariable>
+		<Outputs>
+			<Output>CJR046</Output>
+			<Output>CJR065</Output>
+			<Output>CJR065B</Output>
+		</Outputs>
+	</row>
+	<row>
+		<WPVariable>CMF_CJR046_HRG_WDG</WPVariable>
+		<Outputs>
+			<Output>CJR046</Output>
+			<Output>CJR187</Output>
+			<XslVariable>
+				<ExtraInfo>vdHearingTime + vdHearingDate</ExtraInfo>
+			</XslVariable>
+		</Outputs>
+		<Outputs>
+			<Output>CJR187</Output>
+			<XslVariable name="vdHearingCourtName">
+				<AsIs/>
+				<ToBe/>
+			</XslVariable>
+		</Outputs>
+	</row>
+	<row>
+		<WPVariable>CMF_HRG_VENUE_ADDR_PART_1 + CMF_HRG_VENUE_ADDR_PART_2</WPVariable>
+		<XslVariable name="vdHearingCourtAddress">
+			<AsIs>
+				<Code>CMF_HRG_VENUE_ADDR_PART_1</Code>
+				<BriefDescription>Hearing Venue and Address part 1</BriefDescription>
+				<SelectClause>rtrim(replace(decode(ti.text_value, null, null ,cm_general.superinitcap(ti.text_value) || ' ' || decode(rc.rv_iit_code_1, null, 'County Court', 'District Registry') || ', ' ||cm_general.superinitcap(ti1.text_value) || ', ' ||cm_general.superinitcap(ti2.text_value)), ',,', ','), ',')</SelectClause>
+				<WhereClause>text_items ti, item_details id, text_items ti1, item_details id1,text_items ti2, item_details id2, case_events ce, cases cas, ccbc_ref_codes rc where ti.text_detail_code = id.code and id.domain = 'HRG_VENUE' and ti.text_case_number = ce.case_number and ti1.text_detail_code = id1.code and id1.domain = 'HRG_ADDR_1' and ti1.text_case_number = ce.case_number and ti2.text_detail_code = id2.code and id2.domain = 'HRG_ADDR_2' and ti2.text_case_number = ce.case_number and ce.event_seq = P_EVENT_SEQ and cas.case_number = ce.case_number and cas.case_type = rc.rv_low_value(+) and rc.rv_domain(+) = 'CURRENT_CASE_TYPE'</WhereClause>
+			</AsIs>
+			<AsIs>
+				<Code>CMF_HRG_VENUE_ADDR_PART_2</Code>
+				<BriefDescription>Hearing Venue and Address part 2</BriefDescription>
+				<SelectClause>replace(decode(ti.text_value, null, null, decode(ti3.text_value, null,'',', ' ||cm_general.superinitcap(ti3.text_value))|| decode(ti4.text_value, null,'',', ' ||cm_general.superinitcap(ti4.text_value))|| decode(ti5.text_value, null,'',', ' ||ti5.text_value)), ',,', ',')</SelectClause>
+				<WhereClause>text_items ti, item_details id, text_items ti3, item_details id3, text_items ti4, item_details id4, text_items ti5, item_details id5, case_events ce where ti.text_detail_code = id.code and id.domain = 'HRG_VENUE' and ti.text_case_number = ce.case_number and ti3.text_detail_code = id3.code and id3.domain = 'HRG_ADDR_3' and ti3.text_case_number = ce.case_number and ti4.text_detail_code = id4.code and id4.domain = 'HRG_ADDR_4' and ti4.text_case_number = ce.case_number and ti5.text_detail_code = id5.code and id5.domain = 'HRG_POSTCODE' and ti5.text_case_number= ce.case_number and ce.event_seq = P_EVENT_SEQ</WhereClause>
+			</AsIs>
+			<ToBe>
+				<XPath>variabledata/claim/hearing/court/address</XPath>
+				<SummaryInfo>Linked to Is hearing listed?</SummaryInfo>
+				<Origin>Q&amp;A
+					<Question>15</Question>
+					<Question>16</Question>
+					<Question>17</Question>
+					<Question>18</Question>
+					<Question>19</Question>
+					<Question>20</Question>
+				</Origin>
+			</ToBe>
+		</XslVariable>
+		<Outputs>
+			<Output>CJR049</Output>
+			<Output>CJR065</Output>
+			<Output>CJR065B</Output>
+			<Output>CJR176</Output>
+			<Output>CJR187</Output>
+		</Outputs>
+	</row>
+	<row>
+		<WPVariable>CMF_DECISION_WDG</WPVariable>
+		<XslVariable>
+			<ExtraInfo>derived in template</ExtraInfo>
+		</XslVariable>
+		<Outputs>
+			<Output>CJR046</Output>
+		</Outputs>
+	</row>
+	<row>
+		<WPVariable>CMF_DOC_SERVICE</WPVariable>
+		<AsIs>
+			<Code>CMF_DOC_SERVICE</Code>
+			<BriefDescription>Outputs value selected from LOV or free text entered if OTH selected.</BriefDescription>
+			<SelectClause>decode(ti.text_value, 'OTH', ti2.text_value, vv.description)</SelectClause>
+			<WhereClause>text_items ti, item_details id, text_items ti2, item_details id2, case_events ce,valid_values vv where ti.text_detail_code = id.code and id.domain = 'DOCUMENT' and ti.text_case_number = ce.case_number and ti2.text_detail_code = id2.code and id2.domain = 'DOCUMENT_OTHER' and ti2.text_case_number = ce.case_number and ce.event_seq = P_EVENT_SEQ and vv.vals_low_value = ti.text_value and vv.vals_details_code = id.code</WhereClause>
+		</AsIs>
+		<XslVariable name="vdDocumentService">
+			<ToBe>
+				<XPath>if exist vdDocumentServiceOther else variabledata/order/docservice</XPath>
+				<SummaryInfo>The doccument service. choose from CF (CLAIM FORM), CFPC (CLAIM FORM AND PARTICULARS OF CLAIM), OTH (OTHER) and PC (PARTICULARS OF CLAIM).</SummaryInfo>
+				<Values>
+					<Value name="CF">CLAIM FORM	</Value>
+					<Value name="CFPC">CLAIM FORM AND PARTICULARS OF CLAIM</Value>
+					<Value name="OTH">OTHER
+						<XslVariable name="vdDocumentServiceOther">
+							<ToBe>
+								<XPath>variabledata/order/docserviceother</XPath>
+								<SummaryInfo>The free text if OTH is chosen in vdDocumentService</SummaryInfo>
+								<Origin>Q&amp;A</Origin>
+							</ToBe>
+						</XslVariable>
+					</Value>
+					<Value name="PC">PARTICULARS OF CLAIM</Value>
+				</Values>
+				<Origin>Q&amp;A</Origin>
+			</ToBe>
+		</XslVariable>
+		<Outputs>
+			<Output>CJR175</Output>
+		</Outputs>
+	</row>
+	<row>
+		<WPVariable>CMF_PARTY_SERV</WPVariable>
+		<AsIs>
+			<Code>CMF_PARTY_SERV</Code>
+			<BriefDescription>The party (i.e. the Claimant, Defendant or some other party) service is being dispensed with</BriefDescription>
+			<SelectClause>decode(ti.text_value, 'OTH', ti2.text_value, lower(vv.description))</SelectClause>
+			<WhereClause>text_items ti, item_details id, text_items ti2, item_details id2, case_events ce, valid_values vv where ti.text_detail_code = id.code and id.domain = 'PARTY_SERV' and ti.text_case_number = ce.case_number and ti2.text_detail_code = id2.code and id2.domain = 'PARTY_SERV_OTHER' and ti2.text_case_number = ce.case_number and ce.event_seq = P_EVENT_SEQ and vv.vals_low_value = ti.text_value and vv.vals_details_code = id.code</WhereClause>
+		</AsIs>
+		<XslVariable name="vdPartyService">
+			<ToBe>
+				<XPath description="exists">vdPartyServiceOther</XPath>
+				<XPath>variabledata/order/partyservice</XPath>
+				<SummaryInfo>The party service. choose from CLM (CLAIMANT) DEF (DEFENDANT) and OTH (OTHER)</SummaryInfo>
+				<Values>
+					<Value name="CLM">CLAIMANT</Value>
+					<Value name="DEF">DEFENDANT</Value>
+					<Value name="OTH">OTHER
+							<XslVariable name="vdPartyServiceOther">
+							<ToBe>
+								<XPath>variabledata/order/partyserviceother</XPath>
+								<SummaryInfo>The freetext if OTH is chosen in vdPartyService</SummaryInfo>
+								<Origin>Q&amp;A</Origin>
+							</ToBe>
+						</XslVariable>
+					</Value>
+					<Value name="PC">PARTICULARS OF CLAIM	</Value>
+				</Values>
+				<Origin>Q&amp;A</Origin>
+			</ToBe>
+		</XslVariable>
+		<Outputs>
+			<Output>CJR175</Output>
+		</Outputs>
+	</row>
+	<row>
+		<WPVariable/>
+		<AsIs/>
+		<XslVariable name="vdDeceasedEstate">
+			<ToBe/>
+		</XslVariable>
+		<Outputs>
+			<Output>CJR183</Output>
+		</Outputs>
+	</row>
+	<row>
+		<WPVariable/>
+		<AsIs/>
+		<XslVariable name="vdJudgementFirstPaymentDate">
+			<ToBe/>
+		</XslVariable>
+		<Outputs>
+			<Output>N35</Output>
+		</Outputs>
+	</row>
+	<row>
+		<WPVariable/>
+		<XslVariable name="vdPaymentFrequency">
+			<ToBe>
+				<XPath>variabledata/judgement/paymentfrequency</XPath>
+				<SummaryInfo>Frequency of payment. If FW = Forthwith. If FUL = by vdDeterminationPeriod</SummaryInfo>
+				<Values>
+					<Value name="FW">Forthwith</Value>
+					<Value name="FUL">
+						<XslVariable name="vdDeterminationPeriod">
+							<ToBe>
+								<XPath>variabledata/judgment/determinationperiod</XPath>
+								<SummaryInfo>The period of determination. Choose from MTH(Month) or WK (Week). Used by vdPaymentFrequency as input</SummaryInfo>
+								<Values>
+									<Value name="MTH">Month</Value>
+									<Value name="WK">Week</Value>
+								</Values>
+								<Origin>From Database</Origin>
+							</ToBe>
+						</XslVariable>
+					</Value>
+					<Value name="PC">PARTICULARS OF CLAIM</Value>
+				</Values>
+				<Origin>From Database</Origin>
+			</ToBe>
+		</XslVariable>
+		<Outputs>
+			<Output>N35</Output>
+			<Output>N35A</Output>
+		</Outputs>
+	</row>
+	<row>
+		<WPVariable/>
+		<XslVariable name="vdJudgmentResultDate">
+			<ToBe>
+				<XPath>variabledata/judgment/resultdate</XPath>
+				<SummaryInfo>The date the result was issued. date format dd-mmm-yyyy</SummaryInfo>
+				<Origin>From Database</Origin>
+				<Origin>From Server</Origin>
+			</ToBe>
+		</XslVariable>
+		<Outputs>
+			<Output>N35</Output>
+			<Output>N35A</Output>
+		</Outputs>
+	</row>
+	<row>
+		<WPVariable/>
+		<XslVariable name="vdJudgmentResult">
+			<ToBe>
+				<XPath>variabledata/judgment/result</XPath>
+				<SummaryInfo>The result of the judgment. Choose from GRANTED or DETERMINED</SummaryInfo>
+				<Values>
+					<Value name="GRANTED">GRANTED</Value>
+					<Value name="DETERMINED">DETERMINED</Value>
+				</Values>
+				<Origin>Q&amp;A</Origin>
+			</ToBe>
+		</XslVariable>
+		<Outputs>
+			<Output>N35</Output>
+			<Output>N35A</Output>
+		</Outputs>
+	</row>
+	<row>
+		<WPVariable/>
+		<XslVariable name="vdInterestIncluded">
+			<ToBe>
+				<XPath>variabledata/order/interestincluded</XPath>
+				<SummaryInfo>Interest to be included. Choose from Y or N</SummaryInfo>
+				<Values>
+					<Value name="Y">Y</Value>
+					<Value name="N">N</Value>
+				</Values>
+				<Origin>Q&amp;A
+					<Question>48</Question>
+				</Origin>
+			</ToBe>
+		</XslVariable>
+		<Outputs>
+			<Output>N35</Output>
+		</Outputs>
+	</row>
+	<row>
+		<WPVariable/>
+		<XslVariable name="vdApplcationToVaryApplicant">
+			<ToBe>
+				<XPath>variabledata/judgment/applcationtovaryapplicant</XPath>
+				<SummaryInfo>???</SummaryInfo>
+				<Origin>From Database??</Origin>
+			</ToBe>
+		</XslVariable>
+		<Outputs>
+			<Output>N35A</Output>
+		</Outputs>
+	</row>
+	<row>
+		<WPVariable/>
+		<XslVariable name="vdDeterminationPeriod">
+			<ToBe>
+				<XPath>variabledata/judgment/determinationperiod</XPath>
+				<SummaryInfo>The period of determination. Choose from MTH(Month) or WK (Week). Used by vdPaymentFrequency as input</SummaryInfo>
+				<Values>
+					<Value name="MTH">Month</Value>
+					<Value name="WK">Week</Value>
+				</Values>
+				<Origin>From Database</Origin>
+			</ToBe>
+		</XslVariable>
+		<Outputs>
+			<Output>N35A</Output>
+		</Outputs>
+	</row>
+	<row>
+		<WPVariable/>
+		<AsIs>
+			<Code>N32(2)_51</Code>
+			<BriefDescription>Text printed dependant on answer to prompt ‘Is the order made by Consent?’ (Not via document variables table)</BriefDescription>
+			<SelectClause>‘By Consent' if ‘Y’ otherwise left blank</SelectClause>
+			<WhereClause>N/A</WhereClause>
+		</AsIs>
+		<XslVariable name="vdOrderMadeByConsent">
+			<ToBe>
+				<XPath>variabledata/judgment/ordermadebyconsent</XPath>
+				<SummaryInfo>Was order made by consent. Choose from Y or N</SummaryInfo>
+				<Values>
+					<Value name="Y">Y</Value>
+					<Value name="N">N</Value>
+				</Values>
+				<Origin>Q&amp;A
+				<Question>79</Question>
+				</Origin>
+			</ToBe>
+		</XslVariable>
+		<Outputs>
+			<Output>N32(2)</Output>
+			<Output>N32(5)</Output>
+		</Outputs>
+	</row>
+	<row>
+		<WPVariable/>
+		<AsIs>
+			<Code>N32(2)_27</Code>
+			<BriefDescription>Date entered in response to ‘Date of agreement’ prompt in format ‘DD fmMONTH YYYY’ (Not via document variables table)</BriefDescription>
+			<SelectClause>ltrim(initcap(to_char(to_date(TEXT_ITEM.TEXT_VALUE,’DD-MON-YYYY’),’DD fmMONTH YYYY’)),’0’)</SelectClause>
+			<WhereClause>TEXT_ITEMS where case_number = :global.case_number</WhereClause>
+		</AsIs>
+		<XslVariable name="vdAgreementDate">
+			<ToBe>
+				<XPath>variabledata/judgment/agreementdate</XPath>
+				<SummaryInfo>Date of agreement</SummaryInfo>
+				<Origin>Q&amp;A
+				<Question>81</Question>
+				</Origin>
+			</ToBe>
+		</XslVariable>
+		<Outputs>
+			<Output>N32(2)</Output>
+		</Outputs>
+	</row>
+	<row>
+		<WPVariable/>
+		<AsIs>
+			<Code>N32(2)_28</Code>
+			<BriefDescription>Text entered in response to prompt ‘Goods Detained (line 1)’ (Not via document variables table)</BriefDescription>
+			<SelectClause>TEXT_ITEM.TEXT_VALUE</SelectClause>
+			<WhereClause>TEXT_ITEMS Where case_number = :global.case_number</WhereClause>
+		</AsIs>
+		<XslVariable name="vdGoodsDetained1">
+			<ToBe>
+				<XPath>variabledata/judgment/goodsdetained1</XPath>
+				<SummaryInfo>First line goods detained details</SummaryInfo>
+				<Origin>Q&amp;A
+					<Question>82</Question>
+				</Origin>
+			</ToBe>
+		</XslVariable>
+		<Outputs>
+			<Output>N32(2)</Output>
+		</Outputs>
+	</row>
+	<row>
+		<WPVariable/>
+		<AsIs>
+			<Code>N32(2)_29</Code>
+			<BriefDescription>Text entered in response to prompt ‘Goods Detained (line 2)’ (Not via document variables table)</BriefDescription>
+			<SelectClause>TEXT_ITEM.TEXT_VALUE</SelectClause>
+			<WhereClause>TEXT_ITEMS Where case_number = :global.case_number</WhereClause>
+		</AsIs>
+		<XslVariable name="vdGoodsDetained2">
+			<ToBe>
+				<XPath>variabledata/judgment/goodsdetained1</XPath>
+				<SummaryInfo>First line goods detained details</SummaryInfo>
+				<Origin>Q&amp;A
+					<Question>82</Question>
+				</Origin>
+			</ToBe>
+		</XslVariable>
+		<Outputs>
+			<Output>N32(2)</Output>
+		</Outputs>
+	</row>
+	<row>
+		<WPVariable/>
+		<AsIs>
+			<Code>N32(2)_34</Code>
+			<BriefDescription>Date entered in response to ‘Date goods to be returned’ prompt in format ‘DD fmMONTH YYYY’ (Not via document variables table)</BriefDescription>
+			<SelectClause>initcap(ltrim(to_char(to_date(TEXT_ITEM.TEXT_VALUE,’DD-MON-YYYY’),’DD fmMONTH YYYY’)),’0’)</SelectClause>
+			<WhereClause>TEXT_ITEMS Where case_number = :global.case_number</WhereClause>
+		</AsIs>
+		<XslVariable name="vdDateOfGoodsReturned">
+			<ToBe>
+				<XPath>variabledata/judgment/dateofgoodsreturned</XPath>
+				<SummaryInfo>Date where good are to be returned</SummaryInfo>
+				<Origin>Q&amp;A
+					<Question>83</Question>
+				</Origin>
+			</ToBe>
+		</XslVariable>
+		<Outputs>
+			<Output>N32(2)</Output>
+			<Output>N32(5)</Output>
+		</Outputs>
+	</row>
+	<row>
+		<WPVariable/>
+		<AsIs>
+			<Code>N32(2)_35</Code>
+			<BriefDescription>Amount entered in response to prompt ‘Amount of unpaid balance’ formatted as money (Not via document variables table)</BriefDescription>
+			<SelectClause>ltrim(to_char(TEXT_ITEM.TEXT_VALUE,’999999.00’))</SelectClause>
+			<WhereClause>TEXT_ITEMS Where case_number = :global.case_number</WhereClause>
+		</AsIs>
+		<XslVariable name="vdUnpaidAmount">
+			<ToBe>
+				<XPath>variabledata/judgment/unpaidamount</XPath>
+				<SummaryInfo>Amount of unpaid balance</SummaryInfo>
+				<Origin>Q&amp;A
+					<Question>84</Question>
+				</Origin>
+			</ToBe>
+		</XslVariable>
+		<Outputs>
+			<Output>N32(2)</Output>
+		</Outputs>
+	</row>
+	<row>
+		<WPVariable/>
+		<AsIs>
+			<Code>N32(2)_26</Code>
+			<BriefDescription>Text printed depending on answer to prompt ‘Hire Purchase Agreement’ (Not via document variables table)</BriefDescription>
+			<SelectClause>‘regulated hire purchase agreement' if ‘Y’ ‘regulated conditional sale agreement’ otherwise</SelectClause>
+			<WhereClause>N/A</WhereClause>
+		</AsIs>
+		<XslVariable name="vdHirePurchaseAgreement">
+			<ToBe>
+				<XPath>variabledata/judgment/hirepurchaseagreement</XPath>
+				<SummaryInfo>Hire purchase agreement. Choose from Y or N</SummaryInfo>
+				<Values>
+					<Value name="Y">Y</Value>
+					<Value name="N">N</Value>
+				</Values>
+				<Origin>Q&amp;A
+					<Question>80</Question>
+				</Origin>
+			</ToBe>
+		</XslVariable>
+		<Outputs>
+			<Output>N32(2)</Output>
+		</Outputs>
+	</row>
+	<row>
+		<WPVariable/>
+		<AsIs>
+			<Code>N32(2)_53</Code>
+			<BriefDescription>Text printed dependant on answer to prompt ‘Is the matter certified fit for Counsel?’ (Not via document variables table)</BriefDescription>
+			<SelectClause>‘Certified as Fit for Counsel' if ‘Y’ otherwise left blank</SelectClause>
+			<WhereClause>N/A</WhereClause>
+		</AsIs>
+		<XslVariable name="vdCertifiedFitForCounsel">
+			<ToBe>
+				<XPath>variabledata/judgment/certifiedfitforcounsel</XPath>
+				<SummaryInfo>Matter is certified fit for counsel. Choose from Y or N</SummaryInfo>
+				<Values>
+					<Value name="Y">Y</Value>
+					<Value name="N">N</Value>
+				</Values>
+				<Origin>Q&amp;A
+					<Question>88</Question>
+				</Origin>
+			</ToBe>
+		</XslVariable>
+		<Outputs>
+			<Output>N32(2)</Output>
+			<Output>N32(5)</Output>
+		</Outputs>
+	</row>
+	<row>
+		<WPVariable/>
+		<AsIs/>
+		<XslVariable name="vdBalanceofTotalPrice">
+			<ToBe/>
+		</XslVariable>
+		<Outputs>
+			<Output>N32(5)</Output>
+		</Outputs>
+	</row>
+	<row>
+		<WPVariable/>
+		<AsIs/>
+		<XslVariable name="vdPaymentDate">
+			<ToBe/>
+		</XslVariable>
+		<Outputs>
+			<Output>N32(5)</Output>
+		</Outputs>
+	</row>
+	<row>
+		<WPVariable>CMF_N442_JDG_STATUS</WPVariable>
+		<AsIs>
+			<Code>CMF_N442_JDG_STATUS</Code>
+			<BriefDescription>IIT</BriefDescription>
+			<SelectClause>decode(jdg.status, 'SET ASIDE', 'CANCELLED', jdg.status)</SelectClause>
+			<WhereClause>judgments jdg, case_events ce where ce.judg_seq = jdg.judg_seq and ce.event_seq = P_EVENT_SEQ</WhereClause>
+		</AsIs>
+		<XslVariable name="vdJudgmentStatus">
+			<ToBe>
+				<XPath>variabledata/judgment/judgmentstatus</XPath>
+				<SummaryInfo>The judgment status, S (Satisfied), C (cancelled) or SA (set aside).</SummaryInfo>
+				<Values>
+					<Value name="S">Satisfied</Value>
+					<Value name="C">cancelled</Value>
+					<Value name="SA">set aside</Value>
+				</Values>
+				<Origin>From Database</Origin>
+			</ToBe>
+		</XslVariable>
+		<Outputs>
+			<Output>N441A</Output>
+			<Output>N442</Output>
+		</Outputs>
+	</row>
+	<row>
+		<WPVariable>CMF_N442_FINAL_DATE</WPVariable>
+		<AsIs>
+			<Code>CMF_N442_FINAL_DATE</Code>
+			<BriefDescription>IIT</BriefDescription>
+			<SelectClause>decode(jdg.status, 'SET ASIDE', to_char(sysdate,'DD fmMonth YYYY'), to_char(jdg.date_of_final_payment,'DD fmMonth YYYY'))</SelectClause>
+			<WhereClause>judgments jdg, case_events ce where ce.judg_seq = jdg.judg_seq and ce.event_seq = P_EVENT_SEQ</WhereClause>
+		</AsIs>
+		<XslVariable name="vdFinalDate"/>
+		<Outputs>
+			<Output>N441A</Output>
+			<Output>N442</Output>
+		</Outputs>
+	</row>
+	<row>
+		<WPVariable>CMF_N441A_TEXT6</WPVariable>
+		<XslVariable>
+			<ExtraInfo>derived ? - n441aText6</ExtraInfo>
+		</XslVariable>
+		<Outputs>
+			<Output>N441A</Output>
+		</Outputs>
+	</row>
+	<row>
+		<WPVariable>CMF_N441A_TEXT7</WPVariable>
+		<XslVariable>
+			<ExtraInfo>derived ? - n441aText7</ExtraInfo>
+		</XslVariable>
+		<Outputs>
+			<Output>N441A</Output>
+		</Outputs>
+	</row>
+	<row>
+		<WPVariable>CMF_N441A_TEXT20</WPVariable>
+		<XslVariable>
+			<ExtraInfo>derived ? - n441aText20</ExtraInfo>
+		</XslVariable>
+		<Outputs>
+			<Output>N441A</Output>
+		</Outputs>
+	</row>
+	<row>
+		<WPVariable/>
+		<XslVariable>
+			<ExtraInfo>derived ? - n441aDefAltAddress</ExtraInfo>
+		</XslVariable>
+		<Outputs>
+			<Output>N441A</Output>
+		</Outputs>
+	</row>
+	<row>
+		<WPVariable>CMF_N441A_CHOICE</WPVariable>
+		<XslVariable>
+			<ExtraInfo>derived ? - n441aChoice</ExtraInfo>
+		</XslVariable>
+		<Outputs>
+			<Output>N441A</Output>
+		</Outputs>
+	</row>
+	<row>
+		<WPVariable>System Date Today</WPVariable>
+		<XslVariable name="datetoday">
+			<ToBe>
+				<XPath>variabledata/today</XPath>
+				<SummaryInfo>Todays Date</SummaryInfo>
+				<Origin>From Server</Origin>
+			</ToBe>
+		</XslVariable>
+		<Outputs>
+			<Output>CJR069</Output>
+			<Output>CJR070</Output>
+			<Output>CJR071</Output>
+		</Outputs>
+	</row>
+	<row>
+		<WPVariable>CMF_DIVISION</WPVariable>
+		<AsIs>
+			<Code>CMF_DIVISION</Code>
+			<BriefDescription>Division (Chancery or Queen's Bench)</BriefDescription>
+			<SelectClause>cm_general.f_division(case_number)</SelectClause>
+			<WhereClause>case_events where event_seq = P_EVENT_SEQ</WhereClause>
+		</AsIs>
+		<Outputs>
+			<Output>CJR010</Output>
+			<Output>CJR011</Output>
+			<Output>CJR012</Output>
+			<Output>CJR013</Output>
+			<Output>CJR014</Output>
+			<Output>CJR022</Output>
+			<Output>CJR023B</Output>
+			<Output>CJR023D</Output>
+			<Output>CJR027</Output>
+			<Output>CJR040</Output>
+			<Output>CJR041</Output>
+			<Output>CJR042</Output>
+			<Output>CJR043</Output>
+			<Output>CJR046</Output>
+			<Output>CJR049</Output>
+			<Output>CJR065</Output>
+			<Output>CJR065A</Output>
+			<Output>CJR065B</Output>
+			<Output>CJR069</Output>
+			<Output>CJR070</Output>
+			<Output>CJR071</Output>
+			<Output>CJR175</Output>
+			<Output>CJR176</Output>
+			<Output>CJR179</Output>
+			<Output>CJR183</Output>
+			<Output>CJR185</Output>
+			<Output>CJR187</Output>
+			<Output>CJR1424</Output>
+			<Output>N35</Output>
+			<Output>N35A</Output>
+			<Output>N32(2)</Output>
+			<Output>N32(5)</Output>
+			<Output>N441A</Output>
+			<Output>N442</Output>
+			<Output>N442R</Output>
+		</Outputs>
+		<XslVariable name="vdDistrictRegistry">
+			<ToBe>
+				<XPath>variabledata/division</XPath>
+				<SummaryInfo>The division, IIT Division (Chancery or Queen's Bench), derived from cm_general.f_division function using the casename as argument. This variable is used as test input for vdCourtDivision to determine output text.</SummaryInfo>
+				<Values>
+					<Value>Q</Value>
+					<Value>C</Value>
+				</Values>
+				<Origin>From Database</Origin>
+			</ToBe>
+		</XslVariable>
+		<XslVariable name="vdClaimantId">
+			<ToBe>
+				<XPath description="mainClaimantId">variabledata/claim/mainclaimantid</XPath>
+				<XPath description="number">variabledata/claim/claimant/number</XPath>
+				<SummaryInfo>If exist variabledata/claim/mainclaimantid(mainClaimantId) then variabledata/claim/mainclaimantid else variabledata/claim/claimant/number(number). Used by vdClaimantName</SummaryInfo>
+				<Values>
+					<Value>&lt;=1</Value>
+				</Values>
+				<Origin description="mainClaimantId">Q&amp;A</Origin>
+				<Origin description="number">From Database</Origin>
+			</ToBe>
+		</XslVariable>
+		<Outputs>
+			<Output>CJR011</Output>
+			<XslVariable name="vdServiceAddressGiven">
+				<ToBe>
+					<XPath>variabledata/notice/serviceaddress/serviceaddressgiven</XPath>
+					<SummaryInfo>ACK if the solicitor acknoledges notice and provides address or ADDR if the defendant provides an address.</SummaryInfo>
+					<Values>
+						<Value name="ACK">ACK</Value>
+						<Value name="ADDR">ADDR</Value>
+						<Value name="NONE">NONE</Value>
+					</Values>
+					<Origin>Q&amp;A
+					<Question>78</Question>
+					</Origin>
+				</ToBe>
+			</XslVariable>
+		</Outputs>
+	</row>
+	<row>
+		<WPVariable>CMF_SERVICE_NAME</WPVariable>
+		<AsIs>
+			<Code>CMF_SERVICE_NAME</Code>
+			<BriefDescription>Selected service name selected from user LOV</BriefDescription>
+			<SelectClause>decode(ti.text_value,'ACK',cm_general.superinitcap(def.solicitor_name),null)</SelectClause>
+			<WhereClause>text_items ti, item_details id, case_events ce,cases cas,defendants def,addresses addr where ti.text_detail_code = id.code and id.domain = 'NEW_SERVICE_ADDR' and ti.text_case_number = ce.case_number and ce.event_seq = P_EVENT_SEQ and cas.case_number = ce.case_number and def.case_number = ce.case_number and def.id = ce.deft_id and def.case_number = addr.deft_case_number and def.id = addr.deft_id and addr.valid_to is null and addr.addr_type = 'SERVICE' and addr.addr_seq = (select max(addr_seq) from addresses addr2 where ce.event_seq = P_EVENT_SEQ and def.case_number = ce.case_number and def.id = nvl(ce.deft_id,1) and def.case_number = addr2.deft_case_number and def.id = addr2.deft_id and addr2.valid_to is null and addr2.addr_type = 'SERVICE')</WhereClause>
+		</AsIs>
+		<Outputs>
+			<Output>CJR011</Output>
+		</Outputs>
+		<XslVariable name="vdServiceName">
+			<ToBe>
+				<XPath>variabledata/notice/servicename</XPath>
+				<SummaryInfo>The party to which the notice is served.</SummaryInfo>
+				<Origin>From Database</Origin>
+			</ToBe>
+		</XslVariable>
+		<Outputs>
+			<Output>N32(2)</Output>
+			<Output>N32(5)</Output>
+			<XslVariable name="vdOrderMadeByConsent">
+				<AsIs>
+					<Code>N32(2)_51</Code>
+					<BriefDescription>Text printed dependant on answer to prompt ‘Is the order made by Consent?’ (Not via document variables table)</BriefDescription>
+					<SelectClause>‘By Consent' if ‘Y’ otherwise left blank</SelectClause>
+					<WhereClause>N/A</WhereClause>
+				</AsIs>
+				<ToBe>
+					<XPath>variabledata/judgment/ordermadebyconsent</XPath>
+					<SummaryInfo>Was order made by consent. Choose from Y or N</SummaryInfo>
+					<Values>
+						<Value name="Y">Y</Value>
+						<Value name="N">N</Value>
+					</Values>
+					<Origin>Q&amp;A
+							<Question>79</Question>
+					</Origin>
+				</ToBe>
+			</XslVariable>
+			<XslVariable name="mainClaimantId">
+				<ToBe>
+					<XPath>variabledata/claim/mainclaimantid</XPath>
+					<SummaryInfo>Used as index for variables vdClaimantReference to identify main claimant</SummaryInfo>
+					<Values>
+						<Value>=&lt; 1</Value>
+					</Values>
+					<Origin>Q&amp;A</Origin>
+				</ToBe>
+			</XslVariable>
+			<XslVariable name="number">
+				<ToBe>
+					<XPath description="claimant ">variabledata/claim/claimant/number</XPath>
+					<XPath description="number">variabledata/claim/defendant/number</XPath>
+					<SummaryInfo>This number is used to index the claimant or defendant </SummaryInfo>
+					<Values>
+						<Value>=&lt; 1</Value>
+					</Values>
+					<Origin>From Database</Origin>
+				</ToBe>
+			</XslVariable>
+			<XslVariable name="mainDefendantId">
+				<ToBe>
+					<XPath>variabledata/claim/maindefendantid</XPath>
+					<SummaryInfo>Used as index for variables vdDefendantName to identify main defendant</SummaryInfo>
+					<Values>
+						<Value>=&lt; 1</Value>
+					</Values>
+					<Origin>Q&amp;A</Origin>
+				</ToBe>
+			</XslVariable>
+		</Outputs>
+	</row>
+	<row>
+		<WPVariable>CMF_COURT_ADDRESS</WPVariable>
+		<AsIs>
+			<Code>CMF_COURT_ADDRESS</Code>
+			<BriefDescription>Court Address</BriefDescription>
+			<SelectClause>replace(initcap(addr.addr_1) || ', ' || initcap(addr.addr_2) || decode(addr.addr_3, null, '', ', ' || initcap(addr.addr_3)) || decode(addr.addr_4, null, '', ', ' || initcap(addr.addr_4)) || decode(addr.addr_5, null, '', ', ' || initcap(addr.addr_5)) || decode(addr.postcode, null, '', ', ' || addr.postcode), ',,', ',')</SelectClause>
+			<WhereClause>personalise per, addresses addr where addr.crt_code = per.crt_code and P_EVENT_SEQ = P_EVENT_SEQ and addr.valid_to is null and addr.addr_type = 'OFFICE'</WhereClause>
+		</AsIs>
+		<XslVariable name="vdCourtAddress">
+			<ToBe>
+				<XPath>variabledata/court/address</XPath>
+				<SummaryInfo>The court address. Combines address line1,2,3,4 and 5 and postcode etc. into 1 varaiable.</SummaryInfo>
+				<Origin>From Database</Origin>
+			</ToBe>
+		</XslVariable>
+		<Outputs>
+			<Output>CJR176</Output>
+		</Outputs>
+	</row>
+	<row>
+		<WPVariable>CMF_COURT_TEL_NO</WPVariable>
+		<AsIs>
+			<Code>CMF_COURT_TEL_NO</Code>
+			<BriefDescription>IIT Court Telephone No</BriefDescription>
+			<SelectClause>crt.tel_no</SelectClause>
+			<WhereClause>personalise per, courts crt where crt.code = per.crt_code and P_EVENT_SEQ = P_EVENT_SEQ</WhereClause>
+		</AsIs>
+		<XslVariable name="vdCourtTelephoneNumber"/>
+		<Outputs>
+			<Output>
+				<ExtraInfo>Used in all templated that have a footer.</ExtraInfo>
+			</Output>
+		</Outputs>
+	</row>
+	<row>
+		<WPVariable>CMF_COURT_FAX_NO</WPVariable>
+		<AsIs>
+			<Code>CMF_COURT_FAX_NO</Code>
+			<BriefDescription>Court Fax No</BriefDescription>
+			<SelectClause>clause crt.fax_no</SelectClause>
+			<WhereClause>personalise per, courts crt where crt.code = per.crt_code and P_EVENT_SEQ = P_EVENT_SEQ</WhereClause>
+		</AsIs>
+		<XslVariable name="vdCourtFaxNumber"/>
+	</row>
+	<row>
+		<WPVariable>CMF_PRODUCED_BY</WPVariable>
+		<XslVariable name="vdProducedBy">
+			<AsIs>
+				<Code>CMF_PRODUCED_BY</Code>
+				<BriefDescription>User producing document</BriefDescription>
+				<SelectClause>user</SelectClause>
+				<WhereClause>case_events where event_seq = P_EVENT_SEQ</WhereClause>
+			</AsIs>
+		</XslVariable>
+		<Outputs>
+			<Output>CJR002</Output>
+			<Output>CJR003</Output>
+			<Output>CJR179</Output>
+			<Output>CJR185</Output>
+			<XslVariable name="vdNumberOfDefendants">
+				<ToBe>
+					<XPath/>
+					<SummaryInfo>This is a count on the defendants in xml data. Performs count(variabledata/claim/defendant). Used by vdDefendantName. Values 0 or more</SummaryInfo>
+					<Origin>derived from count function</Origin>
+				</ToBe>
+			</XslVariable>
+		</Outputs>
+	</row>
+	<row>
+		<WPVariable>CMF_DEEMED_SERVICE_DATE</WPVariable>
+		<AsIs>
+			<Code>CMF_DEEMED_SERVICE_DATE</Code>
+			<BriefDescription>IIT</BriefDescription>
+			<SelectClause>to_char(to_date(ti.text_value, 'DD-MON-YYYY'), 'DD fmMonth YYYY')</SelectClause>
+			<WhereClause>text_items ti, item_details id, case_events ce where ti.text_detail_code = id.code and id.domain = 'DEEMED_SERVICE_DATE' and ti.text_case_number = ce.case_number and ce.event_seq = P_EVENT_SEQ</WhereClause>
+		</AsIs>
+		<XslVariable name="vdServiceDate"/>
+		<Outputs>
+			<Output>CJR002</Output>
+			<Output>CJR003</Output>
+			<Output>CJR179</Output>
+			<Output>CJR183</Output>
+			<Output>CJR185</Output>
+			<Output>CJR188</Output>
+		</Outputs>
+	</row>
+	<row>
+		<WPVariable>CMF_DEFT_HAS_UNTIL</WPVariable>
+		<AsIs>
+			<Code>CMF_DEFT_HAS_UNTIL</Code>
+			<BriefDescription>Date defendant has until to reply</BriefDescription>
+			<SelectClause>to_char(cm_general.f_next_working_day(nvl(def.date_of_service_ro, def.date_of_service_other) + 14), 'DD fmMonth YYYY')</SelectClause>
+			<WhereClause>case_events ce, defendants def where def.id = 1 and def.case_number = ce.case_number and ce.event_seq = P_EVENT_SEQ</WhereClause>
+		</AsIs>
+		<XslVariable name="vdServiceReplyDate"/>
+		<Outputs>
+			<Output>CJR002</Output>
+			<Output>CJR003</Output>
+			<Output>CJR179</Output>
+			<Output>CJR185</Output>
+		</Outputs>
+	</row>
+	<row>
+		<WPVariable>CMF_DATE_POSTED</WPVariable>
+		<AsIs>
+			<Code>CMF_DATE_POSTED</Code>
+			<BriefDescription>IIT Date posted</BriefDescription>
+			<SelectClause>to_char(cm_general.f_n_prior_working_days(nvl(def.date_of_service_ro,def.date_of_service_other),2),'DD fmMonth YYYY')</SelectClause>
+			<WhereClause>case_events ce, defendants def where def.id = 1 and def.case_number = ce.case_number and ce.event_seq = P_EVENT_SEQ</WhereClause>
+		</AsIs>
+		<Outputs>
+			<Output>CJR002</Output>
+			<Output>CJR003</Output>
+			<Output>CJR179</Output>
+			<Output>CJR183</Output>
+			<Output>CJR185</Output>
+			<XslVariable name="vdPostedDate"/>
+		</Outputs>
+		<Outputs>
+			<Output>N441A</Output>
+			<XslVariable name="vdCourtCode">
+				<AsIs/>
+				<ToBe/>
+			</XslVariable>
+		</Outputs>
+		<Outputs>
+			<Output>N441A</Output>
+			<XslVariable name="vdJudgmentCourtCode">
+				<AsIs/>
+				<ToBe/>
+			</XslVariable>
+		</Outputs>
+		<Outputs>
+			<Output>N441A</Output>
+			<XslVariable name="vdJudgmentAddress">
+				<AsIs>
+					<Code>CMF_N441A_JDG_ADDR_1</Code>
+					<BriefDescription>IIT First line of def's address at time of judgment if not current</BriefDescription>
+					<SelectClause>decode(addr.valid_to,null,null,addr.addr_1)</SelectClause>
+					<WhereClause>case_events e, amendments am, judgments j, addresses addr where e.event_seq = P_EVENT_SEQ and am.case_number = e.case_number and am.amend_seq = (select min(am2.amend_seq) from amendments am2 where am2.case_number = e.case_number and am2.case_number = am.case_number) and e.judg_seq = j.judg_seq and addr.deft_id = j.deft_id and addr.addr_seq = (select max(a1.addr_seq) from addresses a1 where a1.addr_type = 'SERVICE' and a1.deft_case_number = e.case_number and a1.deft_id = j.deft_id and ((TO_DATE(TO_CHAR(a1.valid_from,'DD-MON-YY')) &lt;= TO_DATE(TO_CHAR(j.judgment_date,'DD-MON-YY')) and (TO_DATE(TO_CHAR(a1.valid_to,'DD-MON-YY')) &gt;= TO_DATE(TO_CHAR(j.judgment_date,'DD-MON-YY')) or a1.valid_to is null)) or (TO_DATE(TO_CHAR(j.judgment_date,'DD-MON-YY')) TO_DATE(TO_CHAR(am.amend_date,'DD-MON-YY')) and a1.valid_to is null)))</WhereClause>
+				</AsIs>
+				<AsIs>
+					<Code>CMF_N441A_JDG_ADDR_2</Code>
+					<BriefDescription>IIT Requires amending 'or valid_to is null'</BriefDescription>
+					<SelectClause>decode(addr.valid_to, null, null, addr.addr_2)</SelectClause>
+					<WhereClause>case_events e, amendments am, judgments j, addresses addr where e.event_seq = P_EVENT_SEQ and am.case_number = e.case_number and am.amend_seq = (select min(am2.amend_seq) from amendments am2where am2.case_number = e.case_number and am2.case_number = am.case_number) and e.judg_seq = j.judg_seq and addr.deft_id = j.deft_id and addr.addr_seq = (select max(a1.addr_seq) from addresses a1 where a1.addr_type = 'SERVICE' and a1.deft_case_number = e.case_number and a1.deft_id = j.deft_id and ((TO_DATE(TO_CHAR(a1.valid_from,'DD-MON-YY')) &gt;= TO_DATE(TO_CHAR(j.judgment_date,'DD-MON-YY')) and (TO_DATE(TO_CHAR(a1.valid_to,'DD-MON-YY')) >= TO_DATE(TO_CHAR(j.judgment_date,'DD-MON-YY')) or a1.valid_to is null)) or (TO_DATE(TO_CHAR(j.judgment_date,'DD-MON-YY')) TO_DATE(TO_CHAR(am.amend_date,'DD-MON-YY')) and a1.valid_to is null)))</WhereClause>
+				</AsIs>
+				<AsIs>
+					<Code>CMF_N441A_JDG_ADDR_3</Code>
+					<BriefDescription>IIT Requires amending 'or valid_to is null'</BriefDescription>
+					<SelectClause>decode(addr.valid_to, null, null, addr.addr_3)</SelectClause>
+					<WhereClause>case_events e, amendments am, judgments j, addresses addr where e.event_seq = P_EVENT_SEQ and am.case_number = e.case_number and am.amend_seq = (select min(am2.amend_seq) from amendments am2 where am2.case_number = e.case_number and am2.case_number = am.case_number) and e.judg_seq = j.judg_seq and addr.deft_id = j.deft_id and addr.addr_seq = (select max(a1.addr_seq) from addresses a1 where a1.addr_type = 'SERVICE' and a1.deft_case_number = e.case_number and a1.deft_id = j.deft_id and ((TO_DATE(TO_CHAR(a1.valid_from,'DD-MON-YY')) &lt;= TO_DATE(TO_CHAR(j.judgment_date,'DD-MON-YY')) and (TO_DATE(TO_CHAR(a1.valid_to,'DD-MON-YY')) >= TO_DATE(TO_CHAR(j.judgment_date,'DD-MON-YY')) or a1.valid_to is null)) or (TO_DATE(TO_CHAR(j.judgment_date,'DD-MON-YY')) TO_DATE(TO_CHAR(am.amend_date,'DD-MON-YY')) and a1.valid_to is null)))</WhereClause>
+				</AsIs>
+				<AsIs>
+					<Code>CMF_N441A_JDG_ADDR_4</Code>
+					<BriefDescription>IIT Requires amending 'or valid_to is null'</BriefDescription>
+					<SelectClause>decode(addr.valid_to, null, null, addr.addr_4)</SelectClause>
+					<WhereClause>case_events e, amendments am, judgments j, addresses addr where e.event_seq = P_EVENT_SEQ and am.case_number = e.case_number and am.amend_seq = (select min(am2.amend_seq) from amendments am2 where am2.case_number = e.case_number and am2.case_number = am.case_number) and e.judg_seq = j.judg_seq and addr.deft_id = j.deft_id and addr.addr_seq = (select max(a1.addr_seq) from addresses a1 where a1.addr_type = 'SERVICE' and a1.deft_case_number = e.case_number and a1.deft_id = j.deft_id and ((TO_DATE(TO_CHAR(a1.valid_from,'DD-MON-YY')) &lt;= TO_DATE(TO_CHAR(j.judgment_date,'DD-MON-YY')) and (TO_DATE(TO_CHAR(a1.valid_to,'DD-MON-YY')) >= TO_DATE(TO_CHAR(j.judgment_date,'DD-MON-YY')) or a1.valid_to is null)) or (TO_DATE(TO_CHAR(j.judgment_date,'DD-MON-YY')) TO_DATE(TO_CHAR(am.amend_date,'DD-MON-YY')) and a1.valid_to is null)))</WhereClause>
+				</AsIs>
+				<AsIs>
+					<Code>CMF_N441A_JDG_ADDR_5</Code>
+					<BriefDescription>IIT Requires amending 'or valid_to is null'</BriefDescription>
+					<SelectClause>decode(addr.valid_to, null, null, addr.addr_5)</SelectClause>
+					<WhereClause>case_events e, amendments am, judgments j, addresses addr where e.event_seq = P_EVENT_SEQ and am.case_number = e.case_number and am.amend_seq = (select min(am2.amend_seq) from amendments am2 where am2.case_number = e.case_number and am2.case_number = am.case_number) and e.judg_seq = j.judg_seq and addr.deft_id = j.deft_id and addr.addr_seq = (select max(a1.addr_seq) from addresses a1 where a1.addr_type = 'SERVICE' and a1.deft_case_number = e.case_number and a1.deft_id = j.deft_id and ((TO_DATE(TO_CHAR(a1.valid_from,'DD-MON-YY')) &lt;= TO_DATE(TO_CHAR(j.judgment_date,'DD-MON-YY')) and (TO_DATE(TO_CHAR(a1.valid_to,'DD-MON-YY')) >= TO_DATE(TO_CHAR(j.judgment_date,'DD-MON-YY')) or a1.valid_to is null)) or (TO_DATE(TO_CHAR(j.judgment_date,'DD-MON-YY')) TO_DATE(TO_CHAR(am.amend_date,'DD-MON-YY')) and a1.valid_to is null)))</WhereClause>
+				</AsIs>
+				<AsIs>
+					<Code>CMF_N441A_JDG_POSTCODE</Code>
+					<BriefDescription>IIT Requires amending 'or valid_to is null'</BriefDescription>
+					<SelectClause>decode(addr.valid_to, null, null, addr.postcode)</SelectClause>
+					<WhereClause>case_events e, amendments am, judgments j, addresses addr where e.event_seq = P_EVENT_SEQ and am.case_number = e.case_number and am.amend_seq = (select min(am2.amend_seq) from amendments am2 where am2.case_number = e.case_number and am2.case_number = am.case_number) and e.judg_seq = j.judg_seq and addr.deft_id = j.deft_id and addr.addr_seq = (select max(a1.addr_seq) from addresses a1 where a1.addr_type = 'SERVICE' and a1.deft_case_number = e.case_number and a1.deft_id = j.deft_id and ((TO_DATE(TO_CHAR(a1.valid_from,'DD-MON-YY')) &lt;= TO_DATE(TO_CHAR(j.judgment_date,'DD-MON-YY')) and (TO_DATE(TO_CHAR(a1.valid_to,'DD-MON-YY')) >= TO_DATE(TO_CHAR(j.judgment_date,'DD-MON-YY')) or a1.valid_to is null)) or (TO_DATE(TO_CHAR(j.judgment_date,'DD-MON-YY')) TO_DATE(TO_CHAR(am.amend_date,'DD-MON-YY')) and a1.valid_to is null)))</WhereClause>
+				</AsIs>
+				<ToBe>
+					<XPath>variabledata/judgment/address</XPath>
+					<SummaryInfo>The address of the court giving the Judgment</SummaryInfo>
+					<Origin>From Database</Origin>
+				</ToBe>
+			</XslVariable>
+		</Outputs>
+		<Outputs>
+			<Output>CJR175</Output>
+			<XslVariable name="vdApplicationInstigator">
+				<ToBe>
+					<XPath description="exists">	variabledata/order/applicationInstigatorother</XPath>
+					<XPath>variabledata/order/applicationInstigator</XPath>
+					<SummaryInfo>The instigator of the application: CLM (Claimant), DEF (Defendant), OTH (Other)</SummaryInfo>
+					<Values>
+						<Value name="CLM">Claimant</Value>
+						<Value name="DEF">Defendant</Value>
+						<Value name="OTH">Other</Value>
+					</Values>
+					<Origin>Q&amp;A
+						<Question>28</Question>
+						<Question>29</Question>
+					</Origin>
+				</ToBe>
+			</XslVariable>
+			<XslVariable name="vdDocumentServiceOther">
+				<ToBe>
+					<XPath>variabledata/order/docserviceother</XPath>
+					<SummaryInfo>The free text if OTH is chosen in vdDocumentService</SummaryInfo>
+					<Origin>Q&amp;A</Origin>
+				</ToBe>
+			</XslVariable>
+			<XslVariable name="vdPartyServiceOther">
+				<ToBe>
+					<XPath>variabledata/order/partyserviceother</XPath>
+					<SummaryInfo>The freetext if OTH is chosen in vdPartyService</SummaryInfo>
+					<Origin>Q&amp;A</Origin>
+				</ToBe>
+			</XslVariable>
+		</Outputs>
+	</row>
+	<row>
+		<WPVariable/>
+		<XslVariable name="vdHearingReasonClaimantDefendant">
+			<ToBe>
+				<XPath>variabledata/claim/hearing/hearingreasonclaimantdefendant</XPath>
+				<SummaryInfo>Whether the claimant/defendant is the reason for cancelling the hearing. Choose from CLM (claimant) and DEFT (defendant).</SummaryInfo>
+				<Values>
+					<Value>CLM<ExtraInfo>Claimant</ExtraInfo>
+					</Value>
+					<Value>DEF<ExtraInfo>Defendant</ExtraInfo>
+					</Value>
+				</Values>
+				<Origin>Q&amp;A
+					<Question>70</Question>
+				</Origin>
+			</ToBe>
+		</XslVariable>
+		<Outputs>
+			<Output>N023D</Output>
+		</Outputs>
+	</row>
+	<row>
+		<WPVariable/>
+		<XslVariable name="vdHearingListed">
+			<ToBe>
+				<XPath>variabledata/claim/hearing/hearinglisted</XPath>
+				<SummaryInfo>Listed hearing. Choose from Y or N.</SummaryInfo>
+				<Values>
+					<Value name="Y">YES</Value>
+					<Value name="N">NO</Value>
+				</Values>
+				<Origin>Q&amp;A
+					<Question>10</Question>
+				</Origin>
+			</ToBe>
+		</XslVariable>
+		<Outputs>
+			<Output>CJR046</Output>
+		</Outputs>
+	</row>
+	<row>
+		<WPVariable>CMF_SC_ALLOC_REASON</WPVariable>
+		<AsIs>
+			<Code>CMF_SC_ALLOC_REASON</Code>
+			<BriefDescription>Reasons for allocation have been given</BriefDescription>
+			<SelectClause>decode(ti.text_value, 'NR', null, 'R', 'The reason the judge has given for allocation to this track is that ' || lower(ti2.text_value) ||'.', 'RS', 'The reasons the judge has given for allocation to this track are that ' || lower(ti2.text_value) ||'.')</SelectClause>
+			<WhereClause>text_items ti, item_details id, text_items ti2, item_details id2, case_events ce where ti.text_detail_code = id.code and id.domain = 'ALLOC_REASON_GIVEN' and ti.text_case_number = ce.case_number and ti2.text_detail_code = id2.code and id2.domain = 'ALLOCATION_REASON' and ti2.text_case_number = ce.case_number and ce.event_seq = P_EVENT_SEQ</WhereClause>
+		</AsIs>
+		<XslVariable name="vdAllocationReasonGiven">
+			<ToBe>
+				<XPath>variabledata/notice/allocationreasongiven</XPath>
+				<SummaryInfo>Is allocation reason given. Y YES or N NO.</SummaryInfo>
+				<Values>
+					<Value name="Y">YES</Value>
+					<Value name="N">NO</Value>
+				</Values>
+				<Origin>Q&amp;A
+				<Question>67</Question>
+				</Origin>
+			</ToBe>
+		</XslVariable>
+		<Outputs>
+			<Output>CJR023D</Output>
+		</Outputs>
+	</row>
+</rows>

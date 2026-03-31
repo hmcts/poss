@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>222</Id>
+	<Label>Are the fees limited?</Label>
+	<ObjectName>IsFeesLmtd</ObjectName>
+	<Html>	
+		<input type="checkbox" id="IsFeesLmtd"></input>
+	</Html>
+	<Javascript>
+		<XPath>/ds/EnterVariableData/FastTrack/isFeesLmtd</XPath>
+		<HintText>Check box if the fees are limited</HintText>
+		<isMandatory>return true;</isMandatory>	
+		<modelValue>checked: "Y", unchecked: "N"</modelValue>
+		<enableOn>IsSingleExpert.dataBinding, FeesAndExpenses.dataBinding</enableOn>
+		<isEnabled>return('Y' == Services.getValue(IsSingleExpert.dataBinding) &amp;&amp;
+						'Y' == Services.getValue(FeesAndExpenses.dataBinding));
+		</isEnabled>
+		<logicOn>IsSingleExpert.dataBinding, FeesAndExpenses.dataBinding</logicOn>
+		<logic>
+			if('Y' != Services.getValue(IsSingleExpert.dataBinding) ||
+				'Y' != Services.getValue(FeesAndExpenses.dataBinding))
+			{	Services.setValue(IsFeesLmtd.dataBinding, "N");
+			}
+		</logic>
+	</Javascript>
+</Question>

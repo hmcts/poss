@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<QueryDef>
+	<DBMapDef location="uk/gov/dca/caseman/obligation_service/map_delete_obligation.xml"/>
+	<Query pivotNode="/Obligation" tables="O">
+		<Join/>
+		<Modify>
+			<CheckExists table="O" fields="CASE_NUMBER" onExist="update"/>
+			<!-- <Field name="O.CASE_NUMBER" xpath=" ${param.caseNumber} "/> -->
+			<SQL type="update" tables="O">
+				UPDATE OBLIGATIONS O set O.LAST_USED_BY =  ${O.LAST_USED_BY}, O.DELETE_FLAG = 'Y'
+				WHERE O.CASE_NUMBER = ${O.CASE_NUMBER}  AND O.OBLIGATION_TYPE = ${O.OBLIGATION_TYPE}  
+				AND O.EVENT_SEQ IS NULL
+			</SQL>
+		</Modify>
+	</Query>
+</QueryDef>

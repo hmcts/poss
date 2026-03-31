@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: QBP
+	Method:  getWarrantParties()
+	File:    add_warrant_parties.xml
+	Author:  Tim Connor (EDS)
+	Created: 18 April 2005
+	Description: 
+		Retrieves a list of parties on warrant records based upon a wildcard search on a number
+		of fields for the Query By Party (Warrant) screen.
+-->
+<!--
+Change History:
+	DJW 05/06/2006: W.LIVE (outstanding warrants) algorithm updated (TD 3366)
+	CV 05/01/2007: Added executing court code to the query (Temp_CaseMan 317)
+		Change History
+		
+		Chris Hutt 	26 sept 2007 
+					Query changed to avoid OR's and NULL tests by use of NVL (in response to a performance requirement)
+					
+		Chris Hutt 4th October 2007 : Performance
+     				Calls java class to generate dynamic Sql
+-->
+<service-method>
+	<pipeline>
+		<Query>
+			<QueryDef location="uk/gov/dca/caseman/qbp_service/query_def_warrantparties.xml"/>
+			<QueryExtension pivotNode="/PartyQueryResults/PartyQueryResult">
+				<Param name="owningCourtCode" xpath="/params/param[@name = 'owningCourtCode']"/>
+				<Param name="caseNumber" xpath="/params/param[@name= 'caseNumber']"/>
+				<Param name="CONumber" xpath="/params/param[@name= 'CONumber']"/>
+				<Param name="partyName" xpath="/params/param[@name= 'partyName']"/>
+				<Param name="address1" xpath="/params/param[@name= 'address1']"/>
+				<Param name="address2" xpath="/params/param[@name= 'address2']"/>
+				<Param name="postCode" xpath="/params/param[@name= 'postCode']"/>
+				<Param name="owningCourtName" xpath="/params/param[@name= 'owningCourtName']"/>
+				<Param name="executingCourtCode" xpath="/params/param[@name= 'executingCourtCode']"/>
+				<Param name="executingCourtName" xpath="/params/param[@name= 'executingCourtName']"/>
+				<Param name="pageNumber" xpath="/params/param[@name= 'pageNumber']"/>		
+				<Param name="pageSize" xpath="/params/param[@name= 'pageSize']"/>				
+	
+				<SQL type="select" generator="uk.gov.dca.caseman.qbp_service.java.QbpWarrantSearchGenerator"/>											
+
+			</QueryExtension>
+		</Query>
+	</pipeline>
+	<Security roles="viewOnly medium high wcSuper scSuper bmsSuper aeSuper dmSuper cpSuper ccbcMan ccbcUser ccbcSGB2"/>		
+</service-method>

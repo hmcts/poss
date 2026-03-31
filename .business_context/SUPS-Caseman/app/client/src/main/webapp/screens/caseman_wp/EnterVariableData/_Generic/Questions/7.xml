@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>7</Id>
+	<Label>Details of documents to be filed</Label>
+	<ObjectName>DocDetails</ObjectName>
+	<Html>
+		<textarea id="DocDetails" rows="6" cols="60"> 
+		</textarea>
+	</Html>
+	<Context screenId="CJR020"><isVisible>false</isVisible></Context>
+	<Javascript>
+		<XPath>/ds/EnterVariableData/Documents/filedDetails</XPath>
+		<componentName>##label##</componentName>
+		<HintText>Enter the details of documents to be filed</HintText>
+		<isMandatory>return true;</isMandatory>
+		<mandatoryOn>DocDetails.dataBinding</mandatoryOn>
+		<transformToModel>return WPU.encodeLineBreaks( this, value );</transformToModel>
+		<transformToDisplay>return WPU.decodeLineBreaks( this, value );</transformToDisplay>
+	</Javascript>
+</Question>

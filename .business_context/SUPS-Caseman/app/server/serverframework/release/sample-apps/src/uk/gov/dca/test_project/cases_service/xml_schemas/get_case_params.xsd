@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- a simple schema to test that input parameters can be validated -->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" attributeFormDefault="unqualified">
+	<xs:element name="params">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="param" type="courtParamType" minOccurs="0" maxOccurs="1"/>
+				<xs:element name="param" type="businessProcessParamType" minOccurs="0" maxOccurs="1"/>
+				<xs:element name="param" type="caseParamType" minOccurs="1" maxOccurs="1"/>
+				<xs:element name="param" type="userParamType" minOccurs="0" maxOccurs="1"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+
+	<xs:complexType name="courtParamType">
+    	<xs:simpleContent>
+    		<xs:extension base="xs:string">
+    			<xs:attribute name="name" use="required">
+					<xs:simpleType>
+    					<xs:restriction base="xs:string">
+      						<xs:pattern value="courtId"/>
+    					</xs:restriction>
+					</xs:simpleType>
+				</xs:attribute>
+			</xs:extension>
+    	</xs:simpleContent>
+	</xs:complexType>
+
+	<xs:complexType name="businessProcessParamType">
+    	<xs:simpleContent>
+    		<xs:extension base="xs:string">
+    			<xs:attribute name="name" use="required">
+					<xs:simpleType>
+    					<xs:restriction base="xs:string">
+      						<xs:pattern value="businessProcessId"/>
+    					</xs:restriction>
+					</xs:simpleType>
+				</xs:attribute>
+			</xs:extension>
+    	</xs:simpleContent>
+	</xs:complexType>
+	
+	<xs:complexType name="caseParamType">
+    	<xs:simpleContent>
+    		<xs:extension base="xs:string">
+    			<xs:attribute name="name" use="required">
+					<xs:simpleType>
+    					<xs:restriction base="xs:string">
+      						<xs:pattern value="caseNumber"/>
+    					</xs:restriction>
+					</xs:simpleType>
+				</xs:attribute>
+			</xs:extension>
+    	</xs:simpleContent>
+	</xs:complexType>
+	
+	<xs:complexType name="userParamType">
+    	<xs:simpleContent>
+    		<xs:extension base="xs:string">
+    			<xs:attribute name="name" use="required">
+					<xs:simpleType>
+    					<xs:restriction base="xs:string">
+      						<xs:pattern value="userId"/>
+    					</xs:restriction>
+					</xs:simpleType>
+				</xs:attribute>
+			</xs:extension>
+    	</xs:simpleContent>
+	</xs:complexType>
+	
+</xs:schema>

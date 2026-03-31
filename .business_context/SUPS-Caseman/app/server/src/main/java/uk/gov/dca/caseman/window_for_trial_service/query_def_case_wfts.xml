@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	v1.0 Chris Hutt 2/2/2005
+	
+	To enable excluded dates to be amended an approach has been adopted of initially removing all
+	excluded dates and then adding the actual excluded dates associated with this update
+-->
+<QueryDef>
+	<DBMapDef location="uk/gov/dca/caseman/window_for_trial_service/map_case_wfts.xml"/>
+	<Query pivotNode="/WindowsForTrial/WindowForTrial" tables="WFT">
+	   	<Join/>
+	   	<Modify/>
+	</Query>
+	<!--
+	<Query pivotNode="/WindowsForTrial/WindowForTrial/DatesSet" tables="WFT">
+	  <SQL type="select">
+		SELECT 'false' AS "WFT.DATES_SET" 
+		FROM DUAL
+      	  </SQL>
+          <Modify notModifiable="true"/>
+	</Query>
+	-->
+		<Query pivotNode="/WindowsForTrial/WindowForTrial/WftStatus" tables="WFT">
+		  <SQL type="select">
+			SELECT 'EXISTING' AS "WFT.WFT_STATUS" 
+			FROM DUAL
+	      	  </SQL>
+	          <!-- Modify notModifiable="true"/ -->
+	          <Modify>
+	          	<CheckExists table="wft" fields="wft_id wft_case_number wft_status " onExist="skip" onNotExist="skip"/>
+	          </Modify>
+	</Query>
+          <Query pivotNode="/WindowsForTrial/WindowForTrial/Dates" tables="WFE">
+	  	<Join>
+	  	</Join>	
+	  	<Modify>
+			<CheckExists table="WFE" fields="WFE_WFT_CASE_NUMBER " onNotExist="skip" onExist="delete"/>		
+			<Field name="WFE.WFE_WFT_CASE_NUMBER" property="WFT.WFT_CASE_NUMBER"/>
+		</Modify>
+	  </Query>
+          <Query pivotNode="/WindowsForTrial/WindowForTrial/Dates/Date" tables="WFE">
+	  	<Join>
+	  	     WFE.WFE_WFT_CASE_NUMBER = ${WFT.WFT_CASE_NUMBER}
+	  	     AND WFE.WFE_WFT_ID = ${WFT.WFT_ID}
+	  	</Join>	
+	  	<Modify>
+			<CheckExists table="WFE" fields="WFE_EXCLUSION_DATE WFE_WFT_CASE_NUMBER WFE_WFT_ID " onNotExist="add" onExist="update"/>		
+			<Field name="WFE.WFE_WFT_CASE_NUMBER" property="WFT.WFT_CASE_NUMBER"/>
+			<Field name="WFE.WFE_WFT_ID" property="WFT.WFT_ID"/>
+		</Modify>
+	  </Query>
+</QueryDef>
+
+
+             

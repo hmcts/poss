@@ -1,0 +1,19 @@
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>569</Id>
+	<Label>Date application considered</Label>
+	<ObjectName>AppConsideredDate</ObjectName>
+	<Html>	
+		<script type="text/javascript">
+			WP_DatePickerRenderer.createInline("AppConsideredDate");
+		</script>
+	</Html>			
+	<Javascript>
+		<XPath>/ds/EnterVariableData/Interlocutory/appConsideredDate</XPath>
+		<componentName>##label##</componentName>
+		<isMandatory>return true;</isMandatory>
+		<HintText>Enter the date in the format DD-MMM-YYYY</HintText>
+		<validateOn>AppConsideredDate.dataBinding</validateOn>
+        <validate>return( isInPast(Services.getValue(AppConsideredDate.dataBinding)));</validate>
+					
+	</Javascript>
+</Question>

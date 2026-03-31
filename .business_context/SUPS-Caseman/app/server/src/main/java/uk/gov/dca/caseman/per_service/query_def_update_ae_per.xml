@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: Per
+	Method:  updateAePer()
+	File:    query_def_update_ae_per.xml
+	Author:  Phil Haferer (EDS), Ian Stainer (Valtech)
+	Created: 07 June 2005
+	Description: 
+		Add/Update AE protected earnings rate details.
+-->
+<QueryDef>
+  <DBMapDef location="uk/gov/dca/caseman/per_service/map_update_ae_per.xml"/>
+  <Query pivotNode="/ds/CalculatePER" tables="AEA">
+    <Join/>
+    <Modify/>
+  </Query>
+  <Query pivotNode="/ds/CalculatePER/PerDetail" tables="API">
+    <Join/>
+    <Modify>
+		<!-- Only update those AE_PER_ITEMS which have a Status of NEW or MODIFIED,
+		     (i.e. not EXISTING). -->
+		<CheckExists 
+			condition="./Status != 'EXISTING'"
+			onConditionTrue="continue" onConditionFalse="skip"
+			table="API" fields="AE_PER_SEQ" onNotExist="add" onExist="update"/>
+
+		<Field name="API.AE_PER_SEQ" sequenceTable="AE_PER_SEQ"/>
+		<Field name="API.AE_NUMBER"  property="AEA.AE_NUMBER"/>
+    </Modify>
+  </Query>
+</QueryDef>

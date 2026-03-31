@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--Question xmlns="http://eds.com/questionxhtml" xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd"-->
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>Q_IsMaintenancePayment</Id>
+	<Label>Creditor applied for AE on ongoing maintenance payment?</Label>
+	<ObjectName>IsMaintenancePayment</ObjectName>
+	<Html>
+		<input id="IsMaintenancePayment" type="checkbox"/>
+	</Html>
+	<Javascript>
+		<XPath>/ds/var/page/OracleReportForm/IsMaintenancePayment</XPath>
+		<ReportVariableName>REPORT_VALUE_10</ReportVariableName>
+		<ReportVariableValue>returnDefault(Services.getValue(IsMaintenancePayment.dataBinding))</ReportVariableValue>
+		<ReportVariableCode>9361</ReportVariableCode>
+		<HintText></HintText>
+		<isMandatory>return true;</isMandatory>
+		<initialise></initialise>
+		<setDefault>
+			Services.setValue(IsMaintenancePayment.dataBinding, "N");
+		</setDefault>		
+		<validateOn>
+		</validateOn>
+		<validate>
+		</validate>
+		<miscCode>
+			IsMaintenancePayment.modelValue = {checked: 'Y', unchecked: 'N'};
+			function returnDefault(value)
+			{
+				if (value == null)
+				{
+					return "N";
+				}
+				else
+				{
+					return value;
+				}
+			}			
+		</miscCode>
+	</Javascript>
+</Question>

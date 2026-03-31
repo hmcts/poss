@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<service-method>
+	<pipeline>
+		<Query>
+			<QueryDef location="uk/gov/dca/caseman/rejectedWarrants_service/summary_rejected_warrants_query_def.xml"/>
+			
+			<QueryExtension pivotNode="/RejectedWarrants/RejectedWarrant">
+				<Param name="param.CredCode" xpath="/params/param[@name='Rejected_Warrants_Query']/Query/CredCode"/>
+				<Param name="param.CaseNumber" xpath="/params/param[@name='Rejected_Warrants_Query']/Query/CaseNumber"/>
+				<Param name="param.WarrantNumber" xpath="/params/param[@name='Rejected_Warrants_Query']/Query/WarrantNumber"/>
+				<Param name="param.ClaimantDetails" xpath="/params/param[@name='Rejected_Warrants_Query']/Query/ClaimantDetails"/>
+				<Param name="param.CustomerFileSeq" xpath="/params/param[@name='Rejected_Warrants_Query']/Query/CustomerFileSeq"/>
+				<Param name="param.DefendantName" xpath="/params/param[@name='Rejected_Warrants_Query']/Query/DefendantName"/>
+			
+		
+		
+		
+				<Constraint condition="/params/param[@name='Rejected_Warrants_Query']/Query/CredCode !=''" >
+					RW.CRED_CODE = ${param.CredCode}
+				</Constraint>
+				<Constraint condition="/params/param[@name='Rejected_Warrants_Query']/Query/CaseNumber !=''" >
+					RW.CASE_NUMBER = ${param.CaseNumber}
+				</Constraint>
+				<Constraint condition="/params/param[@name='Rejected_Warrants_Query']/Query/WarrantNumber !=''" >
+					RW.WARRANT_NUMBER = ${param.WarrantNumber}
+				</Constraint>
+				<Constraint condition="/params/param[@name='Rejected_Warrants_Query']/Query/CustomerFileSeq !=''" >
+					RW.CUST_FILE_SEQUENCE = ${param.CustomerFileSeq}
+				</Constraint>
+			
+				<Constraint condition="/params/param[@name='Rejected_Warrants_Query']/Query/ClaimantDetails !=''"  generator="uk.gov.dca.caseman.common.java.sql.LikeEqualsSQLGenerator" param="param.ClaimantDetails" column="RW.CLAIMANT_DETAILS" />
+				<Constraint condition="/params/param[@name='Rejected_Warrants_Query']/Query/DefendantName !=''"  generator="uk.gov.dca.caseman.common.java.sql.LikeEqualsSQLGenerator" param="param.DefendantName" column="RW.DEFENDANT_NAME" />
+		
+			</QueryExtension>
+
+		</Query>
+	</pipeline>
+	<Security roles="ccbcMan ccbcUser"/>
+</service-method>

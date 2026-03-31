@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<DBMapDef>
+  <DataSource id="java:OracleDS"/>
+  <Tables>
+    <Table alias="SD"   name="SYSTEM_DATA"/>
+    <Table alias="CCBC" name="CCBC_REF_CODES"/>
+  </Tables>
+  <Mapping>
+     <CourtFeeData>
+	<SystemDataList>
+		<SystemData>
+			<Item>${SD.ITEM}</Item>
+			<ItemValue>${SD.ITEM_VALUE}</ItemValue>
+			<ItemValueCurrency>${SD.ITEM_VALUE_CURRENCY}</ItemValueCurrency>
+		</SystemData>
+	</SystemDataList>
+        <BandList>
+           <Band>
+		<Boundary>${CCBC.RV_LOW_VALUE}</Boundary>
+		<Limit>${CCBC.RV_HIGH_VALUE}</Limit>
+	   </Band>
+        </BandList>
+     </CourtFeeData>
+  </Mapping>
+</DBMapDef>

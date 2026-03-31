@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	19/12/2006 - CV - Added F6 keybinding to LOV via ReasonThatClaimIsReferredLOVGrid.raise configuration.
+	Temp_Caseman defects 299/334.
+-->
+<!--Question xmlns="http://eds.com/questionxhtml" xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd"-->
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>Q_ReasonThatClaimIsReferred</Id>
+	<Label>Reason That Claim Is Referred</Label>
+	<ObjectName>ReasonThatClaimIsReferred</ObjectName>
+	<Html> 
+		<input id="ReasonThatClaimIsReferred" type="text" size="40" > </input>
+		<input id="ReasonThatClaimIsReferredLOVButton" type="Button" value="LOV"></input>
+        <script type="text/javascript">
+              LOVPopupRenderer.createInline( "ReasonThatClaimIsReferredLOVGrid", "Reason That Claim Is Referred", ["Value", "Description"], 10, 1, true );
+        </script>		
+	</Html>
+	<Javascript>
+		<XPath>/ds/var/page/OracleReportForm/ReasonThatClaimIsReferred</XPath>
+		<ReportVariableName>REQ_REASON</ReportVariableName>
+		<ReportVariableValue>Services.getValue(ReasonThatClaimIsReferred.dataBinding)</ReportVariableValue>
+		<ReportVariableCode>2410</ReportVariableCode>
+		<HintText></HintText>
+		<isMandatory>return true;</isMandatory>
+		<initialise>
+		</initialise>
+		<setDefault>
+		</setDefault>
+		<validateOn>
+		</validateOn>
+		<validate>
+			var description = Services.getValue(REF_DATA_XPATH + "/ReasonThatClaimIsReferredList/ReasonThatClaimIsReferred[./Value = " + ReasonThatClaimIsReferred.dataBinding + "]/Description");
+			var valueTest = Services.getValue( REF_DATA_XPATH + "/ReasonThatClaimIsReferredList/ReasonThatClaimIsReferred[./Description = " + ReasonThatClaimIsReferred.dataBinding + "]/Value" );
+			if (description == null &amp;&amp; valueTest == null)
+			{
+				// This is not a valid value - see list of Values
+				return ErrorCode.getErrorCode("CaseMan_Reports_Invalid_LOV_Msg");
+			}
+			else
+			{
+				return null;
+			}
+		</validate>
+		<transformToDisplay>
+			var description = Services.getValue( REF_DATA_XPATH + "/ReasonThatClaimIsReferredList/ReasonThatClaimIsReferred[./Value = " + ReasonThatClaimIsReferred.dataBinding + "]/Description" );
+			if (description != null)
+			{
+				return description;
+			}
+			else
+			{
+				return value;
+			}
+	    </transformToDisplay>
+        <transformToModel>
+             return (null != value) ? value.toUpperCase() : null;
+        </transformToModel>
+		<miscCode>
+		  
+		  ReasonThatClaimIsReferred.initialise = function() 
+		  { 
+				dom = getList("../LOV/ReasonThatClaimIsReferredList.xml"); 
+				Services.addNode(dom, REF_DATA_XPATH);
+				return false; 
+		  }
+		  
+		  	ReasonThatClaimIsReferred.srcData 	     = REF_DATA_XPATH + "/ReasonThatClaimIsReferredList";
+			ReasonThatClaimIsReferred.rowXPath 	     = "ReasonThatClaimIsReferred";
+			ReasonThatClaimIsReferred.keyXPath 	     = "Value";
+			
+			function ReasonThatClaimIsReferredLOVButton() {}
+			
+			ReasonThatClaimIsReferredLOVButton.tabIndex = __tabIdx++;
+			
+			function ReasonThatClaimIsReferredLOVGrid() {};
+			ReasonThatClaimIsReferredLOVGrid.dataBinding = ReasonThatClaimIsReferred.dataBinding;
+			ReasonThatClaimIsReferredLOVGrid.srcData 	 = REF_DATA_XPATH + "/ReasonThatClaimIsReferredList";
+			ReasonThatClaimIsReferredLOVGrid.rowXPath    = "ReasonThatClaimIsReferred";
+			ReasonThatClaimIsReferredLOVGrid.keyXPath    = "Value";
+			ReasonThatClaimIsReferredLOVGrid.columns     = [
+				{xpath: "Value"},
+				{xpath: "Description"}
+			];
+			ReasonThatClaimIsReferredLOVGrid.raise = {
+				eventBinding: {
+					singleClicks: [ {element: "ReasonThatClaimIsReferredLOVButton"} ],
+					keys: [ { key: Key.F6, element: "ReasonThatClaimIsReferred" } ]
+				}
+			};
+
+		</miscCode>
+	</Javascript>
+</Question>

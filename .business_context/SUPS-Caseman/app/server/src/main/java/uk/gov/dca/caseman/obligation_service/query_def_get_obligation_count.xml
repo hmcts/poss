@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<QueryDef>
+	<DBMapDef location="uk/gov/dca/caseman/obligation_service/map_get_obligation_count.xml"/>
+	<Query pivotNode="/Obligation/Count" tables="O">
+		<SQL type="select">
+			 SELECT COUNT(OBLIGATION_SEQ) AS "O.OBLIGATIONCOUNT" 
+			 FROM OBLIGATIONS O 
+			 WHERE O.CASE_NUMBER  = ${param.caseNumber} 
+			 AND O.DELETE_FLAG = ${param.deleteFlag} 
+			 AND O.AE_EVENT_SEQ IS NULL
+		</SQL>
+		<Modify notModifiable="true"/>
+	</Query>
+</QueryDef>

@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="XMLtoXSD" default="run" basedir=".">
+
+	<property environment="env"/>
+
+	<target name="prepare">
+		<!-- Copy from .props to .properties, expanding environment variables
+		     in the process -->
+		<copy file="XMLtoXSD.props" tofile="XMLtoXSD.properties" overwrite="true" >
+			<filterchain>
+				<replacetokens>
+	            	<token key="base.dir" value="${env.PROJECT.BASE}"/>
+		    	</replacetokens>
+				<replacestring from="\" to="/"/>
+			</filterchain>
+	    </copy>
+	</target>
+	
+	<target name="compile" depends="prepare">
+		<javac srcdir=".">
+			<classpath>
+				<pathelement path="${classpath}" />
+				<fileset dir="lib">
+					<include name="**/*.jar" />
+				</fileset>
+			</classpath>
+	    </javac>
+	</target>
+	
+	<target name="jar" depends="compile">
+		<jar destfile="dist\XMLtoXSD.jar" basedir="." includes="**/*.class" />
+	</target>
+
+	<target name="run" depends="jar">
+		<java classname="uk.gov.dca.caseman.XMLtoXSD.java.SchemaGenerator" fork="true">
+			<classpath>
+				<pathelement path="${classpath}" />
+				<fileset dir="lib">
+					<include name="**/*.jar" />
+				</fileset>
+				<fileset dir="dist">
+					<include name="XMLtoXSD.jar" />
+				</fileset>
+			</classpath>
+		</java>
+	</target>
+</project>

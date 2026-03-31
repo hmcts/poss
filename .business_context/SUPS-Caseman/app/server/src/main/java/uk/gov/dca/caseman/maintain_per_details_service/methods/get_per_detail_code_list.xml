@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: MaintainPerDetails
+	Method:  getPerDetailCodeList()
+	File:    get_per_detail_code_list.xml
+	Author:  Chris Vincent
+	Created: 
+	Description: 
+		Reference data service used to retrieve the code for each PER Detail record
+		for use on the Maintain PER Details screen to ensure duplicates are not created.
+-->
+<service-method>
+	<pipeline>
+		<SQLLite format-output="true"
+				 resultset-element="PerDetailCodes"
+				 row-element="PerDetailCode"
+				 field-name-as="element" >
+			<DataSource id="java:OracleDS"/>
+			<SQL>
+				SELECT PD.DETAIL_CODE As "Code"
+				FROM  PER_DETAILS PD
+			</SQL>
+		</SQLLite>
+  	</pipeline>
+	<Security roles="viewOnly medium high wcSuper scSuper bmsSuper aeSuper dmSuper cpSuper edsAdmin ccbcMan"/>	
+</service-method>

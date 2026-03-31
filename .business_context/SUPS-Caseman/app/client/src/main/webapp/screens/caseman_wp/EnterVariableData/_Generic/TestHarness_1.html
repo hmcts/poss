@@ -1,0 +1,59 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3c.org/TR/html4/strict.dtd">
+<html>
+  <head>
+    <META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=ISO-8859-1">
+    <title>CaseMan Application</title>
+    <link type="text/css" rel="stylesheet" title="Default" href="./caseman/fw_IE.css">
+    <link type="text/css" rel="stylesheet" title="Default" href="./TestHarness_1.css">
+
+	<!-- Include the debug version of the framework so that a syntax error in a single file
+	     will not stop the AppController etc. working -->
+	<script type="text/javascript" src="./caseman/Framework_debug.js"></script>
+	<script type="text/javascript" src="./caseman/caseman_wp/WordProcessing.js"></script>
+
+	<script type="text/javascript">
+		function init()
+		{
+			// Initialise the Application Container
+			initAppController('page', 'TestHarness_1_config.xml', 'ws_proxy', 'header_left', 'header_title', 'header_right');
+
+			// Initialise the CaseMan application
+//			var application = new ClientFrameworkApp(AppController.getInstance(), 'page', 'navigation_container', 'actionbutton_container');
+
+			// Set the application class on the form controller
+//			AppController.getInstance().setApplication(application);
+
+			initWPController();
+		}
+	</script>
+  </head>
+  <body onload="init()">
+  	<!-- Table containing the screen header -->
+    <table class="header">
+      <tr>
+        <td id="header_left"></td>
+        <td id="header_title"></td>
+        <td id="header_right"></td>
+      </tr>
+    </table>
+
+    <!-- Table containing the form navigation -->
+    <!--<table class="navigation">
+      <tr>
+        <td id="navigation_container"></td>
+      </tr>
+    </table>-->
+
+    <!-- IFrame containing the actual form -->
+    <iframe id="page" height="684" width="983" frameborder="no" scrolling="auto"></iframe>
+
+    <span id="actionbutton_container"></span>
+
+    <!-- IFrame containing the progress bar -->
+    <div id="progress" class="progressClass">
+	    <div id="progressContainer" class="progressContainerClass">
+		    <iframe id="progressFrame" width="100%" height="100%" frameborder="yes" scrolling="no" src="progress.html" class="progressFrameClass"></iframe>
+		</div>
+	</div>
+  </body>
+</html>

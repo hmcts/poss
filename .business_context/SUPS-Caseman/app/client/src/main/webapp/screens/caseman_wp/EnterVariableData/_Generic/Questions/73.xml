@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>73</Id>
+	<Label>All parties in agreement</Label>
+	<ObjectName>PartyAgreement</ObjectName>
+	<Html>
+	  <input id="PartyAgreement" type="checkbox"/>
+	</Html>
+	<Javascript>
+		<XPath>/ds/EnterVariableData/partyagreement</XPath>
+		<isMandatory>return false;</isMandatory>
+		<mandatoryOn>PartyAgreement.dataBinding</mandatoryOn>	
+		<HintText>Check box if all parties agree</HintText>
+	</Javascript>
+</Question>

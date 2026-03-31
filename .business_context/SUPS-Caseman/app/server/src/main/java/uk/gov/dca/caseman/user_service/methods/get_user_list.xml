@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: User
+	Method:  getUserList()
+	File:    get_user_listxml
+	Author:  Ian Stainer (Valtech)
+	Created: 08 November 2005
+	Description: 
+		Retrieves the list of users for the given court.
+	Changed by Nilesh Mistry for RFC 521 (TRAC ticket #11) to ensure that only 1 record is returned per user 
+-->
+<service-method>
+	<pipeline>
+		<SQLLite format-output="true"
+				 resultset-element="Users"
+				 row-element="User"
+				 field-name-as="element" >			
+			<DataSource id="java:OracleDS"/>
+			<Param name="param.courtId" xpath="/params/param[@name = 'courtId']"/>
+			<SQL>																		
+				SELECT DISTINCT	
+						decode(du.forenames, null, 'EMPTY', du.forenames) as "Forenames",
+						du.surname as "Surname",
+						du.user_id as "UserId"
+				FROM	dca_user du,
+						user_court uc,
+						user_role ur
+				WHERE	uc.court_code = ${param.courtId}
+				AND		uc.home_flag = 'Y'
+				AND		du.user_id = uc.user_id
+				AND		uc.user_id = ur.user_id
+				AND		uc.court_code = ur.court_code		
+			</SQL>
+		</SQLLite>		
+	</pipeline>
+	<Security roles="viewOnly medium high wcSuper scSuper bmsSuper aeSuper dmSuper cpSuper edsAdmin admin ccbcMan ccbcUser ccbcSGB2 ccbcTape"/>
+</service-method>

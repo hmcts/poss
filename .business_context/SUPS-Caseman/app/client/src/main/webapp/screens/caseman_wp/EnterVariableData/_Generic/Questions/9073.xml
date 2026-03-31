@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>9073</Id>
+	<Label>Appearing that</Label>
+	<ObjectName>BankruptcyOption</ObjectName>
+	<Html>
+		<select id="BankruptcyOption">
+		  <option value=""></option>
+		  <option value="BNM">bankruptcy order ought not to have been made</option>
+		  <option value="BEP">bankruptcy debts/expenses have all been paid</option>
+		  <option value="BAN">bankruptcy order ought to be annulled</option>		  
+		</select>
+	</Html>
+	
+	<Context screenId="O_10_16"><isVisible>false</isVisible></Context>
+	
+	<Javascript>
+        <XPath>/ds/EnterVariableData/BankruptcyOption</XPath>
+		<HintText>Select from the following</HintText>
+         <mandatoryOn>BankruptcyOption.dataBinding</mandatoryOn>
+		<isMandatory>return true;</isMandatory>
+        <isEnabled>return true;</isEnabled>  
+	</Javascript>
+</Question>

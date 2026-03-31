@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<QueryDef>
+  <DBMapDef location="uk/gov/dca/caseman/audit_service/map_get_audit_data.xml"/>
+  <Query pivotNode="/ds/AuditList/Audit" tables="A U">
+	<Join>
+		A.USER_ID = U.USER_ID
+	</Join>
+	<OrderBy>A.TIME_STAMP DESC</OrderBy>
+	<Hint>INDEX(A,XIF1SUPS_AMENDMENTS)</Hint>
+	<Modify notModifiable="true"/>
+  </Query>
+</QueryDef>

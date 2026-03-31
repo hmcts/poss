@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: WarrantAmounts
+	Method:  updateAmountDetailsLock()
+	File:    update_AmountDetailsLock.xml
+	Author:  Chris Vincent
+	Created: 
+	Description: 
+		Updates the warrant fee and refund records associated with a warrant as well as
+		a small summary of the warrant to prevent two users adding fees / refunds on 
+		the same warrant at the same time.
+-->
+<service-method>
+  <pipeline>
+    <Java callStyle="new">
+      <Source class="uk.gov.dca.caseman.warrant_amounts_service.java.UpdateErrorIndicatorsCustomProcessor"/>
+    </Java>	
+    <Update>
+      <QueryDef location="uk/gov/dca/caseman/warrant_amounts_service/query_def_uad_lock.xml"/>
+      <DataSource xpath="/params/param[@name='WarrantAmounts']"/>
+    </Update>
+    <Java callStyle="new">
+      <Source class="uk.gov.dca.caseman.warrant_amounts_service.java.InsertAmountsCaseEventsCustomProcessor"/>
+    </Java>
+  </pipeline>
+	<Dependencies>
+		<Dependency serviceName="CaseEvent"/>
+		<Dependency serviceName="WarrantReturns"/>
+	</Dependencies>	  
+  <Security roles="wcSuper"/>  
+</service-method>

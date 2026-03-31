@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: StartOfDay
+	File:    insert_update_run_start_of_day_status_def.xml
+	Author:  Kevin Gichohi (EDS)
+	Created: 01 November 2005
+	Description: 
+      Definition file for insert_update_run_start_of_day_status.xml method
+-->
+<QueryDef>
+	<DBMapDef location="uk/gov/dca/caseman/start_of_day_service/insert_update_run_start_of_day_status_map.xml"/>
+	
+	<Query pivotNode="/insertUpdateRunStartOfDayStatus/row" tables="SD">
+		<Modify>
+			<CheckExists table="SD" fields="ITEM ADMIN_COURT_CODE" useOptimisticLock="false" onExist="update" onNotExist="add"/>	
+		</Modify>
+	</Query>
+	
+</QueryDef>

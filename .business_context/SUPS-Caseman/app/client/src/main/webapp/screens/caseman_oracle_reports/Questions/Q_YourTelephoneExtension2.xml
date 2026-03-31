@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--Question xmlns="http://eds.com/questionxhtml" xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd"-->
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>Q_YourTelephoneExtension2</Id>
+	<Label>Your Telephone Extension</Label>
+	<ObjectName>YourTelephoneExtension2</ObjectName>
+	<Html>
+		<input id="YourTelephoneExtension2" type="text" size="6"></input>
+	</Html>
+	<Javascript>
+		<XPath>/ds/var/page/OracleReportForm/YourTelephoneExtension2</XPath>
+		<ReportVariableName>EXTENSION</ReportVariableName>
+		<ParameterType></ParameterType>
+		<TableName></TableName>
+		<KeyName></KeyName>
+		<ColumnName></ColumnName>
+		<FieldType></FieldType>
+		<ReportVariableValue>Services.getValue(YourTelephoneExtension2.dataBinding)</ReportVariableValue>
+		<ReportVariableCode>457</ReportVariableCode>
+		<HintText>Enter your telephone extension (max 6 characters)</HintText>
+		<mandatoryOn></mandatoryOn>
+		<isMandatory>return false;</isMandatory>
+		<setDefault></setDefault>
+		<validateOn></validateOn>
+		<validate></validate>
+		<readOnlyOn></readOnlyOn>
+		<isReadOnly></isReadOnly>
+		<maxLength>6</maxLength>
+		<transformToDisplay>
+			return (null != value) ? value.toUpperCase() : null;
+		</transformToDisplay>
+		<transformToModel>
+			return (null != value) ? value.toUpperCase() : null;
+		</transformToModel>
+		<initialise></initialise>
+		<logicOn></logicOn>
+		<logic></logic>
+		<miscCode></miscCode>
+		<IsQuestion></IsQuestion>
+	</Javascript>
+</Question>

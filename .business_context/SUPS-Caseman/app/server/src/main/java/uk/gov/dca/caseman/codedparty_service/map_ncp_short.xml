@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: Codedparty
+	Method:  getNatCodedPartyShort()
+	File:    map_ncp_short.xml
+	Author:  Chris Hutt
+	Description:
+		This method is used to determine whether or not a particular National Coded Party 
+		Code is already exists.
+
+	Change History:
+	v1.0: Chris Hutt       03/02/2005   <CourtCode> tag added
+	07-Dec-2005 Phil Haferer (EDS): Changed the service to look up the Code in the CODED_PARTIES
+			    table, rather than the NATIONAL_CODED_PARTIES tables, so that this service 
+			    can be used test for the existing of the Non CPC National Coded Parties.
+-->
+<DBMapDef>
+  <DataSource id="java:OracleDS"/>
+  <Tables>
+    <Table alias="CP" name="CODED_PARTIES"/> 
+  </Tables>
+  <Mapping>
+     <CodedParty>
+    	<Code>${CP.CODE}</Code>
+    </CodedParty>
+  </Mapping>
+</DBMapDef>

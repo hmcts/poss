@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: User
+	Method:  addUserBusinessRole()
+	File:    query_def_add_user_business_role.xml
+	Author:  Ian Stainer (Valtech)
+	Created: 09 November 2005
+	Description: 
+		Add user details.
+	Change history:
+		26-Sep-2008 Nilesh Mistry (Logica): Changed name as part of RFC 521 (TRAC ticket #11) and will add all user details 
+					except for possible admin role
+-->
+<QueryDef>
+  <DBMapDef location="uk/gov/dca/caseman/user_service/map_add_user_business_role.xml"/>
+  <Query pivotNode="/ds/MaintainUser" tables="DU">
+    <Join/>
+    <Modify/>
+  </Query>
+  <Query pivotNode="/ds/MaintainUser/UserCourt" tables="UC">
+    <Join/>
+    <Modify/>
+  </Query>  
+  <Query pivotNode="/ds/MaintainUser/UserCourt/UserRole" tables="UR">
+    <Join/>
+    <Modify/>
+  </Query>
+</QueryDef>

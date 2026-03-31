@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ -
+ - DISC SUPS
+ - Copyright Logica UK Ltd. 2008
+ -
+ - $Revision: 652 $
+ - $Author: mullangisa $
+ - $Date: 2008-09-25 14:12:07 +0100 (Thu, 25 Sep 2008) $
+ - $Id: get_user_admin.xml 652 2008-09-25 13:12:07Z mullangisa $
+ -
+ -->
+<!--
+	Service: User
+	Method:  getUserAdmin()
+	File:    get_user_admin.xml
+	Author:  Nilesh Mistry
+	Created: 
+	Description: 
+		Retrieves whether a user is an admin for the Maintain Users screen (UC202)
+	Added by Nilesh Mistry as part of RFC 521 (TRAC ticket #11) to bring back whether the user is an admin
+-->
+<service-method>
+	<pipeline>
+		<Query>
+			<QueryDef location="uk/gov/dca/caseman/user_service/query_def_get_user_admin.xml"/>
+			<QueryExtension pivotNode="/AdminRole">
+				<Param name="param.userId" xpath="/params/param[@name = 'userId']"/>
+				<Param name="param.courtId" xpath="/params/param[@name = 'courtId']"/>
+				<Constraint>UR.USER_ID = ${param.userId}</Constraint>
+				<Constraint>UR.COURT_CODE = ${param.courtId}</Constraint>
+				<Constraint>UR.ROLE_ID = 'admin'</Constraint>
+			</QueryExtension>
+		</Query>
+	</pipeline>
+	<Security roles="viewOnly medium high wcSuper scSuper bmsSuper aeSuper dmSuper edsAdmin admin cpSuper ccbcMan ccbcUser ccbcSGB2 ccbcTape"/>
+</service-method>

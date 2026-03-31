@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<QueryDef>
+	<DBMapDef location="uk/gov/dca/caseman/rejectedJudgments_service/details_rejected_judgments_map.xml"/>
+
+	<Query pivotNode="/RejectedJudgments/RejectedJudgment" tables="RJ RR">
+	  
+	    <Join>	    	
+			RJ.REJECT_CODE = RR.REJECT_CODE 
+		</Join>
+		<Modify/>
+
+
+	</Query>
+	
+</QueryDef>

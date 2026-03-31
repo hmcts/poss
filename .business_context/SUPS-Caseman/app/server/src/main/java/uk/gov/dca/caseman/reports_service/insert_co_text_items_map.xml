@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<DBMapDef>
+	<DataSource id="java:OracleDS"/>
+	<Tables>
+		<Table alias="CTI" name="CO_TEXT_ITEMS"/>
+	</Tables>
+	<Mapping>
+        <delete_text_items>
+            <row>
+    			<CO_TEXT_CO_NUMBER>${CTI.CO_TEXT_CO_NUMBER}</CO_TEXT_CO_NUMBER>
+				<CO_TEXT_EVENT_SEQ>${CTI.CO_TEXT_EVENT_SEQ}</CO_TEXT_EVENT_SEQ>
+    			<CO_TEXT_ORDER_ID>${CTI.CO_TEXT_ORDER_ID}</CO_TEXT_ORDER_ID>				
+            </row>
+        </delete_text_items>		
+        <insert_co_text_items>
+            <row>
+    			<CO_TEXT_CO_NUMBER>${CTI.CO_TEXT_CO_NUMBER}</CO_TEXT_CO_NUMBER>
+    			<CO_TEXT_EVENT_SEQ>${CTI.CO_TEXT_EVENT_SEQ}</CO_TEXT_EVENT_SEQ>
+    			<CO_TEXT_ORDER_ID>${CTI.CO_TEXT_ORDER_ID}</CO_TEXT_ORDER_ID>
+    			<CO_TEXT_VALUE>${CTI.CO_TEXT_VALUE}</CO_TEXT_VALUE>
+    			<CO_TEXT_DOMAIN>${CTI.CO_TEXT_DOMAIN}</CO_TEXT_DOMAIN>
+    			<CO_TEXT_DETAIL_CODE>${CTI.CO_TEXT_DETAIL_CODE}</CO_TEXT_DETAIL_CODE>
+    			<CO_TEXT_PROMPT>${CTI.CO_TEXT_PROMPT}</CO_TEXT_PROMPT>
+    			<CO_TEXT_HINT_LINE>${CTI.CO_TEXT_HINT_LINE}</CO_TEXT_HINT_LINE>
+    			<CO_TEXT_FORMAT>${CTI.CO_TEXT_FORMAT}</CO_TEXT_FORMAT>
+            </row>
+        </insert_co_text_items>
+	</Mapping>
+</DBMapDef>

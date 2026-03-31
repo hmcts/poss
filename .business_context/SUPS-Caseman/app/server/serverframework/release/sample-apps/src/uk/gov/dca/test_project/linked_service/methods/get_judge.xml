@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<service-method>
+	<pipeline>
+		<LinkedQuery>
+			<QueryDef location="uk/gov/dca/test_project/linked_service/hash_query_def.xml"/>
+            <QueryExtension pivotNode="/Judges/Judge">
+				<Param name="param.judgeId" xpath="/params/param[@name='judgeId']"/>
+				<Constraint>J.ID = ${param.judgeId}</Constraint>
+			</QueryExtension>
+		</LinkedQuery>
+	</pipeline>
+	<Security roles="user"/>
+</service-method>

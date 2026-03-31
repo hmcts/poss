@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>849</Id>
+	<Label>Enter sum of fixed costs on assessment</Label>
+	<ObjectName>sumPayable2</ObjectName>
+	<Html>		
+		<input id="DefaultCurrency849" size="1" type="text"></input>
+		<input type="text" id="sumPayable2"></input>
+	</Html>
+
+	<Javascript>
+		<XPath>/ds/EnterVariableData/DefaultCostsCert/sumPayable2</XPath>
+		<HintText>Enter sum of fixed costs</HintText>				
+		<isMandatory>return true;</isMandatory>
+		<validateOn>sumPayable2.dataBinding</validateOn>
+		<validate> 
+			var val = Services.getValue(sumPayable2.dataBinding);
+			var err = WPU.validateCurrency(val);
+			  if( null == err)
+	      	 { 
+	      		var returnVal = WPU.formatToTwoDP(val);
+		    	Services.setValue(sumPayable2.dataBinding, returnVal);
+	      	 }				
+		     return err;
+		</validate>	
+		<enableOn>InterestEntitlement.dataBinding</enableOn>
+		<isEnabled>return('Y' == Services.getValue(InterestEntitlement.dataBinding));</isEnabled>
+		<logicOn>InterestEntitlement.dataBinding</logicOn>
+		<logic>
+			if('Y' != Services.getValue(InterestEntitlement.dataBinding))
+			{
+				Services.setValue(sumPayable2.dataBinding, "");
+			}		
+		</logic>
+		<miscCode>
+			function DefaultCurrency849() {}
+			DefaultCurrency849.dataBinding = "/ds/EnterVariableData/curr1";
+			DefaultCurrency849.tabIndex = -1;
+			DefaultCurrency849.maxLength = 1;
+			DefaultCurrency849.isReadOnly = function(){return true;}
+			DefaultCurrency849.isTemporary = function(){return true;}
+			DefaultCurrency849.transformToDisplay = function(value){
+				return WPS.__CaseManUtils().transformCurrencySymbolToDisplay(value,null,null); }
+			DefaultCurrency849.transformToModel = function(value){
+				return WPS.__CaseManUtils().transformCurrencySymbolToModel(value,null,null); }
+		</miscCode>	
+	</Javascript>
+</Question>

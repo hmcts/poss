@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: Dom
+	Method:  getDom()
+	File:    map_get_dom.xml
+	Author:  Phil Haferer (EDS), Ian Stainer (Valtech)
+	Created: 06 July 2005
+	Description: 
+		The 'Mapping' for retrieving determination of means details.
+-->
+<DBMapDef>
+	<DataSource id="java:OracleDS"/>
+	<Tables>
+		<Table alias="CO"   name="CONSOLIDATED_ORDERS"/>
+	</Tables>
+	<Mapping>
+		<ds>
+			<DeterminationOfMeans>
+				<Status>${EXISTING_VALUE}</Status>
+				<CONumber>${CO.CO_NUMBER}</CONumber>
+				<COType>${CO.CO_TYPE}</COType>	
+				<DebtorName>${CO.DEBTOR_NAME}</DebtorName>
+				<CalculatedPeriod>${CO.FREQUENCY}</CalculatedPeriod>
+				<BankAccount>${CO.DOM_BANK_CREDIT}</BankAccount>
+				<Savings>${CO.DOM_SAVINGS_AMOUNT}</Savings>
+				<ExpensesNotAllowed>${CO.DOM_DISALLOWED_EXPENSES}</ExpensesNotAllowed>
+				<TotalIncome>${CO.DOM_INCOME}</TotalIncome>
+				<Expenses>${CO.DOM_TOTAL_EXPENSES}</Expenses>				
+				<DebtorsOffer>${CO.DOM_OFFER}</DebtorsOffer>
+				<TotalDisposableIncome>${CO.DOM_DISPOSABLE_INCOME}</TotalDisposableIncome>
+				<TotalDebts></TotalDebts>
+				<Event907Count></Event907Count>
+				<CourtOrder>${CO.INSTAL_AMOUNT}</CourtOrder>
+				<ReasonForDisallowedExpenses>${CO.DOM_DISALLOWED_REASONS}</ReasonForDisallowedExpenses>
+			</DeterminationOfMeans>
+		</ds>
+	</Mapping>
+</DBMapDef>

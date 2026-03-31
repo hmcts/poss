@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: SuitorsCashStartOfDay
+	Method:  getLockStatus()
+	File:    get_lock_status.xml
+	Author:  Mark Hallam (EDS)
+	Created: 1st Feb 2006
+	Description: 
+		Determine whether the Suitors Cash Start Of Day is currently being run.
+-->
+<service-method>
+	<pipeline>
+		<SQLLite format-output="true"
+				 resultset-element="ds"
+				 row-element="SodRunning"
+				 field-name-as="element" >
+			<DataSource id="java:OracleDS"/>
+				<Param name="param.adminCourtCode" xpath="/params/param[@name='adminCourtCode']"/>
+			
+			<SQL>
+				
+			   	SELECT RD.REPORT_TYPE                AS "reportType"
+        		,      RD.ADMIN_COURT_CODE    AS "adminCourtCode"   
+  				FROM REPORT_DATA RD
+  				WHERE RD.REPORT_TYPE = 'SOD'
+				AND RD.ADMIN_COURT_CODE = ${param.adminCourtCode}
+  				
+  				
+			</SQL>
+		</SQLLite>
+	</pipeline>
+	<Security roles="viewOnly medium high wcSuper scSuper bmsSuper aeSuper dmSuper edsAdmin"/>	
+</service-method>

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: AeAmounts
+	Method:  updateAeAmounts()
+	File:    update_ae_amounts.xml
+	Author:  Chris Hutt
+	Created: 11 July 2005
+	Description: 
+		Insert/update Amounts associated with an Ae Application
+	
+	Change History:
+	
+	1 Dec 2006	Chris Hutt
+			    Defects UCT838/839:	Requirement to update AE_APPLICATIONS and generate an AeEvent
+-->
+<service-method>
+  <pipeline>
+    <Update>
+      <QueryDef location="uk/gov/dca/caseman/ae_amounts_service/query_def_upd_ae_amounts.xml"/>
+      <DataSource xpath="/params/param[@name='aeAmounts']"/>
+    </Update>
+    <Java>
+		<Source class="uk.gov.dca.caseman.ae_event_service.java.InsertAutoAeEventsCustomProcessor"/>
+	</Java>
+  </pipeline>
+  <Dependencies>
+  		<Dependency serviceName="Ae"/>	
+		<Dependency serviceName="AeEvent"/>	
+		<Dependency serviceName="CaseEvent"/>
+		<Dependency serviceName="Obligation"/>	
+		<Dependency serviceName="Case"/>	
+		<Dependency serviceName="UserCourt"/>			
+  </Dependencies>	
+  <Security roles="medium high wcSuper scSuper bmsSuper aeSuper dmSuper"/>   
+</service-method>

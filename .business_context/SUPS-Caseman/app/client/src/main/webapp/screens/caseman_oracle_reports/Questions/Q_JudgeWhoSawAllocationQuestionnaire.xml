@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--Question xmlns="http://eds.com/questionxhtml" xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd"-->
+<!-- 
+Change History
+	06/02/2013 - Chris Vincent, changed references to Allocation Questionnaires to Directions Questionnaires.  Trac 4763
+-->
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>Q_JudgeWhoSawAllocationQuestionnaire</Id>
+	<Label>Name of Judge Who Saw Directions Questionnaire</Label>
+	<ObjectName>JudgeWhoSawAllocationQuestionnaire</ObjectName>
+	<Html>
+		<input id="JudgeWhoSawAllocationQuestionnaire" type="text" size="70"></input>			
+	</Html>
+	<Javascript>
+		<XPath>/ds/var/page/OracleReportForm/JudgeWhoSawAllocationQuestionnaire</XPath>
+		<ReportVariableName>DISTRICT_JUDGE</ReportVariableName>
+		<ReportVariableValue>Services.getValue(JudgeTitle.dataBinding) + " " + Services.getValue(JudgeWhoSawAllocationQuestionnaire.dataBinding)</ReportVariableValue>
+		<ReportVariableCode>2090</ReportVariableCode>
+		<HintText>Enter Judge's title and surname (e.g. District Judge Smith)</HintText>
+		<mandatoryOn></mandatoryOn>
+		<isMandatory>return true;</isMandatory>
+		<setDefault></setDefault>
+		<validateOn></validateOn>
+		<validate></validate>
+		<readOnlyOn></readOnlyOn>
+		<isReadOnly></isReadOnly>
+		<maxLength></maxLength>
+		<transformToDisplay>
+			 return (null != value) ? CaseManUtils.superInitCaps(value) : null;
+	    </transformToDisplay>
+        <transformToModel>
+             return (null != value) ? CaseManUtils.superInitCaps(value) : null;
+        </transformToModel>	
+		<initialise></initialise>
+		<logicOn></logicOn>
+		<logic></logic>
+		<miscCode>		
+		</miscCode>
+	</Javascript>
+</Question>

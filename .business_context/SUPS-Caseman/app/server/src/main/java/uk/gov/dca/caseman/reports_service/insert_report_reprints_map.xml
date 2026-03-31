@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<DBMapDef>
+	<DataSource id="java:OracleDS"/>
+	<Tables>
+		<Table alias="RP" name="REPORT_REPRINTS"/>
+	</Tables>
+	<Mapping>
+        <insert_report_reprints>
+    			<USERNAME>${RP.USERNAME}</USERNAME>
+    			<REPORT_NAME>${RP.REPORT_NAME}</REPORT_NAME>
+				<REPORT_ID>${RP.REPORT_ID}</REPORT_ID>
+				<REPORT_DATE>${RP.REPORT_DATE}</REPORT_DATE>
+    			<PRINTED>${RP.PRINTED}</PRINTED>
+				<MODULE_GROUP>${RP.MODULE_GROUP}</MODULE_GROUP>
+				<ORDER_ID>${RP.ORDER_ID}</ORDER_ID>
+				<FW_REPORT_ID>${RP.FW_REPORT_ID}</FW_REPORT_ID>
+        </insert_report_reprints>
+	</Mapping>
+</DBMapDef>

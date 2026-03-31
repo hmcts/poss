@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<service-method>
+	<pipeline>
+		<Query>
+			<QueryDef location="uk/gov/dca/caseman/ae_service/query_def_employer_details.xml"/>
+			<QueryExtension pivotNode="/Employers/Employer">
+				<Param name="param.partyId" xpath="/params/param[@name = 'partyId']"/>
+				<Constraint>P.PARTY_ID like ${param.partyId}</Constraint>
+			</QueryExtension>
+			<QueryExtension pivotNode="/Employers/Employer/ContactDetails/Addresses/Address">
+				<Param name="param.partyId" xpath="/params/param[@name = 'partyId']"/>
+				<Constraint>GA.PARTY_ID like ${param.partyId}</Constraint>
+			</QueryExtension>
+		</Query>
+	</pipeline>
+	<Security roles="user"/>
+</service-method>

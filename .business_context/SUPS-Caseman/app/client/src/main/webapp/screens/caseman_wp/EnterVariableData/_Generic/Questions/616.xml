@@ -1,0 +1,26 @@
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>616</Id>
+	<Label>Is fund to be paid to child on majority?</Label>
+	<ObjectName>PayOnMajority</ObjectName>
+
+	<Html>	
+		<input type="checkbox" id="PayOnMajority"></input>
+	</Html>			
+	<Javascript>
+		<XPath>/ds/EnterVariableData/Settlement/payOnMajority</XPath>
+		<componentName>##label##</componentName>
+		<modelValue>checked: "Y", unchecked: "N"</modelValue>
+		<HintText>Check box if the fund is to be paid to child on majority</HintText>	
+		<enableOn>ClaimFor.dataBinding, FatalAccidentSumTo.dataBinding</enableOn>
+		<isEnabled>return('ACC' == Services.getValue(ClaimFor.dataBinding) &amp;&amp;
+							'CLM' != Services.getValue(FatalAccidentSumTo.dataBinding));
+		</isEnabled>
+		<logicOn>ClaimFor.dataBinding, FatalAccidentSumTo.dataBinding</logicOn>
+		<logic>
+			if('ACC' != Services.getValue(ClaimFor.dataBinding) ||
+							'CLM' == Services.getValue(FatalAccidentSumTo.dataBinding))
+			{	Services.setValue(PayOnMajority.dataBinding, "N");
+			}
+		</logic>			
+	</Javascript>
+</Question>

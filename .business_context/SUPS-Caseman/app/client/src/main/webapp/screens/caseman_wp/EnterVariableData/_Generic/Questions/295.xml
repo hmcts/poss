@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>295</Id>
+	<Label>List of work/materials to be filed?</Label>
+	<ObjectName>IsWorkMaterialsFiledList</ObjectName>
+	<Html>
+		<input type="checkbox" id="IsWorkMaterialsFiledList"></input>
+	</Html>
+	
+	<Javascript>
+		<XPath>/ds/EnterVariableData/SmallTrack/isWorkMaterialsFiledList</XPath>
+		<HintText>Check box if list work done and materials supplied is to be filed</HintText>
+		<modelValue>checked: "Y", unchecked: "N"</modelValue>
+		<enableOn>
+			BringOrigDocs.dataBinding, DirectionsTypeReqd.dataBinding, SketchPlansPhotosReqd.dataBinding,
+			IsComplaintsFiledList.dataBinding, IsPartiesToAgreeRepairs.dataBinding	
+		</enableOn>
+		<isEnabled>
+			var val1 = Services.getValue(BringOrigDocs.dataBinding);
+			var val2 = Services.getValue(DirectionsTypeReqd.dataBinding);
+			
+			if(IsComplaintsFiledList.isEnabled() &amp;&amp; 'SD' != val2 &amp;&amp; val2 != "RDDT" &amp;&amp; !SketchPlansPhotosReqd.isEnabled() ){ return true; }
+			<!-- else if( 'SPEC'  == val2 || 'HW' == val2 || IsPartiesToAgreeRepairs.isEnabled()  ){ return false; } -->
+			
+			<!-- return (val2 != "RDDT" &amp;&amp; !SketchPlansPhotosReqd.isEnabled()); -->
+			
+			
+		</isEnabled>
+		<logicOn>BringOrigDocs.dataBinding, DirectionsTypeReqd.dataBinding, IsWitnessStatementsInc.dataBinding</logicOn>
+		<logic>
+			var val1 = Services.getValue(BringOrigDocs.dataBinding);
+			var val2 = Services.getValue(DirectionsTypeReqd.dataBinding);
+			if(!IsComplaintsFiledList.isEnabled() || 'SD' == val2 || val2 == "RDDT" || SketchPlansPhotosReqd.isEnabled() )
+			{	
+				Services.setValue(IsWorkMaterialsFiledList.dataBinding, "N");
+			}
+	
+		</logic>	
+
+	</Javascript>
+</Question>

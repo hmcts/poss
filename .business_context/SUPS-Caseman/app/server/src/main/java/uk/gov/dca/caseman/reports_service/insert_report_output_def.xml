@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<QueryDef>
+	<DBMapDef location="uk/gov/dca/caseman/reports_service/insert_report_output_map.xml"/>
+	
+	<Query pivotNode="/insert_report_output" tables="RO">
+		<Modify>
+			<CheckExists table="RO" fields="OUTPUT_ID" useOptimisticLock="false" onExist="skip" onNotExist="add"/>	
+			<Field name="RO.OUTPUT_ID" sequenceTable="REPORT_OUTPUT_SEQ"/>
+			<!-- <Field name="RO.DATE_CREATED" value="SYSDATE"/> -->
+		</Modify>
+	</Query>
+	
+</QueryDef>

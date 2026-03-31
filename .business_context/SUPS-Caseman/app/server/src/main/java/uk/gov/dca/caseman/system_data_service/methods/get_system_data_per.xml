@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: SystemData
+	Method:  getSystemDataPer()
+	File:    get_system_data_per.xml
+	Author:  Chris Vincent
+	Created: 
+	Description: 
+		Retrieves the system data information about the weekly and monthly rates of a 
+		selected PER detail record.
+-->
+<service-method>
+	<pipeline>
+		<Query>
+			<QueryDef location="uk/gov/dca/caseman/system_data_service/query_def_per.xml"/>
+			
+			<QueryExtension pivotNode="/SystemData/PerData/SystemDataList/SystemDataItem">
+				<Param name="param.weeklyCode" xpath="/params/param[@name = 'weeklyCode']"/>
+				<Param name="param.monthlyCode" xpath="/params/param[@name = 'monthlyCode']"/>
+				<Constraint>
+					SD.ADMIN_COURT_CODE = 0
+					AND 
+					(
+						SD.ITEM = ${param.weeklyCode} OR SD.ITEM = ${param.monthlyCode}
+					)
+				</Constraint>
+				<OrderBy>SD.ITEM</OrderBy>			
+			</QueryExtension>
+		</Query>
+	</pipeline>
+	<Security roles="viewOnly medium high wcSuper scSuper bmsSuper aeSuper dmSuper cpSuper edsAdmin ccbcMan ccbcUser ccbcSGB2 ccbcTape admin"/>
+</service-method>

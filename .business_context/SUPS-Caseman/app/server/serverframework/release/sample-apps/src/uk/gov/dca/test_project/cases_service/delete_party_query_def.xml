@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<QueryDef>
+	<DBMapDef location="uk/gov/dca/test_project/cases_service/delete_party_map.xml"/>
+	<Tables>
+	</Tables>
+	
+	<Query pivotNode="/Party" tables="ctcr">
+		<Join>CTCR.CPR_A_CASE_NUMBER='4WB00001' AND
+			CTCR.CPR_A_PARTY_ROLE_CODE='CLAIMANT' AND
+			CTCR.CPR_B_PARTY_ROLE_CODE='SOL' AND
+			CTCR.CPR_B_CASE_NUMBER='4WB00001'
+		</Join>
+		<Modify>
+			<!-- deletes the solicitors of the specified party -->
+			<CheckExists table="ctcr" fields="cpr_a_case_number cpr_a_party_id cpr_a_party_role_code cpr_b_case_number cpr_b_party_role_code" onExist="delete" onNotExist="fail"/>
+			<Field name="CTCR.CPR_A_CASE_NUMBER" value="4WB00001"/>
+			<Field name="CTCR.CPR_A_PARTY_ROLE_CODE" value="CLAIMANT"/>
+			<Field name="CTCR.CPR_B_PARTY_ROLE_CODE" value="SOL"/>
+			<Field name="CTCR.CPR_B_CASE_NUMBER" value="4WB00001"/>
+		</Modify>
+	</Query>
+
+</QueryDef>

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<service-method>
+	<pipeline>
+		<InvokeReport project="${uk.gov.dca.caseman.reportConfig}" xpath="/params/param[@name='OracleReportRequest']">
+    		<ReportQueue id="java:SUPSReportingDS"/>
+			<ReportStore id="java:OracleDS"/>
+    		<Destination id="ReportsLow" >ReportsLow</Destination>
+		</InvokeReport>
+	</pipeline>
+	<Security roles="ccbcMan"/>
+</service-method>

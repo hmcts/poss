@@ -1,0 +1,264 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+Change History:
+	DJW 05/06/2006: W.IS_OUTSTANDING algorithm updated (TD 3366)
+    18-Jul-2006 Phil Haferer: Amended pivot node "/ds/ManageCaseEvents/CaseEvents/CaseEvent".
+                Removed reference to WPO alias and associated tags as now obsolete.
+                Changed LinkedJoin into LinkedSQL, and introduced explicit SQL statement in order to 
+                introduced Pagination which is not curerntly supported by the framework in LinkedJoin's.
+                (TD 4018: Performance: Pagination required when displaying list of Case Events).
+    23-Nov-2006 HearingSequence returned (TD:5827)
+	22-Mar-2007 Chris Vincent: Added the UserAlias node under CaseEvent.  CaseMan Defect 6000.
+	23-Mar-2007 Mark Groen: TD 6039. Changed the pivot node - - "/ds/ManageCaseEvents/CaseEvents/CaseEvent/Outputs/Output".
+				Now gets report description correctly and also returns the report id in a correctly named tag.
+	09-Aug-2007 Chris Vincent: Added the Case Status Node.  UCT_Group2 defect 1526
+	02-Nov-2007 Chris Vincent: Changed the order by statment on the case events retrieval to remove order by
+				EVENT_DATE.  Sort order is now only on DELETED_FLAG and EVENT_SEQ.  CCBC PPE Issue #5.
+	21-Jul-2008 Sandeep Mullangi (Logica): Added insolvency field.
+	24-06-2009 Chris Vincent - TRAC Ticket 707.  Changed the PY.PAYMENTS_EXIST query re scalabilty for Navigate to Transfer Case/View Payments.
+	17-Feb-2010 Chris Vincent - Trac 2607.  Added constraint to Outstanding Warrant query so queries on Warrants owned by the Case's Owning Court.
+	10-NOV-2011 Des Johnston - Trac 1900.  Added a condition to the end of the CPR query to only show the current solicitor in the party grid for a CCBC(335) case.
+	28-Nov-2012 Chris Vincent - Trac 4761. Added Transfer Reason to be returned for each Case Event row.
+	28-Jan-2013 Chris Vincent - Changed queries to return Preferred Court (Trac 4764), Default Judge (Trac 4768), Amount Claimed and Track (Trac 4763) for RFS 3719
+	04-Feb-2015 Chris Vincent - Now returns Judgment Sequence and MCOL Reference for an event.  Trac 5473
+	12-Oct-2016 Chris Vincent - returns jurisdiction.  Trac 5883
+	14-Oct-2016 Chris Vincent - returns an indication of whether a party on the case has requested confidentiality.  Trac 5880
+-->
+<QueryDef>
+  <DBMapDef location="uk/gov/dca/caseman/case_event_service/map_get_case_events.xml"/>
+  <Query pivotNode="/ds/ManageCaseEvents" tables="C CT CT2">
+  	<SQL type="select">
+  		SELECT C.CASE_NUMBER AS "C.CASE_NUMBER",
+			C.ADMIN_CRT_CODE AS "C.ADMIN_CRT_CODE",
+			CT.NAME AS "CT.NAME",
+			C.CASE_TYPE AS "C.CASE_TYPE",
+			C.INSOLVENCY_NUMBER AS "C.INSOLVENCY_NUMBER",
+			C.TRANSFER_STATUS AS "C.TRANSFER_STATUS",
+			C.CRED_CODE AS "C.CRED_CODE",
+		    C.STATUS AS "C.STATUS",
+			C.TRACK AS "C.TRACK",
+			C.PREF_COURT_CODE AS "C.PREF_COURT_CODE",
+			CT2.NAME AS "CT2.NAME",
+			C.JUDGE AS "C.JUDGE",
+			C.AMOUNT_CLAIMED AS "C.AMOUNT_CLAIMED",
+			C.AMOUNT_CLAIMED_CURRENCY AS "C.AMOUNT_CLAIMED_CURRENCY",
+			(SELECT CRC.RV_IIT_CODE_1
+				FROM CCBC_REF_CODES CRC
+				WHERE CRC.RV_LOW_VALUE = C.CASE_TYPE 
+				AND CRC.RV_DOMAIN IN ('CURRENT_CASE_TYPE','CASE_TYPE_OBSOLETE_BY_IIT')) AS "C.JURISDICTION",
+			(SELECT DECODE(COUNT(*),0,'false','true')
+				FROM   CASES C1
+				WHERE  C1.CASE_NUMBER = C.CASE_NUMBER
+				AND    NOT C1.CASE_TYPE IN 
+					(SELECT REF.RV_LOW_VALUE
+		 			FROM   CCBC_REF_CODES REF
+		 			WHERE  REF.RV_DOMAIN = 'CURRENT_CASE_TYPE'
+		 			OR     REF.RV_DOMAIN = 'CASE_TYPE_OBSOLETE_BY_IIT')) AS "C.OBSOLETE_CASE_TYPE",
+			(SELECT DECODE(COUNT(*),0,'false','true') 
+				FROM   OBLIGATIONS OB
+				WHERE  OB.CASE_NUMBER = C.CASE_NUMBER
+				AND    OB.AE_EVENT_SEQ IS NULL
+				AND    DELETE_FLAG = 'N')  AS "OB.ACTIVE_OBLIGATIONS",
+			(SELECT DECODE(COUNT(*),0,'false','true')
+				FROM   OBLIGATIONS OB
+				WHERE  OB.CASE_NUMBER = C.CASE_NUMBER
+				AND    OB.AE_EVENT_SEQ IS NULL
+				AND    DELETE_FLAG = 'Y') AS "OB.DELETED_OBLIGATIONS" ,
+			(SELECT DECODE(COUNT(*),0,'false','true') 
+				FROM   WINDOW_FOR_TRIAL WFT
+				WHERE  WFT.WFT_CASE_NUMBER = C.CASE_NUMBER) AS "WFT.EXIST",
+			(SELECT DECODE( COUNT(*), 0 , 'false', 'true')
+				FROM  WARRANTS W
+				WHERE W.CASE_NUMBER = C.CASE_NUMBER
+				AND   W.CURRENTLY_OWNED_BY = C.ADMIN_CRT_CODE
+				AND   ((W.WARRANT_ID NOT IN 
+         				( SELECT WR.WARRANT_ID
+            			    FROM  WARRANT_RETURNS WR, RETURN_CODES RC
+            				WHERE WR.WARRANT_ID = W.WARRANT_ID
+            				AND   WR.DEFENDANT_ID = 1
+            				AND   WR.ERROR_INDICATOR IS NOT NULL
+            				AND   WR.ERROR_INDICATOR != 'Y'
+            				AND   RC.RETURN_CODE = WR.RETURN_CODE 
+            				AND   RC.ADMIN_COURT_CODE = WR.RETURN_CODE_COURT_CODE 
+            				AND   RC.RETURN_TYPE   = 'F' )
+      				) OR (      
+            		   W.DEFENDANT2 IS NOT NULL
+            			AND W.WARRANT_ID NOT IN 
+            				( SELECT WR.WARRANT_ID
+              					FROM   WARRANT_RETURNS WR, RETURN_CODES RC
+              					WHERE  WR.WARRANT_ID = W.WARRANT_ID
+              					AND    WR.DEFENDANT_ID = 2
+              					AND    WR.ERROR_INDICATOR IS NOT NULL
+              					AND    WR.ERROR_INDICATOR != 'Y'
+              					AND    RC.RETURN_CODE = WR.RETURN_CODE 
+              					AND    RC.ADMIN_COURT_CODE = WR.RETURN_CODE_COURT_CODE 
+             					AND    RC.RETURN_TYPE = 'F'
+             ))))  AS "W.IS_OUTSTANDING",
+			(SELECT DECODE(COUNT(*),0,'false','true') 
+			  FROM PAYMENTS PY
+			  WHERE PY.ENFORCEMENT_PARENT = C.CASE_NUMBER) AS "PY.PAYMENTS_EXIST",
+			(SELECT DECODE(COUNT(*),0,'false','true') 
+				FROM   CASE_PARTY_ROLES CAPR
+				WHERE  CAPR.CASE_NUMBER = C.CASE_NUMBER
+				AND NVL(CAPR.CONFIDENTIAL,'N') = 'Y') AS "C.CONFIDENTIAL",
+			C.ORA_ROWSCN AS "C_ORA_ROWSCN",
+			CT.ORA_ROWSCN AS "CT_ORA_ROWSCN",			
+			CT2.ORA_ROWSCN AS "CT2_ORA_ROWSCN"
+		FROM CASES C, COURTS CT, COURTS CT2 			
+		WHERE C.CASE_NUMBER = ${param.caseNumber} AND
+			C.CASE_TYPE != 'MAGS ORDER' AND
+			C.ADMIN_CRT_CODE = CT.CODE AND
+			CT2.CODE (+)= C.PREF_COURT_CODE
+  	</SQL>
+  </Query>
+  <Query pivotNode="/ds/ManageCaseEvents/Parties/Party" tables="CPR PR P">
+	<Join>
+		(
+			CPR.CASE_NUMBER     =  ${C.CASE_NUMBER}   AND
+			CPR.PARTY_ROLE_CODE != 'SOLICITOR'        AND
+			CPR.PARTY_ROLE_CODE =  PR.PARTY_ROLE_CODE AND
+			CPR.PARTY_ID        =  P.PARTY_ID
+		) OR
+		(
+			CPR.CASE_NUMBER = ${C.CASE_NUMBER} AND
+			CPR.PARTY_ROLE_CODE = 'SOLICITOR'        AND
+			CPR.PARTY_ROLE_CODE =  PR.PARTY_ROLE_CODE AND
+			CPR.PARTY_ID        =  P.PARTY_ID AND
+			EXISTS
+			(
+				SELECT NULL FROM CPR_TO_CPR_RELATIONSHIP CPR2CPR
+				WHERE CPR2CPR.CPR_B_CASE_NUMBER = CPR.CASE_NUMBER AND
+					 CPR2CPR.CPR_B_PARTY_ROLE_CODE = CPR.PARTY_ROLE_CODE AND
+					 CPR2CPR.CPR_B_CASE_PARTY_NO = CPR.CASE_PARTY_NO AND
+					 CPR2CPR.CPR_A_PARTY_ROLE_CODE = 'CLAIMANT' AND
+					 CPR2CPR.CPR_A_CASE_PARTY_NO = 1 AND
+					 NVL(CPR2CPR.DELETED_FLAG,'N') = 'N'
+			)
+		)
+	</Join>
+	<OrderBy>CPR.PARTY_ROLE_CODE, CPR.CASE_PARTY_NO</OrderBy>
+	<Alias name="CPR.PARTY_KEY" select="CPR.PARTY_ROLE_CODE || '_' || CPR.CASE_PARTY_NO"/>
+	<Modify notModifiable="true"/>
+  </Query>
+
+  <Query pivotNode="/ds/ManageCaseEvents/CaseEvents/CaseEvent" tables="CE SE">
+	<LinkedSQL type="root" key="CE.EVENT_SEQ">
+		<SQL>
+            SELECT CE_BMS_TASK_NUMBER  AS "CE.BMS_TASK_NUMBER"              
+            ,      CE_CASE_FLAG        AS "CE.CASE_FLAG"                    
+            ,      CE_CASE_PARTY_NO    AS "CE.CASE_PARTY_NO"                
+            ,      CE_CREATING_COURT   AS "CE.CREATING_COURT"               
+            ,      CE_CREATING_SECTION AS "CE.CREATING_SECTION"             
+            ,      CE_CRT_CODE         AS "CE.CRT_CODE"                     
+            ,      CE_DELETED_FLAG     AS "CE.DELETED_FLAG"                 
+            ,      CE_DETAILS          AS "CE.DETAILS"                      
+            ,      CE_EVENT_DATE       AS "CE.EVENT_DATE"                   
+            ,      CE_EVENT_SEQ        AS "CE.EVENT_SEQ" 
+            ,	   CE_HRG_SEQ          AS "CE.HRG_SEQ" 
+			,	   CE_JUDG_SEQ		   AS "CE.JUDG_SEQ"
+			,	   CE_MCOL_REFERENCE   AS "CE.MCOL_REFERENCE"
+            ,      CE_PARTY_ROLE_CODE  AS "CE.PARTY_ROLE_CODE"              
+            ,      CE_RECEIPT_DATE     AS "CE.RECEIPT_DATE"                 
+            ,      CE_REQUESTER        AS "CE.REQUESTER"                    
+            ,      CE_RESULT           AS "CE.RESULT"                       
+            ,      CE_STATS_MODULE     AS "CE.STATS_MODULE"                 
+            ,      CE_STD_EVENT_ID     AS "CE.STD_EVENT_ID"                 
+            ,      CE_USERNAME         AS "CE.USERNAME"
+            ,      CE_USERALIAS        AS "CE.USERALIAS"
+			,	   CE_TRANSREASON	   AS "CE.TRANSFER_REASON"
+			,	   CE_TRACK			   AS "CE.TRACK"
+            ,      SE_DESCRIPTION      AS "SE.DESCRIPTION"                  
+            ,      SE_EDIT_DETAILS     AS "SE.EDIT_DETAILS"                 
+            ,      CE_PARTY_KEY        AS "CE.PARTY_KEY"
+            ,      CE_ORA_ROWSCN       AS "CE_ORA_ROWSCN"
+            ,      SE_ORA_ROWSCN       AS "SE_ORA_ROWSCN"
+            FROM 
+               (SELECT ROW_NUMBER() 
+                       OVER(ORDER BY CE.DELETED_FLAG
+                            ,        CE.EVENT_SEQ DESC) AS R
+                ,      CE.BMS_TASK_NUMBER  AS "CE_BMS_TASK_NUMBER"              
+                ,      CE.CASE_FLAG        AS "CE_CASE_FLAG"                    
+                ,      CE.CASE_PARTY_NO    AS "CE_CASE_PARTY_NO"                
+                ,      CE.CREATING_COURT   AS "CE_CREATING_COURT"               
+                ,      CE.CREATING_SECTION AS "CE_CREATING_SECTION"             
+                ,      CE.CRT_CODE         AS "CE_CRT_CODE"                     
+                ,      CE.DELETED_FLAG     AS "CE_DELETED_FLAG"                 
+                ,      CE.DETAILS          AS "CE_DETAILS"                      
+                ,      CE.EVENT_DATE       AS "CE_EVENT_DATE"                   
+                ,      CE.EVENT_SEQ        AS "CE_EVENT_SEQ"   
+                ,      CE.HRG_SEQ          AS "CE_HRG_SEQ" 
+                ,      CE.JUDG_SEQ         AS "CE_JUDG_SEQ"
+				,	   NVL(CE.MCOL_REFERENCE,'CE'||TO_CHAR(CE.EVENT_SEQ)) AS "CE_MCOL_REFERENCE"
+                ,      CE.PARTY_ROLE_CODE  AS "CE_PARTY_ROLE_CODE"              
+                ,      CE.RECEIPT_DATE     AS "CE_RECEIPT_DATE"                 
+                ,      CE.REQUESTER        AS "CE_REQUESTER"                    
+                ,      CE.RESULT           AS "CE_RESULT"                       
+                ,      CE.STATS_MODULE     AS "CE_STATS_MODULE"                 
+                ,      CE.STD_EVENT_ID     AS "CE_STD_EVENT_ID"                 
+                ,      CE.USERNAME         AS "CE_USERNAME"  
+                ,      ( SELECT NVL(DU.USER_SHORT_NAME, '')
+                         FROM DCA_USER DU
+                         WHERE DU.USER_ID = CE.USERNAME
+                       ) AS "CE_USERALIAS"
+				,	   CE.TRANSFER_REASON  AS "CE_TRANSREASON"
+				,	   CE.TRACK  		   AS "CE_TRACK"
+                ,      SE.DESCRIPTION      AS "SE_DESCRIPTION"                  
+                ,      SE.EDIT_DETAILS     AS "SE_EDIT_DETAILS"                 
+                ,      DECODE(CE.CASE_PARTY_NO,
+                              null,
+                              null,
+                              CE.PARTY_ROLE_CODE || '_' || CE.CASE_PARTY_NO) AS "CE_PARTY_KEY"
+                ,      CE.ORA_ROWSCN       AS "CE_ORA_ROWSCN"
+                ,      SE.ORA_ROWSCN       AS "SE_ORA_ROWSCN"
+                FROM   CASE_EVENTS     CE
+                ,      STANDARD_EVENTS SE
+                WHERE  CE.CASE_NUMBER    = ${C.CASE_NUMBER}
+                AND    CE.STD_EVENT_ID   = SE.EVENT_ID 
+                ORDER BY CE.DELETED_FLAG, CE.EVENT_SEQ DESC)
+            WHERE R &lt; ((${param.pageNumber}*${param.pageSize})+1)
+            AND   R &gt; ((${param.pageNumber}*${param.pageSize})-${param.pageSize})
+		</SQL>
+	</LinkedSQL>
+  </Query>
+  <Query pivotNode="/ds/ManageCaseEvents/CaseEvents/CaseEvent/Outputs/Output" tables="WO">
+  	<LinkedSQL type="query" key="OUTPUT.OUTPUT_ID">
+    	<Parent key="CE.EVENT_SEQ" tables="CE"/>
+    	<SQL>
+		( SELECT 
+				CE.EVENT_SEQ					AS "CE.EVENT_SEQ" 
+			,	'WP'							AS "OUTPUT.TYPE"
+			,   WO.FINAL_IND					AS "OUTPUT.FINAL_IND"
+			,	TO_CHAR(WO.OUTPUT_ID)			AS "OUTPUT.OUTPUT_ID"
+			,   'Word Processing Output' 		AS "OUTPUT.DESCRIPTION"
+            , 	TO_CHAR(WO.XMLSOURCE)			AS "OUTPUT.DOCUMENT_ID"
+			,   ''                              AS "OUTPUT.REPORT_ID"
+		FROM 
+			WP_OUTPUT WO, CASE_EVENTS CE
+		WHERE
+			CE.CASE_NUMBER	= ${param.caseNumber} AND
+			WO.EVENT_SEQ 	= CE.EVENT_SEQ AND
+			WO.OUTPUT_ID = (SELECT MAX(WO2.OUTPUT_ID) FROM WP_OUTPUT WO2 WHERE WO2.EVENT_SEQ = CE.EVENT_SEQ AND WO2.FINAL_IND = WO.FINAL_IND) )
+		UNION ALL
+		( SELECT 
+				CE.EVENT_SEQ				AS "CE.EVENT_SEQ" 
+			,	'OR'						AS "OUTPUT.TYPE"
+			,   'Y'						    AS "OUTPUT.FINAL_IND"
+			,   RO.ORDER_ID 				AS "OUTPUT.OUTPUT_ID"
+			, 	OT.ORDER_DESCRIPTION		AS "OUTPUT.DESCRIPTION"
+			,   TO_CHAR(RQ.DOCUMENT_ID)		AS "OUTPUT.DOCUMENT_ID"
+			, 	TO_CHAR(RO.REPORT_ID)		AS "OUTPUT.REPORT_ID"
+		FROM 
+				REPORT_OUTPUT RO
+			,   REPORT_QUEUE  RQ
+			, 	CASE_EVENTS CE
+			,   ORDER_TYPES OT
+		WHERE
+				CE.CASE_NUMBER	= ${param.caseNumber} AND
+				RO.EVENT_SEQ = CE.EVENT_SEQ AND
+				RQ.ID 		 = RO.REPORT_ID 
+				AND OT.ORDER_ID			= RO.ORDER_ID )
+		</SQL>
+    </LinkedSQL>
+	<Modify notModifiable="true"/>
+  </Query>
+</QueryDef>

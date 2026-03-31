@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- edited with XMLSPY v5 rel. 3 U (http://www.xmlspy.com) by Phil Haferer (Electronic Data Systems LTD) -->
+<!--
+	Service: Dom
+	Method:  updateDom()
+	File:    map_update_dom.xml
+	Author:  Phil Haferer (EDS), Ian Stainer (Valtech)
+	Created: 07 July 2005
+	Description: 
+		The 'Mapping' for updating determination of means details.
+-->
+<DBMapDef>
+	<DataSource id="java:OracleDS"/>
+	<Tables>
+		<Table alias="CO" name="CONSOLIDATED_ORDERS"/>
+	</Tables>
+	<Mapping>
+		<ds>
+			<DeterminationOfMeans>
+				<CONumber>${CO.CO_NUMBER}</CONumber>
+				<COType></COType>		
+				<DebtorName></DebtorName>				
+				<CalculatedPeriod>${CO.FREQUENCY}</CalculatedPeriod>
+				<BankAccount>${CO.DOM_BANK_CREDIT}</BankAccount>
+				<Savings>${CO.DOM_SAVINGS_AMOUNT}</Savings>
+				<ExpensesNotAllowed>${CO.DOM_DISALLOWED_EXPENSES}</ExpensesNotAllowed>
+				<TotalIncome>${CO.DOM_INCOME}</TotalIncome>
+				<Expenses>${CO.DOM_TOTAL_EXPENSES}</Expenses>				
+				<DebtorsOffer>${CO.DOM_OFFER}</DebtorsOffer>
+				<TotalDisposableIncome>${CO.DOM_DISPOSABLE_INCOME}</TotalDisposableIncome>
+				<TotalDebts></TotalDebts>
+		<!--		<NumberOfInstallments>4</NumberOfInstallments> -->
+				<CourtOrder>${CO.INSTAL_AMOUNT}</CourtOrder>		
+				<ReasonForDisallowedExpenses>${CO.DOM_DISALLOWED_REASONS}</ReasonForDisallowedExpenses>
+			</DeterminationOfMeans>
+		</ds>
+	</Mapping>
+</DBMapDef>

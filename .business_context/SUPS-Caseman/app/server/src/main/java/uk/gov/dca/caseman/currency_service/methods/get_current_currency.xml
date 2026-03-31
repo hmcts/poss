@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: Currency
+	Method:  getCurrentCurrency()
+	File:    get_current_currency.xml
+	Author:  
+	Created: 
+	Description: 
+        Get the current currency
+-->
+<service-method>
+	<pipeline>
+		<Query>
+  			<QueryDef location="uk/gov/dca/caseman/currency_service/query_def_get_current_currency.xml"/>
+  		</Query>
+  	</pipeline>
+	<Security roles="viewOnly medium high wcSuper scSuper bmsSuper aeSuper dmSuper edsAdmin cpSuper ccbcMan ccbcUser ccbcSGB2 ccbcTape admin"/>
+</service-method>

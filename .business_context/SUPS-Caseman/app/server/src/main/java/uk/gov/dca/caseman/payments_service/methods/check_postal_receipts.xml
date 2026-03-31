@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: Payments
+	Method:  checkPostalReceipts()
+	File:    check_postal_receipts.xml
+	Author:  Mark Hallam
+	Created: 29 November 2005
+	Description: 
+		Gets postal payments for which receipts are required
+-->
+<service-method>
+	<pipeline>
+		<Query>
+			<QueryDef location="uk/gov/dca/caseman/payments_service/query_def_check_postal_receipts.xml" />
+			<QueryExtension pivotNode="/PostalReceipts/NoOfPayments">
+				<Param name="param.userId" xpath="/params/param[@name = 'userId']" />
+				<Param name="param.dateCreated" xpath="/params/param[@name = 'dateCreated']" />
+				<Param name="param.adminCrownCourt" xpath="/params/param[@name = 'adminCrownCourt']" />
+			</QueryExtension>
+		</Query>
+	</pipeline>
+	<Security roles="viewOnly medium high wcSuper scSuper bmsSuper aeSuper dmSuper edsAdmin admin cpSuper"/>
+</service-method>

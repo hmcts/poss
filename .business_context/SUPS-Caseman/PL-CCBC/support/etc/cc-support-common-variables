@@ -1,0 +1,37 @@
+echo "Reading in variables from cc-support-common-variables"
+##############################################################################
+# File               : cc-support-common-variables                           #
+# Desc               : File holds common script variables for ops support.   #
+# Product history                                                            #
+# Date      Ver   Who   Desc                                                 #
+# ----      ---   ---   ----                                                 #
+# 22/06/07  1.0   DG    New File                                             #
+#                                                                            #
+##############################################################################
+
+############
+# Oracle Settings
+############
+declare -x                     ORACLE_BASE=/u01/app/oracle
+declare -x                     ORACLE_HOME=$ORACLE_BASE/product/10.2.0/server_1
+declare -x                     SQLPLUS=${ORACLE_HOME}/bin/sqlplus
+declare -x                     TNS_ADMIN=${ORACLE_BASE}/network/admin
+declare -x                     PATH=${ORACLE_HOME}/bin:${PATH}
+
+############
+# Database User Settings
+############
+declare -x                     DB_USER=ccbc01
+declare -x                     DB_PASSWORD=ccbc01
+declare -x                     DB_INSTANCE=supsdb02
+declare -x                     ORA=${DB_USER}/${DB_PASSWORD}@${DB_INSTANCE}
+
+############
+# Application Settings
+############
+declare -x                     ONLINE_SCRIPTS_EXEC=${HOME}/bin
+declare -x                     SCRIPT_LOG_DIR=${HOME}/logs
+declare -x                     CCBC_LOGFILE=$SCRIPT_LOG_DIR/dailylog.lis
+declare -x                     USER_ID=CCBC_BATCH
+declare -x                     COURT_ID=335
+declare -x                     PATH=${PATH}:${ONLINE_SCRIPTS_EXEC}

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--Question xmlns="http://eds.com/questionxhtml" xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd"-->
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>CM_STATS_QUESTION_2</Id>
+	<Label>End Date</Label>
+	<ObjectName>Params_EndDate_Txt</ObjectName>
+	<Html>
+	   <script type="text/javascript">
+			DatePickerRenderer.createInline("Params_EndDate_Txt", false);
+	  </script>
+	</Html>
+	<Javascript>
+		<XPath>/ds/var/page/OracleReportForm/EndDate</XPath>
+		<ReportVariableName>P_REPORT_END_DATE</ReportVariableName>
+		<ReportVariableValue>CaseManUtils.convertDateToDisplay(Services.getValue(Params_EndDate_Txt.dataBinding))</ReportVariableValue>
+		<HintText>Enter the End Date of the required reporting period</HintText>
+		<isMandatory>return true;</isMandatory>
+		<setDefault>
+			Services.setValue(Params_EndDate_Txt.dataBinding, getTodaysDate());
+		</setDefault>		
+		<validateOn>
+			Params_StartDate_Txt.dataBinding, Params_EndDate_Txt.dataBinding
+		</validateOn>		
+		<validate>
+				var ec = validateEndDate(Params_StartDate_Txt, Params_EndDate_Txt);
+			    return ec;
+		</validate>		
+		<miscCode>
+			Params_EndDate_Txt.weekends = true;	
+		</miscCode>
+	</Javascript>
+</Question>

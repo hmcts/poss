@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified">
+	<xs:simpleType name="record.cpc_code">
+		<xs:restriction base="xs:decimal">
+			<xs:totalDigits value="4"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="record.claim_number">
+		<xs:restriction base="xs:string">
+			<xs:length value="8" fixed="true"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="record.warrant_number">
+		<xs:restriction base="xs:string">
+			<xs:length value="7" fixed="true"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="record.claimant">
+		<xs:restriction base="xs:string">
+			<xs:length value="70" fixed="true"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="record.claimant_reference">
+		<xs:restriction base="xs:string">
+			<xs:length value="24" fixed="true"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="record.defendant_name">
+		<xs:restriction base="xs:string">
+			<xs:length value="70" fixed="true"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="record.defendant_addr_1">
+		<xs:restriction base="xs:string">
+			<xs:length value="30" fixed="true"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="record.defendant_addr_2">
+		<xs:restriction base="xs:string">
+			<xs:length value="30" fixed="true"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="record.defendant_addr_3">
+		<xs:restriction base="xs:string">
+			<xs:length value="30" fixed="true"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="record.defendant_addr_4">
+		<xs:restriction base="xs:string">
+			<xs:length value="30" fixed="true"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="record.defendant_addr_5">
+		<xs:restriction base="xs:string">
+			<xs:length value="30" fixed="true"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="record.defendant_postcode">
+		<xs:restriction base="xs:string">
+			<xs:length value="8" fixed="true"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="record.balance">
+		<xs:restriction base="xs:decimal">
+			<xs:totalDigits value="7"/>
+			<xs:fractionDigits value="2"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="record.warrant_amount">
+		<xs:restriction base="xs:decimal">
+			<xs:totalDigits value="7"/>
+			<xs:fractionDigits value="2"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="record.fee">
+		<xs:restriction base="xs:decimal">
+			<xs:totalDigits value="5"/>
+			<xs:fractionDigits value="2"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="record.solicitors_costs">
+		<xs:restriction base="xs:decimal">
+			<xs:totalDigits value="4"/>
+			<xs:fractionDigits value="2"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="record.enforcing_court_code">
+		<xs:restriction base="xs:decimal">
+			<xs:totalDigits value="3"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:element name="record">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="cpc_code" type="record.cpc_code"/>
+				<xs:element name="claim_number" type="record.claim_number"/>
+				<xs:element name="warrant_number" type="record.warrant_number"/>
+				<xs:element name="claimant" type="record.claimant"/>
+				<xs:element name="claimant_reference" type="record.claimant_reference"/>
+				<xs:element name="defendant_name" type="record.defendant_name"/>
+				<xs:element name="defendant_addr_1" type="record.defendant_addr_1"/>
+				<xs:element name="defendant_addr_2" type="record.defendant_addr_2"/>
+				<xs:element name="defendant_addr_3" type="record.defendant_addr_3"/>
+				<xs:element name="defendant_addr_4" type="record.defendant_addr_4"/>
+				<xs:element name="defendant_addr_5" type="record.defendant_addr_5"/>
+				<xs:element name="defendant_postcode" type="record.defendant_postcode"/>
+				<xs:element name="balance" type="record.balance"/>
+				<xs:element name="warrant_amount" type="record.warrant_amount"/>
+				<xs:element name="fee" type="record.fee"/>
+				<xs:element name="solicitors_costs" type="record.solicitors_costs"/>
+				<xs:element name="enforcing_court_code" type="record.enforcing_court_code"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+</xs:schema>

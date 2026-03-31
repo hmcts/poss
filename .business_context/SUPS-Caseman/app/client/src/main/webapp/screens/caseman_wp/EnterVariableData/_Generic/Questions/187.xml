@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>187</Id>
+	<Label>Other party</Label>
+	<ObjectName>DocServedOn3Other</ObjectName>
+	<Html>	
+		<input type="text" id="DocServedOn3Other"></input>
+	</Html>
+	<Javascript>
+		<XPath>/ds/EnterVariableData/FastTrack/docServedOn3Other</XPath>
+		<HintText>Enter the party or parties</HintText>
+		<isMandatory>return true;</isMandatory>	
+		<enableOn>DocServedOn3.dataBinding</enableOn>
+		<isEnabled>return('OTH' == Services.getValue(DocServedOn3.dataBinding));</isEnabled>	
+		<logicOn>DocServedOn3.dataBinding</logicOn>
+		<logic>
+			if('OTH' != Services.getValue(DocServedOn3.dataBinding))
+			{	Services.setValue(DocServedOn3Other.dataBinding,"");
+			}
+		</logic>
+		<Context ScreenId="CJR060">
+			<HintText>Enter the party or parties. e.g. claimant, defendant 1 etc</HintText>
+	</Context>
+	</Javascript>
+	
+	
+</Question>

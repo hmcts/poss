@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<QueryDef>
+  <DBMapDef location="uk/gov/dca/caseman/warranttype_service/map.xml"/>
+  <Query pivotNode="/WarrantTypes/WarrantType" tables="CRC">
+      <Join>
+    	CRC.RV_DOMAIN = 'CURRENT_WARRANT_TYPE'
+      </Join>
+  </Query>
+</QueryDef>

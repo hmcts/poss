@@ -1,0 +1,35 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: CO
+	Method:  getCoCredLocalCodedPartyList() / updateCoCredLocalCodedPartyList()
+	File:    query_def_co_cred_local_coded_party_list.xml
+	Author:  Chris Vincent
+	Created: 15 February 2011
+	Description: 
+		Retrieve the details of the Creditor Local Coded Parties that are linked into a Consolidated Order,
+		ready to either match them to a new Local Coded Party or convert them to non-coded parties.  Created as part of Trac 4215.
+-->
+<QueryDef>
+	<DBMapDef location="uk/gov/dca/caseman/co_service/map_co_cred_local_coded_party_list.xml"/>
+	<Query pivotNode="/COLocalCodedPartyList/COLocalCodedParty" tables="P AD GA CP">
+		<Join>
+			CP.PARTY_ID = AD.CP_CREDITOR_ID
+			AND (NOT CP.CODE BETWEEN 1500 AND 1999
+			AND  NOT CP.CODE BETWEEN 7000 AND 9999)
+			AND  P.PARTY_ID      = CP.PARTY_ID
+			AND  GA.PARTY_ID     = P.PARTY_ID
+			AND  GA.ADDRESS_TYPE_CODE = 'CODED PARTY'
+		</Join>
+		<Modify>
+			<CheckExists table="P" fields="PARTY_ID" onNotExist="add" onExist="skip"/>
+			<Field name="P.PARTY_ID" sequenceTable="PARTIES_SEQUENCE"/>
+			
+			<CheckExists table="AD" fields="DEBT_SEQ" onNotExist="fail" onExist="update" useOptimisticLock="false"/>
+			<Field name="AD.CP_CREDITOR_ID" xpath="./AllowedDebt/CPCreditorPartyId"/>
+
+			<CheckExists table="GA" fields="ADDRESS_ID" onNotExist="add" onExist="skip"/>
+			<Field name="GA.ADDRESS_ID" sequenceTable="ADDR_SEQUENCE"/>
+			<Field name="GA.PARTY_ID" xpath="./Party/PartyId"/>
+		</Modify>
+	</Query>
+</QueryDef>

@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	19/12/2006 - CV - Added F6 keybinding to LOV via OrderTextLOVGrid.raise configuration.
+	Temp_Caseman defects 299/334.
+	29/01/2007 - CV: Updated zoom field logic function to clear LOV value.  Temp_Caseman defect 428.
+-->
+<!--Question xmlns="http://eds.com/questionxhtml" xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd"-->
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>Q_OrderText</Id>
+	<Label>Order Text</Label>
+	<ObjectName>OrderText</ObjectName>
+	<Html>
+		<table>
+			<tr>
+				<td>
+					<script type="text/javascript">
+						ZoomFieldRenderer.createInline("OrderText", 10, 70);
+					</script>				
+				</td>
+				<td>
+					<input id="OrderTextLOVButton" type="Button" value="LOV"/>
+				</td>
+			</tr>
+		</table>		
+		<script type="text/javascript">
+			LOVPopupRenderer.createInline( "OrderTextLOVGrid", "Types", ["Description"], 10, 1, true );
+        </script>
+	</Html>
+	<Javascript>
+		<XPath>/ds/var/page/OracleReportForm/OrderText</XPath>
+		<ReportVariableName>REPORT_VALUE_3</ReportVariableName>
+		<ReportVariableValue>Services.getValue(OrderText.dataBinding)</ReportVariableValue>
+		<ReportVariableCode>947</ReportVariableCode>
+		<HintText>Enter DFLT to display N217 Order text - LOV available - update allowed</HintText>
+		<mandatoryOn></mandatoryOn>
+		<isMandatory>return true;</isMandatory>
+		<setDefault></setDefault>
+		<validateOn></validateOn>
+		<validate></validate>
+		<readOnlyOn></readOnlyOn>
+		<isReadOnly></isReadOnly>
+		<maxLength></maxLength>
+		<transformToDisplay>
+			var description = Services.getValue( REF_DATA_XPATH + "/OrderTextList/OrderText[./Value = " + OrderText.dataBinding + "]/Description" );
+			if (description != null)
+			{
+				return description;
+			}
+			else
+			{
+				return value;
+			}
+		</transformToDisplay>
+		<transformToModel>
+			return (null != value) ? value.toUpperCase() : null;
+		</transformToModel>
+		<initialise>
+			dom = getList("../LOV/OrderTextList.xml"); 
+			Services.addNode(dom, REF_DATA_XPATH);
+		</initialise>
+		<logicOn>
+			"/ds/var/page/OracleReportForm/Dummy"
+		</logicOn>
+		<logic>
+			var lovValue = Services.getValue(OrderTextLOVGrid.dataBinding);
+			if ( !CaseManUtils.isBlank(lovValue) )
+			{
+				Services.setValue(OrderText.dataBinding, lovValue);
+				FormController.getInstance().processEvents();
+				Services.getAdaptorById("OrderText")._raisePopup();
+				Services.setValue(OrderTextLOVGrid.dataBinding, "");
+			}
+		</logic>
+		<miscCode>
+			OrderText.componentName =	"Order Text";
+			OrderText.srcData = 		REF_DATA_XPATH + "/OrderTextList";
+			OrderText.rowXPath = 		"OrderText";
+			OrderText.keyXPath =		"Description";
+			
+			function OrderTextLOVButton() {};
+			OrderTextLOVButton.tabIndex = __tabIdx++;
+			
+			function OrderTextLOVGrid() {};
+			
+			OrderTextLOVGrid.dataBinding = "/ds/var/page/OracleReportForm/Dummy";
+			OrderTextLOVGrid.srcData = REF_DATA_XPATH + "/OrderTextList";
+			OrderTextLOVGrid.rowXPath = "OrderText";
+			OrderTextLOVGrid.keyXPath = "Description";
+			OrderTextLOVGrid.columns = [
+				{xpath: "Description"}
+			];
+			
+			OrderTextLOVGrid.raise = {
+				eventBinding: {
+					singleClicks: [ {element: "OrderTextLOVButton"} ],
+					keys: [ { key: Key.F6, element: "OrderText" } ]
+				}
+			};
+		</miscCode>
+		<IsQuestion></IsQuestion>
+	</Javascript>
+</Question>

@@ -1,0 +1,78 @@
+<Group id="31">
+	<ServicesRequired/>
+	<Protocols>
+		<OnSave>
+			<function>CheckCCBCCost</function>
+			<functionCallback>CheckCCBCCostCallback</functionCallback>
+		</OnSave>
+	</Protocols>
+	<JavaScript>function CheckCCBCCost() {
+		var process = WP.GetScreenProcess();
+		var opt = process.getOutput().getCJRReference();
+		if ("335" == WPU.getCaseOwningCourt() &amp;&amp; (opt == "CJR040" || opt == "CJR041" || opt == "CJR042" )) {
+			var judgAmount = Services.getValue("/ds/EnterVariableData/Judgment/amount");
+			var judgType = WPU.getJudgmentTypeToCreate(process);
+			var judgDate = Services.getValue("/ds/EnterVariableData/JudgmentOrder/Date");
+			var params = new ServiceParams();
+			params.addSimpleParameter("judgType", judgType);				
+			params.addSimpleParameter("judgAmount", judgAmount);				
+			params.addSimpleParameter("judgDate", judgDate);				
+			Services.callService("validateCcbcJudgmentCost", params, CheckCCBCCostCallback, true); }
+		else {
+			Save_All(); } }
+	
+	function CheckCCBCCostCallback() {}
+	
+	CheckCCBCCostCallback.onSuccess = function(dom, serviceName) { 
+		if ( serviceName == "validateCcbcJudgmentCost" )
+		{
+			if(null != dom) { 
+				var judgDate = Services.getValue("/ds/EnterVariableData/JudgmentOrder/Date");
+				var judgCosts = dom.selectNodes("/Judgment/Cost");
+				var judgCostLen = judgCosts.length;
+				var judgCost = null;
+				for (var i=0; i &lt; judgCostLen; i++) {
+					var tjudgCost = judgCosts[i];
+					var judgCostEffeDate = tjudgCost.selectSingleNode("EffectiveDate").text;
+					if (judgCostEffeDate &lt; judgDate) { judgCost = tjudgCost; break; } }
+				if (null != judgCost) {
+					var judgmentCost = judgCost.selectSingleNode("JudgmentCost").text; 
+					var totalCost = Services.getValue("/ds/EnterVariableData/Judgment/costs");
+					var dsDom = WPU._getDsDOM();
+					var caseCourtFee = dsDom.selectSingleNode("/params/param/ds/ManageCase/DetailsOfClaim/CourtFee").text;
+					var caseSolicitorFee = dsDom.selectSingleNode("/params/param/ds/ManageCase/DetailsOfClaim/SolicitorsCosts").text;;
+					if (totalCost > parseFloat(caseCourtFee) + parseFloat(caseSolicitorFee) + parseFloat(judgmentCost)) {
+						if ( confirm(Messages.QA_CONFIRM_INVALIDFEES_MESSAGE) )
+						{
+							onSave.unshift(['CheckCCBCCost','CheckCCBCCostCallback']);
+							CaseManWPProcessStep.LowerProgressBar(WP.GetScreenProcess());
+							return false; 
+						}
+						else
+						{
+							var eventSeqNo = Services.getValue("/ds/CaseEvent/CaseEventSeq");
+							var params = new ServiceParams();
+							params.addSimpleParameter("caseEventSeq", eventSeqNo);				
+							Services.callService("updateCaseEventErrorOff", params, CheckCCBCCostCallback, true);
+						}
+					}
+					else {
+						Save_All(); } }
+				else { Save_All(); } }
+			else {
+				alert(Messages.NO_RESULTS_MESSAGE); 
+				Save_All(); }
+		}
+		else if ( serviceName == "updateCaseEventErrorOff" )
+		{
+			WPError.FinishProcess(WP.GetScreenProcess());
+		}
+	}
+	
+	CheckCCBCCostCallback.onBusinessException = function(exception) {
+		alert(Messages.FAILEDSAVE_MESSAGE); }
+
+	CheckCCBCCostCallback.onSystemException = function(exception) {
+		alert(Messages.FAILEDSAVE_MESSAGE); }	
+	</JavaScript>
+</Group>

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<DBMapDef>
+  <DataSource id="java:OracleDS"/>
+  <Tables>
+    <Table alias="PS" name="PAYMENT_SUMMARY"/>
+  </Tables>
+  <Mapping>
+	<EndOfDayRecords>
+		<AccountingPeriodEnded>${PS.ACCOUNTING_PERIOD_ENDED}</AccountingPeriodEnded>
+		<NoBroughtForwardRow>${PS.NO_BROUGHT_FORWARD_ROW}</NoBroughtForwardRow>
+		<PaymentSummaries>
+			<PaymentSummary>
+				<ReportId>${PS.REPORT_ID}</ReportId>
+				<DCSDate>${PS.DCS_DATE}</DCSDate>
+				<InOutFlag>${PS.INOUT}</InOutFlag>
+				<AdminCourtCode>${PS.ADMIN_COURT_CODE}</AdminCourtCode>
+				<Valid>${PS.VALID}</Valid>
+				<OrdinaryCurrency>${PS.ORDINARY_CURRENCY}</OrdinaryCurrency>
+				<Ordinary>${PS.ORDINARY}</Ordinary>
+				<Judgment1000Currency>${PS.JGMT1000_CURRENCY}</Judgment1000Currency>
+				<Judgment1000>${PS.JGMT1000}</Judgment1000>
+				<ChequeCurrency>${PS.CHEQUE_CURRENCY}</ChequeCurrency>
+				<Cheque>${PS.CHEQUE}</Cheque>
+				<AOCAEOCurrency>${PS.AO_CAEO_CURRENCY}</AOCAEOCurrency>
+				<AOCAEO>${PS.AO_CAEO}</AOCAEO>
+				<MiscellaneousCurrency>${PS.MISCELLANEOUS_CURRENCY}</MiscellaneousCurrency>
+				<Miscellaneous>${PS.MISCELLANEOUS}</Miscellaneous>
+			</PaymentSummary>
+		</PaymentSummaries>
+	</EndOfDayRecords>
+  </Mapping>
+</DBMapDef>

@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: Codedparty
+	Method:  addCodedParty()
+	File:    map.xml
+	Author:  Troy Baines
+	Description:
+		Creates a Local Coded Party.
+
+	Change History:
+	v1.0: Troy Baines
+	v1.1: Chris Hutt       20/12/04   <CourtCode> tag added
+	                                  <PartyId> now sourced from PARTIES table
+	v1.2: Phil Haferer     21/04/05   <PartyId> tag added to <Address> 
+									  This was done to allow the client-side to identify address that 
+									  belong to Coded Parties.
+	v1.3: Chris Vincent    01/09/06   Added CreatedBy node so can add created by for address (Defect 4757)
+-->
+<DBMapDef>
+  <DataSource id="java:OracleDS"/>
+  <Tables>
+    <Table alias="CP" name="CODED_PARTIES"/>
+    <Table alias="P" name="PARTIES"/>
+    <Table alias="GA" name="GIVEN_ADDRESSES"/>    
+  </Tables>
+  <Mapping>
+    <CodedParties>
+    	<CodedParty>
+    		<Code>${CP.CODE}</Code>
+    		<PartyId>${P.PARTY_ID}</PartyId>
+			<CourtCode>${CP.ADMIN_COURT_CODE}</CourtCode>
+    		<Name>${P.PERSON_REQUESTED_NAME}</Name>	
+    		<Company>${P.COMPANY_NAME}</Company>	
+			<ContactDetails>
+				<Address>
+					<AddressId>${GA.ADDRESS_ID}</AddressId>
+					<Line>${GA.ADDRESS_LINE1}</Line>
+					<Line>${GA.ADDRESS_LINE2}</Line>
+					<Line>${GA.ADDRESS_LINE3}</Line>
+					<Line>${GA.ADDRESS_LINE4}</Line>
+					<Line>${GA.ADDRESS_LINE5}</Line>
+					<PostCode>${GA.POSTCODE}</PostCode>
+					<Reference>${GA.REFERENCE}</Reference>
+					<DateFrom>${GA.VALID_FROM}</DateFrom>
+					<DateTo>${GA.VALID_TO}</DateTo>
+					<CreatedBy>${GA.UPDATED_BY}</CreatedBy>
+		    		<PartyId>${GA.PARTY_ID}</PartyId>
+				</Address>
+				<DX>${P.DX_NUMBER}</DX>
+				<TelephoneNumber>${P.TEL_NO}</TelephoneNumber>
+				<FaxNumber>${P.FAX_NUMBER}</FaxNumber>
+				<EmailAddress>${P.EMAIL_ADDRESS}</EmailAddress>
+				<PreferredCommunicationMethod>???</PreferredCommunicationMethod>
+				<!--TranslationToWelsh>${P.WELSH_INDICATOR}</TranslationToWelsh-->
+				<TranslationToWelsh>???</TranslationToWelsh>
+			</ContactDetails>
+    	</CodedParty>
+    </CodedParties>	
+  </Mapping>
+</DBMapDef>

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<DBMapDef>
+	<DataSource id="java:OracleDS"/>
+	<Tables>
+		<Table alias="RP" name="REJECT_PAID_WO_DETAILS"/>
+		<Table alias="RR" name="REJECT_REASONS"/>
+	</Tables>
+	<Mapping>
+		<RejectedPaids>
+			<RejectedPaid>
+				<CaseNumber>${RP.CASE_NUMBER}</CaseNumber>
+				<CreditorCode>${RP.CRED_CODE}</CreditorCode>
+				<RejectedCode>${RP.REJECT_CODE}</RejectedCode>
+				<DateRejected>${RP.DATE_REJECTED}</DateRejected>
+				<DefendantId>${RP.DEFENDANT_ID}</DefendantId>
+				<RejectReason>${RR.REJECT_TEXT}</RejectReason>
+				<FileSequenceNumber>${RP.CUST_FILE_SEQUENCE}</FileSequenceNumber>
+				<Type>${RP.TYPE}</Type>
+				<DatePaid>${RP.DATE_PAID}</DatePaid>
+				<Validated>${RP.VALIDATED}</Validated>
+			</RejectedPaid>
+		</RejectedPaids>
+	</Mapping>
+</DBMapDef>

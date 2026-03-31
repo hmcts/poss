@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: TransferCase
+	Method:  updateCaseLocalCodedPartyList()
+	File:    update_case_local_coded_party_list.xml
+	Author:  Phil Haferer (EDS)
+	Created: 27 July 2005
+	Description: 
+		Update the details of the Coded Parties that are linked into a Case,
+		converting them to non-coded parties.
+-->
+<service-method>
+	<pipeline>
+		<Update>
+			<QueryDef location="uk/gov/dca/caseman/transfer_case_service/query_def_case_local_coded_party_list.xml"/>
+			<DataSource xpath="/params/param[@name='partyList']"/>
+			<QueryExtension pivotNode="/CaseLocalCodedPartyList/CaseLocalCodedParty">
+				<CheckExists table="c" fields="case_number" onNotExist="fail" onExist="update"/>
+			</QueryExtension>
+		</Update>
+	</pipeline>
+	<Security roles="user"/>
+</service-method>

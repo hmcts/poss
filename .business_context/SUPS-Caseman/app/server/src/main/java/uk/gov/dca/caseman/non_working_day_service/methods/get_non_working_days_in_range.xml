@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: NonWorkingDay
+	Method:  getNonWorkingDaysInRange()
+	File:    get_non_working_days_in_range.xml
+	Author:  Chris Vincent
+	Created: 01 February 2010
+	Description: 
+		Returns a list of non working days between a receipt date and a process date.  Trac 2651
+-->
+<service-method>
+	<pipeline>
+		<SQLLite format-output="true"
+				 resultset-element="NonWorkingDays"
+				 row-element="NonWorkingDay"
+				 field-name-as="element" >
+			<DataSource id="java:OracleDS"/>
+			<Param name="param.receiptDate" xpath="/params/param[@name = 'receiptDate']"/>
+			<Param name="param.processingDate" xpath="/params/param[@name = 'processingDate']"/>
+			<SQL>
+				SELECT TO_CHAR(NWD.NON_WORKING_DATE,'YYYY-MM-DD')	AS "Day"
+				FROM   NON_WORKING_DAYS NWD
+				WHERE  NWD.NON_WORKING_DATE BETWEEN TO_DATE(${param.receiptDate},'YYYY-MM-DD')
+				AND    TO_DATE(${param.processingDate},'YYYY-MM-DD')
+				AND    NWD.ERROR_INDICATOR = 'N'
+			</SQL>
+		</SQLLite>
+  	</pipeline>
+	<Security roles="viewOnly medium high wcSuper scSuper bmsSuper aeSuper dmSuper cpSuper ccbcMan ccbcUser ccbcSGB2"/>
+</service-method>
+

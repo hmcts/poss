@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>9236</Id>
+	<Label>Party making application</Label>
+	<ObjectName>PMApp</ObjectName>	
+		
+	<Html>	
+		<script type="text/javascript">
+			AutoCompletionRenderer.createInline("PMApp");		
+		</script>	
+	</Html>
+	
+	<Javascript>
+		<XPath>/ds/EnterVariableData/PMApp</XPath>
+		<HintText>Select the party making application</HintText>
+		<isMandatory>return true;</isMandatory>
+		<initialise>
+			var parties = Services.getNodes("/ds/ManageCase/Parties/LitigiousParty");
+			if(Services.exists(REF_DATA_XPATH + "/Parties"))
+			{
+				Services.removeNode(REF_DATA_XPATH +  "/Parties" );
+				for(var i = 0; i &lt; parties.length; i++) 
+				{
+					var party = parties[i];
+					Services.addNode(party, REF_DATA_XPATH + "/Parties");	
+				}
+			}
+			else
+			{
+				for(var i = 0; i &lt; parties.length; i++) 
+				{
+					var party = parties[i];
+					Services.addNode(party, REF_DATA_XPATH + "/Parties");	
+				}
+			}
+		</initialise>	
+		<miscCode>
+			PMApp.srcData = REF_DATA_XPATH + "/Parties";
+			PMApp.rowXPath = "LitigiousParty";
+			PMApp.keyXPath = "PartyId";
+			PMApp.displayXPath = "Name";
+		</miscCode>				
+	</Javascript>
+
+</Question>

@@ -1,0 +1,23 @@
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>531</Id>
+	<Label>Name of individual</Label>
+	<ObjectName>IndividualName</ObjectName>
+	<Html>	
+		<input type="text" id="IndividualName"></input>
+	</Html>			
+	<Javascript>
+		<XPath>/ds/EnterVariableData/Guardianship/individualName</XPath>
+		<componentName>##label##</componentName>
+		<isMandatory>return true;</isMandatory>
+		<HintText>Enter Y if an individual is named - list available</HintText>	
+		<enableOn>IsNamedIndividual.dataBinding</enableOn>
+		<isEnabled>return( 'Y' == Services.getValue(IsNamedIndividual.dataBinding));</isEnabled>
+		<logicOn>IsNamedIndividual.dataBinding</logicOn>
+		<logic>
+			if( 'Y' != Services.getValue(IsNamedIndividual.dataBinding))
+			{	Services.setValue(IndividualName.dataBinding, "");
+			}
+		</logic>
+				
+	</Javascript>
+</Question>

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: Dom
+	Method:  updateDom()
+	File:    update_dom.xml
+	Author:  Phil Haferer (EDS), Ian Stainer (Valtech)
+	Created: 07 July 2005
+	Description: 
+		Add determination of means details.
+-->
+<service-method>
+	<pipeline>
+		<Update>
+			<QueryDef location="uk/gov/dca/caseman/dom_service/query_def_update_dom.xml"/>
+			<DataSource xpath="/params/param[@name='determinationOfMeans']"/>
+			<QueryExtension pivotNode="/ds/DeterminationOfMeans">
+				<CheckExists table="CO" fields="CO_NUMBER" onExist="update" onNotExist="fail"/>
+			</QueryExtension>
+		</Update>
+	</pipeline>
+	<Security roles="medium high wcSuper scSuper bmsSuper aeSuper dmSuper cpSuper"/> 	
+</service-method>

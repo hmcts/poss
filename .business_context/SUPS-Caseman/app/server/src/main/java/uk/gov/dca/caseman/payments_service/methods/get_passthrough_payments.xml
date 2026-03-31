@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: Payments
+	Method: getPassthroughPayments()
+	File: get_passthrough_payments.xml
+	Author: Tony White
+	Description:
+		Get details of passthrough payments.
+-->
+<service-method>
+	<pipeline>
+		<Query>
+			<QueryDef location="uk/gov/dca/caseman/payments_service/query_def_passthrough_payment_details.xml" />
+			<QueryExtension pivotNode="/Payments/Payment">
+				<Param name="param.enforcementNumber" xpath="/params/param[@name = 'enforcementNumber']" />
+				<Param name="param.enforcementCourt" xpath="/params/param[@name = 'enforcementCourt']" />
+				<Param name="param.enforcementType" xpath="/params/param[@name = 'enforcementType']" />
+				<Constraint>P.SUBJECT_NO = ${param.enforcementNumber}</Constraint>
+				<Constraint>P.ENFORCEMENT_COURT_CODE = ${param.enforcementCourt}</Constraint>
+				<Constraint>P.PAYMENT_FOR = ${param.enforcementType}</Constraint>
+				<Constraint>P.PASSTHROUGH = 'Y'</Constraint>
+				<Constraint>P.RELATED_TRANSACTION_NUMBER IS NULL</Constraint>
+			</QueryExtension>
+		</Query>		
+	</pipeline>
+	<Dependencies>				
+		<Dependency serviceName="Co" />
+	</Dependencies>
+	<Security roles="medium high wcSuper scSuper bmsSuper aeSuper dmSuper cpSuper" />
+</service-method>

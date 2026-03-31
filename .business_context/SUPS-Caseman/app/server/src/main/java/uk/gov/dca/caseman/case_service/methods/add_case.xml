@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- 
+	Service: Case
+	Method:  addCase()
+	File:    add_case.xml
+	Author:  Chris Hutt
+	Created: 12 Nov 2004
+	Description: 
+		Create a case (including the associated 001 standard event)
+--> 
+<service-method>
+	<pipeline>
+		<Transform>
+			<Template location="uk/gov/dca/caseman/case_service/transforms/modify_case.xsl"/>
+		</Transform>
+		<Add>
+			<QueryDef location="uk/gov/dca/caseman/case_service/query_def_case_modify.xml"/>
+			<DataSource xpath="/params/param[@name='caseNumber']"/>
+			<QueryExtension pivotNode="/ds/ManageCase">
+				<CheckExists table="c" fields="case_number" onExist="fail"/>
+			</QueryExtension>
+		</Add>
+		<Java callStyle="new">
+			<Source class="uk.gov.dca.caseman.case_service.java.ManageCasePartiesCustomProcessor"/>
+		</Java>
+		<Add>
+			<QueryDef location="uk/gov/dca/caseman/case_service/query_def_case_modify_CPR.xml"/>
+			<DataSource xpath="/params/param[@name='caseNumber']"/>
+		</Add>
+		<Java callStyle="new">
+			<Source class="uk.gov.dca.caseman.case_service.java.InsertManageCaseCaseEventsCustomProcessor"/>
+		</Java>
+		<Java>
+			<Source class="uk.gov.dca.caseman.case_event_service.java.InsertCaseEvent001CaseRecordCreatedCustomProcessor"/>
+		</Java>
+	</pipeline>
+	<Dependencies>
+		<Dependency serviceName="CaseEvent"/>	
+		<Dependency serviceName="UserCourt"/>		
+	</Dependencies>		
+	<Security roles="medium high wcSuper scSuper bmsSuper aeSuper dmSuper cpSuper ccbcMan ccbcUser ccbcSGB2"/> 
+</service-method>

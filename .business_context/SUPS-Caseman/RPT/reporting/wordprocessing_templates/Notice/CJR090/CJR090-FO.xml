@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- ====================================================================== -->
+<!--  -->
+<!-- FILENAME: $Source: C:/CVSRepository/serveroas/src/uk/gov/dca/caseman/wordprocessing_templates/Notice/CJR090/CJR090-FO.xml,v $ -->
+<!--  -->
+<!-- AUTHOR: $Author: conganer $-->
+<!--  -->
+<!-- DATE: $Date: 2006/04/20 12:49:56 $ -->
+<!--  -->
+<!-- Version: $Revision: 1.10 $ -->
+<!--  -->
+<!-- DESCRIPTION: This stylesheet is used to create an XSL:FO document that -->
+<!-- can be processed into a PDF version.  Business logic -->
+<!-- is embedded to generate the correct document text for the order -->
+<!-- required. -->
+<!--  -->
+<!-- INPUTS: XML document containing: the answers to questions asked of the -->
+<!-- user; case data retrieved from the database; HTML representing the  -->
+<!-- body of the document content (already edited by the user). -->
+<!--  -->
+<!-- OUTPUTS: XML document with FO tags containing instructions for the -->
+<!-- creation of a PDF document. -->
+<!--  -->
+<!-- ====================================================================== -->
+<root xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:fo="http://www.w3.org/1999/XSL/Format" xmlns="http://eds.com/supsfo">
+	<variables>@word.processing.url.xsl@supsfo.xsl</variables>
+	<layout>order</layout>
+	<duplex/>	
+	<addressee>
+		<blank/>
+		<subject/>
+		<instigators/>
+		<thirdparty/>
+	</addressee>
+	<header>
+		<fo:block font-size="16pt" font-weight="bold">Hardship payment order</fo:block>
+	</header>
+	<courtcase>
+		<court>
+			<xsl:copy-of select="$vdCourtHeaderBlock"/>
+		</court>
+		<caseparameters>
+			<parameter>
+				<name>
+					<fo:block font-weight="bold">Claim Number</fo:block>
+				</name>
+				<value>
+					<fo:block>
+						<xsl:value-of select="$vdClaimNumber"/>
+					</fo:block>
+				</value>
+			</parameter>
+			<parameter>
+				<name>
+					<fo:block>Third Party</fo:block>
+				</name>
+				<value>
+					<fo:block>
+						<xsl:value-of select="$vdThirdPartyName"/>
+					</fo:block>
+				</value>
+			</parameter>
+		</caseparameters>
+	</courtcase>
+	<bodyintroright><fo:block space-before="0.4cm"><fo:inline text-align="center"><seal/></fo:inline></fo:block></bodyintroright>
+
+	<body>
+		<editable useid="N10089">
+		<fo:block space-after="1.0cm">
+			<fo:inline font-weight="bold">On</fo:inline>&#xa0;<xsl:value-of select="$vdOrderDate"/>, <xsl:value-of select="$vdJudge"/>
+		</fo:block>
+		<fo:block space-after="0.8cm">
+			sitting at <xsl:value-of select="$vdHearingAtCourtNameDescription"/>, <xsl:value-of select="$vdHearingAtCourtAddress"/>
+		</fo:block>
+		<fo:block space-after="0.8cm">
+			considered the application of the <xsl:value-of select="$vdJudgmentDebtor"/> ('the judgment debtor')<xsl:if test="string-length($vdHearingAttendees) > 0"> and <xsl:copy-of select="$vdHearingAttendees"/></xsl:if>.
+		</fo:block>
+		<fo:block space-after="0.8cm">
+			An interim third party debt order made on <xsl:value-of select="$vdInterimNoticeDate"/> forbids the third party from paying to the judgment debtor or any other person &#163;<xsl:value-of select="$vdInterimOrderTotal"/> or (if less) the amount due from it to the
+			judgment debtor until the application of the <xsl:value-of select="$vdJudgmentCreditor"/> ('the judgment creditor') is heard, unless the court orders otherwise; it appears that the amount which is due from the third party
+			to the judgment debtor (after deducting the expenses allowed on receiving the interim third party debt order) is &#163;<xsl:value-of select="$vdThirdPartyAmount"/>
+		</fo:block>
+		<fo:block space-after="0.8cm">
+			<fo:inline font-weight="bold">and the court orders</fo:inline> that the third party may pay to <xsl:value-of select="$vdHardship1"/> out of the amount due from it to the judgment debtor &#163;<xsl:value-of select="$vdPaymentAmount"/> on <xsl:value-of select="$vdHardship2"/>.
+		</fo:block>
+		<fo:block space-after="0.8cm">
+			The question whether one party should bear the other party's costs of this application and, if so, how will be considered on the hearing of the judgment creditor's application.
+		</fo:block>
+		</editable>
+	</body>
+
+	<defaultFooter id="CJR090"/>
+</root>

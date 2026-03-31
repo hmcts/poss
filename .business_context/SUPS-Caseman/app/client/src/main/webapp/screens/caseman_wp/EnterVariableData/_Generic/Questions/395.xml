@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>395</Id>
+	<Label>Has applicant produced list of documents?</Label>
+	<ObjectName>HasAppDocList</ObjectName>
+	<Context screenId="FE45"><isVisible>false</isVisible></Context>
+	<Html>	
+		<input type="checkbox" id="HasAppDocList"></input>
+	</Html>			
+	<Javascript>
+		<XPath>/ds/EnterVariableData/AttendForQuestion/hasAppDocList</XPath>
+		<componentName>##label##</componentName>
+		<modelValue>checked: "Y", unchecked: "N"</modelValue>
+		<HintText>Check box if list has been supplied</HintText>	
+		<enableOn>IsN39Reqd.dataBinding</enableOn>
+		<isEnabled>
+			return( !IsN39Reqd.isEnabled() || 'Y' == Services.getValue(IsN39Reqd.dataBinding));
+		</isEnabled>
+		<logicOn>IsN39Reqd.dataBinding</logicOn>
+		<logic>
+			if( IsN39Reqd.isEnabled() &amp;&amp; 'Y' != Services.getValue(IsN39Reqd.dataBinding))
+			{	Services.setValue(HasAppDocList.dataBinding, "N");
+			}
+		</logic>
+		
+		<Context ScreenId="FE45">
+			<enableOn>HasAppDocList.dataBinding</enableOn>
+			<isEnabled>return false;</isEnabled>
+			<logicOn>HasAppDocList.dataBinding</logicOn>
+			<logic></logic>
+		</Context>	
+	</Javascript>
+</Question>

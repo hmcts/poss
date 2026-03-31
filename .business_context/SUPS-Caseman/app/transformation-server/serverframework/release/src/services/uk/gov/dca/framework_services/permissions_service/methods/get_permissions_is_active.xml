@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<service-method>
+	<pipeline>
+		<Query>
+			<QueryDef location="uk/gov/dca/framework_services/permissions_service/query_def.xml"/>
+			<QueryExtension pivotNode="/Permissions/Permission">
+				<Param name="param.userID" xpath="/params/param[@name='SUPS.userID']"/>
+				<Param name="param.isActive" xpath="/params/param[@name='IsActive']"/>
+				<Constraint>
+					P.USER_ID = ${param.userID} AND
+					P.IS_ACTIVE = ${param.isActive}
+				</Constraint>
+			</QueryExtension>
+		</Query>
+	</pipeline>
+	<Security roles="user"/>
+</service-method>

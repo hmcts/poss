@@ -1,0 +1,22 @@
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>631</Id>
+	<Label>Date by which fee is to be paid</Label>
+	<ObjectName>FeePayByDate</ObjectName>
+	<Html>	
+		<script type="text/javascript">
+			WP_DatePickerRenderer.createInline("FeePayByDate");
+		</script>
+	</Html>		
+	
+	<Javascript>
+		<XPath>/ds/EnterVariableData/PayFee/feePayByDate</XPath>
+		<componentName>##label##</componentName>
+		<isMandatory>return false;</isMandatory>
+		<HintText></HintText>
+		<isReadOnly>return true;</isReadOnly>	
+		<initialise>
+			var expDate = Services.getValue("/ds/wp/MaintainObligations/Obligations/Obligation[./ObligationSeq = "+obligationSeqNo+"]/ExpiryDate");				                              
+			Services.setValue(FeePayByDate.dataBinding, expDate);
+		</initialise>	
+	</Javascript>
+</Question>

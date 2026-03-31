@@ -1,0 +1,241 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+Change History
+Chris Hutt 15 Nov 2007 : target "generate-javadocs" added
+Paul Hardie 21 Oct 2008 : rationalised build script, includes the following changes: -
+1. init task: Removed all JBOSS conditional logic, script now assumes the deployment platform is OAS.
+2. deploy_incl_wp: Removed all JBOSS conditional logic, script now assumes the deployment platform is OAS
+3. Moved properties into application.properties file to centralise them and reenmove duplication.
+-->
+<project name="caseman_server_build" default="deploy_incl_wp" basedir=".">
+	
+	<property environment="env" />
+	<property file="application.properties"/>
+
+    <target name="deploy_incl_wp" depends="sync, create_mdb_jar">
+		<echo>::::${serverframework.dir}</echo>
+		<echo>::::${build.dir}</echo>
+		<ant target="build-app__build" dir="serverframework/release" antfile="${default_ant_file}">
+			<property name="basedir" value="${serverframework.dir}"/>
+			<property name="env.PROJECT_BASE" value="${build.dir}"/>	
+			<property name="release_dir" value="${build.dir}/ServerFramework/release"/>						
+		</ant>
+		
+		<ant target="build-app__deploy" dir="serverframework/release" antfile="${default_ant_file}">
+			<property name="basedir" value="${serverframework.dir}"/>
+			<property name="env.PROJECT_BASE" value="${build.dir}"/>	
+			<property name="release_dir" value="${build.dir}/ServerFramework/release"/>								
+		</ant>
+		
+		<!-- Temporary fix to include jspell lib -->
+		<jar destfile="${dist.dir}/${application.name}.ear" update="true">
+			<fileset file="${user.dir}/lib/jspelliframe2k4.jar"/>
+		</jar>
+			
+		
+        <!-- Undeploy the application on OAS unless the switch tells us to skip this step -->
+        <if>
+            <!-- Set via command line with -Dskip.undeploy.oas=true -->
+            <equals arg1="${skip.undeploy.oas}" arg2="true"/>
+            <then>
+                <echo>Skipping undeploying application &apos;caseman_ear&apos; on OC4J instance &apos;caseman&apos;.</echo>
+            </then>
+            <else>
+                <echo>Undeploying application &apos;caseman_ear&apos; on OC4J instance &apos;caseman&apos;...</echo>
+                <exec executable="${oas.home}/dcm/bin/dcmctl.bat">
+                    <arg line="undeployApplication -a caseman_ear -co caseman"/>
+                </exec>
+            </else>
+        </if>
+
+        <!-- Deploy the ear to OAS -->
+        <echo>Deploying ${dist.dir}/${application.name}.ear as application &apos;caseman_ear&apos; on OC4J instance &apos;caseman&apos;...</echo>
+        <exec executable="${oas.home}/dcm/bin/dcmctl.bat">
+            <arg line="deployApplication -f ${dist.dir}/${application.name}.ear -a caseman_ear -co caseman"/>
+        </exec>
+	</target>
+	
+	<target name="init">	
+		<!-- Check that the base build directory has been set -->
+		<fail message="You have not set the base.build.dir property so I am terminating." unless="base.build.dir"/>
+
+		<!-- If the user has not specified where the ant contrib jar is located then default it -->
+        <condition property="ant-contrib-jar" value="${serverframework.lib.dir}/ant-contrib/ant-contrib-1.0b1.jar">
+			<not>
+				<isset property="ant-contrib-jar"/>
+			</not>
+		</condition>
+
+        <!-- Register the ant contrib jar so we can use the custom tasks -->
+		<taskdef resource="net/sf/antcontrib/antcontrib.properties">
+			<classpath>
+				<pathelement location="${ant-contrib-jar}"/>
+	        </classpath>
+		</taskdef>		
+		
+		<!--
+			Assume target platform is OAS - make sure the OAS home directory has been specified			
+		-->
+        <if>
+            <not>
+                <isset property="oas.home"/>
+            </not>
+            <then>
+                <fail message="You have not specified the OAS home directory (oas.home) so I am terminating."/>
+            </then>
+        </if>
+
+	</target>	
+	
+	<target name="sync" depends="init">
+		<!-- Copy all files from clearcase into the local machine.  This improves the build performance -->
+		<sync todir="${build.dir}/lib">
+			<fileset dir="${user.dir}/lib"/>
+		</sync>
+		<!-- Always remove the xmlquery2.xml so a new one is copied across each time -->
+		<!-- This is done because we update it's ejb-jar.xml during the build -->
+		<delete file="${build.dir}/serverframework/release/lib/SUPS-OAS/xmlquery2.jar"/>
+		<sync todir="${build.dir}/serverframework">
+			<fileset dir="${user.dir}/serverframework"/>
+		</sync>
+		<copy todir="${build.dir}/serverframework/release/dist">
+			<fileset dir="${user.dir}/rsc/dist/"/>
+		</copy>
+		<sync todir="${build.dir}/src">
+			<fileset dir="${user.dir}/src"/>
+		</sync>
+		<!-- reset all properties files to an undeployed state -->
+		<copy todir="${build.dir}/src" overwrite="true">
+			<fileset dir="${user.dir}/src" includes="**/*.properties"/>
+		</copy>
+		<sync todir="${build.dir}/rsc">
+			<fileset dir="${user.dir}/rsc"/>
+		</sync>
+		<sync todir="${build.dir}/conf">
+			<fileset dir="${user.dir}/conf"/>
+		</sync>		
+		<copy todir="${build.dir}">
+			<fileset dir="${user.dir}">
+				<include name="*.properties"/>
+				<include name="*.xml"/>
+			</fileset>
+		</copy>
+		<copy todir="${build.dir}/serverframework/release/build/META-INF" overwrite="true">
+			<fileset dir="${user.dir}/rsc">
+				<include name="application.xml"/>
+			</fileset>
+		</copy>
+		<copy todir="${build.dir}/serverframework/release/" overwrite="true">
+			<fileset dir="${user.dir}/rsc">
+				<include name="build.xml"/>
+			</fileset>
+		</copy>
+		<copy todir="${build.dir}/serverframework/release/dist" overwrite="true">
+			<fileset dir="${user.dir}/rsc/dist">
+				<include name="build.xml"/>
+			</fileset>
+		</copy>
+		<copy todir="${build.dir}/web-config">
+			<fileset dir="${user.dir}/web-config"/>
+		</copy>		
+		<copy todir="${service.config.directory}">
+			<fileset dir="${user.dir}/cache-config"/>
+		</copy>	
+		
+		<!-- Update the framework xmlquery2 security bean so that it can call the Caseman services it needs when retrieving the ldap printer list -->
+		<ant antfile="caseman_server_update_xmlquery2.xml" target="update_xmlquery2" inheritall="false">
+			<!-- The order here is important - set the resources dir before changing the basedir -->
+			<property name="resources.dir" value="${basedir}/build_resources"/>									
+			<property name="basedir" value="${build.dir}"/>			
+		</ant>				
+	</target>
+			
+	<target name="clean" depends="init">
+		<delete dir="${build.dir}"/>	
+		<!--<delete dir="${service.config.directory}"/>-->
+	</target>
+		
+	<target name="deploy_no_external" depends="sync, create_mdb_jar">
+		<!-- Call the real build file. Note it deploys JBOSS for us if that is the selected platform -->
+		<ant antfile="${default_ant_file}"  target="build-app__build_deploy_no_external">
+			<property name="basedir" value="${serverframework.dir}"/>
+			<property name="env.PROJECT_BASE" value="${build.dir}"/>			
+			<property name="release_dir" value="${build.dir}/ServerFramework/release"/>						
+		</ant>
+		
+        <!-- Undeploy the application on OAS unless the switch tells us to skip this step -->
+        <if>
+            <!-- Set via command line with -Dskip.undeploy.oas=true -->
+            <equals arg1="${skip.undeploy.oas}" arg2="true"/>
+            <then>
+                <echo>Skipping undeploying application &apos;caseman_ear&apos; on OC4J instance &apos;caseman&apos;.</echo>
+            </then>
+            <else>
+                <echo>Undeploying application &apos;caseman_ear&apos; on OC4J instance &apos;caseman&apos;...</echo>
+                <exec executable="${oas.home}/dcm/bin/dcmctl.bat">
+                    <arg line="undeployApplication -a caseman_ear -co caseman"/>
+                </exec>
+            </else>
+        </if>
+
+        <!-- Deploy the ear to OAS -->
+        <echo>Deploying ${dist.dir}/${application.name}.ear as application &apos;caseman_ear&apos; on OC4J instance &apos;caseman&apos;...</echo>
+        <exec executable="${oas.home}/dcm/bin/dcmctl.bat">
+            <arg line="deployApplication -f ${dist.dir}/${application.name}.ear -a caseman_ear -co caseman"/>
+        </exec>
+
+	</target>
+	
+	<!-- Compile classes in src/uk/gov/dca/caseman/caseman_mdbs into build/platform-type/outofdate directory -->
+	<target name="compile_mdbs" depends="init">
+        <path id="mdb_project_path">
+            <path path="${serverframework.dir}/src/framework"/>
+            <fileset dir="${serverframework.dir}/lib" includes="**/*.jar"/>
+        </path>
+		
+		<mkdir dir="${build.dir}/build/OAS/outofdate"/>
+				
+		 <javac sourcepath="" srcdir="${build.dir}/src" destdir="${build.dir}/build/OAS/outofdate">
+			<classpath>
+                <path refid="mdb_project_path"/>
+            </classpath>			
+            
+            <include name="uk/gov/dca/caseman/caseman_mdbs/**/*.java"/>
+        </javac>
+	</target>
+	
+	<!-- 
+		Generate CaseManMDB.jar in build/platform-type/jars/ directory. 
+		When Framework build script runs, it will automatically pick this jar file and add it to ear file
+		and also modify the application.xml. Notice that the ejb-jar.xml, Manifest.mf and orion-ejb.jar are NOT genereated automatically. 
+		They are stored in src/uk/gov/dca/caseman/caseman_mdbs/meta-inf directory. 
+		Some environment setting are used in these files, that should stay same across.
+	-->
+	<target name="create_mdb_jar" depends="compile_mdbs">
+		<mkdir dir="${build.dir}/build/OAS/jars"/>
+        <jar destfile="${build.dir}/build/OAS/jars/CaseManMDB.jar" manifest="${build.dir}/src/uk/gov/dca/caseman/caseman_mdbs/meta-inf/Manifest.mf">
+            <metainf dir="${build.dir}/src/uk/gov/dca/caseman/caseman_mdbs/meta-inf">
+                <include name="ejb-jar.xml"/>
+                <include name="orion-ejb-jar.xml"/>
+            </metainf>
+            <fileset dir="${build.dir}/build/OAS/outofdate">
+                <include name="uk/gov/dca/caseman/caseman_mdbs/**/*.class"/>
+            </fileset>
+        </jar>		
+	</target>
+	
+	<!--
+		Generate javadocs	
+	-->
+	<target name="generate-javadocs" 
+			description="generate javadocs to ${base.build.dir}/apidocs">
+			<delete dir="${base.build.dir}/apidocs"/>
+			<javadoc destdir="${base.build.dir}/apidocs" verbose="false" 
+				author="true" private="true" windowtitle="Caseman Services API">
+				<fileset dir="src">
+					<include name="**/classes/*.java"/>
+					<include name="**/java/*.java"/>
+				</fileset>
+			</javadoc>
+		</target>
+</project>

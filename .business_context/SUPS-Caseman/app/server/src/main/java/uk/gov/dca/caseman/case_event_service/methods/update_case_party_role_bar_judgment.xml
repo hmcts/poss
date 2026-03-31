@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<service-method>
+	<pipeline>
+		<Update>
+			<QueryDef location="uk/gov/dca/caseman/case_event_service/query_def_update_case_party_role_bar_judgment.xml"/>
+			<DataSource xpath="/params/param"/>
+			<QueryExtension pivotNode="/CasePartyRole">
+				<CheckExists table="CPR" 
+							 fields="case_number case_party_no party_role_code" 
+							 onNotExist="skip" onExist="update"
+							 useOptimisticLock="false"/>
+			</QueryExtension>
+		</Update>
+	</pipeline>
+	<Security roles="user"/>
+</service-method>

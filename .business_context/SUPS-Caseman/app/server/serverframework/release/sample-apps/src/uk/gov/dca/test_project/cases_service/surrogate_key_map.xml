@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<DBMapDef>
+	<DataSource id="java:SupsDS"/>
+	<Tables>
+		<Table alias="C" name="CASES"/>
+		<Table alias="P" name="PARTIES"/>
+		<Table alias="CPR" name="CASE_PARTY_ROLES"/>
+		<Table alias="CTCR" name="CPR_TO_CPR_RELATIONSHIP" />
+	</Tables>
+	<Mapping>
+	  <Cases>
+		<Case adminCourtCode="${C.ADMIN_CRT_CODE}">
+			<CaseId>${C.CASE_NUMBER}</CaseId>
+			<CaseType>${C.CASE_TYPE}</CaseType>
+			<Claimant number="${CPR.CASE_PARTY_NO}">
+				<Id>${P.PARTY_ID}</Id>
+				<Name>${P.PERSON_REQUESTED_NAME}</Name>
+				<SolicitorId>${CTCR.CPR_B_PARTY_ID}</SolicitorId>
+				<SolicitorSurrogateKey>${CTCR.CPR_B_PARTY_ID}</SolicitorSurrogateKey>
+			</Claimant>
+			<Defendant number="${CPR.CASE_PARTY_NO}">
+				<Id>${P.PARTY_ID}</Id>
+				<Name>${P.PERSON_REQUESTED_NAME}</Name>
+				<SolicitorId>${CTCR.CPR_B_PARTY_ID}</SolicitorId>
+				<SolicitorSurrogateKey>${CTCR.CPR_B_PARTY_ID}</SolicitorSurrogateKey>
+			</Defendant>
+			<Solicitor>										
+				<Id>${P.PARTY_ID}</Id>
+				<Name>${P.PERSON_REQUESTED_NAME}</Name>
+				<SurrogateKey></SurrogateKey>
+			</Solicitor>
+		</Case>
+	  </Cases>
+	</Mapping>
+</DBMapDef>

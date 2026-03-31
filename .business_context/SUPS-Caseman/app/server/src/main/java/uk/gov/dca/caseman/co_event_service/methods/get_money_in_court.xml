@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: Co
+	Method:  getMoneyInCourt
+	Author:  Chris Hutt (EDS) 
+	Created: 8 august 2005
+	Description: 
+
+		v1.0 	8/8/05	Chris Hutt 	A DUMMY PENDING DEVELOPMENT OF SUITORS CASH
+
+		v1.1	26/1/06	Chris Hutt	Return releaseable monies. 
+									Releaseable is determined by the test 'TRUNC(PY.RELEASE_DATE) lt TRUNC(SYSDATE)'	 
+
+		14/08/2006	Chris Hutt	TD3975 - need to return releasebale and nonreleaseable amounts	
+								Rewritten as a query_def to overcome shortcoming of SQLLite in relation to &lt; and &gt; where
+								have select within a select.
+-->
+<service-method>
+	<pipeline>
+		<NewQuery>
+			<QueryDef location="uk/gov/dca/caseman/co_event_service/query_def_money_in_court.xml"/>
+			<QueryExtension pivotNode="/ds/MoneyInCourt/ReleaseableMoney">
+				<Param name="param.coNumber" xpath="/params/param[@name = 'coNumber']"/>
+			</QueryExtension>
+			<QueryExtension pivotNode="/ds/MoneyInCourt/NonReleaseableMoney">
+				<Param name="param.coNumber" xpath="/params/param[@name = 'coNumber']"/>
+			</QueryExtension>
+		</NewQuery>
+	</pipeline>
+	<Security roles="viewOnly medium high wcSuper scSuper bmsSuper aeSuper dmSuper cpSuper ccbcMan ccbcUser ccbcSGB2"/>
+</service-method>

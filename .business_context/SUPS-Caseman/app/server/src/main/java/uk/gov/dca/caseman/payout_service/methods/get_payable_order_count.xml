@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: Payout
+	Method:  getPayableOrderCount()
+	File:    get_payable_order_count.xml
+	Author:  Mark Hallam (EDS)
+	Created: 9th December 2005
+	Description: 
+		Get the count of payable orders
+-->
+<service-method>
+	<pipeline>
+		<SQLLite format-output="true"
+				 resultset-element="ds"
+				 row-element="payableOrders"
+				 field-name-as="element" >
+			<DataSource id="java:OracleDS"/>
+				<Param name="param.adminCourtCode" xpath="/params/param[@name='adminCourtCode']"/>
+			
+			<SQL>
+				
+			   	SELECT COUNT(PO.ROWID)   AS "payableOrders"
+  				FROM PAYABLE_ORDERS PO
+  				WHERE PO.ADMIN_COURT_CODE = ${param.adminCourtCode}
+  				
+			</SQL>
+		</SQLLite>
+	</pipeline>
+	<Security roles="viewOnly medium high wcSuper scSuper bmsSuper aeSuper dmSuper edsAdmin"/>	
+</service-method>

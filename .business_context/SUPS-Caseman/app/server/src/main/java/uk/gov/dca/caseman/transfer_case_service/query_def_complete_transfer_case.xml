@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: TransferCase 
+	Method:  completeTransferCase()
+	File:    query_def_complete_transfer_case.xml
+	Author:  Phil Haferer (EDS)
+	Created: 19 July 2005
+	Description: 
+		'Query Def' for compltion of transferring a SUPS to SUPS case.
+-->
+<QueryDef>
+  <DBMapDef location="uk/gov/dca/caseman/transfer_case_service/map_complete_transfer_case.xml"/>
+  <Query pivotNode="/TransferCase" tables="C">
+	<Join/>
+    <Modify/>
+  </Query>
+</QueryDef>

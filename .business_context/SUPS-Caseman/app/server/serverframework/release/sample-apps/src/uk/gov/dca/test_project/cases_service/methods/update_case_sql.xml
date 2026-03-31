@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<service-method>
+	<pipeline>
+		<Update>
+			<QueryDef location="uk/gov/dca/test_project/cases_service/query_def.xml"/>
+			<DataSource xpath="/params/param[@name='case']"/>
+			<QueryExtension pivotNode="/Case">
+				<SQL type="existenceCheck" tables="c">
+					SELECT 'EXISTS' FROM CASES C WHERE C.CASE_NUMBER = ${C.CASE_NUMBER}
+				</SQL>
+				<SQL type="update" tables="c">
+					UPDATE CASES C SET C.ADMIN_CRT_CODE = ${c.admin_crt_code} WHERE C.CASE_NUMBER = ${C.CASE_NUMBER}
+				</SQL>
+			</QueryExtension>
+		</Update>
+	</pipeline>
+	<Security roles="user"/>
+</service-method>

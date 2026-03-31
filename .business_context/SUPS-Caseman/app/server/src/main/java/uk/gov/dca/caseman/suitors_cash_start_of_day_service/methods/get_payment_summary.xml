@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: SuitorsCashStartOfDay
+	Method:  getPaymentSummary()
+	File:    get_payment_summary.xml
+	Author:  Anthony Bonnar
+	Created: 15 Novemeber 2005
+	Description: 
+		Looks for a match on the Payments Summary table, matching the date argument
+		against the 'dcs_date' with the valid field set to 'Y'.
+-->
+<service-method>
+	<pipeline>
+		<SQLLite format-output="true"
+				 resultset-element="ResultSet"
+				 row-element="Row"
+				 field-name-as="element" >
+			<DataSource id="java:OracleDS"/>
+			<Param name="param.date" xpath="/params/param[@name = 'date']"/>
+			<Param name="param.adminCourtCode" xpath="/params/param[@name = 'adminCourtCode']"/>
+			<SQL>
+			SELECT COUNT(*) AS "Total" FROM PAYMENT_SUMMARY PS
+				WHERE TRUNC(PS.DCS_DATE) = TRUNC(TO_DATE(${param.date},'dd-MM-yyyy'))
+				AND PS.ADMIN_COURT_CODE = ${param.adminCourtCode}
+				AND VALID = 'Y'
+			</SQL>
+		</SQLLite>
+	</pipeline>
+	<Security roles="viewOnly medium high wcSuper scSuper bmsSuper aeSuper dmSuper edsAdmin admin cpSuper"/>
+</service-method>

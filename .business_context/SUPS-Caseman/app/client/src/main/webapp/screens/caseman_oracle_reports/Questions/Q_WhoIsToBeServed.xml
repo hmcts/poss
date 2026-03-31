@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- 22 June 2006. Kevin Gichohi(EDS) : The Who Is To Be Served LOV was not getting populated due to missing "quotes" around the LOV in the Q_WhoIsToBeServed question. Added the Quotes -->
+<!--
+	19/12/2006 - CV - Added F6 keybinding to LOV via WhoIsToBeServedLOVGrid.raise configuration.
+	Temp_Caseman defects 299/334.
+-->
+<!--Question xmlns="http://eds.com/questionxhtml" xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd"-->
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>Q_WhoIsToBeServed</Id>
+	<Label>Who Is To Be Served</Label>
+	<ObjectName>WhoIsToBeServed</ObjectName>
+	<Html> 
+		<input id="WhoIsToBeServed" type="text" size="40" > </input>
+		<input id="WhoIsToBeServedLOVButton" type="Button" value="LOV"></input>
+        <script type="text/javascript">
+		 LOVPopupRenderer.createInline( "WhoIsToBeServedLOVGrid", "Who Is To Be Served", ["Value", "Description"], 10, 1, true );
+        </script>
+	</Html>
+	<Javascript>
+		<XPath>/ds/var/page/OracleReportForm/WhoIsToBeServed</XPath>
+		<ReportVariableName>REF_SECOND_PARTY</ReportVariableName>
+		<ReportVariableValue>Services.getValue(WhoIsToBeServed.dataBinding)</ReportVariableValue>
+		<ReportVariableCode>2800</ReportVariableCode>
+		<HintText></HintText>
+		<isMandatory>return true;</isMandatory>
+		<initialise></initialise>
+		<setDefault></setDefault>
+		<validateOn></validateOn>
+		<validate>
+			var description = Services.getValue(REF_DATA_XPATH + "/WhoIsToBeServedList/WhoIsToBeServed[./Value = " + WhoIsToBeServed.dataBinding + "]/Description");
+			var valueTest = Services.getValue( REF_DATA_XPATH + "/WhoIsToBeServedList/WhoIsToBeServed[./Description = " + WhoIsToBeServed.dataBinding + "]/Value" );
+			if (description == null &amp;&amp; valueTest == null)
+			{
+				// This is not a valid value - see list of Values
+				return ErrorCode.getErrorCode("CaseMan_Reports_Invalid_LOV_Msg");
+			}
+			else
+			{
+				return null;
+			}
+		</validate>
+		<transformToDisplay>
+			var description = Services.getValue( REF_DATA_XPATH + "/WhoIsToBeServedList/WhoIsToBeServed[./Value = " + WhoIsToBeServed.dataBinding + "]/Description" );
+			if (description != null)
+			{
+				return description;
+			}
+			else
+			{
+				return value;
+			}
+	    </transformToDisplay>
+        <transformToModel>
+             return (null != value) ? value.toUpperCase() : null;
+        </transformToModel>
+		<miscCode>
+		  	  
+		  WhoIsToBeServed.initialise = function() 
+		  { 
+				dom = getList("../LOV/WhoIsToBeServedList.xml"); 
+				Services.addNode(dom, REF_DATA_XPATH);
+				return false; 
+		  }
+		  
+		  	WhoIsToBeServed.srcData 		= REF_DATA_XPATH + "/WhoIsToBeServedList";
+			WhoIsToBeServed.rowXPath 	  	= "WhoIsToBeServed";
+			WhoIsToBeServed.keyXPath 	  	= "Value";
+			
+			function WhoIsToBeServedLOVButton() {}
+			WhoIsToBeServedLOVButton.tabIndex = __tabIdx++;
+			
+			function WhoIsToBeServedLOVGrid() {};
+			WhoIsToBeServedLOVGrid.dataBinding = WhoIsToBeServed.dataBinding;
+			WhoIsToBeServedLOVGrid.srcData 	   = REF_DATA_XPATH + "/WhoIsToBeServedList";
+			WhoIsToBeServedLOVGrid.rowXPath    = "WhoIsToBeServed";
+			WhoIsToBeServedLOVGrid.keyXPath    = "Value";
+			WhoIsToBeServedLOVGrid.columns     = [
+				{xpath: "Value"},
+				{xpath: "Description"}
+			];
+			WhoIsToBeServedLOVGrid.raise = {
+				eventBinding: {
+					singleClicks: [ {element: "WhoIsToBeServedLOVButton"} ],
+					keys: [ { key: Key.F6, element: "WhoIsToBeServed" } ]
+				}
+			};
+		</miscCode>
+	</Javascript>
+</Question>

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: Co
+	Method:  getCoDebtPayee()
+	File:    get_co_debt_payee.xml
+	Author:  Phil Haferer (EDS)
+	Created: 06 September 2005
+	Description: 
+		Retrieve the details relating to a particular Payee within a Case, for the purpose
+		of associating them with a Consolidated Order Allowed Debt.
+-->
+<service-method>
+	<pipeline>
+		<Query>
+			<QueryDef location="uk/gov/dca/caseman/co_service/query_def_get_co_debt_payee.xml"/>
+			<QueryExtension pivotNode="/ds/Debt/Payee">
+				<Param name="param.caseNumber"    xpath="/params/param[@name = 'caseNumber']"/>
+				<Param name="param.partyRoleCode" xpath="/params/param[@name = 'partyRoleCode']"/>
+				<Param name="param.casePartyNo"   xpath="/params/param[@name = 'casePartyNo']"/>
+				<Param name="param.solicitorRef"  xpath="/params/param[@name = 'solicitorRef']"/>
+			</QueryExtension>
+		</Query>
+	</pipeline>
+	<Security roles="user"/>
+</service-method>

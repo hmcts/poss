@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>200</Id>
+	<Label>Are documents specified?</Label>
+	<ObjectName>IsDocsSpecified</ObjectName>
+	<Html>	
+		<input type="checkbox" id="IsDocsSpecified"></input>
+	</Html>
+	<Javascript>
+		<XPath>/ds/EnterVariableData/FastTrack/isDocsSpecified</XPath>
+		<HintText>Check box if documents specified</HintText>
+		<!--isMandatory>return true;</isMandatory-->
+		<modelValue>checked: "Y", unchecked: "N"</modelValue>
+		<enableOn>DamageDocs.dataBinding, IsLimitedDisclosure.dataBinding, IsDisclosureOrdered.dataBinding</enableOn>	
+		<isEnabled>
+			var enbl = false;
+			if( 'Y' == Services.getValue(IsDisclosureOrdered.dataBinding))
+			{	if('Y' == Services.getValue(IsLimitedDisclosure.dataBinding))
+				{	enbl = ( 'Y' != Services.getValue(DamageDocs.dataBinding));
+				}
+			}		
+			return enbl;
+		</isEnabled>
+		<logicOn>DamageDocs.dataBinding, IsLimitedDisclosure.dataBinding, IsDisclosureOrdered.dataBinding</logicOn>
+		<logic>
+			if( !IsDocsSpecified.isEnabled())
+				{	Services.setValue(IsDocsSpecified.dataBinding, "N");
+				}
+		</logic>
+		
+		
+		<!--Context ScreenId="CJR020">
+			<enableOn>DamageDocs.dataBinding, IsLimitedDisclosure.dataBinding</enableOn>
+			<isEnabled>
+				return( 'Y' != Services.getValue(DamageDocs.dataBinding) &amp;&amp; 
+						'Y' == Services.getValue(IsLimitedDisclosure.dataBinding));				
+			</isEnabled>
+			<logicOn>DamageDocs.dataBinding, IsLimitedDisclosure.dataBinding</logicOn>
+			<logic>
+				if( !IsDocsSpecified.isEnabled())
+				{	Services.setValue(IsDocsSpecified.dataBinding, "N");
+				}
+			</logic>
+		</Context-->
+	</Javascript>
+</Question>

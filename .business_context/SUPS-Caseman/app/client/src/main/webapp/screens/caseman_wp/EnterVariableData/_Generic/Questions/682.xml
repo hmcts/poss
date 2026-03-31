@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>682</Id>
+	<Label>Fax Number</Label>
+	<ObjectName>FaxNumber</ObjectName>
+	<Html>
+	   <input type="text" id="FaxNumber"></input>
+	</Html>
+	<Javascript>
+		<XPath>/ds/EnterVariableData/Solicitor/ContactDetails/faxNumber</XPath>
+		<isMandatory>return false;</isMandatory>
+		<mandatoryOn>FaxNumber.dataBinding</mandatoryOn>	
+		<HintText>Enter Fax Number</HintText>
+		<maxLength>24</maxLength>	
+		<enableOn>NewAddressForService.dataBinding</enableOn>
+		<isEnabled>return('ACK' == Services.getValue(NewAddressForService.dataBinding));</isEnabled>
+		<logicOn>NewAddressForService.dataBinding</logicOn>
+		<logic>
+			if('ACK' != Services.getValue(NewAddressForService.dataBinding))
+			{	Services.setValue(FaxNumber.dataBinding, "");
+			}
+			else if( null != solNode )
+			{	var faxNode = solNode.selectSingleNode("./ContactDetails/FaxNumber");
+				if( null != faxNode)
+				{  Services.setValue(FaxNumber.dataBinding, XML.getNodeTextContent( faxNode));			    
+				}
+			}
+		</logic>
+		<readOnlyOn>NewAddressForService.dataBinding</readOnlyOn>
+		<isReadOnly>return areAddressFieldsReadOnly();</isReadOnly>
+	</Javascript>
+</Question>

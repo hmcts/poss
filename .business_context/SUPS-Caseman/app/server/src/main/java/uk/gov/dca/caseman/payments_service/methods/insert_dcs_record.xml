@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: Payments
+	Method: insertDcsRecord()
+	File: insert_dcs_record.xml
+	Author: Steve Blair
+	Description:
+		Inserts a new record into the DCS table regardless of existing records.
+-->
+<service-method>
+	<pipeline>
+		<SQLLite output="input">
+			<DataSource id="java:OracleDS" />
+			<Param name="param.reportId" xpath="/params/param[@name='dcsData']/DCSData/ReportId" />
+			<Param name="param.itemDate" xpath="/params/param[@name='dcsData']/DCSData/ItemDate" />
+			<Param name="param.transaction" xpath="/params/param[@name='dcsData']/DCSData/Transaction" />
+			<Param name="param.ordinary" xpath="/params/param[@name='dcsData']/DCSData/Ordinary" />
+			<Param name="param.cheque" xpath="/params/param[@name='dcsData']/DCSData/Cheque" />
+			<Param name="param.aoCaeo" xpath="/params/param[@name='dcsData']/DCSData/AOCAEO" />
+			<Param name="param.jgmt1000" xpath="/params/param[@name='dcsData']/DCSData/JGMT1000" />
+			<Param name="param.miscellaneous" xpath="/params/param[@name='dcsData']/DCSData/Miscellaneous" />
+			<Param name="param.ordinaryCurrency" xpath="/params/param[@name='dcsData']/DCSData/OrdinaryCurrency" />
+			<Param name="param.chequeCurrency" xpath="/params/param[@name='dcsData']/DCSData/ChequeCurrency" />
+			<Param name="param.aoCaeoCurrency" xpath="/params/param[@name='dcsData']/DCSData/AOCAEOCurrency" />
+			<Param name="param.jgmt1000Currency" xpath="/params/param[@name='dcsData']/DCSData/JGMT1000Currency" />
+			<Param name="param.miscellaneousCurrency" xpath="/params/param[@name='dcsData']/DCSData/MiscellaneousCurrency" />
+			<Param name="param.inOut" xpath="/params/param[@name='dcsData']/DCSData/InOut" />
+			<Param name="param.userId" xpath="/params/param[@name='dcsData']/DCSData/UserID" />
+			<Param name="param.courtCode" xpath="/params/param[@name='dcsData']/DCSData/CourtCode" />
+			<SQL type="update" tables="DCS">
+				INSERT INTO DCS (
+					ITEM_DATE,
+					REPORT_ID,
+					TRANSACTION,
+					ORDINARY,
+					CHEQUE,
+					AO_CAEO,
+					INSATIS,
+					PTO_ORDER,
+					MISCELLANEOUS,
+					INOUT,
+					FINAL,
+					USER_ID,
+					ORDINARY_CURRENCY,
+					CHEQUE_CURRENCY,
+					AO_CAEO_CURRENCY,
+					INSATIS_CURRENCY,
+					PTO_ORDER_CURRENCY,
+					MISCELLANEOUS_CURRENCY,
+					ADMIN_COURT_CODE,
+					JGMT1000_CURRENCY,
+					JGMT1000
+				)
+				VALUES (
+					TO_DATE(${param.itemDate}, 'YYYY-MM-DD'),
+					${param.reportId},
+					${param.transaction},
+					${param.ordinary},
+					${param.cheque},
+					${param.aoCaeo},
+					NULL,
+					NULL,
+					${param.miscellaneous},
+					${param.inOut},
+					NULL,
+					${param.userId},
+					${param.ordinaryCurrency},
+					${param.chequeCurrency},
+					${param.aoCaeoCurrency},
+					NULL,
+					NULL,
+					${param.miscellaneousCurrency},
+					${param.courtCode},
+					${param.jgmt1000Currency},
+					${param.jgmt1000}
+				)
+			</SQL>
+		</SQLLite>
+	</pipeline>
+	<Security roles="medium high wcSuper scSuper bmsSuper aeSuper dmSuper" />
+</service-method>

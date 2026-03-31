@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<DBMapDef>
+	<DataSource id="java:OracleDS"/>
+	<Tables>
+		<Table alias="RM" name="REPORT_MAP"/>
+	</Tables>
+	<Mapping>
+        <insert_report_map>
+			<ReportId>${RM.REPORT_QUEUE_ID}</ReportId>
+			<ReportName>${RM.REPORT_NAME}</ReportName>
+			<LegacyPath>${RM.LEGACY_PATH}</LegacyPath>
+			<FileName>${RM.FILE_NAME}</FileName>
+        </insert_report_map>
+	</Mapping>
+</DBMapDef>

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<QueryDef>
+  <DBMapDef location="uk/gov/dca/caseman/ae_service/map_next_partyid.xml"/>
+  <Query pivotNode="/Party/SequenceNumber" tables="D">
+		<SQL type="select">
+			SELECT PARTIES_SEQUENCE.NEXTVAL AS SEQ
+			FROM DUAL
+		</SQL>
+		<Modify notModifiable="true"/>
+  </Query>
+</QueryDef>

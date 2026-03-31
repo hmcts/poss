@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<QueryDef>
+  <DBMapDef location="uk/gov/dca/caseman/maintain_per_details_service/map_add.xml"/>
+  <Query pivotNode="/PerDetail" tables="PD">
+	<Join/>
+	<Modify/>
+  </Query>
+  <Query pivotNode="/PerDetail/SystemDataList/SystemDataItem" tables="SD">
+	<Join/>
+	<Modify/>
+  </Query>
+</QueryDef>

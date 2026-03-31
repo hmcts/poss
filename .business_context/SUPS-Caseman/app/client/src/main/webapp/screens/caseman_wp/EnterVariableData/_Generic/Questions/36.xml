@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>36</Id>
+	<Label>Cost scale</Label>
+	<ObjectName>CostScale</ObjectName>
+	<Html>
+		<input type="text" id="CostScale"></input>
+	</Html>
+	
+	<Javascript>
+		<XPath>/ds/EnterVariableData/Judgment/CostScale</XPath>
+		<HintText>Enter the cost scale</HintText>
+		<mandatoryOn>CostType2.dataBinding</mandatoryOn>		
+		<isMandatory>return ('A' == Services.getValue(CostType2.dataBinding));</isMandatory>		
+		<enableOn>CostType2.dataBinding</enableOn>
+		<isEnabled>return('A' == Services.getValue(CostType2.dataBinding));</isEnabled>
+		<logicOn>CostType2.dataBinding</logicOn>
+		<logic>
+			if('A' != Services.getValue(CostType2.dataBinding))
+			{	Services.setValue(CostScale.dataBinding, "");
+			}
+		</logic>
+	</Javascript>
+</Question>

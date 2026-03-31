@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Change History:
+	06 Apr 2010, Chris Vincent.  Added table alias for CASE_PARTY_ROLES and added
+	the WelshTranslation node for the Claimant Rep and two Defendant parties. Trac 2924.
+-->
+<DBMapDef>
+  <DataSource id="java:OracleDS"/>
+  <Tables>
+    <Table alias="W" name="WARRANTS" />
+	<Table alias="C" name="CASES" />
+    <Table alias="CO" name="CONSOLIDATED_ORDERS" />
+	<Table alias="CT" name="COURTS" />
+	<Table alias="H" name="HEARINGS" />
+	<Table alias="F" name="FEES_PAID" />
+	<Table alias="P" name="PAYMENTS" />
+	<Table alias="WR" name="WARRANT_RETURNS" />
+	<Table alias="RC" name="RETURN_CODES"/>
+	<Table alias="J" name="JUDGMENTS"/>
+	<Table alias="IP" name="INFAVOUR_PARTIES"/>
+	<Table alias="CPR" name="CASE_PARTY_ROLES"/>
+  </Tables>
+  <Mapping>
+	<ds>
+		<Warrant>
+			<WarrantID>${W.WARRANT_ID}</WarrantID>
+			<WarrantNumber>${W.WARRANT_NUMBER}</WarrantNumber>
+			<WarrantStatus></WarrantStatus>
+			<PrintStatus></PrintStatus>
+			<ExecutedBy>${W.EXECUTED_BY}</ExecutedBy>
+			<LocalNumber>${W.LOCAL_WARRANT_NUMBER}</LocalNumber>
+			<OriginalWarrantNumber>${W.ORIGINAL_WARRANT_NUMBER}</OriginalWarrantNumber>
+			<WarrantType>${W.WARRANT_TYPE}</WarrantType>
+			<CaseNumber>${W.CASE_NUMBER}</CaseNumber>
+			<CaseStatus>${C.STATUS}</CaseStatus>
+			<CONumber>${W.CO_NUMBER}</CONumber>
+			<COStatus>${CO.CO_STATUS}</COStatus>
+			<DateRequestReceived>${W.RECEIPT_DATE}</DateRequestReceived>
+			<IssuedBy>${W.ISSUED_BY}</IssuedBy>
+			<IssueDate>${W.WARRANT_ISSUE_DATE}</IssueDate>
+			<IssuedByName>${CT.NAME}</IssuedByName>
+			<OwnedBy>${W.CURRENTLY_OWNED_BY}</OwnedBy>
+			<HomeCourtIssueDate>${W.HOME_COURT_ISSUE_DATE}</HomeCourtIssueDate>
+			<ExecutingCourtCode>${W.EXECUTED_BY}</ExecutingCourtCode>
+			<BailiffAreaNo>${W.BAILIFF_IDENTIFIER}</BailiffAreaNo>
+			<AdditionalNotes>${W.NOTES}</AdditionalNotes>
+			<BalanceOfDebt>${W.PREISSUE_BALANCE}</BalanceOfDebt>
+			<BalanceOfDebtCurrency>${W.PREISSUE_BALANCE_CURRENCY}</BalanceOfDebtCurrency>
+			<AmountOfWarrant>${W.WARRANT_AMOUNT}</AmountOfWarrant>
+			<AmountOfWarrantCurrency>${W.WARRANT_AMOUNT_CURRENCY}</AmountOfWarrantCurrency>
+			<Fee>${W.WARRANT_FEE}</Fee>
+			<FeeCurrency>${W.WARRANT_FEE_CURRENCY}</FeeCurrency>
+			<SolicitorsCosts>${W.SOLICITOR_COSTS}</SolicitorsCosts>
+			<SolicitorsCostsCurrency>${W.SOLICITOR_COSTS_CURRENCY}</SolicitorsCostsCurrency>
+			<LandRegistryFee>${W.LAND_REGISTRY_FEE}</LandRegistryFee>
+			<LandRegistryFeeCurrency>${W.LAND_REGISTRY_FEE_CURRENCY}</LandRegistryFeeCurrency>
+			<BalanceAfterPaid>${W.BALANCE_AFTER_PAID}</BalanceAfterPaid>
+			<BalanceAfterPaidCurrency>${W.BALANCE_AFTER_PAID_CURRENCY}</BalanceAfterPaidCurrency>
+			<ReIssueDate>${W.RE_ISSUE_DATE}</ReIssueDate>
+			<DatePrinted>${W.DATE_PRINTED}</DatePrinted>
+			<DateReprinted>${W.DATE_REPRINTED}</DateReprinted>
+			<CCBCWarrant>${W.CCBC_WARRANT}</CCBCWarrant>
+			<ToTransfer>${W.TO_TRANSFER}</ToTransfer>
+			<TransferDate>${W.TRANSFER_DATE}</TransferDate>
+			<Claimant>
+				<Name>${W.PLAINTIFF_NAME}</Name>
+				<Number>${W.REP_CASE_PARTY_NO}</Number>
+				<PartyType>${W.REP_PARTY_ROLE_CODE}</PartyType>
+				<Code>${W.CODED_PARTY_CLAIMANT_CODE}</Code>
+				<Representative>
+					<Number>${W.REP_CASE_PARTY_NO}</Number>
+					<Name>${W.REP_NAME}</Name>
+					<PartyType>${W.REP_PARTY_ROLE_CODE}</PartyType>
+					<Code>${W.CODED_PARTY_REP_CODE}</Code>
+					<ContactDetails>
+						<Address>
+							<Line>${W.REP_ADDR_1}</Line>
+							<Line>${W.REP_ADDR_2}</Line>
+							<Line>${W.REP_ADDR_3}</Line>
+							<Line>${W.REP_ADDR_4}</Line>
+							<Line>${W.REP_ADDR_5}</Line>
+							<PostCode>${W.REP_POSTCODE}</PostCode>
+						</Address>
+						<DX>${W.REP_DX_NUMBER}</DX>
+						<TelephoneNumber>${W.REP_TEL_NO}</TelephoneNumber>
+						<FaxNumber>${W.REP_FAX_NUMBER}</FaxNumber>
+						<EmailAddress>${W.REP_EMAIL_ADDRESS}</EmailAddress>
+					</ContactDetails>
+					<Reference>${W.REFERENCE}</Reference>
+					<WelshTranslation>${CPR.WELSH_INDICATOR}</WelshTranslation>
+				</Representative>
+			</Claimant>
+			<Defendant1>
+				<Name>${W.DEFENDANT1}</Name>
+				<Number>${W.DEF1_CASE_PARTY_NO}</Number>
+				<PartyType>${W.DEF1_PARTY_ROLE_CODE}</PartyType>
+				<Address>
+					<Line>${W.DEF1_ADDR_1}</Line>
+					<Line>${W.DEF1_ADDR_2}</Line>
+					<Line>${W.DEF1_ADDR_3}</Line>
+					<Line>${W.DEF1_ADDR_4}</Line>
+					<Line>${W.DEF1_ADDR_5}</Line>
+					<PostCode>${W.DEF1_POSTCODE}</PostCode>
+				</Address>
+				<JudgmentID>${J.JUDG_SEQ}</JudgmentID>
+				<WelshTranslation>${CPR.WELSH_INDICATOR}</WelshTranslation>
+			</Defendant1>
+			<Defendant2>
+				<Name>${W.DEFENDANT2}</Name>
+				<Number>${W.DEF2_CASE_PARTY_NO}</Number>
+				<PartyType>${W.DEF2_PARTY_ROLE_CODE}</PartyType>
+				<Address>
+					<Line>${W.DEF2_ADDR_1}</Line>
+					<Line>${W.DEF2_ADDR_2}</Line>
+					<Line>${W.DEF2_ADDR_3}</Line>
+					<Line>${W.DEF2_ADDR_4}</Line>
+					<Line>${W.DEF2_ADDR_5}</Line>
+					<PostCode>${W.DEF2_POSTCODE}</PostCode>
+				</Address>
+				<JudgmentID>${J.JUDG_SEQ}</JudgmentID>
+				<WelshTranslation>${CPR.WELSH_INDICATOR}</WelshTranslation>
+			</Defendant2>
+			<Hearings>
+				<Hearing>
+					<HearingID>${H.HRG_SEQ}</HearingID>
+					<VenueName>${H.VENUE}</VenueName>
+					<Date>${H.HRG_DATE}</Date>
+				</Hearing>
+			</Hearings>
+			<Fees>
+				<Fee>${F.AMOUNT}</Fee>
+			</Fees>
+			<Payments>
+				<Payment>
+					<Amount>${P.AMOUNT}</Amount>
+					<OverpaymentAmount>${P.OVERPAYMENT_AMOUNT}</OverpaymentAmount>
+				</Payment>
+			</Payments>
+			<FinalReturnCodes>
+				<Code>${WR.RETURN_CODE}</Code>
+			</FinalReturnCodes>
+		</Warrant>	
+	</ds>
+  </Mapping>
+</DBMapDef>

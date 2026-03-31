@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>9164</Id>
+	<Label>Correspondence date</Label>
+	<ObjectName>CorrespondanceDate</ObjectName>
+	<Html>
+		<script type="text/javascript">WP_DatePickerRenderer.createInline("CorrespondanceDate", false);</script>
+	</Html>
+	<Javascript>
+		<XPath>/ds/EnterVariableData/correspondanceDate</XPath>
+		<HintText>Enter the correspondence date</HintText>
+		<validateOn>CorrespondanceDate.dataBinding</validateOn>
+		<validate>
+			//Date picker: error message “The value does not conform to a valid date format of DD-MMM-YYYY”.
+			//Validation: Date cannot be in the future
+            return isInPast(Services.getValue(CorrespondanceDate.dataBinding),"false");
+		</validate>	
+
+		<Context ScreenId="L_10_1_2_15_16">
+			<enableOn>SelectLetter.dataBinding</enableOn>
+			<isEnabled>return (
+				("2" == Services.getValue(SelectLetter.dataBinding)) ||
+				("3" == Services.getValue(SelectLetter.dataBinding)) );
+			</isEnabled>
+			<logicOn>SelectLetter.dataBinding</logicOn>
+			<logic>
+				if ( ("2" != Services.getValue(SelectLetter.dataBinding)) ||
+				     ("3" != Services.getValue(SelectLetter.dataBinding)) )
+				{	
+					Services.setValue(CorrespondanceDate.dataBinding, "");
+				}
+			</logic>					
+			<mandatoryOn>SelectLetter.dataBinding</mandatoryOn>
+			<isMandatory>return (	
+				("2" == Services.getValue(SelectLetter.dataBinding)) ||
+				("3" == Services.getValue(SelectLetter.dataBinding)) );
+			</isMandatory>		
+		</Context>
+		
+		<Context ScreenId="L_4_1">
+			<isMandatory>return return9164();</isMandatory>
+			<mandatoryOn>DocType.dataBinding</mandatoryOn>
+            <enableOn>DocType.dataBinding</enableOn>
+            <isEnabled>return return9164();</isEnabled>
+            <logicOn>DocType.dataBinding</logicOn>
+            <logic>
+            if(!return9164()){
+                   Services.setValue(CorrespondanceDate.dataBinding, "");
+            }          
+            </logic>
+            
+            <miscCode>
+                function return9164(){
+                    a9164 = false;
+                    if( "L" == Services.getValue(DocType.dataBinding)){
+                        a9164 = true;
+                    }
+                    return a9164;
+                }
+            </miscCode>
+		</Context>
+		
+		<Context ScreenId="L_4_11">
+			<isMandatory>return true;</isMandatory>
+		</Context>
+		
+	</Javascript>
+</Question>

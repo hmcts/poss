@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>416</Id>
+	<Label>Inspection direction given?</Label>
+	<ObjectName>IsInspectDirns</ObjectName>
+	<Html>
+		<input type="checkbox" id="IsInspectDirns"></input>
+	</Html>
+	
+	<Javascript>
+		<XPath>/ds/EnterVariableData/SmallTrack/isInspectDirns</XPath>
+		<HintText>Check box if directions required</HintText>
+		<modelValue>checked: "Y", unchecked: "N"</modelValue>		
+		<enableOn>IsPartyToClarify.dataBinding, UODetails.dataBinding, DirectionsTypeReqd.dataBinding, UOClarification.dataBinding, IsSpecialDirns.dataBinding</enableOn>		
+		<isEnabled>
+			var val1 = Services.getValue(IsPartyToClarify.dataBinding);
+			var val2 = Services.getValue(UOClarification.dataBinding);
+			var val3 = Services.getValue(IsSpecialDirns.dataBinding); 
+			return ((IsPartyToClarify.isEnabled() &amp;&amp; val1 != 'Y') || UODetails.isEnabled()|| ('Y' != val2 &amp;&amp; UOClarification.isEnabled()));			
+		</isEnabled>
+		<logicOn>IsPartyToClarify.dataBinding, UODetails.dataBinding, DirectionsTypeReqd.dataBinding, UOClarification.dataBinding, IsSpecialDirns.dataBinding</logicOn>
+		<logic>
+			var val1 = Services.getValue(IsPartyToClarify.dataBinding);
+			var val2 = Services.getValue(UOClarification.dataBinding);
+			if ((!IsPartyToClarify.isEnabled() || val1 == 'Y') &amp;&amp; !UODetails.isEnabled()&amp;&amp; ('Y' == val2 || !UOClarification.isEnabled()))
+			{	Services.setValue(IsInspectDirns.dataBinding, "N");
+			}
+		</logic>
+		<initialise>Services.setValue(IsInspectDirns.dataBinding, "N");</initialise>
+		
+	</Javascript>
+</Question>

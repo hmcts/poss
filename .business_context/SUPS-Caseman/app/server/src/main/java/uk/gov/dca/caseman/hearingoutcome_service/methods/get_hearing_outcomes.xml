@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: HearingOutcome
+	Method:  getHearingOutcomes()
+	File:    get_hearing_outcomes.xml
+	Author:  
+	Created: 
+	Description: 
+        List of Outcomes that can be recorded against a hearing
+-->
+<service-method>
+	<pipeline>
+		<Query>
+  			<QueryDef location="uk/gov/dca/caseman/hearingoutcome_service/query_def.xml"/>
+  				<QueryExtension pivotNode="/HearingOutcomes/HearingOutcome">
+   					<Constraint>CRC.RV_DOMAIN in('CURRENT_HRG_OUTCOME', 'CURRENT_HRG_outcome')</Constraint>
+  				</QueryExtension>
+  		</Query>
+  	</pipeline>
+	<Security roles="viewOnly medium high wcSuper scSuper bmsSuper aeSuper dmSuper cpSuper ccbcMan ccbcUser ccbcSGB2"/>	
+</service-method>
+

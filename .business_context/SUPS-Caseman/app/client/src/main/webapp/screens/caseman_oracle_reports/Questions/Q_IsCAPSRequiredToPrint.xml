@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--Question xmlns="http://eds.com/questionxhtml" xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd"-->
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>Q_IsCAPSRequiredToPrint</Id>
+	<Label>Check box is CAPS required to print</Label>
+	<ObjectName>IsCAPSRequiredToPrint</ObjectName>
+	<Html>
+		<input id="IsCAPSRequiredToPrint" type="checkbox"/>
+	</Html>
+	<Javascript>
+		<XPath>/ds/var/page/OracleReportForm/IsCAPSRequiredToPrint</XPath>
+		<ReportVariableName>REPORT_VALUE_3</ReportVariableName>
+		<ReportVariableValue>returnDefault(Services.getValue(IsCAPSRequiredToPrint.dataBinding))</ReportVariableValue>
+		<ReportVariableCode>2190</ReportVariableCode>
+		<HintText></HintText>
+		<isMandatory>return true;</isMandatory>
+		<initialise></initialise>
+		<setDefault>
+			Services.setValue(IsCAPSRequiredToPrint.dataBinding, "N");
+		</setDefault>		
+		<validateOn>
+		</validateOn>
+		<validate>
+		</validate>
+		<miscCode>
+			IsCAPSRequiredToPrint.modelValue = {checked: 'Y', unchecked: 'N'};
+			function returnDefault(value)
+			{
+				//debugger;
+				if (value == null)
+				{
+					return "N";
+				}
+				else
+				{
+					return value;
+				}
+			}			
+		</miscCode>
+	</Javascript>
+</Question>

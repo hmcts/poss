@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	v1.0 Mark Groen 01/05/07
+	Returns the cost associated to a ccbc Judgment.  The value is retrieved from the 'COSTS' table.	
+-->
+<service-method>
+	<pipeline>
+		<SQLLite format-output="true"
+				 resultset-element="Judgment"
+				 row-element="Cost"
+				 field-name-as="element" >
+			<DataSource id="java:OracleDS"/>
+			<Param name="param.judgType" xpath="/params/param[@name = 'judgType']"/>
+			<Param name="param.judgAmount" xpath="/params/param[@name = 'judgAmount']"/>
+			<Param name="param.judgDate" xpath="/params/param[@name = 'judgDate']"/>
+			<SQL>				
+					SELECT  C.COSTS		AS "JudgmentCost",
+					 C.EFFECTIVE_DATE   AS "EffectiveDate"
+					FROM    COSTS C
+					WHERE 	C.PROCESS   =  ${param.judgType}  
+					AND 	NVL(TO_DATE(${param.judgDate},'YYYY-MM-DD') , TRUNC(SYSDATE)) &gt;= TRUNC(C.EFFECTIVE_DATE)
+                    			AND     ${param.judgAmount} BETWEEN C.RANGE_FROM AND C.RANGE_TO				
+                    ORDER BY C.EFFECTIVE_DATE DESC
+			</SQL>
+		</SQLLite>
+  	</pipeline>
+	<Security roles="viewOnly medium high wcSuper scSuper bmsSuper aeSuper dmSuper cpSuper ccbcMan ccbcUser"/>
+</service-method>

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>139</Id>
+	<Label>Witness to produce any documents</Label>
+	<ObjectName>WProduceDocs</ObjectName>
+	<Html>		
+		<input id="WProduceDocs" type="checkbox"></input>
+	</Html>	
+	<Javascript>
+		<XPath>/ds/EnterVariableData/Service/wProduceDocs</XPath>
+		<HintText>Check box if the witness is to produce any documents</HintText>
+		<isMandatory>return true;</isMandatory>
+		<isEnabled>return true;</isEnabled>
+		<modelValue>checked: "Y", unchecked: "N"</modelValue>
+	</Javascript>
+</Question>

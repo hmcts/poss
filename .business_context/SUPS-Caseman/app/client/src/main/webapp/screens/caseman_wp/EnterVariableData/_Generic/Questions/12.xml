@@ -1,0 +1,697 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- 
+Change History
+	29/01/2013 - Chris Vincent, hide field for the CJR032 outputs (Trac 4763) and make mandatory for CJR034 (Trac 4762)
+-->
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>12</Id>
+	<Label>Time of hearing</Label>
+	<ObjectName>HearingTime</ObjectName>
+	<Html>
+		<input id="HearingTime" type="text" maxlength="5" size="5"></input>
+	</Html>
+	<Context screenId="CJR042"><isVisible>false</isVisible></Context>
+	<Context screenId="CJR065B"><isVisible>false</isVisible></Context>
+	<Context screenId="CJR070"><isVisible>false</isVisible></Context>
+	<Context screenId="N32_2"><isVisible>false</isVisible></Context>
+	<Context screenId="N32_5"><isVisible>false</isVisible></Context>
+	<Context screenId="N35"><isVisible>false</isVisible></Context>
+	<Context screenId="CJR031"><isVisible>false</isVisible></Context>
+	<Context screenId="CJR032A"><isVisible>false</isVisible></Context>
+	<Context screenId="CJR032B"><isVisible>false</isVisible></Context>
+	<Context screenId="CJR032C"><isVisible>false</isVisible></Context>
+	<Context screenId="CJR082"><isVisible>false</isVisible></Context>
+	<Context screenId="CJR094"><isVisible>false</isVisible></Context>
+	<Context screenId="CJR100"><isVisible>false</isVisible></Context>
+	<Context screenId="CJR101"><isVisible>false</isVisible></Context>
+	<Context screenId="CJR102"><isVisible>false</isVisible></Context>
+	<Context screenId="CJR103"><isVisible>false</isVisible></Context>
+	<Context screenId="CJR104"><isVisible>false</isVisible></Context>
+
+    
+	<Context screenId="O_10_10">
+		<isVisible>true</isVisible>
+		<Label>Time of order</Label>
+	</Context>
+	
+	<Context screenId="O_10_12">
+		<isVisible>true</isVisible>
+		<Label>Time of order</Label>
+	</Context>
+
+	<Context screenId="CJR061">
+		<isVisible>true</isVisible>
+		<Label>Time of next hearing</Label>
+	</Context>
+	<Context screenId="CJR083">
+		<isVisible>true</isVisible>
+		<Label>Time of N79A hearing</Label>
+	</Context>
+	
+		<Javascript>
+		<XPath>/ds/EnterVariableData/Hearing/Time</XPath>
+		<HintText>Enter the hearing time in 24 hour format (HH:MM eg. 14:30)</HintText>
+		<mandatoryOn>HearingTime.dataBinding</mandatoryOn>
+		<isMandatory>return false;</isMandatory>
+		<validateOn>HearingTime.dataBinding</validateOn>
+		<validate>	  
+	       var timeInSecs = Services.getValue(HearingTime.dataBinding);
+		   return validateTimeAt(timeInSecs);    
+		</validate>
+		<transformToDisplay>return transformToDisplayTime(value);</transformToDisplay>
+		<transformToModel>return transformToModelTime(value);</transformToModel>
+
+
+
+		<postSetValue></postSetValue>
+		
+		<Context ScreenId="CJR028">
+		  <isMandatory>return true;</isMandatory>
+		</Context>
+		
+		<Context ScreenId="O_10_10">
+		  <HintText>Enter the time of order in 24 hour format (HH:MM eg. 14:30)</HintText>
+		  <isMandatory>return true;</isMandatory>
+		</Context>
+		
+		<Context ScreenId="O_10_12">
+		  <HintText>Enter the time of order in 24 hour format (HH:MM eg. 14:30)</HintText>
+		  <isMandatory>return true;</isMandatory>
+		</Context>
+		
+		<Context ScreenId="O_10_13">
+		  <isMandatory>return true;</isMandatory>
+		</Context>
+		
+		<Context ScreenId="CJR023D">
+		  <isMandatory>return true;</isMandatory>
+		</Context>
+		
+		<Context ScreenId="L_14_8">
+			<isMandatory>return true;</isMandatory>		
+		</Context>	
+		
+		<Context ScreenId="O_10_4">
+		  <isMandatory>return true;</isMandatory>
+		</Context>
+		
+		<Context ScreenId="CJR034">
+		  <isMandatory>return true;</isMandatory>
+		</Context>
+		
+		<Context ScreenId="CJR046">
+			<enableOn>HearingListed.dataBinding</enableOn>
+			<isEnabled>return ('Y' == Services.getValue(HearingListed.dataBinding));</isEnabled>
+			<mandatoryOn>HearingListed.dataBinding</mandatoryOn>
+			<isMandatory>return ('Y' == Services.getValue(HearingListed.dataBinding));</isMandatory>
+		</Context>
+		
+		<Context ScreenId="CJR027">
+		  <isMandatory>return true;</isMandatory>
+		</Context>		
+		<Context ScreenId="CJR020">
+			<enableOn>TrialDateFixed.dataBinding</enableOn>
+		  	<isEnabled>return('FIX' == Services.getValue(TrialDateFixed.dataBinding));</isEnabled>
+		  	<isMandatory>return true;</isMandatory>
+		  	<logicOn>TrialDateFixed.dataBinding</logicOn>
+		  	<logic>
+		  		if('FIX' != Services.getValue(TrialDateFixed.dataBinding))
+		  		{	Services.setValue(HearingTime.dataBinding, "");
+		  		}
+		  	</logic>
+		</Context>
+		<Context ScreenId="CJR023A">
+			<enableOn>HearingDateReqd.dataBinding</enableOn>
+			<isEnabled>return('Y' == Services.getValue(HearingDateReqd.dataBinding));</isEnabled>
+			<logicOn>HearingDateReqd.dataBinding</logicOn>
+			<logic>
+				if('Y' != Services.getValue(HearingDateReqd.dataBinding))
+				{	Services.setValue(HearingTime.dataBinding, "");
+				}
+			</logic>
+			<isMandatory>return true;</isMandatory>
+		</Context>
+		<miscCode>
+
+
+/**********************************************************************************/
+
+// This method ensures a time is transformed so that it can be validated correctly.
+// If the pTime param is not a valid time then the method stores teh incorrect value to tyeh DOM
+// A CONSTANT is placed at the end of a value as a quick fix re validating wether the user has entered
+// an invlid time in number format e.g. 66, 456, 45678.  This means that the incorrect value will 
+// not get transformed into a display time when transforming from seconds after midnight to hh:mm
+function transformToModelTime(pTime)
+{
+	var convertedTime = null;
+	if(pTime != null){
+		pTime = CaseManUtils.stripSpaces(pTime);
+		if(CaseManUtils.isBlank(pTime))
+		{
+			return null;
+		}
+		if(CaseManValidationHelper.validateTime(pTime))
+		{
+			convertedTime = CaseManUtils.convertTimeToSeconds(pTime);
+		}
+		if(convertedTime == null){
+			// if the validate method fails nothing is writen to the DOM and 
+			// therefore validate does not work. So need to write value to DOM.
+			// Only need to ensure correct only when press the save button. So can 
+			// write an invalid time here. 
+			convertedTime = pTime + INVALIDTIME;	
+		}
+	}
+	return convertedTime;	
+}
+
+/**********************************************************************************/
+	
+// This method ensures a time is transformed from the DOM to display correctly.
+// Even if invalid must be displayed as the user entered.
+function transformToDisplayTime(pTime)
+{	
+	var convertedTime = null;
+	if(pTime != null){
+		// remove the invalid time string - if there is one
+		var posOfInvalidString = pTime.indexOf(INVALIDTIME);
+		if(posOfInvalidString > -1)
+		{
+			pTime = pTime.slice(0, posOfInvalidString);
+			convertedTime = pTime;
+		}
+		else{
+			var convertedTime = CaseManUtils.convertSecondsToTime(pTime);
+			if(convertedTime != null)
+			{
+				if(!CaseManValidationHelper.validateTime(convertedTime))
+				{			
+					// need to return something so the user can see that they have 
+					// entered invalid value.
+					convertedTime = pTime;
+				} // end if(errCode == null ){	
+			}// end if(convertedTime == null)
+			else
+			{
+				convertedTime = pTime;
+			}
+		}
+	}// end of if(pTime != null){
+	return convertedTime;
+}// end of transformToDisplayTime(pTime)
+
+		</miscCode>
+		
+		<Context ScreenId="CJR020">
+		  <mandatoryOn>TrialDateFixed.dataBinding</mandatoryOn>
+		  <isMandatory>return('FIX' == Services.getValue(TrialDateFixed.dataBinding));</isMandatory>
+		</Context>
+		<Context ScreenId="CJR019">
+			<isMandatory>return true;</isMandatory>
+		</Context>
+		<Context ScreenId="CJR024">
+			<isMandatory>return true;</isMandatory>
+		</Context>
+		<Context ScreenId="CJR050">
+			<isMandatory>return true;</isMandatory>		
+		</Context>
+		<Context ScreenId="CJR052">
+			<isMandatory>return true;</isMandatory>		
+		</Context>
+		<Context ScreenId="CJR023C">
+			<isMandatory>return true;</isMandatory>	
+			<enableOn>HearingDateReqd.dataBinding</enableOn>
+			<isEnabled>return('Y'  == Services.getValue(HearingDateReqd.dataBinding));</isEnabled>
+			<logicOn>HearingDateReqd.dataBinding</logicOn>
+			<logic>
+				if('Y'  != Services.getValue(HearingDateReqd.dataBinding))
+				{	Services.setValue(HearingTime.dataBinding, "");
+				}
+			</logic>			
+		</Context>
+		
+		<Context ScreenId="CJR060">
+			<enableOn>TrialDateFixed.dataBinding</enableOn>
+			<isEnabled>return('FIX' == Services.getValue(TrialDateFixed.dataBinding));</isEnabled>
+			<logicOn>TrialDateFixed.dataBinding</logicOn>
+			<logic>
+				if('FIX' != Services.getValue(TrialDateFixed.dataBinding))
+				{	Services.setValue(HearingTime.dataBinding, "");
+				}
+			</logic>
+			<isMandatory>return true;</isMandatory>
+		</Context>
+		
+		<Context ScreenId="CJR061">
+			<isMandatory>return true;</isMandatory>
+			<enableOn>HearingListed.dataBinding</enableOn>
+			<isEnabled>return('Y' == Services.getValue(HearingListed.dataBinding));</isEnabled>
+			<logicOn>HearingListed.dataBinding</logicOn>
+			<logic>
+				if('Y' != Services.getValue(HearingListed.dataBinding))
+				{	Services.setValue(HearingTime.dataBinding, "");
+				}
+			</logic>
+		</Context>
+		
+		<Context ScreenId="CJR072">
+			<enableOn>OrderDetails2.dataBinding</enableOn>
+			<isEnabled>return('HRG' == Services.getValue(OrderDetails2.dataBinding));</isEnabled>
+			<logicOn>OrderDetails2.dataBinding</logicOn>
+			<logic>
+				if('HRG' != Services.getValue(OrderDetails2.dataBinding))
+				{	Services.setValue(HearingTime.dataBinding, "");
+				}
+			</logic>
+			<isMandatory>return true;</isMandatory>		
+		</Context>
+		
+		<!--Context ScreenId="CJR073">
+			<mandatoryOn>HearingDate.dataBinding</mandatoryOn>
+			<isMandatory>
+				var tdate = Services.getValue(HearingDate.dataBinding);			    
+			    var isValid = isValidDate(tdate);
+			    if( null == tdate || "" == tdate )
+			    {	return false;
+			    }
+			    
+				return isValid;				
+			</isMandatory-->
+			<!--enableOn>HearingDate.dataBinding</enableOn>
+			<isEnabled>
+			    var tdate = Services.getValue(HearingDate.dataBinding);			    
+			    var isValid = isValidDate(tdate);
+			    if( null == tdate || "" == tdate )
+			    {	return false;
+			    }
+			    
+				return isValid;
+			</isEnabled>
+			<logicOn>HearingDate.dataBinding</logicOn>
+			<logic>
+				 var tdate = Services.getValue(HearingDate.dataBinding);
+				 var isValid = isValidDate(tdate);
+				   
+				if( !isValid || (null == tdate || "" == tdate ))
+				{	Services.setValue(HearingTime.dataBinding, "");
+				}
+			</logic>	
+		</Context-->
+		<Context ScreenId="CJR080">
+			<HintText>Enter the hearing time in 24 hour format (HH:MM e.g.14:30)</HintText>
+			<mandatoryOn>HearingDate.dataBinding</mandatoryOn>
+			<isMandatory>
+				var tdate = Services.getValue(HearingDate.dataBinding);			    
+			    
+			    if( null == tdate || "" == tdate )
+			    {	return false;
+			    }
+			    
+			    var isValid = isValidDate(tdate);			    			    
+				return isValid;				
+			</isMandatory>
+			<!--enableOn>HearingDate.dataBinding</enableOn>
+			<isEnabled>
+			    var tdate = Services.getValue(HearingDate.dataBinding);			    
+			    var isValid = isValidDate(tdate);
+			    if( null == tdate || "" == tdate )
+			    {	return false;
+			    }
+			    
+				return isValid;
+			</isEnabled>
+			<logicOn>HearingDate.dataBinding</logicOn>
+			<logic>
+				 var tdate = Services.getValue(HearingDate.dataBinding);
+				 var isValid = isValidDate(tdate);
+				   
+				if( !isValid || (null == tdate || "" == tdate ))
+				{	Services.setValue(HearingTime.dataBinding, "");
+				}
+			</logic-->	
+		</Context>
+		<Context ScreenId="FE45">
+			<HintText>Enter the hearing time in 24 hour format (HH:MM e.g.14:30)</HintText>
+			<mandatoryOn>HearingDate.dataBinding</mandatoryOn>
+			<isMandatory>
+				var tdate = Services.getValue(HearingDate.dataBinding);			    
+			    
+			    if( null == tdate || "" == tdate )
+			    {	return false;
+			    }
+			    
+			    var isValid = isValidDate(tdate);			    			    
+				return isValid;				
+			</isMandatory>
+		</Context>
+		<Context ScreenId="CJR091">
+			<mandatoryOn>HearingDate.dataBinding</mandatoryOn>
+			<isMandatory>
+				var tdate = Services.getValue(HearingDate.dataBinding);			    
+			     if( null == tdate || "" == tdate )
+			    {	return false;
+			    }
+			    
+			    var isValid = isValidDate(tdate);			   			    
+				return isValid;				
+			</isMandatory>
+			<!--enableOn>HearingDate.dataBinding</enableOn>
+			<isEnabled>
+			    var tdate = Services.getValue(HearingDate.dataBinding);			    
+			    var isValid = isValidDate(tdate);
+			    if( null == tdate || "" == tdate )
+			    {	return false;
+			    }
+			    
+				return isValid;
+			</isEnabled>
+			<logicOn>HearingDate.dataBinding</logicOn>
+			<logic>
+				 var tdate = Services.getValue(HearingDate.dataBinding);
+				 var isValid = isValidDate(tdate);
+				   
+				if( !isValid || (null == tdate || "" == tdate ))
+				{	Services.setValue(HearingTime.dataBinding, "");
+				}
+			</logic-->	
+		</Context>
+		<Context ScreenId="CJR093">
+			<mandatoryOn>HearingDate.dataBinding</mandatoryOn>
+			<isMandatory>
+				var tdate = Services.getValue(HearingDate.dataBinding);			    
+			    
+			    if( null == tdate || "" == tdate )
+			    {	return false;
+			    }
+			    
+			    var isValid = isValidDate(tdate);
+			    			    
+				return isValid;				
+			</isMandatory>
+			<enableOn>WhoConsidApp2.dataBinding</enableOn>
+			<isEnabled>return hearingFieldsEnabled();</isEnabled>
+		</Context>
+		<Context ScreenId="CJR170">
+			<mandatoryOn>HearingDate.dataBinding</mandatoryOn>
+			<isMandatory>
+				var tdate = Services.getValue(HearingDate.dataBinding);			    
+			   
+			    if( null == tdate || "" == tdate )
+			    {	return false;
+			    }
+			    
+			    var isValid = isValidDate(tdate);
+			   			    
+				return isValid;				
+			</isMandatory>
+			<!--enableOn>HearingDate.dataBinding</enableOn>
+			<isEnabled>
+			    var tdate = Services.getValue(HearingDate.dataBinding);			    
+			    var isValid = isValidDate(tdate);
+			    if( null == tdate || "" == tdate )
+			    {	return false;
+			    }
+			    
+				return isValid;
+			</isEnabled>
+			<logicOn>HearingDate.dataBinding</logicOn>
+			<logic>
+				 var tdate = Services.getValue(HearingDate.dataBinding);
+				 var isValid = isValidDate(tdate);
+				   
+				if( !isValid || (null == tdate || "" == tdate ))
+				{	Services.setValue(HearingTime.dataBinding, "");
+				}
+			</logic-->	
+		</Context>
+		<Context ScreenId="CJR177">
+			<mandatoryOn>HearingDate.dataBinding</mandatoryOn>
+			<isMandatory>
+				var tdate = Services.getValue(HearingDate.dataBinding);			    
+			    
+			     if( null == tdate || "" == tdate )
+			    {	return false;
+			    }
+			    
+			    var isValid = isValidDate(tdate);
+			   
+			    
+				return isValid;				
+			</isMandatory>
+			<!--enableOn>HearingDate.dataBinding</enableOn>
+			<isEnabled>
+			    var tdate = Services.getValue(HearingDate.dataBinding);			    
+			    var isValid = isValidDate(tdate);
+			    if( null == tdate || "" == tdate )
+			    {	return false;
+			    }
+			    
+				return isValid;
+			</isEnabled>
+			<logicOn>HearingDate.dataBinding</logicOn>
+			<logic>
+				 var tdate = Services.getValue(HearingDate.dataBinding);
+				 var isValid = isValidDate(tdate);
+				   
+				if( !isValid || (null == tdate || "" == tdate ))
+				{	Services.setValue(HearingTime.dataBinding, "");
+				}
+			</logic-->	
+		</Context>
+		
+		<Context ScreenId="CJR178">
+			<mandatoryOn>HearingDate.dataBinding</mandatoryOn>
+			<isMandatory>
+				var tdate = Services.getValue(HearingDate.dataBinding);			    
+			   
+			    if( null == tdate || "" == tdate )
+			    {	return false;
+			    }
+			   
+			    var isValid = isValidDate(tdate);			  
+			    
+				return isValid;				
+			</isMandatory>
+			<!--enableOn>HearingDate.dataBinding</enableOn>
+			<isEnabled>
+			    var tdate = Services.getValue(HearingDate.dataBinding);			    
+			    var isValid = isValidDate(tdate);
+			    if( null == tdate || "" == tdate )
+			    {	return false;
+			    }
+			    
+				return isValid;
+			</isEnabled>
+			<logicOn>HearingDate.dataBinding</logicOn>
+			<logic>
+				 var tdate = Services.getValue(HearingDate.dataBinding);
+				 var isValid = isValidDate(tdate);
+				   
+				if( !isValid || (null == tdate || "" == tdate ))
+				{	Services.setValue(HearingTime.dataBinding, "");
+				}
+			</logic-->	
+		</Context>
+		<Context ScreenId="CJR105">			
+			<mandatoryOn>HearingDate.dataBinding</mandatoryOn>
+			<isMandatory>
+				var tdate = Services.getValue(HearingDate.dataBinding);			    
+			    
+			     if( null == tdate || "" == tdate )
+			    {	return false;
+			    }
+			    
+			    var isValid = isValidDate(tdate);			   			    
+				return isValid;				
+			</isMandatory>
+			<enableOn>NoticeOfFurtherHearing.dataBinding</enableOn>
+			<isEnabled>return( 'Y' == Services.getValue(NoticeOfFurtherHearing.dataBinding));</isEnabled>
+			<!--enableOn>HearingDate.dataBinding</enableOn>
+			<isEnabled>
+			    var tdate = Services.getValue(HearingDate.dataBinding);			    
+			    var isValid = isValidDate(tdate);
+			    if( null == tdate || "" == tdate )
+			    {	return false;
+			    }
+			    
+				return isValid;
+			</isEnabled>
+			<logicOn>HearingDate.dataBinding</logicOn>
+			<logic>
+				 var tdate = Services.getValue(HearingDate.dataBinding);
+				 var isValid = isValidDate(tdate);
+				   
+				if( !isValid || (null == tdate || "" == tdate ))
+				{	Services.setValue(HearingTime.dataBinding, "");
+				}
+			</logic-->		
+		</Context>
+		<Context ScreenId="CJR083">			
+			<mandatoryOn>HearingDate.dataBinding</mandatoryOn>
+			<isMandatory>
+				var tdate = Services.getValue(HearingDate.dataBinding);			    
+			    
+			    if( null == tdate || "" == tdate )
+			    {	return false;
+			    }
+			    
+			    var isValid = isValidDate(tdate);
+			   
+			    
+				return isValid;				
+			</isMandatory>
+			<!--enableOn>HearingDate.dataBinding</enableOn>
+			<isEnabled>
+			    var tdate = Services.getValue(HearingDate.dataBinding);			    
+			    var isValid = isValidDate(tdate);
+			    if( null == tdate || "" == tdate )
+			    {	return false;
+			    }
+			    
+				return isValid;
+			</isEnabled>
+			<logicOn>HearingDate.dataBinding</logicOn>
+			<logic>
+				 var tdate = Services.getValue(HearingDate.dataBinding);
+				 var isValid = isValidDate(tdate);
+				   
+				if( !isValid || (null == tdate || "" == tdate ))
+				{	Services.setValue(HearingTime.dataBinding, "");
+				}
+			</logic-->	
+		</Context>
+		<Context ScreenId="CO02">
+			<isMandatory>return true;</isMandatory>
+		</Context>
+		
+		<Context ScreenId="CO09">
+			<isMandatory>return true;</isMandatory>
+		</Context>
+
+		<Context ScreenId="CO10">
+			<isMandatory>return true;</isMandatory>
+		</Context>
+		
+		<Context ScreenId="CO21">
+			<isMandatory>return true;</isMandatory>
+		</Context>
+				
+		<Context ScreenId="CO37">
+			<isMandatory>return true;</isMandatory>
+		</Context>
+
+		<Context ScreenId="CO43">
+			<isMandatory>return true;</isMandatory>
+		</Context>
+		
+		<Context ScreenId="CO23">
+			<isMandatory>return true;</isMandatory>
+			<enableOn>DisStrAdj.dataBinding</enableOn>
+			<isEnabled>return ('ADJ' == Services.getValue(DisStrAdj.dataBinding));</isEnabled>
+			<logicOn>DisStrAdj.dataBinding</logicOn>
+			<logic>
+				if('ADJ' != Services.getValue(DisStrAdj.dataBinding))
+				{
+					Services.setValue(HearingTime.dataBinding, "");
+				}
+			</logic>
+		</Context>
+		
+		<Context ScreenId="CO34">
+			<isMandatory>return true;</isMandatory>
+			<enableOn>DisStrAdj.dataBinding</enableOn>
+			<isEnabled>return ('ADJ' == Services.getValue(DisStrAdj.dataBinding));</isEnabled>
+			<logicOn>DisStrAdj.dataBinding</logicOn>
+			<logic>
+				if('ADJ' != Services.getValue(DisStrAdj.dataBinding))
+				{
+					Services.setValue(HearingTime.dataBinding, "");
+				}
+			</logic>
+		</Context>
+		
+		<Context ScreenId="CO32">
+			<isMandatory>return true;</isMandatory>
+			<enableOn>SetAsideWHearing.dataBinding</enableOn>
+			<isEnabled>return ('Y' == Services.getValue(SetAsideWHearing.dataBinding));</isEnabled>
+			<logicOn>SetAsideWHearing.dataBinding</logicOn>
+			<logic>
+				if('Y' != Services.getValue(SetAsideWHearing.dataBinding))
+				{
+					Services.setValue(HearingTime.dataBinding, "");
+				}
+			</logic>
+		</Context>
+		
+		<Context ScreenId="CO35">
+			<isMandatory>return true;</isMandatory>
+		</Context>
+		
+		<Context ScreenId="L_14_1">
+			<isMandatory>return true;</isMandatory>
+		</Context>
+		
+		<Context ScreenId="L_1_2">
+			<mandatoryOn>HearingDate.dataBinding</mandatoryOn>
+			<isMandatory>
+				var tdate = Services.getValue(HearingDate.dataBinding);			    
+			    if( null == tdate || "" == tdate ) {	return false;}
+			    var isValid = isValidDate(tdate);			    			    
+				return isValid;				
+			</isMandatory>
+			<enableOn>HearingDate.dataBinding</enableOn>
+			<isEnabled>
+				var tdate = Services.getValue(HearingDate.dataBinding);			    
+			    if( null == tdate || "" == tdate ) {	return false;}
+			    var isValid = isValidDate(tdate);			    			    
+				return isValid;				
+			</isEnabled>
+			<logicOn>HearingDate.dataBinding</logicOn>
+			<logic>
+				var tdate = Services.getValue(HearingDate.dataBinding);
+				var isValid = isValidDate(tdate);
+				if( !isValid || (null == tdate || "" == tdate ))
+				{	Services.setValue(HearingTime.dataBinding, "");	}
+			</logic>			
+		</Context>
+				
+		<Context ScreenId="O_10_2">
+			//Enabled when Is there a hearing is checked.
+			<enableOn>HearingDate.dataBinding</enableOn>
+			<isEnabled>return( '' != Services.getValue(HearingDate.dataBinding));</isEnabled>
+			<logicOn>HearingDate.dataBinding</logicOn>
+			<logic>
+				if( '' == Services.getValue(HearingDate.dataBinding))
+				{	Services.setValue(HearingTime.dataBinding, "");
+				}
+			</logic>		
+			<isMandatory>return true;</isMandatory>	
+		</Context>
+		
+		<Context ScreenId="O_10_3">
+			<isMandatory>return true;</isMandatory>
+		</Context>
+		
+		<Context ScreenId="O_10_7">
+			<isMandatory>return true;</isMandatory>
+            <isEnabled>return true;</isEnabled>
+		</Context>
+		
+		<Context ScreenId="O_10_8">
+			<isMandatory>return true;</isMandatory>
+		</Context>
+		
+		<Context ScreenId="O_10_9">
+			<isMandatory>return true;</isMandatory>
+		</Context>
+		
+		<Context ScreenId="O_10_11">
+            <isMandatory>return true;</isMandatory>
+		</Context>
+				
+		<Context ScreenId="O_8_5">
+			<isMandatory>return true;</isMandatory>
+		</Context>
+		
+	</Javascript>
+</Question>

@@ -1,0 +1,23 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: Case
+	Method:  getObsoleteCaseTypeAlternativeList()
+	Author:  Phil Haferer (EDS) 
+	Created: 14 March 2005
+	Description:
+	    Gets a list of alternative Case Types which are considered valid alternatives 
+	    for the current Case Type, which has already been identified as obsolete.
+-->
+<service-method>
+	<pipeline>
+		<Query>
+			<QueryDef 
+				location="uk/gov/dca/caseman/case_service/query_def_get_obsolete_case_type_alternative_list.xml"/>			
+			<QueryExtension pivotNode="/Case">
+				<Param name="param.caseNumber" xpath="/params/param[@name = 'caseNumber']"/>
+				<Constraint>C.CASE_NUMBER = ${param.caseNumber}</Constraint>
+			</QueryExtension>
+		</Query>
+	</pipeline>
+	<Security roles="medium high wcSuper scSuper bmsSuper aeSuper dmSuper cpSuper ccbcMan ccbcUser ccbcSGB2"/> 
+</service-method>

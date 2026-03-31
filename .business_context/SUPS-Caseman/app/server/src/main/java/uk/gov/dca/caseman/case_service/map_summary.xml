@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<DBMapDef>
+  <DataSource id="java:OracleDS"/>
+  <Tables>
+    <Table alias="C"   name="CASES"/>  
+    <Table alias="CPR" name="CASE_PARTY_ROLES"/>
+    <Table alias="P"   name="PARTIES"/>
+    <Table alias="CT"  name="COURTS"/>
+    <Table alias="PR"  name="PARTY_ROLES"/>
+  </Tables>  
+  <Mapping>
+
+        <Case>
+		<CaseNumber>${C.CASE_NUMBER}</CaseNumber>
+		<CaseType>${C.CASE_TYPE}</CaseType>
+		<CaseStatus>${C.STATUS}</CaseStatus>
+		<OwningCourtCode>${C.ADMIN_CRT_CODE}</OwningCourtCode>
+		<OwningCourt>${CT.NAME}</OwningCourt>
+		<DetailsOfClaim>
+			<DateRequestReceived>${C.RECEIPT_DATE}</DateRequestReceived>
+			<AmountClaimedCurrency>${C.AMOUNT_CLAIMED_CURRENCY}</AmountClaimedCurrency>			
+			<AmountClaimed>${C.AMOUNT_CLAIMED}</AmountClaimed>
+			<CourtFeeCurrency>${C.COURT_FEE_CURRENCY}</CourtFeeCurrency>
+			<CourtFee>${C.COURT_FEE}</CourtFee>
+			<SolicitorsCostsCurrency>${C.SOLICITORS_COSTS_CURRENCY}</SolicitorsCostsCurrency>			
+			<SolicitorsCosts>${C.SOLICITORS_COSTS}</SolicitorsCosts>
+			<TotalCurrency>${C.TOTAL_CURRENCY}</TotalCurrency>					
+			<Total>${C.TOTAL}</Total>
+			<DateOfIssue>${C.DATE_OF_ISSUE}</DateOfIssue>			
+		</DetailsOfClaim>
+		<Parties>
+			<Party>
+				<PartyId>${P.PARTY_ID}</PartyId>
+				<Name>${P.PERSON_REQUESTED_NAME}</Name>
+				<DateOfService>${CPR.DEFT_DATE_OF_SERVICE}</DateOfService>
+				<CasePartyNumber>${CPR.CASE_PARTY_NO}</CasePartyNumber>
+  	            <PartyRoleCode>${CPR.PARTY_ROLE_CODE}</PartyRoleCode>
+  	            <PartyRoleDescription>${PR.PARTY_ROLE_DESCRIPTION}</PartyRoleDescription>
+			</Party>
+		</Parties>
+		<Obligation>
+			<Count>${C.OBLIGS_COUNT}</Count>
+		</Obligation>
+		<WindowForTrial>
+			<Count>${C.WFT_COUNT}</Count>
+		</WindowForTrial>
+        </Case>
+
+</Mapping>
+</DBMapDef>

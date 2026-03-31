@@ -1,0 +1,33 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: Co
+	Method:  getCoOnEventCommit()/updateCoOnEventCommit()
+	File:    map_co_on_event_commit.xml
+	Description: 
+
+	Change History:
+	27-May-2006 Phil Haferer: Added FeeRate and FeeAmount tags to support calculation of the Fee Amount when setting
+	            a CO to Live.
+	            TD 3435: Create Postal Payments on C: incorrect overpayment amount.
+-->
+<DBMapDef>
+  <DataSource id="java:OracleDS"/>
+  <Tables>
+    <Table alias="CO" name="CONSOLIDATED_ORDERS"/>
+  </Tables>
+  <Mapping>
+
+      <CoRecord>
+		<CONumber>${CO.CO_NUMBER}</CONumber>
+		<AoN60date>${CO.AO_N60_DATE}</AoN60date>
+ 		<AttachmentArrearsDate>${CO.ATTACHMENT_ARREARS_DATE}</AttachmentArrearsDate>
+ 		<AttachmentLapsedDate>${CO.ATTACHMENT_LAPSED_DATE}</AttachmentLapsedDate>
+		<RevokedDischargedDate>${CO.REVOKED_DISCHARGED_DATE}</RevokedDischargedDate>
+		<OrderDate>${CO.ORDER_DATE}</OrderDate>
+		<COStatus>${CO.CO_STATUS}</COStatus>
+		<FeeRate>${CO.FEE_RATE}</FeeRate>
+		<FeeAmount>${CO.FEE_AMOUNT}</FeeAmount>
+      </CoRecord>
+
+  </Mapping>
+</DBMapDef>

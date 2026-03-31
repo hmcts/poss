@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: Co
+	Method:  updateCoCaseEvent()
+	File:    update_co_case_event.xml
+	Author:  Phil Haferer (EDS)
+	Created: 22 September 2005
+	Description: 
+		Update Consolidated Order Case Event.
+-->
+<service-method>
+	<pipeline>
+		<Update>
+			<QueryDef location="uk/gov/dca/caseman/co_service/query_def_modify_co_case_event.xml"/>
+			<DataSource xpath="/params/param[@name='coCaseEvent']"/>
+			<QueryExtension pivotNode="/ds/CoCaseEvent">
+				<CheckExists table="COCE"     fields="ALD_DEBT_SEQ" 
+				             onNotExist="add" onExist="update"      useOptimisticLock="false"/>
+			</QueryExtension>
+		</Update>
+	</pipeline>
+	<Security roles="medium high wcSuper scSuper bmsSuper aeSuper dmSuper"/>		
+</service-method>

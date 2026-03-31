@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<service-method>
+	<pipeline>
+		<Transform>
+			<Template location="uk/gov/dca/test_project/cases_service/transforms/get_case.xsl"/>
+		</Transform>
+	</pipeline>
+	<Security roles="user"/>
+</service-method>

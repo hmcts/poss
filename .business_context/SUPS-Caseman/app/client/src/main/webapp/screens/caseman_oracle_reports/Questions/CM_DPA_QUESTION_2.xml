@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Change History:
+	27/11/2006 - Chris Vincent, added logic function to clear the grid if the case number is blanked
+				 UCT Defect 738.
+-->
+<!--Question xmlns="http://eds.com/questionxhtml" xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd"-->
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>CM_DPA_QUESTION_2</Id>
+	<Label>Party name</Label>
+	<ObjectName>Header_PartyTypeListGrid</ObjectName>
+	<Html>
+		<script type="text/javascript">Grid.createInline("Header_PartyTypeListGrid", ["Party Type", "Number", "Name"], 7, 1);</script>																					
+		<!-- <select id="DefendantID" /> -->
+	</Html>
+	<Javascript>
+		<XPath>/ds/var/page/OracleReportForm/Header_PartyTypeListGrid</XPath>
+		<ReportVariableName>P_PARTY_ID</ReportVariableName>
+		<ReportVariableValue>Services.getValue(Header_PartyTypeListGrid.dataBinding)</ReportVariableValue>
+		<HintText>Select party name</HintText>
+		<miscCode>
+/*
+			DefendantID.srcData = "/ds/var/page/OracleReportForm/Parties";
+			DefendantID.rowXPath = "Party";
+			DefendantID.keyXPath = "PartyID";
+			DefendantID.displayXPath = "PartyID";
+			
+			DefendantID.enableOn = [_caseNumberExistsXPath];
+			DefendantID.isEnabled = function()
+			{
+				if(Services.getValue(_caseNumberExistsXPath) == "true") {
+					return true;
+				}
+		        return false;
+			}
+*/
+			var VAR_PAGE_XPATH 		= "/ds/var/page";
+			var DATA_XPATH 			= "/ds/ManageCase";
+			function Header_PartyTypeListGrid() {};
+			Header_PartyTypeListGrid.tabIndex 		= 2;
+			//Header_PartyTypeListGrid.dataBinding 	= VAR_PAGE_XPATH + "/SelectedGridRow/SelectedParty";
+			Header_PartyTypeListGrid.isReadOnly		= function() { return false; }
+			Header_PartyTypeListGrid.srcData 		= DATA_XPATH + "/Parties";
+			Header_PartyTypeListGrid.rowXPath 		= "LitigiousParty[./TypeCode = '" + PartyTypeCodesEnum.CLAIMANT + "' or ./TypeCode = '" + PartyTypeCodesEnum.DEFENDANT + "' or ./TypeCode = '" + PartyTypeCodesEnum.PART_20_DEFENDANT + "' or ./TypeCode = '" + PartyTypeCodesEnum.PART_20_CLAIMANT + "' or ./TypeCode = '" + PartyTypeCodesEnum.DEBTOR + "' or ./TypeCode = '" + PartyTypeCodesEnum.CREDITOR +"']";
+			Header_PartyTypeListGrid.keyXPath 		= "PartyId";
+			Header_PartyTypeListGrid.columns 		= [	{xpath: "Type"},
+														{xpath: "Number", sort: "numerical", defaultSort:"true", defaultSortOrder:"ascending"},
+														{xpath: "Name"}];		
+														
+			Header_PartyTypeListGrid.enableOn = [_caseNumberExistsXPath];
+			Header_PartyTypeListGrid.isEnabled = function()
+			{
+				if(Services.getValue(_caseNumberExistsXPath) == "true") {
+					return true;
+				}
+		        return false;
+			}	
+			
+			Header_PartyTypeListGrid.mandatoryOn = [_caseNumberExistsXPath];
+			Header_PartyTypeListGrid.isMandatory = function()
+			{
+				if(Services.getValue(_caseNumberExistsXPath) == "true") {
+					return true;
+				}
+		        return false;
+			}
+			
+			Header_PartyTypeListGrid.logicOn = [_caseNumberExistsXPath];
+			Header_PartyTypeListGrid.logic = function(event)
+			{
+				if(event.getXPath() != _caseNumberExistsXPath ) {
+					return;
+				}
+			
+		        if ( Services.getValue(_caseNumberExistsXPath) != "true" )
+				{
+					Services.removeNode(this.srcData);
+				}
+			}																		
+		</miscCode>
+	</Javascript>
+</Question>

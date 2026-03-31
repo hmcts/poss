@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: Co
+	Method:  getCoTypeList()
+	File:    query_def_get_co_type_list.xml
+	Author:  Phil Haferer (EDS)
+	Created: 01 September 2005
+	Description: 
+		Retrieve the list of Consolidated Order Types.
+-->
+<QueryDef>
+  <DBMapDef location="uk/gov/dca/caseman/co_service/map_get_co_type_list.xml"/>
+  <Query pivotNode="/COTypes/Type" tables="REF">
+    <Join>
+		REF.RV_DOMAIN = 'CONSOLIDATED_ORDERS.CO_TYPE'         
+    </Join>
+    <Modify notModifiable="true"/>
+  </Query>
+</QueryDef>

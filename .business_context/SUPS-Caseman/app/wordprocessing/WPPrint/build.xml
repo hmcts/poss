@@ -1,0 +1,93 @@
+<project name="WPPrint" default="deploy" basedir=".">
+    <property environment="env" />
+	<property name="src.dir" value="src" />
+	<property name="dist.dir" value="dist" />
+	<property name="build.dir" value="build" />
+	<property name="tools.dir" value="${env.SUPS_EXTRACTED}" />
+	<property name="deploy.dir" value="${tools.dir}/jboss-4.0.1/server/default/deploy" />
+	<property name="keystore" value="${basedir}/keystore" />
+	<path id="classpath">
+		<pathelement location="${build.dir}" />
+		<pathelement location="${tools.dir}/jboss-4.0.1/server/default/lib/javax.servlet.jar" />
+  		<pathelement location="${tools.dir}/fop-0.20.5/build/fop.jar"/>
+  		<pathelement location="${tools.dir}/fop-0.20.5/lib/avalon-framework-cvs-20020806.jar"/>
+	</path>
+
+	<target name="clean">
+		<delete dir="${build.dir}" />
+		<delete dir="${dist.dir}" />
+	</target>
+	
+	<target name="init">
+		<mkdir dir="${build.dir}" />
+		<mkdir dir="${dist.dir}" />
+	</target>
+	
+	<target name="build" depends="init">
+		<javac destdir="${build.dir}">
+			<src path="${src.dir}" />
+		    <classpath refid="classpath" />
+		</javac>
+		<copy todir="${build.dir}">
+		    <fileset dir="${src.dir}">
+				<include name="**/*.xml"/>
+				<include name="**/*.xsl"/>
+				<include name="**/*.ps"/>
+		    </fileset>
+		</copy>
+	</target>
+	
+	<target name="package" depends="build">
+		<jar jarfile="${dist.dir}/wpprint.jar">
+			<fileset dir="${build.dir}">
+				<include name="**/WPPrintApplet*.class"/>
+				<include name="**/WPHttpSocket.class"/>
+				<include name="**/*.gif"/>
+			</fileset>
+			<fileset dir="resources/images">
+				<include name="**/*.gif"/>
+			</fileset>
+		</jar>
+		<signjar jar="${dist.dir}/wpprint.jar" keystore="${keystore}" alias="SUPS" storepass="SUPSSUPS"/>
+		<war destfile="${dist.dir}/wpprint.war" webxml="resources/web.xml">
+	        <classes dir="${build.dir}"/>
+			<fileset dir="web">
+				<include name="**/**"/>
+			</fileset>
+			<fileset dir="${dist.dir}">
+				<include name="**/*.jar"/>
+			</fileset>
+			<lib dir="${tools.dir}/jboss-4.0.1/server/default/lib">
+				<include name="javax.servlet.jar" />
+			</lib>
+			<lib dir="${tools.dir}/fop-0.20.5/build">
+		  		<include name="fop.jar"/>
+			</lib>
+			<lib dir="${tools.dir}/fop-0.20.5/lib">
+		  		<include name="avalon-framework-cvs-20020806.jar"/>
+		  		<include name="batik.jar"/>
+			</lib>
+		</war>
+	</target>
+	
+	<target name="deploy" depends="package">
+		<copy todir="${deploy.dir}" file="${dist.dir}/wpprint.war" />
+	</target>
+	
+	<target name="test">
+	    <junit failureProperty="test.failure">
+	      <classpath refid="classpath" />
+	      <formatter type="plain" usefile="false"/> 
+	      <batchtest>
+	        <fileset dir="${build.dir}">
+	          <include name="**/*UT.class"/>
+	        </fileset>
+	      </batchtest>
+	    </junit>
+	    <fail message="test failed" if="test.failure" />
+	</target>
+	
+	<target name="genkey">
+		<genkey keystore="${keystore}" alias="SUPS" storepass="SUPSSUPS" dname="CN=SUPS, OU=SUPS, O=dca.gov.uk, C=GB"/>
+	</target>
+</project>

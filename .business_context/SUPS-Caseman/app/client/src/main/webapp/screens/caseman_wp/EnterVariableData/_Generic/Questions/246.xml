@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>246</Id>
+	<Label>Expert Witnesses Permitted?</Label>
+	<ObjectName>PermitExpertWitnesses</ObjectName>
+	<Html>	
+		<input type="checkbox" id="PermitExpertWitnesses"></input>
+	</Html>
+	<Javascript>
+		<XPath>/ds/EnterVariableData/FastTrack/permitExpertWitnesses</XPath>
+		<HintText>Check box if there is expert witnesses permitted</HintText>		
+		<modelValue>checked: "Y", unchecked: "N"</modelValue>		
+		<enableOn>ExpertRefused.dataBinding, ExchangeReports.dataBinding</enableOn>		
+		<isEnabled>
+			return('Y' != Services.getValue(ExpertRefused.dataBinding) &amp;&amp;
+					'Y' == Services.getValue(ExchangeReports.dataBinding));
+		</isEnabled>
+		<logicOn>ExpertRefused.dataBinding, ExchangeReports.dataBinding</logicOn>
+		<logic>
+			if('Y' == Services.getValue(ExpertRefused.dataBinding) ||
+					'Y' != Services.getValue(ExchangeReports.dataBinding))
+			{	Services.setValue(PermitExpertWitnesses.dataBinding, "N");
+			}
+		</logic>
+	</Javascript>
+</Question>

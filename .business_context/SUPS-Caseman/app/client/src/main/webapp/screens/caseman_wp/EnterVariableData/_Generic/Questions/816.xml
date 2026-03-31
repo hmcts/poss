@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>816</Id>
+	<Label>Enter the amount</Label>
+	<ObjectName>EnterTheAmount</ObjectName>
+	<Html>
+		<input type="text" size="1" id="DefaultCurrency816"></input>
+		<input type="text" id="EnterTheAmount" size="9" maxlength="9"></input>
+	
+	</Html>
+	<Javascript>
+		<XPath>/ds/EnterVariableData/EnterTheAmount</XPath>
+		<componentName>##label##</componentName>
+		<HintText>Enter the amount of the varied debt</HintText>
+		<maxLength>9</maxLength>
+		<isMandatory>return true;</isMandatory>
+		<mandatoryOn>EnterTheAmount.dataBinding</mandatoryOn>
+		
+		
+		<enableOn>WhatIsVaried.dataBinding</enableOn>
+		<isEnabled>return('DEBT'== Services.getValue(WhatIsVaried.dataBinding));</isEnabled>
+		<logicOn>WhatIsVaried.dataBinding</logicOn>
+		<logic>if('DEBT' !=  Services.getValue(WhatIsVaried.dataBinding))
+		{
+			Services.setValue(EnterTheAmount.dataBinding, "");
+		}
+		</logic>
+		
+		<validateOn>EnterTheAmount.dataBinding</validateOn>
+		<validate>
+			var val = Services.getValue(EnterTheAmount.dataBinding);
+			var err = null;
+			var maxVal = 999999.99;
+			
+			
+			if('0.00' != val)
+			{
+				err = validateCurrencyValue(val, maxVal);
+				if( null == err )
+				{ 	
+					var fVal = WPU.formatToTwoDP(val);
+					Services.setValue(EnterTheAmount.dataBinding, fVal);
+				}
+			}
+			return err;
+		</validate>
+		<miscCode>
+			function DefaultCurrency816() {}
+			DefaultCurrency816.dataBinding = "/ds/EnterVariableData/curr1";
+			DefaultCurrency816.tabIndex = -1;
+			DefaultCurrency816.maxLength = 1;
+			DefaultCurrency816.isReadOnly = function(){return true;}
+			DefaultCurrency816.isTemporary = function(){return true;}
+			DefaultCurrency816.transformToDisplay = function(value){
+				return WPS.__CaseManUtils().transformCurrencySymbolToDisplay(value,null,null); }
+			DefaultCurrency816.transformToModel = function(value){
+				return WPS.__CaseManUtils().transformCurrencySymbolToModel(value,null,null); }
+		</miscCode>
+	</Javascript>
+</Question>

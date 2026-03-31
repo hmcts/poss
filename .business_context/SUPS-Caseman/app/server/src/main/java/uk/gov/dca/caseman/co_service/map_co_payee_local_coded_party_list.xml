@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: CO 
+	Method:  getCoPayeeLocalCodedPartyList() / updateCoPayeeLocalCodedPartyList()
+	File:    map_co_payee_local_coded_party_list.xml
+	Author:  Chris Vincent
+	Created: 15 Feb 2011
+	Description: 
+		'Mapping' for changing CO Payee Local Coded Parties to a matching Local Coded Party at the destination Court
+		or to non-coded parties if no match, as part of the transfer of a Consolidated Order from one SUPS Court to another.
+		Created as part of Trac 4215.
+-->
+<DBMapDef>
+	<DataSource id="java:OracleDS"/>
+	<Tables>
+	    <Table alias="P"   name="PARTIES"/>
+	    <Table alias="GA"  name="GIVEN_ADDRESSES"/>
+	    <Table alias="CP"  name="CODED_PARTIES"/>
+		<Table alias="AD"  name="ALLOWED_DEBTS"/>
+	</Tables>
+	<Mapping>
+		<COLocalCodedPartyList>
+			<COLocalCodedParty>
+				<Party>
+					<PartyId>${P.PARTY_ID}</PartyId>
+					<PersonTitle>${P.PERSON_TITLE}</PersonTitle>
+					<PersonGivenFirstName>${P.PERSON_GIVEN_FIRST_NAME}</PersonGivenFirstName>
+					<PersonGivenSecondName>${P.PERSON_GIVEN_SECOND_NAME}</PersonGivenSecondName>
+					<PersonFamilyName>${P.PERSON_FAMILY_NAME}</PersonFamilyName>
+					<PersonGivenThirdName>${P.PERSON_GIVEN_THIRD_NAME}</PersonGivenThirdName>
+					<AuthenticationPin>${P.AUTHENTICATION_PIN}</AuthenticationPin>
+					<CompanyName>${P.COMPANY_NAME}</CompanyName>
+					<AuthenticationPassword>${P.AUTHENTICATION_PASSWORD}</AuthenticationPassword>
+					<EmailAddress>${P.EMAIL_ADDRESS}</EmailAddress>
+					<Gender>${P.GENDER}</Gender>
+					<EthnicOriginCode>${P.ETHNIC_ORIGIN_CODE}</EthnicOriginCode>
+					<PartyTypeCode>${P.PARTY_TYPE_CODE}</PartyTypeCode>
+					<FaxNumber>${P.FAX_NUMBER}</FaxNumber>
+					<PersonRequestedName>${P.PERSON_REQUESTED_NAME}</PersonRequestedName>
+					<TelNo>${P.TEL_NO}</TelNo>
+					<DxNumber>${P.DX_NUMBER}</DxNumber>
+				</Party>
+				<AllowedDebt>
+					<DebtSeq>${AD.DEBT_SEQ}</DebtSeq>
+					<CPPayeePartyId>${AD.CP_PAYEE_ID}</CPPayeePartyId>
+				</AllowedDebt>	
+				<Address>
+					<AddressId>${GA.ADDRESS_ID}</AddressId>
+					<AddressLine1>${GA.ADDRESS_LINE1}</AddressLine1>
+					<AddressLine2>${GA.ADDRESS_LINE2}</AddressLine2>
+					<AddressLine3>${GA.ADDRESS_LINE3}</AddressLine3>
+					<AddressLine4>${GA.ADDRESS_LINE4}</AddressLine4>
+					<AddressLine5>${GA.ADDRESS_LINE5}</AddressLine5>
+					<Postcode>${GA.POSTCODE}</Postcode>
+					<ValidFrom>${GA.VALID_FROM}</ValidFrom>
+					<ValidTo>${GA.VALID_TO}</ValidTo>
+					<PartyId>${GA.PARTY_ID}</PartyId>
+					<Reference>${GA.REFERENCE}</Reference>
+					<CaseNumber>${GA.CASE_NUMBER}</CaseNumber>
+					<PartyRoleCode>${GA.PARTY_ROLE_CODE}</PartyRoleCode>
+					<AddressTypeCode>${GA.ADDRESS_TYPE_CODE}</AddressTypeCode>
+					<CoNumber>${GA.CO_NUMBER}</CoNumber>
+					<AddrTypeSeq>${GA.ADDR_TYPE_SEQ}</AddrTypeSeq>
+					<AldSeq>${GA.ALD_SEQ}</AldSeq>
+					<CourtCode>${GA.COURT_CODE}</CourtCode>
+					<UpdatedBy>${GA.UPDATED_BY}</UpdatedBy>
+					<CasePartyNo>${GA.CASE_PARTY_NO}</CasePartyNo>
+				</Address>	
+			</COLocalCodedParty>
+		</COLocalCodedPartyList>
+	</Mapping>
+</DBMapDef>

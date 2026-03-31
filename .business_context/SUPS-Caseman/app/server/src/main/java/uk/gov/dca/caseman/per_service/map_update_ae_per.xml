@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- edited with XMLSPY v5 rel. 3 U (http://www.xmlspy.com) by Phil Haferer (Electronic Data Systems LTD) -->
+<!--
+	Service: Per
+	Method:  updateAePer()
+	File:    map_update_ae_per.xml
+	Author:  Phil Haferer (EDS), Ian Stainer (Valtech)
+	Created: 07 June 2005
+	Description: 
+		The 'Mapping' for updating AE protected earnings rate details.
+-->
+<DBMapDef>
+	<DataSource id="java:OracleDS"/>
+	<Tables>
+		<Table alias="AEA" name="AE_APPLICATIONS"/>
+		<Table alias="API" name="AE_PER_ITEMS"/>
+	</Tables>
+	<Mapping>
+		<ds>
+			<CalculatePER>
+				<CaseNumber></CaseNumber>
+				<AENumber>${AEA.AE_NUMBER}</AENumber>
+				<Status></Status>
+				<ApplicationType></ApplicationType>
+				<CalculatedRate>${AEA.PROTECTED_EARNINGS_RATE}</CalculatedRate>
+				<CalculatedPeriod>${AEA.PROTECTED_EARNINGS_PERIOD}</CalculatedPeriod>
+				<PerDetail>
+					<PerSeq>${API.AE_PER_SEQ}</PerSeq>
+					<SurrogateId></SurrogateId>
+					<Status></Status>
+					<Code>${API.DETAIL_CODE}</Code>
+					<Group></Group>
+					<Description></Description>
+					<DefaultAllowance>${API.ITEM_VALUE}</DefaultAllowance>
+					<DefaultAllowanceCurrency>${API.ITEM_VALUE_CURRENCY}</DefaultAllowanceCurrency>
+					<Number>${API.ITEM_COUNT}</Number>
+					<Amount>${API.AMOUNT_ALLOWED}</Amount>
+					<AmountCurrency>${API.AMOUNT_ALLOWED_CURRENCY}</AmountCurrency>
+					<DateEntered>${API.DATE_ENTERED}</DateEntered>
+					<CreatedBy>${API.USERNAME}</CreatedBy>
+					<DeleteFlag>${API.ERROR_INDICATOR}</DeleteFlag>
+					<Category></Category>
+				</PerDetail>
+			</CalculatePER>
+		</ds>
+	</Mapping>
+</DBMapDef>

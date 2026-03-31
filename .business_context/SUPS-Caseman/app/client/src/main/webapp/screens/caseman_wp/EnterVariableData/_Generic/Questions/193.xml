@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>193</Id>
+	<Label>Is there standard disclosure</Label>
+	<ObjectName>IsStandardDisclosure</ObjectName>
+	<Html>	
+		<input type="checkbox" id="IsStandardDisclosure"></input>
+	</Html>
+	<Javascript>
+		<XPath>/ds/EnterVariableData/FastTrack/isStandardDisclosure</XPath>
+		<HintText>Check box if there is standard disclosure</HintText>
+		<!--isMandatory>return true;</isMandatory-->	
+		<modelValue>checked: "Y", unchecked: "N"</modelValue>
+		<enableOn>IsLimitedDisclosure.dataBinding</enableOn>
+		<isEnabled>return('Y' == Services.getValue(IsLimitedDisclosure.dataBinding))</isEnabled>
+		<logicOn>IsLimitedDisclosure.dataBinding</logicOn>
+		<logic>
+			if('Y' != Services.getValue(IsLimitedDisclosure.dataBinding))
+			{	Services.setValue(IsStandardDisclosure.dataBinding, "N");
+			}
+		</logic>
+	</Javascript>
+</Question>

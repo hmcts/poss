@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="server_example_deploy" default="deploy" basedir=".">
+	<!-- set up properties which should be the same for all projects -->
+	<property name="build" value="${basedir}/build"/>
+	<property name="meta-inf" value="${build}/META-INF"/>
+	<property name="conf" value="${basedir}/conf"/>
+	<property name="lib" value="${basedir}/lib"/>
+	<!-- load project specific properties -->
+	<property file="deploy.properties"/>
+	<property name="project.base-url" value="${server.ip-address}/${project.name}"/>
+	<property name="project-ear" value="${project.name}.ear"/>
+	<path id="project.path">
+		<pathelement location="${lib}/xmlquery2.jar"/>
+		<fileset dir="${lib}/jdom" includes="*.jar"/>
+		<fileset dir="${lib}/jboss" includes="*.jar"/>
+		<fileset dir="${lib}/ws" includes="*.jar"/>
+		<fileset dir="${jboss.server.dir}/lib" includes="*.jar"/>
+	</path>
+	<!-- copy the jar files to reference in the classpath so they can be updated with no file locking issues -->
+	<target name="copy-libraries">
+		<copy todir="${basedir}/lib">
+			<fileset dir="${basedir}" includes="*.jar"/>
+		</copy>
+	</target>
+	<target name="deploy-ws" depends="copy-libraries">
+		<!-- substitute deploy time configuration settings into ws config files -->
+		<replace dir="${build}" includes="**/config.xml" token="$${project.base-url}" value="${project.base-url}"/>
+		<!-- compile framework security ws -->
+		<mkdir dir="${meta-inf}/wsdl"/>
+		<taskdef name="wscompile" classname="com.sun.xml.rpc.tools.ant.Wscompile" classpathref="project.path"/>
+		<wscompile define="true" base="${meta-inf}/wsdl" classpathref="project.path" config="${build}/config.xml"/>
+		<!-- add security files to jar -->
+		<jar destfile="${basedir}/xmlquery2.jar" update="true">
+			<fileset dir="${build}">
+				<include name="META-INF/wsdl/*.wsdl"/>
+				<include name="META-INF/wsdl/**/*.class"/>
+			</fileset>
+		</jar>
+		<!-- Delete the final </application> tag from application.xml -->
+		<replace file="${meta-inf}/application.xml" token="&lt;/application&gt;" value=""/>
+		<!-- compile application ws -->
+		<subant target="compile-ws" inheritall="false">
+			<fileset dir="${build}" includes="*/deploy-ws.xml"/>
+			<property name="jboss.server.dir" value="${jboss.server.dir}"/>
+			<property name="dist.dir" value="${basedir}"/>
+		</subant>
+		<echo message="&lt;/application&gt;" file="${meta-inf}/application.xml" append="true"/>
+	</target>
+	<!-- updates the pre-existing project .ear archive with latest configuration file archive and web services for target environment -->
+	<target name="deploy" depends="deploy-ws">
+		<!-- jar config files for inclusion in the ear -->
+		<jar destfile="${build}/conf.jar">
+			<fileset dir="${conf}">
+				<include name="**/*"/>
+			</fileset>
+		</jar>
+		<!-- build ear -->
+		<ear destfile="${project-ear}" update="true" appxml="${meta-inf}/application.xml">
+			<fileset dir="${build}">
+				<include name="conf.jar"/>
+				<include name="META-INF/jboss-app.xml"/>
+				<include name="common_application.jar"/>
+			</fileset>
+			<fileset dir="${basedir}" includes="*.jar"/>
+		</ear>
+		<copy file="${project-ear}" todir="${jboss.server.dir}/deploy"/>
+	</target>
+	<target name="clean">
+		<delete quiet="true">
+			<fileset dir="${build}">
+				<include name="*.jar"/>
+			</fileset>
+		</delete>
+	</target>
+</project>

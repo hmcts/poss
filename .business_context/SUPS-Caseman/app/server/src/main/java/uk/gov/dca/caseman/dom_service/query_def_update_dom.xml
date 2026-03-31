@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: Dom
+	Method:  updateDom()
+	File:    query_def_update_dom.xml
+	Author:  Phil Haferer (EDS), Ian Stainer (Valtech)
+	Created: 07 July 2005
+	Description: 
+		Update determination of means details.
+-->
+<QueryDef>
+  <DBMapDef location="uk/gov/dca/caseman/dom_service/map_update_dom.xml"/>
+  <Query pivotNode="/ds/DeterminationOfMeans" tables="CO">
+    <Join/>
+    <Modify>
+		<CheckExists 
+			table="CO" fields="CO_NUMBER" onExist="update" onNotExist="fail"/>
+    </Modify>
+  </Query>
+</QueryDef>

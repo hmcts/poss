@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE web-app PUBLIC "-//Sun Microsystems, Inc.//DTD Web Application 2.3//EN" "http://java.sun.com/dtd/web-app_2_3.dtd">
+
+<web-app>
+	<distributable />
+
+   <servlet>
+      <servlet-name>RequestDispatcherServlet</servlet-name>
+      <display-name>Request Dispatcher Servlet</display-name>
+      <servlet-class>uk.gov.dca.db.invoke.server.RequestDispatcher</servlet-class>
+      <load-on-startup>2</load-on-startup>
+      <init-param>
+      	<param-name>serviceConfigLocation</param-name>      	
+      	<param-value>@SERVICE_CONFIG_DIRECTORY@</param-value>      	
+      </init-param>
+   </servlet>
+   
+   <servlet>
+      <servlet-name>KeepAliveServlet</servlet-name>
+      <display-name>KeepAlive Servlet</display-name>
+      <servlet-class>uk.gov.dca.db.heartbeat.KeepAliveServlet</servlet-class>
+      <load-on-startup>1</load-on-startup>
+   </servlet>
+
+   <servlet>
+      <servlet-name>FrameworkCheckServlet</servlet-name>
+      <display-name>Framework Check Servlet</display-name>
+      <servlet-class>uk.gov.dca.db.check.web.CheckServlet</servlet-class>
+      <load-on-startup>3</load-on-startup>
+   </servlet>
+
+	<servlet-mapping>
+		<servlet-name>RequestDispatcherServlet</servlet-name>
+		<url-pattern>/InvokerServlet</url-pattern>
+	</servlet-mapping>
+
+   <servlet-mapping>
+      <servlet-name>KeepAliveServlet</servlet-name>
+      <url-pattern>/KeepAliveServlet</url-pattern>
+   </servlet-mapping>
+
+   <servlet-mapping>
+      <servlet-name>FrameworkCheckServlet</servlet-name>
+      <url-pattern>/FrameworkCheckServlet</url-pattern>
+   </servlet-mapping>
+
+
+	<ejb-ref>
+		<ejb-ref-name>SecurityService</ejb-ref-name>
+		<ejb-ref-type>Session</ejb-ref-type>
+		<home>
+			uk.gov.dca.db.security.SecurityServiceHome
+		</home>
+		<remote>
+			uk.gov.dca.db.security.SecurityServiceRemote
+		</remote>
+		<ejb-link>SecurityService</ejb-link>
+	</ejb-ref>
+
+	<!-- #### START: REMOTE EJB Refs added by the Build #### -->
+	<!--REMOTE_EJB_REFS-->
+	<!-- #### END:	 REMOTE EJB Refs added by the Build #### -->
+
+
+	<ejb-local-ref>
+		<ejb-ref-name>ejb/SecurityServiceLocal</ejb-ref-name>
+		<ejb-ref-type>Session</ejb-ref-type>
+		<local-home>
+			uk.gov.dca.db.security.SecurityServiceLocalHome
+		</local-home>
+		<local>uk.gov.dca.db.security.SecurityService</local>
+		<ejb-link>SecurityService</ejb-link>
+	</ejb-local-ref>
+
+
+	<!-- #### START: LOCAL EJB Refs added by the Build #### -->
+	<!--LOCAL_EJB_REFS-->
+	<!-- #### END:	 LOCAL EJB Refs added by the Build #### -->
+
+
+</web-app>

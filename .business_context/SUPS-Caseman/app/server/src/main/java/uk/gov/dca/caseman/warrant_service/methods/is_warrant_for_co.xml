@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: Warrant
+	Method:  isWarrantForCo
+	Author:  Chris Hutt (EDS) 
+	Created: 19 July 2005
+	Description: 
+		Use SQLLite to where a warrant of the specified type exists for the
+		specified consolidated order 
+		
+	Change History
+		v1.1	Chris Hutt	08Aug05		WarrantType added
+		V1.2	Chris Hutt	23MAY06		Defect 3263 : Warrant 'live' until a final return added
+										(SQL approved by Grant Miller as performant)
+-->
+<service-method>
+	<pipeline>
+		<SQLLite format-output="true"
+				 resultset-element="ds"
+				 row-element="WarrantData"
+				 field-name-as="element" >
+			<DataSource id="java:OracleDS"/>
+			<Param name="param.coNumber" xpath="/params/param[@name='coNumber']"/>
+			<Param name="param.warrantType" xpath="/params/param[@name='warrantType']"/>
+			<SQL>
+				(SELECT  
+						DECODE(COUNT(*) , 0, 'false','true')  	as "WarrantExists" 
+					, 	${param.warrantType}					as "WarrantType" 
+				FROM (	SELECT   
+							DISTINCT (W.CO_NUMBER) 
+				FROM 	WARRANTS W 
+				WHERE	W.CO_NUMBER 	=  	${param.coNumber}
+				AND	W.WARRANT_TYPE  	= 	${param.warrantType}
+				AND		W.WARRANT_ID NOT IN (	SELECT 	WR.WARRANT_ID 
+												FROM 	WARRANT_RETURNS WR , RETURN_CODES RC
+												WHERE	WR.WARRANT_ID 		= 	W.WARRANT_ID
+												AND 	WR.ERROR_INDICATOR 	IS 	NOT NULL
+												AND 	WR.ERROR_INDICATOR 	!= 	'Y'
+												AND 	RC.RETURN_CODE 		= 	WR.RETURN_CODE
+												AND		RC.RETURN_TYPE 		= 	'F'
+												AND		RC.ADMIN_COURT_CODE IN ('0', WR.RETURN_CODE_COURT_CODE) ) 
+											) 
+				)
+			</SQL>			
+		</SQLLite>
+  	</pipeline>
+	<Security roles="user"/>
+</service-method>

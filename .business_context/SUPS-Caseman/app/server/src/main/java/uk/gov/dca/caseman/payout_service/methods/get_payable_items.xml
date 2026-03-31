@@ -1,0 +1,75 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: Payout
+	Method:  getPayableItems()
+	File:    get_payable_items.xml
+	Author:  Paul Robinson
+	Created: 16th January 2006
+	Description: 
+		Method to implement SUPS implementation of the Legacy stored procedure "p_payout_update()".
+
+    Change History:
+    31-Mar-2006 Phil Haferer: Changed column names on 2nd part of UNION, as inconsistent with the 1st part.
+                "DdSeqDds" => "Dds", and "DdPplNumber" => "PplNo".
+-->
+<service-method>
+	<pipeline>
+		<SQLLite format-output="true"
+				 resultset-element="PayableItems"
+				 row-element="PayableItem"
+				 field-name-as="element" >
+			<DataSource id="java:OracleDS"/>
+				<Param name="param.adminCourtCode" xpath="/params/param[@name='adminCourtCode']"/>
+			
+			<SQL>
+				
+		    SELECT 	po.po_number 			AS "PoNumber", 
+	        		po.po_total 			AS "PoTotal", 
+         			po.payee_name			AS "PayeeName",
+         			po.payee_addr_1			AS "PayeeAddr1",
+         			po.payee_addr_2			AS "PayeeAddr2",
+         			po.payee_addr_3			AS "PayeeAddr3",
+         			po.payee_addr_4			AS "PayeeAddr4",
+         			po.payee_addr_5			AS "PayeeAddr5", 
+         			po.payee_postcode		AS "PayeePostcode", 
+         			po.payee_reference		AS "PayeeReference",
+         			po.payee_dx				AS "PayeeDx",
+         			poi.transaction_number 	AS "Tn", 
+         			TO_NUMBER('')			AS "Dds", 
+         			poi.ppl_number 			AS "PplNo",
+         			po.print  				AS "Print"                                                             
+			FROM   	PAYABLE_ORDERS po, 
+	        		PAYABLE_ORDER_ITEMS poi
+			WHERE   po.admin_court_code = ${param.adminCourtCode}
+			AND     ((po.print = 'Y' AND po.po_number = poi.po_number AND po.admin_court_code = poi.admin_court_code)
+			OR      (po.print = 'N' AND po.po_number = poi.po_number AND po.admin_court_code = poi.admin_court_code))
+			AND   	po.payee_name != 'CANCELLED'
+			UNION
+			SELECT  po.po_number 		AS "PoNumber", 
+          			po.po_total 		AS "PoTotal", 
+          			po.payee_name 		AS "PayeeName", 
+          			po.payee_addr_1		AS "PayeeAddr1",
+         			po.payee_addr_2		AS "PayeeAddr2",
+         			po.payee_addr_3		AS "PayeeAddr3",
+         			po.payee_addr_4		AS "PayeeAddr4",
+         			po.payee_addr_5		AS "PayeeAddr5", 
+         			po.payee_postcode	AS "PayeePostcode", 
+         			po.payee_reference	AS "PayeeReference",
+         			po.payee_dx			AS "PayeeDx",
+          			TO_NUMBER('')	 	AS "Tn", 
+          			dd.dd_seq	 		AS "Dds", 
+          			dd.dd_ppl_number  	AS "PplNo", 
+          			po.print 			AS "Print"
+			FROM    PAYABLE_ORDERS po, DEBT_DIVIDENDS dd
+			WHERE   po.admin_court_code = ${param.adminCourtCode}
+			AND     ((po.print = 'Y' AND po.po_number = dd.dd_po_number AND po.admin_court_code = dd.dd_po_admin_court_code)			
+			OR      (po.print = 'N' AND po.po_number = dd.dd_ppl_number AND po.admin_court_code = dd.dd_po_admin_court_code))			
+			AND     po.payee_name != 'CANCELLED'
+			AND     dd.created = 'N'
+			ORDER BY 13
+
+			</SQL>
+		</SQLLite>
+	</pipeline>
+	<Security roles="viewOnly medium high wcSuper scSuper bmsSuper aeSuper dmSuper edsAdmin"/>	
+</service-method>

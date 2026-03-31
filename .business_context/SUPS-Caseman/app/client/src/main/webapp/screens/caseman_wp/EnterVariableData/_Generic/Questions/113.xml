@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>113</Id>
+	<Label>Fax Number</Label>
+	<ObjectName>FaxNumber</ObjectName>
+	<Html>		
+		<input type="text" id="FaxNumber"></input>
+	</Html>
+	<Javascript>
+		<XPath>/ds/EnterVariableData/Service/FaxNumber</XPath>
+		<HintText>Enter Fax number</HintText>		
+		<isMandatory>
+			return true;
+		</isMandatory>
+		<enableOn>ServiceMethod.dataBinding</enableOn>
+		<isEnabled>
+			return('FAX' == Services.getValue(ServiceMethod.dataBinding));
+		</isEnabled>
+		<logicOn>ServiceMethod.dataBinding</logicOn>
+		<logic>
+			if('FAX' != Services.getValue(ServiceMethod.dataBinding))
+			{	Services.setValue(FaxNumber.dataBinding, "");
+			}			
+		</logic>
+	</Javascript>
+</Question>

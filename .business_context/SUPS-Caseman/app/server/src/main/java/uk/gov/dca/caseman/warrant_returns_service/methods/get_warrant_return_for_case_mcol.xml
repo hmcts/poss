@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: WarrantReturn
+	Method:  getWarrantReturnForCaseMcol()
+	File:    get_warrant_return_for_case_mcol.xml
+	Author:  Chris Vincent
+	Created: 10 April 2014
+	Description: 
+		Return the details of the warrant return linked to a case by case number, warrant number and event date 
+		Required for CCBC SDT
+-->
+<service-method>
+	<pipeline>
+		<SQLLite format-output="true"
+				 resultset-element="ds"
+				 row-element="WarrantReturn"
+				 field-name-as="element" >
+			<DataSource id="java:OracleDS"/>
+			<Param name="param.eventDate" xpath="/params/param[@name = 'eventDate']"/>
+			<Param name="param.caseNumber" xpath="/params/param[@name = 'caseNumber']"/>
+			<Param name="param.warrantNumber" xpath="/params/param[@name = 'warrantNumber']"/>
+			<SQL>
+				SELECT WR.WARRANT_RETURNS_ID     AS "WarrantReturnId"
+				,      WR.RETURN_CODE 		     AS "ReturnCode"
+				,      WR.ADDITIONAL_INFORMATION AS "AdditionalInformation"
+				FROM warrant_returns wr, warrants w
+				WHERE w.case_number = ${param.caseNumber} 
+				AND w.warrant_number = ${param.warrantNumber} 
+				AND w.local_warrant_number IS NULL
+				AND wr.warrant_id = w.warrant_id
+				AND wr.warrant_returns_id = (
+					SELECT MAX(wr2.warrant_returns_id)
+					FROM warrant_returns wr2
+					WHERE wr2.warrant_id = w.warrant_id
+					AND TRUNC(wr2.warrant_return_date) = TO_DATE(${param.eventDate}, 'YYYY-MM-DD') 
+					AND NVL(wr2.error_indicator,'N') = 'N'
+				)
+			</SQL>
+		</SQLLite>
+	</pipeline>
+	<Security roles="viewOnly medium high wcSuper scSuper bmsSuper aeSuper dmSuper cpSuper"/>					
+</service-method>

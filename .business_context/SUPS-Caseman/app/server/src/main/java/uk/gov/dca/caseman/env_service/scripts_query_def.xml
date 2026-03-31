@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+Change History:
+    28-Aug-2006 Chris Vincent: Modified query so only changes to the current schema the application
+    			is using are returned by the query.  Previously changes to all schemas were 
+    			returned.
+-->
+<QueryDef>
+	<DBMapDef location="uk/gov/dca/caseman/env_service/scripts_map.xml"/>
+	<Query pivotNode="/Scripts/Script" tables="SS">
+		<SQL type="select">
+			SELECT SS.SCHEMA AS "SS.SCHEMA",
+				SS.DATERUN AS "SS.DATERUN",
+				SS.SCRIPTNAME AS "SS.SCRIPTNAME",
+				SS.CHANGENUMBER AS "SS.CHANGENUMBER"
+			FROM DBAUSER.SCHEMASCRIPTS SS
+			WHERE SS.SCHEMA IN 
+				(SELECT USER FROM DUAL)
+      </SQL>
+      <Modify notModifiable="true"/>
+  </Query>
+</QueryDef>

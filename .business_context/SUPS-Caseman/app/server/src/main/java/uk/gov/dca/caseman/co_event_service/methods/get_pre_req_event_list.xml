@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: CaseEvent
+	Method:  getPreReqeventList
+	Author:  Chris Hutt (EDS) 
+	Created: 13 August 2005
+	Description: 
+		Use SQLLite to retrieve list of events which constitute pre requisites
+                for a specified CO event
+-->
+<service-method>
+	<pipeline>
+		<SQLLite format-output="true"
+				 resultset-element="PreReqEvents"
+				 row-element="Event"
+				 field-name-as="element" >
+			<DataSource id="java:OracleDS"/>
+			<Param name="param.eventId" xpath="/params/param[@name='eventId']"/>
+			<SQL>
+				SELECT 
+					CEV.STD_EVENT_ID			AS "EventId" 
+					,CEV.PRE_REQ_EVENT1			AS "PreReqEventId1"
+					,CEV.PRE_REQ_EVENT2			AS "PreReqEventId2"
+					,CEV.PRE_REQ_EVENT3			AS "PreReqEventId3"
+					,CEV.CREATES_HEARING			AS "CreateHearing"
+					,CEV.CO_EVENT_SUB_TYPE			AS "EventSubType"
+				FROM   CO_EVENT_VALIDATIONS CEV
+				WHERE  CEV.STD_EVENT_ID = ${param.eventId}
+			</SQL>
+		</SQLLite>
+  	</pipeline>
+	<Security roles="user"/>
+</service-method>

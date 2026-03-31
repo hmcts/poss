@@ -1,0 +1,29 @@
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>612</Id>
+	<Label>Defendant to invest sum or further sum?</Label>
+	<ObjectName>DefInvestFurtherSum</ObjectName>
+
+	<Html>	
+		<select id="DefInvestFurtherSum">
+			<option value=""></option>
+			<option value="F">Further sum</option>
+			<option value="S">Sum</option>
+		</select>
+	</Html>		
+
+		
+	<Javascript>
+		<XPath>/ds/EnterVariableData/Settlement/defInvestFurtherSum</XPath>
+		<componentName>##label##</componentName>
+		<isMandatory>return true;</isMandatory>
+		<HintText>Select the defendant to invest sum or further sum</HintText>		
+		<enableOn>ClaimFor.dataBinding</enableOn>
+		<isEnabled>return('ACC' == Services.getValue(ClaimFor.dataBinding));</isEnabled>
+		<logicOn>ClaimFor.dataBinding</logicOn>
+		<logic>
+			if('ACC' != Services.getValue(ClaimFor.dataBinding))
+			{	Services.setValue(DefInvestFurtherSum.dataBinding, "");
+			}
+		</logic>		
+	</Javascript>
+</Question>

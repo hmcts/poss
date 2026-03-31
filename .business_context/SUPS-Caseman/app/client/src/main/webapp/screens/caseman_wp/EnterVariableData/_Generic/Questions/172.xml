@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>172</Id>
+	<Label>Who is to file documents?</Label>
+	<ObjectName>DocsFiledBy</ObjectName>
+	<Html>	
+		<select id="DocsFiledBy">
+			<option value=""></option>
+			<option value="CLM">Claimant</option>
+			<option value="DEF">Defendant</option>
+			<option value="OTH">Other</option>
+		</select>
+	</Html>
+	<Javascript>
+		<XPath>/ds/EnterVariableData/FastTrack/docsFiledBy</XPath>
+		<HintText>Who is to file documents</HintText>
+		<isMandatory>return true;</isMandatory>
+		<enableOn>FurtherStatementReqd.dataBinding</enableOn>
+		<isEnabled>return('Y' == Services.getValue(FurtherStatementReqd.dataBinding));</isEnabled>
+		<logicOn>FurtherStatementReqd.dataBinding</logicOn>
+		<logic>
+			if('Y' != Services.getValue(FurtherStatementReqd.dataBinding))
+			{	Services.setValue(DocsFiledBy.dataBinding,"");
+			}
+			else
+			{	Services.setValue(DocsFiledBy.dataBinding,"CLM");
+			}
+		</logic>
+		
+		<Context ScreenId="CJR060">
+			<HintText>Select who is to file documents</HintText>
+		</Context>
+	</Javascript>
+</Question>
+
+    
+    
+    

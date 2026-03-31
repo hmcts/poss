@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- CHANGE HISTORY -->
+<!-- 04/02/2013 - Chris Vincent, replaced word allocation with directions in content.  Trac 4763. -->
+<root xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:fo="http://www.w3.org/1999/XSL/Format" xmlns="http://eds.com/supsfo">
+	<variables>@word.processing.url.xsl@supsfo.xsl</variables>
+	<duplex/>
+	<layout>order</layout>
+	<addressee>
+		<claimants/>
+		<defendants/>
+		<part20claimants/>
+		<part20defendants/>
+	</addressee>
+	<header>
+		<fo:block font-size="16pt" font-weight="bold">Standard Order - further stay for</fo:block>
+		<fo:block font-size="16pt" font-weight="bold">settlement granted </fo:block>
+	</header>
+	<courtcase>
+		<court>
+			<xsl:copy-of select="$vdCourtHeaderBlock"/>
+		</court>
+		<caseparameters>
+			<parameter>
+				<name>
+					<fo:block font-weight="bold">Claim Number</fo:block>
+				</name>
+				<value>
+					<fo:block>
+						<xsl:value-of select="$vdClaimNumber"/>
+					</fo:block>
+				</value>
+			</parameter>
+			<parameter>
+				<name>
+					<fo:block font-weight="bold">Date</fo:block>
+				</name>
+				<value>
+					<fo:block>
+						<xsl:value-of select="$vdEventDate"/>
+					</fo:block>
+				</value>
+			</parameter>
+		</caseparameters>
+	</courtcase>
+	<bodyintroright><fo:block><fo:inline><electronicSeal/></fo:inline></fo:block></bodyintroright>
+	<body>
+	<editable useid="N1008A">
+		<fo:block space-before="1.0cm" space-after="0.6cm">
+			Before <xsl:value-of select="$vdJudge"/> sitting at <xsl:value-of select="$vdHearingCourtNameDescription"/>,  <xsl:value-of select="$vdHearingCourtAddress"/>
+		</fo:block>
+		<fo:block space-after="0.6cm">
+			<xsl:copy-of select="$vdHearingAttendees"/>
+		</fo:block>
+		<fo:block space-after="0.6cm">
+			<xsl:value-of select="$vdJudge"/> orders that this <xsl:value-of select="$vdClaimCounterClaimBoth"/> be further stayed until <xsl:value-of select="$vdDateStayedUntil"/> to allow the parties to continue their attempts to settle.
+		</fo:block>
+		<fo:block space-after="0.6cm">
+			On or before <xsl:value-of select="$vdFDExpiryDate"/> one of the following steps must be taken:
+		</fo:block>
+		<fo:block font-weight="bold" space-after="0.6cm">
+			either
+		</fo:block>
+		<fo:block space-after="0.6cm">
+			the claimant must notify the court that the whole of the claim has been settled; (see note (i) below)
+		</fo:block>
+		<fo:block font-weight="bold" space-after="0.6cm">
+			or
+		</fo:block>
+		<fo:block space-after="0.6cm">
+			the claimant or defendant must write to the court requesting a further extension of the stay period, explaining the steps being taken towards settlement 
+			and identifying any mediator, expert, or other person helping with the process.  The letter should confirm the agreement of all the other parties. (see note (ii) below)
+		</fo:block>
+		<fo:block font-weight="bold" space-after="0.6cm">
+			or
+		</fo:block>
+		<fo:block space-after="0.6cm">
+			all the parties must file a completed directions questionnaire at the court. Where a settlement of some of the issues in dispute has been reached, a list 
+			of those issues should be attached to the completed questionnaire. The list must be agreed with the other parties and must indicate that it has been agreed.
+		</fo:block>
+		<fo:block>
+			Date <xsl:value-of select="$vdReceiptDate"/>
+		</fo:block>
+	</editable>
+	</body>
+	<footnote noteextent="3.5">
+		<fo:block space-after="0.2cm">
+			<fo:table table-layout="fixed">
+				<fo:table-column column-width="19cm"/>
+				<fo:table-body>
+					<fo:table-row>
+						<fo:table-cell border-top-style="solid" border-right-style="solid" border-left-style="solid" border-bottom-style="solid"
+							border-top-width="0.02cm" border-right-width="0.02cm" border-left-width="0.02cm" border-bottom-width="0.02cm"
+							padding-right="0.2cm" padding-left="0.2cm" padding-bottom="0.2cm" padding-top="0.2cm" >
+							<fo:block font-size="10pt" >
+								<fo:inline font-weight="bold" >Note (i): </fo:inline>Where settlement of the claim is achieved before the end of the period of stay, the 
+								following will be taken to include an application for the stay to be lifted:								
+							</fo:block>
+							<fo:block font-size="10pt">
+								<fo:inline font-weight="bold">(a) </fo:inline>an application for a consent order to give effect to the settlement.
+							</fo:block>
+							<fo:block font-size="10pt">
+								<fo:inline font-weight="bold">(b) </fo:inline>an application for approval of a settlement where one or more of the parties is a person 
+								under a disability and
+							</fo:block>
+							<fo:block font-size="10pt">
+								<fo:inline font-weight="bold">(c) </fo:inline>the filing of a notice of acceptance of monies paid into court, or an application to accept 
+								monies paid into court out of time.
+							</fo:block>
+							<fo:block font-size="10pt">
+								<fo:inline font-weight="bold" >Note (ii): </fo:inline>
+								Extensions to the period of stay will generally be no more than 1 month.								
+							</fo:block>
+						</fo:table-cell>
+					</fo:table-row>
+				</fo:table-body>
+			</fo:table>
+				
+		</fo:block>
+	</footnote>
+	<defaultFooter id="CJR070"/>
+</root>

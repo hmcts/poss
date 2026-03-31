@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<QueryDef>
+	<DBMapDef location="uk/gov/dca/caseman/receivedTapes_service/add_tape_map.xml"/>
+	
+	<Query pivotNode="/ReceivedTapes/ReceivedTape" tables="T">
+		<Join/>
+		<Modify >
+			<Field name="T.SEQNO" sequenceTable="TAPES_SEQUENCE"/>
+		</Modify>
+	</Query>
+	
+	<Query pivotNode="/ReceivedTapes/ReceivedTape/TapeFiles/TapeFile" tables="T TFI ">
+	  
+	    <Join>	    	
+			TFI.SEQNO=${T.SEQNO} AND
+			TFI.SEQNO=T.SEQNO
+		</Join>
+		<Modify>
+			<Field name="TFI.ORDERSEQ" sequenceTable="TAPE_FILES_SEQUENCE"/>
+			<Field name="TFI.SEQNO" xpath="/ReceivedTapes/ReceivedTape/LibraryNumber"/>
+		</Modify>
+	</Query>
+	
+</QueryDef>

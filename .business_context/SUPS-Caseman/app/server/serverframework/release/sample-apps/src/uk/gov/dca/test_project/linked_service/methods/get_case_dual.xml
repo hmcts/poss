@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<service-method>
+	<pipeline>
+		<LinkedQuery>
+			<QueryDef location="uk/gov/dca/test_project/linked_service/query_def.xml"/>
+			<QueryExtension pivotNode="/Cases/Case">
+				<Param name="param.caseNumber" xpath="/params/param[@name='caseNumber']"/>
+				<Param name="param.adminCourtCode" xpath="/params/param[@name='adminCourtCode']"/>
+				<Constraint>c.case_number = ${param.caseNumber}</Constraint>
+				<Constraint>c.admin_crt_code = ${param.adminCourtCode}</Constraint>
+			</QueryExtension>
+		</LinkedQuery>
+	</pipeline>
+	<Security roles="user"/>
+</service-method>

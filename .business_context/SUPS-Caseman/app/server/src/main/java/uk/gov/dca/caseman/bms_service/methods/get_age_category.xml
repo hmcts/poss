@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: Bms
+	Method:  getAgeCategory()
+	Author:  Phil Haferer (EDS) 
+	Created: 27 April 2005
+-->
+<service-method>
+	<pipeline>
+		<Query>
+  			<QueryDef location="uk/gov/dca/caseman/bms_service/query_def_get_age_category.xml"/>
+  			<QueryExtension pivotNode="/ds/AgeCategory">
+				<Param name="param.taskAge" xpath="/params/param[@name = 'taskAge']"/>
+			</QueryExtension>
+  		</Query>
+  	</pipeline>
+	<Security roles="user"/>
+</service-method>
+

@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: Case
+	Method:  getCasesOnHearingDate()
+	File:    get_cases_on_hearing_date.xml
+	Author:  Kevin Gichohi (EDS)
+	Created: 03 October 2005
+	Description: 
+		gets the cases and defendants for a given hearing date.
+-->
+<service-method>
+	<pipeline>
+		<SQLLite format-output="true"
+				 resultset-element="ds"
+				 row-element="Case"
+				 field-name-as="element" >
+			<DataSource id="java:OracleDS"/>
+			<Param name="param.hearingDate" xpath="/params/param[@name='hearingDate']"/>
+			<Param name="param.adminCourtCode" xpath="/params/param[@name='adminCourtCode']"/>
+			<SQL>
+							
+				SELECT  DISTINCT  H.CASE_NUMBER AS "CaseNumber"
+				,		C.ADMIN_CRT_CODE AS "AdminCourtCode"
+				FROM 	CASE_PARTY_ROLES CPR
+				, 		PARTIES P
+				, 		HEARINGS H
+				,       CASES C
+				WHERE   CPR.CASE_NUMBER = H.CASE_NUMBER 
+				AND     CPR.PARTY_ROLE_CODE IN ('DEFENDANT' , 'PT 20 DEF')
+				AND     P.PARTY_ID = CPR.PARTY_ID
+				AND     H.HRG_DATE = TO_DATE(${param.hearingDate}, 'YYYY-MM-DD')
+				AND     (H.HRG_OUTCOME != 'V' OR H.HRG_OUTCOME IS NULL )
+				AND     H.CASE_NUMBER = C.CASE_NUMBER
+				AND     H.CASE_NUMBER IS NOT NULL
+				AND 	C.ADMIN_CRT_CODE = ${param.adminCourtCode}
+
+				
+			</SQL>
+		</SQLLite>
+	</pipeline>
+	<Security roles="viewOnly medium high wcSuper scSuper bmsSuper aeSuper dmSuper cpSuper ccbcMan ccbcUser ccbcSGB2"/>
+</service-method>

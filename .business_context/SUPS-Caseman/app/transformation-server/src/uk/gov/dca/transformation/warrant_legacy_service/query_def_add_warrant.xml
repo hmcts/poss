@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<QueryDef>
+	<DBMapDef location="uk/gov/dca/transformation/warrant_legacy_service/map_add_warrant.xml"/>
+	<Query pivotNode="/ds/Warrant" tables="W">
+		<Join/>
+		<Modify>
+			<CheckExists table="W" fields="WARRANT_NUMBER ISSUED_BY" onNotExist="add" onExist="skip"/>
+		</Modify>
+	</Query>
+</QueryDef>

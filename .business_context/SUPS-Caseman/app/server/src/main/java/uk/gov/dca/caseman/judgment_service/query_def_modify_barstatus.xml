@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<QueryDef>
+  <DBMapDef location="uk/gov/dca/caseman/judgment_service/map_barstatus.xml"/>
+    <Query pivotNode="/ds/JudgmentDetails/Defendants/Defendant" tables="CPR">
+	<Join/>
+    <Modify>
+	  <Field name="CPR.DEFT_BAR_JUDGMENT" xpath="Bar"/>
+	</Modify>
+  </Query> 
+</QueryDef>

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<QueryDef>
+	<DBMapDef location="uk/gov/dca/caseman/ae_service/map_ae_app_types.xml" />
+	<Query pivotNode="/AEAppTypes/AEAppType" tables="REF">
+	<Join>
+        REF.RV_DOMAIN = 'AE_TYPE'
+	</Join>
+  </Query>
+</QueryDef>

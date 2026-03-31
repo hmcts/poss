@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project name="nle-only-build" default="zip-nle-only" basedir=".">
+
+	<property file="build.properties"/>
+
+	<target name="clean">
+		<delete dir="${deploy.working.dir}"/>
+	</target>
+
+	<target name="zip-nle-only">
+	
+		<mkdir dir="${deploy.working.dir}"/>
+	
+		<!-- NLE-ONLY component -->
+		<zip destfile="${deploy.working.dir}/${ccbc-nle.zip}">
+			<zipfileset dir="${basedir}/../app" />
+		</zip>
+	</target>
+
+</project>

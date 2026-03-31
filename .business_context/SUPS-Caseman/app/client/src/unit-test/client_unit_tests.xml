@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<project name="JsUnit Tests" default="do_tests" basedir=".">
+
+<!-- IMP: enter the location of the client here -->
+<property name="client.base" value="C:/SUPS/Trunk/Caseman-CCBC/APP/client"
+description="set this property value to caseman client folder e.g. C:/Caseman_CCBC/APP/Client"/>
+
+
+<property name="browser" value="C:/Program Files/Internet Explorer/iexplore.exe"/>
+<property name="file" value="file:///${client.base}/test/jsunit/testRunner.html?testpage=${client.base}/test/screens/jsUnitAllTestSuite.html&amp;autoRun=true"/>
+
+<target name="do_tests" description="Calls the unit tests through the local browser">
+
+<echo message="Spawning a browser with testRunner.html and the jsUnitAllTestSuite as an argument"/> 
+
+		<exec executable="${browser}" dir="." spawn="true">
+			<arg line='${file}'/>
+		</exec>
+
+</target>
+
+</project>

@@ -1,0 +1,31 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: CaseEvent
+	Method:  getCaseEvents()
+	File:    get_case_events.xml
+	@author  Phil Haferer (EDS)
+	Description: 
+        Get the list of Case Events.
+
+	Change History:
+	19-Jul-2006 Phil Haferer: Added Pagination in response to performance guidelines.
+	            (TD 4018: Performance: Pagination required when displaying list of Case Events).
+-->
+<service-method>
+	<pipeline>
+		<NewQuery>
+			<QueryDef location="uk/gov/dca/caseman/case_event_service/query_def_get_case_events.xml"/>
+			<QueryExtension pivotNode="/ds/ManageCaseEvents">
+				<Param name="param.caseNumber" xpath="/params/param[@name = 'caseNumber']"/>
+			</QueryExtension>
+			<QueryExtension pivotNode="/ds/ManageCaseEvents/CaseEvents/CaseEvent">
+				<Param name="param.pageNumber" xpath="/params/param[@name = 'pageNumber']"/>
+				<Param name="param.pageSize" xpath="/params/param[@name = 'pageSize']"/>
+			</QueryExtension>
+		</NewQuery>
+		<Java>
+			<Source class="uk.gov.dca.caseman.case_event_service.java.ChangedCaseEventsCustomProcessor"/>
+		</Java>
+	</pipeline>
+	<Security roles="viewOnly medium high wcSuper scSuper bmsSuper aeSuper dmSuper cpSuper ccbcMan ccbcUser ccbcSGB2"/>
+</service-method>

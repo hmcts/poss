@@ -1,0 +1,350 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- ====================================================================== -->
+<!--  -->
+<!-- FILENAME: $Source: C:/CVSRepository/serveroas/src/uk/gov/dca/caseman/wordprocessing_templates/Notice/O_9_2/O_9_2-FO.xml,v $ -->
+<!--  -->
+<!-- AUTHOR: $Author: narges $-->
+<!--  -->
+<!-- DATE: $Date: 2006/06/28 14:53:37 $ -->
+<!--  -->
+<!-- Version: $Revision: 1.18 $ -->
+<!--  -->
+<!-- DESCRIPTION: This stylesheet is used to create an XSL:FO document that -->
+<!-- can be processed into a PDF version.  Business logic -->
+<!-- is embedded to generate the correct document text for the order -->
+<!-- required. -->
+<!--  -->
+<!-- INPUTS: XML document containing: the answers to questions asked of the -->
+<!-- user; case data retrieved from the database; HTML representing the  -->
+<!-- body of the document content (already edited by the user). -->
+<!--  -->
+<!-- OUTPUTS: XML document with FO tags containing instructions for the -->
+<!-- creation of a PDF document. -->
+<!--  -->
+<!-- CHANGE HISTORY: -->
+<!-- 12/12/2011 - Chris Vincent, major redesign of layout for Trac 4621. -->
+<!-- ====================================================================== -->
+<root xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:fo="http://www.w3.org/1999/XSL/Format" xmlns="http://eds.com/supsfo">
+	<variables>@word.processing.url.xsl@supsfo.xsl</variables>
+	<layout>portrait</layout>
+	<addressee copies="2">
+		<blank/>
+	</addressee>
+	
+	<body>
+
+		<!-- Header -->	
+		<fo:table table-layout="fixed">
+			<fo:table-column column-width="14.5cm"></fo:table-column>
+			<fo:table-column column-width="5.5cm"></fo:table-column>
+			<fo:table-body>
+				<fo:table-row keep-with-next="always">
+					<fo:table-cell padding-top="0.1cm" padding-right="0.1cm" padding-left="0.1cm" border-top-style="solid" border-top-width="0.02cm" border-left-style="solid" border-left-width="0.02cm" border-bottom-style="solid" border-bottom-width="0.02cm">
+						<fo:block space-before="0.4cm" space-after="0.4cm" font-size="16pt" font-weight="bold" >Transfer of a fund</fo:block>
+					</fo:table-cell>
+					<fo:table-cell padding-top="0.1cm" padding-right="0.1cm" padding-left="0.1cm" border-style="solid" border-width="0.02cm">
+						<fo:block text-align="right" space-before="0.4cm" space-after="0.4cm" font-size="16pt" font-weight="bold" >CFO 211</fo:block>
+					</fo:table-cell>
+				</fo:table-row>
+			</fo:table-body>
+		</fo:table>
+		<!-- End Header -->
+		
+		<fo:block margin-left="0.7cm" space-before="0.4cm" space-after="0.4cm" font-size="12pt" ><fo:inline font-weight="bold">Section A</fo:inline> - To be completed by sending court</fo:block>
+		
+		<fo:table table-layout="fixed" margin-left="0.7cm">
+			<fo:table-column column-width="8.8cm"></fo:table-column>
+			<fo:table-column column-width="0.4cm"></fo:table-column>
+			<fo:table-column column-width="9.2cm"></fo:table-column>
+			<fo:table-body>
+				
+				<fo:table-row keep-with-next="always">
+					<fo:table-cell>
+						<fo:block font-size="9pt">Name of originating court</fo:block>
+					</fo:table-cell>
+					<fo:table-cell>
+						<fo:block>&#xA0;</fo:block>
+					</fo:table-cell>
+					<fo:table-cell>
+						<fo:block font-size="9pt">Full case name, as it appears on the court order or claim form</fo:block>
+					</fo:table-cell>
+				</fo:table-row>
+				
+				<fo:table-row keep-with-next="always">
+					<fo:table-cell padding-right="0.1cm" padding-left="0.1cm" padding-top="0.1cm" border-style="solid" border-width="0.02cm">
+						<fo:block space-before="0.15cm" space-after="0.15cm" font-size="10pt"><xsl:value-of select="$vdTransferFromCourtNameDescription"/></fo:block>
+					</fo:table-cell>
+					<fo:table-cell>
+						<fo:block>&#xA0;</fo:block>
+					</fo:table-cell>
+					<fo:table-cell padding-right="0.1cm" padding-left="0.1cm" padding-top="0.1cm" border-style="solid" border-width="0.02cm">
+						<fo:block space-before="0.15cm" space-after="0.15cm" font-size="10pt"><xsl:value-of select="$vdClaimantName"/></fo:block>
+					</fo:table-cell>
+				</fo:table-row>
+				
+				<fo:table-row keep-with-next="always">
+					<fo:table-cell padding-right="0.1cm" padding-left="0.1cm" number-columns-spanned="2">
+						<fo:block>&#xA0;</fo:block>
+					</fo:table-cell>
+					<fo:table-cell padding-right="0.1cm" padding-left="0.1cm" padding-top="0.1cm" border-style="solid" border-width="0.02cm">
+						<fo:block space-before="0.15cm" space-after="0.15cm" font-size="10pt"><xsl:value-of select="$vdDefendantName"/></fo:block>
+					</fo:table-cell>
+				</fo:table-row>
+				
+			</fo:table-body>
+		</fo:table>
+		
+		<fo:block>&#xA0;</fo:block>
+	
+		<fo:table table-layout="fixed" margin-left="0.7cm">
+			<fo:table-column column-width="4.4cm"></fo:table-column>
+			<fo:table-column column-width="0.6cm"></fo:table-column>
+			<fo:table-column column-width="4.4cm"></fo:table-column>
+			<fo:table-column column-width="0.6cm"></fo:table-column>
+			<fo:table-column column-width="4.4cm"></fo:table-column>
+			<fo:table-body>
+				<fo:table-row keep-with-next="always">
+					<fo:table-cell number-columns-spanned="2">
+						<fo:block font-size="9pt">Case number</fo:block>
+					</fo:table-cell>
+					<fo:table-cell number-columns-spanned="2">
+						<fo:block font-size="9pt">CFO account number</fo:block>
+					</fo:table-cell>
+					<fo:table-cell>
+						<fo:block font-size="9pt">Fund number</fo:block>
+					</fo:table-cell>
+				</fo:table-row>
+			
+				<fo:table-row keep-with-next="always">
+					<fo:table-cell padding-right="0.1cm" padding-left="0.1cm" border-style="solid" border-width="0.02cm">
+						<fo:block space-before="0.1cm" space-after="0.1cm" font-size="10pt"><xsl:value-of select="$vdClaimNumber"/></fo:block>
+					</fo:table-cell>
+					<fo:table-cell>
+						<fo:block>&#xA0;</fo:block>
+					</fo:table-cell>
+					<fo:table-cell padding-right="0.1cm" padding-left="0.1cm" border-style="solid" border-width="0.02cm">
+						<fo:block space-before="0.1cm" space-after="0.1cm" font-size="10pt"><xsl:value-of select="$vdCFOAccountNo"/></fo:block>
+					</fo:table-cell>
+					<fo:table-cell>
+						<fo:block>&#xA0;</fo:block>
+					</fo:table-cell>
+					<fo:table-cell padding-right="0.1cm" padding-left="0.1cm" border-style="solid" border-width="0.02cm">
+						<fo:block space-before="0.1cm" space-after="0.1cm" font-size="10pt"><xsl:value-of select="$vdCFOFundNo"/></fo:block>
+					</fo:table-cell>
+				</fo:table-row>
+			</fo:table-body>
+		</fo:table>
+		
+		<fo:block>&#xA0;</fo:block>
+	
+		<fo:table table-layout="fixed" margin-left="0.7cm">
+			<fo:table-column column-width="6.2cm"></fo:table-column>
+			<fo:table-column column-width="0.7cm"></fo:table-column>
+			<fo:table-column column-width="4.0cm"></fo:table-column>
+			<fo:table-body>
+				<fo:table-row keep-with-next="always">
+					<fo:table-cell number-columns-spanned="2">
+						<fo:block font-size="9pt">Amount held in court (if known)</fo:block>
+					</fo:table-cell>
+					<fo:table-cell>
+						<fo:block font-size="9pt">Date of transfer</fo:block>
+					</fo:table-cell>
+				</fo:table-row>
+			
+				<fo:table-row keep-with-next="always">
+					<fo:table-cell padding-right="0.1cm" padding-left="0.1cm" border-style="solid" border-width="0.02cm">
+						<fo:block space-before="0.1cm" space-after="0.1cm" font-size="10pt"><xsl:value-of select="$vdTransferAmount"/></fo:block>
+					</fo:table-cell>
+					<fo:table-cell>
+						<fo:block>&#xA0;</fo:block>
+					</fo:table-cell>
+					<fo:table-cell padding-right="0.1cm" padding-left="0.1cm" border-style="solid" border-width="0.02cm">
+						<fo:block space-before="0.1cm" space-after="0.1cm" font-size="10pt"><xsl:value-of select="$vdTransferOrderDate"/></fo:block>
+					</fo:table-cell>
+				</fo:table-row>
+			</fo:table-body>
+		</fo:table>
+		
+		<fo:block>&#xA0;</fo:block>
+		
+		<fo:table table-layout="fixed" margin-left="0.7cm">
+			<fo:table-column column-width="1.9cm"></fo:table-column>
+			<fo:table-column column-width="6.9cm"></fo:table-column>
+			<fo:table-column column-width="2.3cm"></fo:table-column>
+			<fo:table-column column-width="7.3cm"></fo:table-column>
+			<fo:table-body>
+				<fo:table-row keep-with-next="always">
+					<fo:table-cell display-align="after">
+						<fo:block font-size="10pt" font-weight="bold" padding-right="0.1cm" text-align="right">Signed&#xa0;&#xa0;</fo:block>
+					</fo:table-cell>
+					<fo:table-cell padding-right="0.1cm" padding-left="0.1cm" border-style="solid" border-width="0.02cm">
+						<fo:block space-before="0.4cm" space-after="0.4cm">&#xa0;</fo:block>
+					</fo:table-cell>
+					<fo:table-cell display-align="after">
+						<fo:block font-size="10pt" font-weight="bold" padding-right="0.1cm" text-align="right">Name&#xa0;&#xa0;</fo:block>
+					</fo:table-cell>
+					<fo:table-cell padding-right="0.1cm" padding-left="0.1cm" border-style="solid" border-width="0.02cm">
+						<fo:block space-before="0.4cm" space-after="0.4cm">&#xa0;</fo:block>
+					</fo:table-cell>
+				</fo:table-row>
+			</fo:table-body>
+		</fo:table>
+		
+		<fo:block>&#xA0;</fo:block>
+		<fo:block>&#xA0;</fo:block>
+		
+		<fo:table table-layout="fixed" margin-left="0.7cm">
+			<fo:table-column column-width="18.5cm"></fo:table-column>
+			<fo:table-body>
+				<fo:table-row keep-with-next="always">
+					<fo:table-cell padding-right="0.1cm" padding-left="0.1cm" border-top-style="solid" border-top-width="0.02cm">
+						<fo:block>&#xa0;</fo:block>
+					</fo:table-cell>
+				</fo:table-row>
+			</fo:table-body>
+		</fo:table>
+		
+		<fo:block margin-left="0.7cm" space-before="0.4cm" space-after="0.4cm" font-size="12pt" ><fo:inline font-weight="bold">Section B</fo:inline> - To be completed by receiving court</fo:block>
+		
+		<fo:table table-layout="fixed" margin-left="0.7cm">
+			<fo:table-column column-width="8.8cm"></fo:table-column>
+			<fo:table-body>
+				
+				<fo:table-row keep-with-next="always">
+					<fo:table-cell>
+						<fo:block font-size="9pt">Name of receiving court</fo:block>
+					</fo:table-cell>
+				</fo:table-row>
+				
+				<fo:table-row keep-with-next="always">
+					<fo:table-cell padding-right="0.1cm" padding-left="0.1cm" padding-top="0.1cm" border-style="solid" border-width="0.02cm">
+						<fo:block space-before="0.15cm" space-after="0.15cm" font-size="10pt"><xsl:value-of select="$vdTransferToCourtNameDescription"/></fo:block>
+					</fo:table-cell>
+				</fo:table-row>
+				
+			</fo:table-body>
+		</fo:table>
+		
+		<fo:block>&#xA0;</fo:block>
+	
+		<fo:table table-layout="fixed" margin-left="0.7cm">
+			<fo:table-column column-width="4.4cm"></fo:table-column>
+			<fo:table-column column-width="0.6cm"></fo:table-column>
+			<fo:table-column column-width="4.4cm"></fo:table-column>
+			<fo:table-column column-width="0.6cm"></fo:table-column>
+			<fo:table-column column-width="4.4cm"></fo:table-column>
+			<fo:table-body>
+				<fo:table-row keep-with-next="always">
+					<fo:table-cell number-columns-spanned="2">
+						<fo:block font-size="9pt">Case number (if different)</fo:block>
+					</fo:table-cell>
+					<fo:table-cell number-columns-spanned="2">
+						<fo:block font-size="9pt">Fund number (if different)</fo:block>
+					</fo:table-cell>
+					<fo:table-cell display-align="after">
+						<fo:block font-size="9pt">Date received</fo:block>
+					</fo:table-cell>
+				</fo:table-row>
+			
+				<fo:table-row keep-with-next="always">
+					<fo:table-cell padding-right="0.1cm" padding-left="0.1cm" border-style="solid" border-width="0.02cm">
+						<fo:block space-before="0.1cm" space-after="0.1cm" font-size="10pt">&#xa0;</fo:block>
+					</fo:table-cell>
+					<fo:table-cell>
+						<fo:block>&#xA0;</fo:block>
+					</fo:table-cell>
+					<fo:table-cell padding-right="0.1cm" padding-left="0.1cm" border-style="solid" border-width="0.02cm">
+						<fo:block space-before="0.1cm" space-after="0.1cm" font-size="10pt">&#xa0;</fo:block>
+					</fo:table-cell>
+					<fo:table-cell>
+						<fo:block>&#xA0;</fo:block>
+					</fo:table-cell>
+					<fo:table-cell padding-right="0.1cm" padding-left="0.1cm" display-align="after">
+						<fo:block space-before="0.1cm" font-size="16pt">___/___/______</fo:block>
+					</fo:table-cell>
+				</fo:table-row>
+			</fo:table-body>
+		</fo:table>
+		
+		<fo:block space-after="0.4cm">&#xA0;</fo:block>
+		
+		<fo:table table-layout="fixed" margin-left="0.7cm">
+			<fo:table-column column-width="1.9cm"></fo:table-column>
+			<fo:table-column column-width="6.9cm"></fo:table-column>
+			<fo:table-column column-width="2.3cm"></fo:table-column>
+			<fo:table-column column-width="7.3cm"></fo:table-column>
+			<fo:table-body>
+				<fo:table-row keep-with-next="always">
+					<fo:table-cell display-align="after">
+						<fo:block font-size="10pt" font-weight="bold" padding-right="0.1cm" text-align="right">Signed&#xa0;&#xa0;</fo:block>
+					</fo:table-cell>
+					<fo:table-cell padding-right="0.1cm" padding-left="0.1cm" border-style="solid" border-width="0.02cm">
+						<fo:block space-before="0.4cm" space-after="0.4cm">&#xa0;</fo:block>
+					</fo:table-cell>
+					<fo:table-cell display-align="after">
+						<fo:block font-size="10pt" font-weight="bold" padding-right="0.1cm" text-align="right">Name&#xa0;&#xa0;</fo:block>
+					</fo:table-cell>
+					<fo:table-cell padding-right="0.1cm" padding-left="0.1cm" border-style="solid" border-width="0.02cm">
+						<fo:block space-before="0.4cm" space-after="0.4cm">&#xa0;</fo:block>
+					</fo:table-cell>
+				</fo:table-row>
+			</fo:table-body>
+		</fo:table>
+		
+		<fo:block space-after="0.4cm">&#xA0;</fo:block>
+		
+		<fo:block margin-left="6.2cm" space-after="4.0cm" font-weight="bold" font-size="10pt" >Please send the completed form to the Court Funds Office</fo:block>
+	
+		<!-- Footer -->
+		<fo:table table-layout="fixed">
+			<fo:table-column column-width="8.4cm"></fo:table-column>
+			<fo:table-column column-width="3.7cm"></fo:table-column>
+			<fo:table-column column-width="7.9cm"></fo:table-column>
+			<fo:table-body>
+			
+				<fo:table-row keep-with-next="always">
+					<fo:table-cell number-columns-spanned="3" padding-right="0.1cm" padding-left="0.1cm" border-style="solid" border-width="0.02cm">
+						<fo:block space-before="0.11cm" space-after="0.11cm" font-weight="bold" font-size="12pt">How to contact the Court Funds Office</fo:block>
+					</fo:table-cell>
+				</fo:table-row>
+						
+				<fo:table-row keep-with-next="always">
+					<fo:table-cell padding-right="0.1cm" padding-left="0.1cm" padding-top="0.1cm" border-left-style="solid" border-left-width="0.02cm">
+						<fo:block margin-left="0.7cm" space-before="0.11cm" space-after="0.11cm" font-weight="bold" font-size="9pt">Customer Helpline</fo:block>
+					</fo:table-cell>
+					<fo:table-cell number-columns-spanned="2" padding-right="0.1cm" padding-left="0.1cm" padding-top="0.1cm" border-right-style="solid" border-right-width="0.02cm">
+						<fo:block space-before="0.11cm" space-after="0.11cm" font-weight="bold" font-size="9pt">Address</fo:block>
+					</fo:table-cell>
+				</fo:table-row>
+				
+				<fo:table-row keep-with-next="always">
+					<fo:table-cell padding-right="0.1cm" padding-left="0.1cm" border-left-style="solid" border-left-width="0.02cm">
+						<fo:block margin-left="0.7cm" space-before="0.11cm" space-after="0.11cm" font-size="14pt"><xsl:value-of select="$vdCFOTelephone"/></fo:block>
+					</fo:table-cell>
+					<fo:table-cell padding-right="0.1cm" padding-left="0.1cm" number-rows-spanned="3" border-bottom-style="solid" border-bottom-width="0.02cm">
+						<fo:block space-before="0.11cm" space-after="0.11cm" font-size="12pt">Court Funds Office</fo:block>
+						<fo:block space-before="0.11cm" space-after="0.11cm" font-size="12pt"><xsl:value-of select="$vdCFOAddressLine"/></fo:block>
+					</fo:table-cell>
+					<fo:table-cell padding-right="0.1cm" padding-left="0.1cm" number-rows-spanned="3" border-bottom-style="solid" border-bottom-width="0.02cm" border-right-style="solid" border-right-width="0.02cm">
+						<fo:block space-before="0.11cm" space-after="0.11cm" font-size="12pt">Court Funds Office</fo:block>
+						<fo:block space-before="0.11cm" space-after="0.11cm" font-size="12pt"><xsl:value-of select="$vdCFODXNumber"/></fo:block>
+					</fo:table-cell>
+				</fo:table-row>
+				
+				<fo:table-row keep-with-next="always">
+					<fo:table-cell padding-right="0.1cm" padding-left="0.1cm" border-left-style="solid" border-left-width="0.02cm">
+						<fo:block margin-left="0.7cm" space-before="0.11cm" space-after="0.11cm" font-weight="bold" font-size="9pt">Email</fo:block>
+					</fo:table-cell>
+				</fo:table-row>
+				
+				<fo:table-row keep-with-next="always">
+					<fo:table-cell padding-right="0.1cm" padding-left="0.1cm" border-left-style="solid" border-left-width="0.02cm" border-bottom-style="solid" border-bottom-width="0.02cm">
+						<fo:block margin-left="0.7cm" space-before="0.11cm" space-after="0.11cm" font-size="14pt"><xsl:value-of select="$vdCFOEmailAddress"/></fo:block>
+					</fo:table-cell>
+				</fo:table-row>
+
+			</fo:table-body>
+		</fo:table>	
+
+	</body>
+</root>

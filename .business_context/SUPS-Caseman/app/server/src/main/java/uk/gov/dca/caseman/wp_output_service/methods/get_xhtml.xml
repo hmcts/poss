@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: WpOutput
+	Method:  getXhtml()
+	File:    get_xhtml.xml
+	Author:  Frederik Vandendriessche (EDS)
+	Created: 02 September 2005
+	Description: 
+		Retrieve CaseMan Word Processing Output XHTML rendition from SUPS Reporting component.
+-->
+<service-method>
+	<pipeline>
+		<DocumentService get="/params/param[@name='document-id']" save="/params/param[@name='xml-document']"> 
+			<DocumentManager>DocumentManager</DocumentManager>
+			<ContentStore>ContentStore</ContentStore>
+		</DocumentService>
+	</pipeline>
+	<Security roles="viewOnly medium high wcSuper scSuper bmsSuper aeSuper dmSuper cpSuper ccbcMan ccbcUser ccbcSGB2"/>
+</service-method>

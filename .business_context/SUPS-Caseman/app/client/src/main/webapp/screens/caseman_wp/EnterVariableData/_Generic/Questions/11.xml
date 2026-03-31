@@ -1,0 +1,466 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- 
+Change History
+	29/01/2013 - Chris Vincent, hide field for the CJR032 outputs (Trac 4763) and added JS context for CJR034 (Trac 4762)
+-->
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>11</Id>
+	<Label>Date of hearing</Label>
+	<ObjectName>HearingDate</ObjectName>
+	<Html>
+	    <script type="text/javascript">WP_DatePickerRenderer.createInline("HearingDate", false);</script>	                                  
+	</Html>
+	
+	<Context screenId="CJR042"><isVisible>false</isVisible></Context>
+	<Context screenId="CJR065B"><isVisible>false</isVisible></Context>
+	<Context screenId="CJR070"><isVisible>false</isVisible></Context>
+	<Context screenId="N32_2"><isVisible>false</isVisible></Context>
+	<Context screenId="N32_5"><isVisible>false</isVisible></Context>
+	<Context screenId="N35"><isVisible>false</isVisible></Context>
+	<Context screenId="CJR031"><isVisible>false</isVisible></Context>
+	<Context screenId="CJR032A"><isVisible>false</isVisible></Context>
+	<Context screenId="CJR032B"><isVisible>false</isVisible></Context>
+	<Context screenId="CJR032C"><isVisible>false</isVisible></Context>
+	<Context screenId="CJR100"><isVisible>false</isVisible></Context>
+	<Context screenId="CJR101"><isVisible>false</isVisible></Context>
+	<Context screenId="CJR094"><isVisible>false</isVisible></Context>
+	<Context screenId="CJR102"><isVisible>false</isVisible></Context>
+	<Context screenId="CJR103"><isVisible>false</isVisible></Context>
+	<Context screenId="CJR104"><isVisible>false</isVisible></Context>
+	<Context screenId="L_4_11"><isVisible>false</isVisible></Context>
+    <Context screenId="O_10_10"><isVisible>false</isVisible></Context>
+    <Context screenId="O_10_12"><isVisible>false</isVisible></Context>
+	
+	<Context screenId="CJR061">
+		<isVisible>true</isVisible>
+		<Label>Date of next hearing</Label>
+	</Context>
+	<Context screenId="CJR082">
+		<isVisible>true</isVisible>
+		<Label>Enter date of N40B hearing</Label>
+	</Context>
+		<Context screenId="CJR083">
+		<isVisible>true</isVisible>
+		<Label>Date of N79A  hearing</Label>
+	</Context>
+	
+	<Javascript>
+		<XPath>/ds/EnterVariableData/Hearing/Date</XPath>
+		<componentName>Date of hearing</componentName>
+		<HintText>Select the hearing date</HintText>
+		<mandatoryOn>HearingDate.dataBinding</mandatoryOn>
+		<transformToModel>
+			return transformDateToModel(value);
+		</transformToModel>
+		<transformToDisplay>
+			if (value != null)
+			{
+				if (value.search(CaseManValidationHelper.YYYYMMDD_DATE_PATTERN) != -1)
+				{
+					return CaseManUtils.convertDateToDisplay(value);
+				}
+			}
+			return value;
+		</transformToDisplay>
+		<validateOn>HearingDate.dataBinding</validateOn>
+		  <validate>		    
+		     return isWorkingDayInFuture(Services.getValue(HearingDate.dataBinding));			 
+		  </validate>
+		  
+		  <miscCode>
+		    HearingDate.weekends = false;
+		  </miscCode>		  
+		  <initialise>		  	
+		  	loadNonWorkingDays();
+		  </initialise>
+		
+		<Context ScreenId="CJR028">
+		  <isMandatory>return true;</isMandatory>		 
+		</Context>		
+		<Context ScreenId="O_10_18">
+		  <isMandatory>return true;</isMandatory>		 
+		</Context>
+		<Context ScreenId="CJR023D">
+		  <isMandatory>return true;</isMandatory>		 
+		</Context>		
+		<Context ScreenId="CJR046">
+			<enableOn>HearingListed.dataBinding</enableOn>
+			<isEnabled>
+				return ('Y' == Services.getValue(HearingListed.dataBinding));
+			</isEnabled>
+			<mandatoryOn>HearingListed.dataBinding</mandatoryOn>
+			<isMandatory>return ('Y' == Services.getValue(HearingListed.dataBinding));</isMandatory>
+		</Context>		
+		<Context ScreenId="CJR027">
+		  <isMandatory>return true;</isMandatory>		  
+		</Context>				
+		<Context ScreenId="CJR020">
+		  <enableOn>TrialDateFixed.dataBinding</enableOn>
+		  <isEnabled>		
+		  	return( 'FIX' == Services.getValue(TrialDateFixed.dataBinding));
+		 </isEnabled>
+		  <isMandatory>return true;</isMandatory>
+		  <logicOn>TrialDateFixed.dataBinding</logicOn>
+		  <logic>
+		  		if( 'FIX' != Services.getValue(TrialDateFixed.dataBinding))
+		  		{	Services.setValue(HearingDate.dataBinding);
+		  		}
+		  </logic>
+		</Context>
+		<Context ScreenId="CJR019">
+			<HintText>Enter the hearing date in the format DD-MON-YYYY</HintText>
+			<isMandatory>return true;</isMandatory>
+		</Context>
+		<Context ScreenId="CJR023A">
+			<isMandatory>return true;</isMandatory>
+			<enableOn>HearingDateReqd.dataBinding</enableOn>
+			<isEnabled>return('Y' == Services.getValue(HearingDateReqd.dataBinding));</isEnabled>
+			<logicOn>HearingDateReqd.dataBinding</logicOn>
+			<logic>
+				if('Y' != Services.getValue(HearingDateReqd.dataBinding))
+				{	Services.setValue(HearingDate.dataBinding, "");
+				}
+			</logic>			
+		</Context>
+		
+		<Context ScreenId="CJR024">
+			<isMandatory>return true;</isMandatory>		
+		</Context>
+		
+		<Context ScreenId="CJR050">
+			<isMandatory>return true;</isMandatory>		
+		</Context>
+
+		<Context ScreenId="L_14_8">
+			<isMandatory>return true;</isMandatory>		
+		</Context>	
+		
+		<Context ScreenId="O_10_13">
+			<isMandatory>return true;</isMandatory>		
+		</Context>		
+
+		<Context ScreenId="CJR052">
+			<isMandatory>return true;</isMandatory>		
+		</Context>
+		<Context ScreenId="CJR023C">
+			<isMandatory>return true;</isMandatory>	
+			<HintText>Enter the hearing date in the format DD-MON-YYYY</HintText>
+			<enableOn>HearingDateReqd.dataBinding</enableOn>
+			<isEnabled>return('Y'  == Services.getValue(HearingDateReqd.dataBinding));</isEnabled>
+			<logicOn>HearingDateReqd.dataBinding</logicOn>
+			<logic>
+				if('Y'  != Services.getValue(HearingDateReqd.dataBinding))
+				{	Services.setValue(HearingDate.dataBinding, "");
+				}
+			</logic>
+			<miscCode>
+		    	HearingDate.weekends = true;
+		  	</miscCode>					
+		</Context>
+		
+		<Context ScreenId="CJR060">
+			<isMandatory>return true;</isMandatory>
+			<enableOn>TrialDateFixed.dataBinding</enableOn>
+			<isEnabled>return('FIX' == Services.getValue(TrialDateFixed.dataBinding));</isEnabled>
+			<logicOn>TrialDateFixed.dataBinding</logicOn>
+			<logic>
+				if('FIX' != Services.getValue(TrialDateFixed.dataBinding))
+				{	Services.setValue(HearingDate.dataBinding, "");
+				}
+			</logic>
+		</Context>
+		
+		<Context ScreenId="CJR061">
+			<HintText>Enter the hearing date in the format DD-MON-YYYY</HintText>
+			<isMandatory>return true;</isMandatory>
+			<enableOn>HearingListed.dataBinding</enableOn>
+			<isEnabled>return('Y' == Services.getValue(HearingListed.dataBinding));</isEnabled>
+			<logicOn>HearingListed.dataBinding</logicOn>
+			<logic>
+				if('Y' != Services.getValue(HearingListed.dataBinding))
+				{	Services.setValue(HearingDate.dataBinding, "");
+				}
+			</logic>
+		</Context>
+		
+		<Context ScreenId="CJR072">
+			<enableOn>OrderDetails2.dataBinding</enableOn>
+			<isEnabled>return('HRG' == Services.getValue(OrderDetails2.dataBinding));</isEnabled>
+			<logicOn>OrderDetails2.dataBinding</logicOn>
+			<logic>
+				if('HRG' != Services.getValue(OrderDetails2.dataBinding))
+				{	Services.setValue(HearingDate.dataBinding, "");
+				}
+			</logic>
+			<isMandatory>return true;</isMandatory>
+			<HintText>Enter the hearing of date in the format DD-MMM-YYYY</HintText>
+		</Context>
+		
+		<Context ScreenId="CJR073">
+			<HintText>Enter the hearing of date in the format DD-MMM-YYYY</HintText>
+			<isMandatory>return true;</isMandatory>
+			<validate>		    
+		     return isInPast(Services.getValue(HearingDate.dataBinding));			 
+		  </validate>
+		</Context>
+		<Context ScreenId="CJR080">			
+			<isMandatory>return true;</isMandatory>
+		</Context>
+		<Context ScreenId="CJR082">			
+			<isMandatory>return true;</isMandatory>
+			<HintText>Enter date of N40B hearing in the format DD-MMM-YYYY</HintText>
+			<validate>return isWorkingDayInPast(Services.getValue(HearingDate.dataBinding));</validate>
+		</Context>
+		<Context ScreenId="CJR083">			
+			<isMandatory>return true;</isMandatory>
+			<HintText>Enter the hearing date in the format DD-MMM-YYYY</HintText>
+			<validate>return isWorkingDayInFuture(Services.getValue(HearingDate.dataBinding));</validate>			
+		</Context>			
+		
+		<Context ScreenId="CJR091">			
+			<isMandatory>return true;</isMandatory>
+			<HintText>Enter the hearing date in the format DD-MMM-YYYY</HintText>
+			<validate>return isWorkingDayInFuture(Services.getValue(HearingDate.dataBinding));</validate>
+		</Context>
+		
+		<Context ScreenId="CJR093">			
+			<isMandatory>return true;</isMandatory>	
+			<enableOn>WhoConsidApp2.dataBinding</enableOn>
+			<isEnabled>return hearingFieldsEnabled();</isEnabled>
+			<logicOn>WhoConsidApp2.dataBinding</logicOn>
+			<logic>
+				if( !hearingFieldsEnabled() )
+				{	
+					Services.setValue(HearingDate.dataBinding, "");
+					Services.setValue(HearingDay.dataBinding, "");
+					Services.setValue(HearingTime.dataBinding, "");
+					Services.setValue(VenueName.dataBinding, "");
+					Services.setValue(VenueCode.dataBinding, "");
+					Services.setValue(AdLine1.dataBinding, "");
+					Services.setValue(AdLine2.dataBinding, "");
+					Services.setValue(AdLine3.dataBinding, "");
+					Services.setValue(AdLine4.dataBinding, "");
+					Services.setValue(AdLine5.dataBinding, "");
+					Services.setValue(Postcode.dataBinding, "");
+				}
+				else
+				{
+					setOwningCrtDetails();
+				}
+			</logic>	
+			<miscCode>
+				function hearingFieldsEnabled()
+				{
+					var blnEnabled = true;
+					var owningCourt = WPU.getCaseOwningCourt();
+					var consideredApp =  Services.getValue(WhoConsidApp2.dataBinding);
+					if (( owningCourt == "390" || owningCourt == "391" ) &amp;&amp; consideredApp == "C" )
+					{
+						blnEnabled = false;
+					}
+					return blnEnabled;
+				}
+			</miscCode>
+		</Context>
+		<Context ScreenId="CJR170">			
+			<isMandatory>return true;</isMandatory>			
+		</Context>
+		<Context ScreenId="CJR177">			
+			<isMandatory>return true;</isMandatory>	
+			<HintText>Enter the hearing date in the format DD-MMM-YYYY</HintText>		
+		</Context>
+		<Context ScreenId="CJR178">
+			<enableOn>WitnessTo.dataBinding</enableOn>
+			<isEnabled>return( 'AC' == Services.getValue(WitnessTo.dataBinding));</isEnabled>
+			<logicOn>WitnessTo.dataBinding</logicOn>
+			<logic>
+				if( 'AC' != Services.getValue(WitnessTo.dataBinding))
+				{	Services.setValue(HearingDate.dataBinding, "");
+				}
+			</logic>
+			<isMandatory>return true;</isMandatory>					
+		</Context>
+		<Context ScreenId="CJR105">			
+			<enableOn>NoticeOfFurtherHearing.dataBinding</enableOn>
+			<isEnabled>return( 'Y' == Services.getValue(NoticeOfFurtherHearing.dataBinding));</isEnabled>
+			<logicOn>NoticeOfFurtherHearing.dataBinding</logicOn>
+			<logic>
+				if( 'Y' != Services.getValue(NoticeOfFurtherHearing.dataBinding))
+				{	Services.setValue(HearingDate.dataBinding, "");
+				}
+			</logic>
+			<isMandatory>return true;</isMandatory>		
+		</Context>
+		<Context ScreenId="CO02">
+			<isMandatory>return true;</isMandatory>
+		</Context>
+		
+		<Context ScreenId="CO09">
+			<isMandatory>return true;</isMandatory>
+		</Context>
+
+		<Context ScreenId="CO10">
+			<isMandatory>return true;</isMandatory>
+		</Context>
+
+		<Context ScreenId="CO21">
+			<isMandatory>return true;</isMandatory>
+		</Context>
+		
+		<Context ScreenId="CO23">
+			<isMandatory>return true;</isMandatory>
+			<enableOn>DisStrAdj.dataBinding</enableOn>
+			<isEnabled>return ('ADJ' == Services.getValue(DisStrAdj.dataBinding));</isEnabled>
+			<logicOn>DisStrAdj.dataBinding</logicOn>
+			<logic>
+				if('ADJ' != Services.getValue(DisStrAdj.dataBinding))
+				{
+					Services.setValue(HearingDate.dataBinding, "");
+				}
+			</logic>
+		</Context>
+		
+		<Context ScreenId="CO34">
+			<isMandatory>return true;</isMandatory>
+			<enableOn>DisStrAdj.dataBinding</enableOn>
+			<isEnabled>return ('ADJ' == Services.getValue(DisStrAdj.dataBinding));</isEnabled>
+			<logicOn>DisStrAdj.dataBinding</logicOn>
+			<logic>
+				if('ADJ' != Services.getValue(DisStrAdj.dataBinding))
+				{
+					Services.setValue(HearingDate.dataBinding, "");
+				}
+			</logic>
+		</Context>
+	
+		<Context ScreenId="CO32">
+			<isMandatory>return true;</isMandatory>
+			<enableOn>SetAsideWHearing.dataBinding</enableOn>
+			<isEnabled>return ('Y' == Services.getValue(SetAsideWHearing.dataBinding));</isEnabled>
+			<logicOn>SetAsideWHearing.dataBinding</logicOn>
+			<logic>
+				if('Y' != Services.getValue(SetAsideWHearing.dataBinding))
+				{
+					Services.setValue(HearingDate.dataBinding, "");
+				}
+			</logic>
+		</Context>
+		
+		<Context ScreenId="CO37">
+			<isMandatory>return true;</isMandatory>
+		</Context>	
+		
+		<Context ScreenId="CO43">
+			<isMandatory>return true;</isMandatory>
+		</Context>
+
+		<Context ScreenId="CO35">
+			<isMandatory>return true;</isMandatory>
+		</Context>
+	
+		<Context ScreenId="L_1_2">
+			<isMandatory>return ("1" == Services.getValue(OrderProcess.dataBinding))</isMandatory> 
+			<mandatoryOn>OrderProcess.dataBinding</mandatoryOn>
+			<enableOn>OrderProcess.dataBinding</enableOn>
+			<isEnabled>return ("1" == Services.getValue(OrderProcess.dataBinding))</isEnabled>
+			<logicOn>OrderProcess.dataBinding</logicOn>
+			<logic>
+				if("1" != Services.getValue(OrderProcess.dataBinding))
+				{	
+					Services.setValue(HearingDate.dataBinding, "");
+				}
+			</logic>
+			<miscCode>
+		    	HearingDate.weekends = true;
+		  	</miscCode>
+			<validateOn>HearingDate.dataBinding</validateOn>
+			<validate>
+				//Date picker: error message “The value does not conform to a valid date format of DD-MMM-YYYY”. 
+				//Validation: Date cannot be in the past
+				return isInFuture(Services.getValue(HearingDate.dataBinding),"false");
+			</validate>
+		</Context>
+	
+	<!--	<Context ScreenId="L_10_1_2_15_16">
+			<enabledOn>OutputRequired.dataBinding</enabledOn>
+			<isEnabled>return ("3" == Services.getValue(OutputRequired.dataBinding))</isEnabled>
+			<mandatoryOn>OutputRequired.dataBinding</mandatoryOn>
+			<isMandatory>return ("3" == Services.getValue(OutputRequired.dataBinding))</isMandatory>
+		</Context> -->
+	
+
+		<Context ScreenId="L_14_1">
+			<isMandatory>return true;</isMandatory>
+			<validate>
+				//Date picker: error message “The value does not conform to a valid date format of DD-MMM-YYYY”. 
+				//Validation: Date cannot be in the past. Working day only
+				return isWorkingDayInFuture(Services.getValue(HearingDate.dataBinding));
+			</validate>
+		</Context>
+		
+		<Context ScreenId="O_10_2">
+			<validate>
+				//Date picker: error message “The value does not conform to a valid date format of DD-MMM-YYYY”. 
+				//Validation: Date cannot be in the past. Working day only
+				return isWorkingDayInFuture(Services.getValue(HearingDate.dataBinding));	
+			</validate>
+			<isMandatory>return true;</isMandatory>
+		</Context>
+		
+		<Context ScreenId="O_10_3">
+			<isMandatory>return true;</isMandatory>
+		</Context>	
+		
+		<Context ScreenId="O_10_4">
+			<validate>
+				//Date picker: error message “The value does not conform to a valid date format of DD-MMM-YYYY”. 
+				//Validation: Date cannot be in the past. Working day only
+			</validate>
+			<isMandatory>return true;</isMandatory>
+		</Context>
+		
+		<Context ScreenId="O_10_7">
+			<isEnabled>return true;</isEnabled>
+            <isMandatory>return true;</isMandatory>
+		</Context>
+		
+		<Context ScreenId="O_10_8">
+			<isMandatory>return true;</isMandatory>
+		</Context>
+		
+		<Context ScreenId="O_10_9">
+			<isMandatory>return true;</isMandatory>
+		</Context>
+	
+		<Context ScreenId="O_10_11">
+			<isMandatory>return true;</isMandatory>
+		</Context>
+		
+		<Context ScreenId="L_14_8">
+			<isMandatory>return true;</isMandatory>
+		</Context>
+		
+		<Context ScreenId="O_10_17">
+			<validate>
+				//Date picker: error message “The value does not conform to a valid date format of DD-MMM-YYYY”. 
+				//Validation: Date cannot be in the past. Working day only
+				return isWorkingDayInFuture(Services.getValue(HearingDate.dataBinding));	
+			</validate>			
+			<isMandatory>return true;</isMandatory>
+		</Context>
+		
+		<Context ScreenId="O_8_5">
+			<isMandatory>return true;</isMandatory>
+		</Context>
+		
+		<Context ScreenId="CJR034">			
+			<isMandatory>return true;</isMandatory>
+			<HintText>Enter the hearing date in the format DD-MMM-YYYY</HintText>
+			<validate>return isWorkingDayInFuture(Services.getValue(HearingDate.dataBinding));</validate>			
+		</Context>
+		<Context ScreenId="FE45">			
+			<isMandatory>return true;</isMandatory>
+		</Context>
+		
+	</Javascript>
+</Question>

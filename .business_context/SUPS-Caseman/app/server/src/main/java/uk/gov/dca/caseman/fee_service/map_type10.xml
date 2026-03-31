@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<DBMapDef>
+  <DataSource id="java:OracleDS"/>
+  <Tables>
+    <Table alias="C" name="CCBC_REF_CODES"/>
+  </Tables>
+  <Mapping>
+    <Type10FeeTypes>
+    	<Fee>
+    		<Description>${C.RV_LOW_VALUE}</Description>	
+    	</Fee>
+    </Type10FeeTypes>	
+  </Mapping>
+</DBMapDef>

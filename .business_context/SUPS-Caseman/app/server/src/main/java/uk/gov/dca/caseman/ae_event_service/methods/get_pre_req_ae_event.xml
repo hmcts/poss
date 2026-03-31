@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: CoEvent
+	Method:  isEventForCo
+	Author:  Chris Hutt (EDS) 
+	Created: 24 Aug 2005
+	Description: 
+		Use SQLLite to return details of pre-requisite an AE event.
+		"SubsequentResponseFiled" is returned in case the event which is being enetered
+		requires a check to be made as a whether a pre-requisite event has has a subsequent
+		response filed.
+-->
+<service-method>
+	<pipeline>
+		<SQLLite format-output="true"
+				 resultset-element="PreRequisiteEvents"
+				 row-element="Event"
+				 field-name-as="element" >
+			<DataSource id="java:OracleDS"/>
+			<Param name="param.eventId" xpath="/params/param[@name='eventId']"/>
+			<Param name="param.aeNumber" xpath="/params/param[@name='aeNumber']"/>
+			<SQL>
+				SELECT 
+						AE.STD_EVENT_ID	AS "EventId"
+					   ,AE.EVENT_DATE		AS "EventDate"
+					   ,AE.SERVICE_DATE	AS "ServiceDate"
+					   ,'true'				AS "RecordedAgainstAe"
+					   ,(	SELECT 
+								DECODE(COUNT(*),0,'false','true') 
+						 	FROM    AE_EVENTS AE1
+							WHERE   AE1.EVENT_DATE > AE.EVENT_DATE
+							AND     AE1.AE_NUMBER =  AE.AE_NUMBER
+							AND     AE1.STD_EVENT_ID IN ('858', '859', '878', '879')
+							AND 	AE1.ERROR_INDICATOR != 'Y'
+						) 	AS "ResponseFiled"	
+				FROM    AE_EVENTS AE
+				WHERE   AE.STD_EVENT_ID 		= ${param.eventId}
+				AND     AE.AE_NUMBER 			= ${param.aeNumber}
+				AND 	AE.ERROR_INDICATOR    != 'Y'
+			</SQL>
+		</SQLLite>
+  	</pipeline>
+	<Security roles="user"/>
+</service-method>

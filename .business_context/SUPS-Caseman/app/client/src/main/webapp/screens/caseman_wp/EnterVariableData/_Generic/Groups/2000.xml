@@ -1,0 +1,41 @@
+<Group id="2000">
+	<!-- though linked to group 8, it uses questions from group 9 too... -->
+	<ServicesRequired>
+	
+	</ServicesRequired>
+	<Protocols>
+		<OnSave>
+			<function>checkNoHopers</function>
+			<functionCallback>checkNoHopersCallback</functionCallback>
+		</OnSave>
+	</Protocols>
+	<JavaScript>
+	function checkNoHopers()
+	{
+			//var adapt = Services.getAdaptorById("PartyWNPPOS");
+			//var selec = adapt.getSelectedRows.length;
+			
+			var selec = Services.countNodes(PartyFor.dataBinding);
+			if (0 == selec) {
+				onSave.push(['checkNoHopers','checkNoHopersCallback']);
+				alert("The Form can not be saved as it has invalid values.  The following fields have invalid values:\n"+
+						"Select Party for - you must at least choose one party");
+				return false;
+
+
+		}
+		else 
+		{
+			Save_All(); 
+		}
+		
+	}
+
+
+	function checkNoHopersCallback()
+	{
+
+	}
+	
+	</JavaScript>
+</Group>

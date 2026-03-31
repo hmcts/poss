@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: WarrantReturn
+	Method:  getWarrantReturnForEventMcol()
+	File:    get_warrant_return_for_event_mcol.xml
+	Author:  Chris Vincent
+	Created: 07 October 2013
+	Description: 
+		Return the details of the warrant return linked to a case event by event sequence.  The details returned are for 
+		use by MCOL.  Required for CCBC SDT
+-->
+<service-method>
+	<pipeline>
+		<SQLLite format-output="true"
+				 resultset-element="ds"
+				 row-element="WarrantReturn"
+				 field-name-as="element" >
+			<DataSource id="java:OracleDS"/>
+			<Param name="param.eventSeq" xpath="/params/param[@name = 'eventSeq']"/>
+			<SQL>
+				SELECT WR.WARRANT_RETURNS_ID     AS "WarrantReturnId"
+				,      WR.RETURN_CODE 		     AS "ReturnCode"
+				,      WR.ADDITIONAL_INFORMATION AS "AdditionalInformation"
+				FROM   WARRANT_RETURNS WR
+				WHERE  WR.EVENT_SEQ = ${param.eventSeq}
+			</SQL>
+		</SQLLite>
+	</pipeline>
+	<Security roles="viewOnly medium high wcSuper scSuper bmsSuper aeSuper dmSuper cpSuper"/>					
+</service-method>

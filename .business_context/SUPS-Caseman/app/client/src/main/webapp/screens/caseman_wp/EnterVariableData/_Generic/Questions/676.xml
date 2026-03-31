@@ -1,0 +1,34 @@
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>676</Id>
+	<Label>Instalment period, if applicable</Label>
+	<ObjectName>InstalPeriod2</ObjectName>
+	<Html>	
+		<select id="InstalPeriod2">
+			<option value=""></option>
+			<option value="WK">Weekly</option>
+			<option value="MTH">Monthly</option>
+		</select>
+	</Html>	
+	
+	<Javascript>
+		<XPath>/ds/EnterVariableData/Hardship/instalPeriod2</XPath>
+		<componentName>##label##</componentName>
+		<isMandatory>return true;</isMandatory>
+		<HintText>Select the Instalment period - list available</HintText>	
+		<enableOn>SinglePaymentAmnt.dataBinding</enableOn>
+		<isEnabled>
+			var val = Services.getValue(SinglePaymentAmnt.dataBinding);
+			return( null == val || "" == val);		
+		</isEnabled>
+		<logicOn>SinglePaymentAmnt.dataBinding</logicOn>
+		<logic>
+			var val = Services.getValue(SinglePaymentAmnt.dataBinding);
+			if( null != val &amp;&amp; "" != val)
+			{	Services.setValue(InstalPeriod2.dataBinding, "");
+			}
+		</logic>	
+	</Javascript>
+</Question>
+
+     
+    

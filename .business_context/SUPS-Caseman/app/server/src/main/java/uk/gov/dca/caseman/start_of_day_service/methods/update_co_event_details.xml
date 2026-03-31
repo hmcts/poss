@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: StartOfDay
+	Method:  updateCoEventDetails()
+	File:    update_co_event_details.xml
+	Author:  Kevin Gichohi (EDS)
+	Created: 02 December 2005
+	Description: 
+		Updated CO event process stage associcated with an event ID on the CO_EVENTS table 
+-->
+<service-method>
+	<pipeline>
+		<SQLLite output = "input" >
+			<DataSource id="java:OracleDS"/>
+				<Param name="param.eventIdOne" xpath="/params/param[@name='eventId1']"/>
+				<Param name="param.eventIdTwo" xpath="/params/param[@name='eventId2']"/>
+				<Param name="param.eventIdThree" xpath="/params/param[@name='eventId3']"/>
+				<Param name="param.eventIdFour" xpath="/params/param[@name='eventId4']"/>
+				<Param name="param.eventIdFive" xpath="/params/param[@name='eventId5']"/>
+				<Param name="param.eventIdSix" xpath="/params/param[@name='eventId6']"/>	
+				<Param name="param.courtId" xpath="/params/param[@name='courtId']"/>
+							
+			<SQL type = "update" tables = "CE">
+				UPDATE 	CO_EVENTS CE
+				SET 	CE.PROCESS_STAGE = 'REP' 
+				WHERE 	CE.STD_EVENT_ID  IN (${param.eventIdOne}, ${param.eventIdTwo}, ${param.eventIdThree}, ${param.eventIdFour}, ${param.eventIdFive}, ${param.eventIdSix})
+				AND 	CE.PROCESS_STAGE = 'AUTO'
+				AND 	CE.CO_NUMBER IN (SELECT CO.CO_NUMBER
+                           			     FROM  CONSOLIDATED_ORDERS CO
+				                     	 WHERE CO.ADMIN_COURT_CODE  = ${param.courtId})	
+			</SQL>
+		</SQLLite>
+	</pipeline>
+	<Security roles="viewOnly medium high wcSuper scSuper bmsSuper aeSuper dmSuper edsAdmin cpSuper"/>
+</service-method>

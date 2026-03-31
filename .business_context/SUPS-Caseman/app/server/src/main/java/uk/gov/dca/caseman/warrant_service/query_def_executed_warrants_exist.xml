@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- 
+	21/09/2006 - MGG - defect 5305 - ADD CHECK IN SQL - OR WAR.TO_TRANSFER IS NULL
+					   This is required as when warrants are transfered, the transfer sets the TO_TRANSFER field to null.
+					   Checked performance in pl/sql and the change does not make performance any worse.
+					   The statement could be improved, but as project just out of regression test, coupled with additional changes required to the 
+					   client code and the actual low usage of this report, it was decided not to make additional changes.
+	02/10/2006 - MGG - defect 5305 - Removed changed as Circuit will now transfer 0 instead of null
+	11/12/2013 - Chris Vincent, added CONTROL warrants to the list of warrant types.  Trac 5025
+-->
+<QueryDef>
+	<DBMapDef location="uk/gov/dca/caseman/warrant_service/map_executed_warrants_exist.xml" />
+	<Query pivotNode="/ExecutedWarrantsFound" tables="WAR ISS_CRT">
+		<SQL type="select">
+			SELECT 
+			count(*) AS "NO_RECORDS_FOUND"
+			FROM WARRANTS WAR
+			WHERE  
+					WAR.CURRENTLY_OWNED_BY  = ${param.owningCourtCode} 
+			AND WAR.EXECUTED_BY = WAR.CURRENTLY_OWNED_BY
+			AND WAR.ORIGINAL_WARRANT_NUMBER IS NULL
+			AND WAR.WARRANT_TYPE IN ('EXECUTION', 'EXONPLFF', 'EXONEMP', 'AO', 'CONTROL') 
+			AND WAR.TO_TRANSFER = '0'
+			And war.date_printed is null and
+			war.warrant_issue_date = ${param.issueDate}
+		</SQL>
+		<Modify notModifiable="true"/>
+	</Query>
+</QueryDef> 

@@ -1,0 +1,30 @@
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>630</Id>
+	<Label>Enter date case was allocated/listed</Label>
+	<ObjectName>ListedDate</ObjectName>
+	<Html>	
+		<script type="text/javascript">
+			WP_DatePickerRenderer.createInline("ListedDate");
+		</script>
+	</Html>		
+	
+	<Javascript>
+		<XPath>/ds/EnterVariableData/PayFee/listedDate</XPath>
+		<componentName>##label##</componentName>
+		<isMandatory>return true;</isMandatory>
+		<HintText>Enter the date allocated/listed in the format DD-MMM-YYYY</HintText>	
+		<validateOn>ListedDate.dataBinding</validateOn>
+		<validate>return( isInPast(Services.getValue(ListedDate.dataBinding)));</validate>	
+		<enableOn>FeeFor.dataBinding</enableOn>
+		<isEnabled>
+			var feeCode =  Services.getValue(FeeFor.dataBinding) ;
+			return( 'LC' == feeCode || 'LCC' == feeCode || 'AC' == feeCode || 'ACC' == feeCode );
+		</isEnabled>
+		<logicOn>FeeFor.dataBinding</logicOn>		
+		<logic>
+			if( !ListedDate.isEnabled() )
+			{	Services.setValue(ListedDate.dataBinding, "");
+			}
+		</logic>		
+	</Javascript>
+</Question>

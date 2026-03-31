@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: CasEevent
+	Method:  getDistincPartiesWithStdEventList.xml()
+	File:    get_distinct_parties_with_std_event_list.xml.xml
+	Author:  Chris Hutt
+	Created: 05 July 2007
+	Description: 
+	    TD UCT Group2 1455
+	    Returns a list of parties on case with specified event recorded against them.
+	    Each party will only appear once in the list.
+-->
+<service-method>
+	<pipeline>
+		<SQLLite format-output="true"
+				 resultset-element="PartiesWithSameEvent"
+				 row-element="Party"
+				 field-name-as="element" >
+			<DataSource id="java:OracleDS"/>
+			<Param name="param.caseNumber" xpath="/params/param[@name = 'caseNumber']"/>
+			<Param name="param.eventId" xpath="/params/param[@name = 'eventId']"/>
+			<SQL>
+				select 
+					distinct 
+						ce.case_party_no as "CasePartyNumber"
+					,	ce.party_role_code as "CasePartyRole"
+				from case_events ce
+				where ce.case_number = ${param.caseNumber}
+				and ce.std_event_id = ${param.eventId}
+				and nvl(ce.deleted_flag, 'N') != 'Y'
+			</SQL>
+		</SQLLite>
+	</pipeline>
+	<Security roles="user"/>
+</service-method>

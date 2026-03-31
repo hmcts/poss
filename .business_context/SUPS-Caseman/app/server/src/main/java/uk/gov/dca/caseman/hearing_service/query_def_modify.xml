@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<QueryDef>
+  <DBMapDef location="uk/gov/dca/caseman/hearing_service/map_case.xml"/>
+    <Query pivotNode="/ds/MaintainHearing/Hearings/Hearing" tables="H">
+	<Join/>
+    <Modify>
+		<Field name="H.HRG_SEQ" sequenceTable="HRG_SEQUENCE"/>
+		<Field name="H.CASE_NUMBER" xpath="../../CaseNumber"/>
+		<!--<Field name="H.CRT_CODE" xpath="../../OwningCourtCode"/>-->
+		<Field name="H.ADDRESS_ID" xpath="Address/AddressId"/>
+	</Modify>
+  </Query> 
+</QueryDef>

@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: User
+	Method:  getAdminUserDetails
+	File:    get_admin_user_details.xml
+	Author:  Chris Vincent
+	Created: 22 July 2014
+	Description: 
+		Retrieves user details for maintenance on the Maintain Admin Users screen
+-->
+<service-method>
+	<pipeline>
+		<SQLLite format-output="true"
+				 resultset-element="ds"
+				 row-element="User"
+				 field-name-as="element" >
+			<DataSource id="java:OracleDS"/>
+			<Param name="param.dcaUserId" xpath="/params/param[@name = 'dcaUserId']"/>
+			<SQL>
+				SELECT 	du.user_id AS "UserId"
+						,du.title AS "Title"
+						,du.forenames AS "Forenames"
+						,du.surname AS "Surname"
+						,du.user_short_name AS "UserShortName"
+						,uc.court_code AS "OwningCourtCode"
+						,c.name AS "OwningCourtName"
+						,ur.role_id AS "Role"
+						,(SELECT DECODE(COUNT(*),0,'false','true') 
+							FROM user_role ur2 
+							WHERE ur2.user_id = du.user_id 
+							AND ur2.role_id = 'admin') AS "Admin"
+						,(SELECT DECODE(COUNT(*),0,'false','true') 
+							FROM user_role ur3 
+							WHERE ur3.user_id = du.user_id 
+							AND ur3.role_id = 'sAdmin') AS "SuperAdmin"
+				FROM dca_user du, user_court uc, user_role ur, courts c
+				WHERE du.user_id = ${param.dcaUserId}
+				AND uc.user_id = du.user_id
+				AND ur.user_id = uc.user_id
+				AND ur.role_id NOT IN ('admin','sAdmin')
+				AND c.code = uc.court_code
+			</SQL>
+		</SQLLite>
+	</pipeline>
+	<Security roles="admin sAdmin"/>
+</service-method>

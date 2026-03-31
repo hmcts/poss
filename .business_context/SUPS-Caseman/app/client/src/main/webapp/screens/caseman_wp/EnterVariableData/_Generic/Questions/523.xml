@@ -1,0 +1,18 @@
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>523</Id>
+	<Label>Date of breach order</Label>
+	<ObjectName>BreachDate</ObjectName>
+	<Html>	
+		<script type="text/javascript">
+			WP_DatePickerRenderer.createInline("BreachDate");
+		</script>
+	</Html>			
+	<Javascript>
+		<XPath>/ds/EnterVariableData/Guardianship/breachDate</XPath>
+		<componentName>##label##</componentName>
+		<isMandatory>return true;</isMandatory>
+		<HintText>Enter date of order that recorded details of breaches</HintText>	
+		<validateOn>BreachDate.dataBinding</validateOn>
+		<validate>return( isInPast(Services.getValue(BreachDate.dataBinding)));</validate>		
+	</Javascript>
+</Question>

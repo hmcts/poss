@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>267</Id>
+	<Label>Hearing is for</Label>
+	<ObjectName>HearingIsFor</ObjectName>
+	<Html>
+		<select id="HearingIsFor">
+			<option value=""></option>
+			<option value="ALLOC">Notice of Allocation</option>
+			<option value="LIST">Listing hearing</option>
+		</select>	  
+	</Html>
+	<Javascript>
+		<XPath>/ds/EnterVariableData/Allocation/hearingIsFor</XPath>
+		<componentName>##label##</componentName>
+		<HintText>Enter the details about what the hearing is for - list available</HintText>		
+		<mandatoryOn></mandatoryOn>
+		<isMandatory>return true;</isMandatory>				
+		
+	</Javascript>
+</Question>

@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	19/12/2006 - CV - Added F6 keybinding to LOV via PartyMakingTheApplication2LOVGrid.raise configuration.
+	Temp_Caseman defects 299/334.
+-->
+<!--Question xmlns="http://eds.com/questionxhtml" xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd"-->
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>Q_PartyMakingTheApplication2</Id>
+	<Label>Party Making the Application</Label>
+	<ObjectName>PartyMakingTheApplication2</ObjectName>
+	<Html> 
+		<input id="PartyMakingTheApplication2" type="text" size="15" > </input>
+		<input id="PartyMakingTheApplication2LOVButton" type="Button" value="LOV"></input>
+        <script type="text/javascript">
+			LOVPopupRenderer.createInline( "PartyMakingTheApplication2LOVGrid", "Party Making The Application", ["Value", "Description"], 10, 1, true );
+        </script>
+	</Html>
+	<Javascript>
+		<XPath>/ds/var/page/OracleReportForm/PartyMakingTheApplication2</XPath>
+		<ReportVariableName>PARTY</ReportVariableName>
+		<ReportVariableValue>Services.getValue(PartyMakingTheApplication2.dataBinding)</ReportVariableValue>
+		<ReportVariableCode>2560</ReportVariableCode>
+		<HintText>Party making the application - list available</HintText>
+		<isMandatory>return true;</isMandatory>
+		<initialise>
+			dom = getList("../LOV/PartyMakingTheApplicationList.xml");
+			Services.addNode(dom, REF_DATA_XPATH);
+		</initialise>
+		<setDefault></setDefault>
+		<validateOn></validateOn>
+		<validate>
+			var description = Services.getValue(REF_DATA_XPATH + "/PartyMakingTheApplicationList/PartyMakingTheApplication[./Value = " + PartyMakingTheApplication2.dataBinding + "]/Description");
+			var valueTest = Services.getValue( REF_DATA_XPATH + "/PartyMakingTheApplicationList/PartyMakingTheApplication[./Description = " + PartyMakingTheApplication2.dataBinding + "]/Value" );
+			if (description == null &amp;&amp; valueTest == null)
+			{
+				// This is not a valid value - see list of Values
+				return ErrorCode.getErrorCode("CaseMan_Reports_Invalid_LOV_Msg");
+			}
+			else
+			{
+				return null;
+			}
+		</validate>
+		<transformToDisplay>
+			var description = Services.getValue( REF_DATA_XPATH + "/PartyMakingTheApplicationList/PartyMakingTheApplication[./Value = " + PartyMakingTheApplication2.dataBinding + "]/Description" );
+			if (description != null)
+			{
+				return description;
+			}
+			else
+			{
+				return value;
+			}
+	    </transformToDisplay>
+        <transformToModel>
+             return (null != value) ? value.toUpperCase() : null;
+        </transformToModel>
+		<miscCode>
+			PartyMakingTheApplication2.componentName = 	"Party making the application";
+			PartyMakingTheApplication2.srcData = 		REF_DATA_XPATH + "/PartyMakingTheApplicationList";
+			PartyMakingTheApplication2.rowXPath = 		"PartyMakingTheApplication";
+			PartyMakingTheApplication2.keyXPath = 		"Value";
+			
+			function PartyMakingTheApplication2LOVButton() {};
+			PartyMakingTheApplication2LOVButton.tabIndex = __tabIdx++;
+			
+			function PartyMakingTheApplication2LOVGrid() {};
+			
+			PartyMakingTheApplication2LOVGrid.dataBinding = PartyMakingTheApplication2.dataBinding;
+			PartyMakingTheApplication2LOVGrid.srcData = 	REF_DATA_XPATH + "/PartyMakingTheApplicationList";
+			PartyMakingTheApplication2LOVGrid.rowXPath = 	"PartyMakingTheApplication";
+			PartyMakingTheApplication2LOVGrid.keyXPath = 	"Value";
+			PartyMakingTheApplication2LOVGrid.columns = 	[
+				{xpath: "Value"},
+				{xpath: "Description"}
+			];
+			PartyMakingTheApplication2LOVGrid.raise = {
+				eventBinding: {
+					singleClicks: [ {element: "PartyMakingTheApplication2LOVButton"} ],
+					keys: [ { key: Key.F6, element: "PartyMakingTheApplication2" } ]
+				}
+			};
+			
+			PartyMakingTheApplication2LOVGrid.nextFocusedAdaptorId = function() {
+				return "OtherPartyType7";
+			}	
+		</miscCode>
+	</Javascript>
+</Question>

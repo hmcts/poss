@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>431</Id>
+	<Label>Witness statements to be included?</Label>
+	<ObjectName>InclWitnessStatements</ObjectName>
+	<Html>
+		<input type="checkbox" id="InclWitnessStatements"></input>
+	</Html>
+	
+	<Javascript>
+		<XPath>/ds/EnterVariableData/SmallTrack/inclWitnessStatements</XPath>
+		<HintText>Check box if signed witness statements are to be included in the documents</HintText>
+		<modelValue>checked: "Y", unchecked: "N"</modelValue>
+		<initialise>Services.setValue(InclWitnessStatements.dataBinding, "N");</initialise>
+		<enableOn>DirectionsTypeReqd.dataBinding, UODetails3.dataBinding, BroughtToHearing.dataBinding</enableOn>
+			<isEnabled>
+				var val1 = Services.getValue(DirectionsTypeReqd.dataBinding);
+				var val2 = Services.getValue(BroughtToHearing.dataBinding);
+				return('SPEC' == val1);
+			</isEnabled>
+			<logicOn>DirectionsTypeReqd.dataBinding, UODetails3.dataBinding, BroughtToHearing.dataBinding</logicOn>
+			<logic>
+				var val1 = Services.getValue(DirectionsTypeReqd.dataBinding);
+				var val2 = Services.getValue(BroughtToHearing.dataBinding);
+				if('SPEC' != val1)
+				{ Services.setValue(InclWitnessStatements.dataBinding, "N");
+				}
+			</logic>	
+			<initialise>Services.setValue(InclWitnessStatements.dataBinding, "N");</initialise>
+	</Javascript>
+</Question>

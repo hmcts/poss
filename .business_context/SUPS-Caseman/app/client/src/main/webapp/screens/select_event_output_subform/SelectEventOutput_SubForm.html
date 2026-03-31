@@ -1,0 +1,37 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3c.org/TR/html4/strict.dtd">
+<html>
+
+	<head>
+		<title>SelectEventOutput_SubForm</title>
+		<link href="SelectEventOutput_SubForm.css" type="text/css" rel="stylesheet">
+		<script type="text/javascript" src="../../Framework.js"></script>
+		<script type="text/javascript" src="../../CaseManIncludeFiles.js"></script>
+		<script type="text/javascript" src="SelectEventOutput_SubForm.js"></script>
+  	</head>
+
+	<body>
+	
+    	<form id="selectEventOutputSubform" class="subform">
+
+			<div class="popupTitle">Select Output</div>
+
+			<div class="panel">
+				<script type="text/javascript">Grid.createInline("SelectEventOutput_OutputGrid", ["", "Output Id", "Output Name"], 10, 1);</script>
+			</div>
+			
+			<!-- Subform action bar -->
+			<script type="text/javascript">
+				ActionBarRenderer.createInline(
+					"selectEventOutput_statusbar",
+					[
+						{id: "SelectEventOutput_SelectButton", label: "Select"},
+						{id: "SelectEventOutput_CancelButton", label: "Cancel"}
+					]
+				);
+			</script>
+
+		</form>
+    
+    </body>
+    
+</html>

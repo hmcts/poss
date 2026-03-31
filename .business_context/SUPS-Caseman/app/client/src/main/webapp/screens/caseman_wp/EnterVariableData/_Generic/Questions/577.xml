@@ -1,0 +1,30 @@
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>577</Id>
+	<Label>Date acts to be performed by</Label>
+	<ObjectName>ActsPerfDate</ObjectName>
+	<Html>	
+		<script type="text/javascript">
+			WP_DatePickerRenderer.createInline("ActsPerfDate");
+		</script>
+	</Html>			
+	<Javascript>
+		<XPath>/ds/EnterVariableData/Interlocutory/actsPerfDate</XPath>
+		<componentName>##label##</componentName>
+		<isMandatory>return true;</isMandatory>
+		<HintText>Enter date by which acts to be performed, in format DD-MMM-YYYY</HintText>	
+		<enableOn>ActsDetails.dataBinding</enableOn>
+		<isEnabled>
+			var val = Services.getValue(ActsDetails.dataBinding);
+			return( null != val &amp;&amp; "" != val);
+		</isEnabled>
+		<logicOn>ActsDetails.dataBinding</logicOn>
+		<logic>
+			var val = Services.getValue(ActsDetails.dataBinding);
+			if( null == val || "" == val)
+			{	Services.setValue(ActsPerfDate.dataBinding, "");
+			}		
+		</logic>	
+		<validateOn>ActsPerfDate.dataBinding</validateOn>
+        <validate>return isInFuture(Services.getValue(ActsPerfDate.dataBinding));</validate>	
+	</Javascript>
+</Question>

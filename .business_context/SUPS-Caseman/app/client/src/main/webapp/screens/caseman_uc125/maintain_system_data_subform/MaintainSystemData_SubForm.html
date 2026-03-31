@@ -1,0 +1,58 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3c.org/TR/html4/strict.dtd">
+<html>
+
+	<head>
+		<title>MaintainSystemData_SubForm</title>
+		<link href="MaintainSystemData_SubForm.css" type="text/css" rel="stylesheet">
+		<script type="text/javascript" src="../../../Framework.js"></script>
+    	<script type="text/javascript" src="../../../ConcatCommon.js"></script>
+		<script type="text/javascript" src="../MaintainSystemDataConstants.js"></script>
+		<script type="text/javascript" src="../MaintainSystemDataHelperFunctions.js"></script>
+		<script type="text/javascript" src="MaintainSystemData_SubForm.js"></script>
+  	</head>
+
+	<body>
+	
+    	<form id="maintainSystemDataSubform" class="subform">
+
+			<div class="panel">
+				<table class="content" style="height:100px;">
+					<tr>
+						<td valign="top">
+							<table>
+								<tr>																																				
+									<td class="defaultLabel"><label for='MaintainSystemDataSubform_Item'>Item</label></td>										
+									<td><input id="MaintainSystemDataSubform_Item" type="text" size=30></td>																				
+								</tr>
+								<tr>
+									<td class="defaultLabel"><label for='MaintainSystemDataSubform_IsAmountFlag'>Is Amount</label></td>
+									<td><input id="MaintainSystemDataSubform_IsAmountFlag" type="checkbox"></td>
+								</tr>
+								<tr>
+									<td class="defaultLabel"><label for='MaintainSystemDataSubform_ItemValue'>Item Value</label></td>
+									<td>
+										<input id="MaintainSystemDataSubform_ItemCurrency" type="text" size="1"/>
+										&nbsp;<input id="MaintainSystemDataSubform_ItemValue" type="text" size="40"/>
+									</td>
+								</tr>
+							</table>
+						</td>
+				</table>
+			</div>
+			
+			<!-- Subform action bar -->
+			<script type="text/javascript">
+				ActionBarRenderer.createInline(
+					"maintainSystemData_statusbar",
+					[
+						{id: "MaintainSystemDataSubform_SaveButton", label: "Save"},	
+						{id: "MaintainSystemDataSubform_CancelButton", label: "Cancel"}
+					]
+				);
+			</script>
+
+		</form>
+    
+    </body>
+    
+</html>

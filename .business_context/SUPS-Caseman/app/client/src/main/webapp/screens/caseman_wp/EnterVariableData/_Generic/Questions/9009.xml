@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>12</Id>
+	<Label>Time of meeting</Label>
+	<ObjectName>MeetingTime</ObjectName>
+
+	<Html>
+		<input id="MeetingTime" type="text" size="5"></input>
+	</Html>
+	
+	<Javascript>
+        <XPath>/ds/EnterVariableData/MeetingTime</XPath>
+		<HintText>Enter the meeting time in 24 hour format (HH:MM e.g 10:30)</HintText>
+		<isMandatory>return true;</isMandatory>
+		<mandatoryOn>MeetingTime.dataBinding</mandatoryOn>
+		<validateOn>MeetingTime.dataBinding</validateOn>
+		<validate>
+		  return validateTimeAt(Services.getValue(MeetingTime.dataBinding));
+		</validate>	
+	    <transformToDisplay>return WPU.transformTimeToDisplay(value);</transformToDisplay>
+		<transformToModel>return WPU.transformTimeToModel(value);</transformToModel>		
+	</Javascript>
+</Question>

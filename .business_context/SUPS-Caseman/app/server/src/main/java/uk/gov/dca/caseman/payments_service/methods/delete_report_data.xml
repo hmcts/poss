@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: Payments
+	Method: deleteReportData()
+	File: delete_report_data.xml
+	Author: Steve Blair
+	Description:
+		Deletes a record from REPORT_DATA table.
+-->
+<service-method>
+	<pipeline>
+		<SQLLite output="input">
+			<DataSource id="java:OracleDS" />
+			<Param name="param.reportType" xpath="/params/param[@name = 'reportData']/ReportData/ReportType" />
+			<Param name="param.reportDate" xpath="/params/param[@name = 'reportData']/ReportData/ReportDate" />
+			<Param name="param.userId" xpath="/params/param[@name = 'reportData']/ReportData/UserID" />
+			<Param name="param.courtId" xpath="/params/param[@name = 'reportData']/ReportData/CourtCode" />
+			<SQL type="update" tables="RD">
+				DELETE FROM REPORT_DATA RD
+				WHERE	RD.REPORT_TYPE = ${param.reportType} AND
+							RD.REPORT_DATE = TO_DATE(${param.reportDate}, 'YYYY-MM-DD') AND
+							RD.USER_ID = ${param.userId} AND
+							RD.ADMIN_COURT_CODE = ${param.courtId}
+			</SQL>
+		</SQLLite>
+	</pipeline>
+	<Security roles="medium high wcSuper scSuper bmsSuper aeSuper dmSuper cpSuper" />
+</service-method>

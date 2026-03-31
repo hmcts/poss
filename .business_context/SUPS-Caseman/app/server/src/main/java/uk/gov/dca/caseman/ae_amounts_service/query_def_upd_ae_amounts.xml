@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+	Service: AeAmounts
+	Method:  updateAeAmounts()
+	File:    query_def_upd_ae_amounts.xml
+	Author:  Chris Hutt
+	Created: 11 July 2005
+	Description: 
+		Insert/update Amounts associated with an Ae Application
+		
+	Change History:
+	
+	1 Dec 2006	Chris Hutt
+			    Defects UCT838/839:	Requirement to update AE_APPLICATIONS and generate an AeEvent.
+			    This has involved using a new map .... map_upd_ae_amounts.xml
+ -->			    
+<QueryDef>
+  <DBMapDef location="uk/gov/dca/caseman/ae_amounts_service/map_upd_ae_amounts.xml"/>
+ 	<Query pivotNode="/MaintainAEAmounts" tables="AEA">
+	  	<Join/>
+      	<Modify>	
+        	<CheckExists table="AEA" fields="AE_NUMBER" onNotExist="fail" onExist="update"/>
+	  	</Modify>
+ 	</Query>
+  	<Query pivotNode="/MaintainAEAmounts/AEAmounts/AEAmount" tables="FP">
+		<Join/>
+    	<Modify>
+        	<CheckExists table="FP" fields="FEES_PAID_ID" onNotExist="add" onExist="update"/>
+        	<Field name="FP.FEES_PAID_ID" sequenceTable="FEES_PAID_SEQUENCE"/>
+        	<Field name="FP.PROCESS_NUMBER" xpath="../../AENumber"/>
+        	<Field name="FP.ISSUING_COURT" xpath="../../OwningCourtCode"/>
+			<Field name="FP.ALLOCATION_DATE" xpath="DateCreated"/>
+		</Modify>
+  	</Query>
+</QueryDef>

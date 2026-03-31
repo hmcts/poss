@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>9074</Id>
+	<Label>Date of bankruptcy order</Label>
+	<ObjectName>BankruptcyDate</ObjectName>
+	<Html>
+		<script type="text/javascript">WP_DatePickerRenderer.createInline("BankruptcyDate", false);</script>
+	</Html>
+	<Javascript>
+        <XPath>/ds/EnterVariableData/BankruptcyDate</XPath>
+		<HintText>Select the date of bankruptcy order</HintText>
+     	<validate>
+                //Date picker: error message “The value does not conform to a valid date format of DD-MMM-YYYY”.
+                //Validation: Date cannot be in the future
+      	         return isInPast(Services.getValue(BankruptcyDate.dataBinding),"false");
+		</validate>
+        <mandatoryOn>BankruptcyDate.dataBinding</mandatoryOn>
+		<isMandatory>return true;</isMandatory>
+        <isEnabled>return true;</isEnabled>  
+
+	</Javascript>
+</Question>
+

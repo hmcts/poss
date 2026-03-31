@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<DBMapDef>
+	<DataSource id="java:OracleDS"/>
+	<Tables>
+		<Table alias="RC" name="RETURN_CODES"/>
+	</Tables>
+	<Mapping>
+		<ds>
+			<WarrantReturnCodes>
+				<WarrantReturnCode>
+					<Category>${RC.RETURN_CATEGORY}</Category>
+        			<Code>${RC.RETURN_CODE}</Code>
+        			<Type>${RC.RETURN_TYPE}</Type>
+        			<Class>${RC.RETURN_CLASS}</Class>
+        			<Description>${RC.RETURN_CODE_DESCRIPTION}</Description>
+        			<Summary>${RC.RETURN_CODE_SUMMARY}</Summary>
+        			<CourtCode>${RC.ADMIN_COURT_CODE}</CourtCode>
+					<CurrentReturn>${RC.CURRENT_RETURN}</CurrentReturn>
+					<UserList>${RC.USER_LIST}</UserList>
+				</WarrantReturnCode>
+			</WarrantReturnCodes>
+		</ds>
+	</Mapping>
+</DBMapDef>
+
+

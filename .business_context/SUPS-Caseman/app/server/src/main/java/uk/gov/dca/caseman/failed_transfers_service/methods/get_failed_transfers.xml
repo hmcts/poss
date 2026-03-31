@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: FailedTransfers
+	Method:  getFailedTransfers()
+	File:    get_failed_transfers.xml
+	Author:  Chris Vincent (EDS)
+	Created: 31 January 2006
+	Description: 
+		Retrieve the failed transfers on the date specified.
+-->
+<service-method>
+	<pipeline>
+		<Query>
+			<QueryDef location="uk/gov/dca/caseman/failed_transfers_service/query_def_get_failed_transfers.xml"/>
+			<QueryExtension pivotNode="/FailedTransfers/FailedTransfer">
+				<Param name="param.failedDate" xpath="/params/param[@name = 'failedDate']"/>
+			</QueryExtension>
+		</Query>
+	</pipeline>
+	<Security roles="viewOnly medium high wcSuper scSuper bmsSuper aeSuper dmSuper cpSuper edsAdmin ccbcMan ccbcUser ccbcSGB2 ccbcTape admin"/>
+</service-method>

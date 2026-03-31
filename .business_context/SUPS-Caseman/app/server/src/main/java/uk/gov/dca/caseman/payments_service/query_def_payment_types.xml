@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: Payments
+	Method: getPaymentTypes()
+	File: query_def_payment_types.xml
+	Author: Steve Blair
+-->
+<QueryDef>
+	<DBMapDef location="uk/gov/dca/caseman/payments_service/map_payment_types.xml" />
+	<Query pivotNode="/PaymentTypes/PaymentType" tables="CRC">
+		<Modify notModifiable="true" />
+	</Query>
+</QueryDef>

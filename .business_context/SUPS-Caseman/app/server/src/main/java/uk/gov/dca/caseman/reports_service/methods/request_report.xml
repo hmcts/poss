@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: Reports
+	Method:  requestReport()
+	File:    request_report.xml
+	Author:  Alex Peterson (Valtech)
+	Created: 21 September 2005
+	Description: 
+		Calls RequestReport pipeline method (mapped to RequestReport.java in sups_config.xml) 
+		to submit a report to SUPSReporting after it creates data required (like warrants, hearing etc) 
+		by various reports. All CaseMan screens and services that require an Oracle Report must call this method.
+-->
+<service-method>
+	<pipeline>
+		<RequestReport>
+			<!-- Configuration parameters not used
+			<ReportParam>reportParamValue</ReportParam>
+			<Parameter name="courtCode" xpath="params/param[@name='courtCode']"/>
+			-->
+		</RequestReport>
+	</pipeline>
+	<Dependencies>
+		<Dependency serviceName="Reports"/>
+		<Dependency serviceName="Warrant"/>
+		<Dependency serviceName="Hearing"/>
+	</Dependencies>		
+	<Security roles="viewOnly medium high wcSuper scSuper bmsSuper aeSuper dmSuper edsAdmin cpSuper ccbcMan ccbcUser ccbcSGB2"/>	
+	<Transaction type="RequiresNew" />
+</service-method>

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<DBMapDef>
+  <DataSource id="java:OracleDS"/>
+  <Tables>
+    <Table alias="NWD" name="NON_WORKING_DAYS" />
+  </Tables>
+  <Mapping>
+    <NonWorkingDays>
+    	<NonWorkingDay>
+    		<SequenceNumber>${NWD.NON_WD_SEQ}</SequenceNumber>
+			<SurrogateSequenceNumber>${NWD.NON_WD_SEQ}</SurrogateSequenceNumber>
+    		<Date>${NWD.NON_WORKING_DATE}</Date>	
+            <Notes>${NWD.NOTES}</Notes>
+            <CreatedBy>${NWD.USERNAME}</CreatedBy>
+            <CreationDate>${NWD.CREATION_DATE}</CreationDate>
+            <ErrorIndicator>${NWD.ERROR_INDICATOR}</ErrorIndicator>
+    	</NonWorkingDay>
+    </NonWorkingDays>	
+  </Mapping>
+</DBMapDef>

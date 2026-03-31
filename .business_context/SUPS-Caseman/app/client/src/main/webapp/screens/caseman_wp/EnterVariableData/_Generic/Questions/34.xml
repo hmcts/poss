@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>34</Id>
+	<Label>Date by which LQ to be filed</Label>
+	<ObjectName>LqFiledByDate</ObjectName>
+	<Html>
+		<script type="text/javascript">WP_DatePickerRenderer.createInline("LqFiledByDate", false);</script>
+	</Html>
+	<Javascript>
+		<XPath>/ds/EnterVariableData/LQFileByDate</XPath>
+		<componentName>##label##</componentName>
+		<HintText>Either select or enter return date for Listing Questionnaire, in the format DD-MON-YYYY</HintText>
+		<isMandatory>return true;</isMandatory>			
+		<mandatoryOn>LqFiledByDate.dataBinding</mandatoryOn>
+		<initialise>			
+			var expiryDate = Services.getValue("/ds/wp/MaintainObligations/Obligations/Obligation[ObligationType='3' and DeleteFlag='N']/ExpiryDate");
+			Services.setValue(LqFiledByDate.dataBinding, expiryDate);			
+		</initialise>
+		<transformToModel>
+		return transformDateToModel(value);
+		</transformToModel>
+		<transformToDisplay>
+		if (value != null)
+		{
+			if (value.search(CaseManValidationHelper.YYYYMMDD_DATE_PATTERN) != -1)
+			{
+				return CaseManUtils.convertDateToDisplay(value);
+			}
+		}
+		return value;
+		</transformToDisplay>
+		
+		<Context ScreenId="CJR072">
+			<HintText>Enter the date of listing questionnaire to be filed in the format DD-MMM-YYYY</HintText>
+			<initialise>				
+			</initialise>
+			<validateOn>LqFiledByDate.dataBinding</validateOn>
+			<validate>
+				return isWorkingDayInFuture(Services.getValue(LqFiledByDate.dataBinding));
+			</validate>
+			<miscCode>LqFiledByDate.weekends = false;</miscCode>
+			
+			<enableOn>OrderDetails2.dataBinding</enableOn>
+			<isEnabled>return('LQ' == Services.getValue(OrderDetails2.dataBinding));</isEnabled>
+			<logicOn>OrderDetails2.dataBinding</logicOn>
+			<logic>
+				if('LQ' != Services.getValue(OrderDetails2.dataBinding))
+				{	Services.setValue(LqFiledByDate.dataBinding, "");
+				}
+				else
+				{	var expiryDate = Services.getValue("/ds/wp/MaintainObligations/Obligations/Obligation[./ObligationType = 8 ][last()]/ExpiryDate");
+				    Services.setValue(LqFiledByDate.dataBinding, expiryDate);
+				}
+			</logic>
+		
+		</Context>
+	</Javascript>
+</Question>

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>872</Id>
+	<Label>Judge's title</Label>
+	<ObjectName>JudgeTitle</ObjectName>
+	<Html>
+		<select id="JudgeTitle" >
+			<option value=""></option>			
+			<option value="Circuit Judge">Circuit Judge</option>
+			<option value="Deputy Circuit Judge">Deputy Circuit Judge</option>
+			<option value="District Judge">District Judge</option>
+			<option value="Deputy District Judge">Deputy District Judge</option>
+			<option value="Her Honour Judge">Her Honour Judge</option>
+			<option value="His Honour Judge">His Honour Judge</option>
+			<option value="Mr Justice">Mr Justice (High Court Judge)</option>
+			<option value="Mrs Justice">Mrs Justice (High Court Judge)</option>
+			<option value="Recorder">Recorder</option>
+			<option value="Other">Other</option>
+	</select>				
+	</Html>
+	
+	<Javascript>
+		<XPath>/ds/EnterVariableData/JudgeTitle</XPath>
+		<HintText>Select the Judge's title</HintText>
+		<isMandatory>return true;</isMandatory>
+		<mandatoryOn>JudgeTitle.dataBinding</mandatoryOn>
+	</Javascript>
+</Question>

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<DBMapDef>
+	<DataSource id="java:SupsDS"/>
+	<Tables>
+		<Table alias="E" name="ETHNIC_ORIGIN"/>
+		<Table alias="T" name="TAPE_FORMATS"/>
+		<Table alias="R" name="REJECT_REASONS"/>
+	</Tables>
+    <Mapping>
+        <Updates>
+            <EthnicOrigin>
+                <Code>${E.ETHNIC_ORIGIN_CODE}</Code>
+                <Description>${E.ETHNIC_ORIGIN_DESCRIPTION}</Description>
+			
+                <TapeFormat>
+                    <Code>${T.CODE}</Code>
+                    <Description>${T.DESCRIPTION}</Description>
+                
+                    <RejectReasons>
+                        <Code>${R.REJECT_CODE}</Code>
+                        <Text>${R.REJECT_TEXT}</Text>
+                    </RejectReasons>
+                </TapeFormat>
+            </EthnicOrigin>
+        </Updates>
+	</Mapping>
+</DBMapDef>

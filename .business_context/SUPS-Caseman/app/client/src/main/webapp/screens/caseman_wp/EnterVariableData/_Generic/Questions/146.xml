@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- 
+Change History
+	29/01/2013 - Chris Vincent, added JS contexts for the CJR032 outputs (Trac 4763)
+-->
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>146</Id>
+	<Label>Questionnaire return date</Label>
+	<ObjectName>QuestReturnDate</ObjectName>
+	<Html>	
+		<script type="text/javascript">WP_DatePickerRenderer.createInline("QuestReturnDate", false);</script>	
+	</Html>
+	<Javascript>
+		<XPath>/ds/EnterVariableData/Filed/questReturnDate</XPath>
+		<HintText>Enter the date – Date Picker available</HintText>
+		<isMandatory>return true;</isMandatory>
+		<initialise>
+			var eventId = 53;
+			var expiryDate = Services.getValue("/ds/wp/MaintainObligations/Obligations/Obligation[EventId = '"+eventId+"' and DeleteFlag='N']/ExpiryDate");
+			Services.setValue( QuestReturnDate.dataBinding, expiryDate);
+		</initialise>
+
+		<Context ScreenId="CJR032A">
+			<initialise>
+				var eventId = 196;
+				var obligationType = 32;
+				var expiryDate = Services.getValue("/ds/wp/MaintainObligations/Obligations/Obligation[EventId = '"+eventId+"' and DeleteFlag='N' and ObligationType = '"+obligationType+"']/ExpiryDate");
+				Services.setValue( QuestReturnDate.dataBinding, expiryDate);
+			</initialise>
+		</Context>
+		<Context ScreenId="CJR032B">
+			<initialise>
+				var eventId = 196;
+				var obligationType = 33;
+				var expiryDate = Services.getValue("/ds/wp/MaintainObligations/Obligations/Obligation[EventId = '"+eventId+"' and DeleteFlag='N' and ObligationType = '"+obligationType+"']/ExpiryDate");
+				Services.setValue( QuestReturnDate.dataBinding, expiryDate);
+			</initialise>
+		</Context>
+		<Context ScreenId="CJR032C">
+			<initialise>
+				var eventId = 196;
+				var obligationType = 33;
+				var expiryDate = Services.getValue("/ds/wp/MaintainObligations/Obligations/Obligation[EventId = '"+eventId+"' and DeleteFlag='N' and ObligationType = '"+obligationType+"']/ExpiryDate");
+				Services.setValue( QuestReturnDate.dataBinding, expiryDate);
+			</initialise>
+		</Context>
+	</Javascript>
+</Question>

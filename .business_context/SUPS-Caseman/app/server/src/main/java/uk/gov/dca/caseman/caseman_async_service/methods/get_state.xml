@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: CasemanAsync
+	Method:  getState()
+	File:    get_state.xml
+	Author:  Anoop Sehdev (Valtech)
+	Created: 25 April 2006
+	Description:
+		Calls AsyncGetState pipeline method in order to get the status of job
+		that were submitted using AsyncCall pipeline method.
+-->
+<service-method>
+	<pipeline>
+		<AsyncGetState idPath="/params/param[@name='RequestId']"/>
+	</pipeline>
+	<Security roles="viewOnly medium high wcSuper scSuper bmsSuper aeSuper dmSuper edsAdmin cpSuper"/>
+</service-method>

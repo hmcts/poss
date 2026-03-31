@@ -1,0 +1,220 @@
+/* Form display inline style */
+form#manageAEEvents { display: inline; }
+
+/* Details Panel label column style */
+td.detailsLabel { width: 100px; }
+
+/* Popup label column style */
+td.popupLabel { width: 125px; }
+
+/* Set width of Owning Court Name autocomplete field */
+#Query_OwningCourtName { width: 175px; }
+
+/* Set width of Event Description Autocomplete field */
+#Master_AEEventDescription { width: 375px; }
+
+/* Set width of Event Details zoom fields */
+#EventDetails_Details { width: 350px; }
+
+#AddEvent_Details { width: 380px; }
+
+#EventDetails_Service { width: 100px; }
+
+#AddEvent_Service { width: 100px; }
+
+#AddEvent_Stage { width: 160px; }
+
+#PERNDRDetailsPopup_PERPeriod { width: 121px; }
+
+#PERNDRDetailsPopup_NDRPeriod { width: 121px; }
+
+#AddEvent_DateReceived { margin-top: 5px; }
+
+/**************************************** SUBFORMS ******************************************/
+
+#selectEventOutput_subform
+{
+	left: 50%;
+	top: 50%;
+	margin-left: -190px;
+	margin-top: -130px;
+	width: 380px;
+	height: 259px;
+}
+
+/****************************************** GRID ********************************************/
+
+#Master_AEEventGrid
+{
+	margin-top: 5px;
+	margin-left: 5px;
+	margin-right: 5px;
+	margin-bottom: 0px;
+	width: 460px;
+}
+
+#Master_AEEventGrid .col0 { width: 16px; }
+#Master_AEEventGrid .col1 { width: 75px; }
+#Master_AEEventGrid .col2 { width: 45px; }
+#Master_AEEventGrid .col3 { width: 230px; }
+#Master_AEEventGrid .col4 { width: 39px; }
+#Master_AEEventGrid .col5 
+{
+	text-align: center;
+	width: 10px;
+}
+
+#Master_AEEventGrid .errorClass
+{
+    background: #d3e7d3;
+    border-color: #d3e7d3;
+}
+
+#Master_AEEventGrid .errorEditOutputClass
+{
+    background: #d3e7d3;
+    border-color: #d3e7d3;
+}
+
+#Master_AEEventGrid .errorEditOutputClass .col0
+{
+	background: url('../caseman_wp/WordProcessor/wordprocessing/images/buttons/icon_edt_table.gif') center left no-repeat;
+}
+
+#Master_AEEventGrid .editOutputClass .col0
+{
+	background: url('../caseman_wp/WordProcessor/wordprocessing/images/buttons/icon_edt_table.gif') center left no-repeat;
+}
+
+#Master_AEEventGrid .errorOpenOutputClass
+{
+    background: #d3e7d3;
+    border-color: #d3e7d3;
+}
+
+#Master_AEEventGrid .errorOpenOutputClass .col0
+{
+	background: url('../caseman_wp/WordProcessor/wordprocessing/images/buttons/acrobat-icon.gif') center left no-repeat;
+}
+
+#Master_AEEventGrid .openOutputClass .col0
+{
+	background: url('../caseman_wp/WordProcessor/wordprocessing/images/buttons/acrobat-icon.gif') center left no-repeat;
+}
+
+#Master_AEEventGrid .errorFailOutputClass
+{
+    background: #d3e7d3;
+    border-color: #d3e7d3;
+}
+
+#Master_AEEventGrid .errorFailOutputClass .col0
+{
+	background: url('../caseman_wp/WordProcessor/wordprocessing/images/buttons/docError.gif') center left no-repeat;
+}
+
+#Master_AEEventGrid .failOutputClass .col0
+{
+	background: url('../caseman_wp/WordProcessor/wordprocessing/images/buttons/docError.gif') center left no-repeat;
+}
+
+#QueryPopup_AENumberGrid .col0 { width: 83px; }
+#QueryPopup_AENumberGrid .col1 { width: 83px; }
+#QueryPopup_AENumberGrid .col2 { width: 300px; }
+#QueryPopup_AENumberGrid .col3 { width: 200px; }
+#QueryPopup_AENumberGrid .col4 { width: 40px; }
+
+/***************************************** POP-UPS ******************************************/
+
+div#AddEvent_Popup
+{
+	visibility: hidden;
+	position: absolute;
+	left: 50%;
+	top: 50%;
+	width: 565px;
+	height: 212px;
+	margin-left: -283px;
+	margin-top: -116px;
+}
+		
+div#PERNDRDetails_Popup
+{
+	visibility: hidden;
+	position: absolute;
+	left: 50%;
+	top: 50%;
+	width: 385px;
+	height: 157px;
+	margin-left: -193px;
+	margin-top: -86px;
+}
+
+div#QueryAE_Popup
+{
+	visibility: hidden;
+	position: absolute;
+	left: 50%;
+	top: 50%;
+	width: 770px;
+	height: 258px;
+	margin-left: -385px;
+	margin-top: -129px;
+}
+
+/************************************* LOV POPUPS *****************************************/
+
+#Query_OwningCourtLOVGrid
+{
+	height: 302px;
+	width: 372px;
+	left: 50%;
+	margin-left: -186px;
+	margin-top: -151px;
+	top: 50%;
+}
+
+#Master_AEEventLOVGrid
+{
+	height: 302px;
+	width: 422px;
+	left: 50%;
+	margin-left: -211px;
+	margin-top: -151px;
+	top: 50%;
+}
+
+#AddEvent_DetailsLOVGrid
+{
+	height: 302px;
+	width: 472px;
+	left: 50%;
+	top: 50%;
+	margin-top: -151px;
+	margin-left: -236px;
+}
+
+#AddEvent_DetailsLOVGrid .col0 { width: 50px; }
+#AddEvent_DetailsLOVGrid .col1 { width: 350px; }
+
+/**************************** ORACLE REPORT PROGRESS BAR **********************************/
+
+#ProgressIndicator_Popup
+{
+	visibility: hidden;
+	position: absolute;
+	width: 400px;
+	height: 150px;
+	top: 50%;
+	left: 50%;
+	margin-left: -200px;
+	margin-top: -75px;
+}
+
+#ProgressIndicator_Panel {
+	height: 100px;
+}
+
+#ProgressIndicator_ActionBarContainer {
+	width: 420px;
+}

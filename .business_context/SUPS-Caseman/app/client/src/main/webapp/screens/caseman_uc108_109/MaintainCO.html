@@ -1,0 +1,670 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3c.org/TR/html4/strict.dtd">
+<!-- 
+	Mark Groen -   tmp caseman defect 366, ensure amount fields are right aligned. Someone changed to include as part of .css file
+					this did not work. Changed back
+-->
+<html>
+	<head>
+		<title>MaintainCO</title>
+		<link href="MaintainCO.css" type="text/css" rel="stylesheet">
+		<script type="text/javascript" src="../../Framework.js"></script>
+		<script type="text/javascript" src="../../ConcatCommon.js"></script>
+		<script type="text/javascript" src="MaintainCOVariables.js"></script>
+		<script type="text/javascript" src="MaintainCOFunctions.js"></script>
+		<script type="text/javascript" src="MaintainCO.js"></script>
+		<script type="text/javascript" src="MaintainCO_AuditCode.js"></script>
+		<script type="text/javascript" src="MaintainCO_MenuBarCode.js"></script>
+	</head>
+	<body>
+		<form name="MaintainCO" id="MaintainCO">
+		
+			<!-- Framework Navigation Menu -->
+			<script type="text/javascript">MenuBarRenderer.createInline();</script>
+			
+			<table class="layout">	
+			<!-- Header Panel -->
+				<tr>
+					<td>
+						<div class="panel">
+							<table class="content">
+								<tr>
+									<td>
+										<table>
+											<tr>
+												<td style="width:137px;"><label for='Header_CONumber'>CO Number</label></td>
+												<td style="width:167px;">
+													<input id="Header_CONumber" type="text" size=15>
+													<input id="CreateCOBtn" type="Button" value="Create">
+												</td>
+													
+												<td style="width:150px;"><label for='Header_COOldNumber'>Old Number</label></td>
+												<td style="width:120px;"><input id="Header_COOldNumber" type="text" size=15></td>
+													
+												<td style="width:105px;"><label for='Header_OwningCourtCode'>Owning Court</label></td>
+												<td><input id="Header_OwningCourtCode" type="text" size=5></td>
+												<td>
+													<script type="text/javascript">
+														AutoCompletionRenderer.createInline("Header_OwningCourtName");
+													</script>
+												</td>
+												<td><input id="Header_Court_LOV" type="Button" size="8" value="LOV"></td>
+											</tr>
+											<tr>							
+												<td><label for='Header_Type'>Type</label></td>
+												<td><select id="Header_Type"/></td>
+												<td><label for='Header_Status'>Status</label></td>
+												<td colspan="6"><input id="Header_Status" type="text" size=15></td>
+											</tr>
+											<tr>
+												<td><label for='Header_Debtor'>Debtor Name</label></td>
+												<td colspan="3"><input id="Header_Debtor" type="text" size=50></td>
+												<!-- added as part of RFC 1473 -->
+												<td><label for="Header_DateOfBirth">Date of Birth</label></td>
+												<td colspan="4"><input type="text" class="datetext" id="Header_DateOfBirth" size="23"/></td>
+											</tr>
+										</table>							
+									</td>			
+								</tr>	            		
+							</table>  
+						</div>
+					</td>
+				</tr>
+				<!-- End Header Panel -->
+
+				<!-- CO Details Panel -->
+				<tr>
+					<td>
+						<div class="panel">
+							<table class="content">
+								<tr>
+									<td style="width:140px;"><label for='CODetails_AppDate'>Application Date</label></td>
+									<td style="width:168px;">
+										<script type="text/javascript">
+											DatePickerRenderer.createInline("CODetails_AppDate", true);
+										</script>
+									</td>
+									
+									<td style="width:151px;"><label for='CODetails_OrderDate'>Order Date</label></td>
+									<td style="width:168px;">
+										<script type="text/javascript">
+											DatePickerRenderer.createInline("CODetails_OrderDate", true);
+										</script>
+									</td>							
+									<td colspan="2">&nbsp;</td>
+								</tr>
+								<tr>
+									<td><label for='CODetails_CompType'>Composition Type</label></td>
+									<td><select id="CODetails_CompType"/></td>
+									<td><label for='CODetails_CompRate'>Composition Rate</label></td>
+									<td><input id="CODetails_CompRate" type="text" size=5>%</td>								
+									<td><label for='CODetails_AdhocDiv'>Adhoc Dividend</label></td>
+									<td><input id="CODetails_AdhocDiv" type="checkbox"><td>
+								</tr>
+								<tr>
+									<td><label for='CODetails_Target'>Target (Dividend)</label></td>
+									<td><input id="CODetails_Target" type="text" size=5>%</td>
+									
+									<td><label for='CODetails_TargetAmount'>Target Amount</label></td>
+									<td>
+										<input id="CODetails_TargetAmountCurrency" type="text" size=1>
+										<input id="CODetails_TargetAmount" type="text" size=20>									
+									</td>							
+									<td style="width:120;"><label for='CODetails_FeeRate'>Fee Rate</label></td>
+									<td><select id="CODetails_FeeRate"/>%</td>
+								</tr>
+								<tr>
+									<td><label for='CODetails_InstlAmount'>Instal Amount/NDR</label></td>
+									<td>
+										<input id="CODetails_InstlAmountCurrency" type="text" size=1>
+										<input id="CODetails_InstlAmount" type="text" size=20>									
+									</td>							
+									<td><label for='CODetails_Frequency'>Frequency</label></td>
+									<td><select id="CODetails_Frequency"/></td>								
+									<td><label for='CODetails_FirstPayDate'>First Payment Date</label></td>
+									<td>
+										<script type="text/javascript">
+											DatePickerRenderer.createInline("CODetails_FirstPayDate", true);
+										</script>
+									</td>						
+								</tr>
+								<tr>
+									<td><label for='CO_EmploymentDetailsPER'>PER</label></td>
+									<td>
+										<input id="CO_EmploymentDetailsPERCurrency" type="text" size=1>
+										<input id="CO_EmploymentDetailsPER" type="text" size=20>
+									</td>								
+									<td><label for='CODetails_ReviewDate'>Review Date</label></td>
+									<td>
+										<script type="text/javascript">
+											DatePickerRenderer.createInline("CODetails_ReviewDate", true);
+										</script>
+									</td>
+									
+									<td><label for='CODetails_RevokedDischargedDate'>Revoked/Discharge Date</label></td>
+									<td>
+										<script type="text/javascript">
+											DatePickerRenderer.createInline("CODetails_RevokedDischargedDate", true);
+										</script>
+									</td>						
+								</tr>
+							</table>
+						</div>
+					</td>    		
+				</tr> 
+				<!-- End CO Header Details Panel -->		
+				<!-- CO Details Panel -->
+				<tr>
+					<td>
+						<div class="panel">
+							<table class="content">
+								<tr>
+									<td valign="top">
+
+										<!-- set up tabbed area -->
+										<div class="tabbedArea" id="COTabbedArea">
+
+											<script type="text/javascript">
+												TabSelector.createInline("COTabSelector",
+													[ {tabLabel: "Debtor Details", pageId: "TabDebtorAddress"},
+													  {tabLabel: "Employment Details", pageId: "TabEmploymentDetails"},
+													  {tabLabel: "Workplace Details", pageId: "TabWorkplaceDetails"}
+													]
+												);
+											</script>
+											
+											<div class="pagedArea" id="COAddressesPagedArea">
+												<div class="page" id="TabDebtorAddress">
+													<table style="width:100%;">
+														<tr>
+															<td><label for='CO_ContactDetails_Address_Line1'>Address</label></td>
+															<td><input id="CO_ContactDetails_Address_Line1" type="text" size=50></td>
+															
+															<td><label for='CO_ContactDetails_Address_DXNo'>DX Number</label></td>
+															<td><input id="CO_ContactDetails_Address_DXNo" type="text" size=30></td>
+																
+															<td><label for='CO_ContactDetails_Address_TelNo'>Tel Number</label></td>
+															<td><input id="CO_ContactDetails_Address_TelNo" type="text" size=30></td>									
+														</tr>
+														<tr>
+															<td >&nbsp;</td>
+															<td><input id="CO_ContactDetails_Address_Line2" type="text" size=50></td>
+																
+															<td><label for='CO_ContactDetails_Address_FaxNo'>Fax Number</label></td>
+															<td><input id="CO_ContactDetails_Address_FaxNo" type="text" size=30></td>
+																
+															<td><label for='CO_ContactDetails_Address_Email'>Email Address</label></td>
+															<td><input id="CO_ContactDetails_Address_Email" type="text" size=30></td>	
+														</tr>
+														<tr>
+															<td>&nbsp;</td>
+															<td><input id="CO_ContactDetails_Address_Line3" type="text" size=50></td>
+																
+															<td><label for='CO_ContactDetails_Address_CommMethod'>Communication Method</label></td>
+															<td><select id="CO_ContactDetails_Address_CommMethod"></td>
+																
+															<td colspan="2">&nbsp;</td>
+														</tr>
+														<tr>
+															<td>&nbsp;</td>
+															<td><input id="CO_ContactDetails_Address_Line4" type="text" size=50></td>									
+															
+															<td><label for='CO_ContactDetails_Address_Welsh'>Translation to Welsh</label></td>
+															<td><input id="CO_ContactDetails_Address_Welsh" type="checkbox"></td>
+																
+															<td colspan="2">&nbsp;</td>					
+														</tr>
+														<tr>
+															<td>&nbsp;</td>
+															<td><input id="CO_ContactDetails_Address_Line5" type="text" size=50></td>
+																
+															<td><label for='CO_DebtorAddressCreatedBy'>Created by</label></td>
+															<td><input id="CO_DebtorAddressCreatedBy" type="text" size=30></td>
+															
+															<td colspan="2">&nbsp;</td>
+														</tr>
+														<tr>
+															<td><label for='CO_ContactDetails_Address_Postcode'>Postcode</label></td>
+															<td><input id="CO_ContactDetails_Address_Postcode" type="text" size=15></td>
+															
+															<td colspan="4">&nbsp;</td>
+														<tr>
+															<td colspan="6" valign="bottom" align="right" style="height:50px;">
+																<input id="CO_DebtorAddAddressBtn" type="Button" value="Add Address">
+																<input id="CO_DebtorViewHistoricalAddressBtn" type="Button" value="View Historical Addresses" style="margin-right: 5px;">
+															</td>
+														</tr>
+													</table>
+												</div> <!-- end <div class="page" id="TabDebtorAddress"> -->
+												<div class="page" id="TabEmploymentDetails">
+													<table style="width:100%;">
+														<tr>
+															<td><label for='CO_EmploymentDetails_Employer'>Employer</label></td>
+															<td><input id="CO_EmploymentDetails_Employer" type="text" size=50></td>
+																									
+															<td><label for='CO_EmploymentDetails_Address_NamedPerson'>Named Person</label></td>
+															<td><input id="CO_EmploymentDetails_Address_NamedPerson" type="text" size=30></td>
+															
+															<td colspan="2">&nbsp;</td>
+														</tr>
+														<tr>
+															<td><label for='CO_EmploymentDetails_Address_Line1'>Address</label></td>
+															<td><input id="CO_EmploymentDetails_Address_Line1" type="text" size=50></td>
+															
+															<td><label for='CO_EmploymentDetails_Address_DXNo'>DX Number</label></td>
+															<td><input id="CO_EmploymentDetails_Address_DXNo" type="text" size=30></td>
+																
+															<td><label for='CO_EmploymentDetails_Address_TelNo'>Tel Number</label></td>
+															<td><input id="CO_EmploymentDetails_Address_TelNo" type="text" size=30></td>									
+														</tr>
+														<tr>
+															<td>&nbsp;</td>
+															<td><input id="CO_EmploymentDetails_Address_Line2" type="text" size=50></td>
+															
+															<td><label for='CO_EmploymentDetails_Address_FaxNo'>Fax Number</label></td>
+															<td><input id="CO_EmploymentDetails_Address_FaxNo" type="text" size=30></td>
+																
+															<td><label for='CO_EmploymentDetails_Address_Email'>Email Address</label></td>
+															<td><input id="CO_EmploymentDetails_Address_Email" type="text" size=30></td>	
+															
+														</tr>
+														<tr>
+															<td>&nbsp;</td>
+															<td><input id="CO_EmploymentDetails_Address_Line3" type="text" size=50></td>
+																
+															<td><label for='CO_EmploymentDetailsOccupation'>Debtor's Occupation</label></td>
+															<td><input id="CO_EmploymentDetailsOccupation" type="text" size=30></td>
+															
+															<td><label for='CO_EmploymentDetailsPayRef'>Works/Pay Ref</label></td>
+															<td><input id="CO_EmploymentDetailsPayRef" type="text" size=30></td>
+														</tr>
+														<tr>
+															<td>&nbsp;</td>
+															<td><input id="CO_EmploymentDetails_Address_Line4" type="text" size=50></td>
+																
+															<td><label for='CO_EmploymentDetails_Address_CommMethod'>Communication Method</label></td>
+															<td><select id="CO_EmploymentDetails_Address_CommMethod"></td>
+																
+															<td colspan="2">&nbsp;</td>
+														</tr>
+														<tr>
+															<td>&nbsp;</td>
+															<td><input id="CO_EmploymentDetails_Address_Line5" type="text" size=50></td>
+																
+															<td><label for='CO_EmploymentDetails_Address_Welsh'>Translation to Welsh</label></td>
+															<td><input id="CO_EmploymentDetails_Address_Welsh" type="checkbox"></td>
+																
+															<td colspan="2">&nbsp;</td>
+														</tr>
+														<tr>
+															<td><label for='CO_EmploymentDetails_Address_Postcode'>Postcode</label></td>
+															<td><input id="CO_EmploymentDetails_Address_Postcode" type="text" size=30></td>
+																
+															<td><label for='CO_EmploymentDetails_Address_CreatedBy'>Created by</label></td>
+															<td><input id="CO_EmploymentDetails_Address_CreatedBy" type="text" size=30></td>
+																
+															<td colspan="2">&nbsp;</td>
+														</tr>
+														<tr>		
+															<td colspan=6 valign="bottom" align="right" style="height:26px;">
+																<input id="CO_EmployerAddAddressBtn" type="Button" value="Add Address">
+																<input id="CO_EmployerClearAddressBtn" type="Button" value="Clear Address">
+																<input id="CO_EmployerViewHistoricalAddressBtn" type="Button" value="View Historical Addresses" style="margin-right: 5px;">
+															</td>
+														</tr>
+													</table>
+												</div> <!-- END <div class="page" id="TabEmploymentDetails"> -->
+										
+												<div class="page" id="TabWorkplaceDetails">
+													<table style="width:100%;">
+														<tr>
+															<td><label for='CO_WorkplaceDetails_Address_Line1'>Address</label></td>
+															<td><input id="CO_WorkplaceDetails_Address_Line1" type="text" size=50></td>
+															<td colspan="2">&nbsp;</td>
+														</tr>
+														<tr>
+															<td>&nbsp;</td>
+															<td><input id="CO_WorkplaceDetails_Address_Line2" type="text" size=50></td>
+															<td colspan="2">&nbsp;</td>
+														</tr>
+														<tr>
+															<td>&nbsp;</td>
+															<td><input id="CO_WorkplaceDetails_Address_Line3" type="text" size=50></td>
+															<td colspan="2">&nbsp;</td>
+														</tr>
+														<tr>
+															<td>&nbsp;</td>
+															<td><input id="CO_WorkplaceDetails_Address_Line4" type="text" size=50></td>
+															<td colspan="2">&nbsp;</td>
+														</tr>
+														<tr>
+															<td>&nbsp;</td>
+															<td><input id="CO_WorkplaceDetails_Address_Line5" type="text" size=50></td>
+															<td colspan="2">&nbsp;</td>
+														</tr>
+														<tr>
+															<td><label for='CO_WorkplaceDetails_Address_Postcode'>Postcode</label></td>
+															<td><input id="CO_WorkplaceDetails_Address_Postcode" type="text" size=18></td>
+															<td colspan="2">&nbsp;</td>
+														</tr>
+														<tr>
+															<td colspan=4 valign="bottom" align="right" style="height:50px;">
+																<input id="CO_WorkplaceAddAddressBtn" type="Button" value="Add Address">
+																<input id="CO_WorkplaceClearAddressBtn" type="Button" value="Clear Address">
+																<input id="CO_WorkplaceViewHistoricalAddressBtn" type="Button" value="View Historical Addresses" style="margin-right:5px;">
+															</td>
+														</tr>
+													</table>
+												</div><!-- END <div class="page" id="TabWorkplaceDetails"> -->
+											</div>
+										</div><!--  END   <div class="tabbedArea" id="COTabbedArea">	-->
+									</td>
+								</tr>
+							</table>
+						</div>
+					</td>    		
+				</tr> 
+				<!-- End CO Address Details Panel -->
+
+				<!-- CO Header Details Panel -->
+				<tr>
+					<td>
+						<div class="panel">
+							<table class="content">
+								<tr>
+									<td class="totalsCol0Label"><label for='CO_Money_TotalAllowed'>Total Allowed</label></td>
+									<td>
+										<input id="CO_Money_TotalAllowedCurrency" type="text" size=1>										
+										<input id="CO_Money_TotalAllowed" type="text" size=14 style="text-align:right">	
+									</td>
+									<td class="totalsSpacer">&nbsp;</td>
+									<td class="totalsCol1Label"><label for='CO_Money_TotalPaidOut'>Total Paid Out</label></td>
+									<td>
+										<input id="CO_Money_TotalPaidOutCurrency" type="text" size=1>
+										<input id="CO_Money_TotalPaidOut" type="text" size=14 style="text-align:right">	
+									</td>
+									<td class="totalsSpacer">&nbsp;</td>
+									<td class="totalsCol2Label"><label for='CO_Money_MoniesInCourt'>Monies in Court</label></td>
+									<td>
+										<input id="CO_Money_MoniesInCourtCurrency" type="text" size=1>
+										<input id="CO_Money_MoniesInCourt" type="text" size=14 style="text-align:right">	
+									</td>
+								</tr>
+								<tr>
+									<td class="totalsCol0Label"><label for='CO_Money_TotalFee'>Total Fee</label></td>
+									<td>
+										<input id="CO_Money_TotalFeeCurrency" type="text" size=1>
+										<input id="CO_Money_TotalFee" type="text" size=14 style="text-align:right">										
+									</td>
+									<td class="totalsSpacer">&nbsp;</td>
+									<td class="totalsCol1Label"><label for='CO_Money_TotalFeesPaid'>Total Fees Paid</label></td>
+									<td>
+										<input id="CO_Money_TotalFeesPaidCurrency" type="text" size=1>
+										<input id="CO_Money_TotalFeesPaid" type="text" size=14 style="text-align:right">										
+									</td>
+									<td class="totalsSpacer">&nbsp;</td>
+									<td class="totalsCol2Label"><label for='CO_Money_ScheduleTwoFee'>Schedule 2 Fees</label></td>
+									<td>
+										<input id="CO_Money_ScheduleTwoFeeCurrency" type="text" size=1>
+										<input id="CO_Money_ScheduleTwoFee" type="text" size=14 style="text-align:right">	
+									</td>
+								</tr>
+								<tr>
+									<td class="totalsCol0Label"><label for='CO_Money_TotalDue'>Total Due</label></td>
+									<td>
+										<input id="CO_Money_TotalDueCurrency" type="text" size=1>
+										<input id="CO_Money_TotalDue" type="text" size=14 style="text-align:right">										
+									</td>
+									<td class="totalsSpacer">&nbsp;</td>
+									<td class="totalsCol1Label"><label for='CO_Money_TotalPassthroughs'>Total Passthroughs</label></td>
+									<td>
+										<input id="CO_Money_TotalPassthroughsCurrency" type="text" size=1>
+										<input id="CO_Money_TotalPassthroughs" type="text" size=14 style="text-align:right">										
+									</td>
+									<td class="totalsSpacer">&nbsp;</td>
+									<td class="totalsCol2Label"><label for='CO_Money_ScheduleTwoTotal'>Schedule 2 Total (inc Fees)</label></td>
+									<td>
+										<input id="CO_Money_ScheduleTwoTotalCurrency" type="text" size=1>
+										<input id="CO_Money_ScheduleTwoTotal" type="text" size=14 style="text-align:right">	
+									</td>
+								</tr>
+								<tr>
+									<td colspan="3">&nbsp;</td>
+									<td class="totalsCol1Label"><label for='CO_Money_TotalOutstanding'>Total Outstanding</label></td>
+									<td>
+										<input id="CO_Money_TotalOutstandingCurrency" type="text" size=1>
+										<input id="CO_Money_TotalOutstanding" type="text" size=14 style="text-align:right">										
+									</td>
+									<td class="totalsSpacer">&nbsp;</td>
+									<td class="totalsCol2Label"><label for='CO_Money_BalanceDue'>Balance Due from Debtor</label></td>
+									<td>
+										<input id="CO_Money_BalanceDueCurrency" type="text" size=1>
+										<input id="CO_Money_BalanceDue" type="text" size=14 style="text-align:right">	
+									</td>
+								</tr>
+								<tr>
+									<td colspan="7">&nbsp;</td>
+									<td>
+										<input id="CO_MaintainDebtBtn" type="Button" value="Maintain Debts" style="margin-top: 5px; margin-bottom: 5px; margin-right:5px;" />
+									</td>
+								</tr>
+							</table>
+						</div>
+					</td>
+				</tr>
+			</table>
+			
+			<!-- Status Bar Panel -->
+			<script type="text/javascript">
+				ActionBarRenderer.createInline(
+					"status_bar",
+					[
+						{id: "Status_Save", label: "Save"},
+						{id: "Status_Clear", label: "Clear"},
+						{id: "Status_Close", label: "Close"}
+					]
+				);
+			</script>
+			<!-- End Status Bar Panel -->
+			
+			<!-- Debtor Address History Popup -->
+			<div class="popup" id="DebtorAddressHistory">
+				<table class="content">
+					<tr>
+						<td colspan=2 align = "center">
+							<h3>Debtor Address History</h3>
+						</td>
+					<tr>
+						<td valign="top">
+							<table>
+								<tr><td>
+									<!--Address Grid -->
+									<script type="text/javascript">
+										Grid.createInline("DebtorAddressHistoryGrid", ["Address", "Date From", "Date To", "Created By"], 5, 1);
+									</script>
+								</td></tr>
+							</table>
+						</td>
+						<td>
+							<table>
+								<tr>
+									<td><label for="DebtorAddressHistory_Popup_Address_Line1">Address Details</label></td>
+									<td><input type="text" id="DebtorAddressHistory_Popup_Address_Line1" size="50"></td>
+								</tr>
+								<tr>
+									<td>&nbsp;</td>
+									<td><input type="text" id="DebtorAddressHistory_Popup_Address_Line2" size="50"></td>
+								</tr>
+								<tr>
+									<td>&nbsp;</td>
+									<td><input type="text" id="DebtorAddressHistory_Popup_Address_Line3" size="50"></td>
+								</tr>
+								<tr>
+									<td>&nbsp;</td>
+									<td><input type="text" id="DebtorAddressHistory_Popup_Address_Line4" size="50"></td>
+								</tr>
+								<tr>
+									<td>&nbsp;</td>
+									<td><input type="text" id="DebtorAddressHistory_Popup_Address_Line5" size="50"></td>
+								</tr>
+								<tr>
+									<td><label for="DebtorAddressHistory_Popup_Address_Postcode">Postcode</label></td>
+									<td><input type="text" id="DebtorAddressHistory_Popup_Address_Postcode" size="15"></td>
+								</tr>
+								<tr style="height:2px;">
+									<td colspan=2>&nbsp;</td>
+								</tr>
+								<tr>
+									<td colspan=2 align="right">
+										<input type="button" value="Close" id="DebtorAddressHistory_Popup_CloseBtn">
+									</td>
+								</tr>
+							</table>
+						</td>
+					</tr>				
+				</table>
+			</div>
+			<!-- End Debtor Address History Popup -->
+
+			<!-- Employer Address History Popup -->
+			<div class="popup" id="EmployerAddressHistory">
+				<table class="content">
+					<tr>
+						<td colspan=2 align = "center">
+							<h3>Employer Address History</h3>
+						</td>
+					<tr>
+						<td valign="top">
+							<table>
+								<tr><td>
+									<!--Address Grid -->
+									<script type="text/javascript">
+										Grid.createInline("EmployerAddressHistoryGrid", ["Address", "Date From", "Date To", "Created By"], 5, 1);
+									</script>
+								</td></tr>
+							</table>
+						</td>
+						<td>
+							<table>
+								<tr>
+									<td><label for="EmployerAddressHistory_Popup_Address_Line1">Address Details</label></td>
+									<td><input type="text" id="EmployerAddressHistory_Popup_Address_Line1" size="50"></td>
+								</tr>
+								<tr>
+									<td>&nbsp;</td>
+									<td><input type="text" id="EmployerAddressHistory_Popup_Address_Line2" size="50"></td>
+								</tr>
+								<tr>
+									<td>&nbsp;</td>
+									<td><input type="text" id="EmployerAddressHistory_Popup_Address_Line3" size="50"></td>
+								</tr>
+								<tr>
+									<td>&nbsp;</td>
+									<td><input type="text" id="EmployerAddressHistory_Popup_Address_Line4" size="50"></td>
+								</tr>
+								<tr>
+									<td>&nbsp;</td>
+									<td><input type="text" id="EmployerAddressHistory_Popup_Address_Line5" size="50"></td>
+								</tr>
+								<tr>
+									<td><label for="EmployerAddressHistory_Popup_Address_Postcode">Postcode</label></td>
+									<td><input type="text" id="EmployerAddressHistory_Popup_Address_Postcode" size="15"></td>
+								</tr>
+								<tr style="height:2px;">
+									<td colspan=2>&nbsp;</td>
+								</tr>
+								<tr>
+									<td colspan=2 align="right">
+										<input type="button" value="Close" id="EmployerAddressHistory_Popup_CloseBtn">
+									</td>
+								</tr>
+							</table>
+						</td>
+					</tr>				
+				</table>
+			</div>
+			<!-- End Employer History Popup -->
+
+			<!-- Workplace Address History Popup -->
+			<div class="popup" id="WorkplaceAddressHistory">
+				<table class="content">
+					<tr>
+						<td colspan=2 align = "center">
+							<h3>Workplace Address History</h3>
+						</td>
+					<tr>
+						<td valign="top">
+							<table>
+								<tr><td>
+									<!--Address Grid -->
+									<script type="text/javascript">
+										Grid.createInline("WorkplaceAddressHistoryGrid", ["Address", "Date From", "Date To", "Created By"], 5, 1);
+									</script>
+								</td></tr>
+							</table>
+						</td>
+						<td>
+							<table>
+								<tr>
+									<td><label for="WorkplaceAddressHistory_Popup_Address_Line1">Address Details</label></td>
+									<td><input type="text" id="WorkplaceAddressHistory_Popup_Address_Line1" size="50"></td>
+								</tr>
+								<tr>
+									<td>&nbsp;</td>
+									<td><input type="text" id="WorkplaceAddressHistory_Popup_Address_Line2" size="50"></td>
+								</tr>
+								<tr>
+									<td>&nbsp;</td>
+									<td><input type="text" id="WorkplaceAddressHistory_Popup_Address_Line3" size="50"></td>
+								</tr>
+								<tr>
+									<td>&nbsp;</td>
+									<td><input type="text" id="WorkplaceAddressHistory_Popup_Address_Line4" size="50"></td>
+								</tr>
+								<tr>
+									<td>&nbsp;</td>
+									<td><input type="text" id="WorkplaceAddressHistory_Popup_Address_Line5" size="50"></td>
+								</tr>
+								<tr>
+									<td><label for="WorkplaceAddressHistory_Popup_Address_Postcode">Postcode</label></td>
+									<td><input type="text" id="WorkplaceAddressHistory_Popup_Address_Postcode" size="15"></td>
+								</tr>
+								<tr style="height:2px;">
+									<td colspan=2>&nbsp;</td>
+								</tr>
+								<tr>
+									<td colspan=2 align="right">
+										<input type="button" value="Close" id="WorkplaceAddressHistory_Popup_CloseBtn">
+									</td>
+								</tr>
+							</table>
+						</td>
+					</tr>				
+				</table>
+			</div>
+			<!-- End Workplace History Popup -->
+			
+			<!-- Court LOV -->
+			<script type="text/javascript">
+				LOVSubformRenderer.createInline( "selectCourtMaintainCOLOV", "Select Court", [ "Code", "Court"], 10, 1, true );
+			</script>
+			<!-- End LOV Popups -->
+			
+			<div class="logic" id="loadData"></div>
+			
+			<!-- AUDIT PANELS -->
+			<div class="auditPanel" id="headerPanel"></div>
+			<div class="auditPanel" id="coDetailsPanel"></div>
+			<div class="auditPanel" id="debtorDetailsPanel"></div>
+			<div class="auditPanel" id="employmentDetailsPanel"></div>
+		
+			<!-- AUDIT SELECTOR ADAPTOR -->
+			<script type="text/javascript">AuditSelectorRenderer.createInline( "Audit_PanelSelector" );</script>
+			
+			<!-- SUBFORMS -->
+			<div class="popup popupsubform" id="audit_subform"></div>
+			<div class="popup popupsubform" id="transferCO_subform"></div>
+			<div class="popup popupsubform" id="addCoAddress_subform"></div>
+			
+		</form>
+	</body>
+</html>

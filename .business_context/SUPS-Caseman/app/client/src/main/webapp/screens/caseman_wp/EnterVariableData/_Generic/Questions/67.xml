@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>67</Id>
+	<Label>Multiple reasons given</Label>
+	<ObjectName>AllocationHasReason</ObjectName>
+	<Html>
+	  <input id="AllocationHasReason" type="checkbox"/>
+	</Html>
+	
+	<Context screenId="CJR020"><isVisible>false</isVisible></Context>
+	<Context screenId="CJR060"><isVisible>false</isVisible></Context>
+    <Context screenId="CO26"><isVisible>false</isVisible></Context>	
+    <Context screenId="CO27"><isVisible>false</isVisible></Context>
+	
+	<Javascript>
+		<XPath>/ds/EnterVariableData/Allocation/hasreason</XPath>
+		<isMandatory>return false;</isMandatory>
+		<mandatoryOn>AllocationHasReason.dataBinding</mandatoryOn>	
+		<HintText>Check box if  more than one reason given</HintText>
+		<enableOn>AllocationReason.dataBinding</enableOn>
+		<isEnabled>
+		    var val = Services.getValue(AllocationReason.dataBinding);		    
+		    return(null != val &amp;&amp; val.length > 0 )		    
+		</isEnabled>
+		<modelValue>checked: "Y", unchecked: "N"</modelValue>
+		<logicOn>AllocationReason.dataBinding</logicOn>
+		<logic>
+			var val = Services.getValue(AllocationReason.dataBinding);		    
+		    if(null == val || val.length == 0 )		
+		    {	Services.setValue(AllocationHasReason.dataBinding, "N");
+		    }    
+		</logic>
+	</Javascript>
+</Question>

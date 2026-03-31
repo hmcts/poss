@@ -1,0 +1,73 @@
+<project name="WPPerformanceTest" default="deploy" basedir=".">
+    <property environment="env" />
+	<property name="src.dir" value="src" />
+	<property name="dist.dir" value="dist" />
+	<property name="build.dir" value="build" />
+	<property name="tools.dir" value="${env.SUPS_EXTRACTED}" />
+	<property name="deploy.dir" value="${tools.dir}/jboss-4.0.0DR4/server/default/deploy" />
+	<property name="fop.lib.dir" value="${tools.dir}/fop-0.20.5/lib" />
+	<path id="classpath">
+		<pathelement location="${build.dir}" />
+		<pathelement location="${tools.dir}/httpunit-1.6/lib/httpunit.jar"/>
+		<pathelement location="${tools.dir}/junit3.8.1/junit.jar"/>
+		<pathelement location="${fop.lib.dir}/../build/fop.jar" />
+		<pathelement location="${fop.lib.dir}/avalon-framework-cvs-20020806.jar" />
+		<pathelement location="${tools.dir}/jboss-4.0.0DR4/server/all/lib/javax.servlet.jar"/>
+		<pathelement location="${tools.dir}/nekohtml-0.9.3/nekohtml.jar"/>
+	</path>
+
+	<target name="clean">
+		<delete dir="${build.dir}" />
+		<delete dir="${dist.dir}" />
+	</target>
+	
+	<target name="init">
+		<mkdir dir="${build.dir}" />
+		<mkdir dir="${dist.dir}" />
+	</target>
+	
+	<target name="build" depends="init">
+		<javac destdir="${build.dir}" debug="true">
+			<src path="${src.dir}" />
+		    <classpath refid="classpath" />
+		</javac>
+		  <copy todir="${build.dir}">
+		    <fileset dir="${src.dir}">
+		      <include name="**/*.xml"/>
+		    </fileset>
+		  </copy>
+	</target>
+	
+	<target name="package" depends="build">
+		<war destfile="${dist.dir}/wp.war" webxml="resources/web.xml">
+	      <lib dir="${fop.lib.dir}">
+	        <include name="avalon-framework*.jar"/>
+	        <include name="batik.jar"/>
+	      </lib>
+	      <lib dir="${fop.lib.dir}/../build">
+	        <include name="fop.jar"/>
+	      </lib>
+	      <classes dir="${build.dir}"/>
+			<fileset dir="web">
+				<include name="**/**"/>
+			</fileset>
+		</war>
+	</target>
+	
+	<target name="deploy" depends="package">
+		<copy todir="${deploy.dir}" file="${dist.dir}/wp.war" />
+	</target>
+	
+	<target name="test">
+	    <junit failureProperty="test.failure">
+	      <classpath refid="classpath" />
+	      <formatter type="plain" usefile="false"/> 
+	      <batchtest>
+	        <fileset dir="${build.dir}">
+	          <include name="**/*UT.class"/>
+	        </fileset>
+	      </batchtest>
+	    </junit>
+	    <fail message="test failed" if="test.failure" />
+	</target>
+</project>

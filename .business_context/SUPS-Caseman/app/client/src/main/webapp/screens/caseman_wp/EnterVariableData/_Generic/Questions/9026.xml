@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>9026</Id>
+	<Label>Affidavit Address Line 3</Label>
+	<ObjectName>AffidavitAddL3</ObjectName>
+	<Html>
+		<input id="AffidavitAddL3" type="text" size="70"></input>
+	</Html>
+	<Javascript>
+         <XPath>/ds/EnterVariableData/Affidavit/Address/Line[3]</XPath>
+		<componentName>Affidavit Address Line 3</componentName>
+		<HintText>Enter deponent address line 3</HintText>
+       <mandatoryOn>AffidavitAddL3.dataBinding</mandatoryOn> 
+        <isMandatory>return false;</isMandatory>     
+        <isEnabled>return true;</isEnabled>     				
+	</Javascript>
+</Question>

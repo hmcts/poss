@@ -1,0 +1,4 @@
+@sdt_mcol_mig_create_tables.sql
+@sdt_mcol_mig_refdata.sql
+@sdt_mcol_mig_create_indexes.sql
+@sdt_mcol_mig_pack.pck

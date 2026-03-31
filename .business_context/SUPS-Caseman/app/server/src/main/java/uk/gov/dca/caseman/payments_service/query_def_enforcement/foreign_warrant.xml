@@ -1,0 +1,287 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: Payments
+	Method: getEnforcementForeignWarrant()
+	File: foreign_warrant.xml
+	Author: Steve Blair
+	
+	Change History:
+	Chris Hutt 22 May 2007: TD6212, Vantive 271738
+							Coded Party details not  being returned where a Foreign Warrant
+							with no case on the database.
+							Rules agreed with Phil Hardy are that coded party details should be returned
+							if that coded party
+							a) is national
+							b) is local to the court of the current user.
+		
+	Chris Hutt 22 May 2007: TD6212, Vantive 271738
+							SQL tightened to ensure Coded Parties of different courts (though with same code)
+							are not picked up.	
+							
+	Chris Hutt 28 Aug 2007: As part of testing TD6212 fix it was discovered that the court test for a locally coded 
+	                        party had to be extended so that the coded party code should only be retrieved where the
+	                        executing court code is the same as the user's court code.
+
+	Chris Vincent 03 Feb 2010: Trac 2780 - If the Foreign Warrant has a CODED_PARTY_REP_CODE of a Local Coded
+			Party (which will be the coded party associated with the Warrant Issuing Court), the details of the Coded
+			Party are NOT returned.
+	
+	Chris Vincent 20/09/2011: Trac 4553 - Change to /Enforcement/Parties/Party pivot node select query to search for
+			CCBC National Coded Parties in range 7000-9999.
+	
+	01/12/2011 - Chris Vincent, added pivot node for MoneyInCourt for Trac 4587
+-->
+<QueryDef>
+	<DBMapDef location="uk/gov/dca/caseman/payments_service/map_enforcement.xml" />
+	<Query pivotNode="/Enforcement" tables="C W CT">
+		<SQL type="select">
+			SELECT	W.LOCAL_WARRANT_NUMBER AS "C.ENFORCEMENT_NUMBER",
+						W.WARRANT_NUMBER AS "C.WARRANT_NUMBER",
+						'FOREIGN WARRANT' AS "C.ENFORCEMENT_TYPE",
+						W.CURRENTLY_OWNED_BY AS "C.COURT_CODE",
+						CT.NAME AS "C.COURT_NAME",
+						W.CO_NUMBER AS "C.CO_NUMBER",
+						W.PREISSUE_BALANCE AS "C.PRE_ISSUE_BALANCE",
+						W.CASE_NUMBER AS "C.CASE_NUMBER",
+						NULL AS "C.CASE_STATUS",
+						W.WARRANT_ID AS "C.WARRANT_ID",
+						W.WARRANT_TYPE AS "C.WARRANT_TYPE",
+						W.EXECUTED_BY AS "C.WARRANT_EXECUTING_COURT",
+						W.ISSUED_BY AS "C.WARRANT_ISSUING_COURT",
+						NULL AS "C.CO_TYPE"
+			FROM	WARRANTS W,
+						COURTS CT
+			WHERE	W.LOCAL_WARRANT_NUMBER = ${param.localWarrantNumber} AND
+						W.CURRENTLY_OWNED_BY = ${param.owningCourt} AND
+						CT.CODE = W.CURRENTLY_OWNED_BY
+		</SQL>
+		<Modify notModifiable="true" />
+	</Query>
+	<Query pivotNode="/Enforcement/Parties/Party" tables="W CPR P CP">
+		<SQL type="select">		
+			SELECT  /*+ ORDERED */ W.REP_NAME AS "C.PARTY_NAME",
+						'PARTY FOR' AS "C.PARTY_ROLE",
+						1 AS "C.PARTY_NUMBER",
+						W.REP_ADDR_1 AS "C.PARTY_ADDR1",
+						W.REP_ADDR_2 AS "C.PARTY_ADDR2",
+						W.REP_ADDR_3 AS "C.PARTY_ADDR3",
+						W.REP_ADDR_4 AS "C.PARTY_ADDR4",
+						W.REP_ADDR_5 AS "C.PARTY_ADDR5",
+						W.REP_POSTCODE AS "C.PARTY_POSTCODE",
+						W.REP_DX_NUMBER AS "C.DX_NUMBER",
+						CP.PARTY_ID AS "C.PARTY_ID",
+						W.REFERENCE  AS "C.REFERENCE",
+						''AS "C.PAYEE_FLAG",
+						CP.CODE AS "C.PARTY_CODE"
+			FROM	WARRANTS W,
+						CODED_PARTIES CP
+			WHERE	W.WARRANT_ID = ${C.WARRANT_ID} AND
+						CP.CODE (+)= W.CODED_PARTY_REP_CODE AND
+						( 	( CP.CODE &gt; 1499 AND CP.CODE &lt; 2000 AND CP.ADMIN_COURT_CODE  = 335) OR
+            				( CP.CODE &gt; 6999 AND CP.ADMIN_COURT_CODE  = 0) OR
+							( CP.CODE &gt; 6999 AND CP.ADMIN_COURT_CODE  = 335)
+            			) 
+	UNION
+			SELECT  /*+ ORDERED */ W.REP_NAME AS "C.PARTY_NAME",
+						'PARTY FOR' AS "C.PARTY_ROLE",
+						1 AS "C.PARTY_NUMBER",
+						W.REP_ADDR_1 AS "C.PARTY_ADDR1",
+						W.REP_ADDR_2 AS "C.PARTY_ADDR2",
+						W.REP_ADDR_3 AS "C.PARTY_ADDR3",
+						W.REP_ADDR_4 AS "C.PARTY_ADDR4",
+						W.REP_ADDR_5 AS "C.PARTY_ADDR5",
+						W.REP_POSTCODE AS "C.PARTY_POSTCODE",
+						W.REP_DX_NUMBER AS "C.DX_NUMBER",
+						NULL AS "C.PARTY_ID",
+						W.REFERENCE  AS "C.REFERENCE",
+						'' AS "C.PAYEE_FLAG",
+						NULL AS "C.PARTY_CODE"
+			FROM	WARRANTS W
+			WHERE	W.WARRANT_ID = ${C.WARRANT_ID} AND
+						(
+							W.CODED_PARTY_REP_CODE IS NULL OR
+                            W.CODED_PARTY_REP_CODE NOT IN 
+                            		( 	SELECT CP.CODE FROM CODED_PARTIES CP
+     									WHERE (	(CP.CODE &gt; 1499 AND CP.CODE &lt;  2000 AND CP.ADMIN_COURT_CODE  = 335) OR
+						  			 			(CP.CODE &gt; 6999 AND CP.ADMIN_COURT_CODE  = 0 ) OR
+												(CP.CODE &gt; 6999 AND CP.ADMIN_COURT_CODE  = 335)	)
+                                              )  
+                        )                	
+		UNION
+			SELECT /*+ ORDERED */ W.DEFENDANT1 AS "C.PARTY_NAME",
+						'PARTY AGAINST' AS "C.PARTY_ROLE",
+						1 AS "C.PARTY_NUMBER",
+						W.DEF1_ADDR_1 AS "C.PARTY_ADDR1",
+						W.DEF1_ADDR_2 AS "C.PARTY_ADDR2",
+						W.DEF1_ADDR_3 AS "C.PARTY_ADDR3",
+						W.DEF1_ADDR_4 AS "C.PARTY_ADDR4",
+						W.DEF1_ADDR_5 AS "C.PARTY_ADDR5",
+						W.DEF1_POSTCODE AS "C.PARTY_POSTCODE",
+						P.DX_NUMBER AS "C.DX_NUMBER",
+						CPR.PARTY_ID AS "C.PARTY_ID",
+						CPR.REFERENCE AS "C.REFERENCE",
+						CPR.PAYEE_FLAG AS "C.PAYEE_FLAG",
+						CP.CODE AS "C.PARTY_CODE"
+			FROM	WARRANTS W,
+						CASE_PARTY_ROLES CPR,
+						PARTIES P,
+						CODED_PARTIES CP
+			WHERE	W.WARRANT_ID = ${C.WARRANT_ID} AND
+						CPR.PARTY_ROLE_CODE (+) = W.DEF1_PARTY_ROLE_CODE AND
+						CPR.CASE_PARTY_NO (+) = W.DEF1_CASE_PARTY_NO AND
+						CPR.CASE_NUMBER (+) = W.CASE_NUMBER AND
+						P.PARTY_ID (+) = CPR.PARTY_ID AND
+						CP.PARTY_ID (+) = CPR.PARTY_ID                  	
+		UNION
+			SELECT /*+ ORDERED */ W.DEFENDANT1 AS "C.PARTY_NAME",
+						'PARTY AGAINST' AS "C.PARTY_ROLE",
+						1 AS "C.PARTY_NUMBER",
+						W.DEF1_ADDR_1 AS "C.PARTY_ADDR1",
+						W.DEF1_ADDR_2 AS "C.PARTY_ADDR2",
+						W.DEF1_ADDR_3 AS "C.PARTY_ADDR3",
+						W.DEF1_ADDR_4 AS "C.PARTY_ADDR4",
+						W.DEF1_ADDR_5 AS "C.PARTY_ADDR5",
+						W.DEF1_POSTCODE AS "C.PARTY_POSTCODE",
+						P.DX_NUMBER AS "C.DX_NUMBER",
+						CPR.PARTY_ID AS "C.PARTY_ID",
+						CPR.REFERENCE AS "C.REFERENCE",
+						CPR.PAYEE_FLAG AS "C.PAYEE_FLAG",
+						CP.CODE AS "C.PARTY_CODE"
+			FROM	WARRANTS W,
+						CASE_PARTY_ROLES CPR,
+						PARTIES P,
+						CODED_PARTIES CP
+			WHERE	W.WARRANT_ID = ${C.WARRANT_ID} AND
+						CPR.PARTY_ROLE_CODE (+) = W.DEF1_PARTY_ROLE_CODE AND
+						CPR.CASE_PARTY_NO (+) = W.DEF1_CASE_PARTY_NO AND
+						CPR.CASE_NUMBER (+) = W.CASE_NUMBER AND
+						P.PARTY_ID (+) = CPR.PARTY_ID AND
+						CP.PARTY_ID (+) = CPR.PARTY_ID
+		UNION
+			SELECT /*+ ORDERED */ W.DEFENDANT2 AS "C.PARTY_NAME",
+						'PARTY AGAINST' AS "C.PARTY_ROLE",
+						2 AS "C.PARTY_NUMBER",
+						W.DEF2_ADDR_1 AS "C.PARTY_ADDR1",
+						W.DEF2_ADDR_2 AS "C.PARTY_ADDR2",
+						W.DEF2_ADDR_3 AS "C.PARTY_ADDR3",
+						W.DEF2_ADDR_4 AS "C.PARTY_ADDR4",
+						W.DEF2_ADDR_5 AS "C.PARTY_ADDR5",
+						W.DEF2_POSTCODE AS "C.PARTY_POSTCODE",
+						P.DX_NUMBER AS "C.DX_NUMBER",
+						CPR.PARTY_ID AS "C.PARTY_ID",
+						CPR.REFERENCE AS "C.REFERENCE",
+						CPR.PAYEE_FLAG AS "C.PAYEE_FLAG",
+						CP.CODE AS "C.PARTY_CODE"
+			FROM	WARRANTS W,
+						CASE_PARTY_ROLES CPR,
+						PARTIES P,
+						CODED_PARTIES CP
+			WHERE	W.WARRANT_ID = ${C.WARRANT_ID} AND
+						W.DEFENDANT2 IS NOT NULL AND
+						CPR.PARTY_ROLE_CODE (+) = W.DEF2_PARTY_ROLE_CODE AND
+						CPR.CASE_PARTY_NO (+) = W.DEF2_CASE_PARTY_NO AND
+						CPR.CASE_NUMBER (+) = W.CASE_NUMBER AND
+						P.PARTY_ID (+) = CPR.PARTY_ID AND
+						CP.PARTY_ID (+) = CPR.PARTY_ID
+		</SQL>
+		<Modify notModifiable="true" />
+	</Query>
+	<Query pivotNode="/Enforcement/OutstandingBalance" tables="W PY">
+		<SQL type="select">
+			SELECT	COALESCE(W.WARRANT_AMOUNT, 0) +
+						COALESCE(W.SOLICITOR_COSTS, 0) +
+						COALESCE(W.LAND_REGISTRY_FEE, 0) +
+						COALESCE(W.WARRANT_FEE, 0) -
+						COALESCE(
+							(
+								SELECT	SUM(PY.AMOUNT)
+								FROM	PAYMENTS PY
+								WHERE	PY.SUBJECT_NO = ${C.ENFORCEMENT_NUMBER} AND
+											PY.ENFORCEMENT_COURT_CODE = ${param.owningCourt} AND
+											PY.RD_DATE IS NULL AND
+											PY.ERROR_INDICATOR = 'N'
+							),
+							0
+						)
+						AS "C.BALANCE"
+			FROM	WARRANTS W
+			WHERE	W.WARRANT_ID = ${C.WARRANT_ID}
+		</SQL>
+		<Modify notModifiable="true" />
+	</Query>
+	<Query pivotNode="/Enforcement/OutstandingDebt" tables="W PY">
+		<SQL type="select">
+			SELECT	COALESCE(W.PREISSUE_BALANCE, 0) +
+						COALESCE(W.SOLICITOR_COSTS, 0) +
+						COALESCE(W.LAND_REGISTRY_FEE, 0) +
+						COALESCE(W.WARRANT_FEE, 0) -
+						COALESCE(
+							(
+								SELECT	SUM(PY.AMOUNT)
+								FROM	PAYMENTS PY
+								WHERE	PY.SUBJECT_NO = ${C.ENFORCEMENT_NUMBER} AND
+											PY.ENFORCEMENT_COURT_CODE = ${param.owningCourt} AND
+											PY.RD_DATE IS NULL AND
+											PY.ERROR_INDICATOR = 'N'
+							),
+							0
+						)
+						AS "C.DEBT"
+			FROM	WARRANTS W
+			WHERE	W.WARRANT_ID = ${C.WARRANT_ID}
+		</SQL>
+		<Modify notModifiable="true" />
+	</Query>
+    <Query pivotNode="/Enforcement/COInfo" tables="CE">
+		<SQL type="select">
+            SELECT  DECODE(
+                        ${C.CO_NUMBER},
+                        NULL,
+                        (
+                            SELECT	TO_CHAR(COUNT(*))
+                            FROM    CASE_EVENTS CE
+                            WHERE   CE.CASE_NUMBER = ${C.CASE_NUMBER}
+                                    AND CE.STD_EVENT_ID = 705
+                                    AND CE.DELETED_FLAG != 'Y'
+                                    AND ROWNUM = 1
+                        ),
+                        ${C.CO_NUMBER}
+                    ) AS "C.CO_INFO"
+            FROM DUAL
+		</SQL>
+		<Modify notModifiable="true" />
+	</Query>
+	<Query pivotNode="/Enforcement/NumberEvents" tables="WR">
+		<SQL type="select">
+			SELECT	COUNT(*) AS "C.NO_EVENTS"
+			FROM	WARRANT_RETURNS WR
+			WHERE	WR.WARRANT_ID = ${C.WARRANT_ID} AND
+						WR.RETURN_CODE = '101' AND
+						WR.ERROR_INDICATOR != 'Y'
+		</SQL>
+		<Modify notModifiable="true" />
+	</Query>
+	<Query pivotNode="/Enforcement/DividendsExist" tables="DV">
+		<SQL type="select">
+			SELECT	DECODE(COUNT(*), 0, 'false', 'true') AS "DV.DIVIDENDS_EXIST"
+			FROM	DIVIDENDS DV
+			WHERE	DV.DIV_CO_NUMBER = ${C.ENFORCEMENT_NUMBER}
+		</SQL>
+		<Modify notModifiable="true" />
+	</Query>
+	
+	<Query pivotNode="/Enforcement/MoneyInCourt" tables="PY">
+		<SQL type="select">
+			SELECT DECODE(COUNT(*),0,'false','true') AS "C.MONEY_IN_COURT" 
+			FROM   PAYMENTS PY
+			WHERE  PY.SUBJECT_NO = ${C.ENFORCEMENT_NUMBER}
+			AND    PY.ENFORCEMENT_COURT_CODE = ${param.owningCourt}
+			AND	   PY.PAYMENT_FOR = 'FOREIGN WARRANT'
+			AND    PY.PASSTHROUGH = 'N'
+			AND	   PY.RD_DATE IS NULL
+			AND    PY.ERROR_INDICATOR = 'N'
+			AND    PY.PAYOUT_DATE IS NULL
+		</SQL>
+		<Modify notModifiable="true"/>
+	</Query>
+</QueryDef>

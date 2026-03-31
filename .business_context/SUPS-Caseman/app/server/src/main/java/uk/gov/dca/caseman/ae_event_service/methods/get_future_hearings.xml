@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: Ae
+	Method:  getFutureHearings
+	Author:  Chris Hutt (EDS) 
+	Created: 23 June 2005
+	Description: 
+		Use SQLLite to determine if hearings associated with any AE events
+                which are not in the past
+-->
+<service-method>
+	<pipeline>
+		<SQLLite format-output="true"
+				 resultset-element="FutureHearings"
+				 row-element="Hearing"
+				 field-name-as="element" >
+			<DataSource id="java:OracleDS"/>
+			<Param name="param.aeNumber" xpath="/params/param[@name='aeNumber']"/>
+			<SQL>
+				SELECT  
+					 		H.HRG_DATE AS "HearingDate"					
+					   	   ,H.HRG_TYPE AS "HearingType"
+				FROM		HEARINGS H, AE_EVENTS AE
+				WHERE 		AE.AE_NUMBER = ${param.aeNumber}
+				AND 		H.HRG_SEQ = AE.HRG_SEQ
+				AND 		H.HRG_DATE >= (SELECT SYSDATE FROM DUAL)
+				ORDER BY	H.HRG_DATE
+			</SQL>
+		</SQLLite>
+  	</pipeline>
+	<Security roles="user"/>
+</service-method>

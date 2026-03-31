@@ -1,0 +1,244 @@
+<!-- ====================================================================== -->
+<!--  -->
+<!-- FILENAME: $Source: C:/CVSRepository/serveroas/src/uk/gov/dca/caseman/wordprocessing_templates/Notice/CJR020/CJR020-FO.xml,v $ -->
+<!--  -->
+<!-- AUTHOR: $Author: jay $-->
+<!--  -->
+<!-- DATE: $Date: 2006/06/27 08:03:09 $ -->
+<!--  -->
+<!-- Version: $Revision: 1.13 $ -->
+<!--  -->
+<!-- DESCRIPTION: This stylesheet is used to create an XSL:FO document that -->
+<!-- can be processed into a PDF version.  Business logic -->
+<!-- is embedded to generate the correct document text for the order -->
+<!-- required. -->
+<!--  -->
+<!-- INPUTS: XML document containing: the answers to questions asked of the -->
+<!-- user; case data retrieved from the database; HTML representing the  -->
+<!-- body of the document content (already edited by the user). -->
+<!--  -->
+<!-- OUTPUTS: XML document with FO tags containing instructions for the -->
+<!-- creation of a PDF document. -->
+<!--  -->
+<!-- CHANGE HISTORY -->
+<!-- 28/01/2013 - Chris Vincent, removed word allocation from content.  Trac 4763. -->
+<!-- ====================================================================== -->
+<root xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:fo="http://www.w3.org/1999/XSL/Format" xmlns="http://eds.com/supsfo">
+	<variables>@word.processing.url.xsl@supsfo.xsl</variables>
+	<layout>order</layout>
+	<duplex/>
+	<addressee>
+		<blank/>
+		<claimants/>
+		<defendants/>
+		<part20claimants/>
+		<part20defendants/>
+	</addressee>
+	<header>
+		<fo:block font-size="16pt" font-weight="bold">Notice of Allocation to</fo:block>
+		<fo:block font-size="16pt" font-weight="bold">the Fast Track</fo:block>
+	</header>
+	<courtcase>
+		<court>
+			<xsl:copy-of select="$vdCourtHeaderBlock"/>
+		</court>
+		<caseparameters>
+			<parameter>
+				<name>
+					<fo:block font-weight="bold">Claim Number</fo:block>
+				</name>
+				<value>
+					<fo:block>
+						<xsl:value-of select="$vdClaimNumber"/>
+					</fo:block>
+				</value>
+			</parameter>
+			<parameter>
+				<name>
+					<fo:block font-weight="bold">Date</fo:block>
+				</name>
+				<value>
+					<fo:block>
+						<xsl:value-of select="$vdEventDate"/>
+					</fo:block>
+				</value>
+			</parameter>
+		</caseparameters>
+	</courtcase>
+	<bodyintroright><fo:block><fo:inline text-align="center"><seal/></fo:inline></fo:block></bodyintroright>
+
+	<body>
+		<editable useid="N10090">
+		<fo:block space-before="0.4cm" space-after="0.4cm"><xsl:value-of select="$vdJudge"/> has considered the statements of case and questionnaires filed, and allocated the <xsl:value-of select="$vdAllocation"/> to <fo:inline font-weight="bold">the fast track.</fo:inline></fo:block>
+
+		<xsl:if test="string-length($vdFastTrackDirectionsB1) > 0"><fo:block space-after="0.4cm"><xsl:value-of select="$vdFastTrackDirectionsB1"/></fo:block></xsl:if>
+		<xsl:if test="string-length($vdFastTrackDirectionsB2) > 0"><fo:block space-after="0.4cm"><xsl:value-of select="$vdFastTrackDirectionsB2"/></fo:block></xsl:if>
+	
+
+		<xsl:if test="string-length($vdFastTrackDirectionsC1) > 0"><fo:block space-after="0.4cm"><xsl:value-of select="$vdFastTrackDirectionsC1"/></fo:block></xsl:if>
+
+		<xsl:choose>
+			<xsl:when test="string-length($vdFastTrackDirectionsE1) > 0 or
+							string-length($vdFastTrackDirectionsF1) > 0 or
+							string-length($vdFastTrackDirectionsG2) > 0 or
+							string-length($vdFastTrackDirectionsG3) > 0 or
+							string-length($vdFastTrackDirectionsG4) > 0 or
+							string-length($vdFastTrackDirectionsG5) > 0 or
+							string-length($vdFastTrackDirectionsG6) > 0 or
+							string-length($vdFastTrackDirectionsG9) > 0 or
+							string-length($vdFastTrackDirectionsG10) > 0 or
+							string-length($vdFastTrackDirectionsH1) > 0 or
+							string-length($vdFastTrackDirectionsH2) > 0 or
+							string-length($vdFastTrackDirectionsI1) > 0 or
+							string-length($vdFastTrackDirectionsI2) > 0 or
+							string-length($vdFastTrackDirectionsI3) > 0 or
+							string-length($vdFastTrackDirectionsI4) > 0 or
+							string-length($vdFastTrackDirectionsI5) > 0 or
+							string-length($vdFastTrackDirectionsI6) > 0 or
+							string-length($vdFastTrackDirectionsI7) > 0 or
+							string-length($vdFastTrackDirectionsI8) > 0 or
+							string-length($vdFastTrackDirectionsI9) > 0 or
+							string-length($vdFastTrackDirectionsI10) > 0 or
+							string-length($vdFastTrackDirectionsI12) > 0 or
+							string-length($vdFastTrackDirectionsI13) > 0 or
+							string-length($vdFastTrackDirectionsI14) > 0 or
+							string-length($vdFastTrackDirectionsI15) > 0 or
+							string-length($vdFastTrackDirectionsI16) > 0 or
+							string-length($vdFastTrackDirectionsJ1) > 0 or
+							string-length($vdFastTrackDirectionsJ2) > 0 or
+							string-length($vdFastTrackDirectionsK1) > 0 or
+							string-length($vdFastTrackDirectionsK2) > 0 or
+							string-length($vdFastTrackDirectionsL1) > 0 or
+							string-length($vdFastTrackDirectionsM1) > 0"><fo:block space-after="0.4cm"><xsl:value-of select="$vdFastTrackDirectionsD1"/></fo:block></xsl:when>
+		</xsl:choose>
+
+		<xsl:if test="string-length($vdFastTrackDirectionsE1) > 0"><fo:block space-after="0.4cm"><xsl:call-template name="formatTextAreaText"><xsl:with-param name="text"><xsl:copy-of select="$vdFastTrackDirectionsE1"/></xsl:with-param></xsl:call-template></fo:block></xsl:if>
+		
+		<xsl:if test="string-length($vdFastTrackDirectionsF1) > 0"><fo:block space-after="0.4cm"><xsl:value-of select="$vdFastTrackDirectionsF1"/></fo:block></xsl:if>
+	
+		<xsl:if test="string-length($vdFastTrackDirectionsG2) > 0"><fo:block space-after="0.4cm"><xsl:value-of select="$vdFastTrackDirectionsG2"/><xsl:if test="string-length($vdFastTrackDirectionsG3) > 0"> <xsl:value-of select="$vdFastTrackDirectionsG3"/></xsl:if><xsl:if test="string-length($vdFastTrackDirectionsG3) = 0">.</xsl:if></fo:block></xsl:if>
+	
+		<xsl:if test="string-length($vdFastTrackDirectionsG4) > 0"><fo:block space-after="0.4cm"><xsl:value-of select="$vdFastTrackDirectionsG4"/></fo:block></xsl:if>
+		
+		<xsl:if test="string-length($vdFastTrackDirectionsG5) > 0"><fo:block space-after="0.4cm"><xsl:value-of select="$vdFastTrackDirectionsG5"/></fo:block></xsl:if>
+
+		<xsl:if test="string-length($vdFastTrackDirectionsG6) > 0"><fo:block space-after="0.4cm"><xsl:value-of select="$vdFastTrackDirectionsG6"/></fo:block></xsl:if>
+	
+		<xsl:if test="string-length($vdFastTrackDirectionsG9) > 0"><fo:block space-after="0.4cm"><xsl:value-of select="$vdFastTrackDirectionsG9"/></fo:block></xsl:if>
+		<xsl:if test="string-length($vdFastTrackDirectionsG10) > 0"><fo:block space-after="0.4cm"><xsl:value-of select="$vdFastTrackDirectionsG10"/></fo:block></xsl:if>
+
+		<xsl:if test="string-length($vdFastTrackDirectionsH1) > 0"><fo:block space-after="0.4cm"><xsl:value-of select="$vdFastTrackDirectionsH1"/></fo:block></xsl:if>
+		<xsl:if test="string-length($vdFastTrackDirectionsH2) > 0"><fo:block space-after="0.4cm"><xsl:value-of select="$vdFastTrackDirectionsH2"/></fo:block></xsl:if>
+
+		<xsl:if test="string-length($vdFastTrackDirectionsI1) > 0"><fo:block space-after="0.4cm"><xsl:value-of select="$vdFastTrackDirectionsI1"/></fo:block></xsl:if>
+		<xsl:if test="string-length($vdFastTrackDirectionsI2) > 0"><fo:block space-after="0.4cm"><xsl:value-of select="$vdFastTrackDirectionsI2"/></fo:block></xsl:if>
+		<xsl:if test="string-length($vdFastTrackDirectionsI3) > 0"><fo:block space-after="0.4cm"><xsl:value-of select="$vdFastTrackDirectionsI3"/></fo:block></xsl:if>
+		<xsl:if test="string-length($vdFastTrackDirectionsI4) > 0"><fo:block space-after="0.4cm"><xsl:value-of select="$vdFastTrackDirectionsI4"/></fo:block></xsl:if>
+		<xsl:if test="string-length($vdFastTrackDirectionsI5) > 0"><fo:block space-after="0.4cm"><xsl:value-of select="$vdFastTrackDirectionsI5"/></fo:block></xsl:if>
+		<xsl:if test="string-length($vdFastTrackDirectionsI6) > 0"><fo:block space-after="0.4cm"><xsl:value-of select="$vdFastTrackDirectionsI6"/></fo:block></xsl:if>
+		<xsl:if test="string-length($vdFastTrackDirectionsI7) > 0"><fo:block space-after="0.4cm"><xsl:value-of select="$vdFastTrackDirectionsI7"/></fo:block></xsl:if>
+		<xsl:if test="string-length($vdFastTrackDirectionsI8) > 0"><fo:block space-after="0.4cm"><xsl:value-of select="$vdFastTrackDirectionsI8"/></fo:block></xsl:if>
+		<xsl:if test="string-length($vdFastTrackDirectionsI9) > 0"><fo:block space-after="0.4cm"><xsl:value-of select="$vdFastTrackDirectionsI9"/></fo:block></xsl:if>
+
+		<xsl:if test="string-length($vdFastTrackDirectionsI10) > 0"><fo:block space-after="0.4cm"><xsl:value-of select="$vdFastTrackDirectionsI10"/></fo:block></xsl:if>
+
+		<xsl:if test="string-length($vdFastTrackDirectionsI12) > 0"><fo:block space-after="0.4cm"><xsl:value-of select="$vdFastTrackDirectionsI12"/></fo:block></xsl:if>
+		<xsl:if test="string-length($vdFastTrackDirectionsI13) > 0"><fo:block space-after="0.4cm"><xsl:value-of select="$vdFastTrackDirectionsI13"/></fo:block></xsl:if>
+		<xsl:if test="string-length($vdFastTrackDirectionsI14) > 0"><fo:block space-after="0.4cm"><xsl:value-of select="$vdFastTrackDirectionsI14"/></fo:block></xsl:if>
+		<xsl:if test="string-length($vdFastTrackDirectionsI15) > 0"><fo:block space-after="0.4cm"><xsl:value-of select="$vdFastTrackDirectionsI15"/></fo:block></xsl:if>
+		<xsl:if test="string-length($vdFastTrackDirectionsI16) > 0"><fo:block space-after="0.4cm"><xsl:value-of select="$vdFastTrackDirectionsI16"/></fo:block></xsl:if>
+		<xsl:if test="string-length($vdFastTrackDirectionsJ1) > 0"><fo:block space-after="0.4cm"><xsl:value-of select="$vdFastTrackDirectionsJ1"/></fo:block></xsl:if>
+		<xsl:if test="string-length($vdFastTrackDirectionsJ2) > 0"><fo:block space-after="0.4cm"><xsl:value-of select="$vdFastTrackDirectionsJ2"/></fo:block></xsl:if>
+		<xsl:if test="string-length($vdFastTrackDirectionsK1) > 0"><fo:block space-after="0.4cm"><xsl:value-of select="$vdFastTrackDirectionsK1"/></fo:block></xsl:if>
+		<xsl:if test="string-length($vdFastTrackDirectionsK2) > 0"><fo:block space-after="0.4cm"><xsl:value-of select="$vdFastTrackDirectionsK2"/></fo:block></xsl:if>
+		<xsl:if test="string-length($vdFastTrackDirectionsL1) > 0"><fo:block space-after="0.4cm"><xsl:value-of select="$vdFastTrackDirectionsL1"/></fo:block></xsl:if>
+		<xsl:if test="string-length($vdFastTrackDirectionsM1) > 0">
+			<fo:block space-after="0.4cm">
+				<xsl:choose>
+					<xsl:when 
+						test="variabledata/claim/hearing/fasttrack/lqdirecmade = 'Y'"> 
+						Each party must file a completed pre-trial checklist no later 
+						than <xsl:call-template name="format-date-placeholder"> 
+						<xsl:with-param name="date-xpath"> <xsl:value-of 
+						select="variabledata/claim/hearing/fasttrack/lqdirecfiledate"/> 
+						</xsl:with-param></xsl:call-template> and <xsl:value-of 
+						select="$vdHearingWhoIsToPayLQ"/> must pay a fee of &#163;<xsl:value-of 
+						select="$vdLQFee"/>.
+						<fo:block>
+							In addition a hearing fee of &#163;<xsl:value-of select="$vdLQHearingFee"/> 
+							must be paid by <xsl:value-of select="$vdHearingWhoIsToPay"/>.
+						</fo:block>
+						<fo:block>
+							If the court is notified in 
+							writing that the hearing is no longer needed the hearing fee 
+							will be refunded in full or in part in certain circumstances, 
+							please refer to the leaflets explaining more about what happens 
+							when your case is allocated to track.
+						</fo:block>
+					</xsl:when>
+					<xsl:otherwise> The judge considers that the claim can be listed 
+						for trial without the need for a pre-trial checklist. 
+					</xsl:otherwise>
+				</xsl:choose>
+			</fo:block>
+		</xsl:if>
+		<xsl:if test="string-length($vdAllocationReason) > 0"><fo:block space-after="0.4cm">
+		<xsl:choose>
+			<xsl:when test="variabledata/claim/hearing/fasttrack/judgemltpsng = 'S'">
+					The reason the judge has given for allocation to track is that
+					<xsl:call-template name="formatTextAreaText">
+						<xsl:with-param name="text"><xsl:copy-of select="$vdAllocationReason"/></xsl:with-param>
+					</xsl:call-template>
+				</xsl:when>
+			<xsl:when test="variabledata/claim/hearing/fasttrack/judgemltpsng = 'M'">
+					The reasons the judge has given for allocation to track are that
+					<xsl:call-template name="formatTextAreaText">
+						<xsl:with-param name="text"><xsl:copy-of select="$vdAllocationReason"/></xsl:with-param>
+					</xsl:call-template>
+				</xsl:when>
+		</xsl:choose>.</fo:block>
+		</xsl:if>
+		</editable>
+	</body>
+
+	<footnote noteextent="4.3">
+				<fo:block space-after="0.2cm">
+				<fo:table table-layout="fixed" width="100%" font-size="10pt" font-family="Times">
+				<fo:table-column column-width="9.5cm"/>
+				<fo:table-column column-width="9.5cm"/>
+				<fo:table-body table-layout="fixed">
+					<fo:table-row keep-with-next="always">
+						<fo:table-cell padding-left="0.1cm" padding-right="0.1cm" border-top-style="solid" border-top-width="0.02cm" border-left-style="solid" border-left-width="0.02cm" border-bottom-style="solid" border-bottom-width="0.02cm">
+							<fo:block space-after="0.1cm"/>
+							<fo:block font-weight="bold">Notes:</fo:block>
+							<list type="bullet">
+								<list-item>
+									<fo:block>You and the other party, or parties, may agree to extend the time periods given in the directions</fo:block>
+									<fo:block><fo:inline font-weight="bold">except</fo:inline></fo:block>
+								</list-item>
+								</list>
+								<fo:block start-indent="5mm">
+- where a rule, practice direction or court order requires a party to comply with a direction within a specified time <fo:inline font-weight="bold">and</fo:inline> specifies the consequences of failing to comply;
+									</fo:block>
+									<fo:block start-indent="5mm">
+- where an extension of time will affect the date given for returning the pre-trial checklist or the date of the trial or trial period
+									</fo:block>
+						</fo:table-cell>
+						<fo:table-cell padding-left="0.1cm" padding-right="0.1cm" border-top-style="solid" border-top-width="0.02cm" border-right-style="solid" border-right-width="0.02cm" border-bottom-style="solid" border-bottom-width="0.02cm">
+							<fo:block space-after="0.1cm"/>
+							<list type="bullet">
+								<list-item>
+									<fo:block>If you do not comply with these directions, any other party to the claim will be entitled to apply to the court for an order that your statement of case (claim or defence) be struck out.</fo:block>
+								</list-item>
+								<list-item>
+									<fo:block>Leaflets explaining more about what happens when your case is allocated to the fast track are available from the court office, <fo:inline font-weight="bold">or online at</fo:inline> www.hmcourts-service.gov.uk/cms/infoabout.htm.</fo:block>
+								</list-item>
+							</list>
+						</fo:table-cell>
+					</fo:table-row>
+				</fo:table-body>
+			</fo:table>
+		</fo:block>
+	</footnote>
+	<defaultFooter id="CJR020"/>
+</root>

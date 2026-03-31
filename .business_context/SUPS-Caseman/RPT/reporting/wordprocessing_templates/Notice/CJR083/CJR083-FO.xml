@@ -1,0 +1,249 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- ====================================================================== -->
+<!--  -->
+<!-- FILENAME: $Source: C:/CVSRepository/serveroas/src/uk/gov/dca/caseman/wordprocessing_templates/Notice/CJR083/CJR083-FO.xml,v $ -->
+<!--  -->
+<!-- AUTHOR: $Author: conganer $-->
+<!--  -->
+<!-- DATE: $Date: 2006/06/05 14:14:02 $ -->
+<!--  -->
+<!-- Version: $Revision: 1.18 $ -->
+<!--  -->
+<!-- DESCRIPTION: This stylesheet is used to create an XSL:FO document that -->
+<!-- can be processed into a PDF version.  Business logic -->
+<!-- is embedded to generate the correct document text for the order -->
+<!-- required. -->
+<!--  -->
+<!-- INPUTS: XML document containing: the answers to questions asked of the -->
+<!-- user; case data retrieved from the database; HTML representing the  -->
+<!-- body of the document content (already edited by the user). -->
+<!--  -->
+<!-- OUTPUTS: XML document with FO tags containing instructions for the -->
+<!-- creation of a PDF document. -->
+<!--  -->
+<!-- ====================================================================== -->
+<root xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:fo="http://www.w3.org/1999/XSL/Format" xmlns="http://eds.com/supsfo">
+	<variables>@word.processing.url.xsl@supsfo.xsl</variables>
+	<layout>general</layout>
+	<sections>
+		<section name="notice" condition="$vdIsNewN79AsReqd = 'Y'">
+			<layout>notice</layout>
+			<duplex/>
+			<addressee copies="2">
+				<officersubject/>
+			</addressee>
+			<header>
+				<fo:block font-size="16pt" font-weight="bold">Suspended committal order for</fo:block>
+				<fo:block font-size="16pt" font-weight="bold">disobedience</fo:block>				
+				<fo:block font-size="16pt">(order to attend court for questioning)</fo:block>
+			</header>
+			<courtcase>
+				<court>
+					<xsl:copy-of select="$vdCourtHeaderBlock"/>
+				</court>
+				<caseparameters>
+					<parameter>
+						<name>
+							<fo:block font-weight="bold">Claim Number</fo:block>
+						</name>
+						<value>
+							<fo:block>
+								<xsl:value-of select="$vdClaimNumber"/>
+							</fo:block>
+						</value>
+					</parameter>
+					<parameter>
+						<name>
+							<fo:block font-weight="bold">Creditor(s)</fo:block>
+						</name>
+						<value>
+							<fo:block hyphenate="true">
+								<xsl:value-of select="$vdJudgmentCreditorName"/>
+							</fo:block>
+							<fo:block hyphenate="true" font-size="9pt">
+								<xsl:value-of select="$vdJudgmentCreditorReference"/>
+							</fo:block>
+						</value>
+					</parameter>
+					<parameter>
+						<name>
+							<fo:block font-weight="bold">Debtor</fo:block>
+						</name>
+						<value>
+							<fo:block hyphenate="true">
+								<xsl:value-of select="$vdJudgmentDebtorName"/>
+							</fo:block>
+						</value>
+					</parameter>
+					<parameter>
+						<name>
+							<fo:block font-weight="bold">Date</fo:block>
+						</name>
+						<value>
+							<fo:block>
+								<xsl:value-of select="$vdEventDate"/>
+							</fo:block>
+						</value>
+					</parameter>
+				</caseparameters>
+			</courtcase>
+			<bodyintroright><fo:block space-before="0.4cm"><fo:inline text-align="center"><seal/></fo:inline></fo:block></bodyintroright>
+		
+			<body>
+				<editable useid="N100C7">
+				<fo:block space-before="1.0cm" space-after="0.6cm">
+					<fo:inline font-weight="bold">On </fo:inline> <xsl:value-of select="$vdHearingAtCourtDate"/>, <xsl:value-of select="$vdJudge"/>
+				</fo:block>
+				<fo:block>
+					sitting at <xsl:value-of select="$vdHearingAtCourtNameDescription"/>, <xsl:value-of select="$vdHearingAtCourtAddress"/>
+				</fo:block>
+				<fo:block space-after="0.6cm">
+					read the order made on <xsl:value-of select="$vdQuestioningDate"/>,
+					<xsl:if test="string-length($vdAffidavitServedBy) > 0"> the certificate dated <xsl:value-of select="$vdDisobedienceServiceDate"/> of the bailiff,</xsl:if>
+					the affidavit<xsl:if test="$vdAffidavitServiceDate != $emptyDate ">s</xsl:if> of 
+					<xsl:if test="string-length($vdAffidavitServedBy) > 0">&#xa0;<xsl:value-of select="$vdAffidavitServedBy"/> sworn on <xsl:value-of select="$vdAffidavitServiceDate"/> and  </xsl:if>
+					<xsl:value-of select="$vdAffidavitExpenseBy"/> sworn on <xsl:value-of select="$vdAffidavitExpenseDate"/> 
+					<xsl:if test="string-length($vdAffidavitServedBy) > 0"> respectively as to service of the order and </xsl:if>
+					as to the provision of travelling expenses and the certificate dated <xsl:value-of select="$vdNonAttendanceDate"/> of 
+					<xsl:if test="$vdCertifiedNonAttendance = 'J'"><xsl:value-of select="$vdCertifiedNonAttendanceJudge"/></xsl:if>
+					<xsl:if test="$vdCertifiedNonAttendance != 'J'">the Court Officer</xsl:if>.
+				</fo:block>
+				<fo:block space-after="0.6cm">
+					<fo:inline font-weight="bold">and the court is satisfied</fo:inline> that
+				</fo:block>
+				<fo:block space-after="0.6cm">
+					1. <xsl:value-of select="$vdWhoIs"/> was ordered to attend court on <xsl:value-of select="$vdDisobedienceHearingDate"/> to be questioned.
+				</fo:block>
+				<fo:block space-after="0.6cm">
+					2. the order to attend was served on <xsl:value-of select="$vdWhoIs"/> on <xsl:value-of select="$vdDisobedienceServiceDate"/>.
+				</fo:block>
+				<xsl:if test="$vdExpensesPaidDate != $emptyDate">
+					<fo:block space-after="0.6cm">3. on <xsl:value-of select="$vdExpensesPaidDate"/> the judgment creditor paid <xsl:value-of select="$vdWhoIs"/> a sufficient sum for travelling expenses.</fo:block>
+				</xsl:if>
+				<xsl:if test="$vdExpensesPaidDate = $emptyDate">
+					<fo:block space-after="0.6cm">3. <xsl:value-of select="$vdWhoIs"/> did not within seven days of the service of the order request from the judgment creditor payment of a sufficient sum for travelling expenses.</fo:block>
+				</xsl:if>
+				<fo:block space-after="0.6cm">
+					4. <xsl:value-of select="$vdWhoIs"/>&#xa0;<xsl:value-of select="$vdDisobedienceSuspendedReason"/>
+					<xsl:if test="string-length($vdSpecificQuestionDetail) > 0">&#xa0;<xsl:value-of select="$vdSpecificQuestionDetail"/></xsl:if>
+				</fo:block>
+				<fo:block space-after="0.6cm">
+					And that <xsl:value-of select="$vdWhoIs"/> has been guilty of contempt of court by disobeying the order of <xsl:value-of select="$vdQuestioningDate"/>
+				</fo:block>
+				<fo:block space-after="0.6cm">
+					<fo:inline space-after="0.4cm" font-weight="bold">and the court orders</fo:inline> that <xsl:value-of select="$vdWhoIs"/>, <xsl:value-of select="$vdWhereIs"/> be committed to Her Majesty's Prison <xsl:value-of select="$vdDisobedienceArrestPrisonName"/> for a period of <xsl:value-of select="$vdDisobedienceArrestCommittalDays"/> days
+				</fo:block>
+				<fo:block space-after="0.6cm">
+					<fo:inline space-after="0.4cm" font-weight="bold">1.</fo:inline> this order shall be suspended so long as <xsl:value-of select="$vdWhoIs"/> attends court at <xsl:value-of select="$vdHearingTime"/> on <xsl:value-of select="$vdHearingDate1"/> at <xsl:value-of select="$vdHearingCourtNameDescription"/>, <xsl:value-of select="$vdHearingCourtAddress"/> and complies with the order made on <xsl:value-of select="$vdQuestioningDate"/>
+					<xsl:if test="string-length($vdComplianceDetails) > 0"> and <xsl:value-of select="$vdComplianceDetails"/></xsl:if>.
+				</fo:block>
+				<fo:block space-after="0.6cm">
+					<fo:inline space-after="0.4cm" font-weight="bold">2.</fo:inline> if <xsl:value-of select="$vdWhoIs"/> does not comply with these terms, a warrant of arrest shall be issued and <xsl:value-of select="$vdWhoIs"/> shall, when arrested, be brought before a judge to consider whether the committal order should be discharged.
+				</fo:block>
+				<fo:block space-after="0.6cm">
+					<xsl:if test="$vdOrderForCosts = 'Y'"><fo:inline font-weight="bold">3.</fo:inline> and that <xsl:value-of select="$vdWhoIs"/> pay the judgment creditors costs of attending of 
+					&#163;<xsl:value-of select="$vdDisobedienceSuspendedCostsAmount"/>, on or before <xsl:value-of select="$vdCostPaymentDate"/>
+					</xsl:if>
+				</fo:block>
+		</editable>
+				<fo:block break-before="page"/>				
+				<xsl:if test="$vdN39ServedBy != 'A'">
+				<fo:block space-after="20cm">&#xa0;</fo:block>				
+					<fo:table table-layout="fixed">
+						<fo:table-column column-width="19.28cm"></fo:table-column>
+						<fo:table-body>
+							<fo:table-row keep-with-next="always">
+								<fo:table-cell padding-top="0.3cm" border-top-style="solid" border-top-width="0.08cm">
+									<fo:block space-after="0.4cm" font-size="12pt" font-weight="bold">Certificate of Service</fo:block>
+								</fo:table-cell>
+							</fo:table-row>
+							<fo:table-row keep-with-next="always">
+								<fo:table-cell padding-left="0.5cm">
+									<fo:block space-after="0.8cm" font-size="10pt">I certify that a copy of this order was served by me on <xsl:value-of select="$vdWhoIs"/>, the judgment debtor, </fo:block>
+								</fo:table-cell>
+							</fo:table-row>
+							<fo:table-row keep-with-next="always">
+								<fo:table-cell padding-left="0.5cm">
+									<fo:block space-after="0.8cm" font-size="10pt">on __________________________________________________.</fo:block>
+								</fo:table-cell>
+							</fo:table-row>
+							<fo:table-row keep-with-next="always">
+								<fo:table-cell padding-left="0.5cm">
+									<fo:block space-after="0.2cm" font-size="10pt">Signed ______________________________________</fo:block>
+								</fo:table-cell>
+							</fo:table-row>
+							<fo:table-row keep-with-next="always">
+								<fo:table-cell padding-left="2.5cm">
+									<fo:block font-size="10pt">Bailiff of the County Court</fo:block>
+								</fo:table-cell>
+							</fo:table-row>
+						</fo:table-body>
+					</fo:table>
+				</xsl:if>
+			</body>
+			<defaultFooter id="CJR083"/>
+			<!--/xsl:if-->
+		</section>
+		<section name="letter">
+			<layout>letter</layout>
+			<duplex/>
+			<logo/>
+			<addressee>
+				<instigators/>
+			</addressee>
+			<body>
+				<editable useid="N10235">
+				<fo:block font-size="10pt" space-before="0.8cm" space-after="0.4cm">Dear Sirs</fo:block>
+				<fo:block font-size="10pt" space-after="0.4cm">
+					Re: Case number <xsl:value-of select="$vdClaimNumber"/>&#xA0;<xsl:value-of select="$vdInstigatorName"/> -v- <xsl:value-of select="$vdSubjectName"/>
+				</fo:block>
+				<xsl:if test="$vdEventId = '32'">
+					<fo:block font-size="10pt" space-after="0.4cm">
+						Please note that the order for the debtor's <xsl:if test="$vdDisobedienceSuspendedServedBy = 'B'">(or officer's)</xsl:if> committal to prison has today been reissued.  
+						The order has been suspended so long as the debtor attends court to be <xsl:if test="$vdDisobedienceSuspendedServedBy = 'B'">questioned.</xsl:if><xsl:if test="$vdDisobedienceSuspendedServedBy != 'B'">questioned (on a new date).</xsl:if>						
+					</fo:block>
+				</xsl:if>
+				<xsl:if test="$vdEventId != '32'">
+					<fo:block font-size="10pt" space-after="0.4cm">
+						<xsl:if test="$vdDisobedienceSuspendedServedBy != 'B'">Please note that an order for the debtor's committal to prison has today been issued because the debtor failed to comply with an order to attend court for questioning.  The order has been suspended so long as the debtor attends court to be questioned (on a new date).</xsl:if>
+						<xsl:if test="$vdDisobedienceSuspendedServedBy = 'B'">Please note, the judgment debtor (or officer of the debtor company) has failed to comply with an order to attend court for questioning.  An order for the debtor's (or officer's) committal to prison has today been issued.  The order has been suspended so long as the debtor attends court to be questioned.</xsl:if>						
+					</fo:block>					
+				</xsl:if>
+				<fo:block font-size="10pt" space-after="0.4cm">
+					<xsl:if test="$vdEventId ='32'">A new</xsl:if><xsl:if test="$vdEventId !='32'">An</xsl:if> appointment has been made for:
+				</fo:block>
+				<fo:block font-size="10pt" space-after="0.4cm">
+					the <xsl:value-of select="$vdHearingDate1"/> at <xsl:value-of select="$vdHearingTime"/>
+				</fo:block>
+				<fo:block font-size="10pt" space-after="0.4cm">
+					at <xsl:value-of select="$vdHearingCourtNameDescription"/>, <xsl:value-of select="$vdHearingCourtAddress"/>
+				</fo:block>
+				<fo:block font-size="10pt" font-weight="bold" space-after="0.4cm">
+					Please note the address where the questioning will take place.  This may not be at the same court that issued your application.  Unless a judge has consented to conduct the debtor's
+					questioning, you need not attend.
+				</fo:block>
+				<xsl:if test="$vdDisobedienceSuspendedServedBy != 'B'">
+					<fo:block font-size="10pt" space-after="0.4cm">
+						Two copies of Form N79A (suspended committal order) are enclosed with this letter. One copy of the order must be served on the judgment debtor (or officer) personally no less than 14 days before the date for questioning.
+						<fo:inline font-weight="bold">Serving an order personally means handing it to the judgment debtor (or officer).  Please note, it cannot be left with another person or simply posted through a letterbox.</fo:inline>
+					</fo:block>
+					<fo:block font-size="10pt" space-after="0.4cm">
+						The second copy of the order must be attached (exhibited) to an affidavit of service and the affidavit filed with the court <fo:inline font-weight="bold">where the questioning is to take place</fo:inline> no later than 2 days before the date for questioning, or at the hearing.
+						A blank form of affidavit (Form EX550) is available from any County Court hearing centre.  If you are unable to serve the debtor in time, you must return the orders to the court where the questioning is to take place no later than 7 days before the date and ask for a new one.
+					</fo:block>
+				</xsl:if>
+				<xsl:if test="$vdDisobedienceSuspendedServedBy = 'B'">
+					<fo:block font-size="10pt" space-after="0.4cm">
+						The county court bailiff will serve the order on the debtor.  If the bailiff is unable to serve the debtor in time, you will be told and a new date will be given.
+					</fo:block>
+				</xsl:if>
+				<fo:block font-size="10pt" space-after="1.5cm">Yours sincerely,</fo:block>
+				<fo:block font-size="10pt"><xsl:value-of select="$vdName"/></fo:block>
+				<fo:block font-size="10pt"><xsl:value-of select="$vdSection"/> Section</fo:block>
+				<fo:block font-size="10pt">Ext <xsl:value-of select="$vdExtension"/></fo:block>
+			</editable>
+			</body>
+			<letterfooter id="CJR083"/>
+		</section>
+	</sections>
+</root>

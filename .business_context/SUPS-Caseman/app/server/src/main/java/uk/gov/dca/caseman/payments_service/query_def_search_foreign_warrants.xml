@@ -1,0 +1,38 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: Payments
+	Method: searchForeignWarrants()
+	File: query_def_search_foreign_warrants.xml
+	Author: Steve Blair
+-->
+<QueryDef>
+	<DBMapDef location="uk/gov/dca/caseman/payments_service/map_search_enforcements.xml" />
+	<Query pivotNode="/SearchResults/Enforcement" tables="W C">
+		<SQL type="select">
+			SELECT	W.WARRANT_ID AS "C.ENFORCEMENT_NUMBER",
+						W.LOCAL_WARRANT_NUMBER AS "C.DISPLAY_NUMBER",
+						'FOREIGN WARRANT' AS "C.ENFORCEMENT_TYPE",
+						W.DEFENDANT1 AS "C.DEFENDANT1",
+						W.DEFENDANT2 AS "C.DEFENDANT2",
+						W.ISSUED_BY AS "C.ISSUING_COURT",
+						W.EXECUTED_BY AS "C.EXECUTING_COURT",
+						W.CURRENTLY_OWNED_BY AS "C.OWNING_COURT"
+			FROM	WARRANTS W
+			WHERE	W.LOCAL_WARRANT_NUMBER = ${param.localWarrantNumber} AND
+						W.EXECUTED_BY = ${param.executingCourt}
+		</SQL>
+		<Modify notModifiable="true" />
+	</Query>
+	<Query pivotNode="/SearchResults/Enforcement/Outstanding" tables="W WR RC">
+		<SQL type="select">
+			SELECT	DECODE(COUNT(*), 0, 'Y', 'N') AS "C.OUTSTANDING"
+			FROM		WARRANT_RETURNS WR,
+						RETURN_CODES RC
+			WHERE	WR.WARRANT_ID = ${C.ENFORCEMENT_NUMBER} AND
+	        			WR.ERROR_INDICATOR = 'N' AND
+	        			WR.RETURN_CODE = RC.RETURN_CODE AND
+	        			RC.RETURN_TYPE = 'F'
+		</SQL>
+		<Modify notModifiable="true" />
+	</Query>
+</QueryDef>

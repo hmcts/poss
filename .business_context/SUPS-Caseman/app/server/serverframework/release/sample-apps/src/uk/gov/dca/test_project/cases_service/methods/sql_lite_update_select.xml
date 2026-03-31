@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<service-method>
+	<pipeline>
+		<SQLLite>
+			<DataSource id="java:SupsDS"/>
+			<Param name="params.caseNumber" xpath="/params/param[@name='caseNumber']"/>
+			<Param name="params.caseType" xpath="/params/param[@name='caseType']"/>
+			<SQL type="select">
+				UPDATE CASES SET CASE_TYPE=${params.caseType}
+				WHERE CASE_NUMBER=${params.caseNumber}
+			</SQL>
+		</SQLLite>
+	</pipeline>
+	<Security roles="user"/>
+</service-method>

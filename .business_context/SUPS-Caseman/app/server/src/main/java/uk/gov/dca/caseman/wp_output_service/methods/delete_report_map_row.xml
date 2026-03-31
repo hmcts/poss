@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: WpOutput
+	Method:  deleteReportMapRow()
+	File:    delete_report_map_row.xml
+	Author:  Chris Vincent
+	Created: 04/12/2012
+	Description: 
+	    Bulk Printing release - Trac 4761
+		Delete any REPORT_MAP rows associated with a particular case event that have yet to be
+		processed i.e. the LEGACY_PATH column ends in either 'input' or 'process'.
+	Change History:
+-->
+<service-method>
+	<pipeline>
+		<SQLLite output="input">
+			<DataSource id="java:OracleDS"/>
+			<Param name="param.caseEventSeq" xpath="/params/param[@name = 'caseEventSeq']"/>
+			<SQL type="update" tables="T">
+				DELETE FROM report_map rm
+				WHERE rm.report_queue_id IN (
+					SELECT rq.id 
+					FROM report_queue rq, wp_output wo
+					WHERE wo.event_seq IS NOT NULL
+					AND wo.event_seq = ${param.caseEventSeq}	
+					AND wo.final_ind = 'Y'
+					AND rq.document_id = wo.xmlsource
+				)
+				AND (rm.legacy_path LIKE '%input' OR rm.legacy_path like '%process')				
+			</SQL>
+		</SQLLite>	
+	</pipeline>
+	<Security roles="medium high wcSuper scSuper bmsSuper aeSuper dmSuper cpSuper ccbcMan ccbcUser ccbcSGB2"/>				
+</service-method>

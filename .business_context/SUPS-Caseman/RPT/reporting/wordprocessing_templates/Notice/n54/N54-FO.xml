@@ -1,0 +1,218 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- ====================================================================== -->
+<!--  -->
+<!-- FILENAME: $Source: C:/CVSRepository/serveroas/src/uk/gov/dca/caseman/wordprocessing_templates/Notice/n54/N54-FO.xml,v $ -->
+<!--  -->
+<!-- AUTHOR: $Author: shane $-->
+<!--  -->
+<!-- DATE: $Date: 2006/04/25 15:22:26 $ -->
+<!--  -->
+<!-- Version: $Revision: 1.5 $ -->
+<!--  -->
+<!-- DESCRIPTION: This stylesheet is used to create an XSL:FO document that -->
+<!-- can be processed into a PDF version.  Business logic -->
+<!-- is embedded to generate the correct document text for the order -->
+<!-- required. -->
+<!--  -->
+<!-- INPUTS: XML document containing: the answers to questions asked of the -->
+<!-- user; case data retrieved from the database; HTML representing the  -->
+<!-- body of the document content (already edited by the user). -->
+<!--  -->
+<!-- OUTPUTS: XML document with FO tags containing instructions for the -->
+<!-- creation of a PDF document. -->
+<!--  -->
+<!-- ====================================================================== -->
+<root xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:fo="http://www.w3.org/1999/XSL/Format" xmlns="http://eds.com/supsfo">
+	<variables>@word.processing.url.xsl@supsfo.xsl</variables>
+	<addressee copies="2">
+		<!-- Set the isNoticeOfEviction attribute so the address gets modified -->
+		<!-- with the literal text "AND ALL OTHER OCCUPIERS" -->		
+		<selectedWarrantPartyAgainst isNoticeOfEviction="true"/> 
+		<!-- <warrantPartyFor/> -->
+	</addressee>
+	<header>
+		<fo:block font-size="16pt" font-weight="bold">Notice of Eviction</fo:block>
+	</header>
+	<courtcase>
+		<court>
+			<xsl:copy-of select="$vdWarrantCourtHeaderBlock"/>
+		</court>
+		<caseparameters>
+			<parameter>
+				<name>
+					<fo:block font-weight="bold">Claim Number</fo:block>
+				</name>
+				<value>
+					<fo:block>
+						<xsl:value-of select="$vdClaimNumber"/>
+					</fo:block>
+				</value>
+			</parameter>
+			<parameter>
+				<name>
+					<fo:block font-weight="bold">Warrant Number</fo:block>
+				</name>
+				<value>
+					<fo:block>
+						<xsl:value-of select="$vdWarrantNumber"/>
+					</fo:block>
+				</value>
+			</parameter>
+			<parameter>
+				<name>
+					<fo:block font-weight="bold">Date</fo:block>
+				</name>
+				<value>
+					<fo:block>
+						<xsl:value-of select="$vdWarrantReceiptDate"/>
+					</fo:block>
+				</value>
+			</parameter>
+		</caseparameters>
+	</courtcase>
+	
+	
+	<body>
+		<fo:block space-after="0.4cm">
+			The court has issued a warrant for the possession of the above property (land) at the request of the claimant. The warrant gives a county court bailiff the authority to evict you and hand over possession to the claimant. 
+			This notice tells you the time and date when the eviction will take place, what will happen on that date, and what you can do.
+		</fo:block>
+			
+		<fo:block font-weight="bold" space-after="0.4cm">			
+			The eviction will take place on <xsl:value-of select="$vdAppointmentDate"/> at <xsl:value-of select="$vdAppointmentTime"/>
+		</fo:block>
+		<fo:block space-after="1.0cm">
+			You should arrange to leave the property (land) with your belongings before this date and time.
+		</fo:block>
+	</body>
+		
+		<footnote noteextent="10.7">
+		<fo:block space-after="0.1cm" font-family="Times" text-align="justify">
+				
+			<fo:table table-layout="fixed">
+				<fo:table-column column-width="6.42cm"/>
+				<fo:table-column column-width="3.21cm"></fo:table-column>
+				<fo:table-column column-width="3.21cm"></fo:table-column>
+				<fo:table-column column-width="6.42cm"/>
+					<fo:table-body>
+						<fo:table-row keep-with-next="always">
+							<fo:table-cell   padding-left="0.1cm" padding-right="0.1cm">
+								<fo:block font-weight="bold" font-size="10pt">						
+									What will happen
+								</fo:block>
+								<fo:block font-size="8pt">
+									A possession warrant gives the bailiff authority to remove anyone still in the property (on the land) at the time the eviction is due to take place. A representative of the claimant will attend with the bailiff. That representative will change any locks, or take any other steps neccessary to prevent re-entry. If you have not removed all of your belongings when the eviction takes place, 
+									you will only be allowed time to do so if the claimant's representative agrees.
+								</fo:block>
+								<fo:block font-weight="bold" font-size="10pt">
+									What you can do
+								</fo:block>
+								<fo:block font-size="8pt">
+									You can get help and advice about the eviction, or about re-housing from an advice agency, a solicitor or your local Housing Department. 
+									<fo:inline font-weight="bold">Act immediately.</fo:inline>
+								</fo:block>
+								<fo:block font-size="8pt">
+									<fo:inline font-weight="bold">In some circumstances, the court can decide to suspend the warrant and postpone the date for eviction.</fo:inline> 
+									You should get advice now about whether the court may do so in your case. 
+									If it can, you must apply to the court setting out your grounds (reasons) for asking that it should. 
+								</fo:block>
+							</fo:table-cell>
+							<fo:table-cell number-columns-spanned="2" padding-left="0.1cm" padding-right="0.1cm">
+								<fo:block font-size="8pt">
+									It is not sufficient just to say that you have not been able to find somewhere else to live. If you wish to apply, you should ask the court for a Form N244 (Application Notice). 
+									Once you have filled in the form with your request and the grounds on which you are making it, you will be given an appointment to see a judge. The claimant will be sent a copy of your application. You will have to pay a fee unless you qualify for fee exemption or remission. 
+									A member of the court's staff will be able to give you more details about this.
+								</fo:block>
+								<fo:block font-size="8pt">
+									You must attend at the time and date given on the notice. The claimant, or the claimant's representative, may also attend. If you do not go to the hearing, the judge may simply dismiss your application and you could incur additional court costs.
+								</fo:block>
+								<fo:block font-size="8pt">
+									<fo:inline font-weight="bold">If you can pay off any arrears,</fo:inline> contact the claimant, or the claimant's solicitor, immediately you get this notice. 
+									Any payments must be made to the claimant and not to the court. Make sure 
+								</fo:block>
+							</fo:table-cell>
+							<fo:table-cell padding-left="0.1cm" padding-right="0.1cm" number-rows-spanned="2">
+								<fo:block font-size="8pt" space-after="0.4cm">
+									that you get a receipt for any payments you make. It will be for the claimant to decide whether your payment is sufficient to stop the eviction. If it is, the claimant must let the court know before the eviction is due to take place.
+								</fo:block>
+								<fo:block font-size="10pt">
+									<fo:inline font-weight="bold">Contact</fo:inline>
+								</fo:block>
+								<fo:block>
+								<fo:table>
+									<fo:table-column column-width="6.2cm"/>
+										<fo:table-body>
+											<fo:table-row>
+												<fo:table-cell padding= "0.2cm" border-top-style="solid" border-top-width="0.02cm" border-left-style="solid" border-left-width="0.02cm" border-right-style="solid" border-right-width="0.02cm" border-bottom-style="solid" border-bottom-width="0.02cm">
+													<fo:block font-size="8pt">
+														You can contact the bailiff  
+													</fo:block>
+													<fo:block font-size="8pt">
+														<xsl:value-of select="$vdBailiffName"/> who will be responsible
+													</fo:block>
+													<fo:block font-size="8pt">
+														for the eviction, by telephoning <xsl:value-of select="$vdBailiffTelephone"/>
+													</fo:block>
+													<fo:block font-size="8pt">
+														Monday to Friday between the hours of 
+													</fo:block>
+													<fo:block font-size="8pt">
+														<xsl:value-of select="$vdBailiffAvailability"/> 
+													</fo:block>
+													<fo:block font-size="8pt">
+														The claimant (claimant's solicitor) is 
+													</fo:block>
+													<fo:block font-size="8pt">
+														<!-- Defect 3985: <xsl:value-of select="$vdClaimantName"/> -->
+														<xsl:value-of select="$vdPartyForOrSolicitorName"/>
+													</fo:block>
+													<fo:block font-size="8pt">
+														of
+													</fo:block>
+													<fo:block font-size="8pt">
+														<!-- Defect 3985: <xsl:value-of select="$vdClaimantAddressMultiline"/> -->
+														<xsl:value-of select="$vdPartyForOrSolicitorAddress"/>
+													</fo:block>
+													<fo:block font-size="8pt">
+<!--														whose telephone number(if available) is <xsl:value-of select="$vdClaimanttelephoneNumber"/>-->
+														whose telephone number (if available) is 													
+													</fo:block>
+													<fo:block font-size="8pt">
+														<xsl:value-of select="$vdPartyForOrSolicitorTelephoneNumber"/>
+													</fo:block>
+													<fo:block font-size="8pt" space-after="0.4cm">
+														Quote reference <xsl:value-of select="$vdPartyForOrSolicitorReference"/>
+													</fo:block>
+												</fo:table-cell>								
+										</fo:table-row>								
+									</fo:table-body>				
+								</fo:table>
+								</fo:block>																
+							</fo:table-cell>
+						</fo:table-row>						
+
+						<fo:table-row>	
+							<fo:table-cell start-indent="0.5cm" border-style="solid" border-width="0.02cm" number-columns-spanned="2">
+								<fo:table table-layout="fixed">	
+									<fo:table-body>	
+										<fo:table-row>	
+											<fo:table-cell height="3.6cm" width="6.0cm">								
+												<address suppressborder="true">
+													<xsl:call-template name="noticeOfEvictionAddressee"/>
+												</address>	
+											</fo:table-cell>							
+										</fo:table-row>	
+									</fo:table-body>
+									
+								</fo:table>
+							</fo:table-cell>
+											
+						</fo:table-row>	
+						
+				</fo:table-body>			
+			</fo:table>		
+		</fo:block>
+	</footnote>
+
+	<defaultFooter id="N54"/>
+</root>

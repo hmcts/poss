@@ -1,0 +1,687 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- 10-Nov-2006 Phil Haferer: Candidate Z 171: Three apostrophies in Xpath fix. Marked [101106-PH:171 Xpath] -->
+<!--
+	19/12/2006 - CV - Added F6 keybinding to LOV via CourtsLOVGrid.raise configuration.
+	Temp_Caseman defects 299/334.
+-->
+<!--Question xmlns="http://eds.com/questionxhtml" xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd"-->
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>Q_HearingAtThisOfficeAddress_CO</Id>
+	<Label>Hearing At This Office Address</Label>
+	<ObjectName>HearingAtThisOfficeAddress</ObjectName>
+	<Html>
+		<select id="HearingAtThisOfficeAddress">
+			<option value=""></option>
+			<option value="Y">YES</option>
+			<option value="N">NO</option>
+		</select>
+		<!-- Venue Selection popup -->
+		<div class="popup" id="SelectVenue_Popup">
+			<table class="content">
+				<tr><td>
+						<table>
+							<tr><td><label for="SelectVenue_VenueCode">Venue</label></td>
+								<td><input type="text" id="SelectVenue_VenueCode" size="3"></input></td>
+								<td><script type="text/javascript">AutoCompletionRenderer.createInline("SelectVenue_VenueName");</script></td>
+								<td><input id="SelectVenue_VenueLOVBtn" type="button" value="LOV"></input></td>
+							</tr>
+						</table>
+					</td>
+				</tr>
+				<tr><td valign="top">
+						<table width="95%">
+							<tr><td><script type="text/javascript">
+										Grid.createInline("selectVenue_Address_Grid",["Address 1", "Address 2"], 12, 1); 
+									</script></td>
+							</tr>
+						</table>
+					</td>
+					<td><table>
+							<tr><td><label for="SelectVenue_ContactDetails_Address_Line1">Address Details</label></td>
+								<td><input type="text" id="SelectVenue_ContactDetails_Address_Line1" size="50"></input></td>
+							</tr>
+							<tr><td> </td>
+								<td><input type="text" id="SelectVenue_ContactDetails_Address_Line2" size="50"></input></td>
+							</tr>
+							<tr><td>  </td>
+								<td><input type="text" id="SelectVenue_ContactDetails_Address_Line3" size="50"></input></td>
+							</tr>
+							<tr>
+								<td> </td>
+								<td><input type="text" id="SelectVenue_ContactDetails_Address_Line4" size="50"></input></td>
+							</tr>
+							<tr><td> </td>
+								<td><input type="text" id="SelectVenue_ContactDetails_Address_Line5" size="50"></input></td>
+							</tr>
+							<tr>
+								<td><label for="SelectVenue_ContactDetails_Address_Postcode">Postcode</label></td>
+								<td><input type="text" id="SelectVenue_ContactDetails_Address_Postcode" size="15"></input></td>
+							</tr>
+							<tr><td><label for="SelectVenue_ContactDetails_Address_DXNumber">DX Number</label></td>
+								<td><input type="text" id="SelectVenue_ContactDetails_Address_DXNumber" size="30"></input></td>
+							</tr>
+							<tr><td><label for="SelectVenue_ContactDetails_Address_TelephoneNumber">Telephone Number</label></td>
+								<td><input type="text" id="SelectVenue_ContactDetails_Address_TelephoneNumber" size="30"></input></td>
+							</tr>
+							<tr><td><label for="SelectVenue_ContactDetails_Address_FaxNumber">Fax Number</label></td>
+								<td><input type="text" id="SelectVenue_ContactDetails_Address_FaxNumber" size="30"></input></td>
+							</tr>
+						</table>
+					</td>
+				</tr>
+				<tr style="height: 2px;">
+					<td colspan="2"> </td>
+				</tr>
+				<tr><td colspan="2" align="right"><input type="button" value="OK" id="SelectVenue_OKBtn"></input></td>
+					<td colspan="2" align="right"><input type="button" value="Cancel" id="SelectVenue_CancelBtn"></input></td>
+				</tr>
+			</table>
+		</div>
+		<!-- Venue Selection popup -->
+		<!-- Select hearing/court opoup popup -->
+		<script type="text/javascript">
+			LOVPopupRenderer.createInline( "CourtsLOVGrid", "Courts", ["Code", "Court"], 12, 1, true );
+		</script>
+	</Html>
+	<Javascript>
+		<XPath>/ds/var/page/OracleReportForm/HearingAtThisOfficeAddress</XPath>
+		<ReportVariableName>HRG_AT_THIS_OFFICE</ReportVariableName>
+		<ReportVariableCode>12205</ReportVariableCode>
+		<!-- <ParameterType>S</ParameterType>	 -->
+		<ReportVariableValue>Services.getValue(HearingAtThisOfficeAddress.dataBinding)</ReportVariableValue>
+		<HintText>Enter Y if the hearing is at this office address - list available</HintText>
+		<isMandatory>return true;</isMandatory>
+		<initialise>
+			var thisCourtCode = Services.getValue(VAR_PAGE_XPATH + "/tmp/OwningCourtCode");
+			Services.setValue(SelectVenue_VenueCode.dataBinding, thisCourtCode);
+		</initialise>
+		<setDefault>
+		</setDefault>		
+		<validateOn>
+		</validateOn>
+		<validate>
+		</validate>
+		<logicOn>
+			HearingAtThisOfficeAddress.dataBinding
+		</logicOn>
+		<logic>
+			//debugger;
+			var hearingAtThisOfficeAddress = Services.getValue(HearingAtThisOfficeAddress.dataBinding);
+			//alert(hearingAtThisOfficeAddress);
+			if (!CaseManUtils.isBlank(hearingAtThisOfficeAddress))
+			{
+				if (hearingAtThisOfficeAddress == 'N')
+				{
+					//alert("Needs Showing Courts LOV");
+					//getCourtsData();
+					Services.dispatchEvent("SelectVenue_Popup", PopupGUIAdaptor.EVENT_RAISE);
+				}
+				else
+				{
+					getOwningCourtData();
+					//alert("Needs Showing Existing court into various values below");
+				}
+			}
+		</logic>
+		<miscCode>
+			OracleReportForm.refDataServices = 
+			[
+				{name:"SystemDate", dataBinding:REF_DATA_XPATH, serviceName:"getSystemDate", serviceParams:[]},
+				{name:"Courts", dataBinding:REF_DATA_XPATH, serviceName:"getCourts", serviceParams:[]}
+			];	
+				
+			var NEW_HEARING_VENUE_TMP_PATH = "/ds/var/page/Tmp/Venue";
+			var NEW_HEARING_TMP_PATH = "/ds/var/page/Tmp/Hearing";		
+			function SelectVenue_Popup(){}
+			
+			
+		function SelectVenue_Popup(){}
+		SelectVenue_Popup.nextFocusedAdaptorId = function()
+		{ return 'SelectVenue_VenueLOVBtn';   //force framework to move to next available field
+		}
+		
+		
+		
+		/****************************************************************************************************************/
+		/****************************************************************************************************************/
+		/*			SELECT VENUE/COURT - FIELD VALIDATION ETC																	*/
+		/****************************************************************************************************************/
+		
+		
+		function SelectVenue_VenueCode() {}
+		function SelectVenue_VenueName() {}
+		function SelectVenue_ContactDetails_Address_Line1() {}
+		function SelectVenue_ContactDetails_Address_Line2() {}
+		function SelectVenue_ContactDetails_Address_Line3() {}
+		function SelectVenue_ContactDetails_Address_Line4() {}
+		function SelectVenue_ContactDetails_Address_Line5() {}
+		function SelectVenue_ContactDetails_Address_Postcode() {}
+		function SelectVenue_ContactDetails_Address_TelephoneNumber() {}
+		function SelectVenue_ContactDetails_Address_DXNumber() {}
+		function SelectVenue_ContactDetails_Address_FaxNumber() {}
+		function selectVenue_Address_Grid() {};
+		
+		
+		function CourtsLOVGrid() {};
+		CourtsLOVGrid.dataBinding = "/ds/var/page/SelectedLOVRow/OwningCourt";
+		
+		
+		
+		SelectVenue_VenueCode.dataBinding = NEW_HEARING_VENUE_TMP_PATH + "/VenueCode";
+		SelectVenue_VenueName.dataBinding = NEW_HEARING_VENUE_TMP_PATH + "/VenueName";
+		SelectVenue_ContactDetails_Address_Line1.dataBinding = NEW_HEARING_VENUE_TMP_PATH + "/Address/Line[1]";
+		SelectVenue_ContactDetails_Address_Line2.dataBinding = NEW_HEARING_VENUE_TMP_PATH + "/Address/Line[2]";
+		SelectVenue_ContactDetails_Address_Line3.dataBinding = NEW_HEARING_VENUE_TMP_PATH + "/Address/Line[3]";
+		SelectVenue_ContactDetails_Address_Line4.dataBinding = NEW_HEARING_VENUE_TMP_PATH + "/Address/Line[4]";
+		SelectVenue_ContactDetails_Address_Line5.dataBinding = NEW_HEARING_VENUE_TMP_PATH + "/Address/Line[5]";
+		SelectVenue_ContactDetails_Address_Postcode.dataBinding = NEW_HEARING_VENUE_TMP_PATH + "/Address/PostCode";
+		SelectVenue_ContactDetails_Address_DXNumber.dataBinding = NEW_HEARING_VENUE_TMP_PATH + "/DXNumber";
+		SelectVenue_ContactDetails_Address_TelephoneNumber.dataBinding = NEW_HEARING_VENUE_TMP_PATH + "/TelephoneNumber";
+		SelectVenue_ContactDetails_Address_FaxNumber.dataBinding = NEW_HEARING_VENUE_TMP_PATH + "/FaxNumber";
+		selectVenue_Address_Grid.dataBinding = "/ds/var/page/SelectedGridRow/SelectedAddress"; // will use this below to bind fields correctly to correct bit of xml
+		
+		
+		
+		
+		CourtsLOVGrid.srcData = REF_DATA_XPATH + "/Courts";
+		CourtsLOVGrid.rowXPath = "Court";
+		CourtsLOVGrid.keyXPath = "Id";
+		CourtsLOVGrid.columns = [
+			{xpath: "Code"},
+			{xpath: "Name"}
+		];
+			
+        CourtsLOVGrid.raise = {
+	        eventBinding: {
+		        singleClicks: [ {element: "SelectVenue_VenueLOVBtn"} ],
+		        keys: [ { key: Key.F6, element: "SelectVenue_VenueCode" }, { key: Key.F6, element: "SelectVenue_VenueName" } ]
+	        }
+        };
+		
+		// Configure the location in the model which will generate data change events
+		CourtsLOVGrid.logicOn = [CourtsLOVGrid.dataBinding];
+		// Implement the callback
+		CourtsLOVGrid.logic = function()
+		{
+			var id = Services.getValue(CourtsLOVGrid.dataBinding);
+			if (id != null)
+			{
+				// Lookup the hearing type in ref data from the code that is stored in value
+				var xpathCode = REF_DATA_XPATH + "/Courts/Court[Id = " + id + "]/Code";		
+				var xpathName = REF_DATA_XPATH + "/Courts/Court[Id = " + id + "]/Name";		
+				var courtCode = Services.getValue(xpathCode);
+				var courtName = Services.getValue(xpathName);
+				
+				// Set the data in the business part of the model
+				Services.setValue(SelectVenue_VenueCode.dataBinding, courtCode);
+				Services.setValue(SelectVenue_VenueName.dataBinding, courtName);		
+			}
+		} // end of logic()
+		
+		SelectVenue_VenueCode.tabIndex = __tabIdx++;
+		
+		SelectVenue_VenueCode.isReadOnly = function()
+		{
+			return false;
+		}
+		
+		SelectVenue_VenueCode.isTemporary = function()
+		{
+			return false;
+		}
+		
+		SelectVenue_VenueCode.maxLength = 3;
+		
+		SelectVenue_VenueCode.helpText = "Unique three digit court location code - list available.";
+		
+		SelectVenue_VenueCode.isMandatory = function()
+		{	// return VenueName.isMandatory();
+			return true;
+		}
+		
+		SelectVenue_VenueCode.logicOn = [SelectVenue_VenueCode.dataBinding];
+		// Implement the callback
+		SelectVenue_VenueCode.logic = function()
+		{
+			var code = Services.getValue(SelectVenue_VenueCode.dataBinding);
+			// [101106-PH:171 Xpath]
+			var xpathName = REF_DATA_XPATH + "/Courts/Court[./Code = " + SelectVenue_VenueCode.dataBinding + "]/Name";
+			var xpathId = REF_DATA_XPATH + "/Courts/Court[./Code = " + SelectVenue_VenueCode.dataBinding + "]/Id";
+			var venueName = Services.getValue(xpathName);
+			var venueId = Services.getValue(xpathId);
+		
+			// Set the data in the business part of the model
+			if(venueName != null &amp;&amp; venueName != ""){
+				// set the description field appropriately
+				Services.setValue(SelectVenue_VenueName.dataBinding, venueName);		
+				Services.setValue(CourtsLOVGrid.dataBinding, venueId);		
+			}
+			else{
+				// Clear the fields
+				Services.setValue(SelectVenue_VenueName.dataBinding, "");
+			}
+		} // end of logic()
+		
+		SelectVenue_VenueCode.validateOn = [SelectVenue_VenueCode.dataBinding,
+											SelectVenue_VenueName.dataBinding];
+		SelectVenue_VenueCode.validate = function()
+		{
+			var venueCode = Services.getValue(SelectVenue_VenueCode.dataBinding);
+			var venueDesc = Services.getValue(SelectVenue_VenueName.dataBinding);	
+			var errCode = null;
+			if(venueCode != null &amp;&amp; venueCode != ""){				
+				// need to ensure that correct value has been entered.  
+				// If a one has there will be a corresponding Description
+				// &amp;&amp;&amp; NB Will need to look at this in future when auto complete is implemented
+				if(venueDesc == null || venueDesc ==""){
+					errCode = ErrorCode.getErrorCode('CaseMan_invalidCourtCode_Msg');
+				}	
+			}// end of if(typeCode != null &amp;&amp; typeCode != ""){	
+			return errCode;
+		}
+		
+		/************************************************** SelectVenue_VenueName   **************************************************************/
+		
+		
+		SelectVenue_VenueName.tabIndex = __tabIdx++;
+		SelectVenue_VenueName.isReadOnly = function(){ return false; }
+		SelectVenue_VenueName.isTemporary = function(){ return true; }
+		SelectVenue_VenueName.maxLength = 30;
+		SelectVenue_VenueName.helpText = "Name of the Court.";
+		SelectVenue_VenueName.isMandatory = function(){ return true; }
+		SelectVenue_VenueName.validate = function(){ return null; }
+		SelectVenue_VenueName.srcData = REF_DATA_XPATH + "/Courts";
+		SelectVenue_VenueName.rowXPath = "Court";
+		SelectVenue_VenueName.keyXPath = "Code";
+		SelectVenue_VenueName.displayXPath = "Name";
+		SelectVenue_VenueName.logicOn  = [SelectVenue_VenueName.dataBinding];
+		SelectVenue_VenueName.logic = function()
+		{ 
+		   var code = Services.getValue(SelectVenue_VenueName.dataBinding);      
+		   // [101106-PH:171 Xpath]
+		   var xpathId = REF_DATA_XPATH + "/Courts/Court[Code = " + SelectVenue_VenueName.dataBinding + "]/Id";
+		   var id = Services.getValue(xpathId);
+		   if( id != null &amp;&amp; id != "")
+		   { 	Services.setValue(SelectVenue_VenueCode.dataBinding, code);
+		   }
+		   if( null != code &amp;&amp; "" == code )
+		   { Services.setValue(SelectVenue_VenueCode.dataBinding, "");
+		   }
+		}
+		SelectVenue_VenueName.validateOn = [SelectVenue_VenueName.dataBinding];
+		SelectVenue_VenueName.validate = function()
+		{	
+			var vName = Services.getValue(SelectVenue_VenueName.dataBinding);
+			
+			
+			// [101106-PH:171 Xpath]
+			var xp1 = REF_DATA_XPATH + "/Courts/Court[Name = " + SelectVenue_VenueName.dataBinding + "]/Id";
+			var idName = Services.getValue(xp1);
+			xp1 = REF_DATA_XPATH + "/Courts/Court[Code = " + SelectVenue_VenueName.dataBinding + "]/Id";
+			var idCode = Services.getValue(xp1);
+		    
+			// [101106-PH:171 Xpath]
+			// if( null == idName &amp;&amp; null == idCode )  //invalid
+			// {   Services.setValue(SelectVenue_VenueName.dataBinding, '');
+			//     var cd = Services.getValue(VenueCode.dataBinding);
+			// 	Services.setValue(SelectVenue_VenueCode.dataBinding, '');
+			// 	Services.setValue(SelectVenue_VenueCode.dataBinding, cd);
+			// }	
+		}
+		
+		/****************************************************************************************************************/
+		
+		SelectVenue_ContactDetails_Address_Line1.tabIndex = __tabIdx++;
+		SelectVenue_ContactDetails_Address_Line1.isReadOnly = function()  {	return true;}
+		SelectVenue_ContactDetails_Address_Line1.isTemporary = function() {	return true;}
+		SelectVenue_ContactDetails_Address_Line1.isMandatory = function() {	return true;}
+		SelectVenue_ContactDetails_Address_Line1.transformToDisplay = function(value) {
+			return (null != value) ? value.toUpperCase() : null; }
+		SelectVenue_ContactDetails_Address_Line1.transformToModel = function(value) {
+			return (null != value) ? value.toUpperCase() : null; }
+		/****************************************************************************************************************/
+		
+		SelectVenue_ContactDetails_Address_Line2.tabIndex = __tabIdx++;
+		SelectVenue_ContactDetails_Address_Line2.isReadOnly = function() {	return true;}
+		SelectVenue_ContactDetails_Address_Line2.isTemporary = function() { return true;}
+		SelectVenue_ContactDetails_Address_Line2.isMandatory = function() { return true;}
+		SelectVenue_ContactDetails_Address_Line2.transformToDisplay = function(value) {
+			return (null != value) ? value.toUpperCase() : null; }
+		SelectVenue_ContactDetails_Address_Line2.transformToModel = function(value) {
+			return (null != value) ? value.toUpperCase() : null; }
+		/****************************************************************************************************************/
+		SelectVenue_ContactDetails_Address_Line3.tabIndex = __tabIdx++;
+		SelectVenue_ContactDetails_Address_Line3.isReadOnly = function() { 	return true;}
+		SelectVenue_ContactDetails_Address_Line3.isMandatory = function(){ 	return false;}
+		SelectVenue_ContactDetails_Address_Line3.transformToDisplay = function(value) {
+			return (null != value) ? value.toUpperCase() : null; }
+		SelectVenue_ContactDetails_Address_Line3.transformToModel = function(value) {
+			return (null != value) ? value.toUpperCase() : null; }
+		/****************************************************************************************************************/
+		SelectVenue_ContactDetails_Address_Line4.tabIndex = __tabIdx++;
+		SelectVenue_ContactDetails_Address_Line4.isReadOnly = function() { 	return true;}
+		SelectVenue_ContactDetails_Address_Line4.isMandatory = function(){ 	return false;}
+		SelectVenue_ContactDetails_Address_Line4.transformToDisplay = function(value) {
+			return (null != value) ? value.toUpperCase() : null; }
+		SelectVenue_ContactDetails_Address_Line4.transformToModel = function(value) {
+			return (null != value) ? value.toUpperCase() : null; }
+		/****************************************************************************************************************/
+		
+		SelectVenue_ContactDetails_Address_Line5.tabIndex = __tabIdx++;
+		SelectVenue_ContactDetails_Address_Line5.isReadOnly = function() { return true;}
+		SelectVenue_ContactDetails_Address_Line5.isMandatory = function() {	return false;}
+		SelectVenue_ContactDetails_Address_Line5.transformToDisplay = function(value){
+			return (null != value) ? value.toUpperCase() : null; }
+		SelectVenue_ContactDetails_Address_Line5.transformToModel = function(value) {
+			return (null != value) ? value.toUpperCase() : null;} 
+		/****************************************************************************************************************/
+		SelectVenue_ContactDetails_Address_Postcode.tabIndex = __tabIdx++;
+		SelectVenue_ContactDetails_Address_Postcode.isReadOnly = function() {	return true;}
+		SelectVenue_ContactDetails_Address_Postcode.isMandatory = function(){	return false;}
+		SelectVenue_ContactDetails_Address_Postcode.transformToDisplay = function(value) {
+			return (null != value) ? value.toUpperCase() : null; }
+		SelectVenue_ContactDetails_Address_Postcode.transformToModel = function(value) {
+			return (null != value) ? value.toUpperCase() : null; }
+		/****************************************************************************************************************/
+		SelectVenue_ContactDetails_Address_TelephoneNumber.tabIndex = __tabIdx++;
+		SelectVenue_ContactDetails_Address_TelephoneNumber.isReadOnly = function() { return true; }
+		SelectVenue_ContactDetails_Address_TelephoneNumber.isMandatory = function() {	return false;}
+		SelectVenue_ContactDetails_Address_TelephoneNumber.transformToDisplay = function(value) {
+			return (null != value) ? value.toUpperCase() : null; }
+		SelectVenue_ContactDetails_Address_TelephoneNumber.transformToModel = function(value) {
+			return (null != value) ? value.toUpperCase() : null; }
+		/****************************************************************************************************************/
+		SelectVenue_ContactDetails_Address_DXNumber.tabIndex = __tabIdx++;
+		SelectVenue_ContactDetails_Address_DXNumber.isReadOnly = function() {return true;}
+		SelectVenue_ContactDetails_Address_DXNumber.isMandatory = function() { 	return false; }
+		
+		/****************************************************************************************************************/
+		/****************************************************************************************************************/
+		
+		function SelectVenue_ContactDetails_Address_DXNumber() {}
+		SelectVenue_ContactDetails_Address_DXNumber.tabIndex = __tabIdx++;
+		SelectVenue_ContactDetails_Address_DXNumber.isReadOnly = function() { 	return true; }
+		SelectVenue_ContactDetails_Address_DXNumber.isMandatory = function() {	return false;}
+		
+		/****************************************************************************************************************/
+		/****************************************************************************************************************/
+		function SelectVenue_ContactDetails_Address_FaxNumber() {}
+		SelectVenue_ContactDetails_Address_FaxNumber.tabIndex = __tabIdx++;
+		SelectVenue_ContactDetails_Address_FaxNumber.isReadOnly = function() { 	return true;}
+		SelectVenue_ContactDetails_Address_FaxNumber.isMandatory = function(){	return false;}
+		
+		/****************************************************************************************************************/
+		function SelectVenue_VenueLOVBtn() {}
+		
+		SelectVenue_VenueLOVBtn.tabIndex = __tabIdx++;
+		/****************************************************************************************************************/
+		function SelectVenue_OKBtn() {}
+		SelectVenue_OKBtn.actionBinding = function()
+		{
+			// set the details on the add hearing popup
+			// First retrieve values from the tmp area of the DOM
+			var venueCode = Services.getValue(SelectVenue_VenueCode.dataBinding);
+			var venueName = Services.getValue(SelectVenue_VenueName.dataBinding);
+			var addressId = Services.getValue(selectVenue_Address_Grid.dataBinding);
+			var add1 = Services.getValue(SelectVenue_ContactDetails_Address_Line1.dataBinding);
+			var add2 = Services.getValue(SelectVenue_ContactDetails_Address_Line2.dataBinding);	
+			var add3 = Services.getValue(SelectVenue_ContactDetails_Address_Line3.dataBinding);	
+			var add4 = Services.getValue(SelectVenue_ContactDetails_Address_Line4.dataBinding);
+			var add5 = Services.getValue(SelectVenue_ContactDetails_Address_Line5.dataBinding);
+			var postcode = Services.getValue(SelectVenue_ContactDetails_Address_Postcode.dataBinding);		
+			var dxNo = Services.getValue(SelectVenue_ContactDetails_Address_DXNumber.dataBinding);
+			var telNo = Services.getValue(SelectVenue_ContactDetails_Address_TelephoneNumber.dataBinding);
+			var faxNo = Services.getValue(SelectVenue_ContactDetails_Address_FaxNumber.dataBinding);
+			
+			// Need to ensure all mandatory data is entered and all data is valid
+			// If a venue has been selected the address fields are populated automatically.
+			// Just need to ensure that the first address line has detail in and 
+			// therefore no need to validate the other address field   s.
+			var screenValid = true;
+			if((venueCode == null || venueCode == "") || (venueName == null || venueName == "") || (add1 == null || add2 == "")){
+				screenValid = false;	
+			}
+			
+			if(screenValid){
+			  	//if (confirm("feel like debugging?")) debugger;
+			    //something buggy? going on with autocomplete gui: returns a code instead of name
+			    
+			    //check venue name is a code
+				// [101106-PH:171 Xpath]
+		     	var xpathName = REF_DATA_XPATH + "/Courts/Court[./Code = " + SelectVenue_VenueName.dataBinding + "]/Name";	 
+			 	var checkVenueName = Services.getValue(xpathName);
+			 	if( null != checkVenueName &amp;&amp; checkVenueName.length > 0)   
+		    	{  //value of checkVenueName is actually a code
+		    		//replace code with venuename
+		    		venueName = checkVenueName;
+		    	}
+			
+				FormController.getInstance().hideFormExtensionPopup("SelectVenue");
+				// Set the data in the business part of the model
+				Services.setValue(HearingCourtname.dataBinding, venueName);
+				Services.setValue(NEW_HEARING_TMP_PATH + "/Address/AddressId", addressId);
+				Services.setValue(HearingVenueAddressLine1.dataBinding, add1);
+				Services.setValue(HearingVenueAddressLine2.dataBinding, add2);			
+				Services.setValue(HearingVenueAddressLine3.dataBinding, add3);
+				Services.setValue(HearingVenueAddressLine4.dataBinding, add4);
+				Services.setValue(HearingVenueAddressLine5.dataBinding, add5);
+				Services.setValue(HearingVenuePostcode.dataBinding, postcode);	
+				
+				// Clear out the temp data
+				//resetVenuePopup();	
+			}
+			else{
+				//alert("Please ensure you have entered Venue Details.");
+			}// end of if/else(screenValid){
+			//Services.setFocus("VenueLOVBtn"); leave this line out until hearing attendees has an adaptor
+		}
+		
+		SelectVenue_OKBtn.tabIndex = __tabIdx++;
+		/****************************************************************************************************************/
+		function SelectVenue_CancelBtn() {}
+		SelectVenue_CancelBtn.actionBinding = function()
+		{
+			FormController.getInstance().hideFormExtensionPopup("SelectVenue");
+			Services.setValue(HearingAtThisOfficeAddress.dataBinding, "Y")
+			// Clear out the temp data
+			//resetVenuePopup();
+			//Services.setFocus("VenueLOVBtn"); leave this line out until hearing attendees has an adaptor
+		}
+		
+		SelectVenue_CancelBtn.tabIndex = __tabIdx++;
+		/****************************************************************************************************************/
+		
+		
+		// Configure grid (!)
+		
+		selectVenue_Address_Grid.srcData = REF_DATA_XPATH + "/Courts/Court[./Id = " + CourtsLOVGrid.dataBinding + "]/ContactDetails"; //List of Courts/venues addresses
+		selectVenue_Address_Grid.rowXPath = "Address";		// Individual Court/venue
+		selectVenue_Address_Grid.keyXPath = "AddressId";  	// Unique identifier for a Court/venue
+		selectVenue_Address_Grid.columns = [   				// column bindings
+			{xpath: "Line[1]", sort: function(a,b){if(a &lt; b){return 1;};if(a &gt; b){return -1;};return 0;}},
+			{xpath: "Line[2]", sort: function(a,b){if(a &lt; b){return 1;};if(a &gt; b){return -1;};return 0;}}
+		];
+		
+		selectVenue_Address_Grid.retrieveOn = [CourtsLOVGrid.dataBinding];
+		selectVenue_Address_Grid.srcDataOn = [CourtsLOVGrid.dataBinding];
+		
+		// When  a different Address row is selected
+		selectVenue_Address_Grid.logicOn = [selectVenue_Address_Grid.dataBinding,
+											CourtsLOVGrid.dataBinding];
+		
+		// Get the associated Address Data
+		selectVenue_Address_Grid.logic = function()
+		{
+			var courtId = Services.getValue(CourtsLOVGrid.dataBinding);
+			var addressId = Services.getValue(selectVenue_Address_Grid.dataBinding);
+			if (courtId != null &amp;&amp; addressId != null){
+				// Set the address details as necessary.
+				// Set up xpaths
+				var b11 = REF_DATA_XPATH + "/Courts/Court[./Id = ";
+				var b13 = "]/ContactDetails/";
+				var b12 = b13 + "Address[./AddressId = ";
+				var xpathAdd1 = b11 + courtId + b12 + addressId + "]/Line[1]";	
+				var xpathAdd2 = b11  + courtId + b12 + addressId + "]/Line[2]";	
+				var xpathAdd3 = b11  + courtId + b12 + addressId + "]/Line[3]";	
+				var xpathAdd4 = b11  + courtId + b12 + addressId + "]/Line[4]";	
+				var xpathAdd5 = b11  + courtId + b12 + addressId + "]/Line[5]";	
+				var xpathPostcode = b11  + courtId + b12 + addressId + "]/PostCode";	
+				var xpathDXNo  = b11 + courtId + b13 +"DX";	
+				var xpathTelNo = b11 + courtId + b13 +"TelephoneNumber";	
+				var xpathFaxNo = b11 + courtId + b13 +"FaxNumber";	
+				
+				// retrieve values from the DOM
+				var add1 = Services.getValue(xpathAdd1);
+				var add2 = Services.getValue(xpathAdd2);
+				// ensure not adding a null - as these fields are not mandatory		
+				var add3 = Services.getValue(xpathAdd3);
+				if(add3 == null){add3 = "";	}	
+				var add4 = Services.getValue(xpathAdd4);
+				if(add3 == null){add4 = "";}
+				var add5 = Services.getValue(xpathAdd5);
+				if(add3 == null){add5 = "";	}
+				var postcode = Services.getValue(xpathPostcode);		
+				var dxNo = Services.getValue(xpathDXNo);
+				if(dxNo == null){dxNo = "";	}
+				var telNo = Services.getValue(xpathTelNo);
+				if(telNo == null){	telNo = "";	}
+				var faxNo = Services.getValue(xpathFaxNo);
+				if(telNo == null){telNo= "";}
+				
+				// Set the data in the tmp part of the model
+				Services.setValue(SelectVenue_ContactDetails_Address_Line1.dataBinding, add1);
+				Services.setValue(SelectVenue_ContactDetails_Address_Line2.dataBinding, add2);
+				Services.setValue(SelectVenue_ContactDetails_Address_Line3.dataBinding, add3);
+				Services.setValue(SelectVenue_ContactDetails_Address_Line4.dataBinding, add4);
+				Services.setValue(SelectVenue_ContactDetails_Address_Line5.dataBinding, add5);
+				Services.setValue(SelectVenue_ContactDetails_Address_Postcode.dataBinding, postcode);		
+				Services.setValue(SelectVenue_ContactDetails_Address_DXNumber.dataBinding, dxNo);
+				Services.setValue(SelectVenue_ContactDetails_Address_TelephoneNumber.dataBinding, telNo);
+				Services.setValue(SelectVenue_ContactDetails_Address_FaxNumber.dataBinding, faxNo);		
+			}
+		} // end of logic()			
+			
+			function getCourtsData()
+			{
+				var params = new ServiceParams();
+				var node = Services.getNode(REF_DATA_XPATH + "/Courts");
+				if (node == null)
+				{
+					Services.callService("getCourts", params, getCourtsData, true);
+				}
+			}		
+
+			getCourtsData.onSuccess = function(dom)
+			{
+				//debugger;
+				if(dom != null) 
+				{
+					var results = dom.selectSingleNode("/Courts");
+					if(results != null) 
+					{
+						Services.addNode(results, REF_DATA_XPATH);
+					}
+					else 
+					{
+						this.onError();
+					}
+				}
+				else 
+				{
+					this.onError();
+				}				
+			}
+			
+			getCourtsData.onError = function()
+			{
+				alert("Failed to get Courts");
+			}				
+			
+			function getOwningCourtData()
+			{
+				var courtCode = Services.getValue(VAR_PAGE_XPATH + "/tmp/OwningCourtCode");
+				var params = new ServiceParams();
+				params.addSimpleParameter("courtId", courtCode);
+				var node = Services.getNode(REF_DATA_XPATH + "/OwningCourt");
+				if (node == null)
+				{
+					Services.callService("getCourt", params, getOwningCourtData, true);
+				}
+			}		
+
+			getOwningCourtData.onSuccess = function(dom)
+			{
+				//debugger;
+				if(dom != null) 
+				{
+					var results = dom.selectSingleNode("/Courts");
+					if(results != null) 
+					{
+						Services.addNode(results, REF_DATA_XPATH + "/OwningCourt");
+					}
+					else 
+					{
+						this.onError();
+					}
+				}
+				else 
+				{
+					this.onError();
+				}				
+			}
+			
+			getOwningCourtData.onError = function()
+			{
+				alert("Failed to get Court Data for your Court");
+			}				
+			
+			function getCourtCodeForReport()
+			{
+				var hearingAtThisOfficeAddress = Services.getValue(HearingAtThisOfficeAddress.dataBinding);
+				if (!CaseManUtils.isBlank(hearingAtThisOfficeAddress))
+				{
+					if (hearingAtThisOfficeAddress == 'N')
+					{
+						var code = Services.getValue(SelectVenue_VenueCode.dataBinding);
+						return code;
+					}
+					else
+					{
+						var code = Services.getValue(VAR_PAGE_XPATH + "/tmp/OwningCourtCode");
+						return code;
+					}
+				}				
+			}	
+			
+			function getAddressIdForReport()
+			{
+				var hearingAtThisOfficeAddress = Services.getValue(HearingAtThisOfficeAddress.dataBinding);
+				if (!CaseManUtils.isBlank(hearingAtThisOfficeAddress))
+				{
+					if (hearingAtThisOfficeAddress == 'N')
+					{
+						var addrId = Services.getValue(NEW_HEARING_TMP_PATH + "/Address/AddressId");
+						return addrId;
+					}
+					else
+					{
+						var addrId = Services.getValue(HearingCourtAddressId.dataBinding);
+						return addrId;
+					}
+				}				
+			}
+			
+			function getHearingType()
+			{
+				if (orderId == 'N24-1' || orderId == 'N24-2')
+				{
+					return "AE";
+				}
+				else
+				{
+					return orderId;
+				}				
+			}											
+		</miscCode>
+	</Javascript>
+</Question>

@@ -1,0 +1,203 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- ====================================================================== -->
+<!--  -->
+<!-- FILENAME: $Source: C:/CVSRepository/serveroas/src/uk/gov/dca/caseman/wordprocessing_templates/Notice/CJR104/CJR104-FO.xml,v $ -->
+<!--  -->
+<!-- AUTHOR: $Author: conganer $-->
+<!--  -->
+<!-- DATE: $Date: 2006/06/05 14:14:02 $ -->
+<!--  -->
+<!-- Version: $Revision: 1.10 $ -->
+<!--  -->
+<!-- DESCRIPTION: This stylesheet is used to create an XSL:FO document that -->
+<!-- can be processed into a PDF version.  Business logic -->
+<!-- is embedded to generate the correct document text for the order -->
+<!-- required. -->
+<!--  -->
+<!-- INPUTS: XML document containing: the answers to questions asked of the -->
+<!-- user; case data retrieved from the database; HTML representing the  -->
+<!-- body of the document content (already edited by the user). -->
+<!--  -->
+<!-- OUTPUTS: XML document with FO tags containing instructions for the -->
+<!-- creation of a PDF document. -->
+<!--  -->
+<!-- ====================================================================== -->
+<root xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:fo="http://www.w3.org/1999/XSL/Format" xmlns="http://eds.com/supsfo">
+	<variables>@word.processing.url.xsl@supsfo.xsl</variables>
+	<duplex/>
+	<addressee>
+		<blank/>
+		<claimants/>
+		<subject/>
+	</addressee>
+	<header>
+		<fo:block font-size="16pt" font-weight="bold">Remand order</fo:block>
+		<fo:block font-size="16pt" font-weight="bold">(Housing Act 1996)</fo:block>
+		<fo:block font-size="16pt" font-weight="bold">(Bail not granted)</fo:block>
+	</header>
+	<courtcase>
+		<court>
+			<xsl:copy-of select="$vdCourtHeaderBlock"/>
+		</court>
+		<caseparameters>
+			<parameter>
+				<name>
+					<fo:block font-weight="bold">Claim Number</fo:block>
+				</name>
+				<value>
+					<fo:block>
+						<xsl:value-of select="$vdClaimNumber"/>
+					</fo:block>
+				</value>
+			</parameter>
+			<parameter>
+				<name>
+					<fo:block font-weight="bold">Claimant</fo:block>
+					<fo:block font-size="9pt">(including ref.)</fo:block>
+				</name>
+				<value>
+					<fo:block hyphenate="true">
+						<xsl:value-of select="$vdClaimantName"/>
+					</fo:block>
+					<fo:block font-size="9pt" hyphenate="true">
+						<xsl:value-of select="$vdClaimantReference"/>
+					</fo:block>
+				</value>
+			</parameter>
+			<parameter>
+				<name>
+					<fo:block font-weight="bold">Defendant</fo:block>
+					<fo:block font-size="9pt">(including ref.)</fo:block>
+				</name>
+				<value>
+					<fo:block hyphenate="true">
+						<xsl:value-of select="$vdSubjectDefendantName"/>
+					</fo:block>
+					<fo:block font-size="9pt" hyphenate="true">
+						<xsl:value-of select="$vdSubjectDefendantReference"/>
+					</fo:block>
+				</value>
+			</parameter>
+			<parameter>
+				<name>
+					<fo:block font-weight="bold">Date</fo:block>
+				</name>
+				<value>
+					<fo:block>
+						<xsl:value-of select="$vdEventDate"/>
+					</fo:block>
+				</value>
+			</parameter>
+		</caseparameters>
+	</courtcase>
+	<bodyintroright><fo:block space-before="0.4cm"><fo:inline text-align="center"><seal/></fo:inline></fo:block></bodyintroright>
+
+	<body>
+		<editable useid="N100CF">
+		<fo:block space-after="0.8cm"/>
+		<fo:block space-after="0.4cm">
+			On <xsl:value-of select="$vdOrderDate"/>, <xsl:value-of select="$vdJudge"/>
+		</fo:block>
+		<fo:block space-after="0.4cm">
+			sitting at <xsl:value-of select="$vdHearingCourtNameDescription"/>, <xsl:value-of select="$vdHearingCourtAddress"/>
+		</fo:block>
+		<fo:block space-after="0.4cm">
+			considered the order made on <xsl:value-of select="$vdInjunctionDate"/>
+		</fo:block>
+		<fo:block space-after="0.8cm">
+			and heard evidence that the defendant had disobeyed the order. Details of the breach(es) of the order which are alleged by the claimant are set out <xsl:value-of select="$vdBreachAttached"/>
+		</fo:block>
+		<xsl:if test="string-length($vdBreachDetails) > 0">
+			<fo:block space-after="0.4cm">
+				<xsl:copy-of select="$vdBreachDetails"/>
+			</fo:block>		
+		</xsl:if>		
+		<fo:block space-after="0.4cm">
+			<xsl:if test="string-length($vdHousing1) > 0"><xsl:value-of select="$vdHousing1"/></xsl:if>
+		</fo:block>
+		<fo:block space-after="0.4cm">
+			<fo:inline font-weight="bold">and the court orders that</fo:inline>
+		</fo:block>
+		<fo:block space-after="0.4cm">
+			<fo:inline font-weight="bold">1.</fo:inline> The defendant be <xsl:value-of select="$vdHousing2"/><xsl:value-of select="$vdHousing3"/><xsl:value-of select="$vdHospitalOrder2"/>.
+		</fo:block>
+		<fo:block space-after="0.4cm">
+			<fo:inline font-weight="bold">2.</fo:inline> The defendant be produced before the court at the next hearing. <fo:inline font-weight="bold">Notice of the next hearing is attached to this order.</fo:inline>
+		</fo:block>
+
+		</editable>
+
+		<fo:block break-after="page"/>
+		<fo:block space-after="14cm">&#xa0;</fo:block>
+
+		<fo:table>
+			<fo:table-column column-width="19.28cm"></fo:table-column>
+			<fo:table-body>
+				<fo:table-row keep-with-next="always">
+					<fo:table-cell border-top-style="solid" border-top-width="0.2cm">
+						<fo:block space-before="0.2cm" space-after="0.2cm" font-size="12pt" font-weight="bold">Certificate of Service</fo:block>
+					</fo:table-cell>
+				</fo:table-row>
+				<fo:table-row keep-with-next="always">
+					<fo:table-cell padding-left="0.3cm">
+						<fo:block space-after="0.6cm" font-size="10pt">I certify that a copy of this order was served by me on <xsl:value-of select="$vdSubjectName"/>, the defendant, personally</fo:block>
+					</fo:table-cell>
+				</fo:table-row>
+				<fo:table-row keep-with-next="always">
+					<fo:table-cell padding-left="1cm">
+						<fo:block space-after="0.6cm" font-size="10pt">on ______________________________________.</fo:block>
+					</fo:table-cell>
+				</fo:table-row>
+				<fo:table-row keep-with-next="always">
+					<fo:table-cell padding-left="1cm">
+						<fo:block space-before="0.6cm" font-size="10pt">Signed ______________________________________</fo:block>
+					</fo:table-cell>
+				</fo:table-row>
+				<fo:table-row keep-with-next="always">
+					<fo:table-cell padding-left="3cm">
+						<fo:block space-after="0.2cm" font-size="10pt">(Officer of the court)(Judge)</fo:block>
+					</fo:table-cell>
+				</fo:table-row>
+			</fo:table-body>
+		</fo:table>	
+
+		<fo:block space-after="2cm">&#xa0;</fo:block>
+
+		<fo:table table-layout="fixed">
+			<fo:table-column column-width="19.28cm"></fo:table-column>
+			<fo:table-body>
+				<fo:table-row keep-with-next="always">
+					<fo:table-cell>
+						<fo:block space-before="0.2cm" space-after="0.2cm" font-size="12pt" font-weight="bold">Bailiff's Certificate</fo:block>
+					</fo:table-cell>
+				</fo:table-row>
+				<fo:table-row keep-with-next="always">
+					<fo:table-cell padding-left="0.3cm">
+						<fo:block space-after="0.3cm" font-size="10pt">I certify that I delivered <xsl:value-of select="$vdSubjectName"/>, the defendant, into the custody</fo:block>
+					</fo:table-cell>
+				</fo:table-row>
+				<fo:table-row keep-with-next="always">
+					<fo:table-cell padding-left="1cm">
+						<fo:block space-before="0.6cm" space-after="0.6cm" font-size="10pt">of ______________________________________</fo:block>
+					</fo:table-cell>
+				</fo:table-row>
+				<fo:table-row keep-with-next="always">
+					<fo:table-cell padding-left="1cm">
+						<fo:block space-before="0.6cm" space-after="0.6cm" font-size="10pt">on ______________________________________.</fo:block>
+					</fo:table-cell>
+				</fo:table-row>
+				<fo:table-row keep-with-next="always">
+					<fo:table-cell padding-left="1cm">
+						<fo:block space-before="0.6cm" font-size="10pt">Signed ______________________________________</fo:block>
+					</fo:table-cell>
+				</fo:table-row>
+				<fo:table-row keep-with-next="always">
+					<fo:table-cell padding-left="3cm">
+						<fo:block space-after="0.2cm" font-size="10pt">Bailiff of the County Court</fo:block>
+					</fo:table-cell>
+				</fo:table-row>
+			</fo:table-body>
+		</fo:table>	
+	</body>
+	<defaultFooter id="CJR104"/>
+</root>

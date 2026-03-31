@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>98</Id>
+	<Label></Label>
+	<ObjectName>NewAddL4</ObjectName>
+	<Html>
+		<input id="NewAddL4" type="text" size="50"></input>
+	</Html>
+	<Javascript>
+		<XPath>/ds/EnterVariableData/Party/Address/Line[4]</XPath>
+		<componentName>Party Address Line 4</componentName>
+		<HintText>Enter the parties address - line 4</HintText>		
+		<enableOn>NewAddressForService.dataBinding</enableOn>
+		<isMandatory>return false;</isMandatory>
+		<mandatoryOn>NewAddL4.dataBinding</mandatoryOn>
+		<isEnabled>
+			var opt = Services.getValue(NewAddressForService.dataBinding);
+			return ( null != opt &amp;&amp; ('NONE' != opt &amp;&amp; opt.length > 0));
+		</isEnabled>	
+		<logicOn>NewAddressForService.dataBinding</logicOn>
+		<logic>
+			var opt = Services.getValue(NewAddressForService.dataBinding);
+			
+			Services.setValue( NewAddL4.dataBinding, "");
+			
+			if( 'ACK' == opt &amp;&amp; null != solNode )
+			{	var ad4N = solNode.selectSingleNode("./ContactDetails/Address/Line[4]");
+				if( 'ACK' == opt &amp;&amp; null != ad4N)
+				{ Services.setValue(NewAddL4.dataBinding, XML.getNodeTextContent( ad4N ));
+				}
+			}
+			else if( 'ADDR' == opt &amp;&amp; null != defNode )
+			{	Services.setValue(NewAddL4.dataBinding, XML.getNodeTextContent( defNode.selectSingleNode("./ContactDetails/Address/Line[4]")));
+			}
+		</logic>
+		<transformToModel>
+			return (null != value) ? value.toUpperCase() : null;		
+		</transformToModel>		
+		<transformToDisplay>
+			return (null != value) ? value.toUpperCase() : null;
+		</transformToDisplay>
+		<readOnlyOn>NewAddressForService.dataBinding</readOnlyOn>
+		<isReadOnly>return areAddressFieldsReadOnly();</isReadOnly>
+	</Javascript>
+</Question>

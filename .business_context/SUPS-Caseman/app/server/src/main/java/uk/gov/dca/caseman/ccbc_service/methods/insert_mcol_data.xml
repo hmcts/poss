@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: CcbcBatch
+	Method:  insertMcolData()
+	File:    insert_mcol_data.xml
+	Author:  Chris Hutt
+	Created: 21 November 2005
+	Description: 
+		Insert MCOL details.
+
+	Change History:
+	10-Jan-2006 Phil Haferer: Changed structure of method from query_def/map to a SQL INSERT 
+                using SQLLite, because the "CheckExists" approach was unnecessary and caused 
+                problems when attempting to insert more than one MCOL_DATA row for a Case.
+				(TD TEMP_CASEMAN 3907: Maintain Case Events - MCOL Update for AoS event 38).
+	18-Oct-2013	Chris Vincent, Trac 4997.  Added 8 new columns to MCOL_DATA table for CCBC SDT
+	04-Feb-2015	Chris Vincent, Trac 5473.  Added new MCOL_REFERENCE and JUDGMENT_REFERENCE columns
+	22-Apr-2015 Chris Vincent, Trac 5573.  Added new PAID_DATE column to MCOL_DATA
+-->
+<service-method>
+	<pipeline>
+		<SQLLite output="input">
+			<DataSource id="java:OracleDS" />
+			<Param name="param.claimNumber"   xpath="/params/param[@name='MCOL']/MCOL/ClaimNumber"/>
+			<Param name="param.deftId"        xpath="/params/param[@name='MCOL']/MCOL/DefendantCasePartyNo"/>
+			<Param name="param.type"          xpath="/params/param[@name='MCOL']/MCOL/Type"/>                                       
+			<Param name="param.eventDate"     xpath="/params/param[@name='MCOL']/MCOL/EventDate"/>                                  
+			<Param name="param.rejectCode"    xpath="/params/param[@name='MCOL']/MCOL/RejectCode"/>                                 
+			<Param name="param.warrantNumber" xpath="/params/param[@name='MCOL']/MCOL/WarrantNumber"/>                              
+			<Param name="param.returnCode"    xpath="/params/param[@name='MCOL']/MCOL/ReturnCode"/>                                 
+			<Param name="param.returnInfo"    xpath="/params/param[@name='MCOL']/MCOL/ReturnInfo"/>                                 
+			<Param name="param.addr1"         xpath="/params/param[@name='MCOL']/MCOL/Addr1"/>                                      
+			<Param name="param.addr2"         xpath="/params/param[@name='MCOL']/MCOL/Addr2"/>                                      
+			<Param name="param.addr3"         xpath="/params/param[@name='MCOL']/MCOL/Addr3"/>                                      
+			<Param name="param.addr4"         xpath="/params/param[@name='MCOL']/MCOL/Addr4"/>                                      
+			<Param name="param.addr5"         xpath="/params/param[@name='MCOL']/MCOL/Addr5"/>                                      
+			<Param name="param.postcode"      xpath="/params/param[@name='MCOL']/MCOL/PostCode"/>                                   
+			<Param name="param.dateSent"      xpath="/params/param[@name='MCOL']/MCOL/DateSent"/>
+			<Param name="param.prevCred"      xpath="/params/param[@name='MCOL']/MCOL/PreviousCreditor"/>
+			<Param name="param.newCred"       xpath="/params/param[@name='MCOL']/MCOL/NewCreditor"/>
+			<Param name="param.judgType"      xpath="/params/param[@name='MCOL']/MCOL/JudgmentType"/>
+			<Param name="param.jointJudg"     xpath="/params/param[@name='MCOL']/MCOL/JointJudgment"/>
+			<Param name="param.total"         xpath="/params/param[@name='MCOL']/MCOL/Total"/>
+			<Param name="param.instalAmount"  xpath="/params/param[@name='MCOL']/MCOL/InstalmentAmount"/>
+			<Param name="param.frequency"     xpath="/params/param[@name='MCOL']/MCOL/Frequency"/>
+			<Param name="param.firstPaymentDate" xpath="/params/param[@name='MCOL']/MCOL/FirstPaymentDate"/>
+			<Param name="param.mcolRef"     xpath="/params/param[@name='MCOL']/MCOL/McolReference"/>
+			<Param name="param.judgRef"     xpath="/params/param[@name='MCOL']/MCOL/JudgmentReference"/>
+			<Param name="param.paidInFull"     xpath="/params/param[@name='MCOL']/MCOL/PaidDate"/>
+			
+			<SQL type="update" tables="M">
+                INSERT INTO MCOL_DATA M     
+                (   M.CLAIM_NUMBER         
+                ,	M.DEFT_ID              
+                ,	M.TYPE                                                                
+                ,	M.EVENT_DATE           
+                ,	M.REJECT_CODE          
+                ,	M.WARRANT_NUMBER       
+                ,	M.RETURN_CODE          
+                ,	M.RETURN_INFO          
+                ,	M.ADDR_1               
+                ,	M.ADDR_2               
+                ,	M.ADDR_3               
+                ,	M.ADDR_4               
+                ,	M.ADDR_5               
+                ,	M.POSTCODE             
+                ,	M.DATE_SENT
+				,	M.PREVIOUS_CREDITOR
+				,	M.NEW_CREDITOR
+				,	M.JUDGMENT_TYPE
+				,	M.JOINT_JUDGMENT
+				,	M.TOTAL
+				,	M.INSTALMENT_AMOUNT
+				,	M.FREQUENCY
+				,	M.FIRST_PAYMENT_DATE
+				,	M.MCOL_REFERENCE
+				,	M.JUDGMENT_REFERENCE
+				,	M.PAID_DATE
+                ) VALUES                   
+                (    ${param.claimNumber}  
+                ,    ${param.deftId}       
+                ,    ${param.type}         
+                ,    TO_DATE(${param.eventDate}, 'YYYY-MM-DD')
+                ,    ${param.rejectCode}   
+                ,    ${param.warrantNumber}
+                ,    ${param.returnCode}   
+                ,    ${param.returnInfo}   
+                ,    ${param.addr1}        
+                ,    ${param.addr2}        
+                ,    ${param.addr3}        
+                ,    ${param.addr4}        
+                ,    ${param.addr5}        
+                ,    ${param.postcode}     
+                ,    TO_DATE(${param.dateSent}, 'YYYY-MM-DD')
+				,    ${param.prevCred}
+				,    ${param.newCred}
+				,    ${param.judgType}
+				,    ${param.jointJudg}
+				,    ${param.total}
+				,    ${param.instalAmount}
+				,    ${param.frequency}
+				,    TO_DATE(${param.firstPaymentDate}, 'YYYY-MM-DD')
+				,    ${param.mcolRef}
+				,    ${param.judgRef}
+				,	 TO_DATE(${param.paidInFull}, 'YYYY-MM-DD')
+                )                          
+			</SQL>
+		</SQLLite>
+	</pipeline>
+	<Security roles="medium high wcSuper scSuper bmsSuper aeSuper dmSuper admin"/>				
+</service-method>

@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>245</Id>
+	<Label>Date for filing</Label>
+	<ObjectName>FilingDate</ObjectName>
+	<Html>	
+		<script type="text/javascript">
+			WP_DatePickerRenderer.createInline("FilingDate");
+		</script>
+	</Html>
+	<Javascript>
+		<XPath>/ds/EnterVariableData/FastTrack/filingDate</XPath>
+		<HintText>Enter date for filing in the format DD-MON-YYYY</HintText>
+		<isMandatory>return true;</isMandatory>	
+		<mandatoryOn>FilingDate.dataBinding</mandatoryOn>
+		<enableOn>FileStatement.dataBinding</enableOn>
+		<isEnabled>return('GD' == Services.getValue(FileStatement.dataBinding));</isEnabled>
+		<logicOn>FileStatement.dataBinding</logicOn>
+		<logic>		
+			if('GD' != Services.getValue(FileStatement.dataBinding))
+			{	Services.setValue(FilingDate.dataBinding, "");
+			}
+		</logic>
+		<validateOn>FilingDate.dataBinding</validateOn>
+		<validate>
+			//cannot be in past : working day only
+			
+			var checkDate = Services.getValue(FilingDate.dataBinding); 
+			var err = null;
+			
+			if( false == isFutureDate(checkDate))
+			{ 	err = ErrorCode.getErrorCode("CaseMan_dateCannotBeInThePast_Msg");
+			}
+			else if( isNonWorkingDate(checkDate))
+		    {   err = ErrorCode.getErrorCode("CaseMan_dateNonWorkingDay_Msg"); 
+		    }
+			
+			return err;
+		</validate>	
+		<!--initialise>		  	
+		  	loadNonWorkingDays();
+		</initialise-->
+		<miscCode>
+		    FilingDate.weekends = false;
+		</miscCode>	
+	</Javascript>
+</Question>

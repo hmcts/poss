@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<QueryDef>
+	<DBMapDef location="uk/gov/dca/transformation/case_legacy_service/map_add_wftexclusions.xml"/>
+	<Query pivotNode="/WFTExclusions/WFTExclusion" tables="WFTE">
+		<Join/>
+		<Modify>
+			<CheckExists table="WFTE" fields="WFE_WFT_CASE_NUMBER WFE_WFT_ID WFE_EXCLUSION_DATE" onNotExist="add" onExist="skip"/>
+		</Modify>
+	</Query>		
+</QueryDef>

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: TransferCase
+	Method:  executeCompleteTransferCase()
+	File:    execute_complete_transfer_case.xml
+	Author:  Phil Haferer (EDS)
+	Created: 26 July 2005
+	Description: 
+		Complete Transfer the specified Case from one SUPS Court to another.
+-->
+<service-method>
+	<pipeline>
+		<Update>
+			<QueryDef location="uk/gov/dca/caseman/transfer_case_service/query_def_complete_transfer_case.xml"/>
+			<DataSource xpath="/params/param[@name='transferCase']"/>
+			<QueryExtension pivotNode="/TransferCase">
+				<CheckExists table="c" fields="case_number" onNotExist="fail" onExist="update"/>
+			</QueryExtension>
+		</Update>
+		<Java>
+			<Source class="uk.gov.dca.caseman.transfer_case_service.java.TranslateCaseLocalCodedPartyListCustomProcessor"/>
+		</Java>
+	</pipeline>
+	<Security roles="high wcSuper scSuper bmsSuper aeSuper dmSuper"/>
+</service-method>

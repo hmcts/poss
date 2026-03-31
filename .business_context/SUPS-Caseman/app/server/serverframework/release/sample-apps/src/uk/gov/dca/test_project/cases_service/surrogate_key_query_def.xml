@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<QueryDef>
+	<DBMapDef location="uk/gov/dca/test_project/cases_service/surrogate_key_map.xml"/>
+	<Tables>
+	</Tables>
+	
+	<Query pivotNode="/Cases/Case" tables="c">
+		<Modify>
+			<CheckExists table="c" fields="case_number" onExist="update" onNotExist="add"/>
+		</Modify>
+	</Query>
+	
+	<Query pivotNode="/Cases/Case/Solicitor" tables="p cpr">
+		<Join>
+			CPR.CASE_NUMBER = ${C.CASE_NUMBER} AND
+			CPR.PARTY_ROLE_CODE = 'SOL' AND
+			P.PARTY_ID = CPR.PARTY_ID
+		</Join>
+		<Modify>
+			<!-- Note: existance checks and associated inserts/updates are done in the order specified in the -->
+			<!-- 'tables' attribute of this 'Query' element -->
+			
+			<!-- insert/update the solicitor party -->
+			<CheckExists table="p" fields="party_id" onExist="update" onNotExist="add"/>
+			<Field name="p.party_id" sequenceTable="party_sequence"/>
+
+			<!-- associate the solicitor party to the case -->
+			<CheckExists table="cpr" fields="case_number party_id party_role_code" onExist="skip" onNotExist="add"/>
+			<Field name="cpr.case_number" property="c.case_number"/>
+			<Field name="cpr.party_id" property="p.party_id"/>
+			<Field name="cpr.party_role_code" value="SOL"/>
+		</Modify>
+	</Query>
+
+
+	<Query pivotNode="/Cases/Case/Claimant" tables="p cpr ctcr">
+		<Join>
+			CPR.CASE_NUMBER = ${C.CASE_NUMBER} 
+			AND CPR.PARTY_ROLE_CODE = 'CLAIMANT'
+			AND P.PARTY_ID = CPR.PARTY_ID
+			AND CTCR.CPR_A_CASE_NUMBER (+) = CPR.CASE_NUMBER
+			AND CTCR.CPR_B_CASE_NUMBER (+) = CPR.CASE_NUMBER
+			AND CTCR.CPR_A_PARTY_ID (+) = CPR.PARTY_ID
+			AND CTCR.CPR_A_PARTY_ROLE_CODE (+) = CPR.PARTY_ROLE_CODE
+			AND CTCR.CPR_B_PARTY_ROLE_CODE (+) = 'SOL'
+		</Join>
+		<Modify>
+			<!-- insert/update claimant party -->
+			<CheckExists table="p" fields="party_id" onExist="update" onNotExist="add"/>
+			<Field name="p.party_id" sequenceTable="party_sequence"/>
+			
+			<!-- associate the claimant party to the case --> 
+			<CheckExists table="cpr" fields="case_number party_id party_role_code" onExist="skip" onNotExist="add"/>
+			<Field name="cpr.case_number" property="c.case_number"/>
+			<Field name="cpr.party_id" property="p.party_id"/>
+			<Field name="cpr.party_role_code" value="CLAIMANT"/>
+			
+			<!-- associate the solicitor party to this claimant -->
+			<CheckExists table="ctcr" fields="cpr_a_case_number cpr_a_party_id cpr_a_party_role_code cpr_b_case_number cpr_b_party_id cpr_b_party_role_code" onExist="update" onNotExist="add"/>
+			<Property name="prop.solicitor_surrogate_key" xpath="./SolicitorSurrogateKey"/>
+			<Field name="ctcr.cpr_a_case_number" property="c.case_number"/>
+			<Field name="ctcr.cpr_a_party_id" property="p.party_id"/>
+			<Field name="ctcr.cpr_a_party_role_code" value="CLAIMANT"/>
+			<Field name="ctcr.cpr_b_party_role_code" value="SOL"/>
+			<Field name="ctcr.cpr_b_party_id" xpath="/Cases/Case/Solicitor[SurrogateKey='${prop.solicitor_surrogate_key}']/Id"/>
+			<Field name="ctcr.cpr_b_case_number" property="c.case_number"/>
+		</Modify>
+	</Query>
+	
+	
+	<Query pivotNode="/Cases/Case/Defendant" tables="p cpr ctcr">
+		<Join>
+			CPR.CASE_NUMBER = ${C.CASE_NUMBER} 
+			AND CPR.PARTY_ROLE_CODE = 'DEF'
+			AND P.PARTY_ID = CPR.PARTY_ID
+			AND CTCR.CPR_A_CASE_NUMBER (+) = CPR.CASE_NUMBER
+			AND CTCR.CPR_B_CASE_NUMBER (+) = CPR.CASE_NUMBER
+			AND CTCR.CPR_A_PARTY_ID (+) = CPR.PARTY_ID
+			AND CTCR.CPR_A_PARTY_ROLE_CODE (+) = CPR.PARTY_ROLE_CODE
+			AND CTCR.CPR_B_PARTY_ROLE_CODE (+) = 'SOL'
+		</Join>
+		<Modify>
+			<!-- insert/update defendant party -->
+			<CheckExists table="p" fields="party_id" onExist="update" onNotExist="add"/>
+			<Field name="p.party_id" sequenceTable="party_sequence"/>
+			
+			<!-- associate the defendant party to the case --> 
+			<CheckExists table="cpr" fields="case_number party_id party_role_code" onExist="skip" onNotExist="add"/>
+			<Field name="cpr.case_number" property="c.case_number"/>
+			<Field name="cpr.party_id" property="p.party_id"/>
+			<Field name="cpr.party_role_code" value="DEF"/>
+			
+			<!-- associate the solicitor party to this defendant -->
+			<CheckExists table="ctcr" fields="cpr_a_case_number cpr_a_party_id cpr_a_party_role_code cpr_b_case_number cpr_b_party_id cpr_b_party_role_code" onExist="update" onNotExist="add"/>
+			<Property name="prop.solicitor_surrogate_key" xpath="./SolicitorSurrogateKey"/>
+			<Field name="ctcr.cpr_a_case_number" property="c.case_number"/>
+			<Field name="ctcr.cpr_a_party_id" property="p.party_id"/>
+			<Field name="ctcr.cpr_a_party_role_code" value="DEF"/>
+			<Field name="ctcr.cpr_b_party_role_code" value="SOL"/>
+			<Field name="ctcr.cpr_b_party_id" xpath="/Cases/Case/Solicitor[SurrogateKey='${prop.solicitor_surrogate_key}']/Id"/>
+			<Field name="ctcr.cpr_b_case_number" property="c.case_number"/>
+		</Modify>
+	</Query>
+	
+</QueryDef>

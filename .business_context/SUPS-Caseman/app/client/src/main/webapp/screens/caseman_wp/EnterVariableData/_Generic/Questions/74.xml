@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>74</Id>
+	<Label>Date stayed until</Label>
+	<ObjectName>StayDate</ObjectName>
+	<Html>
+	  <script type="text/javascript">WP_DatePickerRenderer.createInline("StayDate", false);</script>
+	</Html>
+	<Javascript>
+		<XPath>/ds/EnterVariableData/staydate</XPath>
+		<isMandatory>return true;</isMandatory>	
+		<mandatoryOn>StayDate.dataBinding</mandatoryOn>
+		<HintText>Select or enter the date stayed in the format DD-MON-YYYY</HintText>
+		<initialise>			
+			var expiryDate = getObligationExpiryDate(6);
+			Services.setValue( StayDate.dataBinding, expiryDate );
+		</initialise>
+		<validateOn>StayDate.dataBinding</validateOn>
+		<validate>
+			var setDate = Services.getValue(StayDate.dataBinding);						
+			var err = null;
+			if( false == isFutureDate(setDate) )
+			{ 	err = ErrorCode.getErrorCode("CaseMan_dateCannotBeInThePast_Msg");			 	
+			}
+			return err;
+		</validate>
+		<Context ScreenId="CJR069">					
+			<initialise>			
+				var expiryDate = Services.getValue("/ds/wp/MaintainObligations/Obligations/Obligation[ObligationType='6' and DeleteFlag='N']/ExpiryDate");
+				Services.setValue( StayDate.dataBinding, expiryDate );
+			</initialise>
+		</Context>	
+	</Javascript>
+</Question>

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<QueryDef>
+	<DBMapDef location="uk/gov/dca/caseman/warrant_return_codes_service/map.xml"/>
+	<Query pivotNode="/ds/WarrantReturnCodes/WarrantReturnCode" tables="RC">
+	    <Modify>
+			<CheckExists table="RC" fields="RETURN_CODE ADMIN_COURT_CODE" onNotExist="add" onExist="skip"/>		
+		</Modify>
+	</Query> 
+</QueryDef>

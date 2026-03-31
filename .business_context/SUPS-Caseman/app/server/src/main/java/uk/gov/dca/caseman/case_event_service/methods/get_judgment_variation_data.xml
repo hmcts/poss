@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: CaseEvent
+	Method:  getJudgmentVariationData()
+	Author:  Chris Vincent
+	Created: 4 Oct 2013
+	Description: 
+		Use SQLLite to retrieve judgment variation data for a case event.  Introduced as part
+		of CCBC SDT
+-->
+<service-method>
+	<pipeline>
+		<SQLLite format-output="true"
+				 resultset-element="ds"
+				 row-element="Variation"
+				 field-name-as="element" >
+			<DataSource id="java:OracleDS"/>
+			<Param name="param.eventSeq" xpath="/params/param[@name='eventSeq']"/>
+			<SQL>
+				SELECT 	V.OFFER_AMOUNT AS "InstalmentAmount"
+						,V.OFFER_PERIOD AS "Frequency"
+						,V.FIRST_PAYMENT_DATE AS "FirstPaymentDate"
+				FROM 	VARIATIONS V, CASE_EVENTS CE
+				WHERE 	CE.EVENT_SEQ = ${param.eventSeq}
+				AND   	V.VARY_SEQ = CE.VARY_SEQ
+			</SQL>
+		</SQLLite>
+  	</pipeline>
+	<Security roles="user"/>
+</service-method>

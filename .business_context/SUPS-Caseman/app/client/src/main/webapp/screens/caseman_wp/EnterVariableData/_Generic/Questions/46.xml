@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>46</Id>
+	<Label>Judgment to be registered</Label>
+	<ObjectName>JudgmentRegistered</ObjectName>
+	<Html>
+	  <input id="JudgmentRegistered" type="checkbox"></input>
+	</Html>
+	<Context screenId="CJR043"><isVisible>false</isVisible></Context>
+	<Javascript>
+		<XPath>/ds/EnterVariableData/Judgment/isregistered</XPath>
+		<HintText>Check box if judgment is to be registered</HintText>		
+		<enabledOn>JudgmentRegistered.dataBinding</enabledOn>
+		<isEnabled>		   
+		  /** return isCountyCourt(); - as part of RFC 1473, the registration checkbox now always enabled **/
+			return true;
+		</isEnabled>
+		<initialise>		
+		/**   
+		   if (isCountyCourt()) Services.setValue(JudgmentRegistered.dataBinding, "Y");
+		   else Services.setValue(JudgmentRegistered.dataBinding, "N"); 
+		   **/
+   			  	Services.setValue(JudgmentRegistered.dataBinding, "Y");  
+		</initialise>		
+		<modelValue>checked: "Y", unchecked: "N"</modelValue>
+		
+		<Context ScreenId="CJR042">
+			<initialise>
+				Services.setValue(JudgmentRegistered.dataBinding, "Y");
+			</initialise>
+		</Context>
+		<Context ScreenId="O_5_5">
+			<initialise>		   
+				Services.setValue(JudgmentRegistered.dataBinding, "Y");  
+			</initialise>			
+			<isMandatory>return true;</isMandatory>
+			<enableOn>CostType2.dataBinding</enableOn>
+	        <isEnabled>
+	        	var ct = Services.getValue(CostType2.dataBinding);
+	        	return("A" != ct);	      
+	        </isEnabled>  
+	        <logicOn>CostType2.dataBinding</logicOn>
+	        <logic>
+	        	var ct = Services.getValue(CostType2.dataBinding);
+	     	   	if("A" == ct)
+	     	   	{
+	     	   		Services.setValue(JudgmentRegistered.dataBinding, "N");
+	     	   	}
+	     	   	else
+	     	   	{
+	     	   		Services.setValue(JudgmentRegistered.dataBinding, "Y");
+	     	   	}
+	        </logic>
+			<validateOn></validateOn>
+			<validate></validate>
+		</Context>
+		<Context ScreenId="CJR065A">
+			<initialise>		   
+			  	Services.setValue(JudgmentRegistered.dataBinding, "Y");  
+			</initialise>	
+		</Context>
+		<Context ScreenId="CJR353">
+			<initialise>		   
+			  	Services.setValue(JudgmentRegistered.dataBinding, "Y");  
+			</initialise>			
+			<isMandatory>return true;</isMandatory>
+			<enableOn>CostAmount2.dataBinding</enableOn>
+	        <isEnabled>
+	   			var v2 = Services.getValue(CostAmount2.dataBinding);
+	   			return(v2!=null &amp;&amp; v2 != "" );
+	      
+	        </isEnabled>  
+	        <logicOn>CostAmount2.dataBinding</logicOn>
+	        <logic>
+	     	   	var v2 = Services.getValue(CostAmount2.dataBinding);
+	   			if(v2==null || v2 == "")
+	   			{
+	   				Services.setValue(DateOfPayment.dataBinding, "");
+	   			}
+	        </logic>
+			<validateOn></validateOn>
+			<validate></validate>
+		</Context>
+
+	</Javascript>
+</Question>

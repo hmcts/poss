@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--Question xmlns="http://eds.com/questionxhtml" xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd"-->
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>Q_JudgementOrOrder</Id>
+	<Label>Judgment J or Order O</Label>
+	<ObjectName>JudgementOrOrder</ObjectName>
+	<Html>
+		<select id="JudgementOrOrder">
+			<option value=""></option>
+			<option value="J">JUDGMENT</option>
+			<option value="O">ORDER</option>
+		</select>
+	</Html>
+	<Javascript>
+		<XPath>/ds/var/page/OracleReportForm/JudgementOrOrder</XPath>
+		<ReportVariableName>REPORT_VALUE_2</ReportVariableName>
+		<ReportVariableValue>Services.getValue(JudgementOrOrder.dataBinding)</ReportVariableValue>
+		<HintText>Enter J for Judgment or O for Order</HintText>
+		<isMandatory>return true;</isMandatory>
+		<initialise></initialise>
+		<setDefault>
+		</setDefault>		
+		<validateOn>
+		</validateOn>
+		<validate>
+		</validate>
+		<miscCode>
+		</miscCode>
+	</Javascript>
+</Question>

@@ -1,0 +1,64 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3c.org/TR/html4/strict.dtd">
+<html>
+
+	<head>
+		<title>AddNewEmpAddress_SubForm</title>
+		<link href="AddNewEmpAddress_SubForm.css" type="text/css" rel="stylesheet">
+		<script type="text/javascript" src="../../../Framework.js"></script>
+    	<script type="text/javascript" src="../../../ConcatCommon.js"></script>
+		<script type="text/javascript" src="AddNewEmpAddress_SubForm.js"></script>
+  	</head>
+
+	<body>
+	
+    	<form id="addNewEmpAddressSubform" class="subform">
+
+			<div class="panel">
+				<table class="content">
+					<tr>
+						<td><label for="AddAddress_ContactDetails_Address_Line1">Address</label></td>
+						<td><input type="text" id="AddAddress_ContactDetails_Address_Line1" size="60"/></td>
+					</tr>
+					<tr>
+						<td>&nbsp;</td>
+						<td><input type="text" id="AddAddress_ContactDetails_Address_Line2" size="60"/></td>
+					</tr>
+					<tr>
+						<td>&nbsp;</td>
+						<td><input type="text" id="AddAddress_ContactDetails_Address_Line3" size="60"/></td>
+					</tr>
+					<tr>
+						<td>&nbsp;</td>
+						<td><input type="text" id="AddAddress_ContactDetails_Address_Line4" size="60"/></td>
+					</tr>
+					<tr>
+						<td>&nbsp;</td>
+						<td><input type="text" id="AddAddress_ContactDetails_Address_Line5" size="60"/></td>
+					</tr>
+					<tr>
+						<td><label for="AddAddress_ContactDetails_Address_Postcode">Postcode</label></td>
+						<td><input type="text" id="AddAddress_ContactDetails_Address_Postcode" size="15"/></td>
+					</tr>
+					<tr>
+						<td><label for="AddAddress_ContactDetails_Address_Reference">Reference</label></td>
+						<td><input type="text" id="AddAddress_ContactDetails_Address_Reference" size="60"/></td>
+					</tr>
+				</table>
+			</div>
+			
+			<!-- Subform action bar -->
+			<script type="text/javascript">
+				ActionBarRenderer.createInline(
+					"changeCaseType_statusbar",
+					[
+						{id: "AddAddress_OkButton", label: "OK"},	
+						{id: "AddAddress_CancelButton", label: "Cancel"}
+					]
+				);
+			</script>
+
+		</form>
+    
+    </body>
+    
+</html>

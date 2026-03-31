@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>433</Id>
+	<Label>Is expert evidence necessary?</Label>
+	<ObjectName>IsExpertEvidenceNec</ObjectName>
+	<Html>
+		<input type="checkbox" id="IsExpertEvidenceNec"></input>
+	</Html>
+	
+	<Javascript>
+		<XPath>/ds/EnterVariableData/SmallTrack/isExpertEvidenceNec</XPath>
+		<HintText>Check box if expert evidence is required</HintText>
+		<modelValue>checked: "Y", unchecked: "N"</modelValue>
+		<enableOn>DirectionsTypeReqd.dataBinding, IsSpecialDirns.dataBinding, DocsIntoAccount.dataBinding, InclWitnessStatements.dataBinding</enableOn>
+		<isEnabled>
+			var val1 = Services.getValue(IsSpecialDirns.dataBinding);
+			var val2 = Services.getValue(DocsIntoAccount.dataBinding);
+			var val3 = Services.getValue(InclWitnessStatements.dataBinding);
+			return((IsSpecialDirns.isEnabled() &amp;&amp; 'Y' == val1) || DocsIntoAccount.isEnabled() || 'Y' == val3 );
+		</isEnabled>
+		<logicOn>DirectionsTypeReqd.dataBinding, IsSpecialDirns.dataBinding, DocsIntoAccount.dataBinding, InclWitnessStatements.dataBinding</logicOn>
+		<logic>
+			var val1 = Services.getValue(IsSpecialDirns.dataBinding);
+			var val2 = Services.getValue(DocsIntoAccount.dataBinding);
+			var val3 = Services.getValue(InclWitnessStatements.dataBinding);
+			if ((!IsSpecialDirns.isEnabled() || 'Y' != val1) &amp;&amp; !DocsIntoAccount.isEnabled() &amp;&amp; 'Y' != val3 );
+			{	Services.setValue(IsExpertEvidenceNec.dataBinding, "N");
+			}
+		</logic>
+		<initialise>Services.setValue(IsExpertEvidenceNec.dataBinding, "N");</initialise>
+	</Javascript>
+</Question>

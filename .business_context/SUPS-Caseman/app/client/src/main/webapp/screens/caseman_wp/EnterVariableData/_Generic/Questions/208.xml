@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>208</Id>
+	<Label>Date by which statements to be exchanged</Label>
+	<ObjectName>StatementsExhDate</ObjectName>
+	<Html>	
+		<script type="text/javascript">
+			WP_DatePickerRenderer.createInline("StatementsExhDate");
+		</script>
+	</Html>
+	<Javascript>
+		<XPath>/ds/EnterVariableData/FastTrack/statementsExhDate</XPath>
+		<HintText>Enter date by which statements to be exchanged in format DD-MON-YYYY</HintText>
+		<mandatoryOn>StatementsExhDate.dataBinding</mandatoryOn>
+		<isMandatory>return true;</isMandatory>	
+		<enableOn>IsSimExchange.dataBinding</enableOn>
+		<isEnabled>return( 'Y' == Services.getValue(IsSimExchange.dataBinding));</isEnabled>
+		<logicOn>IsSimExchange.dataBinding</logicOn>
+		<logic>
+			if( 'Y' != Services.getValue(IsSimExchange.dataBinding))
+			{	Services.setValue(StatementsExhDate.dataBinding,"");
+			}
+		</logic>
+		<validateOn>StatementsExhDate.dataBinding</validateOn>
+		<validate>
+			//cannot be in past : working day only
+			
+			var checkDate = Services.getValue(StatementsExhDate.dataBinding); 
+			var err = null;
+			
+			if( false == isFutureDate(checkDate))
+			{ 	err = ErrorCode.getErrorCode("CaseMan_dateCannotBeInThePast_Msg");
+			}
+			else if( isNonWorkingDate(checkDate))
+		    {   err = ErrorCode.getErrorCode("CaseMan_dateNonWorkingDay_Msg"); 
+		    }
+			
+			return err;
+		</validate>	
+		<!--initialise>		  	
+		  	loadNonWorkingDays();
+		</initialise-->
+		<miscCode>
+		    StatementsExhDate.weekends = false;
+		</miscCode>	
+	</Javascript>
+</Question>

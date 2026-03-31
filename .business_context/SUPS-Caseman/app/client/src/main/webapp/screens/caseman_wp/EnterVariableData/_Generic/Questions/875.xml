@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>875</Id>
+	<Label>Instalment period</Label>
+	<ObjectName>InstalmentPeriod2</ObjectName>
+	<Html>
+		<select id="InstalmentPeriod2">
+			<option value=""></option>
+			<option value="WK">Weekly</option>
+			<option value="MTH">Monthly</option>
+			<option value="FOR">Fortnightly</option>
+		</select>
+	</Html>
+	<Context screenId="CJR351"><isVisible>false</isVisible></Context>
+	<Context screenId="CJR352"><isVisible>false</isVisible></Context>
+	<Javascript>
+		<XPath>/ds/EnterVariableData/Judgment/instalmentperiod</XPath>
+		<componentName>##label##</componentName>
+		<isMandatory>return true;</isMandatory>
+		<HintText>Enter the instalment period</HintText>       
+	</Javascript>
+</Question>

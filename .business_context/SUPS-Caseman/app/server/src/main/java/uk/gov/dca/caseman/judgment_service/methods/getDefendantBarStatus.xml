@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: Judgment
+	Method:  getDefendantBarStatus()
+	File:    get_DefendantBarStatusxml
+	Author:  Troy Baines
+	Created: 20 November 2004
+	Description: 
+        Retrieves the Bar status of a defendant
+-->
+<service-method>
+	<pipeline>
+		<NewQuery>
+			<QueryDef location="uk/gov/dca/caseman/judgment_service/query_def_barstatus.xml"/>
+			<QueryExtension pivotNode="/ds/JudgmentDetails">
+				<Param name="param.CaseNumber" xpath="/params/param[@name = 'CaseNumber']"/>
+				<Constraint>C.CASE_NUMBER = ${param.CaseNumber}</Constraint>
+			</QueryExtension>
+		</NewQuery>
+	</pipeline>
+	<Security roles="medium high wcSuper scSuper bmsSuper aeSuper dmSuper cpSuper ccbcMan ccbcUser"/>
+</service-method>

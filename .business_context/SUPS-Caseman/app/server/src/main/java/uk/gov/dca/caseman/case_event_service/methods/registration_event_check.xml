@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: CaseEvent
+	Method:  registrationEventCheck
+	Author:  Mark Groen (EDS) 
+	Created: 20 Apr 2007
+	Description: 
+		Use SQLLite to determine whether a judgment was created and registered 'today'.
+-->
+<service-method>
+	<pipeline>
+		<SQLLite format-output="true"
+				 resultset-element="ds"
+				 row-element="CaseEvents"
+				 field-name-as="element" >
+			<DataSource id="java:OracleDS"/>
+			<Param name="param.judgmentSequence" xpath="/params/param[@name='judgmentSequence']"/>
+			<SQL>
+				SELECT 
+						CE.EVENT_SEQ AS "EventSeq"
+				FROM    CASE_EVENTS CE
+				WHERE   
+						CE.JUDG_SEQ = ${param.judgmentSequence}
+				AND     CE.STD_EVENT_ID IN (230, 233, 240, 250, 251, 254, 375)
+				AND     CE.REGISTER_JUDGMENT =  'Y'
+				AND 	CE.EVENT_DATE = TRUNC(SYSDATE)
+			</SQL>
+		</SQLLite>
+  	</pipeline>
+	<Security roles="user"/>
+</service-method>

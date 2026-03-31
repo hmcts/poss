@@ -1,0 +1,129 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3c.org/TR/html4/strict.dtd">
+
+<html>
+	<head>
+		<title>MaintainAdminUsers</title>
+		<script type="text/javascript" src="../../Framework.js"></script>
+		<script type="text/javascript" src="../../ConcatCommon.js"></script>
+		<script type="text/javascript" src="MaintainAdminUsers.js"></script>
+
+		<style type="text/css">
+			#Header_CourtLOVGrid
+			{
+				height: 302px;
+				width: 372px;
+				left: 50%;
+				top: 50%;
+				margin-left: -186px;
+				margin-top: -151px;
+			}
+		</style>
+	</head>
+
+	<body>
+		<form name="MaintainAdminUsers" id="MaintainAdminUsers">
+
+			<!-- Framework Navigation Menu -->
+			<script type="text/javascript">MenuBarRenderer.createInline();</script>
+
+			<table class="layout">
+				<!-- Header Panel -->
+				<tr>
+					<td>
+						<div class="panel">
+							<table class="content">
+								<tr>
+									<td class="defaultLabel"><label for='Header_User'>User Id</label></td>
+									<td colspan="3">
+										<input id="Header_UserId" type="text" size=12 style="margin-top:5px; margin-bottom:5px;"/>
+									</td>
+								</tr>
+								<tr>
+									<td colspan="4">
+										<input id="Header_SearchButton" type="Button" value="Search" style="margin:5px;"/>
+									</td>
+								</tr>
+							</table>
+						</div>
+					</td>
+				</tr>
+				<!-- End Header Panel -->
+
+				<tr>
+					<td>
+						<div class="panel">
+							<table style="height:496px;">
+								<tr>
+									<td>
+										<table class="content">
+											<tr>
+												<td class="defaultLabel"><label for='Main_CourtCode'>Owning Court</label></td>
+												<td>
+													<input id="Main_CourtCode" type="text" size=5>
+													<input id="Main_CourtName" type="text" size=30>
+												</td>
+											</tr>
+											<tr>
+												<td colspan="2">&nbsp;</td>
+											</tr>
+											<tr>
+												<td class="defaultLabel"><label for='Main_Title'>Title</label></td>
+												<td><input id="Main_Title" type="text" size=30 /></td>
+											</tr>
+											<tr>
+												<td colspan="2">&nbsp;</td>
+											</tr>
+											<tr>
+												<td class="defaultLabel"><label for='Main_Forenames'>Forenames</label></td>
+												<td><input id="Main_Forenames" type="text" size=70 /></td>
+											</tr>
+											<tr>
+												<td colspan="2">&nbsp;</td>
+											</tr>
+											<tr>
+												<td class="defaultLabel"><label for='Main_Surname'>Surname</label></td>
+												<td><input id="Main_Surname" type="text" size=35 /></td>
+											</tr>
+											<tr>
+												<td colspan="2">&nbsp;</td>
+											</tr>
+											<tr>
+												<td class="defaultLabel"><label for='Main_UserShortName'>Alias</label></td>
+												<td><input id="Main_UserShortName" type="text" size=35 /></td>
+											</tr>
+											<tr>
+												<td colspan="2">&nbsp;</td>
+											</tr>
+											<tr>
+												<td class="defaultLabel"><label for='Main_Role'>Role</label></td>
+												<td><select id="Main_Role" /></td>
+											</tr>
+											<tr>
+												<td colspan="2">&nbsp;</td>
+											</tr>
+											<tr>
+												<td class="defaultLabel"><label for='Main_AdminRole'>Administrator Role</label></td>
+												<td><select id="Main_AdminRole" /></td>
+											</tr>
+										</table>
+									</td>
+								</tr>
+							</table>
+						</div>
+					</td>
+				</tr>
+			</table>
+
+			<!-- Status Bar Panel -->
+			<script type="text/javascript">
+				ActionBarRenderer.createInline("status_bar", 
+					[{id: "Status_SaveBtn", label: "Save"}, 
+					{id: "Status_ClearBtn", label: "Clear"}, 
+					{id: "Status_CloseBtn", label: "Close"}]
+				);
+			</script>
+			<!-- End Status Bar Panel -->
+
+		</form>
+	</body>
+</html>

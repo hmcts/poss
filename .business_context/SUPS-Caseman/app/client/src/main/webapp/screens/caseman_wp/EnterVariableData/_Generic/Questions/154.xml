@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>154</Id>
+	<Label>Deal with/hear whose application</Label>
+	<ObjectName>DealHearApp</ObjectName>
+	<Html>
+		<input type="text" id="DealHearApp" size="41"></input>
+	</Html>
+	<Javascript>
+		<XPath>/ds/EnterVariableData/Transfer/dealHearApp</XPath>
+		<isMandatory>return false;</isMandatory>			
+		<HintText>Enter the deal with/hear whose application</HintText>
+		<enableOn>Wording.dataBinding</enableOn>
+		<isEnabled>
+			return('OTH' == Services.getValue(Wording.dataBinding));
+		</isEnabled>
+		<logicOn>Wording.dataBinding</logicOn>
+		<logic>
+			if('OTH' != Services.getValue(Wording.dataBinding))
+			{	Services.setValue(DealHearApp.dataBinding, "");
+			}
+		</logic>
+		<Context ScreenId="CJR018I">
+			<isMandatory>return true;</isMandatory>
+		</Context>
+	</Javascript>
+</Question>

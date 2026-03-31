@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: Payments
+	Method: searchForeignWarrants()
+	File: search_foreign_warrants.xml
+	Author: Steve Blair
+	Description:
+		Pulls a summary of any enforcements matching search criteria.
+-->
+<service-method>
+	<pipeline>
+		<Query>
+			<QueryDef location="uk/gov/dca/caseman/payments_service/query_def_search_foreign_warrants.xml" />
+			<QueryExtension pivotNode="/SearchResults/Enforcement">
+				<Param name="param.localWarrantNumber" xpath="/params/param[@name = 'localWarrantNumber']" />
+				<Param name="param.executingCourt" xpath="/params/param[@name = 'executingCourt']" />
+			</QueryExtension>
+		</Query>
+	</pipeline>
+	<Security roles="medium high wcSuper scSuper bmsSuper aeSuper dmSuper cpSuper" />
+</service-method>

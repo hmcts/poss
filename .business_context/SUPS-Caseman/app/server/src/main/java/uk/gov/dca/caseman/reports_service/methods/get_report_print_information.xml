@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<service-method>
+	<pipeline>
+		<SQLLite format-output="true"
+				 resultset-element="ReportPrintInfo"
+				 row-element="row"
+				 field-name-as="element" >
+			<DataSource id="java:OracleDS"/>
+			<Param name="param.reportId" xpath="/params/param[@name='reportId']"/>
+			<SQL>
+				
+				SELECT
+					 OT.ORDER_ID, 
+					 OT.PRINTER_TYPE,
+					 OT.NO_OF_COPIES,
+					 OT.TRAY,
+					 OT.ORDER_DESCRIPTION,
+					 OT.MODULE_GROUP,
+					 OT.FILE_PREFIX,
+					 OT.MODULE_NAME
+				FROM
+					ORDER_TYPES  OT
+				WHERE
+					OT.ORDER_ID = ${param.reportId} 
+					or
+					OT.MODULE_NAME = ${param.reportId}
+
+			</SQL>
+		</SQLLite>
+	</pipeline>
+	<Security roles="viewOnly medium high wcSuper scSuper bmsSuper aeSuper dmSuper edsAdmin cpSuper"/>
+</service-method>

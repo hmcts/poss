@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>25</Id>
+	<Label>Hearing attendees</Label>
+	<ObjectName>HearingAttendees</ObjectName>
+	<Html>	  
+		<script type="text/javascript">HearingAttendeesRenderer.createInline("HearingAttendees" );</script>	
+	</Html>
+		<Javascript>
+		<XPath>/ds/EnterVariableData/Hearing/Attendees</XPath>
+		<componentName>Hearing attendees</componentName>
+		<HintText>Select hearing attendees from list</HintText>
+		<isMandatory>return false;</isMandatory>
+		
+		<Context ScreenId="CJR083">
+			<enableOn>IsNewN79AsReqd.dataBinding</enableOn>
+			<isEnabled>
+				if(IsNewN79AsReqd.isEnabled())
+				{  	if( 'Y' == Services.getValue(IsNewN79AsReqd.dataBinding))
+					{	return true;
+					}
+					return false;
+				}
+				return true;
+			</isEnabled>		
+			<logicOn>IsNewN79AsReqd.dataBinding</logicOn>
+			<logic>
+				if( IsNewN79AsReqd.isEnabled() &amp;&amp; 'Y' != Services.getValue(IsNewN79AsReqd.dataBinding))
+				{	Services.setValue(HearingAttendees.dataBinding, "");
+				}
+			</logic>
+		</Context>
+        
+        		
+		<Context ScreenId="O_10_7">
+			<isMandatory>return false;</isMandatory>
+		</Context>
+		
+		<Context ScreenId="O_10_8">
+
+		</Context>
+		
+		<Context ScreenId="O_10_9">
+
+		</Context>
+		
+		<Context ScreenId="O_10_11">
+			<isMandatory>return false;</isMandatory>
+		</Context>
+		
+		<Context ScreenId="O_10_14">
+			<isMandatory>return false;</isMandatory>
+		</Context>
+		
+		<Context ScreenId="O_10_15">
+			<isMandatory>return false;</isMandatory>
+		</Context>
+		
+		<Context ScreenId="O_3_1_2_5_1">
+			<enableOn>ReasonSetAside.dataBinding</enableOn>
+			<isEnabled>return ("J" == Services.getValue(ReasonSetAside.dataBinding))</isEnabled>
+			<logicOn>ReasonSetAside.dataBinding</logicOn>
+			<logic>
+				if("J" != Services.getValue(ReasonSetAside.dataBinding))
+				{	
+					Services.setValue(HearingAttendees.dataBinding, "");
+				}
+			</logic>
+		</Context>
+		
+		<Context ScreenId="O_7_8">
+			<isMandatory>return false;</isMandatory>
+		</Context>
+		
+		<Context ScreenId="O_11_1_2_3_4">
+			<isMandatory>return false;</isMandatory>
+		</Context>
+		
+	</Javascript>
+</Question>

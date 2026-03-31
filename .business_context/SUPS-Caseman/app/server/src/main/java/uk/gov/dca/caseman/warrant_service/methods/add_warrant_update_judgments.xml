@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<service-method visibility="local">
+	<pipeline>
+		<SQLLite>
+			<DataSource id="java:OracleDS"/>
+			<Param name="param.warrantID" xpath="/params/param[@name='warrantID']"/>
+			<Param name="param.judgmentID1" xpath="/params/param[@name='judgmentID1']"/>
+			<Param name="param.judgmentID2" xpath="/params/param[@name='judgmentID2']"/>
+			<SQL type="update">
+				UPDATE JUDGMENTS
+				SET WARRANT_ID = ${param.warrantID},
+					WARRANT_PARTY_AGAINST = DECODE(JUDG_SEQ, ${param.judgmentID1}, 1, 2)
+				WHERE JUDG_SEQ IN (${param.judgmentID1}, ${param.judgmentID2})
+			</SQL>	
+		</SQLLite>		
+	</pipeline>
+	<Security roles="user"/>
+</service-method>

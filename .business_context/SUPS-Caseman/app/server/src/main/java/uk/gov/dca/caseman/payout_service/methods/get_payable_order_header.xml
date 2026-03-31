@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: Payout
+	Method:  getPayableOrderHeader()
+	File:    get_payable_order_header.xml
+	Author:  Mark Hallam (EDS)
+	Created: 9th December 2005
+	Description: 
+		Get the payable_order_header report id.
+-->
+<service-method>
+	<pipeline>
+		<SQLLite format-output="true"
+				 resultset-element="ds"
+				 row-element="PayableOrderHeader"
+				 field-name-as="element" >
+			<DataSource id="java:OracleDS"/>
+				<Param name="param.adminCourtCode" xpath="/params/param[@name='adminCourtCode']"/>
+			
+			<SQL>
+				
+			   	SELECT SUBSTR(POH.REPORT_ID, 1,3)   AS "reportId"
+        		,      POH.ADMIN_COURT_CODE    AS "adminCourtCode"   
+  				FROM PAYABLE_ORDER_HEADER POH
+  				WHERE POH.ADMIN_COURT_CODE = ${param.adminCourtCode}
+  				
+			</SQL>
+		</SQLLite>
+	</pipeline>
+	<Security roles="viewOnly medium high wcSuper scSuper bmsSuper aeSuper dmSuper edsAdmin"/>	
+</service-method>

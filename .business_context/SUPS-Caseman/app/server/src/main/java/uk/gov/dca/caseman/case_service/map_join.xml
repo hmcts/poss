@@ -1,0 +1,208 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: Case
+	Method:  getCase()
+	File:    query_def_join.xml
+	Author:  Phil Haferer (EDS)
+	Created: November 2004
+	Description: 
+		Map to retrieve Case details.
+		
+	Change History:
+	20-Jun-2007 Chris Vincent: Added <DateOfReply> for CCBC Defect UCT Group2 1385
+	July 16, 2008 Struan Kerr-Liddell : Added insolvency number and year
+	28/01/2013 - Added PreferredCourtCode (Trac 4764) and Track (Trac 4763) nodes.
+	14/10/2016 - Added RequestConfidentiality node for Trac 5880
+-->
+<DBMapDef>
+  <DataSource id="java:OracleDS"/>
+  <Tables>
+    <Table alias="C" name="CASES"/>
+    <Table alias="REF" name="CCBC_REF_CODES"/>
+    <Table alias="H" name="HEARINGS"/>
+    <Table alias="GA" name="GIVEN_ADDRESSES"/>
+    <Table alias="CPR" name="CASE_PARTY_ROLES"/>
+    <Table alias="P" name="PARTIES"/>
+    <Table alias="SOLP" name="PARTIES"/>
+    <Table alias="CT" name="COURTS"/>
+	<Table alias="CT2" name="COURTS"/>
+    <Table alias="CP" name="CODED_PARTIES"/>
+    <Table alias="CPR2CPR" name="CPR_TO_CPR_RELATIONSHIP"/>
+    <Table alias="CPR2" name="CASE_PARTY_ROLES"/>
+    <Table alias="PR" name="PARTY_ROLES"/>
+    <Table alias="OB"  name="OBLIGATIONS"/>
+	<Table alias="PY" name="PAYMENTS"/>
+    <!-- Table alias="AT" name="ADDRESS_TYPES"/ -->
+  </Tables>  
+  <Mapping>
+    <ds>
+	<ManageCase>
+		<CaseNumber>${C.CASE_NUMBER}</CaseNumber>
+		<CaseType>${C.CASE_TYPE}</CaseType>
+		<InsolvencyNumber>${C.INSOLVENCY_NUMBER}</InsolvencyNumber>
+		<CaseStatus>${C.STATUS}	</CaseStatus>
+		<OwningCourtCode>${C.ADMIN_CRT_CODE}</OwningCourtCode>
+		<OwningCourt>${CT.NAME}</OwningCourt>
+		<CourtDivision>${REF.RV_IIT_CODE_1}</CourtDivision>
+		<CourtSubDivision>${REF.RV_IIT_CODE_2}</CourtSubDivision>
+		<CreditorCode>${C.CRED_CODE}</CreditorCode>
+		<CaseDetails>${C.BRIEF_DETAILS_OF_CLAIM}</CaseDetails>
+		<ParticularsOfClaimPresent>${PARTICULARS_OF_CLAIM_PRESENT}</ParticularsOfClaimPresent>
+		<ParticularsOfClaimDetails>${C.PARTICULARS_OF_CLAIM}</ParticularsOfClaimDetails>
+		<DetailsOfClaimPresent>${TRUE_VALUE}</DetailsOfClaimPresent>
+		<PreferredCourtCode>${C.PREF_COURT_CODE}</PreferredCourtCode>
+		<PreferredCourtName>${CT2.NAME}</PreferredCourtName>
+		<Track>${C.TRACK}</Track>
+		<DetailsOfClaim>
+			<DateRequestReceived>${C.RECEIPT_DATE}</DateRequestReceived>
+			<AmountClaimedCurrency>${C.AMOUNT_CLAIMED_CURRENCY}</AmountClaimedCurrency>			
+			<AmountClaimed>${C.AMOUNT_CLAIMED}</AmountClaimed>
+			<CourtFeeCurrency>${C.COURT_FEE_CURRENCY}</CourtFeeCurrency>
+			<CourtFee>${C.COURT_FEE}</CourtFee>
+			<SolicitorsCostsCurrency>${C.SOLICITORS_COSTS_CURRENCY}</SolicitorsCostsCurrency>			
+			<SolicitorsCosts>${C.SOLICITORS_COSTS}</SolicitorsCosts>
+			<TotalCurrency>${C.TOTAL_CURRENCY}</TotalCurrency>					
+			<Total>${C.TOTAL}</Total>
+			<DateOfIssue>${C.DATE_OF_ISSUE}</DateOfIssue>			
+		</DetailsOfClaim>
+		<HearingPresentAtCreation>${HEARING_PRESENT_AT_CREATION}</HearingPresentAtCreation>
+		<HearingDetails>
+			<Id>${H.HRG_SEQ}</Id>
+			<VenueCode>${H.CRT_CODE}</VenueCode>
+			<VenueName>${H.VENUE}</VenueName>
+			<TypeOfHearing>${H.HRG_TYPE}</TypeOfHearing>
+			<Date>${H.HRG_DATE}</Date>
+			<Time>${H.HRG_TIME}</Time>
+			<Address>
+				<AddressId>${GA.ADDRESS_ID}</AddressId>
+				<Line>${GA.ADDRESS_LINE1}</Line>
+				<Line>${GA.ADDRESS_LINE2}</Line>
+				<Line>${GA.ADDRESS_LINE3}</Line>
+				<Line>${GA.ADDRESS_LINE4}</Line>
+				<Line>${GA.ADDRESS_LINE5}</Line>
+				<PostCode>${GA.POSTCODE}</PostCode>
+			</Address>
+			<TelephoneNumber>${CT.TEL_NO}</TelephoneNumber>
+			<FaxNumber>${CT.FAX_NO}</FaxNumber>
+		</HearingDetails>
+		<OtherPossessionAddressPresent></OtherPossessionAddressPresent>
+		<OtherPossessionAddress>
+			<Address>
+				<AddressId>${GA.ADDRESS_ID}</AddressId>
+				<Line>${GA.ADDRESS_LINE1}</Line>
+				<Line>${GA.ADDRESS_LINE2}</Line>
+				<Line>${GA.ADDRESS_LINE3}</Line>
+				<Line>${GA.ADDRESS_LINE4}</Line>
+				<Line>${GA.ADDRESS_LINE5}</Line>
+				<PostCode>${GA.POSTCODE}</PostCode>
+				<CreatedBy>${GA.UPDATED_BY}</CreatedBy>
+			</Address>
+		</OtherPossessionAddress>
+		<Parties>
+			<Solicitor>
+				<Status></Status>
+				<SurrogateId>${SOL_SURROGATE_ID}</SurrogateId>
+ 				<AddressUpdated>${NO_VALUE}</AddressUpdated>
+				<PartyId>${SOLP.PARTY_ID}</PartyId>
+				<Number>${CPR.CASE_PARTY_NO}</Number>
+				<Code>${CP.CODE}</Code>
+				<ContactDetails>
+					<Address>
+						<SCN table="${ADDRESS_TABLE_ALIAS}">${GA_ORA_ROWSCN}</SCN>
+						<AddressId>${GA.ADDRESS_ID}</AddressId>
+						<Line>${GA.ADDRESS_LINE1}</Line>
+						<Line>${GA.ADDRESS_LINE2}</Line>
+						<Line>${GA.ADDRESS_LINE3}</Line>
+						<Line>${GA.ADDRESS_LINE4}</Line>
+						<Line>${GA.ADDRESS_LINE5}</Line>
+						<PostCode>${GA.POSTCODE}</PostCode>
+						<PartyId>${GA.PARTY_ID}</PartyId>
+					</Address>
+					<DX>${SOLP.DX_NUMBER}</DX>
+					<TelephoneNumber>${SOLP.TEL_NO}</TelephoneNumber>
+					<FaxNumber>${SOLP.FAX_NUMBER}</FaxNumber>
+					<EmailAddress>${SOLP.EMAIL_ADDRESS}</EmailAddress>
+					<PreferredCommunicationMethod>${CPR.PREF_COMM_METHOD}</PreferredCommunicationMethod>
+				</ContactDetails>
+				<Type>${PR.PARTY_ROLE_DESCRIPTION}</Type>
+				<TypeCode>${CPR.PARTY_ROLE_CODE}</TypeCode>
+				<Name>${SOLP.PERSON_REQUESTED_NAME}</Name>
+			</Solicitor>
+			<LitigiousParty>
+				<Status>${EXISTING_VALUE}</Status>
+				<SurrogateId>${LITP_SURROGATE_ID}</SurrogateId>
+                <DateofServiceUpdated>${NO_VALUE}</DateofServiceUpdated>
+				<PartyId>${P.PARTY_ID}</PartyId>
+				<Number>${CPR.CASE_PARTY_NO}</Number>
+				<Code>${CP.CODE}</Code>
+				<ContactDetails>
+					<Address>
+						<SCN table="${ADDRESS_TABLE_ALIAS}">${GA_ORA_ROWSCN}</SCN>
+						<AddressId>${GA.ADDRESS_ID}</AddressId>
+						<Line>${GA.ADDRESS_LINE1}</Line>
+						<Line>${GA.ADDRESS_LINE2}</Line>
+						<Line>${GA.ADDRESS_LINE3}</Line>
+						<Line>${GA.ADDRESS_LINE4}</Line>
+						<Line>${GA.ADDRESS_LINE5}</Line>
+						<PostCode>${GA.POSTCODE}</PostCode>
+						<DateFrom>${GA.VALID_FROM}</DateFrom>
+						<CreatedBy>${GA.UPDATED_BY}</CreatedBy>
+						<PartyId>${GA.PARTY_ID}</PartyId>
+					</Address>
+					<DX>${P.DX_NUMBER}</DX>
+					<TelephoneNumber>${P.TEL_NO}</TelephoneNumber>
+					<FaxNumber>${P.FAX_NUMBER}</FaxNumber>
+					<EmailAddress>${P.EMAIL_ADDRESS}</EmailAddress>
+					<PreferredCommunicationMethod>${CPR.PREF_COMM_METHOD}</PreferredCommunicationMethod>
+					<TranslationToWelsh>${CPR.WELSH_INDICATOR}</TranslationToWelsh>
+				</ContactDetails>							
+				<Type>${PR.PARTY_ROLE_DESCRIPTION}</Type>
+				<TypeCode>${CPR.PARTY_ROLE_CODE}</TypeCode>
+				<Name>${P.PERSON_REQUESTED_NAME}</Name>
+				<Reference>${CPR.REFERENCE}</Reference>
+				<DateOfService>${CPR.DEFT_DATE_OF_SERVICE}</DateOfService>
+				<LastDateForService>${CPR.LAST_DATE_FOR_SERVICE}</LastDateForService>
+				<DateOfReply>${CPR.DEFT_DATE_FOR_REPLY}</DateOfReply>
+				<DateOfBirth>${P.PERSON_DOB}</DateOfBirth>
+				<RequestConfidentiality>${CPR.CONFIDENTIAL}</RequestConfidentiality>
+				<SolicitorPayee>${CPR.PAYEE_FLAG}</SolicitorPayee>
+				<SolicitorSurrogateId>${LITP_SOL_SURROGATE_ID}</SolicitorSurrogateId>
+				<SolicitorNumber>${CPR2CPR.CPR_B_CASE_PARTY_NO}</SolicitorNumber>
+				<SolicitorTypeCode>${CPR2CPR.CPR_B_PARTY_ROLE_CODE}</SolicitorTypeCode>
+				<SolicitorReference>${CPR2CPR.PERSONAL_REFERENCE}</SolicitorReference>
+				<HistoricalAddresses>
+				</HistoricalAddresses>
+				<Mediation>
+					<ContactName>${CPR.MEDIATION_NAME}</ContactName>
+					<TelephoneNumber>${CPR.MEDIATION_TEL_NO}</TelephoneNumber>
+					<EmailAddress>${CPR.MEDIATION_EMAIL}</EmailAddress>
+					<Availability>${CPR.MEDIATION_AVAILABILITY}</Availability>
+					<Notes>${CPR.MEDIATION_NOTES}</Notes>
+				</Mediation>
+			</LitigiousParty>
+			<HistoricalAddresses>
+				<Address>
+					<Status></Status>
+					<PartyRoleCode>${GA.PARTY_ROLE_CODE}</PartyRoleCode>
+					<CasePartyNumber>${GA.CASE_PARTY_NO}</CasePartyNumber>
+					<AddressId>${GA.ADDRESS_ID}</AddressId>
+					<Line>${GA.ADDRESS_LINE1}</Line>
+					<Line>${GA.ADDRESS_LINE2}</Line>
+					<Line>${GA.ADDRESS_LINE3}</Line>
+					<Line>${GA.ADDRESS_LINE4}</Line>
+					<Line>${GA.ADDRESS_LINE5}</Line>
+					<PostCode>${GA.POSTCODE}</PostCode>
+					<AddressTypeCode>${GA.ADDRESS_TYPE_CODE}</AddressTypeCode>
+					<DateFrom>${GA.VALID_FROM}</DateFrom>
+					<DateTo>${GA.VALID_TO}</DateTo>
+					<CreatedBy>${GA.UPDATED_BY}</CreatedBy>
+				</Address>
+			</HistoricalAddresses>
+		</Parties>
+		<ActiveObligationsExist>${OB.ACTIVE_OBLIGATIONS}</ActiveObligationsExist>
+		<DeletedObligationsExist>${OB.DELETED_OBLIGATIONS}</DeletedObligationsExist>
+		<PaymentsExist>${PY.PAYMENTS_EXIST}</PaymentsExist>
+	</ManageCase>
+    </ds>  
+</Mapping>
+</DBMapDef>

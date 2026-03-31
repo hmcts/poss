@@ -1,0 +1,25 @@
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>541</Id>
+	<Label>Who conveys defendant to hospital?</Label>
+	<ObjectName>ConveysDefendant</ObjectName>
+	<Html>	
+		<input type="text" id="ConveysDefendant"></input>
+	</Html>			
+	<Javascript>
+		<XPath>/ds/EnterVariableData/Hospital/conveysDefendant</XPath>
+		<componentName>##label##</componentName>
+		<isMandatory>return true;</isMandatory>
+		<HintText>Enter the name of the person who will take the defendant to hospital</HintText>	
+		
+		<Context ScreenId="CJR104">
+			<enableOn>DefRemandorDetnd.dataBinding</enableOn>
+			<isEnabled>return( 'R' != Services.getValue(DefRemandorDetnd.dataBinding));</isEnabled>
+			<logicOn>DefRemandorDetnd.dataBinding</logicOn>
+			<logic>
+				if( 'R' == Services.getValue(DefRemandorDetnd.dataBinding))
+				{	Services.setValue(ConveysDefendant.dataBinding, "");
+				}
+			</logic>	
+		</Context>				
+	</Javascript>
+</Question>

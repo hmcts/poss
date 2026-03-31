@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: Warrant
+	Method:  getWarrant()
+	File:    query_def.xml
+	Author:  Paul Robinson (EDS)
+	Created: 21 March 2005
+	Description: Retrieves a particular Warrant, along with associated CaseStatus, 
+				 CoStatus, Hearings, Fees, Payments, Returns & Judgments.
+	Change History:
+	21/11/2006 - Chris Vincent, UCT Defect 698.  Amended the Payments pivot node
+				 to remove the P.RD_DATE = null condition.
+	06 Apr 2010, Chris Vincent.  Added WelshTranslation Query pivotnodes for the
+	Claimant Rep and two Defendant parties. Trac 2924.
+	06 Aug 2010, Troy Baines. CM6 TRAC 2049. Exclude Payments Referred to Drawer
+					from Payments To Date field.
+	26 Jun 2012 - Des Johnston, TRAC 4523.  Added to pivot node /ds/Warrant/Fees/Fee a extra constraint 
+			to discount logically deleted fees
+									
+-->
+<QueryDef>
+    <DBMapDef location="uk/gov/dca/caseman/warrant_service/map_get.xml"/>
+    
+    <Query pivotNode="/ds/Warrant" tables="W CT">
+		<Join>
+			CT.CODE = W.ISSUED_BY
+		</Join>
+    </Query>
+    <Query pivotNode="/ds/Warrant/CaseStatus" tables="W C">
+		<Join>
+			C.CASE_NUMBER = W.CASE_NUMBER
+		</Join>
+		<Hint>ORDERED</Hint>
+    </Query>
+    <Query pivotNode="/ds/Warrant/COStatus" tables="W CO">
+		<Join>
+			CO.CO_NUMBER = W.CO_NUMBER
+		</Join>
+		<Hint>ORDERED</Hint>
+		<Modify notModifiable="true"/>
+    </Query>
+    <Query pivotNode="/ds/Warrant/Hearings/Hearing" tables="W H">
+		<Join>
+			H.CASE_NUMBER = W.CASE_NUMBER AND
+			H.HRG_DATE > SYSDATE
+		</Join>
+    </Query>
+    <Query pivotNode="/ds/Warrant/Fees/Fee" tables="W F">
+		<Join>
+			F.PROCESS_NUMBER = W.WARRANT_NUMBER AND
+			F.ISSUING_COURT = W.ISSUED_BY AND
+			F.ALLOCATION_DATE >= W.WARRANT_ISSUE_DATE AND
+			F.PROCESS_TYPE = 'W' AND
+            F.DELETED_FLAG != 'Y'
+		</Join>
+    </Query>	
+    <Query pivotNode="/ds/Warrant/Payments/Payment" tables="W P">
+		<Join>
+			(
+				(
+					P.PAYMENT_FOR = 'FOREIGN WARRANT' AND
+					P.SUBJECT_NO = W.LOCAL_WARRANT_NUMBER AND
+					P.ENFORCEMENT_COURT_CODE = W.CURRENTLY_OWNED_BY AND
+					P.ERROR_INDICATOR = 'N' AND
+					P.RD_DATE IS NULL 
+				)
+				OR
+				(
+					P.PAYMENT_FOR = 'HOME WARRANT' AND
+					P.SUBJECT_NO = W.WARRANT_NUMBER AND
+					P.ENFORCEMENT_COURT_CODE = W.ISSUED_BY AND
+					P.ERROR_INDICATOR = 'N' AND
+					P.RD_DATE IS NULL
+				)
+			)
+		</Join>
+    </Query>
+	<Query pivotNode="/ds/Warrant/FinalReturnCodes/Code" tables="WR RC">
+		<Join>
+			WR.ERROR_INDICATOR = 'N' AND
+			WR.RETURN_CODE = RC.RETURN_CODE AND
+			RC.RETURN_TYPE = 'F'
+		</Join>		
+	</Query>
+	<Query pivotNode="/ds/Warrant/Defendant1/JudgmentID" tables="W J">
+		<Join>
+			J.CASE_NUMBER = W.CASE_NUMBER
+			and J.AGAINST_PARTY_ROLE_CODE 	= W.DEF1_PARTY_ROLE_CODE 
+			and J.AGAINST_CASE_PARTY_NO 	= W.DEF1_CASE_PARTY_NO
+			and (W.REP_PARTY_ROLE_CODE, W.REP_CASE_PARTY_NO) IN 
+			((SELECT IP.PARTY_ROLE_CODE
+			  ,      IP.CASE_PARTY_NO
+			  FROM   INFAVOUR_PARTIES IP
+			  WHERE  IP.JUDG_SEQ = J.JUDG_SEQ
+			 ) UNION ALL
+			 (SELECT CPR2CPR.CPR_B_PARTY_ROLE_CODE
+			  ,      CPR2CPR.CPR_B_CASE_PARTY_NO
+			  FROM   INFAVOUR_PARTIES        IP2
+			  ,      CPR_TO_CPR_RELATIONSHIP CPR2CPR
+			  WHERE  IP2.JUDG_SEQ        = J.JUDG_SEQ
+			  AND    CPR2CPR.CPR_A_CASE_NUMBER     = W.CASE_NUMBER
+			  AND    CPR2CPR.CPR_A_PARTY_ROLE_CODE = IP2.PARTY_ROLE_CODE
+			  AND    CPR2CPR.CPR_A_CASE_PARTY_NO   = IP2.CASE_PARTY_NO
+			  AND    CPR2CPR.DELETED_FLAG          = 'N'
+			 )
+			)
+			
+		</Join>		
+	</Query>
+	<Query pivotNode="/ds/Warrant/Defendant2/JudgmentID" tables="W J">
+		<Join>
+			J.CASE_NUMBER             = W.CASE_NUMBER
+			and    J.AGAINST_PARTY_ROLE_CODE = W.DEF2_PARTY_ROLE_CODE 
+			and    J.AGAINST_CASE_PARTY_NO   = W.DEF2_CASE_PARTY_NO
+			and   (W.REP_PARTY_ROLE_CODE, W.REP_CASE_PARTY_NO) IN 
+			((SELECT IP.PARTY_ROLE_CODE
+			  ,      IP.CASE_PARTY_NO
+			  FROM   INFAVOUR_PARTIES IP
+			  WHERE  IP.JUDG_SEQ = J.JUDG_SEQ
+			 ) UNION ALL
+			 (SELECT CPR2CPR.CPR_B_PARTY_ROLE_CODE
+			  ,      CPR2CPR.CPR_B_CASE_PARTY_NO
+			  FROM   INFAVOUR_PARTIES        IP2
+			  ,      CPR_TO_CPR_RELATIONSHIP CPR2CPR
+			  WHERE  IP2.JUDG_SEQ        = J.JUDG_SEQ
+			  AND    CPR2CPR.CPR_A_CASE_NUMBER     = W.CASE_NUMBER
+			  AND    CPR2CPR.CPR_A_PARTY_ROLE_CODE = IP2.PARTY_ROLE_CODE
+			  AND    CPR2CPR.CPR_A_CASE_PARTY_NO   = IP2.CASE_PARTY_NO
+			  AND    CPR2CPR.DELETED_FLAG          = 'N'
+			 )
+			)
+		</Join>		
+	</Query>
+	<Query pivotNode="/ds/Warrant/Claimant/Representative/WelshTranslation" tables="W CPR">
+		<Join>
+			CPR.CASE_NUMBER = W.CASE_NUMBER
+			and CPR.PARTY_ROLE_CODE	= W.REP_PARTY_ROLE_CODE 
+			and CPR.CASE_PARTY_NO 	= W.REP_CASE_PARTY_NO
+		</Join>
+		<Modify notModifiable="true"/>		
+	</Query>
+	<Query pivotNode="/ds/Warrant/Defendant1/WelshTranslation" tables="W CPR">
+		<Join>
+			CPR.CASE_NUMBER = W.CASE_NUMBER
+			and CPR.PARTY_ROLE_CODE	= W.DEF1_PARTY_ROLE_CODE 
+			and CPR.CASE_PARTY_NO 	= W.DEF1_CASE_PARTY_NO
+		</Join>
+		<Modify notModifiable="true"/>
+	</Query>
+	<Query pivotNode="/ds/Warrant/Defendant2/WelshTranslation" tables="W CPR">
+		<Join>
+			CPR.CASE_NUMBER = W.CASE_NUMBER
+			and CPR.PARTY_ROLE_CODE	= W.DEF2_PARTY_ROLE_CODE 
+			and CPR.CASE_PARTY_NO 	= W.DEF2_CASE_PARTY_NO
+		</Join>		
+		<Modify notModifiable="true"/>
+	</Query>
+</QueryDef>

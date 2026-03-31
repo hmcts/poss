@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: Co
+	Method:  isEmployerDetail
+	Author:  Chris Hutt (EDS) 
+	Created: 19 July 2005
+	Description: 
+		Use SQLLite to determine whether minimum set of employer details exist for the AE 
+		
+		v1.1 	Chris Hutt	2/12/2005 	(related to UCT defect 1340)
+							Check for PERSON_REQUESTED_NAME as well as address
+				
+-->
+<service-method>
+	<pipeline>
+		<SQLLite format-output="true"
+				 resultset-element="ds"
+				 row-element="CO"
+				 field-name-as="element" >
+			<DataSource id="java:OracleDS"/>
+			<Param name="param.coNumber" xpath="/params/param[@name='coNumber']"/>
+			<SQL>
+				SELECT  
+					DECODE(COUNT(*),0,'false','true') AS "EmployerDetailsExist"
+				FROM 	GIVEN_ADDRESSES GA, CONSOLIDATED_ORDERS CO , PARTIES P
+				WHERE	CO.CO_NUMBER =  ${param.coNumber}
+				AND 	GA.CO_NUMBER = CO.CO_NUMBER
+				AND 	GA.ADDRESS_TYPE_CODE = 'CO EMPLOYER'
+				AND 	GA.ADDRESS_LINE1 IS NOT NULL
+				AND 	GA.ADDRESS_LINE2 IS NOT NULL
+				AND		P.PARTY_ID = GA.PARTY_ID
+				AND     P.PERSON_REQUESTED_NAME IS NOT NULL
+			</SQL>
+		</SQLLite>
+  	</pipeline>
+	<Security roles="user"/>
+</service-method>

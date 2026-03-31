@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>9059</Id>
+	<Label>Debtor is</Label>
+	<ObjectName>DebtorAttendance</ObjectName>
+	<Html>
+		<select id="DebtorAttendance">
+		  <option value=""></option>
+		  <option value="DIR">Directed to attend</option>
+		  <option value="MA">May attend</option>
+		</select>
+	</Html>
+	<Javascript>
+        <XPath>/ds/EnterVariableData/DebtorAttendance</XPath>
+		<HintText>Select from the following</HintText>
+         <isEnabled>return true;</isEnabled>  
+         <Context ScreenId="O_10_11">
+            <isMandatory>return false;</isMandatory>
+            <mandatoryOn>DebtorAttendance.dataBinding</mandatoryOn>
+        </Context>
+	</Javascript>
+</Question>

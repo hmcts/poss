@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--Question xmlns="http://eds.com/questionxhtml" xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd"-->
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>Q_HasTheClaimantAcceptedTheSum</Id>
+	<Label>Check box if the Claimant has accepted the Sum</Label>
+	<ObjectName>HasTheClaimantAcceptedTheSum</ObjectName>
+	<Html> 
+		<input id="HasTheClaimantAcceptedTheSum" type="checkbox"/>
+	</Html>
+	<Javascript>
+		<XPath>/ds/var/page/OracleReportForm/HasTheClaimantAcceptedTheSum</XPath>
+		<ReportVariableName>SUM_SATISFACTION</ReportVariableName>
+		<ReportVariableValue>returnDefault(Services.getValue(HasTheClaimantAcceptedTheSum.dataBinding))</ReportVariableValue>
+		<ReportVariableCode>2520</ReportVariableCode>
+		<HintText></HintText>
+		<isMandatory>return true;</isMandatory>
+		<initialise>
+		</initialise>
+		<setDefault>
+			Services.setValue(HasTheClaimantAcceptedTheSum, "N");
+		</setDefault>		
+		<validateOn>
+		</validateOn>
+		<validate></validate>
+		<transformToDisplay></transformToDisplay>
+        <transformToModel></transformToModel>
+		<miscCode>
+			HasTheClaimantAcceptedTheSum.modelValue = {checked: 'Y', unchecked: 'N'};
+			function returnDefault(value)
+			{
+				//debugger;
+				if (value == null)
+				{
+					return "N";
+				}
+				else
+				{
+					return value;
+				}
+			}			
+		</miscCode>
+	</Javascript>
+</Question>

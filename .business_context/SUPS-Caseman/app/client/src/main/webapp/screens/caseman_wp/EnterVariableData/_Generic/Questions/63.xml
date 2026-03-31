@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>63</Id>
+	<Label>Document served</Label>
+	<ObjectName>DocumentServed</ObjectName>
+	<Html>		
+		<select id="DocumentServed">
+			<option value=""></option>
+			<option value="APP">Application</option>
+			<option value="CLM">Claim form</option>
+			<option value="JDG">Judgment</option>
+			<option value="ORD">Order</option>
+			<option value="PART">Particulars of claim</option>
+			<option value="OTH">Other</option>
+		</select>
+	</Html>
+	<Javascript>
+		<XPath>/ds/EnterVariableData/Service/documentServed</XPath>
+		<HintText>Select the details of the document served</HintText>
+		<isMandatory>return true;</isMandatory>
+	</Javascript>
+</Question>

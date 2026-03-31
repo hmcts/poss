@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<DBMapDef>
+	<DataSource id="java:SupsDS"/>
+	<Tables>
+		<Table alias="C" name="CASES"/>
+		<Table alias="P" name="PARTIES"/>
+		<Table alias="A" name="ADDRESSES"/>
+		<Table alias="CTS" name="COURTS"/>
+		<Table alias="CPR" name="CASE_PARTY_ROLES"/>
+	</Tables>
+	<Mapping>
+		<Case adminCourtCode="${c.admin_crt_code}">
+			<RowId>${C.ROWID}</RowId>
+			<CaseId>${C.CASE_NUMBER}</CaseId>
+		</Case>
+	</Mapping>
+</DBMapDef>

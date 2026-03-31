@@ -1,0 +1,195 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>43</Id>
+	<Label>Instalment period (if applicable)</Label>
+	<ObjectName>InstalmentPeriod</ObjectName>
+	<Html>
+	   <select name="InstalmentPeriod" id="InstalmentPeriod">
+		  <option value=""></option>
+		  <option value="MTH">Monthly</option>
+		  <option value="WK">Weekly</option>
+		  <option value="FOR">Fortnightly</option>
+		</select>
+	</Html>
+	
+	<Context screenId="N32_2"><isVisible>false</isVisible></Context>
+	<Context screenId="N32_5"><isVisible>false</isVisible></Context>
+	<Context screenId="CJR090"><isVisible>false</isVisible></Context>
+    <Context screenId="CO28"><isVisible>false</isVisible></Context>
+    <Context screenId="CO31"><isVisible>false</isVisible></Context>
+	
+	
+	<Javascript>
+		<XPath>/ds/EnterVariableData/Judgment/instalmentperiod</XPath>
+		<HintText>Select the instalment period</HintText>
+		<mandatoryOn>InstalmentAmount.dataBinding</mandatoryOn>
+		<isMandatory>
+			var amt = Services.getValue(InstalmentAmount.dataBinding);
+			return ( null != amt &amp;&amp; amt.length > 0);			
+		</isMandatory>
+		<enableOn>PaymentDate.dataBinding</enableOn>
+		<isEnabled>
+		    var dateVal = Services.getValue(PaymentDate.dataBinding);
+		    if(null != dateVal &amp;&amp; dateVal.length > 0)
+		    {	var msg = CaseManValidationHelper.validatePattern(dateVal, CaseManValidationHelper.YYYYMMDD_DATE_PATTERN, "CaseMan_invalidDateFormat_Msg" );
+		    	if( null == msg )
+		    	{   return false;
+		    	}
+		    }
+		    return true;
+		</isEnabled>
+		<logicOn>PaymentDate.dataBinding</logicOn>
+		<logic>
+			var dateVal = Services.getValue(PaymentDate.dataBinding);
+		    if(null != dateVal &amp;&amp; dateVal.length > 0)
+		    {	Services.setValue(InstalmentPeriod.dataBinding,"");
+		    }
+		</logic>
+		
+		<Context ScreenId="CJR040">
+			<enableOn>JudgmentForthwith.dataBinding,PaymentDate.dataBinding</enableOn>
+			<isEnabled>
+			var isForthwith = ('Y' == Services.getValue(JudgmentForthwith.dataBinding));		
+			  var isEn = true;
+			  
+			  if( isForthwith )
+			  {  
+			     isEn = false; 
+			  }
+			  else
+			  {  var pdate = Services.getValue(PaymentDate.dataBinding);
+			     
+			   	 if( null != pdate &amp;&amp; pdate.length > 0)
+				 {  isEn = !isValidDate(pdate);				 	
+				 }							
+			  }			  
+			  return isEn;			
+			</isEnabled>
+		</Context>
+		
+		<Context ScreenId="CJR041">
+			<enableOn>JudgmentForthwith.dataBinding,PaymentDate.dataBinding</enableOn>
+			<isEnabled>
+			var isForthwith = ('Y' == Services.getValue(JudgmentForthwith.dataBinding));		
+			  var isEn = true;
+			  
+			  if( isForthwith )
+			  {  
+			     isEn = false; 
+			  }
+			  else
+			  {  var pdate = Services.getValue(PaymentDate.dataBinding);
+			     
+			   	 if( null != pdate &amp;&amp; pdate.length > 0)
+				 {  isEn = !isValidDate(pdate);				 	
+				 }							
+			  }			  
+			  return isEn;			
+			</isEnabled>
+		</Context>
+		
+		<Context ScreenId="CJR042">
+			<enableOn>JudgmentForthwith.dataBinding,PaymentDate.dataBinding</enableOn>
+			<isEnabled>
+			var isForthwith = ('Y' == Services.getValue(JudgmentForthwith.dataBinding));		
+			  var isEn = true;
+			  
+			  if( isForthwith )
+			  {  
+			     isEn = false; 
+			  }
+			  else
+			  {  var pdate = Services.getValue(PaymentDate.dataBinding);
+			     
+			   	 if( null != pdate &amp;&amp; pdate.length > 0)
+				 {  isEn = !isValidDate(pdate);				 	
+				 }							
+			  }			  
+			  return isEn;			
+			</isEnabled>
+		</Context>
+		
+		<Context ScreenId="CJR043">
+			<enableOn>JudgmentForthwith.dataBinding,PaymentDate.dataBinding</enableOn>
+			<isEnabled>
+			var isForthwith = ('Y' == Services.getValue(JudgmentForthwith.dataBinding));		
+			  var isEn = true;
+			  
+			  if( isForthwith )
+			  {  
+			     isEn = false; 
+			  }
+			  else
+			  {  var pdate = Services.getValue(PaymentDate.dataBinding);
+			     
+			   	 if( null != pdate &amp;&amp; pdate.length > 0)
+				 {  isEn = !isValidDate(pdate);				 	
+				 }							
+			  }			  
+			  return isEn;			
+			</isEnabled>
+		</Context>
+		<Context ScreenId="CJR050">
+			<enableOn>PaymentDate.dataBinding, HasCostOrder.dataBinding, AmountOrdered.dataBinding, CostType.dataBinding</enableOn>
+			<isEnabled>
+			var amo = Services.getValue(AmountOrdered.dataBinding);	
+			var costType = Services.getValue(CostType.dataBinding);
+			if (('A' == costType || 'M' == costType) &amp;&amp; !( null != amo &amp;&amp; amo > 0 )) {
+				return false; }
+			else {
+				var val = Services.getValue(PaymentDate.dataBinding);
+				var hco = Services.getValue(HasCostOrder.dataBinding);
+				var amo = Services.getValue(AmountOrdered.dataBinding);	
+				var cam = Services.getValue(CostAmount.dataBinding);
+				return(  ('Y'  == hco  ||  (null != cam &amp;&amp; cam > 0) || ( null != amo &amp;&amp; amo > 0 )) &amp;&amp; ((null == val)  || ("" == val))  ); }	
+			</isEnabled>
+			<logicOn>PaymentDate.dataBinding, HasCostOrder.dataBinding, AmountOrdered.dataBinding</logicOn>
+			<logic>
+			   var val = Services.getValue(PaymentDate.dataBinding);		   
+				var hco = Services.getValue(HasCostOrder.dataBinding);
+				var amo = Services.getValue(AmountOrdered.dataBinding);	
+				if( ('Y'  != hco  &amp;&amp;  ( null == amo || "" == amo )) || ((null != val)  &amp;&amp; ("" != val))  )
+				{	Services.setValue(InstalmentPeriod.dataBinding, "");
+				}
+			</logic>
+			<isMandatory>return true;</isMandatory>
+			<HintText>Enter the instalment period - list available</HintText>
+		</Context>
+		<Context ScreenId="CJR051">
+			<HintText>Enter the instalment period - list available</HintText>
+			<enableOn>PaymentDate.dataBinding, HasCostOrder.dataBinding</enableOn>
+			<isEnabled>
+			   var val = Services.getValue(PaymentDate.dataBinding);
+			   
+			   return(( null == val || 0 == val.length)
+			   		&amp;&amp;	
+			   ('Y' == Services.getValue(HasCostOrder.dataBinding)));
+			   
+			</isEnabled>
+			<logicOn>PaymentDate.dataBinding, HasCostOrder.dataBinding</logicOn>
+			<logic>
+				 var val = Services.getValue(PaymentDate.dataBinding);
+			     if(( null != val &amp;&amp; 0 != val.length) || ('Y' != Services.getValue(HasCostOrder.dataBinding))) {
+			   		Services.setValue(InstalmentPeriod.dataBinding, "");  }
+			</logic>
+			<isMandatory>return true;</isMandatory>
+		</Context>
+		<Context ScreenId="CJR052">
+			<HintText>Enter the instalment period</HintText>
+		</Context>
+		<Context ScreenId="CJR065A">
+			<enableOn>JudgmentForthwith.dataBinding, PaymentDate.dataBinding</enableOn>
+			<isEnabled>
+				var payDate = Services.getValue(PaymentDate.dataBinding);				
+				return('Y' != Services.getValue(JudgmentForthwith.dataBinding) &amp;&amp; ( null == payDate || "" == payDate ));
+			</isEnabled>
+			<logicOn>JudgmentForthwith.dataBinding, PaymentDate.dataBinding</logicOn>
+			<logic>
+				var payDate = Services.getValue(PaymentDate.dataBinding);				
+				if('Y' == Services.getValue(JudgmentForthwith.dataBinding) || ( null != payDate &amp;&amp; "" != payDate ))
+				{	Services.setValue(InstalmentPeriod.dataBinding, "");
+				}
+			</logic>
+		</Context>
+	</Javascript>
+</Question>

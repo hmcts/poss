@@ -1,0 +1,24 @@
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>546</Id>
+	<Label>Place of safety address line 3</Label>
+	<ObjectName>PlaceOfSafetyAdd3</ObjectName>
+	<Html>	
+		<input type="text" id="PlaceOfSafetyAdd3" size="50"></input>
+	</Html>			
+	<Javascript>
+		<XPath>/ds/EnterVariableData/Hospital/placeOfSafety/Address/Line[3]</XPath>
+		<componentName>##label##</componentName>
+		<isMandatory>return false;</isMandatory>
+		<HintText>Enter the third line of the Place of Safety address</HintText>	
+		<enableOn>IsPlaceOfSafetyId.dataBinding</enableOn>
+		<isEnabled>return( 'Y' == Services.getValue(IsPlaceOfSafetyId.dataBinding));</isEnabled>
+		<logicOn>IsPlaceOfSafetyId.dataBinding</logicOn>
+		<logic>
+			if( 'Y' != Services.getValue(IsPlaceOfSafetyId.dataBinding))
+			{	Services.setValue(PlaceOfSafetyAdd3.dataBinding, "");
+			}
+		</logic>	
+		
+		
+	</Javascript>
+</Question>

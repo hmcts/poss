@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<service-method visibility="local">
+	<pipeline>
+		<Query>
+  			<QueryDef location="uk/gov/dca/caseman/warrant_service/query_def_enforcement_letter.xml"/>
+			<QueryExtension pivotNode="/ds/EnforcementLetter">
+				<Constraint>E.YEAR_VALUE = TO_CHAR(SYSDATE, 'YYYY')</Constraint>
+			</QueryExtension>
+  	    </Query>
+	</pipeline>
+	<Security roles="user"/>
+</service-method>
+
+
+
+

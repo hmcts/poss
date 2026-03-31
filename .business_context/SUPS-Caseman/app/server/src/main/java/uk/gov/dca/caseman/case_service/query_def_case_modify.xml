@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<QueryDef>
+  <DBMapDef location="uk/gov/dca/caseman/case_service/map_case_modify.xml"/>
+  <Query pivotNode="/ds/ManageCase" tables="C CPR2CPR">
+    <Join/>
+    <Modify>
+		<!-- The CheckExists for the table C not required here,  as it is specified Service Method QueryExtension. -->
+		<CheckExists table="CPR2CPR" fields="CPR_A_CASE_NUMBER" onNotExist="skip" onExist="update" useOptimisticLock="false"/>
+		<Field name="CPR2CPR.CPR_A_CASE_NUMBER" xpath="CaseNumber"/>
+		<Field name="CPR2CPR.DELETED_FLAG" value="Y"/>
+	</Modify>
+  </Query>
+  <Query pivotNode="/ds/ManageCase/HearingDetails" tables="H">
+	<Join/>
+    <Modify>
+		<CheckExists table="H" fields="hrg_seq" onNotExist="add" onExist="update"/>
+
+		<Field name="h.hrg_seq" sequenceTable="HRG_SEQUENCE"/>
+		<Field name="h.case_number" property="C.CASE_NUMBER"/>
+	</Modify>
+  </Query> 
+  <Query pivotNode="/ds/ManageCase/OtherPossessionAddress/Address" tables="GA">
+    <Join/>
+    <Modify>
+		<CheckExists table="GA" fields="address_id" onNotExist="add" onExist="update"/>
+
+		<Field name="ga.address_id" sequenceTable="addr_sequence"/>
+	    <Field name="ga.case_number" property="c.case_number"/>
+		<Field name="ga.court_code" property="c.admin_crt_code"/>
+		<Field name="ga.address_type_code" value="POSSESSION"/>
+	</Modify>
+  </Query>
+</QueryDef>

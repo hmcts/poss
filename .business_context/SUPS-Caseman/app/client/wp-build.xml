@@ -1,0 +1,225 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="wp-supsapplication" basedir=".">
+<!--
+Change history
+Paul Hardie, 21/10/2008: Build script simplification.
+1. Replaced property ${name.eclipse.project.server} with hard coded 'server' as this
+   value represents the name of a repository controlled directory and will not change.
+2. Migrated properties to application.properties to aid maintenance.
+-->
+    <echo>Loading default properties from. ${user.home}/sups_antuser.properties</echo>
+    <echo>To set any property as default for you workstation place it in the file</echo>
+    <echo>${user.home}/sups_antuser.properties</echo>
+
+    <property file="${user.home}/sups_antuser.properties" />
+    
+    <target name="init">
+        <!-- only here because existing targets depend on it. --> 
+    </target>       
+
+    <target name="clean-wp" depends="init">             
+      <delete>
+         <fileset dir="${caseman-wp.dir}/EnterVariableData">
+            <include name="*.html"/>
+            <include name="*.js"/>
+        </fileset>                   
+      </delete>
+      <delete dir="${caseman-wp.dir}/generated"/> 
+      <delete dir="${caseman-wp.dir}/EnterVariableData/generated"/> 
+      <delete dir="${caseman-wp.dir}/EnterVariableData/_Generic/generated"/>      
+      <delete dir="${assemble.dir}"/>
+    </target>
+    
+    <target name="generate-wp-html" depends="init">
+        <echo>Generating HTML, deleting ${caseman-wp.dir}/EnterVariableData/generated/*.html</echo>
+        <mkdir dir="${caseman-wp.dir}/EnterVariableData/generated/"/>
+        <delete>
+            <fileset dir="${caseman-wp.dir}/EnterVariableData/generated/" includes="*.html"/>
+        </delete>
+        <xslt basedir="${caseman-wp.dir}/EnterVariableData/_Generic/Screens" 
+            destdir="${caseman-wp.dir}/EnterVariableData/generated" 
+            style="${caseman-wp.dir}/EnterVariableData/_Generic/GenerateHtml.xsl"/>     
+    </target>
+
+    <target name="generate-wp-javascript" depends="init">
+        <echo>Generating JavaScript, deleting ${caseman-wp.dir}/EnterVariableData/generated/*.js</echo>
+        <mkdir dir="${caseman-wp.dir}/EnterVariableData/generated/"/>
+        <delete>
+            <fileset dir="${caseman-wp.dir}/EnterVariableData/generated/" includes="*.js"/>
+        </delete>
+        <xslt extension=".js" 
+            basedir="${caseman-wp.dir}/EnterVariableData/_Generic/screens"
+            style="${caseman-wp.dir}/EnterVariableData/_Generic/generateJavaScript.xsl"     
+            destdir="${caseman-wp.dir}/EnterVariableData/generated">        
+                <param name="templateDir" expression="${caseman-wp.server.dir}/"/>
+                <param name="webfileDir" expression="file:\\\${caseman-wp.dir}/"/>
+        </xslt>
+    </target>
+
+    <!-- 
+        Assistant build target used to create the reference data set for outputs
+        This specific target creates an xml document indicating which outputs use Q&A screen
+    -->
+    <target name="generate-wp-CFG-Output-QA" depends="init">
+        <delete file="${caseman-wp.dir}/EnterVariableData/_Generic/generated/QuestionsQA.xml"/>     
+        <xslt in="${caseman-wp.server.dir}/Outputs.xml"
+            style="${caseman-wp.dir}/EnterVariableData/_Generic/generateQuestionsQA.xsl"        
+            out="${caseman-wp.dir}/EnterVariableData/_Generic/generated/QuestionsQA.xml">     
+                <param name="templateDir" expression="${caseman-wp.server.dir}/"/>
+                <param name="webfileDir" expression="file:\\\${caseman-wp.dir}/"/>
+        </xslt>
+    </target>
+    
+    <!-- 
+        Assistant build target used to create the reference data set for outputs
+        This specific target creates an xml document indicating which outputs use the editor screen
+    -->
+    <target name="generate-wp-CFG-Output-Editor" depends="init">
+        <delete file="${caseman-wp.dir}/EnterVariableData/_Generic/generated/QuestionsEditor.xml"/>
+        <xslt in="${caseman-wp.server.dir}/Outputs.xml"
+            style="${caseman-wp.dir}/EnterVariableData/_Generic/generateQuestionsEditor.xsl"        
+            out="${caseman-wp.dir}/EnterVariableData/_Generic/generated/QuestionsEditor.xml">       
+                <param name="templateDir" expression="${caseman-wp.server.dir}/"/>
+        </xslt>
+    </target>
+
+    <target name="generate-wp-CFG-1" depends="init, generate-wp-CFG-Output-Editor, generate-wp-CFG-Output-QA">
+        <delete file="${caseman-wp.dir}/generated/WordProcessingConfig.xml"/>
+        <xslt in="${caseman-wp.server.dir}/Outputs.xml"
+            style="${caseman-wp.dir}/EnterVariableData/_Generic/generateWordProcessingConfig.xsl"       
+            out="${caseman-wp.dir}/generated/WordProcessingConfig.xml">     
+                <param name="templateDir" expression="${caseman-wp.server.dir}/"/>
+        </xslt>
+    </target>
+
+    <target name="generate-wp-CFG-2" depends="init, generate-wp-CFG-Output-Editor, generate-wp-CFG-Output-QA">
+        <delete file="${caseman-wp.dir}/generated/gen_wpctrl.xml"/>
+
+        <!-- Copy wpctrl.xml from WPCtrl folder into caseman-wp.dir as it is used during generation of gen_wpctrl.xml --> 
+        <copy file="${wpctrl.dir}/CaseMan/cfg/wpctrl.xml" todir="${caseman-wp.dir}/generated" overwrite="true" failonerror="true" />
+        
+        <xslt in="${caseman-wp.server.dir}/Outputs.xml"
+            style="${caseman-wp.dir}/EnterVariableData/_Generic/generateWordProcessingConfig3.xsl"      
+            out="${caseman-wp.dir}/generated/gen_wpctrl.xml">       
+                <param name="templateDir" expression="${caseman-wp.server.dir}/"/>
+        </xslt>
+    </target>
+    
+    <target name="generate-wp-DOC-Question-XPaths" depends="init, create-wp-question-xml">
+        <xslt extension=".js"
+            in="${caseman-wp.dir}/EnterVariableData/_Generic/generated/Questions.xml"
+            style="${caseman-wp.dir}/EnterVariableData/_Generic/generateQuestionsXPathOverview.xsl"     
+            out="${caseman-wp.dir}/EnterVariableData/_Generic/generated/doc/Questions_XPaths.html"
+        />      
+    </target>
+    
+    <target name="generate-wp-DOC-Question-Screen-Mapping" depends="init, create-wp-question-xml, create-wp-screens-xml">
+       <xslt 
+         in="${caseman-wp.dir}/EnterVariableData/_Generic/generated/Questions.xml"
+         style="${caseman-wp.dir}/EnterVariableData/_Generic/generateQuestionsScreenMapping.xsl"
+         out="${caseman-wp.dir}/EnterVariableData/_Generic/generated/doc/QuestionScreenMapping.html"
+       >
+            <param name="webfileDir" expression="file:\\\${caseman-wp.dir}/"/>
+       </xslt>
+    </target>
+    
+    <target name="generate-wp-DOC-Screen-Question-Mapping" depends="init, create-wp-screens-xml">
+        <delete file="${caseman-wp.dir}/EnterVariableData/_Generic/generated/doc/Screen-Group-Question.xml"/>       
+        <xslt in="${caseman-wp.dir}/EnterVariableData/_Generic/generated/Screens.xml"
+            basedir="${caseman-wp.dir}/EnterVariableData/_Generic/screens"
+            style="${caseman-wp.dir}/EnterVariableData/_Generic/GenerateScreensGroupsQuestions.xsl"     
+            out="${caseman-wp.dir}/EnterVariableData/_Generic/generated/doc/Screen-Group-Question.xml">     
+                <param name="templateDir" expression="${caseman-wp.server.dir}/"/>
+                <param name="webfileDir" expression="file:\\\${caseman-wp.dir}/"/>          
+        </xslt>
+    </target>
+    <!-- 
+        Assistant build target used to create documentation on all the outputs variables.
+    -->
+    <target name="generate-wp-DOC-Output-VAR" depends="init">
+        <delete file="${caseman-wp.dir}/EnterVariableData/_Generic/generated/doc/OutputVariables.xml"/>     
+        <xslt in="${caseman-wp.server.dir}/Outputs.xml"
+            style="${caseman-wp.dir}/EnterVariableData/_Generic/generateOutputVariables.xsl"        
+            out="${caseman-wp.dir}/EnterVariableData/_Generic/generated/doc/OutputVariables.xml">       
+                <param name="templateDir" expression="${caseman-wp.server.dir}/"/>
+        </xslt>
+    </target>
+    
+    <!-- TODO: Seems to work against old configuration file. -->
+    <target name="generate-wp-CFG-TestHarness-1" depends="init, generate-wp-CFG-1" >
+        <xslt in="${caseman-wp.dir}/generated/WordProcessingConfig.xml"
+            style="${caseman-wp.dir}/EnterVariableData/_Generic/generateTestHarness1Config.xsl"     
+            out="${caseman-wp.dir}/EnterVariableData/_Generic/generated/TestHarness_1_config.xml">      
+                <param name="templateDir" expression="${caseman-wp.server.dir}/"/>
+                <param name="webfileDir" expression="${caseman-wp.dir}/"/>
+        </xslt>     
+    </target>
+    
+    <target name="generate-wp-CFG-applicationconfig-forms" depends="init">
+        <!-- transform the application config xml using the stylesheet /EnterVariableData/_Generic/generateApplicationConfig.xsl-->
+        <xslt in="${oc4j.applications}/${application.name}_client/caseman/applicationconfig.xml"
+            style="${caseman-wp.dir}/EnterVariableData/_Generic/generateApplicationConfig.xsl"      
+            out="${oc4j.applications}/${application.name}_client/caseman/applicationconfig_temp.xml">
+            <param name="templateDir" expression="${caseman-wp.server.dir}/"/>
+            <param name="webfileDir" expression="${caseman-wp.dir}/generated/"/>
+        </xslt> 
+        <move file="${oc4j.applications}/${application.name}_client/caseman/applicationconfig_temp.xml" tofile="${oc4j.applications}/${application.name}_client/caseman/applicationconfig.xml" />
+    
+    </target>
+    
+    <target name="generate-wp-CFG-applicationconfig-forms-OAS" depends="init">
+        <!-- transform the application config xml using the stylesheet /EnterVariableData/_Generic/generateApplicationConfig.xsl-->
+        <xslt in="${assemble.dir}/applicationconfig.xml"
+            style="${caseman-wp.dir}/EnterVariableData/_Generic/generateApplicationConfig.xsl"      
+            out="${assemble.dir}/applicationconfig_temp.xml">
+            <param name="templateDir" expression="${caseman-wp.server.dir}/"/>
+            <param name="webfileDir" expression="${caseman-wp.dir}/generated/"/>
+        </xslt> 
+        <move file="${assemble.dir}/applicationconfig_temp.xml" tofile="${assemble.dir}/applicationconfig.xml" />
+    
+    </target>   
+    
+    <!-- Creates the Questions.xml file -->
+    <target name="create-wp-question-xml" depends="init">       
+        <xmldirectorylist sourceDirectory="${caseman-wp.dir}/EnterVariableData/_Generic/Questions"
+                        destinationDirectory="${caseman-wp.dir}/EnterVariableData/_Generic/generated"
+                        filename="Questions.xml"
+                        root="Questions"
+                        element="Question"
+                        attribute="id"
+                        fileExtension=".xml"
+        />
+    </target>
+    
+    <!-- Creates the Screens.xml file-->
+    <target name="create-wp-screens-xml" depends="init">        
+        <xmldirectorylist sourceDirectory="${caseman-wp.dir}/EnterVariableData/_Generic/Screens"
+                        destinationDirectory="${caseman-wp.dir}/EnterVariableData/_Generic/generated"
+                        filename="Screens.xml"
+                        root="Screens"
+                        element="Screen"
+                        attribute="id"
+                        fileExtension=".xml"
+        />
+    </target>
+    
+    <target name="generate_wp__questions_config" depends="create-wp-question-xml">
+        <echo>generate_wp__questions_config</echo>
+            <xslt 
+                 in="${caseman-wp.dir}/EnterVariableData/_Generic/generated/Questions.xml"
+                 style="${caseman-wp.dir}/EnterVariableData/_Generic/GenerateQuestionsConfigDoc.xsl"
+                 out="${caseman-wp.dir}/EnterVariableData/_Generic/generated/QuestionConfigDoc.xml">
+                    <param name="webfileDir" expression="${caseman-wp.dir}/"/>
+            </xslt>
+    </target>
+    
+    <target name="wp-metrics">
+        <mkdir dir="${base.build.dir}/metrics"/>
+        <metrics basedir="${basedir}/caseman/screens/caseman_wp" destdir="${base.build.dir}/metrics">
+            <include name="**/*"/>
+            <exclude name="**/*.gif"/>
+            <exclude name="**/*.jpg"/>
+        </metrics>
+    </target>
+    
+</project>

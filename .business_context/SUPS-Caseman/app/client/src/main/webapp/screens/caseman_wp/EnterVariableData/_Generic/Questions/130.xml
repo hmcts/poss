@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>130</Id>
+	<Label>Parties to seek to agree bundle?</Label>
+	<ObjectName>PartiesAgreeBundle</ObjectName>
+	
+	<Context screenId="CJR199">
+		<isVisible>true</isVisible>
+		<Label>Are parties to agree bundle and summary?</Label>
+	</Context>
+	
+	<Html>		
+		<input id="PartiesAgreeBundle" type="checkbox"></input>
+	</Html>
+	
+	
+	<Javascript>
+		<XPath>/ds/EnterVariableData/TrialNotice/partiesAgreeBundle</XPath>
+		<HintText>Check box if the parties are to seek to agree the contents of the bundle</HintText>
+		<isMandatory>return false;</isMandatory>
+		<modelValue>checked: "Y", unchecked: "N"</modelValue>
+		<enableOn>DirectionsGiven.dataBinding</enableOn>
+		  <isEnabled>return( 'Y' == Services.getValue(DirectionsGiven.dataBinding));</isEnabled>
+		  <logicOn>DirectionsGiven.dataBinding</logicOn>
+		  <logic>
+		  	if( 'Y' != Services.getValue(DirectionsGiven.dataBinding))
+		  	{	Services.setValue(PartiesAgreeBundle.dataBinding, "");
+		  	}
+		  </logic>			
+		  
+		  <Context ScreenId="CJR199">
+		  	<enableOn></enableOn>
+			<isEnabled></isEnabled>
+			<logicOn></logicOn>		
+			<logic></logic>
+			<HintText>Check box if parties are to agree bundle and summary</HintText>
+		  </Context>		
+	</Javascript>
+</Question>

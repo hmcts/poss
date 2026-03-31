@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Question>
+	<Id>862</Id>
+	<Label><div id="PossessAdLine1LABEL">Possession Address</div></Label>
+	<ObjectName>PossessAdLine1</ObjectName>
+	<Html>
+		<div id="PossessAdLine1HTML"><input id="PossessAdLine1" type="text" size="50"></input></div>
+	</Html>
+	<Javascript>
+		<XPath>/ds/EnterVariableData/Possession/Address/Line[1]</XPath>
+		<componentName>Possession Address Line 1</componentName>
+		<HintText>Enter the first line of the possession address</HintText>		
+		<isMandatory>if (null != WP &amp;&amp; null != WP.GetScreenProcess &amp;&amp; null != WP.GetScreenProcess()) { var localNumber = WPU.getValue("/params/param[@name='xml']/ds/Warrant/LocalNumber");
+				if (localNumber == "" || localNumber == null ) return false;
+				return true; }</isMandatory>
+		<isReadOnly>/** When the warrant is a foreign warrant, this question should be visible. If there is a local number of the warrant, this will indicate a foreign warrant. **/
+				if (null != WP &amp;&amp; null != WP.GetScreenProcess &amp;&amp; null != WP.GetScreenProcess()) { 
+				var localNumber = WPU.getValue("/params/param[@name='xml']/ds/Warrant/LocalNumber");
+				if (localNumber == "" || localNumber == null ) return true; }				
+		</isReadOnly>
+		<mandatoryOn>PossessAdLine1.dataBinding</mandatoryOn>
+		<initialise>/** The address is the selected warrant against party's address or if filled it is the other possession address	**/
+			var partyAgainstNumber = WPU.getValue("/params/param[@name='xml']/WarrantReturn/PartyAgainstNumber");
+			var def1Addr1 = WPU.getValue("/params/param[@name='xml']/ds/Warrant/Defendant1/Address/Line[1]");
+			var def2Addr1 = WPU.getValue("/params/param[@name='xml']/ds/Warrant/Defendant2/Address/Line[1]");
+			var partyAgainstAddr1 = "";
+			if(partyAgainstNumber == 1) {
+				partyAgainstAddr1 = def1Addr1; }
+			else {
+				partyAgainstAddr1 = def2Addr1; }
+			var otherPossessAddr1 = WPU.getValue("/params/param[@name='xml']/ds/ManageCase/OtherPossessionAddress/Address/Line[1]");
+			var possessAddr1 = "";
+			if(otherPossessAddr1 != "") {
+				possessAddr1 = otherPossessAddr1; }
+			else {
+				possessAddr1 = partyAgainstAddr1; }
+			Services.setValue(PossessAdLine1.dataBinding, possessAddr1);
+		</initialise>		
+	</Javascript>
+</Question>		

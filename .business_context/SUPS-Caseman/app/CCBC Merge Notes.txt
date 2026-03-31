@@ -1,0 +1,33 @@
+CCBC Symbolic Links
+-----------------------------------------------------
+
+client/caseman/xml/CCBC_ErrorMsgs.xml				(sups-ccbc\Client\Source\ccbc\xml)
+client/caseman/screens/CCBCStylesheet.css			(sups-ccbc\Client\Source\ccbc\screens)
+client/caseman/screens/CCBCShared.js				(sups-ccbc\Client\Source\ccbc\screens)
+client/caseman/screens/common						(sups-ccbc\Client\Source\ccbc\screens\common)
+client/caseman/screens/ccbc_uc001					(sups-ccbc\Client\Source\ccbc\screens\ccbc_uc001)
+client/caseman/screens/ccbc_uc002					(sups-ccbc\Client\Source\ccbc\screens\ccbc_uc002)
+client/caseman/screens/ccbc_uc004					(sups-ccbc\Client\Source\ccbc\screens\ccbc_uc004)
+client/caseman/screens/ccbc_uc008					(sups-ccbc\Client\Source\ccbc\screens\ccbc_uc008)
+client/caseman/screens/ccbc_uc013					(sups-ccbc\Client\Source\ccbc\screens\ccbc_uc013)
+client/caseman/screens/ccbc_uc019					(sups-ccbc\Client\Source\ccbc\screens\ccbc_uc019)
+client/caseman/screens/ccbc_uc025					(sups-ccbc\Client\Source\ccbc\screens\ccbc_uc025)
+
+server/src/uk/gov/dca/caseman/printing_service		(sups-ccbc\Server\Source\src\uk\gov\dca\caseman\printing_service)
+server/src/uk/gov/dca/caseman/receivedTapes_service	(sups-ccbc\Server\Source\src\uk\gov\dca\caseman\receivedTapes_service)
+server/src/uk/gov/dca/caseman/rejectedCases_service	(sups-ccbc\Server\Source\src\uk\gov\dca\caseman\rejectedCases_service)
+server/src/uk/gov/dca/caseman/rejectedJudgments_service	(sups-ccbc\Server\Source\src\uk\gov\dca\caseman\rejectedJudgments_service)
+server/src/uk/gov/dca/caseman/rejectedWarrants_service	(sups-ccbc\Server\Source\src\uk\gov\dca\caseman\rejectedWarrants_service)
+server/src/uk/gov/dca/caseman/returnedTapes_service	(sups-ccbc\Server\Source\src\uk\gov\dca\caseman\returnedTapes_service)
+server/src/uk/gov/dca/caseman/utilities_service		(sups-ccbc\Server\Source\src\uk\gov\dca\caseman\utilities_service)
+server/src/uk/gov/dca/caseman/common/java/sql		(sups-ccbc\Server\Source\src\uk\gov\dca\caseman\common\java\sql)
+server/cache-config/utilitiesServiceConfig.xml		(sups-ccbc\Sever\service-config\utilitiesServiceConfig.xml)
+
+All rdf files under sups-reporting-templates\ccbc_reporting_templates\rdf to be copied as symbolic links into:
+server/reporting_templates/rdf
+
+CCBC FILES TO MERGE MANUALLY
+------------------------------------------------------
+
+sups-ccbc\Client\Source\ccbc\applicationconfig.xml	into	client/caseman/applicationconfig.xml
+sups-ccbc\Client\Source\ccbc\Messages.js			into	common/client/Messages.js

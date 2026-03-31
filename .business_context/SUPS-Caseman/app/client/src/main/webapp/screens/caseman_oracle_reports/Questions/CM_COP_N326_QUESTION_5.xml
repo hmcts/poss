@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--Question xmlns="http://eds.com/questionxhtml" xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd"-->
+<!-- Change History -->
+<!-- TD4183 Kevin Gichohi (EDS) - 10 Aug 2006: The warrant number field should be read only if the box is unchecked on entry i.e. allWarrants is blank or null. -->
+<!-- TD4181 Kevin Gichohi (EDS) - 17 Aug 2006: Changed the service called from searchWarrants to searchWarrantsForReissue so as to retrieve the correct warrants as documented in the comments. -->
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>CM_COP_N326_QUESTION_5</Id>
+	<Label>Warrant Number</Label>
+	<ObjectName>WarrantNumber</ObjectName>
+	<Html>
+		<input id="WarrantNumber" type="text" size="8"></input>
+	</Html>
+	<Javascript>
+		<XPath>/ds/var/page/OracleReportForm/WarrantNumber</XPath>
+		<ReportVariableName>P_WARRANT_NUMBER</ReportVariableName>
+		<ReportVariableValue>Services.getValue(WarrantNumber.dataBinding)</ReportVariableValue>
+		<HintText>Enter the warrant number for the warrant</HintText>
+		<isMandatory>return true;</isMandatory>
+		<maxLength>8</maxLength>
+		<transformToDisplay>
+			return (null != value) ? value.toUpperCase() : null;
+		</transformToDisplay>
+		<transformToModel>
+			return (null != value) ? value.toUpperCase() : null;
+		</transformToModel>
+		<readOnlyOn>AllWarrants.dataBinding</readOnlyOn>
+		<isReadOnly>
+			var allWarrants = Services.getValue(AllWarrants.dataBinding);
+			if (! CaseManUtils.isBlank(allWarrants))
+			{
+				if (allWarrants == "Y")
+				{
+					return true;
+				}
+				else
+				{
+					return false;
+				}
+			}
+			else
+			{
+				//TD4183 Kevin Gichohi (EDS) - 10 Aug 2006: The warrant number field should be read only if the box is unchecked on entry i.e. allWarrants is blank or null.
+				return false;
+			}			
+		</isReadOnly>		
+		<logicOn>AllWarrants.dataBinding, WarrantNumber.dataBinding</logicOn>
+		<logic>
+			var allWarrants = Services.getValue(AllWarrants.dataBinding);
+			if (! CaseManUtils.isBlank(allWarrants))
+			{
+				if (allWarrants == "Y")
+				{
+					Services.setValue(WarrantNumber.dataBinding, "");
+				}
+			}		
+			var caseNumber = Services.getValue(CaseNumber.dataBinding);
+			var warrantNumber = Services.getValue(WarrantNumber.dataBinding);	
+			if (!CaseManUtils.isBlank(caseNumber) &amp;&amp; !CaseManUtils.isBlank(warrantNumber))
+			{
+				searchWarrants();
+				
+			}	
+		</logic>
+		
+		
+		<miscCode>		
+			function searchWarrants()
+			{
+				var warrantNumber = Services.getValue(WarrantNumber.dataBinding);	
+				var caseNumber = Services.getValue(CaseNumber.dataBinding);				
+			    //Call Search Service now
+				var params = new ServiceParams();
+				params.addSimpleParameter("warrantNumber", warrantNumber);
+				params.addSimpleParameter("caseNumber", caseNumber);
+				
+				//Wildcard search removed, might as well delete them.
+				/*
+				params.addSimpleParameter("localNumber", "%");
+				params.addSimpleParameter("CONumber", "%");
+				params.addSimpleParameter("issueDate", "%");
+				params.addSimpleParameter("issuedBy", "%");
+				*/
+				
+				//Services.callService("searchWarrants", params, WarrantNumber, true);	
+				
+				/* TD4181: Kevin Gichohi (EDS): 14 August 2006. The service above returned warrants that were issued by the current
+				 * user logged in court. The report looked for warrants that are currently owned by and executed by
+				 * the user logged in court. The net result was that only warrants that are issued by, currently owned by
+				 * and executed by the user logged in court were being printed. 
+				 * The service below searches for warrants that are currently owned by and executed by the user logged in court.
+				 * Hence foreign warrants will also be included.  
+				 */
+				
+				Services.callService("searchWarrantsForReissue", params, WarrantNumber, true);
+				
+			}
+			
+			WarrantNumber.onSuccess = function(dom) {
+			    if(dom != null) {
+			        var node = dom.selectSingleNode("/ds/Warrants");
+			        Services.replaceNode(SEARCH_RESULTS_XPATH, node);
+			        
+			        var count = Services.countNodes(SEARCH_RESULTS_XPATH + "/Warrant");
+			        if(count == 0) {
+			           alert(Messages.NO_RESULTS_MESSAGE); 
+			           var errCode = ErrorCode.getErrorCode("CaseMan_caseWarrantNumberNotFound_Msg");
+			           faildedValidation (errCode);
+			        } else if(count >= 1) {
+			        	//alert("Valid Warrant Number"); 
+			        }
+			    }
+			}
+			
+			function validateWarrant()
+			{
+				var errCode = null;
+				var count = Services.countNodes(SEARCH_RESULTS_XPATH + "/Warrant");
+				if(count == 0) {
+		           errCode = ErrorCode.getErrorCode("CaseMan_caseWarrantNumberNotFound_Msg");
+		        }
+		        return errCode;
+			}
+		</miscCode>
+	</Javascript>
+</Question>

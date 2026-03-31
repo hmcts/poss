@@ -2,8 +2,26 @@ node_modules/
 .next/
 out/
 
+# Next.js generated
+next-env.d.ts
+tsconfig.tsbuildinfo
+
+# Test & playwright artifacts
+.playwright-mcp/
+test/artifacts/
+
+# Data (generated/ingested)
+data/
+
 # murmur8
 .claude/implement-queue.json
 .claude/pipeline-history.json
 .claude/stack-config.json
 .claude/worktrees/
+.blueprint/
+.claude/
+.devcontainer/
+.playwright-mcp/
+
+# Local Claude Code settings
+.claude/settings.local.json

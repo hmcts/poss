@@ -1,0 +1,501 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- ====================================================================== -->
+<!--  -->
+<!-- FILENAME: $Source: C:/CVSRepository/serveroas/src/uk/gov/dca/caseman/wordprocessing_templates/Notice/CJR002/CJR002-FO.xml,v $ -->
+<!--  -->
+<!-- AUTHOR: $Author: narges $-->
+<!--  -->
+<!-- DATE: $Date: 2006/06/28 17:26:19 $ -->
+<!--  -->
+<!-- Version: $Revision: 1.7 $ -->
+<!--  -->
+<!-- DESCRIPTION: This stylesheet is used to create an XSL:FO document that -->
+<!-- can be processed into a PDF version.  Business logic -->
+<!-- is embedded to generate the correct document text for the order -->
+<!-- required. -->
+<!--  -->
+<!-- INPUTS: XML document containing: the answers to questions asked of the -->
+<!-- user; case data retrieved from the database; HTML representing the  -->
+<!-- body of the document content (already edited by the user). -->
+<!--  -->
+<!-- OUTPUTS: XML document with FO tags containing instructions for the -->
+<!-- creation of a PDF document. -->
+<!-- ====================================================================== -->
+<!-- Change History:
+09-NOV-2011 Des Johnston - Trac 4589. Include defendants tag to the addressee xml so that defendant(s) notice copies are produced as well as the Claimant's copy
+27-Jan-2012 Chris Vincent - Trac 4589, number of copies produced is equal to number of defendants, each addressed to claimant, but each copy has a unique
+							Defendant Name.
+11-Jan-2013 Chris Vincent - Trac 4766. Added Claim Received parameter to header of output.
+--> 
+<root xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:fo="http://www.w3.org/1999/XSL/Format" xmlns="http://eds.com/supsfo">
+	<variables>@word.processing.url.xsl@supsfo.xsl</variables>
+	<duplex/>
+	<addressee>
+		<noticeissuespecial/> 
+	</addressee>
+	<header>
+		<fo:block font-size="16pt" font-weight="bold">Notice of Issue <xsl:value-of select="$vdDuplicateEvent" /></fo:block>
+		<fo:block font-size="12pt">(specified amount)</fo:block>
+		<fo:block font-size="12pt"></fo:block>
+	</header>
+	<courtcase>
+		<court>
+			<xsl:copy-of select="$vdCourtHeaderBlock"/>
+		</court>
+		<caseparameters>
+			<parameter>
+				<name>
+					<fo:block font-weight="bold">Claim Number</fo:block>
+				</name>
+				<value>
+					<fo:block>
+						<xsl:value-of select="$vdClaimNumber"/>
+					</fo:block>
+				</value>
+			</parameter>
+			<parameter>
+				<name>
+					<fo:block font-weight="bold">Claimant</fo:block>
+					<fo:block font-size="9pt">(including ref.)</fo:block>
+				</name>
+				<value>
+					<fo:block hyphenate="true">
+						<xsl:value-of select="$vdClaimantName"/>
+					</fo:block>
+					<fo:block hyphenate="true" font-size="9pt">
+						<xsl:value-of select="$vdClaimantReference"/>
+					</fo:block>
+				</value>
+			</parameter>
+			<parameter>
+				<name>
+					<fo:block font-weight="bold">Defendant(s)</fo:block>
+				</name>
+				<value>
+					<fo:block hyphenate="true">
+						<xsl:call-template name="noticeIssueDefendantName">
+							<xsl:with-param name="defendant">
+								<xsl:value-of select="$defendant"/>
+							</xsl:with-param>
+						</xsl:call-template>
+					</fo:block>
+				</value>
+			</parameter>
+			<parameter>
+				<name>
+					<fo:block font-weight="bold">Issue Fee</fo:block>
+				</name>
+				<value>
+					<fo:block>
+						&#163;<xsl:call-template name="correctCalculation">
+							<xsl:with-param name="value"><xsl:value-of select="$vdIssueFee"/></xsl:with-param>
+						</xsl:call-template>
+					</fo:block>
+				</value>
+			</parameter>
+			<parameter>
+				<name>
+					<fo:block font-weight="bold">Claim Received</fo:block>
+				</name>
+				<value>
+					<fo:block>
+						<xsl:value-of select="$vdClaimReceiptDate"/>
+					</fo:block>
+				</value>
+			</parameter>
+		</caseparameters>
+	</courtcase>
+	
+	<body>
+		<fo:block font-size="9pt" space-after="0.1cm">Your claim was issued on <xsl:value-of select="$vdClaimDateOfIssue"/>. The court sent it to the defendant by first class post on <xsl:choose><xsl:when test="$vdServiceDate != $emptyDate"><xsl:value-of select="$vdPostedDate"/></xsl:when><xsl:otherwise><xsl:value-of select="$emptyDate"/></xsl:otherwise></xsl:choose> and it will be deemed to be served on <xsl:choose><xsl:when test="$vdServiceDate != $emptyDate"><xsl:value-of select="$vdServiceDate"/></xsl:when><xsl:otherwise><xsl:value-of select="$emptyDate"/></xsl:otherwise></xsl:choose>. The defendant<xsl:if test="$vdNumberOfDefendants>1">s have</xsl:if><xsl:if test="$vdNumberOfDefendants=1"> has</xsl:if> until <xsl:choose><xsl:when test="$vdServiceDate != $emptyDate"><xsl:value-of select="$vdServiceReplyDate"/></xsl:when><xsl:otherwise><xsl:value-of select="$emptyDate"/></xsl:otherwise></xsl:choose> to reply.</fo:block>
+		<fo:table>
+			<fo:table-column column-width="10.25cm"></fo:table-column>
+			<fo:table-column column-width="0.55cm"></fo:table-column>
+			<fo:table-column column-width="8.5cm"></fo:table-column>
+			<fo:table-body>
+				<fo:table-row>
+					<fo:table-cell>
+						<fo:block font-size="9pt" font-weight="bold">The defendant may</fo:block>
+						<list type="bullet">
+							<list-item>
+								<fo:block font-size="9pt">
+									<fo:inline font-weight="bold">Pay</fo:inline>
+									<fo:inline> you your total claim.</fo:inline>
+								</fo:block>
+							</list-item>
+							<list-item>
+								<fo:block font-size="9pt">
+									<fo:inline font-weight="bold">File an acknowledgement of service.</fo:inline>
+									<fo:inline> This will allow the defendant 28 days from the date of service of your particulars of claim to file a defence or contest the court's jurisdiction.</fo:inline>
+								</fo:block>
+							</list-item>
+							<list-item>
+								<fo:block font-size="9pt">
+									<fo:inline font-weight="bold">Dispute the whole claim.</fo:inline>
+									<fo:inline> The court will send you a copy of the defence.</fo:inline>
+								</fo:block>
+							</list-item>
+							<list-item>
+								<fo:block font-size="9pt">
+									<fo:inline font-weight="bold">Admit that all the money is owed.</fo:inline>
+									<fo:inline> The defendant will send you a completed admission form and you may ask the court to enter judgment using the request below.</fo:inline>
+								</fo:block>
+							</list-item>
+						</list>
+					</fo:table-cell>
+					<fo:table-cell></fo:table-cell>
+					<fo:table-cell>
+						<list type="bullet">
+							<list-item>
+								<fo:block font-size="9pt">
+									<fo:inline font-weight="bold">Admit that only part of your claim is owed.</fo:inline>
+									<fo:inline> The court will send you a copy of the reply form and you will have to decide what to do next.</fo:inline>
+								</fo:block>
+							</list-item>
+							<list-item>
+								<fo:block font-size="9pt">
+									<fo:inline font-weight="bold">Not reply at all.</fo:inline>
+									<fo:inline> You may ask the court to enter judgment using the request below.</fo:inline>
+								</fo:block>
+							</list-item>
+						</list>
+						<fo:block font-size="9pt" font-weight="bold" space-before="0.2cm">Note: If the claim is disputed and the defendant is an individual, the claim may be transferred to the defendant's local court.</fo:block>
+					</fo:table-cell>
+				</fo:table-row>
+			</fo:table-body>
+		</fo:table>
+		<fo:table table-layout="fixed" width="100%">
+			<fo:table-column column-width="100%"></fo:table-column>
+			<fo:table-body table-layout="fixed">
+				<fo:table-row>
+					<fo:table-cell>
+						<fo:block font-size="10pt" font-weight="bold" text-align="center" space-before="0.2cm">For further information please turn over</fo:block>
+					</fo:table-cell>
+				</fo:table-row>
+			</fo:table-body>
+		</fo:table>
+		<getFooter></getFooter>
+		<leader></leader>
+		<fo:block break-after="page">
+			<fo:block text-align="justify">
+				<fo:table table-layout="fixed">
+					<fo:table-column column-width="10.16cm"></fo:table-column>
+					<fo:table-column column-width="8.12cm"></fo:table-column>
+					<fo:table-body>
+						<fo:table-row>
+							<fo:table-cell height="1cm">
+								<fo:block font-size="14pt" font-weight="bold">Request for Judgment</fo:block>
+							</fo:table-cell>
+							<fo:table-cell number-rows-spanned="2" padding-left="2em">
+								<courtcase>
+									<court>
+										<xsl:copy-of select="$vdCourtHeaderBlock"/>
+									</court>
+									<caseparameters>
+										<parameter>
+											<name>
+												<fo:block font-weight="bold">Claim Number</fo:block>
+											</name>
+											<value>
+												<fo:block>
+													<xsl:value-of select="$vdClaimNumber"/>
+												</fo:block>
+											</value>
+										</parameter>
+										<parameter>
+											<name>
+												<fo:block font-weight="bold">Claimant</fo:block>
+											</name>
+											<value>
+												<fo:block hyphenate="true">
+													<xsl:value-of select="$vdClaimantName"/>
+												</fo:block>
+											</value>
+										</parameter>
+										<parameter>
+											<name>
+												<fo:block font-weight="bold">Defendant(s)</fo:block>
+											</name>
+											<value>
+												<fo:block hyphenate="true">
+													<xsl:call-template name="noticeIssueDefendantName">
+														<xsl:with-param name="defendant">
+															<xsl:value-of select="$defendant"/>
+														</xsl:with-param>
+													</xsl:call-template>
+												</fo:block>
+											</value>
+										</parameter>
+									</caseparameters>
+								</courtcase>
+							</fo:table-cell>
+						</fo:table-row>
+						<fo:table-row>
+							<fo:table-cell>
+								<list>
+									<list-item>
+										<fo:block font-size="10pt" font-style="italic">Tick and complete either A or B. Remember to sign and date the form. Your signature certifies that the information you have given is correct.</fo:block>
+									</list-item>
+									<list-item>
+										<fo:block font-size="10pt" font-style="italic">If the defendant has given an address on the form of admission to which correspondence should be sent, which is different from the address shown on the claim form, you must tell the court.</fo:block>
+									</list-item>
+									<list-item>
+										<fo:block font-size="10pt" font-style="italic">Complete all the judgment details at D</fo:block>
+									</list-item>
+								</list>
+								<fo:block space-before="0.1cm">
+									<list type="checkBoxWithLabel">
+										<list-item>
+											<bulletText>A</bulletText>
+											<fo:block font-size="10pt" font-weight="bold">The defendant has not filed an admission or defence to my claim or an application to contest the court's jurisdiction.</fo:block>
+										</list-item>
+									</list>
+								</fo:block>																							
+
+							</fo:table-cell>
+
+
+						</fo:table-row>
+
+						<!-- Introduce a row here that contains 2 columns and each column contains a table -->
+						<fo:table-row>
+							<!-- First column -->
+							<fo:table-cell>
+								<fo:table>
+									<fo:table-body>
+										<fo:table-row>
+											
+											<fo:table-cell>
+												<fo:block space-before="0.1cm">
+												<fo:block font-size="9pt" start-indent="1cm">Decide how and when you want the defendant to pay. You can ask for the judgment to be paid by instalments or in one payment.</fo:block>
+												
+													<list type="checkBoxWithLabel">
+													
+													<!-- Move Section A next to subheader -->
+														<list-item>
+															<bulletText>B</bulletText>
+															<fo:block font-size="10pt" font-weight="bold">The defendant admits that all the money is owed.</fo:block>
+															<fo:block font-size="9pt">Tick only <fo:inline font-weight="bold">one</fo:inline> box below and return the completed slip to the court.</fo:block>
+														</list-item>
+													</list>
+												</fo:block>																							
+											</fo:table-cell>
+												
+										</fo:table-row>
+										<fo:table-row>
+											
+											<fo:table-cell>
+												<list type="checkbox">
+													<list-item>
+														<fo:block font-size="9pt" font-weight="bold">I accept the defendant's proposal for payment</fo:block>
+														<fo:block font-size="8pt">Say how the defendant intends to pay. The court will send the defendant an order to pay. You will also be sent a copy.</fo:block>
+													</list-item>
+													<list-item>
+														<fo:block font-size="9pt" font-weight="bold">The defendant has not made any proposal for payment</fo:block>
+														<fo:block font-size="8pt">Say how you want the defendant to pay. You can ask for the judgment to be paid by instalments or in one payment. The court will send the defendant an order to pay. You will also be sent a copy.</fo:block>
+													</list-item>
+													<list-item>
+														<fo:block font-size="9pt" font-weight="bold">I do NOT accept the defendant's proposal for payment</fo:block>
+														<fo:block font-size="8pt">Say how you want the defendant to pay. Give your reasons for objecting to the defendant's offer of payment in Part E overleaf. Return this slip to the court <fo:inline font-weight="bold">with the defendant's admission</fo:inline> (or a copy). The court will fix a rate of payment and send the defendant an order to pay. You will also be sent a copy.</fo:block>
+													</list-item>
+												</list>
+											</fo:table-cell>
+												
+										</fo:table-row>
+
+										<fo:table-row>
+											
+											<fo:table-cell>
+												<fo:block padding-bottom="0.1cm">
+													<fo:inline font-weight="bold">C Defendant's date of birth, if known</fo:inline>													
+												</fo:block>
+											</fo:table-cell>
+												
+										</fo:table-row>
+										<fo:table-row>
+											
+											<fo:table-cell padding-left="1cm">
+													<xsl:call-template name="manualDOB"/>
+											</fo:table-cell>
+												
+										</fo:table-row>
+										<fo:table-row>
+											<fo:table-cell padding-top="0.3cm">
+												<fo:block font-size="9pt" font-weight="bold" space-after="0.3cm">I certify that the information given is correct</fo:block>											
+												<signature signaturetype="small"/>
+											</fo:table-cell>
+										</fo:table-row>
+																																
+									</fo:table-body>
+								</fo:table>					
+							</fo:table-cell>
+							<!-- Second column -->
+							<fo:table-cell padding-left="2em">
+								<fo:table>
+									<fo:table-body>
+									<!-- Move Section C to first column -->
+										<fo:table-row>
+											
+											<fo:table-cell padding-top="0.1cm">
+												<fo:block font-size="10pt" font-weight="bold" space-before="0.15cm" space-after="0.1cm">
+													D Judgment Details
+												</fo:block>
+												<fo:block font-size="9pt">I would like the defendant to be ordered to pay</fo:block>
+												<list type="checkbox">
+													<list-item>
+														<fo:block font-size="9pt" space-after="0.2cm">(immediately)</fo:block>
+													</list-item>
+													<list-item>
+														<fo:block font-size="9pt" space-after="0.2cm" white-space-collapse="false">(by instalments of &#163;               per month)</fo:block>
+													</list-item>
+													<list-item>
+														<fo:block font-size="9pt" space-after="0.2cm" white-space-collapse="false">(in full by                                               )</fo:block>
+													</list-item>
+												</list>
+											</fo:table-cell>
+												
+										</fo:table-row>
+										<fo:table-row>
+											
+											<fo:table-cell>
+												<fo:table>
+													<fo:table-column column-width="5.64cm"></fo:table-column>
+													<fo:table-column column-width="1.50cm"></fo:table-column>
+													<fo:table-column column-width="1.08cm"></fo:table-column>
+													<fo:table-body table-layout="fixed" width="100%">
+														<fo:table-row>
+															<fo:table-cell padding-right="0.2cm">
+																<fo:block font-size="8pt" space-after="0.2cm">Amount of claim as stated in claim form (including interest at date of issue) ...............</fo:block>
+																<fo:block font-size="8pt" space-after="0.2cm">Interest since date of claim (if any) ...............</fo:block>
+																<fo:block font-size="8pt">Period</fo:block>
+																<fo:block font-size="8pt" space-after="0.2cm">From.........................To......................</fo:block>
+																<fo:block font-size="8pt" space-after="0.2cm">Rate................%</fo:block>
+																<fo:block font-size="8pt" space-after="0.2cm">Court fees shown on claim .........................</fo:block>
+																<fo:block font-size="8pt">Solicitor's costs (if any) on issuing claim .......</fo:block>
+															</fo:table-cell>
+															<fo:table-cell border-left-style="solid" border-left-width="0.02cm" border-bottom-style="solid" border-bottom-width="0.02cm">
+																	</fo:table-cell>
+															<fo:table-cell border-left-style="dashed" border-left-width="0.01cm" border-bottom-style="solid" border-bottom-width="0.02cm">
+																	</fo:table-cell>
+														</fo:table-row>
+														<fo:table-row>
+															<fo:table-cell padding-right="0.2cm">
+																<fo:block font-size="8pt" font-weight="bold" text-align="right"  space-before="0.1cm">Sub Total</fo:block>
+															</fo:table-cell>
+															<fo:table-cell border-left-style="solid" border-left-width="0.02cm" border-bottom-style="dashed" border-bottom-width="0.01cm">
+																	</fo:table-cell>
+															<fo:table-cell border-left-style="dashed" border-left-width="0.01cm" border-bottom-style="dashed" border-bottom-width="0.01cm">
+																	</fo:table-cell>
+														</fo:table-row>
+														<fo:table-row>
+															<fo:table-cell padding-right="0.2cm">
+																<fo:block font-size="8pt" text-align="right" space-before="0.1cm">Solicitor's costs (if any) on entering judgment</fo:block>
+															</fo:table-cell>
+															<fo:table-cell border-left-style="solid" border-left-width="0.02cm" border-bottom-style="solid" border-bottom-width="0.02cm">
+																	</fo:table-cell>
+															<fo:table-cell border-left-style="dashed" border-left-width="0.01cm" border-bottom-style="solid" border-bottom-width="0.02cm">
+																	</fo:table-cell>
+														</fo:table-row>
+														<fo:table-row>
+															<fo:table-cell padding-right="0.2cm" display-align="center">
+																<fo:block font-size="8pt" font-weight="bold" text-align="right" space-before="0.1cm">Sub Total</fo:block>
+															</fo:table-cell>
+															<fo:table-cell border-left-style="solid" border-left-width="0.02cm" border-bottom-style="dashed" border-bottom-width="0.01cm">
+																	</fo:table-cell>
+															<fo:table-cell border-left-style="dashed" border-left-width="0.01cm" border-bottom-style="dashed" border-bottom-width="0.01cm">
+																	</fo:table-cell>
+														</fo:table-row>
+														<fo:table-row>
+															<fo:table-cell padding-right="0.2cm" display-align="center">
+																<fo:block font-size="8pt" text-align="right" space-before="0.1cm">Deduct amount (if any) paid since issue</fo:block>
+															</fo:table-cell>
+															<fo:table-cell border-left-style="solid" border-left-width="0.02cm" border-bottom-style="solid" border-bottom-width="0.02cm">
+																	</fo:table-cell>
+															<fo:table-cell border-left-style="dashed" border-left-width="0.01cm" border-bottom-style="solid" border-bottom-width="0.02cm">
+																	</fo:table-cell>
+														</fo:table-row>
+														<fo:table-row>
+															<fo:table-cell padding-right="0.2cm">
+																<fo:block font-size="8pt" font-weight="bold" text-align="right" space-before="0.1cm">Amount payable by defendant</fo:block>
+															</fo:table-cell>
+															<fo:table-cell border-left-style="solid" border-left-width="0.02cm" border-bottom-style="solid" border-bottom-width="0.02cm"/>
+															<fo:table-cell border-left-style="dashed" border-left-width="0.02cm" border-bottom-style="solid" border-bottom-width="0.02cm"/>
+														</fo:table-row>
+													</fo:table-body>
+												</fo:table>
+											</fo:table-cell>
+											
+										</fo:table-row>										
+										
+									</fo:table-body>									
+								</fo:table>
+							</fo:table-cell>
+						</fo:table-row>
+												
+					</fo:table-body>
+				</fo:table>
+			</fo:block>
+		</fo:block>
+		<fo:block>
+			<fo:table table-layout="fixed">
+				<fo:table-column column-width="9.86cm" padding-right="10pt"></fo:table-column>
+				<fo:table-column column-width="8.35cm" padding-left="10pt"></fo:table-column>
+				<fo:table-body>
+					<fo:table-row>
+						<fo:table-cell number-columns-spanned="2" >
+							<fo:block font-size="16pt" font-weight="bold" text-align="center" space-after="0.4cm">Notes for Guidance</fo:block>
+						</fo:table-cell>
+					</fo:table-row>
+					<fo:table-row>
+						<fo:table-cell number-columns-spanned="2" border-top-style="solid" border-top-width="0.02cm">
+							<fo:block space-after="0.5cm"> </fo:block>
+						</fo:table-cell>
+					</fo:table-row>
+					<fo:table-row>
+						<fo:table-cell padding-right="10pt">
+							<list type="bullet">
+								<list-item>
+									<fo:block font-size="11pt" space-after="0.3cm">The claim form must be served on the defendant within 4 months of the date of issue (6 months if you are serving outside England or Wales).  You may be able to apply to extend the time for serving the claim form but the application must generally be made before the 4 month or 6 month period expires.</fo:block>
+								</list-item>
+								<list-item>
+									<fo:block font-size="11pt" space-after="0.3cm">If the defendant does not file an admission, defence or counterclaim; or if the defendant admits the whole claim with or without an offer of payment, you may ask for judgment. If you do not request judgment within 6 months of the end of the period for filing a defence, your claim will be stayed.  This means that the only action you can take is to apply to a judge for an order lifting the stay.</fo:block>
+								</list-item>
+							</list>
+						</fo:table-cell>
+						<fo:table-cell padding-left="10pt">
+							<list type="bullet">
+								<list-item>
+									<fo:block font-size="11pt" space-after="0.3cm">You should keep a record of any payments you receive from the defendant.  If there is a hearing or you wish to take steps to enforce the judgment, you will need to satisfy the court about the balance outstanding.  You should give the defendant a receipt and payment in cash should always be acknowledged.  You should tell the defendant how much he owes if he asks.</fo:block>
+								</list-item>
+								<list-item>
+									<fo:block font-size="11pt" font-weight="bold" space-after="0.3cm">You must inform the court IMMEDIATELY if you receive any payment before a hearing date or after you have sent a request for enforcement to the court.</fo:block>
+								</list-item>
+								<list-item>
+									<fo:block font-size="11pt" space-after="0.3cm">Further information in leaflet form can be obtained free of charge from the court.</fo:block>
+								</list-item>
+							</list>
+						</fo:table-cell>
+					</fo:table-row>
+					<!-- Defect 4002; Part E put on same page as Notes -->
+					<!-- 
+						<fo:table-row>
+							<fo:table-cell number-columns-spanned="2" height="6.5cm"></fo:table-cell>
+						</fo:table-row>
+					 -->
+						<fo:table-row>
+							<fo:table-cell number-columns-spanned="2" height="5.8cm"></fo:table-cell>
+						</fo:table-row>
+
+					<fo:table-row >
+						<fo:table-cell number-columns-spanned="2" height="11.1cm" border-style="solid" border-width="0.02cm" padding="0.3cm">
+							<fo:block font-size="11pt" font-weight="bold" text-align="left">Part E</fo:block>
+							<fo:block font-size="11pt" font-weight="bold" text-align="right">Claim Number <!-- FIELD(6) Claim number --><xsl:value-of select="$vdClaimNumber"/></fo:block>
+							<fo:block font-size="11pt" font-weight="bold" text-align="left">Objections to the defendant's proposal for payment</fo:block>
+						</fo:table-cell>
+					</fo:table-row>
+				</fo:table-body>
+			</fo:table>
+		</fo:block>
+	</body>
+	<defaultFooter id="CJR002" suppress="true"/>
+</root>

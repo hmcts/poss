@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>223</Id>
+	<Label>Amount to which fees are limited.</Label>
+	<ObjectName>FeeLmtAmt</ObjectName>
+	<Html>	
+		<input id="DefaultCurrency223" type="text"  size="1"></input>
+		<input id="FeeLmtAmt" type="text"  size="9"></input>						
+	</Html>
+	<Javascript>
+		<XPath>/ds/EnterVariableData/FastTrack/feeLmtAmt</XPath>
+		<HintText>Enter the amount to which fees are limited</HintText>
+		<isMandatory>return true;</isMandatory>	
+		<enableOn>IsSingleExpert.dataBinding, IsFeesLmtd.dataBinding</enableOn>
+		<isEnabled>
+			var val1 = Services.getValue(IsSingleExpert.dataBinding);
+			var val2 = Services.getValue(IsFeesLmtd.dataBinding);
+			return('Y' == val1 &amp;&amp; 'Y' == val2);
+		</isEnabled>
+		<logicOn>IsSingleExpert.dataBinding, IsFeesLmtd.dataBinding</logicOn>
+		<logic>
+			var val1 = Services.getValue(IsSingleExpert.dataBinding);
+			var val2 = Services.getValue(IsFeesLmtd.dataBinding);
+			if('Y' != val1 || 'Y' != val2)
+			{	Services.setValue(FeeLmtAmt.dataBinding, "");
+			}
+		</logic>
+		<validateOn>FeeLmtAmt.dataBinding</validateOn>
+		<validate>
+		  var val = Services.getValue(FeeLmtAmt.dataBinding);
+		  var err = WPU.validateCurrency(val);
+	      if( err == null)
+	      {	Services.setValue(FeeLmtAmt.dataBinding, WPU.formatToTwoDP(val));
+	      }
+	     return err;
+		</validate>
+		<miscCode>
+			function DefaultCurrency223() {}
+			DefaultCurrency223.dataBinding = "/ds/EnterVariableData/curr1";
+			DefaultCurrency223.tabIndex = -1;
+			DefaultCurrency223.maxLength = 1;
+			DefaultCurrency223.isReadOnly = function(){return true;}
+			DefaultCurrency223.isTemporary = function(){return true;}
+			DefaultCurrency223.transformToDisplay = function(value){
+				return WPS.__CaseManUtils().transformCurrencySymbolToDisplay(value,null,null); }
+			DefaultCurrency223.transformToModel = function(value){
+				return WPS.__CaseManUtils().transformCurrencySymbolToModel(value,null,null); }
+        </miscCode>
+		<Context ScreenId="CJR060">
+			<validate>
+				var val = Services.getValue(FeeLmtAmt.dataBinding);				
+				var max = 999999.99;
+				var err = validateCurrencyValue(val, max);
+				
+				if( null == err )
+				{	Services.setValue(FeeLmtAmt.dataBinding, WPU.formatToTwoDP(val));
+				}
+				return err;													
+			</validate>
+		</Context>
+	</Javascript>
+</Question>

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<QueryDef>
+	<DBMapDef location="uk/gov/dca/transformation/case_legacy_service/map_add_echrarticleprotocol.xml"/>
+	<Query pivotNode="/ECHRArticleProtocol" tables="EAP">
+		<Join/>
+		<Modify>
+			<CheckExists table="EAP" fields="EVENT_SEQ" onNotExist="add" onExist="skip"/>
+		</Modify>
+	</Query>		
+</QueryDef>

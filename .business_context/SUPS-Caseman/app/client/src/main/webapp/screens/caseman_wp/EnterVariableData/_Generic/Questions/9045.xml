@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>9045</Id>
+	<Label>Is order for payment of statutory deposits</Label>
+	<ObjectName>StatutoryDeposit</ObjectName>
+	<Html>
+		<input type="checkbox" id="StatutoryDeposit"></input>
+	</Html>
+	<Javascript>		
+    	<XPath>/ds/EnterVariableData/statutoryDeposit</XPath>
+		<HintText>Check box if order is upon payment of statutory deposit</HintText>
+		<modelValue>checked: "Y", unchecked: "N"</modelValue>
+		<isMandatory>return false;</isMandatory>
+		<mandatoryOn>StatutoryDeposit.dataBinding</mandatoryOn>
+		<isEnabled>return true;</isEnabled>        			
+	</Javascript>
+</Question>

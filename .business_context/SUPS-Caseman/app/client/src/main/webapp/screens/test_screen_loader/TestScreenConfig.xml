@@ -1,0 +1,222 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Screens>
+	
+	<Screen>
+		<Code>TransferCase</Code>
+		<Name>Transfer Case</Name>
+		<Params>
+			<Param>
+				<Name>CaseNumber</Name>
+				<Mandatory>true</Mandatory>
+			</Param>
+		</Params>
+	</Screen>
+	
+	<Screen>
+		<Code>MaintainJudgment</Code>
+		<Name>Maintain Judgment</Name>
+		<Params>
+			<Param>
+				<Name>CaseNumber</Name>
+				<Mandatory>true</Mandatory>
+			</Param>
+		</Params>
+	</Screen>
+	
+	<Screen>
+		<Code>BarUnbarJudgment</Code>
+		<Name>Bar/Unbar Judgment</Name>
+		<Params>
+			<Param>
+				<Name>CaseNumber</Name>
+				<Mandatory>true</Mandatory>
+			</Param>
+		</Params>
+	</Screen>
+	
+	<Screen>
+		<Code>CreateUpdateHearing</Code>
+		<Name>Hearings (Case)</Name>
+		<Params>
+			<Param>
+				<Name>CaseNumber</Name>
+				<Mandatory>true</Mandatory>
+			</Param>
+		</Params>
+	</Screen>
+
+	<Screen>
+		<Code>HearingCO</Code>
+		<Name>Hearings (CO)</Name>
+		<Params>
+			<Param>
+				<Name>CONumber</Name>
+				<Mandatory>true</Mandatory>
+			</Param>
+		</Params>
+	</Screen>
+	
+	<Screen>
+		<Code>MaintainObligations</Code>
+		<Name>Maintain Obligations</Name>
+		<Params>
+			<Param>
+				<Name>CaseNumber</Name>
+				<Mandatory>true</Mandatory>
+			</Param>
+			<Param>
+				<Name>EventSeq</Name>
+				<Mandatory>false</Mandatory>
+			</Param>
+			<Param>
+				<Name>EventId</Name>
+				<Mandatory>false</Mandatory>
+			</Param>
+			<Param>
+				<Name>EventType</Name>
+				<Mandatory>true</Mandatory>
+			</Param>
+			<Param>
+				<Name>Mechanism</Name>
+				<Mandatory>false</Mandatory>
+			</Param>
+			<Param>
+				<Name>Action</Name>
+				<Mandatory>false</Mandatory>
+			</Param>
+			<Param>
+				<Name>MaintenanceMode</Name>
+				<Mandatory>true</Mandatory>
+			</Param>
+			<Param>
+				<Name>ObligationType</Name>
+				<Mandatory>false</Mandatory>
+			</Param>
+			<Param>
+				<Name>DefaultDays</Name>
+				<Mandatory>false</Mandatory>
+			</Param>
+		</Params>
+	</Screen>
+	
+	<Screen>
+		<Code>WindowForTrial</Code>
+		<Name>Window For Trial</Name>
+		<Params>
+			<Param>
+				<Name>CaseNumber</Name>
+				<Mandatory>true</Mandatory>
+			</Param>
+		</Params>
+	</Screen>
+	
+	<Screen>
+		<Code>MaintainWarrantRefundsFees</Code>
+		<Name>Maintain Warrant Fees / Refunds</Name>
+		<Params>
+			<Param>
+				<Name>WarrantNumber</Name>
+				<Mandatory>true</Mandatory>
+			</Param>
+		</Params>
+	</Screen>
+	
+	<Screen>
+		<Code>MaintainAEAmounts</Code>
+		<Name>Maintain AE Fees / Refunds</Name>
+		<Params>
+			<Param>
+				<Name>CaseNumber</Name>
+				<Mandatory>true</Mandatory>
+			</Param>
+			<Param>
+				<Name>AENumber</Name>
+				<Mandatory>true</Mandatory>
+			</Param>
+		</Params>
+	</Screen>
+	
+	<Screen>
+		<Code>MaintainDebt</Code>
+		<Name>Maintain CO Debts</Name>
+		<Params>
+			<Param>
+				<Name>CONumber</Name>
+				<Mandatory>true</Mandatory>
+			</Param>
+			<Param>
+				<Name>COMode</Name>
+				<Mandatory>true</Mandatory>
+			</Param>
+		</Params>
+	</Screen>
+	
+	<Screen>
+		<Code>AECalculatePER</Code>
+		<Name>PER Calculator (AE)</Name>
+		<Params>
+			<Param>
+				<Name>AENumber</Name>
+				<Mandatory>true</Mandatory>
+			</Param>
+		</Params>
+	</Screen>
+	
+	<Screen>
+		<Code>COCalculatePER</Code>
+		<Name>PER Calculator (CO)</Name>
+		<Params>
+			<Param>
+				<Name>CONumber</Name>
+				<Mandatory>true</Mandatory>
+			</Param>
+		</Params>
+	</Screen>
+	
+	<Screen>
+		<Code>DeterminationOfMeans</Code>
+		<Name>DOM Calculator</Name>
+		<Params>
+			<Param>
+				<Name>CONumber</Name>
+				<Mandatory>true</Mandatory>
+			</Param>
+		</Params>
+	</Screen>
+	
+	<Screen>
+		<Code>ViewCODividends</Code>
+		<Name>View Dividends</Name>
+		<Params>
+			<Param>
+				<Name>CONumber</Name>
+				<Mandatory>true</Mandatory>
+			</Param>
+		</Params>
+	</Screen>
+	
+	<Screen>
+		<Code>ViewPayments</Code>
+		<Name>View Payments</Name>
+		<Params>
+			<Param>
+				<Name>EnforcementNumber</Name>
+				<Mandatory>true</Mandatory>
+			</Param>
+			<Param>
+				<Name>EnforcementType</Name>
+				<Mandatory>true</Mandatory>
+			</Param>
+		</Params>
+	</Screen>
+
+	<Screen>
+		<Code>ShowDocument</Code>
+		<Name>Show Document</Name>
+	</Screen>	
+	
+	<Screen>
+		<Code>PrintDocument</Code>
+		<Name>Print Document</Name>
+	</Screen>	
+</Screens>

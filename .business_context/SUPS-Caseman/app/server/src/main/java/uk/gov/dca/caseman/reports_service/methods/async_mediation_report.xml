@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: Reports
+	Method:  asyncMediationReport()
+	File:    async_mediation_report.xml
+	Author:  Chris Vincent
+	Created: 18 March 2015
+	Description: 
+		Calls produceMediationStatisticsReport method in Asynchronous mode using AsyncCall pipeline method.
+-->
+<service-method>
+	<pipeline>
+		<AsyncCall service="Reports" method="produceMediationStatisticsReport">
+			<Destination name="AsyncQueue"/>
+		</AsyncCall>
+	</pipeline>
+	<Dependencies>
+		<Dependency serviceName="Reports"/>	
+	</Dependencies>
+	<Security roles="viewOnly medium high wcSuper scSuper bmsSuper aeSuper dmSuper ccbcMan cpSuper"/>
+</service-method>

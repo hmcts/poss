@@ -1,0 +1,26 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: WindowForTrial
+	Method:  deleteWftExclusions()
+	File:    delete_wft_exclusions.xml
+	Author:  Phil Haferer (EDS)
+	Created: 23-Mar-2006
+	Description: 
+		Delete the WFT_EXCLUSIONS rows relating to a particular Window For Trial.
+        (Created in response to, TD 2585: "WFT Excluded Dates removed when WFT record not updated").
+-->
+<service-method>
+	<pipeline>
+		<SQLLite output="input">
+			<DataSource id="java:OracleDS"/>
+			<Param name="param.caseNumber" xpath="/params/param[@name='caseNumber']"/>
+			<Param name="param.wftId" xpath="/params/param[@name='wftId']"/>
+			<SQL type="update" tables="WFE">
+				DELETE FROM WFT_EXCLUSIONS WFE
+				WHERE  WFE.WFE_WFT_CASE_NUMBER = ${param.caseNumber}
+				AND    WFE.WFE_WFT_ID          = ${param.wftId}
+			</SQL>
+		</SQLLite>
+	</pipeline>
+	<Security roles="user"/>
+</service-method>

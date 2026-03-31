@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: AeEvent
+	Method:  getPreReqEventForAe
+	Author:  Chris Hutt (EDS) 
+	Created: 21 June 2005
+	Description: 
+		Use SQLLite to determine whether an AE has specified event registered against it
+-->
+<service-method>
+	<pipeline>
+		<SQLLite format-output="true"
+				 resultset-element="Ae"
+				 row-element="Event"
+				 field-name-as="element" >
+			<DataSource id="java:OracleDS"/>
+			<Param name="param.eventId" xpath="/params/param[@name='eventId']"/>
+			<Param name="param.aeNumber" xpath="/params/param[@name='aeNumber']"/>
+			<SQL>
+				SELECT 
+					STD_EVENT_ID        AS "StandardEventId"
+				,       EVENT_DATE          AS "EventDate"	
+				FROM    AE_EVENTS AE
+				WHERE   AE.STD_EVENT_ID = ${param.eventId}
+				AND     AE.AE_NUMBER =  ${param.aeNumber}
+				AND 	AE.ERROR_INDICATOR != 'Y'
+			</SQL>
+		</SQLLite>
+  	</pipeline>
+	<Security roles="user"/>
+</service-method>

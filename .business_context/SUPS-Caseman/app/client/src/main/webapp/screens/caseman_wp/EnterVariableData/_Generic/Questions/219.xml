@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>219</Id>
+	<Label>Order to Pay Fees and Expenses</Label>
+	<ObjectName>FeesAndExpenses</ObjectName>
+	<Html>	
+		<input type="checkbox" id="FeesAndExpenses"></input>
+	</Html>
+	<Javascript>
+		<XPath>/ds/EnterVariableData/FastTrack/feesAndExpenses</XPath>
+		<HintText>Check box if there is an order to pay fees and expenses</HintText>
+		<isMandatory>return true;</isMandatory>	
+		<modelValue>checked: "Y", unchecked: "N"</modelValue>
+		<enableOn>IsSingleExpert.dataBinding</enableOn>
+		<isEnabled>return('Y' == Services.getValue(IsSingleExpert.dataBinding));</isEnabled>
+		<logicOn>IsSingleExpert.dataBinding</logicOn>
+		<logic>
+			if('Y' != Services.getValue(IsSingleExpert.dataBinding))
+			{	Services.setValue(FeesAndExpenses.dataBinding, "N");
+			}
+		</logic>
+	</Javascript>
+</Question>

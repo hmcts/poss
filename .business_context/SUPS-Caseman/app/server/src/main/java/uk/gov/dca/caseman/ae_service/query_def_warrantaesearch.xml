@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<QueryDef>
+    <DBMapDef location="uk/gov/dca/caseman/ae_service/map_warrantaesearch.xml"/>
+    <Query pivotNode="/Results/AERecord" tables="AEA PR P CPR">
+		<LinkedJoin type="root" key="AEA.AE_NUMBER">
+			<Join>
+				CPR.CASE_NUMBER     = AEA.CASE_NUMBER
+				AND CPR.PARTY_ROLE_CODE = AEA.PARTY_AGAINST_PARTY_ROLE_CODE
+				AND CPR.CASE_PARTY_NO   = AEA.PARTY_AGAINST_CASE_PARTY_NO 
+				AND P.PARTY_ID          = CPR.PARTY_ID
+				AND PR.PARTY_ROLE_CODE  = CPR.PARTY_ROLE_CODE 	   
+			</Join>
+		</LinkedJoin>
+		<Alias name="P.PARTY_KEY" select="AEA.PARTY_AGAINST_PARTY_ROLE_CODE || '_' || AEA.PARTY_AGAINST_CASE_PARTY_NO"/>
+		<Modify notModifiable="true"/>
+    </Query>
+	
+	<Query pivotNode="/Results/AERecord/AEEvents/Event" tables="E">
+		<LinkedJoin type="query" key="E.AE_EVENT_SEQ">
+			<Parent key="AEA.AE_NUMBER" tables="AEA"/>
+			<Join>
+				E.AE_NUMBER = AEA.AE_NUMBER AND
+				E.ERROR_INDICATOR = 'N' AND
+				E.STD_EVENT_ID IN (888, 889, 890, 900)
+			</Join>
+		</LinkedJoin>
+		<OrderBy>E.DATE_ENTERED DESC, E.AE_EVENT_SEQ DESC</OrderBy>
+		<Modify notModifiable="true"/>
+	</Query>
+</QueryDef>

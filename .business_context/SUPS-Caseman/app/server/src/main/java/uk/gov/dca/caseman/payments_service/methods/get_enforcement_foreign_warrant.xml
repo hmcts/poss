@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: Payments
+	Method: getEnforcementForeignWarrant()
+	File: get_enforcement_foreign_warrant.xml
+	Author: Steve Blair
+	Description:
+		Get Foreign Warrant details for Suitors Cash. Called from getEnforcement.
+			Change History:
+	
+			Chris Hutt 5 june 2007: TD6212, Vantive 271738
+							Coded Party details not  being returned where a Foreign Warrant
+							with no case on the database.
+							Rules agreed with Phil Hardy are that coded party details should be returned
+							if that coded party
+							a) is national
+							b) is local to the court of the current user (param = courtId)
+-->
+<service-method>
+	<pipeline>
+		<Query>
+			<QueryDef location="uk/gov/dca/caseman/payments_service/query_def_enforcement/foreign_warrant.xml" />
+			<QueryExtension pivotNode="/Enforcement">
+				<Param name="param.localWarrantNumber" xpath="/params/param[@name = 'localWarrantNumber']" />
+				<Param name="param.owningCourt" xpath="/params/param[@name = 'owningCourt']" />		
+				<Param name="param.courtCode" xpath="/params/param[@name = 'courtId']"/>
+			</QueryExtension>
+			
+		</Query>
+	</pipeline>
+	<Security roles="viewOnly medium high wcSuper scSuper bmsSuper aeSuper dmSuper"/>
+</service-method>

@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Question>
+	<Id>9244</Id>
+	<Label>Court to be transferred to</Label>
+	<ObjectName>N86TransferCourtCode</ObjectName>
+	<Html>	
+		<table>
+			<tr>
+				<td><input id="N86TransferCourtCode" type="text" size="5"></input></td>
+				<td><script type="text/javascript">AutoCompletionRenderer.createInline("N86TransferCourtName");</script></td>
+				<td><input id="N86TransferCourtLOVButton" type="button" value="LOV"></input></td>
+			</tr>
+		</table>	
+		<script type="text/javascript">
+			LOVPopupRenderer.createInline( "N86TransferCourtLOVGrid", "Courts", ["Code", "Court"], 12, 1, true );
+		</script>
+	</Html>
+	<Javascript>
+		<XPath>/ds/EnterVariableData/N86Transfercourt/code</XPath>
+		<HintText>Select the court the case will be transferred to</HintText>
+		<maxLength>3</maxLength>
+		<enableOn>WhoConsidApp2.dataBinding</enableOn>
+		<isEnabled>return ("J" == Services.getValue(WhoConsidApp2.dataBinding))</isEnabled>
+		<validate>
+			var ec = null;
+			var courtCode = Services.getValue(N86TransferCourtCode.dataBinding);
+			if( null != courtCode &amp;&amp; "" != courtCode)
+			{
+				var xpathName = REF_DATA_XPATH + "/Courts/Court[./Code = " + N86TransferCourtCode.dataBinding + "]/Name";	 
+				var courtName = Services.getValue(xpathName);
+				if( null == courtName || "" == courtName)
+				{
+					ec = ErrorCode.getErrorCode('CaseMan_invalidCourtCode_Msg');
+				}
+			}
+			return ec;
+		</validate>
+		<logicOn>N86TransferCourtCode.dataBinding, WhoConsidApp2.dataBinding</logicOn>
+		<logic>
+			var courtCode = Services.getValue(N86TransferCourtCode.dataBinding);
+			if( null != courtCode &amp;&amp; "" != courtCode)
+			{
+				var xpathName = REF_DATA_XPATH + "/Courts/Court[./Code = " + N86TransferCourtCode.dataBinding + "]/Name";	 
+				var courtName = Services.getValue(xpathName);
+				Services.setValue(N86TransferCourtName.dataBinding, courtName);
+			}
+			else
+			{
+				Services.setValue(N86TransferCourtName.dataBinding, "");
+			}
+			
+			if("J" != Services.getValue(WhoConsidApp2.dataBinding))
+			{	
+				Services.setValue(N86TransferCourtCode.dataBinding, "");
+			}
+		</logic>
+		<miscCode>		
+			function N86TransferCourtName(){}
+			N86TransferCourtName.strictValidation = true;
+			N86TransferCourtName.dataBinding = "/ds/EnterVariableData/N86Transfercourt/name";
+			N86TransferCourtName.tabIndex = __tabIdx++;
+			N86TransferCourtName.helpText = "Name of the court the case will be transferred to";
+			N86TransferCourtName.srcData = REF_DATA_XPATH + "/Courts";
+			N86TransferCourtName.rowXPath = "Court";
+			N86TransferCourtName.keyXPath = "Name";
+			N86TransferCourtName.displayXPath = "Name";
+			N86TransferCourtName.enableOn = [WhoConsidApp2.dataBinding];
+			N86TransferCourtName.isEnabled = function() {
+				return ("J" == Services.getValue(WhoConsidApp2.dataBinding));
+			}
+
+			N86TransferCourtName.logicOn = [N86TransferCourtName.dataBinding, WhoConsidApp2.dataBinding];
+			N86TransferCourtName.logic = function() {   
+				var name = Services.getValue(N86TransferCourtName.dataBinding);		     		
+				if( null != name &amp;&amp; "" != name)
+				{
+					var xpathCode = REF_DATA_XPATH + "/Courts/Court[./Name = " + N86TransferCourtName.dataBinding + "]/Code";	 
+					var courtCode = Services.getValue(xpathCode);
+					Services.setValue(N86TransferCourtCode.dataBinding, courtCode);
+				}
+				else
+				{
+					Services.setValue(N86TransferCourtCode.dataBinding, "");
+				}
+				
+				if("J" != Services.getValue(WhoConsidApp2.dataBinding))
+				{	
+					Services.setValue(N86TransferCourtName.dataBinding, "");
+				}
+			}
+
+			function N86TransferCourtLOVButton() {}
+			N86TransferCourtLOVButton.tabIndex = __tabIdx++;
+			N86TransferCourtLOVButton.enableOn = [WhoConsidApp2.dataBinding];
+			N86TransferCourtLOVButton.isEnabled = function() {
+				return ("J" == Services.getValue(WhoConsidApp2.dataBinding));
+			}
+
+			function N86TransferCourtLOVGrid() {};
+			N86TransferCourtLOVGrid.dataBinding = "/ds/var/page/SelectedLOVRow/N86TransferCourt";
+			N86TransferCourtLOVGrid.srcData = REF_DATA_XPATH + "/Courts";
+			N86TransferCourtLOVGrid.rowXPath = "Court";
+			N86TransferCourtLOVGrid.keyXPath = "Code";
+			N86TransferCourtLOVGrid.columns = [	{xpath: "Code"}, {xpath: "Name"} ];
+			N86TransferCourtLOVGrid.logicOn = [N86TransferCourtLOVGrid.dataBinding];
+			N86TransferCourtLOVGrid.logic = function() 
+			{
+				var id = Services.getValue(N86TransferCourtLOVGrid.dataBinding);
+				Services.setValue(N86TransferCourtCode.dataBinding, id);
+			} 
+
+			N86TransferCourtLOVGrid.raise = {
+				eventBinding: {
+					singleClicks: [ {element: "N86TransferCourtLOVButton"} ],
+					keys: [ { key: Key.F6, element: "N86TransferCourtCode" }, { key: Key.F6, element: "N86TransferCourtName" } ]
+				}
+			};
+		</miscCode>
+	</Javascript>
+</Question>

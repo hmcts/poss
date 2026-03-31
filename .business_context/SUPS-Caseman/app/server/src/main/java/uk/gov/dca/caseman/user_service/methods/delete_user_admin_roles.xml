@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: User
+	Method:  deleteUserAdminRoles()
+	File:    delete_user_admin_roles.xml
+	Author:  Chris Vincent
+	Created: 23-Jul-2014
+	Description:
+		Deletes the administrator roles associated with a user
+-->
+<service-method>
+	<pipeline>
+		<SQLLite output="input">
+			<DataSource id="java:OracleDS"/>
+			<Param name="param.userId" xpath="/params/param[@name='userId']"/>
+			<SQL type="update" tables="UR">
+				DELETE FROM USER_ROLE UR
+				WHERE  UR.USER_ID = ${param.userId}
+				AND    UR.ROLE_ID IN ('admin','sAdmin')
+			</SQL>
+		</SQLLite>
+	</pipeline>
+	<Security roles="admin sAdmin"/>
+</service-method>

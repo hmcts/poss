@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:fo="http://www.w3.org/1999/XSL/Format" xmlns="http://eds.com/supsfo">
+	<variables>@word.processing.url.xsl@supsfo.xsl</variables>
+	<duplex/>
+	<layout>order</layout>
+	<addressee>
+		<blank/>
+		<claimants/>
+		<defendants/>
+		<part20claimants/>
+		<part20defendants/>		
+	</addressee>
+	<header>
+		<fo:block font-size="16pt" font-weight="bold">Order to Dispense with Service</fo:block>
+	</header>
+	<courtcase>
+		<court>
+			<xsl:copy-of select="$vdCourtHeaderBlock"/>
+		</court>
+		<caseparameters>
+			<parameter>
+				<name>
+					<fo:block font-weight="bold">Claim Number</fo:block>
+				</name>
+				<value>
+					<fo:block>
+						<xsl:value-of select="$vdClaimNumber"/>
+					</fo:block>
+				</value>
+			</parameter>
+			<parameter>
+				<name>
+					<fo:block font-weight="bold">Date</fo:block>
+				</name>
+				<value>
+					<fo:block>
+						<xsl:value-of select="$vdEventDate"/>
+					</fo:block>
+				</value>
+			</parameter>
+		</caseparameters>
+	</courtcase>
+	<bodyintroright><fo:block space-before="0.4cm" space-after="1cm"><fo:inline text-align="center"><seal/></fo:inline></fo:block></bodyintroright>
+	<body>
+		<editable useid="N10085">
+			<fo:block space-before="0.4cm" space-after="0.4cm">
+				Before <xsl:value-of select="$vdJudge"/> sitting at <xsl:value-of select="$vdHearingAtCourtNameDescription"/>, <xsl:value-of select="$vdHearingAtCourtAddress"/>.
+			</fo:block>
+			<fo:block space-after="0.4cm">
+				<xsl:copy-of select="$vdHearingAttendees"/>.	
+			</fo:block>
+			<fo:block space-after="0.4cm">
+				<fo:inline font-weight="bold">UPON</fo:inline> the application of the <xsl:call-template name="formatTextAreaText"><xsl:with-param name="text"><xsl:copy-of select="$vdApplicationInstigator"/>&#xa0;<xsl:copy-of select="$vdInstigatorName"/></xsl:with-param></xsl:call-template>.
+			</fo:block>
+			<fo:block space-after="0.4cm">
+				<fo:inline font-weight="bold">IT IS ORDERED THAT </fo:inline> service of the <xsl:call-template name="formatTextAreaText"><xsl:with-param name="text"><xsl:copy-of select="$vdDocumentService"/></xsl:with-param></xsl:call-template> on the <xsl:value-of select="$vdPartyService"/>&#xa0;<xsl:value-of select="$vdPartyServiceName"/> be dispensed with.
+			</fo:block>
+		</editable>
+	</body>
+	<defaultFooter id="CJR175"/>
+</root>

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<service-method>
+	<pipeline>
+		<Update>
+			<QueryDef location="uk/gov/dca/caseman/ae_service/query_def_update_judgment_debtor.xml"/>			
+			<DataSource xpath="/params/param[@name='JudgmentDebtorDetails']"/>
+		</Update>
+	</pipeline>
+	<Security roles="user"/>
+</service-method>

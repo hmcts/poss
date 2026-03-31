@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3c.org/TR/html4/strict.dtd">
+<html>
+
+	<head>
+		<title>ViewHistAddresses_SubForm</title>
+		<link href="ViewHistAddresses_SubForm.css" type="text/css" rel="stylesheet">
+		<script type="text/javascript" src="../../Framework.js"></script>
+		<script type="text/javascript" src="../../ConcatCommon.js"></script>
+		<script type="text/javascript" src="ViewHistAddresses_SubForm.js"></script>
+  	</head>
+
+	<body>
+	
+    	<form id="viewHistAddressesSubform" class="subform">
+
+			<div class="panel">
+				<table class="content">
+					<tr>
+						<td valign="top">
+							<script type="text/javascript">Grid.createInline("viewHistAddrMasterGrid", ["Address", "Date From", "Date To", "Created By"], 10, 1);</script>
+						</td>
+						<td>
+							<table>
+								<tr>
+									<td><label for="HistoricalAddress_ContactDetails_Address_Line1">Address Details</label></td>
+									<td><input type="text" id="HistoricalAddress_ContactDetails_Address_Line1" size="50"/></td>
+								</tr>
+								<tr>
+									<td>&nbsp;</td>
+									<td><input type="text" id="HistoricalAddress_ContactDetails_Address_Line2" size="50"/></td>
+								</tr>
+								<tr>
+									<td>&nbsp;</td>
+									<td><input type="text" id="HistoricalAddress_ContactDetails_Address_Line3" size="50"/></td>
+								</tr>
+								<tr>
+									<td>&nbsp;</td>
+									<td><input type="text" id="HistoricalAddress_ContactDetails_Address_Line4" size="50"/></td>
+								</tr>
+								<tr>
+									<td>&nbsp;</td>
+									<td><input type="text" id="HistoricalAddress_ContactDetails_Address_Line5" size="50"/></td>
+								</tr>
+								<tr>
+									<td><label for="HistoricalAddress_ContactDetails_Address_Postcode">Postcode</label></td>
+									<td><input type="text" id="HistoricalAddress_ContactDetails_Address_Postcode" size="15"/></td>
+								</tr>
+							</table>
+						</td>
+					</tr>
+				</table>
+			</div>
+			
+			<!-- Subform action bar -->
+			<script type="text/javascript">
+				ActionBarRenderer.createInline(
+					"changeCaseType_statusbar",
+					[
+						{id: "HistoricalAddress_CloseButton", label: "Close"}	
+					]
+				);
+			</script>
+
+		</form>
+    
+    </body>
+    
+</html>

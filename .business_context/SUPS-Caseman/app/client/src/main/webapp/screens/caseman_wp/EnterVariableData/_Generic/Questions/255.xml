@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>255</Id>
+	<Label>Direction on replies?</Label>
+	<ObjectName>ReplyDirections</ObjectName>
+	<Html>	
+		<input type="checkbox" id="ReplyDirections"></input>
+	</Html>
+	<Javascript>
+		<XPath>/ds/EnterVariableData/FastTrack/replyDirections</XPath>
+		<HintText>Check box if there is direction on replies </HintText>
+		<isMandatory>return true;</isMandatory>
+		<modelValue>checked: "Y", unchecked: "N"</modelValue>	
+		<enableOn>ExpertsQDirections.dataBinding</enableOn>
+		<isEnabled>return('Y' == Services.getValue(ExpertsQDirections.dataBinding));</isEnabled>
+		<logicOn>ExpertsQDirections.dataBinding</logicOn>
+		<logic>
+			if('Y' != Services.getValue(ExpertsQDirections.dataBinding))
+			{	Services.setValue(ReplyDirections.dataBinding, "N");
+			}
+		</logic>
+	</Javascript>
+</Question>

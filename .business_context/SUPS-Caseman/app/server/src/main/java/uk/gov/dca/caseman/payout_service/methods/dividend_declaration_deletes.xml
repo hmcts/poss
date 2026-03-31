@@ -1,0 +1,68 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: Payout
+	Method:  dividendDeclarationDeletes()
+	File:    dividend_declaration_deletes.xml
+	Description: 
+		This is a simple service which is used to do the deletes associated with the completion of a 
+		dividend declaration run.
+		
+    Change History:
+    04-Jul-2006 Phil Haferer (EDS) - Added the atrtibute output="input" for all SQLLite tags, otherwise the courtId
+                parameter is only available for the first pipeline step.
+                TD 3812: Performance: Deletes causing full table scans when cancel Dividend Declaration.
+-->
+<service-method visibility="local">
+	<pipeline>
+		<SQLLite output="input">
+			<DataSource id="java:OracleDS"/>
+			<Param name="param.courtId" xpath="/params/param[@name = 'courtId']" />
+			<SQL type="update">
+				DELETE	PAYABLE_ORDER_ITEMS 
+				WHERE 	ADMIN_COURT_CODE = ${param.courtId}
+			</SQL>	
+		</SQLLite>
+		<SQLLite output="input">
+			<DataSource id="java:OracleDS"/>
+			<Param name="param.courtId" xpath="/params/param[@name = 'courtId']" />
+			<SQL type="update">
+				DELETE	PAYABLE_ORDERS
+				WHERE 	ADMIN_COURT_CODE = ${param.courtId}
+			</SQL>	
+		</SQLLite>
+		<SQLLite output="input">
+			<DataSource id="java:OracleDS"/>
+			<Param name="param.courtId" xpath="/params/param[@name = 'courtId']" />
+			<SQL type="update">
+				DELETE	CANDIDATE_DIVIDEND_PAYMENTS 
+				WHERE 	ADMIN_COURT_CODE = ${param.courtId}
+			</SQL>	
+		</SQLLite>
+		<SQLLite output="input">
+			<DataSource id="java:OracleDS"/>
+			<Param name="param.courtId" xpath="/params/param[@name = 'courtId']" />
+			<SQL type="update">
+				DELETE 	DEBT_DIVIDENDS 
+				WHERE 	DD_PO_ADMIN_COURT_CODE = ${param.courtId} 
+				AND 	CREATED = 'N'
+			</SQL>	
+		</SQLLite>
+		<SQLLite output="input">
+			<DataSource id="java:OracleDS"/>
+			<Param name="param.courtId" xpath="/params/param[@name = 'courtId']" />
+			<SQL type="update">
+				DELETE	DIVIDENDS DIV 
+				WHERE 	DIV.CREATED = 'N' 
+				AND 	DIV.DIV_CO_NUMBER IN (	SELECT	CO.CO_NUMBER 
+		 					      				FROM 	CONSOLIDATED_ORDERS CO 
+	 						      				WHERE 	CO.CO_NUMBER = DIV.DIV_CO_NUMBER 
+	 						      				AND 	CO.ADMIN_COURT_CODE = ${param.courtId})
+			</SQL>	
+		</SQLLite>
+	</pipeline>
+	<Security roles="viewOnly medium high wcSuper scSuper bmsSuper aeSuper dmSuper edsAdmin"/>
+</service-method>
+
+
+
+

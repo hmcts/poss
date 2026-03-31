@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+
+	<Id>9238</Id>
+	<Label>EC Regulation</Label>
+	<ObjectName>ECRegulation</ObjectName>
+	<Html>
+		<input type="checkbox" id="ECRegulation"></input>
+	</Html>
+	<Javascript>		
+     	<XPath>/ds/EnterVariableData/ECRegulation</XPath>
+		<HintText>Check box if EC regulation applies</HintText>
+		<modelValue>checked: "Y", unchecked: "N"</modelValue>
+        <enableOn>ECRegulation.dataBinding </enableOn>
+        <isEnabled>return true;</isEnabled> 
+           
+        	
+	</Javascript>
+</Question>

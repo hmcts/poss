@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: Payout
+	Method:  updateNonOverpayments()
+	File:    update_non_overpayments.xml
+	Author:  Phil Haferer (EDS)
+	Created: 16-Jan-2006
+	Description: 
+		Method to implement SUPS implementation of the Legacy stored procedure "p_payout_update()".
+-->
+<service-method>
+	<pipeline>
+		<SQLLite output="input">
+			<DataSource id="java:OracleDS"/>
+			<Param name="param.adminCourtCode"    xpath="/params/param[@name='adminCourtCode']"/>
+			<Param name="param.poNumber"          xpath="/params/param[@name='poNumber']"/>
+			<Param name="param.transactionNumber" xpath="/params/param[@name='transactionNumber']"/>
+			<Param name="param.print"             xpath="/params/param[@name='print']"/>
+			<Param name="param.poTotal"           xpath="/params/param[@name='poTotal']"/>
+			<Param name="param.itemDate"          xpath="/params/param[@name='itemDate']"/>
+			<Param name="param.reportId"          xpath="/params/param[@name='reportId']"/>
+			<Param name="param.caduReportId"      xpath="/params/param[@name='caduReportId']"/>
+			<SQL type="update" tables="PAY">
+				UPDATE PAYMENTS PAY
+				SET    PAY.PAYABLE_ORDER_NUMBER_1 = DECODE(${param.print},'N',NULL, ${param.poNumber})
+				,      PAY.PO_TOTAL               = DECODE(${param.print},'N',NULL, ${param.poTotal})
+				,      PAY.PAYOUT_DATE            = TO_DATE(${param.itemDate}, 'YYYY-MM-DD')
+				,      PAY.PAYOUT_REPORT_ID       = ${param.reportId}
+				,      PAY.NOTES                  = PAY.NOTES||DECODE(${param.print},'N','Address Unknown'||' '||${param.caduReportId},NULL) 
+				WHERE  PAY.ADMIN_COURT_CODE       = ${param.adminCourtCode}
+				AND    PAY.TRANSACTION_NUMBER     = ${param.transactionNumber}
+			</SQL>
+		</SQLLite>
+	</pipeline>
+	<Security roles="viewOnly medium high wcSuper scSuper bmsSuper aeSuper dmSuper edsAdmin"/>		
+</service-method>

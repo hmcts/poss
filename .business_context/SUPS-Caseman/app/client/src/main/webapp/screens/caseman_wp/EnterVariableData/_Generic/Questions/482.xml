@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>482</Id>
+	<Label>Day of the week Instalment due</Label>
+	<ObjectName>InstalmentDay</ObjectName>
+	<Html>	
+		<select id="InstalmentDay">
+			<option value=""></option>
+			<option value="Mon">Monday</option>
+			<option value="Tue">Tuesday</option>
+			<option value="Wed">Wednesday</option>
+			<option value="Thu">Thursday</option>
+			<option value="Fri">Friday</option>
+			<option value="Sat">Saturday</option>
+			<option value="Sun">Sunday</option>						
+		</select>
+	</Html>		
+
+	<Javascript>
+		<XPath>/ds/EnterVariableData/HardshipPayment/instalmentDay</XPath>
+		<componentName>##label##</componentName>
+		<isMandatory>return true;</isMandatory>
+		<HintText>Select day of weekly e.g. Monday, or number of day of month e.g. 1st, 22nd</HintText>	
+		<enableOn>InstalPeriod2.dataBinding</enableOn>
+		<isEnabled>return( 'WK' == Services.getValue(InstalPeriod2.dataBinding));</isEnabled>
+		<logicOn>InstalPeriod2.dataBinding</logicOn>
+		<logic>
+			if( 'WK' != Services.getValue(InstalPeriod2.dataBinding))
+			{	Services.setValue(InstalmentDay.dataBinding, "");
+			}
+		</logic>				
+	</Javascript>
+</Question>

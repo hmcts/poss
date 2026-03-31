@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<DBMapDef>
+	<DataSource id="java:OracleDS"/>
+	<Tables>
+		<Table alias="RC"  name="REJECT_CASES"/>
+		<Table alias="RR"  name="REJECT_REASONS"/>
+		<Table alias="CRC1" name="CCBC_REF_CODES"/>
+		<Table alias="CRC2" name="CCBC_REF_CODES"/>
+		<Table alias="CRC3" name="CCBC_REF_CODES"/>
+		<Table alias="CRC4" name="CCBC_REF_CODES"/>
+	</Tables>
+	<Mapping>
+		<RejectedCases>
+			<RejectedCase>
+				<CaseNumber>${RC.CASE_NUMBER}</CaseNumber>
+				<DateRejected>${RC.DATE_REJECTED}</DateRejected>
+				<RejectCode>${RC.REJECT_CODE}</RejectCode>
+				<RejectReason>${RR.REJECT_TEXT}</RejectReason>
+				<DespatchNumber>${RC.DESPATCH_NUMBER}</DespatchNumber>
+				<CreditorCode>${RC.CRED_CODE}</CreditorCode>
+				<ClaimantName>${RC.CLAIMANT_DETAILS_1}</ClaimantName>
+				<ClaimantAddress1>${RC.CLAIMANT_DETAILS_2}</ClaimantAddress1>
+				<ClaimantAddress2>${RC.CLAIMANT_DETAILS_3}</ClaimantAddress2>
+				<ClaimantAddress3>${RC.CLAIMANT_DETAILS_4}</ClaimantAddress3>
+				<ClaimantAddress4>${RC.CLAIMANT_DETAILS_5}</ClaimantAddress4>
+				<ClaimantAddress5>${RC.CLAIMANT_DETAILS_6}</ClaimantAddress5>
+				<ClaimantAddress6>${RC.CLAIMANT_DETAILS_7}</ClaimantAddress6>				
+				<Reference>${RC.REFERENCE}</Reference>
+				
+				<ClaimantDXNo>${RC.CLAIMANT_DX_NO}</ClaimantDXNo>
+				<ClaimantTelNo>${RC.CLAIMANT_TEL_NO}</ClaimantTelNo>
+				<ClaimantFaxNo>${RC.CLAIMANT_FAX_NO}</ClaimantFaxNo>
+				<ClaimantEmail>${RC.CLAIMANT_EMAIL}</ClaimantEmail>
+				<ClaimantPMC>${CRC1.RV_MEANING}</ClaimantPMC>
+				
+				<CorresRepName>${RC.CORRES_REP_NAME}</CorresRepName>
+				<CorresRebAddress1>${RC.CORRES_REP_ADDR_1}</CorresRebAddress1>
+				<CorresRebAddress2>${RC.CORRES_REP_ADDR_2}</CorresRebAddress2>
+				<CorresRebAddress3>${RC.CORRES_REP_ADDR_3}</CorresRebAddress3>
+				<CorresRebAddress4>${RC.CORRES_REP_ADDR_4}</CorresRebAddress4>
+				<CorresRebAddress5>${RC.CORRES_REP_ADDR_5}</CorresRebAddress5>																
+				<CorresRebPostcode>${RC.CORRES_REP_POSTCODE}</CorresRebPostcode>
+				<CorresRepFaxNo>${RC.CLAIMANT_REP_FAX_NO}</CorresRepFaxNo>
+				<CoressRepEmail>${RC.CLAIMANT_REP_EMAIL}</CoressRepEmail>
+				
+				<CorresRepDXNumber>${RC.CLAIMANT_REP_DX_NO}</CorresRepDXNumber>
+				<CorresRepTelNumber>${RC.CLAIMANT_REP_TEL_NO}</CorresRepTelNumber>
+				<CorresRepCommMethod>${CRC2.RV_MEANING}</CorresRepCommMethod>
+				
+				<AmountClaimedCurrency>${RC.AMOUNT_CLAIMED_CURRENCY}</AmountClaimedCurrency>
+				<AmountClaimed>${RC.AMOUNT_CLAIMED}</AmountClaimed>
+				<CourtFeeCurrency>${RC.COURT_FEE_CURRENCY}</CourtFeeCurrency>
+				<CourtFee>${RC.COURT_FEE}</CourtFee>
+				<SolicitorsCostsCurrency>${RC.SOLICITORS_COSTS_CURRENCY}</SolicitorsCostsCurrency>
+				<SolicitorsCosts>${RC.SOLICITORS_COSTS}</SolicitorsCosts>
+				<TotalCurrency>${RC.TOTAL_CURRENCY}</TotalCurrency>
+				<Total>${RC.TOTAL}</Total>
+				<DateOfIssue>${RC.DATE_OF_ISSUE}</DateOfIssue>
+				<DateOfService>${RC.DATE_OF_SERVICE_OTHER}</DateOfService>
+				<ParticularsOfClaim>${RC.PARTICULARS_OF_CLAIM}</ParticularsOfClaim>
+				<Validated>${RC.VALIDATED}</Validated>
+				<Defendant1Name>${RC.DEFENDANT_1_NAME}</Defendant1Name>
+				<Defendant1Address1>${RC.DEFENDANT_1_ADDR_1}</Defendant1Address1>
+				<Defendant1Address2>${RC.DEFENDANT_1_ADDR_2}</Defendant1Address2>
+				<Defendant1Address3>${RC.DEFENDANT_1_ADDR_3}</Defendant1Address3>
+				<Defendant1Address4>${RC.DEFENDANT_1_ADDR_4}</Defendant1Address4>
+				<Defendant1Address5>${RC.DEFENDANT_1_ADDR_5}</Defendant1Address5>
+				<Defendant1Postcode>${RC.DEFENDANT_1_POSTCODE}</Defendant1Postcode>
+				
+				<Defendant1DXNO>${RC.DEFENDANT_1_DX_NO}</Defendant1DXNO>
+				<Defendant1TelNo>${RC.DEFENDANT_1_TEL_NO}</Defendant1TelNo>
+				<Defendant1FaxNo>${RC.DEFENDANT_1_FAX_NO}</Defendant1FaxNo>
+				<Defendant1Email>${RC.DEFENDANT_1_EMAIL}</Defendant1Email>
+				<Defendant1PMC>${CRC3.RV_MEANING}</Defendant1PMC>				
+				
+				<Defendant2Name>${RC.DEFENDANT_2_NAME}</Defendant2Name>
+				<Defendant2Address1>${RC.DEFENDANT_2_ADDR_1}</Defendant2Address1>
+				<Defendant2Address2>${RC.DEFENDANT_2_ADDR_2}</Defendant2Address2>
+				<Defendant2Address3>${RC.DEFENDANT_2_ADDR_3}</Defendant2Address3>
+				<Defendant2Address4>${RC.DEFENDANT_2_ADDR_4}</Defendant2Address4>
+				<Defendant2Address5>${RC.DEFENDANT_2_ADDR_5}</Defendant2Address5>
+				<Defendant2Postcode>${RC.DEFENDANT_2_POSTCODE}</Defendant2Postcode>
+				
+				<Defendant2DXNO>${RC.DEFENDANT_2_DX_NO}</Defendant2DXNO>
+				<Defendant2TelNo>${RC.DEFENDANT_2_TEL_NO}</Defendant2TelNo>
+				<Defendant2FaxNo>${RC.DEFENDANT_2_FAX_NO}</Defendant2FaxNo>
+				<Defendant2Email>${RC.DEFENDANT_2_EMAIL}</Defendant2Email>
+				<Defendant2PMC>${CRC4.RV_MEANING}</Defendant2PMC>				
+				
+			</RejectedCase>
+		</RejectedCases>
+	</Mapping>
+</DBMapDef>

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>480</Id>
+	<Label>Person to receive payment</Label>
+	<ObjectName>PaymentReceiveBy</ObjectName>
+	<Html>	
+		<input type="text" id="PaymentReceiveBy"></input>
+	</Html>			
+	<Javascript>
+		<XPath>/ds/EnterVariableData/HardshipPayment/paymentReceiveBy</XPath>
+		<componentName>##label##</componentName>
+		<isMandatory>return true;</isMandatory>
+		<HintText>Enter name of person who is to receive the payment</HintText>		
+		<enableOn>IsDebtorPayment.dataBinding</enableOn>
+		<isEnabled>return( 'Y' != Services.getValue(IsDebtorPayment.dataBinding));</isEnabled>
+		<logicOn>IsDebtorPayment.dataBinding</logicOn>
+		<logic>
+			if( 'Y' == Services.getValue(IsDebtorPayment.dataBinding))
+			{	Services.setValue(PaymentReceiveBy.dataBinding, "");
+			}
+		</logic>	
+		
+	</Javascript>
+</Question>

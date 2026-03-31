@@ -1,0 +1,471 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3c.org/TR/html4/strict.dtd">
+<html>
+
+	<head>
+		<title>ManageEvents</title>
+		<link href="ManageEvents.css" type="text/css" rel="stylesheet">
+		<script type="text/javascript" src="../../Framework.js"></script>
+		<script type="text/javascript" src="../../ConcatCommon.js"></script>
+		<script type="text/javascript" src="../caseman_wp/WordProcessing.js"></script>
+		<script type="text/javascript" src="ManageEvents.js"></script>		
+	</head>
+
+	<body>
+		<form name="ManageEvents" id="manageEvents">
+	
+			<!-- Framework Navigation Menu -->
+			<script type="text/javascript">
+				MenuBarRenderer.createInline();
+				//debugger;
+			</script>
+				
+			<table class="layout">
+	
+				<!-- Header Panel -->
+				<tr>
+					<td>
+						<div class="panel">
+							<table class="content">
+								<tr>
+									<td>
+										<table>
+											<tr>
+												<td>
+													<table>
+														<tr>
+															<td class="defaultLabel" align="left" style="width:90px;"><label for='Header_CaseNumber'>Case Number</label></td>
+															<td align="left" style="width:120px;"><input id="Header_CaseNumber" type="text" size=15></td>
+					
+																
+															<td class="defaultLabel" style="width:250px;" align="left">
+																<label for='Header_InsolvSeqNo' style="margin-left:5px;">Insolvency No</label>
+																<input id="Header_InsolvSeqNo" type="text" size=4 style="margin-left:5px;">
+																<label for='Header_InsolvYear' style="margin-left:5px;">of</label>
+																<input id="Header_InsolvYear" type="text" size=4 style="margin-left:5px;">
+															</td>
+																	
+															<td style="width:85px;">&nbsp;</td>
+					
+															<td align="right">
+																<table style="margin-right:5px;margin-left:5px;">
+																	<tr>
+																		<td style="width:150px;"><label for='Header_OwningCourtCode'>Owning Court</label></td>
+																		<td style="width:300px;margin-left:10px;">
+																			<input id="Header_OwningCourtCode" type="text" size=5>
+																			<input id="Header_OwningCourtName" type="text" size=25>
+																		</td>
+																	</tr>
+																</table>
+															</td>
+														</tr>
+													</table>
+												</td>			
+											</tr>
+		
+											<tr>
+											   <td>
+											      <table width="100%">
+												     <tr>
+														<td colspan="2">
+															<!-- Claimant/Defendant Grid Read only -->
+															<script type="text/javascript">Grid.createInline("Header_PartyTypeListGrid", ["Party Type", "Number", "Name"], 3, 1);</script>
+														</td>
+
+														<td valign="top" align="right">
+															<table style="margin-top:5px; margin-right:5px;" >
+																<tr>
+																	<td colspan="2">&nbsp;</td>
+																	<td colspan="4" align="right">
+																		<input id="Header_ObligationsExistButton" type="Button" value="Obligations Exist"  style="WIDTH: 135px; MARGIN-RIGHT: 5px;" >
+																		<input id="Header_WindowsForTrialExistButton" type="Button" value="Windows for Trial Exist" style="WIDTH: 148px; MARGIN-RIGHT: 5px;">
+																		<input id="Header_CaseDetailsReportButton" type="Button" value="Case Details Report" style="WIDTH: 140px;">
+																	</td>
+																</tr>
+																<tr>
+																	<td style="width:30px;">&nbsp;</td>
+																	<td style="width:70px;">&nbsp;</td>
+																	<td style="width:150px;">&nbsp;</td>
+																	<td>&nbsp;</td>
+																	<td style="width:100px;">&nbsp;</td>
+																	<td>&nbsp;</td>
+																</tr>
+																<tr>
+																	<td>&nbsp;</td>
+																	<td colspan="2"><label for='Header_CaseAllocatedTo'>Case Provisionally Allocated To</label></td>
+																	<td><select id="Header_CaseAllocatedTo"></select></td>
+																	<td><label for='Header_MCOLCaseFlag'>MCOL Case</label></td>
+																	<td><input id="Header_MCOLCaseFlag" type="checkbox"></td>
+																</tr>
+															</table>
+														</td>
+													 </tr>
+												  </table>
+											   </td>
+											</tr>
+											
+											<tr>
+												<td>
+													<table>
+														<tr>
+															<td style="width:150px;"><label for='Header_DefaultJudge'>Docketed/Res Judge</label></td>
+															<td><input id="Header_DefaultJudge" type="text" size=30>&nbsp;</td>
+					
+															<td style="width:115px;"><label for="Header_AmountClaimed">Amount Claimed</label></td>
+															<td><input type="text" id="Header_AmountClaimedCurrency" size="1"/>&nbsp;<input type="text" id="Header_AmountClaimed" size="15"/></td>
+					
+															<td align="right">
+																<table style="margin-right:5px;margin-left:5px;">
+																	<tr>
+																		<td style="width:125px;"><label for='Header_OwningCourtCode'>Preferred Court</label></td>
+																		<td style="width:300px;margin-left:10px;">
+																			<input id="Header_PreferredCourtCode" type="text" size=5>
+																			<input id="Header_PreferredCourtName" type="text" size=25>
+																		</td>
+																	</tr>
+																</table>
+															</td>
+														</tr>
+													</table>
+												</td>			
+											</tr>
+											
+										</table>
+									</td>			
+								</tr>
+							</table>
+						</div>
+					</td>
+				</tr>
+				<!-- End Header Panel -->
+	
+				<tr>
+					<td>
+						<div class="panel">
+							<table class="content">
+		
+								<tr>
+									<td style="width: 470px;">
+										<table style="height:405px;">
+		
+											<tr>
+												<td valign="top" colspan=4>
+													<script type="text/javascript">Grid.createInline("Master_EventGrid", ["", "Date", "Event", "Event Description","Subject",""], 18, 1);</script>
+												</td>
+											</tr>
+											<tr>
+												<td colspan="4" align="right">
+													<input id="Master_PreviousButton" type="Button" value="Previous" style="width: 70px; margin-right:5px;" />
+													<input id="Master_NextButton" type="Button" value="Next" style="width: 70px; margin-right:5px;" />
+												</td>
+											</tr>
+											<tr>
+												<td style="margin-left:5px;" colspan="4">
+													<label for='Master_EventId'>Select an Event</label>
+												</td>
+											</tr>
+											<tr>
+												<td style="width:5px;">&nbsp;</td>
+												<td>
+													<input id="Master_EventId" type="text" size=3>
+												</td>
+												<td>
+													<script type="text/javascript">
+														AutoCompletionRenderer.createInline("Master_EventDescription");
+													</script>
+												</td>
+												<td align="right"><input id="Master_EventLOVButton" type="Button" value="LOV" style="margin-right:5px;"></td>
+											</tr>
+											<tr>
+												<td colspan=3>&nbsp;</td>
+												<td align="right"><input id="Master_AddEventButton" type="Button" value="Add" style="margin-right:5px; margin-bottom:3px;"></td>
+											</tr>
+										</table>
+									</td>
+		
+									<td class="spacer">&nbsp;</td>
+									
+									<td valign="top">
+										<table style="margin-top: 5px;">
+											<tr>
+												<td class="detailsLabel"><label for='EventDetails_DateReceived'>Date Received</label></td>
+												<td>
+													<script type="text/javascript">DatePickerRenderer.createInline("EventDetails_DateReceived", true);</script>
+												</td>
+											</tr>
+											<tr>
+												<td class="detailsLabel"><label for='EventDetails_EventId'>Event</label></td>
+												<td>
+													<input id="EventDetails_EventId" type="text" size=3>
+													<input id="EventDetails_EventDescription" type="text" size=58>
+												</td>
+											</tr>
+											<tr>
+												<td class="detailsLabel"><label for='EventDetails_SubjectNumber'>Subject</label></td>
+												<td>
+													<input id="EventDetails_SubjectNumber" type="text" size=3>
+													<input id="EventDetails_SubjectType" type="text" size=30>
+												</td>
+											</tr>
+											<tr>
+												<td class="detailsLabel">&nbsp;</td>
+												<td>
+													<input id="EventDetails_SubjectName" type="text" size=40>
+												</td>
+											</tr>
+											<tr>
+												<td class="detailsLabel"><label for='EventDetails_Details'>Event Details</label></td>
+												<td>
+													<script type="text/javascript">ZoomFieldRenderer.createInline("EventDetails_Details");</script>
+												</td>
+											</tr>
+											<tr>
+												<td class="detailsLabel"><label for='EventDetails_ErrorFlag'>Error</label></td>
+												<td><input id="EventDetails_ErrorFlag" type="checkbox"></td>
+											</tr>
+											<tr>
+												<td class="detailsLabel"><label for='EventDetails_Applicant'>Applicant</label></td>
+												<td><input id="EventDetails_Applicant" type="text" size=30></td>
+											</tr>
+											<tr>
+												<td class="detailsLabel"><label for='EventDetails_Result'>Result</label></td>
+												<td><input id="EventDetails_Result" type="text" size=30></td>
+											</tr>
+											<tr>
+												<td class="detailsLabel"><label for='EventDetails_BMSTask'>BMS Task</label></td>
+												<td><input id="EventDetails_BMSTask" type="text" size=10></td>
+											</tr>
+											<tr>
+												<td class="detailsLabel"><label for='EventDetails_StatMod'>Stat Mod</label></td>
+												<td><input id="EventDetails_StatMod" type="text" size=10></td>
+											</tr>
+											<tr>
+												<td class="detailsLabel"><label for='EventDetails_CreatedBy'>Created By</label></td>
+												<td><input id="EventDetails_CreatedBy" type="text" size=30></td>
+											</tr>
+											<tr>
+												<td class="detailsLabel"><label for='EventDetails_Date'>Date</label></td>
+												<td>
+													<script type="text/javascript">DatePickerRenderer.createInline("EventDetails_Date", true);</script>
+												</td>
+											</tr>
+										</table>
+									</td>
+								</tr>
+							</table>
+						</div>
+					</td>
+				</tr>
+	
+			</table>
+	
+			<!-- Status Bar Panel -->
+			<script type="text/javascript">
+				ActionBarRenderer.createInline(
+					"status_bar",
+					[
+						{id: "Status_SaveButton", label: "Save"},
+						{id: "Status_ClearButton", label: "Clear"},
+						{id: "Status_CloseButton", label: "Close"}
+					]
+				);
+			</script>
+			<!-- End Status Bar Panel -->
+			
+			<!--  Form Extension Popups -->
+	
+			<!-- Details of Claim popup -->
+			<div class="popup" id="Details_Of_Claim_Popup">
+				<table class="content">
+					<tr>
+						<td><label for="DetailsOfClaim_AmountClaimed">Amount Claimed</label></td>
+						<td>
+							<input type="text" id="DetailsOfClaim_AmountClaimedCurrency" size="1" style="margin-top:5px;">
+							&nbsp;<input type="text" id="DetailsOfClaim_AmountClaimed" size="15" style="margin-top:5px;">
+						</td>
+					</tr>
+					<tr>
+						<td><label for="DetailsOfClaim_CourtFee">Court Fee</label></td>
+						<td>
+							<input type="text" id="DetailsOfClaim_CourtFeeCurrency" size="1">
+							&nbsp;<input type="text" id="DetailsOfClaim_CourtFee" size="15">
+						</td>
+					</tr>
+					<tr>
+						<td><label for="DetailsOfClaim_SolicitorsCosts">Solicitors Costs</label></td>
+						<td>
+							<input type="text" id="DetailsOfClaim_SolicitorsCostsCurrency" size="1">
+							&nbsp;<input type="text" id="DetailsOfClaim_SolicitorsCosts" size="15">
+						</td>
+					</tr>
+					<tr>
+						<td><label for="DetailsOfClaim_Total">Total</label></td>
+						<td>
+							<input type="text" id="DetailsOfClaim_TotalCurrency" size="1">
+							&nbsp;<input type="text" id="DetailsOfClaim_Total" size="15">
+						</td>
+					</tr>
+					<tr>
+						<td><label for="DetailsOfClaim_DateOfIssue">Date of Issue</label></td>
+						<td><script type="text/javascript">DatePickerRenderer.createInline("DetailsOfClaim_DateOfIssue", false);</script></td>
+					</tr>
+					<tr style="height:2px;">
+						<td colspan=2>&nbsp;</td>
+					</tr>
+					<tr>
+						<td colspan=2 align="right">
+							<input class="popupButton" type="button" value="Close" id="DetailsOfClaim_CloseButton">
+						</td>
+					</tr>
+				</table>
+			</div>
+			<!-- End Details of Claim popup -->
+			
+			<!-- Add New Event popup -->
+			<div class="popup" id="AddEvent_Popup">
+				<table class="content">
+					<tr>
+						<td class="popupLabel"><label for='AddEvent_DateReceived'>Date Received</label></td>
+						<td colspan="2">
+							<script type="text/javascript">DatePickerRenderer.createInline("AddEvent_DateReceived", true);</script>
+						</td>
+					</tr>
+					<tr>
+						<td class="popupLabel"><label for='AddEvent_EventId'>Event</label></td>
+						<td colspan="2">
+							<input id="AddEvent_EventId" type="text" size=3>&nbsp;
+							<input id="AddEvent_EventDescription" type="text" size=62>
+						</td>
+					</tr>
+					<tr>
+						<td class="popupLabel"><label for='AddEvent_Subject'>Subject</label></td>
+						<td>
+							<script type="text/javascript">
+								AutoCompletionRenderer.createInline("AddEvent_Subject");
+							</script>
+						</td>
+						<td><input id="AddEvent_SubjectLOVButton" type="Button" value="LOV" style="margin-right: 15px;"></td>
+					</tr>
+					<tr>
+						<td class="popupLabel">&nbsp;</td>
+						<td>
+							<input id="AddEvent_InstigatorLabel" type="text" size=71>
+						</td>
+						<td>&nbsp;</td>
+					</tr>
+					<tr>
+						<td class="popupLabel">&nbsp;</td>
+						<td colspan="2">
+							<script type="text/javascript">Grid.createInline("AddEvent_InstigatorGrid", ["Party Type", "Number", "Name"], 3, 1);</script>
+						</td>
+					</tr>
+					<tr>
+						<td class="popupLabel"><label for='AddEvent_Details'>Event Details</label></td>
+						<td>
+							<script type="text/javascript">ZoomFieldRenderer.createInline("AddEvent_Details");</script>
+						</td>
+						<td><input id="AddEvent_DetailsLOVButton" type="Button" value="LOV" style="margin-right: 15px;"></td>
+					</tr>
+					<tr>
+						<td class="popupLabel"><label for='AddEvent_Date'>Date</label></td>
+						<td colspan="2">
+							<script type="text/javascript">DatePickerRenderer.createInline("AddEvent_Date", true);</script>
+						</td>
+					</tr>
+					<tr>
+						<td class="popupLabel"><label for='AddEvent_WPCall'>Produce Output</label></td>
+						<td colspan="2"><input id="AddEvent_WPCall" type="checkbox" /></td>
+					</tr>
+					<tr style="height:2px;">
+						<td colspan="3">&nbsp;</td>
+					</tr>
+					<tr>
+						<td colspan="3" align="right">
+							<input class="popupButton" type="button" value="Save" id="AddEvent_SaveButton">
+							<input class="popupButton" type="button" value="Cancel" id="AddEvent_CancelButton">
+						</td>
+					</tr>
+				</table>
+			</div>
+			<!-- End Add New Event popup -->
+			
+			<!-- Subject LOV popup -->
+			<div class="popup" id="SubjectLOV_Popup">
+			
+				<div class="popupTitle">Subject</div>
+					
+				<div class="panel">
+					<script type="text/javascript">Grid.createInline("SubjectPopup_SubjectLOVGrid", ["Party Type", "Number", "Name"], 10, 1 );</script>
+				</div>
+				
+				<!-- Popup action bar -->
+				<script type="text/javascript">
+					ActionBarRenderer.createInlineNoStatusBar(
+						"subject_statusbar",
+						[
+							{id: "SubjectPopup_CaseButton", label: "Case"},
+							{id: "SubjectPopup_OkButton", label: "Ok"},
+							{id: "SubjectPopup_CancelButton", label: "Cancel"}
+						]
+					);
+				</script>
+				
+			</div>
+			<!-- End Subject LOV popup -->
+								
+			<!-- Progress Indicator Popup (Oracle Reports) -->
+			<div class="popup" id="ProgressIndicator_Popup">
+				<div class="panel" id="ProgressIndicator_Panel">
+					<table class="content" cellspacing="5">
+						<tr>
+							<td><label for="Progress_Bar">Generating Report</label></td>
+						</tr>
+						<tr>
+							<td><input id="Progress_Bar" type="text" size="67"/></td>
+						</tr>
+						<tr>
+							<td id="Progress_Status"></td>
+						</tr>
+					</table>
+				</div>
+				<div id="ProgressIndicator_ActionBarContainer">
+					<script type="text/javascript">
+						ActionBarRenderer.createInlineNoStatusBar(
+							"ProgressIndicator_ActionBar",
+							[
+								{label: "Cancel", id: "Popup_Cancel"}
+							]
+						);	
+					</script>	
+				</div>
+			</div>
+			<!-- End Progress Indicator Popup -->
+			
+			<!-- Super Logic Adaptor -->
+			<div class="superLogic" id="launchOutputLogic"></div>
+			<div class="superLogic" id="TransferCaseShortcutLogic"></div>
+	
+			<!-- LOV POPUPs -->
+			<script type="text/javascript">LOVSubformRenderer.createInline( "Master_EventLOVGrid", "Events", ["Event", "Description"], 10, 1, true );</script>
+			<script type="text/javascript">LOVPopupRenderer.createInline( "AddEvent_DetailsLOVGrid", "Event Details", ["Code", "Description"], 10, 1, true );</script>
+			<script type="text/javascript">LOVPopupRenderer.createInline( "AddEvent_BMSTaskLOVGrid", "Event Descriptions", ["Value"], 10, 1, true );</script>
+			<script type="text/javascript">LOVPopupRenderer.createInline( "AddEvent_StatsModLOVGrid", "Event Descriptions", ["Value"], 10, 1, true );</script>
+			
+			<!-- AUDIT PANELS -->
+			<div class="auditPanel" id="currentlySelectedEventPanel"></div>
+			
+			<!-- AUDIT SELECTOR ADAPTOR -->
+			<script type="text/javascript">AuditSelectorRenderer.createInline( "Audit_PanelSelector" );</script>
+			
+			<!-- SUBFORMS -->
+			<div class="popup popupsubform" id="audit_subform"></div>
+			<div class="popup popupsubform" id="changeCaseType_subform"></div>
+			<div class="popup popupsubform" id="obsoleteCaseType_subform"></div>
+			<div class="popup popupsubform" id="resetCaseStatus_subform"></div>
+			<div class="popup popupsubform" id="selectEventOutput_subform"></div>
+			<div class="popup popupsubform" id="ProgressBar_SubForm"></div>
+			
+		</form>
+	
+	</body>
+
+</html>

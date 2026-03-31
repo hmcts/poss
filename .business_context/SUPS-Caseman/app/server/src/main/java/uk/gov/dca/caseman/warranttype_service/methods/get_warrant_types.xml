@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: Warranttype
+	Method:  getWarrantTypes()
+	File:    get_warrant_types.xml
+	Author:  
+	Created: 
+	Description: 
+        List of Types of Warrants associated with a Party
+-->
+<service-method>
+	<pipeline>
+		<Query>
+  			<QueryDef location="uk/gov/dca/caseman/warranttype_service/query_def.xml"/>
+  			<QueryExtension pivotNode="/WarrantTypes/WarrantType">
+    				<Constraint>CRC.RV_DOMAIN = 'CURRENT_WARRANT_TYPE'</Constraint>
+  			</QueryExtension>
+  	    </Query>
+	</pipeline>
+	<Security roles="medium high wcSuper scSuper bmsSuper aeSuper dmSuper cpSuper ccbcMan ccbcUser"/>			
+</service-method>

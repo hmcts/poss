@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<QueryDef>
+	
+	<DBMapDef location="uk/gov/dca/caseman/receivedTapes_service/delete_tape_map.xml"/>
+	<Query pivotNode="/ReceivedTapes/ReceivedTape" tables="T">	  
+	    <Join/>	    	
+		<Modify>			
+		</Modify>
+	</Query>
+	<Query pivotNode="/ReceivedTapes/ReceivedTape/TapeFiles/TapeFile" tables="TFI">	  
+	    <Join/>	    	
+		<Modify>				
+		</Modify>
+	</Query>		
+	
+</QueryDef>

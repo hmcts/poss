@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>231</Id>
+	<Label>Party to serve first</Label>
+	<ObjectName>FirstParty</ObjectName>
+	<Html>	
+		<select id="FirstParty">
+			<option value=""></option>
+			<option value="CLM">The claimant</option>
+			<option value="DEF">The defendant</option>
+			<option value="OTH">Other</option>
+		</select>
+	</Html>
+	<Javascript>
+		<XPath>/ds/EnterVariableData/FastTrack/firstParty</XPath>
+		<HintText>Enter Party to serve first</HintText>
+		<isMandatory>return true;</isMandatory>
+		<enableOn>SimOrSeqExch.dataBinding</enableOn>
+		<isEnabled>return('SEQ' == Services.getValue(SimOrSeqExch.dataBinding));</isEnabled>	
+		<logicOn>SimOrSeqExch.dataBinding</logicOn>
+		<logic>
+			if('SEQ' != Services.getValue(SimOrSeqExch.dataBinding))
+			{	Services.setValue(FirstParty.dataBinding, "");
+			}
+		</logic>
+		
+		<Context ScreenId="CJR060">
+			<HintText>Select the party to serve first</HintText>
+		</Context>
+	</Javascript>
+</Question>

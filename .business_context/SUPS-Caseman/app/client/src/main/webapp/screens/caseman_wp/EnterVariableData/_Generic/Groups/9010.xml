@@ -1,0 +1,184 @@
+<Group id="9010">
+	<ServicesRequired>
+		<mapping name="updateHearingCO" serviceName="updateHearingCO"/>
+		<service name="updateHearingCO" cache="none" url="Hearing" method="updateHearingCO"/>
+	</ServicesRequired>
+	<Protocols>
+		<OnSave>
+			<function>addNewHearingCO</function>
+			<functionCallback>addNewHearingCOCallback</functionCallback>
+		</OnSave>
+	</Protocols>
+	
+	<JavaScript>
+	
+	var nextSurrogateKey = 0;
+	
+	function addNewHearingCO()
+	{
+		    var service = "updateHearingCO";
+		    var maintainCOHearing = Services.getNode("/ds/MaintainHearing");			
+			var coCaseDom = WPU.getCOCasemapXML();
+			var newCOHearingDom = coCaseDom.selectSingleNode("/ds/MaintainHearing/Hearings/Hearing");						
+	     	var surrogateId = getNextSurrogateKey(); 
+	    	var venueCode = Services.getValue( VenueCode.dataBinding );
+	    	var venueName = Services.getValue(VenueName.dataBinding); 
+	     	var typeOfHearingCode = null;
+	     	var typeOfHearing = null;
+	    	var date = Services.getValue( HearingDate.dataBinding );
+	    	var day = Services.getValue( HearingDay.dataBinding );
+	   	 	var time =  Services.getValue(HearingTime.dataBinding);
+		    var addressId = Services.getValue( selectVenue_Address_Grid.dataBinding ); 
+		    var adline1 = Services.getValue( SelectVenue_ContactDetails_Address_Line1.dataBinding );
+		    var adline2 = Services.getValue( SelectVenue_ContactDetails_Address_Line2.dataBinding );
+		    var adline3 = Services.getValue( SelectVenue_ContactDetails_Address_Line3.dataBinding );
+		    var adline4 = Services.getValue( SelectVenue_ContactDetails_Address_Line4.dataBinding );
+		    var adline5 = Services.getValue( SelectVenue_ContactDetails_Address_Line5.dataBinding );
+		    var postCode = Services.getValue(SelectVenue_ContactDetails_Address_Postcode.dataBinding); 
+		    var dxNo =    Services.getValue(SelectVenue_ContactDetails_Address_DXNumber.dataBinding);
+		    var telNo =   Services.getValue(SelectVenue_ContactDetails_Address_TelephoneNumber.dataBinding);
+		    var faxNo =   Services.getValue(SelectVenue_ContactDetails_Address_FaxNumber.dataBinding);
+		    var hrsAllowed = "";
+		    var minsallowed = "";
+		    var datefReqToList = WPU.getRaisingEventReceiptDate(); 
+		    var user = WPU.getUserName();
+    		
+    		//HEARING TYPE 
+    		var hearingIsFor = getHearingIsFor();	
+   			typeOfHearingCode =  WPU.GetHearingTypeToCreate( WP.GetScreenProcess(), hearingIsFor); 
+   			typeOfHearing = WPU.GetHearingTypeToCreateText( typeOfHearingCode ); 
+		   
+		    
+			//SET VALUES IN DOM
+			XML.setElementTextContent( newCOHearingDom, "./SurrogateId", surrogateId );
+			XML.setElementTextContent( newCOHearingDom, "./VenueCode", venueCode );			
+			XML.setElementTextContent( newCOHearingDom, "./VenueName", venueName );
+    		XML.setElementTextContent( newCOHearingDom, "./TypeOfHearingCode",  typeOfHearingCode);
+    		XML.setElementTextContent( newCOHearingDom, "./TypeOfHearing", typeOfHearing );
+			XML.setElementTextContent( newCOHearingDom, "./Date", date );	
+			XML.setElementTextContent( newCOHearingDom, "./Day", day);		    
+			XML.setElementTextContent( newCOHearingDom, "./Time", time);
+     		XML.setElementTextContent( newCOHearingDom, "./Address/AddressId", addressId );
+		    XML.setElementTextContent( newCOHearingDom, "./Address/Line[1]", adline1 );
+		    XML.setElementTextContent( newCOHearingDom, "./Address/Line[2]", adline2 );
+		    XML.setElementTextContent( newCOHearingDom, "./Address/Line[3]", adline3 );
+		    XML.setElementTextContent( newCOHearingDom, "./Address/Line[4]", adline4 );
+		    XML.setElementTextContent( newCOHearingDom, "./Address/Line[5]", adline5 );
+		    XML.setElementTextContent( newCOHearingDom, "./Address/PostCode", postCode );
+		    XML.setElementTextContent( newCOHearingDom, "./DXNumber", dxNo );
+		    XML.setElementTextContent( newCOHearingDom, "./TelephoneNumber", telNo );
+		    XML.setElementTextContent( newCOHearingDom, "./FaxNumber", faxNo );				  	    
+			XML.setElementTextContent( newCOHearingDom, "./DateOfRequestToList", datefReqToList );	
+			XML.setElementTextContent( newCOHearingDom, "./CreatedBy", user );	
+		   						 
+		    var timeUnit = Services.getValue("/ds/EnterVariableData/TrialNotice/TrialTimeEstUnits");
+		    
+		    if(timeUnit == 'MIN')
+		    {	minsallowed = Services.getValue("/ds/EnterVariableData/TrialNotice/trialTimeEst");
+				XML.setElementTextContent( newCOHearingDom, "./MinsAllowed", minsallowed );	
+		    }
+		    else if (timeUnit == 'HR')
+		    {	hrsAllowed = Services.getValue("/ds/EnterVariableData/TrialNotice/trialTimeEst");   	
+		    	 XML.setElementTextContent( newCOHearingDom, "./HoursAllowed", hrsAllowed );			    
+		    }		    
+		   		    
+		    maintainCOHearing.selectSingleNode("./Hearings").appendChild(newCOHearingDom);
+			
+			var root = XML.createDOM();
+			root.loadXML("&lt;ds>&lt;/ds>");
+			root.selectSingleNode("/ds").appendChild( maintainCOHearing );
+
+			
+		    var params = new ServiceParams();
+			params.addDOMParameter("HearingID", root );			
+			
+			if( null != date &amp;&amp; "" != date)			
+			{    
+				Services.callService(service, params, addNewHearingCOCallback, true);
+			}
+			else
+			{	Save_All();  //go to next step: no hearing can be added without a date
+							 //provision of hearing date is optional on many screens
+			}
+ 
+	}
+
+	function addNewHearingCOCallback()
+	{
+
+	}
+
+	// Call this function to get the next generated surrogate key
+	function getNextSurrogateKey()
+	{	
+		return "S" + (++ nextSurrogateKey);	
+	}
+
+	function getHearingIsFor()
+	{
+		var hearingIsFor = null;
+
+			try
+			{
+				hearingIsFor = Services.getValue(HearingIsFor.dataBinding);			
+			}
+			
+			catch( Error )
+			{	
+			try
+				{
+					hearingIsFor = Services.getValue(HearingType2.dataBinding);
+				}
+				catch( Error )
+				{	
+					try
+					{
+						hearingIsFor = Services.getValue(HearingType.dataBinding);
+					}
+					catch( Error )
+					{
+					}
+				}
+			}
+			
+			return hearingIsFor;
+	}
+
+	addNewHearingCOCallback.onSuccess = function(dom) 
+	{   
+		if(null != dom)
+		{
+			Save_All(); 
+		}
+		else
+		{
+			alert(Messages.NO_RESULTS_MESSAGE);
+		}
+	}
+
+
+	addNewHearingCOCallback.onBusinessException = function(exception)  
+	{
+
+		alert(Messages.FAILEDSAVE_MESSAGE); 
+	}
+
+	addNewHearingCOCallback.onSystemException = function(exception) 
+	{
+
+		alert(Messages.FAILEDSAVE_MESSAGE); 
+	}
+	
+	// Call this function to get the next generated surrogate key
+	function getNextSurrogateKey()
+	{	
+		return "S" + (++ nextSurrogateKey);	
+	}
+	
+
+
+	
+	</JavaScript>
+
+
+</Group>

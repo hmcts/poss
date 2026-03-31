@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	v1.0 Chris Hutt 24/4/2007
+
+Change History
+        v1.1	Chris Hutt	30/07/2007 	CCBC Defect : Group 2 5265
+        Should allow creation of manual 600 if judgment status = 'SET ASIDE'	
+        
+        v1.2    Chris Hutt      07/08/2007      CCBC Defect : Group 2 5265
+        Backing out this change - no longer a requirement. This comment left in for audit trail.
+        		   AND  NVL(JDG.STATUS, '') IN ('SATISFIED', 'CANCELLED', 'SET ASIDE')
+-->
+<QueryDef>
+	<DBMapDef location="uk/gov/dca/caseman/judgment_service/map_judgment_for_600.xml"/>
+	<Query pivotNode="/Case" tables="C">
+		<Join>
+		</Join>
+		<Modify notModifiable="true"/>
+	</Query>	
+
+	<Query pivotNode="/Case/Judgments/Judgment" tables="JDG">
+	   	<Join>
+	   			JDG.CASE_NUMBER = ${C.CASE_NUMBER}
+		   AND  NVL(JDG.STATUS, '') IN ('SATISFIED', 'CANCELLED')
+		   AND  JDG.SENT_TO_RTL IS NOT NULL
+	   	</Join>
+	   	<Alias name="JDG.PARTY_KEY" select="JDG.AGAINST_PARTY_ROLE_CODE || '_' || JDG.AGAINST_CASE_PARTY_NO"/>
+        <Modify notModifiable="true"/>
+	</Query>
+
+	<Query pivotNode="/Case/Judgments/Judgment/InFavourOf/Parties/Party" tables="IFP">
+	   	<Join>
+	   		IFP.JUDG_SEQ = ${JDG.JUDG_SEQ} 
+	   	</Join>
+	   	<Alias name="IFP.PARTY_KEY" select="IFP.PARTY_ROLE_CODE || '_' || IFP.CASE_PARTY_NO"/>
+        <Modify notModifiable="true"/>
+	</Query>
+
+</QueryDef>
+
+
+             

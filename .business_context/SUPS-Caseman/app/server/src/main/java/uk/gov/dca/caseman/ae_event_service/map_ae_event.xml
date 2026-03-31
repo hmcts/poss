@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<DBMapDef>
+  <DataSource id="java:OracleDS"/>
+  <Tables>
+    <Table alias="AE" name="AE_EVENTS"/>
+  </Tables>  
+  <Mapping>
+	<AEEvent>
+		<AEEventSeq>${AE.AE_EVENT_SEQ}</AEEventSeq>
+		<CaseEventSeq>${AE.CASE_EVENT_SEQ}</CaseEventSeq>
+		<CaseNumber></CaseNumber>
+		<OwningCourtCode></OwningCourtCode>
+		<AENumber>${AE.AE_NUMBER}</AENumber>
+		<StandardEventId>${AE.STD_EVENT_ID}</StandardEventId>
+		<StandardEventDescription></StandardEventDescription>
+		<EventDetails>${AE.DETAILS}</EventDetails>
+		<EventDate>${AE.EVENT_DATE}</EventDate>
+		<UserName>${AE.USERNAME}</UserName>
+		<ReceiptDate>${AE.DATE_ENTERED}</ReceiptDate>
+		<Stage>${AE.ISSUE_STAGE}</Stage>
+		<Service>${AE.SERVICE_STATUS}</Service>
+		<BailiffId>${AE.BAILIFF_IDENTIFIER}</BailiffId>
+		<ProcessDate>${AE.PROCESS_DATE}</ProcessDate>
+		<ServiceDate>${AE.SERVICE_DATE}</ServiceDate>
+		<ErrorInd>${AE.ERROR_INDICATOR}</ErrorInd>
+		<!-- JudgmentDebtor -->
+			<JudgmentDebtorPartyRoleCode></JudgmentDebtorPartyRoleCode>
+			<JudgmentDebtorCasePartyNumber></JudgmentDebtorCasePartyNumber>
+		<!-- /JudgmentDebtor -->
+	</AEEvent>
+  </Mapping>
+</DBMapDef>

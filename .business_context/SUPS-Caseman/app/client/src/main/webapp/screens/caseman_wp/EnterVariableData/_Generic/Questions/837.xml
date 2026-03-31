@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>837</Id>
+	<Label>Name of objector</Label>
+	<ObjectName>ObjectingCreditor</ObjectName>
+	<Html>
+		<script type="text/javascript">
+			AutoCompletionRenderer.createInline("ObjectingCreditor");		
+		</script>
+	</Html>
+	<Javascript>
+	
+		<XPath>/ds/EnterVariableData/ObjectingCreditor</XPath>
+		<componentName>##label##</componentName>
+		<HintText>Enter the name of the Creditor who is objecting</HintText>
+		<isMandatory>return true;</isMandatory>
+		<mandatoryOn>ObjectingCreditor.dataBinding</mandatoryOn>
+		<initialise>
+				WPU.createCreditorList();
+		</initialise>
+		
+		<miscCode>
+			ObjectingCreditor.srcData = REF_DATA_XPATH + "/Creditors";
+			ObjectingCreditor.rowXPath = "Creditor";
+			ObjectingCreditor.keyXPath = "PartyId";
+			ObjectingCreditor.displayXPath = "Name";
+		</miscCode>
+	</Javascript>
+</Question>

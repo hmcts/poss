@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<QueryDef>
+	<DBMapDef location="uk/gov/dca/caseman/payments_service/map_check_postal_receipts.xml" />
+	<Query pivotNode="/PostalReceipts/NoOfPayments" tables="P">
+		<SQL type="select">
+			SELECT	COUNT(*) AS "PAYMENTS_EXISTS"
+			FROM	PAYMENTS P
+			WHERE	P.CREATED_BY = ${param.userId} 
+				AND TRUNC(P.DATE_ENTERED) = TRUNC(TO_DATE(${param.dateCreated}, 'DD-MM-YYYY'))
+				AND P.ADMIN_COURT_CODE = ${param.adminCrownCourt}
+				AND P.COUNTER_PAYMENT = 'N'
+				AND P.RECEIPT_REQUIRED = 'Y'
+		</SQL>
+		<Modify notModifiable="true" />
+	</Query>
+</QueryDef>

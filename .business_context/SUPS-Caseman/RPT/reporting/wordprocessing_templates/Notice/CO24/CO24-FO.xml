@@ -1,0 +1,197 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- ====================================================================== -->
+<!--  -->
+<!-- FILENAME: $Source: C:/CVSRepository/serveroas/src/uk/gov/dca/caseman/wordprocessing_templates/Notice/CO24/CO24-FO.xml,v $ -->
+<!--  -->
+<!-- AUTHOR: $Author: conganer $-->
+<!--  -->
+<!-- DATE: $Date: 2006/06/06 14:38:10 $ -->
+<!--  -->
+<!-- Version: $Revision: 1.13 $ -->
+<!--  -->
+<!-- DESCRIPTION: This stylesheet is used to create an XSL:FO document that -->
+<!-- can be processed into a PDF version.  Business logic -->
+<!-- is embedded to generate the correct document text for the order -->
+<!-- required. -->
+<!--  -->
+<!-- INPUTS: XML document containing: the answers to questions asked of the -->
+<!-- user; case data retrieved from the database; HTML representing the  -->
+<!-- body of the document content (already edited by the user). -->
+<!--  -->
+<!-- OUTPUTS: XML document with FO tags containing instructions for the -->
+<!-- creation of a PDF document. -->
+<!--  -->
+<!-- ====================================================================== -->
+<root xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:fo="http://www.w3.org/1999/XSL/Format" xmlns="http://eds.com/supsfo">
+	<variables>@word.processing.url.xsl@supsfo.xsl</variables>
+	<duplex/>
+	<addressee copies="2">
+	           <debtor event="865"/>
+	           <employer event="877" sic="true"/>
+	</addressee>
+	<header>
+		<fo:block font-size="16pt" font-weight="bold">Order of Commitment and/or Imposing a Fine for Assaulting an Officer of the Court or Rescuing Goods</fo:block>
+	</header>
+	<courtcase>
+		<court>
+			<xsl:copy-of select="$vdCourtHeaderBlock"/>
+		</court>
+		<caseparameters>
+			<parameter>
+				<name>
+					<fo:block font-weight="bold">Consolidated A/E No.</fo:block>
+				</name>
+				<value>
+					<fo:block>
+						<xsl:value-of select="$vdCONumber"/>
+					</fo:block>
+				</value>
+			</parameter>
+			<parameter>
+				<name>
+					<fo:block font-weight="bold">Creditor</fo:block>
+				</name>
+				<value>
+					<fo:block>
+						Various
+					</fo:block>
+				</value>
+			</parameter>				
+			<parameter>
+				<name>
+					<fo:block font-weight="bold">Debtor</fo:block>
+				</name>
+				<value>
+					<fo:block hyphenate="true">
+						<xsl:value-of select="$vdCODebtorName"/>
+					</fo:block>
+				</value>
+			</parameter>
+			<parameter>
+				<name>
+					<fo:block font-weight="bold">Employer's Ref.</fo:block>
+				</name>
+				<value>
+					<fo:block hyphenate="true">
+						<xsl:value-of select="$vdCOEmployerReference"/>
+					</fo:block>
+				</value>
+			</parameter>
+		</caseparameters>
+	</courtcase>
+	<bodyintroright><fo:block space-before="0.4cm"><fo:inline text-align="center"><seal/></fo:inline></fo:block></bodyintroright>
+	
+	<body>
+	<editable useid="N100AC">
+		<fo:block font-weight="bold" space-after="0.4cm">
+			Before <xsl:value-of select="$vdJudge"/> sitting at <xsl:value-of select="$vdHearingAtCourtNameDescription"/>, <xsl:value-of select="$vdHearingAtCourtAddress"/>
+		</fo:block>
+		<fo:block space-after="0.4cm">
+			<xsl:value-of select="$vdCOHearingAttendees"/>
+		</fo:block>		
+		<xsl:if test="$vdEventId='865'">
+		<xsl:choose>
+			<xsl:when test="$vdFineOrPrison='PRISON'">
+				<fo:block space-after="0.4cm">
+					To the District Judge and Bailiffs of the Court, and every Constable within his jurisdiction, and to the Governor of Her Majesty's Prison at <xsl:value-of select="$vdCOPrisonName"/>
+				</fo:block>
+				<fo:block space-after="0.4cm">
+					It has been proved to the satisfaction of the court that <xsl:value-of select="$vdCODebtorName"/> has committed an offence under paragraph <xsl:value-of select="$vdOffenceText"/> of section 23(2) of the Attachment of Earnings Act 1971 namely that he <xsl:value-of select="$vdOffenceDetails"/>.
+				</fo:block>
+				<fo:block space-after="0.4cm">
+					IT IS ORDERED that <xsl:value-of select="$vdCODebtorName"/> shall be committed to prison for <xsl:value-of select="$vdPrisonLength"/> days
+				</fo:block>
+				<fo:block space-after="0.4cm">
+					AND YOU the District Judge, Bailiffs and others, are therefore required to arrest <xsl:value-of select="$vdCODebtorName"/> and deliver him to <xsl:value-of select="$vdCOPrisonName"/> Prison
+				</fo:block>
+				<fo:block space-after="0.4cm">
+					AND YOU the Governor to receive <xsl:value-of select="$vdCODebtorName"/> and keep him safely in prison for <xsl:value-of select="$vdPrisonLength"/> days from the arrest under this order or until he shall be sooner discharged by due course of law. 
+				</fo:block>
+			</xsl:when>
+			<xsl:when test="$vdFineOrPrison='FINE'">
+				<fo:block space-after="0.4cm">
+					It has been proved to the satisfaction of the court that <xsl:value-of select="$vdCODebtorName"/> has committed an offence under paragraph <xsl:value-of select="$vdOffenceText"/> of section 23(2) of the Attachment of Earnings Act 1971 namely that he <xsl:value-of select="$vdOffenceDetails"/>.
+				</fo:block>
+				<fo:block space-after="0.4cm">
+					IT IS ORDERED that <xsl:value-of select="$vdCODebtorName"/> do pay a fine of &#163;<xsl:value-of select="$vdAmountOwed"/> for the offence and do pay that sum into the office of this court by <xsl:value-of select="$vdSumPayDate"/>.
+				</fo:block>
+			</xsl:when>
+		</xsl:choose>
+		</xsl:if>	
+		<xsl:if test="$vdEventId='877'">
+		<xsl:choose>
+			<xsl:when test="$vdFineOrPrison='PRISON'">
+				<fo:block space-after="0.4cm">
+					To the District Judge and Bailiffs of the Court, and every Constable within his jurisdiction, and to the Governor of Her Majesty's Prison at <xsl:value-of select="$vdCOPrisonName"/>
+				</fo:block>
+				<fo:block space-after="0.4cm">
+					It has been proved to the satisfaction of the court that <xsl:value-of select="$vdEmployerName"/> has committed an offence under paragraph <xsl:value-of select="$vdOffenceText"/> of section 23(2) of the Attachment of Earnings Act 1971 namely that he <xsl:value-of select="$vdOffenceDetails"/>.
+				</fo:block>
+				<fo:block space-after="0.4cm">
+					IT IS ORDERED that <xsl:value-of select="$vdEmployerName"/> shall be committed to prison for <xsl:value-of select="$vdPrisonLength"/> days
+				</fo:block>
+				<fo:block space-after="0.4cm">
+					AND YOU the District Judge, Bailiffs and others, are therefore required to arrest <xsl:value-of select="$vdEmployerName"/> and deliver him to <xsl:value-of select="$vdCOPrisonName"/> Prison
+				</fo:block>
+				<fo:block space-after="0.4cm">
+					AND YOU the Governor to receive <xsl:value-of select="$vdEmployerName"/> and keep him safely in prison for <xsl:value-of select="$vdPrisonLength"/> days from the arrest under this order or until he shall be sooner discharged by due course of law. 
+				</fo:block>
+			</xsl:when>
+			<xsl:when test="$vdFineOrPrison='FINE'">
+				<fo:block space-after="0.4cm">
+					It has been proved to the satisfaction of the court that <xsl:value-of select="$vdEmployerName"/> has committed an offence under paragraph <xsl:value-of select="$vdOffenceText"/> of section 23(2) of the Attachment of Earnings Act 1971 namely that he <xsl:value-of select="$vdOffenceDetails"/>.
+				</fo:block>
+				<fo:block space-after="0.4cm">
+					IT IS ORDERED that <xsl:value-of select="$vdEmployerName"/> do pay a fine of &#163;<xsl:value-of select="$vdAmountOwed"/> for the offence and do pay that sum into the office of this court by <xsl:value-of select="$vdSumPayDate"/>.
+				</fo:block>
+			</xsl:when>
+		</xsl:choose>
+		</xsl:if>		
+		<fo:block text-align="right">
+			<fo:inline font-weight="bold">Dated </fo:inline><xsl:value-of select="$vdEventDate"/>
+		</fo:block>
+	</editable>
+
+		<fo:block space-after="0.4cm" break-before="page">
+			<fo:table table-layout="fixed">
+				<fo:table-column column-width="19.28cm"></fo:table-column>
+				<fo:table-body>
+					<fo:table-row>
+						<fo:table-cell border-top-style="solid" border-top-width="0.1cm">
+							<fo:block space-after="0.4cm" space-before="0.4cm">
+								<fo:inline font-weight="bold" font-size="14pt">Certificate of Service</fo:inline><fo:inline font-style="italic"> (to be completed by the court)</fo:inline> 
+							</fo:block>
+							<fo:block space-after="0.4cm">
+								AO/CAEO Number:  <xsl:value-of select="$vdCONumber"/>
+							</fo:block>
+							<fo:block>
+								I certify that the summons of which this is a true copy, was served by me on&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;.&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;
+								on the&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;
+							</fo:block>
+							<fo:block>
+								personally, at the address stated in the summons, or at
+							</fo:block>
+							<fo:block space-after="0.8cm">
+								<fo:inline font-style="italic">or in accordance with an order for substituted service.</fo:inline>  
+							</fo:block>
+							<fo:block space-after="0.4cm" text-align="right">
+								Bailiff/Officer of the Court
+							</fo:block>
+							<fo:block space-after="0.4cm">
+								<fo:inline font-weight="bold">NOTICE OF NON-SERVICE</fo:inline>
+							</fo:block>
+							<fo:block space-after="0.8cm">
+								I certify that the summons has not been served for the following reasons:
+							</fo:block>
+							<fo:block space-after="0.4cm" text-align="right">
+								Bailiff/Officer of the Court 
+							</fo:block>
+						</fo:table-cell>
+					</fo:table-row>
+				</fo:table-body>
+			</fo:table>	
+		</fo:block>
+	
+	</body>
+	<defaultFooter id="CO24" CO="true"/>
+</root>

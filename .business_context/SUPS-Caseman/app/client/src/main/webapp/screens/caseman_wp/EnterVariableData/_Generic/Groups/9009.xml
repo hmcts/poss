@@ -1,0 +1,144 @@
+<Group id="9009">
+	<ServicesRequired>
+		<mapping name="updateHearing" serviceName="updateHearing"/>
+		<service name="updateHearing" cache="none" url="Hearing" method="updateHearing"/>
+	</ServicesRequired>
+	<Protocols>
+		<OnSave>
+			<function>addNewHearing</function>
+			<functionCallback>addNewHearingCallback</functionCallback>
+		</OnSave>
+	</Protocols>
+	<JavaScript>
+	
+var nextSurrogateKey = 0;	
+		
+function addNewHearing() {    
+    var service = "updateHearing"; 
+    var  newHearingDom = WPU.getCasemapXML(); 
+    var caseNo = Services.getValue( Header_CaseNumber.dataBinding ); 
+    var ownCrtCode = Services.getValue( "/ds/ManageCase/OwningCourtCode" ); 
+    var owningCourt = Services.getValue( "/ds/ManageCase/OwningCourt" );
+    var surrogateId = getNextSurrogateKey(); 
+    var venueCode = Services.getValue( VenueCode.dataBinding );
+    var venueName = Services.getValue(VenueName.dataBinding); 
+    var typeOfHearingCode = null;
+    var typeOfHearing = null;
+    var date = Services.getValue( HearingDate.dataBinding );
+    var day = Services.getValue( HearingDay.dataBinding );
+    var time =  Services.getValue(HearingTime.dataBinding);
+    var addressId = Services.getValue( selectVenue_Address_Grid.dataBinding ); 
+    var adline1 = Services.getValue( SelectVenue_ContactDetails_Address_Line1.dataBinding );
+    var adline2 = Services.getValue( SelectVenue_ContactDetails_Address_Line2.dataBinding )
+    var adline3 = Services.getValue( SelectVenue_ContactDetails_Address_Line3.dataBinding )
+    var adline4 = Services.getValue( SelectVenue_ContactDetails_Address_Line4.dataBinding );
+    var adline5 = Services.getValue( SelectVenue_ContactDetails_Address_Line5.dataBinding );
+    var postCode = Services.getValue(SelectVenue_ContactDetails_Address_Postcode.dataBinding); 
+    var dxNo =    Services.getValue(SelectVenue_ContactDetails_Address_DXNumber.dataBinding);
+    var telNo =   Services.getValue(SelectVenue_ContactDetails_Address_TelephoneNumber.dataBinding);
+    var faxNo =   Services.getValue(SelectVenue_ContactDetails_Address_FaxNumber.dataBinding);
+    var hrsAllowed = "";
+    var minsallowed = "";
+    var datefReqToList = WPU.getRaisingEventReceiptDate(); 
+    var hearingOutcomeCode = "";
+    var hearingOutcome = "";
+    var createdBy = Services.getValue( "/ds/CaseEvent/UserName" ); 
+
+    /** LISTING TYPE - Defect 4231 - creating hearings via WP **/
+    if ('undefined' != typeof Listing &amp;&amp; null != Listing.dataBinding) {
+	    var listingType = Services.getValue(Listing.dataBinding);
+    	XML.setElementTextContent( newHearingDom, "/ds/MaintainHearing/Hearings/Hearing/ListingType", listingType);
+    }
+ 
+    /** HEARING TYPE **/
+    var hearingIsFor = getHearingIsFor();	
+   typeOfHearingCode =  WPU.GetHearingTypeToCreate( WP.GetScreenProcess(), hearingIsFor);	
+   typeOfHearing = WPU.GetHearingTypeToCreateText( typeOfHearingCode );
+    
+    /** SET VALUES IN DOM **/
+    XML.setElementTextContent( newHearingDom, "/ds/MaintainHearing/CaseNumber", caseNo);
+    XML.setElementTextContent( newHearingDom, "/ds/MaintainHearing/OwningCourtCode", ownCrtCode );
+    
+    /** HEARING **/
+    XML.setElementTextContent( newHearingDom, "/ds/MaintainHearing/Hearings/Hearing/SurrogateId", surrogateId );
+    XML.setElementTextContent( newHearingDom, "/ds/MaintainHearing/Hearings/Hearing/CreatedBy", createdBy  );
+    XML.setElementTextContent( newHearingDom, "/ds/MaintainHearing/Hearings/Hearing/VenueCode", venueCode );
+    XML.setElementTextContent( newHearingDom, "/ds/MaintainHearing/Hearings/Hearing/VenueName", venueName );
+    XML.setElementTextContent( newHearingDom, "/ds/MaintainHearing/Hearings/Hearing/TypeOfHearingCode",  typeOfHearingCode);
+    XML.setElementTextContent( newHearingDom, "/ds/MaintainHearing/Hearings/Hearing/TypeOfHearing", typeOfHearing );
+    XML.setElementTextContent( newHearingDom, "/ds/MaintainHearing/Hearings/Hearing/Date", date );
+    XML.setElementTextContent( newHearingDom, "/ds/MaintainHearing/Hearings/Hearing/Day", day );
+    XML.setElementTextContent( newHearingDom, "/ds/MaintainHearing/Hearings/Hearing/Time", time );
+    
+    XML.setElementTextContent( newHearingDom, "/ds/MaintainHearing/Hearings/Hearing/Address/AddressId", addressId );
+    XML.setElementTextContent( newHearingDom, "/ds/MaintainHearing/Hearings/Hearing/Address/Line[1]", adline1 );
+    XML.setElementTextContent( newHearingDom, "/ds/MaintainHearing/Hearings/Hearing/Address/Line[2]", adline2 );
+    XML.setElementTextContent( newHearingDom, "/ds/MaintainHearing/Hearings/Hearing/Address/Line[3]", adline3 );
+    XML.setElementTextContent( newHearingDom, "/ds/MaintainHearing/Hearings/Hearing/Address/Line[4]", adline4 );
+    XML.setElementTextContent( newHearingDom, "/ds/MaintainHearing/Hearings/Hearing/Address/Line[5]", adline5 );
+    XML.setElementTextContent( newHearingDom, "/ds/MaintainHearing/Hearings/Hearing/Address/PostCode", postCode );
+    XML.setElementTextContent( newHearingDom, "/ds/MaintainHearing/Hearings/Hearing/DXNumber", dxNo );
+    XML.setElementTextContent( newHearingDom, "/ds/MaintainHearing/Hearings/Hearing/TelephoneNumber", telNo );
+    XML.setElementTextContent( newHearingDom, "/ds/MaintainHearing/Hearings/Hearing/FaxNumber", faxNo );
+     
+    XML.setElementTextContent( newHearingDom, "/ds/MaintainHearing/Hearings/Hearing/HoursAllowed", hrsAllowed );
+    XML.setElementTextContent( newHearingDom, "/ds/MaintainHearing/Hearings/Hearing/MinsAllowed", minsallowed );
+    XML.setElementTextContent( newHearingDom, "/ds/MaintainHearing/Hearings/Hearing/DateOfRequestToList", datefReqToList );
+   
+  	var timeUnit = Services.getValue("/ds/EnterVariableData/TrialNotice/trialTimeEstUnits");
+   	if( 'MIN' == timeUnit ) { 
+   		minsallowed = Services.getValue(TrialTimeEst.dataBinding); }
+   	else if( 'HR' == timeUnit) { 
+   		hrsAllowed =  Services.getValue(TrialTimeEst.dataBinding); }
+   
+   	var params = new ServiceParams();
+	params.addDOMParameter("HearingID", newHearingDom );
+							
+	if( null !=date &amp;&amp; "" !=date &amp;&amp; null !=time &amp;&amp; "" !=time &amp;&amp; null!=venueName &amp;&amp; ""!=venueName) {    
+		Services.callService(service, params, addNewHearingCallback, true); }
+	else {	
+		Save_All();  /**go to next step: no hearing can be added without time, date and venue**/ }
+}
+
+function getHearingIsFor() {
+	var hearingIsFor = null;
+	try {
+		hearingIsFor = Services.getValue(HearingIsFor.dataBinding); }
+	catch(excep) {
+		try {
+			hearingIsFor = Services.getValue(HearingType2.dataBinding); }
+		catch(excep) {	
+			try {
+				hearingIsFor = Services.getValue(HearingType.dataBinding); }
+			catch(excep) {
+				} } }
+	return hearingIsFor;
+}
+
+	
+function addNewHearingCallback() { 
+}
+
+addNewHearingCallback.onSuccess = function(dom) {   
+	if (null != dom) {   
+	   var seqNo = dom.selectSingleNode("//CaseEventSeq");
+	   if( null != seqNo) {  
+			var caseEventSeq = XML.getNodeTextContent(seqNo);		
+		   	Services.setValue("/ds/CaseEvent/CaseEventSeq", caseEventSeq ); }
+		Save_All(); }
+	else  {
+		alert(Messages.NO_RESULTS_MESSAGE);  }
+}
+
+addNewHearingCallback.onBusinessException = function(exception)   {
+	alert(Messages.FAILEDSAVE_MESSAGE);  }
+
+addNewHearingCallback.onSystemException = function(exception)  {
+	alert(Messages.FAILEDSAVE_MESSAGE);  }
+	
+/** Call this function to get the next generated surrogate key **/
+function getNextSurrogateKey() {	
+		return "S" + (++ nextSurrogateKey);	}
+	</JavaScript>
+</Group>
+

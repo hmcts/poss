@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: SuitorsCashStartOfDay
+	Method:  getTotalDcs()
+	File:    get_total_dcs.xml
+	Author:  Mark Hallam
+	Created: 1 December 2005
+	Description: 
+		Retrieves the number of records where item_date = today from the DCS Table
+-->
+<service-method>
+	<pipeline>
+		<SQLLite format-output="true"
+				 resultset-element="ResultSet"
+				 row-element="Row"
+				 field-name-as="element" >
+			<DataSource id="java:OracleDS"/>
+			<Param name="param.date" xpath="/params/param[@name = 'date']"/>
+			<Param name="param.adminCourtCode" xpath="/params/param[@name = 'adminCourtCode']"/>
+			<SQL>
+				SELECT COUNT(*) AS "TotalDcs" FROM DCS D
+				WHERE TRUNC(D.ITEM_DATE) = TRUNC(TO_DATE(${param.date}, 'dd-MM-yyyy'))
+				AND D.ADMIN_COURT_CODE = ${param.adminCourtCode}
+			</SQL>
+		</SQLLite>
+	</pipeline>
+	<Security roles="viewOnly medium high wcSuper scSuper bmsSuper aeSuper dmSuper edsAdmin admin cpSuper"/>
+</service-method>
+

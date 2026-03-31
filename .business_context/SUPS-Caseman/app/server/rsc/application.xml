@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE application PUBLIC
+   "-//Sun Microsystems, Inc.//DTD J2EE Application 1.3//EN"
+   "http://java.sun.com/dtd/application_1_3.dtd">
+
+<application>
+   	<display-name>Server Example Application</display-name>
+    <module>
+    	<ejb>xmlquery2.jar</ejb>
+    </module>
+	<module>
+		<web>
+			<web-uri>sups-content.war</web-uri>
+			<context-root>@APPLICATION_SERVICE_URI_PREFIX@_content</context-root>
+		</web>
+	</module>
+	<module>
+		<web>
+			<web-uri>sups-invoker.war</web-uri>
+			<context-root>@APPLICATION_SERVICE_URI_PREFIX@_invoker</context-root>
+		</web>
+	</module>
+	<module>
+		<web>
+			<web-uri>server_wordprocessing.war</web-uri>
+			<context-root>/casemanwp</context-root>
+		</web>
+	</module>
+    <module>
+    	<ejb>Permissions.jar</ejb>
+    </module>

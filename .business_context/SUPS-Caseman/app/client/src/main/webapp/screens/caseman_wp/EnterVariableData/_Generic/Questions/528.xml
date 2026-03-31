@@ -1,0 +1,29 @@
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>528</Id>
+	<Label>Defendant's disability</Label>
+	<ObjectName>DefDisability</ObjectName>
+	<Html>	
+		<select id="DefDisability">
+			<option value=""></option>
+			<option value="MI">Mental illness</option>
+			<option value="SMI">Severe mental impairment</option>
+		</select>
+	</Html>			
+	<Javascript>
+		<XPath>/ds/EnterVariableData/Guardianship/defDisability</XPath>
+		<componentName>##label##</componentName>
+		<isMandatory>return true;</isMandatory>
+		<HintText>Enter defendant's disability - list available</HintText>	
+		
+		<Context ScreenId="CJR104">
+			<enableOn>IsMPEvidenceGiven.dataBinding</enableOn>
+			<isEnabled>return('Y' == Services.getValue(IsMPEvidenceGiven.dataBinding));</isEnabled>
+			<logicOn>IsMPEvidenceGiven.dataBinding</logicOn>
+			<logic>
+				if('Y' != Services.getValue(IsMPEvidenceGiven.dataBinding))
+				{	Services.setValue(DefDisability.dataBinding, "");
+				}
+			</logic>
+		</Context>		
+	</Javascript>
+</Question>

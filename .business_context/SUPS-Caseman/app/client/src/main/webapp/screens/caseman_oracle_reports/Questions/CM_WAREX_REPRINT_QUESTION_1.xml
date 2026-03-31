@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- 
+	25/05/2006 - MGG - defect 3388 - Removed isMandatory tag.  Not required as this field will always have a value - i.e. there is not 
+									 an <empty> value in the droplist.  Also move the default setting to an initialise method.
+	04/07/2013 - Chris Vincent (Trac 4908).  Removed logic and logicOn tags which are no longer required as part of case numbering changes.
+-->
+<!--Question xmlns="http://eds.com/questionxhtml" xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd"-->
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>CM_WAREX_REPRINT_QUESTION_1</Id>
+	<Label>Home or Foreign</Label>
+	<ObjectName>HomeForeign</ObjectName>
+	<Html>
+		<select id="HomeForeign">
+			<option value="H">Home</option>
+			<option value="F">Foreign</option>
+		</select>		
+	   <!-- <input id="HomeForeign" type="text" size="1"></input> -->
+	</Html>
+	<Javascript>
+		<XPath>/ds/var/page/OracleReportForm/HomeForeign</XPath>
+		<ReportVariableName>P_HOME_FOREIGN</ReportVariableName>
+		<ReportVariableValue>Services.getValue(HomeForeign.dataBinding)</ReportVariableValue>
+		<HintText>Select either Home or Foreign</HintText>
+		<initialise>
+			Services.setValue(HomeForeign.dataBinding, "H");
+		</initialise>
+		<maxLength>1</maxLength>
+		<validateOn>
+			HomeForeign.dataBinding
+		</validateOn>	
+		<setDefault>			
+		</setDefault>	
+		<transformToDisplay>
+			return (null != value) ? value.toUpperCase() : null;
+		</transformToDisplay>
+		<transformToModel>
+			return (null != value) ? value.toUpperCase() : null;
+		</transformToModel>				
+		<validate>
+			var ec = null;
+			if ((Services.getValue(HomeForeign.dataBinding) == "H") || (Services.getValue(HomeForeign.dataBinding) == "F"))
+			{
+				//Passed
+			}
+			else
+			{
+				ec = ErrorCode.getErrorCode("CaseMan_homeForeignInvalid_Msg");
+			}
+			return faildedValidation (ec);
+		</validate>			
+		<miscCode>
+			Status_RunReportButton.validationList = ["HomeForeign", "FirstWarrantNumber"];
+		</miscCode>		
+	</Javascript>
+</Question>

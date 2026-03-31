@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: Court
+	Method:  addCourt()
+	File:    query_def_add.xml
+	Author:  Chris Vincent (EDS)
+	Created: 24 November 2005
+	Description: Inserts a new court into the database
+-->
+<QueryDef>
+	<DBMapDef location="uk/gov/dca/caseman/court_service/map_add.xml"/>
+
+	<Query pivotNode="/Court" tables="CT P">
+		<Join>
+			P.CRT_CODE = CT.CODE
+		</Join>	
+		<Modify/>
+	</Query>
+
+</QueryDef>

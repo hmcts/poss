@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	19/12/2006 - CV - Added F6 keybinding to LOV via ServiceToBeDispensedOnLOVGrid.raise configuration.
+	Temp_Caseman defects 299/334.
+-->
+<!--Question xmlns="http://eds.com/questionxhtml" xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd"-->
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>Q_ServiceToBeDispensedOn</Id>
+	<Label>Service to be Dispensed On</Label>
+	<ObjectName>ServiceToBeDispensedOn</ObjectName>
+	<Html>
+		<input id="ServiceToBeDispensedOn" type="text" size="70" > </input>
+		<input id="ServiceToBeDispensedOnLOVButton" type="Button" value="LOV"></input>
+        <script type="text/javascript">
+			LOVPopupRenderer.createInline( "ServiceToBeDispensedOnLOVGrid", "Types", ["Value", "Description"], 10, 1, true );
+        </script>
+	</Html>
+	<Javascript>
+		<XPath>/ds/var/page/OracleReportForm/ServiceToBeDispensedOn</XPath>
+		<ReportVariableName>SECOND_PARTY</ReportVariableName>
+		<ReportVariableValue>Services.getValue(ServiceToBeDispensedOn.dataBinding)</ReportVariableValue>
+		<ReportVariableCode>2710</ReportVariableCode>
+		<HintText></HintText>
+		<mandatoryOn></mandatoryOn>
+		<isMandatory>return true;</isMandatory>
+		<setDefault></setDefault>
+		<validateOn></validateOn>
+		<validate>
+			var description = Services.getValue(REF_DATA_XPATH + "/ServiceToBeDispensedOnList/ServiceToBeDispensedOn[./Value = " + ServiceToBeDispensedOn.dataBinding + "]/Description");
+			var valueTest = Services.getValue( REF_DATA_XPATH + "/ServiceToBeDispensedOnList/ServiceToBeDispensedOn[./Description = " + ServiceToBeDispensedOn.dataBinding + "]/Value" );
+			if (description == null &amp;&amp; valueTest == null)
+			{
+				// This is not a valid value - see list of Values
+				return ErrorCode.getErrorCode("CaseMan_Reports_Invalid_LOV_Msg");
+			}
+			else
+			{
+				return null;
+			}
+		</validate>
+		<readOnlyOn></readOnlyOn>
+		<isReadOnly></isReadOnly>
+		<maxLength></maxLength>
+		<transformToDisplay>
+			var description = Services.getValue( REF_DATA_XPATH + "/ServiceToBeDispensedOnList/ServiceToBeDispensedOn[./Value = " + ServiceToBeDispensedOn.dataBinding + "]/Description" );
+			if (description != null)
+			{
+				return description;
+			}
+			else
+			{
+				return value;
+			}
+		</transformToDisplay>
+		<transformToModel>
+			return (null != value) ? value.toUpperCase() : null;
+		</transformToModel>
+		<initialise>
+			dom = getList("../LOV/ServiceToBeDispensedOnList.xml"); 
+			Services.addNode(dom, REF_DATA_XPATH);
+		</initialise>
+		<logicOn></logicOn>
+		<logic></logic>
+		<miscCode>
+			ServiceToBeDispensedOn.componentName = 	"Service to be dispensed on";
+			ServiceToBeDispensedOn.srcData = 		REF_DATA_XPATH + "/ServiceToBeDispensedOnList";
+			ServiceToBeDispensedOn.rowXPath = 		"ServiceToBeDispensedOn";
+			ServiceToBeDispensedOn.keyXPath = 		"Value";
+			
+			function ServiceToBeDispensedOnLOVButton() {};
+			ServiceToBeDispensedOnLOVButton.tabIndex = __tabIdx++;
+
+			function ServiceToBeDispensedOnLOVGrid() {};
+			
+			ServiceToBeDispensedOnLOVGrid.dataBinding = ServiceToBeDispensedOn.dataBinding;
+			ServiceToBeDispensedOnLOVGrid.srcData = 	REF_DATA_XPATH + "/ServiceToBeDispensedOnList";
+			ServiceToBeDispensedOnLOVGrid.rowXPath = 	"ServiceToBeDispensedOn";
+			ServiceToBeDispensedOnLOVGrid.keyXPath = 	"Value";
+			ServiceToBeDispensedOnLOVGrid.columns = 	[
+				{xpath: "Value"},
+				{xpath: "Description"}
+			];
+			ServiceToBeDispensedOnLOVGrid.raise = {
+				eventBinding: {
+					singleClicks: [ {element: "ServiceToBeDispensedOnLOVButton"} ],
+					keys: [ { key: Key.F6, element: "ServiceToBeDispensedOn" } ]
+				}
+			};
+			
+			ServiceToBeDispensedOnLOVGrid.nextFocusedAdaptorId = function() {
+				return "OtherPartyType10";
+			}
+		</miscCode>
+		<IsQuestion></IsQuestion>
+	</Javascript>
+</Question>

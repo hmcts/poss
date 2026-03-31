@@ -1,0 +1,288 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- ====================================================================== -->
+<!--  -->
+<!-- FILENAME: $Source: C:/CVSRepository/serveroas/src/uk/gov/dca/caseman/wordprocessing_templates/Notice/CJR003/CJR003-FO.xml,v $ -->
+<!--  -->
+<!-- AUTHOR: $Author: anoop $-->
+<!--  -->
+<!-- DATE: $Date: 2006/05/19 13:47:01 $ -->
+<!--  -->
+<!-- Version: $Revision: 1.7 $ -->
+<!--  -->
+<!-- DESCRIPTION: This stylesheet is used to create an XSL:FO document that -->
+<!-- can be processed into a PDF version.  Business logic -->
+<!-- is embedded to generate the correct document text for the order -->
+<!-- required. -->
+<!--  -->
+<!-- INPUTS: XML document containing: the answers to questions asked of the -->
+<!-- user; case data retrieved from the database; HTML representing the  -->
+<!-- body of the document content (already edited by the user). -->
+<!--  -->
+<!-- OUTPUTS: XML document with FO tags containing instructions for the -->
+<!-- creation of a PDF document. -->
+<!--  -->
+<!-- ====================================================================== -->
+<!-- Change History:
+09-NOV-2011 Des Johnston - Trac 4589. Include defendants tag to the addressee xml so that defendant(s) notice copies are produced as well as the Claimant's copy
+27-Jan-2012 Chris Vincent - Trac 4589, number of copies produced is equal to number of defendants, each addressed to claimant, but each copy has a unique
+							Defendant Name.
+11-Jan-2013 Chris Vincent - Trac 4766. Added Claim Received parameter to header of output.
+--> 
+<root xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:fo="http://www.w3.org/1999/XSL/Format" xmlns="http://eds.com/supsfo">
+	<variables>@word.processing.url.xsl@supsfo.xsl</variables>
+	<addressee>
+		<noticeissuespecial/> 
+	</addressee>
+	<header>
+		<fo:block font-size="16pt" font-weight="bold">Notice of Issue <xsl:value-of select="$vdDuplicateEvent" /></fo:block>
+		<fo:block font-size="12pt">(unspecified amount)</fo:block>
+	</header>
+	<courtcase>
+		<court>
+			<xsl:copy-of select="$vdCourtHeaderBlock"/>
+		</court>
+		<caseparameters>
+			<parameter>
+				<name>
+					<fo:block font-weight="bold">Claim Number</fo:block>
+				</name>
+				<value>
+					<fo:block>
+						<xsl:value-of select="$vdClaimNumber"/>
+					</fo:block>
+				</value>
+			</parameter>
+			<parameter>
+				<name>
+					<fo:block font-weight="bold">Claimant</fo:block>
+					<fo:block font-size="9pt">(including ref.)</fo:block>
+				</name>
+				<value>
+					<fo:block hyphenate="true">
+						<xsl:value-of select="$vdClaimantName"/>
+					</fo:block>
+					<fo:block font-size="9pt" hyphenate="true">
+						<xsl:value-of select="$vdClaimantReference"/>
+					</fo:block>
+				</value>
+			</parameter>
+			<parameter>
+				<name>
+					<fo:block font-weight="bold">Defendant(s)</fo:block>
+				</name>
+				<value>
+					<fo:block hyphenate="true">
+						<xsl:call-template name="noticeIssueDefendantName">
+							<xsl:with-param name="defendant">
+								<xsl:value-of select="$defendant"/>
+							</xsl:with-param>
+						</xsl:call-template>
+					</fo:block>
+				</value>
+			</parameter>
+			<parameter>
+				<name>
+					<fo:block font-weight="bold">Issue Fee</fo:block>
+				</name>
+				<value>
+					<fo:block>
+						&#163;<xsl:call-template name="correctCalculation">
+							<xsl:with-param name="value"><xsl:value-of select="$vdIssueFee"/></xsl:with-param>
+						</xsl:call-template>
+					</fo:block>
+				</value>
+			</parameter>
+			<parameter>
+				<name>
+					<fo:block font-weight="bold">Claim Received</fo:block>
+				</name>
+				<value>
+					<fo:block>
+						<xsl:value-of select="$vdClaimReceiptDate"/>
+					</fo:block>
+				</value>
+			</parameter>
+		</caseparameters>
+	</courtcase>
+	<bodyintroleft>
+	</bodyintroleft>
+	<body>
+	    <fo:block font-size="9pt" space-after="0.3cm">Your claim was issued on <xsl:value-of select="$vdClaimDateOfIssue"/>. The court sent it to the defendant by first class post on <xsl:choose><xsl:when test="$vdServiceDate != $emptyDate"><xsl:value-of select="$vdPostedDate"/></xsl:when><xsl:otherwise><xsl:value-of select="$emptyDate"/></xsl:otherwise></xsl:choose> and it will be deemed served on <xsl:choose><xsl:when test="$vdServiceDate != $emptyDate"><xsl:value-of select="$vdServiceDate"/></xsl:when><xsl:otherwise><xsl:value-of select="$emptyDate"/></xsl:otherwise></xsl:choose>. The defendant<xsl:if test="$vdNumberOfDefendants>1">s have</xsl:if><xsl:if test="$vdNumberOfDefendants=1"> has</xsl:if> until <xsl:choose><xsl:when test="$vdServiceDate != $emptyDate"><xsl:value-of select="$vdServiceReplyDate"/></xsl:when><xsl:otherwise><xsl:value-of select="$emptyDate"/></xsl:otherwise></xsl:choose> to reply.</fo:block>
+		<fo:block space-before="0.5cm" space-after="0.5cm">
+			<fo:table table-layout="fixed">
+				<fo:table-column column-width="9.08cm"/>
+				<fo:table-column column-width="1.0cm"/>
+				<fo:table-column column-width="9.08cm"/>
+				<fo:table-body>
+					<fo:table-row>
+						<fo:table-cell number-columns-spanned="3">
+							<fo:block font-size="9pt" font-weight="bold" space-after="0.2cm" space-before="0.2cm">The defendant may either</fo:block>
+						</fo:table-cell>
+					</fo:table-row>
+					<fo:table-row>
+						<fo:table-cell>
+							<list type="bullet">
+								<list-item>
+									<fo:block font-size="9pt">
+										<fo:inline font-weight="bold">Pay an amount into court to satisfy your claim.</fo:inline>
+										<fo:inline> This is called 'payment in satisfaction'.  The court will notify you of the payment and you will have to decide whether to accept the amount offered.</fo:inline>
+									</fo:block>
+								</list-item>
+								<list-item>
+									<fo:block font-size="9pt">
+										<fo:inline font-weight="bold">Offer to pay you an amount to satisfy your claim and/or ask for time to pay.</fo:inline>
+										<fo:inline> The court will send you a copy of the defendant's reply and you will have to decide what you want to do.</fo:inline>
+									</fo:block>
+								</list-item>
+								<list-item>
+									<fo:block font-size="9pt">
+										<fo:inline font-weight="bold">Admit liability for your claim but not offer an amount in satisfaction.</fo:inline>
+										<fo:inline> The court will send you a copy of the defendant's reply and you will be able to request judgment for amount to be decided by the court and costs.</fo:inline>
+									</fo:block>
+								</list-item>
+							</list>
+						</fo:table-cell>
+						<fo:table-cell/>
+						<fo:table-cell>
+							<list type="bullet">
+								<list-item>
+									<fo:block font-size="9pt">
+										<fo:inline font-weight="bold">File an acknowledgement of service.</fo:inline>
+										<fo:inline> This will allow the defendant 28 days from the date of service of your particulars of claim to file a defence or contest the court's jurisdiction. The court will send you a notice that an acknowledgement has been filed.</fo:inline>
+									</fo:block>
+								</list-item>
+								<list-item>
+									<fo:block font-size="9pt">
+										<fo:inline font-weight="bold">Dispute your claim.</fo:inline>
+										<fo:inline> The court will send you a copy of the defence and tell you what to do next.</fo:inline>
+									</fo:block>
+								</list-item>
+								<list-item>
+									<fo:block font-size="9pt">
+										<fo:inline font-weight="bold">Not reply at all.</fo:inline>
+										<fo:inline> You may ask the court to enter judgment for an amount to be decided by the court by completing the tear off portion on this form.  A hearing will be arranged to determine the amount the defendant should pay you.</fo:inline>
+										<fo:inline font-weight="bold"> If you do not request judgment within 6 months of the date for filing a defence, your claim will be stayed. This means that the only action open to you would be to apply to a judge for an order lifting the stay.</fo:inline>
+									</fo:block>
+								</list-item>
+							</list>
+						</fo:table-cell>
+					</fo:table-row>
+				</fo:table-body>
+			</fo:table>
+		</fo:block>
+		<getFooter/>
+		<leader/>
+		<fo:block text-align="justify">
+			<fo:table table-layout="fixed">
+				<fo:table-column column-width="10.16cm"/>
+				<fo:table-column column-width="1cm"/>
+				<fo:table-column column-width="8.12cm"/>
+				<fo:table-body>
+					<fo:table-row>
+						<fo:table-cell height="2cm">
+							<fo:block font-size="14pt" font-weight="bold" space-after="0.4cm">Request for Judgment</fo:block>
+						</fo:table-cell>
+						<fo:table-cell number-rows-spanned="3">
+							<fo:block/>
+						</fo:table-cell>
+						<fo:table-cell number-rows-spanned="3">
+							<courtcase>
+								<court>
+									<xsl:copy-of select="$vdCourtHeaderBlock"/>
+								</court>
+								<caseparameters>
+									<parameter>
+										<name><fo:block font-weight="bold">Claim Number</fo:block></name>
+										<value><fo:block>
+											<xsl:value-of select="$vdClaimNumber"/>
+										</fo:block></value>
+									</parameter>
+									<parameter>
+										<name>	<fo:block font-weight="bold">Claimant</fo:block>
+										<fo:block font-size="9pt">(including ref.)</fo:block></name>
+										<value><fo:block hyphenate="true">
+										<xsl:value-of select="$vdClaimantName"/>
+										</fo:block>
+							
+										<fo:block font-size="9pt" hyphenate="true">
+											<xsl:value-of select="$vdClaimantReference"/>
+										</fo:block></value>
+									</parameter>
+									<parameter>
+										<name><fo:block font-weight="bold">Defendant(s)</fo:block></name>
+										<value><fo:block hyphenate="true">
+											<xsl:call-template name="noticeIssueDefendantName">
+												<xsl:with-param name="defendant">
+													<xsl:value-of select="$defendant"/>
+												</xsl:with-param>
+											</xsl:call-template>
+										</fo:block></value>
+									</parameter>
+								</caseparameters>
+							</courtcase>
+						</fo:table-cell>
+					</fo:table-row>
+					<fo:table-row>
+						<fo:table-cell>
+							<fo:block font-size="10pt" font-weight="bold" space-after="0.4cm">Notes:</fo:block>
+							<list type="bullet">
+								<list-item>
+									<fo:block font-size="10pt" space-after="0.4cm">The court will notify both you and the defendant of any steps you should take to prepare for the hearing at which the court will decide what amount you are entitled to.</fo:block>
+								</list-item>
+								<list-item>
+									<fo:block font-size="10pt" space-after="0.4cm">You should notify the court immediately if your claim is settled or you decide that you do not wish to proceed.</fo:block>
+								</list-item>
+							</list>
+							<fo:block space-after="0.75cm"/>
+						</fo:table-cell>
+					</fo:table-row>
+					<fo:table-row>
+						<fo:table-cell number-rows-spanned="2">
+							<xsl:apply-templates select="bodyintroleft"/>
+						</fo:table-cell>
+					</fo:table-row>
+					<fo:table-row>
+						<fo:table-cell>
+							<xsl:apply-templates select="bodyintroright"/>
+						</fo:table-cell>
+					</fo:table-row>
+				</fo:table-body>
+			</fo:table>
+		</fo:block>
+		<fo:block text-align="justify">
+			<fo:table table-layout="fixed">
+				<fo:table-column column-width="19.28cm"/>
+				<fo:table-body>
+					<fo:table-row>
+						<fo:table-cell>
+							<xsl:apply-templates select="body"/>
+						</fo:table-cell>
+					</fo:table-row>
+				</fo:table-body>
+			</fo:table>
+		</fo:block>		
+
+		<fo:table>
+			<fo:table-body>
+				<fo:table-row>
+					<fo:table-cell padding-bottom="1em">
+						<fo:block>Defendant's date of birth, if known</fo:block>
+					</fo:table-cell>
+					<fo:table-cell padding-bottom="1em" padding-left="1em">
+						<fo:block><xsl:call-template name="manualDOB"/></fo:block>
+					</fo:table-cell>
+				</fo:table-row>
+			</fo:table-body>
+		</fo:table>
+
+		<fo:block font-size="10pt" font-weight="bold" space-after="0.4cm">To the court</fo:block>
+		<fo:block font-size="10pt" font-weight="bold" space-after="0.4cm">The defendant has not filed an admission or defence to my claim, or an application to contest the court's jurisdiction and the time for doing so has expired.</fo:block>
+		<fo:block font-size="10pt" font-weight="bold" space-after="0.4cm">I request that judgment be entered for an amount including costs, to be decided by the court.</fo:block>
+
+		
+		<signature signaturetype="signature" showguardiantext="true"/>
+			
+
+	</body>
+	<defaultFooter id="CJR003" suppress="true"/>
+</root>

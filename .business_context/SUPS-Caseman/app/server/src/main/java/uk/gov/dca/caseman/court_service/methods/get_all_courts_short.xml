@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: Courts
+	Method:  getAllCourtsShort
+	Author:  Chris Vincent (EDS) 
+	Created: 24 November 2005
+	Description: Use SQLLite to retrieve all courts regardless of in service
+	Change History:
+	12/02/2008 - Chris Vincent: Added DisplayName node which is required
+	for CaseMan Defect 6154.
+	29/07/2010 - Chris Vincent: Added SUPS_CENTRALISED_FLAG which is required for Trac 2050.
+-->
+<service-method>
+	<pipeline>
+		<SQLLite format-output="true"
+				 resultset-element="Courts"
+				 row-element="Court"
+				 field-name-as="element" >
+			<DataSource id="java:OracleDS"/>
+			<SQL>
+				SELECT C.CODE As "Code"
+					   , C.NAME As "Name"
+					   , C.ID As "Id"
+					   , C.CASEMAN_INSERVICE As "InService"
+					   , C.SUPS_CENTRALISED_FLAG As "SUPSCourt"
+					   , CASE
+						 WHEN
+							((SELECT COUNT(*) FROM COURTS C2 WHERE C2.NAME = C.NAME) > 1) THEN C.NAME || ' ('|| C.CODE ||')'
+						 ELSE
+							C.NAME
+						 END As "DisplayName"
+				FROM  COURTS C
+				WHERE C.CODE NOT IN (0)
+			</SQL>
+		</SQLLite>
+  	</pipeline>
+	<Security roles="viewOnly medium high wcSuper scSuper bmsSuper aeSuper dmSuper cpSuper edsAdmin ccbcMan ccbcUser ccbcSGB2 ccbcTape admin"/>
+</service-method>

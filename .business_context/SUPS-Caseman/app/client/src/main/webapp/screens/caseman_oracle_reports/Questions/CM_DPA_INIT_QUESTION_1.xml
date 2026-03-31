@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--Question xmlns="http://eds.com/questionxhtml" xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd"-->
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>CM_DPA_INIT_QUESTION_1</Id>
+	<Label>Party Name</Label>
+	<ObjectName>PartyName</ObjectName>
+	<Html>
+		<input id="PartyName" type="text" size="30"></input>
+	</Html>
+	<Javascript>
+		<XPath>/ds/var/page/OracleReportForm/PartyName</XPath>
+		<ReportVariableName>SEARCHSTRING</ReportVariableName>
+		<ReportVariableValue>replaceString(Services.getValue(PartyName.dataBinding).toUpperCase(), " ", "z")</ReportVariableValue>
+		<HintText>Enter all or part of name - wildcards MUST be used, eg %SMITH%</HintText>
+		<isMandatory>return true;</isMandatory>
+		<validate>
+            var ec = null;
+            var partyName = Services.getValue(PartyName.dataBinding);
+            if ( !CaseManUtils.isBlank(partyName) )
+            {
+                var countChars = 0;
+                var countWildCards = 0;
+                for ( var i = 0, l = partyName.length; i &lt; l; i++ )
+                {
+                    var tempChar = partyName.charAt(i);
+                    if ( tempChar == "%" ) countWildCards++;
+                    else if ( /[A-Za-z]/.test(tempChar) ) countChars++;
+                }
+
+                if ( countChars &lt; 2 )
+                {
+                    ec = ErrorCode.getErrorCode("CaseMan_AtLeastTwoAlphaCharacters_Msg");
+                }
+                else if ( countWildCards &gt; 2 )
+                {
+                    ec = ErrorCode.getErrorCode("CaseMan_MaximumOfTwoWildCards_Msg");
+                }
+            }
+            return ec;
+		</validate>
+		<transformToDisplay>
+			return (null != value) ? value.toUpperCase() : null;
+		</transformToDisplay>
+		<transformToModel>
+			return (null != value) ? value.toUpperCase() : null;
+		</transformToModel>			
+		<miscCode>
+			Status_RunReportButton.validationList = ["PartyName"];
+			
+			function replaceString(mainStr, searchStr, replaceStr)
+			{
+				return mainStr.split(searchStr).join(replaceStr);
+			}
+		</miscCode>
+	</Javascript>
+</Question>

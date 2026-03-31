@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: Warrant
+	Method:  searchWarrants()
+	File:    search_warrants.xml
+	Author:  Tim Connor (EDS)
+	Created: 12 April 2005
+	Description: Searches for a particular Warrant, or all Warrants related to a particular case or CO.
+	
+	Change History
+		Chris Hutt 	26 sept 2007 
+					Constraint changed to avoid OR's and NULL tests by use of NVL (in reponse to a performance requirement)
+					
+	    Chris Hutt 	29 sept 2007 
+	    			warrant_id param removed : not used and hesvy performance overhead.
+	    			
+	   Chris Hutt 	1 Oct 2007  
+	   				IssueDate: Date format added	
+	   				
+	   Chris Hutt 	2nd October 2007 : Performance
+     				Calls java class to generate dynamic Sql	
+					
+-->
+<service-method>
+	<pipeline>
+		<Query>
+  			<QueryDef location="uk/gov/dca/caseman/warrant_service/query_def_search.xml"/>
+			<QueryExtension pivotNode="/ds/Warrants/Warrant">
+				<Param name="warrantID" xpath="/params/param[@name='warrantID']"/>
+				<Param name="warrantNumber" xpath="/params/param[@name='warrantNumber']"/>
+				<Param name="localNumber" xpath="/params/param[@name='localNumber']"/>
+				<Param name="caseNumber" xpath="/params/param[@name='caseNumber']"/>
+				<Param name="CONumber" xpath="/params/param[@name='CONumber']"/>
+				<Param name="executedBy" xpath="/params/param[@name='executedBy']"/>
+				<Param name="issueDate" xpath="/params/param[@name='issueDate']"/>
+				<Param name="issuedBy" xpath="/params/param[@name='issuedBy']"/>
+				
+				<SQL type="select" generator="uk.gov.dca.caseman.warrant_service.java.WarrantSearchGenerator"/>
+
+			</QueryExtension>
+  	    </Query>
+	</pipeline>
+	<Security roles="viewOnly medium high wcSuper scSuper bmsSuper aeSuper dmSuper cpSuper ccbcMan ccbcUser ccbcSGB2"/>		
+</service-method>

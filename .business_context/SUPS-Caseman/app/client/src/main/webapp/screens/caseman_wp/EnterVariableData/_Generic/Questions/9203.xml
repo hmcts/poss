@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>9203</Id>
+	<Label>Drawn in favour of</Label>
+	<ObjectName>DrawnInFavourOf</ObjectName>
+	<Html>	
+		<input type="text" size="70" id="DrawnInFavourOf"></input>
+	</Html>			
+	<Javascript>
+		<XPath>/ds/EnterVariableData/drawnInFavourOf</XPath>
+		<HintText>Enter the name on the payable order</HintText>
+
+        <Context ScreenId="L_6_1_2_3_4_7">
+                <enableOn>PayableOrderSent.dataBinding,SelectLetter3.dataBinding</enableOn>
+                <isEnabled>return return9203();</isEnabled>
+
+                <logicOn>PayableOrderSent.dataBinding,SelectLetter3.dataBinding</logicOn>
+                <logic>if(!return9203())
+                    {
+                        Services.setValue(DrawnInFavourOf.dataBinding, "");
+                    }
+                </logic>
+                <mandatoryOn>PayableOrderSent.dataBinding,SelectLetter3.dataBinding</mandatoryOn>
+                <isMandatory>return return9203();</isMandatory>
+                <miscCode>
+                    function return9203(){
+                        var n9203 = false;
+                        if(
+                            "2" == Services.getValue(SelectLetter3.dataBinding)&amp;&amp;
+                              PayableOrderSent.isEnabled()
+                        ){
+                            n9203 = true;
+                        }
+                        return n9203;
+                    }
+                </miscCode>
+        </Context>
+	</Javascript>		
+</Question>

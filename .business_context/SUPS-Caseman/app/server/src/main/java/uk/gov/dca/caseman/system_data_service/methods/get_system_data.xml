@@ -1,0 +1,26 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: SystemData
+	Method:  getSystemData()
+	File:    get_system_data.xml
+	Description: 
+        Retrieves a list of System Data items relating Warrant and Attachment of Earnings Amounts.
+
+	Change History:
+	22/06/2006 Chris Hutt - as part of SYSTEM_DATA rationalisation only values needed by the calling screens are retrieved
+			   These are currently 1) Warrant screens and Ae Amounts screen
+-->
+<service-method>
+	<pipeline>
+		<Query>
+			<QueryDef location="uk/gov/dca/caseman/system_data_service/query_def.xml"/>
+			<QueryExtension pivotNode="/SystemDataList/SystemData">
+				<Param name="param.adminCourtCode" xpath="/params/param[@name = 'adminCourtCode']"/>
+				<Constraint>SD.ADMIN_COURT_CODE = ${param.adminCourtCode}
+							AND SD.ITEM IN ('SOLICITOR_COSTS', 'WARRANT_FEE', 'MAX_AE_FEE')
+				</Constraint>
+			</QueryExtension>
+		</Query>
+	</pipeline>
+	<Security roles="viewOnly medium high wcSuper scSuper bmsSuper aeSuper dmSuper cpSuper ccbcMan ccbcUser ccbcSGB2"/>			
+</service-method>

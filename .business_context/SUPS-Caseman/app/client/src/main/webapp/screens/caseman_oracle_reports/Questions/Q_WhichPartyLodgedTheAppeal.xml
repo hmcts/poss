@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	19/12/2006 - CV - Added F6 keybinding to LOV via AppealLodgedPartyLOVGrid.raise configuration.
+	Temp_Caseman defects 299/334.
+-->
+<!--Question xmlns="http://eds.com/questionxhtml" xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd"-->
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>Q_WhichPartyLodgedTheAppeal</Id>
+	<Label>Which Party Lodged the Appeal</Label>
+	<ObjectName>AppealLodgedParty</ObjectName>
+	<Html>
+		<input id="AppealLodgedParty" type="text" size="70"></input>
+		<input id="AppealLodgedPartyLOVButton" type="Button" value="LOV"/>
+		<script type="text/javascript">
+				LOVPopupRenderer.createInline( "AppealLodgedPartyLOVGrid", "Types", ["Value", "Description"], 10, 1, true );
+        </script>
+	</Html>
+	<Javascript>
+		<XPath>/ds/var/page/OracleReportForm/AppealLodgedParty</XPath>
+		<ReportVariableName>PARTY</ReportVariableName>
+		<ReportVariableValue>Services.getValue(AppealLodgedParty.dataBinding)</ReportVariableValue>
+		<ReportVariableCode>2020</ReportVariableCode>
+		<HintText>The party that lodged the appeal</HintText>
+		<mandatoryOn></mandatoryOn>
+		<isMandatory>return true;</isMandatory>
+		<setDefault></setDefault>		
+		<validateOn></validateOn>
+		<validate>
+			var description = Services.getValue(REF_DATA_XPATH + "/WhichPartyLodgedTheAppealList/WhichPartyLodgedTheAppeal[./Value = " + AppealLodgedParty.dataBinding + "]/Description");
+			var valueTest = Services.getValue( REF_DATA_XPATH + "/WhichPartyLodgedTheAppealList/WhichPartyLodgedTheAppeal[./Description = " + AppealLodgedParty.dataBinding + "]/Value" );
+			if (description == null &amp;&amp; valueTest == null)
+			{
+				// This is not a valid value - see list of Values
+				return ErrorCode.getErrorCode("CaseMan_Reports_Invalid_LOV_Msg");
+			}
+			else
+			{
+				return null;
+			}
+		</validate>
+		<readOnlyOn></readOnlyOn>
+		<isReadOnly></isReadOnly>
+		<maxLength></maxLength>
+		<transformToDisplay>
+			var description = Services.getValue( REF_DATA_XPATH + "/WhichPartyLodgedTheAppealList/WhichPartyLodgedTheAppeal[./Value = " + AppealLodgedParty.dataBinding + "]/Description" );
+			if (description != null)
+			{
+				return description;
+			}
+			else
+			{
+				return value;
+			}
+		</transformToDisplay>
+		<transformToModel>
+			return (null != value) ? value.toUpperCase() : null;
+		</transformToModel>
+		<initialise>
+			dom = getList("../LOV/WhichPartyLodgedTheAppealList.xml"); 
+			Services.addNode(dom, REF_DATA_XPATH);
+		</initialise>
+		<logicOn></logicOn>
+		<logic></logic>
+		<miscCode>
+			AppealLodgedParty.componentName =	"Which party lodged the appeal";
+			AppealLodgedParty.srcData = 		REF_DATA_XPATH + "/WhichPartyLodgedTheAppealList";
+			AppealLodgedParty.rowXPath = 		"WhichPartyLodgedTheAppeal";
+			AppealLodgedParty.keyXPath =		"Value";
+			AppealLodgedParty.displayXPath =	"Description";
+			
+			function AppealLodgedPartyLOVButton() {};
+			AppealLodgedPartyLOVButton.tabIndex = __tabIdx++;
+
+			function AppealLodgedPartyLOVGrid() {};
+			
+			AppealLodgedPartyLOVGrid.dataBinding = AppealLodgedParty.dataBinding;
+			AppealLodgedPartyLOVGrid.srcData = REF_DATA_XPATH + "/WhichPartyLodgedTheAppealList";
+			AppealLodgedPartyLOVGrid.rowXPath = "WhichPartyLodgedTheAppeal";
+			AppealLodgedPartyLOVGrid.keyXPath = "Value";
+			AppealLodgedPartyLOVGrid.columns = [
+				{xpath: "Value"},
+				{xpath: "Description"}
+			];
+			
+			AppealLodgedPartyLOVGrid.raise = {
+				eventBinding: {
+					singleClicks: [ {element: "AppealLodgedPartyLOVButton"} ],
+					keys: [ { key: Key.F6, element: "AppealLodgedParty" } ]
+				}
+			};
+			
+			AppealLodgedPartyLOVGrid.nextFocusedAdaptorId = function() {
+				return "OtherPartyType5";
+			}
+		</miscCode>
+		<IsQuestion></IsQuestion>
+	</Javascript>
+</Question>

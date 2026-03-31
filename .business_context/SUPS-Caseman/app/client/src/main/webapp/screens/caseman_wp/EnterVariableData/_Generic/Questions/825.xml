@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>825</Id>
+	<Label>Offence details</Label>
+	<ObjectName>EnterOffenceDetails</ObjectName>
+	<Html>
+		<select id = "EnterOffenceDetails">
+			<option value=""></option>
+			<option value="A">Assault</option>
+			<option value="AR">Assault, rescued/attempted to rescue</option>
+			<option value="R">Rescued/attempted to rescue</option>
+		</select>
+	</Html>
+	<Javascript>
+		<XPath>/ds/EnterVariableData/EnterOffenceDetails</XPath>
+		<componentName>##label##</componentName>
+		<HintText>Select Details of offence - List available</HintText>
+		<isMandatory>return true;</isMandatory>
+		<mandatoryOn>EnterOffenceDetails.dataBinding</mandatoryOn>
+	</Javascript>
+</Question>

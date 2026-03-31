@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: Per
+	Method:  getAePer()
+	File:    get_ae_per.xml
+	Author:  Phil Haferer (EDS), Ian Stainer (Valtech)
+	Created: 06 June 2005
+	Description: 
+		Retrieve AE protected earnings rate details.
+-->
+<service-method>
+	<pipeline>
+		<Query>
+			<QueryDef location="uk/gov/dca/caseman/per_service/query_def_get_ae_per.xml"/>
+			<QueryExtension pivotNode="/ds/CalculatePER">
+				<Param name="param.aeNumber" xpath="/params/param[@name = 'aeNumber']"/>
+				<Constraint>AEA.AE_NUMBER = ${param.aeNumber}</Constraint>
+			</QueryExtension>
+		</Query>					
+		<Transform>
+			<Template location="uk/gov/dca/caseman/per_service/transforms/get_per.xsl"/>
+		</Transform>
+	</pipeline>
+	<Security roles="viewOnly medium high wcSuper scSuper bmsSuper aeSuper dmSuper cpSuper"/>				
+</service-method>

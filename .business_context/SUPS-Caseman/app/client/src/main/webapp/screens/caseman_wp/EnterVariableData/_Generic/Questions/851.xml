@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>851</Id>
+	<Label></Label>
+	<ObjectName>TransAdLine2</ObjectName>
+	<Html>
+		<input id="TransAdLine2" type="text" size="50"></input>
+	</Html>		
+	
+	<Context screenId="CJR021"><isVisible>false</isVisible></Context>	
+	
+	<Javascript>
+		<XPath>/ds/EnterVariableData/FastTrack/transCourtAddress/Address/Line[2]</XPath>		
+		<isReadOnly>return true;</isReadOnly>		
+		<isMandatory>return true;</isMandatory>
+		<mandatoryOn>TransAdLine2.dataBinding</mandatoryOn>		
+		
+		<Context ScreenId="CJR020">
+			<enableOn>TransferCase.dataBinding</enableOn>
+			<isEnabled>
+				return ( 'Y' == Services.getValue(TransferCase.dataBinding));											
+			</isEnabled>	
+			<logicOn>TransferCase.dataBinding</logicOn>
+			<logic>
+				if( 'Y' != Services.getValue(TransferCase.dataBinding))
+				{	Services.setValue(TransAdLine2.dataBinding);
+				}
+			</logic>
+		</Context>	
+	</Javascript>
+</Question>

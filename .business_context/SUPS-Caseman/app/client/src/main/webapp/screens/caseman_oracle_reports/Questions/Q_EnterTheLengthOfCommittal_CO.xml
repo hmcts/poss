@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--Question xmlns="http://eds.com/questionxhtml" xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd"-->
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>Q_EnterTheLengthOfCommittal</Id>
+	<Label>Enter the length of commital</Label>
+	<ObjectName>EnterTheLengthOfCommittal</ObjectName>
+	<Html>
+		<input id="EnterTheLengthOfCommittal" type="text" size="3"></input>
+	</Html>
+	<Javascript>
+		<XPath>/ds/var/page/OracleReportForm/EnterTheLengthOfCommittal</XPath>
+		<ReportVariableName>COMMITTAL_PERIOD</ReportVariableName>
+		<ReportVariableCode>12170</ReportVariableCode>
+		<ReportVariableValue>Services.getValue(EnterTheLengthOfCommittal.dataBinding)</ReportVariableValue>
+		<HintText>The commital period required (in days)</HintText>
+		<isMandatory>return true;</isMandatory>
+		<maxLength>3</maxLength>
+		<setDefault>
+			Services.setValue(EnterTheLengthOfCommittal.dataBinding, "14");
+		</setDefault>		
+		<validate>
+			var value = Services.getValue(this.dataBinding);
+			var errCode = null;
+			if (!CaseManUtils.isBlank(value)) {
+				errCode = CaseManValidationHelper.validatePattern(value, CaseManValidationHelper.NUMERIC_PATTERN, "CaseMan_Reports_Enter_Number");
+			}
+			return errCode;
+		</validate>
+	</Javascript>
+</Question>

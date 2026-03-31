@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: WarrantReturns
+	Method:  updateWarrantReturns()
+	File:    map_UpdateWarrantReturns.xml
+	Description: 
+		The 'Mapping' for updating a Warrant Return.
+
+	Change History:	
+	27-Oct-2006 Phil Haferer: Removed the element 'ReturnDate' which wrote to the column WARRANT_RETURN_DATE
+                on the WARRANT_RETURNS table.  This column requires the time component of this DATE type 
+                column, as well as the date itself - in order for some reports to function correctly.  
+                The time component is written when the row is inserted, but if it is updated here it will be lost 
+                - as it is not supported by the framework.
+                (TD CASEMAN 5708: FT01. Outstanding Warrant List. Warrant Return AX is printed on the report).
+-->
+<DBMapDef>
+  <DataSource id="java:OracleDS"/>
+  <Tables>
+    <Table alias="WR" name="WARRANT_RETURNS"/>
+  </Tables>
+  <Mapping>
+    <ds>
+      <WarrantReturns>
+        <WarrantEvents>
+          <WarrantEvent>
+            <WarrantID>${WR.WARRANT_ID}</WarrantID>
+            <WarrantReturnsID>${WR.WARRANT_RETURNS_ID}</WarrantReturnsID>
+            <Code>${WR.RETURN_CODE}</Code>
+            <CourtCode>${WR.RETURN_CODE_COURT_CODE}</CourtCode>
+            <ReturnText>${RC.RETURN_CODE_SUMMARY}</ReturnText>
+            <AdditionalDetails>${WR.ADDITIONAL_INFORMATION}</AdditionalDetails>
+            <Notice>${WR.NOTICE_REQUIRED}</Notice>
+            <Defendant>${WR.DEFENDANT_ID}</Defendant>
+            <Verified>${WR.VERIFICATION_DATE}</Verified>
+            <Error>${WR.ERROR_INDICATOR}</Error>
+            <AppointmentDate>${WR.APPOINTMENT_DATE}</AppointmentDate>
+            <AppointmentTime>${WR.APPOINTMENT_TIME}</AppointmentTime>
+            <CreatedBy>${WR.CREATED_BY}</CreatedBy>
+            <ExecutedBy>${WR.ADMIN_COURT_CODE}</ExecutedBy>
+            <ReceiptDate>${WR.RECEIPT_DATE}</ReceiptDate>
+            <ToTransfer>${WR.TO_TRANSFER}</ToTransfer>
+            <CaseEventSeq>${WR.EVENT_SEQ}</CaseEventSeq>
+			<CoEventSeq>${WR.CO_EVENT_SEQ}</CoEventSeq>
+          </WarrantEvent>
+        </WarrantEvents>
+      </WarrantReturns>
+    </ds>
+  </Mapping>
+</DBMapDef>
+
+

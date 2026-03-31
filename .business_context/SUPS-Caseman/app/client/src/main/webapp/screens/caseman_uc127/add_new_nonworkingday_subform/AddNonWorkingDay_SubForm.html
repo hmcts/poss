@@ -1,0 +1,53 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3c.org/TR/html4/strict.dtd">
+<html>
+
+	<head>
+		<title>AddNonWorkingDay_SubForm</title>
+		<link href="AddNonWorkingDay_SubForm.css" type="text/css" rel="stylesheet">
+		<script type="text/javascript" src="../../../Framework.js"></script>
+    	<script type="text/javascript" src="../../../ConcatCommon.js"></script>
+		<script type="text/javascript" src="AddNonWorkingDay_SubForm.js"></script>
+  	</head>
+
+	<body>
+	
+    	<form id="addNonWorkingDaySubform" class="subform">
+
+			<div class="panel">
+				<table class="content" style="height:180px;">
+					<tr>
+						<td valign="top">
+							<table>
+								<tr>
+									<td class="defaultLabel"><label for='AddNonWorkingDayPopup_Date'>Date</label></td>
+									<td>
+										<script type="text/javascript">DatePickerRenderer.createInline("AddNonWorkingDayPopup_Date", false);</script>
+									</td>
+								</tr>
+								<tr>
+									<td class="defaultLabel"><label for='AddNonWorkingDayPopup_Notes'>Notes</label></td>
+									<td>
+										<input type="text" id="AddNonWorkingDayPopup_Notes" size=50>
+									</td>
+								</tr>
+							</table>
+						</td>
+				</table>
+			</div>
+			
+			<!-- Subform action bar -->
+			<script type="text/javascript">
+				ActionBarRenderer.createInline(
+					"addNonWorkingDay_statusbar",
+					[
+						{id: "AddNonWorkingDayPopup_OkButton", label: "Ok"},	
+						{id: "AddNonWorkingDayPopup_CancelButton", label: "Cancel"}
+					]
+				);
+			</script>
+
+		</form>
+    
+    </body>
+    
+</html>

@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- edited with XMLSPY v5 rel. 3 U (http://www.xmlspy.com) by Phil Haferer (Electronic Data Systems LTD) -->
+<!--
+	Service: Per
+	Method:  getAePer()
+	File:    map_get_ae_per.xml
+	Author:  Phil Haferer (EDS), Ian Stainer (Valtech)
+	Created: 06 June 2005
+	Description: 
+		The 'Mapping' for retrieving AE protected earnings rate details.
+-->
+<DBMapDef>
+	<DataSource id="java:OracleDS"/>
+	<Tables>
+		<Table alias="AEA"  name="AE_APPLICATIONS"/>
+		<Table alias="API"  name="AE_PER_ITEMS"/>
+		<Table alias="PER"  name="PER_DETAILS"/>
+		<Table alias="PF"   name="PARTIES"/>
+		<Table alias="CPRF" name="CASE_PARTY_ROLES"/>
+		<Table alias="PRF"  name="PARTY_ROLES"/>
+		<Table alias="PA"   name="PARTIES"/>
+		<Table alias="CPRA" name="CASE_PARTY_ROLES"/>
+		<Table alias="PRA"  name="PARTY_ROLES"/>
+		<Table alias="REF"  name="CCBC_REF_CODES"/>		
+	</Tables>
+	<Mapping>
+		<ds>
+			<CalculatePER>
+				<CaseNumber>${AEA.CASE_NUMBER}</CaseNumber>
+				<CourtCode>${AEA.ISSUING_CRT_CODE}</CourtCode>
+				<Event857Count>${EVENT857_COUNT}</Event857Count>								
+				<AENumber>${AEA.AE_NUMBER}</AENumber>
+				<TotalStatus>${AEA.AE_TOTAL_EXISTS}</TotalStatus>
+				<ApplicationType>${REF.RV_MEANING}</ApplicationType>							
+				<CalculatedRate>${AEA.PROTECTED_EARNINGS_RATE}</CalculatedRate>
+				<CalculatedPeriod>${AEA.PROTECTED_EARNINGS_PERIOD}</CalculatedPeriod>
+				<PartyFor>
+					<Number>${CPRF.CASE_PARTY_NO}</Number>
+					<Type>${PRF.PARTY_ROLE_DESCRIPTION}</Type>
+					<Name>${PF.PERSON_REQUESTED_NAME}</Name>
+				</PartyFor>
+				<PartyAgainst>
+					<Number>${CPRA.CASE_PARTY_NO}</Number>
+					<RoleCode>${CPRA.PARTY_ROLE_CODE}</RoleCode>
+					<Type>${PRA.PARTY_ROLE_DESCRIPTION}</Type>
+					<Name>${PA.PERSON_REQUESTED_NAME}</Name>
+				</PartyAgainst>
+				<PerDetail>
+					<PerSeq>${API.AE_PER_SEQ}</PerSeq>
+					<SurrogateId>${API.AE_PER_SEQ}</SurrogateId>
+					<Status>${EXISTING_VALUE}</Status>
+					<Code>${API.DETAIL_CODE}</Code>
+					<Group>${PER.PER_GROUP}</Group>
+					<Description>${PER.PROMPT}</Description>
+					<DefaultAllowance>${API.ITEM_VALUE}</DefaultAllowance>
+					<DefaultAllowanceCurrency>${API.ITEM_VALUE_CURRENCY}</DefaultAllowanceCurrency>
+					<Number>${API.ITEM_COUNT}</Number>
+					<Amount>${API.AMOUNT_ALLOWED}</Amount>
+					<AmountCurrency>${API.AMOUNT_ALLOWED_CURRENCY}</AmountCurrency>
+					<DateEntered>${API.DATE_ENTERED}</DateEntered>
+					<CreatedBy>${API.USERNAME}</CreatedBy>
+					<DeleteFlag>${API.ERROR_INDICATOR}</DeleteFlag>
+					<Category>${PER.PER_CATEGORY}</Category>
+				</PerDetail>
+			</CalculatePER>
+		</ds>
+	</Mapping>
+</DBMapDef>

@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:fo="http://www.w3.org/1999/XSL/Format" xmlns="http://eds.com/supsfo">
+	<variables>@word.processing.url.xsl@supsfo.xsl</variables>
+	<layout>order</layout>
+	<duplex/>
+	<addressee copies="2">
+		<subject/>
+	</addressee>
+	<header>
+		<fo:block font-size="16pt" font-weight="bold">Notice to Pay Fee</fo:block>
+	</header>
+	<courtcase>
+		<court>
+			<xsl:copy-of select="$vdCourtHeaderBlock"/>
+		</court>
+		<caseparameters>
+			<parameter>
+				<name>
+					<fo:block font-weight="bold">Claim Number</fo:block>
+				</name>
+				<value>
+					<fo:block>
+						<xsl:value-of select="$vdClaimNumber"/>
+					</fo:block>
+				</value>
+			</parameter>
+			<parameter>
+				<name>
+					<fo:block font-weight="bold">Date</fo:block>
+				</name>
+				<value>
+					<fo:block>
+						<xsl:value-of select="$vdEventDate"/>
+					</fo:block>
+				</value>
+			</parameter>
+		</caseparameters>
+	</courtcase>
+	<bodyintroright><fo:block><fo:inline text-align="center"><seal/></fo:inline></fo:block></bodyintroright>
+	<body>
+		<editable useid="N1006D">
+		<fo:block space-after="0.4cm">
+			<xsl:value-of select="$vdFeeFor"/>
+		</fo:block>
+		<fo:block>
+			If by <xsl:value-of select="$vdFeePayDate"/> you have not paid the fee or applied for a fee remission, your <xsl:value-of select="$vdFeeClaimCounterClaim"/> will be automatically struck out without further order of the court 
+ 			and you will be liable for the costs which the <xsl:value-of select="$vdPartyIncurringCosts"/> has incurred.
+		</fo:block>
+		</editable>
+	</body>
+	<footnote noteextent="4.0">
+			<fo:table table-layout="fixed" width="100%" font-size="10pt" font-family="Times">
+			<fo:table-column column-width="19.28cm"></fo:table-column>
+			<fo:table-body>
+				<fo:table-row keep-with-next="always">
+					<fo:table-cell border-top-style="solid" border-top-width="0.02cm"  border-left-style="solid" border-left-width="0.02cm"  padding-left="0.1cm" padding-right="0.1cm"
+						border-right-style="solid" border-right-width="0.02cm" border-bottom-style="solid" border-bottom-width="0.02cm">
+						<fo:block font-weight="bold">
+							Note:
+						</fo:block>
+						<fo:block>
+							If your <xsl:value-of select="$vdFeeClaimCounterClaim"/> is automatically struck out without further order of the court, you may apply to the court for an order for it to be reinstated. 
+						</fo:block>
+						<fo:block>
+						Such an order (called 'granting relief') will only have effect if within the period set out below you:-
+						</fo:block>
+						<list type="bullet">
+							<list-item>
+								<fo:block>
+									pay the fee; or
+								</fo:block>
+							</list-item>
+							<list-item>
+								<fo:block>
+									send the court evidence of remission of the fee.
+								</fo:block>
+							</list-item>
+						</list>
+						<fo:block>
+						The period for doing this is:
+						</fo:block>
+						<list type="bullet">
+							<list-item>
+								<fo:block>
+									within 2 days of the date of the order if you or your representative was present at the hearing granting relief; or
+								</fo:block>
+							</list-item>
+							<list-item>
+								<fo:block>
+									if neither you or your representative were present at the hearing, within 7 days from the date of service of the order striking out your <xsl:value-of select="$vdFeeClaimCounterClaim"/>.
+								</fo:block>
+							</list-item>
+						</list>
+					</fo:table-cell>
+				</fo:table-row>
+			</fo:table-body>
+		</fo:table>
+	</footnote>
+	<defaultFooter id="CJR184"/>
+</root>

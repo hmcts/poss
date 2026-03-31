@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<DBMapDef>
+	<DataSource id="java:OracleDS"/>
+	<Tables>
+		<Table alias="WFTE" name="WFT_EXCLUSIONS"/>
+	</Tables>
+	<Mapping>
+  		<WFTExclusions>
+			<WFTExclusion>
+				<ExclusionDate>${WFTE.WFE_EXCLUSION_DATE}</ExclusionDate>
+				<CaseNumber>${WFTE.WFE_WFT_CASE_NUMBER}</CaseNumber>
+				<ID>${WFTE.WFE_WFT_ID}</ID>
+				<Delete>${WFTE.WFE_DELETE_FLAG}</Delete>
+			</WFTExclusion>
+		</WFTExclusions>
+ 	</Mapping>
+</DBMapDef> 

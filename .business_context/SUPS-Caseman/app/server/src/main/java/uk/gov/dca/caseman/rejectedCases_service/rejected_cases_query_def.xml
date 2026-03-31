@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<QueryDef>
+	<DBMapDef location="uk/gov/dca/caseman/rejectedCases_service/rejected_cases_map.xml"/>
+	
+	<Query pivotNode="/RejectedCases/RejectedCase" tables="RC RR CRC1 CRC2 CRC3 CRC4">	
+		<Join>
+			RC.REJECT_CODE = RR.REJECT_CODE AND
+			
+			RC.CLAIMANT_PCM = CRC1.RV_LOW_VALUE (+) AND
+			CRC1.RV_DOMAIN(+) = 'PREF_COMM_METHOD' AND
+			
+			RC.CLAIMANT_REP_PCM = CRC2.RV_LOW_VALUE (+) AND
+			CRC2.RV_DOMAIN(+) = 'PREF_COMM_METHOD' AND
+			
+			RC.DEFENDANT_1_PCM = CRC3.RV_LOW_VALUE (+) AND
+			CRC3.RV_DOMAIN(+) = 'PREF_COMM_METHOD' AND
+			
+			RC.DEFENDANT_2_PCM = CRC4.RV_LOW_VALUE (+) AND
+			CRC4.RV_DOMAIN(+) = 'PREF_COMM_METHOD' 
+	    </Join>
+		
+  		<Modify notModifiable="true" />
+	</Query>
+	
+	
+	
+</QueryDef>

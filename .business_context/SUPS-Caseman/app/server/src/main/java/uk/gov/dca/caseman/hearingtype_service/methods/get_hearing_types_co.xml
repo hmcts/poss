@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<service-method>
+	<pipeline>
+		<Query>
+  			<QueryDef location="uk/gov/dca/caseman/hearingtype_service/query_def_co.xml"/>
+  				<QueryExtension pivotNode="/HearingTypes/HearingType">
+   					<Constraint>CRC.RV_DOMAIN = 'CO_HRG_TYPE'</Constraint>
+  				</QueryExtension>
+  		</Query>
+  	</pipeline>
+	<Security roles="medium high wcSuper scSuper bmsSuper aeSuper dmSuper"/>		
+</service-method>
+

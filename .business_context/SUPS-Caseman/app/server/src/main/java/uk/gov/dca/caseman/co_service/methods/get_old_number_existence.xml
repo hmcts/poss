@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: Co
+	Method:  getOldNumberExistence()
+	File:    get_old_number_existence.xml
+	Author:  Phil Haferer (EDS)
+	Created: 01 September 2005
+	Description: 
+		Look for a Consolidated Order which has the given 'Old Number', and return it's CONumber is it exists.
+-->
+<service-method>
+	<pipeline>
+		<Query>
+			<QueryDef location="uk/gov/dca/caseman/co_service/query_def_get_old_number_existence.xml"/>
+			<QueryExtension pivotNode="/ds/CONumber">
+				<Param name="param.oldNumber" xpath="/params/param[@name = 'oldNumber']"/>
+				<Constraint>CO.OLD_NUMBER = ${param.oldNumber}</Constraint>
+			</QueryExtension>
+		</Query>
+	</pipeline>
+	<Security roles="viewOnly medium high wcSuper scSuper bmsSuper aeSuper dmSuper cpSuper"/>		
+</service-method>

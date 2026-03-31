@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<service-method>
+
+<pipeline>
+		<Query>
+			<QueryDef location="uk/gov/dca/caseman/utilities_service/get_user_printer_query_def.xml"/>
+			<QueryExtension pivotNode="/Users/User">
+			<Modify></Modify>
+			<Param name="param.UserId" xpath="/params/param[@name='UserId']"/>         
+			<Constraint>
+						DU.USER_ID = ${param.UserId}
+					</Constraint>
+			</QueryExtension>
+		</Query>
+</pipeline>
+	<Security roles="ccbcMan"/>
+</service-method>

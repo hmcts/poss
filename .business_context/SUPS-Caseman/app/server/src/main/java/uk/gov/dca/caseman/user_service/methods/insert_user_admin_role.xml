@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: User
+	Method: insertUserAdminRole()
+	File: insert_user_admin_role.xml
+	Author:  Chris Vincent
+	Created: 23-Jul-2014
+	Description:
+		Inserts a new admin record into the USER_ROLE table.
+-->
+<service-method>
+	<pipeline>
+		<SQLLite output="input">
+			<DataSource id="java:OracleDS" />
+			<Param name="param.userId" xpath="/params/param[@name='userId']"/>
+			<Param name="param.roleId" xpath="/params/param[@name='roleId']"/>
+			<Param name="param.courtCode" xpath="/params/param[@name='courtCode']"/>
+			<SQL type="update" tables="UR">			
+				INSERT INTO USER_ROLE (
+					USER_ID, ROLE_ID, COURT_CODE
+				) values (
+					${param.userId}, 
+					${param.roleId}, 
+					${param.courtCode}
+				)			
+			</SQL>
+		</SQLLite>
+	</pipeline>
+	<Security roles="admin sAdmin" />
+</service-method>

@@ -1,0 +1,341 @@
+<Group id="9006">
+	<!-- though linked to group 8, it uses questions from group 9 too... -->
+	<ServicesRequired>
+		<mapping name="addHearing" serviceName="addHearing"/>
+		<service name="addHearing" cache="none" url="/Hearing/Hearing" method="addHearing">
+		</service>
+	</ServicesRequired>
+	<Protocols>
+		<OnSave>
+			<function>createHearing</function>
+			<functionCallback>createHearingCallback</functionCallback>
+		</OnSave>
+	</Protocols>
+	<JavaScript>
+	// Global variables
+	var nextSurrogateKey = 0;
+
+	// XPath constants
+	
+	var REF_DATA_XPATH             = "/ds/var/form/ReferenceData";
+	
+	var HEARING_PATH               = "/ds/MaintainHearing/Hearings/Hearing";
+	var OWNING_CRT_ADDRESS_PATH    = "/ds/MaintainHearing/OwningCourtAddressDetail/";
+	
+	var NEW_HEARING_TMP_PATH       = "/ds/var/page/Tmp/Hearing";
+	var NEW_HEARING_VENUE_TMP_PATH = "/ds/var/page/Tmp/Venue";
+	
+	var CHANGES_MADE_XPATH         = "/ds/var/page/ChangesMade";
+	
+	// Other constants
+	var VALID_HOURS_PATTERN   = /^([1-9][0-9]?[0-9]?)$/;  //number between 1 and 999 
+	var VALID_MINS_PATTERN    = /^([1-5]?[0-9])$/;        // number between 1 and 59
+	var datePattern           = /^(0[1-9]|[12][0-9]|3[01])[- \/](JAN|FEB|MAR|APR|MAY|JUN|JUL|AUG|SEP|OCT|NOV|DEC)[- \/](19|20)[0-9][0-9]$/i;
+	var INVALIDTIME           = "[]INVALID[]";            // Tag for an invalid time. Used when store invalid time in DOM.
+
+	function createHearing()
+	{
+		//if (confirm("do you want to deubg starting to create the hearing now")) throw new Error("starting to create the hearing now");
+
+		var screenValid = false;																	// Need to ensure all mandatory data is entered and all data is valid.
+
+		//var dateToListValue = Services.getValue(AddHearing_DateOfRequestToList.dataBinding);		// First retrieve values from the tmp area of the DOM
+		//var dateToList =  validateDateOfRequestToList(dateToListValue);							// ??
+		
+		var dateToList = null;
+		
+		//var hearingName = Services.getValue(AddHearing_HearingType_Name.dataBinding); 			// ??need to add Hearing code when autocomplete comes along
+		
+		var hearingName = "must have a code to clear the if belllow - but what code?";				// hardcoded in QA? or dependant on what exactly?
+		
+		var hearingOnDate = Services.getValue(HearingDate.dataBinding); 							// sort out that the Hearing On date is valid - need to test this value.
+		var hearingOnDateErrCode = null; 
+		if(hearingOnDate != null &amp;&amp; hearingOnDate != "")
+		{
+			hearingOnDate = CaseManUtils.convertDateToDisplay(hearingOnDate);
+			hearingOnDateErrCode = validateDate(hearingOnDate);
+		}
+		var hearingDay = Services.getValue(HearingDay.dataBinding);
+		var hearingOnTime = HearingTime.validate(); 
+		var hoursAllowed = null; //AddHearing_HearingTimeAllowedHours.validate();
+		var minsAllowed = null; //AddHearing_HearingTimeAllowedMins.validate();
+		var venueName = Services.getValue(VenueName.dataBinding); 									// if data in must be valid as default or from venue popup
+		
+		// Now test if fields are ok
+		if (
+				(dateToList == null) &amp;&amp; 
+				(hearingName != null &amp;&amp; hearingName != "") &amp;&amp;
+				(hearingOnDateErrCode == null) &amp;&amp; 
+// not necessary?				(hearingDay != null &amp;&amp; hearingDay != "") &amp;&amp;
+				(hearingOnTime == null) &amp;&amp; 
+				(venueName != null &amp;&amp; venueName != "") &amp;&amp; 
+				(hoursAllowed == null) &amp;&amp; 
+				(minsAllowed == null)
+			)
+		{
+			screenValid = true;	
+		}
+	    
+		if(screenValid)
+		{
+			var surrogateId = getNextSurrogateKey();
+			// set up new Hearing data
+			var newHearing = setNewHearingData(surrogateId);		
+				
+			// Add the entire Hearing branch to the Hearings node
+			var hearingsNode = "/ds/MaintainHearing/Hearings";		
+			Services.addNode(newHearing, hearingsNode);
+			
+			
+			 /** LISTING TYPE - Defect 4231 - creating hearings via WP **/
+		    if ('undefined' != typeof Listing &amp;&amp; null != Listing.dataBinding) {
+			    var listingType = Services.getValue(Listing.dataBinding);
+		    	XML.setElementTextContent( newHearing, "/Hearing/ListingType", listingType);
+		    }
+			
+			// Clear out the temp data
+			resetNewHearing();
+			
+			// Set details changed flag
+			if (Services.getValue(CHANGES_MADE_XPATH) != "Y")
+			{
+				Services.setValue(CHANGES_MADE_XPATH, "Y");
+			}
+		
+			
+			serviceName = "updateHearing";
+			// Make service call
+			var newDOM = XML.createDOM(null, null, null);	
+			
+			var caseNoNode = XML.createElement(newDOM, "CaseNumber");
+				caseNoNode.appendChild(XML.createTextNode(caseNoNode, Services.getValue(Header_CaseNumber.dataBinding)));
+			var courtNode = XML.createElement(newDOM, "OwningCourtCode");
+				courtNode.appendChild(XML.createTextNode(courtNode, Services.getValue(VenueCode.dataBinding)));
+				
+	
+			//var mcNode = FormController.getInstance().getDOM().selectSingleNode("/ds/MaintainHearing");		
+			//fwkw 6.0.1
+			
+			var mcNode = Services.getNode("/ds/MaintainHearing");	
+			var hNode = mcNode.selectSingleNode("Hearings/Hearing[1]");  //should only be one - the new hearing
+			var createdBy = XML.createElement( newDOM, "CreatedBy" );
+			
+			//null value creates exception on C043
+			var createdByVal = Services.getValue( "/ds/CaseEvent/UserName" );	
+			createdBy.appendChild( XML.createTextNode( createdBy, null != createdByVal ? createdByVal : "" ));
+			hNode.appendChild( createdBy );
+						
+			var dsNode = XML.createElement(newDOM, "ds");		
+			mcNode.appendChild(caseNoNode);
+			mcNode.appendChild(courtNode);
+			dsNode.appendChild(mcNode);		
+			newDOM.appendChild(dsNode);				
+			
+			var params = new ServiceParams();
+			params.addDOMParameter("HearingID", newDOM);
+								
+			Services.callService(serviceName, params, createHearingCallback, true);
+			
+			//throw new Error("do the save");
+		}
+		else
+		{   
+		    if(hearingDay != null &amp;&amp; hearingDay != "")  //fields have not been enabled to enter data
+			{  alert(Messages.HRGDETS_CORRECT_MESSAGE);
+				
+			}
+			else
+			{ 
+				Save_All();
+			}
+		}// end if/else
+	}
+
+
+	function createHearingCallback()
+	{
+
+	}
+
+
+createHearingCallback.onSuccess = function(dom)
+{   
+	if (null != dom)
+	{   
+	    var seqNo = dom.selectSingleNode("//CaseEventSeq");
+	    //alert('seqNo='+seqNo);
+		if( null != seqNo)
+		{  var caseEventSeq = XML.getNodeTextContent(seqNo);		
+		   Services.setValue("/ds/CaseEvent/CaseEventSeq", caseEventSeq );
+		}
+		Save_All(); 
+	}
+	else
+	{
+		alert(Messages.NO_RESULTS_MESSAGE);
+	}
+}
+
+createHearingCallback.onBusinessException = function(exception) 
+{
+
+	alert(Messages.FAILEDSAVE_MESSAGE); 
+}
+
+createHearingCallback.onSystemException = function(exception) 
+{
+	alert(Messages.FAILEDSAVE_MESSAGE);
+
+}	
+	
+
+	// Function to clear out any data stored in the temporary area where
+	// a new hearing is stored before the user clicks the ok/cancel button
+	function resetNewHearing()
+	{
+		var newHearingRoot = "/ds/var/page/Tmp/Hearing";
+		var myXPaths = [newHearingRoot + "/DateOfRequestToList",
+						newHearingRoot + "/TypeOfHearingCode",
+						newHearingRoot + "/TypeOfHearing",
+						newHearingRoot + "/Date",
+						newHearingRoot + "/Day",
+						newHearingRoot + "/Time",
+						newHearingRoot + "/HoursAllowed",
+						newHearingRoot + "/MinsAllowed",
+						newHearingRoot + "/HoursAllowed",
+						newHearingRoot + "/VenueCode",
+						newHearingRoot + "/VenueName",
+						newHearingRoot + "/Address/Line[1]",
+						newHearingRoot + "/Address/Line[2]",
+						newHearingRoot + "/Address/Line[3]",
+						newHearingRoot + "/Address/Line[4]",
+						newHearingRoot + "/Address/Line[5]",
+					newHearingRoot + "/Address/PostCode",
+						newHearingRoot + "/DXNumber",
+						newHearingRoot + "/TelephoneNumber",
+						newHearingRoot + "/FaxNumber"];
+		for (var i = 0; i &lt; myXPaths.length; i++){
+			Services.setValue(myXPaths[i], "");
+		}
+	}// end of resetNewHearing()
+
+
+	// This method is used to set new hearing data from the tmp part of the DOM
+	function setNewHearingData(pSurrogateId)
+	{
+		var root = "/Hearing";
+	
+		// Set new part of DOM
+		var nhn = XML.createDOM(null, null, null);
+		// Now load an empty Hearing in to it
+		nhn.loadXML("&lt;Hearing&gt;&lt;HearingID/&gt;&lt;SurrogateId/&gt;&lt;VenueCode/&gt;&lt;VenueName/&gt;&lt;TypeOfHearingCode&gt;&lt;/TypeOfHearingCode&gt;&lt;TypeOfHearing/&gt;&lt;Date/&gt;&lt;Day/&gt;&lt;Time&gt;&lt;/Time&gt;&lt;Address&gt;&lt;AddressId/&gt;&lt;Line/&gt;&lt;Line/&gt;&lt;Line/&gt;&lt;Line/&gt;&lt;Line/&gt;&lt;PostCode/&gt;&lt;/Address&gt;&lt;DXNumber/&gt;&lt;TelephoneNumber/&gt;&lt;FaxNumber/&gt;&lt;HoursAllowed/&gt;&lt;MinsAllowed/&gt;&lt;DateOfRequestToList/&gt;&lt;HearingOutcomeCode/&gt;&lt;HearingOutcome/&gt;&lt;ListingType/&gt;&lt;/Hearing&gt;");
+		
+		// Set up data in  New Hearing DOM from the Tmp binding part of DOM
+		nhn.selectSingleNode(root + "/SurrogateId").appendChild(nhn.createTextNode(pSurrogateId));	
+		//??? may we do this null ? "" : or will this thrown an exception? ifso, whats the rules reg this field/entity? 
+		var dateOfRequestToList = WPU.getRaisingEventReceiptDate(); //WPU.getSystemDate(); //null; // QA does not do this field: Services.getValue(AddHearing_DateOfRequestToList.dataBinding);
+		nhn.selectSingleNode(root + "/DateOfRequestToList").appendChild(nhn.createTextNode(null == dateOfRequestToList ? "" : dateOfRequestToList));	
+		nhn.selectSingleNode(root + "/VenueCode").appendChild(nhn.createTextNode(Services.getValue(SelectVenue_VenueCode.dataBinding)));	
+		nhn.selectSingleNode(root + "/VenueName").appendChild(nhn.createTextNode(Services.getValue(SelectVenue_VenueName.dataBinding)));	
+		
+		var hearingIsFor = null;
+		//if (null != HearingIsFor) 
+		try{
+			hearingIsFor = Services.getValue(HearingIsFor.dataBinding);			
+		}
+		catch( Error )
+		{	try
+			{
+				hearingIsFor = Services.getValue(HearingType2.dataBinding);
+			}
+			catch( Error )
+			{	
+				try
+				{
+					hearingIsFor = Services.getValue(HearingType.dataBinding);
+				}
+				catch( Error )
+				{	
+				}
+			}
+		}
+		
+
+		var hearingTypeCode = WPU.GetHearingTypeToCreate(WP.GetScreenProcess(), hearingIsFor);				
+		
+		nhn.selectSingleNode(root + "/TypeOfHearingCode").appendChild(nhn.createTextNode(hearingTypeCode));	  //GEN APPN
+		nhn.selectSingleNode(root + "/TypeOfHearing").appendChild(nhn.createTextNode(WPU.GetHearingTypeToCreateText(hearingTypeCode)));	
+		nhn.selectSingleNode(root + "/Date").appendChild(nhn.createTextNode(Services.getValue(HearingDate.dataBinding)));	
+		var allowedHours = null; //QA does not do this field. Services.getValue(AddHearing_HearingTimeAllowedHours.dataBinding);
+		nhn.selectSingleNode(root + "/HoursAllowed").appendChild(nhn.createTextNode(null == allowedHours ? "" : allowedHours ));	
+		var allowedMins = null; //QA does not do this field. Services.getValue(AddHearing_HearingTimeAllowedMins.dataBinding);
+		nhn.selectSingleNode(root + "/MinsAllowed").appendChild(nhn.createTextNode(null == allowedMins ? "" : allowedMins));
+		
+		var tDay = Services.getValue(HearingDay.dataBinding);
+		if( tDay != null &amp;&amp; tDay != "")	
+		{ nhn.selectSingleNode(root + "/Day").appendChild(nhn.createTextNode(Services.getValue(HearingDay.dataBinding)));	
+		}
+		nhn.selectSingleNode(root + "/Time").appendChild(nhn.createTextNode(Services.getValue(HearingTime.dataBinding)));	
+		nhn.selectSingleNode(root + "/Address/AddressId").appendChild(nhn.createTextNode(Services.getValue(selectVenue_Address_Grid.dataBinding)));	
+		nhn.selectSingleNode(root + "/Address/Line[1]").appendChild(nhn.createTextNode(Services.getValue(SelectVenue_ContactDetails_Address_Line1.dataBinding)));	
+		nhn.selectSingleNode(root + "/Address/Line[2]").appendChild(nhn.createTextNode(Services.getValue(SelectVenue_ContactDetails_Address_Line2.dataBinding)));	
+		var add3 = Services.getValue(SelectVenue_ContactDetails_Address_Line3.dataBinding)
+		nhn.selectSingleNode(root + "/Address/Line[3]").appendChild(nhn.createTextNode(null == add3 ? "" : add3));	
+		var add4 = Services.getValue(SelectVenue_ContactDetails_Address_Line4.dataBinding);
+		nhn.selectSingleNode(root + "/Address/Line[4]").appendChild(nhn.createTextNode(null == add4 ? "" : add4));	
+		var add5 = Services.getValue(SelectVenue_ContactDetails_Address_Line5.dataBinding);
+		nhn.selectSingleNode(root + "/Address/Line[5]").appendChild(nhn.createTextNode(null == add5 ? "" : add5));	
+		nhn.selectSingleNode(root + "/Address/PostCode").appendChild(nhn.createTextNode(Services.getValue(SelectVenue_ContactDetails_Address_Postcode.dataBinding)));	
+		var dx = Services.getValue(SelectVenue_ContactDetails_Address_DXNumber.dataBinding);
+		nhn.selectSingleNode(root + "/DXNumber").appendChild(nhn.createTextNode(null == dx ? "" : dx));	
+		var tel = Services.getValue(SelectVenue_ContactDetails_Address_TelephoneNumber.dataBinding);
+		nhn.selectSingleNode(root + "/TelephoneNumber").appendChild(nhn.createTextNode(null == tel ? "" : tel));	
+		var fax = Services.getValue(SelectVenue_ContactDetails_Address_FaxNumber.dataBinding);
+		nhn.selectSingleNode(root + "/FaxNumber").appendChild(nhn.createTextNode(null == fax ? "" : fax));	
+		return nhn;
+	}
+	// end setNewHearingData()
+	
+	
+
+	/*
+	 * Validates a date is in the format dd-mmm-yyyy
+	 *
+	 */ 
+	function validateDate(value)
+	{
+		var errorCode = null;
+		if(value != null){
+			value = CaseManUtils.stripSpaces(value);
+			var valid = value.search(datePattern);	 
+			if(value.length &gt; 0 &amp;&amp; valid &lt; 0){
+				errorCode = ErrorCode.getErrorCode('CaseMan_invalidDateFormat_Msg');
+			}
+		}
+		else{
+			errorCode = ErrorCode.getErrorCode('CaseMan_invalidDateFormat_Msg');
+		}
+			
+		return errorCode;
+	}
+
+	// Call this function to get the next generated surrogate key
+	function getNextSurrogateKey()
+	{	
+		return "S" + (++ nextSurrogateKey);	
+	}
+
+	</JavaScript>
+	<Contexts>
+		<Context screenId="">
+			<Protocols>
+				<onSave>
+					<onSuccess></onSuccess>
+					<onError></onError>
+				</onSave>
+			</Protocols>
+			<JavaScript>
+			</JavaScript>
+		</Context>
+	</Contexts>
+</Group>

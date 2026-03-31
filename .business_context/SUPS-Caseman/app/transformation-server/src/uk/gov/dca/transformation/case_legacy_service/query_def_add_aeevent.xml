@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<QueryDef>
+	<DBMapDef location="uk/gov/dca/transformation/case_legacy_service/map_add_aeevent.xml"/>
+	<Query pivotNode="/AEEvents/AEEvent" tables="AEE">
+		<Join/>
+		<Modify>
+    		<CheckExists table="AEE" fields="AE_EVENT_SEQ" onNotExist="add" onExist="skip"/>
+    		<Field name="AEE.AE_EVENT_SEQ" sequenceTable="AE_EVENT_SEQ"/>
+		</Modify>
+	</Query>		
+</QueryDef>

@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	19/12/2006 - CV - Added F6 keybinding to LOV via HasPart20ClaimantSettledJudgmentLOVButton.additionalBindings configuration.
+	Temp_Caseman defects 299/334.
+-->
+<!--Question xmlns="http://eds.com/questionxhtml" xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd"-->
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>Q_HasPart20ClaimantSettledJudgment</Id>
+	<Label>Has Part 20 Claimant Settled Judgment</Label>
+	<ObjectName>HasPart20ClaimantSettledJudgment</ObjectName>
+	<Html>
+		<input id="HasPart20ClaimantSettledJudgment" type="text" size="70"></input>
+		<input id="HasPart20ClaimantSettledJudgmentLOVButton" type="Button" value="LOV"/>
+		<script type="text/javascript">
+			LOVPopupRenderer.createInline( "HasPart20ClaimantSettledJudgmentLOVGrid", "Types", ["Value", "Description"], 10, 1, true );
+        </script>
+	</Html>
+	<Javascript>
+		<XPath>/ds/var/page/OracleReportForm/HasPart20ClaimantSettledJudgment</XPath>
+		<ReportVariableName>PART11_SATISFIED</ReportVariableName>
+		<ReportVariableValue>Services.getValue(HasPart20ClaimantSettledJudgment.dataBinding)</ReportVariableValue>
+		<ReportVariableCode>2620</ReportVariableCode>
+		<HintText></HintText>
+		<mandatoryOn>ReferralReason.dataBinding</mandatoryOn>
+		<isMandatory>
+			return !HasPart20ClaimantSettledJudgment.isReadOnly();
+		</isMandatory>
+		<setDefault></setDefault>
+		<validateOn></validateOn>
+		<validate>
+			var description = Services.getValue(REF_DATA_XPATH + "/HasPart20ClaimantSettledJudgmentList/HasPart20ClaimantSettledJudgment[./Value = " + HasPart20ClaimantSettledJudgment.dataBinding + "]/Description");
+			var valueTest = Services.getValue( REF_DATA_XPATH + "/HasPart20ClaimantSettledJudgmentList/HasPart20ClaimantSettledJudgment[./Description = " + HasPart20ClaimantSettledJudgment.dataBinding + "]/Value" );
+			if (description == null &amp;&amp; valueTest == null)
+			{
+				// This is not a valid value - see list of Values
+				return ErrorCode.getErrorCode("CaseMan_Reports_Invalid_LOV_Msg");
+			}
+			else
+			{
+				return null;
+			}
+		</validate>
+		<readOnlyOn>ReferralReason.dataBinding</readOnlyOn>
+		<isReadOnly>
+			var referralReason = Services.getValue(ReferralReason.dataBinding);
+			var valueTest = Services.getValue( REF_DATA_XPATH + "/ReferralReasonList/ReferralReason[./Description = " + ReferralReason.dataBinding + "]/Value" );
+			if (referralReason == "JDG" || valueTest == "JDG")
+			{
+				return false;
+			}
+			else
+			{
+				return true;
+			}
+		</isReadOnly>
+		<maxLength></maxLength>
+		<transformToDisplay>
+			var description = Services.getValue( REF_DATA_XPATH + "/HasPart20ClaimantSettledJudgmentList/HasPart20ClaimantSettledJudgment[./Value = " + HasPart20ClaimantSettledJudgment.dataBinding + "]/Description" );
+			if (description != null)
+			{
+				return description;
+			}
+			else
+			{
+				return value;
+			}
+		</transformToDisplay>
+		<transformToModel>
+			return (null != value) ? value.toUpperCase() : null;
+		</transformToModel>
+		<initialise>
+			dom = getList("../LOV/HasPart20ClaimantSettledJudgmentList.xml"); 
+			Services.addNode(dom, REF_DATA_XPATH);
+		</initialise>
+		<logicOn></logicOn>
+		<logic></logic>
+		<miscCode>
+			HasPart20ClaimantSettledJudgment.componentName =	"Has Part 20 claimant settled judgment";
+			HasPart20ClaimantSettledJudgment.srcData = 			REF_DATA_XPATH + "/HasPart20ClaimantSettledJudgmentList";
+			HasPart20ClaimantSettledJudgment.rowXPath = 		"HasPart20ClaimantSettledJudgment";
+			HasPart20ClaimantSettledJudgment.keyXPath =			"Value";
+			
+			function HasPart20ClaimantSettledJudgmentLOVButton() {};
+			
+			HasPart20ClaimantSettledJudgmentLOVButton.tabIndex = __tabIdx++;
+			
+			HasPart20ClaimantSettledJudgmentLOVButton.enableOn = [ReferralReason.dataBinding];
+			HasPart20ClaimantSettledJudgmentLOVButton.isEnabled = function()
+			{
+			  return !HasPart20ClaimantSettledJudgment.isReadOnly();
+			}
+			
+			HasPart20ClaimantSettledJudgmentLOVButton.actionBinding = function() {
+				Services.dispatchEvent("HasPart20ClaimantSettledJudgmentLOVGrid", BusinessLifeCycleEvents.EVENT_RAISE);
+			}
+			
+            HasPart20ClaimantSettledJudgmentLOVButton.additionalBindings = {
+	            eventBinding: {
+		            keys: [ { key: Key.F6, element: "HasPart20ClaimantSettledJudgment" } ]
+	            }
+            };
+			
+			function HasPart20ClaimantSettledJudgmentLOVGrid() {};
+			HasPart20ClaimantSettledJudgmentLOVGrid.dataBinding = HasPart20ClaimantSettledJudgment.dataBinding;
+			HasPart20ClaimantSettledJudgmentLOVGrid.srcData = REF_DATA_XPATH + "/HasPart20ClaimantSettledJudgmentList";
+			HasPart20ClaimantSettledJudgmentLOVGrid.rowXPath = "HasPart20ClaimantSettledJudgment";
+			HasPart20ClaimantSettledJudgmentLOVGrid.keyXPath = "Value";
+			HasPart20ClaimantSettledJudgmentLOVGrid.columns = [
+				{xpath: "Value"},
+				{xpath: "Description"}
+			];
+		</miscCode>
+		<IsQuestion></IsQuestion>
+	</Javascript>
+</Question>

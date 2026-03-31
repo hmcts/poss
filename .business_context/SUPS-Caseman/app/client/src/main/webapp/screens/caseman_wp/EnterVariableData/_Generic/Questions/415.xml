@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>415</Id>
+	<Label>Enter details of 'Unless Order'</Label>
+	<ObjectName>UODetails</ObjectName>
+	<Html>
+		<input type="text" id="UODetails"></input>
+	</Html>
+	
+	<Javascript>
+		<XPath>/ds/EnterVariableData/SmallTrack/uODetails</XPath>
+		<HintText>Enter details in full of 'Unless Order'</HintText>
+		<isMandatory>return true;</isMandatory>
+		<enableOn>UOClarification.dataBinding</enableOn>
+		<isEnabled>return('Y' == Services.getValue(UOClarification.dataBinding));</isEnabled>
+		<logicOn>UOClarification.dataBinding</logicOn>
+		<logic>
+			if('Y' != Services.getValue(UOClarification.dataBinding))
+			{	Services.setValue(UODetails.dataBinding, "");
+			}
+		</logic>
+	</Javascript>
+</Question>

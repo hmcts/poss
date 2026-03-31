@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>62</Id>
+	<Label>Envelope marked as</Label>
+	<ObjectName>ProcessEnvelopeMark</ObjectName>
+	<Html>
+		<select id="ProcessEnvelopeMark">
+		  <option value=""></option>
+		  <option value="GA">gone away</option>
+		  <option value="INSF">insufficient address</option>
+		  <option value="NK">not known at the address given</option>
+		  <option value="NOADD">no such address</option>
+		  <option value="NA">no answer</option>		  
+		  <option value="IA">address incomplete</option> 
+		  <option value="AI">address inaccessible</option>
+		  <option value="OTH">other</option></select>
+	</Html>
+	<Javascript>
+		<XPath>/ds/EnterVariableData/Process/envelope</XPath>
+		<isMandatory>return true;</isMandatory>	
+		<mandatoryOn>ProcessEnvelopeMark.dataBinding</mandatoryOn>
+		<HintText>Select marking of envelope details</HintText>
+	</Javascript>
+</Question>

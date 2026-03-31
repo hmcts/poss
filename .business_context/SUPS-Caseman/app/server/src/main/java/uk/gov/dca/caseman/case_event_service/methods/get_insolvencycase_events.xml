@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!-- 
+@change New service to get the case from the insolvency no, year & owning court
+@author sandeep Mullangi
+@version 0.1 July 31, 2008 
+-->
+<service-method>
+	<pipeline>
+		<Java callStyle="new">
+			<Source
+				class="uk.gov.dca.caseman.case_event_service.java.GetCaseEventsByInsolvencyNoCustomProcessor"/>
+		</Java>
+	</pipeline>
+	<Security
+		roles="viewOnly medium high wcSuper scSuper bmsSuper aeSuper dmSuper cpSuper ccbcMan ccbcUser ccbcSGB2"/>
+</service-method>

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: Case
+	Method:  getCourtFeeDataLists()
+	File:    get_court_fee_data_lists.xml
+	Author:  
+	Created: 
+	Description: 
+        Gets the Fee validation parameters for maximum Court Fee Claims
+	Change History:
+		13/12/2010, Chris Vincent - Trac 4104, hard coded the constraint to use a court code of 0 and not use the parameter passed in.
+-->
+<service-method>
+	<pipeline>
+		<Query>
+  			<QueryDef location="uk/gov/dca/caseman/case_service/query_def_court_fee_data_lists.xml"/>
+ 			<QueryExtension pivotNode="/CourtFeeData/SystemDataList/SystemData">
+				<Constraint>SD.ADMIN_COURT_CODE = 0</Constraint>
+			</QueryExtension>
+  		</Query>
+  	</pipeline>
+	<Security roles="viewOnly medium high wcSuper scSuper bmsSuper aeSuper dmSuper cpSuper ccbcMan ccbcUser ccbcSGB2"/>	
+</service-method>

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<service-method>
+	<pipeline>
+		<XSLFO 
+			namePath="/params/param[@name='ReportName']"
+			xsl="uk/gov/dca/test_project/cases_service/transforms/testpdf.xsl"
+			service="Cases"
+			method="testSimple"
+			persistent="false">
+			<Param name="intParam" type="java.lang.Integer">42</Param>
+			<Param name="boolParam" type="java.lang.Boolean">true</Param>
+			<Param name="stringParam" type="java.lang.String">Hello World!</Param>
+		</XSLFO>
+	</pipeline>
+	<dependencies>
+		<dependency service="Cases"/>
+	</dependencies>
+	<Security roles="user"/>
+</service-method>

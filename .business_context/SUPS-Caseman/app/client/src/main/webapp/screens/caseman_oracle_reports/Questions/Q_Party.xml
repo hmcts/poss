@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	19/12/2006 - CV - Added F6 keybinding to LOV via PartyLOVGrid.raise configuration.
+	Temp_Caseman defects 299/334.
+	22/12/2006 - MG - TEMP_CASEMAN 308 - Change wording on label
+-->
+<!--Question xmlns="http://eds.com/questionxhtml" xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd"-->
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>Q_Party</Id>
+	<Label>Party filing defence to Counterclaim</Label>
+	<ObjectName>Party</ObjectName>
+	<Html> 
+		<input id="Party" type="text" size="15" > </input>
+		<input id="PartyLOVButton" type="Button" value="LOV"></input>
+        <script type="text/javascript">
+		 LOVPopupRenderer.createInline( "PartyLOVGrid", "Party", ["Value", "Description"], 10, 1, true );
+        </script>
+	</Html>
+	<Javascript>
+		<XPath>/ds/var/page/OracleReportForm/Party</XPath>
+		<ReportVariableName>DEF_TO_CTRCLM_NAME</ReportVariableName>
+		<ReportVariableValue>Services.getValue(Party.dataBinding)</ReportVariableValue>
+		<ReportVariableCode>2860</ReportVariableCode>
+		<HintText>Enter party - list available</HintText>
+		<isMandatory>return false;</isMandatory>
+		<initialise>
+		</initialise>
+		<setDefault>
+		</setDefault>
+		<validateOn>
+		</validateOn>
+		<validate>
+			var description = Services.getValue(REF_DATA_XPATH + "/PartyList/Party[./Value = " + Party.dataBinding + "]/Description");
+			var valueTest = Services.getValue( REF_DATA_XPATH + "/PartyList/Party[./Description = " + Party.dataBinding + "]/Value" );
+			if (description == null &amp;&amp; valueTest == null)
+			{
+				// This is not a valid value - see list of Values
+				return ErrorCode.getErrorCode("CaseMan_Reports_Invalid_LOV_Msg");
+			}
+			else
+			{
+				return null;
+			}
+		</validate>
+		<transformToDisplay>
+			var description = Services.getValue( REF_DATA_XPATH + "/PartyList/Party[./Value = " + Party.dataBinding + "]/Description" );
+			if (description != null)
+			{
+				return description;
+			}
+			else
+			{
+				return value;
+			}
+	    </transformToDisplay>
+        <transformToModel>
+             return (null != value) ? value.toUpperCase() : null;
+        </transformToModel>
+		<miscCode>
+		  
+		  Party.initialise = function() 
+		  { 
+				dom = getList("../LOV/PartyList.xml"); 
+				Services.addNode(dom, REF_DATA_XPATH);
+				return false; 
+		  }
+		  
+		  	Party.componentName = "Party making the application"
+		  	Party.srcData 		= REF_DATA_XPATH + "/PartyList";
+			Party.rowXPath 	  	= "Party";
+			Party.keyXPath 	  	= "Value";
+			
+			function PartyLOVButton() {}
+			PartyLOVButton.tabIndex = __tabIdx++;
+			
+			function PartyLOVGrid() {};
+			PartyLOVGrid.dataBinding = Party.dataBinding;
+			PartyLOVGrid.srcData 	 = REF_DATA_XPATH + "/PartyList";
+			PartyLOVGrid.rowXPath    = "Party";
+			PartyLOVGrid.keyXPath    = "Value";
+			PartyLOVGrid.columns     = [
+				{xpath: "Value"},
+				{xpath: "Description"}
+			];
+			PartyLOVGrid.raise = {
+				eventBinding: {
+					singleClicks: [ {element: "PartyLOVButton"} ],
+					keys: [ { key: Key.F6, element: "Party" } ]
+				}
+			};
+
+		</miscCode>
+	</Javascript>
+</Question>

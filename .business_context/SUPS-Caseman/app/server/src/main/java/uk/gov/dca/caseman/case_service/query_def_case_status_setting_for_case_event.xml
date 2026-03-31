@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<QueryDef>
+  <DBMapDef location="uk/gov/dca/caseman/case_service/map_case_status_setting_for_case_event.xml"/>
+  <Query pivotNode="/CaseEventSettingCaseStatusList/CaseEvent" tables="REF">
+	<Join>
+		REF.RV_DOMAIN = 'EVENT_SETTING_CASE_STATUS'
+	</Join>
+	<Modify notModifiable="true"/>
+  </Query>
+</QueryDef>

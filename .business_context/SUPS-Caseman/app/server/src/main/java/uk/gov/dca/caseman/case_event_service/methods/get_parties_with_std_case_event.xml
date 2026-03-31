@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	v1.0 Chris Hutt 10/3/2005
+-->
+<service-method>
+	<pipeline>
+		<Query>
+			<QueryDef location="uk/gov/dca/caseman/case_event_service/query_def_parties_with_std_case_event.xml"/>
+			<QueryExtension pivotNode="/Case/Parties/Party">
+				<Param name="param.caseNumber" xpath="/params/param[@name = 'caseNumber']"/>
+				<Param name="param.eventId" xpath="/params/param[@name = 'eventId']"/>
+				<Constraint>CE.CASE_NUMBER = ${param.caseNumber}</Constraint>	
+				<Constraint>CE.STD_EVENT_ID = ${param.eventId}</Constraint>		
+			</QueryExtension>
+		</Query>
+	</pipeline>
+	<Security roles="user"/>
+</service-method>
+
+

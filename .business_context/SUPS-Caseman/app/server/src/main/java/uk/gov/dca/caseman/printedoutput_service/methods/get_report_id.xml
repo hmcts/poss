@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: PrintedOutput
+	Method:  getReportId
+	File:    get_report_id.xml
+	Author:  Anoop Sehdev
+	Created: 01-Jun-2006
+	Description: 
+		Retrieve the value of Report Id for Document ID
+-->
+<service-method>
+	<pipeline>
+		<SQLLite format-output="true"
+				 resultset-element="ds"
+				 row-element="Report"
+				 field-name-as="element" >
+			<DataSource id="java:OracleDS"/>
+			<Param name="param.documentID" xpath="/params/param[@name='documentID']"/>
+			<SQL>
+				SELECT RQ.ID AS "ReportID"
+				FROM   REPORT_QUEUE RQ
+				WHERE  RQ.DOCUMENT_ID = ${param.documentID}
+			</SQL>
+		</SQLLite>
+	</pipeline>
+	<Security roles="viewOnly medium high wcSuper scSuper bmsSuper aeSuper dmSuper"/>
+</service-method>

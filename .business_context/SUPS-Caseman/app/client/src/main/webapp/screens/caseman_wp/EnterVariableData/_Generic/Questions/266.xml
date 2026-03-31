@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>266</Id>
+	<Label>Date by which documents should be filed</Label>
+	<ObjectName>ShouldFileDocsDate</ObjectName>
+	<Html>
+	    <script type="text/javascript">WP_DatePickerRenderer.createInline("ShouldFileDocsDate");</script>
+	</Html>
+	<Javascript>
+		<XPath>/ds/EnterVariableData/FastTrack/shouldFileDocsDate</XPath>
+		<componentName>##label##</componentName>
+		<HintText>Enter the date for the documents to be filed</HintText>
+		<isMandatory>return true;</isMandatory>
+		<mandatoryOn>ShouldFileDocsDate.dataBinding</mandatoryOn>
+		<transformToModel>
+			return transformDateToModel(value);
+		</transformToModel>
+		<transformToDisplay>
+			if (value != null)
+			{
+				if (value.search(CaseManValidationHelper.YYYYMMDD_DATE_PATTERN) != -1)
+				{
+					return CaseManUtils.convertDateToDisplay(value);
+				}
+			}
+			return value;
+		</transformToDisplay>	
+		<enableOn>FurtherStatementReqd.dataBinding</enableOn>
+		<isEnabled>return('Y' == Services.getValue(FurtherStatementReqd.dataBinding));</isEnabled>	
+		<logicOn>FurtherStatementReqd.dataBinding</logicOn>
+		<logic>
+			if('Y' != Services.getValue(FurtherStatementReqd.dataBinding))
+			{	Services.setValue(ShouldFileDocsDate.dataBinding,"");
+			}
+		</logic>
+		<validateOn>ShouldFileDocsDate.dataBinding</validateOn>
+		<validate>			
+			return isWorkingDayInFuture(Services.getValue(ShouldFileDocsDate.dataBinding));
+		</validate>	
+		<!--initialise>		  	
+		  	loadNonWorkingDays();
+		</initialise-->
+		<miscCode>
+		    ShouldFileDocsDate.weekends = false;
+		</miscCode>	
+		<Context ScreenId="CJR023A">
+			<enableOn>FileDocsWhen.dataBinding</enableOn>
+			<isEnabled>return('GD' == Services.getValue(FileDocsWhen.dataBinding));</isEnabled>
+			<logicOn>FileDocsWhen.dataBinding</logicOn>
+			<logic>
+				if('GD' != Services.getValue(FileDocsWhen.dataBinding))
+				{	Services.setValue(ShouldFileDocsDate.dataBinding, "");
+				}
+			</logic>
+			<HintText>Date that docs should be served or filed in format DD-MON-YYYY</HintText>
+			<isMandatory>return false;</isMandatory>
+		</Context>
+		<Context ScreenId="CJR023C">
+			<enableOn>FileDocsWhen.dataBinding</enableOn>
+			<isEnabled>return('GD' == Services.getValue(FileDocsWhen.dataBinding));</isEnabled>
+			<logicOn>FileDocsWhen.dataBinding</logicOn>
+			<logic>
+				if('GD' != Services.getValue(FileDocsWhen.dataBinding))
+				{	Services.setValue(ShouldFileDocsDate.dataBinding, "");
+				}
+			</logic>	
+			<HintText>Date that docs should be served or filed in format DD-MON-YYYY</HintText>	
+		</Context>
+		
+		<Context ScreenId="CJR060">
+			<HintText>Enter date by which documents should be filed in the format DD-MMM-YYYY</HintText>
+		</Context>
+	</Javascript>
+</Question>

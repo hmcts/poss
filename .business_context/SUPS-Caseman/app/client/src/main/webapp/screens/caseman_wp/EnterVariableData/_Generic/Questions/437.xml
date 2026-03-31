@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>437</Id>
+	<Label>How long  before  hearing is video to be shown</Label>
+	<ObjectName>VideoBeforeHearing</ObjectName>
+	<Html>
+		<input type="text" id="VideoBeforeHearing" size="4"></input>
+	</Html>
+	
+	<Javascript>
+		<XPath>/ds/EnterVariableData/SmallTrack/videoBeforeHearing</XPath>
+		<HintText>How long before the hearing must they show the video?</HintText>
+		<isMandatory>return true;</isMandatory>
+		<enableOn>IsShowVideo.dataBinding</enableOn>
+		<isEnabled>return('Y' == Services.getValue(IsShowVideo.dataBinding));</isEnabled>
+		<logicOn>IsShowVideo.dataBinding</logicOn>
+		<logic>
+			if('Y' != Services.getValue(IsShowVideo.dataBinding))
+			{	Services.setValue(VideoBeforeHearing.dataBinding, "");
+			}
+		</logic>
+		<validateOn>VideoBeforeHearing.dataBinding</validateOn>
+		<validate>return(WPU.validateInteger(Services.getValue(VideoBeforeHearing.dataBinding)));</validate>
+	</Javascript>
+</Question>

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: Co
+	Method:  getCoCaseEvent() 
+	File:    get_co_case_event.xml
+	Author:  Phil Haferer
+	Created: 30-Nov-2006
+	Description: 
+		Get the Event If and Transfer Status of a given CO_CASE_EVENTS row.
+	    (TD UCT_CASEMAN 783: CO event transfer from SUPS to legacy).
+
+-->
+<service-method>
+	<pipeline>
+		<SQLLite format-output="true"
+				 resultset-element="ds"
+				 row-element="CoCaseEvents"
+				 field-name-as="element" >
+			<DataSource id="java:OracleDS"/>
+				<Param name="param.sequenceNumber" xpath="/params/param[@name='sequenceNumber']"/>
+			<SQL>
+		        SELECT COE.STD_EVENT_ID    AS "StdEventId"
+		        ,      COE.TRANSFER_STATUS AS "TransferStatus"
+		        FROM   CO_CASE_EVENTS COE
+		        WHERE  COE.ALD_DEBT_SEQ = ${param.sequenceNumber}
+			</SQL>
+		</SQLLite>
+	</pipeline>
+	<Security roles="medium high wcSuper scSuper bmsSuper aeSuper dmSuper cpSuper"/>		
+</service-method>

@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>125</Id>
+	<Label>Time allowed for claimant's evidence</Label>
+	<ObjectName>ClmEvidenceTime</ObjectName>
+	<Html>		
+		<input type="text" id="ClmEvidenceTime" size="5"></input>
+		<select id="ClmEvidenceTimeUnits">
+			<option value=""></option>
+			<option value="MIN">Minutes</option>
+			<option value="HR">Hours</option>			
+			<option value="DAYS">Days</option>
+		</select>
+	</Html>
+	<Javascript>
+		<XPath>/ds/EnterVariableData/TrialNotice/clmEvidenceTime</XPath>
+		<HintText>Enter the time allowed for claimant's evidence (e.g. 2 hours)</HintText>
+		<isMandatory>return false;</isMandatory>
+		<enableOn>SelectItemLsA.dataBinding</enableOn>
+		<isEnabled>return('STA'==Services.getValue(SelectItemLsA.dataBinding));</isEnabled>
+		<logicOn>SelectItemLsA.dataBinding</logicOn>
+		<logic>
+			if('STA'!=Services.getValue(SelectItemLsA.dataBinding))
+			{	Services.setValue(ClmEvidenceTime.dataBinding,"");
+			}
+		</logic>
+		<validateOn>ClmEvidenceTime.dataBinding</validateOn>
+		<validate>return WPU.validateInteger(Services.getValue(ClmEvidenceTime.dataBinding));</validate>
+		<miscCode>			
+			function ClmEvidenceTimeUnits() {}
+			ClmEvidenceTimeUnits.dataBinding = "/ds/EnterVariableData/TrialNotice/clmEvidenceTimeUnits";
+			ClmEvidenceTimeUnits.tabIndex = __tabIdx++;
+			ClmEvidenceTimeUnits.helpText = "Select unit time";
+			ClmEvidenceTimeUnits.mandatoryOn = [ClmEvidenceTime.dataBinding];
+			ClmEvidenceTimeUnits.isMandatory = function()
+			{	var val = Services.getValue(ClmEvidenceTime.dataBinding);
+				return( null != val &amp;&amp; "" != val );
+			}	
+			ClmEvidenceTimeUnits.isTemporary = function(){  return true; }	
+			ClmEvidenceTimeUnits.enableOn = [ClmEvidenceTime.dataBinding];
+			ClmEvidenceTimeUnits.isEnabled = function(){ return ClmEvidenceTime.isEnabled();}
+			ClmEvidenceTimeUnits.logicOn = [ClmEvidenceTime.dataBinding];
+			ClmEvidenceTimeUnits.logic = function()
+			{	if(!ClmEvidenceTime.isEnabled())
+				Services.setValue(ClmEvidenceTimeUnits.dataBinding,"");			
+			}											
+		</miscCode>
+		
+		<Context ScreenId="CJR199">
+			<enableOn>TimeTableAgreed.dataBinding</enableOn>
+			<isEnabled>return('Y' != Services.getValue(TimeTableAgreed.dataBinding));</isEnabled>
+			<logicOn>TimeTableAgreed.dataBinding</logicOn>
+			<logic>
+				if('Y' == Services.getValue(TimeTableAgreed.dataBinding))
+				{	Services.setValue(ClmEvidenceTime.dataBinding, "");
+					Services.setValue(ClmEvidenceTimeUnits.dataBinding, "");
+				}						
+			</logic>
+			<isMandatory>return true;</isMandatory>
+		</Context>
+	</Javascript>
+</Question>

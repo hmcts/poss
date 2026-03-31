@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>446</Id>
+	<Label>Details of N79A contempt</Label>
+	<ObjectName>N79AComptemptDtls</ObjectName>
+	<Html>	
+		<select id="N79AComptemptDtls">
+			<option value=""></option>
+			<option value="F">Failed to attend</option>
+			<option value="A">Attended but failed to comply</option>
+		</select>
+	</Html>			
+	<Javascript>
+		<XPath>/ds/EnterVariableData/DisobedienceArrest/n79AComptemptDtls</XPath>
+		<componentName>##label##</componentName>
+		<isMandatory>return true;</isMandatory>
+		<HintText>Select the details of N79A contempt</HintText>	
+	</Javascript>
+</Question>
+     
+    

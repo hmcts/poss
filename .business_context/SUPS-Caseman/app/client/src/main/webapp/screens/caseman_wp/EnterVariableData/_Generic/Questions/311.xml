@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>311</Id>
+	<Label>When sum is to be payable</Label>
+	<ObjectName>WhenSumPayable</ObjectName>
+	<Html>		
+		<select id="WhenSumPayable">
+			<option value=""></option>
+			<option value="FD">Within 14 days</option>
+			<option value="GD">On a given date</option>
+		</select>
+	</Html>
+	<Context screenId="CJR038"><isVisible>false</isVisible></Context>
+	<Javascript>
+		<XPath>/ds/EnterVariableData/DefaultCostsCert/whenSumPayable</XPath>
+		<HintText>Enter the duration of amount to be payable - List available</HintText>				
+		<isMandatory>return true;</isMandatory>		
+	</Javascript>
+</Question>

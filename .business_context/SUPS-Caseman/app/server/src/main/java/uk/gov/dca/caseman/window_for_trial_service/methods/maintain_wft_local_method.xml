@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	v1.0 Chris Hutt 2/2/2005
+-->
+<service-method>
+	<pipeline>
+	  <Add>
+	    <QueryDef location="uk/gov/dca/caseman/window_for_trial_service/query_def_case_wfts_modify.xml"/>
+	    <DataSource xpath="/params/param[@name='caseNumber']"/>
+			<QueryExtension pivotNode="/ds/MaintainWindowForTrial/WindowsForTrial/WindowForTrial">
+			<CheckExists table="wft" fields="wft_id wft_case_number " onExist="update" onNotExist="add" />
+	     </QueryExtension>
+	  </Add>
+	</pipeline>
+	<Security roles="user"/>
+</service-method>

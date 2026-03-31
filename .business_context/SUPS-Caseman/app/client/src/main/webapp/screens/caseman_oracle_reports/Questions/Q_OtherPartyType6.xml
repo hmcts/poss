@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--Question xmlns="http://eds.com/questionxhtml" xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd"-->
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>Q_OtherPartyType6</Id>
+	<Label>Other Party Type</Label>
+	<ObjectName>OtherPartyType6</ObjectName>
+	<Html>
+		<input id="OtherPartyType6" type="text" size="70"></input>
+	</Html>
+	<Javascript>
+		<XPath>/ds/var/page/OracleReportForm/OtherPartyType6</XPath>
+		<ReportVariableName>PARTY_OTHER</ReportVariableName>
+		<ReportVariableValue>Services.getValue(OtherPartyType6.dataBinding)</ReportVariableValue>
+		<ReportVariableCode>2130</ReportVariableCode>
+		<HintText></HintText>
+		<mandatoryOn>WhoFailedToLodgeQuestionnaire.dataBinding</mandatoryOn>
+		<isMandatory>
+			return !OtherPartyType6.isReadOnly();
+		</isMandatory>
+		<setDefault></setDefault>
+		<validateOn></validateOn>
+		<validate></validate>
+		<readOnlyOn>ReasonForReferral.dataBinding, WhoFailedToLodgeQuestionnaire.dataBinding</readOnlyOn>
+		<isReadOnly>
+			var reasonForReferral = Services.getValue(ReasonForReferral.dataBinding);
+			var reasonValueTest = Services.getValue( REF_DATA_XPATH + "/ReasonForReferralList/ReasonForReferral[./Description = " + ReasonForReferral.dataBinding + "]/Value" );
+			var whoFailedToLodgeQuestionnaire = Services.getValue(WhoFailedToLodgeQuestionnaire.dataBinding);
+			var whoValueTest = Services.getValue( REF_DATA_XPATH + "/WhoFailedToLodgeQuestionnaireList/WhoFailedToLodgeQuestionnaire[./Description = " + WhoFailedToLodgeQuestionnaire.dataBinding + "]/Value" );
+			if (reasonForReferral == "ALL" || reasonValueTest == "ALL")
+			{
+				return true;
+			}
+			else if (whoFailedToLodgeQuestionnaire == "OTH" || whoValueTest == "OTH")
+			{
+				return false;
+			}
+			else
+			{
+				return true;
+			}
+		</isReadOnly>
+		<maxLength></maxLength>
+		<transformToDisplay>
+			return (null != value) ? value.toUpperCase() : null;
+		</transformToDisplay>
+		<transformToModel>
+			return (null != value) ? value.toUpperCase() : null;
+		</transformToModel>
+		<initialise></initialise>
+		<logicOn></logicOn>
+		<logic></logic>
+		<miscCode></miscCode>
+		<IsQuestion></IsQuestion>
+	</Javascript>
+</Question>

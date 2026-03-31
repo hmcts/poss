@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- configures an instance of a SUPS service -->
+<sups-config>
+
+	<!-- * Each service method is implemented as a configurable pipeline of components.     *
+	     * Since each component must have the same interface (so that it can appear         *
+	     * anywhere in the pipeline) the distinguishing factor is the component's behaviour * 
+	     * or 'role'. The allowed roles are specified here. A concrete pipeline component   *
+	     * must inherit (at least) 1 of these roles.                                        * 
+	-->
+	<roles>
+		<role name="validator" implements="uk.gov.dca.db.pipeline.IValidator"/>
+		<role name="generator" implements="uk.gov.dca.db.pipeline.IGenerator"/>
+	</roles>
+	
+	<!-- * The available components and their associated Java class are listed here.              *
+	     * The 'name' attribute must be unique and is the tag name used to refer to the component *
+	     * in the method XML files.                                                               *
+	-->
+	<components>
+		<validator name="XSDValidate" 		class="uk.gov.dca.db.pipeline.XSDValidator"/>
+		<validator name="JSValidate" 		class="uk.gov.dca.db.pipeline.JSValidator"/>
+		<validator name="ValidateForm" 		class="uk.gov.dca.db.pipeline.FormValidator"/>
+		<generator name="Transform" 		class="uk.gov.dca.db.pipeline.TransformService"/>
+		<generator name="Script" 			class="uk.gov.dca.db.pipeline.ScriptService"/>
+		<generator name="Add" 				class="uk.gov.dca.db.pipeline.InsertService"/>
+		<generator name="Update" 			class="uk.gov.dca.db.pipeline.InsertService"/>
+		<generator name="Query" 			class="uk.gov.dca.db.pipeline.mapping.SelectService"/>
+		<generator name="LinkedQuery" 		class="uk.gov.dca.db.pipeline.mapping.SelectService"/>
+		<generator name="Java" 				class="uk.gov.dca.db.pipeline.JavaService"/>
+		<generator name="Wait" 				class="uk.gov.dca.db.pipeline.WaitService"/>
+		<generator name="Lock" 				class="uk.gov.dca.db.pipeline.LockingService"/>
+		<generator name="SQLLite" 			class="uk.gov.dca.db.pipeline.SQLLiteService"/>
+		<generator name="InvokeReport" 		class="uk.gov.dca.db.pipeline.ReportInvokerService"/>
+		<generator name="GetReport" 		class="uk.gov.dca.db.pipeline.ReportGetService"/>
+		<generator name="CancelReport" 		class="uk.gov.dca.db.pipeline.ReportCancelService"/>
+		<generator name="DocumentService" 	class="uk.gov.dca.db.pipeline.DocumentService"/>
+		<generator name="XSLFO" 			class="uk.gov.dca.db.xslfo.XSLFOComponent"/>
+		<generator name="MaintainDictionary" 
+											class="uk.gov.dca.db.pipeline.DictionaryMaintenanceComponent"/>
+
+		<generator name="TestContext" 		class="uk.gov.dca.test_project.cases_service.classes.ContextTestComponent"/>
+		<generator name="TestUserContext" 	class="uk.gov.dca.test_project.cases_service.classes.UserContextTestComponent"/>
+		<generator name="AsyncCall" 		class="uk.gov.dca.db.async.AsyncGenerator"/>
+		<generator name="AsyncGetState" 	class="uk.gov.dca.db.async.AsyncStateGenerator"/>
+		<generator name="AsyncCancel" 		class="uk.gov.dca.db.async.AsyncCancelComponent"/>
+		<generator name="AsyncGetStateByUser" 	class="uk.gov.dca.db.async.AsyncGetStateByUserComponent"/>
+
+		<!-- Old select service, should never be used, only used by projects which absolutely can not use the new version -->
+		<!-- 
+		<generator name="Query" 		class="uk.gov.dca.db.pipeline.SelectService"/> -->
+	</components>
+	
+	<!-- * Applies a filter to the message before each service is invoked * --> 
+	<filter class="uk.gov.dca.db.ejb.filter.UserIdInsertionFilter">
+		<userIdName>userId</userIdName>
+		<filter class="uk.gov.dca.db.ejb.filter.SystemParameterExtractionFilter">
+			<systemParam name="courtId" xpath="/params/param[@name='courtId']"/>
+			<filter class="uk.gov.dca.db.ejb.filter.SystemParameterExtractionFilter">
+				<systemParam name="businessProcessId" xpath="/params/param[@name='businessProcessId']"/>
+				<filter class="uk.gov.dca.db.ejb.filter.SystemParameterExtractionFilter">
+					<systemParam name="userId" xpath="/params/param[@name='userId']"/>
+				</filter>
+			</filter>
+		</filter>
+	</filter>
+	
+</sups-config>

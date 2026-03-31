@@ -1,0 +1,28 @@
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>670</Id>
+	<Label>First payment date</Label>
+	<ObjectName>FirstPaymentDate</ObjectName>
+	<Context screenId="FE45"><isVisible>false</isVisible></Context>	
+	<Html>	
+		<script type="text/javascript">
+			WP_DatePickerRenderer.createInline("FirstPaymentDate");
+		</script>
+	</Html>		
+	
+	<Javascript>
+		<XPath>/ds/EnterVariableData/DeliveryOfGoods/firstPaymentDate</XPath>
+		<componentName>##label##</componentName>
+		<isMandatory>return true;</isMandatory>
+		<HintText>Enter the first payment date</HintText>
+		<enableOn>CostToBePaid.dataBinding</enableOn>
+		<isEnabled>return('MTH' == Services.getValue(CostToBePaid.dataBinding));</isEnabled>
+		<logicOn>CostToBePaid.dataBinding</logicOn>		
+		<logic>
+			if('MTH' != Services.getValue(CostToBePaid.dataBinding))
+			{	Services.setValue(FirstPaymentDate.dataBinding, "");
+			}
+		</logic>
+		<validateOn>FirstPaymentDate.dataBinding</validateOn>
+		<validate>return( isInFuture(Services.getValue(FirstPaymentDate.dataBinding)));</validate>			
+	</Javascript>
+</Question>

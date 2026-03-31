@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	v1.0 Chris Hutt 18/4/2005
+	V1.1 Chris Vincent 21/11/2007: UCT_Group2 Defect 1622, wrap IP.DELETED_FLAG round NVL() and check
+		 only for values of 'N' which is what CCBC Batch sets it to.
+-->
+<QueryDef>
+	<DBMapDef location="uk/gov/dca/caseman/judgment_service/map_parties_with_active_judgment.xml"/>
+	<Query pivotNode="/Judgments/Judgment" tables="JDG">
+	    <LinkedJoin type="root" key="JDG.JUDG_SEQ">
+	   		<Join>
+	   			JDG.STATUS IS NULL OR JDG.STATUS = 'VARIED'
+	   		</Join>
+	   	</LinkedJoin>
+        <Modify notModifiable="true"/>
+	</Query>
+	<Query pivotNode="/Judgments/Judgment/InFavour/Parties/Party" tables="IP">
+	   	<LinkedJoin type="query" key="IP.CASE_PARTY_NO IP.PARTY_ROLE_CODE">
+	   		<Parent key="JDG.JUDG_SEQ" tables="JDG"/>
+	   		<Join>
+	   			IP.CASE_NUMBER = JDG.CASE_NUMBER AND
+	   			IP.JUDG_SEQ = JDG.JUDG_SEQ AND
+	   			NVL(IP.DELETED_FLAG, 'N') = 'N'
+	   		</Join>
+	   	</LinkedJoin>
+        <Modify notModifiable="true"/>
+	</Query>
+</QueryDef>

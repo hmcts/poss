@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--Question xmlns="http://eds.com/questionxhtml" xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd"-->
+<!-- 
+Change History
+	06/02/2013 - Chris Vincent, changed references to Allocation Questionnaires to Directions Questionnaires.  Trac 4763
+-->
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>Q_AllocationQuestionnaireFeePaid</Id>
+	<Label>Check box if Directions questionnaire fee paid</Label>
+	<ObjectName>AllocationQuestionnaireFeePaid</ObjectName>
+	<Html>
+		<input id="AllocationQuestionnaireFeePaid" type="checkbox"/>
+	</Html>
+	<Javascript>
+		<XPath>/ds/var/page/OracleReportForm/AllocationQuestionnaireFeePaid</XPath>
+		<ReportVariableName>AQ_FEE_NOT_PAID_YORN</ReportVariableName>
+		<ReportVariableValue>returnDefault(Services.getValue(AllocationQuestionnaireFeePaid.dataBinding))</ReportVariableValue>
+		<ReportVariableCode>2870</ReportVariableCode>
+		<HintText></HintText>
+		<isMandatory>return true;</isMandatory>
+		<initialise></initialise>
+		<setDefault>
+			Services.setValue(AllocationQuestionnaireFeePaid.dataBinding, "N");
+		</setDefault>		
+		<validateOn>
+		</validateOn>
+		<validate>
+		</validate>
+		<miscCode>
+			AllocationQuestionnaireFeePaid.modelValue = {checked: 'Y', unchecked: 'N'};
+			function returnDefault(value)
+			{
+				//debugger;
+				if (value == null)
+				{
+					return "N";
+				}
+				else
+				{
+					return value;
+				}
+			}			
+		</miscCode>
+	</Javascript>
+</Question>

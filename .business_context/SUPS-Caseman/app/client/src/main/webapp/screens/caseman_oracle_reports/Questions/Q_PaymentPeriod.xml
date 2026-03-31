@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--Question xmlns="http://eds.com/questionxhtml" xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd"-->
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>Q_PaymentPeriod</Id>
+	<Label>Enter Payment Period</Label>
+	<ObjectName>PaymentPeriod</ObjectName>
+	<Html>
+		<select id="PaymentPeriod">
+			<option value=""></option>
+			<option value="WK">WEEKLY</option>
+			<option value="FOR">FORTNIGHTLY</option>
+			<option value="MTH">MONTHLY</option>
+		</select>
+	</Html>
+	<Javascript>
+		<XPath>/ds/var/page/OracleReportForm/PaymentPeriod</XPath>
+		<ReportVariableName>REPORT_VALUE_2</ReportVariableName>
+		<ReportVariableValue>Services.getValue(PaymentPeriod.dataBinding)</ReportVariableValue>
+		<ReportVariableCode>363</ReportVariableCode>
+		<HintText>Select a payment period from the list of values</HintText>
+		<mandatoryOn></mandatoryOn>
+		<isMandatory>return true;</isMandatory>
+		<setDefault></setDefault>
+		<validateOn></validateOn>
+		<readOnlyOn></readOnlyOn>
+		<isReadOnly></isReadOnly>
+		<maxLength></maxLength>	
+		<logicOn></logicOn>
+		<logic></logic>
+		<miscCode>
+		</miscCode>
+		<IsQuestion></IsQuestion>
+	</Javascript>
+</Question>

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<QueryDef>
+	<DBMapDef location="uk/gov/dca/test_project/testdata_service/test_map.xml"/>
+	<Tables>
+		<Table alias="TD" name="TEST_DATA" />
+	</Tables>
+	
+	<Query pivotNode="/Test" tables="TD">
+		<Modify>
+			<Field name="TD.ID" xpath="./Data/Id"/>
+			<Field name="TD.ID" sequenceTable="TEST_DATA_SEQUENCE"/>
+			<Field name="TD.DESCRIPTION" xpath="./Data/Description"/>
+			<Field name="TD.TYPE" xpath="./Data/Type"/>
+		</Modify>
+	</Query>
+</QueryDef>

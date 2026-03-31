@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	19/12/2006 - CV - Added F6 keybinding to LOV via HearingAttendeesLOVGrid.raise configuration.
+	Temp_Caseman defects 299/334.
+-->
+<!--Question xmlns="http://eds.com/questionxhtml" xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd"-->
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>Q_HearingAttendees</Id>
+	<Label>Hearing Attendees</Label>
+	<ObjectName>HearingAttendees</ObjectName>
+	<Html>
+		<table>
+			<tr>
+				<td>
+					<script type="text/javascript">
+						ZoomFieldRenderer.createInline("HearingAttendees", 10, 70);
+					</script>				
+				</td>
+				<td>
+					<input id="HearingAttendeesLOVButton" type="Button" value="LOV"/>
+				</td>
+			</tr>
+		</table>
+		<script type="text/javascript">
+			LOVPopupRenderer.createInline( "HearingAttendeesLOVGrid", "Hearing Attendees", ["Description"], 10, 1, true );
+		</script>
+	</Html>
+	<Javascript>
+		<XPath>/ds/var/page/OracleReportForm/HearingAttendees</XPath>
+		<ReportVariableName>REPORT_VALUE_13</ReportVariableName>
+		<ReportVariableValue>sendRightValue()</ReportVariableValue>
+		<ReportVariableCode>9070</ReportVariableCode>
+		<HintText>Enter hearing attendees - list available</HintText>
+		<isMandatory>return true;</isMandatory>
+		<transformToDisplay>
+			var description = Services.getValue( REF_DATA_XPATH + "/HearingAttendeesList/HearingAttendee[./Value = " + HearingAttendees.dataBinding + "]/Description" );
+			if (description != null)
+			{
+				return description;
+			}
+			else
+			{
+				return value;
+			}
+		</transformToDisplay>
+		<transformToModel>
+			//debugger;
+			return (null != value) ? value.toUpperCase() : null;
+		</transformToModel>
+		<initialise></initialise>
+		<setDefault>
+		</setDefault>		
+		<validateOn>
+		</validateOn>
+		<validate>
+			var description = Services.getValue(REF_DATA_XPATH + "/HearingAttendeesList/HearingAttendee[./Value = " + HearingAttendees.dataBinding + "]/Description");
+			var valueTest = Services.getValue( REF_DATA_XPATH + "/HearingAttendeesList/HearingAttendee[./Description = " + HearingAttendees.dataBinding + "]/Value" );
+			if (description == null &amp;&amp; valueTest == null)
+			{
+				// This is not a valid value - see list of Values
+				return ErrorCode.getErrorCode("CaseMan_Reports_Invalid_LOV_Msg");
+			}
+			else
+			{
+				return null;
+			}
+		</validate>
+		<miscCode>
+			
+			HearingAttendees.initialise		= function() 
+			{ 
+				dom = getList("../LOV/HearingAttendeesList.xml"); 
+				Services.addNode(dom, REF_DATA_XPATH);			
+				return false; 
+			}
+			
+			//HearingAttendees.srcData 		= REF_DATA_XPATH + "/HearingAttendeesList";
+			//HearingAttendees.rowXPath 		= "HearingAttendee";
+			//HearingAttendees.keyXPath 		= "Description";
+			
+			function HearingAttendeesLOVGrid() {};
+			HearingAttendeesLOVGrid.dataBinding = HearingAttendees.dataBinding;
+			HearingAttendeesLOVGrid.srcData = REF_DATA_XPATH + "/HearingAttendeesList";
+			HearingAttendeesLOVGrid.rowXPath = "HearingAttendee";
+			HearingAttendeesLOVGrid.keyXPath = "Description";
+			HearingAttendeesLOVGrid.columns = [
+				{xpath: "Description"}
+			];
+			HearingAttendeesLOVGrid.raise = {
+				eventBinding: {
+					singleClicks: [ {element: "HearingAttendeesLOVButton"} ],
+					keys: [ { key: Key.F6, element: "HearingAttendees" } ]
+				}
+			};
+			
+			function HearingAttendeesLOVButton() {}
+			HearingAttendeesLOVButton.tabIndex = __tabIdx++;
+		</miscCode>
+	</Javascript>
+</Question>

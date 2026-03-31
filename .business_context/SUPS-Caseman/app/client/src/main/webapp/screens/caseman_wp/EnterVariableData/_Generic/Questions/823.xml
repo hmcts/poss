@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>823</Id>
+	<Label>Amount of fine</Label>
+	<ObjectName>EnterFineAmount</ObjectName>
+	
+	<Html>
+	  <input id="DefaultCurrency823" type="text" size="1"></input> 
+	  <input id="EnterFineAmount" type="text" size="9">
+	  </input>
+	</Html>
+	
+	<Javascript>
+		<XPath>/ds/EnterVariableData/EnterFineAmount</XPath>
+		<componentName>##label##</componentName>
+		<HintText>Enter amount of fine</HintText>
+		<isMandatory>return true;</isMandatory>
+		<!--<mandatoryOn>EnterFineAmount.dataBinding</mandatoryOn>-->
+		<validateOn>EnterFineAmount.dataBinding</validateOn>
+		<validate>
+			var fine = Services.getValue(EnterFineAmount.dataBinding);
+			var maxVal = 99999.99;	
+			var err = null;
+	      	if( '0.00 ' != fine )
+		  	{   err = validateCurrencyValue(fine, maxVal);
+		      	if( null == err)
+		      	{ 
+		      		var returnVal = WPU.formatToTwoDP(fine);
+			    	Services.setValue(EnterFineAmount.dataBinding, returnVal);
+		      	}	
+		  	}
+			return err;
+		</validate>
+		<miscCode>
+			function DefaultCurrency823() {}
+			DefaultCurrency823.dataBinding = "/ds/EnterVariableData/curr1";
+			DefaultCurrency823.tabIndex = -1;
+			DefaultCurrency823.maxLength = 1;
+			DefaultCurrency823.isReadOnly = function(){return true;}
+			DefaultCurrency823.isTemporary = function(){return true;}
+			DefaultCurrency823.transformToDisplay = function(value){
+				return WPS.__CaseManUtils().transformCurrencySymbolToDisplay(value,null,null); }
+			DefaultCurrency823.transformToModel = function(value){
+				return WPS.__CaseManUtils().transformCurrencySymbolToModel(value,null,null); }
+		</miscCode>
+		
+		<Context ScreenId="CO24">
+			<enableOn>FineOrPrison.dataBinding</enableOn>
+			<isEnabled>
+				var v1 = Services.getValue(FineOrPrison.dataBinding);
+				return (v1 == 'FINE');
+			</isEnabled>
+			<logicOn>FineOrPrison.dataBinding</logicOn>
+			<logic>
+				var v1 = Services.getValue(FineOrPrison.dataBinding);
+				if(v1 != 'FINE')
+				{	Services.setValue(EnterFineAmount.dataBinding, "");
+				}
+			</logic>
+		</Context>
+	</Javascript>
+</Question>

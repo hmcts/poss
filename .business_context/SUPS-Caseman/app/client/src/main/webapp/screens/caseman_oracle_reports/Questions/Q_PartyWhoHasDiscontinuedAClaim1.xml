@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	19/12/2006 - CV - Added F6 keybinding to LOV via PartyWhoHasDiscontinuedAClaimLOVGrid.raise configuration.
+	Temp_Caseman defects 299/334.
+-->
+<!--Question xmlns="http://eds.com/questionxhtml" xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd"-->
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>Q_PartyWhoHasDiscontinuedAClaim1.xml</Id>
+	<Label>Party Who Has Discontinued A Claim</Label>
+	<ObjectName>PartyWhoHasDiscontinuedAClaim</ObjectName>
+	<Html> 
+		<input id="PartyWhoHasDiscontinuedAClaim" type="text" size="15" > </input>
+		<input id="PartyWhoHasDiscontinuedAClaimLOVButton" type="Button" value="LOV"></input>
+        <script type="text/javascript">
+             LOVPopupRenderer.createInline( "PartyWhoHasDiscontinuedAClaimLOVGrid", "Party Who Has Discontinued A Claim", ["Value", "Description"], 10, 1, true );
+        </script>	
+	</Html>
+	<Javascript>
+		<XPath>/ds/var/page/OracleReportForm/PartyWhoHasDiscontinuedAClaim</XPath>
+		<ReportVariableName>PARTY</ReportVariableName>
+		<ReportVariableValue>Services.getValue(PartyWhoHasDiscontinuedAClaim.dataBinding)</ReportVariableValue>
+		<ReportVariableCode>4120</ReportVariableCode>
+		<HintText></HintText>
+		<isMandatory>return true;</isMandatory>
+		<initialise>
+		</initialise>
+		<setDefault>
+		</setDefault>
+		<validateOn>
+		</validateOn>
+		<validate>
+			var description = Services.getValue(REF_DATA_XPATH + "/PartyWhoHasDiscontinuedAClaimList/PartyWhoHasDiscontinuedAClaim[./Value = " + PartyWhoHasDiscontinuedAClaim.dataBinding + "]/Description");
+			var valueTest = Services.getValue( REF_DATA_XPATH + "/PartyWhoHasDiscontinuedAClaimList/PartyWhoHasDiscontinuedAClaim[./Description = " + PartyWhoHasDiscontinuedAClaim.dataBinding + "]/Value" );
+			if (description == null &amp;&amp; valueTest == null)
+			{
+				// This is not a valid value - see list of Values
+				return ErrorCode.getErrorCode("CaseMan_Reports_Invalid_LOV_Msg");
+			}
+			else
+			{
+				return null;
+			}
+		</validate>
+		<transformToDisplay>
+			var description = Services.getValue( REF_DATA_XPATH + "/PartyWhoHasDiscontinuedAClaimList/PartyWhoHasDiscontinuedAClaim[./Value = " + PartyWhoHasDiscontinuedAClaim.dataBinding + "]/Description" );
+			if (description != null)
+			{
+				return description;
+			}
+			else
+			{
+				return value;
+			}
+	    </transformToDisplay>
+        <transformToModel>
+             return (null != value) ? value.toUpperCase() : null;
+        </transformToModel>
+		<miscCode>
+		  
+		  PartyWhoHasDiscontinuedAClaim.initialise = function() 
+		  { 
+				dom = getList("../LOV/PartyWhoHasDiscontinuedAClaimList.xml"); 
+				Services.addNode(dom, REF_DATA_XPATH);
+				return false; 
+		  }
+		  
+		  	PartyWhoHasDiscontinuedAClaim.srcData 		  = REF_DATA_XPATH + "/PartyWhoHasDiscontinuedAClaimList";
+			PartyWhoHasDiscontinuedAClaim.rowXPath 	  = "PartyWhoHasDiscontinuedAClaim";
+			PartyWhoHasDiscontinuedAClaim.keyXPath 	  = "Value";
+			
+			function PartyWhoHasDiscontinuedAClaimLOVButton() {}
+			
+			PartyWhoHasDiscontinuedAClaimLOVButton.tabIndex = __tabIdx++;
+			
+			function PartyWhoHasDiscontinuedAClaimLOVGrid() {};
+			PartyWhoHasDiscontinuedAClaimLOVGrid.dataBinding = PartyWhoHasDiscontinuedAClaim.dataBinding;
+			PartyWhoHasDiscontinuedAClaimLOVGrid.srcData 	  = REF_DATA_XPATH + "/PartyWhoHasDiscontinuedAClaimList";
+			PartyWhoHasDiscontinuedAClaimLOVGrid.rowXPath    = "PartyWhoHasDiscontinuedAClaim";
+			PartyWhoHasDiscontinuedAClaimLOVGrid.keyXPath    = "Value";
+			PartyWhoHasDiscontinuedAClaimLOVGrid.columns     = [
+				{xpath: "Value"},
+				{xpath: "Description"}
+			];
+			PartyWhoHasDiscontinuedAClaimLOVGrid.raise = {
+				eventBinding: {
+					singleClicks: [ {element: "PartyWhoHasDiscontinuedAClaimLOVButton"} ],
+					keys: [ { key: Key.F6, element: "PartyWhoHasDiscontinuedAClaim" } ]
+				}
+			};
+		</miscCode>
+	</Javascript>	
+</Question>

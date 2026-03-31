@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--Question xmlns="http://eds.com/questionxhtml" xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd"-->
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>CM_COP_N326_QUESTION_6</Id>
+	<Label>Payment due before date</Label>
+	<ObjectName>PaymentDate2</ObjectName>
+	<Html>
+		<script type="text/javascript">
+			DatePickerRenderer.createInline("PaymentDate2", false);
+		</script>
+	</Html>
+	<Javascript>
+		<XPath>/ds/var/page/OracleReportForm/PaymentDate</XPath>
+		<ReportVariableName>P_PAYMENT_DATE</ReportVariableName>
+		<ReportVariableValue>CaseManUtils.convertDateToDisplay(Services.getValue(PaymentDate2.dataBinding))</ReportVariableValue>
+		<HintText>Enter the Payment due before date (if applicable)</HintText>
+		<isMandatory>return false;</isMandatory>
+		<validateOn>
+			PaymentDate2.dataBinding
+		</validateOn>	
+		<validate>
+			    var paymentDate = Services.getValue(PaymentDate2.dataBinding);
+			    var paymentDateObj = CaseManUtils.isBlank(paymentDate) ? null : CaseManUtils.createDate(paymentDate);
+			    var ec = null;
+			    if(paymentDateObj != null)
+			    {
+			      ec = validateDate(paymentDateObj);     
+			    }
+			    return ec;
+		</validate>	
+		<readOnlyOn>AllWarrants.dataBinding</readOnlyOn>
+		<isReadOnly>
+			var allWarrants = Services.getValue(AllWarrants.dataBinding);
+			if (! CaseManUtils.isBlank(allWarrants))
+			{
+				if (allWarrants == "Y")
+				{
+					return true;
+				}
+				else
+				{
+					return false;
+				}
+			}
+			else
+			{
+				return true;
+			}			
+		</isReadOnly>	
+		<logicOn>AllWarrants.dataBinding</logicOn>
+		<logic>
+			var allWarrants = Services.getValue(AllWarrants.dataBinding);
+			if (! CaseManUtils.isBlank(allWarrants))
+			{
+				if (allWarrants == "Y")
+				{
+					Services.setValue(PaymentDate2.dataBinding, "");
+				}
+			}
+		</logic>						
+		<miscCode>
+			function validateDate(dateObj)
+			{    
+			  var todayDateObj = CaseManUtils.createDate(getTodaysDate());
+			  if(CaseManUtils.compareDates(todayDateObj, dateObj)!= 1 )
+			  {
+			      return null;
+			  }
+			  else
+			  {
+			    ec = ErrorCode.getErrorCode("CaseMan_dateCannotBeInTheFuture_Msg");
+			    return faildedValidation (ec);
+			  }      
+			  return null;   
+			}			
+		</miscCode>	
+	</Javascript>
+</Question>

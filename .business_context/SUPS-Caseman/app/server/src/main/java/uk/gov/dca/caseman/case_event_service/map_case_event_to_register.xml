@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: CaseEvent
+	Method:  insertCaseEventToRegisterRow
+	File:    map_case_event_to_register.xml
+	Author:  Mark Groen (EDS)
+	Created: 25 April 2007
+	Description: 
+        inserts a case with RegisterJudgment flag set
+		Introduced as part of Caseman defect 6037
+-->
+<DBMapDef>
+  <DataSource id="java:OracleDS"/>
+  <Tables>
+    <Table alias="CE" name="CASE_EVENTS"/>
+    <Table alias="CEI" name="CASE_EVENT_INSTIGATORS"/>
+  </Tables>  
+  <Mapping>
+	<CaseEvent>
+		<CaseEventSeq>${CE.EVENT_SEQ}</CaseEventSeq>
+		<CaseNumber>${CE.CASE_NUMBER}</CaseNumber>
+		<StandardEventId>${CE.STD_EVENT_ID}</StandardEventId>
+		<SubjectCasePartyNumber>${CE.CASE_PARTY_NO}</SubjectCasePartyNumber>
+		<SubjectPartyRoleCode>${CE.PARTY_ROLE_CODE}</SubjectPartyRoleCode>
+		<Applicant>${CE.REQUESTER}</Applicant>
+		<EventDetails>${CE.DETAILS}</EventDetails>
+		<EventDate>${CE.EVENT_DATE}</EventDate>
+		<Result>${CE.RESULT}</Result>				
+		<WarrantId>${CE.WARRANT_ID}</WarrantId>
+		<JudgmentSeq>${CE.JUDG_SEQ}</JudgmentSeq>
+		<VarySeq>${CE.VARY_SEQ}</VarySeq>
+		<HrgSeq>${CE.HRG_SEQ}</HrgSeq>
+		<DeletedFlag>${CE.DELETED_FLAG}</DeletedFlag>
+		<UserName>${CE.USERNAME}</UserName>
+		<ReceiptDate>${CE.RECEIPT_DATE}</ReceiptDate>
+		<BMSTask>${CE.BMS_TASK_NUMBER}</BMSTask>
+		<StatsModule>${CE.STATS_MODULE}</StatsModule>
+		<CourtCode>${CE.CRT_CODE}</CourtCode>
+		<AgeCategory>${CE.AGE_CATEGORY}</AgeCategory>
+		<ResultDate>${CE.RESULT_DATE}</ResultDate>
+		<DateToRtl>${CE.DATE_TO_RTL}</DateToRtl>
+		<CaseFlag>${CE.CASE_FLAG}</CaseFlag>
+		<CreatingCourt>${CE.CREATING_COURT}</CreatingCourt>
+		<CreatingSection>${CE.CREATING_SECTION}</CreatingSection>	
+		<InstigatorList>
+			<Instigator>
+				<CasePartyNumber>${CEI.CASE_PARTY_NO}</CasePartyNumber>
+				<PartyRoleCode>${CEI.PARTY_ROLE_CODE}</PartyRoleCode>
+			</Instigator>
+		</InstigatorList>
+		<RegisterJudgment>${CE.REGISTER_JUDGMENT}</RegisterJudgment>	
+	</CaseEvent>
+  </Mapping>
+</DBMapDef>

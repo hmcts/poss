@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: Co
+	Method:  getFeeRateList()
+	File:    get_fee_rate_list.xml
+	Author:  Phil Haferer (EDS)
+	Created: 31 August 2005
+	Description: 
+		Retrieve Fee Rates for Consolidated Orders.
+-->
+<service-method>
+	<pipeline>
+		<Query>
+			<QueryDef location="uk/gov/dca/caseman/co_service/query_def_get_fee_rate_list.xml"/>
+		</Query>
+	</pipeline>
+	<Security roles="viewOnly medium high wcSuper scSuper bmsSuper aeSuper dmSuper cpSuper"/>		
+</service-method>

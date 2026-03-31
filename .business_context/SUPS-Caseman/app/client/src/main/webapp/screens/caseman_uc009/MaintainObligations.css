@@ -1,0 +1,76 @@
+form#maintainObligations
+{
+	display: inline;
+}
+
+td#partiesColumn {width: 350px;}
+
+/*********************************** ZOOM FIELDS *************************************/
+
+#Details_Notes { width:325px; }
+#New_Obligation_Popup_Notes { width:325px; }
+#Modify_Obligation_Popup_Notes { width:325px; }
+
+/************************************* POPUPS ****************************************/
+
+div#New_Obligation_Popup
+{
+	visibility: hidden;
+	position: absolute;
+	top: 220px;
+	width: 550px;
+	left: 50%;
+	margin-left: -275px;
+}
+
+div#Modify_Obligation_Popup
+{
+	visibility: hidden;
+	position: absolute;
+	top: 220px;
+	width: 650px;
+	left: 50%;
+	margin-left: -325px;
+}
+
+/************************************* GRIDS *****************************************/
+
+#Header_PartiesGrid { width: 350px; margin: 5px; }
+#Header_PartiesGrid .col0 {width: 110px;}
+#Header_PartiesGrid .col1 {width: 50px;}
+#Header_PartiesGrid .col2 {width: 157px;}
+
+#Master_ObligationsGrid { width: 365px; margin: 5px; }
+#Master_ObligationsGrid .col0 {width: 40px;}
+#Master_ObligationsGrid .col1 {width: 75px;}
+#Master_ObligationsGrid .col2 {width: 30px;}
+#Master_ObligationsGrid .col3 {width: 169px;}
+#Master_ObligationsGrid .col4 {width: 10px; text-align: center;}
+
+#Master_ObligationsGrid .errorClass
+{
+    background: #d3e7d3;
+    border-color: #d3e7d3;
+}
+
+/************************************* LOV POPUPS ************************************/
+
+#NewObligation_ObligationTypeLOV 
+{
+	height: 302px;
+	width: 492px;
+	top: 50%;
+	left: 50%;
+	margin-left: -246px;
+	margin-top: -151px;
+}
+
+#NotesTypeLOVGrid 
+{
+	height: 302px;
+	width: 400px;
+	top: 50%;
+	left: 50%;
+	margin-left: -200px;
+	margin-top: -151px;
+}

@@ -1,0 +1,203 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>348</Id>
+	<Label>Amount of costs</Label>
+	<ObjectName>CostAmount2</ObjectName>
+	<Html>
+		<input type="text" id="DefaultCurrency348" size="1"></input>
+		<input type="text" id="CostAmount2" size="11"></input>		
+	</Html>
+					
+	<Javascript>
+		<XPath>/ds/EnterVariableData/PossessionOrder/costAmount2</XPath>
+		<componentName>##label##</componentName>
+		<isMandatory>return true;</isMandatory>
+		<HintText>Enter the amount of costs</HintText>	
+		<enableOn>HasCostOrder.dataBinding</enableOn>
+		<isEnabled>return('Y' == Services.getValue(HasCostOrder.dataBinding));</isEnabled>
+		<logicOn>HasCostOrder.dataBinding</logicOn>
+		<logic>
+			if('Y' != Services.getValue(HasCostOrder.dataBinding))
+			{	Services.setValue(CostAmount2.dataBinding, "");
+			}
+		</logic>
+		<validateOn>CostAmount2.dataBinding</validateOn>
+		<validate>
+			var val = Services.getValue(CostAmount2.dataBinding);
+			var err = WPU.validateCurrency(val);
+			if( null == err )
+			{	var fVal = WPU.formatToTwoDP(val);
+				Services.setValue(CostAmount2.dataBinding, fVal);
+			}
+			return err;
+		</validate>
+		<miscCode>
+			function DefaultCurrency348() {}
+			DefaultCurrency348.dataBinding = "/ds/EnterVariableData/curr1";
+			DefaultCurrency348.tabIndex = -1;
+			DefaultCurrency348.maxLength = 1;
+			DefaultCurrency348.isReadOnly = function(){return true;}
+			DefaultCurrency348.isTemporary = function(){return true;}
+			DefaultCurrency348.transformToDisplay = function(value){
+				return WPS.__CaseManUtils().transformCurrencySymbolToDisplay(value,null,null); }
+			DefaultCurrency348.transformToModel = function(value){
+				return WPS.__CaseManUtils().transformCurrencySymbolToModel(value,null,null); }
+        </miscCode>
+		<Context ScreenId="CJR054">
+			<HintText>Enter the total cost</HintText>
+			<validateOn>CostAmount2.dataBinding</validateOn>
+			<validate>
+				var val = Services.getValue(CostAmount2.dataBinding);
+				var err = validateCurrencyValue(val, '999999.99');
+				if( null == err )
+				{	var fVal = WPU.formatToTwoDP(val);
+					Services.setValue(CostAmount2.dataBinding, fVal);
+				}
+				return err;
+			</validate>
+			<enableOn>CostType2.dataBinding</enableOn>
+			<isEnabled>return('F' == Services.getValue(CostType2.dataBinding));</isEnabled>
+			<logicOn>CostType2.dataBinding</logicOn>
+			<logic>
+				if('F' != Services.getValue(CostType2.dataBinding))
+				{	Services.setValue(CostAmount2.dataBinding, "");
+				}
+			</logic>
+		</Context>
+		
+		<Context ScreenId="CJR092">
+			<enableOn>CostAmount2.dataBinding</enableOn>
+			<isEnabled>return true;</isEnabled>
+			<logicOn>CostAmount2.dataBinding</logicOn>
+			<logic></logic>
+			<validate>
+				var val = Services.getValue(CostAmount2.dataBinding);
+				var err = validateCurrencyValue(val, 999999.99 );
+				if( null == err )
+				{	Services.setValue(CostAmount2.dataBinding, WPU.formatToTwoDP(val));
+				}
+				return err;
+			</validate>
+		</Context>
+		<Context ScreenId="CJR094">
+			<enableOn>CostAmount2.dataBinding</enableOn>
+			<isEnabled>return true;</isEnabled>
+			<logicOn>CostAmount2.dataBinding</logicOn>
+			<logic></logic>
+			<validate>
+				var val = Services.getValue(CostAmount2.dataBinding);
+				var err = validateCurrencyValue(val, 999999.99);
+				if( null == err)
+				{	Services.setValue(CostAmount2.dataBinding, WPU.formatToTwoDP(val));
+				}
+				return err;
+			</validate>
+		</Context>
+		<Context ScreenId="CJR351">
+			<enableOn>CostsAre.dataBinding</enableOn>
+			<isEnabled>return( 'G' == Services.getValue(CostsAre.dataBinding));</isEnabled>
+			<logicOn>CostsAre.dataBinding</logicOn>
+			<logic>
+				if( 'G' != Services.getValue(CostsAre.dataBinding))
+				{	Services.setValue(CostAmount2.dataBinding, "");
+				}
+			</logic>
+			<validate>
+				var val = Services.getValue(CostAmount2.dataBinding);
+				var err = validateCurrencyValue(val, 999999.99);
+				if( null == err )
+				{	var fVal = WPU.formatToTwoDP(val);
+					Services.setValue(CostAmount2.dataBinding, fVal);
+				}
+				return err;
+		</validate>
+		</Context>
+		<Context ScreenId="CJR352">
+			<enableOn>CostsAre.dataBinding</enableOn>
+			<isEnabled>return( 'G' == Services.getValue(CostsAre.dataBinding));</isEnabled>
+			<logicOn>CostsAre.dataBinding</logicOn>
+			<logic>
+				if( 'G' != Services.getValue(CostsAre.dataBinding))
+				{	Services.setValue(CostAmount2.dataBinding, "");
+				}
+			</logic>
+			<validate>
+				var val = Services.getValue(CostAmount2.dataBinding);
+				var err = validateCurrencyValue(val, 999999.99);
+				if( null == err )
+				{	var fVal = WPU.formatToTwoDP(val);
+					Services.setValue(CostAmount2.dataBinding, fVal);
+				}
+				return err;
+		</validate>
+		</Context>
+		
+		<Context ScreenId="O_7_8">
+            <mandatoryOn>AssessedCosts.dataBinding</mandatoryOn>
+			<isMandatory>return ("Y" == Services.getValue(AssessedCosts.dataBinding));</isMandatory>
+            <enableOn>AssessedCosts.dataBinding</enableOn>
+            <isEnabled>return ("Y" == Services.getValue(AssessedCosts.dataBinding));</isEnabled>
+            <logicOn>AssessedCosts.dataBinding</logicOn>
+            <logic>
+            if("Y" != Services.getValue(AssessedCosts.dataBinding)){
+                    Services.setValue(CostAmount2.dataBinding, "");
+            }
+            </logic>
+            
+			
+		</Context>
+		
+		<Context ScreenId="O_5_5">
+		
+			<enableOn></enableOn>
+			<isEnabled></isEnabled>
+			<logicOn></logicOn>
+			<logic>
+		
+			</logic>
+		</Context>
+        
+        
+		
+		<Context ScreenId="O_7_12_6">
+			<enableOn>CostAmount2.dataBinding</enableOn>		
+			<isEnabled>return true;</isEnabled>
+			<logicOn>CostAmount2.dataBinding</logicOn>
+			<logic></logic>	         
+	        <validate>
+		    	//Validation: only numeric characters allowed and two decimal places.
+				//Error message: Currency amounts must be in the format of 0.00
+				//Currency field. Max value. 999999.99
+	            var value = Services.getValue(CostAmount2.dataBinding);      
+	            var maxVal = 999999.99;         
+	            var err = null;
+	                  
+	            if( '0.00 ' != value ) {   
+	            	err = validateCurrencyValue(value, maxVal);
+	              	if( null == err) { 
+	                	var returnVal = WPU.formatToTwoDP(value);
+	                    Services.setValue(CostAmount2.dataBinding, returnVal);
+	                } 
+	            }
+	            return err;         
+			</validate>
+	        
+	        <transformToModel>        
+	        	if( null == value || "" == value ) {  
+	            	return "0.00 ";
+	            }
+	            else { 
+	            	return value;
+	            }
+	   		</transformToModel>
+	   		
+	        <transformToDisplay> 
+	        	if( '0.00 ' == value) return "0.00";
+	            return value;           
+	        </transformToDisplay>
+		</Context>
+				
+	</Javascript>
+	
+	
+</Question>

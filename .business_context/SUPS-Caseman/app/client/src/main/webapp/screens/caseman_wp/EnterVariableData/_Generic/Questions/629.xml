@@ -1,0 +1,31 @@
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>629</Id>
+	<Label>Was the claim/counterclaim allocated to</Label>
+	<ObjectName>ClaimAllocatedTo</ObjectName>
+	<Html>	
+		<select id="ClaimAllocatedTo">
+			<option value=""></option>
+			<option value="FT">Fast Track</option>
+			<option value="MT">Multi-track</option>
+		</select>
+	</Html>		
+	
+
+	<Javascript>
+		<XPath>/ds/EnterVariableData/PayFee/claimAllocatedTo</XPath>
+		<componentName>##label##</componentName>
+		<isMandatory>return true;</isMandatory>
+		<HintText>Enter the track   list available</HintText>	
+		<enableOn>FeeFor.dataBinding</enableOn>
+		<isEnabled>
+			var feeCode =  Services.getValue(FeeFor.dataBinding) ;
+			return( 'AC' == feeCode ||  'ACC' == feeCode );
+		</isEnabled>
+		<logicOn>FeeFor.dataBinding</logicOn>		
+		<logic>
+			if( !ClaimAllocatedTo.isEnabled() )
+			{	Services.setValue(ClaimAllocatedTo.dataBinding, "");
+			}
+		</logic>
+	</Javascript>
+</Question>

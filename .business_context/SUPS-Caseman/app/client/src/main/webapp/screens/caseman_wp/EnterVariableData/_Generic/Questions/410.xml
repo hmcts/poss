@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>410</Id>
+	<Label>What is to be filed?</Label>
+	<ObjectName>WhatIsFiled</ObjectName>
+	<Html>
+		<select id="WhatIsFiled">
+			<option value=""></option>	
+			<option value="DET">Details of</option>	
+			<option value="LST">A list of</option>	
+			<option value="BTH">A list of and details of</option>			
+		</select>
+	</Html>
+	
+	<Javascript>
+		<XPath>/ds/EnterVariableData/SmallTrack/whatIsFiled</XPath>
+		<HintText>What is to be filed</HintText>
+		<isMandatory>return true;</isMandatory>
+		<enableOn>IsPartyToClarify.dataBinding</enableOn>
+		<isEnabled>return('Y' == Services.getValue(IsPartyToClarify.dataBinding));</isEnabled>
+		<logicOn>IsPartyToClarify.dataBinding</logicOn>
+		<logic>
+			if('Y' != Services.getValue(IsPartyToClarify.dataBinding))
+			{	Services.setValue(WhatIsFiled.dataBinding, "");
+			}
+		</logic>
+	</Javascript>
+</Question>
+
+    
+      
+    

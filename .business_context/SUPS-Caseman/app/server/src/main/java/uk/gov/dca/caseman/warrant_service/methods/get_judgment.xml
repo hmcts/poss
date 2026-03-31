@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: Warrant
+	Method:  getJudgment()
+	File:    get_judgment.xml
+	Author:  Paul Robinson
+	Created: 01 Aug 2006
+	Description: Gets Judgments relating to a Case that have no live Warrant 
+				 associated with them.
+-->
+<service-method>
+	<pipeline>
+		<NewQuery>
+			<QueryDef location="uk/gov/dca/caseman/warrant_service/query_def_judgment.xml"/>
+			<QueryExtension pivotNode="/ds/MaintainJudgment">
+				<Param name="param.CaseNumber" xpath="/params/param[@name = 'CaseNumber']"/>
+			</QueryExtension>
+		</NewQuery>			
+	</pipeline>
+	<Security roles="viewOnly medium high wcSuper scSuper bmsSuper aeSuper dmSuper cpSuper ccbcMan ccbcUser ccbcSGB2"/>
+</service-method>

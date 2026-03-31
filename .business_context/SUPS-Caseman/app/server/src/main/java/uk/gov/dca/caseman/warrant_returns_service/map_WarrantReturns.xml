@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: WarrantReturns
+	Method:  getWarrantReturns()
+	File:    map_get_warrant_returns.xml
+	Author:  Tun Shwe
+	Created: 
+	Description: 
+		Retrieves a list of warrant returns recorded on a warrant record specified.
+		
+	Change History:
+		9-oct-2006:	ChrisHutt	Output detail returned (SCR0206 implmented)
+	    22-Mar-2007 Chris Vincent: Added the UserAlias node under WarrantEvent.  CaseMan Defect 6000.
+		14-Oct-2016 Chris Vincent - Added <FlagConfidentiality> node.  Trac 5880
+-->
+<DBMapDef>
+  <DataSource id="java:OracleDS"/>
+  <Tables>
+    <Table alias="WR"  name="WARRANT_RETURNS"/>
+    <Table alias="RC"  name="RETURN_CODES"/>
+	<Table alias="W"   name="WARRANTS"/>
+	<Table alias="CE"  name="CASE_EVENTS"/>
+	<Table alias="COE" name="CO_EVENTS"/>
+	<Table alias="PY"  name="PAYMENTS"/>
+	<Table alias="WO" name="WP_OUTPUT"/>
+  </Tables>
+  <Mapping>
+    <ds>
+      <WarrantReturns>
+        <WarrantEvents>
+          <WarrantEvent>
+            <WarrantID>${WR.WARRANT_ID}</WarrantID>
+            <WarrantReturnsID>${WR.WARRANT_RETURNS_ID}</WarrantReturnsID>
+            <ReturnType>${RC.RETURN_TYPE}</ReturnType>
+            <ReturnDate>${WR.WARRANT_RETURN_DATE}</ReturnDate>
+            <Code>${WR.RETURN_CODE}</Code>
+            <CourtCode>${WR.RETURN_CODE_COURT_CODE}</CourtCode>
+            <ReturnText>${RC.RETURN_CODE_SUMMARY}</ReturnText>
+            <AdditionalDetails>${WR.ADDITIONAL_INFORMATION}</AdditionalDetails>
+            <Notice>${WR.NOTICE_REQUIRED}</Notice>
+            <Defendant>${WR.DEFENDANT_ID}</Defendant>
+            <Verified>${WR.VERIFICATION_DATE}</Verified>
+            <Error>${WR.ERROR_INDICATOR}</Error>
+            <AppointmentDate>${WR.APPOINTMENT_DATE}</AppointmentDate>
+            <AppointmentTime>${WR.APPOINTMENT_TIME}</AppointmentTime>
+            <CreatedBy>${WR.CREATED_BY}</CreatedBy>
+			<UserAlias>${WR.USERALIAS}</UserAlias>
+            <ExecutedBy>${WR.ADMIN_COURT_CODE}</ExecutedBy>
+            <ReceiptDate>${WR.RECEIPT_DATE}</ReceiptDate>
+            <ToTransfer>${WR.TO_TRANSFER}</ToTransfer>
+			<CaseNumber>${W.CASE_NUMBER}</CaseNumber>
+			<CaseEventSeq>${CE.EVENT_SEQ}</CaseEventSeq>
+			<CoEventSeq>${COE.CO_EVENT_SEQ}</CoEventSeq>
+			<Outputs>
+				<Output>
+					<Type>${OUTPUT.TYPE}</Type>
+					<Final>${OUTPUT.FINAL_IND}</Final>
+					<OutputId>${OUTPUT.OUTPUT_ID}</OutputId>
+					<Description>${OUTPUT.DESCRIPTION}</Description>
+					<DocumentId>${OUTPUT.DOCUMENT_ID}</DocumentId>
+				</Output>
+			</Outputs>
+          </WarrantEvent>
+        </WarrantEvents>
+      </WarrantReturns>
+	  <PaymentDetails>
+		  <HomeWarrantPaymentsExist>${PY.HW_PAYMENTS_EXIST}</HomeWarrantPaymentsExist>
+		  <ForeignWarrantPaymentsExist>${PY.FW_PAYMENTS_EXIST}</ForeignWarrantPaymentsExist>
+	  </PaymentDetails>
+	  <AdditionalInfo>
+		  <WelshParties>${W.WELSH_PARTIES}</WelshParties>
+		  <FlagConfidentiality>${C.CONFIDENTIAL}</FlagConfidentiality>
+	  </AdditionalInfo>
+    </ds>
+  </Mapping>
+</DBMapDef>

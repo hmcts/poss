@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+v1.0 Chris Hutt 4/2/2005
+-->
+<DBMapDef>
+<DataSource id="java:OracleDS"/>
+<Tables>
+  <Table alias="CPR" name="CASE_PARTY_ROLES"/>
+   <Table alias="CE" name="CASE_EVENTS"/>
+</Tables>
+  <Mapping>  
+    <Case>
+  	<Parties>
+  	  <Party>
+  	    <CaseNumber>${CPR.CASE_NUMBER}</CaseNumber>
+  	    <CasePartyNumber>${CPR.CASE_PARTY_NO}</CasePartyNumber>
+  	    <PartyRoleCode>${CPR.PARTY_ROLE_CODE}</PartyRoleCode>
+  	    <DateOfService>${CPR.DEFT_DATE_OF_SERVICE}</DateOfService>
+  	    <AcknowledgementExists>${CE.ACK_EXISTS}</AcknowledgementExists>
+  	  </Party>
+  	</Parties>
+    </Case>	
+  </Mapping>
+</DBMapDef>

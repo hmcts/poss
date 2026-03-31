@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>9076</Id>
+	<Label>Reference number</Label>
+	<ObjectName>ReferenceNumber</ObjectName>
+	<Html>		
+		<input type="text" id="ReferenceNumber"></input>
+	</Html>
+	<Javascript>
+      	<XPath>/ds/EnterVariableData/referenceNumber</XPath>	
+		<HintText>Enter the reference number</HintText>
+        <mandatoryOn>ReferenceNumber.dataBinding</mandatoryOn>
+		<isMandatory>return true;</isMandatory>	
+        <enableOn>ReferenceNumber.dataBinding</enableOn>
+        <isEnabled>return true;</isEnabled>   	
+    	<Context ScreenId="O_10_15">
+			<mandatoryOn>RegistrationWritsDate.dataBinding</mandatoryOn>
+			<isMandatory>
+				var tdate = Services.getValue(RegistrationWritsDate.dataBinding);			    
+			    if( null == tdate || "" == tdate ) {	return false;}
+			    var isValid = isValidDate(tdate);			    			    
+				return isValid;				
+			</isMandatory>
+			<enableOn>RegistrationWritsDate.dataBinding</enableOn>
+			<isEnabled>
+				var tdate = Services.getValue(RegistrationWritsDate.dataBinding);			    
+			    if( null == tdate || "" == tdate ) {	return false;}
+			    var isValid = isValidDate(tdate);			    			    
+				return isValid;				
+			</isEnabled>
+			<logicOn>RegistrationWritsDate.dataBinding</logicOn>
+			<logic>
+				var tdate = Services.getValue(RegistrationWritsDate.dataBinding);
+				var isValid = isValidDate(tdate);
+				if( !isValid || (null == tdate || "" == tdate ))
+				{	Services.setValue(ReferenceNumber.dataBinding, "");	}
+			</logic>    		
+    	</Context>    		
+	</Javascript>
+</Question>  

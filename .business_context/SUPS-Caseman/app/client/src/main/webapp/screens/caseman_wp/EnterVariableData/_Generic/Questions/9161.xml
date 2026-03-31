@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>9161</Id>
+	<Label>Fee retained in suspense</Label>
+	<ObjectName>FeeRetained</ObjectName>
+	<Html>	
+		<input type="checkbox" id="FeeRetained"></input>
+	</Html>		
+	<Javascript>
+		<XPath>/ds/EnterVariableData/feeRetained</XPath>
+		<HintText>Check box if fee is to be retained in suspense</HintText>
+		<isEnabled>return true</isEnabled>
+		<modelValue>checked: "Y", unchecked: "N"</modelValue>
+	</Javascript>
+</Question>  

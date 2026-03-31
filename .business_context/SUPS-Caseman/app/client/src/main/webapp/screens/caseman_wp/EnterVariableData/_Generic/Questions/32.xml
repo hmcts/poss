@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>32</Id>
+	<Label>On which party</Label>
+	<ObjectName>PartyOn</ObjectName>
+	<Html>
+		<script type="text/javascript">Grid.createInline("PartyOn", ["Party Type", "Number", "Name"] , 2, 1);</script>
+	</Html>
+	<Javascript>
+		<XPath>/ds/EnterVariableData/PartyOn</XPath>
+		<componentName>##label##</componentName>
+		<HintText>On which party is service being dispensed with</HintText>
+		<isMandatory>return true;</isMandatory>
+		<mandatoryOn>PartyOn.dataBinding</mandatoryOn>
+		<miscCode>		  	
+			PartyOn.srcData = DATA_XPATH + "/Parties";
+			PartyOn.rowXPath = "LitigiousParty[./TypeCode = '" + CMC.PartyTypeCodesEnum.CLAIMANT + "' or ./TypeCode = '" + CMC.PartyTypeCodesEnum.DEFENDANT + "']";
+			PartyOn.keyXPath = "PartyId";
+			PartyOn.columns = [
+				{xpath: "Type"},
+				{xpath: "Number", sort: "numerical", defaultSort:"true", defaultSortOrder:"ascending"},
+				{xpath: "Name"}
+			];
+			PartyOn.multipleSelection = false;			
+		</miscCode>
+	</Javascript>
+</Question>

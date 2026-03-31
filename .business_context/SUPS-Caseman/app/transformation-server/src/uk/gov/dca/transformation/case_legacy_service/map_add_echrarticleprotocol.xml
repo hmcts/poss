@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<DBMapDef>
+	<DataSource id="java:OracleDS"/>
+	<Tables>
+		<Table alias="EAP" name="ECHR_ARTICLE_PROTOCOL"/>
+	</Tables>
+	<Mapping>				
+		<ECHRArticleProtocol>
+			<EventSeq>${EAP.EVENT_SEQ}</EventSeq>
+			<ArtOrProt>${EAP.ART_OR_PROT}</ArtOrProt>
+			<LowValue>${EAP.VALS_LOW_VALUE}</LowValue>
+			<Description>${EAP.DESCRIPTION}</Description>
+			<DeftCaseNumber>${EAP.DEFT_CASE_NUMBER}</DeftCaseNumber>
+		</ECHRArticleProtocol>
+	</Mapping>
+</DBMapDef> 

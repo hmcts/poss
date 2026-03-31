@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: SystemData
+	Method:  incrementSequenceNumber()
+	File:    increment_sequence_number.xml
+	Author:  Phil Haferer (EDS)
+	Created: 04-Nov-2005
+	Description: 
+		Increment the value of a particular System Data row that is used as a Sequence Number.
+		Note that this method should be only be used after a call to getSequenceNumberForUpdate().
+-->
+<service-method>
+	<pipeline>
+		<SQLLite output="input">
+			<DataSource id="java:OracleDS"/>
+			<Param name="param.adminCourtCode" xpath="/params/param[@name='adminCourtCode']"/>
+			<Param name="param.item"           xpath="/params/param[@name='item']"/>
+			<SQL type="update" tables="SD">
+				UPDATE SYSTEM_DATA SD
+				SET    SD.ITEM_VALUE = DECODE(SD.ITEM_VALUE, NULL, 0, SD.ITEM_VALUE) + 1
+				WHERE  SD.ADMIN_COURT_CODE = ${param.adminCourtCode}
+				AND    SD.ITEM             = ${param.item}
+			</SQL>
+		</SQLLite>
+	</pipeline>
+	<Security roles="viewOnly medium high wcSuper scSuper bmsSuper aeSuper dmSuper"/>
+</service-method>

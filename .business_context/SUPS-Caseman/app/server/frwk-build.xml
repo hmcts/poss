@@ -1,0 +1,1163 @@
+<project name="SUPS_Serverside_Build" default="build-app__clean_build_deploy">
+
+	<target name="build-app__clean_build_deploy" depends="_init-properties,
+                 _clean,
+                 _init-dirs, 
+    			 _define-tasks,                
+                 _call-external-script,
+                 _incremental-gen-compile,
+                 _deploy" />
+
+	<target name="build-app__clean_build_deploy_no_external" depends="_init-properties,
+                 _clean,
+                 _init-dirs, 
+    			 _define-tasks,
+                 _incremental-gen-compile,
+                 _deploy" />
+
+	<target name="_incremental-gen-compile" depends="_incremental_compile_all_application_source,
+        _create_initial_ear,
+        _genbeans-src,
+    	_create-update-conf-jar,
+        _create-update-common-jar,
+
+
+        _genmdbs,
+        _build_content_war,
+        _build_invoker_war,        
+    	_configure_wordprocessing_ear,
+        _generate-compile-and-build-jars,
+        
+        _update-application-name-wsdl,
+        _update_ear_with_jars,
+        _update_ear_with_ws_for_oas" />
+
+	<target name="deploy" depends="build-app__build_deploy" />
+	<target name="build-ear-image" depends="build-app__build" />
+
+	<target name="build-app__build_deploy" depends="   _init-properties,
+                    _init-dirs, _define-tasks,
+                    _call-external-script,  
+                    _incremental-gen-compile, _deploy" />
+
+	<target name="build-app__build_deploy_no_external" depends="   _init-properties,
+                    _init-dirs, _define-tasks,
+                    _incremental-gen-compile, _deploy" />
+
+	<target name="build-app__build" depends="   _init-properties,      
+                    _init-dirs, _define-tasks,
+                    _call-external-script,
+                    _incremental-gen-compile" />
+
+	<target name="build-app__build_no_external" depends="   _init-properties,      
+                        _init-dirs, _define-tasks,
+                        _incremental-gen-compile" />
+
+	<target name="build-app__deploy" depends="   _init-properties,
+                    _deploy
+                 " />
+
+	<target name="_setup_generate-compile-and-build-jars_properties">
+		<!-- Setup default values for paramters-->
+		<property name="product_name" value="${application.name}" />
+	</target>
+
+	<!-- Generates the new directories and copies in files -->
+	<target name="_init-dirs" depends="_init-properties">
+		<mkdir dir="${application.build}" />
+		<mkdir dir="${application_jars}" />
+		<mkdir dir="${application_exp_jars}" />
+		<mkdir dir="${application_gen_src}" />
+		<mkdir dir="${application_conf_src}" />
+		<mkdir dir="${application_wsconfig}" />
+		<mkdir dir="${application_ear}" />
+		<mkdir dir="${application_async_metainf}" />
+		<mkdir dir="${application_war_webinf}" />
+		<mkdir dir="${application.base}/empty" />
+		<mkdir dir="${application_out_of_date_bin}" />
+		<mkdir dir="${application_dist}" />
+		<mkdir dir="${application_dist}/OAS" />
+		<mkdir dir="${application_temp_lib}" />
+	</target>
+
+	<!-- "public" clean task -->
+	<target name="clean" depends="_init-properties,_clean" description="also removes the dist directory">
+		<delete dir="${application_dist}/OAS" />
+	</target>
+
+	<!-- Deletes all files created by the build process in the target directory -->
+	<target name="_clean">
+		<delete dir="${application.build}" />
+		<delete dir="${application_jars}" />
+		<delete dir="${application_exp_jars}" />
+		<delete dir="${application_gen_src}" />
+		<delete dir="${application_wsconfig}" />
+		<delete dir="${application_ear}" />
+		<delete dir="${application_out_of_date_bin}" />
+	</target>
+
+	<!--  
+		Creates the ear and adds all of the pre-built jars to it
+        TODO - add framework jars which should already be compiled
+    -->
+	<target name="_create_initial_ear">
+		<delete file="${application_ear}/${application.name}.ear" failonerror="true" />
+        <var name="framework_jar_path" unset="true" />
+        <property name="framework_jar_path" value="${release.lib}/SUPS-OAS/${framework.jar}" />
+        <property name="authorisation_jar_path" value="${release.lib}/SUPS-OAS/Authorisation.jar" />
+        <echo level="verbose">Using OAS version of the framework; ${framework_jar_path}</echo>
+
+        <if>
+            <not>
+                <isset property="version" />
+            </not>
+            <then>
+                <if>
+                    <available file="${application.conf}/version.properties" type="file" />
+                    <then>
+                        <property file="${application.conf}/version.properties"/>
+                    </then>
+                    <else>
+                        <echo>Didn't find ${application.conf}/version.properties</echo>
+                        <property name="version" value="${frwk.version}" />
+                    </else>
+                </if>
+            </then>
+        </if>
+
+        <delete dir="${application_ear_metainf}/META-INF" failonerror="false"/>
+        <mkdir dir="${application_ear_metainf}/META-INF"/>
+        <if>
+            <isset property="application.lib" />
+            <then>
+                <copy tofile="${application_ear_metainf}/META-INF/TEMP-MANIFEST.MF" file="${jar_manifest}" />
+                <echo level="verbose">modifying manifest for @{bean-name}: ${application.lib}</echo>
+                <for param="jarfile">
+                    <path>
+                        <fileset dir="${application.lib}">
+                            <include name="*.jar" />
+                        </fileset>
+                    </path>
+                    <sequential>
+                        <property name="regex" value="(.*\${file.separator})(.*)" />
+                        <propertyregex property="jarfilename" override="true" input="@{jarfile}" regexp="${regex}" replace="\2" casesensitive="true" />
+                        <echo file="${application_ear_metainf}/META-INF/TEMP-MANIFEST.MF" append="true"> ${jarfilename}</echo>
+                    </sequential>
+                </for>
+            </then>
+        </if>
+        <var unset="true" name="jar-class-path" />
+        <loadfile property="jar-class-path" srcfile="${application_ear_metainf}/META-INF/TEMP-MANIFEST.MF"/>
+        <manifest file="${application_ear_metainf}/META-INF/MANIFEST.MF">
+            <attribute name="Class-Path" value="${jar-class-path}" />
+            <section name="${application.name}">
+                <attribute name="Implementation-Title" value="${application.name}" />
+                <attribute name="Implementation-Version" value="${version} - FRWK: ${frwk.version}" />
+                <attribute name="Implementation-Vendor" value="Electronic Data Systems (EDS)" />
+            </section>
+        </manifest>
+        <jar destfile="${application_ear}/${application.name}.ear" update="false" manifest="${application_ear_metainf}/META-INF/MANIFEST.MF">
+            <fileset file="${framework_jar_path}" />
+            <fileset file="${authorisation_jar_path}" />
+
+            <fileset refid="commons-jars" />
+            <fileset refid="jdom-jars" />
+            <fileset refid="fop-jars" />
+            <fileset refid="rhino-jars" />
+            <fileset refid="jcifs-jars" />
+            <fileset refid="fw-common-jars" />
+            <fileset refid="concurrent-backport-jars" />
+            <fileset dir="${application_wsconfig}">
+                <include name="framework.config.properties" />
+            </fileset>
+
+            <fileset dir="${application.lib}">
+                <include name="*.jar" />
+                <exclude name="**/SUPS-JBOSS/${framework.jar}" />
+                <exclude name="**/SUPS-JBOSS/Authorisation.jar" />
+            </fileset>
+        </jar>
+
+        <delete file="${application_ear_metainf}/META-INF/TEMP-MANIFEST.MF"/>
+	</target>
+
+	<!-- Invokes the custom ant task genbeans which takes the abstract
+         source from the source directory and generates the bean file
+         (including xdoclet tags).
+    -->
+	<target name="_genbeans-src">
+		<echo level="verbose">
+            application_src: ${application_src}
+            checking for: ${application_src}/uk/gov/dca/${application.name}/${sups_config_file}</echo>
+		<if>
+			<available file="${application_src}/uk/gov/dca/${application.name}/${sups_config_file}" type="file" />
+			<then>
+				<property name="application_config_file" value="uk/gov/dca/${application.name}/${sups_config_file}" />
+			</then>
+			<else>
+				<property name="application_config_file" value="uk/gov/dca/db/${sups_config_file}" />
+			</else>
+		</if>
+
+		<echo level="verbose">Using config file application_config_file: ${application_config_file}</echo>
+		<genbeans destdir="${application_gen_src}" rootDir="${application_src}" wsConfigDestDir="${application_wsconfig}" packageName="uk.gov.dca.${application.name}" projectConfig="${project_config_file}" frameworkConfig="${application_config_file}">
+
+		</genbeans>
+	</target>
+
+
+	<target name="_genmdbs" if="using.async">
+		<genmdbs verbose="true" root="${application_src}" packageName="uk.gov.dca.${application.name}" projectConfig="${project_config_file}">
+
+			<ejbjar src="${release_templates}/ejb-jar.xml" dest="${application_async_metainf}/ejb-jar.xml" />
+			<jboss src="${release_templates}/jboss.xml" dest="${application_async_metainf}/jboss.xml" />
+			<orion src="${release_templates}/orion-ejb-jar.xml" dest="${application_async_metainf}/orion-ejb-jar.xml" />
+		</genmdbs>
+		<echo>updating manifest: ${application_gen_src}/@{bean-name}/META-INF/MANIFEST.MF</echo>
+		<delete file="${application_async_metainf}/MANIFEST.MF" failonerror="false"/>
+		<mkdir dir="${application_async_metainf}"/>
+		<manifest file="${application_async_metainf}/MANIFEST.MF">
+			<attribute name="Class-Path" value="${jar-class-path}" />
+			<section name="uk/gov/dca/db/async">
+				<attribute name="Implementation-Title" value="async" />
+				<attribute name="Implementation-Version" value="${application.name} ${version}" />
+				<attribute name="Implementation-Vendor" value="Electronic Data Systems (EDS)" />
+			</section>
+		</manifest>
+		<jar destfile="${application_jars}/async.jar" manifest="${application_async_metainf}/MANIFEST.MF">
+			<metainf dir="${application_async_metainf}">
+				<include name="ejb-jar.xml" />
+				<include name="jboss.xml" />
+				<include name="orion-ejb-jar.xml" />
+			</metainf>
+			<zipfileset src="${release.lib}/SUPS-OAS/${framework.jar}">
+				<include name="uk/gov/dca/db/async/AsyncProcessorMDB.class" />
+			</zipfileset>
+		</jar>
+	</target>
+
+	<target name="_build_content_war" unless="no-build-content-war">
+		<delete file="${application_war_webinf}/web.xml" />
+		<copy todir="${application_war_webinf}" overwrite="true">
+			<fileset dir="${release_resources}/web/content">
+				<include name="web.xml" />
+				<include name="jboss-web.xml" />
+			</fileset>
+			<fileset dir="${release_resources}/web">
+				<include name="jboss-web.xml" />
+			</fileset>
+			<filterset>
+				<filter token="project_config" value="${project_config_path}" />
+				<filter token="APPLICATION_NAME" value="${application.name}" />
+			</filterset>
+		</copy>
+		<!-- generate a nice WAR MANIFEST.MF -->
+		<var unset="true" name="war-class-path" />
+		<loadfile property="war-class-path" srcfile="${war_manifest}"/>
+		<echo>updating manifest: ${application_gen_src}/WAR-META-INF/MANIFEST.MF</echo>
+		<if>
+			<not>
+				<isset property="version" />
+			</not>
+			<then>
+				<property name="version" value="${frwk.version}" />
+			</then>
+		</if>
+		<delete dir="${application_gen_src}/CONTENT-META-INF" failonerror="false"/>
+		<mkdir dir="${application_gen_src}/CONTENT-META-INF"/>
+		<manifest file="${application_gen_src}/CONTENT-META-INF/MANIFEST.MF">
+			<attribute name="Class-Path" value="${war-class-path}" />
+			<section name="uk/gov/dca/db/content/web">
+				<attribute name="Implementation-Title" value="ContentServlet" />
+				<attribute name="Implementation-Version" value="${application.name} ${version} - FRWK: frwk.regex" />
+				<attribute name="Implementation-Vendor" value="Electronic Data Systems (EDS)" />
+			</section>
+		</manifest>
+
+		<war destfile="${application_jars}/sups-content-${application.name}.war" webxml="${application_war_webinf}/web.xml" manifest="${application_gen_src}/CONTENT-META-INF/MANIFEST.MF">
+			<webinf dir="${application_war_webinf}">
+				<include name="jboss-web.xml" />
+			</webinf>
+			<classes src="${release.lib}/SUPS-OAS/${framework.jar}">
+				<include name="uk/gov/dca/db/content/web/ContentServlet.class" />
+			</classes>
+		</war>
+	</target>
+
+	<target name="_build_invoker_war">
+		<delete file="${application_war_webinf}/web.xml" />
+		<copy todir="${application_war_webinf}" overwrite="true">
+			<fileset dir="${release_resources}/web/invoker">
+				<include name="web.xml" />
+			</fileset>
+			<fileset dir="${release_resources}/web">
+				<include name="jboss-web.xml" />
+			</fileset>
+			<filterset>
+				<filter token="project_config" value="${project_config_path}" />
+				<filter token="APPLICATION_NAME" value="${application.name}" />
+				<filter token="SERVICE_CONFIG_DIRECTORY" value="${service_config_directory}" />
+			</filterset>
+		</copy>
+
+		<loadfile property="webxml-remote-ejb-refs" srcfile="${application.build}/wsconfig/uk/gov/dca/${application.name}/webxml-remote-ejb-refs.xml" />
+		<loadfile property="webxml-local-ejb-refs" srcfile="${application.build}/wsconfig/uk/gov/dca/${application.name}/webxml-local-ejb-refs.xml" />
+
+		<replace dir="${application_war_webinf}" includes="web.xml" token="&lt;!--REMOTE_EJB_REFS--&gt;" value="${webxml-remote-ejb-refs}" />
+
+		<replace dir="${application_war_webinf}" includes="web.xml" token="&lt;!--LOCAL_EJB_REFS--&gt;" value="${webxml-local-ejb-refs}" />
+
+		<!-- generate a nice WAR MANIFEST.MF -->
+		<var unset="true" name="war-class-path" />
+		<loadfile property="war-class-path" srcfile="${war_manifest}"/>
+		<echo>updating manifest: ${application_gen_src}/WAR-META-INF/MANIFEST.MF</echo>
+		<if>
+			<not>
+				<isset property="version" />
+			</not>
+			<then>
+				<property name="version" value="${frwk.version}" />
+			</then>
+		</if>
+		<delete dir="${application_gen_src}/INVOKER-META-INF" failonerror="false"/>
+		<mkdir dir="${application_gen_src}/INVOKER-META-INF"/>
+		<manifest file="${application_gen_src}/INVOKER-META-INF/MANIFEST.MF">
+			<attribute name="Class-Path" value="${war-class-path}" />
+			<section name="uk/gov/dca/db/content/web">
+				<attribute name="Implementation-Title" value="InvokerServlet RequestDispatcher" />
+				<attribute name="Implementation-Version" value="${application.name} ${version} - FRWK: ${frwk.version}" />
+				<attribute name="Implementation-Vendor" value="Electronic Data Systems (EDS)" />
+			</section>
+		</manifest>
+		
+		<war destfile="${application_jars}/sups-invoker-${application.name}.war" webxml="${application_war_webinf}/web.xml" manifest="${application_gen_src}/INVOKER-META-INF/MANIFEST.MF">
+			<webinf dir="${application_war_webinf}">
+				<include name="jboss-web.xml" />
+			</webinf>
+			<classes src="${release.lib}/SUPS-OAS/${framework.jar}">
+				<include name="uk/gov/dca/db/invoke/**/*.*" />
+			</classes>
+			<classes src="${release.lib}/SUPS-OAS/${framework.jar}">
+				<include name="uk/gov/dca/db/heartbeat/**/*.*" />
+			</classes>
+			<classes src="${release.lib}/SUPS-OAS/${framework.jar}">
+				<include name="uk/gov/dca/db/check/**/*.*" />
+			</classes>
+			<lib dir="${application_jars}">
+				<include name="conf.jar" />
+			</lib>
+		</war>
+	</target>
+
+	<target name="_generate-compile-and-build-jars">
+		<!-- Check the source of each bean to determine whether or not it should
+             be rebuilt -->
+		<for param="beandir">
+			<path>
+				<dirset dir="${application_src}/uk/gov/dca/${application.name}">
+					<include name="*_service" />
+				</dirset>
+			</path>
+			<sequential>
+				<!-- remove the following two properties -->
+				<var name="bean_name" value="" unset="true" />
+				<var name="bean_src_dir_name" value="" unset="true" />
+				<!-- The following convenience method creates two properties 
+                     from a given directory path:
+                       bean_name is the name of the ejb (eg Cases)
+                       bean_src_dir_name : (eg cases_service)  -->
+				<convertServiceDirToBeanName dirName="@{beandir}" />
+
+				<echo level="verbose">Processing @{beandir}</echo>
+
+				<ProcessServiceBeans bean-name="${bean_name}" bean-src-dir-name="${bean_src_dir_name}" application-name="${application.name}" application-src="${application_src}" application-gen-src="${application_gen_src}" beandir="@{beandir}" />
+
+				<var name="bean_name" value="" unset="true" />
+				<var name="bean_src_dir_name" value="" unset="true" />
+
+			</sequential>
+		</for>
+	</target>
+
+
+	<macrodef name="ProcessServiceBeans">
+		<attribute name="bean-name" />
+		<attribute name="bean-src-dir-name" />
+		<attribute name="application-name" />
+		<attribute name="application-src" />
+		<attribute name="application-gen-src" />
+		<attribute name="beandir" />
+
+		<sequential>
+			<echo level="verbose"> 
+                loaded bean_name: @{bean-name}; bean-src-dir-name: @{bean-src-dir-name} 
+            </echo>
+
+			<!-- Check to see if any files have changed - if they have
+                 rebuild the whole jar -->
+			<outofdate outputsources="outofdatesources" outputtargets="outofdatetargets">
+				<sourcefiles>
+					<fileset dir="@{beandir}">
+						<include name="**/*" />
+					</fileset>
+					<fileset dir="${application_out_of_date_bin}">
+						<include name="uk/gov/dca/@{application-name}" />
+						<include name="uk/gov/dca/common" />
+					</fileset>
+				</sourcefiles>
+				<targetfiles>
+					<path>
+						<pathelement location="${application_jars}/common_application.jar" />
+						<pathelement location="${application_jars}/@{bean-name}.jar" />
+					</path>
+				</targetfiles>
+				<mapper type="glob" from="*.class" to="*.java" />
+				<sequential>
+					<!-- Create the directories required and copy in
+                         MANIFEST.MF file -->
+					<delete file="${application_jars}/@{bean-name}.jar" />
+					<delete dir="${application_exp_jars}/@{bean-name}" />
+					<mkdir dir="${application_exp_jars}/@{bean-name}" />
+					<copy todir="${application_exp_jars}/@{bean-name}">
+						<fileset dir="${release_resources}">
+							<include name="META-INF/MANIFEST.MF" />
+						</fileset>
+					</copy>
+					<copy todir="${application_exp_jars}/@{bean-name}/META-INF">
+						<fileset dir="${framework_conf}">
+							<include name="framework.config.properties" />
+						</fileset>
+						<filterset>
+							<filter token="APPLICATION_NAME" value="${application.name}" />
+							<filter token="PROJECT_CONFIG" value="${project_config_path}" />
+							<filter token="FRAMEWORK_CONFIG" value="${application_config_file}" />
+						</filterset>
+					</copy>
+
+					<!-- Create the rest of the ejb files using ${bean_name)Bean.java
+                         and Xdoclet -->
+                    <var name="ejb.interfaces" value="both" />
+                    <macro__generate_ejb_source_OAS bean-name="@{bean-name}" app-package="uk/gov/dca/@{application-name}" />
+
+					<!-- Compile all java source for the bean -->
+					<macro__compile_bean_source bean-name="@{bean-name}" bean-base-src-dir="@{application-src}:@{application-gen-src}/@{bean-name}:@{application-gen-src}" app-package="uk/gov/dca/@{application-name}" bean-package="uk/gov/dca/@{application-name}/@{bean-src-dir-name}" />
+
+					<!-- Builds all files into a jar of name ${bean_name}.jar -->
+					<macro__build_service_jar bean-name="@{bean-name}" bean-package="uk/gov/dca/@{application-name}/@{bean-src-dir-name}" bean-package-base-dir="@{application-src}" />
+
+				</sequential>
+			</outofdate>
+		</sequential>
+
+	</macrodef>
+
+
+	<!-- Move all of the jars into the ear - also generate application.xml for
+         the META-INF directory -->
+	<target name="_update_ear_with_jars">
+		<!-- Copy in the required files -->
+		<echo>ear_application_xml_file: ${ear_application_xml_file}</echo>
+		<delete file="${application_ear_metainf}/META-INF/application.xml" />
+		<copy tofile="${application_ear_metainf}/META-INF/application.xml" overwrite="true" file="${ear_application_xml_file}">
+			<filterset>
+				<filter token="APPLICATION_NAME" value="${application.name}" />
+				<filter token="$${application.name}" value="${application.name}" />
+			</filterset>
+		</copy>
+		<copy todir="${application_ear_metainf}/META-INF" overwrite="true">
+			<filterset>
+				<filter token="APPLICATION_NAME" value="${application.name}" />
+				<filter token="$${application.name}" value="${application.name}" />
+			</filterset>
+			<fileset dir="${release_resources}/META-INF/ear">
+				<include name="*" />
+				<exclude name="application.xml" />
+			</fileset>
+			<fileset dir="${release_resources}/META-INF/OAS/ear">
+				<include name="*" />
+			</fileset>
+		</copy>
+
+		<!-- 
+            First update the file application.xml with all of the jar files
+        -->
+		<for param="jarfile">
+			<path>
+				<fileset dir="${application_jars}">
+					<include name="*.jar" />
+					<exclude name="conf.jar" />
+					<exclude name="common_application.jar" />
+				</fileset>
+			</path>
+			<sequential>
+				<!-- get the jar file name -->
+				<property name="regex" value="(.*\${file.separator})(.*)" />
+				<propertyregex property="jarfilename" override="true" input="@{jarfile}" regexp="${regex}" replace="\2" casesensitive="true" />
+
+				<echo file="${application_ear_metainf}/META-INF/application.xml" append="true">&lt;module&gt;&lt;ejb&gt;${jarfilename}&lt;/ejb&gt;&lt;/module&gt;</echo>
+			</sequential>
+		</for>
+		<echo file="${application_ear_metainf}/META-INF/application.xml" append="true">&lt;/application&gt;</echo>
+
+		<replace dir="${application_ear_metainf}/META-INF" includes="application.xml" token="@APPLICATION_SERVICE_URI_PREFIX@" value="${application.service.uri.prefix}" />
+
+		<!-- Add jars and application.xml to the ear -->
+		<jar destfile="${application_ear}/${application.name}.ear" update="true">
+			<fileset dir="${application_jars}">
+				<include name="*.jar" />
+				<include name="*.war" />
+			</fileset>
+			<!-- Add  application.xml and app server specific files to ear.-->
+			<fileset dir="${application_ear_metainf}">
+				<include name="**/*" />
+				<exclude name="**/${framework.jar}" />
+				<exclude name="**/Authentication.jar" />
+			</fileset>
+		</jar>
+	</target>
+
+
+	<!-- Build the jar conf.jar -->
+	<target name="_create-update-conf-jar">
+		<mkdir dir="${application_gen_src}/conf_temp" />
+		<copy todir="${application_gen_src}/conf_temp">
+			<fileset dir="${framework_conf}">
+				<exclude name="**/${sups_config_file}" />
+			</fileset>
+			<filterset>
+				<!-- 
+            		configure properties the applications may need access to 
+            		These properties are found in the file:
+            			
+            			framework.config.properties
+            	-->
+				<filter token="APPLICATION_NAME" value="${application.name}" />
+				<filter token="PROJECT_CONFIG" value="${project_config_path}" />
+				<filter token="FRAMEWORK_CONFIG" value="${application_config_file}" />
+			</filterset>
+		</copy>
+		<copy todir="${application_gen_src}/conf_temp">
+			<fileset dir="${framework_src}/services">
+				<include name="**/${project_config_file}" />
+				<include name="**/${sups_config_file}" />
+			</fileset>
+		</copy>
+		<if>
+			<equals arg1="${disable.bean.warming}" arg2="true" />
+			<then>
+				<propertyfile file="${application_gen_src}/conf_temp/service-method-registry.properties" comment="placeholder property file for bean warming" />
+			</then>
+			<else>
+				<copy todir="${application_gen_src}/conf_temp">
+					<fileset dir="${application_wsconfig}">
+						<include name="service-method-registry.properties" />
+					</fileset>
+				</copy>
+			</else>
+		</if>
+		<!-- 
+                 don't rely on newer than functionality of the copy target,
+                 force the application conf files to be the default 
+            -->
+		<if>
+			<available file="${application.conf}" type="dir" />
+			<then>
+				<copy todir="${application_gen_src}/conf_temp" overwrite="true">
+					<fileset dir="${application.conf}">
+						<exclude name="**/config.xml" />
+					</fileset>
+				</copy>
+			</then>
+		</if>
+		<copy todir="${application_gen_src}/conf_temp" overwrite="true">
+			<fileset dir="${application_src}">
+				<include name="**/roles.xml" />
+				<include name="**/${project_config_file}" />
+				<include name="**/${sups_config_file}" />
+			</fileset>
+		</copy>
+		<jar destfile="${application_jars}/conf.jar">
+			<!-- 
+                    copy in default file - then overwrite with locally 
+                    provided one if it exists 
+                -->
+			<fileset dir="${application_gen_src}/conf_temp">
+				<include name="**" />
+				<exclude name="**/config.xml" />
+			</fileset>
+		</jar>
+		<delete dir="${application_gen_src}/conf_temp" />
+	</target>
+
+
+	<target name="_call-external-script" if="custom.ant.build.file" description="give the application a chance to run anything needed">
+		<if>
+			<not>
+				<isset property="custom.ant.build.dir" />
+			</not>
+			<then>
+				<property name="custom.ant.build.dir" value="${application.base}/serverframework/release" />
+			</then>
+		</if>
+		<if>
+			<not>
+				<equals arg1="${custom.ant.build.file}" arg2="" />
+			</not>
+			<then>
+				<echo level="verbose">custom.ant.build.dir: ${custom.ant.build.dir}</echo>
+				<mkdir dir="${application_dist}" />
+				<mkdir dir="${application.base}/serverframework/release/empty" />
+				<ant dir="${custom.ant.build.dir}" antfile="${custom.ant.build.file}" inheritall="true" inheritrefs="true" />
+			</then>
+		</if>
+	</target>
+
+
+
+	<!-- Build common_application.jar   -->
+	<target name="_create-update-common-jar">
+		<echo level="verbose">comparing: ${application_out_of_date_bin}**/common/**/*
+        with files in:
+            ${application_jars}/common_application.jar
+        </echo>
+		<outofdate>
+			<sourcefiles>
+				<fileset dir="${application_out_of_date_bin}">
+					<include name="**/common/**/*" />
+				</fileset>
+			</sourcefiles>
+			<targetfiles path="${application_jars}/common_application.jar" />
+			<mapper type="glob" from="*.class" to="*.java" />
+			<sequential>
+				<echo level="verbose">rebuilding ${application_jars}/common_application.jar
+            </echo>
+
+				<delete file="${application_jars}/common_application.jar" />
+				<delete dir="${application_exp_jars}/common_application" />
+				<mkdir dir="${application_exp_jars}/common_application" />
+
+				<macro__compile_bean_source bean-name="common_application" bean-base-src-dir="${application_src}" app-package="uk/gov/dca/${application.name}" bean-package="uk/gov/dca/${application.name}/common" />
+
+				<macro__build_service_jar bean-name="common_application" bean-package="uk/gov/dca/${application.name}/common" bean-package-base-dir="${application_src}" />
+			</sequential>
+		</outofdate>
+	</target>
+
+
+	<!-- Takes the ${bean_name}Bean.java generated by genbeans and produces
+         all of the required ejb files and various deployment descriptors -->
+	<macrodef name="macro__generate_ejb_source_JBOSS">
+		<attribute name="bean-name" />
+		<attribute name="app-package" />
+
+		<sequential>
+			<echo level="verbose">Generating source for bean @{bean-name}</echo>
+			<ejbdoclet destdir="${application_gen_src}/@{bean-name}" mergeDir="${application.build}/wsconfig" excludedtags="@version,@author" addedtags="@xdoclet-generated at ${TODAY}" ejbspec="2.1" verbose="on">
+
+				<fileset dir="${application_gen_src}">
+					<include name="@{app-package}/@{bean-name}Bean.java" />
+				</fileset>
+				<remoteinterface pattern="{0}Remote" />
+				<localinterface pattern="{0}" />
+				<homeinterface />
+				<localhomeinterface />
+				<service-endpoint pattern="{0}Service" />
+				<deploymentdescriptor destdir="${application_exp_jars}/@{bean-name}/META-INF" />
+				<jboss version="4.0" securityDomain="java:/jaas/other" preferredRelationMapping="relation-table" datasource="java:/DefaultDS" datasourcemapping="Hypersonic SQL" destdir="${application_exp_jars}/@{bean-name}/META-INF" unauthenticatedPrincipal="nobody" />
+			</ejbdoclet>
+
+			<!-- TODO - check the template for hardcoded items -->
+			<wseedoclet wsdlFile="META-INF/wsdl/@{bean-name}.wsdl" jaxrpcMappingFile="META-INF/jaxrpc-mapping.xml" wseeSpec="1.1" destdir="${application_exp_jars}/@{bean-name}" verbose="true">
+
+				<fileset dir="${application_gen_src}">
+					<include name="@{app-package}/@{bean-name}Bean.java" />
+				</fileset>
+
+				<wsdl templateFile="${release_templates}/wsdl/SUPS_wsdl.template" />
+
+				<deploymentdescriptor name="@{bean-name}" destDir="${application_exp_jars}/@{bean-name}/META-INF" />
+
+				<jaxrpc-mapping />
+
+			</wseedoclet>
+
+		</sequential>
+	</macrodef>
+
+	<!-- Takes the ${bean_name}Bean.java generated by genbeans and produces
+         all of the required ejb files and various deployment descriptors -->
+	<macrodef name="macro__generate_ejb_source_OAS">
+		<attribute name="bean-name" />
+		<attribute name="app-package" />
+
+		<sequential>
+			<echo level="verbose">Generating source for bean @{bean-name}</echo>
+			<ejbdoclet destdir="${application_gen_src}/@{bean-name}" mergeDir="${application.build}/wsconfig" excludedtags="@version,@author" addedtags="@xdoclet-generated at ${TODAY}" ejbspec="2.0" verbose="on">
+				<fileset dir="${application_gen_src}">
+					<include name="@{app-package}/@{bean-name}Bean.java" />
+				</fileset>
+				<remoteinterface pattern="{0}Remote" />
+				<localinterface pattern="{0}" />
+				<homeinterface />
+				<localhomeinterface />
+				<deploymentdescriptor destdir="${application_exp_jars}/@{bean-name}/META-INF" />
+				<oc4j destdir="${application_exp_jars}/@{bean-name}/META-INF" mergeDir="${application.build}/wsconfig" />
+			</ejbdoclet>
+		</sequential>
+	</macrodef>
+
+	<!-- Compile all of the source for a given bean (both generated ejb
+         and any other provided in the src directory) -->
+	<macrodef name="macro__compile_bean_source">
+		<attribute name="bean-name" />
+		<attribute name="bean-base-src-dir" />
+		<attribute name="app-package" />
+		<attribute name="bean-package" />
+
+		<sequential>
+			<echo>
+            [srcbasedir] Compiling source for bean @{bean-name}
+            bean-base-src-dir: @{bean-base-src-dir}
+            application_jars: ${application_jars}
+            app-package:    @{app-package}/@{bean-name}*.java
+            bean-package:   @{bean-package}/**/*.java 
+                to
+                ${application_exp_jars}/@{bean-name}                  
+            </echo>
+			<javac sourcepath="" srcdir="@{bean-base-src-dir}" destdir="${application_exp_jars}/@{bean-name}" debug="${compile.debug}" source="${compile.source}" verbose="${compile.verbose}" target="${compile.target}">
+				<classpath>
+					<path refid="project_path" />
+					<fileset dir="${application_jars}">
+						<include name="**/*.jar" />
+					</fileset>
+					<pathelement location="${application_exp_jars}/common_application" />
+					<pathelement location="${application_out_of_date_bin}" />
+				</classpath>
+				<include name="@{app-package}/@{bean-name}*.java" />
+				<include name="@{bean-package}/**/*.java" />
+				<exclude name="**/framework/**.java" />
+			</javac>
+		</sequential>
+	</macrodef>
+
+	<!-- Build the jar for the service, producing @{bean-name}.jar -->
+	<macrodef name="macro__build_service_jar">
+		<attribute name="bean-name" />
+		<attribute name="bean-package" />
+		<attribute name="bean-package-base-dir" />
+		<sequential>
+			<echo level="verbose" message="Building the jar for the service, producing @{bean-name}.jar" />
+			<echo level="verbose">including what should be XML from: 
+                bean-package-base-dir: @{bean-package-base-dir}</echo>
+			<echo>bean-package: @{bean-package}/**/*</echo>
+			<echo>application.lib: ${application.lib}</echo>
+			<if>
+				<isset property="application.lib" />
+				<then>
+					<delete dir="${application_gen_src}/@{bean-name}/META-INF" />
+					<mkdir dir="${application_gen_src}/@{bean-name}/META-INF" />
+					<copy tofile="${application_gen_src}/@{bean-name}/META-INF/TEMP-MANIFEST.MF" file="${jar_manifest}" />
+					<echo level="verbose">modifying manifest for @{bean-name}: ${application.lib}</echo>
+					<for param="jarfile">
+						<path>
+							<fileset dir="${application.lib}">
+								<include name="*.jar" />
+							</fileset>
+						</path>
+						<sequential>
+							<property name="regex" value="(.*\${file.separator})(.*)" />
+							<propertyregex property="jarfilename" override="true" input="@{jarfile}" regexp="${regex}" replace="\2" casesensitive="true" />
+							<echo file="${application_gen_src}/@{bean-name}/META-INF/TEMP-MANIFEST.MF" append="true"> ${jarfilename}</echo>
+						</sequential>
+					</for>
+				</then>
+			</if>
+			<var unset="true" name="jar-class-path" />
+			<loadfile property="jar-class-path" srcfile="${application_gen_src}/@{bean-name}/META-INF/TEMP-MANIFEST.MF"/>
+			<echo>updating manifest: ${application_gen_src}/@{bean-name}/META-INF/MANIFEST.MF</echo>
+			<if>
+				<not>
+					<isset property="version" />
+				</not>
+				<then>
+					<property name="version" value="${frwk.version}" />
+				</then>
+			</if>
+			<manifest file="${application_gen_src}/@{bean-name}/META-INF/MANIFEST.MF">
+				<attribute name="Class-Path" value="${jar-class-path}" />
+				<section name="@{bean-package}">
+					<attribute name="Implementation-Title" value="@{bean-name}" />
+					<attribute name="Implementation-Version" value="${application.name} ${version} - FRWK: ${frwk.version}" />
+					<attribute name="Implementation-Vendor" value="Electronic Data Systems (EDS)" />
+				</section>
+			</manifest>
+			<echo>including files from 
+                    @{bean-package-base-dir}/@{bean-name}      
+                    ${application_exp_jars}/@{bean-name}
+            </echo>
+			<jar destfile="${application_jars}/@{bean-name}.jar" manifest="${application_gen_src}/@{bean-name}/META-INF/MANIFEST.MF" update="false">
+				<fileset dir="@{bean-package-base-dir}">
+					<include name="@{bean-package}/**/*" />
+					<exclude name="**/*.java" />
+				</fileset>
+				<fileset dir="${application_exp_jars}/@{bean-name}">
+					<include name="@{bean-package}/**/*.class" />
+					<include name="**/@{bean-name}*.class" />
+					<include name="META-INF/**" />
+				</fileset>
+			</jar>
+			<delete file="${application_gen_src}/@{bean-name}/META-INF/TEMP-MANIFEST.MF"/>
+		</sequential>
+	</macrodef>
+
+	<target name="_update-application-name-wsdl">
+        <echo message="target platform is: OAS; not updating Authentication.jar" />
+        <echo level="verbose"> copying from: ${release.lib}/SUPS-OAS/Authentication.jar</echo>
+        <copy file="${release.lib}/SUPS-OAS/Authentication.jar" tofile="${application_jars}/Authentication.jar" />
+	</target>
+
+
+	<target name="_update_ear_with_ws_for_oas" if="create.web.services">
+        <replace dir="${application.build}/wsconfig" includes="oasWSConfig.xml" token="$${application.name}" value="${application.name}" />
+
+        <!-- Replace all backslashes -->
+        <propertyregex property="application_ear_dir" override="true" input="${application_ear}" regexp="\\" replace="/" global="true" casesensitive="true" />
+
+        <replace dir="${application.build}/wsconfig" includes="oasWSConfig.xml" token="$${ear.dir}" value="${application_ear}" />
+        <echo level="verbose">Executing ${oas.server.dir}/webservices/lib/WebServicesAssembler.jar</echo>
+        <java jar="${oas.server.dir}/webservices/lib/WebServicesAssembler.jar" fork="true" failonerror="true" classpathref="oas_webservice_gen_path" jvmversion="1.4">
+            <arg value="-config" />
+            <arg path="${application.build}/wsconfig/oasWSConfig.xml" />
+        </java>
+	</target>
+
+	<target name="_deploy" depends="_init-properties,_dist">
+		<copy toDir="${application_dist}/OAS" file="${application_ear}/${application.name}.ear" overwrite="true" />
+        <property name="oas.deploy.dir" value="${application_dist}/OAS" />
+        <copy toDir="${oas.deploy.dir}" file="${application_ear}/${application.name}.ear" overwrite="true" />
+	</target>
+
+
+	<!-- ================================= 
+          target: _configure_wordprocessing_ear              
+         ================================= -->
+	<target name="_configure_wordprocessing_ear" depends="_init-properties">
+		<mkdir dir="${application.build}/wp" />
+		<if>
+			<available file="${release_resources}/ears" />
+			<then>
+				<copy todir="${application.build}/wp">
+					<fileset dir="${release_resources}/ears">
+						<include name="wordprocessing-application.xml" />
+					</fileset>
+					<mapper type="glob" from="wordprocessing-application.xml" to="application.xml" />
+				</copy>
+				<replace dir="${application.build}/wp" includes="application.xml" token="@APPLICATION_NAME@" value="${application.name}" />
+
+				<unjar src="${release_resources}/ears/wordprocessing.ear" dest="${application.build}/wp">
+					<patternset>
+						<include name="**/*.war" />
+					</patternset>
+				</unjar>
+
+				<ear file="${release_resources}/ears/wordprocessing.ear" destfile="${application.build}/wp/wordprocessing.ear" update="true" appxml="${application.build}/wp/application.xml" description="update the wordprocessing ear for the application which will be using it">
+					<fileset dir="${application.build}/wp">
+						<include name="**/*.war" />
+					</fileset>
+				</ear>
+				<delete>
+					<fileset dir="${application.build}/wp">
+						<include name="**/*.war" />
+					</fileset>
+				</delete>
+			</then>
+		</if>
+	</target>
+	<target name="_dist" depends="_init-properties">
+		<copy toDir="${application_dist}/OAS" file="${application_ear}/${application.name}.ear" overwrite="true" />
+	</target>
+
+	<target name="_incremental_compile_all_application_source">
+		<mkdir dir="${application_out_of_date_bin}" />
+		<!-- copy the FrameworkConfigParam.java to build directory for update of application.name and project_config.xml -->
+		<echo level="verbose">
+            building Application src: 
+            ${application_src}
+            and 
+            ${application_gen_src}
+        </echo>
+		<javac sourcepath="" srcdir="${application_src}:${application_gen_src}" destdir="${application_out_of_date_bin}" debug="${compile.debug}" source="${compile.source}" verbose="${compile.verbose}" target="${compile.target}">
+			<classpath>
+				<path refid="project_path" />
+			</classpath>
+			<include name="**/*.java" />
+			<include name="uk/gov/dca" />
+			<exclude name="**/framework/**/*.java" />
+		</javac>
+	</target>
+
+	<!-- A validation task to validate the cases service. -->
+	<!-- Note that if the serviceFolder is not specified then every service in the project is validated. -->
+	<target name="validate-services" depends="_init-properties">
+		<taskdef name="validateservices" classname="uk.gov.dca.db.impl.ServicesValidationTask">
+			<classpath>
+				<path refid="validation.path" />
+				<pathelement location="${release}/lib/SUPS-OAS/${framework.jar}" />
+			</classpath>
+		</taskdef>
+		<validateservices classpathRefId="validation.path" rootDir="${application_src}" packageName="uk.gov.dca.test_project" projectConfig="project_config.xml" frameworkConfig="uk/gov/dca/test_project/${sups_config_file}" serviceFolder="">
+		</validateservices>
+	</target>
+
+	<target name="_init-properties">
+
+		<property environment="env" />
+		<fail if="ejb.interfaces" message="Do not set ejb.interfaces, set target.platform=[JBOSS|OAS] instead; check application.properties, your java -D command parameters, ${user.home}/sups_antuser.properties and the ${user.dir}/sups_antuser.properties file" />
+
+		<!-- 
+                place a file named sups_antuser.properties in in your user home directory 
+                or in your current directory/basedir to override any properties in the builed 
+            -->
+		<property file="${user.dir}/sups_antuser.properties" />
+		<property file="${user.home}/sups_antuser.properties" />
+
+		<tstamp>
+			<format property="TODAY" pattern="yyyy, MMM dd, hh:mm ss" />
+		</tstamp>
+		<tstamp>
+			<format property="build.time" pattern="yyyy, MMM dd, hh:mm ss" />
+		</tstamp>
+		<tstamp>
+			<format property="build.stamp" pattern="yyMMdd.hhmmsss" />
+		</tstamp>
+
+		<property name="application.base" value="${env.PROJECT_BASE}" />
+		<echo>loading: ${application.base}/application.properties</echo>
+		<property file="${application.base}/application.properties" />
+
+		<!-- 
+                Whether to build with debug enabled or not 
+                and what source must be generated and 
+                what is the target system
+            -->
+		<property name="compile.debug" value="true" />
+		<property name="compile.source" value="1.4" />
+		<property name="compile.target" value="1.4" />
+		<property name="compile.verbose" value="false" />
+
+		<!-- The following properties are mandatory - checked for by the "init" task 
+                application.name
+            -->
+
+		<!-- Set default values if not already set in ${env.properties.file} (values are immutable) -->
+		<property name="application_src" value="${application.base}/src" />
+		<property name="application.build" value="${application.base}/build/OAS" />
+		<property name="application.bin" value="${application.base}/OAS/bin" />
+		<property name="application_temp_lib" value="${application.base}/build/OAS/lib" />
+		<property name="application.service.uri.prefix" value="${application.name}" />
+
+		<property name="custom.path" value="" />
+		<property name="application_dist" value="${application.base}/dist" />
+		<property name="custom.ant.build.file" value="" />
+		<property name="application_out_of_date_bin" value="${application.base}/build/OAS/outofdate" />
+
+		<property name="project_config_file" value="project_config.xml" />
+		<property name="sups_config_file" value="sups_config.xml" />
+		<property name="project_config_path" value="uk/gov/dca/${application.name}/${project_config_file}" />
+
+		<!-- Framework specific properties -->
+		<property name="release_dir" value="${basedir}" />
+		<property name="release.lib" value="${release_dir}/lib" />
+		<property name="release_bin" value="${release_dir}/bin" />
+
+		<property name="release_resources" value="${release_dir}/resources" />
+		<property name="release_templates" value="${release_resources}/templates" />
+
+		<property name="framework_services_src" value="${release_dir}/src/services" />
+		<property name="application.conf" value="${application.base}/conf" />
+		<property name="framework_conf" value="${release_dir}/default_conf" />
+		<property name="framework_src" value="${release_dir}/src" />
+
+		<property name="jar_manifest" value="${release_resources}/META-INF/OAS/jar/MANIFEST.MF" />
+		<property name="war_manifest" value="${release_resources}/META-INF/OAS/war/MANIFEST.MF" />
+
+		<property name="ear_application_xml_file" value="${release_resources}/META-INF/ear/application.xml" />
+
+		<!-- This property is required by XDoclet-->
+		<property name="framework.jar" value="xmlquery2.jar" />
+
+		<!-- Define required directories -->
+		<property name="application_jars" value="${application.build}/jars" />
+		<property name="application_gen_src" value="${application.build}/generated_source" />
+		<property name="application_conf_src" value="${application.build}/generated_source" />
+
+		<property name="application_wsconfig" value="${application.build}/wsconfig" />
+		<property name="application_ear" value="${application.build}/ear" />
+		<property name="application_exp_jars" value="${application.build}/exploded_jars" />
+		<property name="application_ear_metainf" value="${application.build}/ear_metainf" />
+		<property name="application_async_metainf" value="${application.build}/async_metainf" />
+		<property name="application_war_webinf" value="${application.build}/war_webinf" />
+
+
+		<echo level="verbose">ant-contrib-jar: ${ant-contrib-jar}</echo>
+		<condition property="ant-contrib-jar" value="${release.lib}/ant-contrib/ant-contrib-1.0b1.jar">
+			<not>
+				<isset property="ant-contrib-jar" />
+			</not>
+		</condition>
+		<echo level="verbose">ant-contrib-jar: ${ant-contrib-jar}</echo>
+		<!-- Ant contrib stuff -->
+		<taskdef resource="net/sf/antcontrib/antcontrib.properties">
+			<classpath>
+				<pathelement location="${ant-contrib-jar}" />
+			</classpath>
+		</taskdef>
+		<echo>using.async: ${using.async}</echo>
+		<if>
+			<equals arg1="${using.async}" arg2="false" />
+			<then>
+				<echo>unsetting using.async: ${using.async}</echo>
+				<var name="using.async" unset="true" />
+			</then>
+		</if>
+
+		<if>
+			<not>
+				<isset property="application.conf" />
+			</not>
+			<then>
+				<if>
+					<available file="${application.base}/conf" type="dir" />
+					<then>
+						<property name="application.conf" value="${application.base}/conf" />
+					</then>
+					<else>
+						<property name="application.conf" value="empty" />
+						<mkdir dir="${application.conf}" />
+					</else>
+				</if>
+			</then>
+		</if>
+		<if>
+			<not>
+				<isset property="application.lib" />
+			</not>
+			<then>
+				<if>
+					<available file="${application.base}/lib" type="dir" />
+					<then>
+						<property name="application.lib" value="${application.base}/lib" />
+					</then>
+					<else>
+						<property name="application.lib" value="empty" />
+						<mkdir dir="${application.lib}" />
+					</else>
+				</if>
+			</then>
+		</if>
+
+		<path id="project_path">
+			<path path="${framework_src}/framework" />
+			<fileset dir="${release.lib}" includes="**/*.jar" />
+			<fileset dir="${application.lib}" includes="**/*.jar" />
+			<fileset dir="${application_jars}" includes="conf.jar" />
+			<fileset refid="concurrent-backport-jars" />
+		</path>
+
+		<path id="validation.path">
+			<fileset refid="jdom-jars" />
+			<fileset refid="jboss-jars" />
+			<fileset refid="rhino-jars" />
+			<fileset refid="commons-jars" />
+			<pathelement location="${application_src}" />
+			<pathelement location="${application.bin}" />
+			<pathelement location="${release.lib}/validation/junit.jar" />
+			<pathelement location="${release.lib}/validation/ant-junit.jar" />
+		</path>
+
+		<path id="oas_webservice_gen_path">
+			<fileset dir="${oas.server.dir}/webservices/lib" includes="**/*.jar" />
+		</path>
+
+		<fileset dir="${release.lib}/xalan" id="jaxp-jars">
+			<include name="xml-apis.jar" />
+		</fileset>
+
+		<fileset dir="${release.lib}/xalan" id="xalan-jars">
+			<include name="*.jar" />
+		</fileset>
+
+		<fileset dir="${release.lib}/jdom" id="jdom-jars">
+			<include name="jaxen-core.jar" />
+			<include name="jaxen-jdom.jar" />
+			<include name="jdom.jar" />
+			<include name="saxpath.jar" />
+		</fileset>
+		<fileset dir="${release.lib}/fop" id="fop-jars">
+			<include name="fop.jar" />
+			<include name="avalon-framework-cvs-20020806.jar" />
+			<include name="batik.jar" />
+		</fileset>
+		<fileset dir="${release.lib}/commons" id="commons-jars">
+			<include name="commons-discovery.jar" />
+			<include name="commons-logging.jar" />
+		</fileset>
+
+		<fileset id="concurrent-backport-jars" file="${release.lib}/concurrent/backport-util-concurrent.jar" />
+
+		<fileset id="jboss-jars" dir="${release.lib}/jboss">
+			<include name="*.jar" />
+		</fileset>
+
+		<fileset file="${release.lib}/javascript/js.jar" id="rhino-jars" />
+		<fileset file="${release.lib}/jcifs/jcifs-1.2.7.jar" id="jcifs-jars" />
+		<fileset file="${release.lib}/fw-common.jar" id="fw-common-jars" />
+
+		<path id="oc4j-standalone-path">
+			<fileset dir="${oc4j_home_dir}/j2ee/home" includes="*.jar" />
+		</path>
+
+		<property file="${framework_conf}/framework.version.properties" />
+		
+		<property name="frwk.regex" value="(.*)ServerFramework_Release_(.*)" />
+		<propertyregex property="frwk.version" override="true" input="${release.label}" regexp="${frwk.regex}" replace="\2" casesensitive="false" />
+		<echo>Searching ${release.label} for ${frwk.regex} and frwk.version = ${frwk.version}</echo>
+		
+		<loadfile property="jar-class-path" srcfile="${jar_manifest}"/>
+		<loadfile property="war-class-path" srcfile="${war_manifest}"/>
+
+		<echo level="verbose">
+        Using Project Base:    ${application.base}
+        Using Properties File: ${application.base}/application.properties
+        application.base is:   ${application.base}
+        application.name is:   ${application.name}
+        application_src:       ${application_src} 
+        jboss.server.dir is:   ${jboss.server.dir}
+        oas.server.dir is:     ${oas.server.dir}
+        application.build is:  ${application.build}
+        application.lib is:    ${application.lib}
+        application.bin is:    ${application.bin}
+        custom.path is:        ${custom.path}
+        Using Async is:        ${using.async}
+        EJB Interfaces:        ${ejb.interfaces}     
+        release.lib:           ${release.lib}
+        service_uri_prefix     ${application.service.uri.prefix} 
+        release.label		   ${release.label}
+		frwk.version		   ${frwk.version}
+        </echo>
+
+	</target>
+
+	<import file="${basedir}/oc4j-build.xml" />
+
+	<target name="_define-tasks" depends="_init-dirs">
+		<!-- Define Tasks -->
+		<taskdef name="genbeans" classname="uk.gov.dca.db.impl.SUPSBeanGeneratorTask" classpathref="project_path" />
+		<taskdef name="genmdbs" classname="uk.gov.dca.db.async.MDBDeploymentTask" classpathref="project_path" />
+		<taskdef name="convertServiceDirToBeanName" classname="uk.gov.dca.db.impl.ConvertServiceDirToBeanName" classpathref="project_path" />
+		<taskdef name="ejbdoclet" classname="xdoclet.modules.ejb.EjbDocletTask" classpathref="project_path" />
+		<taskdef name="wseedoclet" classname="xdoclet.modules.wsee.WseeDocletTask" classpathref="project_path" />
+		<taskdef name="doclet" classname="xdoclet.DocletTask" classpathref="project_path" />
+	</target>
+
+</project>

@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: UserCourt
+	Method:  getUserDetails
+	Author:  Chris Hutt (EDS) 
+	Created: 20 Dec 2005
+	Description: 
+		Retrieve details associated with a specified user's home court.
+-->
+<service-method>
+	<pipeline>
+		<SQLLite format-output="true"
+				 resultset-element="ds"
+				 row-element="UserCourt"
+				 field-name-as="element" >
+			<DataSource id="java:OracleDS"/>
+			<Param name="param.userId" xpath="/params/param[@name='userId']"/>
+			<SQL>
+				SELECT  
+ 						UC.USER_ID   			AS 	"UserId"
+					,   UC.DATE_FROM 			AS	"DateFrom"
+ 					,	UC.DATE_TO     			AS 	"DateTo" 
+ 					, 	UC.HOME_FLAG   			AS 	"HomeFlag" 
+					, 	UC.COURT_CODE			AS 	"CourtCode"
+ 					,	UC.SECTION_NAME 		AS 	"SectionName" 
+				FROM 	USER_COURT UC
+				WHERE 	UC.USER_ID  			= 	${param.userId}
+				AND		UC.HOME_FLAG 			=	'Y'
+				AND 	(	
+							trunc(NVL(UC.DATE_FROM,SYSDATE)) &lt; trunc(SYSDATE)
+						OR  
+							trunc(NVL(UC.DATE_FROM, SYSDATE)) = trunc(SYSDATE)
+						)
+				AND 	(	
+							trunc(NVL(UC.DATE_TO,SYSDATE)) &gt; trunc(SYSDATE)
+						OR  
+							trunc(NVL(UC.DATE_TO,SYSDATE)) = trunc(SYSDATE)
+						)
+			</SQL>
+		</SQLLite>
+  	</pipeline>
+	<Security roles="viewOnly medium high wcSuper scSuper bmsSuper aeSuper dmSuper"/>
+</service-method>
+
+

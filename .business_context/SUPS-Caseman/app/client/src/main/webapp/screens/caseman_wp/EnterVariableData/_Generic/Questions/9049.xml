@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>9049</Id>
+	<Label>Order to be served by (in days)</Label>
+	<ObjectName>DaysServedby</ObjectName>
+	<Html>	
+		<input id="DaysServedby" type="text" size="2"></input>	
+	</Html>
+	<Javascript>
+		<XPath>/ds/EnterVariableData/DaysServedby</XPath>
+		<HintText>Enter number of days order is to be served by</HintText>
+        <mandatoryOn>DaysServedby.dataBinding</mandatoryOn>
+		<isMandatory>return true;</isMandatory>	
+        <isEnabled>return true;</isEnabled> 
+        <validateOn>DaysServedby.dataBinding</validateOn>
+		<validate>
+			var val = Services.getValue(DaysServedby.dataBinding);
+			var err = WPU.validateInteger( val );
+			if( null == err )
+			{	if( val &lt;= 0 )
+				{	err =  ErrorCode.getErrorCode("CaseMan_negativeAmountEntered_Msg"); 
+				}
+			}	
+			return err;
+		</validate>  
+	</Javascript>
+</Question>

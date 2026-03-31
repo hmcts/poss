@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- 
+Change History
+	29/01/2013 - Chris Vincent, hide field for the CJR032 outputs (Trac 4763)
+-->
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>143</Id>
+	<Label>Select one of the following</Label>
+	<ObjectName>SelectItemLsB</ObjectName>
+	<Html>		
+		<select id="SelectItemLsB">
+			<option value=""></option>
+			<option value="D">The defendant has filed a defence, a copy of which is enclosed</option>
+			<option value="DCC">The defendant has filed a defence and a counterclaim, copies of which are enclosed</option>				
+			<option value="CC">The defendant has filed a counterclaim, a copy of which is enclosed</option>					
+			<option value="CD">copy defence already sent - time elapsed</option>
+			<option value="CDF">copy defence already sent - time elapsed, Final Defence/Counterclaim enclosed</option>			
+			<option value="CDS">copy defences already sent - time elapsed</option>
+			<option value="CDSF">copy defences already sent - time elapsed, Final Defence/Counterclaim enclosed</option>	
+		</select>
+	</Html>
+	
+	<Context screenId="CJR032A"><isVisible>false</isVisible></Context>
+	<Context screenId="CJR032B"><isVisible>false</isVisible></Context>
+	<Context screenId="CJR032C"><isVisible>false</isVisible></Context>
+	
+	<Javascript>
+		<XPath>/ds/EnterVariableData/Filed/selectItemLsB</XPath>
+		<HintText>Select one of the following from the list available</HintText>
+		<isMandatory>return true;</isMandatory>
+	</Javascript>
+</Question>

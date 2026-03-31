@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<QueryDef>
+	<DBMapDef location="uk/gov/dca/caseman/ae_service/map_employer_details.xml" />
+	<Query pivotNode="/Employers/Employer" tables="P"></Query>
+	<Query pivotNode="/Employers/Employer/ContactDetails/Addresses/Address" tables="GA">
+<!--		<Join>
+	    	GA.PARTY_ID = ${P.PARTY_ID}
+	    </Join>
+-->	
+	</Query>
+
+</QueryDef>

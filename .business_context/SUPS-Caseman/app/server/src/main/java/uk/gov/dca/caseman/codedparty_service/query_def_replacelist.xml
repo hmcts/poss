@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: Codedparty
+	Method:  getCodedPartiesReplaceList()
+	File:    query_def_replacelist.xml
+	Author:  Chris Vincent
+	Created: 14 November 2005
+	Description: 
+	
+	Change History:
+	30-Nov-2005 Phil Haferer (EDS): Removed unnecessary outer join, added ADDRESS_TYPE_CODE to 'where' clause,
+				removed reference to VALID_TO as Coded Parties do not have historical addresses.
+	08-Dec-2005 Phil Haferer (EDS): Added 'notModifiable' so that unnecessary SCN tags are not returned.
+-->
+<QueryDef>
+  <DBMapDef location="uk/gov/dca/caseman/codedparty_service/map_replacelist.xml"/>
+  <Query pivotNode="/CodedParties/CodedParty" tables="P CP GA">
+	  <Join>
+		    P.PARTY_ID  = CP.PARTY_ID 
+		AND GA.PARTY_ID = P.PARTY_ID 	
+		AND GA.ADDRESS_TYPE_CODE = 'CODED PARTY'
+      </Join>
+	  <Modify notModifiable="true"/>
+  </Query>
+</QueryDef>

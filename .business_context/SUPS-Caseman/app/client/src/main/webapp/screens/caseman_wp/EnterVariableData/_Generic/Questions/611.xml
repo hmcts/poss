@@ -1,0 +1,27 @@
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>611</Id>
+	<Label>Date amount to be paid on or before</Label>
+	<ObjectName>OnOrBeforeDate</ObjectName>
+
+	<Html>	
+		<script type="text/javascript">
+			WP_DatePickerRenderer.createInline("OnOrBeforeDate");
+		</script>
+	</Html>			
+	<Javascript>
+		<XPath>/ds/EnterVariableData/Settlement/onOrBeforeDate</XPath>
+		<componentName>##label##</componentName>
+		<isMandatory>return true;</isMandatory>
+		<HintText>Enter date amount to be paid on or before in the format DD-MMM-YYYY</HintText>	
+		<validateOn>OnOrBeforeDate.dataBinding</validateOn>
+		<validate>return isInFuture(Services.getValue(OnOrBeforeDate.dataBinding));</validate>		
+		<enableOn>PayDirctToOtherParty.dataBinding</enableOn>
+		<isEnabled>return('Y' == Services.getValue(PayDirctToOtherParty.dataBinding));</isEnabled>
+		<logicOn>PayDirctToOtherParty.dataBinding</logicOn>
+		<logic>
+			if('Y' != Services.getValue(PayDirctToOtherParty.dataBinding))
+			{	Services.setValue(OnOrBeforeDate.dataBinding, "");
+			}
+		</logic>	
+	</Javascript>
+</Question>

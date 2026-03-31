@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<service-method>
+	<pipeline>
+		<Query>
+			<QueryDef location="uk/gov/dca/caseman/case_event_service/query_def_get_instigator_label.xml"/>
+			<QueryExtension pivotNode="/CaseEvent/Instigator">
+				<Param name="param.eventId" xpath="/params/param[@name = 'eventId']"/>
+				<Constraint>CCBC.RV_LOW_VALUE = ${param.eventId}</Constraint>
+			</QueryExtension>
+		</Query>
+	</pipeline>
+	<Security roles="user"/>
+</service-method>

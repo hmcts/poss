@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+Change History:
+	15/11/2006 Chris Vincent: Added AEA.CAPS_SEQUENCE to the map.  Required for UCT Defect 669.
+	22-Mar-2007 Chris Vincent: Added the UserAlias node under AEEvent.  CaseMan Defect 6000.
+	23-Mar-2007 Mark Groen: TD 6039. Added tag ...Output\ReportId
+	11-Nov-2009 Chris Vincent: Changed the <OwningCourtCode> from AE Issuing Court to Case Owning Court.  Trac 1667.
+	25/11/2009 Chris Vincent: Changed map so that /AEEvent/CourtCode return Case Owning Court instead of AE Issuing Court.  Trac 2437
+	10/11/2011 - Des Johnston, Added ISSUING_CRT_CODE for ManageAEEvents to only allow a user at the issuing court to access the 
+	                           AE Fees/refunds screen - for Trac 2480
+	25/11/2015 - Chris Vincent:	Added <WelshEmployer> node.  Trac 5725.
+	12/10/2016 - Chris Vincent: Added <Jurisdcition> node.  Trac 5883
+	14-Oct-2016 Chris Vincent - Added <FlagConfidentiality> node.  Trac 5880
+-->
+<DBMapDef>
+  <DataSource id="java:OracleDS"/>
+  <Tables>
+    <Table alias="AE"  name="AE_EVENTS"/>
+    <Table alias="AEA" name="AE_APPLICATIONS"/>
+    <Table alias="C"   name="CASES"/>
+    <Table alias="CT"  name="COURTS"/>
+    <Table alias="PR1"  name="PARTY_ROLES"/>
+    <Table alias="P1"   name="PARTIES"/>
+    <Table alias="OB"  name="OBLIGATIONS"/>
+    <Table alias="CPR1" name="CASE_PARTY_ROLES"/>
+    <Table alias="REF" name="CCBC_REF_CODES"/>
+    <Table alias="REF2" name="CCBC_REF_CODES"/>
+    <Table alias="SE"  name="STANDARD_EVENTS"/>
+    <Table alias="PR2"  name="PARTY_ROLES"/>
+    <Table alias="P2"   name="PARTIES"/>
+    <Table alias="CPR2" name="CASE_PARTY_ROLES"/>
+    <Table alias="W" name="WARRANTS"/>
+    <Table alias="GA" name="GIVEN_ADDRESSES"/>
+    <Table alias="H" name="HEARINGS"/>
+	<Table alias="PY" name="PAYMENTS"/>
+	<Table alias="WO" name="WP_OUTPUT"/>
+	<Table alias="RO" name="REPORT_OUTPUT"/>
+	<Table alias="RQ" name="REPORT_QUEUE"/>
+	<Table alias="API" name="AE_PER_ITEMS"/>
+  </Tables>  
+  <Mapping>
+<ManageAEEvents>
+	
+	<CaseNumber>${AEA.CASE_NUMBER}</CaseNumber>
+	<AENumber>${AEA.AE_NUMBER}</AENumber>
+	<OwningCourtCode>${C.ADMIN_CRT_CODE}</OwningCourtCode>
+	<OwningCourtName>${CT.NAME}</OwningCourtName>
+	<IssuingCourtCode>${AEA.ISSUING_CRT_CODE}</IssuingCourtCode>
+	<ApplicationType>${AEA.AE_TYPE}</ApplicationType>
+	<ApplicationTypeDescription>${REF.RV_MEANING}</ApplicationTypeDescription>
+	<ActiveObligationsExist>${OB.ACTIVE_OBLIGATIONS}</ActiveObligationsExist>
+	<DeletedObligationsExist>${OB.DELETED_OBLIGATIONS}</DeletedObligationsExist>
+	<WelshParties>${C.WELSH_PARTIES}</WelshParties>
+	<WelshEmployer>${C.WELSH_EMPLOYER}</WelshEmployer>
+	<Jurisdiction>${C.JURISDICTION}</Jurisdiction>
+	<OutstandingWarrant>${W.IS_OUTSTANDING}</OutstandingWarrant>
+	<PaymentsExist>${PY.PAYMENTS_EXIST}</PaymentsExist>
+	<AEPERItemsExist>${API.AEPERITEMS_EXIST}</AEPERItemsExist>
+	<CAPSSequence>${AEA.CAPS_SEQUENCE}</CAPSSequence>
+	<FlagConfidentiality>${C.CONFIDENTIAL}</FlagConfidentiality>
+	<FutureHearings>
+		<Hearing>
+			<HearingDate>${H.HRG_DATE}</HearingDate>	
+			<HearingType>${H.HRG_TYPE}</HearingType>	
+		</Hearing>
+	</FutureHearings>
+	<PERNDRDetails>
+		<PERRateExists>${AEA2.PER_RATE_EXISTS}</PERRateExists>
+		<PERRateCurrency>${AEA.AMOUNT_OF_AE_CURRENCY}</PERRateCurrency>
+		<PERRate>${AEA.PROTECTED_EARNINGS_RATE}</PERRate>
+		<PERPeriod>${AEA.PROTECTED_EARNINGS_PERIOD}</PERPeriod>
+		<NDRRateCurrency>${AEA.AMOUNT_OF_AE_CURRENCY}</NDRRateCurrency>
+		<NDRRate>${AEA.NORMAL_DEDUCTION_RATE}</NDRRate>
+		<NDRPeriod>${AEA.NORMAL_DEDUCTION_PERIOD}</NDRPeriod>
+	</PERNDRDetails>
+	
+	<JudgmentDebtor>
+		<PartyRoleCode>${AEA.PARTY_AGAINST_PARTY_R_CODE}</PartyRoleCode>
+		<PartyRoleDescription>${PR1.PARTY_ROLE_DESCRIPTION}</PartyRoleDescription>
+		<CasePartyNumber>${AEA.PARTY_AGAINST_CASE_PARTY_N}</CasePartyNumber>
+		<PartyName>${P1.PERSON_REQUESTED_NAME}</PartyName>
+		<SubServiceAddressExists>${GA.IS_SERV_ADDRESS}</SubServiceAddressExists>
+		<PartyKey>${P1.PARTY_KEY}</PartyKey>
+	</JudgmentDebtor>
+	<JudgmentCreditor>
+		<PartyRoleCode>${AEA.PARTY_FOR_PARTY_ROLE_CODE}</PartyRoleCode>
+		<PartyRoleDescription>${PR2.PARTY_ROLE_DESCRIPTION}</PartyRoleDescription>
+		<CasePartyNumber>${AEA.PARTY_FOR_CASE_PARTY_NO}</CasePartyNumber>
+		<PartyName>${P2.PERSON_REQUESTED_NAME}</PartyName>
+		<PartyKey>${P2.PARTY_KEY}</PartyKey>
+	</JudgmentCreditor>
+<AEEvents>
+<AEEvent>
+	<AEEventSeq>${AE.AE_EVENT_SEQ}</AEEventSeq>
+	<CaseEventSeq>${AE.CASE_EVENT_SEQ}</CaseEventSeq>
+	<CaseNumber>${AEA.CASE_NUMBER}</CaseNumber>
+	<AENumber>${AE.AE_NUMBER}</AENumber>
+	<StandardEventId>${AE.STD_EVENT_ID}</StandardEventId>
+	<StandardEventDescription>${SE.DESCRIPTION}</StandardEventDescription>
+	<EditDetails>${SE.EDIT_DETAILS}</EditDetails>
+	<StandardEventCategory>${SE.CATEGORY}</StandardEventCategory>
+	<EventDetails>${AE.DETAILS}</EventDetails>
+	<EventDate>${AE.EVENT_DATE}</EventDate>
+	<UserName>${AE.USERNAME}</UserName>
+	<UserAlias>${AE.USERALIAS}</UserAlias>
+	<ReceiptDate>${AE.DATE_ENTERED}</ReceiptDate>
+	<Stage>${AE.ISSUE_STAGE}</Stage>
+	<Service>${AE.SERVICE_STATUS}</Service>
+	<BailiffId>${AE.BAILIFF_IDENTIFIER}</BailiffId>
+	<ServiceDate>${AE.SERVICE_DATE}</ServiceDate>
+	<ProcessDate>${AE.PROCESS_DATE}</ProcessDate>
+	<CourtCode>${C.ADMIN_CRT_CODE}</CourtCode>
+	<ErrorInd>${AE.ERROR_INDICATOR}</ErrorInd>
+	<Obsolete>${REF2.OBSOLETE}</Obsolete>
+	<Status>${STATUS}</Status>
+	<Outputs>
+		<Output>
+			<Type>${OUTPUT.TYPE}</Type>
+			<Final>${OUTPUT.FINAL_IND}</Final>
+			<OutputId>${OUTPUT.OUTPUT_ID}</OutputId>
+			<Description>${OUTPUT.DESCRIPTION}</Description>
+			<DocumentId>${OUTPUT.DOCUMENT_ID}</DocumentId>
+			<ReportId>${OUTPUT.REPORT_ID}</ReportId>
+		</Output>
+	</Outputs>
+</AEEvent>
+</AEEvents>
+</ManageAEEvents>
+  </Mapping>
+</DBMapDef>

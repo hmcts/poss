@@ -1,0 +1,22 @@
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>579</Id>
+	<Label>Further terms of order</Label>
+	<ObjectName>FurtherTerms</ObjectName>
+	<Html>	
+		<input type="text" id="FurtherTerms"></input>
+	</Html>			
+	<Javascript>
+		<XPath>/ds/EnterVariableData/Interlocutory/furtherTerms</XPath>
+		<componentName>##label##</componentName>
+		<isMandatory>return true;</isMandatory>
+		<HintText>Enter the terms of any other orders e.g. costs</HintText>			
+		<enableOn>HasOtherOrders.dataBinding</enableOn>
+		<isEnabled>return('Y' == Services.getValue(HasOtherOrders.dataBinding));</isEnabled>
+		<logicOn>HasOtherOrders.dataBinding</logicOn>
+		<logic>
+			if('Y' != Services.getValue(HasOtherOrders.dataBinding))
+			{	Services.setValue(FurtherTerms.dataBinding, "");
+			}
+		</logic>		
+	</Javascript>
+</Question>

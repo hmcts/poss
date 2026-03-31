@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>820</Id>
+	<Label>Dismissed/struckout/adjourned</Label>
+	<ObjectName>DisStrAdj</ObjectName>
+	<Html>
+		<select id="DisStrAdj">
+			<option value = ""></option>
+			<option value = "ADJ">Adjourned</option>
+			<option value = "DIS">Dismissed</option>
+			<option value = "STRUCK">Struck out</option>
+		</select>
+	</Html>
+	<Javascript>
+		<XPath>/ds/EnterVariableData/DisStrAdj</XPath>
+		<componentName>##label##</componentName>
+		<HintText>Enter whether dismissed, struck out or adjourned - LOV available</HintText>
+		<isMandatory>return true;</isMandatory>
+		<mandatoryOn>DisStrAdj.dataBinding</mandatoryOn>
+	</Javascript>
+</Question>

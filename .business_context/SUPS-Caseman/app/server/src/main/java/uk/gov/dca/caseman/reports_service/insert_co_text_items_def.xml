@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<QueryDef>
+	<DBMapDef location="uk/gov/dca/caseman/reports_service/insert_co_text_items_map.xml"/>
+	
+	<Query pivotNode="/insert_co_text_items/row" tables="CTI">
+		<Modify>
+			<CheckExists table="CTI" fields="CO_TEXT_CO_NUMBER CO_TEXT_EVENT_SEQ CO_TEXT_ORDER_ID CO_TEXT_DETAIL_CODE" useOptimisticLock="false" onExist="update" onNotExist="add"/>
+		</Modify>
+	</Query>
+	
+</QueryDef>

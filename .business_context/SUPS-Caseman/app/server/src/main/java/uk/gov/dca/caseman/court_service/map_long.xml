@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: Court
+	File:    map_long.xml
+	Author:  Chris Hutt (EDS)
+	Created: 24 November 2005
+	Description: Retrieves the data for a court
+	Change History
+	09-Feb-2010 - Chris Vincent, Trac 2629, included the Welsh Court Name fields in the map
+	07-Sep-2012 - Chris Vincent, Trac 4718, added DRTelephoneNumber to the map
+-->
+<DBMapDef>
+  <DataSource id="java:OracleDS"/>
+  <Tables>
+    <Table alias="CT" name="COURTS"/>
+    <Table alias="GA" name="GIVEN_ADDRESSES"/>
+  </Tables>
+  <Mapping>
+    <Courts>
+    	<Court>
+    		<CourtCode>${CT.CODE}</CourtCode>
+    		<CourtName>${CT.NAME}</CourtName>
+			<WelshHighCourtName>${CT.WELSH_HIGH_COURT_NAME}</WelshHighCourtName>
+			<WelshCountyCourtName>${CT.WELSH_COUNTY_COURT_NAME}</WelshCountyCourtName>			
+			<ID>${CT.ID}</ID>
+			<DistrictRegistry>${CT.DISTRICT_REGISTRY}</DistrictRegistry>
+			<GroupingCourt>${CT.WFT_GROUPING_COURT}</GroupingCourt>
+			<DMCourtCode>${CT.DM_COURT_CODE}</DMCourtCode>
+			<ContactDetails>
+				<DX>${CT.DX_NUMBER}</DX>
+				<FaxNumber>${CT.FAX_NO}</FaxNumber>
+				<TelephoneNumber>${CT.TEL_NO}</TelephoneNumber>
+				<DRTelephoneNumber>${CT.DR_TEL_NO}</DRTelephoneNumber>
+		        <Addresses>
+					<Address>
+						<Type>${GA.ADDRESS_TYPE_CODE}</Type>
+						<AddressId>${GA.ADDRESS_ID}</AddressId>
+						<Line>${GA.ADDRESS_LINE1}</Line>
+						<Line>${GA.ADDRESS_LINE2}</Line>
+						<Line>${GA.ADDRESS_LINE3}</Line>
+						<Line>${GA.ADDRESS_LINE4}</Line>
+						<Line>${GA.ADDRESS_LINE5}</Line>
+						<PostCode>${GA.POSTCODE}</PostCode>
+						<DateFrom>${GA.VALID_FROM}</DateFrom>
+						<DateTo>${GA.VALID_TO}</DateTo>
+					</Address>
+				</Addresses>
+			</ContactDetails>
+			<SUPSCourt>${CT.SUPS_CENTRALISED_FLAG}</SUPSCourt>
+    	</Court>
+    </Courts>	
+  </Mapping>
+</DBMapDef>

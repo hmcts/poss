@@ -1,0 +1,15 @@
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>655</Id>
+	<Label>Beneficiary's name (where applicable)</Label>
+	<ObjectName>Beneficiary</ObjectName>
+	<Html>	
+		<input type="text" id="Beneficiary" size="50"></input>
+	</Html>		
+	
+	<Javascript>
+		<XPath>/ds/EnterVariableData/InvestmentSchedule/Beneficiary/Name</XPath>
+		<componentName>##label##</componentName>
+		<isMandatory>return false;</isMandatory>
+		<HintText>Enter name of Beneficiary, if different from Litigation friend</HintText>			
+	</Javascript>
+</Question>

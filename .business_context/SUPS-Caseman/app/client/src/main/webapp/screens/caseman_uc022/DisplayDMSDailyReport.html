@@ -1,0 +1,155 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3c.org/TR/html4/strict.dtd">
+<html>
+	<head>
+		<title>DisplayDMSDailyReport</title>
+		<link href="DisplayDMSDailyReport.css" type="text/css" rel="stylesheet" title="Default">
+		<script type="text/javascript" src="../../Framework.js"></script>
+		<script type="text/javascript" src="../../ConcatCommon.js"></script>
+		<script type="text/javascript" src="DisplayDMSDailyReport.js"></script>
+		<script type="text/javascript" src="DisplayDMSDailyReport_MenuBarCode.js"></script>
+	</head>
+	
+	<body>
+		
+		<form name="DMSDailyReport" id="DMSDailyReport">
+			
+			<!-- Framework Navigation Menu -->
+			<script type="text/javascript">MenuBarRenderer.createInline();</script> 
+				
+			<table class="layout">
+
+				<tr>
+					<td>
+						<!-- Header Panel -->
+						<div class="panel">
+							<table class="content">
+								<tr>
+									<td class="defaultLabel"><label for="Header_OwningCourtCode">Owning Court</label></td>
+									<td><input id="Header_OwningCourtCode" type="text" size=5></td>
+									<td><input id="Header_OwningCourtName" type="text" size=35></td>
+									<td style="width:90px;">&nbsp;</td>
+									<td><input id="Header_DisplayOverdueObligationsBtn" type="button" value="Display Overdue Obligations" class="headerField"></td>
+									<td><input id="Header_DeleteObligationsBtn" type="button" value="Delete Overdue Obligations" class="headerField"></td>
+								</tr>
+								
+								<tr>
+									<td colspan="6">
+										<table>
+											<tr>
+												<td style="width:115px;"><label for="DMS_Query_StartDate">Start Date</label></td>
+												<td>
+													<script type="text/javascript">
+														DatePickerRenderer.createInline("DMS_Query_StartDate", false);
+													</script>
+												</td>
+												<td style="width:115px;"><label for="DMS_Query_EndDate">End Date</label></td>
+												<td>
+													<script type="text/javascript">
+														DatePickerRenderer.createInline("DMS_Query_EndDate", false);
+													</script>
+												</td>
+												<td style="width:135px;"><label for="DMS_Query_ObligationTypeCode">Obligation Type</label></td>
+												<td><input type="text" id="DMS_Query_ObligationTypeCode" size="3"></td>
+												<td>
+													<script type="text/javascript">
+														AutoCompletionRenderer.createInline("DMS_Query_ObligationTypeName");
+													</script>
+												</td>
+												<td><input id="DMS_Query_ObligationTypeLOVBtn" type="Button" value="LOV"></td>
+											</tr>
+										</table>
+									</td>
+								</tr>
+							</table>
+						</div>
+						<!-- End Header Panel -->
+					</td>
+				</tr>
+				
+				<!-- Start Overdue Obligations Panel -->
+				<tr>
+					<td>
+						<div class="panel">
+							<table class="content" style="height: 503px;">
+								<tr>
+									<td valign="top">
+										<!-- Start Results Table -->
+										<table>
+											<tr>
+												<td>
+													<script type="text/javascript">
+														Grid.createInline("Results_ResultsGrid",
+																		  ["Type", "Case Number", "Expiry Date", "User ID", "Notes"],
+																		  25,														 
+																		  1																	 
+														);
+													</script>
+												</td>
+											</tr>
+											<tr>
+												<td><input id="ObligationDescription_Txt"></td>
+											</tr>
+											<tr>
+												<td align="right">
+													<input id="Results_PreviousButton" type="Button" value="Previous" style="width: 70px; margin-right:5px;" />
+													<input id="Results_NextButton" type="Button" value="Next" style="width: 70px; margin-right:5px;" />
+												</td>
+											</tr>
+										</table>
+										<!-- End Results Table -->
+									</td>
+								</tr>							
+							</table>
+						</div>
+					</td>
+				</tr>
+				<!-- End Overdue Obligations Panel -->
+
+			</table>
+
+			<!-- Status Bar Panel -->
+			<script type="text/javascript">
+				ActionBarRenderer.createInline(
+					"status_bar",
+					[
+						{id: "Status_ClearBtn", label: "Clear"},
+						{id: "Status_CloseBtn", label: "Close"}
+					]
+				);
+			</script>
+			<!-- End Status Bar Panel -->
+			
+			<!-- Oracle Reports Progress Bar Popup -->
+			<div id="ProgressIndicator_Popup" class="popup">
+				<div id="ProgressIndicator_Panel" class="panel">
+					<table class="content" cellspacing="5">
+						<tr>
+							<td><label for="Progress_Bar">Generating Report</label></td>
+						</tr>
+						<tr>
+							<td><input size="67" type="text" id="Progress_Bar"></td>
+						</tr>
+						<tr>
+							<td id="Progress_Status"></td>
+						</tr>
+					</table>
+				</div>
+				<div id="ProgressIndicator_ActionBarContainer">
+					<script type="text/javascript">
+						ActionBarRenderer.createInlineNoStatusBar(
+							"ProgressIndicator_ActionBar",
+							[
+								{label: "Cancel", id: "Popup_Cancel"}
+							]
+						);	
+					</script>
+				</div>
+			</div>
+			<!-- End Oracle Reports Progress Bar Popup -->
+			
+			<!-- LOV POPUPs -->
+			<script type="text/javascript">LOVSubformRenderer.createInline( "DMS_Query_ObligationTypeLOV", "Obligation Types", ["Type", "Description"], 10, 1, true );</script>
+		
+		</form>
+	</body>
+</html>

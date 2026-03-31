@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    Change History:
+    5-oct-2006 Chris Hutt TD5618: employer name held in PARTIES.PERSON_REQUESTED_NAME
+-->
+<DBMapDef>
+  <DataSource id="java:OracleDS"/>
+  <Tables>
+    <Table alias="AE" name="AE_APPLICATIONS"/>
+    <Table alias="C" name="CASES"/>
+    <Table alias="GA" name="GIVEN_ADDRESSES"/>
+    <Table alias="CPR" name="CASE_PARTY_ROLES"/>
+    <Table alias="PR" name="PARTY_ROLES"/>
+    <Table alias="P" name="PARTIES"/>
+	<Table alias="P2" name="PARTIES"/>
+    <Table alias="CT" name="COURTS"/>
+    <Table alias="CP" name="CODED_PARTIES"/>	
+  </Tables>  
+  <Mapping>
+	<PartyQueryResults>
+		<PartyQueryResult>
+			
+			<CaseNumber>${AE.CASE_NUMBER}</CaseNumber>
+			<AENumber>${AE.AE_NUMBER}</AENumber>
+			
+			<JudgmentDebtor>
+				<PartyName>${P.PERSON_REQUESTED_NAME}</PartyName>
+				<ContactDetails>
+					<Address>
+						<Line>${GA.ADDRESS_LINE1}</Line>
+						<Line>${GA.ADDRESS_LINE2}</Line>
+					</Address>
+				</ContactDetails>
+			</JudgmentDebtor>
+			
+		</PartyQueryResult>
+	</PartyQueryResults>
+ </Mapping>
+ </DBMapDef>

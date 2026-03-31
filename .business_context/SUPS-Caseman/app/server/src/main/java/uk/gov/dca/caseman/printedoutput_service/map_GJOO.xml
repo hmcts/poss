@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<DBMapDef>
+  <DataSource id="java:OracleDS"/>
+  <Tables>
+	<Table alias="CE"  name="CASE_EVENTS" />
+  </Tables>
+  <Mapping>
+	<ds>
+		<JudgmentOrderOutput>
+			<CaseNumber>${CASE_NUMBER}</CaseNumber>
+			<EventId>${STD_EVENT_ID}</EventId>		
+			<EventSeq>${EVENT_SEQ}</EventSeq>		
+			<JudgmentId>${JUDGMENT_ID}</JudgmentId>
+		</JudgmentOrderOutput>	
+	</ds>
+  </Mapping>
+</DBMapDef>

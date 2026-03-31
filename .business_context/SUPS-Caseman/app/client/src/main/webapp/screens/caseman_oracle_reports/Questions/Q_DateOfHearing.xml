@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--Question xmlns="http://eds.com/questionxhtml" xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd"-->
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>Q_DateOfHearing</Id>
+	<Label>Date of Hearing</Label>
+	<ObjectName>DateOfHearing</ObjectName>
+	<Html>
+		<script type="text/javascript">
+			DatePickerRenderer.createInline("DateOfHearing", false);
+		</script>
+	</Html>
+	<Javascript>
+		<XPath>/ds/var/page/OracleReportForm/DateOfHearing</XPath>
+		<ReportVariableName>HRG_DATE</ReportVariableName>
+		<ParameterType>H</ParameterType>
+		<ReportVariableCode>900</ReportVariableCode>
+		<ReportVariableValue>Services.getValue(DateOfHearing.dataBinding)</ReportVariableValue>
+		<HintText>Enter the date for the Hearing (format DD-MON-YYYY)</HintText>
+		<isMandatory>return true;</isMandatory>
+		<initialise></initialise>
+		<setDefault>
+		</setDefault>		
+		<validateOn>DateOfHearing.dataBinding</validateOn>
+		<validate>
+			// defect uct 577 - - MGG 28/04/2006
+			var dateOfHearing = Services.getValue(DateOfHearing.dataBinding);
+			var dateOfHearingObj = CaseManUtils.isBlank(dateOfHearing) ? null : CaseManUtils.createDate(dateOfHearing);
+			var ec = null;
+			if(dateOfHearingObj != null){
+			  ec = validateHearingDate(dateOfHearingObj);     
+			}
+			return ec;
+		</validate>
+		<miscCode>
+			function validateHearingDate(dateObj)
+			{    
+			  var todayDateObj = CaseManUtils.createDate(getTodaysDate());
+			  var errCode = null;
+			  var comparison = CaseManUtils.compareDates(dateObj, todayDateObj);
+			  if(comparison == 1 || comparison == 0){
+			    errCode = ErrorCode.getErrorCode("CaseMan_dateCanOnlyBeInTheFuture_Msg");
+			  }     
+			  return errCode;   
+			}
+		</miscCode>
+	</Javascript>
+</Question>

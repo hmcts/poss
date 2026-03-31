@@ -1,0 +1,22 @@
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>578</Id>
+	<Label>Were other orders made e.g. cost?</Label>
+	<ObjectName>HasOtherOrders</ObjectName>
+	<Html>	
+		<input type="checkbox" id="HasOtherOrders"></input>
+	</Html>			
+	<Javascript>
+		<XPath>/ds/EnterVariableData/Interlocutory/hasOtherOrders</XPath>
+		<componentName>##label##</componentName>
+		<modelValue>checked: "Y", unchecked: "N"</modelValue>
+		<HintText>Check box if other orders were made e.g. cost</HintText>		
+		<enableOn>OrderToProduce.dataBinding</enableOn>
+		<isEnabled>return( 'N16' == Services.getValue(OrderToProduce.dataBinding));</isEnabled>
+		<logicOn>OrderToProduce.dataBinding</logicOn>
+		<logic>
+			if( 'N16' != Services.getValue(OrderToProduce.dataBinding))
+			{	Services.setValue(HasOtherOrders.dataBinding, "N");
+			}
+		</logic>		
+	</Javascript>
+</Question>

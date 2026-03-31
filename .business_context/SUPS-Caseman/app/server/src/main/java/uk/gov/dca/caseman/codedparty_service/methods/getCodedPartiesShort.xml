@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: Codedparty
+	Method:  getCodedPartiesShort()
+	File:    getCodedPartiesShort.xml
+	Author:  
+	Created: 
+	Description: 
+		Retrieves a list of Coded Parties containing only the Code and the Name of the Coded Party.
+
+	Change History:
+	30-Nov-2005 Phil Haferer (EDS): Added header & description. Changed constraint.
+-->
+<service-method>
+	<pipeline>
+		<Query>
+  			<QueryDef location="uk/gov/dca/caseman/codedparty_service/query_def_short.xml"/>
+		  	<QueryExtension pivotNode="/CodedParties/CodedParty">				
+    				<Param name="param.adminCourtCode" xpath="/params/param[@name = 'adminCourtCode']"/>
+					<Constraint>
+						   CP.ADMIN_COURT_CODE = ${param.adminCourtCode}
+						OR CP.ADMIN_COURT_CODE = 0
+					</Constraint>
+			</QueryExtension>		
+		</Query>
+  	</pipeline>
+	<Security roles="viewOnly medium high wcSuper scSuper bmsSuper aeSuper dmSuper cpSuper ccbcMan ccbcUser ccbcSGB2"/>	
+</service-method>

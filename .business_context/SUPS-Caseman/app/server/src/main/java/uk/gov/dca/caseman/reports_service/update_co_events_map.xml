@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<DBMapDef>
+	<DataSource id="java:OracleDS"/>
+	<Tables>
+		<Table alias="COE" name="CO_EVENTS"/>
+	</Tables>
+	<Mapping>
+        <update_co_events>
+            <row>
+    			<CO_TEXT_EVENT_SEQ>${COE.CO_EVENT_SEQ}</CO_TEXT_EVENT_SEQ>
+    			<HRG_SEQ>${COE.HRG_SEQ}</HRG_SEQ>
+				<WARRANT_ID>${COE.WARRANT_ID}</WARRANT_ID>
+				<DETAILS>${COE.DETAILS}</DETAILS>
+            </row>
+        </update_co_events>
+	</Mapping>
+</DBMapDef>

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- This method is not to be called directly from the client-->
+<!-- but from the UpdateProfileCustomProcessor -->
+<service-method>
+	<pipeline>
+		<Update>
+			<QueryDef location="uk/gov/dca/caseman/user_service/query_def_update_dca_user.xml"/>
+			<DataSource xpath="/params/param[@name='maintainUser']"/>
+		</Update>
+	</pipeline>
+	<Security roles="admin"/> 	
+</service-method>

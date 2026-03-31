@@ -1,0 +1,22 @@
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>502</Id>
+	<Label>Sort code</Label>
+	<ObjectName>SortCode</ObjectName>
+	<Html>	
+		<input type="text" id="SortCode"></input>
+	</Html>			
+	<Javascript>
+		<XPath>/ds/EnterVariableData/ThirdPartyDebt/sortCode</XPath>
+		<componentName>##label##</componentName>
+		<isMandatory>return false;</isMandatory>
+		<HintText>Enter the sort code</HintText>		
+		<enableOn>IsBankOrBuildSoc.dataBinding</enableOn>
+		<isEnabled>return('Y' == Services.getValue(IsBankOrBuildSoc.dataBinding));</isEnabled>
+		<logicOn>IsBankOrBuildSoc.dataBinding</logicOn>
+		<logic>
+			if('Y' != Services.getValue(IsBankOrBuildSoc.dataBinding))
+			{	Services.setValue(SortCode.dataBinding);
+			}
+		</logic>	
+	</Javascript>
+</Question>

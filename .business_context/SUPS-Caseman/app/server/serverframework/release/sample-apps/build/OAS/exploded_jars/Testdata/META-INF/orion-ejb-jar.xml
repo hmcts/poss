@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE orion-ejb-jar PUBLIC "-//Evermind//DTD Enterprise JavaBeans 1.1 runtime//EN" "http://xmlns.oracle.com/ias/dtds/orion-ejb-jar.dtd">
+<orion-ejb-jar deployment-version="9.0.3.0.0">
+
+   <enterprise-beans>
+
+      <!-- Session Beans deployment -->
+
+            <session-deployment name="TestdataService"                 
+                            pool-cache-timeout="0"
+              location="TestdataService"
+
+            >
+
+            </session-deployment>
+
+      <!-- Entity Beans deployment -->
+
+      <!-- Message Driven Beans deployment -->
+
+     <!--
+       To add additional beans that you have deployment descriptor info for, put
+       a file in your XDoclet merge directory called oc4j-beans.ent that contains
+       the session-deployment, entity-deployment or message-driven-deployment
+       markup for those beans.
+     -->
+    </enterprise-beans>
+
+</orion-ejb-jar>

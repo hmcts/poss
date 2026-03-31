@@ -1,0 +1,140 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+
+<html>
+  <head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">  
+	<script language="JavaScript" type="text/javascript" src="../WP.js"></script>
+
+	<script language="JavaScript" type="text/javascript" src="../WPCtrlVar.js"></script>
+	<script language="JavaScript" type="text/javascript" src="../WPCtrlErr.js"></script>
+	<script language="JavaScript" type="text/javascript" src="../WPCtrl.js"></script>
+	<script language="JavaScript" type="text/javascript" src="../WPPF.js"></script>
+	<script language="JavaScript" type="text/javascript" src="../WPOutput.js"></script>
+	<script language="JavaScript" type="text/javascript" src="../WPRequest.js"></script>
+	<script language="JavaScript" type="text/javascript" src="../WPProcess.js"></script>
+
+
+	<script language="JavaScript" type="text/javascript">
+			
+			var wpctrl = null;
+
+			// JsUnit Assertion Tests		
+			function init()
+			{
+				testCreateController();
+				testGetInstance();
+			}
+			
+			
+			
+			function testCreateController()
+			{	
+				wpctrl = new WPCtrl();
+				if (null == wpctrl) throw new Error("testCreateController failed")
+			}
+			
+			function testGetInstance() 
+			{
+				var inst = WPCtrl.GetInstance();
+				alert("GetInstance pass: " + (wpctrl == inst))
+				if (wpctrl != inst) throw new Error("testCreateController failed")
+			}
+
+			function testConfigureController()
+			{
+			}			
+				
+			function setup()
+			{
+			}		
+			
+			function teardown()
+			{
+				//Services.removeNode('/ds/data');
+			}	
+
+			function loadFromFile(fileName)
+			{
+				var dom = XML.createDOM(null, null, null);
+				dom.load(fileName);
+				Services.removeNode('/ds/data');
+				Services.addNode(dom, '/ds');
+			}
+
+			
+			dumpProperties = function(object, msg)
+			{
+				var cons;
+				try {
+					cons = object.constructor.toString();
+				}
+				catch(e) {
+					cons = "unknown";
+				}
+
+				var propNames = "";
+				var lines = 0;
+				for(var name in object)
+				{
+					var propValue;
+					try{
+					  if(object[name] == undefined)
+					  	propValue = "undefined";
+					  else
+					  		propValue = object[name].toString();
+					}
+					catch(e)
+					{
+					  propValue = "unknown";
+					}
+					propNames += name + ": " + propValue + "\n";
+
+					lines++;
+					if(lines > 10)
+					{
+						alert(msg + "class: " + cons + "\n" + propNames);
+						lines = 0;
+						propNames = "";
+					}
+
+				}
+
+				var output = msg + "class: " + cons + "\n" + propNames;
+				alert(output);
+				Logging.logMessage(output, Logging.LOGGING_LEVEL_TRACE);
+			}
+		</script>
+
+		<style>
+			div.testResults
+			{
+				font-weight: normal;
+				background-color: #00FF00;
+			}
+			div.testFailResults
+			{
+				font-weight: normal;
+				background-color: #FF0000;
+			}
+			div.testTitle
+			{
+				font-size: 14px;
+				font-weight: bold;
+			}
+			
+			div.testResult
+			{
+				font-weight: bold;
+			}
+		</style>
+	</head>
+
+	<body onload="init()">
+
+		
+
+
+
+	</body>
+</html>

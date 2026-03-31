@@ -1,0 +1,119 @@
+<!-- ===========================================================================
+ = SUPS - CASEMAN
+ =
+ = Name:        build-set-classpath.xml
+ = Description: Build file to set classpath containing 3rd party and application libraries. 
+ =
+ = $Revision: $
+ = $Author: $
+ = $Date: $
+ = $URL: $
+ =
+ = Copyright CGI UK 2016
+ =========================================================================== -->
+
+
+<project name="build-set-classpath" basedir=".">
+
+	<!-- Add jars from directory to which all mcol application jars are written -->
+	<path id="lib.app.dir">
+		<fileset dir="${lib.app.dir}">
+			<include name="*.jar" />
+		</fileset>
+	</path>
+
+	<!-- Add jars from directory to which all mcol test jars are written -->
+	<path id="lib.test.dir">
+		<fileset dir="${lib.test.dir}">
+			<include name="*.jar" />
+		</fileset>
+	</path>
+
+	<!-- Set 3rd party and mcol application jars to classpath for building 'src' code in all projects -->
+	<!-- Start of  Temporary injection of client jars form 1.4 setup -->
+	<path id="3rd-party.dir">
+		<filelist dir="C:/sups/tools.legacy/extracted">
+			<file name="dbunit-2.3.0-prj/dbunit-2.3.0.jar" />
+			<file name="fop-0.20.5/build/fop.jar" />
+			<file name="fop-0.20.5/lib/avalon-framework-cvs-20020806.jar" />
+			<file name="jakarta-log4j-1.2.8/dist/lib/log4j-1.2.8.jar" />
+			<file name="junit3.8.1/junit.jar" />
+			<file name="slf4j-1.5.6/slf4j-jdk14-1.5.6.jar" />
+			<file name="slf4j-1.5.6/slf4j-api-1.5.6.jar" />
+			<file name="slf4j-1.5.6/slf4j-ext-1.5.6.jar" />
+			<file name="slf4j-1.5.6/slf4j-jcl-1.5.6.jar" />
+			<file name="selenium-remote-control-1.0-beta-1/selenium-java-client-driver-1.0-beta-1/selenium-java-client-driver.jar" />
+			<file name="XEP/lib/xep.jar" />
+		</filelist>
+		<filelist dir="C:/sups/tools.legacy/java/oracle">
+			<file name="dms.jar" />
+			<file name="oc4j.jar" />
+			<file name="ojdbc14.jar" />
+			<file name="ojdbc14dms.jar" />
+			<file name="servlet.jar" />
+		</filelist>
+		<filelist dir="C:/sups/tools.legacy/java">
+			<file name="ant/apache-ant-1.8.2.jar" />
+			<file name="sups-common/sups-test-common-0.61.jar" />
+			<file name="jdom/jdom.jar" />
+		</filelist>
+		<filelist dir="/serverframework/release/lib">
+			<file name="/commons/commons-discovery.jar" />
+			<file name="/commons/commons-logging.jar" />
+			<file name="/javascript/js.jar" />
+			<file name="/jdom/jaxen-core.jar" />
+			<file name="/jdom/jaxen-jdom.jar" />
+			<file name="/jdom/jdom.jar" />
+			<file name="/jdom/saxpath.jar" />
+			<file name="/oracle/ojdbc14.jar" />
+			<file name="/oracle/ojdbc14dms.jar" />
+			<file name="/oracle/orai18n.jar" />
+			<file name="/xdoclet/commons-collections-2.0.jar" />
+			<file name="/xdoclet/commons-logging.jar" />
+			<file name="/xdoclet/log4j.jar" />
+			<file name="/xdoclet/maven-xdoclet-plugin-1.2.2.jar" />
+			<file name="/xdoclet/xdoclet-1.2.2.jar" />
+			<file name="/xdoclet/xdoclet-apache-module-1.2.2.jar" />
+			<file name="/xdoclet/xdoclet-ejb-module-1.2.2.jar" />
+			<file name="/xdoclet/xdoclet-java-module-1.2.2.jar" />
+			<file name="/xdoclet/xdoclet-jboss-module-1.2.2.jar" />
+			<file name="/xdoclet/xdoclet-jmx-module-1.2.2.jar" />
+			<file name="/xdoclet/xdoclet-mockobjects-module-1.2.2.jar" />
+			<file name="/xdoclet/xdoclet-mx4j-module-1.2.2.jar" />
+			<file name="/xdoclet/xdoclet-oracle-module-1.2.2.jar" />
+			<file name="/xdoclet/xdoclet-orion-module-1.2.2.jar" />
+			<file name="/xdoclet/xdoclet-web-module-1.2.2.jar" />
+			<file name="/xdoclet/xdoclet-wsee-module-1.2.2.jar" />
+			<file name="/xdoclet/xdoclet-xdoclet-module-1.2.2.jar" />
+			<file name="/xdoclet/xjavadoc-1.1.jar" />
+			<file name="/SUPS-OAS/xmlquery2.jar" />
+			<file name="/oracle/jms.jar" />
+			<file name="/axis/axis.jar" />
+			<file name="/axis/jaxrpc.jar" />
+			<file name="/oracle/ejb.jar" />
+			<file name="/fw-common.jar" />
+		</filelist>
+	</path>
+
+	<!-- End of Temporary injection of client jars from 1.4 setup -->
+	<path id="build.src.classpath">
+		<path refid="3rd-party.dir" />
+		<path refid="lib.app.dir" />
+
+	</path>
+
+	<!-- Set classpath for tests -->
+	<path id="build.test.classpath">
+		<path refid="3rd-party.dir" />
+		<path refid="lib.app.dir" />
+		<path refid="lib.test.dir" />
+	</path>
+
+	<!-- Set classpath for batch tests -->
+	<path id="build.batch.test.classpath">
+		<path refid="3rd-party.dir" />
+		<path refid="lib.batch.app.dir" />
+		<path refid="lib.test.dir" />
+	</path>
+
+</project>

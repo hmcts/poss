@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>9179</Id>
+	<Label>Date documents to be collected by</Label>
+	<ObjectName>CollectedByDate</ObjectName>
+	<Html>
+		<script type="text/javascript">WP_DatePickerRenderer.createInline("CollectedByDate", false);</script>
+	</Html>
+
+	<Context screenId="L_4_11"><isVisible>false</isVisible></Context>
+	
+	<Javascript>
+		<XPath>/ds/EnterVariableData/collectedByDate</XPath>
+		<HintText>Select date documents to be collected</HintText>
+		<validateOn>CollectedByDate.dataBinding</validateOn>
+		<validate>
+			//Date picker: error message “The value does not conform to a valid date format of DD-MMM-YYYY”.
+			//Validation: Date cannot be in the past
+            return isInFuture(Services.getValue(CollectedByDate.dataBinding),"false");
+		</validate>		
+
+		<Context ScreenId="L_10_1_2_15_16">
+			<isMandatory>return ("4" == Services.getValue(SelectLetter.dataBinding))</isMandatory> 
+			<mandatoryOn>SelectLetter.dataBinding</mandatoryOn>
+			<enableOn>SelectLetter.dataBinding</enableOn>
+			<isEnabled>return ("4" == Services.getValue(SelectLetter.dataBinding))</isEnabled>
+			<logicOn>SelectLetter.dataBinding</logicOn>
+			<logic>
+				if("4" != Services.getValue(SelectLetter.dataBinding))
+				{	
+					Services.setValue(CollectedByDate.dataBinding, "");
+				}
+			</logic>
+		</Context>
+		
+	</Javascript>
+</Question>

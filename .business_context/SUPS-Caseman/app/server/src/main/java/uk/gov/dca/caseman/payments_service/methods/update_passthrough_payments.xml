@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: Payments
+	Method: updatePassthroughPayments()
+	File: update_passthrough_payments.xml
+	Author: Tony White
+	Description:
+		Updates passthrough payment details.
+-->
+<service-method>
+	<pipeline>
+		<Java callStyle="new">
+			<Source class="uk.gov.dca.caseman.payments_service.java.UpdatePassthroughsCustomProcessor" />
+		</Java>
+	</pipeline>	
+	<Dependencies>
+		<Dependency serviceName="WarrantReturns" />
+		<Dependency serviceName="Bms" />
+		<Dependency serviceName="Warrant" />
+		<Dependency serviceName="SystemData" />
+		<Dependency serviceName="Co" />
+		<Dependency serviceName="CoEvent" />
+		<Dependency serviceName="Case" />
+		<Dependency serviceName="CaseEvent" />
+	</Dependencies>	
+	<Security roles="medium high wcSuper scSuper bmsSuper aeSuper dmSuper" />	
+</service-method>

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<QueryDef>
+<DBMapDef location="uk/gov/dca/caseman/judgment_refdata_service/map_instalment_period.xml"/>
+  <Query pivotNode="/JudgmentInstalmentPeriods/JudgmentInstalmentPeriod" tables="CRC">
+    <Join>
+    	CRC.RV_DOMAIN = 'INSTALMENT_PERIOD'
+   </Join>
+   <OrderBy>CRC.RV_MEANING</OrderBy>
+   <Modify notModifiable="true"/>	
+  </Query>
+</QueryDef>

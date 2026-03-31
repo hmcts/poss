@@ -1,0 +1,32 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: Hearing
+	Method:  updateCaseEventDetails()
+	File:    update_case_event_details.xml
+	Author:  Phil Haferer (EDS)
+	Created: 27 July 2006
+	Description: 
+		Update the DETAILS column the given Case Event.
+
+        The HRG_SEQ alone is enough to uniquely identify the CASE_EVENTS row,
+        but using the additional constraints is more robust, and may allow an 
+        existing index to used to locate row.
+-->
+<service-method>
+	<pipeline>
+		<SQLLite output="input">
+			<DataSource id="java:OracleDS"/>
+			<Param name="param.details" xpath="/params/param[@name='details']"/>
+			<Param name="param.caseNumber" xpath="/params/param[@name='caseNumber']"/>
+			<Param name="param.hrgSeq" xpath="/params/param[@name='hrgSeq']"/>
+			<SQL type="update" tables="CE">
+                UPDATE CASE_EVENTS CE 
+                SET    CE.DETAILS      = ${param.details}
+                WHERE  CE.CASE_NUMBER  = ${param.caseNumber}
+                AND    CE.STD_EVENT_ID = 200
+                AND    CE.HRG_SEQ      = ${param.hrgSeq}
+			</SQL>
+		</SQLLite>
+	</pipeline>
+	<Security roles="user"/>
+</service-method>

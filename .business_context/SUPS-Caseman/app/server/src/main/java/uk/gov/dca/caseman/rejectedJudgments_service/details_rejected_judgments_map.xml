@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<DBMapDef>
+	<DataSource id="java:OracleDS"/>
+	
+	<Tables>
+		<Table alias="RJ" name="REJECT_JUDGMENTS"/>		
+		<Table alias="RR" name="REJECT_REASONS" />
+		<Table alias="RV" name="CCBC_REF_CODES" />
+	</Tables>
+	
+	<Mapping>
+		<RejectedJudgments>
+			<RejectedJudgment>
+				
+				<SlipCodeLine1>${RJ.SLIP_CODELINE_1}</SlipCodeLine1>
+				<SlipCodeLine2>${RJ.SLIP_CODELINE_2}</SlipCodeLine2>
+				<PayeeBankSortCode>${RJ.PAYEE_BANK_SORT_CODE}</PayeeBankSortCode>
+				<PayeeAccHolder>${RJ.PAYEE_ACC_HOLDER}</PayeeAccHolder>
+				<PayeeBankName>${RJ.PAYEE_BANK_NAME}</PayeeBankName>
+				<PayeeBankInfo1>${RJ.PAYEE_BANK_INFO_1}</PayeeBankInfo1>
+				<PayeeBankInfo2>${RJ.PAYEE_BANK_INFO_2}</PayeeBankInfo2>
+				<PayeeBankAccNo>${RJ.PAYEE_BANK_ACC_NO}</PayeeBankAccNo>
+				<PayeeGiroAccNo>${RJ.PAYEE_GIRO_ACC_NO}</PayeeGiroAccNo>
+				<PayeeGiroTransCode1>${RJ.PAYEE_GIRO_TRANS_CODE_1}</PayeeGiroTransCode1>
+				<PayeeGiroTransCode2>${RJ.PAYEE_GIRO_TRANS_CODE_2}</PayeeGiroTransCode2>
+				<PayeeApacsTransCode>${RJ.PAYEE_APACS_TRANS_CODE}</PayeeApacsTransCode>
+				
+			</RejectedJudgment>
+		</RejectedJudgments>
+		
+	</Mapping>
+</DBMapDef>

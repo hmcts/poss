@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>844</Id>
+	<Label>Notice Type</Label>
+	<ObjectName>NoticeType2Ent</ObjectName>
+	<Html>		
+		<select id="NoticeType2Ent">
+			<option value=""></option>
+			<option value="HRG">Hearing</option>
+			<option value="OTH">Other</option>
+		</select>
+	</Html>
+	<Javascript>
+		<XPath>/ds/EnterVariableData/NoticeType2Ent</XPath>
+		<componentName>##label##</componentName>
+		<HintText>Enter the type of notice - list available</HintText>
+		<isMandatory>return true;</isMandatory>
+		<mandatoryOn>NoticeType2Ent.dataBinding</mandatoryOn>
+	</Javascript>
+</Question>
+

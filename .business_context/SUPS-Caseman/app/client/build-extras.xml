@@ -1,0 +1,243 @@
+<!-- ===========================================================================
+ = MCOL
+ =
+ = Name:    	build.xml
+ = Description: Build file to build extra artefacts specific to a particular project.
+ =
+ = $Revision: $
+ = $Author: $
+ = $Date: $
+ = $URL: $
+ =
+ = Copyright Logica UK Ltd. 2012
+ =========================================================================== -->
+
+<project name="domain-extras" basedir=".">
+
+
+	<import file="caseman_client_build.xml" />
+
+	<!-- Calls extra build distribution targets required by this project. -->
+	<!-- <target name="dist-extras" depends="include-client-framework, build-war, deploy-war-4CM" -->
+	<target name="dist-extras" depends="build-war" description="Run extra targets for this project">
+		<echo level="info" message="Running dist extra targets for project: ${ant.project.name}" />
+	</target>
+
+	<!-- Calls extra build deploy targets required by this project. -->
+	<target name="deploy-extras" depends="" description="Run extra targets for this project">
+		<echo level="info" message="Running deploy extra targets for project: ${ant.project.name}" />
+	</target>
+
+	<target name="init" description="Initialise for build.">
+		<mkdir dir="${precompile.dir}" />
+	</target>
+
+	<!-- Get contents of client framework which needs to be included with application specific web files -->
+	<target name="-copy-client-framework" depends="init">
+
+		<!-- Unzip client framework into assemble temporary directory since it will form part of the client WAR file -->
+		<unzip src="${maven.repository.dir}/framework/client-framework/0.0.1-SNAPSHOT/client-framework-release.zip" dest="${assemble.temp.dir}">
+
+			<patternset>
+				<include name="**/*.*" />
+			</patternset>
+		</unzip>
+
+		<!-- Copy files we want to apply tokens to -->
+		<copy todir="${assemble.dir}" overwrite="true" encoding="ISO-8859-15">
+			<fileset dir="${assemble.temp.dir}">
+				<include name="*.js" />
+				<include name="*.html" />
+				<include name="*.css" />
+				<exclude name="stylesheet.css" />
+			</fileset>
+
+			<filterset>
+				<filter token="client_framework.images_path" value="./images" />
+				<filter token="client_framework.webapp-root" value="/${application.name}" />
+			</filterset>
+
+			<!-- PRECOMPILE: -->
+			<filterset>
+				<filter token="PRECOMPILE_DESTINATION_DIR" value="${precompile.dir}" />
+				<filter token="USE_CLIENTBUILD_SERVICE" value="false" />
+			</filterset>
+		</copy>
+
+		<!-- Copy files we don't want to apply tokens to - avoids corruption of gifs
+		     which occurs when we copy them with the filter set for some reason -->
+		<copy todir="${assemble.dir}" overwrite="true" encoding="ISO-8859-15">
+			<fileset dir="${assemble.temp.dir}">
+				<exclude name="*.js" />
+				<exclude name="*.html" />
+				<exclude name="*.css" />
+			</fileset>
+		</copy>
+
+		<!-- PRECOMPILE: include precompiled files -->
+		<copy todir="${assemble.dir}" overwrite="true" encoding="ISO-8859-15">
+			<fileset dir="${precompile.dir}">
+				<include name="*.js" />
+			</fileset>
+		</copy>
+
+		<!-- Get rid of temporary directory as it is only needed for token substitution -->
+		<delete dir="${assemble.temp.dir}" failonerror="false" />
+
+	</target>
+
+	<!-- Copy 'web' resources -->
+	<target name="-copy-web-resources" description="Copy any resources in the webapp directory">
+
+		<copy todir="${assemble.dir}" overwrite="true" includeemptydirs="false"
+			 encoding="ISO-8859-15">
+			<fileset dir="./${webapp.dir}">
+				<include name="**/*.js" />
+				<include name="**/*.html" />
+				<include name="**/*.css" />
+				<include name="**/*.xsd" />
+				<include name="xml/*.xml" />
+				<exclude name="**/*.xsl" />
+				<exclude name="**/common/*.*" />
+				<exclude name="**/concat.includes" />
+				<!-- exclude top level stylesheet.css only -->
+				<exclude name="stylesheet.css" />
+				<exclude name="**/*.template" />
+			</fileset>
+			<filterset>
+				<filter token="client_framework.images_path" value="/${application.name}/images" />
+				<filter token="client_framework.webapp-root" value="/${application.name}" />
+				<filter token="wp_directory_root" value="." />
+			</filterset>
+		</copy>
+
+		<!-- Copy files we don't want to apply tokens to - avoids corruption of gifs which occurs when we 
+			copy them with the filter set for some reason -->
+		<copy todir="${assemble.dir}" overwrite="true" includeemptydirs="false"
+			 encoding="ISO-8859-15">
+			<fileset dir="./${webapp.dir}">
+				<exclude name="**/*.js" />
+				<exclude name="**/*.html" />
+				<exclude name="**/*.css" />
+				<exclude name="**/*.xsl" />
+				<exclude name="**/common/*.*" />
+				<exclude name="**/concat.includes" />
+				<!-- exclude top level stylesheet.css only -->
+				<exclude name="stylesheet.css" />
+				<exclude name="**/*.template" />
+			</fileset>
+		</copy>
+
+		<!-- Copy the common files so they can be concatenated. These are copied to the top level not to common. -->
+		<copy todir="${assemble.dir}" overwrite="true" includeemptydirs="false"
+			 encoding="ISO-8859-15">
+			<fileset dir="./${webapp.dir}/common">
+				<include name="*.*" />
+				<exclude name="**/*.xsl" />
+				<exclude name="**/concat.includes" />
+				<!-- exclude top level stylesheet.css only -->
+				<exclude name="stylesheet.css" />
+			</fileset>
+		</copy>
+
+		<!-- Copy .template files and drop the .template suffix. These contain unresolved property names which
+	            are essential in the deployed environment. Note that the non .template equivalent files have already 
+	            been templatized by now by the configure-property-files target so that they are available in the 
+	            Eclipse bin directory. These must be overwritten by the .template version in the target directory 
+	            from which deployment is done. -->
+		<copy todir="${assemble.dir}" overwrite="true" includeemptydirs="false"
+			 encoding="ISO-8859-15">
+			<fileset dir="${webapp.dir}" casesensitive="false">
+				<include name="**/*.template" />
+			</fileset>
+			<mapper type="glob" from="*.template" to="*" />
+		</copy>
+	</target>
+
+	<!-- Copy classes (assumed to be built already) -->
+	<target name="-copy-web-classes" description="Copy classes from target directory">
+		<copy todir="${assemble.dir}/WEB-INF/classes" overwrite="true">
+			<fileset dir="${classes.dir}" casesensitive="false">
+				<include name="**/*.*" />
+			</fileset>
+		</copy>
+	</target>
+
+	<!-- Copy log4j config file into place where it will be expanded into a file in the file 
+	    system. Unless this is donw Spring will not find it during its initialisation as it is 
+	    only able to read log4j.xml from the file system and not from inside a jar file (it 
+	    actually lives in the utils.jar). -->
+	<target name="-copy-log4j" description="Copy log4j configuration file">
+		<!--
+		<copy todir="${assemble.dir}/WEB-INF/classes" overwrite="true">
+			<fileset dir="${utils.dir}/${src.dir}" casesensitive="false">
+				<include name="**/log4j.xml" />
+			</fileset>
+		</copy>
+	-->
+	</target>
+
+	<!-- Compress compressable files -->
+	<target name="-compress" description="Copy any resources in the webapp directory">
+
+		<!-- Invoke compressor -->
+		<!--		<yui-compressor warn="false" charset="UTF-8" fromdir="${assemble.dir}" todir="${assemble.dir}">
+			<include name="js/*.js" />
+		</yui-compressor>
+-->
+		<copy todir="${assemble.dir}" overwrite="true">
+			<fileset dir="${assemble.dir}">
+				<include name="**/*-min.js" />
+			</fileset>
+			<mapper type="glob" from="*-min.js" to="*.js" />
+		</copy>
+
+		<delete>
+			<fileset dir="${assemble.dir}" includes="**/*-min.js" />
+		</delete>
+	</target>
+
+	<!-- Copy application libraries into war area -->
+	<target name="-copy-app-lib" description="Copy jars from application library">
+		<copy todir="${assemble.dir}/WEB-INF/lib" overwrite="true">
+			<fileset dir="${lib.app.dir}" casesensitive="false">
+				<!-- Nothing to copy for client <include name="**/*.jar" /> -->
+				<exclude name="**/*.jar" />
+			</fileset>
+		</copy>
+	</target>
+
+	<!-- Copy 3rd party libraries into assemble area -->
+	<target name="-copy-3rd-party-lib" description="Copy jars from 3rd party library">
+		<copy todir="${assemble.dir}/WEB-INF/lib" flatten="true" overwrite="true">
+			<path>
+				<pathelement path="${ant.contrib.jar}" />
+			</path>
+		</copy>
+	</target>
+
+	<!-- Build war file -->
+	<target name="build-war" depends="init, -copy-client-framework, -copy-web-resources,
+		-copy-web-classes,-copy-log4j,-copy-app-lib,-copy-3rd-party-lib,
+		-compress, war" description="Generate the distribution war file">
+
+		<!-- Create war file containing the javascript and required html -->
+		<jar destfile="./${target.dir}/caseman-client.war" update="true">
+
+			<!-- Include all assembled files. Filters are used to place only appropriate files in assemble. -->
+			<fileset dir="${assemble.dir}">
+				<include name="**" />
+			</fileset>
+
+			<!-- Include the bits of jsunit that need to be deployed with the test app -->
+			<!-- INVESTIGATE HOW NOT TO INCLUDE THIS FOR PRODUCTION CODE -->
+			<fileset dir="${sups.tools}/extracted/">
+				<include name="${tools.jsunit.dirname}/app/**" />
+				<include name="${tools.jsunit.dirname}/css/**" />
+				<include name="${tools.jsunit.dirname}/images/**" />
+				<include name="${tools.jsunit.dirname}/*.html" />
+			</fileset>
+		</jar>
+	</target>
+
+</project>

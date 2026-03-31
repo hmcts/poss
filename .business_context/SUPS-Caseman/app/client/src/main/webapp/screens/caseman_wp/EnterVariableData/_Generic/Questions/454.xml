@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>454</Id>
+	<Label>Enter Judge's name making N40B</Label>
+	<ObjectName>N40BJudgeName</ObjectName>
+	<Html>		
+		<input type="text" id="N40BJudgeName"></input>			
+	</Html>	
+	
+	<Context screenId="CJR083">
+		<isVisible>true</isVisible>
+		<Label>Judge Name</Label>
+	</Context>
+			
+	<Javascript>
+		<XPath>/ds/EnterVariableData/DisobedienceCommit/n40BJudgeName</XPath>
+		<componentName>##label##</componentName>
+		<isMandatory>return true;</isMandatory>
+		<HintText>Enter the Judge's surname (e.g. Smith)</HintText>		
+		
+		<Context ScreenId="CJR083">
+			<isEnabled>return('J' == Services.getValue(NonAttendanceCertBy.dataBinding));</isEnabled>
+			<enableOn>NonAttendanceCertBy.dataBinding</enableOn>
+			<logicOn>NonAttendanceCertBy.dataBinding</logicOn>
+			<logic>
+				if('J' != Services.getValue(NonAttendanceCertBy.dataBinding))
+				{	Services.setValue(N40BJudgeName.dataBinding, "");
+				}
+			</logic>
+		</Context>		
+	</Javascript>
+</Question>

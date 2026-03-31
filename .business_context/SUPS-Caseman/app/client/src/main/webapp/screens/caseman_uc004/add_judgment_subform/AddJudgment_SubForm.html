@@ -1,0 +1,240 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3c.org/TR/html4/strict.dtd">
+<html>
+	
+<head>	
+	<title>AddJudgment_SubForm</title>
+	<link href="AddJudgment_Subform.css" type="text/css" rel="stylesheet">  
+	<script type="text/javascript" src="../../../Framework.js"></script>
+	<script type="text/javascript">
+	GridGUIAdaptor.prototype.hasValue = function()
+	{
+		return true;
+	}
+	</script>
+	<script type="text/javascript" src="../../../CaseManSubFormIncludeFiles.js"></script>	
+	<script type="text/javascript" src="../JudgmentVariables.js"></script>
+	<script type="text/javascript" src="../JudgmentFunctions.js"></script>
+    <script type="text/javascript" src="AddJudgment_SubForm.js"></script>	
+</head>
+
+<body>
+    <form id="AddJudgmentSubform" class="subform">
+		<div class="panel">
+			<table class="content">
+				<tr>
+				<td align = "center">
+					<h3>Add Judgment</h3>
+				</td>
+				
+				</tr>	
+				<tr>
+					<td valign="top">
+						<table>
+							<tr>
+								<td valign="top"><label for='AddJudgment_Against'>Against</label></td>																
+								<td valign="top">
+									<input id="AddJudgment_Against" type="text" size=38>
+									<input id="AddJudgment_Against_LOVBtn" type="Button" size="8" value="LOV">&nbsp;&nbsp; 
+								</td>
+								<td>&nbsp;</td>
+								<td>&nbsp;</td>																	        												
+							</tr>
+							<tr>
+								<td valign="top"><label for='AddJudgment_InFavourOf'>In Favour Of</label></td>
+								<td>
+									<script type="text/javascript">
+										Grid.createInline(
+											"AddJudgment_InFavourOfGrid",		// The HTML id of the grid
+											["Type", "Number", "Name"], // An array of strings containing the column headers
+											3,			// The number of rows in the grid
+											1	// The number of rows which are grouped together in coloured stripe.
+										); 
+									</script>
+								</td>
+								<td valign="top">
+									<input id="AddJudgment_InFavourOf_EditBtn" type="Button" size="8" value="LOV">&nbsp;&nbsp;
+								</td>
+								<td>&nbsp;</td>																	        												
+						    </tr>	
+							<tr>
+								<td><label for='AddJudgment_CourtCode'>Court</label></td>
+								<td>
+									<table>
+										<tr>
+											<td>
+												<input id="AddJudgment_CourtCode" type="text" size=5>
+											</td>
+											<td>
+												<script type="text/javascript">
+													AutoCompletionRenderer.createInline("AddJudgment_CourtName");
+												</script>
+											</td>
+											<td>
+												<input id="AddJudgment_Court_LOVBtn" type="Button" size="8" value="LOV">
+											</td>
+										</tr>										
+									</table>
+								</td>
+								<td>&nbsp;</td>
+								<td>&nbsp;</td>
+							</tr>	
+							<tr>
+								<td><label for='AddJudgment_Type'>Type</label></td>																
+								<td>
+									<select id="AddJudgment_Type"></select>&nbsp;&nbsp;
+									<label for='AddJudgment_JointJudgment'>Joint?</label>
+									<input id="AddJudgment_JointJudgment" type="checkbox">								
+								</td>
+								<td>&nbsp;</td>
+								<td>&nbsp;</td>																	        												
+							</tr>														
+							<tr>
+								<td><label for='AddJudgment_Date'>Date</label></td>								
+								<td>
+									<script type="text/javascript">
+										DatePickerRenderer.createInline("AddJudgment_Date", false);
+									</script>
+								</td>
+								<td>&nbsp;</td>
+								<td>&nbsp;</td>																	        												
+							</tr>
+							<tr>
+								<td><label for='AddJudgment_RegDate'>Registration Date</label></td>								
+								<td>
+									<script type="text/javascript">
+										DatePickerRenderer.createInline("AddJudgment_RegDate", false);
+									</script>
+								</td>
+								<td>&nbsp;</td>
+								<td>&nbsp;</td>													        												
+							</tr>
+							<tr>
+								<!-- RFC 1473 - checkbox required to determine whether sending to RTL or not -->
+								<td align="left"><label for='AddJudgment_SendToRTL'>Send To RTL</label></td>
+								<td align="left"><input id="AddJudgment_SendToRTL" type="checkbox"><td>
+								<td>&nbsp;</td>
+								<td>&nbsp;</td>														        												
+							</tr>			
+							<tr>
+								<td colspan = 4><hr></td>
+							</tr>	
+							<tr>
+								<td><label for='AddJudgment_JudgmentAmount'>Judgment Amount</label></td>																
+								<td>
+									<input id="AddJudgment_JudgmentAmountCurrency" type="text" size=1>
+									<input id="AddJudgment_JudgmentAmount" type="text" size=15>
+								</td>
+								<td>&nbsp;</td>
+								<td>&nbsp;</td>																	        												
+							</tr>  
+							<tr>
+								<td><label for='AddJudgment_JudgmentCosts'>Total Costs</label></td>																
+								<td>
+									<input id="AddJudgment_JudgmentCostsCurrency" type="text" size=1>
+									<input id="AddJudgment_JudgmentCosts" type="text" size=15>
+								</td>
+								<td>&nbsp;</td>
+								<td>&nbsp;</td>																	        												
+							</tr>   
+							<tr>
+								<td><label for='AddJudgment_JudgmentSubTotal'>Sub Total</label></td>																
+								<td>
+									<input id="AddJudgment_JudgmentSubTotalCurrency" type="text" size=1>									
+									<input id="AddJudgment_JudgmentSubTotal" type="text" size=15>
+								</td>
+								<td>&nbsp;</td>
+								<td>&nbsp;</td>																	        												
+							</tr>   
+						<tr>
+								<td><label for='AddJudgment_PaidBefore'>Paid Before Judgment</label></td>																
+								<td>
+									<input id="AddJudgment_PaidBeforeCurrency" type="text" size=1>
+									<input id="AddJudgment_PaidBefore" type="text" size=15>
+								</td>
+								<td>&nbsp;</td>
+								<td>&nbsp;</td>																	        												
+							</tr>
+								<tr>
+								<td><label for='AddJudgment_Total'>Total</label></td>																
+								<td>
+									<input id="AddJudgment_TotalCurrency" type="text" size=1>
+									<input id="AddJudgment_Total" type="text" size=15>
+								</td>
+								<td>&nbsp;</td>
+								<td>&nbsp;</td>																	        												
+							</tr>  
+							<tr>
+								<td><label for='AddJudgment_InstalAmount'>Instalment Amount</label></td>																
+								<td>
+									<input id="AddJudgment_InstalAmountCurrency" type="text" size=1>
+									<input id="AddJudgment_InstalAmount" type="text" size=15>&nbsp;&nbsp;
+									<label for='AddJudgment_PeriodCode'>Period</label>
+									<select id="AddJudgment_PeriodCode"></select>
+								</td>																	        												
+							</tr> 
+							<tr>
+								<td><label for='AddJudgment_FirstPayDate'>First or Full Payment Date</label></td>								
+								<td>
+									<script type="text/javascript">
+										DatePickerRenderer.createInline("AddJudgment_FirstPayDate", false);
+									</script>
+								</td>
+								<td>&nbsp;</td>
+								<td>&nbsp;</td>
+							</tr>	
+							<tr style="height:2px;">
+								<td colspan=2>&nbsp;</td>
+							</tr>			    		
+						</table>
+				</td>
+			</tr>	
+		</table>
+		</div>
+
+		<!-- Status Bar Panel -->
+		<script type="text/javascript">
+			ActionBarRenderer.createInline(
+				"status_bar",
+				[
+					{id: "AddJudgment_OKBtn", label: "Ok"},
+					{id: "AddJudgment_CancelBtn", label: "Cancel"}
+				]
+			);
+		</script>
+		<!-- End Status Bar Panel -->
+		
+		<!-- Add AddInFavourOf popup -->
+		<div class="popup" id="AddInFavourOf">    
+    		<div class="popupTitle">Select/Deselect In Favour Of Parties</div>
+			
+			<div class="panel">
+				<script type="text/javascript">Grid.createInline("AddInFavourOf_Grid", ["Type", "Number", "Name"], 10, 1 );</script>
+			</div>
+			
+			<!-- Popup action bar -->
+			<script type="text/javascript">
+				ActionBarRenderer.createInlineNoStatusBar(
+					"AddInFavourOf_statusbar",
+					[
+						{id: "AddInFavourOf_OKBtn", label: "Ok"}	
+					]
+				);
+			</script>
+		</div>
+	<!-- end AddInFavourOf popup -->
+				
+		<!-- LOV POPUPs -->
+
+		<!-- AddJudgment Against LOV -->
+		<script type="text/javascript">
+			LOVPopupRenderer.createInline( "selectAddJudgment_Against_LOV", "Select Against Party", [ "Type", "Number", "Name"], 12, 1, true );
+		</script>
+		<!-- Court LOV -->
+		<script type="text/javascript">
+			LOVPopupRenderer.createInline( "selectCourtLOV", "Select Court", [ "Code", "Court"], 12, 1, true );
+		</script>
+		
+	</form>
+</body>
+
+</html>

@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--Question xmlns="http://eds.com/questionxhtml" xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd"-->
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>Q_HasAnObjectionBeenReceived</Id>
+	<Label>Check box if objection has been received</Label>
+	<ObjectName>HasAnObjectionBeenReceived</ObjectName>
+	<Html>
+		<input id="HasAnObjectionBeenReceived" type="checkbox"/>
+	</Html>
+	<Javascript>
+		<XPath>/ds/var/page/OracleReportForm/HasAnObjectionBeenReceived</XPath>
+		<ReportVariableName>OBJ_RCVD</ReportVariableName>
+		<ReportVariableValue>returnDefault(Services.getValue(HasAnObjectionBeenReceived.dataBinding))</ReportVariableValue>
+		<ReportVariableCode>12460</ReportVariableCode>
+		<HintText></HintText>
+		<mandatoryOn></mandatoryOn>
+		<isMandatory>return true;</isMandatory>
+		<setDefault>
+			Services.setValue(HasAnObjectionBeenReceived.dataBinding, "N");
+		</setDefault>
+		<validateOn></validateOn>
+		<validate></validate>
+		<readOnlyOn></readOnlyOn>
+		<isReadOnly></isReadOnly>
+		<maxLength></maxLength>
+		<transformToDisplay></transformToDisplay>
+		<transformToModel></transformToModel>
+		<initialise></initialise>
+		<logicOn></logicOn>
+		<logic></logic>
+		<miscCode>
+			HasAnObjectionBeenReceived.modelValue = { checked: 'Y', unchecked: 'N' };
+			function returnDefault(value)
+			{
+				//debugger;
+				if (value == null)
+				{
+					return "N";
+				}
+				else
+				{
+					return value;
+				}
+			}			
+		</miscCode>
+		<IsQuestion></IsQuestion>
+	</Javascript>
+</Question>

@@ -1,0 +1,53 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3c.org/TR/html4/strict.dtd">
+<html>
+	<head>
+		<title>RemovePaymentsLock</title>
+		<link href="RemovePaymentsLock.css" type="text/css" rel="stylesheet" />
+		<script type="text/javascript" src="../../Framework.js"></script>
+		<script type="text/javascript" src="../../ConcatCommon.js"></script>
+		<script type="text/javascript" src="RemovePaymentsLock.js"></script>
+	</head>
+	
+	<body tabindex="-1">
+		<form name="RemovePaymentsLock" id="RemovePaymentsLock">
+			
+			<!-- Framework Navigation Menu -->
+			<script type="text/javascript">MenuBarRenderer.createInline();</script>
+			
+			<table class="layout">
+				<tr>
+					<td>
+						<div class="panel">
+							<table class="content" style="height:570px;">
+								<tr>
+									<td valign="top">
+										<script type="text/javascript">
+											Grid.createInline(
+												"Records_Grid",
+												["User ID", "Report Type", "Report Number", "Report Date", "Admin Court Code"],
+												33,
+												1
+											);
+										</script>
+									</td>
+								</tr>
+							</table>
+						</div>
+					</td>                
+				</tr>
+			</table>
+				
+			<!-- Status Bar -->
+			<script type="text/javascript">
+				ActionBarRenderer.createInline(
+					"status_bar",
+					[
+						{id: "Status_RemoveBtn", label: "Remove"},
+						{id: "Status_CloseBtn", label: "Close"}
+					]
+				);
+			</script>
+						
+		</form>
+	</body>
+</html>

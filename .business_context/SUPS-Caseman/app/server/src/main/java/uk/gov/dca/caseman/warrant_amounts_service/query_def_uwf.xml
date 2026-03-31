@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<QueryDef>
+  <DBMapDef location="uk/gov/dca/caseman/warrant_amounts_service/map_uwf.xml"/>
+  <Query pivotNode="/ds/WarrantAmounts/Warrant" tables="W">
+    <Join/>
+    <Modify>
+	  <Field name="W.WARRANT_ID" xpath="WarrantID"/>
+	  <Field name="W.WARRANT_FEE" xpath="WarrantFee"/>
+	</Modify>
+  </Query>
+</QueryDef>

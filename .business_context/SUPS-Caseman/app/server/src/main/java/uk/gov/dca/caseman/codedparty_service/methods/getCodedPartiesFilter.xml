@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Associated Use cases:  UC017  Maintain Local Coded Parties
+	                       UC121  Maintain National Coded Parties
+	v1.0: Troy Baines      17/12/04
+
+	Description:
+		Retrieves Coded Parties local to the current court, which may then be edited.
+		Also retrieves National Coded Parties, but only for viewing. 
+
+	Change History:
+	30-Nov-2005 Phil Haferer (EDS): Changed constraint - alterated the test against the Court Code to
+				allow the inclusion of Non CPC National Coded Parties and CCBC National Coded Parties.
+	20/09/2011 - Chris Vincent, added search for CCBC National Coded Parties in range 7000-9999.  Trac 4553.
+-->
+<service-method>
+	<pipeline>
+		<Query>
+			<QueryDef location="uk/gov/dca/caseman/codedparty_service/query_def.xml"/>
+			<QueryExtension pivotNode="/CodedParties/CodedParty">
+				<Param name="param.code" xpath="/params/param[@name = 'code']"/>
+				<Param name="param.owningCourtCode" xpath="/params/param[@name = 'owningCourtCode']"/>
+				<Param name="param.partyName" xpath="/params/param[@name = 'partyName']"/>
+				<Param name="param.address1" xpath="/params/param[@name = 'address1']"/>
+				<Param name="param.address2" xpath="/params/param[@name = 'address2']"/>
+				<Param name="param.postCode" xpath="/params/param[@name = 'postCode']"/>
+				<Param name="param.pageNumber" xpath="/params/param[@name = 'pageNumber']"/>		
+				<Param name="param.pageSize" xpath="/params/param[@name = 'pageSize']"/>				
+				
+				<Paged pageNumber="${param.pageNumber}" pageSize="${param.pageSize}"/>																													
+				<OrderBy>CP.CODE, P.PERSON_REQUESTED_NAME, GA.ADDRESS_LINE1, GA.ADDRESS_LINE2, GA.POSTCODE</OrderBy>
+				<Constraint>
+					(	(    CP.ADMIN_COURT_CODE = ${param.owningCourtCode}
+					     OR  CP.ADMIN_COURT_CODE = 0
+					     OR (CP.ADMIN_COURT_CODE = 335
+					         AND CP.CODE BETWEEN 1500 AND 1999)
+						 OR (CP.ADMIN_COURT_CODE = 335
+					         AND CP.CODE BETWEEN 7000 AND 9999)
+					  	) AND (
+							(
+								${param.code} IS NULL OR CP.CODE LIKE UPPER(${param.code}) 
+							) AND (
+								${param.partyName} IS NULL OR P.PERSON_REQUESTED_NAME LIKE UPPER(${param.partyName})
+							) AND (
+								${param.address1} IS NULL OR GA.ADDRESS_LINE1 LIKE UPPER(${param.address1})
+							) AND (
+								${param.address2} IS NULL OR GA.ADDRESS_LINE2 LIKE UPPER(${param.address2})
+							) AND (
+								${param.postCode} IS NULL  OR GA.POSTCODE LIKE UPPER(${param.postCode}) 
+							)									
+						)
+					)
+				</Constraint>
+			</QueryExtension>
+		</Query>
+	</pipeline>
+	<Security roles="wcSuper scSuper bmsSuper aeSuper dmSuper cpSuper ccbcMan"/>		
+</service-method>

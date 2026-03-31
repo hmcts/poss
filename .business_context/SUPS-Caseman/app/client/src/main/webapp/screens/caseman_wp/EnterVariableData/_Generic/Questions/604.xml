@@ -1,0 +1,50 @@
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>604</Id>
+	<Label>Amount to be paid to claimant's claim</Label>
+	<ObjectName>AmtPaidToClaimant</ObjectName>
+	<Html>	
+		<input type="text" size="1" id="DefaultCurrency604"></input>
+		<input type="text" id="AmtPaidToClaimant" size="11" maxlength="11"></input>
+	</Html>			
+	<Javascript>
+		<XPath>/ds/EnterVariableData/Settlement/amtPaidToClaimant</XPath>
+		<componentName>##label##</componentName>
+		<isMandatory>return true;</isMandatory>
+		<HintText>Enter the amount to be paid to the claimant's claim</HintText>
+		<maxLength>11</maxLength>
+		<enableOn>FatalAccidentSumTo.dataBinding</enableOn>
+		<isEnabled>
+			var val = Services.getValue(FatalAccidentSumTo.dataBinding);
+			return( 'CLM' == val || 'BOTH' == val);
+		</isEnabled>
+		<logicOn>FatalAccidentSumTo.dataBinding</logicOn>
+		<logic>
+		
+			var val = Services.getValue(FatalAccidentSumTo.dataBinding);
+			if( 'CLM' != val &amp;&amp; 'BOTH' != val)
+			{	Services.setValue(AmtPaidToClaimant.dataBinding, "");
+			}
+		</logic>		
+		<validateOn>AmtPaidToClaimant.dataBinding</validateOn>
+		<validate>
+			var val = Services.getValue(AmtPaidToClaimant.dataBinding);
+			var err = validateCurrencyValue(val, 99999999.99);
+			if( null == err )
+			{	Services.setValue(AmtPaidToClaimant.dataBinding, WPU.formatToTwoDP(val));
+			}
+			return err;
+		</validate>
+		<miscCode>
+			function DefaultCurrency604() {}
+			DefaultCurrency604.dataBinding = "/ds/EnterVariableData/curr1";
+			DefaultCurrency604.tabIndex = -1;
+			DefaultCurrency604.maxLength = 1;
+			DefaultCurrency604.isReadOnly = function(){return true;}
+			DefaultCurrency604.isTemporary = function(){return true;}
+			DefaultCurrency604.transformToDisplay = function(value){
+				return WPS.__CaseManUtils().transformCurrencySymbolToDisplay(value,null,null); }
+			DefaultCurrency604.transformToModel = function(value){
+				return WPS.__CaseManUtils().transformCurrencySymbolToModel(value,null,null); }
+		</miscCode>			
+	</Javascript>
+</Question>

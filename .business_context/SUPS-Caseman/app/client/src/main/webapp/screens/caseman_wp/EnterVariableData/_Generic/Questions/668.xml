@@ -1,0 +1,21 @@
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>668</Id>
+	<Label>Costs to be paid</Label>
+	<ObjectName>CostToBePaid</ObjectName>
+	<Context screenId="FE45"><isVisible>false</isVisible></Context>	
+	<Html>	
+		<select id="CostToBePaid">
+			<option value=""></option>
+			<option value="FD">Within 14 days</option>
+			<option value="GD">On a given date</option>
+			<option value="MTH">By monthly instalment</option>
+		</select>
+	</Html>		
+
+	<Javascript>
+		<XPath>/ds/EnterVariableData/DeliveryOfGoods/costToBePaid</XPath>
+		<componentName>##label##</componentName>
+		<isMandatory>return true;</isMandatory>
+		<HintText>Costs to be paid - list available</HintText>		
+	</Javascript>
+</Question>

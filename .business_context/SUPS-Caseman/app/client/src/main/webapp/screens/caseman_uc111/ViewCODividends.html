@@ -1,0 +1,106 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3c.org/TR/html4/strict.dtd">
+<html>
+
+	<head>
+		<title>ViewCODividends</title>
+		<link href="ViewCODividends.css" type="text/css" rel="stylesheet">
+		<script type="text/javascript" src="../../Framework.js"></script>
+		<script type="text/javascript" src="../../ConcatCommon.js"></script>
+		<script type="text/javascript" src="ViewCODividends.js"></script>
+	</head>
+	
+	<body>
+		<form name="ViewCODividends" id="ViewCODividends">
+			
+			<!-- Navigation Bar -->
+			<script type="text/javascript">MenuBarRenderer.createInline();</script>
+			
+			<table class="layout">
+				<!-- Start of Header Panel -->
+				<tr>
+					<td>
+						<div class="panel">
+							<table class="content">
+								<tr>
+									<td>
+										<table style="width:100%; margin-top:5px; margin-bottom: 5px;">
+											<tr>
+												<td class="defaultLabel"><label for="Header_CONumber">CO Number</label></td>
+												<td><input id="Header_CONumber" type="text" size="15" /></td>
+												<td class="defaultLabel"><label for="Header_OldCONumber">Old Number</label></td>
+												<td><input id="Header_OldCONumber" type="text" size="15" /></td>
+												<td class="defaultLabel"><label for="Header_COType">Type</label></td>
+												<td><input id="Header_COType" type="text" size="15" /></td>
+											</tr>
+											<tr>
+												<td class="defaultLabel"><label for="Header_DebtorName">Debtor Name</label></td>
+												<td><input id="Header_DebtorName" type="text" size="40" /></td>
+												<td colspan=2>&nbsp;</td>
+												<td class="defaultLabel"><label for="Header_COStatus">Status</label></td>
+												<td><input id="Header_COStatus" type="text" size="15" /></td>
+											</tr>
+										</table>
+									</td>
+								</tr>
+							</table>
+						</div>
+					</td>
+				</tr>
+				<!-- End of Header Panel -->
+				
+				<!-- Start of Dividends Panel -->
+				<tr>
+					<td>
+						<div class="panel">
+							<table class="content">
+								<tr>
+									<td>
+										<script type="text/javascript">
+											Grid.createInline("DividendDetails_DividendsGrid", ["Id", "Date", "PPL Number", "", "Amount", "", "Fee", "Declared By"], 5, 1);
+										</script>
+									</td>
+								</tr>
+							</table>
+						</div>
+					</td>
+				</tr>
+				<!-- End of Dividends Panel -->
+				
+				<!-- Start of Debts Panel -->
+				<tr>
+					<td>
+						<div class="panel">
+							<table class="content" style="height:378px; width:100%;">
+								<tr>
+									<td valign="top">
+										<table>
+											<tr>
+												<td colspan=2>
+													<script type="text/javascript">
+														Grid.createInline("DebtDetails_DebtsGrid", ["Creditor Name", "Payee Details", "", "Amount", "PO Number", "", "Total PO"], 19, 1);
+													</script>
+												</td>
+											</tr>
+											<tr>
+												<td class="defaultLabel" nowrap><label for='DebtDetails_PayeeDetails' style="margin-left:5px;">Payee Details</label></td>
+												<td align="left"><script type="text/javascript">ZoomFieldRenderer.createInline("DebtDetails_PayeeDetails");</script></td>												
+											</tr>
+										</table>
+									</td>
+								</tr>
+							</table>
+						</div>
+					</td>
+				</tr>
+				<!-- End of Debts Panel -->
+
+			</table>
+	  
+			<!-- Status -->
+			<script type="text/javascript">
+				ActionBarRenderer.createInline("status_bar", [{id: "Status_CloseButton", label: "Close"}]);
+			</script>
+			
+		</form>
+	</body>
+</html>

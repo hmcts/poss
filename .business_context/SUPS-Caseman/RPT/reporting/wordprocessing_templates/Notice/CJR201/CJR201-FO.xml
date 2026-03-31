@@ -1,0 +1,1765 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- ====================================================================== -->
+<!--  -->
+<!-- FILENAME: $Source: C:/CVSRepository/serveroas/src/uk/gov/dca/caseman/wordprocessing_templates/Notice/CJR201/CJR201-FO.xml,v $ -->
+<!--  -->
+<!-- AUTHOR: $Author: conganer $-->
+<!--  -->
+<!-- DATE: $Date: 2006/05/02 16:01:28 $ -->
+<!--  -->
+<!-- Version: $Revision: 1.9 $ -->
+<!--  -->
+<!-- DESCRIPTION: This stylesheet is used to create an XSL:FO document that -->
+<!-- can be processed into a PDF version.  Business logic -->
+<!-- is embedded to generate the correct document text for the order -->
+<!-- required. -->
+<!--  -->
+<!-- INPUTS: XML document containing: the answers to questions asked of the -->
+<!-- user; case data retrieved from the database; HTML representing the  -->
+<!-- body of the document content (already edited by the user). -->
+<!--  -->
+<!-- OUTPUTS: XML document with FO tags containing instructions for the -->
+<!-- creation of a PDF document. -->
+<!--  -->
+<!-- ====================================================================== -->
+<root xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:fo="http://www.w3.org/1999/XSL/Format" xmlns="http://eds.com/supsfo">
+	<variables>@word.processing.url.xsl@supsfo.xsl</variables>
+	<layout>general</layout>
+	<sections>
+		<section name="landscape">
+			<layout>landscape</layout>
+			<addressee>
+				<blank/>
+		<!--instigators/-->				
+			</addressee>	
+			<body>
+				<fo:block>
+					<fo:inline font-size="16pt" font-weight="bold">Request for Investment Decision</fo:inline>&#xA0;<xsl:value-of select="$vdInvestmentCourtDivision"/>&#xA0;<xsl:value-of select="$vdCourtNameDescription"/>
+				</fo:block>
+				<fo:block>to Order dated <xsl:value-of select="$vdInterimChargingOrderDate2"/></fo:block>
+		
+		<!--Row 1-->
+				<fo:table table-layout="fixed">
+					<fo:table-column column-width="4.5cm"></fo:table-column>
+					<fo:table-column column-width="7.5cm"></fo:table-column>
+					<fo:table-column column-width="10.7cm"></fo:table-column>
+					<fo:table-body>
+						<fo:table-row keep-with-next="always">
+							<fo:table-cell padding-right="0.1cm" padding-left="0.1cm">
+								<fo:block space-before="0.11cm" space-after="0.11cm" font-size="10pt">Claim No. <xsl:value-of select="$vdClaimNumber"/></fo:block>
+							</fo:table-cell>
+							<fo:table-cell padding-right="0.1cm" padding-left="0.1cm">
+								<fo:block space-before="0.11cm" space-after="0.11cm" font-size="10pt">Fund No. <xsl:value-of select="$vdCFOFundNo"/></fo:block>
+							</fo:table-cell>
+							<fo:table-cell padding-right="0.1cm" padding-left="0.1cm">
+								<fo:block space-before="0.11cm" space-after="0.11cm" font-size="10pt">CFO A/C No. <xsl:value-of select="$vdCFOAccountNo"/></fo:block>
+							</fo:table-cell>
+						</fo:table-row>
+					</fo:table-body>
+				</fo:table>	
+		
+		<!--Row 2-->
+				<fo:table table-layout="fixed">
+					<fo:table-column column-width="22.7cm"></fo:table-column>
+					<fo:table-column column-width="5.7cm"></fo:table-column>
+					<fo:table-body>
+						<fo:table-row keep-with-next="always">
+							<fo:table-cell padding-right="0.1cm" padding-left="0.1cm">
+								<fo:block space-before="0.11cm" space-after="0.11cm" font-size="10pt">Full Account Title <xsl:value-of select="$vdClaimantName"/> V <xsl:value-of select="$vdDefendantName"/></fo:block>
+							</fo:table-cell>
+							<fo:table-cell padding-right="0.1cm" padding-left="0.1cm">
+								<fo:block space-before="0.11cm" space-after="0.11cm" font-size="10pt">Majority Date (CFO use)</fo:block>
+							</fo:table-cell>
+						</fo:table-row>
+					</fo:table-body>
+				</fo:table>	
+		
+		<!--Row 3-->
+				<fo:table table-layout="fixed">
+					<fo:table-column column-width="4.5cm"></fo:table-column>
+					<fo:table-column column-width="5.2cm"></fo:table-column>
+					<fo:table-column column-width="8.6cm"></fo:table-column>
+					<fo:table-column column-width="5.2cm"></fo:table-column>
+					<fo:table-column column-width="4.9cm"></fo:table-column>
+					<fo:table-body>
+						<fo:table-row keep-with-next="always">
+							<fo:table-cell padding-right="0.1cm" padding-left="0.1cm" border-style="solid" border-width="0.02cm">
+								<fo:block space-before="0.11cm" space-after="0.11cm" font-size="10pt" font-weight="bold">1. Current Funds In court</fo:block>
+							</fo:table-cell>
+							<fo:table-cell padding-right="0.1cm" padding-left="0.1cm" border-style="solid" border-width="0.02cm">
+								<fo:block space-before="0.11cm" space-after="0.11cm" font-size="10pt" font-weight="bold">&#163;<xsl:value-of select="$vdCFOFundsHeld"/></fo:block>
+							</fo:table-cell>
+							<fo:table-cell padding-right="0.1cm" padding-left="0.1cm" border-style="solid" border-width="0.02cm">
+								<fo:block space-before="0.11cm" space-after="0.11cm" font-size="10pt" font-weight="bold">2. Investment Requirement: Total to be invested is</fo:block>
+							</fo:table-cell>
+							<fo:table-cell padding-right="0.1cm" padding-left="0.1cm" border-style="solid" border-width="0.02cm">
+								<fo:block space-before="0.11cm" space-after="0.11cm" font-size="10pt" font-weight="bold">&#163;<xsl:value-of select="$vdCFOFundsInvestment"/></fo:block>
+							</fo:table-cell>
+							<fo:table-cell padding-right="0.1cm" padding-left="0.1cm" border-style="solid" border-width="0.02cm">
+								<fo:block space-before="0.11cm" space-after="0.11cm" font-size="10pt">(For interest, see part 14)</fo:block>
+							</fo:table-cell>
+						</fo:table-row>
+					</fo:table-body>
+				</fo:table>	
+		
+		<!--Row 4-->
+				<fo:table table-layout="fixed">
+					<fo:table-column column-width="4.5cm"></fo:table-column>
+					<fo:table-column column-width="7.5cm"></fo:table-column>
+					<fo:table-column column-width="5.6cm"></fo:table-column>
+					<fo:table-column column-width="10.8cm"></fo:table-column>
+					<fo:table-body>
+						<fo:table-row keep-with-next="always">
+							<fo:table-cell padding-right="0.1cm" padding-left="0.1cm" border-top-style="solid" border-top-width="0.02cm" border-left-style="solid" border-left-width="0.02cm" border-bottom-style="solid" border-bottom-width="0.02cm">
+								<fo:block space-before="0.11cm" space-after="0.11cm" font-size="8pt" font-weight="bold">Name</fo:block>
+							</fo:table-cell>
+							<fo:table-cell padding-right="0.1cm" padding-left="0.1cm" border-top-style="solid" border-top-width="0.02cm" border-right-style="solid" border-right-width="0.02cm" border-bottom-style="solid" border-bottom-width="0.02cm">
+								<fo:block space-before="0.11cm" space-after="0.11cm" font-size="8pt" font-weight="bold" text-align="right">Address (in BLOCK CAPITALS)</fo:block>
+							</fo:table-cell>
+							<fo:table-cell padding-right="0.1cm" padding-left="0.1cm" border-top-style="solid" border-top-width="0.02cm" border-right-style="solid" border-right-width="0.02cm">
+								<fo:block space-before="0.11cm" space-after="0.11cm" font-size="8pt">8. Policy (tick one box only)</fo:block>
+							</fo:table-cell>
+							<fo:table-cell padding-right="0.1cm" padding-left="0.1cm" border-top-style="solid" border-top-width="0.02cm" border-right-style="solid" border-right-width="0.02cm">
+								<fo:block space-before="0.11cm" space-after="0.11cm" font-size="8pt">14. (a) Are there any restrictions for the investment policy? If yes, please state.</fo:block>
+							</fo:table-cell>
+						</fo:table-row>
+					</fo:table-body>
+				</fo:table>	
+
+
+
+		
+		<!--Row 5-->
+				<fo:table table-layout="fixed">
+					<fo:table-column column-width="4.5cm"></fo:table-column>
+					<fo:table-column column-width="7.5cm"></fo:table-column>
+					<fo:table-column column-width="4.8cm"></fo:table-column>
+					<fo:table-column column-width="0.8cm"></fo:table-column>
+					<fo:table-column column-width="10.8cm"></fo:table-column>
+					<fo:table-body>
+						<fo:table-row keep-with-next="always">
+							<fo:table-cell padding-right="0.1cm" padding-left="0.1cm" border-left-style="solid" border-left-width="0.02cm" border-right-style="solid" border-right-width="0.02cm" number-rows-spanned="7">
+							<!-- CELL 1 -->
+								<fo:block space-before="0.11cm" space-after="0.11cm" font-size="8pt">3. Litigation Friend</fo:block>
+							</fo:table-cell>
+							<fo:table-cell padding-right="0.1cm" padding-left="0.1cm" border-right-style="solid" border-right-width="0.02cm" number-rows-spanned="7">
+							<!-- CELL 2 -->
+<!--								
+								<fo:block>
+									<xsl:call-template name="format-address-multi-line">
+										<xsl:with-param name="party">
+											<xsl:copy-of select="variabledata/order/beneficiary/*"/>
+										</xsl:with-param>
+									</xsl:call-template>														
+								</fo:block>
+	-->							
+								<fo:block space-before="0.11cm" space-after="0.11cm" font-size="8pt">
+									<xsl:call-template name="format-address-multi-line">
+										<xsl:with-param name="party">
+											<xsl:copy-of select="variabledata/order/litigationfriend/*"/>
+										</xsl:with-param>
+									</xsl:call-template>								
+									</fo:block>
+
+							</fo:table-cell>
+							<fo:table-cell padding-right="0.1cm" padding-left="0.1cm" border-right-style="solid" border-right-width="0.02cm">
+							<!-- CELL 3 -->							
+								<fo:block space-before="0.11cm" space-after="0.11cm" font-size="8pt">Capital Growth Only</fo:block>
+							</fo:table-cell>
+							<fo:table-cell border-top-style="solid" border-top-width="0.02cm" border-right-style="solid" border-right-width="0.02cm">
+							<!-- CELL 4 -->							
+							
+							</fo:table-cell>
+							<fo:table-cell padding-right="0.1cm" padding-left="0.1cm" border-right-style="solid" border-right-width="0.02cm">
+							<!-- CELL 5 -->							
+								<fo:block space-before="0.11cm" space-after="0.11cm" font-size="8pt">(See section 12a of the guide.)</fo:block>
+							</fo:table-cell>
+						</fo:table-row>
+
+						<fo:table-row keep-with-next="always">
+					<!--ROW 2-->						
+							<fo:table-cell padding-right="0.1cm" padding-left="0.1cm" border-right-style="solid" border-right-width="0.02cm">
+								<fo:block space-before="0.11cm" space-after="0.11cm" font-size="8pt">Capital Growth and Income</fo:block>
+							</fo:table-cell>
+							<fo:table-cell border-top-style="solid" border-top-width="0.02cm" border-right-style="solid" border-right-width="0.02cm"/>
+							<fo:table-cell border-right-style="solid" border-right-width="0.02cm"/>
+						</fo:table-row>
+						<fo:table-row keep-with-next="always">
+						<!--ROW 3-->
+					<fo:table-cell padding-right="0.1cm" padding-left="0.1cm" border-right-style="solid" border-right-width="0.02cm">
+								<fo:block space-before="0.11cm" space-after="0.11cm" font-size="8pt">Maximum Income</fo:block>
+							</fo:table-cell>
+	<fo:table-cell border-top-style="solid" border-top-width="0.02cm" border-right-style="solid" border-right-width="0.02cm"/>
+							<fo:table-cell border-right-style="solid" border-right-width="0.02cm"/>
+						</fo:table-row>
+						<fo:table-row keep-with-next="always">
+						<!--ROW 4-->
+							<fo:table-cell padding-right="0.1cm" padding-left="0.1cm" border-top-style="solid" border-top-width="0.02cm">
+								<fo:block space-before="0.11cm" space-after="0.11cm" padding-right="0.1cm" padding-left="0.1cm" font-size="8pt">9. Income Directions</fo:block>
+							</fo:table-cell>
+							<fo:table-cell border-top-style="solid" border-top-width="0.02cm" border-right-style="solid" border-right-width="0.02cm">
+									<fo:block>
+										&#xA0;
+									</fo:block>
+							</fo:table-cell>							
+							<fo:table-cell border-right-style="solid" border-right-width="0.02cm">
+									<fo:block>
+										&#xA0;
+									</fo:block>							
+							</fo:table-cell>
+						</fo:table-row>
+						<fo:table-row keep-with-next="always">
+						<!--ROW 5-->
+							<fo:table-cell padding-right="0.1cm" padding-left="0.1cm" border-right-style="solid" border-right-width="0.02cm">
+								<fo:block space-before="0.11cm" space-after="0.11cm" font-size="8pt">Accumulate and re-invest</fo:block>
+							</fo:table-cell>
+							<fo:table-cell border-top-style="solid" border-top-width="0.02cm" border-right-style="solid" border-right-width="0.02cm"/>
+							<fo:table-cell padding-right="0.1cm" padding-left="0.1cm" border-right-style="solid" border-right-width="0.02cm">
+								<fo:block space-before="0.11cm" space-after="0.11cm" font-size="8pt">(b) Is the Litigation Friend aware that if there are more than four years to majority and &#163;4000</fo:block>
+							</fo:table-cell>
+
+						</fo:table-row>
+						<fo:table-row keep-with-next="always">
+						<!--ROW 6-->
+						<fo:table-cell padding-right="0.1cm" padding-left="0.1cm" border-right-style="solid" border-right-width="0.02cm">
+								<fo:block space-before="0.11cm" space-after="0.11cm" font-size="8pt">Invest in special</fo:block>
+							</fo:table-cell>
+							<fo:table-cell border-top-style="solid" border-top-width="0.02cm" border-right-style="solid" border-right-width="0.02cm"/>
+							<fo:table-cell padding-right="0.1cm" padding-left="0.1cm" border-right-style="solid" border-right-width="0.02cm">
+								<fo:block space-before="0.11cm" space-after="0.11cm" font-size="8pt">or more to invest, part of the fund may be invested in Unit Trusts or similar investment</fo:block>
+							</fo:table-cell>
+						</fo:table-row>
+
+						<fo:table-row keep-with-next="always">
+						<!--ROW 7-->
+							<fo:table-cell padding-right="0.1cm" padding-left="0.1cm" border-right-style="solid" border-right-width="0.02cm">
+								<fo:block space-before="0.11cm" space-after="0.11cm" font-size="8pt">Pay to Litigation Friend</fo:block>
+							</fo:table-cell>
+							<fo:table-cell border-top-style="solid" border-top-width="0.02cm" border-right-style="solid" border-right-width="0.02cm"/>
+							<fo:table-cell padding-right="0.1cm" padding-left="0.1cm" number-rows-spanned="3" border-right-style="solid" border-right-width="0.02cm">
+								<fo:block space-before="0.11cm" space-after="0.11cm" font-size="8pt">vehicles?</fo:block>
+							</fo:table-cell>
+						</fo:table-row>
+					</fo:table-body>
+				</fo:table>	
+				
+		<!--Row 12-->
+				<fo:table table-layout="fixed">
+					<fo:table-column column-width="4.5cm"></fo:table-column>
+					<fo:table-column column-width="7.5cm"></fo:table-column>
+					<fo:table-column column-width="5.6cm"></fo:table-column>
+					<fo:table-column column-width="10.8cm"></fo:table-column>
+					<fo:table-body>
+						<fo:table-row keep-with-next="always">
+							<fo:table-cell padding-right="0.1cm" padding-left="0.1cm" border-left-style="solid" border-left-width="0.02cm" border-right-style="solid" border-right-width="0.02cm" border-top-style="solid" border-top-width="0.02cm"  number-rows-spanned="7">
+								<fo:block space-before="0.11cm" space-after="0.11cm" font-size="8pt">4. Solicitor's name and reference</fo:block>
+							</fo:table-cell>
+							<fo:table-cell padding-right="0.1cm" padding-left="0.1cm" border-right-style="solid" border-right-width="0.02cm" border-top-style="solid" border-top-width="0.02cm" number-rows-spanned="7">
+								<fo:block space-before="0.11cm" space-after="0.11cm" font-size="8pt">
+									<xsl:value-of select="$vdSolicitorName"/> 																
+								</fo:block>
+
+								<fo:block space-before="0.11cm" space-after="0.11cm" font-size="8pt">								
+									<xsl:value-of select="$vdSolicitorReference"/>
+								</fo:block>
+
+								<fo:block space-before="0.11cm" space-after="0.11cm" font-size="8pt">								
+									<xsl:variable name="partyId">
+										<xsl:value-of select="variabledata/order/litigationfriend/partyid"/>
+									</xsl:variable>
+									<xsl:variable name="representativeId">
+										<xsl:value-of select="variabledata/claim/*[id = $partyId]/representativeid"/>
+									</xsl:variable>
+									<xsl:call-template name="format-only-address-multi-line">
+										<xsl:with-param name="party">
+											<xsl:copy-of select="variabledata/claim/representative[surrogateid = $representativeId]/*"/>
+										</xsl:with-param>
+									</xsl:call-template>
+								</fo:block>
+
+							</fo:table-cell>
+							<fo:table-cell padding-right="0.1cm" padding-left="0.1cm" border-right-style="solid" border-right-width="0.02cm" border-top-style="solid" border-top-width="0.02cm">
+								<fo:block space-before="0.11cm" space-after="0.11cm" font-size="8pt">10. Income required (if appropriate)</fo:block>
+							</fo:table-cell>
+							<fo:table-cell padding-right="0.1cm" padding-left="0.1cm" border-right-style="solid" border-right-width="0.02cm">
+								<fo:block space-before="0.11cm" space-after="0.11cm" font-size="8pt">(See section 12b of the guide.)</fo:block>
+							</fo:table-cell>
+						</fo:table-row>
+
+
+						<fo:table-row>
+						<!--ROW 2-->
+						<fo:table-cell border-right-style="solid" border-right-width="0.02cm">
+							<fo:block>
+
+							</fo:block>
+						</fo:table-cell>						
+						<fo:table-cell>
+						
+				<fo:table table-layout="fixed">
+					<fo:table-column column-width="2.6cm"></fo:table-column>
+					<fo:table-column column-width="0.8cm"></fo:table-column>
+					<fo:table-column column-width="1.7cm"></fo:table-column>
+					<fo:table-column column-width="0.8cm"></fo:table-column>
+					<fo:table-column column-width="4.9cm"></fo:table-column>
+					<fo:table-body>
+						<fo:table-row keep-with-next="always">
+							<fo:table-cell/>
+							<fo:table-cell padding-right="0.1cm" padding-left="0.1cm" border-style="solid" border-width="0.02cm">
+								<fo:block space-before="0.11cm" space-after="0.11cm" font-size="8pt" text-align="center">Y</fo:block>
+							</fo:table-cell>
+							<fo:table-cell padding-right="0.1cm" padding-left="0.1cm">
+								<fo:block space-before="0.11cm" space-after="0.11cm" font-size="8pt">Please go to</fo:block>
+							</fo:table-cell>
+							<fo:table-cell padding-right="0.1cm" padding-left="0.1cm" border-style="solid" border-width="0.02cm">
+								<fo:block space-before="0.11cm" space-after="0.11cm" font-size="8pt" text-align="center">N/A</fo:block>
+							</fo:table-cell>
+							<fo:table-cell padding-right="0.1cm" padding-left="0.1cm" border-right-style="solid" border-right-width="0.02cm">
+								<fo:block space-before="0.11cm" space-after="0.11cm" font-size="8pt">If less than four years or</fo:block>
+							</fo:table-cell>
+						</fo:table-row>
+					</fo:table-body>
+				</fo:table>	
+						</fo:table-cell>						
+
+						</fo:table-row>
+						<fo:table-row keep-with-next="always">
+						<!--ROW 3-->
+						<fo:table-cell border-right-style="solid" border-right-width="0.02cm">
+						<fo:block space-before="0.11cm" space-after="0.11cm" font-size="8pt">
+						&#xA0; &#163; &#xA0; &#xA0; &#xA0; &#xA0; &#xA0; &#xA0; &#xA0; &#xA0; &#xA0; &#xA0; &#xA0; &#xA0; &#xA0; &#xA0; &#xA0; &#xA0; &#xA0; &#xA0; &#xA0; &#xA0; &#xA0; &#xA0; per annum
+						</fo:block>	
+						</fo:table-cell>						
+						<fo:table-cell>
+							<fo:block>
+				<fo:table table-layout="fixed">
+					<fo:table-column column-width="2.6cm"></fo:table-column>
+					<fo:table-column column-width="0.8cm"></fo:table-column>
+					<fo:table-column column-width="1.7cm"></fo:table-column>
+					<fo:table-column column-width="0.8cm"></fo:table-column>
+					<fo:table-column column-width="4.9cm"></fo:table-column>
+					<fo:table-body>
+						<fo:table-row keep-with-next="always">
+							<fo:table-cell/>
+							<fo:table-cell/>
+							<fo:table-cell padding-right="0.1cm" padding-left="0.1cm">
+								<fo:block space-before="0.11cm" space-after="0.11cm" font-size="8pt">section 13</fo:block>
+							</fo:table-cell>
+							<fo:table-cell/>
+							<fo:table-cell padding-right="0.1cm" padding-left="0.1cm" border-right-style="solid" border-right-width="0.02cm">
+								<fo:block space-before="0.11cm" space-after="0.11cm" font-size="8pt">amount less than &#163;4000</fo:block>
+							</fo:table-cell>
+						</fo:table-row>
+					</fo:table-body>
+				</fo:table>	
+
+							</fo:block>
+						</fo:table-cell>						
+
+						</fo:table-row>
+						<fo:table-row keep-with-next="always">
+						<!--ROW 4-->
+						<fo:table-cell padding-right="0.1cm" padding-left="0.1cm" border-top-style="solid" border-top-width="0.02cm" border-right-style="solid" border-right-width="0.02cm">
+							<fo:block space-before="0.11cm" space-after="0.11cm" font-size="8pt">
+								. Other income (if any) of beneficiary is
+							</fo:block>
+						</fo:table-cell>						
+						<fo:table-cell border-top-style="solid" border-top-width="0.02cm" border-right-style="solid" border-right-width="0.02cm">
+							<fo:block>
+
+							</fo:block>
+						</fo:table-cell>						
+
+						</fo:table-row>
+						<fo:table-row keep-with-next="always">
+						<!--ROW 5-->
+						<fo:table-cell border-right-style="solid" border-right-width="0.02cm">
+							<fo:block>
+	
+							</fo:block>
+						</fo:table-cell>						
+						<fo:table-cell>
+							<fo:block>
+
+				<fo:table table-layout="fixed">
+					<fo:table-column column-width="5cm"></fo:table-column>
+					<fo:table-column column-width="0.8cm"></fo:table-column>
+					<fo:table-column column-width="1.2cm"></fo:table-column>
+					<fo:table-column column-width="0.8cm"></fo:table-column>
+					<fo:table-column column-width="3cm"></fo:table-column>
+					<fo:table-body>
+						<fo:table-row keep-with-next="always">
+							<fo:table-cell padding-right="0.1cm" padding-left="0.1cm">
+								<fo:block space-before="0.11cm" space-after="0.11cm" font-size="8pt">15. Is there a Legal Aid Charge?</fo:block>
+							</fo:table-cell>
+							<fo:table-cell padding-right="0.1cm" padding-left="0.1cm" border-style="solid" border-width="0.02cm">
+								<fo:block space-before="0.11cm" space-after="0.11cm" font-size="8pt" text-align="center">Y</fo:block>
+							</fo:table-cell>
+							<fo:table-cell/>
+							<fo:table-cell padding-right="0.1cm" padding-left="0.1cm" border-style="solid" border-width="0.02cm">
+								<fo:block space-before="0.11cm" space-after="0.11cm" font-size="8pt" text-align="center">N</fo:block>
+							</fo:table-cell>
+							<fo:table-cell border-right-style="solid" border-right-width="0.02cm"/>
+						</fo:table-row>
+					</fo:table-body>
+				</fo:table>	
+
+							</fo:block>
+						</fo:table-cell>						
+
+						</fo:table-row>
+
+						<fo:table-row keep-with-next="always">
+						<!--ROW 7-->
+						<fo:table-cell border-right-style="solid" border-right-width="0.02cm">
+						<fo:block space-before="0.11cm" space-after="0.11cm" font-size="8pt">
+						&#xA0; &#163; &#xA0; &#xA0; &#xA0; &#xA0; &#xA0; &#xA0; &#xA0; &#xA0; &#xA0; &#xA0; &#xA0; &#xA0; &#xA0; &#xA0; &#xA0; &#xA0; &#xA0; &#xA0; &#xA0; &#xA0; &#xA0; &#xA0; per annum
+						</fo:block>	
+						</fo:table-cell>						
+						<fo:table-cell border-right-style="solid" border-right-width="0.02cm">
+							<fo:block>
+
+							</fo:block>
+						</fo:table-cell>						
+						</fo:table-row>
+
+
+						<fo:table-row keep-with-next="always">
+						<!--ROW 8-->
+						<fo:table-cell padding-right="0.1cm" padding-left="0.1cm" border-right-style="solid" border-right-width="0.02cm" border-top-style="solid" border-top-width="0.02cm">
+							<fo:block space-before="0.11cm" space-after="0.11cm" font-size="8pt">
+								. Is beneficiary liable for Income Tax?
+							</fo:block>
+						</fo:table-cell>						
+						<fo:table-cell>
+				<fo:table table-layout="fixed">
+					<fo:table-column column-width="2.5cm"></fo:table-column>
+					<fo:table-column column-width="7.3cm"></fo:table-column>
+					<fo:table-column column-width="1.0cm"></fo:table-column>
+					<fo:table-body>
+						<fo:table-row keep-with-next="always">
+							<fo:table-cell padding-right="0.1cm" padding-left="0.1cm" border-right-style="solid" border-right-width="0.02cm">
+								<fo:block space-before="0.11cm" space-after="0.11cm" font-size="8pt">If Yes, give ref</fo:block>
+							</fo:table-cell>
+							<fo:table-cell border-style="solid" border-width="0.02cm"/>
+							<fo:table-cell border-right-style="solid" border-right-width="0.02cm"/>
+						</fo:table-row>
+					</fo:table-body>
+				</fo:table>	
+						</fo:table-cell>						
+
+						</fo:table-row>
+
+					</fo:table-body>
+				</fo:table>	
+		<!--Row 19-->
+				<fo:table table-layout="fixed">
+					<fo:table-column column-width="4.5cm"></fo:table-column>
+					<fo:table-column column-width="7.5cm"></fo:table-column>
+					<fo:table-column column-width="5.6cm"></fo:table-column>
+					<fo:table-column column-width="8.8cm"></fo:table-column>
+					<fo:table-column column-width="1.0cm"></fo:table-column>
+					<fo:table-column column-width="1.0cm"></fo:table-column>
+					<fo:table-body>
+						<fo:table-row keep-with-next="always">
+							<fo:table-cell padding-right="0.1cm" padding-left="0.1cm" border-left-style="solid" border-left-width="0.02cm" border-right-style="solid" border-right-width="0.02cm" border-top-style="solid" border-top-width="0.02cm">
+								<fo:block space-before="0.11cm" space-after="0.11cm" font-size="8pt">5. Beneficiary's name in full</fo:block>
+							</fo:table-cell>
+							<fo:table-cell font-size="8pt" padding-right="0.1cm" padding-left="0.1cm" padding-top="0.2cm" border-right-style="solid" border-right-width="0.02cm" border-top-style="solid" border-top-width="0.02cm" number-rows-spanned="6">
+								<fo:block>
+									<xsl:call-template name="format-address-multi-line">
+										<xsl:with-param name="party">
+											<xsl:copy-of select="variabledata/order/beneficiary/*"/>
+										</xsl:with-param>
+									</xsl:call-template>														
+								</fo:block>
+							</fo:table-cell>							
+							<fo:table-cell>
+
+								<fo:table table-layout="fixed">
+									<fo:table-column column-width="1.6cm"></fo:table-column>
+									<fo:table-column column-width="0.8cm"></fo:table-column>
+									<fo:table-column column-width="0.8cm"></fo:table-column>
+									<fo:table-column column-width="0.8cm"></fo:table-column>
+									<fo:table-column column-width="1.6cm"></fo:table-column>
+									<fo:table-body>
+										<fo:table-row keep-with-next="always">
+											<fo:table-cell/>
+											<fo:table-cell padding-right="0.1cm" padding-left="0.1cm" border-style="solid" border-width="0.02cm">
+												<fo:block space-before="0.11cm" space-after="0.11cm" font-size="8pt" text-align="center">Y</fo:block>
+											</fo:table-cell>
+											<fo:table-cell/>
+											<fo:table-cell padding-right="0.1cm" padding-left="0.1cm" border-style="solid" border-width="0.02cm">
+												<fo:block space-before="0.11cm" space-after="0.11cm" font-size="8pt" text-align="center">N</fo:block>
+											</fo:table-cell>
+												<fo:table-cell border-right-style="solid" border-right-width="0.02cm"/>
+											</fo:table-row>
+										</fo:table-body>
+									</fo:table>
+								</fo:table-cell>
+							<fo:table-cell number-columns-spanned="3" border-right-style="solid" border-right-width="0.02cm"/>
+						</fo:table-row>
+		
+		<!--Row 20-->
+						<fo:table-row keep-with-next="always">
+							<fo:table-cell border-left-style="solid" border-left-width="0.02cm" border-right-style="solid" border-right-width="0.02cm"/>
+							<fo:table-cell border-right-style="solid" border-right-width="0.02cm"/>
+							<fo:table-cell number-columns-spanned="3" padding-right="0.1cm" padding-left="0.1cm" border-right-style="solid" border-right-width="0.02cm" border-top-style="solid" border-top-width="0.02cm">
+								<fo:block space-before="0.11cm" space-after="0.11cm" font-size="8pt">16. Interest prior to order date</fo:block>
+							</fo:table-cell>
+						</fo:table-row>
+		
+		<!--Row 21-->
+						<fo:table-row keep-with-next="always">
+							<fo:table-cell border-left-style="solid" border-left-width="0.02cm" border-right-style="solid" border-right-width="0.02cm"/>
+							<fo:table-cell padding-right="0.1cm" padding-left="0.1cm" border-right-style="solid" border-right-width="0.02cm">
+								<fo:block space-before="0.11cm" space-after="0.11cm" font-size="8pt">13. Specific known liabilities of beneficiary</fo:block>
+							</fo:table-cell>
+							<fo:table-cell padding-right="0.1cm" padding-left="0.1cm" border-right-style="solid" border-right-width="0.02cm">
+								<fo:block space-before="0.11cm" space-after="0.11cm" font-size="8pt">a) To be paid out to defendant's Solicitors (complete Form 200)</fo:block>
+							</fo:table-cell>
+							<fo:table-cell border-style="solid" border-width="0.02cm"/>
+							<fo:table-cell border-right-style="solid" border-right-width="0.02cm"/>
+						</fo:table-row>
+		
+		<!--Row 22-->
+						<fo:table-row keep-with-next="always">
+							<fo:table-cell border-left-style="solid" border-left-width="0.02cm" border-right-style="solid" border-right-width="0.02cm"/>
+							<fo:table-cell padding-right="0.1cm" padding-left="0.1cm" border-right-style="solid" border-right-width="0.02cm">
+								<fo:block space-before="0.11cm" space-after="0.11cm" font-size="8pt">(a)</fo:block>
+							</fo:table-cell>
+							<fo:table-cell number-columns-spanned="3" border-right-style="solid" border-right-width="0.02cm"/>
+						</fo:table-row>
+		
+		<!--Row 23-->
+						<fo:table-row keep-with-next="always">
+							<fo:table-cell border-left-style="solid" border-left-width="0.02cm" border-right-style="solid" border-right-width="0.02cm"/>
+							<fo:table-cell border-right-style="solid" border-right-width="0.02cm"/>
+							<fo:table-cell padding-right="0.1cm" padding-left="0.1cm" border-right-style="solid" border-right-width="0.02cm">
+								<fo:block space-before="0.11cm" space-after="0.11cm" font-size="8pt">(b) To go to fund</fo:block>
+							</fo:table-cell>
+							<fo:table-cell border-style="solid" border-width="0.02cm"/>
+							<fo:table-cell border-right-style="solid" border-right-width="0.02cm"/>
+						</fo:table-row>
+		
+		<!--Row 24-->
+						<fo:table-row keep-with-next="always">
+							<fo:table-cell border-left-style="solid" border-left-width="0.02cm" border-right-style="solid" border-right-width="0.02cm"/>
+							<fo:table-cell padding-right="0.1cm" padding-left="0.1cm" border-right-style="solid" border-right-width="0.02cm">
+								<fo:block space-before="0.11cm" space-after="0.11cm" font-size="8pt">(b)</fo:block>
+							</fo:table-cell>
+							<fo:table-cell number-columns-spanned="3" border-right-style="solid" border-right-width="0.02cm"/>
+						</fo:table-row>
+		
+		<!--Row 25-->
+						<fo:table-row keep-with-next="always">
+							<fo:table-cell border-left-style="solid" border-left-width="0.02cm" border-right-style="solid" border-right-width="0.02cm"/>
+							<fo:table-cell border-right-style="solid" border-right-width="0.02cm"/>
+							<fo:table-cell number-columns-spanned="3" border-right-style="solid" border-right-width="0.02cm"  border-top-width="0.02cm"/>
+						</fo:table-row>
+
+
+		<!--TESTING -->
+						<fo:table-row keep-with-next="always">
+							<fo:table-cell border-left-style="solid" border-left-width="0.02cm" border-right-style="solid" border-right-width="0.02cm">
+								<fo:block>&#xA0;</fo:block>							
+							</fo:table-cell>
+							<fo:table-cell border-right-style="solid" border-right-width="0.02cm">
+								<fo:block>&#xA0;</fo:block>
+							</fo:table-cell>
+							<fo:table-cell border-right-style="solid" border-right-width="0.02cm"  border-top-width="0.02cm">
+							<fo:block>&#xA0;</fo:block>
+							</fo:table-cell>
+							<fo:table-cell number-columns-spanned="3" border-top-style="solid" border-right-style="solid" border-right-width="0.02cm"  border-top-width="0.02cm">
+							<fo:block>&#xA0;</fo:block>
+							</fo:table-cell>
+						</fo:table-row>
+
+
+		</fo:table-body>
+		</fo:table>
+		
+		<!--Row 26-->
+				<fo:table table-layout="fixed">
+					<fo:table-column column-width="2.5cm"></fo:table-column>
+					<fo:table-column column-width="2.0cm"></fo:table-column>
+					<fo:table-column column-width="3.8cm"></fo:table-column>
+					<fo:table-column column-width="0.8cm"></fo:table-column>
+					<fo:table-column column-width="0.6cm"></fo:table-column>
+					<fo:table-column column-width="0.8cm"></fo:table-column>
+					<fo:table-column column-width="7.1cm"></fo:table-column>
+					<fo:table-column column-width="8.4cm"></fo:table-column>
+					<fo:table-column column-width="2.4cm"></fo:table-column>
+					<fo:table-body>
+						<fo:table-row keep-with-next="always">
+							<fo:table-cell padding-right="0.1cm" padding-left="0.1cm" border-left-style="solid" border-left-width="0.02cm" border-right-style="solid" border-right-width="0.02cm" border-top-style="solid" border-top-width="0.02cm">
+								<fo:block space-before="0.11cm" space-after="0.11cm" font-size="8pt">6. Date of Birth </fo:block>
+							</fo:table-cell>
+							<fo:table-cell padding-right="0.1cm" padding-left="0.1cm" border-right-style="solid" border-right-width="0.02cm" border-top-style="solid" border-top-width="0.02cm">
+								<fo:block space-before="0.11cm" space-after="0.11cm" font-size="8pt" text-align="right"><xsl:value-of select="$vdBeneficiaryBirthDate"/></fo:block>
+							</fo:table-cell>
+							<fo:table-cell border-right-style="solid" border-right-width="0.02cm" border-top-style="solid" border-top-width="0.02cm"/>
+							<fo:table-cell padding-right="0.1cm" padding-left="0.1cm" border-right-style="solid" border-right-width="0.02cm" border-top-style="solid" border-top-width="0.02cm">
+								<fo:block space-before="0.11cm" space-after="0.11cm" font-size="8pt" text-align="center">Y</fo:block>
+							</fo:table-cell>
+							<fo:table-cell border-right-style="solid" border-right-width="0.02cm" border-top-style="solid" border-top-width="0.02cm"/>
+							<fo:table-cell padding-right="0.1cm" padding-left="0.1cm" border-right-style="solid" border-right-width="0.02cm" border-top-style="solid" border-top-width="0.02cm">
+								<fo:block space-before="0.11cm" space-after="0.11cm" font-size="8pt" text-align="center">N</fo:block>
+							</fo:table-cell>
+							<fo:table-cell padding-right="0.1cm" padding-left="0.1cm" border-right-style="solid" border-right-width="0.02cm" border-top-style="solid" border-top-width="0.02cm">
+								<fo:block space-before="0.11cm" space-after="0.11cm" font-size="8pt">Birth Certificate seen (circle appropriate box)</fo:block>
+							</fo:table-cell>
+							<fo:table-cell padding-right="0.1cm" padding-left="0.1cm">
+								<fo:block space-before="0.11cm" space-after="0.11cm" font-size="8pt">Signed ___________________________________________________</fo:block>
+							</fo:table-cell>
+							<fo:table-cell padding-right="0.1cm" padding-left="0.1cm" border-right-style="solid" border-right-width="0.02cm">
+								<fo:block font-size="8pt">Date ___________</fo:block>
+							</fo:table-cell>
+						</fo:table-row>
+					</fo:table-body>
+				</fo:table>	
+		
+		<!--Row 27-->
+				<fo:table table-layout="fixed">
+					<fo:table-column column-width="4.5cm"></fo:table-column>
+					<fo:table-column column-width="0.8cm"></fo:table-column>
+					<fo:table-column column-width="0.6cm"></fo:table-column>
+					<fo:table-column column-width="0.8cm"></fo:table-column>
+					<fo:table-column column-width="10.9cm"></fo:table-column>
+					<fo:table-column column-width="10.8cm"></fo:table-column>
+					<fo:table-body>
+						<fo:table-row keep-with-next="always">
+							<fo:table-cell padding-right="0.1cm" padding-left="0.1cm" border-left-style="solid" border-left-width="0.02cm" border-right-style="solid" border-right-width="0.02cm" border-top-style="solid" border-top-width="0.02cm">
+								<fo:block space-before="0.11cm" space-after="0.11cm" font-size="8pt">7. Majority Direction</fo:block>
+							</fo:table-cell>
+							<fo:table-cell padding-right="0.1cm" padding-left="0.1cm" border-right-style="solid" border-right-width="0.02cm" border-top-style="solid" border-top-width="0.02cm">
+								<fo:block space-before="0.11cm" space-after="0.11cm" font-size="8pt" text-align="center">Y</fo:block>
+							</fo:table-cell>
+							<fo:table-cell border-right-style="solid" border-right-width="0.02cm" border-top-style="solid" border-top-width="0.02cm"/>
+							<fo:table-cell padding-right="0.1cm" padding-left="0.1cm" border-right-style="solid" border-right-width="0.02cm" border-top-style="solid" border-top-width="0.02cm">
+								<fo:block space-before="0.11cm" space-after="0.11cm" font-size="8pt" text-align="center">N</fo:block>
+							</fo:table-cell>
+							<fo:table-cell padding-right="0.1cm" padding-left="0.1cm" border-right-style="solid" border-right-width="0.02cm" border-top-style="solid" border-top-width="0.02cm">
+								<fo:block space-before="0.11cm" space-after="0.11cm" font-size="8pt">(Please circle appropriate box)</fo:block>
+							</fo:table-cell>
+							<fo:table-cell padding-right="0.1cm" padding-left="0.1cm" border-right-style="solid" border-right-width="0.02cm">
+								<fo:block space-before="0.11cm" space-after="0.11cm" font-size="8pt" font-weight="bold">Master/District Judge/Proper Officer)</fo:block>
+							</fo:table-cell>
+						</fo:table-row>
+					</fo:table-body>
+				</fo:table>	
+		
+		<!--Row 28-->
+				<fo:table table-layout="fixed">
+					<fo:table-column column-width="12.0cm"></fo:table-column>
+					<fo:table-column column-width="5.6cm"></fo:table-column>
+					<fo:table-column column-width="10.8cm"></fo:table-column>
+					<fo:table-body>
+						<fo:table-row keep-with-next="always">
+							<fo:table-cell padding-right="0.1cm" padding-left="0.1cm" border-left-style="solid" border-left-width="0.02cm" border-right-style="solid" border-right-width="0.02cm" border-top-style="solid" border-top-width="0.02cm">
+								<fo:block space-before="0.11cm" font-size="8pt" font-weight="bold" space-after="2.0cm">Advice from Private Advisors (please attach)</fo:block>
+							</fo:table-cell>
+							<fo:table-cell padding-right="0.1cm" padding-left="0.1cm" border-right-style="solid" border-right-width="0.02cm" border-top-style="solid" border-top-width="0.02cm">
+								<fo:block space-before="0.11cm" font-size="8pt" font-weight="bold" space-after="2.0cm">For CFO use only</fo:block>
+							</fo:table-cell>
+							<fo:table-cell padding-right="0.1cm" padding-left="0.1cm" border-right-style="solid" border-right-width="0.02cm" border-top-style="solid" border-top-width="0.02cm">
+								<fo:block space-before="0.11cm" font-size="8pt" font-weight="bold" space-after="2.0cm">Authentification Stamp</fo:block>
+							</fo:table-cell>
+						</fo:table-row>
+					</fo:table-body>
+				</fo:table>
+		
+				<fo:block break-after="page"/>
+		
+		<!--Page 2-->
+		<!--Row 1-->
+				<fo:table table-layout="fixed">
+					<fo:table-column column-width="12.7cm"></fo:table-column>
+					<fo:table-column column-width="15.7cm"></fo:table-column>
+					<fo:table-body>
+						<fo:table-row keep-with-next="always">
+							<fo:table-cell padding-right="0.1cm" padding-left="0.1cm" border-right-style="solid" border-right-width="0.02cm">
+								<fo:block space-before="0.08cm" space-after="0.08cm" font-size="16pt" font-weight="bold">Investment Schedule</fo:block>
+							</fo:table-cell>
+							<fo:table-cell padding-right="0.1cm" padding-left="0.1cm">
+								<fo:block space-before="0.08cm" space-after="0.08cm" font-size="16pt" font-weight="bold">CFO use only</fo:block>
+							</fo:table-cell>
+						</fo:table-row>
+					</fo:table-body>
+				</fo:table>
+				
+		<!--Row 2-->
+				<fo:table table-layout="fixed">
+					<fo:table-column column-width="12.7cm"></fo:table-column>
+					<fo:table-body>
+						<fo:table-row keep-with-next="always">
+							<fo:table-cell padding-right="0.1cm" padding-left="0.1cm" border-right-style="solid" border-right-width="0.02cm">
+								<fo:block space-before="0.08cm" space-after="0.08cm" font-size="10pt">The Accountant General is directed to invest the following sum(s):</fo:block>
+							</fo:table-cell>
+						</fo:table-row>
+					</fo:table-body>
+				</fo:table>
+				
+		<!--Row 3-->
+				<fo:table table-layout="fixed">
+					<fo:table-column column-width="12.7cm"></fo:table-column>
+					<fo:table-column column-width="2.0cm"></fo:table-column>
+					<fo:table-column column-width="3.6cm"></fo:table-column>
+					<fo:table-column column-width="0.6cm"></fo:table-column>
+					<fo:table-column column-width="1.2cm"></fo:table-column>
+					<fo:table-column column-width="4.0cm"></fo:table-column>
+					<fo:table-column column-width="1.2cm"></fo:table-column>
+					<fo:table-column column-width="1.2cm"></fo:table-column>
+					<fo:table-column column-width="1.2cm"></fo:table-column>
+					<fo:table-column column-width="0.7cm"></fo:table-column>
+					<fo:table-body>
+						<fo:table-row keep-with-next="always">
+							<fo:table-cell padding-right="0.1cm" padding-left="0.1cm" border-right-style="solid" border-right-width="0.02cm"/>
+							<fo:table-cell padding-right="0.1cm" padding-left="0.1cm" border-right-style="solid" border-right-width="0.02cm" border-top-style="solid" border-top-width="0.02cm">
+								<fo:block space-before="0.08cm" space-after="0.08cm" font-size="10pt">Schedule</fo:block>
+							</fo:table-cell>
+							<fo:table-cell padding-right="0.1cm" padding-left="0.1cm" border-right-style="solid" border-right-width="0.02cm" border-top-style="solid" border-top-width="0.02cm"/>
+							<fo:table-cell padding-right="0.1cm" padding-left="0.1cm" border-right-style="solid" border-right-width="0.02cm" border-top-style="solid" border-top-width="0.02cm"/>
+							<fo:table-cell padding-right="0.1cm" padding-left="0.1cm" border-right-style="solid" border-right-width="0.02cm" border-top-style="solid" border-top-width="0.02cm"/>
+							<fo:table-cell padding-right="0.1cm" padding-left="0.1cm" border-right-style="solid" border-right-width="0.02cm" border-top-style="solid" border-top-width="0.02cm">
+								<fo:block space-before="0.08cm" space-after="0.08cm" font-size="10pt">Date Schedule</fo:block>
+							</fo:table-cell>
+							<fo:table-cell padding-right="0.1cm" padding-left="0.1cm" border-right-style="solid" border-right-width="0.02cm" border-top-style="solid" border-top-width="0.02cm"/>
+							<fo:table-cell padding-right="0.1cm" padding-left="0.1cm" border-right-style="solid" border-right-width="0.02cm" border-top-style="solid" border-top-width="0.02cm"/>
+							<fo:table-cell padding-right="0.1cm" padding-left="0.1cm" border-right-style="solid" border-right-width="0.02cm" border-top-style="solid" border-top-width="0.02cm"/>
+							<fo:table-cell padding-right="0.1cm" padding-left="0.1cm" border-top-style="solid" border-top-width="0.02cm"/>
+						</fo:table-row>
+					</fo:table-body>
+				</fo:table>
+				
+		<!--Row 4-->
+				<fo:table table-layout="fixed">
+					<fo:table-column column-width="12.7cm"></fo:table-column>
+					<fo:table-column column-width="2.0cm"></fo:table-column>
+					<fo:table-column column-width="0.6cm"></fo:table-column>
+					<fo:table-column column-width="0.6cm"></fo:table-column>
+					<fo:table-column column-width="0.6cm"></fo:table-column>
+					<fo:table-column column-width="0.6cm"></fo:table-column>
+					<fo:table-column column-width="0.6cm"></fo:table-column>
+					<fo:table-column column-width="0.6cm"></fo:table-column>
+					<fo:table-column column-width="0.6cm"></fo:table-column>
+					<fo:table-column column-width="0.6cm"></fo:table-column>
+					<fo:table-column column-width="0.6cm"></fo:table-column>
+					<fo:table-column column-width="4.0cm"></fo:table-column>
+					<fo:table-column column-width="0.6cm"></fo:table-column>
+					<fo:table-column column-width="0.6cm"></fo:table-column>
+					<fo:table-column column-width="0.6cm"></fo:table-column>
+					<fo:table-column column-width="0.6cm"></fo:table-column>
+					<fo:table-column column-width="0.6cm"></fo:table-column>
+					<fo:table-column column-width="0.6cm"></fo:table-column>
+					<fo:table-column column-width="0.7cm"></fo:table-column>
+					<fo:table-body>
+						<fo:table-row keep-with-next="always">
+							<fo:table-cell padding-right="0.1cm" padding-left="0.1cm" border-right-style="solid" border-right-width="0.02cm"/>
+							<fo:table-cell padding-right="0.1cm" padding-left="0.1cm" border-right-style="solid" border-right-width="0.02cm">
+								<fo:block space-before="0.08cm" space-after="0.08cm" font-size="10pt">No</fo:block>
+							</fo:table-cell>
+							<fo:table-cell padding-right="0.1cm" padding-left="0.1cm" border-right-style="solid" border-right-width="0.02cm"/>
+							<fo:table-cell padding-right="0.1cm" padding-left="0.1cm" border-right-style="solid" border-right-width="0.02cm"/>
+							<fo:table-cell padding-right="0.1cm" padding-left="0.1cm" border-right-style="solid" border-right-width="0.02cm"/>
+							<fo:table-cell padding-right="0.1cm" padding-left="0.1cm" border-right-style="solid" border-right-width="0.02cm"/>
+							<fo:table-cell padding-right="0.1cm" padding-left="0.1cm" border-right-style="solid" border-right-width="0.02cm"/>
+							<fo:table-cell padding-right="0.1cm" padding-left="0.1cm" border-right-style="solid" border-right-width="0.02cm"/>
+							<fo:table-cell padding-right="0.1cm" padding-left="0.1cm" border-right-style="solid" border-right-width="0.02cm"/>
+							<fo:table-cell padding-right="0.1cm" padding-left="0.1cm" border-right-style="solid" border-right-width="0.02cm"/>
+							<fo:table-cell padding-right="0.1cm" padding-left="0.1cm" border-right-style="solid" border-right-width="0.02cm"/>
+							<fo:table-cell padding-right="0.1cm" padding-left="0.1cm" border-right-style="solid" border-right-width="0.02cm">
+								<fo:block space-before="0.08cm" space-after="0.08cm" font-size="10pt">Received</fo:block>
+							</fo:table-cell>
+							<fo:table-cell padding-right="0.1cm" padding-left="0.1cm" border-right-style="solid" border-right-width="0.02cm"/>
+							<fo:table-cell padding-right="0.1cm" padding-left="0.1cm" border-right-style="solid" border-right-width="0.02cm"/>
+							<fo:table-cell padding-right="0.1cm" padding-left="0.1cm" border-right-style="solid" border-right-width="0.02cm"/>
+							<fo:table-cell padding-right="0.1cm" padding-left="0.1cm" border-right-style="solid" border-right-width="0.02cm"/>
+							<fo:table-cell padding-right="0.1cm" padding-left="0.1cm" border-right-style="solid" border-right-width="0.02cm"/>
+							<fo:table-cell padding-right="0.1cm" padding-left="0.1cm" border-right-style="solid" border-right-width="0.02cm"/>
+							<fo:table-cell padding-right="0.1cm" padding-left="0.1cm"/>
+						</fo:table-row>
+					</fo:table-body>
+				</fo:table>
+				
+		<!--Row 5-->
+				<fo:table table-layout="fixed">
+					<fo:table-column column-width="12.7cm"></fo:table-column>
+					<fo:table-column column-width="2.0cm"></fo:table-column>
+					<fo:table-column column-width="5.4cm"></fo:table-column>
+					<fo:table-column column-width="8.3cm"></fo:table-column>
+					<fo:table-body>
+						<fo:table-row keep-with-next="always">
+							<fo:table-cell padding-right="0.1cm" padding-left="0.1cm" border-right-style="solid" border-right-width="0.02cm"/>
+							<fo:table-cell padding-right="0.1cm" padding-left="0.1cm" border-right-style="solid" border-right-width="0.02cm" border-top-style="solid" border-top-width="0.02cm">
+								<fo:block space-before="0.08cm" space-after="0.08cm" font-size="10pt">A/c No</fo:block>
+							</fo:table-cell>
+							<fo:table-cell padding-right="0.1cm" padding-left="0.1cm" border-right-style="solid" border-right-width="0.02cm" border-top-style="solid" border-top-width="0.02cm"/>
+							<fo:table-cell padding-right="0.1cm" padding-left="0.1cm" border-top-style="solid" border-top-width="0.02cm"/>
+						</fo:table-row>
+					</fo:table-body>
+				</fo:table>
+				
+		<!--Row 6-->
+				<fo:table table-layout="fixed">
+					<fo:table-column column-width="12.7cm"></fo:table-column>
+					<fo:table-column column-width="2.0cm"></fo:table-column>
+					<fo:table-column column-width="0.6cm"></fo:table-column>
+					<fo:table-column column-width="0.6cm"></fo:table-column>
+					<fo:table-column column-width="0.6cm"></fo:table-column>
+					<fo:table-column column-width="0.6cm"></fo:table-column>
+					<fo:table-column column-width="0.6cm"></fo:table-column>
+					<fo:table-column column-width="0.6cm"></fo:table-column>
+					<fo:table-column column-width="0.6cm"></fo:table-column>
+					<fo:table-column column-width="0.6cm"></fo:table-column>
+					<fo:table-column column-width="0.6cm"></fo:table-column>
+					<fo:table-column column-width="8.3cm"></fo:table-column>
+					<fo:table-body>
+						<fo:table-row keep-with-next="always">
+							<fo:table-cell padding-right="0.1cm" padding-left="0.1cm" border-right-style="solid" border-right-width="0.02cm">
+								<fo:block space-before="0.44cm" space-after="0.08cm" font-size="10pt"/>
+							</fo:table-cell>
+							<fo:table-cell padding-right="0.1cm" padding-left="0.1cm" border-right-style="solid" border-right-width="0.02cm"/>
+							<fo:table-cell padding-right="0.1cm" padding-left="0.1cm" border-right-style="solid" border-right-width="0.02cm"/>
+							<fo:table-cell padding-right="0.1cm" padding-left="0.1cm" border-right-style="solid" border-right-width="0.02cm"/>
+							<fo:table-cell padding-right="0.1cm" padding-left="0.1cm" border-right-style="solid" border-right-width="0.02cm"/>
+							<fo:table-cell padding-right="0.1cm" padding-left="0.1cm" border-right-style="solid" border-right-width="0.02cm"/>
+							<fo:table-cell padding-right="0.1cm" padding-left="0.1cm" border-right-style="solid" border-right-width="0.02cm"/>
+							<fo:table-cell padding-right="0.1cm" padding-left="0.1cm" border-right-style="solid" border-right-width="0.02cm"/>
+							<fo:table-cell padding-right="0.1cm" padding-left="0.1cm" border-right-style="solid" border-right-width="0.02cm"/>
+							<fo:table-cell padding-right="0.1cm" padding-left="0.1cm" border-right-style="solid" border-right-width="0.02cm"/>
+							<fo:table-cell padding-right="0.1cm" padding-left="0.1cm" border-right-style="solid" border-right-width="0.02cm"/>
+							<fo:table-cell padding-right="0.1cm" padding-left="0.1cm"/>
+						</fo:table-row>
+					</fo:table-body>
+				</fo:table>
+				
+		<!--Row 7-->
+				<fo:table table-layout="fixed">
+					<fo:table-column column-width="12.7cm"></fo:table-column>
+					<fo:table-column column-width="2.0cm"></fo:table-column>
+					<fo:table-column column-width="5.4cm"></fo:table-column>
+					<fo:table-column column-width="2.8cm"></fo:table-column>
+					<fo:table-column column-width="1.2cm"></fo:table-column>
+					<fo:table-column column-width="1.2cm"></fo:table-column>
+					<fo:table-column column-width="1.2cm"></fo:table-column>
+					<fo:table-column column-width="1.3cm"></fo:table-column>
+					<fo:table-column column-width="0.6cm"></fo:table-column>
+					<fo:table-body>
+						<fo:table-row keep-with-next="always">
+							<fo:table-cell padding-right="0.1cm" padding-left="0.1cm" border-right-style="solid" border-right-width="0.02cm"/>
+							<fo:table-cell padding-right="0.1cm" padding-left="0.1cm" border-right-style="solid" border-right-width="0.02cm" border-top-style="solid" border-top-width="0.02cm">
+								<fo:block space-before="0.08cm" space-after="0.08cm" font-size="10pt">A/c Carry</fo:block>
+							</fo:table-cell>
+							<fo:table-cell padding-right="0.1cm" padding-left="0.1cm" border-right-style="solid" border-right-width="0.02cm" border-top-style="solid" border-top-width="0.02cm"/>
+							<fo:table-cell padding-right="0.1cm" padding-left="0.1cm" border-right-style="solid" border-right-width="0.02cm" border-top-style="solid" border-top-width="0.02cm"/>
+							<fo:table-cell padding-right="0.1cm" padding-left="0.1cm" border-right-style="solid" border-right-width="0.02cm" border-top-style="solid" border-top-width="0.02cm"/>
+							<fo:table-cell padding-right="0.1cm" padding-left="0.1cm" border-right-style="solid" border-right-width="0.02cm" border-top-style="solid" border-top-width="0.02cm"/>
+							<fo:table-cell padding-right="0.1cm" padding-left="0.1cm" border-right-style="solid" border-right-width="0.02cm" border-top-style="solid" border-top-width="0.02cm"/>
+							<fo:table-cell padding-right="0.1cm" padding-left="0.1cm" border-right-style="solid" border-right-width="0.02cm" border-top-style="solid" border-top-width="0.02cm">
+								<fo:block space-before="0.08cm" space-after="0.08cm" font-size="10pt" text-align="right">Init</fo:block>
+							</fo:table-cell>
+							<fo:table-cell padding-right="0.1cm" padding-left="0.1cm" border-right-style="solid" border-right-width="0.02cm" border-top-style="solid" border-top-width="0.02cm"/>
+						</fo:table-row>
+					</fo:table-body>
+				</fo:table>
+				
+		<!--Row 8-->
+				<fo:table table-layout="fixed">
+					<fo:table-column column-width="12.7cm"></fo:table-column>
+					<fo:table-column column-width="2.0cm"></fo:table-column>
+					<fo:table-column column-width="0.6cm"></fo:table-column>
+					<fo:table-column column-width="0.6cm"></fo:table-column>
+					<fo:table-column column-width="0.6cm"></fo:table-column>
+					<fo:table-column column-width="0.6cm"></fo:table-column>
+					<fo:table-column column-width="0.6cm"></fo:table-column>
+					<fo:table-column column-width="0.6cm"></fo:table-column>
+					<fo:table-column column-width="0.6cm"></fo:table-column>
+					<fo:table-column column-width="0.6cm"></fo:table-column>
+					<fo:table-column column-width="0.6cm"></fo:table-column>
+					<fo:table-column column-width="2.8cm"></fo:table-column>
+					<fo:table-column column-width="0.6cm"></fo:table-column>
+					<fo:table-column column-width="0.6cm"></fo:table-column>
+					<fo:table-column column-width="0.6cm"></fo:table-column>
+					<fo:table-column column-width="0.6cm"></fo:table-column>
+					<fo:table-column column-width="0.6cm"></fo:table-column>
+					<fo:table-column column-width="0.6cm"></fo:table-column>
+					<fo:table-column column-width="1.3cm"></fo:table-column>
+					<fo:table-column column-width="0.6cm"></fo:table-column>
+					<fo:table-body>
+						<fo:table-row keep-with-next="always">
+							<fo:table-cell padding-right="0.1cm" padding-left="0.1cm" border-right-style="solid" border-right-width="0.02cm"/>
+							<fo:table-cell padding-right="0.1cm" padding-left="0.1cm" border-right-style="solid" border-right-width="0.02cm">
+								<fo:block space-before="0.08cm" space-after="0.08cm" font-size="10pt">over</fo:block>
+							</fo:table-cell>
+							<fo:table-cell padding-right="0.1cm" padding-left="0.1cm" border-right-style="solid" border-right-width="0.02cm"/>
+							<fo:table-cell padding-right="0.1cm" padding-left="0.1cm" border-right-style="solid" border-right-width="0.02cm"/>
+							<fo:table-cell padding-right="0.1cm" padding-left="0.1cm" border-right-style="solid" border-right-width="0.02cm"/>
+							<fo:table-cell padding-right="0.1cm" padding-left="0.1cm" border-right-style="solid" border-right-width="0.02cm"/>
+							<fo:table-cell padding-right="0.1cm" padding-left="0.1cm" border-right-style="solid" border-right-width="0.02cm"/>
+							<fo:table-cell padding-right="0.1cm" padding-left="0.1cm" border-right-style="solid" border-right-width="0.02cm"/>
+							<fo:table-cell padding-right="0.1cm" padding-left="0.1cm" border-right-style="solid" border-right-width="0.02cm"/>
+							<fo:table-cell padding-right="0.1cm" padding-left="0.1cm" border-right-style="solid" border-right-width="0.02cm"/>
+							<fo:table-cell padding-right="0.1cm" padding-left="0.1cm" border-right-style="solid" border-right-width="0.02cm"/>
+							<fo:table-cell padding-right="0.1cm" padding-left="0.1cm" border-right-style="solid" border-right-width="0.02cm"/>
+							<fo:table-cell padding-right="0.1cm" padding-left="0.1cm" border-right-style="solid" border-right-width="0.02cm"/>
+							<fo:table-cell padding-right="0.1cm" padding-left="0.1cm" border-right-style="solid" border-right-width="0.02cm"/>
+							<fo:table-cell padding-right="0.1cm" padding-left="0.1cm" border-right-style="solid" border-right-width="0.02cm"/>
+							<fo:table-cell padding-right="0.1cm" padding-left="0.1cm" border-right-style="solid" border-right-width="0.02cm"/>
+							<fo:table-cell padding-right="0.1cm" padding-left="0.1cm" border-right-style="solid" border-right-width="0.02cm"/>
+							<fo:table-cell padding-right="0.1cm" padding-left="0.1cm" border-right-style="solid" border-right-width="0.02cm"/>
+							<fo:table-cell padding-right="0.1cm" padding-left="0.1cm" border-right-style="solid" border-right-width="0.02cm"/>
+							<fo:table-cell padding-right="0.1cm" padding-left="0.1cm" border-right-style="solid" border-right-width="0.02cm"/>
+						</fo:table-row>
+					</fo:table-body>
+				</fo:table>
+				
+		<!--Row 9-->
+				<fo:table table-layout="fixed">
+					<fo:table-column column-width="12.7cm"></fo:table-column>
+					<fo:table-column column-width="6.0cm"></fo:table-column>
+					<fo:table-column column-width="1.4cm"></fo:table-column>
+					<fo:table-column column-width="4.7cm"></fo:table-column>
+					<fo:table-column column-width="3.6cm"></fo:table-column>
+					<fo:table-body>
+						<fo:table-row keep-with-next="always">
+							<fo:table-cell padding-right="0.1cm" padding-left="0.1cm" border-right-style="solid" border-right-width="0.02cm"/>
+							<fo:table-cell padding-right="0.1cm" padding-left="0.1cm" border-top-style="solid" border-top-width="0.02cm"/>
+							<fo:table-cell padding-right="0.1cm" padding-left="0.1cm" border-top-style="solid" border-top-width="0.02cm">
+								<fo:block space-before="0.08cm" space-after="0.08cm" font-size="10pt">Init</fo:block>
+							</fo:table-cell>
+							<fo:table-cell padding-right="0.1cm" padding-left="0.1cm" border-top-style="solid" border-top-width="0.02cm">
+								<fo:block space-before="0.08cm" space-after="0.08cm" font-size="10pt">Ack</fo:block>
+							</fo:table-cell>
+							<fo:table-cell padding-right="0.1cm" padding-left="0.1cm" border-top-style="solid" border-top-width="0.02cm">
+								<fo:block space-before="0.08cm" space-after="0.08cm" font-size="10pt">Init</fo:block>
+							</fo:table-cell>
+						</fo:table-row>
+					</fo:table-body>
+				</fo:table>
+				
+		<!--Row 10-->
+				<fo:table table-layout="fixed">
+					<fo:table-column column-width="12.7cm"></fo:table-column>
+					<fo:table-column column-width="2.0cm"></fo:table-column>
+					<fo:table-column column-width="1.2cm"></fo:table-column>
+					<fo:table-column column-width="1.2cm"></fo:table-column>
+					<fo:table-column column-width="1.2cm"></fo:table-column>
+					<fo:table-column column-width="1.8cm"></fo:table-column>
+					<fo:table-column column-width="1.0cm"></fo:table-column>
+					<fo:table-column column-width="1.2cm"></fo:table-column>
+					<fo:table-column column-width="1.2cm"></fo:table-column>
+					<fo:table-column column-width="1.2cm"></fo:table-column>
+					<fo:table-column column-width="3.7cm"></fo:table-column>
+					<fo:table-body>
+						<fo:table-row keep-with-next="always">
+							<fo:table-cell padding-right="0.1cm" padding-left="0.1cm" border-right-style="solid" border-right-width="0.02cm"/>
+							<fo:table-cell padding-right="0.1cm" padding-left="0.1cm" border-right-style="solid" border-right-width="0.02cm">
+								<fo:block space-before="0.08cm" space-after="0.08cm" font-size="10pt">Completed</fo:block>
+							</fo:table-cell>
+							<fo:table-cell padding-right="0.1cm" padding-left="0.1cm" border-right-style="solid" border-right-width="0.02cm" border-top-style="solid" border-top-width="0.02cm"/>
+							<fo:table-cell padding-right="0.1cm" padding-left="0.1cm" border-right-style="solid" border-right-width="0.02cm" border-top-style="solid" border-top-width="0.02cm"/>
+							<fo:table-cell padding-right="0.1cm" padding-left="0.1cm" border-right-style="solid" border-right-width="0.02cm" border-top-style="solid" border-top-width="0.02cm"/>
+							<fo:table-cell padding-right="0.1cm" padding-left="0.1cm"/>
+							<fo:table-cell padding-right="0.1cm" padding-left="0.1cm" border-right-style="solid" border-right-width="0.02cm">
+								<fo:block space-before="0.08cm" space-after="0.08cm" font-size="10pt">sent</fo:block>
+							</fo:table-cell>
+							<fo:table-cell padding-right="0.1cm" padding-left="0.1cm" border-right-style="solid" border-right-width="0.02cm" border-top-style="solid" border-top-width="0.02cm"/>
+							<fo:table-cell padding-right="0.1cm" padding-left="0.1cm" border-right-style="solid" border-right-width="0.02cm" border-top-style="solid" border-top-width="0.02cm"/>
+							<fo:table-cell padding-right="0.1cm" padding-left="0.1cm" border-right-style="solid" border-right-width="0.02cm" border-top-style="solid" border-top-width="0.02cm"/>
+							<fo:table-cell padding-right="0.1cm" padding-left="0.1cm"/>
+						</fo:table-row>
+					</fo:table-body>
+				</fo:table>
+				
+		<!--Row 11-->
+				<fo:table table-layout="fixed">
+					<fo:table-column column-width="12.7cm"></fo:table-column>
+					<fo:table-column column-width="2.0cm"></fo:table-column>
+					<fo:table-column column-width="0.6cm"></fo:table-column>
+					<fo:table-column column-width="0.6cm"></fo:table-column>
+					<fo:table-column column-width="0.6cm"></fo:table-column>
+					<fo:table-column column-width="0.6cm"></fo:table-column>
+					<fo:table-column column-width="0.6cm"></fo:table-column>
+					<fo:table-column column-width="0.6cm"></fo:table-column>
+					<fo:table-column column-width="1.2cm"></fo:table-column>
+					<fo:table-column column-width="1.6cm"></fo:table-column>
+					<fo:table-column column-width="0.6cm"></fo:table-column>
+					<fo:table-column column-width="0.6cm"></fo:table-column>
+					<fo:table-column column-width="0.6cm"></fo:table-column>
+					<fo:table-column column-width="0.6cm"></fo:table-column>
+					<fo:table-column column-width="0.6cm"></fo:table-column>
+					<fo:table-column column-width="0.6cm"></fo:table-column>
+					<fo:table-column column-width="3.7cm"></fo:table-column>
+					<fo:table-body>
+						<fo:table-row keep-with-next="always">
+							<fo:table-cell padding-right="0.1cm" padding-left="0.1cm" border-right-style="solid" border-right-width="0.02cm">
+								<fo:block space-before="0.44cm" space-after="0.08cm" font-size="10pt"/>
+							</fo:table-cell>
+							<fo:table-cell padding-right="0.1cm" padding-left="0.1cm" border-right-style="solid" border-right-width="0.02cm"/>
+							<fo:table-cell padding-right="0.1cm" padding-left="0.1cm" border-right-style="solid" border-right-width="0.02cm"/>
+							<fo:table-cell padding-right="0.1cm" padding-left="0.1cm" border-right-style="solid" border-right-width="0.02cm"/>
+							<fo:table-cell padding-right="0.1cm" padding-left="0.1cm" border-right-style="solid" border-right-width="0.02cm"/>
+							<fo:table-cell padding-right="0.1cm" padding-left="0.1cm" border-right-style="solid" border-right-width="0.02cm"/>
+							<fo:table-cell padding-right="0.1cm" padding-left="0.1cm" border-right-style="solid" border-right-width="0.02cm"/>
+							<fo:table-cell padding-right="0.1cm" padding-left="0.1cm" border-right-style="solid" border-right-width="0.02cm"/>
+							<fo:table-cell padding-right="0.1cm" padding-left="0.1cm" border-right-style="solid" border-right-width="0.02cm"/>
+							<fo:table-cell padding-right="0.1cm" padding-left="0.1cm" border-right-style="solid" border-right-width="0.02cm"/>
+							<fo:table-cell padding-right="0.1cm" padding-left="0.1cm" border-right-style="solid" border-right-width="0.02cm"/>
+							<fo:table-cell padding-right="0.1cm" padding-left="0.1cm" border-right-style="solid" border-right-width="0.02cm"/>
+							<fo:table-cell padding-right="0.1cm" padding-left="0.1cm" border-right-style="solid" border-right-width="0.02cm"/>
+							<fo:table-cell padding-right="0.1cm" padding-left="0.1cm" border-right-style="solid" border-right-width="0.02cm"/>
+							<fo:table-cell padding-right="0.1cm" padding-left="0.1cm" border-right-style="solid" border-right-width="0.02cm"/>
+							<fo:table-cell padding-right="0.1cm" padding-left="0.1cm" border-right-style="solid" border-right-width="0.02cm"/>
+							<fo:table-cell padding-right="0.1cm" padding-left="0.1cm"/>
+						</fo:table-row>
+					</fo:table-body>
+				</fo:table>
+				
+		<!--Row 12-->
+				<fo:table table-layout="fixed">
+					<fo:table-column column-width="12.7cm"></fo:table-column>
+					<fo:table-column column-width="7.4cm"></fo:table-column>
+					<fo:table-column column-width="8.3cm"></fo:table-column>
+					<fo:table-body>
+						<fo:table-row keep-with-next="always">
+							<fo:table-cell padding-right="0.1cm" padding-left="0.1cm" border-right-style="solid" border-right-width="0.02cm"/>
+							<fo:table-cell padding-right="0.1cm" padding-left="0.1cm" border-right-style="solid" border-right-width="0.02cm" border-top-style="solid" border-top-width="0.02cm">
+								<fo:block space-before="0.08cm" space-after="0.08cm" font-size="10pt">CFO 205</fo:block>
+							</fo:table-cell>
+							<fo:table-cell padding-right="0.1cm" padding-left="0.1cm" border-top-style="solid" border-top-width="0.02cm">
+								<fo:block space-before="0.08cm" space-after="0.08cm" font-size="10pt">Amendments/</fo:block>
+							</fo:table-cell>
+						</fo:table-row>
+					</fo:table-body>
+				</fo:table>
+				
+		<!--Row 13-->
+				<fo:table table-layout="fixed">
+					<fo:table-column column-width="12.7cm"></fo:table-column>
+					<fo:table-column column-width="7.4cm"></fo:table-column>
+					<fo:table-column column-width="8.3cm"></fo:table-column>
+					<fo:table-body>
+						<fo:table-row keep-with-next="always">
+							<fo:table-cell padding-right="0.1cm" padding-left="0.1cm" border-right-style="solid" border-right-width="0.02cm"/>
+							<fo:table-cell padding-right="0.1cm" padding-left="0.1cm" border-right-style="solid" border-right-width="0.02cm"/>
+							<fo:table-cell padding-right="0.1cm" padding-left="0.1cm">
+								<fo:block space-before="0.08cm" space-after="0.08cm" font-size="10pt">Fiche ref</fo:block>
+							</fo:table-cell>
+						</fo:table-row>
+					</fo:table-body>
+				</fo:table>
+				
+		<!--Row 14-->
+				<fo:table table-layout="fixed">
+					<fo:table-column column-width="12.7cm"></fo:table-column>
+					<fo:table-column column-width="15.7cm"></fo:table-column>
+					<fo:table-body>
+						<fo:table-row keep-with-next="always">
+							<fo:table-cell padding-right="0.1cm" padding-left="0.1cm" border-right-style="solid" border-right-width="0.02cm"/>
+							<fo:table-cell padding-right="0.1cm" padding-left="0.1cm" border-top-style="solid" border-top-width="0.02cm">
+								<fo:block space-before="0.08cm" space-after="0.08cm" font-size="10pt">Securities Branch</fo:block>
+							</fo:table-cell>
+						</fo:table-row>
+					</fo:table-body>
+				</fo:table>
+				
+		<!--Row 15-->
+				<fo:table table-layout="fixed">
+					<fo:table-column column-width="12.7cm"></fo:table-column>
+					<fo:table-column column-width="15.7cm"></fo:table-column>
+					<fo:table-body>
+						<fo:table-row keep-with-next="always">
+							<fo:table-cell padding-right="0.1cm" padding-left="0.1cm" border-right-style="solid" border-right-width="0.02cm"/>
+							<fo:table-cell padding-right="0.1cm" padding-left="0.1cm">
+								<fo:block space-before="0.08cm" space-after="0.08cm" font-size="10pt">to note</fo:block>
+							</fo:table-cell>
+						</fo:table-row>
+					</fo:table-body>
+				</fo:table>
+				
+		<!--Row 16-->
+				<fo:table table-layout="fixed">
+					<fo:table-column column-width="12.7cm"></fo:table-column>
+					<fo:table-column column-width="8.5cm"></fo:table-column>
+					<fo:table-column column-width="1.2cm"></fo:table-column>
+					<fo:table-column column-width="1.2cm"></fo:table-column>
+					<fo:table-column column-width="1.2cm"></fo:table-column>
+					<fo:table-column column-width="3.6cm"></fo:table-column>
+					<fo:table-body>
+						<fo:table-row keep-with-next="always">
+							<fo:table-cell padding-right="0.1cm" padding-left="0.1cm" border-right-style="solid" border-right-width="0.02cm"/>
+							<fo:table-cell padding-right="0.1cm" padding-left="0.1cm" border-right-style="solid" border-right-width="0.02cm" border-top-style="solid" border-top-width="0.02cm">
+								<fo:block space-before="0.08cm" space-after="0.08cm" font-size="10pt">Withdraw Basics &#163;</fo:block>
+							</fo:table-cell>
+							<fo:table-cell padding-right="0.1cm" padding-left="0.1cm" border-right-style="solid" border-right-width="0.02cm" border-top-style="solid" border-top-width="0.02cm"/>
+							<fo:table-cell padding-right="0.1cm" padding-left="0.1cm" border-right-style="solid" border-right-width="0.02cm" border-top-style="solid" border-top-width="0.02cm"/>
+							<fo:table-cell padding-right="0.1cm" padding-left="0.1cm" border-right-style="solid" border-right-width="0.02cm" border-top-style="solid" border-top-width="0.02cm"/>
+							<fo:table-cell padding-right="0.1cm" padding-left="0.1cm" border-right-style="solid" border-right-width="0.02cm" border-top-style="solid" border-top-width="0.02cm">
+								<fo:block space-before="0.08cm" space-after="0.08cm" font-size="10pt">Init</fo:block>
+							</fo:table-cell>
+						</fo:table-row>
+					</fo:table-body>
+				</fo:table>
+				
+		<!--Row 17-->
+				<fo:table table-layout="fixed">
+					<fo:table-column column-width="12.7cm"></fo:table-column>
+					<fo:table-column column-width="8.5cm"></fo:table-column>
+					<fo:table-column column-width="0.6cm"></fo:table-column>
+					<fo:table-column column-width="0.6cm"></fo:table-column>
+					<fo:table-column column-width="0.6cm"></fo:table-column>
+					<fo:table-column column-width="0.6cm"></fo:table-column>
+					<fo:table-column column-width="0.6cm"></fo:table-column>
+					<fo:table-column column-width="0.6cm"></fo:table-column>
+					<fo:table-column column-width="3.6cm"></fo:table-column>
+					<fo:table-body>
+						<fo:table-row keep-with-next="always">
+							<fo:table-cell padding-right="0.1cm" padding-left="0.1cm" border-right-style="solid" border-right-width="0.02cm">
+								<fo:block space-before="0.44cm" space-after="0.08cm" font-size="10pt"/>
+							</fo:table-cell>
+							<fo:table-cell padding-right="0.1cm" padding-left="0.1cm" border-right-style="solid" border-right-width="0.02cm"/>
+							<fo:table-cell padding-right="0.1cm" padding-left="0.1cm" border-right-style="solid" border-right-width="0.02cm"/>
+							<fo:table-cell padding-right="0.1cm" padding-left="0.1cm" border-right-style="solid" border-right-width="0.02cm"/>
+							<fo:table-cell padding-right="0.1cm" padding-left="0.1cm" border-right-style="solid" border-right-width="0.02cm"/>
+							<fo:table-cell padding-right="0.1cm" padding-left="0.1cm" border-right-style="solid" border-right-width="0.02cm"/>
+							<fo:table-cell padding-right="0.1cm" padding-left="0.1cm" border-right-style="solid" border-right-width="0.02cm"/>
+							<fo:table-cell padding-right="0.1cm" padding-left="0.1cm" border-right-style="solid" border-right-width="0.02cm"/>
+							<fo:table-cell padding-right="0.1cm" padding-left="0.1cm" border-right-style="solid" border-right-width="0.02cm"/>
+						</fo:table-row>
+					</fo:table-body>
+				</fo:table>
+				
+		<!--Row 18-->
+				<fo:table table-layout="fixed">
+					<fo:table-column column-width="12.7cm"></fo:table-column>
+					<fo:table-column column-width="8.5cm"></fo:table-column>
+					<fo:table-column column-width="1.2cm"></fo:table-column>
+					<fo:table-column column-width="1.2cm"></fo:table-column>
+					<fo:table-column column-width="1.2cm"></fo:table-column>
+					<fo:table-column column-width="3.6cm"></fo:table-column>
+					<fo:table-body>
+						<fo:table-row keep-with-next="always">
+							<fo:table-cell padding-right="0.1cm" padding-left="0.1cm" border-right-style="solid" border-right-width="0.02cm" border-top-style="solid" border-top-width="0.02cm">
+								<fo:block space-before="0.08cm" space-after="0.08cm" font-size="10pt">Pay or invest in</fo:block>
+							</fo:table-cell>
+							<fo:table-cell padding-right="0.1cm" padding-left="0.1cm" border-right-style="solid" border-right-width="0.02cm" border-top-style="solid" border-top-width="0.02cm">
+								<fo:block space-before="0.08cm" space-after="0.08cm" font-size="10pt">Raise/Withdraw/</fo:block>
+							</fo:table-cell>
+							<fo:table-cell padding-right="0.1cm" padding-left="0.1cm" border-right-style="solid" border-right-width="0.02cm" border-top-style="solid" border-top-width="0.02cm"/>
+							<fo:table-cell padding-right="0.1cm" padding-left="0.1cm" border-right-style="solid" border-right-width="0.02cm" border-top-style="solid" border-top-width="0.02cm"/>
+							<fo:table-cell padding-right="0.1cm" padding-left="0.1cm" border-right-style="solid" border-right-width="0.02cm" border-top-style="solid" border-top-width="0.02cm"/>
+							<fo:table-cell padding-right="0.1cm" padding-left="0.1cm" border-right-style="solid" border-right-width="0.02cm" border-top-style="solid" border-top-width="0.02cm">
+								<fo:block space-before="0.08cm" space-after="0.08cm" font-size="10pt">Init</fo:block>
+							</fo:table-cell>
+						</fo:table-row>
+					</fo:table-body>
+				</fo:table>
+				
+		<!--Row 19-->
+				<fo:table table-layout="fixed">
+					<fo:table-column column-width="12.7cm"></fo:table-column>
+					<fo:table-column column-width="6.9cm"></fo:table-column>
+					<fo:table-column column-width="1.6cm"></fo:table-column>
+					<fo:table-column column-width="0.6cm"></fo:table-column>
+					<fo:table-column column-width="0.6cm"></fo:table-column>
+					<fo:table-column column-width="0.6cm"></fo:table-column>
+					<fo:table-column column-width="0.6cm"></fo:table-column>
+					<fo:table-column column-width="0.6cm"></fo:table-column>
+					<fo:table-column column-width="0.6cm"></fo:table-column>
+					<fo:table-column column-width="3.6cm"></fo:table-column>
+					<fo:table-body>
+						<fo:table-row keep-with-next="always">
+							<fo:table-cell padding-right="0.1cm" padding-left="0.1cm" border-right-style="solid" border-right-width="0.02cm"/>
+							<fo:table-cell padding-right="0.1cm" padding-left="0.1cm" border-right-style="solid" border-right-width="0.02cm">
+								<fo:block space-before="0.08cm" space-after="0.08cm" font-size="10pt">Place/Special* &#163;</fo:block>
+							</fo:table-cell>
+							<fo:table-cell padding-right="0.1cm" padding-left="0.1cm" border-right-style="solid" border-right-width="0.02cm"/>
+							<fo:table-cell padding-right="0.1cm" padding-left="0.1cm" border-right-style="solid" border-right-width="0.02cm"/>
+							<fo:table-cell padding-right="0.1cm" padding-left="0.1cm" border-right-style="solid" border-right-width="0.02cm"/>
+							<fo:table-cell padding-right="0.1cm" padding-left="0.1cm" border-right-style="solid" border-right-width="0.02cm"/>
+							<fo:table-cell padding-right="0.1cm" padding-left="0.1cm" border-right-style="solid" border-right-width="0.02cm"/>
+							<fo:table-cell padding-right="0.1cm" padding-left="0.1cm" border-right-style="solid" border-right-width="0.02cm"/>
+							<fo:table-cell padding-right="0.1cm" padding-left="0.1cm" border-right-style="solid" border-right-width="0.02cm"/>
+							<fo:table-cell padding-right="0.1cm" padding-left="0.1cm" border-right-style="solid" border-right-width="0.02cm"/>
+						</fo:table-row>
+					</fo:table-body>
+				</fo:table>
+				
+		<!--Row 20-->
+				<fo:table table-layout="fixed">
+					<fo:table-column column-width="4.1cm"></fo:table-column>
+					<fo:table-column column-width="8.6cm"></fo:table-column>
+					<fo:table-column column-width="7.5cm"></fo:table-column>
+					<fo:table-column column-width="8.2cm"></fo:table-column>
+					<fo:table-body>
+						<fo:table-row keep-with-next="always">
+							<fo:table-cell padding-right="0.1cm" padding-left="0.1cm" border-right-style="solid" border-right-width="0.02cm" border-top-style="solid" border-top-width="0.02cm">
+								<fo:block space-before="0.08cm" space-after="0.08cm" font-size="10pt" font-weight="bold" text-align="center">Nominal/Cash *</fo:block>
+							</fo:table-cell>
+							<fo:table-cell padding-right="0.1cm" padding-left="0.1cm" border-right-style="solid" border-right-width="0.02cm" border-top-style="solid" border-top-width="0.02cm">
+								<fo:block space-before="0.08cm" space-after="0.08cm" font-size="10pt" font-weight="bold" text-align="center">Description of Security</fo:block>
+							</fo:table-cell>
+							<fo:table-cell padding-right="0.1cm" padding-left="0.1cm" border-right-style="solid" border-right-width="0.02cm" border-top-style="solid" border-top-width="0.02cm">
+								<fo:block space-before="0.08cm" font-size="10pt" font-weight="bold" text-align="center">Security Amount &amp;</fo:block>
+							</fo:table-cell>
+							<fo:table-cell padding-right="0.1cm" padding-left="0.1cm" border-top-style="solid" border-top-width="0.02cm">
+								<fo:block space-before="0.08cm" space-after="0.08cm" font-size="10pt" font-weight="bold" text-align="center">Transaction Details</fo:block>
+							</fo:table-cell>
+						</fo:table-row>
+					</fo:table-body>
+				</fo:table>
+				
+		<!--Row 21-->
+				<fo:table table-layout="fixed">
+					<fo:table-column column-width="4.1cm"></fo:table-column>
+					<fo:table-column column-width="8.6cm"></fo:table-column>
+					<fo:table-column column-width="7.5cm"></fo:table-column>
+					<fo:table-column column-width="8.2cm"></fo:table-column>
+					<fo:table-body>
+						<fo:table-row keep-with-next="always">
+							<fo:table-cell padding-right="0.1cm" padding-left="0.1cm" border-right-style="solid" border-right-width="0.02cm"/>
+							<fo:table-cell padding-right="0.1cm" padding-left="0.1cm" border-right-style="solid" border-right-width="0.02cm"/>
+							<fo:table-cell padding-right="0.1cm" padding-left="0.1cm" border-right-style="solid" border-right-width="0.02cm">
+								<fo:block space-after="0.1cm" font-size="10pt" font-weight="bold" text-align="center">Number</fo:block>
+							</fo:table-cell>
+							<fo:table-cell padding-right="0.1cm" padding-left="0.1cm"/>
+						</fo:table-row>
+					</fo:table-body>
+				</fo:table>
+				
+		<!--Row 22-->
+				<fo:table table-layout="fixed">
+					<fo:table-column column-width="4.1cm"></fo:table-column>
+					<fo:table-column column-width="8.6cm"></fo:table-column>
+					<fo:table-column column-width="7.5cm"></fo:table-column>
+					<fo:table-column column-width="8.2cm"></fo:table-column>
+					<fo:table-body>
+						<fo:table-row keep-with-next="always">
+							<fo:table-cell padding-right="0.1cm" padding-left="0.1cm" border-right-style="solid" border-right-width="0.02cm" border-top-style="solid" border-top-width="0.02cm"/>
+							<fo:table-cell padding-right="0.1cm" padding-left="0.1cm" border-right-style="solid" border-right-width="0.02cm" border-top-style="solid" border-top-width="0.02cm"/>
+							<fo:table-cell padding-right="0.1cm" padding-left="0.1cm" border-right-style="solid" border-right-width="0.02cm" border-top-style="solid" border-top-width="0.02cm"/>
+							<fo:table-cell padding-right="0.1cm" padding-left="0.1cm" border-top-style="solid" border-top-width="0.02cm">
+								<fo:block space-before="0.08cm" space-after="0.08cm" font-size="10pt">Bought for &#163;</fo:block>
+							</fo:table-cell>
+						</fo:table-row>
+					</fo:table-body>
+				</fo:table>
+				
+		<!--Row 23-->
+				<fo:table table-layout="fixed">
+					<fo:table-column column-width="4.1cm"></fo:table-column>
+					<fo:table-column column-width="8.6cm"></fo:table-column>
+					<fo:table-column column-width="2.1cm"></fo:table-column>
+					<fo:table-column column-width="0.6cm"></fo:table-column>
+					<fo:table-column column-width="0.6cm"></fo:table-column>
+					<fo:table-column column-width="0.6cm"></fo:table-column>
+					<fo:table-column column-width="0.6cm"></fo:table-column>
+					<fo:table-column column-width="0.6cm"></fo:table-column>
+					<fo:table-column column-width="0.6cm"></fo:table-column>
+					<fo:table-column column-width="0.6cm"></fo:table-column>
+					<fo:table-column column-width="0.6cm"></fo:table-column>
+					<fo:table-column column-width="0.6cm"></fo:table-column>
+					<fo:table-column column-width="1.0cm"></fo:table-column>
+					<fo:table-column column-width="1.2cm"></fo:table-column>
+					<fo:table-column column-width="1.2cm"></fo:table-column>
+					<fo:table-column column-width="0.6cm"></fo:table-column>
+					<fo:table-column column-width="1.2cm"></fo:table-column>
+					<fo:table-column column-width="1.2cm"></fo:table-column>
+					<fo:table-column column-width="1.2cm"></fo:table-column>
+					<fo:table-column column-width="0.6cm"></fo:table-column>
+					<fo:table-body>
+						<fo:table-row keep-with-next="always">
+							<fo:table-cell padding-right="0.1cm" padding-left="0.1cm" border-right-style="solid" border-right-width="0.02cm"/>
+							<fo:table-cell padding-right="0.1cm" padding-left="0.1cm" border-right-style="solid" border-right-width="0.02cm"/>
+							<fo:table-cell padding-right="0.1cm" padding-left="0.1cm" border-right-style="solid" border-right-width="0.02cm"/>
+							<fo:table-cell padding-right="0.1cm" padding-left="0.1cm" border-right-style="solid" border-right-width="0.02cm"/>
+							<fo:table-cell padding-right="0.1cm" padding-left="0.1cm" border-right-style="solid" border-right-width="0.02cm"/>
+							<fo:table-cell padding-right="0.1cm" padding-left="0.1cm" border-right-style="solid" border-right-width="0.02cm"/>
+							<fo:table-cell padding-right="0.1cm" padding-left="0.1cm" border-right-style="solid" border-right-width="0.02cm"/>
+							<fo:table-cell padding-right="0.1cm" padding-left="0.1cm" border-right-style="solid" border-right-width="0.02cm"/>
+							<fo:table-cell padding-right="0.1cm" padding-left="0.1cm" border-right-style="solid" border-right-width="0.02cm"/>
+							<fo:table-cell padding-right="0.1cm" padding-left="0.1cm" border-right-style="solid" border-right-width="0.02cm"/>
+							<fo:table-cell padding-right="0.1cm" padding-left="0.1cm" border-right-style="solid" border-right-width="0.02cm"/>
+							<fo:table-cell padding-right="0.1cm" padding-left="0.1cm" border-right-style="solid" border-right-width="0.02cm"/>
+							<fo:table-cell padding-right="0.1cm" padding-left="0.1cm" border-right-style="solid" border-right-width="0.02cm">
+								<fo:block space-before="0.08cm" space-after="0.08cm" font-size="10pt" text-align="center">p</fo:block>
+							</fo:table-cell>
+							<fo:table-cell padding-right="0.1cm" padding-left="0.1cm" border-right-style="solid" border-right-width="0.02cm" border-top-style="solid" border-top-width="0.02cm"/>
+							<fo:table-cell padding-right="0.1cm" padding-left="0.1cm" border-right-style="solid" border-right-width="0.02cm" border-top-style="solid" border-top-width="0.02cm"/>
+							<fo:table-cell padding-right="0.1cm" padding-left="0.1cm" border-right-style="solid" border-right-width="0.02cm">
+								<fo:block space-before="0.08cm" space-after="0.08cm" font-size="10pt" text-align="center">on</fo:block>
+							</fo:table-cell>
+							<fo:table-cell padding-right="0.1cm" padding-left="0.1cm" border-right-style="solid" border-right-width="0.02cm" border-top-style="solid" border-top-width="0.02cm"/>
+							<fo:table-cell padding-right="0.1cm" padding-left="0.1cm" border-right-style="solid" border-right-width="0.02cm" border-top-style="solid" border-top-width="0.02cm"/>
+							<fo:table-cell padding-right="0.1cm" padding-left="0.1cm" border-right-style="solid" border-right-width="0.02cm" border-top-style="solid" border-top-width="0.02cm"/>
+							<fo:table-cell padding-right="0.1cm" padding-left="0.1cm">
+								<fo:block space-before="0.08cm" space-after="0.08cm" font-size="10pt">Init</fo:block>
+							</fo:table-cell>
+						</fo:table-row>
+					</fo:table-body>
+				</fo:table>
+				
+		<!--Row 24-->
+				<fo:table table-layout="fixed">
+					<fo:table-column column-width="4.1cm"></fo:table-column>
+					<fo:table-column column-width="8.6cm"></fo:table-column>
+					<fo:table-column column-width="2.1cm"></fo:table-column>
+					<fo:table-column column-width="0.6cm"></fo:table-column>
+					<fo:table-column column-width="0.6cm"></fo:table-column>
+					<fo:table-column column-width="0.6cm"></fo:table-column>
+					<fo:table-column column-width="0.6cm"></fo:table-column>
+					<fo:table-column column-width="0.6cm"></fo:table-column>
+					<fo:table-column column-width="0.6cm"></fo:table-column>
+					<fo:table-column column-width="0.6cm"></fo:table-column>
+					<fo:table-column column-width="0.6cm"></fo:table-column>
+					<fo:table-column column-width="0.6cm"></fo:table-column>
+					<fo:table-column column-width="1.0cm"></fo:table-column>
+					<fo:table-column column-width="0.6cm"></fo:table-column>
+					<fo:table-column column-width="0.6cm"></fo:table-column>
+					<fo:table-column column-width="0.6cm"></fo:table-column>
+					<fo:table-column column-width="0.6cm"></fo:table-column>
+					<fo:table-column column-width="0.6cm"></fo:table-column>
+					<fo:table-column column-width="0.6cm"></fo:table-column>
+					<fo:table-column column-width="0.6cm"></fo:table-column>
+					<fo:table-column column-width="0.6cm"></fo:table-column>
+					<fo:table-column column-width="0.6cm"></fo:table-column>
+					<fo:table-column column-width="0.6cm"></fo:table-column>
+					<fo:table-column column-width="0.6cm"></fo:table-column>
+					<fo:table-column column-width="0.6cm"></fo:table-column>
+					<fo:table-body>
+						<fo:table-row keep-with-next="always">
+							<fo:table-cell padding-right="0.1cm" padding-left="0.1cm" border-right-style="solid" border-right-width="0.02cm">
+								<fo:block space-before="0.44cm" space-after="0.08cm" font-size="10pt"/>
+							</fo:table-cell>
+							<fo:table-cell padding-right="0.1cm" padding-left="0.1cm" border-right-style="solid" border-right-width="0.02cm"/>
+							<fo:table-cell padding-right="0.1cm" padding-left="0.1cm" border-right-style="solid" border-right-width="0.02cm"/>
+							<fo:table-cell padding-right="0.1cm" padding-left="0.1cm" border-right-style="solid" border-right-width="0.02cm"/>
+							<fo:table-cell padding-right="0.1cm" padding-left="0.1cm" border-right-style="solid" border-right-width="0.02cm"/>
+							<fo:table-cell padding-right="0.1cm" padding-left="0.1cm" border-right-style="solid" border-right-width="0.02cm"/>
+							<fo:table-cell padding-right="0.1cm" padding-left="0.1cm" border-right-style="solid" border-right-width="0.02cm"/>
+							<fo:table-cell padding-right="0.1cm" padding-left="0.1cm" border-right-style="solid" border-right-width="0.02cm"/>
+							<fo:table-cell padding-right="0.1cm" padding-left="0.1cm" border-right-style="solid" border-right-width="0.02cm"/>
+							<fo:table-cell padding-right="0.1cm" padding-left="0.1cm" border-right-style="solid" border-right-width="0.02cm"/>
+							<fo:table-cell padding-right="0.1cm" padding-left="0.1cm" border-right-style="solid" border-right-width="0.02cm"/>
+							<fo:table-cell padding-right="0.1cm" padding-left="0.1cm" border-right-style="solid" border-right-width="0.02cm"/>
+							<fo:table-cell padding-right="0.1cm" padding-left="0.1cm" border-right-style="solid" border-right-width="0.02cm"/>
+							<fo:table-cell padding-right="0.1cm" padding-left="0.1cm" border-right-style="solid" border-right-width="0.02cm"/>
+							<fo:table-cell padding-right="0.1cm" padding-left="0.1cm" border-right-style="solid" border-right-width="0.02cm"/>
+							<fo:table-cell padding-right="0.1cm" padding-left="0.1cm" border-right-style="solid" border-right-width="0.02cm"/>
+							<fo:table-cell padding-right="0.1cm" padding-left="0.1cm" border-right-style="solid" border-right-width="0.02cm"/>
+							<fo:table-cell padding-right="0.1cm" padding-left="0.1cm" border-right-style="solid" border-right-width="0.02cm"/>
+							<fo:table-cell padding-right="0.1cm" padding-left="0.1cm" border-right-style="solid" border-right-width="0.02cm"/>
+							<fo:table-cell padding-right="0.1cm" padding-left="0.1cm" border-right-style="solid" border-right-width="0.02cm"/>
+							<fo:table-cell padding-right="0.1cm" padding-left="0.1cm" border-right-style="solid" border-right-width="0.02cm"/>
+							<fo:table-cell padding-right="0.1cm" padding-left="0.1cm" border-right-style="solid" border-right-width="0.02cm"/>
+							<fo:table-cell padding-right="0.1cm" padding-left="0.1cm" border-right-style="solid" border-right-width="0.02cm"/>
+							<fo:table-cell padding-right="0.1cm" padding-left="0.1cm" border-right-style="solid" border-right-width="0.02cm"/>
+							<fo:table-cell padding-right="0.1cm" padding-left="0.1cm"/>
+						</fo:table-row>
+					</fo:table-body>
+				</fo:table>
+				
+		<!--Row 25-->
+				<fo:table table-layout="fixed">
+					<fo:table-column column-width="4.1cm"></fo:table-column>
+					<fo:table-column column-width="8.6cm"></fo:table-column>
+					<fo:table-column column-width="7.5cm"></fo:table-column>
+					<fo:table-column column-width="8.2cm"></fo:table-column>
+					<fo:table-body>
+						<fo:table-row keep-with-next="always">
+							<fo:table-cell padding-right="0.1cm" padding-left="0.1cm" border-right-style="solid" border-right-width="0.02cm" border-top-style="solid" border-top-width="0.02cm"/>
+							<fo:table-cell padding-right="0.1cm" padding-left="0.1cm" border-right-style="solid" border-right-width="0.02cm" border-top-style="solid" border-top-width="0.02cm"/>
+							<fo:table-cell padding-right="0.1cm" padding-left="0.1cm" border-right-style="solid" border-right-width="0.02cm" border-top-style="solid" border-top-width="0.02cm"/>
+							<fo:table-cell padding-right="0.1cm" padding-left="0.1cm" border-top-style="solid" border-top-width="0.02cm">
+								<fo:block space-before="0.08cm" space-after="0.08cm" font-size="10pt">Bought for &#163;</fo:block>
+							</fo:table-cell>
+						</fo:table-row>
+					</fo:table-body>
+				</fo:table>
+				
+		<!--Row 26-->
+				<fo:table table-layout="fixed">
+					<fo:table-column column-width="4.1cm"></fo:table-column>
+					<fo:table-column column-width="8.6cm"></fo:table-column>
+					<fo:table-column column-width="2.1cm"></fo:table-column>
+					<fo:table-column column-width="0.6cm"></fo:table-column>
+					<fo:table-column column-width="0.6cm"></fo:table-column>
+					<fo:table-column column-width="0.6cm"></fo:table-column>
+					<fo:table-column column-width="0.6cm"></fo:table-column>
+					<fo:table-column column-width="0.6cm"></fo:table-column>
+					<fo:table-column column-width="0.6cm"></fo:table-column>
+					<fo:table-column column-width="0.6cm"></fo:table-column>
+					<fo:table-column column-width="0.6cm"></fo:table-column>
+					<fo:table-column column-width="0.6cm"></fo:table-column>
+					<fo:table-column column-width="1.0cm"></fo:table-column>
+					<fo:table-column column-width="1.2cm"></fo:table-column>
+					<fo:table-column column-width="1.2cm"></fo:table-column>
+					<fo:table-column column-width="0.6cm"></fo:table-column>
+					<fo:table-column column-width="1.2cm"></fo:table-column>
+					<fo:table-column column-width="1.2cm"></fo:table-column>
+					<fo:table-column column-width="1.2cm"></fo:table-column>
+					<fo:table-column column-width="0.6cm"></fo:table-column>
+					<fo:table-body>
+						<fo:table-row keep-with-next="always">
+							<fo:table-cell padding-right="0.1cm" padding-left="0.1cm" border-right-style="solid" border-right-width="0.02cm"/>
+							<fo:table-cell padding-right="0.1cm" padding-left="0.1cm" border-right-style="solid" border-right-width="0.02cm"/>
+							<fo:table-cell padding-right="0.1cm" padding-left="0.1cm" border-right-style="solid" border-right-width="0.02cm"/>
+							<fo:table-cell padding-right="0.1cm" padding-left="0.1cm" border-right-style="solid" border-right-width="0.02cm"/>
+							<fo:table-cell padding-right="0.1cm" padding-left="0.1cm" border-right-style="solid" border-right-width="0.02cm"/>
+							<fo:table-cell padding-right="0.1cm" padding-left="0.1cm" border-right-style="solid" border-right-width="0.02cm"/>
+							<fo:table-cell padding-right="0.1cm" padding-left="0.1cm" border-right-style="solid" border-right-width="0.02cm"/>
+							<fo:table-cell padding-right="0.1cm" padding-left="0.1cm" border-right-style="solid" border-right-width="0.02cm"/>
+							<fo:table-cell padding-right="0.1cm" padding-left="0.1cm" border-right-style="solid" border-right-width="0.02cm"/>
+							<fo:table-cell padding-right="0.1cm" padding-left="0.1cm" border-right-style="solid" border-right-width="0.02cm"/>
+							<fo:table-cell padding-right="0.1cm" padding-left="0.1cm" border-right-style="solid" border-right-width="0.02cm"/>
+							<fo:table-cell padding-right="0.1cm" padding-left="0.1cm" border-right-style="solid" border-right-width="0.02cm"/>
+							<fo:table-cell padding-right="0.1cm" padding-left="0.1cm" border-right-style="solid" border-right-width="0.02cm">
+								<fo:block space-before="0.08cm" space-after="0.08cm" font-size="10pt" text-align="center">p</fo:block>
+							</fo:table-cell>
+							<fo:table-cell padding-right="0.1cm" padding-left="0.1cm" border-right-style="solid" border-right-width="0.02cm" border-top-style="solid" border-top-width="0.02cm"/>
+							<fo:table-cell padding-right="0.1cm" padding-left="0.1cm" border-right-style="solid" border-right-width="0.02cm" border-top-style="solid" border-top-width="0.02cm"/>
+							<fo:table-cell padding-right="0.1cm" padding-left="0.1cm" border-right-style="solid" border-right-width="0.02cm">
+								<fo:block space-before="0.08cm" space-after="0.08cm" font-size="10pt" text-align="center">on</fo:block>
+							</fo:table-cell>
+							<fo:table-cell padding-right="0.1cm" padding-left="0.1cm" border-right-style="solid" border-right-width="0.02cm" border-top-style="solid" border-top-width="0.02cm"/>
+							<fo:table-cell padding-right="0.1cm" padding-left="0.1cm" border-right-style="solid" border-right-width="0.02cm" border-top-style="solid" border-top-width="0.02cm"/>
+							<fo:table-cell padding-right="0.1cm" padding-left="0.1cm" border-right-style="solid" border-right-width="0.02cm" border-top-style="solid" border-top-width="0.02cm"/>
+							<fo:table-cell padding-right="0.1cm" padding-left="0.1cm">
+								<fo:block space-before="0.08cm" space-after="0.08cm" font-size="10pt">Init</fo:block>
+							</fo:table-cell>
+						</fo:table-row>
+					</fo:table-body>
+				</fo:table>
+				
+		<!--Row 27-->
+				<fo:table table-layout="fixed">
+					<fo:table-column column-width="4.1cm"></fo:table-column>
+					<fo:table-column column-width="8.6cm"></fo:table-column>
+					<fo:table-column column-width="2.1cm"></fo:table-column>
+					<fo:table-column column-width="0.6cm"></fo:table-column>
+					<fo:table-column column-width="0.6cm"></fo:table-column>
+					<fo:table-column column-width="0.6cm"></fo:table-column>
+					<fo:table-column column-width="0.6cm"></fo:table-column>
+					<fo:table-column column-width="0.6cm"></fo:table-column>
+					<fo:table-column column-width="0.6cm"></fo:table-column>
+					<fo:table-column column-width="0.6cm"></fo:table-column>
+					<fo:table-column column-width="0.6cm"></fo:table-column>
+					<fo:table-column column-width="0.6cm"></fo:table-column>
+					<fo:table-column column-width="1.0cm"></fo:table-column>
+					<fo:table-column column-width="0.6cm"></fo:table-column>
+					<fo:table-column column-width="0.6cm"></fo:table-column>
+					<fo:table-column column-width="0.6cm"></fo:table-column>
+					<fo:table-column column-width="0.6cm"></fo:table-column>
+					<fo:table-column column-width="0.6cm"></fo:table-column>
+					<fo:table-column column-width="0.6cm"></fo:table-column>
+					<fo:table-column column-width="0.6cm"></fo:table-column>
+					<fo:table-column column-width="0.6cm"></fo:table-column>
+					<fo:table-column column-width="0.6cm"></fo:table-column>
+					<fo:table-column column-width="0.6cm"></fo:table-column>
+					<fo:table-column column-width="0.6cm"></fo:table-column>
+					<fo:table-column column-width="0.6cm"></fo:table-column>
+					<fo:table-body>
+						<fo:table-row keep-with-next="always">
+							<fo:table-cell padding-right="0.1cm" padding-left="0.1cm" border-right-style="solid" border-right-width="0.02cm">
+								<fo:block space-before="0.44cm" space-after="0.08cm" font-size="10pt"/>
+							</fo:table-cell>
+							<fo:table-cell padding-right="0.1cm" padding-left="0.1cm" border-right-style="solid" border-right-width="0.02cm"/>
+							<fo:table-cell padding-right="0.1cm" padding-left="0.1cm" border-right-style="solid" border-right-width="0.02cm"/>
+							<fo:table-cell padding-right="0.1cm" padding-left="0.1cm" border-right-style="solid" border-right-width="0.02cm"/>
+							<fo:table-cell padding-right="0.1cm" padding-left="0.1cm" border-right-style="solid" border-right-width="0.02cm"/>
+							<fo:table-cell padding-right="0.1cm" padding-left="0.1cm" border-right-style="solid" border-right-width="0.02cm"/>
+							<fo:table-cell padding-right="0.1cm" padding-left="0.1cm" border-right-style="solid" border-right-width="0.02cm"/>
+							<fo:table-cell padding-right="0.1cm" padding-left="0.1cm" border-right-style="solid" border-right-width="0.02cm"/>
+							<fo:table-cell padding-right="0.1cm" padding-left="0.1cm" border-right-style="solid" border-right-width="0.02cm"/>
+							<fo:table-cell padding-right="0.1cm" padding-left="0.1cm" border-right-style="solid" border-right-width="0.02cm"/>
+							<fo:table-cell padding-right="0.1cm" padding-left="0.1cm" border-right-style="solid" border-right-width="0.02cm"/>
+							<fo:table-cell padding-right="0.1cm" padding-left="0.1cm" border-right-style="solid" border-right-width="0.02cm"/>
+							<fo:table-cell padding-right="0.1cm" padding-left="0.1cm" border-right-style="solid" border-right-width="0.02cm"/>
+							<fo:table-cell padding-right="0.1cm" padding-left="0.1cm" border-right-style="solid" border-right-width="0.02cm"/>
+							<fo:table-cell padding-right="0.1cm" padding-left="0.1cm" border-right-style="solid" border-right-width="0.02cm"/>
+							<fo:table-cell padding-right="0.1cm" padding-left="0.1cm" border-right-style="solid" border-right-width="0.02cm"/>
+							<fo:table-cell padding-right="0.1cm" padding-left="0.1cm" border-right-style="solid" border-right-width="0.02cm"/>
+							<fo:table-cell padding-right="0.1cm" padding-left="0.1cm" border-right-style="solid" border-right-width="0.02cm"/>
+							<fo:table-cell padding-right="0.1cm" padding-left="0.1cm" border-right-style="solid" border-right-width="0.02cm"/>
+							<fo:table-cell padding-right="0.1cm" padding-left="0.1cm" border-right-style="solid" border-right-width="0.02cm"/>
+							<fo:table-cell padding-right="0.1cm" padding-left="0.1cm" border-right-style="solid" border-right-width="0.02cm"/>
+							<fo:table-cell padding-right="0.1cm" padding-left="0.1cm" border-right-style="solid" border-right-width="0.02cm"/>
+							<fo:table-cell padding-right="0.1cm" padding-left="0.1cm" border-right-style="solid" border-right-width="0.02cm"/>
+							<fo:table-cell padding-right="0.1cm" padding-left="0.1cm" border-right-style="solid" border-right-width="0.02cm"/>
+							<fo:table-cell padding-right="0.1cm" padding-left="0.1cm"/>
+						</fo:table-row>
+					</fo:table-body>
+				</fo:table>
+				
+		<!--Row 28-->
+				<fo:table table-layout="fixed">
+					<fo:table-column column-width="4.1cm"></fo:table-column>
+					<fo:table-column column-width="8.6cm"></fo:table-column>
+					<fo:table-column column-width="7.5cm"></fo:table-column>
+					<fo:table-column column-width="8.2cm"></fo:table-column>
+					<fo:table-body>
+						<fo:table-row keep-with-next="always">
+							<fo:table-cell padding-right="0.1cm" padding-left="0.1cm" border-right-style="solid" border-right-width="0.02cm" border-top-style="solid" border-top-width="0.02cm"/>
+							<fo:table-cell padding-right="0.1cm" padding-left="0.1cm" border-right-style="solid" border-right-width="0.02cm" border-top-style="solid" border-top-width="0.02cm"/>
+							<fo:table-cell padding-right="0.1cm" padding-left="0.1cm" border-right-style="solid" border-right-width="0.02cm" border-top-style="solid" border-top-width="0.02cm"/>
+							<fo:table-cell padding-right="0.1cm" padding-left="0.1cm" border-top-style="solid" border-top-width="0.02cm">
+								<fo:block space-before="0.08cm" space-after="0.08cm" font-size="10pt">Bought for &#163;</fo:block>
+							</fo:table-cell>
+						</fo:table-row>
+					</fo:table-body>
+				</fo:table>
+				
+		<!--Row 29-->
+				<fo:table table-layout="fixed">
+					<fo:table-column column-width="4.1cm"></fo:table-column>
+					<fo:table-column column-width="8.6cm"></fo:table-column>
+					<fo:table-column column-width="2.1cm"></fo:table-column>
+					<fo:table-column column-width="0.6cm"></fo:table-column>
+					<fo:table-column column-width="0.6cm"></fo:table-column>
+					<fo:table-column column-width="0.6cm"></fo:table-column>
+					<fo:table-column column-width="0.6cm"></fo:table-column>
+					<fo:table-column column-width="0.6cm"></fo:table-column>
+					<fo:table-column column-width="0.6cm"></fo:table-column>
+					<fo:table-column column-width="0.6cm"></fo:table-column>
+					<fo:table-column column-width="0.6cm"></fo:table-column>
+					<fo:table-column column-width="0.6cm"></fo:table-column>
+					<fo:table-column column-width="1.0cm"></fo:table-column>
+					<fo:table-column column-width="1.2cm"></fo:table-column>
+					<fo:table-column column-width="1.2cm"></fo:table-column>
+					<fo:table-column column-width="0.6cm"></fo:table-column>
+					<fo:table-column column-width="1.2cm"></fo:table-column>
+					<fo:table-column column-width="1.2cm"></fo:table-column>
+					<fo:table-column column-width="1.2cm"></fo:table-column>
+					<fo:table-column column-width="0.6cm"></fo:table-column>
+					<fo:table-body>
+						<fo:table-row keep-with-next="always">
+							<fo:table-cell padding-right="0.1cm" padding-left="0.1cm" border-right-style="solid" border-right-width="0.02cm"/>
+							<fo:table-cell padding-right="0.1cm" padding-left="0.1cm" border-right-style="solid" border-right-width="0.02cm"/>
+							<fo:table-cell padding-right="0.1cm" padding-left="0.1cm" border-right-style="solid" border-right-width="0.02cm"/>
+							<fo:table-cell padding-right="0.1cm" padding-left="0.1cm" border-right-style="solid" border-right-width="0.02cm"/>
+							<fo:table-cell padding-right="0.1cm" padding-left="0.1cm" border-right-style="solid" border-right-width="0.02cm"/>
+							<fo:table-cell padding-right="0.1cm" padding-left="0.1cm" border-right-style="solid" border-right-width="0.02cm"/>
+							<fo:table-cell padding-right="0.1cm" padding-left="0.1cm" border-right-style="solid" border-right-width="0.02cm"/>
+							<fo:table-cell padding-right="0.1cm" padding-left="0.1cm" border-right-style="solid" border-right-width="0.02cm"/>
+							<fo:table-cell padding-right="0.1cm" padding-left="0.1cm" border-right-style="solid" border-right-width="0.02cm"/>
+							<fo:table-cell padding-right="0.1cm" padding-left="0.1cm" border-right-style="solid" border-right-width="0.02cm"/>
+							<fo:table-cell padding-right="0.1cm" padding-left="0.1cm" border-right-style="solid" border-right-width="0.02cm"/>
+							<fo:table-cell padding-right="0.1cm" padding-left="0.1cm" border-right-style="solid" border-right-width="0.02cm"/>
+							<fo:table-cell padding-right="0.1cm" padding-left="0.1cm" border-right-style="solid" border-right-width="0.02cm">
+								<fo:block space-before="0.08cm" space-after="0.08cm" font-size="10pt" text-align="center">p</fo:block>
+							</fo:table-cell>
+							<fo:table-cell padding-right="0.1cm" padding-left="0.1cm" border-right-style="solid" border-right-width="0.02cm" border-top-style="solid" border-top-width="0.02cm"/>
+							<fo:table-cell padding-right="0.1cm" padding-left="0.1cm" border-right-style="solid" border-right-width="0.02cm" border-top-style="solid" border-top-width="0.02cm"/>
+							<fo:table-cell padding-right="0.1cm" padding-left="0.1cm" border-right-style="solid" border-right-width="0.02cm">
+								<fo:block space-before="0.08cm" space-after="0.08cm" font-size="10pt" text-align="center">on</fo:block>
+							</fo:table-cell>
+							<fo:table-cell padding-right="0.1cm" padding-left="0.1cm" border-right-style="solid" border-right-width="0.02cm" border-top-style="solid" border-top-width="0.02cm"/>
+							<fo:table-cell padding-right="0.1cm" padding-left="0.1cm" border-right-style="solid" border-right-width="0.02cm" border-top-style="solid" border-top-width="0.02cm"/>
+							<fo:table-cell padding-right="0.1cm" padding-left="0.1cm" border-right-style="solid" border-right-width="0.02cm" border-top-style="solid" border-top-width="0.02cm"/>
+							<fo:table-cell padding-right="0.1cm" padding-left="0.1cm">
+								<fo:block space-before="0.08cm" space-after="0.08cm" font-size="10pt">Init</fo:block>
+							</fo:table-cell>
+						</fo:table-row>
+					</fo:table-body>
+				</fo:table>
+				
+		<!--Row 30-->
+				<fo:table table-layout="fixed">
+					<fo:table-column column-width="4.1cm"></fo:table-column>
+					<fo:table-column column-width="8.6cm"></fo:table-column>
+					<fo:table-column column-width="2.1cm"></fo:table-column>
+					<fo:table-column column-width="0.6cm"></fo:table-column>
+					<fo:table-column column-width="0.6cm"></fo:table-column>
+					<fo:table-column column-width="0.6cm"></fo:table-column>
+					<fo:table-column column-width="0.6cm"></fo:table-column>
+					<fo:table-column column-width="0.6cm"></fo:table-column>
+					<fo:table-column column-width="0.6cm"></fo:table-column>
+					<fo:table-column column-width="0.6cm"></fo:table-column>
+					<fo:table-column column-width="0.6cm"></fo:table-column>
+					<fo:table-column column-width="0.6cm"></fo:table-column>
+					<fo:table-column column-width="1.0cm"></fo:table-column>
+					<fo:table-column column-width="0.6cm"></fo:table-column>
+					<fo:table-column column-width="0.6cm"></fo:table-column>
+					<fo:table-column column-width="0.6cm"></fo:table-column>
+					<fo:table-column column-width="0.6cm"></fo:table-column>
+					<fo:table-column column-width="0.6cm"></fo:table-column>
+					<fo:table-column column-width="0.6cm"></fo:table-column>
+					<fo:table-column column-width="0.6cm"></fo:table-column>
+					<fo:table-column column-width="0.6cm"></fo:table-column>
+					<fo:table-column column-width="0.6cm"></fo:table-column>
+					<fo:table-column column-width="0.6cm"></fo:table-column>
+					<fo:table-column column-width="0.6cm"></fo:table-column>
+					<fo:table-column column-width="0.6cm"></fo:table-column>
+					<fo:table-body>
+						<fo:table-row keep-with-next="always">
+							<fo:table-cell padding-right="0.1cm" padding-left="0.1cm" border-right-style="solid" border-right-width="0.02cm">
+								<fo:block space-before="0.44cm" space-after="0.08cm" font-size="10pt"/>
+							</fo:table-cell>
+							<fo:table-cell padding-right="0.1cm" padding-left="0.1cm" border-right-style="solid" border-right-width="0.02cm"/>
+							<fo:table-cell padding-right="0.1cm" padding-left="0.1cm" border-right-style="solid" border-right-width="0.02cm"/>
+							<fo:table-cell padding-right="0.1cm" padding-left="0.1cm" border-right-style="solid" border-right-width="0.02cm"/>
+							<fo:table-cell padding-right="0.1cm" padding-left="0.1cm" border-right-style="solid" border-right-width="0.02cm"/>
+							<fo:table-cell padding-right="0.1cm" padding-left="0.1cm" border-right-style="solid" border-right-width="0.02cm"/>
+							<fo:table-cell padding-right="0.1cm" padding-left="0.1cm" border-right-style="solid" border-right-width="0.02cm"/>
+							<fo:table-cell padding-right="0.1cm" padding-left="0.1cm" border-right-style="solid" border-right-width="0.02cm"/>
+							<fo:table-cell padding-right="0.1cm" padding-left="0.1cm" border-right-style="solid" border-right-width="0.02cm"/>
+							<fo:table-cell padding-right="0.1cm" padding-left="0.1cm" border-right-style="solid" border-right-width="0.02cm"/>
+							<fo:table-cell padding-right="0.1cm" padding-left="0.1cm" border-right-style="solid" border-right-width="0.02cm"/>
+							<fo:table-cell padding-right="0.1cm" padding-left="0.1cm" border-right-style="solid" border-right-width="0.02cm"/>
+							<fo:table-cell padding-right="0.1cm" padding-left="0.1cm" border-right-style="solid" border-right-width="0.02cm"/>
+							<fo:table-cell padding-right="0.1cm" padding-left="0.1cm" border-right-style="solid" border-right-width="0.02cm"/>
+							<fo:table-cell padding-right="0.1cm" padding-left="0.1cm" border-right-style="solid" border-right-width="0.02cm"/>
+							<fo:table-cell padding-right="0.1cm" padding-left="0.1cm" border-right-style="solid" border-right-width="0.02cm"/>
+							<fo:table-cell padding-right="0.1cm" padding-left="0.1cm" border-right-style="solid" border-right-width="0.02cm"/>
+							<fo:table-cell padding-right="0.1cm" padding-left="0.1cm" border-right-style="solid" border-right-width="0.02cm"/>
+							<fo:table-cell padding-right="0.1cm" padding-left="0.1cm" border-right-style="solid" border-right-width="0.02cm"/>
+							<fo:table-cell padding-right="0.1cm" padding-left="0.1cm" border-right-style="solid" border-right-width="0.02cm"/>
+							<fo:table-cell padding-right="0.1cm" padding-left="0.1cm" border-right-style="solid" border-right-width="0.02cm"/>
+							<fo:table-cell padding-right="0.1cm" padding-left="0.1cm" border-right-style="solid" border-right-width="0.02cm"/>
+							<fo:table-cell padding-right="0.1cm" padding-left="0.1cm" border-right-style="solid" border-right-width="0.02cm"/>
+							<fo:table-cell padding-right="0.1cm" padding-left="0.1cm" border-right-style="solid" border-right-width="0.02cm"/>
+							<fo:table-cell padding-right="0.1cm" padding-left="0.1cm"/>
+						</fo:table-row>
+					</fo:table-body>
+				</fo:table>
+				
+		<!--Row 31-->
+				<fo:table table-layout="fixed">
+					<fo:table-column column-width="12.7cm"></fo:table-column>
+					<fo:table-column column-width="8.5cm"></fo:table-column>
+					<fo:table-column column-width="7.2cm"></fo:table-column>
+					<fo:table-body>
+						<fo:table-row keep-with-next="always">
+							<fo:table-cell padding-right="0.1cm" padding-left="0.1cm" border-right-style="solid" border-right-width="0.02cm" border-top-style="solid" border-top-width="0.02cm">
+								<fo:block space-before="0.08cm" space-after="0.9cm" font-size="10pt" font-weight="bold">* Delete as appropriate</fo:block>
+							</fo:table-cell>
+							<fo:table-cell padding-right="0.1cm" padding-left="0.1cm" border-right-style="solid" border-right-width="0.02cm" border-top-style="solid" border-top-width="0.02cm"/>
+							<fo:table-cell padding-right="0.1cm" padding-left="0.1cm" border-top-style="solid" border-top-width="0.02cm">
+								<fo:block space-before="0.08cm" space-after="0.9cm" font-size="10pt" font-weight="bold">Authentification Stamp</fo:block>
+							</fo:table-cell>
+						</fo:table-row>
+					</fo:table-body>
+				</fo:table>
+				
+		<!--Row 32-->
+				<fo:table table-layout="fixed">
+					<fo:table-column column-width="12.7cm"></fo:table-column>
+					<fo:table-column column-width="6.0cm"></fo:table-column>
+					<fo:table-column column-width="2.5cm"></fo:table-column>
+					<fo:table-column column-width="7.2cm"></fo:table-column>
+					<fo:table-body>
+						<fo:table-row keep-with-next="always">
+							<fo:table-cell padding-right="0.1cm" padding-left="0.1cm" border-right-style="solid" border-right-width="0.02cm"/>
+							<fo:table-cell padding-right="0.1cm" padding-left="0.1cm">
+								<fo:block space-before="0.08cm" space-after="0.08cm" font-size="10pt">Signed __________________________</fo:block>
+							</fo:table-cell>
+							<fo:table-cell padding-right="0.1cm" padding-left="0.1cm" border-right-style="solid" border-right-width="0.02cm">
+								<fo:block space-before="0.08cm" space-after="0.08cm" font-size="10pt">Date ________</fo:block>
+							</fo:table-cell>
+							<fo:table-cell padding-right="0.1cm" padding-left="0.1cm"/>
+						</fo:table-row>
+					</fo:table-body>
+				</fo:table>
+		
+		<!--Row 33-->
+				<fo:table table-layout="fixed">
+					<fo:table-column column-width="12.7cm"></fo:table-column>
+					<fo:table-column column-width="8.5cm"></fo:table-column>
+					<fo:table-column column-width="7.2cm"></fo:table-column>
+					<fo:table-body>
+						<fo:table-row keep-with-next="always">
+							<fo:table-cell padding-right="0.1cm" padding-left="0.1cm" border-right-style="solid" border-right-width="0.02cm"/>
+							<fo:table-cell padding-right="0.1cm" padding-left="0.1cm" border-right-style="solid" border-right-width="0.02cm">
+								<fo:block space-before="0.08cm" space-after="0.08cm" font-size="10pt">Investment Manager/Officer</fo:block>
+							</fo:table-cell>
+							<fo:table-cell padding-right="0.1cm" padding-left="0.1cm"/>
+						</fo:table-row>
+					</fo:table-body>
+				</fo:table>
+		
+		<!--Row 34-->
+				<fo:block font-size="10pt" font-weight="bold">Court Funds Office Form 212 (Court Funds Rule 34 (2))(12/01)</fo:block>
+		
+			</body>
+		</section>
+		<section name="letter">
+			<layout>letter</layout>
+			<logo/>
+			<addressee>
+				<instigators/>
+			</addressee>	
+			<header>
+				<fo:block font-size="16pt" font-weight="bold">Notice of instruction to</fo:block>
+				<fo:block font-size="16pt" font-weight="bold">Court Funds Office</fo:block>
+			</header>
+			<courtcase>
+				<court>
+					<xsl:copy-of select="$vdCourtHeaderBlock"/>
+				</court>
+				<caseparameters>
+					<parameter>
+						<name>
+							<fo:block font-weight="bold">Claim Number</fo:block>
+						</name>
+						<value>
+							<fo:block>
+								<xsl:value-of select="$vdClaimNumber"/>
+							</fo:block>
+						</value>
+					</parameter>
+					<parameter>
+						<name>
+							<fo:block font-weight="bold">Claimant</fo:block>
+							<fo:block font-size="9pt">(including ref.)</fo:block>
+						</name>
+						<value>
+							<fo:block hyphenate="true">
+								<xsl:value-of select="$vdClaimantName"/>
+							</fo:block>
+							<fo:block font-size="9pt" hyphenate="true">
+								<xsl:value-of select="$vdClaimantReference"/>
+							</fo:block>
+						</value>
+					</parameter>
+					<parameter>
+						<name>
+							<fo:block font-weight="bold">Defendant</fo:block>
+							<fo:block font-size="9pt">(including ref.)</fo:block>
+						</name>
+						<value>
+							<fo:block hyphenate="true">
+								<xsl:value-of select="$vdDefendantName"/>
+							</fo:block>
+							<fo:block font-size="9pt" hyphenate="true">
+								<xsl:value-of select="$vdDefendantReference"/>
+							</fo:block>
+						</value>
+					</parameter>
+					<parameter>
+						<name>
+							<fo:block font-weight="bold">Date</fo:block>
+						</name>
+						<value>
+							<fo:block><xsl:value-of select="$vdEventDate"/>
+							</fo:block>
+						</value>
+					</parameter>
+				</caseparameters>
+			</courtcase>
+		
+			<body>
+	<editable useid="N116FF">
+				<fo:block space-after="0.8cm"/>
+				<fo:block space-after="0.4cm">
+					TAKE NOTICE that <xsl:if test="string-length($vdInterimChargingOrderDate2) > 0">pursuant to the order dated <xsl:value-of select="$vdInterimChargingOrderDate2"/> </xsl:if>the court has today sent a request for investment decision to the Court Funds Office.
+                 </fo:block>
+				<fo:block>
+					Further enquiries about the investment should be made to Court Funds Office, 22 Kingsway, London, WC2B 6LE.  Telephone <xsl:value-of select="$vdCFOTelephone"/>
+				</fo:block>
+	</editable>
+			</body>
+			<defaultFooter id="CJR202"/>
+		</section>
+	</sections>
+</root>

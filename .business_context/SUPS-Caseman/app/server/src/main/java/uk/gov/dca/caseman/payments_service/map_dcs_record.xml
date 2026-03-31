@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: Payments
+	Method: logDcsRecord()
+	File: map_dcs_record.xml
+	Author: Steve Blair
+-->
+<DBMapDef>
+	<DataSource id="java:OracleDS" />
+	<Tables>
+		<Table alias="DCS" name="DCS" />
+	</Tables>
+	<Mapping>
+		<DCSData>
+			<ItemDate>${DCS.ITEM_DATE}</ItemDate>
+            <ReportId>${DCS.REPORT_ID}</ReportId>
+            <Transaction>${DCS.TRANSACTION}</Transaction>
+            <Ordinary>${DCS.ORDINARY}</Ordinary>
+            <OrdinaryCurrency>${DCS.ORDINARY_CURRENCY}</OrdinaryCurrency>
+            <Cheque>${DCS.CHEQUE}</Cheque>
+            <ChequeCurrency>${DCS.CHEQUE_CURRENCY}</ChequeCurrency>
+            <JGMT1000>${DCS.JGMT1000}</JGMT1000>
+            <JGMT1000Currency>${DCS.JGMT1000_CURRENCY}</JGMT1000Currency>
+            <AOCAEO>${DCS.AO_CAEO}</AOCAEO>
+            <AOCAEOCurrency>${DCS.AO_CAEO_CURRENCY}</AOCAEOCurrency>
+            <Miscellaneous>${DCS.MISCELLANEOUS}</Miscellaneous>
+            <MiscellaneousCurrency>${DCS.MISCELLANEOUS_CURRENCY}</MiscellaneousCurrency>
+            <InOut>${DCS.INOUT}</InOut>
+    		<UserID>${DCS.USER_ID}</UserID>
+    		<CourtCode>${DCS.ADMIN_COURT_CODE}</CourtCode>
+		</DCSData>
+	</Mapping>
+</DBMapDef>

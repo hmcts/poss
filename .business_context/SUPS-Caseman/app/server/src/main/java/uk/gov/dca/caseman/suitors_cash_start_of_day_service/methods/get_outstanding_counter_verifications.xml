@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: SuitorsCashStartOfDay
+	Method:  getOutstandingCounterVerification
+	File:    get_outstanding_counter_verifications.xml
+	Author:  Anthony Bonnar (EDS)
+	Created: 06 Jan 2006
+	Description: 
+				Retreives Outstanding Counter Verifications from the REPORT_DATA table for all
+				reportTypes of CVER
+-->
+<service-method>
+	<pipeline>
+		<SQLLite format-output="true"
+				 resultset-element="ds"
+				 row-element="OutstandingCounterVerificationDetails"
+				 field-name-as="element" >
+			<DataSource id="java:OracleDS"/>
+				<Param name="param.reportType" xpath="/params/param[@name='reportType']"/>
+				<Param name="param.courtId" xpath="/params/param[@name='courtId']"/>
+			<SQL>
+    			SELECT RD.USER_ID AS "userId",
+    			RD.REPORT_TYPE || RD.REPORT_NUMBER as "reportId"
+    			FROM   REPORT_DATA RD
+				WHERE  RD.ADMIN_COURT_CODE = ${param.courtId} 
+				AND    RD.REPORT_TYPE = ${param.reportType}
+			</SQL>
+		</SQLLite>
+	</pipeline>
+	<Security roles="viewOnly medium high wcSuper scSuper bmsSuper aeSuper dmSuper edsAdmin admin cpSuper"/>
+</service-method>

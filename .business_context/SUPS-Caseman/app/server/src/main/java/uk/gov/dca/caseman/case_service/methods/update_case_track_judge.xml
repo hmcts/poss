@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- 
+	Service: Case
+	Method:  updateCaseTrackJudge()
+	File:    update_case_track_judge.xml
+	Author:  Chris Vincent
+	Created: 11 Jan 2013
+	Description: 
+		Updates the Track and Default Judge for a case record
+--> 
+<service-method>
+	<pipeline>
+		<Update>
+			<QueryDef location="uk/gov/dca/caseman/case_service/query_def_case_track_judge.xml"/>
+			<DataSource xpath="/params/param[@name='case']"/>
+			<QueryExtension pivotNode="/Case">
+				<CheckExists table="c" fields="case_number" onNotExist="fail" onExist="update"/>
+			</QueryExtension>
+		</Update>
+	</pipeline>
+	<Security roles="medium high wcSuper scSuper bmsSuper aeSuper dmSuper cpSuper ccbcMan ccbcUser ccbcSGB2"/> 
+</service-method>

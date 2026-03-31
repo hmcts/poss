@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: Payments
+	Method: getEnforcementAe()
+	File: get_enforcement_ae.xml
+	Author: Steve Blair
+	Description:
+		Get AE details for Suitors Cash. Called from getEnforcement.
+-->
+<service-method>
+	<pipeline>
+		<Query>
+			<QueryDef location="uk/gov/dca/caseman/payments_service/query_def_enforcement/ae.xml" />
+			<QueryExtension pivotNode="/Enforcement">
+				<Param name="param.aeNumber" xpath="/params/param[@name = 'aeNumber']" />
+			</QueryExtension>
+		</Query>
+	</pipeline>
+	<Security roles="medium high wcSuper scSuper bmsSuper aeSuper dmSuper" />
+</service-method>

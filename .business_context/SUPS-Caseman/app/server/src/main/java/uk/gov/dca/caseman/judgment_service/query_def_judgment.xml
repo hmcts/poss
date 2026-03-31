@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	CJH 11/04/2006: PartyAgainst/Address pivot node taken out. Address only needed in Word processing so retrieval
+       			of info postponed until save service.
+	Chris Hutt 26/09/2006
+					Address of Party Against at time of Judgment Registration is returned after all.
+					This is by making use of the column JUDGMENTS.AGAINST_PARTY_ADDR_ID_JUDG_SEQ which
+					is maintained by the Polar Lake registration interface.
+	CV 03/09/2007: Removed the Pyaments Outstanding node as is no longer required in here.  CaseMan
+				   Defect 6420.
+	17-Feb-2010 Chris Vincent - Trac 2607.  Added constraint to Outstanding Warrant query so queries on Warrants owned by the Case's Owning Court.
+	06-Jan-2017 Chris Vincent - Trac 5882. Added JURISDICTION to values returned.
+-->
+<QueryDef>
+	<DBMapDef location="uk/gov/dca/caseman/judgment_service/map_get_judgment.xml"/>
+	<Query pivotNode="/ds/MaintainJudgment" tables="C CA GA">
+		<SQL type="select">
+  			SELECT   C.DX_NUMBER AS "C.DX_NUMBER", 
+  				C.FAX_NO AS "C.FAX_NO", 
+  				C.NAME AS "C.NAME", 
+  				C.TEL_NO AS "C.TEL_NO", 
+  				CA.ADMIN_CRT_CODE AS "CA.ADMIN_CRT_CODE", 
+  				CA.CASE_NUMBER AS "CA.CASE_NUMBER", 
+  				CA.CASE_TYPE AS "CA.CASE_TYPE", 
+				CA.COURT_FEE AS "CA.COURT_FEE",
+				CA.SOLICITORS_COSTS AS "CA.SOLICITORS_COSTS",
+  				CA.DATE_OF_ISSUE AS "CA.DATE_OF_ISSUE",
+			    CA.STATUS AS "CA.STATUS",
+				(SELECT CRC.RV_IIT_CODE_1
+				FROM CCBC_REF_CODES CRC
+				WHERE CRC.RV_LOW_VALUE = CA.CASE_TYPE 
+				AND CRC.RV_DOMAIN IN ('CURRENT_CASE_TYPE','CASE_TYPE_OBSOLETE_BY_IIT')) AS "CA.JURISDICTION",
+  				(SELECT DECODE(COUNT(*),0,'false','true')  
+					FROM   OBLIGATIONS OB
+					WHERE  OB.CASE_NUMBER = CA.CASE_NUMBER
+					AND    DELETE_FLAG = 'N') AS "OB.OBLIGATION_SEQ",
+				(SELECT DECODE( COUNT(*), 0 , 'false', 'true')
+					FROM  WARRANTS W
+					WHERE W.CASE_NUMBER = CA.CASE_NUMBER
+					AND   W.CURRENTLY_OWNED_BY = CA.ADMIN_CRT_CODE
+					AND   ((W.WARRANT_ID NOT IN 
+	         				( SELECT WR.WARRANT_ID
+	            			    FROM  WARRANT_RETURNS WR, RETURN_CODES RC
+	            				WHERE WR.WARRANT_ID = W.WARRANT_ID
+	            				AND   WR.DEFENDANT_ID = 1
+	            				AND   WR.ERROR_INDICATOR IS NOT NULL
+	            				AND   WR.ERROR_INDICATOR != 'Y'
+	            				AND   RC.RETURN_CODE = WR.RETURN_CODE 
+	            				AND   RC.ADMIN_COURT_CODE = WR.RETURN_CODE_COURT_CODE 
+	            				AND   RC.RETURN_TYPE   = 'F' )
+	      				) OR (      
+	            		   W.DEFENDANT2 IS NOT NULL
+	            			AND W.WARRANT_ID NOT IN 
+	            				( SELECT WR.WARRANT_ID
+	              					FROM   WARRANT_RETURNS WR, RETURN_CODES RC
+	              					WHERE  WR.WARRANT_ID = W.WARRANT_ID
+	              					AND    WR.DEFENDANT_ID = 2
+	              					AND    WR.ERROR_INDICATOR IS NOT NULL
+	              					AND    WR.ERROR_INDICATOR != 'Y'
+	              					AND    RC.RETURN_CODE = WR.RETURN_CODE 
+	              					AND    RC.ADMIN_COURT_CODE = WR.RETURN_CODE_COURT_CODE 
+	             					AND    RC.RETURN_TYPE = 'F'
+	             			))))  AS "W.IS_OUTSTANDING",
+				GA.ADDRESS_ID AS "GA.ADDRESS_ID",
+				GA.ADDRESS_LINE1 AS "GA.ADDRESS_LINE1",
+				GA.ADDRESS_LINE2 AS "GA.ADDRESS_LINE2",
+				GA.ADDRESS_LINE3 AS "GA.ADDRESS_LINE3",
+				GA.ADDRESS_LINE4 AS "GA.ADDRESS_LINE4",
+				GA.ADDRESS_LINE5 AS "GA.ADDRESS_LINE5",
+				GA.POSTCODE AS "GA.POSTCODE",
+  				CA.ORA_ROWSCN AS "CA_ORA_ROWSCN", 
+  				C.ORA_ROWSCN AS "C_ORA_ROWSCN",
+  				GA.ORA_ROWSCN AS "GA_ORA_ROWSCN" 
+  				FROM CASES CA, COURTS C, GIVEN_ADDRESSES GA 
+  				WHERE CA.CASE_NUMBER = ${param.CaseNumber}  AND
+  					C.CODE = CA.ADMIN_CRT_CODE AND
+  					GA.COURT_CODE = CA.ADMIN_CRT_CODE AND	
+					GA.ADDRESS_TYPE_CODE = 'OFFICE' AND
+					GA.VALID_TO IS NULL 
+    	</SQL>
+	</Query>
+	<Query pivotNode="/ds/MaintainJudgment/Parties/Party" tables="CPR PR P">
+		<Join>
+			CPR.CASE_NUMBER     =  ${CA.CASE_NUMBER}   AND
+			CPR.PARTY_ROLE_CODE != 'SOLICITOR'        AND
+			CPR.PARTY_ROLE_CODE =  PR.PARTY_ROLE_CODE AND
+			CPR.PARTY_ID        =  P.PARTY_ID
+		</Join>
+		<Alias name="CPR_PARTY_KEY" select="CPR.PARTY_ROLE_CODE || '_' || CPR.CASE_PARTY_NO"/>
+		<OrderBy>CPR.PARTY_ROLE_CODE, CPR.CASE_PARTY_NO</OrderBy>
+	</Query>
+	<Query pivotNode="/ds/MaintainJudgment/Judgments/Judgment" tables="J CPR2 P C CCBC">
+		<LinkedJoin type="root" key="J.JUDG_SEQ J.CASE_NUMBER">
+			<Join>
+				J.CASE_NUMBER = ${param.CaseNumber}
+				AND CPR2.CASE_NUMBER = ${param.CaseNumber}
+				AND CPR2.CASE_PARTY_NO = J.AGAINST_CASE_PARTY_NO 
+				AND	CPR2.PARTY_ROLE_CODE = J.AGAINST_PARTY_ROLE_CODE
+				AND P.PARTY_ID = CPR2.PARTY_ID
+				AND C.CODE = J.JUDGMENT_COURT_CODE
+				AND CCBC.RV_LOW_VALUE = J.INSTALMENT_PERIOD
+				AND CCBC.RV_DOMAIN = 'INSTALMENT_PERIOD'		
+    	    </Join>
+   		</LinkedJoin>
+		<Alias name="J_PARTY_KEY" select="J.AGAINST_PARTY_ROLE_CODE || '_' || J.AGAINST_CASE_PARTY_NO"/>
+	</Query>
+
+	<Query pivotNode="/ds/MaintainJudgment/Judgments/Judgment/PartyAgainst/AddressAtJudgmentRegistration" tables="GA2 J">
+		<LinkedJoin type="query" key="GA2.ADDRESS_ID"> 
+			<Parent key="J.JUDG_SEQ" tables="J"/>
+			<Join>
+				J.CASE_NUMBER = ${param.CaseNumber} AND
+				GA2.ADDRESS_ID = J.AGAINST_PARTY_ADDR_ID_JUDG_REG
+     	 	</Join>
+     	 </LinkedJoin>
+	</Query>
+
+
+		
+	<Query pivotNode="/ds/MaintainJudgment/Judgments/Judgment/InFavourParties/Party" tables="IP CPR P J">
+		<LinkedJoin type="query" key="IP.CASE_PARTY_NO IP.PARTY_ROLE_CODE"> 
+			<Parent key="J.JUDG_SEQ" tables="J"/>
+			<Join>	
+				J.CASE_NUMBER = ${param.CaseNumber} AND
+				J.JUDG_SEQ = IP.JUDG_SEQ AND
+				IP.CASE_NUMBER = ${param.CaseNumber} AND
+				CPR.CASE_NUMBER = IP.CASE_NUMBER AND
+				P.PARTY_ID = CPR.PARTY_ID AND
+				CPR.PARTY_ROLE_CODE = IP.PARTY_ROLE_CODE AND
+				CPR.CASE_PARTY_NO = IP.CASE_PARTY_NO
+        	</Join>
+        </LinkedJoin>
+		<Alias name="IP_PARTY_KEY" select="IP.PARTY_ROLE_CODE || '_' || IP.CASE_PARTY_NO"/>
+	</Query>
+	<Query pivotNode="/ds/MaintainJudgment/Judgments/Judgment/ApplicationsToSetAside/Application" tables="CE J">
+		<LinkedJoin type="query" key="CE.EVENT_SEQ"> 
+			<Parent key="J.JUDG_SEQ" tables="J"/>
+			<Join>
+				J.CASE_NUMBER = ${param.CaseNumber} AND
+				CE.JUDG_SEQ = J.JUDG_SEQ AND
+				CE.STD_EVENT_ID = '160'
+     	 	</Join>
+     	 </LinkedJoin>
+	</Query>
+	<Query pivotNode="/ds/MaintainJudgment/Judgments/Judgment/ApplicationsToVary/Variation" tables="V">
+		<LinkedSQL type="query" key="V.VARY_SEQ">
+			<Parent key="J.JUDG_SEQ" tables="J"/>
+			<SQL>
+				SELECT J.JUDG_SEQ AS "J.JUDG_SEQ",
+					V.APPLICATION_DATE AS "V.APPLICATION_DATE", 
+					V.DETERMINATION_AMOUNT AS "V.DETERMINATION_AMOUNT", 
+					V.DETERMINATION_AMOUNT_CURRENCY AS "DETERMINATION_AMOUNT_CURRENCY", 
+					V.DETERMINATION_PERIOD AS "V.DETERMINATION_PERIOD", 
+					V.FIRST_PAYMENT_DATE AS "V.FIRST_PAYMENT_DATE", 
+					V.HEARING_REQD AS "V.HEARING_REQD", 
+					V.JUDG_SEQ AS "V.JUDG_SEQ", 
+					V.OBJECTION_DATE AS "V.OBJECTION_DATE", 
+					V.OBJECTOR AS "V.OBJECTOR", 
+					V.OFFER_AMOUNT AS "V.OFFER_AMOUNT", 
+					V.OFFER_AMOUNT_CURRENCY AS "V.OFFER_AMOUNT_CURRENCY", 
+					V.OFFER_PERIOD AS "V.OFFER_PERIOD", 
+					V.PLAINTIFF_RESPONSE AS "V.PLAINTIFF_RESPONSE", 
+					V.REQUESTER AS "V.REQUESTER", 
+					V.RESPONSE_DATE AS "V.RESPONSE_DATE", 
+					V.RESULT AS "V.RESULT", 
+					V.RESULT_DATE AS "V.RESULT_DATE", 
+					V.VARY_SEQ AS "V.VARY_SEQ", 
+					(SELECT CCBC.RV_MEANING
+						FROM CCBC_REF_CODES CCBC 
+						WHERE CCBC.RV_LOW_VALUE = V.DETERMINATION_PERIOD 
+							AND CCBC.RV_DOMAIN = 'DETERMINATION_PERIOD') AS "CCBC.RV_MEANING1",
+					(SELECT CCBC.RV_MEANING
+						FROM CCBC_REF_CODES CCBC 
+						WHERE CCBC.RV_LOW_VALUE = V.OFFER_PERIOD 
+							AND CCBC.RV_DOMAIN = 'INSTALMENT_PERIOD') AS "CCBC.RV_MEANING2",		 
+					V.ORA_ROWSCN AS "V_ORA_ROWSCN" 
+				FROM VARIATIONS V, JUDGMENTS J
+				WHERE J.CASE_NUMBER = ${param.CaseNumber}
+					AND V.JUDG_SEQ = J.JUDG_SEQ
+			</SQL>
+		</LinkedSQL>
+	</Query>
+	
+</QueryDef>

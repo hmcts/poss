@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>396</Id>
+	<Label>Application Fee</Label>
+	<ObjectName>AppFee</ObjectName>
+	
+	<Context screenId="FE45">
+		<isVisible>true</isVisible>
+		<Label>Court fee paid</Label>	
+	</Context>
+	
+	<Html>	
+		<input type="text" size="1" id="DefaultCurrency396"></input>
+		<input type="text" size="9" maxlength="9" id="AppFee"></input>
+	</Html>			
+	<Javascript>
+		<XPath>/ds/EnterVariableData/AttendForQuestion/appFee</XPath>
+		<componentName>##label##</componentName>
+		<isMandatory>return true;</isMandatory>
+		<HintText>Enter the court fee</HintText>
+		<maxLength>9</maxLength>
+		<validateOn>AppFee.dataBinding</validateOn>
+		<validate>
+			var valueIn = Services.getValue(AppFee.dataBinding);
+			var max = 999999.99;
+			var err = validateCurrencyValue( valueIn, max)
+			if( null == err )
+			{	Services.setValue(AppFee.dataBinding, WPU.formatToTwoDP(valueIn));
+			}
+			return err;
+		</validate>	
+		<enableOn>IsN39Reqd.dataBinding</enableOn>
+		<isEnabled>
+			return( !IsN39Reqd.isEnabled() || 'Y' == Services.getValue(IsN39Reqd.dataBinding));
+		</isEnabled>
+		<logicOn>IsN39Reqd.dataBinding</logicOn>
+		<logic>
+			if( IsN39Reqd.isEnabled() &amp;&amp; 'Y' != Services.getValue(IsN39Reqd.dataBinding))
+			{	Services.setValue(AppFee.dataBinding, "");
+			}
+		</logic>
+		<miscCode>
+			function DefaultCurrency396() {}
+			DefaultCurrency396.dataBinding = "/ds/EnterVariableData/curr1";
+			DefaultCurrency396.tabIndex = -1;
+			DefaultCurrency396.maxLength = 1;
+			DefaultCurrency396.isReadOnly = function(){return true;}
+			DefaultCurrency396.isTemporary = function(){return true;}
+			DefaultCurrency396.transformToDisplay = function(value){
+				return WPS.__CaseManUtils().transformCurrencySymbolToDisplay(value,null,null); }
+			DefaultCurrency396.transformToModel = function(value){
+				return WPS.__CaseManUtils().transformCurrencySymbolToModel(value,null,null); }
+        </miscCode>
+		<Context ScreenId="CJR091">
+			<enableOn>AppFee.dataBinding</enableOn>
+			<isEnabled>return true;</isEnabled>
+			<logicOn>AppFee.dataBinding</logicOn>
+			<logic></logic>
+			<HintText>Enter the application fee</HintText>
+		</Context>
+		
+		<Context ScreenId="FE45">
+			<enableOn>AppFee.dataBinding</enableOn>
+			<isEnabled>return true;</isEnabled>
+			<mandatoryOn>AppFee.dataBinding</mandatoryOn>
+			<isMandatory>return false;</isMandatory>
+			<logicOn>AppFee.dataBinding</logicOn>
+			<logic></logic>
+			<HintText>Enter the court fee paid</HintText>
+		</Context>
+		
+	</Javascript>
+</Question>

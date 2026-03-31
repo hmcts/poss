@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>100</Id>
+	<Label>Postcode</Label>
+	<ObjectName>NewPostcode</ObjectName>
+	<Html>
+		<input id="NewPostcode" type="text" size="15"></input>
+	</Html>
+	<Javascript>
+		<XPath>/ds/EnterVariableData/Party/Address/PostCode</XPath>
+		<componentName>Party postcode</componentName>
+		<HintText>Enter the parties postcode</HintText>	
+		<enableOn>NewAddressForService.dataBinding</enableOn>
+		<isEnabled>
+			var opt = Services.getValue(NewAddressForService.dataBinding);
+			return ( null != opt &amp;&amp; ('NONE' != opt &amp;&amp; opt.length > 0));
+		</isEnabled>
+		<logicOn>NewAddressForService.dataBinding</logicOn>
+		<logic>
+			var opt = Services.getValue(NewAddressForService.dataBinding);
+			
+			Services.setValue( NewPostcode.dataBinding, "");
+			
+			if( 'ACK' == opt &amp;&amp; null != solNode )
+			{	var pcNode = solNode.selectSingleNode("./ContactDetails/Address/PostCode");
+				if( 'ACK' == opt &amp;&amp; null != pcNode)
+				{ Services.setValue(NewPostcode.dataBinding, XML.getNodeTextContent( pcNode ));}
+			}
+			else if( 'ADDR' == opt &amp;&amp; null != defNode )
+			{	Services.setValue(NewPostcode.dataBinding, XML.getNodeTextContent( defNode.selectSingleNode("./ContactDetails/Address/PostCode")));
+			}
+		</logic>
+		<validateOn>NewPostcode.dataBinding</validateOn>
+		<validate>
+			var value = Services.getValue(NewPostcode.dataBinding);
+	
+			if(!CaseManValidationHelper.validatePostCode(value)) {
+				return ErrorCode.getErrorCode("CaseMan_invalidPostcodeFormat_Msg");
+			}
+			return null;					
+		</validate>
+		<transformToModel>
+			return (null != value) ? value.toUpperCase() : null;		
+		</transformToModel>		
+		<transformToDisplay>
+			return (null != value) ? value.toUpperCase() : null;
+		</transformToDisplay>
+		<mandatoryOn>NewAddressForService.dataBinding</mandatoryOn>
+		<isMandatory>		
+			return false;						
+		</isMandatory>
+		<readOnlyOn>NewAddressForService.dataBinding</readOnlyOn>
+		<isReadOnly>return areAddressFieldsReadOnly();</isReadOnly>
+	</Javascript>
+</Question>

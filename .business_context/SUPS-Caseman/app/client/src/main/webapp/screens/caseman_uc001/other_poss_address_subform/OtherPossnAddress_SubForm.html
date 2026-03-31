@@ -1,0 +1,64 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3c.org/TR/html4/strict.dtd">
+<html>
+
+	<head>
+		<title>OtherPossnAddress_SubForm</title>
+		<link href="OtherPossnAddress_SubForm.css" type="text/css" rel="stylesheet">
+		<script type="text/javascript" src="../../../Framework.js"></script>
+    	<script type="text/javascript" src="../../../ConcatCommon.js"></script>
+		<script type="text/javascript" src="OtherPossnAddress_SubForm.js"></script>
+  	</head>
+
+	<body>
+	
+    	<form id="otherPossnAddressSubform" class="subform">
+
+			<div class="panel">
+				<table class="content">
+					<tr>
+						<td><label for="OtherPossessionAddress_ContactDetails_Address_Line1">Address</label></td>
+						<td><input type="text" id="OtherPossessionAddress_ContactDetails_Address_Line1" size="60"/></td>
+					</tr>
+					<tr>
+						<td>&nbsp;</td>
+						<td><input type="text" id="OtherPossessionAddress_ContactDetails_Address_Line2" size="60"/></td>
+					</tr>
+					<tr>
+						<td>&nbsp;</td>
+						<td><input type="text" id="OtherPossessionAddress_ContactDetails_Address_Line3" size="60"/></td>
+					</tr>
+					<tr>
+						<td>&nbsp;</td>
+						<td><input type="text" id="OtherPossessionAddress_ContactDetails_Address_Line4" size="60"/></td>
+					</tr>
+					<tr>
+						<td>&nbsp;</td>
+						<td><input type="text" id="OtherPossessionAddress_ContactDetails_Address_Line5" size="60"/></td>
+					</tr>
+					<tr>
+						<td><label for="OtherPossessionAddress_ContactDetails_Address_Postcode">Postcode</label></td>
+						<td><input type="text" id="OtherPossessionAddress_ContactDetails_Address_Postcode" size="15"/></td>
+					</tr>
+					<tr>
+						<td><label for="OtherPossessionAddress_CreatedBy">Created By</label></td>
+						<td><input type="text" id="OtherPossessionAddress_CreatedBy" size="15"/></td>
+					</tr>
+				</table>
+			</div>
+			
+			<!-- Subform action bar -->
+			<script type="text/javascript">
+				ActionBarRenderer.createInline(
+					"changeCaseType_statusbar",
+					[
+						{id: "OtherPossessionAddress_OkButton", label: "Ok"},	
+						{id: "OtherPossessionAddress_CancelButton", label: "Cancel"}
+					]
+				);
+			</script>
+
+		</form>
+    
+    </body>
+    
+</html>

@@ -1,0 +1,44 @@
+/**
+  * Change History:
+  * 10/02/2010 - Chris Vincent.  Added courtFieldLabel and tinkered with addNewCourt_subform height and width as part of Trac 2629
+  */
+
+form#viewCourtDataNew
+{
+	display: inline;
+}
+
+/* Default label column style */
+td.courtFieldLabel
+{
+	width: 170px;
+}
+
+/****************************************** GRID ********************************************/
+
+#Header_CourtNameListGrid { width:450px; margin: 5px; }
+#Header_CourtNameListGrid .col0 { width: 39px; }
+#Header_CourtNameListGrid .col1 { width: 240px; }
+#Header_CourtNameListGrid .col2 { width: 35px; }
+#Header_CourtNameListGrid .col3 { width: 100px; }
+
+#Results_CourtAddressListGrid
+{
+	width: 450px;
+	margin: 5px;
+}
+#Results_CourtAddressListGrid .col0 { width: 90px; }
+#Results_CourtAddressListGrid .col1 { width: 164px; }
+#Results_CourtAddressListGrid .col2 { width: 164px; }
+
+/************************************ LOV POPUPS ********************************************/
+
+#HeaderCourtNameLovBtnGrid
+{
+	height: 302px;
+	width: 372px;
+	left: 50%;
+	top: 50%;
+	margin-left: -186px;
+	margin-top: -151px;
+}

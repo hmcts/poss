@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<QueryDef>
+	<DBMapDef location="uk/gov/dca/test_project/linked_service/type_map.xml"/>
+	
+	<Query pivotNode="/Dates/Date" tables="D">
+		<Handlers>
+			<Handler name="D.MY_DATE" class="uk.gov.dca.db.pipeline.mapping.jdbc.TimestampHandler"/>
+		</Handlers>
+		<Modify>
+			<CheckExists table="D" fields="ID"/>
+			<Field name="D.ID" sequenceTable="TEST_DATES_SEQUENCE"/>
+		</Modify>
+	</Query>
+	
+</QueryDef>

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>379</Id>
+	<Label>Who considered application</Label>
+	<ObjectName>WhoConsidApp</ObjectName>
+	<Html>	
+		<select id="WhoConsidApp">
+			<option value=""></option>
+			<option value="C">COURT</option>
+			<option value="J">JUDGE</option>			
+		</select>
+	</Html>			
+	<Javascript>
+		<XPath>/ds/EnterVariableData/AttendForQuestion/whoConsidApp</XPath>
+		<componentName>##label##</componentName>
+		<isMandatory>return true;</isMandatory>
+		<HintText>Select judge or court</HintText>	
+		<enableOn>IsN39Reqd.dataBinding</enableOn>
+		<isEnabled>
+			var N39En = IsN39Reqd.isEnabled();
+			var isN39Req = Services.getValue(IsN39Reqd.dataBinding);
+			return( !N39En || 'Y' == isN39Req);
+		</isEnabled>
+		<logicOn>IsN39Reqd.dataBinding</logicOn>
+		<logic>
+			var N39En = IsN39Reqd.isEnabled();
+			var isN39Req = Services.getValue(IsN39Reqd.dataBinding);
+			if( N39En &amp;&amp; 'Y' != isN39Req)
+			{	Services.setValue(WhoConsidApp.dataBinding, "");
+			}
+		</logic>
+	</Javascript>
+</Question>

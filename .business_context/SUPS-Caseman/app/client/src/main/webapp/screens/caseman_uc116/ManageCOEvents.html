@@ -1,0 +1,359 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3c.org/TR/html4/strict.dtd">
+
+<html>
+
+	<head>
+		<title>ManageCOEvents</title>
+		<link href="ManageCOEvents.css" type="text/css" rel="stylesheet">
+		<script type="text/javascript" src="../../Framework.js"></script>
+		<script type="text/javascript" src="../../ConcatCommon.js"></script>
+		<script type="text/javascript" src="../caseman_wp/WordProcessing.js"></script>
+		<script type="text/javascript" src="ManageCOEvents.js"></script>
+	</head>
+	
+	<body>
+		<form name="ManageCOEvents" id="manageCOEvents">
+	
+			<!-- Framework Navigation Menu -->
+			<script type="text/javascript">MenuBarRenderer.createInline();</script>
+	
+			<table class="layout">
+				
+				<!-- Query Panel -->
+				<tr>
+					<td>
+						<div class="panel">
+							<table class="content">
+								<tr>
+									<td>
+										<table style="width: 100%;">
+											<tr>
+												<td class="defaultLabel"><label for='Query_CONumber'>CO Number</label></td>
+												<td colspan=3><input id="Query_CONumber" type="text" size=15></td>
+		
+												<td class="defaultLabel"><label for='Query_OldCONumber'>Old CO Number</label></td>
+												<td><input id="Query_OldCONumber" type="text" size=15></td>
+												
+												<td>&nbsp;</td>
+											</tr>
+											<tr>
+												<td class="defaultLabel"><label for='Query_OwningCourtCode'>Owning Court</label></td>
+												<td style="width:50px;"><input id="Query_OwningCourtCode" type="text" size="5"/></td>
+												<td style="width:190px;">
+													<script type="text/javascript">AutoCompletionRenderer.createInline("Query_OwningCourtName");</script>
+												</td>
+												<td style="width:88px;"><input id="Query_OwningCourtLOVButton" type="Button" value="LOV"/></td>
+												<td colspan=2>&nbsp;</td>
+												<td><input id="Query_SearchButton" type="button" value="Search"></td>
+											</tr>
+										</table>
+									</td>			
+								</tr>
+							</table>
+						</div>
+					</td>
+				</tr>
+				<!-- End Query Panel -->
+				
+				<!-- Header Panel -->
+				<tr>
+					<td>
+						<div class="panel">
+							<table class="content">
+								<tr>
+									<td>
+										<table>
+											
+											<tr>									
+												<td class="defaultLabel"><label for="Header_COType">Type</label></td>
+												<td><input id="Header_COType" type="text" size=15></td>
+												<td style="width:107px;">&nbsp;</td>
+												<td class="defaultLabel"><label for="Header_COStatus">Status</label></td>
+												<td><input id="Header_COStatus" type="text" size=15></td>
+											</tr>
+													
+											<tr>
+												<td class="defaultLabel"><label for="Header_DebtorName">Debtor Name</label></td>
+												<td><input id="Header_DebtorName" type="text" size=40></td>
+												<td colspan=3>&nbsp;</td>
+											</tr>
+												
+										</table>
+									</td>			
+								</tr>
+		
+							</table>
+						</div>
+	
+					</td>
+				</tr>
+				<!-- End Header Panel -->
+	
+				<tr>
+					<td>
+					
+						<div class="panel">
+							<table class="content">
+		
+								<tr>
+		
+									<td style="width: 470px;">
+		
+										<table style="height:450px;">
+		
+											<tr>
+												<td valign="top" colspan="4">
+													<script type="text/javascript">Grid.createInline("Master_COEventGrid", ["", "Date", "Event", "Event Description", "Stage", ""], 20, 1);</script>
+												</td>
+											</tr>
+											<tr>
+												<td colspan="4" align="right">
+													<input id="Master_PreviousButton" type="Button" value="Previous" style="width: 70px; margin-right:5px;" />
+													<input id="Master_NextButton" type="Button" value="Next" style="width: 70px; margin-right:5px;" />
+												</td>
+											</tr>
+											<tr>
+												<td style="margin-left:5px;" colspan="4">
+													<label for="Master_COEventId">Select an Event</label>
+												</td>
+											</tr>
+											<tr>
+												<td style="width:5px;">&nbsp;</td>
+												<td>
+													<input id="Master_COEventId" type="text" size=3>
+												</td>
+												<td>
+													<script type="text/javascript">
+														AutoCompletionRenderer.createInline("Master_COEventDescription");
+													</script>
+												</td>
+												<td align="right"><input id="Master_COEventLOVButton" type="Button" value="LOV" style="margin-right:5px;"></td>
+											</tr>
+											<tr>
+												<td align="right" colspan="4">
+													<input id="Master_AddCOEventButton" type="Button" value="Add" style="margin-right:5px; margin-bottom:5px;">
+												</td>
+											</tr>
+		
+										</table>
+		
+									</td>
+		
+									<td class="spacer">&nbsp;</td>
+									
+									<td valign="top">
+										
+										<table style="margin-top: 5px;">
+											
+											<tr>
+												<td class="detailsLabel"><label for="EventDetails_DateReceived">Date Received</label></td>
+												<td>
+													<script type="text/javascript">DatePickerRenderer.createInline("EventDetails_DateReceived", true);</script>
+												</td>
+											</tr>
+											<tr>
+												<td class="detailsLabel"><label for="EventDetails_EventId">Event</label></td>
+												<td>
+													<input id="EventDetails_EventId" type="text" size=3>
+													<input id="EventDetails_EventDescription" type="text" size=57>
+												</td>
+											</tr>
+											<tr>
+												<td class="detailsLabel"><label for="EventDetails_Stage">Stage</label></td>
+												<td>
+													<input id="EventDetails_Stage" type="text" size=27>
+												</td>
+											</tr>
+											<tr>
+												<td class="detailsLabel"><label for="EventDetails_Details">Event Details</label></td>
+												<td>
+													<script type="text/javascript">ZoomFieldRenderer.createInline("EventDetails_Details");</script>
+												</td>
+											</tr>
+											<tr>
+												<td class="detailsLabel"><label for="EventDetails_ErrorFlag">Error</label></td>
+												<td><input id="EventDetails_ErrorFlag" type="checkbox"></td>
+											</tr>
+											<tr>
+												<td class="detailsLabel"><label for="EventDetails_Service">Service</label></td>
+												<td><select id="EventDetails_Service"></select></td>
+											</tr>
+											<tr>
+												<td class="detailsLabel"><label for="EventDetails_BailiffId">Bailiff Id</label></td>
+												<td><input id="EventDetails_BailiffId" type="text" size=5></td>
+											</tr>
+											<tr>
+												<td class="detailsLabel"><label for="EventDetails_ServiceDate">Service Date</label></td>
+												<td>
+													<script type="text/javascript">DatePickerRenderer.createInline("EventDetails_ServiceDate", true);</script>
+												</td>
+											</tr>
+											<tr>
+												<td class="detailsLabel"><label for="EventDetails_CreditorName">Creditor Name</label></td>
+												<td><input id="EventDetails_CreditorName" type="text" size=27></td>
+											</tr>
+											<tr>
+												<td class="detailsLabel"><label for="EventDetails_BMSTask">BMS Task</label></td>
+												<td><input id="EventDetails_BMSTask" type="text" size=10></td>
+											</tr>
+											<tr>
+												<td class="detailsLabel"><label for="EventDetails_CreatedBy">Created By</label></td>
+												<td><input id="EventDetails_CreatedBy" type="text" size=30></td>
+											</tr>
+											<tr>
+												<td class="detailsLabel"><label for="EventDetails_Date">Date</label></td>
+												<td>
+													<script type="text/javascript">DatePickerRenderer.createInline("EventDetails_Date", true);</script>
+												</td>
+											</tr>
+											
+										</table>
+		
+									</td>
+		
+								</tr>
+		
+							</table>
+						</div>
+	
+					</td>
+				</tr>
+	
+			</table>
+	
+			<!-- Status Bar Panel -->
+			<script type="text/javascript">
+				ActionBarRenderer.createInline(
+					"status_bar",
+					[
+						{id: "Status_SaveButton", label: "Save"},
+						{id: "Status_ClearButton", label: "Clear"},
+						{id: "Status_CloseButton", label: "Close"}
+					]
+				);
+			</script>
+			   <!-- End Status Bar Panel -->
+			
+			<!--  Form Extension Popups -->
+			
+			<!-- Add New Event popup -->
+			<div class="popup" id="AddEvent_Popup">
+				<table class="content">
+					<tr>
+						<td class="popupLabel"><label for="AddEvent_DateReceived">Date Received</label></td>
+						<td colspan=2>
+							<script type="text/javascript">DatePickerRenderer.createInline("AddEvent_DateReceived", true);</script>
+						</td>
+						<td>&nbsp;</td>
+					</tr>
+					<tr>
+						<td class="popupLabel"><label for="AddEvent_EventId">Event</label></td>
+						<td colspan=2>
+							<input id="AddEvent_EventId" type="text" size=3>&nbsp;
+							<input id="AddEvent_EventDescription" type="text" size=62>
+						</td>
+						<td>&nbsp;</td>
+					</tr>
+					<tr>
+						<td class="popupLabel"><label for="AddEvent_Stage">Stage</label></td>
+						<td colspan=2><select id="AddEvent_Stage"></select></td>
+					</tr>
+					<tr>
+						<td class="popupLabel"><label for="AddEvent_Details">Event Details</label></td>
+						<td colspan=2>
+							<script type="text/javascript">ZoomFieldRenderer.createInline("AddEvent_Details");</script>
+						</td>
+						<td><input id="AddEvent_DetailsLOVButton" type="Button" value="LOV" style="margin-right:15px;"></td>
+					</tr>
+					<tr>
+						<td class="popupLabel"><label for="AddEvent_Service">Service</label></td>
+						<td colspan=2><select id="AddEvent_Service"></select></td>
+						<td>&nbsp;</td>
+					</tr>
+					<tr>
+						<td class="popupLabel"><label for="AddEvent_BailiffId">Bailiff Id</label></td>
+						<td colspan=2>
+							<input id="AddEvent_BailiffId" type="text" size=5>
+						</td>
+						<td>&nbsp;</td>
+					</tr>
+					<tr>
+						<td class="popupLabel"><label for="AddEvent_CreditorName">Creditor Name</label></td>
+						<td>
+							<script type="text/javascript">
+								AutoCompletionRenderer.createInline("AddEvent_CreditorName");
+							</script>
+						</td>
+						<td align="left"><div style="width:200px;"><input id="AddEvent_CreditorLOVButton" type="Button" value="LOV"></div></td>
+						<td>&nbsp;</td>
+					</tr>
+					<tr>
+						<td class="popupLabel"><label for="AddEvent_EventDate">Date</label></td>
+						<td colspan=2>
+							<script type="text/javascript">DatePickerRenderer.createInline("AddEvent_EventDate", true);</script>
+						</td>
+						<td>&nbsp;</td>
+					</tr>
+					<tr style="height:2px;">
+						<td colspan=4>&nbsp;</td>
+					</tr>
+					<tr>
+						<td colspan=4 align="right">
+							<input class="popupButton" type="button" value="Save" id="AddEvent_SaveButton">
+							<input class="popupButton" type="button" value="Cancel" id="AddEvent_CancelButton">
+						</td>
+					</tr>
+				</table>
+			</div>
+			<!-- End Add New Event popup -->
+			
+			<!-- Query popup -->
+			<div id="QueryCO_Popup" class="popup">
+			
+				<div class="popupTitle">Select a CO Record</div>
+					
+				<div class="panel">
+					<script type="text/javascript">Grid.createInline("QueryPopup_CONumberGrid", ["CO Number", "Old CO Number", "Debtor", "Address", "Status"], 10, 1 );</script>
+				</div>
+				
+				<!-- Popup action bar -->
+				<script type="text/javascript">
+					ActionBarRenderer.createInlineNoStatusBar(
+						"query_statusbar",
+						[
+							{id: "QueryPopup_OkButton", label: "Ok"},	
+							{id: "QueryPopup_CancelButton", label: "Cancel"}
+						]
+					);
+				</script>
+					
+			</div>
+			<!-- End Query popup -->
+			
+			<!-- Non-visual data change listeners -->
+			<div class="logic" id="formLifecycleStateLogic"></div>
+			<div class="superLogic" id="launchOutputLogic"></div>
+			
+			<!-- LOV POPUPs -->
+			<script type="text/javascript">LOVSubformRenderer.createInline( "Query_OwningCourtLOVGrid", "Courts", ["Code", "Court"], 10, 1, true );</script>
+			<script type="text/javascript">LOVPopupRenderer.createInline( "Master_COEventLOVGrid", "Events", ["Event", "Description"], 10, 1, true );</script>
+			<script type="text/javascript">LOVSubformRenderer.createInline( "AddEvent_DetailsLOVGrid", "Tick Box List", ["Task", "Description"], 10, 1, true );</script>
+			<script type="text/javascript">LOVSubformRenderer.createInline( "AddEvent_PartyDetailsLOVGrid", "Valid CO Parties", ["Name", "Description"], 10, 1, true );</script>
+			<script type="text/javascript">LOVSubformRenderer.createInline( "AddEvent_CreditorLOVGrid", "Valid CO Creditors", ["Debt Number", "Creditor Name", "Debt Status"], 10, 1, true );</script>		
+					
+			<!-- AUDIT PANELS -->
+			<div class="auditPanel" id="currentlySelectedEventPanel"></div>
+	
+			<!-- AUDIT SELECTOR ADAPTOR -->
+			<script type="text/javascript">AuditSelectorRenderer.createInline( "Audit_PanelSelector" );</script>
+			
+			<!-- SUBFORMS -->
+			<div class="popup popupsubform" id="audit_subform"></div>
+			<div class="popup popupsubform" id="selectEventOutput_subform"></div>
+			<div class="popup popupsubform" id="ProgressBar_SubForm"></div>
+								
+		</form>
+	
+	</body>
+
+</html>

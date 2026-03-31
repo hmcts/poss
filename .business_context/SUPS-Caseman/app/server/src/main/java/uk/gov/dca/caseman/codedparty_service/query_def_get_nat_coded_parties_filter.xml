@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: Codedparty
+	Method:  getNatCodedPartiesFilter()
+	File:    query_def_get_nat_coded_parties_filter.xml
+	Author:  Phil Haferer
+	Created: 01 December 2005
+	Description: 
+		Retrieves a summary of the National Coded Parties.
+
+	Change History:
+	03-Aug-2006 Phil Haferer: Changed constant compared P2P.PARTY_A_ROLE_CODE from NCP to SOLICITOR.
+	            (TD CASEMAN 4133: CCBC: Change Role Type from NCP to SOLICITOR).
+	05-Jan-2007 Phil Haferer: 
+                Added the joins to select data for the Default Claimant.
+                (TD Group2 3557: "Maintain National Coded Parties - Default Claimant not being stored on database").
+-->
+<QueryDef>
+  <DBMapDef location="uk/gov/dca/caseman/codedparty_service/map_get_nat_coded_parties_filter.xml"/>
+  <Query pivotNode="/CodedParties/CodedParty" tables="CP P GA PY PGA PP P2P CLP2P CLP CLGA">
+	<Join>
+		    CP.PARTY_ID          = P.PARTY_ID  
+		AND GA.PARTY_ID          = P.PARTY_ID 
+		AND GA.ADDRESS_TYPE_CODE = 'CODED PARTY'
+		AND P2P.PARTY_A_ROLE_CODE (+)= 'SOLICITOR'
+		AND P2P.PARTY_A_ID        (+)= CP.PARTY_ID
+		AND P2P.PARTY_B_ROLE_CODE (+)= 'NCP PAYEE'
+		AND PP.PARTY_ID           (+)= P2P.PARTY_B_ID
+		AND PGA.PARTY_ID          (+)= P2P.PARTY_B_ID
+		AND PGA.ADDRESS_TYPE_CODE (+)= 'NCP PAYEE'
+		AND PY.PARTY_ID           (+)= P2P.PARTY_B_ID
+		AND CLP2P.PARTY_A_ROLE_CODE (+)= 'SOLICITOR'
+		AND CLP2P.PARTY_A_ID        (+)= CP.PARTY_ID
+		AND CLP2P.PARTY_B_ROLE_CODE (+)= 'CLAIMANT'
+		AND CLP.PARTY_ID            (+)= CLP2P.PARTY_B_ID
+		AND CLGA.PARTY_ID           (+)= CLP2P.PARTY_B_ID
+		AND CLGA.ADDRESS_TYPE_CODE  (+)= 'SERVICE'
+	</Join>
+    <Modify notModifiable="true"/>
+  </Query>
+</QueryDef>

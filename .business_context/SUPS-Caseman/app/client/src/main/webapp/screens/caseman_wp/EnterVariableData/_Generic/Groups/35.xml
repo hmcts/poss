@@ -1,0 +1,48 @@
+<Group id="8">
+	<!-- though linked to group 8, it uses questions from group 9 too... -->
+	<ServicesRequired>
+	
+	</ServicesRequired>
+	<Protocols>
+		<OnSave>
+			<function>checkNoHopers</function>
+			<functionCallback>checkNoHopersCallback</functionCallback>
+		</OnSave>
+	</Protocols>
+	<JavaScript>
+	function checkNoHopers()
+	{
+		// check grid for selection if enabled.
+		// ifso continue,
+		// else put this function all callback back in the saveAll q.
+		var val = Services.getValue(PreliminaryHearingReason.dataBinding);		    
+		if ('DIS' == val) {
+			
+			//var adapt = Services.getAdaptorById("PartyWNPPOS");
+			//var selec = adapt.getSelectedRows.length;
+			
+			var selec = Services.countNodes(PartyWNPPOS.dataBinding);
+			if (0 == selec) {
+				onSave.push(['checkNoHopers','checkNoHopersCallback']);
+				alert("The Form can not be saved as it has invalid values.  The following fields have invalid values:\n"+
+						"Parties with no prospect of success - you must at least choose one party");
+				return false;
+			}
+			else {
+				Save_All();
+			}
+		}
+		else {
+			Save_All(); 
+		}
+		
+	}
+
+
+	function checkNoHopersCallback()
+	{
+
+	}
+	
+	</JavaScript>
+</Group>

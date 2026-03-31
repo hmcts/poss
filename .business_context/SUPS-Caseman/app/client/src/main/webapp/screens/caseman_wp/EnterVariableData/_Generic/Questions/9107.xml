@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>9107</Id>
+	<Label>Enter the body granting award reference</Label>
+	<ObjectName>AwardRef</ObjectName>
+	<Html>	
+		<input id="AwardRef" type="text" size="35"></input>	
+	</Html>
+	<Javascript>
+        <XPath>/ds/EnterVariableData/AwardRef</XPath>
+		<HintText>Enter the body granting award reference</HintText>
+		  <isMandatory>return true;</isMandatory>
+         <mandatoryOn>AwardRef.dataBinding</mandatoryOn> 	
+        <isEnabled>return true;</isEnabled> 
+	</Javascript>
+</Question>

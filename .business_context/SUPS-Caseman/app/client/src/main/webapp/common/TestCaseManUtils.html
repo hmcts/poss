@@ -1,0 +1,329 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!--
+
+	Tests for the CaseManUtils class.
+
+-->
+
+<html>
+  <head>
+    <title>Unit tests for validation helper</title>
+    <link rel="stylesheet" type="text/css" href="../../jsunit/css/jsUnitStyle.css">
+
+	<script type="text/javascript" src='./jsunit/app/jsUnitCore.js'></script>       
+   	<script type="text/javascript" src='./Framework.js'></script>	
+	<script type="text/javascript" src='./CaseManValidationHelper.js'></script> 	   	
+	<script type="text/javascript" src='./CaseManUtils.js'></script> 
+	<script type="text/javascript" src='./MockFormController.js'></script> 	
+  </head>
+  
+  <body>
+  
+	<form name="theForm" id="theForm" action="#" method="POST"></form>
+    
+    <script type="text/javascript">
+	
+	//FormController.initialise(document.forms.theForm);	
+	function theForm() {}
+		
+	function setUp()
+	{
+	}
+      
+	function tearDown()
+	{
+	}
+	  
+	function exposeTestFunctionNames()
+	{
+		var functionNames = [
+							'testIsBlank',
+							'testStripSpaces',
+							'testConvertDateToDisplay',
+							'testFormatGridDate',
+							'testConvertTimeToSeconds',
+							'testConvertSecondsToTime',
+							'testGetTodaysDate',
+							'testConvertDateToPattern',
+							'testCompareDates',
+							'testCreateDate',
+							'testCapitalize',
+							'testSuperInitCaps',
+							'testOneMonthEarlier',
+							'testDaysInFuture',
+							'testFourMonthsInFuture',
+							'testGetValidNodeValue',
+							'testSortGridDatesAsc',
+							'testSortGridDatesDsc',
+							'testSuperInitCap'
+							];
+		    
+		return functionNames;
+	}
+
+	/*
+	 * Tests the CaseManUtils isBlank method
+	 */
+	function testIsBlank()
+	{
+		assertTrue(CaseManUtils.isBlank("     "));
+		assertTrue(CaseManUtils.isBlank(null));
+		assertFalse(CaseManUtils.isBlank("   a "));		
+	}
+    
+	/*
+	 * Tests the CaseManUtils stripSpaces method
+	 */
+	function testStripSpaces()
+	{
+		assertEquals("", "AAA", CaseManUtils.stripSpaces("    AAA      "));
+		assertEquals("", "AAA", CaseManUtils.stripSpaces("AAA "));		
+		assertEquals("", "AAA", CaseManUtils.stripSpaces(" AAA"));				
+	}
+		
+    /*
+     * Tests the CaseManUtils convertDateToDisplay method
+     */
+	function testConvertDateToDisplay(modelDate)
+	{
+		// Test that we can convert a date in DOM (YYYY-MM-DD) to display format (DD-MON-YYYY)
+		myDOMDate = "2004-12-20";
+		myDisplayDate = CaseManUtils.convertDateToDisplay(myDOMDate);
+		assertEquals("The date is in the correct format so expected a valid date", "20-DEC-2004", myDisplayDate);
+		
+		// Test that a date in the wrong format returns a null
+		myDOMDate = "2004-20-12";
+		myDisplayDate = CaseManUtils.convertDateToDisplay(myDOMDate);
+		assertEquals("The date is in the wrong format so expected null to be returned", null, myDisplayDate);
+	}    
+	
+    /*
+     * Tests the CaseManUtils formatGridDate method
+     */
+	function testFormatGridDate(modelDate)
+	{
+		// Test that we can convert a date in DOM (YYYY-MM-DD) to display format (DD-MON-YYYY)
+		myDOMDate = "2004-12-20";
+		myDisplayDate = CaseManUtils.formatGridDate(myDOMDate);
+		assertEquals("The date is in the correct format so expected a valid date", "20-DEC-2004", myDisplayDate);
+		
+		// Test that a date in the wrong format returns an empty string
+		myDOMDate = "2004-20-12";
+		myDisplayDate = CaseManUtils.formatGridDate(myDOMDate);
+		assertEquals("The date is in the wrong format so expected empty string to be returned", "", myDisplayDate);
+	
+	}
+		
+	/*
+	 * Tests the CaseManUtils convertTimeToSeconds method
+	 */
+	function testConvertTimeToSeconds()
+	{
+		assertEquals("", null, CaseManUtils.convertTimeToSeconds(null));
+		assertEquals("", null, CaseManUtils.convertTimeToSeconds(""));		
+		assertEquals("", 43200, CaseManUtils.convertTimeToSeconds('12:00'));
+	}
+
+	/*
+	 * Tests the CaseManUtils convertSecondsToTime method
+	 */
+	function testConvertSecondsToTime()
+	{
+		assertEquals("", null, CaseManUtils.convertSecondsToTime(null));
+		assertEquals("", null, CaseManUtils.convertSecondsToTime(""));		
+		assertEquals("", "12:00", CaseManUtils.convertSecondsToTime("43200"));
+	}
+
+    /*
+     * Tests the CaseManUtils getTodaysDate method
+     */
+	function testGetTodaysDate()
+	{
+		var todayString = CaseManUtils.getTodaysDate();
+		var year = todayString.substring(0, 4);	
+		var month = todayString.substring(5, 7);
+		var day = todayString.substring(8);		
+		var today = new Date();
+		
+		// Check to see if the day starts with a zero
+		if (day.substring(0, 1) == "0")
+		{
+			// Perform the check with a leading zero
+			assertEquals("", day, "0" + today.getDate());
+		}
+		else
+		{
+			// Normal check without a leading zero
+			assertEquals("", day, today.getDate().toString());			
+		}
+		
+		// Check to see if the month starts with a zero
+		if (month.substring(0, 1) == "0")
+		{
+			// Perform the check with a leading zero
+			assertEquals("", month, "0" + (today.getMonth() + 1));
+		}
+		else
+		{
+			// Normal check without a leading zero
+			assertEquals("", month, (today.getMonth() + 1).toString());			
+		}
+				
+		assertEquals("", year, today.getFullYear().toString());				
+	}    
+	
+	/*
+     * Tests the CaseManUtils convertDateToPattern method
+     */
+	function testConvertDateToPattern()
+	{
+		// 29 Feb 2004
+		var myDate = new Date(2004, 1, 29);
+		
+		assertEquals("", "29-FEB-2004", CaseManUtils.convertDateToPattern(myDate, CaseManUtils.DATE_DISPLAY_FORMAT));
+		assertEquals("", "2004-02-29", CaseManUtils.convertDateToPattern(myDate, CaseManUtils.DATE_MODEL_FORMAT));		
+	}    
+	
+	/*
+     * Tests the CaseManUtils compareDates method
+     */
+	function testCompareDates()
+	{
+		var before = 1;
+		var after = -1;
+		var equal = 0;	
+		// 29 Feb 2004
+		var myFebDate = new Date(2004, 1, 29);
+		// 01 Mar 2004
+		var myMarDate = new Date(2004, 2, 1);
+		assertEquals("", before, CaseManUtils.compareDates(myFebDate, myMarDate));
+		assertEquals("", after, CaseManUtils.compareDates(myMarDate, myFebDate));		
+		assertEquals("", equal, CaseManUtils.compareDates(myFebDate, myFebDate));				
+	}
+	
+	/*
+     * Tests the CaseManUtils createDate method
+     */
+	function testCreateDate()
+	{
+		var dateArray = new Array(new Date(2004, 1, 29), new Date(2005, 7, 1), new Date(2005, 8, 1), new Date(2005, 10, 1), new Date(2005, 0, 10), new Date(2005, 4, 20), new Date(2005, 6, 30));
+		var dateTest1Array = new Array("29-FEB-2004", "01-AUG-2005", "01-SEP-2005", "01-NOV-2005", "10-JAN-2005", "20-MAY-2005", "30-JUL-2005");
+		var dateTest2Array = new Array("2004-02-29", "2005-08-01", "2005-09-01", "2005-11-01", "2005-01-10", "2005-05-20", "2005-07-30");
+
+		for (var i=0; i<dateArray.length; i++)
+		{
+			assertEquals("", dateArray[i].getTime(), CaseManUtils.createDate(dateTest1Array[i]).getTime());
+			assertEquals("", dateArray[i].getTime(), CaseManUtils.createDate(dateTest2Array[i]).getTime());
+		}
+	}	
+		
+	/*
+     * Tests the CaseManUtils capitalize method
+     */
+	function testCapitalize()
+	{
+		var expectedString = "My Capitalized Test String Looks Like This";
+		assertEquals("", expectedString, CaseManUtils.capitalize(expectedString.toLowerCase()));
+	}
+
+
+	/*
+     * Tests the CaseManUtils superInitCaps method
+     */
+	function testSuperInitCaps()
+	{
+		var expectedString = "My Capitalized Test String Looks Like This";
+		assertEquals("", expectedString, CaseManUtils.superInitCaps(expectedString.toLowerCase()));
+		assertEquals("", expectedString, CaseManUtils.superInitCaps(expectedString.toUpperCase()));		
+	}
+
+	/*
+     * Tests the CaseManUtils oneMonthEarlier method
+     */
+	function testOneMonthEarlier()
+	{
+		// 29 Feb 2004
+		var myFebDate = new Date(2004, 1, 29);
+		// 29 Jan 2004
+		var myJanDate = new Date(2004, 0, 29);		
+		assertEquals("", myJanDate.getTime(), CaseManUtils.oneMonthEarlier(myFebDate).getTime());
+	}
+
+	/*
+     * Tests the CaseManUtils oneMonthEarlier method
+     */
+	function testDaysInFuture()
+	{
+		// 29 Feb 2004
+		var myFebDate = new Date(2004, 1, 29);
+		// 10 Mar 2004
+		var myMarDate = new Date(2004, 2, 10);		
+		assertEquals("", myMarDate.getTime(), CaseManUtils.daysInFuture(myFebDate, 10, true).getTime());
+	}
+
+	/*
+     * Tests the CaseManUtils fourMonthsInFuture method
+     */
+	function testFourMonthsInFuture()
+	{
+		// 29 Feb 2004
+		var myFebDate = new Date(2004, 1, 29);
+		// 29 Jun 2004
+		var myJunDate = new Date(2004, 5, 29);		
+		assertEquals("", myJunDate.getTime(), CaseManUtils.fourMonthsInFuture(myFebDate, true).getTime());
+	}
+
+	/*
+     * Tests the CaseManUtils getValidNodeValue method
+     */
+	function testGetValidNodeValue()
+	{
+		assertEquals("", "", CaseManUtils.getValidNodeValue(null));
+		assertEquals("", "A", CaseManUtils.getValidNodeValue("A"));		
+	}
+
+	/*
+     * Tests the CaseManUtils sortGridDatesAsc method
+     */
+	function testSortGridDatesAsc()
+	{
+		// 29 Feb 2004
+		var myFebDate = "20-FEB-2004";
+		// 01 Mar 2004
+		var myMarDate = "01-MAR-2004";				
+		assertEquals("", 1, CaseManUtils.sortGridDatesAsc(myFebDate, myMarDate));
+		assertEquals("", -1, CaseManUtils.sortGridDatesAsc(myMarDate, myFebDate));		
+		assertEquals("", 0, CaseManUtils.sortGridDatesAsc(myFebDate, myFebDate));				
+	}
+
+	/*
+     * Tests the CaseManUtils sortGridDatesDsc method
+     */
+	function testSortGridDatesDsc()
+	{
+		// 29 Feb 2004
+		var myFebDate = "20-FEB-2004";
+		// 01 Mar 2004
+		var myMarDate = "01-MAR-2004";				
+		assertEquals("", -1, CaseManUtils.sortGridDatesDsc(myFebDate, myMarDate));
+		assertEquals("", 1, CaseManUtils.sortGridDatesDsc(myMarDate, myFebDate));		
+		assertEquals("", 0, CaseManUtils.sortGridDatesDsc(myFebDate, myFebDate));				
+	}
+		
+	/*
+     * Tests the CaseManUtils superInitCaps method
+     */
+	function testSuperInitCap()
+	{
+		var testStringArray = new Array("MCMANAMAN", "mcmanaman", "STEVE MCMANAMAN", "steve mcmanaman", "SMITH", "smith", "ALAN SMITH", "alan smith", "O'BRIEN", "o'brien", "ANDY O'BRIEN", "andy o'brien", "Bruno N'Gotty", "STEVE MACDONALD");
+		var resultStringArray = new Array("McManaman", "McManaman", "Steve McManaman", "Steve McManaman", "Smith", "Smith", "Alan Smith", "Alan Smith", "O'Brien", "O'Brien", "Andy O'Brien", "Andy O'Brien", "Bruno N'Gotty", "Steve MacDonald");
+
+		for (var i=0; i<testStringArray.length; i++)
+		{
+			assertEquals( "", resultStringArray[i], CaseManUtils.superInitCaps(testStringArray[i]) );
+		}
+	}
+		
+    </script>
+  </body>
+</html>

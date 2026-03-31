@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: Payments
+	Method: updatePayment(), updateOverpayment()
+	File: query_def_update_payment.xml
+	Author: Steve Blair
+-->
+<QueryDef>
+	<DBMapDef location="uk/gov/dca/caseman/payments_service/map_payment.xml" />
+	<Query pivotNode="/Payment" tables="P">
+		<Modify />
+	</Query>
+</QueryDef>

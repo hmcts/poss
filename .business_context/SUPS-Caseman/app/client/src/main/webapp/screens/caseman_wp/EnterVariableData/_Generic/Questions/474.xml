@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>474</Id>
+	<Label>Who is to serve the N79A</Label>
+	<ObjectName>N79AServedBy</ObjectName>
+	<Html>	
+		<select id="N79AServedBy">
+			<option value=""></option>
+			<option value="A">Applicant</option>
+			<option value="B">Bailiff</option>
+		</select>
+	</Html>			
+	<Javascript>
+		<XPath>/ds/EnterVariableData/SuspCOforDisobedience/n79AServedBy</XPath>
+		<componentName>##label##</componentName>
+		<isMandatory>return true;</isMandatory>
+		<HintText>Select appropriate method of service</HintText>			
+	</Javascript>
+</Question>
+
+    
+   

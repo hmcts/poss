@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- 
+Change History:
+    01/09/2006 - Chris Vincent, added ED.EVENT_SEQ as key in root LinkedJoin node which is
+	             now used as the parent key for the /Article and /Protocol pivot nodes.  Change
+	             made because if multiple ECHR records existed on a case, only one record was
+	             ever returned.  Now all individual ECHR records are returned.  Defect 4955.
+-->	
+<QueryDef>
+	<DBMapDef location="uk/gov/dca/caseman/hra_service/map_HRA.xml"/>
+	<Query pivotNode="/ds/HumanRightsAct/Cases/Case" tables = "CE ED">
+		<LinkedJoin type="root" key="CE.CASE_NUMBER ED.EVENT_SEQ">
+	  		<Join/>
+	  	</LinkedJoin>
+	</Query>
+	<Query pivotNode="/ds/HumanRightsAct/Cases/Case/Parties/Party" tables="PT CPR PR CE ED">
+		<LinkedJoin type="query" key="PT.PARTY_ID CPR.CASE_PARTY_NO">
+			<Parent key="CE.CASE_NUMBER" tables="CE"/>
+	  		<Join>
+				CPR.CASE_NUMBER = CE.CASE_NUMBER AND
+				PT.PARTY_ID = CPR.PARTY_ID AND
+				PR.PARTY_ROLE_CODE = CPR.PARTY_ROLE_CODE
+      		</Join>
+      	</LinkedJoin>
+	</Query>
+	<Query pivotNode="/ds/HumanRightsAct/Cases/Case/Articles/Article" tables="EAP CE ED">
+		<LinkedJoin type="query" key="EAP.VALS_LOW_VALUE">
+			<Parent key="ED.EVENT_SEQ" tables="ED"/>
+	  		<Join>
+				EAP.EVENT_SEQ = ED.EVENT_SEQ AND
+				EAP.ART_OR_PROT = 'A'
+      		</Join>
+      	</LinkedJoin>
+	</Query>
+	<Query pivotNode="/ds/HumanRightsAct/Cases/Case/Protocols/Protocol" tables="EAP CE ED">
+		<LinkedJoin type="query" key="EAP.VALS_LOW_VALUE">
+			<Parent key="ED.EVENT_SEQ" tables="ED"/>
+	  		<Join>
+				EAP.EVENT_SEQ = ED.EVENT_SEQ AND
+				EAP.ART_OR_PROT = 'P'
+      		</Join>
+      	</LinkedJoin>
+	</Query>
+</QueryDef>

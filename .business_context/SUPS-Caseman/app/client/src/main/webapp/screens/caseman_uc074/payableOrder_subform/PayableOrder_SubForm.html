@@ -1,0 +1,89 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3c.org/TR/html4/strict.dtd">
+<html>
+
+	<head>
+		<title>PayableOrder_SubForm</title>
+		<link href="PayableOrder_SubForm.css" type="text/css" rel="stylesheet">
+		<script type="text/javascript" src="../../../Framework.js"></script>
+    	<script type="text/javascript" src="../../../CaseManSubFormIncludeFiles.js"></script>
+		<script type="text/javascript" src="PayableOrder_SubForm.js"></script>
+  	</head>
+
+	<body>
+	
+    	<form id="payableOrderSubform" class="subform">
+
+			<div class="panel">
+				<table class="content" style="height:267px;">
+					<tr>
+						<td align="center">
+							<label>Please Enter the starting PO number.</label>
+						</td>
+					</tr>
+					
+					<tr>
+						<td align="center">
+						
+							<table>
+								<tr>
+									<td style="width:125px;" align="left"><label for='PayableOrder_PONumber'>PO Number</label></td>
+									<td align="left">
+										<input id="PayableOrder_PONumber" type="text" size=15>
+									</td>
+									<td align="left">&nbsp;</td>
+								</tr>
+							</table>
+
+						</td>
+					</tr>
+				</table>
+			</div>
+				
+			<!-- Subform action bar -->
+			<script type="text/javascript">
+				ActionBarRenderer.createInline(
+					"changeCaseType_statusbar",
+					[
+						{id: "PayableOrder_OkButton", label: "Proceed"},	
+						{id: "PayableOrder_CancelButton", label: "Close"}
+					]
+				);
+			</script>
+
+			<!-- Progress Indicator Popup -->
+			<div class="popup" id="ProgressIndicator_Popup">
+				<div class="panel" id="ProgressIndicator_Panel">
+					<table width="100%" class="content" cellspacing="5">
+						<tr>
+							<td>
+								<label for="Progress_Bar">Generating Report</label>
+							</td>
+						</tr>
+						<tr>
+							<td>
+						  		<input id="Progress_Bar" type="text" size="67"/>
+							</td>
+						</tr>
+						<tr>
+							<td id="Progress_Status"></td>
+						</tr>
+					</table>
+				</div>
+				<div id="ProgressIndicator_ActionBarContainer">
+					<script type="text/javascript">
+						ActionBarRenderer.createInlineNoStatusBar(
+							"ProgressIndicator_ActionBar",
+							[
+								{label: "Cancel", id: "Popup_Cancel"}
+							]
+						);	
+					</script>	
+				</div>
+			</div>
+			<!-- End Progress Indicator Popup -->
+											
+		</form>
+    
+    </body>
+    
+</html>

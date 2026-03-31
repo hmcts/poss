@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+Change History
+ 16-Oct-2007 Chris Hutt	
+			   Defect Prog testing 114 : 
+  			   Remodelled to support method call per event.
+
+-->
+
+<service-method>
+  <pipeline>
+    <Update>
+      <QueryDef location="uk/gov/dca/caseman/warrant_returns_service/query_def_update_co_events_ErrorIndicator.xml"/>
+      <DataSource xpath="/params/param[@name='NewReturn']"/>
+      <QueryExtension pivotNode="/WarrantEvent">
+		<CheckExists table="COE" fields="CO_EVENT_SEQ" onNotExist="skip" onExist="update"/>
+      </QueryExtension>
+    </Update>
+  </pipeline>
+  <Security roles="user"/>
+</service-method>

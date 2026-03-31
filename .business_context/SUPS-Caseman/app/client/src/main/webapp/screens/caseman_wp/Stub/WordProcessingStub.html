@@ -1,0 +1,169 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3c.org/TR/html4/strict.dtd">
+
+<html>
+
+<head>
+    <!--<link href="/clientframework/fw_Moz.css" type="text/css" rel="stylesheet" title="Default">-->
+    <title>WordProcessingStub</title>
+    <link href="/caseman/fw_IE.css" type="text/css" rel="stylesheet" title="Default">    
+    <link href="WordProcessingStub.css" type="text/css" rel="stylesheet">    
+    
+    <script type="text/javascript" src="/caseman/Framework.js"></script>
+    <script type="text/javascript" src="WordProcessingStub.js"></script>
+	<script type="text/javascript" src="/caseman/CaseManValidationHelper.js"></script>	
+	<script type="text/javascript" src="/caseman/CaseManUtils.js"></script>
+	<script type="text/JavaScript">
+	
+	var dom = XML.createDOM();
+	
+	if (dom.load("@client_framework.webapp-root@/screens/caseman_wp/WordProcessingConfig.xml"))
+	{
+		dom.setProperty("SelectionLanguage", "XPath");
+		dom.setProperty("SelectionNamespaces", "xmlns:supsfo='http://eds.com/supsfo'");
+
+		var eventNodes = dom.selectNodes("/supsfo:Configuration/supsfo:Events/supsfo:Event");
+		var eventNodesLen = eventNodes.length;
+		
+		if (0 < eventNodesLen) document.open();
+		for (var i=0; i < eventNodesLen; i++)
+		{
+			var eventNode  = eventNodes[i];												
+			var eventId    = XML.getNodeTextContent(eventNode.selectSingleNode("@id"));								
+			var eventLabel = XML.getNodeTextContent(eventNode.selectSingleNode("@id"));
+			
+			while (eventLabel.length < 4)
+			{
+				eventLabel = "_" + eventLabel;
+			}								
+			
+			var outputs = eventNode.selectNodes("supsfo:Output");
+			var outputsLen = outputs.length;
+			for (var j=0; j < outputsLen; j++)
+			{
+				var otput = outputs[j];
+				var otputId = otput.selectSingleNode("@id");
+				var otputIID = XML.getNodeTextContent(otputId);
+				var outputLabel = otputIID
+				
+				while (outputLabel.length < 4)
+				{
+					outputLabel = "_" + outputLabel;
+				}								
+					
+				
+					eventLabel += "__" + outputLabel;
+					
+				var outputNode = dom.selectSingleNode("supsfo:Configuration/supsfo:Outputs/supsfo:Output[supsfo:Id = '"+otputIID+"']");
+				if (null !=  outputNode)
+				{
+					var qa = outputNode.selectSingleNode("supsfo:QA[. = 'true']");	
+					if (null != qa) { eventLabel += "-_Q" } else { eventLabel += "_-___" }
+					
+					var wp = outputNode.selectSingleNode("supsfo:WP[. = 'true']");	
+					if (null != wp) { eventLabel += "-_E_" } else { eventLabel += "_-___" }
+				}
+				else
+				{
+					if (confirm("Error getting output " + otputId + "\ndo you wish to debug?")) throw new Error("Start debugging");
+					
+				}
+				
+				
+					
+			}
+			document.write("<option value=\"" + eventId + "\">" + eventLabel);
+			
+			eventNode = null;
+		}
+		eventNodesLen = null;
+		eventNodes = null;
+	}
+	else
+	{
+		alert("Could not load configuration data - no events available.");
+	}
+	
+	dom = null;	
+	
+	</script>
+</head>
+
+<body onload="initForm();">
+    <form name="WordProcessingStub" id="wordProcessingStub">
+
+		<table class="navigation">
+		  <tr>
+			<td id="navigation_container"></td>
+		  </tr>
+		</table>
+
+		<table class="layout">
+	    		
+	      	<!-- Main Panel -->
+			<tr>
+				<td>
+
+            		<table class="content" height="582px">
+            			<tr>
+							<td align="center">
+								<table width="300px">
+									<tr>
+										<td width=150>Event</td>
+										<td><select id="EventNumber" size="5">
+
+											
+											</select>
+										</td>
+									</tr>
+									<tr>
+										<td>Code </td><td><input id="EventCode" type="text" size="5"></td>
+									</tr>
+									<tr>
+										<td>Event PK </td><td><input id="EventPK" type="text" size="5"></td>
+									</tr>
+									<tr>
+										<td>Case</td>
+										<td><input type=text size=11 id="CaseNumber"></td>
+
+									</tr>
+								</table>
+							</td>
+						</tr>
+            			
+            		</table>
+            		    	
+    			</td>
+    		</tr>
+    		<!-- End Main Panel -->
+			
+			<!-- Status Bar Panel -->
+			<tr>
+				<td>
+	
+		    		<table class="footer" width="100%">
+		    			
+		    			<tr>
+		    				<td class="status_bar">Status <span id="status_line"></span></td>
+							<td class="action_bar" align="right">
+							    <input id="Status_SaveButton" type="button" value="Save">&nbsp;
+								<input id="Status_ClearButton" type="button" value="Clear">&nbsp;
+	 							
+								<input type="button" value="Show DOM" onclick="javascript:showDOM();">
+							</td>
+		    			</tr>
+		    		
+		    		</table>
+    		
+    			</td>
+    		</tr>
+    		<!-- End Status Bar Panel -->
+    	
+    	</table>
+		
+	
+	
+    </form>
+
+</body>
+
+</html>

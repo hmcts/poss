@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- ====================================================================== -->
+<!--  -->
+<!-- FILENAME: $Source: C:/CVSRepository/serveroas/src/uk/gov/dca/caseman/wordprocessing_templates/Notice/CJR032B/CJR032B-FO.xml,v $ -->
+<!--  -->
+<!-- AUTHOR: $Author: vincentcp $-->
+<!--  -->
+<!-- DATE: $Date: 2016-12-06 11:46:30 +0000 (Tue, 06 Dec 2016) $ -->
+<!--  -->
+<!-- Version: $Revision: 12783 $ -->
+<!--  -->
+<!-- DESCRIPTION: This stylesheet is used to create an XSL:FO document that -->
+<!-- can be processed into a PDF version.  Business logic -->
+<!-- is embedded to generate the correct document text for the order -->
+<!-- required. -->
+<!--  -->
+<!-- INPUTS: XML document containing: the answers to questions asked of the -->
+<!-- user; case data retrieved from the database; HTML representing the  -->
+<!-- body of the document content (already edited by the user). -->
+<!--  -->
+<!-- OUTPUTS: XML document with FO tags containing instructions for the -->
+<!-- creation of a PDF document. -->
+<!--  -->
+<!-- ====================================================================== -->
+<root xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:fo="http://www.w3.org/1999/XSL/Format" xmlns="http://eds.com/supsfo">
+	<variables>@word.processing.url.xsl@supsfo.xsl</variables>
+	<addressee>
+		<blank/>
+		<claimants/>
+		<defendants/>
+	</addressee>
+	<header>
+		<fo:block font-size="16pt" font-weight="bold">Notice of Proposed Allocation</fo:block>
+		<fo:block font-size="16pt" font-weight="bold">to the Fast Track</fo:block>
+	</header>
+	<courtcase>
+		<court>
+			<xsl:copy-of select="$vdCourtHeaderBlock"/>
+		</court>
+		<caseparameters>
+			<parameter>
+				<name>
+					<fo:block font-weight="bold">Claim Number</fo:block>
+				</name>
+				<value>
+					<fo:block>
+						<xsl:value-of select="$vdClaimNumber"/>
+					</fo:block>
+				</value>
+			</parameter>
+			<parameter>
+				<name>
+					<fo:block font-weight="bold">Claimant</fo:block>
+					<fo:block font-size="9pt">(including ref.)</fo:block>
+				</name>
+				<value>
+					<fo:block hyphenate="true">
+						<xsl:value-of select="$vdClaimantName"/>
+					</fo:block>
+					<fo:block font-size="9pt" hyphenate="true">
+						<xsl:value-of select="$vdClaimantReference"/>
+					</fo:block>
+				</value>
+			</parameter>
+			<parameter>
+				<name>
+					<fo:block font-weight="bold">Defendant</fo:block>
+					<fo:block font-size="9pt">(including ref.)</fo:block>
+				</name>
+				<value>
+					<fo:block hyphenate="true">
+						<xsl:call-template name="tmpAddresseesDefendantName">
+							<xsl:with-param name="addressee" select="$addressee"/>
+						</xsl:call-template>
+					</fo:block>
+					<fo:block font-size="9pt" hyphenate="true">
+						<xsl:call-template name="tmpAddresseesDefendantReference">
+							<xsl:with-param name="addressee" select="$addressee"/>
+						</xsl:call-template>
+					</fo:block>
+				</value>
+			</parameter>
+			<parameter>
+				<name>
+					<fo:block font-weight="bold">Date</fo:block>
+				</name>
+				<value>
+					<fo:block><xsl:value-of select="$vdEventDate"/>
+					</fo:block>
+				</value>
+			</parameter>
+		</caseparameters>
+	</courtcase>
+
+	<body font-size="11pt">
+		<fo:block text-align="center" font-weight="bold" font-size="11pt">Important Notice</fo:block>
+		<fo:block space-after="0.8cm">
+			If you do not comply with this notice the court will make such order as appears to be appropriate. This could include striking out the claim or entering judgment.
+		</fo:block>
+		<fo:block font-weight="bold" font-size="12pt" space-after="0.8cm">TAKE NOTICE THAT</fo:block>
+		<fo:table table-layout="fixed" font-size="11pt">
+			<fo:table-column column-width="0.5cm"/>
+			<fo:table-column column-width="18.5cm"/>
+			<fo:table-body>
+				<fo:table-row>
+					<fo:table-cell padding="0.1cm"><fo:block>1.</fo:block></fo:table-cell>
+					<fo:table-cell padding="0.1cm">
+						<fo:block space-after="0.2cm">This is now a defended claim.</fo:block>
+						<fo:block><xsl:value-of select="$vdDirectionsText"/></fo:block>
+					</fo:table-cell>
+				</fo:table-row>
+				<fo:table-row>
+					<fo:table-cell padding="0.1cm"><fo:block>2.</fo:block></fo:table-cell>
+					<fo:table-cell padding="0.1cm">
+						<fo:block space-after="0.2cm">It appears that this case is suitable for allocation to the fast track.</fo:block>
+						<fo:block>
+							If you believe that this track is not the appropriate track for the claim, you must complete box D2 on the Directions Questionnaire (Form N181) and explain why.
+						</fo:block>
+					</fo:table-cell>
+				</fo:table-row>
+				<fo:table-row>
+					<fo:table-cell padding="0.1cm"><fo:block>3.</fo:block></fo:table-cell>
+					<fo:table-cell padding="0.1cm">
+						<fo:block>You must by <xsl:value-of select="$vdQReturnDate"/></fo:block>
+						<fo:table table-layout="fixed">
+							<fo:table-column column-width="1cm"/>
+							<fo:table-column column-width="16cm"/>
+							<fo:table-body>
+								<fo:table-row>
+									<fo:table-cell padding="0.1cm"><fo:block></fo:block></fo:table-cell>
+									<fo:table-cell padding="0.1cm">
+										<fo:block space-after="0.2cm">a) complete the Directions Questionnaire (Form N181), file it with the court office</fo:block>
+										<fo:block>
+											<fo:table table-layout="fixed">
+												<fo:table-column column-width="16.5cm"/>
+												<fo:table-body>
+													<fo:table-row>
+														<fo:table-cell  border-top-style="solid" border-right-style="solid" border-left-style="solid" border-bottom-style="solid"
+															border-top-width="0.02cm" border-right-width="0.02cm" border-left-width="0.02cm" border-bottom-width="0.02cm"
+															padding-right="0.1cm" padding-left="0.1cm">
+																<fo:block><xsl:value-of select="$vdHearingCourtNameDescription"/>, <xsl:value-of select="$vdHearingCourtAddress"/></fo:block>
+														</fo:table-cell>
+													</fo:table-row>
+												</fo:table-body>
+											</fo:table>
+										</fo:block>
+										<fo:block space-before="0.2cm">and serve copies on all other parties</fo:block>
+									</fo:table-cell>
+								</fo:table-row>
+								<fo:table-row>
+									<fo:table-cell padding="0.1cm"><fo:block>and</fo:block></fo:table-cell>
+									<fo:table-cell padding="0.1cm"><fo:block>b) attempt to agree directions with all other parties</fo:block></fo:table-cell>
+								</fo:table-row>
+								<fo:table-row>
+									<fo:table-cell padding="0.1cm"><fo:block>and</fo:block></fo:table-cell>
+									<fo:table-cell padding="0.1cm"><fo:block>c) file proposed directions (whether or not agreed) with the Directions Questionnaire.</fo:block></fo:table-cell>
+								</fo:table-row>
+							</fo:table-body>
+						</fo:table>
+					</fo:table-cell>
+				</fo:table-row>
+			</fo:table-body>
+		</fo:table>
+	</body>
+	
+	<footnote noteextent="3.5">
+		<fo:block space-after="0.5cm" font-family="Times">
+			<fo:table table-layout="fixed" width="100%">
+				<fo:table-column column-width="100%"/>
+				<fo:table-body>
+					<fo:table-row>
+						<fo:table-cell>
+							<fo:block font-weight="bold" font-size="12pt" border-top-width="0.02in" border-top-style="solid" padding-top="0.2cm">NOTES FOR GUIDANCE</fo:block>
+							<fo:table table-layout="fixed" font-size="11pt">
+								<fo:table-column column-width="0.7cm"/>
+								<fo:table-column column-width="18cm"/>
+								<fo:table-body>
+									<fo:table-row>
+										<fo:table-cell padding="0.1cm"><fo:block>(i)</fo:block></fo:table-cell>
+										<fo:table-cell padding="0.1cm"><fo:block>The Directions Questionnaire can be downloaded from hmctsformfinder.justice.gov.uk</fo:block></fo:table-cell>
+									</fo:table-row>
+									<fo:table-row>
+										<fo:table-cell padding="0.1cm"><fo:block>(ii)</fo:block></fo:table-cell>
+										<fo:table-cell padding="0.1cm"><fo:block>Any proposed directions should be based on the standard directions CPR Part 28</fo:block></fo:table-cell>
+									</fo:table-row>
+									<fo:table-row>
+										<fo:table-cell padding="0.1cm"><fo:block>(iii)</fo:block></fo:table-cell>
+										<fo:table-cell padding="0.1cm"><fo:block>Further information on fees is available in leaflet EX50 from hmctsformfinder.justice.gov.uk</fo:block></fo:table-cell>
+									</fo:table-row>
+								</fo:table-body>
+							</fo:table>
+						</fo:table-cell>
+					</fo:table-row>
+				</fo:table-body>
+			</fo:table>
+		</fo:block>
+	</footnote>
+	<defaultFooter id="CJR032B"/>
+</root>

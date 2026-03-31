@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	v1.0 Chris Hutt 13/2/2006
+-->
+<service-method>
+	<pipeline>
+		<Java>
+			<Source class="uk.gov.dca.caseman.warrant_service.java.InsertWarrantForCoEventCustomProcessor"/>
+		</Java>
+	</pipeline>
+	<Dependencies>
+		<Dependency serviceName="Co"/>	
+		<Dependency serviceName="CoEvent"/>	
+		<Dependency serviceName="SystemDate"/>	
+	</Dependencies>			
+	<Security roles="medium high wcSuper scSuper bmsSuper aeSuper dmSuper"/>	
+	<Transaction type="RequiresNew" />
+</service-method>
+

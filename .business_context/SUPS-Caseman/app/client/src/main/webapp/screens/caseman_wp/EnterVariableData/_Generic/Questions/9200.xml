@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>9200</Id>
+	<Label>Amount of fee/payment</Label>
+	<ObjectName>AmountFeePayment</ObjectName>
+	<Html>	
+		<input id="DefaultCurrency9200" type="text" size="1"></input> 
+		<input type="text" size="10" id="AmountFeePayment"></input>
+	</Html>			
+	<Javascript>
+		<XPath>/ds/EnterVariableData/amountFeePayment</XPath>
+		<HintText>Enter the amount of the fee/payment</HintText>
+    	<miscCode>
+			function DefaultCurrency9200() {}
+			DefaultCurrency9200.dataBinding = "/ds/EnterVariableData/curr1";
+			DefaultCurrency9200.tabIndex = -1;
+			DefaultCurrency9200.maxLength = 1;
+			DefaultCurrency9200.isReadOnly = function(){return true;}
+			DefaultCurrency9200.isTemporary = function(){return true;}
+			DefaultCurrency9200.transformToDisplay = function(value){
+				return WPS.__CaseManUtils().transformCurrencySymbolToDisplay(value,null,null); }
+			DefaultCurrency9200.transformToModel = function(value){
+				return WPS.__CaseManUtils().transformCurrencySymbolToModel(value,null,null); }
+		</miscCode>
+		
+        <Context ScreenId="L_6_1_2_3_4_7">
+            <mandatoryOn>TraveFeePayment.dataBinding</mandatoryOn>
+            <isMandatory>return return9200();</isMandatory>
+    		<enableOn>TraveFeePayment.dataBinding</enableOn>
+            <isEnabled>return return9200();</isEnabled>
+            <logicOn>TraveFeePayment.dataBinding</logicOn>
+            <logic>if(!return9200())
+                {
+                    Services.setValue(AmountFeePayment.dataBinding, "");
+                }
+            </logic>
+        
+            <miscCode>
+				function DefaultCurrency9200() {}
+				DefaultCurrency9200.dataBinding = "/ds/EnterVariableData/curr1";
+				DefaultCurrency9200.tabIndex = -1;
+				DefaultCurrency9200.maxLength = 1;
+				DefaultCurrency9200.isReadOnly = function(){return true;}
+				DefaultCurrency9200.isTemporary = function(){return true;}
+				DefaultCurrency9200.transformToDisplay = function(value){
+					return WPS.__CaseManUtils().transformCurrencySymbolToDisplay(value,null,null); }
+				DefaultCurrency9200.transformToModel = function(value){
+					return WPS.__CaseManUtils().transformCurrencySymbolToModel(value,null,null); }
+
+                function return9200(){
+                    var n9200 = false;
+                    if( 
+                         TraveFeePayment.isEnabled()
+                     ){
+                        n9200 = true;
+                    }
+                    return n9200;
+                }
+            </miscCode>
+        </Context>
+        
+		<validateOn>AmountFeePayment.dataBinding</validateOn>
+		<validate>
+			//Validation: only numeric characters allowed and two decimal places.
+			//Error message: Currency amounts must be in the format of 0.00.
+			//Max length: 999999.99		
+          	var value = Services.getValue(AmountFeePayment.dataBinding);         
+          	var maxVal = 999999.99;         
+          	var err = null;
+          
+          	if( '0.00 ' != value )
+          	{   err = validateCurrencyValue(value, maxVal);
+              if( null == err)
+              { 
+                var returnVal = WPU.formatToTwoDP(value);
+                Services.setValue(AmountFeePayment.dataBinding, returnVal);
+              } 
+          	}
+          	return err;                             
+        </validate>
+        <transformToModel>        
+          if( null == value || "" == value )
+          {  return "0.00 ";
+          }
+          else
+          { return value;
+          }
+        </transformToModel>
+        <transformToDisplay>            
+            if( '0.00 ' == value) return "0.00";
+            return value;           
+        </transformToDisplay>
+        
+	</Javascript>	
+	
+</Question>

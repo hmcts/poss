@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>384</Id>
+	<Label>Type of Judgment or order</Label>
+	<ObjectName>JudgmentOrderType</ObjectName>
+	<Html>	
+		<select id="JudgmentOrderType">
+			<option value=""></option>
+			<option value="M">Money</option>
+			<option value="N">Non money</option>
+			<option value="B">Both</option>			
+		</select>
+		
+	</Html>			
+	<Javascript>
+		<XPath>/ds/EnterVariableData/AttendForQuestion/judgmentOrderType</XPath>
+		<componentName>##label##</componentName>
+		<isMandatory>return true;</isMandatory>
+		<HintText>Select the type of judgment/order</HintText>	
+		
+		<enableOn>IsN39Reqd.dataBinding</enableOn>
+		<isEnabled>
+			var N39En = IsN39Reqd.isEnabled();
+			var isN39Req = Services.getValue(IsN39Reqd.dataBinding);
+			return( !N39En || 'Y' == isN39Req);
+		</isEnabled>
+		<logicOn>IsN39Reqd.dataBinding</logicOn>
+		<logic>
+			var N39En = IsN39Reqd.isEnabled();
+			var isN39Req = Services.getValue(IsN39Reqd.dataBinding);
+			if( N39En &amp;&amp; 'Y' != isN39Req)
+			{	Services.setValue(JudgmentOrderType.dataBinding, "");
+			}
+		</logic>		
+	</Javascript>
+</Question>

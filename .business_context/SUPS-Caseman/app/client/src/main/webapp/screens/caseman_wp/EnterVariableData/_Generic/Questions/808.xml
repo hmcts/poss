@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>808</Id>
+	<Label>Enter item details</Label>
+	<ObjectName>EnterItemDetails</ObjectName>
+	<Html>
+		<select id="EnterItemDetails">
+			<option value=""></option>
+			<option value="DFLT1">Failed to complete statement of earnings</option>
+			<option value="DFLT2">Failed to attend adjourned hearing</option>
+		</select>
+	</Html>
+	<Javascript>
+		<XPath>/ds/EnterVariableData/EnterItemDetails</XPath>
+		<componentName>##label##</componentName>
+		<HintText>Select appropriate N59 text</HintText>
+		<isMandatory>return true;</isMandatory>
+		<mandatoryOn>EnterItemDetails.dataBinding</mandatoryOn>
+		<logicOn>JudgeTitle.dataBinding</logicOn>
+		<logic>
+			Services.setValue(EnterItemDetails.dataBinding,"DFLT1");
+		</logic>
+	</Javascript>
+</Question>

@@ -1,0 +1,386 @@
+<Group id="41">
+	<ServicesRequired>
+		<mapping name="updateCase" serviceName="updateCase"/>
+		<service name="updateCase" cache="none" url="/Case/Case" method="updateCase">
+		</service>
+	</ServicesRequired>
+	<Protocols>
+		<OnSave>
+			<function>updateCase</function>
+			<functionCallback>updateCaseCallback</functionCallback>
+		</OnSave>
+	</Protocols>
+	<JavaScript>
+	
+	var addLn1;	
+	var addLn2;
+	var addLn3;
+	var addLn4;
+	var addLn5;
+	var postCode;
+	var dxVal;
+	var telVal;
+	var faxVal;
+	var emailVal;
+	var fcmVal;
+	var solName;	
+	
+				
+function updateCase() {
+	
+	var changes = false;
+	
+	var newDOM = WPU.getCurrentCaseData(); 
+	if ("Y" == Services.getValue(DefNameCorrected.dataBinding)) {
+		newDOM = updateSubjectName(newDOM);
+		changes = true; }
+	
+	var addInd = Services.getValue(NewAddressForService.dataBinding);
+		
+	//if ACK then solicitors address is to be updated
+	//otherwise the defendant selected as subject
+	
+	if( "ACK" == addInd )
+	{	var defendantDom = WPU.getSubjectPartyNode(newDOM, false);  
+		var solicitorSurrogateId = defendantDom.selectSingleNode("./SolicitorSurrogateId").text; 		
+		
+		if( null != solicitorSurrogateId &amp;&amp; "" != solicitorSurrogateId)
+		{  	
+		    var partyXPath    = "//Parties/Solicitor[SurrogateId = '"+solicitorSurrogateId+"']";
+		    var solDom = newDOM.selectSingleNode(partyXPath);	
+		    
+		    //check if coded party
+    		var code = XML.selectNodeGetTextContent( solDom, "./Code" );
+    	
+    		if( null != code &amp;&amp; "" != code )    		
+    		{
+    			// UCT Defect 774 - don't update solicitor if coded party
+    		 	//updateCodedParty( solDom , newDOM, defendantDom );	    											    			
+    		 	//changes = true;
+    		}	
+    		else
+    		{	updateSolicitor( solDom );
+    			changes = true;
+    		}     		    			 		
+		}
+		else
+		{	
+			newDOM = addNewSolicitor( newDOM );					
+			changes = true;				  					
+		}														
+	}
+	else if ("ADDR" == addInd) 
+	{   
+		newDOM = updateSubjectAddress(newDOM, WPU.getSubjectPartyNode(newDOM, false));	
+		changes = true; 
+	}
+		
+	if (true == changes) {
+		
+		updateCaseCall(newDOM); }
+	else {
+		Save_All(); } }
+		
+function updateCodedParty( solNode, newDOM, defendantDom )
+{	
+	var solsurrogateId  = getNewSolSurrogateId( newDOM );
+	var number = solsurrogateId.substring( solsurrogateId.length - 1 );
+		
+	XML.replaceNodeTextContent( defendantDom.selectSingleNode("./SolicitorSurrogateId"), solsurrogateId );
+	XML.replaceNodeTextContent( defendantDom.selectSingleNode("./SolicitorNumber"), number );
+	
+	XML.replaceNodeTextContent( solNode.selectSingleNode("./SurrogateId"), solsurrogateId );
+	XML.replaceNodeTextContent( solNode.selectSingleNode("./Status"), "NEW");
+	XML.replaceNodeTextContent( solNode.selectSingleNode("./PartyId"), "");
+	XML.replaceNodeTextContent( solNode.selectSingleNode("./Number"), number);
+	XML.replaceNodeTextContent( solNode.selectSingleNode("./Code"), "");
+	XML.replaceNodeTextContent( solNode.selectSingleNode("./ContactDetails/Address/AddressId"), "");
+	XML.replaceNodeTextContent( solNode.selectSingleNode("./ContactDetails/Address/PartyId"), "");
+	
+	
+	var children = solNode.selectNodes("./SCN");
+	var addSCN = solNode.selectSingleNode("./ContactDetails/Address/SCN");
+	
+	solNode.selectSingleNode("./ContactDetails/Address").removeChild(addSCN);
+	
+	for( var i = 0; i &lt; children.length; i++)
+	{  solNode.removeChild( children[i] );
+	}
+		
+	updateSolicitor( solNode);
+}
+
+		
+function updateSolicitor( solNode )
+{  
+	getAttributeValues();
+	XML.replaceNodeTextContent( solNode.selectSingleNode("./ContactDetails/Address/Line[1]"), addLn1 );
+	XML.replaceNodeTextContent( solNode.selectSingleNode("./ContactDetails/Address/Line[2]"), addLn2 );
+	XML.replaceNodeTextContent( solNode.selectSingleNode("./ContactDetails/Address/Line[3]"), addLn3 );
+	XML.replaceNodeTextContent( solNode.selectSingleNode("./ContactDetails/Address/Line[4]"), addLn4 );
+	XML.replaceNodeTextContent( solNode.selectSingleNode("./ContactDetails/Address/Line[5]"), addLn5 );
+	XML.replaceNodeTextContent( solNode.selectSingleNode("./ContactDetails/Address/PostCode"), postCode );
+	XML.replaceNodeTextContent( solNode.selectSingleNode("./ContactDetails/DX"), dxVal );
+	XML.replaceNodeTextContent( solNode.selectSingleNode("./ContactDetails/TelephoneNumber"), telVal );
+	XML.replaceNodeTextContent( solNode.selectSingleNode("./ContactDetails/FaxNumber"), faxVal );
+	XML.replaceNodeTextContent( solNode.selectSingleNode("./ContactDetails/EmailAddress"), emailVal );
+	XML.replaceNodeTextContent( solNode.selectSingleNode("./ContactDetails/PreferredCommunicationMethod"), fcmVal );		
+	XML.replaceNodeTextContent( solNode.selectSingleNode("./Name"), solName);	
+	
+}
+
+function getNewSolSurrogateId( aDom )
+{
+	//get all existing solicitors
+	var sols = aDom.selectNodes("//Parties/Solicitor/Number");	
+	var max = 0;
+	if( null != sols )
+	{	var solVal;
+		for(var i = 0; i &lt; sols.length; i++)
+		{	var tVal = parseInt( XML.getNodeTextContent( sols[i] ));
+			if( tVal > max )
+			{	max = tVal;
+			}
+		}	
+	}
+	max++;	
+	
+	return "SOLICITOR_" + max;
+}
+		
+function addNewSolicitor(aDom)
+{		
+	var solsurrogateId  = getNewSolSurrogateId( aDom );
+   	var partyDom = WPU.getSubjectPartyNode(aDom, true);   	
+   	var partyId = XML.getNodeTextContent(partyDom.selectSingleNode("./PartyId"));
+   	var upDom = aDom.selectSingleNode("//Parties/LitigiousParty[./PartyId = '"+partyId+"']");
+   	   	
+   	XML.replaceNodeTextContent(upDom.selectSingleNode("./SolicitorSurrogateId"), solsurrogateId );
+   	var max = solsurrogateId.substring( solsurrogateId.length - 1 );
+   	XML.replaceNodeTextContent(upDom.selectSingleNode("./SolicitorNumber"), max );
+   	XML.replaceNodeTextContent(upDom.selectSingleNode("./SolicitorTypeCode"), "SOLICITOR" );
+   	//upDom.selectSingleNode("./SolicitorSurrogateId").appendChild(XML.createTextNode(upDom,solsurrogateId));
+   	//upDom.selectSingleNode("./SolicitorNumber").appendChild(XML.createTextNode(upDom,max));
+   	//upDom.selectSingleNode("./SolicitorTypeCode").appendChild(XML.createTextNode(upDom,"SOLICITOR"));   	
+
+	var newSolXML = WPU.getSolicitorXML();
+	newSolXML.selectSingleNode("/Solicitor/Status").appendChild(XML.createTextNode(newSolXML, "NEW"));		
+	newSolXML.selectSingleNode("/Solicitor/SurrogateId").appendChild(XML.createTextNode(newSolXML, solsurrogateId));
+	newSolXML.selectSingleNode("/Solicitor/Number").appendChild(XML.createTextNode(newSolXML, max));
+	
+	getAttributeValues();
+	
+	
+	if( null !=  addLn1)
+	{ 	newSolXML.selectSingleNode("/Solicitor/ContactDetails/Address/Line[1]").appendChild(XML.createTextNode(newSolXML, addLn1));
+	}
+	if( null !=  addLn2)
+	{ 	newSolXML.selectSingleNode("/Solicitor/ContactDetails/Address/Line[2]").appendChild(XML.createTextNode(newSolXML, addLn2));
+	}
+	if( null !=  addLn3)
+	{ 	newSolXML.selectSingleNode("/Solicitor/ContactDetails/Address/Line[3]").appendChild(XML.createTextNode(newSolXML, addLn3));
+	}
+	if( null !=  addLn4)
+	{ 	newSolXML.selectSingleNode("/Solicitor/ContactDetails/Address/Line[4]").appendChild(XML.createTextNode(newSolXML, addLn4));
+	}
+	if( null !=  addLn5)
+	{ 	newSolXML.selectSingleNode("/Solicitor/ContactDetails/Address/Line[5]").appendChild(XML.createTextNode(newSolXML, addLn5));
+	}
+	if( null !=  postCode)
+	{ 	newSolXML.selectSingleNode("/Solicitor/ContactDetails/Address/PostCode").appendChild(XML.createTextNode(newSolXML, postCode));
+	}							
+	if( null !=  dxVal)
+	{ 	newSolXML.selectSingleNode("/Solicitor/ContactDetails/DX").appendChild(XML.createTextNode(newSolXML, dxVal)); 
+	}
+	if( null !=  telVal)
+	{	newSolXML.selectSingleNode("/Solicitor/ContactDetails/TelephoneNumber").appendChild(XML.createTextNode(newSolXML, telVal));
+	}
+	if( null !=  faxVal)
+	{	newSolXML.selectSingleNode("/Solicitor/ContactDetails/FaxNumber").appendChild(XML.createTextNode(newSolXML, faxVal));
+	}
+	if( null !=  emailVal)
+	{	newSolXML.selectSingleNode("/Solicitor/ContactDetails/EmailAddress").appendChild(XML.createTextNode(newSolXML, emailVal));
+	}
+	if( null !=  fcmVal)
+	{	newSolXML.selectSingleNode("/Solicitor/ContactDetails/PreferredCommunicationMethod").appendChild(XML.createTextNode(newSolXML, fcmVal));
+	}
+	if( null !=  solName)
+	{	newSolXML.selectSingleNode("/Solicitor/Name").appendChild(XML.createTextNode(newSolXML, solName));
+	}
+		
+	var partiesNode = aDom.selectSingleNode("//Parties");
+	
+	partiesNode.appendChild(newSolXML.documentElement);
+
+	return aDom;
+}
+
+
+function getAttributeValues()
+{	
+	
+	addLn1 = Services.getValue(NewAddL1.dataBinding);	
+	addLn2 = Services.getValue(NewAddL2.dataBinding);
+	addLn3 = Services.getValue(NewAddL3.dataBinding);
+	addLn4 = Services.getValue(NewAddL4.dataBinding);
+	addLn5 = Services.getValue(NewAddL5.dataBinding);
+	postCode = Services.getValue(NewPostcode.dataBinding);
+	dxVal = Services.getValue(DX.dataBinding);
+	telVal = Services.getValue(TelephoneNumber.dataBinding);
+	faxVal = Services.getValue(FaxNumber.dataBinding);
+	emailVal = Services.getValue(EmailAddress.dataBinding);
+	fcmVal = Services.getValue(PCM.dataBinding);
+	solName = Services.getValue(SolName.dataBinding);	
+	
+}
+
+	
+function updateSubjectName(aDOM) {
+	
+	var partyNode = WPU.getSubjectPartyNode(aDOM, false);
+	var partyNameNode = partyNode.selectSingleNode("Name");
+	XML.removeChildNodes(partyNameNode);
+	var partyNewName  = "" +Services.getValue(NewDefendantName.dataBinding);
+	
+	if( null != partyNewName )
+	{  partyNewName = partyNewName.toUpperCase();
+	   partyNameNode.appendChild(XML.createTextNode(partyNameNode, partyNewName));
+	}
+	
+	return aDOM; }
+
+function updateSubjectAddress(aDOM, partyNode) {
+		//var partyNode = WPU.getSubjectPartyNode(aDOM);
+		
+		
+		var parent = partyNode.selectSingleNode("ContactDetails");
+		
+		var addressNode = parent.selectSingleNode("Address");
+		moveAddressToHistory(partyNode);		
+		var newAddStr = "&lt;Address&gt;&lt;AddressId/&gt;&lt;Line&gt;&lt;/Line&gt;&lt;Line/&gt;&lt;Line/&gt;&lt;Line/&gt;&lt;Line/&gt;&lt;PostCode/&gt;&lt;DateFrom/&gt;&lt;CreatedBy/&gt;&lt;PartyId/&gt;&lt;/Address&gt;";
+		var newAddDom  = XML.createDOM();
+		if (newAddDom.loadXML(newAddStr)) 
+		{   
+			var aln1 = Services.getValue(NewAddL1.dataBinding); 
+			var aln2 = Services.getValue(NewAddL2.dataBinding);
+			var aln3 = Services.getValue(NewAddL3.dataBinding);
+			var aln4 = Services.getValue(NewAddL4.dataBinding);
+			var aln5 = Services.getValue(NewAddL5.dataBinding);
+			var npc = Services.getValue(NewPostcode.dataBinding);						
+			
+			if( null != aln1 )
+			{ newAddDom.selectSingleNode("/Address/Line[1]").appendChild(XML.createTextNode(parent, aln1.toUpperCase())); 
+			}
+			if( null != aln2 )
+			{	newAddDom.selectSingleNode("/Address/Line[2]").appendChild(XML.createTextNode(parent, aln2.toUpperCase()));
+			}
+			if( null != aln3 )
+			{	newAddDom.selectSingleNode("/Address/Line[3]").appendChild(XML.createTextNode(parent, aln3.toUpperCase()));
+			}
+			if( null != aln4 )
+			{	newAddDom.selectSingleNode("/Address/Line[4]").appendChild(XML.createTextNode(parent, aln4.toUpperCase()));
+			}
+			if( null != aln5 )
+			{	newAddDom.selectSingleNode("/Address/Line[5]").appendChild(XML.createTextNode(parent, aln5.toUpperCase()));		
+			}
+			if( null != npc )
+			{	newAddDom.selectSingleNode("/Address/PostCode").appendChild(XML.createTextNode(parent, npc.toUpperCase()));
+			}
+						
+			newAddDom.selectSingleNode("/Address/DateFrom").appendChild(XML.createTextNode(parent,WPU.getSystemDate()));
+			newAddDom.selectSingleNode("/Address/CreatedBy").appendChild(XML.createTextNode(parent,WPU.getUserName()));						
+			parent.appendChild(newAddDom.documentElement.cloneNode(true));
+		}	
+			
+	return aDOM; 
+}
+
+var surKey = 0;
+function getNextSurrogateKey() {
+	return "SS" + (surKey++);
+}
+
+function moveAddressToHistory(partyNode) {
+		
+		var hasAddress = partyNode.selectSingleNode("ContactDetails/Address/Line[1]");
+		
+		var partyTypeCode = Services.getValue("//CaseEvent/SubjectPartyRoleCode");
+		var partyNumber   = Services.getValue("//CaseEvent/SubjectCasePartyNumber");
+		
+		var parent = partyNode.selectSingleNode("ContactDetails");
+		var addressNode = parent.selectSingleNode("Address");
+		
+		
+		if (null != addressNode &amp;&amp; "" != XML.getNodeTextContent(addressNode))
+		{
+			var x = addressNode.selectSingleNode("DateTo");
+			if (null == x) {
+				x = XML.createElement(addressNode, "DateTo");
+				addressNode.appendChild(x); 	}
+			else {
+				XML.removeChildNodes(x); }
+			x.appendChild(XML.createTextNode(x, WPU.getSystemDate()));
+			x = addressNode.selectSingleNode("Status");
+			if (null == x) {
+				x = XML.createElement(addressNode, "Status");
+				addressNode.appendChild(x); 	}
+			else {
+				XML.removeChildNodes(x); }
+			x.appendChild(XML.createTextNode(x, "NEW"));
+			x = addressNode.selectSingleNode("SurrogateId");
+			if (null == x) {
+				x = XML.createElement(addressNode, "SurrogateId");
+				addressNode.appendChild(x); 	}
+			else {
+				XML.removeChildNodes(x); }
+			x.appendChild(XML.createTextNode(x, getNextSurrogateKey()));
+			
+			var historyNode = partyNode.selectSingleNode("HistoricalAddresses");
+			if (null == historyNode) {
+				historyNode = XML.createElement(partyNode, "HistoricalAddresses");
+				partyNode.appendChild(historyNode);
+			}
+			
+			
+			historyNode.appendChild(addressNode);
+		}
+		
+	}
+
+
+function updateCaseCall(newDOM) {
+	
+	
+	var pDOM = XML.createDOM();
+	pDOM.loadXML("&lt;ds>&lt;/ds>");
+	pDOM.selectSingleNode("/ds").appendChild( newDOM );
+	var params = new ServiceParams();
+	params.addDOMParameter("caseNumber", pDOM);
+	Services.callService("updateCase", params, updateCaseCallback, true); }
+	
+function updateCaseCallback() { }
+
+updateCaseCallback.onSuccess = function(dom) 
+{   
+	if (null != dom) 
+	{   
+		Save_All(); 			 
+		
+	}
+	else 
+	{
+		alert(Messages.NO_RESULTS_MESSAGE); 
+	} 
+}
+
+updateCaseCallback.onBusinessException = function(exception)  
+{
+	alert(Messages.FAILEDSAVE_MESSAGE); 
+}
+
+updateCaseCallback.onSystemException = function(exception) 
+{
+	alert(Messages.FAILEDSAVE_MESSAGE); 
+}			
+	</JavaScript>
+</Group>

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	v1.0 Chris Hutt 11/2/2005
+	
+-->
+<QueryDef>
+	<DBMapDef location="uk/gov/dca/caseman/case_event_service/map_defs_date_of_service_and_ack.xml"/>
+
+	<Query pivotNode="/Case/Parties/Party" tables="CPR CE">
+	   	<Join/>
+        <Modify notModifiable="true"/>  	
+	</Query>
+
+</QueryDef>
+
+
+             

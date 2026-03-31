@@ -1,0 +1,122 @@
+<!-- 
+	SUPS Word Processing Controller Ant Build Script.
+	
+	Currently Building: WordProcessing.js
+	as to be used by CaseMan EnterVariableData and (oracle report) Parameter screens.
+	
+	Builds the individual JavaScript source code files into a single deployment file.
+	Compression and documentation generation are available, provided Perl, JSDoc and JSCrunch
+	are available in the c:\tools\extracted.
+
+	Note that there are 2 parameters that may need updating before this script runs in your developoment environment.
+
+	Author: Frederik.Vandendriessche@eds.com
+-->
+<project name="WPCtrl" default="build">
+	<echo>Loading default properties from. ${user.home}/sups_antuser.properties</echo>
+	<echo>To set any property as default for you workstation place it in the file</echo>
+	<echo>${user.home}/sups_antuser.properties</echo>
+
+	<property file="${user.home}/sups_antuser.properties" />
+		
+	<!-- 
+		Properties - Do not change these 
+	-->
+	<property name="wpctrl.dir" value="${basedir}" />
+	<property name="wpctrl.dir.src" value="${wpctrl.dir}" />
+	<property name="wpctrl.dir.src.caseman" value="${wpctrl.dir}\CaseMan" />
+	<property name="wpctrl.dir.cfg.caseman" value="${wpctrl.dir}\CaseMan\cfg" />
+
+	<property name="wpctrl.dir.src.casemanORA" value="${wpctrl.dir}\CaseManORA" />
+	<property name="wpctrl.dir.cfg.casemanORA" value="${wpctrl.dir}\CaseManORA\cfg" />
+	
+	<property name="wpctrl.dir.src.fwkext" value="${wpctrl.dir}\Framework" />
+	<property name="wpctrl.dir.docs" value="${wpctrl.dir}\docs" />
+	<property name="wpctrl.dir.dist" value="${wpctrl.dir}\dist" />
+
+	<property name="caseman.dir.wpscreens" value="..\${name.eclipse.project.client}\caseman\screens\caseman_wp" />
+	<property name="caseman.dir.wpscreensORA" value="..\${name.eclipse.project.client}\caseman\screens\caseman_oracle_reports" />
+	
+	<!--property name="caseman.dir.wpscreens" value="K:\sups_caseman\client\caseman\screens\caseman_wp" -->
+	<property name="caseman.dir.server.wpscreens" value="D:\product\10.1.2\OracleAS\j2ee\caseman\applications\caseman_war\caseman\screens\caseman_wp" />
+	<property name="caseman.dir.server.wpscreensORA" value="D:\product\10.1.2\OracleAS\j2ee\caseman\applications\caseman_war\caseman\screens\caseman_oracle_reports" />
+
+	<!-- Public Build Targets -->
+	<target name="build" depends="_js-package-CaseMan"/>
+	<target name="build_copy_to_CaseMan" depends="_js-package-CaseMan, _copy-to-CaseMan"/>
+	<target name="build_copy_to_CaseMan_Compressed" depends="_js-package-CaseMan, _js-compress, _copy-to-CaseMan"/>
+	<target name="build_copy_to_LiveServer" depends="_js-package-CaseMan, _copy-to-CaseMan-Running"/>
+	<target name="build_copy_to_LiveServer_Compressed" depends="_js-package-CaseMan, _js-compress, _copy-to-CaseMan-Running"/>
+	<target name="build_doco" depends="_js-doc-create"/>
+	<echo>
+SUPS Word Processing Controller Build
+wpctrl.dir = ${wpctrl.dir}
+caseman.dir.wpscreens = ${caseman.dir.wpscreens}
+caseman.dir.server.wpscreens = ${caseman.dir.server.wpscreens}
+	</echo>
+	<!-- 
+		Private Build Targets 
+	-->
+	<target name="_js-doc-create">
+		<echo>Perl must be available from the command line, not having to specify its path.</echo>
+		<echo>Also required is c:\tools\extracted\JSDoc-1.7.2\</echo>
+		<delete file="${wpctrl.dir.docs}/*.html" />
+		<description>Generate javascript documentation </description>
+		<exec executable="perl" dir="D:\product\10.1.2\OracleAS\perl\5.6.1\bin\MSWin32-x86">
+			<arg line="c:\tools\extracted\JSDoc-1.7.2\jsdoc.pl -r ${wpctrl.dir} -d ${wpctrl.dir.docs}" />
+		</exec>
+	</target>
+	<target name="_js-compress">
+		<echo>This target uses JSCrunch to compress the WPCtrl.js</echo>
+		<exec executable="c:\tools\extracted\jscrunch\js" dir="${wpctrl.dir.dist}\">
+			<arg line="WordProcessing.js WPCtrl.js" />
+		</exec>
+	</target>
+	<target name="_js-package-CaseMan">
+		<delete dir="${wpctrl.dir.dist}" />
+		<mkdir dir="${wpctrl.dir.dist}" />
+		<concat destfile="${wpctrl.dir.dist}/WordProcessing.js" fixlastline="yes">
+			<fileset dir="${wpctrl.dir.src.fwkext}">
+				<include name="*.js" />
+			</fileset>
+			<fileset dir="${wpctrl.dir.src}">
+				<include name="*.js" />
+			</fileset>
+			<fileset dir="${wpctrl.dir.src.caseman}">
+				<include name="*.js" />
+			</fileset>
+			<fileset dir="${wpctrl.dir.src.casemanORA}">
+				<include name="*.js" />
+			</fileset>
+		</concat>
+	</target>
+	<target name="_copy-to-CaseMan" depends="_js-package-CaseMan">
+		<copy file="${wpctrl.dir.dist}/WordProcessing.js" todir="${caseman.dir.wpscreens}" overwrite="true" failonerror="true" />
+		<copy file="${wpctrl.dir.cfg.caseman}/wpctrl.xml" todir="${caseman.dir.wpscreens}" overwrite="true" failonerror="true" />
+		<copy file="${wpctrl.dir.dist}/WordProcessing.js" todir="${caseman.dir.wpscreensORA}" overwrite="true" failonerror="true" />
+		
+		<copy file="${wpctrl.dir.cfg.casemanORA}/WordProcessingConfig.xml" todir="${caseman.dir.wpscreensORA}" overwrite="true" failonerror="true" />
+	</target>
+	<target name="_copy-to-CaseMan-Compressed" depends="_js-package-CaseMan, _js-compress">
+		<copy file="${wpctrl.dir.dist}/WordProcessing.js" todir="${caseman.dir.wpscreens}" overwrite="true" failonerror="true" />
+		<copy file="${wpctrl.dir.cfg.caseman}/wpctrl.xml" todir="${caseman.dir.wpscreens}" overwrite="true" failonerror="true" />
+
+		<copy file="${wpctrl.dir.dist}/WordProcessing.js" todir="${caseman.dir.wpscreensORA}" overwrite="true" failonerror="true" />
+		
+		<copy file="${wpctrl.dir.cfg.casemanORA}/WordProcessingConfig.xml" todir="${caseman.dir.wpscreensORA}" overwrite="true" failonerror="true" />
+	</target>
+	<target name="_copy-to-CaseMan-Running" depends="_js-package-CaseMan">
+		<copy file="${wpctrl.dir.dist}/WordProcessing.js" todir="${caseman.dir.server.wpscreens}" overwrite="true" failonerror="true" />
+		<copy file="${wpctrl.dir.cfg.caseman}/wpctrl.xml" todir="${caseman.dir.server.wpscreens}" overwrite="true" failonerror="true" />
+		<copy file="${wpctrl.dir.dist}/WordProcessing.js" todir="${caseman.dir.server.wpscreensORA}" overwrite="true" failonerror="true" />
+		
+		<copy file="${wpctrl.dir.cfg.casemanORA}/WordProcessingConfig.xml" todir="${caseman.dir.server.wpscreensORA}" overwrite="true" failonerror="true" />
+	</target>
+	<target name="_copy-to-CaseMan-Running-Compressed" depends="_js-package-CaseMan, _js-compress">
+		<copy file="${wpctrl.dir.dist}/WordProcessing.js" todir="${caseman.dir.server.wpscreens}" overwrite="true" failonerror="true" />
+		<copy file="${wpctrl.dir.cfg.caseman}/wpctrl.xml" todir="${caseman.dir.server.wpscreens}" overwrite="true" failonerror="true" />
+		<copy file="${wpctrl.dir.dist}/WordProcessing.js" todir="${caseman.dir.server.wpscreensORA}" overwrite="true" failonerror="true" />
+		
+		<copy file="${wpctrl.dir.cfg.casemanORA}/WordProcessingConfig.xml" todir="${caseman.dir.server.wpscreensORA}" overwrite="true" failonerror="true" />
+	</target>
+</project>

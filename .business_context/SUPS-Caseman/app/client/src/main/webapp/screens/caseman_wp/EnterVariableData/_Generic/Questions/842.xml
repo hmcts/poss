@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>842</Id>
+	<Label>Number of instalments outstanding</Label>
+	<ObjectName>NoInstOutstanding</ObjectName>
+	<Html>
+		<input id = "NoInstOutstanding" type = "text" size="5"></input>
+	</Html>
+	<Javascript>
+		<XPath>/ds/EnterVariableData/NoInstOutstanding</XPath>
+		<componentName>##label##</componentName>
+		<HintText>Enter number of instalments outstanding</HintText>
+		<isMandatory>return true;</isMandatory>
+		<mandatoryOn>NoInstOutstanding.dataBinding</mandatoryOn>
+		<validateOn>NoInstOutstanding.dataBinding</validateOn>
+		<validate>
+			var instNo = Services.getValue(NoInstOutstanding.dataBinding);
+			var err = null;
+			if( CaseManValidationHelper.validateNumber(instNo) == false )
+			{	err = ErrorCode.getErrorCode("Caseman_nonNumericPartyCode_Msg");
+			}
+			return err;
+		</validate>
+	</Javascript>
+</Question>

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<pmc:server xmlns:pmc="http://www.polarlake.com/pmc/1.0" name="CASEMAN_Truncation_Test" classname="com.polarlake.platform.Platform" description="A temporary PolarLake Server to test WFT truncations" circuit="file:///C:/PolarLake/Caseman/PolarLake/Sups/circuits/EDS_Truncation_TestCase.cir" encoding="">
+    <pmc:classpath>
+        <pmc:pathelement location="{pl$commonclasspath}"/>
+        <pmc:pathelement location="{pl$polarlake_lib}/design.jar"/>
+        <pmc:pathelement location="{pl$polarlake_home}/openjms/lib/openjms-client-0.7.5-rc1.jar"/>
+        <pmc:pathelement location="{pl$polarlake_home}/openjms/lib/openjms-rmi-0.7.5-rc1.jar"/>
+        <pmc:pathelement location="{pl$polarlake_home}/openjms/lib/jta_1.0.1.jar"/>
+        <pmc:pathelement location="{pl$tomcatclasspath}"/>
+    </pmc:classpath>
+    <pmc:argument value="-b"/>
+    <pmc:argument value="circuit"/>
+    <pmc:argument value="-j"/>
+    <pmc:argument value="file:///{pl$polarlake_home}/polarlake/lib/plsystem.jar"/>
+    <pmc:sysproperty name="-Dpl_properties_url" value="{pl$caseman_home}/Common/config/caseman.props"/>
+    <pmc:documenttracking>
+        <pmc:trackingsetting name="enabled" value="false"/>
+        <pmc:trackingsetting name="errors_critical" value="false"/>
+        <pmc:trackingsetting name="track_empties" value="false"/>
+        <pmc:trackingsetting name="base64_encoding" value=" false"/>
+        <pmc:trackingsetting name="template" value=""/>
+        <pmc:trackingsetting name="mode" value="synchronous"/>
+    </pmc:documenttracking>
+</pmc:server>

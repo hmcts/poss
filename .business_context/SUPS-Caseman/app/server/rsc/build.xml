@@ -1,0 +1,335 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- Framework ServerSide Build Script -->
+
+<project name="server_side_build" default="build-ear-image" basedir=".">
+
+	<!-- Load properties from file -->
+	<property environment="env" />
+	<property file="${env.PROJECT_BASE}/application.properties"/>
+	
+	<!-- The following properties are mandatory - checked for by the "init" task 
+		application_name
+		jboss_server_dir
+	-->
+
+	<!-- Set default values if not already set in ${env.properties.file} (values are immutable) -->
+	<property name="application_base" value="${env.PROJECT_BASE}"/>
+	<property name="application_src" value="${application_base}/src"/>
+	<property name="application_build" value="${application_base}/build"/>
+	<property name="application_dist" value="${application_base}/dist"/>
+	<property name="application_lib" value="${application_base}/lib"/>
+	<property name="application_bin" value="${application_base}/bin"/>
+	<property name="application_conf" value="${application_base}/conf"/>
+	<property name="server_ip" value="http://localhost:8080"/>
+	<property name="custom_path" value=""/>
+	<property name="custom_ant_build_file" value=""/>
+	
+	<echo>Using Project Base:    ${application_base}</echo>
+	<echo>Using Properties File: ${env.PROJECT_BASE}/application.properties</echo>
+	<echo>application_base is:   ${application_base}</echo>
+	<echo>application_name is:   ${application_name}</echo>
+	<echo>jboss_server_dir is:   ${jboss_server_dir}</echo>
+	<echo>application_build is:  ${application_build}</echo>
+	<echo>application_dist is:   ${application_dist}</echo>
+	<echo>application_lib is:    ${application_lib}</echo>
+	<echo>application_bin is:    ${application_bin}</echo>
+	<echo>server_ip is:          ${server_ip}</echo>
+	<echo>custom_path is:        ${custom_path}</echo>
+		
+	
+	<!-- Framework specific properties -->
+	<property name="framework.dir" value="${basedir}"/>
+	<property name="lib" value="${basedir}/lib"/>	
+	<property name="src.framework_services" value="${basedir}/src/services" />	
+	<property name="build.ejbs.gen-src" value="${application_build}/ejbs/gen-src" />	
+	<property name="meta-inf" value="${basedir}/build/META-INF"/>
+	<property name="app.conf" value="${application_base}/conf"/>
+	<property name="framework.conf" value="${basedir}/default_conf"/>
+	<property name="sups_config" value="uk/gov/dca/db/sups_config.xml" />
+
+	<!-- deployment files -->
+	<property name="xmlquery2.jar" value="xmlquery2.jar"/>
+	
+	<!-- load sub module versions -->
+	<property file="modules.properties"/>
+	
+	<!-- Whether to build with debug enabled or not -->
+  	<property name="build.debug" value="true"/>
+	
+    <!-- name of the application being built -->
+	<property name="app.name" value="${application_name}"/>
+	
+	<path id="project.path">
+		<pathelement location="${lib}/${xmlquery2.jar}" />
+		<fileset dir="${lib}" includes="**/*.jar" />
+		<fileset dir="${application_lib}">
+			<include name="**/*.jar"/>
+	    </fileset>
+		<pathelement path="${custom_path}"/>
+	</path>
+	
+	<!-- validates server_example services -->
+	<path id="validation.path">
+		<pathelement location="${application_src}" />
+		<pathelement location="${src.framework_services}" />
+		<fileset dir="${lib}" includes="*.jar"/>
+		<fileset dir="${lib}/commons" includes="*.jar"/>
+		<fileset dir="${lib}/jdom" includes="*.jar"/>
+		<fileset dir="${lib}/javascript" includes="*.jar"/>
+		<fileset dir="${lib}/oracle" includes="*.jar"/>
+	</path>
+		
+	<!-- The init task and dependancies check to see whether all mandatory properties have been set. -->
+	<target name="init" depends="check_for_mandatory_props">
+		<mkdir dir="${application_dist}"/>
+		<mkdir dir="${application_dist}/conf"/>
+		<mkdir dir="${application_build}"/>
+		<mkdir dir="${application_build}/META-INF"/>
+		<mkdir dir="${application_dist}"/>
+		<mkdir dir="${application_dist}/META-INF"/>
+		<mkdir dir="${application_lib}"/>
+		<mkdir dir="${application_conf}"/>
+		<mkdir dir="${application_base}/bin"/>
+		<copy todir="${application_dist}">
+			<fileset dir="${basedir}/dist" includes="*.xml">
+			</fileset>
+		</copy>
+		
+		<!-- Output ${application_dist}/deploy.properties -->
+		<property name="jboss.server.dir" value="${jboss_server_dir}"/>
+		<property name="server.ip-address" value="${server_ip}"/>
+		<property name="project.name" value="${application_name}"/>
+		<echoproperties destfile="${application_dist}/deploy.properties">
+			<propertyset>
+				<propertyref prefix="jboss.server.dir"/>
+				<propertyref prefix="server.ip-address"/>
+				<propertyref prefix="project.name"/>
+			</propertyset>
+		</echoproperties>
+		
+		<available
+			property="sups_config"
+			file="${application_src}/uk/gov/dca/${application_name}/sups_config.xml"
+			value="uk/gov/dca/${application_name}/sups_config.xml" />
+	</target>
+	
+	<!-- called by "init" task -->
+	<target name="check_for_mandatory_props" depends = "check-props" unless="props_set">
+	    <fail message="Build not started, one of the following properties not set: application_name,jboss_server_dir.  Most likely is that you have not set the environmental variable PROJECT_BASE, which should be the base directory of your server side project, and which should contain a file called application.properties with the aforementioned properties.  Please see the docs for full details."/>
+	</target>
+	
+	<!-- called by "check_for_mandatory_props -->
+	<target name="check-props" >
+	  <condition property="props_set">
+	    <and>
+	      <isset property="application_base"/>
+	      <isset property="application_name"/>
+	      <isset property="jboss_server_dir"/>
+	    </and>
+	  </condition>
+	</target>
+	
+	
+	<target name="copy_config" depends="init">
+		<copy todir="${application_bin}">
+		    <fileset dir="${application_src}">
+				<include name="uk/**/*.xml"/>
+				<include name="uk/**/*.xsl"/>
+				<include name="uk/**/*.xsd"/>
+				<include name="uk/**/*.js"/>
+		    	<include name="uk/**/*.properties"/>
+			</fileset>
+			<fileset dir="${src.framework_services}">
+				<include name="uk/**/*.xml"/>
+				<include name="uk/**/*.xsl"/>
+				<include name="uk/**/*.xsd"/>
+				<include name="uk/**/*.js"/>
+			</fileset>
+		</copy>
+		<copy todir="${application_dist}\conf" overwrite="true">
+			<!-- copy in default file - then overwrite with locally provided on if it exists -->
+			<fileset dir="${framework.conf}">
+				<exclude name="**/config.xml" />
+			</fileset>
+			<fileset dir="${application_conf}">
+				<exclude name="**/config.xml" />
+			</fileset>
+			<fileset dir="${application_src}">
+				<include name="**/project_config.xml" />
+				<include name="**/sups_config.xml" />
+			</fileset>
+			<fileset dir="${src.framework_services}" >
+				<include name="**/project_config.xml" />
+				<include name="**/sups_config.xml" />
+			</fileset>
+		</copy>
+		<copy todir="${application_dist}/build">
+			<fileset dir="${framework.conf}" includes="**/config.xml" />
+		</copy>
+		<!-- again, overwrite previous if it exists -->
+		<copy todir="${application_dist}/build">
+			<fileset dir="${application_conf}" includes="**/config.xml" />
+		</copy>
+		<copy todir="${application_dist}/build/META-INF">
+			<fileset dir="${meta-inf}">
+				<include name="application.xml"/>
+				<include name="jboss-app.xml" />
+			</fileset>
+		</copy>
+	</target>
+
+	
+	<target name="gen-beans" depends="copy_config">
+		<taskdef name="genbeans" classname="uk.gov.dca.db.impl.SUPSBeanGeneratorTask" classpathref="project.path"/>
+		<genbeans 
+			destdir="${build.ejbs.gen-src}"
+			rootDir="${application_src}"
+			wsConfigDestDir="${application_build}"
+			packageName="uk.gov.dca.${application_name}"
+			projectConfig="project_config.xml"
+			frameworkConfig="${sups_config}">
+		</genbeans>
+	</target>
+	
+	<target name="gen-framework-services-beans" depends="copy_config">
+		<taskdef name="genbeans" classname="uk.gov.dca.db.impl.SUPSBeanGeneratorTask" classpathref="project.path"/>
+		<genbeans 
+			destdir="${build.ejbs.gen-src}"
+			rootDir="${src.framework_services}"
+			wsConfigDestDir="${application_build}"
+			packageName="uk.gov.dca.framework_services"
+			projectConfig="project_config.xml"
+			frameworkConfig="uk/gov/dca/db/sups_config.xml">
+		</genbeans>
+	</target>
+		
+	<target name="compile" depends="gen-beans, gen-framework-services-beans">
+		<subant target="compile-ws" inheritall="false">
+			<fileset dir="${application_build}" includes="*/build.xml"/>
+			<property name="application_base" value="${application_base}"/>
+			<property name="framework_base" value="${basedir}"/>
+		</subant>
+		<echo>Finished compile-ws subant task</echo>
+		<javac fork="true" srcdir="${application_src}" destdir="${application_bin}" classpathref="project.path" debug="${build.debug}"/>
+		<javac fork="true" srcdir="${build.ejbs.gen-src}" destdir="${application_bin}" classpathref="project.path" debug="${build.debug}"/>
+	</target>	
+	
+	<target name="copy-ws-config" depends="gen-beans, gen-framework-services-beans">
+		<copy todir="${application_dist}/build">
+			<fileset dir="${application_build}">
+				<include name="**/config.xml" />
+				<include name="**/deploy-ws.xml" />
+			</fileset>
+		</copy>
+	</target>
+	
+	<target name="build-jar" depends="compile">
+		<subant target="build-jar"  inheritall="false">
+			<fileset dir="${application_build}" includes="*/build.xml" />
+			<property name="application_base" value="${application_base}"/>
+			<property name="framework_base" value="${basedir}"/>
+		</subant>
+	</target>
+	
+	<target name="build-ear-image" depends="call-external-script, build-jar, copy-ws-config">
+		<copy todir="${application_dist}">
+			<fileset dir="${application_dist}">
+				<include name="*.jar"/>
+			</fileset>
+			<fileset dir="${application_lib}">
+				<include name="*.jar"/>
+			</fileset>
+			<fileset dir="${lib}">
+				<include name="*.jar"/>
+			</fileset>
+			<fileset dir="${lib}/jdom">
+				<include name="*.jar"/>
+				<exclude name="xerces.jar"/>
+				<exclude name="xalan.jar"/>
+				<exclude name="xml-apis.jar"/>
+			</fileset>
+			<fileset dir="${lib}/commons">
+				<include name="commons-discovery.jar"/>
+				<!-- not the logging itself - cuases wp deployment issues -->
+			</fileset>
+			<fileset dir="${lib}/javascript" includes="js.jar" />
+			
+			<!-- jar up "non-service files for inclusion in ear 
+			<jar destfile="${application_build}/common_${application_name}.jar">
+				<fileset dir="${application_bin}">
+					<include name="uk/gov/dca/${application_name}/**/*.jar"/>
+					<exclude name="uk/gov/dca/${application_name}/*_service*"/>
+				</fileset>
+			</jar>--> 
+		</copy>
+		
+		<!-- copy libs required during deploy to dist directory -->
+		<mkdir dir="${application_dist}/lib" />
+		<copy todir="${application_dist}/lib">
+			<fileset dir="${lib}">
+				<include name="jboss/*.jar" />
+				<include name="jdom/*.jar" />
+				<include name="ws/*.jar" />
+			</fileset>
+		</copy>
+		
+		<!-- create jar of common files -->
+		<jar destfile="${application_dist}/build/common_application.jar">
+			<fileset dir="${application_bin}">
+				<include name="uk/gov/dca/${application_name}/common/**/*"/>
+			</fileset>
+		</jar>
+	</target>
+	
+	
+	<target name="deploy" depends="build-ear-image">
+		<ant antfile="${application_dist}/build.xml" target="deploy" inheritall="false" dir="${application_dist}">
+			<property name="application_base" value="${application_base}"/>
+			<property name="jboss.server.dir" value="${jboss_server_dir}"/>
+	    </ant>
+	</target>
+	
+	<target name="clean">
+		<delete dir="${application_build}" />
+		<delete dir="${application_bin}" />
+		<delete dir="${application_dist}" />
+	</target>
+
+	
+	<!-- A validation task to validate the cases service. -->
+	<!-- Note that if the 'serviceFolder' attribute is not specified then every service in the project is validated. -->
+	<target name="validate-server_example">
+		<taskdef name="validateservices" classname="uk.gov.dca.db.impl.ServicesValidationTask" classpathref="validation.path"/>
+		<validateservices
+			classpathRefId="validation.path"
+			rootDir="${application_src}"
+			packageName="uk.gov.dca.$(application_name}"
+			projectConfig="project_config.xml"
+			frameworkConfig="uk/gov/dca/db/sups_config.xml">
+		</validateservices>
+	</target>
+	
+	<!-- A validation task to validate the framework services. -->
+	<target name="validate-framework-services">
+		<taskdef name="validateservices" classname="uk.gov.dca.db.impl.ServicesValidationTask" classpathref="validation.path"/>
+		<validateservices
+			classpathRefId="validation.path"
+			rootDir="src/services"
+			packageName="uk.gov.dca.framework_services"
+			projectConfig="project_config.xml"
+			frameworkConfig="uk/gov/dca/db/sups_config.xml"
+			projectConfigPackage="uk.gov.dca.$(application_name}">
+		</validateservices>
+	</target>
+	
+	<target name="clean-jboss-deploy-dir">
+		<delete>
+		    <fileset dir="${jboss_server_dir}" includes="**/*.ear"/>
+		</delete>	
+	</target>
+	
+	<target name="call-external-script" depends="init">
+	 	<ant antfile="${application_base}/${custom_ant_build_file}" />
+    </target>	
+</project>

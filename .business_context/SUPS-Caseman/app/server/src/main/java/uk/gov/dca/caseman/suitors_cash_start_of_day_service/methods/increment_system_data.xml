@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<service-method>
+	<pipeline>
+		<SQLLite>			
+			<DataSource id="java:OracleDS"/>
+			<Param name="param.item" xpath="/params/param[@name='item']"/>
+			<Param name="param.courtId" xpath="/params/param[@name='courtId']"/>
+			<SQL type="update" tables="SD">				
+				UPDATE SYSTEM_DATA SD
+				SET SD.ITEM_VALUE = SD.ITEM_VALUE + 1 
+				WHERE SD.ITEM = ${param.item}	
+				AND SD.ADMIN_COURT_CODE = ${param.courtId}
+			</SQL>
+		</SQLLite>
+	</pipeline>	
+	<Security roles="viewOnly medium high wcSuper scSuper bmsSuper aeSuper dmSuper edsAdmin admin cpSuper"/>
+	<Transaction type="RequiresNew" />
+</service-method>

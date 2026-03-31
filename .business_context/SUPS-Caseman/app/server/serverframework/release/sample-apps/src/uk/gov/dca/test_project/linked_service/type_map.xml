@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<DBMapDef>
+	<DataSource id="java:SupsDS"/>
+	<Tables>
+		<Table alias="D" name="TEST_DATES"/>
+	</Tables>
+	<Mapping>
+		<Dates>
+			<Date>
+				<Id>${D.ID}</Id>
+				<MyDate>${D.MY_DATE}</MyDate>
+			</Date>
+		</Dates>
+	</Mapping>
+</DBMapDef>

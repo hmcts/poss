@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<service-method>
+	<pipeline>
+		<Query>
+			<QueryDef location="uk/gov/dca/caseman/case_service/query_def_case_status_setting_for_case_event.xml"/>
+			<QueryExtension pivotNode="/CaseEventSettingCaseStatusList/CaseEvent">
+				<Param name="param.standardEventId" xpath="/params/param[@name = 'standardEventId']"/>
+				<Constraint>REF.RV_LOW_VALUE = ${param.standardEventId}</Constraint>
+			</QueryExtension>
+		</Query>
+	</pipeline>
+	<Security roles="user"/>
+</service-method>

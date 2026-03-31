@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>9205</Id>
+	<Label>Date payable order</Label>
+	<ObjectName>PayableOrderOriginal</ObjectName>
+	<Html>	
+		<script type="text/javascript">WP_DatePickerRenderer.createInline("PayableOrderOriginal", false);</script>
+		</Html>			
+	<Javascript>
+		<XPath>/ds/EnterVariableData/payableOrderOriginal</XPath>
+		<HintText>Enter the date of the original payable</HintText>
+		
+          <Context ScreenId="L_6_1_2_3_4_7">
+                <mandatoryOn>PayableOrderAmount.dataBinding,SelectLetter3.dataBinding</mandatoryOn>
+                <isMandatory>return return9205();</isMandatory>
+                <enableOn>PayableOrderAmount.dataBinding,SelectLetter3.dataBinding</enableOn>
+                <isEnabled>return return9205();</isEnabled>
+                <logicOn>PayableOrderAmount.dataBinding,SelectLetter3.dataBinding</logicOn>
+                <logic>if(!return9205())
+                    {
+                        Services.setValue(PayableOrderOriginal.dataBinding, "");
+                    }
+                </logic>
+                
+                  <miscCode>
+                    function return9205(){
+                        var n9205 = false;
+                        if(
+                            ("3" == Services.getValue(SelectLetter3.dataBinding)&amp;&amp;
+                            PayableOrderAmount.isEnabled())
+                        ){
+                            n9205 = true;
+                        }
+                        return n9205;
+                    }
+                </miscCode>
+        </Context>
+        <validateOn>PayableOrderOriginal.dataBinding</validateOn>
+        <validate> 
+            return isInPast(PayableOrderOriginal.dataBinding,"false");
+        </validate>
+        </Javascript>	
+	
+</Question>

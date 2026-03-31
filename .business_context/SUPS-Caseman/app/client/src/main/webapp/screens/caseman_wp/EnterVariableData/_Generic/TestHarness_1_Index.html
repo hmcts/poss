@@ -1,0 +1,84 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3c.org/TR/html4/strict.dtd">
+
+<!-- To make generic -> Drop-down to select a Court plus a list of options for each of the screens:
+     could be buttons or links? -->
+
+<html>
+	<head>
+		<title>TestHarness_1_Index</title>
+		<link type="text/css" rel="stylesheet" title="Default" href="./caseman/fw_IE.css">
+		<link type="text/css" rel="stylesheet" title="Default" href="CasemanIndex.css">
+
+		<script type="text/javascript" src="./caseman/Framework.js"></script>	
+		
+		<script type="text/javascript">
+			function initForm()
+			{
+				// Initialise the FormController singleton
+				FormController.initialise(document.forms.theForm);
+			}
+			
+			function _onclick(evt)
+			{
+				evt = evt == null ? event : evt;
+				var element = null != evt.target ? evt.target : evt.srcElement;	
+				Services.navigate(element.__formAlias);
+			}
+						
+			function loadFormNodes()
+			{
+				var dom = XML.createDOM(null, null, null);
+				dom.load("TestHarness_1_config.xml");
+				var xpath = "//form[@name != 'TestPageNavigation' and @title != 'NO-SHOW']";
+   				var forms = dom.selectNodes(xpath);
+   				
+   				return forms;
+			}
+			
+			function renderFormList(formNodes)
+			{
+				// Write the outer button element to the document
+				document.write("<div id='myDiv' class='list'></div>");
+				var element = document.getElementById('myDiv');
+							
+				for(var i = 0 ; i < formNodes.length ; i++)
+				{
+					var linkElement = document.createElement("div");
+					linkElement.innerHTML = formNodes[i].getAttribute('title');
+					linkElement.__formAlias = formNodes[i].getAttribute('name');
+					linkElement.onclick = function(evt) { _onclick(evt); };
+					linkElement.className = "listitem"
+					element.appendChild(linkElement);
+					
+					//element.appendChild(document.createElement("br"));
+				}				
+			}
+								
+		</script>
+		
+	</head>
+
+	<body onload="initForm()">
+	
+		<form id="theForm">
+			
+			<div class="title">Currently configured forms in applicationconfig.xml:</div>
+			
+			<div class="body">
+			
+				Click on any link below to launch the form
+				
+			</div>
+			
+			<script type="text/javascript">
+			
+				renderFormList(loadFormNodes());
+			
+			</script>
+			
+
+		</form>
+
+
+	</body>
+</html>

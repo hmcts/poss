@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+Service: JudgmentRefdata
+	Method:  getJudgmentObjectors()
+	File:    get_judgment_objectors.xml
+	Author:  Troy Baines
+	Created: 20 November 2004
+	Description: 
+        Retrieves the list of judgment objector values for the judgment window
+-->
+<service-method>
+	<pipeline>
+		<Query>
+			<QueryDef location="uk/gov/dca/caseman/judgment_refdata_service/query_def_objector.xml"/>
+			<QueryExtension pivotNode="/Objectors/Objector">
+				<Constraint>CRC.RV_DOMAIN = 'OBJECTOR'</Constraint>
+			</QueryExtension>
+		</Query>
+	</pipeline>
+	<Security roles="viewOnly medium high wcSuper scSuper bmsSuper aeSuper dmSuper cpSuper ccbcMan ccbcUser ccbcSGB2"/>
+</service-method>

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<service-method>
+	<pipeline>
+		<Java>
+			<Source class="uk.gov.dca.caseman.obligation_service.java.ObligationBusinessHelperCustomProcessor"/>
+		</Java>
+	</pipeline>
+	<Dependencies>
+		<Dependency serviceName="SystemDate"/>		
+		<Dependency serviceName="NonWorkingDay"/>						
+	</Dependencies>		
+	<Security roles="user"/>
+</service-method>

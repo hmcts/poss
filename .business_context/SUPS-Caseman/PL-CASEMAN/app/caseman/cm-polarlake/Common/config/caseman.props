@@ -1,0 +1,123 @@
+#*********** Polar Lake Settings **************
+BaseCircuit=file:///{pl$polarlake_home}/polarlake/data/BaseCircuit.cir
+javax.net.ssl.trustStore={pl$polarlake_home}/keystores/.trustStore
+javax.net.ssl.trustStorePassword=changeit
+javax.net.ssl.keyStore={pl$polarlake_home}/keystores/.keyStore
+javax.net.ssl.keyStorePassword=changeit
+
+#*********** Caseman Log4j property file setting **************
+log4j.configuration.file={pl$caseman_home}/Common/config/log4j.properties
+
+#*********** Polar Lake PMC Settings **************
+pmc.myaddress=xmlt://localhost:9095
+pmc.sysinfoaddress=tcp://localhost:9096
+pmc.sensorreportaddress=tcp://localhost:9097
+pmc.properties=file:///{pl$caseman_home}/Common/config/pmc.xml
+
+#*********** Polar Lake Error Folder **************
+polarlake.error.dir={pl$app_pl_log_dir}/errors
+
+#*********** CaseMan Home Folder for Polar Lake **************
+caseman_home={pl$app_pl_dir}
+
+#*********** CaseMan Home Folder for Logging **************
+app_pl_log_dir={pl$app_pl_log_dir}
+
+#*********** DATABASE SETTINGS ***********************
+#*********** Test Database - DO NOT USE **************
+DatabaseConnectionSupsCentral=jdbc:oracle:oci8:@casemdev
+DatabaseUserSupsCentral=CASEMAN_CENTRAL
+DatabasePasswordSupsCentral=CASEMAN_CENTRAL
+
+
+#*********** Sups Database **************
+DatabaseConnectionSups={pl$app_pl_sups_connect_string}
+DatabaseUserSups={pl$app_pl_sups_id}
+DatabasePasswordSups={pl$app_pl_sups_pw}
+
+#*********** Caseman Central Database **************
+DatabaseConnectionCasemanLegacy={pl$app_pl_cmcs_connect_string}
+DatabaseUserCasemanLegacy={pl$app_pl_cmcs_id}
+DatabasePasswordCasemanLegacy={pl$app_pl_cmcs_pw}
+
+#*********** SNMP Settings **************
+SnmpHost=snmphost
+
+#*********** TEST SNMP - DO NOT USE **************
+XmltPort=11002
+
+#*********** FTP Settings Caseman Central **************
+FtpCasemanCentralServerAddress={pl$ftp_casemancentralserver_address}
+FtpCasemanCentralUserName={pl$ftp_casemancentral_username}
+FtpCasemanCentralPassword={pl$ftp_casemancentral_password}
+FtpCasemanCentralFolderPath={pl$ftp_casemancentral_folderpath}
+
+#*********** FTP Settings RTL **************
+FtpCasemanRTLServerAddress={pl$ftp_casemanrtlserver_address}
+FtpCasemanRTLUserName={pl$ftp_casemanrtl_username}
+FtpCasemanRTLPassword={pl$ftp_casemanrtl_password}
+FtpCasemanRTLFolderPath={pl$ftp_casemanrtl_folderpath}
+
+#*********** FTP Settings RTL Archive **************
+FtpCasemanRTLArchiveServerAddress={pl$ftp_casemanrtl_archive_server_address}
+FtpCasemanRTLArchiveFolderPath={pl$ftp_casemanrtl_archive_folderpath}
+
+
+#*********** Main Circuit Ports **************
+XmltPort-LegacyToSupsCase=11101
+XmltPort-LegacyToSupsCOEvents=11102
+XmltPort-LegacyToSupsWarrants=11103
+XmltPort-LegacyToSupsAEEvents=11104
+XmltPort-SupsToLegacyWarrantReturns=11105
+XmltPort-SupsToLegacyCase=11106
+XmltPort-SupsToLegacyAEOrders=11107
+XmltPort-SupsToLegacyWarrants=11108
+XmltPort-LegacyToSupsCPC=11109
+XmltPort-SupsToLegacyCOEvents=11110
+XmltPort-SupsToLegacyWFTEmails=11111
+XmltPort-SupsCasemanRTL=11112
+
+#******* Scalability Change Circuit Ports *******
+XmltPort-LegacyToSupsCase1=11114
+XmltPort-LegacyToSupsCase2=11115
+XmltPort-LegacyToSupsCase3=11116
+XmltPort-LegacyToSupsCase4=11117
+
+#*********** Boot Circuit Ports **************
+XmltPort-BootLegacyToSupsCase=10101
+XmltPort-BootLegacyToSupsCOEvents=10102
+XmltPort-BootLegacyToSupsWarrants=10103
+XmltPort-BootLegacyToSupsAEEvents=10104
+XmltPort-BootSupsToLegacyWarrantReturns=10105
+XmltPort-BootSupsToLegacyCase=10106
+XmltPort-BootSupsToLegacyAEOrders=10107
+XmltPort-BootSupsToLegacyWarrants=10108
+XmltPort-BootLegacyToSupsCPC=10109
+XmltPort-BootSupsToLegacyCOEvents=10110
+XmltPort-BootSupsToLegacyWFTEmails=10111
+XmltPort-BootSupsCasemanRTL=10112
+
+#******* Scalability Change Circuit Boot Ports *******
+XmltPort-BootLegacyToSupsCase1=10114
+XmltPort-BootLegacyToSupsCase2=10115
+XmltPort-BootLegacyToSupsCase3=10116
+XmltPort-BootLegacyToSupsCase4=10117
+
+
+
+
+#*********** Mail Server Settings **************
+MailServer={pl$mail_server}
+SmtpPort=25
+ServerHeloName=TEST
+
+#*********** WP Output Flag **************
+WP_Output_Flag=Y
+
+#*********** Court Config ****************
+Court_Config={pl$app_court_config_filename}
+Court_Config1={pl$app_court_config_1_filename}
+Court_Config2={pl$app_court_config_2_filename}
+Court_Config3={pl$app_court_config_3_filename}
+Court_Config4={pl$app_court_config_4_filename}
+

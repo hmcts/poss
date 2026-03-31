@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: Printedoutput
+	Method:  getOutstandingOutputsByCase()
+	File:    query_def_get_outstanding_output_by_case.xml
+	Author:  Mark Groen
+	Created: 05  Aug 2009
+	Description:
+		Retrieves outstanding WP outputs for a specified case/user
+
+    Change History
+
+-->
+<QueryDef>
+<DBMapDef location="uk/gov/dca/caseman/printedoutput_service/map.xml"/>
+  <Query pivotNode="/Cases/Case" tables="CE WPO RQ">
+    <Join>
+		WPO.OUTPUT_ID =
+        (   SELECT /*+ PUSH_SUBQ */
+            MAX (WPO2.OUTPUT_ID)
+            FROM   WP_OUTPUT WPO2
+            WHERE  WPO2.EVENT_SEQ = WPO.EVENT_SEQ
+            AND    WPO2.PRINTED = 'N'
+            AND    WPO2.FINAL_IND = 'Y'
+            AND    WPO2.XMLSOURCE IS NOT NULL
+            AND    WPO2.USER_ID = WPO.USER_ID
+         )
+        AND CE.DELETED_FLAG = 'N'
+        AND WPO.EVENT_SEQ = CE.EVENT_SEQ
+        AND RQ.DOCUMENT_ID = WPO.XMLSOURCE
+    </Join>
+    <OrderBy>CE.EVENT_SEQ</OrderBy>
+	<Modify notModifiable="true"/>
+  </Query>
+</QueryDef>

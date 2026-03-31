@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<service-method>
+	<pipeline>
+		<SQLLite format-output="true"
+				 resultset-element="ReportQueueInfo"
+				 row-element="Report"
+				 field-name-as="element" >
+			<DataSource id="java:OracleDS"/>
+			<Param name="param.reportId" xpath="/params/param[@name='reportId']"/>
+			<SQL>
+				select 
+					to_number(r.ID) 		"REPORT_ID", 
+					r.document_id			"DOCUMENT_ID",
+					to_char(r.parameters) 	"PARAM_XML",
+					r.print_details 		"PRINT_XML",
+					r.status 				"STATUS",
+					r.error_message 		"ERROR_MESSAGE",
+					r.print_status  		"PRINT_STATUS",
+					r.reference    	 		"REFERENCE",
+					r.created_date  		"CREATE_DATE"
+				from 
+					report_queue 			r
+				where 
+					to_number(r.ID) =  ${param.reportId} and
+					r.document_id is not null
+				order by 
+					to_number(r.ID) DESC 
+			</SQL>
+		</SQLLite>
+	</pipeline>
+	<Transaction type="RequiresNew" />
+	<Security roles="viewOnly medium high wcSuper scSuper bmsSuper aeSuper dmSuper edsAdmin cpSuper"/>
+</service-method>

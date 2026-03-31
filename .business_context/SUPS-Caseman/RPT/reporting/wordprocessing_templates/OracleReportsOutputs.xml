@@ -1,0 +1,674 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- 
+	04/09/2006 - MGG - defect 4990 -  Update following the event descriptions
+	878, 879, 880, 881, 882, 886, 887, 888, 889, 898, 900 and 890
+	by removing the number from the text.  This is due to it being repeated on the screen.
+	E.g. - 879 Employer has responded - defendant employed - becomes - Employer has responded - defendant employed
+	05/01/2007 - CV, Changed the description of CM_CO_STD_DOC_859 as was too long (Temp_CaseMan defect 387)
+--> 
+<Outputs xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation=".\Outputs.xsd">
+
+	<!-- Statistics Menu Reports Start -->
+	<Output>
+		<Id>CM_MISC</Id>
+		<Description>Produce Miscellaneous 999 Event Report</Description>
+		<Menu>StatisticsMenu</Menu>
+	</Output>	
+	<Output>
+		<Id>CM_POSSN</Id>
+		<Description>Produce Possession Stats Report</Description>
+		<Menu>StatisticsMenu</Menu>
+	</Output>
+	<Output>
+		<Id>CM_STATS</Id>
+		<Description>Full Statistics Module Report</Description>
+		<Menu>StatisticsMenu</Menu>
+	</Output>
+	<Output>
+		<Id>CM_MED_STATS</Id>
+		<Description>Mediation Statistics Report</Description>
+		<Menu>StatisticsMenu</Menu>
+	</Output>
+	<!-- Statistics Menu Reports End -->
+
+	<!-- Management Menu Reports Start -->
+	<Output>
+		<Id>CM_ARB</Id>
+		<Description>Small Claims Statistics Report</Description>
+		<Menu>StatisticsMenu</Menu>
+	</Output>	
+	<Output>
+		<Id>CM_FMT</Id>
+		<Description>Fast and Multi Track Statistics Report</Description>
+		<Menu>StatisticsMenu</Menu>
+	</Output>
+	<!-- Management Menu Reports End -->
+	
+	<!-- Warrant Creation Reports Start -->
+	<Output>
+		<Id>CM_WFLIST</Id>
+		<Description>Daily Fee Sheet</Description>
+		<Menu>WarrantCreationReportsMenu</Menu>
+	</Output>	
+	<Output>
+		<Id>CM_WAREX</Id>
+		<Description>Print Warrants Of Control - N42</Description>
+		<Menu>WarrantCreationReportsMenu</Menu>
+	</Output>	
+	<Output>
+		<Id>CM_COP_N326</Id>
+		<Description>Notice Of Issue/Re-issue Of Warrants Of Control - N326</Description>
+		<Menu>WarrantCreationReportsMenu</Menu>		
+	</Output>	
+	<Output>
+		<Id>CM_ISSP</Id>
+		<Description>Notices Of Issue To Claimant</Description>
+		<Menu>WarrantCreationReportsMenu</Menu>
+	</Output>
+	<Output>
+		<Id>CM_NOTRI</Id>
+		<Description>Notices Of Re-issue To Claimant</Description>
+		<Menu>WarrantCreationReportsMenu</Menu>
+	</Output>		
+	<Output>
+		<Id>CM_AWF</Id>
+		<Description>Accumulative Warrant Fees</Description>
+		<Menu>WarrantCreationReportsMenu</Menu>
+	</Output>	
+	<Output>
+		<Id>CM_WAREX_REPRINT</Id>
+		<Description>Reprint Warrants Of Control - N42</Description>
+		<Menu>WarrantCreationReportsMenu</Menu>
+	</Output>	
+	<!-- Warrant Creation Reports End -->	
+	
+	<!-- Warrant Maintenance Reports Start -->	
+	<Output>
+		<Id>CM_WRREP</Id>
+		<Description>List Of Reprinted Warrants</Description>
+		<Menu>WarrantMaintenanceReportsMenu</Menu>
+	</Output>
+	<Output>
+		<Id>CM_AMISS</Id>
+		<Description>Amended Issue Date Report</Description>
+		<Menu>WarrantMaintenanceReportsMenu</Menu>
+	</Output>	
+	<!-- Warrant Maintenance Reports End -->	
+	
+	<!-- Warrant Returns Reports Start -->	
+	<Output>
+		<Id>CM_EX77</Id>
+		<Description>Interim Report On Warrant - EX77</Description>
+		<Menu>WarrantReturnsReportsMenu</Menu>
+	</Output>			
+	<Output>
+		<Id>CM_RCLIST</Id>
+		<Description>Warrant Return Code List</Description>
+		<Menu>WarrantReturnsReportsMenu</Menu>
+	</Output>	
+	<Output>
+		<Id>CM_RLIST</Id>
+		<Description>List Of Returns By Return Code</Description>
+		<Menu>WarrantReturnsReportsMenu</Menu>
+	</Output>	
+	<Output>
+		<Id>CM_VRLIST</Id>
+		<Description>Returns Verified By Bailiff Manager</Description>
+		<Menu>WarrantReturnsReportsMenu</Menu>
+	</Output>	
+	<Output>
+		<Id>CM_SHRF</Id>
+		<Description>Warrants Held by HCE Officers</Description>
+		<Menu>WarrantReturnsReportsMenu</Menu>
+	</Output>	
+	<!-- Warrant Returns Reports End -->
+	
+	<!-- Warrant Management Reports Start -->					
+	<Output>
+		<Id>CM_BEFF</Id>
+		<Description>Bailiff Effectiveness Report</Description>
+		<Menu>WarrantManagementReportsMenu</Menu>
+	</Output>
+	<Output>
+		<Id>CM_BEFF_SUM</Id>
+		<Description>Summary Of Bailiff Effectiveness(Stats 33)</Description>
+		<Menu>WarrantManagementReportsMenu</Menu>
+	</Output>	
+	<Output>
+		<Id>CM_MBR</Id>
+		<Description>Statistics Module Report</Description>
+		<Menu>WarrantManagementReportsMenu</Menu>
+	</Output>			
+	<Output>
+		<Id>CM_EXE_WTS</Id>
+		<Description>Executed Warrants Report</Description>
+		<Menu>WarrantManagementReportsMenu</Menu>
+	</Output>
+	<!-- Warrant Management Reports End -->		
+	
+	<!-- Data Protection Menu Reports Start -->		
+	<Output>
+		<Id>CM_DPA_INIT</Id>
+		<Description>Initial Enquiry</Description>
+		<Menu>DPAMenu</Menu>
+	</Output>
+	<Output>
+		<Id>CM_DPA</Id>
+		<Description>Full Enquiry on Home Case</Description>
+		<Menu>DPAMenu</Menu>
+	</Output>	
+	<Output>
+		<Id>CM_DPA_FW</Id>
+		<Description>Perform DPA Full Enquiry on Foreign Warrant</Description>
+		<Menu>DPAMenu</Menu>
+	</Output>	
+	<Output>
+		<Id>CM_DPA_CO</Id>
+		<Description>Full Enquiry on CO</Description>
+		<Menu>DPAMenu</Menu>
+	</Output>	
+	<!-- Data Protection Menu Reports End -->			
+	<!-- CCBC Menu Reports Start -->
+	<Output>
+		<Id>BC_REP_F1</Id>
+		<Description>Print Reports</Description>
+		<Menu>CCBCReportsMenu</Menu>
+	</Output>			
+	<!-- CCBC Menu Reports End -->		
+	<!-- CJR Outputs Start -->
+	<Output>
+		<Id>CM_STD_DOC_CJR_JREF2</Id>
+		<Description>On Coming The End Of Stay For Mediation</Description>
+	</Output>	
+	<Output>
+		<Id>CM_STD_DOC_CJR_JREF4</Id>
+		<Description>Failure To Submit Order</Description>
+	</Output>		
+	<Output>
+		<Id>CM_STD_DOC_CJR_JREF8</Id>
+		<Description>For Review</Description>
+	</Output>
+	<Output>
+		<Id>CM_STD_DOC_CJR_JREF9</Id>
+		<Description>Agreed Directions</Description>
+	</Output>	
+	<Output>
+		<Id>CM_STD_DOC_CJR_JREF10</Id>
+		<Description>Small Claim Disposal Without Hearing</Description>
+	</Output>	
+	<Output>
+		<Id>CM_STD_DOC_CJR_JREF11</Id>
+		<Description>Special Directions</Description>
+	</Output>	
+	<Output>
+		<Id>CM_STD_DOC_CJR_JREF13</Id>
+		<Description>Case Transferred In</Description>
+	</Output>	
+	
+	<Output>
+		<Id>CM_STD_DOC_CJR_JREF14</Id>
+		<Description>Application To Substitute Party Whose Interest Has Passed</Description>
+	</Output>	
+		
+	<Output>
+		<Id>CM_STD_DOC_CJR_JREF15A</Id>
+		<Description>App To Issue New Proc After Discontinuance - No Represent</Description>
+	</Output>
+	<Output>
+		<Id>CM_STD_DOC_CJR_JREF15B</Id>
+		<Description>App To Issue New Proc After Discontinuance - Representati</Description>
+	</Output>
+	<Output>
+		<Id>CM_STD_DOC_CJR_JREF16</Id>
+		<Description>Application To Extend Life Of Claim Form</Description>
+	</Output>
+	<Output>
+		<Id>CM_STD_DOC_CJR_JREF16_11</Id>
+		<Description>Application To Extend Life Of Claim Form</Description>
+	</Output>
+	<Output>
+		<Id>CM_STD_DOC_CJR_JREF18</Id>
+		<Description>Admission On Claim For Unspecified Sum Over 50,000 Pounds</Description>
+	</Output>
+	<Output>
+		<Id>CM_STD_DOC_CJR_JREF19</Id>
+		<Description>Public Interest Immunity Application</Description>
+	</Output>
+	<Output>
+		<Id>CM_STD_DOC_CJR_JREF20</Id>
+		<Description>Application For Permission To Serve A Witness Summary</Description>
+	</Output>
+	<Output>
+		<Id>CM_STD_DOC_CJR_JREF21</Id>
+		<Description>Application For Late Witness Summons</Description>
+	</Output>
+	<Output>
+		<Id>CM_STD_DOC_CJR_JREF22</Id>
+		<Description>For Management Directions - Jdgmt Entered - Offer In Sat</Description>
+	</Output>
+	<Output>
+		<Id>CM_STD_DOC_CJR_JREF25</Id>
+		<Description>Application For Default Judgment Against A State</Description>
+	</Output>
+	<Output>
+		<Id>CM_STD_DOC_CJR_JREF27</Id>
+		<Description>App By Child To Conduct Litigation Without A Litigation F</Description>
+	</Output>
+	<Output>
+		<Id>CM_STD_DOC_CJR_JREF28</Id>
+		<Description>For Judge To Give Investment Directions On Monies Paid In</Description>
+	</Output>
+	<Output>
+		<Id>CM_STD_DOC_CJR_JREF30</Id>
+		<Description>Application For Permission To Make Part 20 Claim</Description>
+	</Output>
+	<Output>
+		<Id>CM_STD_DOC_CJR_JREF33</Id>
+		<Description>App Serve Document Where Defendant Out Of Jur</Description>
+	</Output>
+	<Output>
+		<Id>CM_STD_DOC_CJR_JREF36</Id>
+		<Description>Application Serve On Child Or Patient Or Other Than R6</Description>
+	</Output>
+	<Output>
+		<Id>CM_STD_DOC_CJR_JREF3</Id>
+		<Description>Appeals Reference To District Judge</Description>
+	</Output>
+	<Output>
+		<Id>CM_STD_DOC_CJR_JREF6</Id>
+		<Description>Case Management Reference To District Judge</Description>
+	</Output>
+	<Output>
+		<Id>CM_STD_DOC_CJR_JREF24</Id>
+		<Description>Judgment Reference To District Judge</Description>
+	</Output>
+	<Output>
+		<Id>CM_STD_DOC_CJR_JREF29</Id>
+		<Description>Part 20 Proceedings Reference To District Judge</Description>
+	</Output>
+	<Output>
+		<Id>CM_STD_DOC_CJR_JREF31</Id>
+		<Description>Part 20 Proceedings Reference To District Judge</Description>
+	</Output>
+	<Output>
+		<Id>CM_STD_DOC_CJR_JREF32</Id>
+		<Description>Service Reference To District Judge</Description>
+	</Output>
+	<Output>
+		<Id>CM_STD_DOC_CJR_JREF34</Id>
+		<Description>Service Reference To District Judge</Description>
+	</Output>
+	<Output>
+		<Id>CM_STD_DOC_CJR_JREF35</Id>
+		<Description>Service Reference To District Judge</Description>
+	</Output>
+	<Output>
+		<Id>CM_STD_DOC_CJR_JREF12</Id>
+		<Description>N* Allocation Referral</Description>
+	</Output>
+	<Output>
+		<Id>CM_STD_DOC_CJR_JREF37</Id>
+		<Description>To Set Aside Judgment On Failure Of Postal Service By The</Description>
+	</Output>		
+	<!-- CJR Outputs End -->	
+	<!-- AE Outputs Start -->	
+	<Output>
+		<Id>CM_STD_DOC_TBF01A</Id>
+		<Description>Attachment of Earnings Reference to District Judge</Description>
+	</Output>
+	<Output>
+		<Id>CM_ORD_1_N55</Id>
+		<Description>Notice of Application for Attachment of Earnings Order</Description>
+	</Output>
+	<Output>
+		<Id>CM_ORD_1_N61</Id>
+		<Description>Order for Production of Statement of Means</Description>
+	</Output>
+	<Output>
+		<Id>CM_ORD_1_N63</Id>
+		<Description>Notice To Show Cause</Description>
+	</Output>	
+	<Output>
+		<Id>CM_ORD_1_N112A</Id>
+		<Description>N112A Issued For Non-Attendance</Description>
+	</Output>
+	<Output>
+		<Id>CM_ORD_1_N118</Id>
+		<Description>N118 Issued For Non-Attendance</Description>
+	</Output>
+	<Output>
+		<Id>CM_ORD_1_N55A</Id>
+		<Description>N55A Notice Of Application (Maintenance)</Description>
+	</Output>	
+	<Output>
+		<Id>CM_ORD_1_N58</Id>
+		<Description>N58 Issued For Non-Attendance</Description>
+	</Output>	
+	<Output>
+		<Id>CM_ORD_1_N112</Id>
+		<Description>N112 Issued For Non-Attendance</Description>
+	</Output>
+	<Output>
+		<Id>CM_ORD_1_N62D</Id>
+		<Description>N62 Summons For Offence (Debtor)</Description>
+	</Output>
+	<Output>
+		<Id>CM_ORD_1_N91D</Id>
+		<Description>Order of Commitment and/or Imposing a Fine</Description>
+	</Output>
+	<Output>
+		<Id>CM_ORD_1_N338</Id>
+		<Description>Request for Attachment of Earnings</Description>
+	</Output>
+	<Output>
+		<Id>CM_ORD_1_N61A</Id>
+		<Description>Order to Produce a Statement of Earnings</Description>
+	</Output>
+	<Output>
+		<Id>CM_ORD_1_N62E</Id>
+		<Description>Summons for Offence Under Attachment of Earnings Act 1971</Description>
+	</Output>
+	<Output>
+		<Id>CM_ORD_1_N91E</Id>
+		<Description>Order of Commitment and/or Imposing a Fine</Description>
+	</Output>
+	<Output>
+		<Id>CM_ORD_3_N64</Id>
+		<Description>Suspended Attachment of Earnings Order</Description>
+	</Output>
+	<Output>
+		<Id>CM_ORD_1_N64A</Id>
+		<Description>Suspended Attachment of Earnings Order Maintenance</Description>
+	</Output>
+	<Output>
+		<Id>CM_ORD_1_N217</Id>
+		<Description>Order for Substituted Service</Description>
+	</Output>
+	<Output>
+		<Id>CM_ORD_1_N24-1</Id>
+		<Description>General Form of Judgment or Order</Description>
+	</Output>
+	<Output>
+		<Id>CM_ORD_1_N24-2</Id>
+		<Description>General Form of Judgment or Order</Description>
+	</Output>
+	<Output>
+		<Id>CM_ORD_1_N370</Id>
+		<Description>Order of Commitment or Imposing a Fine for Insult or Misbehaviour</Description>
+	</Output>
+
+	<Output>
+		<Id>CM_ORD_2_N448</Id>
+		<Description>Request For Emp Details</Description>
+	</Output>		
+	<Output>
+		<Id>CM_ORD_2_N59</Id>
+		<Description>N59 Issued Against Defendant</Description>
+	</Output>	
+
+	<Output>
+		<Id>CM_STD_DOC_P890</Id>
+		<Description>Application withdrawn - fee refunded</Description>
+	</Output>
+
+	<Output>
+		<Id>CM_STD_DOC_P878</Id>
+		<Description>Employer has responded - defendant employed</Description>
+	</Output>
+	
+	<Output>
+		<Id>CM_STD_DOC_P879</Id>
+		<Description>Employer has responded - defendant unemployed</Description>
+	</Output>
+	
+	<Output>
+		<Id>CM_STD_DOC_P880</Id>
+		<Description>Court has made full attachment of earnings order</Description>
+	</Output>
+	
+	<Output>
+		<Id>CM_STD_DOC_P881</Id>
+		<Description>Court has made full attachment of earnings order</Description>
+	</Output>
+	
+	<Output>
+		<Id>CM_STD_DOC_P882</Id>
+		<Description>Court has made a priority maintenance order</Description>
+	</Output>				
+
+	<Output>
+		<Id>CM_STD_DOC_P886</Id>
+		<Description>Court has made a consolidated attachment of earnings order</Description>
+	</Output>
+	
+	<Output>
+		<Id>CM_STD_DOC_P887</Id>
+		<Description>Court has adjourned the application</Description>
+	</Output>
+	
+	<Output>
+		<Id>CM_STD_DOC_P883</Id>
+		<Description>P883 Court has made a suspended attachment of earnings order</Description>
+	</Output>	
+
+	<Output>
+		<Id>CM_STD_DOC_P884</Id>
+		<Description>P884 Court has made a suspended attachment of earnings order (Maintenance Arrears).</Description>
+	</Output>
+
+	<Output>
+		<Id>CM_STD_DOC_P874</Id>
+		<Description>P874 Summons withdrawn</Description>
+	</Output>
+	
+	<Output>
+		<Id>NODOCS_876</Id>
+		<Description>NODOCS</Description>
+	</Output>	
+	
+	<Output>
+		<Id>CM_STD_DOC_P888</Id>
+		<Description>Application Dismissed</Description>
+	</Output>
+	<Output>
+		<Id>CM_STD_DOC_P889</Id>
+		<Description>Application Withdrawn</Description>
+	</Output>
+	<Output>
+		<Id>CM_STD_DOC_P892</Id>
+		<Description>P892 Application For Substituted Service</Description>
+	</Output>
+	<Output>
+		<Id>CM_STD_DOC_P897</Id>
+		<Description>P897 Varied Order (Judgment Debt)</Description>
+	</Output>
+	<Output>
+		<Id>CM_STD_DOC_P898</Id>
+		<Description>Varied Order (Maintenance)</Description>
+	</Output>
+	<Output>
+		<Id>CM_STD_DOC_P899</Id>
+		<Description>P899 Varied Order (Priority Maintenance)</Description>
+	</Output>
+	<Output>
+		<Id>CM_STD_DOC_P900</Id>
+		<Description>Application Restored</Description>
+	</Output>
+	
+	<Output>
+		<Id>CM_STD_DOC_P858</Id>
+		<Description>N56 Filed - Defendant Employed</Description>
+	</Output>	
+	<Output>
+		<Id>CM_STD_DOC_P859</Id>
+		<Description>N56 Filed - Defendant Not Employed</Description>
+	</Output>	
+	<Output>
+		<Id>CM_STD_DOC_P_NS</Id>
+		<Description>Notification of Non-Service</Description>
+	</Output>											
+
+	<Output>
+		<Id>CM_CO_ORD_8_CO01</Id>
+		<Description>Ex223 Issued - CO001</Description>
+	</Output>
+	<Output>
+		<Id>CM_CO_ORD_8_CO40</Id>
+		<Description>N339 Issued - CO040</Description>
+	</Output>
+	<Output>
+		<Id>CM_CO_ORD_8_CO45</Id>
+		<Description>N375 Ntc Of Further Cred Claim - CO045</Description>
+	</Output>
+	<Output>
+		<Id>CM_CO_ORD_8_CO47</Id>
+		<Description>N376 (Notice Of Hearing - AO) - CO047</Description>
+	</Output>			
+	<Output>
+		<Id>CM_CO_ORD_9_CO42</Id>
+		<Description>373 Notice Of App For AO - Output CO42</Description>
+	</Output>
+	<Output>
+		<Id>CM_CO_ORD_10_CO46</Id>
+		<Description>N375A Hrg Add Debt To AO - Output CO46</Description>
+	</Output>
+	<Output>
+		<Id>CM_CO_ORD_11_CO51</Id>
+		<Description>N449 Issued To Employer - Output CO51</Description>
+	</Output>
+	<Output>
+		<Id>CM_CO_ORD_12_CO50</Id>
+		<Description>N448 Request For Emp Details - Output CO50</Description>
+	</Output>
+	<Output>
+		<Id>CM_CO_ORD_13_CO00</Id>
+		<Description>CO00 Administration Order Paid Notice</Description>
+	</Output>	
+	<Output>
+		<Id>CM_CO_ORD_14_CO38</Id>
+		<Description>CO38 Notice Of Hearing Of Application</Description>
+	</Output>	
+	
+	<Output>
+		<Id>CM_AFLIST</Id>
+		<Description>Daily Fee Sheet</Description>
+		<Menu>AEFeeMaintenanceMenu</Menu>
+	</Output>
+	
+	<Output>
+		<Id>CM_AAEF</Id>
+		<Description>Accumulative AE Fees</Description>
+		<Menu>AEFeeMaintenanceMenu</Menu>
+	</Output>
+	
+	<Output>
+		<Id>CM_BPROCESS</Id>
+		<Description>Print Outstanding Bailiff Process Report</Description>
+		<Menu>AEMenu</Menu>
+	</Output>
+	
+	<!-- AE Outputs End -->			
+	
+	<!-- Consolidated Orders Outputs Start -->	
+	
+	<Output>
+		<Id>CM_CO_ORD_1_N338</Id>
+		<Description>N338 Req Statement Of Earnings</Description>
+	</Output>
+	
+	<Output>
+		<Id>CM_CO_ORD_1_N61A</Id>
+		<Description>N61A Ord Statement Of Earnings</Description>
+	</Output>
+
+	<Output>
+		<Id>CM_CO_STD_DOC_873</Id>
+		<Description>Consolidated Order Reference to District Judge</Description>
+	</Output>
+	
+	<Output>
+		<Id>CM_CO_ORD_2_852</Id>
+		<Description>CO04 Form for Replying to an Attachment of Earnings Application</Description>
+	</Output>
+	
+	<Output>
+		<Id>CM_CO_ORD_2_853</Id>
+		<Description>CO04 Form for Replying to an Attachment of Earnings Application</Description>
+	</Output>
+	
+	<Output>
+		<Id>CM_CO_ORD_2_854</Id>
+		<Description>CO04 Form for Replying to an Attachment of Earnings Application</Description>
+	</Output>
+	
+	<Output>
+		<Id>CM_CO_ORD_2_855</Id>
+		<Description>CO04 Form for Replying to an Attachment of Earnings Application</Description>
+	</Output>
+	
+	<Output>
+		<Id>CM_CO_STD_DOC_859</Id>
+		<Description>PCO859 Debtor Has Responded - Unemployed/Self Employed</Description>
+	</Output>	
+	
+	<Output>
+		<Id>CM_CO_ORD_2_860</Id>
+		<Description>CO04 Form for Replying to an Attachment of Earnings Application</Description>
+	</Output>
+	
+	<Output>
+		<Id>CM_CO_STD_DOC_864</Id>
+		<Description>Consolidated Order Reference to District Judge</Description>
+	</Output>
+		
+	<Output>
+		<Id>CM_CO_ORD_2_CO49</Id>
+		<Description>Certificate Of Satisfaction Or Cancellation Of Judgment Debt</Description>
+	</Output>
+
+	<Output>
+		<Id>CM_CO_ORD_3_901</Id>
+		<Description>N60 (AE Order On AO)</Description>
+	</Output>
+	
+	<Output>
+		<Id>CM_CO_ORD_3_902</Id>
+		<Description>N60 (AE On AO Varied)</Description>
+	</Output>	
+	
+	<Output>
+		<Id>CM_CO_ORD_4_903</Id>
+		<Description>N64 Suspended Order (On AO)</Description>
+	</Output>	
+	
+	<Output>
+		<Id>CM_CO_ORD_2_CO48</Id>
+		<Description>Return of judgment for registration, cancellation or satisfaction</Description>
+	</Output>
+	
+	<Output>
+		<Id>CM_CO_STD_DOC_174</Id>
+		<Description>Refer To District Judge</Description>
+	</Output>			
+
+	<Output>
+		<Id>NODOCS2_876</Id>
+		<Description>NODOCS2</Description>
+	</Output>		
+	
+	<!-- Consolidated Orders Outputs End -->			
+	
+	<!-- Case Management Outputs Start -->	
+
+	<!-- Case Management  Outputs End -->
+
+	<!-- Suitors' Cash Management Start -->
+	<!-- Suitors' Cash Management End -->
+	
+	<!-- Suitors' Cash Payout Start -->
+	<!-- Suitors' Cash Payout End -->
+
+	<!-- Suitors' Print and Reprint Cash Reports Start -->
+	<!-- Suitors' Print and Reprint Cash Reports  End -->
+
+</Outputs>

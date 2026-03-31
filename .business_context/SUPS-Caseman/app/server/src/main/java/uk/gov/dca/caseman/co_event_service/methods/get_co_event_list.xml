@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: AeEvent
+	Method:  getCoEventList
+	Author:  Chris Hutt (EDS) 
+	Created: 11 July 2005
+	Description: 
+		Use SQLLite to retrieve lov list associated with a specified event 
+		
+	Change History:
+	v1.1	Chris Hutt	3/8/2005
+			List returned includes CO type (as determined by lookup on CO_EVENT_VALIDATIONS)
+     v1.2	Chris Hutt  6/10/2005  CO_EVENT_SUB_TYPE translated as necessary via a CASE           
+-->
+<!-- service-method visibility="local" -->
+<service-method>
+	<pipeline>
+		<SQLLite format-output="true"
+				 resultset-element="StandardEvents"
+				 row-element="StandardEvent"
+				 field-name-as="element" >
+			<DataSource id="java:OracleDS"/>
+			<SQL>
+				SELECT 	SE.EVENT_ID 									As "StandardEventId"
+				,      	SE.DESCRIPTION   								As "StandardEventDescription"
+                ,      	SE.CATEGORY      								As "StandardEventCategory"
+                ,		CASE
+							WHEN CEV.CO_EVENT_SUB_TYPE IN ('AEALL','AEAO') 
+								THEN 'CAEO'
+							ELSE 
+								CEV.CO_EVENT_SUB_TYPE 
+							END 										As "COType"
+				FROM  	STANDARD_EVENTS SE, CO_EVENT_VALIDATIONS CEV
+				WHERE (	SE.CATEGORY IN ('I','E','K','N') 
+						OR  SE.EVENT_ID = '999'	)
+				AND    	SE.EVENT_ID = CEV.STD_EVENT_ID
+			</SQL>
+		</SQLLite>
+<!--
+		<Transform>
+			<Template location="uk/gov/dca/caseman/co_event_service/transforms/get_co_event_list.xsl"/>
+		</Transform>
+-->
+  	</pipeline>
+	<Security roles="viewOnly medium high wcSuper scSuper bmsSuper aeSuper dmSuper cpSuper"/>		
+</service-method>

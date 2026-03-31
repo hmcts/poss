@@ -1,0 +1,58 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3c.org/TR/html4/strict.dtd">
+<html>
+
+	<head>
+		<title>ChangeCourtName_SubForm</title>
+		<link href="ChangeCourtName_SubForm.css" type="text/css" rel="stylesheet">
+		<script type="text/javascript" src="../../../Framework.js"></script>
+    	<script type="text/javascript" src="../../../CaseManSubFormIncludeFiles.js"></script>
+		<script type="text/javascript" src="ChangeCourtName_SubForm.js"></script>
+  	</head>
+
+	<body>
+	
+    	<form id="changeCourtNameSubform" class="subform">
+
+			<div class="panel">
+				<table class="content" style="height:200px;">
+					<tr>
+						<td align="center">
+						
+							<table>
+								<tr>
+									<td style="width:125px;" align="left"><label for='ChangeCourtName_CurrentName'>Current Name</label></td>
+									<td align="left">
+										<input id="ChangeCourtName_CurrentName" type="text" size=35>
+									</td>
+								</tr>
+
+								<tr>
+									<td style="width:125px;" align="left"><label for='ChangeCourtName_NewName'>New Name</label></td>
+									<td align="left">
+										<input id="ChangeCourtName_NewName" type="text" size=35>
+									</td>
+								</tr>
+								
+							</table>
+
+						</td>
+					</tr>
+				</table>
+			</div>
+			
+			<!-- Subform action bar -->
+			<script type="text/javascript">
+				ActionBarRenderer.createInline(
+					"changeCourtName_statusbar",
+					[
+						{id: "ChangeCourtName_OkButton", label: "Ok"},	
+						{id: "ChangeCourtName_CancelButton", label: "Cancel"}
+					]
+				);
+			</script>
+
+		</form>
+    
+    </body>
+    
+</html>

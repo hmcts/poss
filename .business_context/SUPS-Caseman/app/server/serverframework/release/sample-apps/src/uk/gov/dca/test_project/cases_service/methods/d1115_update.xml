@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<service-method>
+	<pipeline>
+		<Update>
+			<QueryDef location="uk/gov/dca/test_project/cases_service/d1115_query_def.xml"/>
+			<DataSource xpath="/params/param[@name='updates']"/>
+		</Update>
+	</pipeline>
+	<Security roles="user"/>
+</service-method>

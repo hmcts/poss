@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- ====================================================================== -->
+<!--  -->
+<!-- FILENAME: $Source: C:/CVSRepository/serveroas/src/uk/gov/dca/caseman/wordprocessing_templates/Notice/O_3_1_2_5_1/O_3_1_2_5_1-FO.xml,v $ -->
+<!--  -->
+<!-- AUTHOR: $Author: conganer $-->
+<!--  -->
+<!-- DATE: $Date: 2006/03/23 13:35:10 $ -->
+<!--  -->
+<!-- Version: $Revision: 1.4 $ -->
+<!--  -->
+<!-- DESCRIPTION: This stylesheet is used to create an XSL:FO document that -->
+<!-- can be processed into a PDF version.  Business logic -->
+<!-- is embedded to generate the correct document text for the order -->
+<!-- required. -->
+<!--  -->
+<!-- INPUTS: XML document containing: the answers to questions asked of the -->
+<!-- user; case data retrieved from the database; HTML representing the  -->
+<!-- body of the document content (already edited by the user). -->
+<!--  -->
+<!-- OUTPUTS: XML document with FO tags containing instructions for the -->
+<!-- creation of a PDF document. -->
+<!--  -->
+<!-- ====================================================================== -->
+<root xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:fo="http://www.w3.org/1999/XSL/Format" xmlns="http://eds.com/supsfo">
+	<variables>@word.processing.url.xsl@supsfo.xsl</variables>
+	<addressee>
+		<blank/>
+		<claimants/>
+		<defendants/>
+	</addressee>
+	<header>
+		<fo:block font-size="16pt" font-weight="bold">General form of judgment or order</fo:block>
+	</header>
+	<courtcase>
+		<court>
+			<xsl:copy-of select="$vdCourtHeaderBlock"/>
+		</court>
+		<caseparameters>
+			<parameter>
+				<name>
+					<fo:block font-weight="bold">Case Number</fo:block>
+				</name>
+				<value>
+					<fo:block>
+						<xsl:value-of select="$vdClaimNumber"/>
+					</fo:block>
+				</value>
+			</parameter>
+			<parameter>
+				<name>
+					<fo:block font-weight="bold">Claimant</fo:block>
+					<fo:block font-size="9pt">(including ref.)</fo:block>
+				</name>
+				<value>
+					<fo:block hyphenate="true">
+						<xsl:value-of select="$vdClaimantName"/>
+					</fo:block>
+					<fo:block font-size="9pt" hyphenate="true">
+						<xsl:value-of select="$vdClaimantReference"/>
+					</fo:block>
+				</value>
+			</parameter>
+			<parameter>
+				<name>
+					<fo:block font-weight="bold">Defendant</fo:block>
+					<fo:block font-size="9pt">(including ref.)</fo:block>
+				</name>
+				<value>
+					<fo:block hyphenate="true">
+						<xsl:value-of select="$vdDefendantName"/>
+					</fo:block>
+					<fo:block font-size="9pt" hyphenate="true">
+						<xsl:value-of select="$vdDefendantReference"/>
+					</fo:block>
+				</value>
+			</parameter>
+		</caseparameters>
+	</courtcase>
+	
+	<body>
+		<editable useid="N100A9">
+		<fo:block space-after="2.0cm"/>
+		<xsl:choose>
+			<xsl:when test="$vdReasonSetAside = 'J'">
+				<fo:block space-after="0.8cm">
+					Before <xsl:value-of select="$vdJudge"/> sitting at <xsl:value-of select="$vdHearingCourtNameDescription"/>, <xsl:value-of select="$vdHearingCourtAddress"/>
+				</fo:block>
+				<xsl:if test="string-length($vdHearingAttendees) > 0">
+					<fo:block space-after="0.8cm"><xsl:copy-of select="$vdHearingAttendees"/></fo:block>
+				</xsl:if>
+				<fo:block space-after="0.8cm" font-weight="bold">
+					IT IS ORDERED THAT
+				</fo:block>
+				<fo:block space-after="0.8cm">
+					the judgment against <xsl:value-of select="$vdJudgmentAgainstName"/> dated <xsl:value-of select="$vdJudgmentOrderDate"/> be and is hereby set aside.
+				</fo:block>
+				<xsl:if test="string-length($vdAnythingFurther) > 0">
+					<fo:block space-after="0.8cm">
+						<xsl:copy-of select="$vdAnythingFurther"/>
+					</fo:block>
+				</xsl:if>
+				<fo:block space-after="1.2cm"/>
+			</xsl:when>
+			<xsl:when test="$vdReasonSetAside = 'D'">
+				<fo:block space-after="0.4cm" font-weight="bold">
+					BY THE COURT OF ITS OWN MOTION
+				</fo:block>
+				<fo:block space-after="0.8cm">
+					<fo:inline font-weight="bold">UPON </fo:inline>the Defendant filing his defence on the <xsl:value-of select="$vdDateDefenceFiled"/>
+				</fo:block>
+				<fo:block space-after="0.8cm" font-weight="bold">
+					IT IS ORDERED THAT
+				</fo:block>
+				<fo:block space-after="2cm">
+					the judgment dated <xsl:value-of select="$vdJudgmentOrderDate"/> be and is hereby set aside.
+				</fo:block>
+			</xsl:when>
+			<xsl:when test="$vdReasonSetAside = 'N'">
+				<fo:block space-after="0.8cm" font-weight="bold">
+					BY THE COURT OF ITS OWN MOTION
+				</fo:block>
+				<fo:block space-after="0.8cm">
+					<fo:inline font-weight="bold">UPON </fo:inline>the non-service of the claim
+				</fo:block>
+				<fo:block space-after="0.8cm" font-weight="bold">
+					IT IS ORDERED THAT
+				</fo:block>
+				<fo:block space-after="2cm">
+					the judgment dated <xsl:value-of select="$vdJudgmentOrderDate"/> be and is hereby set aside.
+				</fo:block>
+			</xsl:when>
+			<xsl:when test="$vdReasonSetAside = 'P'">
+				<fo:block space-after="0.8cm" font-weight="bold">
+					BY THE COURT OF ITS OWN MOTION
+				</fo:block>
+				<fo:block space-after="0.8cm" font-weight="bold">
+					IT IS ORDERED THAT
+				</fo:block>
+				<fo:block space-after="2cm">
+					the judgment dated <xsl:value-of select="$vdJudgmentOrderDate"/> be and is hereby set aside.
+				</fo:block>
+			</xsl:when>
+		</xsl:choose>
+		<fo:block space-after="0.4cm" text-align="right">
+			<fo:inline font-weight="bold">Date Order Made: </fo:inline><xsl:value-of select="$vdOrderDate"/>
+		</fo:block>
+		</editable>
+	</body>
+	<defaultFooter id="O_3_1_2_5_1"/>
+</root>

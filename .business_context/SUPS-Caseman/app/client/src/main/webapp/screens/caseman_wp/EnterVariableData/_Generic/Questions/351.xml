@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>351</Id>
+	<Label>Amount of Arrears</Label>
+	<ObjectName>ArrearsAmnt</ObjectName>
+	<Html>
+		<input type="text" id="DefaultCurrency351" size="1"></input>
+		<input type="text" maxlength="11" size="11" id="ArrearsAmnt"></input>
+	</Html>			
+	<Javascript>
+		<XPath>/ds/EnterVariableData/PossessionOrder/arrearsAmnt</XPath>
+		<componentName>##label##</componentName>
+		<isMandatory>return true;</isMandatory>
+		<HintText>Enter amount ordered to be paid such as rent arrears</HintText>
+		<maxLength>11</maxLength>		
+		<validateOn>ArrearsAmnt.dataBinding</validateOn>
+		<validate>
+		    var value = Services.getValue(ArrearsAmnt.dataBinding);		    		    				    
+		    var max = "99999999.99";
+			var err = validateCurrencyValue( value, max)
+			if( null ==  err )
+			{	Services.setValue(ArrearsAmnt.dataBinding, WPU.formatToTwoDP(value));
+			}
+			return err;
+		</validate>
+		<miscCode>
+			function DefaultCurrency351() {}
+			DefaultCurrency351.dataBinding = "/ds/EnterVariableData/curr1";
+			DefaultCurrency351.tabIndex = -1;
+			DefaultCurrency351.maxLength = 1;
+			DefaultCurrency351.isReadOnly = function(){return true;}
+			DefaultCurrency351.isTemporary = function(){return true;}
+			DefaultCurrency351.transformToDisplay = function(value){
+				return WPS.__CaseManUtils().transformCurrencySymbolToDisplay(value,null,null); }
+			DefaultCurrency351.transformToModel = function(value){
+				return WPS.__CaseManUtils().transformCurrencySymbolToModel(value,null,null); }
+        </miscCode>
+	</Javascript>
+</Question>

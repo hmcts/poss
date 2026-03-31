@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--Question xmlns="http://eds.com/questionxhtml" xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd"-->
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>Q_AppropriateEmploymentDetails</Id>
+	<Label>Select appropriate employment details</Label>
+	<ObjectName>AppropriateEmploymentDetails</ObjectName>
+	<Html>
+		<select id="AppropriateEmploymentDetails">
+			<option value=""></option>
+			<!-- defect 3409 - - added FF and FM -->
+			<option value="FF">FULL EMPLOYMENT DETAILS PROVIDED - FEMALE</option>
+			<option value="FM">FULL EMPLOYMENT DETAILS PROVIDED - MALE</option>
+			<option value="SF">SELF EMPLOYED FEMALE</option>
+			<option value="SM">SELF EMPLOYED MALE</option>
+			<option value="UF">UNEMPLOYED FEMALE</option>
+			<option value="UM">UNEMPLOYED MALE</option>
+		</select>
+	</Html>
+	<Javascript>
+		<XPath>/ds/var/page/OracleReportForm/AppropriateEmploymentDetails</XPath>
+		<ReportVariableName>REPORT_VALUE_1</ReportVariableName>
+		<ReportVariableValue>Services.getValue(AppropriateEmploymentDetails.dataBinding)</ReportVariableValue>
+		<ReportVariableCode>9070</ReportVariableCode>
+		<HintText></HintText>
+		<isMandatory>return true;</isMandatory>
+		<initialise></initialise>
+		<setDefault>
+		</setDefault>		
+		<validateOn>
+		</validateOn>
+	</Javascript>
+</Question>

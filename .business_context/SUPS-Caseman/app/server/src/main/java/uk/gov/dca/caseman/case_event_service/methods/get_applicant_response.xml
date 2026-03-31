@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<service-method>
+	<pipeline>
+		<Query>
+			<QueryDef location="uk/gov/dca/caseman/case_event_service/query_def_get_applicant_response.xml"/>
+			<QueryExtension pivotNode="/Variation">
+				<Param name="param.varySeq" xpath="/params/param[@name = 'varySeq']"/>
+				<Constraint>V.VARY_SEQ = ${param.varySeq}</Constraint>
+			</QueryExtension>
+		</Query>
+	</pipeline>
+	<Security roles="user"/>
+</service-method>

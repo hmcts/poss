@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: Payout
+	Method:  setDCSFinal()
+	File:    set_dcs_final.xml
+	Author:  Phil Haferer (EDS)
+	Created: 13-Jan-2006
+	Description: 
+		Method to implement SUPS implementation of the Legacy stored procedure "p_payout_update()".
+-->
+<service-method>
+	<pipeline>
+		<SQLLite output="input">
+			<DataSource id="java:OracleDS"/>
+			<Param name="param.adminCourtCode" xpath="/params/param[@name='adminCourtCode']"/>
+			<Param name="param.reportId"       xpath="/params/param[@name='reportId']"/>
+			<SQL type="update" tables="D">
+				UPDATE DCS D
+				SET    D.FINAL = 'Y'
+				WHERE  D.ADMIN_COURT_CODE = ${param.adminCourtCode}				
+				AND    D.REPORT_ID = ${param.reportId}
+				AND    D.ITEM_DATE = TRUNC(SYSDATE)
+			</SQL>
+		</SQLLite>
+	</pipeline>
+	<Security roles="viewOnly medium high wcSuper scSuper bmsSuper aeSuper dmSuper edsAdmin"/>		
+</service-method>

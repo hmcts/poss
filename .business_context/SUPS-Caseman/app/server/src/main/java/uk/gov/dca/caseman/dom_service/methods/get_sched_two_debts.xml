@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Author:  Mark Groen (EDS)
+	Created: 25 Apr 2007
+	Description: 
+		Returns the sum of live, pending and paid debts
+-->
+<service-method>
+	<pipeline>
+		<SQLLite format-output="true"
+				 resultset-element="ResultSet"
+				 row-element="Row"
+				 field-name-as="element" >			
+			<DataSource id="java:OracleDS"/>
+			<Param name="param.coNumber" xpath="/params/param[@name = 'coNumber']"/>
+			<SQL>												
+				SELECT NVL(SUM(ald.debt_amount_allowed), 0) as "Amount"
+				FROM   allowed_debts ald
+				WHERE  ald.debt_co_number = ${param.coNumber}
+				AND    ald.debt_status = 'SCHEDULE2'			
+			</SQL>
+		</SQLLite>
+	</pipeline>
+	<Security roles="user"/>
+</service-method>

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: Co
+	Method:  getOldNumberExistence()
+	File:    map_get_old_number_existence.xml
+	Author:  Phil Haferer (EDS)
+	Created: 01 September 2005
+	Description: 
+		Look for a Consolidated Order which has the given 'Old Number', and return it's CONumber is it exists.
+-->
+<DBMapDef>
+	<DataSource id="java:OracleDS"/>
+	<Tables>
+		<Table alias="CO" name="CONSOLIDATED_ORDERS"/>
+	</Tables>
+	<Mapping>
+		<ds>
+			<CONumber>${CO.CO_NUMBER}</CONumber>
+		</ds>
+	</Mapping>
+</DBMapDef>

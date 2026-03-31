@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<service-method>
+	<pipeline>
+		<Update>
+			<QueryDef location="uk/gov/dca/caseman/case_service/query_def_delete_non_coded_party.xml"/>
+			<DataSource xpath="/params/param[@name = 'nonCodedParty']"/>
+		</Update>
+	</pipeline>
+	<Security roles="user"/>
+</service-method>

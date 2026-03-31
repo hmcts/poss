@@ -1,0 +1,80 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3c.org/TR/html4/strict.dtd">
+
+<html xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:html="http://www.w3.org/TR/REC-html40">
+
+	<head>
+		<script type="text/javascript" src="../../Framework.js"></script>
+		<script type="text/javascript" src="../../CaseManIncludeFiles.js"></script>
+		<script src="MaintainDictionaryWords.js" type="text/javascript"></script>
+	</head>
+	
+	<body tabindex="-1">
+		<form  name="MaintainDictionaryWords" id="MaintainDictionaryWords">
+	
+	   <table class="CaseManMenuBar">
+			<tr>
+				 <td>&nbsp;</td>
+			</tr>
+	   </table>
+		
+		<!-- Header Panel -->
+		<table class="layout">
+			<tr>
+				<td class="alignCentre">
+					<div class="panel">
+						<table class="headercontent">
+							<tr>
+								<td class="alignCentre">
+									<table align="center">
+										<tr>
+											<td style="width: 150px" align="left"><label>Owning Court</label></td><td style="width: 60px" align="left"><input size="5" type="text" id="OwningCourt_Code"></td><td style="width: 20px" align="left"><input size="20" type="text" id="OwningCourt_Name"></td>
+										</tr>
+									</table>
+								</td>
+							</tr>
+						</table>
+					</div>
+				</td>
+			</tr>
+			
+			<!-- Main Panel -->
+			<tr>
+				<td class="alignCentre">
+					<div class="panel">
+						<table class="content" style="height:534px; width: 100%;">
+							<tr>
+								<td class="alignCentre">
+									<table align="center">
+										<tr>
+											<td style="width: 200px" align="left">
+												<label for="MaintainDictionaryWords_EnterWord">Enter Word</label>
+											</td>
+											<td class="alignLeft">
+												<input id="MaintainDictionaryWords_EnterWord" type="text" size="30">
+											</td>
+										</tr>
+									</table>
+								</td>
+							</tr>
+						</table>
+					</div>
+				</td>
+			</tr>
+		</table>
+		
+		<!-- Footer Panel -->
+		<script type="text/javascript">		
+			ActionBarRenderer.createInline
+			(
+				"status_bar",
+				[
+					{id: "Status_AddWordButton", label: "Add"},
+					{id: "Status_RemoveWordButton", label: "Remove"},
+					{id: "Status_Close_Btn", label: "Close"}
+				]
+			);
+		</script>
+		</form>
+	</body>
+
+</html>

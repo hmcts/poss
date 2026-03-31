@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: Payout
+	Method:  getRunDividendDeclarationData()
+	File:    get_run_dividend_declaration_data.xml
+	Author:  Chris Vincent (EDS)
+	Created: 10th February 2006
+	Description: 
+		Service combines a number of services to check the status of the payout before
+		finally returning the data required for the run dividend declaration screen.
+		The checks include start of day run, end of day run, payout run/being run and if
+		all fine, a list of consolidated orders are returned which have an Adhoc Dividend
+		Flag set to 'Y'.
+-->
+<service-method>
+	<pipeline> 
+		<Java callStyle="new">
+			<Source class="uk.gov.dca.caseman.payout_service.classes.GetRunDividendDeclarationDataCustomProcessor"/>
+		</Java>
+	</pipeline>
+	<Dependencies>
+		<Dependency serviceName="StartOfDay"/>
+		<Dependency serviceName="SuitorsCashStartOfDay"/>		
+		<Dependency serviceName="CoDividend"/>
+		<Dependency serviceName="Court"/>
+	</Dependencies>	
+	<Security roles="viewOnly medium high wcSuper scSuper bmsSuper aeSuper dmSuper cpSuper edsAdmin"/>
+</service-method>

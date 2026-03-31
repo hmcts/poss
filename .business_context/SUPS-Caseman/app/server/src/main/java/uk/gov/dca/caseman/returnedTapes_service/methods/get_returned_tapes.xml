@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<service-method>
+	<pipeline>
+		<Query>
+			<QueryDef location="uk/gov/dca/caseman/returnedTapes_service/returned_tapes_query_def.xml"/>
+			
+			<QueryExtension pivotNode="/ReturnedTapes/ReturnedTape">
+				<Param name="param.LibraryNumber" xpath="/params/param[@name='LibraryNumber']"/>
+				
+				<Constraint>
+					T.SEQNO = ${param.LibraryNumber}
+				</Constraint>
+				
+				<Constraint>
+					T.SEQNO IN (
+						SELECT SEQNO FROM TAPE_FILES WHERE SEQNO = ${param.LibraryNumber} 
+					)
+				</Constraint>
+			
+			</QueryExtension>
+		</Query>
+	</pipeline>
+	<Security roles="ccbcMan ccbcTape"/>
+</service-method>

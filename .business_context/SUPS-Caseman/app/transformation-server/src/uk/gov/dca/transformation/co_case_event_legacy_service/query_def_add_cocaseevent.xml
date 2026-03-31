@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<QueryDef>
+	<DBMapDef location="uk/gov/dca/transformation/co_case_event_legacy_service/map_add_cocaseevent.xml"/>
+	<Query pivotNode="/ds/CoCaseEvent" tables="CCE">
+		<Join/>
+		<Modify>
+			<CheckExists table="CCE" fields="ALD_DEBT_SEQ" onNotExist="add" onExist="skip"/>
+		</Modify>
+	</Query>
+</QueryDef>

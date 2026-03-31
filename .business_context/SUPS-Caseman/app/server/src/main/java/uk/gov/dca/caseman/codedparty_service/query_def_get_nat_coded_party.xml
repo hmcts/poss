@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: Codedparty
+	Method:  getNatCodedParty()
+	File:    query_def_get_nat_coded_party.xml
+	Author:  Phil Haferer
+	Created: 01 December 2005
+	Description: 
+		Retrieves a single National Coded Party.
+
+	Change History:
+	13-Jul-2006 Phil Haferer: Added CP_TABLE_ALIAS for SCN tags to the CODED_PARTIES table, now that name and 
+	            address are duplicated on this table.
+	            (TD 3949: Performance: Wildcard search on Coded Party name).
+	03-Aug-2006 Phil Haferer: Changed constant compared P2P.PARTY_A_ROLE_CODE from NCP to SOLICITOR.
+	            (TD CASEMAN 4133: CCBC: Change Role Type from NCP to SOLICITOR).
+	04-Jan-2007 Phil Haferer: 
+                Added the joins and columns to select data for "/CodedParty/DefaultClaimant" 
+                and "/CodedParty/DefaultClaimant/ContactDetails/Address".
+                (TD Group2 3557: "Maintain National Coded Parties - Default Claimant not being stored on database").
+	17-Jan-2007 Chris Vincent:
+				Added the Last_XX_Seq nodes under the CCBCDetails node for Group2 Defect 4387.
+-->
+<QueryDef>
+  <DBMapDef location="uk/gov/dca/caseman/codedparty_service/map_get_nat_coded_party.xml"/>
+  <Query pivotNode="/CodedParty" tables="NP">
+	<SQL type="select">
+		SELECT CP.CODE                  AS "CP.CODE"
+		,      NP.PERSON_REQUESTED_NAME AS "NP.PERSON_REQUESTED_NAME"
+		,      NP.PARTY_ID              AS "NP.PARTY_ID"
+		,      NP.COMPANY_NAME          AS "NP.COMPANY_NAME"
+		,      CP.ADMIN_COURT_CODE      AS "CP.ADMIN_COURT_CODE"
+		,      NGA.ADDRESS_ID           AS "NGA.ADDRESS_ID"
+		,      NGA.ADDRESS_LINE1        AS "NGA.ADDRESS_LINE1"
+		,      NGA.ADDRESS_LINE2        AS "NGA.ADDRESS_LINE2"
+		,      NGA.ADDRESS_LINE3        AS "NGA.ADDRESS_LINE3"
+		,      NGA.ADDRESS_LINE4        AS "NGA.ADDRESS_LINE4"
+		,      NGA.ADDRESS_LINE5        AS "NGA.ADDRESS_LINE5"
+		,      NGA.POSTCODE             AS "NGA.POSTCODE"
+		,      NGA.UPDATED_BY           AS "NGA.UPDATED_BY"
+		,      NP.DX_NUMBER             AS "NP.DX_NUMBER"
+		,      NP.TEL_NO                AS "NP.TEL_NO"
+		,      NP.FAX_NUMBER            AS "NP.FAX_NUMBER"
+		,      NP.EMAIL_ADDRESS         AS "NP.EMAIL_ADDRESS"
+		,      PP.PARTY_ID              AS "PP.PARTY_ID"
+		,      PP.PERSON_REQUESTED_NAME AS "PP.PERSON_REQUESTED_NAME"
+		,      PGA.REFERENCE            AS "PGA.REFERENCE"
+		,      PGA.ADDRESS_ID           AS "PGA.ADDRESS_ID"
+		,      PGA.ADDRESS_LINE1        AS "PGA.ADDRESS_LINE1"
+		,      PGA.ADDRESS_LINE2        AS "PGA.ADDRESS_LINE2"
+		,      PGA.ADDRESS_LINE3        AS "PGA.ADDRESS_LINE3"
+		,      PGA.ADDRESS_LINE4        AS "PGA.ADDRESS_LINE4"
+		,      PGA.ADDRESS_LINE5        AS "PGA.ADDRESS_LINE5"
+		,      PGA.POSTCODE             AS "PGA.POSTCODE"
+		,      PGA.UPDATED_BY           AS "PGA.UPDATED_BY"
+		,      PP.DX_NUMBER             AS "PP.DX_NUMBER"
+		,      PP.TEL_NO                AS "PP.TEL_NO"
+		,      PP.FAX_NUMBER            AS "PP.FAX_NUMBER"
+		,      PP.EMAIL_ADDRESS         AS "PP.EMAIL_ADDRESS"
+		,      PY.BANK_NAME             AS "PY.BANK_NAME"
+		,      PY.BANK_ACC_NO           AS "PY.BANK_ACC_NO"
+		,      PY.BANK_SORT_CODE        AS "PY.BANK_SORT_CODE"
+		,      PY.ACC_HOLDER            AS "PY.ACC_HOLDER"
+		,      PY.BANK_INFO_1           AS "PY.BANK_INFO_1"
+		,      PY.BANK_INFO_2           AS "PY.BANK_INFO_2"
+		,      PY.GIRO_ACC_NO           AS "PY.GIRO_ACC_NO"
+		,      PY.GIRO_TRANS_CODE_1     AS "PY.GIRO_TRANS_CODE_1"
+		,      PY.GIRO_TRANS_CODE_2     AS "PY.GIRO_TRANS_CODE_2"
+		,      PY.APACS_TRANS_CODE      AS "PY.APACS_TRANS_CODE"
+		,      NCP.WRT_NO_FROM          AS "NCP.WRT_NO_FROM"
+		,      NCP.WRT_NO_TO            AS "NCP.WRT_NO_TO"
+		,      NCP.PRINT_JUDGMENTS      AS "NCP.PRINT_JUDGMENTS"
+		,      NCP.DUPLEX               AS "NCP.DUPLEX"
+		,      NCP.DEF_PAPER_TYPE       AS "NCP.DEF_PAPER_TYPE"
+		,      NCP.ADM_PAPER_TYPE       AS "NCP.ADM_PAPER_TYPE"
+		,      NCP.LAST_JG_SEQ          AS "NCP.LAST_JG_SEQ"
+		,      NCP.LAST_PD_SEQ          AS "NCP.LAST_PD_SEQ"
+		,      NCP.LAST_WT_SEQ          AS "NCP.LAST_WT_SEQ"
+		,      NCP.LAST_DEF_SEQ         AS "NCP.LAST_DEF_SEQ"
+		,      NCP.LAST_ADM_SEQ         AS "NCP.LAST_ADM_SEQ"
+		,      CLP.PARTY_ID              AS "CLP.PARTY_ID"             
+		,      CLP.PERSON_REQUESTED_NAME AS "CLP.PERSON_REQUESTED_NAME"
+		,      CLGA.ADDRESS_ID           AS "CLGA.ADDRESS_ID"          
+		,      CLGA.ADDRESS_LINE1        AS "CLGA.ADDRESS_LINE1"       
+		,      CLGA.ADDRESS_LINE2        AS "CLGA.ADDRESS_LINE2"       
+		,      CLGA.ADDRESS_LINE3        AS "CLGA.ADDRESS_LINE3"       
+		,      CLGA.ADDRESS_LINE4        AS "CLGA.ADDRESS_LINE4"       
+		,      CLGA.ADDRESS_LINE5        AS "CLGA.ADDRESS_LINE5"       
+		,      CLGA.POSTCODE             AS "CLGA.POSTCODE"            
+		,      CLGA.UPDATED_BY           AS "CLGA.UPDATED_BY"          
+		,      CLP.DX_NUMBER             AS "CLP.DX_NUMBER"            
+		,      CLP.TEL_NO                AS "CLP.TEL_NO"               
+		,      CLP.FAX_NUMBER            AS "CLP.FAX_NUMBER"           
+		,      CLP.EMAIL_ADDRESS         AS "CLP.EMAIL_ADDRESS"        
+		,      'CP'					    AS "CP_TABLE_ALIAS"
+		,      'PGA'					AS "PGA_TABLE_ALIAS"
+		,      'PY'						AS "PY_TABLE_ALIAS"
+		,      'PP'						AS "PP_TABLE_ALIAS"
+		,      'NCP'					AS "NCP_TABLE_ALIAS"
+		,      'NGA'					AS "NGA_TABLE_ALIAS"
+		,      'CLP'					AS "CLP_TABLE_ALIAS"
+		,      'CLGA'					AS "CLGA_TABLE_ALIAS"
+		,      CP.ORA_ROWSCN            AS "CP_ORA_ROWSCN"
+		,      NP.ORA_ROWSCN            AS "NP_ORA_ROWSCN"
+		,      NGA.ORA_ROWSCN           AS "NGA_ORA_ROWSCN"
+		,      NCP.ORA_ROWSCN           AS "NCP_ORA_ROWSCN"
+		,      P2P.ORA_ROWSCN           AS "P2P_ORA_ROWSCN"
+		,      PP.ORA_ROWSCN            AS "PP_ORA_ROWSCN"
+		,      PGA.ORA_ROWSCN           AS "PGA_ORA_ROWSCN"
+		,      PY.ORA_ROWSCN            AS "PY_ORA_ROWSCN"
+		,      CLP2P.ORA_ROWSCN         AS "CLP2P_ORA_ROWSCN"
+		,      CLP.ORA_ROWSCN           AS "CLP_ORA_ROWSCN"
+		,      CLGA.ORA_ROWSCN          AS "CLGA_ORA_ROWSCN"
+		FROM   CODED_PARTIES               CP
+		,      PARTIES                     NP
+		,      GIVEN_ADDRESSES             NGA
+		,      NATIONAL_CODED_PARTIES      NCP
+		,      PARTY_TO_PARTY_RELATIONSHIP P2P
+		,      PARTIES                     PP
+		,      GIVEN_ADDRESSES             PGA
+		,      PAYEES                      PY
+		,      PARTY_TO_PARTY_RELATIONSHIP CLP2P
+		,      PARTIES                     CLP
+		,      GIVEN_ADDRESSES             CLGA
+		WHERE  CP.ADMIN_COURT_CODE   = ${param.courtCode}
+		AND    CP.CODE               = ${param.codedPartyCode}
+		AND    NP.PARTY_ID           = CP.PARTY_ID
+		AND    NGA.PARTY_ID          = CP.PARTY_ID
+		AND    NGA.ADDRESS_TYPE_CODE = 'CODED PARTY'
+		AND    NCP.CODE              (+)= CP.CODE
+		AND    P2P.PARTY_A_ROLE_CODE (+)= 'SOLICITOR'
+		AND    P2P.PARTY_A_ID        (+)= CP.PARTY_ID
+		AND    P2P.PARTY_B_ROLE_CODE (+)= 'NCP PAYEE'
+		AND    PP.PARTY_ID           (+)= P2P.PARTY_B_ID
+		AND    PGA.PARTY_ID          (+)= P2P.PARTY_B_ID
+		AND    PGA.ADDRESS_TYPE_CODE (+)= 'NCP PAYEE'
+		AND    PY.PARTY_ID           (+)= P2P.PARTY_B_ID
+		AND    CLP2P.PARTY_A_ROLE_CODE (+)= 'SOLICITOR'
+		AND    CLP2P.PARTY_A_ID        (+)= CP.PARTY_ID
+		AND    CLP2P.PARTY_B_ROLE_CODE (+)= 'CLAIMANT'
+		AND    CLP.PARTY_ID            (+)= CLP2P.PARTY_B_ID
+		AND    CLGA.PARTY_ID           (+)= CLP2P.PARTY_B_ID
+		AND    CLGA.ADDRESS_TYPE_CODE  (+)= 'SERVICE'
+	</SQL>
+  </Query>
+</QueryDef>

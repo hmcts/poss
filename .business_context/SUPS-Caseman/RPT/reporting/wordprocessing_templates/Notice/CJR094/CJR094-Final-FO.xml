@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- ====================================================================== -->
+<!--  -->
+<!-- FILENAME: $Source: C:/CVSRepository/serveroas/src/uk/gov/dca/caseman/wordprocessing_templates/Notice/CJR094/CJR094-FO.xml,v $ -->
+<!--  -->
+<!-- AUTHOR: $Author: conganer $-->
+<!--  -->
+<!-- DATE: $Date: 2006/06/05 14:14:02 $ -->
+<!--  -->
+<!-- Version: $Revision: 1.8 $ -->
+<!--  -->
+<!-- DESCRIPTION: This stylesheet is used to create an XSL:FO document that -->
+<!-- can be processed into a PDF version.  Business logic -->
+<!-- is embedded to generate the correct document text for the order -->
+<!-- required. -->
+<!--  -->
+<!-- INPUTS: XML document containing: the answers to questions asked of the -->
+<!-- user; case data retrieved from the database; HTML representing the  -->
+<!-- body of the document content (already edited by the user). -->
+<!--  -->
+<!-- OUTPUTS: XML document with FO tags containing instructions for the -->
+<!-- creation of a PDF document. -->
+<!--  -->
+<!-- ====================================================================== -->
+<root xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:fo="http://www.w3.org/1999/XSL/Format" xmlns="http://eds.com/supsfo">
+	<variables>@word.processing.url.xsl@supsfo.xsl</variables>
+	<duplex/>
+	<layout famenf="true">order</layout>
+	<addressee>
+		<subject/>
+		<instigators/>
+	</addressee>
+	<header>
+		<fo:block font-size="16pt" font-weight="bold">Final charging order</fo:block>
+		<xsl:if test="$vdDistrictRegistry = 'F'">	
+			<fo:block font-size="12pt" font-weight="bold">FPR Part 40</fo:block>
+		</xsl:if>
+	</header>
+	<courtcase>
+		<court>
+			<xsl:copy-of select="$vdCourtHeaderBlock"/>
+		</court>
+		<caseparameters>
+			<parameter>
+				<name>
+					<fo:block font-weight="bold">Claim Number</fo:block>
+				</name>
+				<value>
+					<fo:block>
+						<xsl:value-of select="$vdClaimNumber"/>
+					</fo:block>
+				</value>
+			</parameter>
+		</caseparameters>
+	</courtcase>
+	<bodyintroright><fo:block><fo:inline><electronicSeal/></fo:inline></fo:block></bodyintroright>
+
+	<body>
+		<editable useid="N10075">
+		<fo:block space-after="0.4cm"/>
+		<fo:block>
+			<fo:inline font-weight="bold">On </fo:inline> <xsl:value-of select="$vdHearingAtCourtDate"/>, <xsl:value-of select="$vdCJR094JudgeText"/>
+		</fo:block>
+		<fo:block>
+			sitting at <xsl:value-of select="$vdHearingAtCourtNameDescription"/>, <xsl:value-of select="$vdHearingAtCourtAddress"/>
+		</fo:block>
+		<fo:block space-after="0.4cm">
+			<xsl:copy-of select="$vdHearingAttendees"/> considered the interim charging order dated <xsl:value-of select="$vdInterimDate"/>
+		</fo:block>
+		<fo:block space-after="0.4cm">
+			<fo:inline font-weight="bold">and the court orders</fo:inline> that
+		</fo:block>
+		<fo:block space-after="0.4cm">
+			1. The charge created by the order made on the <xsl:value-of select="$vdInterimDate"/> shall continue<xsl:value-of select="$vdInterimMod"/>.
+		</fo:block>
+		<fo:block space-after="0.4cm">
+			2. The interest of the <xsl:value-of select="$vdFamEnfDebtor2"/>&#xa0;<xsl:value-of select="$vdJudgmentDebtorName"/> in the asset described in the schedule below stand charged with payment of the sum of 
+			&#163;<xsl:value-of select="$vdAmountCharge"/> the amount now owing under a judgment or order given 
+			on <xsl:value-of select="$vdInterimChargingOrderDate"/><xsl:value-of select="$vdJudgmentOtherCourt"/> together with any further interest becoming due and 
+			&#163;<xsl:value-of select="$vdGoodsCostAmount"/> the costs of the application.
+		</fo:block>
+		<fo:block space-after="0.4cm">
+			3. The costs are to be added to the judgment debt.
+		</fo:block>
+		<fo:block space-after="0.4cm" font-weight="bold" text-align="center">
+			The Schedule
+		</fo:block>	
+		<xsl:if test="$vdIsLand = 'Y'">						
+				<fo:block space-after="0.4cm">
+					The address of the land or charged property is 
+				<xsl:if test="$vdIsLandAddress = 'Y'"> <xsl:value-of select="$vdSubjectAddress"/></xsl:if>
+				<xsl:if test="$vdIsLandAddress != 'Y'"> <xsl:value-of select="$vdAssetAddress"/></xsl:if>				
+					&#xa0;<xsl:value-of select="$vdInterimCharging2"/>.
+				</fo:block>	
+		</xsl:if>
+		
+		<xsl:choose>
+			<xsl:when test="$vdDistrictRegistry = 'F'">
+				<xsl:if test="$vdIsLand != 'Y'">						
+					<fo:block font-weight="bold" font-size="14pt" text-align="center">STOP NOTICE</fo:block>
+					<fo:block space-after="0.4cm">To <xsl:value-of select="$vdHoldBody"/></fo:block>
+					<fo:block font-weight="bold">TAKE NOTICE that</fo:block>
+					<fo:block>
+						<xsl:value-of select="$vdInstigatorName"/> at <xsl:value-of select="$vdInstigatorAddress"/> claims to be beneficially entitled to an interest in the following securities -
+					</fo:block>
+					<fo:block space-after="0.4cm"><xsl:value-of select="$vdInterimCharging3"/></fo:block>	
+					<fo:block>This Notice requires you to refrain from -</fo:block>
+					<fo:block>(1) registering a transfer of the securities specified above; or</fo:block>
+					<fo:block>(2) paying any dividend or interest in respect of the securities [delete if inappropriate];</fo:block>
+					<fo:block>without first giving 14 days' notice in writing to the said <xsl:value-of select="$vdInstigatorName"/> of the above address.</fo:block>
+				</xsl:if>
+			</xsl:when>
+			<xsl:otherwise>
+				<xsl:if test="$vdIsLand != 'Y'">						
+					<fo:block space-after="0.4cm" font-weight="bold" font-size="14pt" text-align="center">
+						STOP NOTICE
+					</fo:block>
+					<fo:block space-after="0.4cm" font-weight="bold">
+						To <xsl:value-of select="$vdHoldBody"/>
+					</fo:block>
+					<fo:block space-after="0.4cm">
+						Take notice that, in relation to the securities specified in the schedule to this order, you may not, without notice to <xsl:value-of select="$vdInstigatorName"/> at <xsl:value-of select="$vdInstigatorAddress"/> register any transfer, or make any redemption payment, or, in the case of a unit trust, deal with the units, or, where dividends or interest are included in the order, pay any dividend or interest.
+					</fo:block>
+				</xsl:if>
+				<fo:block space-after="0.4cm">
+					 <xsl:value-of select="$vdInterimCharging3"/>
+				</fo:block>	
+			</xsl:otherwise>
+		</xsl:choose>
+	
+		</editable>
+	</body>
+	<defaultFooter id="CJR094"/>
+</root>

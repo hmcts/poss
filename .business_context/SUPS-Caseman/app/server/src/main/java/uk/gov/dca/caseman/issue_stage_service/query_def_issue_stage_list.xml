@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<QueryDef>
+	<DBMapDef location="uk/gov/dca/caseman/issue_stage_service/map_issue_stage_list.xml"/>
+	<Query pivotNode="/StageList/Stage" tables="CCBC">
+	   <Join/>
+	   <OrderBy>CCBC.RV_MEANING</OrderBy>
+	   <Modify notModifiable="true"/>
+	</Query>
+</QueryDef>
+
+

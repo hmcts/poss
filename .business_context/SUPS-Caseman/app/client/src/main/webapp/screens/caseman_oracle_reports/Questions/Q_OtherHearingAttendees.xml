@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--Question xmlns="http://eds.com/questionxhtml" xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd"-->
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>Q_OtherHearingAttendees</Id>
+	<Label>Other Hearing Attendees</Label>
+	<ObjectName>OtherHearingAttendees</ObjectName>
+	<Html>
+		<input id="OtherHearingAttendees" type="text" size="25"></input>
+	</Html>
+	<Javascript>
+		<XPath>/ds/var/page/OracleReportForm/OtherHearingAttendees</XPath>
+		<ReportVariableName>REPORT_VALUE_13</ReportVariableName>
+		<ReportVariableValue>sendRightValue()</ReportVariableValue>
+		<HintText>Enter the Other Hearing Attendees</HintText>
+		<mandatoryOn>HearingAttendees.dataBinding</mandatoryOn>
+		<ReportVariableCode>9075</ReportVariableCode>
+		<isMandatory>
+			return !OtherHearingAttendees.isReadOnly();
+		</isMandatory>		
+		<initialise></initialise>
+		<transformToDisplay>
+			return (null != value) ? value.toUpperCase() : null;
+		</transformToDisplay>
+		<transformToModel>
+			return (null != value) ? value.toUpperCase() : null;
+		</transformToModel>		
+		<setDefault>
+		</setDefault>	
+		<validateOn>
+		</validateOn>
+		<readOnlyOn>
+		 	HearingAttendees.dataBinding
+		</readOnlyOn>
+		<isReadOnly>
+			//debugger;
+			var hearingAttendees = Services.getValue(HearingAttendees.dataBinding);
+			var valueTest = Services.getValue( REF_DATA_XPATH + "/HearingAttendeesList/HearingAttendee[./Description = " + HearingAttendees.dataBinding + "]/Value" );
+			if (hearingAttendees == "19" || valueTest == "19")
+			{
+				return false;
+			}
+			else
+			{
+				return true;
+			}
+		</isReadOnly>		
+		<validate>
+		</validate>
+		<miscCode>
+			function sendRightValue()
+			{
+				var hrgAtt = Services.getValue(HearingAttendees.dataBinding);
+				if (hrgAtt == "OTHER" || hrgAtt == "19")
+				{
+					return Services.getValue(OtherHearingAttendees.dataBinding);
+				}
+				else
+				{
+					var jurisdiction = Services.getValue("/ds/ManageCase/Jurisdiction");
+					if ( jurisdiction == "F" )
+					{
+						hrgAtt = hrgAtt.replace(/JUDGMENT CREDITOR/g, "CREDITOR");
+						hrgAtt = hrgAtt.replace(/JUDGMENT DEBTOR/g, "DEBTOR");
+					}
+					return hrgAtt.toLowerCase();
+				}
+			}
+		</miscCode>
+	</Javascript>
+</Question>

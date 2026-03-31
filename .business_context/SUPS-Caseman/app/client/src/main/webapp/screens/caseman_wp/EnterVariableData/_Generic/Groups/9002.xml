@@ -1,0 +1,184 @@
+<Group id="9002">
+	<ServicesRequired>
+		<mapping name="updateHra" serviceName="updateHRA"/>
+		<service name="updateHRA" cache="none" url="/Hra/Hra" method="updateHra">
+		</service>
+	</ServicesRequired>
+	<Protocols>
+		<OnSave>
+			<function>updateHra</function>
+			<functionCallback>updateHraCallback</functionCallback>
+		</OnSave>
+	</Protocols>
+	<JavaScript>		
+function updateHra() {
+	// get these values from the data and the QA answers
+	
+	var caseNumber = Services.getValue("/ds/ManageCase/CaseNumber");
+	var eventDate = Services.getValue("/ds/CaseEvent/EventDate");
+	var applicationJudge = Services.getValue(JudgeTitle.dataBinding)
+							+ " " + Services.getValue(JudgeName.dataBinding);
+	var userID = Services.getValue("/ds/CaseEvent/UserName");
+	var applicationDate = Services.getValue(DateOfApplication.dataBinding);
+	var outcome = Services.getValue(ApplicationOutcome.dataBinding);
+	var deletedFlag = Services.getValue("/ds/CaseEvent/DeletedFlag");
+	
+	var partyid = Services.getValue(ApplicationParty.dataBinding);
+	var partyName = null;
+	var partyType = null;
+	
+	if( 'APP' == partyid ) //other was selected
+	{	partyType = 'Other' 
+		partyName = Services.getValue(OtherApplicationParty.dataBinding);
+	}
+	else
+	{	partyType = Services.getValue("/ds/ManageCase/Parties/LitigiousParty[./PartyId = "+partyid+"]/Type");
+		partyName = Services.getValue("/ds/ManageCase/Parties/LitigiousParty[./PartyId = "+partyid+"]/Name");
+	}
+	
+	var eventSequence =  Services.getValue("/ds/CaseEvent/CaseEventSeq");
+	var details =  Services.getValue("/ds/ManageCase/Parties/LitigiousParty[./Type='Claimant'][1]/Name");
+	var protocols = Services.getAdaptorById("Protocol").getSelectedRows();
+	var articles = Services.getAdaptorById("Article").getSelectedRows();
+	
+	var msg = "Form cannot be submitted as Article or Protocol field must be entered. ";
+	var doAlert = false;
+	if( (null == protocols || "" == protocols) &amp;&amp; (null == articles || "" == articles)  ) 
+	{	doAlert = true;
+	}
+	if( true == doAlert )
+	{	
+		onSave.push(['updateHra','updateHraCallback']);
+		alert( msg );
+		return false;  //ignore the rest of the method
+	}
+	
+	var protocolDesc = "";
+	var protocolNo = "";
+	var protocol = "";
+	var article = "";
+	var articleNo = "";
+	var articleDesc = "";
+	var dom = WPU.getHumanRightsActUpdateXML();
+	var protoNode = dom.selectSingleNode("/ds/HumanRightsAct/Cases/Case/Protocols");
+	var artNode = dom.selectSingleNode("/ds/HumanRightsAct/Cases/Case/Articles");
+	
+	//ADD PROTOCOLS TO DOM
+	var isFirst = true;
+	if(null == protocols || "" == protocols)
+	{
+		var protNode = dom.selectSingleNode("//Protocols");
+		var por = protNode.parentNode;
+		por.removeChild(protNode);
+	}
+	else
+	{
+	for( var i = 1; Services.countNodes(Protocol.dataBinding + "/id") >= i ; i++ )
+	{   
+		var protocolId = Services.getValue(Protocol.dataBinding + "/id[" + i + "]");
+		protocol = Services.getValue("/ds/var/app/wp/Protocols/Protocol[./id="+protocolId+"]/label");
+		if( null != protocol)
+		{	var pIndx =  protocol.indexOf(' ');
+			protocolNo = protocol.substring(0, pIndx);
+			protocolDesc = protocol.substring(pIndx);
+			
+			if( isFirst )
+			{	XML.setElementTextContent(dom, "/ds/HumanRightsAct/Cases/Case/Protocols/Protocol/Number", protocolNo);
+				XML.setElementTextContent(dom, "/ds/HumanRightsAct/Cases/Case/Protocols/Protocol/Description", protocolDesc);
+				isFirst = false;
+			}
+			else
+			{	 
+			    var newProt = XML.createElement(protoNode, "Protocol");
+			    newProt.appendChild( XML.createElement(newProt, "Number"));
+			    newProt.appendChild( XML.createElement(newProt, "Description"));
+				protoNode.appendChild( newProt );
+				
+				XML.setElementTextContent(newProt, "Number", protocolNo);
+				XML.setElementTextContent(newProt, "Description", protocolDesc);
+	
+			}
+		}
+	}
+	}
+	
+	
+	//ADD ARTICLES TO DOM
+	isFirst = true;
+	if(null == articles || "" == articles)
+	{
+				var artclNode = dom.selectSingleNode("//Articles");
+				var art = artclNode.parentNode;
+				art.removeChild(artclNode);
+	}
+	else
+	{
+	for( var i = 1; Services.countNodes(Article.dataBinding + "/id") >= i ; i++ )
+	{   
+		var articleId = Services.getValue(Article.dataBinding + "/id[" + i + "]");
+		article = Services.getValue("/ds/var/app/wp/Articles/Article[./id="+articleId+"]/label");
+		if( null != article)
+		{	var aIndx =  article.indexOf(' ');
+			articleNo = article.substring(0, aIndx);
+			articleDesc = article.substring( aIndx);
+			
+			if( isFirst )
+			{	XML.setElementTextContent(dom, "/ds/HumanRightsAct/Cases/Case/Articles/Article/Number", articleNo);
+				XML.setElementTextContent(dom, "/ds/HumanRightsAct/Cases/Case/Articles/Article/Description", articleDesc);
+				isFirst = false;
+			}
+			else
+			{	 
+			    var newArt = XML.createElement(artNode, "Article");
+			    newArt.appendChild( XML.createElement(newArt, "Number"));
+			    newArt.appendChild( XML.createElement(newArt, "Description"));
+				artNode.appendChild( newArt );
+				
+				XML.setElementTextContent(newArt, "Number", articleNo);
+				XML.setElementTextContent(newArt, "Description", articleDesc);	
+			}
+		}
+	}
+	}
+
+	XML.setElementTextContent(dom, "/ds/HumanRightsAct/Cases/Case/CaseNumber", caseNumber);
+	XML.setElementTextContent(dom, "/ds/HumanRightsAct/Cases/Case/EventDate", eventDate);
+	XML.setElementTextContent(dom, "/ds/HumanRightsAct/Cases/Case/ApplicationJudge", applicationJudge);
+	XML.setElementTextContent(dom, "/ds/HumanRightsAct/Cases/Case/UserID", userID);
+	XML.setElementTextContent(dom, "/ds/HumanRightsAct/Cases/Case/ApplicationDate", applicationDate);
+	XML.setElementTextContent(dom, "/ds/HumanRightsAct/Cases/Case/Outcome", outcome);
+	XML.setElementTextContent(dom, "/ds/HumanRightsAct/Cases/Case/DeletedFlag", deletedFlag);
+	XML.setElementTextContent(dom, "/ds/HumanRightsAct/Cases/Case/PartyType", partyType);
+	XML.setElementTextContent(dom, "/ds/HumanRightsAct/Cases/Case/PartyName", partyName);
+	XML.setElementTextContent(dom, "/ds/HumanRightsAct/Cases/Case/EventSequence", eventSequence);
+	XML.setElementTextContent(dom, "/ds/HumanRightsAct/Cases/Case/Details", details);
+
+	var params = new ServiceParams();
+	params.addDOMParameter("hra", dom);		
+	var service = "updateHra";
+	Services.callService(service, params, updateHraCallback, true);
+}
+
+	
+function updateHraCallback() { }
+
+updateHraCallback.onSuccess = function(dom) {
+	if (null != dom) {
+		Save_All();  }
+	else {
+		alert(Messages.NO_RESULTS_MESSAGE); } }
+
+updateHraCallback.onBusinessException = function(exception) 
+{
+	alert(Messages.FAILEDSAVE_MESSAGE); 
+}
+
+updateHraCallback.onSystemException = function(exception) 
+{
+	alert(Messages.FAILEDSAVE_MESSAGE); 
+}
+
+	</JavaScript>
+</Group>
+
+

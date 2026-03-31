@@ -1,0 +1,1271 @@
+
+Session altered.
+
+
+Session altered.
+
+
+** Module testing for procedure: dbup_0486_b, at: 2008-10-20 10:30:47 **
+
+
+
+
+
+** Tester must execution privileges to DBMS_SCHEDULER package      **
+
+
+** See comments in Test harness banner for required privileges     **
+
+
+
+
+
+
+
+
+
+
+0 rows deleted.
+
+
+0 rows deleted.
+
+
+0 rows deleted.
+
+
+0 rows deleted.
+
+
+Commit complete.
+
+
+PL/SQL procedure successfully completed.
+
+
+Commit complete.
+
+Test Data BEFORE - courts
+
+        CODE ID NAME                           TEL_NO FAX_NO BLF_TEL_NO CASEMAN_INSERVICE DATABASE_NAME TASKS_UPDATED DISTRICT_REGISTRY      WFT_GROUPING_COURT WFT_DM_EMAIL_ADDRESS SAT_COURT OPEN_FLAG          LAST_WRT_SEQNO SUPS_CENTRALISED_FLAG DX_NUMBER DEFAULT_PRINTER DEED_PACK_NUMBER WELSH_HIGH_COURT_NAME WELSH_COUNTY_COURT_NAME FAP_ID TUCS_IN_USE
+------------ -- ------------------------------ ------ ------ ---------- ----------------- ------------- ------------- ----------------- ----------------------- -------------------- --------- --------- ----------------------- --------------------- --------- --------------- ---------------- --------------------- ----------------------- ------ -----------
+        -988    COURT TEST 2                                            N                                                                                                                                                        Y
+        -987    COURT TEST 3                                            Y                                                                                                                                                        N
+        -986    COURT TEST 4                                            Y                                                                                                                                                        Y
+        -985    COURT TEST 5                                            Y                                                                                                                                                        Y
+        -984    COURT TEST 6                                            Y                                                                                                                                                        Y
+        -983    COURT TEST 7                                            Y                                                                                                                                                        Y
+        -982    COURT TEST 8                                            Y                                                                                                                                                        Y
+        -981    COURT TEST 9                                            Y                                                                                                                                                        Y
+        -980    COURT TEST 10                                           Y                                                                                                                                                        Y
+        -979    COURT TEST 11                                           Y                                                                                                                                                        Y
+
+10 rows selected.
+
+Test Data BEFORE - cases
+
+CASE_NUMBER CASE_TYPE ADMIN_CRT_CODE INSOLVENCY_NUMBER AMOUNT_CLAIMED    COURT_FEE SOLICITORS_COSTS        TOTAL DATE_OF_IS BRIEF_DETAILS_OF_CLAIM PARTICULARS_OF_CLAIM TRANS_CRT_CODE DATE_OF_TR STATUS TRANSFER_REASON DATE_TRANS PREVIOUS_COURT TRANSFER_STATUS RECEIPT_DA XFER_RECEI AMOUNT_CLAIMED_CURRENCY COURT_FEE_CURRENCY SOLICITORS_COSTS_CURRENCY TOTAL_CURRENCY CJR MANUAL TRANS_CASE_TYPE    CRED_CODE
+----------- --------- -------------- ----------------- -------------- ------------ ---------------- ------------ ---------- ---------------------- -------------------- -------------- ---------- ------ --------------- ---------- -------------- --------------- ---------- ---------- ----------------------- ------------------ ------------------------- -------------- --- ------ --------------- ------------
+8XX70002    APP INT O           -986                                                                                        CASE FOR TEST 4 - 2
+            RD (INSOL
+            V)
+
+XXXX2008    APP INT O           -986                                                                                        CASE FOR TEST 4 - 1
+            RD (INSOL
+            V)
+
+XXXY2008    APP INT O           -986                                                                                        CASE FOR TEST 4 - 3
+            RD (INSOL
+            V)
+
+8YY70002    APP INT O           -985                                                                                        CASE FOR TEST 5 - 2
+            RD (INSOL
+            V)
+
+8YY7000T    APP INT O           -985                                                                                        CASE FOR TEST 5 - 1
+            RD (INSOL
+            V)
+
+8YY70Y03    APP INT O           -985                                                                                        CASE FOR TEST 5 - 3
+            RD (INSOL
+            V)
+
+2YY70002    APP TO SE           -984                                                                                        CASE FOR TEST 6 - 2
+            T STAT DE
+            MD
+
+3YY70003    APP TO SE           -984                                                                                        CASE FOR TEST 6 - 3
+            T STAT DE
+            MD
+
+PYY70001    APP TO SE           -984                                                                                        CASE FOR TEST 6 - 1
+            T STAT DE
+            MD
+
+1ZY70001    APP TO SE           -983                                                                                        CASE FOR TEST 7 - 1
+            T STAT DE
+            MD
+
+2ZY70002    CREDITORS           -983                                                                                        CASE FOR TEST 7 - 2
+             PETITION
+
+3ZY70003    DEBTORS P           -983                                                                                        CASE FOR TEST 7 - 3
+            ETITION
+
+4ZY70004    WINDING U           -983                                                                                        CASE FOR TEST 7 - 4
+            P PETITIO
+            N
+
+1AA70001    APP TO SE           -982                                                                                        CASE FOR TEST 8 - 1
+            T STAT DE
+            MD
+
+2AA70002    CREDITORS           -982                                                                                        CASE FOR TEST 8 - 2
+             PETITION
+
+3AA70003    DEBTORS P           -982                                                                                        CASE FOR TEST 8 - 3
+            ETITION
+
+4AA70004    WINDING U           -982                                                                                        CASE FOR TEST 8 - 4
+            P PETITIO
+            N
+
+10B70010    APP TO SE           -981                                                                                        CASE FOR TEST 9 - 10
+            T STAT DE
+            MD
+
+1BB70001    APP TO SE           -981                                                                                        CASE FOR TEST 9 - 1
+            T STAT DE
+            MD
+
+2BB70002    CREDITORS           -981                                                                                        CASE FOR TEST 9 - 2
+             PETITION
+
+3BB70003    DEBTORS P           -981                                                                                        CASE FOR TEST 9 - 3
+            ETITION
+
+4BB70004    NOT INSOL           -981                                                                                        CASE FOR TEST 9 - 4
+            V CASE
+
+5BB70005    CREDITORS           -981                                                                                        CASE FOR TEST 9 - 5
+             PETITION
+
+6BB70006    DEBTORS P           -981                                                                                        CASE FOR TEST 9 - 6
+            ETITION
+
+7BB70007    APP INT O           -981                                                                                        CASE FOR TEST 9 - 7
+            RD (INSOL
+            V)
+
+8BB70008    NOT INSOL           -981                                                                                        CASE FOR TEST 9 - 8
+            V CASE
+
+9BB70009    DEBTORS P           -981                                                                                        CASE FOR TEST 9 - 9
+            ETITION
+
+100C71      CREDITORS           -980                                                                                        CASE FOR TEST 10 - 100
+             PETITION
+
+10C70010    DEBTORS P           -980                                                                                        CASE FOR TEST 10 - 10
+            ETITION
+
+11C70011    APP TO SE           -980                                                                                        CASE FOR TEST 10 - 11
+            T STAT DE
+            MD
+
+12C70012    APP TO SE           -980 NOTNULL                                                                                CASE FOR TEST 10 - 12
+            T STAT DE
+            MD
+
+13C70013    APP TO SE           -980                                                                                        CASE FOR TEST 10 - 13
+            T STAT DE
+            MD
+
+14C70014    APP INT O           -980                                                                                        CASE FOR TEST 10 - 14
+            RD (INSOL
+            V)
+
+15C70015    APP TO SE           -980                                                                                        CASE FOR TEST 10 - 15
+            T STAT DE
+            MD
+
+16C70016    CREDITORS           -980                                                                                        CASE FOR TEST 10 - 16
+             PETITION
+
+17C70017    APP TO SE           -980                                                                                        CASE FOR TEST 10 - 17
+            T STAT DE
+            MD
+
+18C70018    NOT INSOL           -980                                                                                        CASE FOR TEST 10 - 18
+            V CASE
+
+19C70019    APP TO SE           -980                                                                                        CASE FOR TEST 10 - 19
+            T STAT DE
+            MD
+
+1CB70001    APP TO SE           -980                                                                                        CASE FOR TEST 10 - 1
+            T STAT DE
+            MD
+
+20C70020    CREDITORS           -980                                                                                        CASE FOR TEST 10 - 20
+             PETITION
+
+21C70021    APP TO SE           -980                                                                                        CASE FOR TEST 10 - 21
+            T STAT DE
+            MD
+
+22C70022    APP TO SE           -980                                                                                        CASE FOR TEST 10 - 22
+            T STAT DE
+            MD
+
+23C70023    APP TO SE           -980                                                                                        CASE FOR TEST 10 - 23
+            T STAT DE
+            MD
+
+24C70024    APP TO SE           -980 NOTNULL                                                                                CASE FOR TEST 10 - 24
+            T STAT DE
+            MD
+
+25C70025    DEBTORS P           -980                                                                                        CASE FOR TEST 10 - 25
+            ETITION
+
+26C70026    APP TO SE           -980                                                                                        CASE FOR TEST 10 - 26
+            T STAT DE
+            MD
+
+27C70027    APP TO SE           -980                                                                                        CASE FOR TEST 10 - 27
+            T STAT DE
+            MD
+
+28C70028    CREDITORS           -980                                                                                        CASE FOR TEST 10 - 28
+             PETITION
+
+29C70029    APP TO SE           -980                                                                                        CASE FOR TEST 10 - 29
+            T STAT DE
+            MD
+
+2CB70002    APP TO SE           -980                                                                                        CASE FOR TEST 10 - 2
+            T STAT DE
+            MD
+
+30C70030    APP TO SE           -980                                                                                        CASE FOR TEST 10 - 30
+            T STAT DE
+            MD
+
+31C70031    APP TO SE           -980                                                                                        CASE FOR TEST 10 - 31
+            T STAT DE
+            MD
+
+32C70032    CREDITORS           -980                                                                                        CASE FOR TEST 10 - 32
+             PETITION
+
+33C70033    APP TO SE           -980                                                                                        CASE FOR TEST 10 - 33
+            T STAT DE
+            MD
+
+34C70034    APP TO SE           -980                                                                                        CASE FOR TEST 10 - 34
+            T STAT DE
+            MD
+
+35C70035    DEBTORS P           -980                                                                                        CASE FOR TEST 10 - 35
+            ETITION
+
+36C70036    APP TO SE           -980                                                                                        CASE FOR TEST 10 - 36
+            T STAT DE
+            MD
+
+37C70037    APP TO SE           -980                                                                                        CASE FOR TEST 10 - 37
+            T STAT DE
+            MD
+
+38C70038    APP TO SE           -980                                                                                        CASE FOR TEST 10 - 38
+            T STAT DE
+            MD
+
+39C70039    APP TO SE           -980                                                                                        CASE FOR TEST 10 - 39
+            T STAT DE
+            MD
+
+3CB70003    APP TO SE           -980                                                                                        CASE FOR TEST 10 - 3
+            T STAT DE
+            MD
+
+40C70040    CREDITORS           -980                                                                                        CASE FOR TEST 10 - 40
+             PETITION
+
+41C70041    APP TO SE           -980                                                                                        CASE FOR TEST 10 - 41
+            T STAT DE
+            MD
+
+42C70042    APP TO SE           -980                                                                                        CASE FOR TEST 10 - 42
+            T STAT DE
+            MD
+
+43C70043    APP TO SE           -980                                                                                        CASE FOR TEST 10 - 43
+            T STAT DE
+            MD
+
+44C70044    CREDITORS           -980                                                                                        CASE FOR TEST 10 - 44
+             PETITION
+
+45C70045    APP TO SE           -980                                                                                        CASE FOR TEST 10 - 45
+            T STAT DE
+            MD
+
+46C70046    APP TO SE           -980                                                                                        CASE FOR TEST 10 - 46
+            T STAT DE
+            MD
+
+47C70047    APP TO SE           -980                                                                                        CASE FOR TEST 10 - 47
+            T STAT DE
+            MD
+
+48C70048    APP TO SE           -980                                                                                        CASE FOR TEST 10 - 48
+            T STAT DE
+            MD
+
+49C70049    APP INT O           -980                                                                                        CASE FOR TEST 10 - 49
+            RD (INSOL
+            V)
+
+4CB70004    NOT INSOL           -980                                                                                        CASE FOR TEST 10 - 4
+            V CASE
+
+50C70050    DEBTORS P           -980                                                                                        CASE FOR TEST 10 - 50
+            ETITION
+
+51C70051    NOT INSOL           -980                                                                                        CASE FOR TEST 10 - 51
+            V CASE
+
+52C70052    CREDITORS           -980                                                                                        CASE FOR TEST 10 - 52
+             PETITION
+
+53C70053    APP TO SE           -980                                                                                        CASE FOR TEST 10 - 53
+            T STAT DE
+            MD
+
+54C70054    APP TO SE           -980                                                                                        CASE FOR TEST 10 - 54
+            T STAT DE
+            MD
+
+55C70055    DEBTORS P           -980                                                                                        CASE FOR TEST 10 - 55
+            ETITION
+
+56C70056    CREDITORS           -980                                                                                        CASE FOR TEST 10 - 56
+             PETITION
+
+57C70057    APP TO SE           -980                                                                                        CASE FOR TEST 10 - 57
+            T STAT DE
+            MD
+
+58C70058    APP TO SE           -980                                                                                        CASE FOR TEST 10 - 58
+            T STAT DE
+            MD
+
+59C70059    APP TO SE           -980                                                                                        CASE FOR TEST 10 - 59
+            T STAT DE
+            MD
+
+5CB70005    DEBTORS P           -980                                                                                        CASE FOR TEST 10 - 5
+            ETITION
+
+60C70060    APP TO SE           -980                                                                                        CASE FOR TEST 10 - 60
+            T STAT DE
+            MD
+
+61C70061    APP TO SE           -980                                                                                        CASE FOR TEST 10 - 61
+            T STAT DE
+            MD
+
+62C70062    APP TO SE           -980                                                                                        CASE FOR TEST 10 - 62
+            T STAT DE
+            MD
+
+63C70063    APP TO SE           -980                                                                                        CASE FOR TEST 10 - 63
+            T STAT DE
+            MD
+
+64C70064    CREDITORS           -980                                                                                        CASE FOR TEST 10 - 64
+             PETITION
+
+65C70065    DEBTORS P           -980                                                                                        CASE FOR TEST 10 - 65
+            ETITION
+
+66C70066    APP TO SE           -980                                                                                        CASE FOR TEST 10 - 66
+            T STAT DE
+            MD
+
+67C70067    APP TO SE           -980                                                                                        CASE FOR TEST 10 - 67
+            T STAT DE
+            MD
+
+68C70068    CREDITORS           -980                                                                                        CASE FOR TEST 10 - 68
+             PETITION
+
+69C70069    APP TO SE           -980                                                                                        CASE FOR TEST 10 - 69
+            T STAT DE
+            MD
+
+6CB70006    APP TO SE           -980                                                                                        CASE FOR TEST 10 - 6
+            T STAT DE
+            MD
+
+70C70070    DEBTORS P           -980                                                                                        CASE FOR TEST 10 - 70
+            ETITION
+
+71C70071    APP TO SE           -980                                                                                        CASE FOR TEST 10 - 71
+            T STAT DE
+            MD
+
+72C70072    APP TO SE           -980                                                                                        CASE FOR TEST 10 - 72
+            T STAT DE
+            MD
+
+73C70073    APP TO SE           -980                                                                                        CASE FOR TEST 10 - 73
+            T STAT DE
+            MD
+
+74C70074    APP TO SE           -980                                                                                        CASE FOR TEST 10 - 74
+            T STAT DE
+            MD
+
+75C70075    APP TO SE           -980                                                                                        CASE FOR TEST 10 - 75
+            T STAT DE
+            MD
+
+76C70076    CREDITORS           -980                                                                                        CASE FOR TEST 10 - 76
+             PETITION
+
+77C70077    APP INT O           -980                                                                                        CASE FOR TEST 10 - 77
+            RD (INSOL
+            V)
+
+78C70078    APP TO SE           -980                                                                                        CASE FOR TEST 10 - 78
+            T STAT DE
+            MD
+
+79C70079    APP TO SE           -980                                                                                        CASE FOR TEST 10 - 79
+            T STAT DE
+            MD
+
+7CB70007    APP INT O           -980                                                                                        CASE FOR TEST 10 - 7
+            RD (INSOL
+            V)
+
+80C70080    CREDITORS           -980                                                                                        CASE FOR TEST 10 - 80
+             PETITION
+
+81C70081    APP TO SE           -980                                                                                        CASE FOR TEST 10 - 81
+            T STAT DE
+            MD
+
+82C70082    APP TO SE           -980                                                                                        CASE FOR TEST 10 - 82
+            T STAT DE
+            MD
+
+83C70083    APP TO SE           -980                                                                                        CASE FOR TEST 10 - 83
+            T STAT DE
+            MD
+
+84C70084    APP TO SE           -980                                                                                        CASE FOR TEST 10 - 84
+            T STAT DE
+            MD
+
+85C70085    DEBTORS P           -980                                                                                        CASE FOR TEST 10 - 85
+            ETITION
+
+86C70086    APP TO SE           -980                                                                                        CASE FOR TEST 10 - 86
+            T STAT DE
+            MD
+
+87C70087    APP TO SE           -980                                                                                        CASE FOR TEST 10 - 87
+            T STAT DE
+            MD
+
+88C70088    CREDITORS           -980                                                                                        CASE FOR TEST 10 - 88
+             PETITION
+
+89C70089    APP TO SE           -980                                                                                        CASE FOR TEST 10 - 89
+            T STAT DE
+            MD
+
+8CB70008    CREDITORS           -980                                                                                        CASE FOR TEST 10 - 8
+             PETITION
+
+90C70090    APP TO SE           -980                                                                                        CASE FOR TEST 10 - 90
+            T STAT DE
+            MD
+
+91C70091    APP INT O           -980                                                                                        CASE FOR TEST 10 - 91
+            RD (INSOL
+            V)
+
+92C70092    CREDITORS           -980                                                                                        CASE FOR TEST 10 - 92
+             PETITION
+
+93C70093    APP TO SE           -980                                                                                        CASE FOR TEST 10 - 93
+            T STAT DE
+            MD
+
+94C70094    APP TO SE           -980                                                                                        CASE FOR TEST 10 - 94
+            T STAT DE
+            MD
+
+95C70095    DEBTORS P           -980                                                                                        CASE FOR TEST 10 - 95
+            ETITION
+
+96C70096    APP TO SE           -980                                                                                        CASE FOR TEST 10 - 96
+            T STAT DE
+            MD
+
+97C70097    APP TO SE           -980                                                                                        CASE FOR TEST 10 - 97
+            T STAT DE
+            MD
+
+98C70098    APP INT O           -980                                                                                        CASE FOR TEST 10 - 98
+            RD (INSOL
+            V)
+
+99C70099    APP TO SE           -980                                                                                        CASE FOR TEST 10 - 99
+            T STAT DE
+            MD
+
+9CB70009    APP TO SE           -980                                                                                        CASE FOR TEST 10 - 9
+            T STAT DE
+            MD
+
+1D70001     APP INT O           -979                                                                                        CASE FOR TEST 11 - 1
+            RD (INSOL
+            V)
+
+2D70002     APP INT O           -979                                                                                        CASE FOR TEST 11 - 2
+            RD (INSOL
+            V)
+
+3D70003     APP INT O           -979                                                                                        CASE FOR TEST 11 - 3
+            RD (INSOL
+            V)
+
+
+130 rows selected.
+
+Test Data BEFORE - system_data
+
+no rows selected
+
+
+PL/SQL procedure successfully completed.
+
+
+
+-------------------- Test : 1 --------------------
+>>>> success - court code to process does not exist in caseman. No migration occurs.
+================================================================================
+Insolvency Number Data Migration Report for
+Court Code '-989' at 20-OCT-2008 10:30:48 AM
+--------------------------------------------------------------------------------
+Court Code '-989' is either invalid, no longer an active court
+or not a SUPS court.
+
+--------------------------------------------------------------------------------
+Insolvency Cases Found       = 0
+Insolvency Cases Updated     = 0
+Insolvency Cases Skipped     = 0
+================================================================================
+
+
+-------------------- Test : 2 --------------------
+>>>> success - court code submitted is closed. No migration occurs.
+================================================================================
+Insolvency Number Data Migration Report for
+Court Code '-988' at 20-OCT-2008 10:30:48 AM
+--------------------------------------------------------------------------------
+Court Code '-988' is either invalid, no longer an active court
+or not a SUPS court.
+
+--------------------------------------------------------------------------------
+Insolvency Cases Found       = 0
+Insolvency Cases Updated     = 0
+Insolvency Cases Skipped     = 0
+================================================================================
+
+
+-------------------- Test : 3 --------------------
+>>>> success - court code submitted for Legacy court. No migration occurs.
+================================================================================
+Insolvency Number Data Migration Report for
+Court Code '-987' at 20-OCT-2008 10:30:48 AM
+--------------------------------------------------------------------------------
+Court Code '-987' is either invalid, no longer an active court
+or not a SUPS court.
+
+--------------------------------------------------------------------------------
+Insolvency Cases Found       = 0
+Insolvency Cases Updated     = 0
+Insolvency Cases Skipped     = 0
+================================================================================
+
+
+-------------------- Test : 4 --------------------
+>>>> success - court with insolvency cases with some invalid case numbers - case numbers do not have
+7 in 4th digit
+================================================================================
+Insolvency Number Data Migration Report for
+Court Code '-986' at 20-OCT-2008 10:30:49 AM
+--------------------------------------------------------------------------------
+List of Errored Case Numbers
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Case number XXXX2008 invalid.
+Case number XXXY2008 invalid.
+
+--------------------------------------------------------------------------------
+Insolvency Cases Found       = 3
+Insolvency Cases Updated     = 1
+Insolvency Cases Skipped     = 2
+================================================================================
+
+
+-------------------- Test : 5 --------------------
+>>>> success - court with insolvency cases with some invalid case numbers - sequence in case numbers
+not numeric
+================================================================================
+Insolvency Number Data Migration Report for
+Court Code '-985' at 20-OCT-2008 10:30:49 AM
+--------------------------------------------------------------------------------
+List of Errored Case Numbers
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Case number 8YY7000T - cannot derive insolvency sequence.
+Case number 8YY70Y03 - cannot derive insolvency sequence.
+
+--------------------------------------------------------------------------------
+Insolvency Cases Found       = 3
+Insolvency Cases Updated     = 1
+Insolvency Cases Skipped     = 2
+================================================================================
+
+
+-------------------- Test : 6 --------------------
+>>>> success - court with insolvency cases with some invalid case numbers - year is not numeric
+================================================================================
+Insolvency Number Data Migration Report for
+Court Code '-984' at 20-OCT-2008 10:30:49 AM
+--------------------------------------------------------------------------------
+List of Errored Case Numbers
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Case number PYY70001 - cannot derive insolvency year.
+
+--------------------------------------------------------------------------------
+Insolvency Cases Found       = 3
+Insolvency Cases Updated     = 2
+Insolvency Cases Skipped     = 1
+================================================================================
+
+
+-------------------- Test : 7 --------------------
+>>>> success - court with insolvency cases one case record locked - locked record skipped.
+================================================================================
+Insolvency Number Data Migration Report for
+Court Code '-983' at 20-OCT-2008 10:30:50 AM
+--------------------------------------------------------------------------------
+List of Errored Case Numbers
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Case number 2ZY70002 - record locked by another session.
+
+--------------------------------------------------------------------------------
+Insolvency Cases Found       = 4
+Insolvency Cases Updated     = 3
+Insolvency Cases Skipped     = 1
+================================================================================
+
+
+-------------------- Test : 8 --------------------
+>>>> success - court with insolvency cases - court cases not migrated due to oracle error.
+================================================================================
+Insolvency Number Data Migration Report for
+Court Code '-982' at 20-OCT-2008 10:30:50 AM
+--------------------------------------------------------------------------------
+Court Code '-982' raised the following Oracle Error. 
+ORA-06501: PL/SQL: program error
+ORA-06512: at "WESTM_CM.TRG_FORCE_ERROR", line 2
+ORA-04088: error during execution of trigger 'WESTM_CM.TRG_FORCE_ERROR'
+
+ROLLBACK issued!
+
+--------------------------------------------------------------------------------
+Insolvency Cases Found       = 0
+Insolvency Cases Updated     = 0
+Insolvency Cases Skipped     = 0
+================================================================================
+
+
+-------------------- Test : 9 --------------------
+>>>> success - court with insolvency cases - some cases not of insolvency type so not migrated
+================================================================================
+Insolvency Number Data Migration Report for
+Court Code '-981' at 20-OCT-2008 10:30:50 AM
+--------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------
+Insolvency Cases Found       = 8
+Insolvency Cases Updated     = 8
+Insolvency Cases Skipped     = 0
+================================================================================
+
+
+-------------------- Test : 10 --------------------
+>>>> success - court with insolvency cases - volume testing
+================================================================================
+Insolvency Number Data Migration Report for
+Court Code '-980' at 20-OCT-2008 10:30:51 AM
+--------------------------------------------------------------------------------
+List of Errored Case Numbers
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Case number 100C71 - cannot derive insolvency sequence.
+
+--------------------------------------------------------------------------------
+Insolvency Cases Found       = 95
+Insolvency Cases Updated     = 94
+Insolvency Cases Skipped     = 1
+================================================================================
+
+
+
+PL/SQL procedure successfully completed.
+
+Test Data AFTER - courts
+
+        CODE ID NAME                           TEL_NO FAX_NO BLF_TEL_NO CASEMAN_INSERVICE DATABASE_NAME TASKS_UPDATED DISTRICT_REGISTRY      WFT_GROUPING_COURT WFT_DM_EMAIL_ADDRESS SAT_COURT OPEN_FLAG          LAST_WRT_SEQNO SUPS_CENTRALISED_FLAG DX_NUMBER DEFAULT_PRINTER DEED_PACK_NUMBER WELSH_HIGH_COURT_NAME WELSH_COUNTY_COURT_NAME FAP_ID TUCS_IN_USE
+------------ -- ------------------------------ ------ ------ ---------- ----------------- ------------- ------------- ----------------- ----------------------- -------------------- --------- --------- ----------------------- --------------------- --------- --------------- ---------------- --------------------- ----------------------- ------ -----------
+        -988    COURT TEST 2                                            N                                                                                                                                                        Y
+        -987    COURT TEST 3                                            Y                                                                                                                                                        N
+        -986    COURT TEST 4                                            Y                                                                                                                                                        Y
+        -985    COURT TEST 5                                            Y                                                                                                                                                        Y
+        -984    COURT TEST 6                                            Y                                                                                                                                                        Y
+        -983    COURT TEST 7                                            Y                                                                                                                                                        Y
+        -982    COURT TEST 8                                            Y                                                                                                                                                        Y
+        -981    COURT TEST 9                                            Y                                                                                                                                                        Y
+        -980    COURT TEST 10                                           Y                                                                                                                                                        Y
+        -979    COURT TEST 11                                           Y                                                                                                                                                        Y
+
+10 rows selected.
+
+Test Data AFTER - cases
+
+CASE_NUMBER CASE_TYPE ADMIN_CRT_CODE INSOLVENCY_NUMBER AMOUNT_CLAIMED    COURT_FEE SOLICITORS_COSTS        TOTAL DATE_OF_IS BRIEF_DETAILS_OF_CLAIM PARTICULARS_OF_CLAIM TRANS_CRT_CODE DATE_OF_TR STATUS TRANSFER_REASON DATE_TRANS PREVIOUS_COURT TRANSFER_STATUS RECEIPT_DA XFER_RECEI AMOUNT_CLAIMED_CURRENCY COURT_FEE_CURRENCY SOLICITORS_COSTS_CURRENCY TOTAL_CURRENCY CJR MANUAL TRANS_CASE_TYPE    CRED_CODE
+----------- --------- -------------- ----------------- -------------- ------------ ---------------- ------------ ---------- ---------------------- -------------------- -------------- ---------- ------ --------------- ---------- -------------- --------------- ---------- ---------- ----------------------- ------------------ ------------------------- -------------- --- ------ --------------- ------------
+8XX70002    APP INT O           -986 00022008                                                                               CASE FOR TEST 4 - 2
+            RD (INSOL
+            V)
+
+XXXX2008    APP INT O           -986                                                                                        CASE FOR TEST 4 - 1
+            RD (INSOL
+            V)
+
+XXXY2008    APP INT O           -986                                                                                        CASE FOR TEST 4 - 3
+            RD (INSOL
+            V)
+
+8YY70002    APP INT O           -985 00022008                                                                               CASE FOR TEST 5 - 2
+            RD (INSOL
+            V)
+
+8YY7000T    APP INT O           -985                                                                                        CASE FOR TEST 5 - 1
+            RD (INSOL
+            V)
+
+8YY70Y03    APP INT O           -985                                                                                        CASE FOR TEST 5 - 3
+            RD (INSOL
+            V)
+
+2YY70002    APP TO SE           -984 00022002                                                                               CASE FOR TEST 6 - 2
+            T STAT DE
+            MD
+
+3YY70003    APP TO SE           -984 00032003                                                                               CASE FOR TEST 6 - 3
+            T STAT DE
+            MD
+
+PYY70001    APP TO SE           -984                                                                                        CASE FOR TEST 6 - 1
+            T STAT DE
+            MD
+
+1ZY70001    APP TO SE           -983 00012001                                                                               CASE FOR TEST 7 - 1
+            T STAT DE
+            MD
+
+2ZY70002    CREDITORS           -983                                                                                        CASE FOR TEST 7 - 2
+             PETITION
+
+3ZY70003    DEBTORS P           -983 00032003                                                                               CASE FOR TEST 7 - 3
+            ETITION
+
+4ZY70004    WINDING U           -983 00042004                                                                               CASE FOR TEST 7 - 4
+            P PETITIO
+            N
+
+1AA70001    APP TO SE           -982                                                                                        CASE FOR TEST 8 - 1
+            T STAT DE
+            MD
+
+2AA70002    CREDITORS           -982                                                                                        CASE FOR TEST 8 - 2
+             PETITION
+
+3AA70003    DEBTORS P           -982                                                                                        CASE FOR TEST 8 - 3
+            ETITION
+
+4AA70004    WINDING U           -982                                                                                        CASE FOR TEST 8 - 4
+            P PETITIO
+            N
+
+10B70010    APP TO SE           -981 00102001                                                                               CASE FOR TEST 9 - 10
+            T STAT DE
+            MD
+
+1BB70001    APP TO SE           -981 00012001                                                                               CASE FOR TEST 9 - 1
+            T STAT DE
+            MD
+
+2BB70002    CREDITORS           -981 00022002                                                                               CASE FOR TEST 9 - 2
+             PETITION
+
+3BB70003    DEBTORS P           -981 00032003                                                                               CASE FOR TEST 9 - 3
+            ETITION
+
+4BB70004    NOT INSOL           -981                                                                                        CASE FOR TEST 9 - 4
+            V CASE
+
+5BB70005    CREDITORS           -981 00052005                                                                               CASE FOR TEST 9 - 5
+             PETITION
+
+6BB70006    DEBTORS P           -981 00062006                                                                               CASE FOR TEST 9 - 6
+            ETITION
+
+7BB70007    APP INT O           -981 00072007                                                                               CASE FOR TEST 9 - 7
+            RD (INSOL
+            V)
+
+8BB70008    NOT INSOL           -981                                                                                        CASE FOR TEST 9 - 8
+            V CASE
+
+9BB70009    DEBTORS P           -981 00092009                                                                               CASE FOR TEST 9 - 9
+            ETITION
+
+100C71      CREDITORS           -980                                                                                        CASE FOR TEST 10 - 100
+             PETITION
+
+10C70010    DEBTORS P           -980 00102001                                                                               CASE FOR TEST 10 - 10
+            ETITION
+
+11C70011    APP TO SE           -980 00112001                                                                               CASE FOR TEST 10 - 11
+            T STAT DE
+            MD
+
+12C70012    APP TO SE           -980 NOTNULL                                                                                CASE FOR TEST 10 - 12
+            T STAT DE
+            MD
+
+13C70013    APP TO SE           -980 00132001                                                                               CASE FOR TEST 10 - 13
+            T STAT DE
+            MD
+
+14C70014    APP INT O           -980 00142001                                                                               CASE FOR TEST 10 - 14
+            RD (INSOL
+            V)
+
+15C70015    APP TO SE           -980 00152001                                                                               CASE FOR TEST 10 - 15
+            T STAT DE
+            MD
+
+16C70016    CREDITORS           -980 00162001                                                                               CASE FOR TEST 10 - 16
+             PETITION
+
+17C70017    APP TO SE           -980 00172001                                                                               CASE FOR TEST 10 - 17
+            T STAT DE
+            MD
+
+18C70018    NOT INSOL           -980                                                                                        CASE FOR TEST 10 - 18
+            V CASE
+
+19C70019    APP TO SE           -980 00192001                                                                               CASE FOR TEST 10 - 19
+            T STAT DE
+            MD
+
+1CB70001    APP TO SE           -980 00012001                                                                               CASE FOR TEST 10 - 1
+            T STAT DE
+            MD
+
+20C70020    CREDITORS           -980 00202002                                                                               CASE FOR TEST 10 - 20
+             PETITION
+
+21C70021    APP TO SE           -980 00212002                                                                               CASE FOR TEST 10 - 21
+            T STAT DE
+            MD
+
+22C70022    APP TO SE           -980 00222002                                                                               CASE FOR TEST 10 - 22
+            T STAT DE
+            MD
+
+23C70023    APP TO SE           -980 00232002                                                                               CASE FOR TEST 10 - 23
+            T STAT DE
+            MD
+
+24C70024    APP TO SE           -980 NOTNULL                                                                                CASE FOR TEST 10 - 24
+            T STAT DE
+            MD
+
+25C70025    DEBTORS P           -980 00252002                                                                               CASE FOR TEST 10 - 25
+            ETITION
+
+26C70026    APP TO SE           -980 00262002                                                                               CASE FOR TEST 10 - 26
+            T STAT DE
+            MD
+
+27C70027    APP TO SE           -980 00272002                                                                               CASE FOR TEST 10 - 27
+            T STAT DE
+            MD
+
+28C70028    CREDITORS           -980 00282002                                                                               CASE FOR TEST 10 - 28
+             PETITION
+
+29C70029    APP TO SE           -980 00292002                                                                               CASE FOR TEST 10 - 29
+            T STAT DE
+            MD
+
+2CB70002    APP TO SE           -980 00022002                                                                               CASE FOR TEST 10 - 2
+            T STAT DE
+            MD
+
+30C70030    APP TO SE           -980 00302003                                                                               CASE FOR TEST 10 - 30
+            T STAT DE
+            MD
+
+31C70031    APP TO SE           -980 00312003                                                                               CASE FOR TEST 10 - 31
+            T STAT DE
+            MD
+
+32C70032    CREDITORS           -980 00322003                                                                               CASE FOR TEST 10 - 32
+             PETITION
+
+33C70033    APP TO SE           -980 00332003                                                                               CASE FOR TEST 10 - 33
+            T STAT DE
+            MD
+
+34C70034    APP TO SE           -980 00342003                                                                               CASE FOR TEST 10 - 34
+            T STAT DE
+            MD
+
+35C70035    DEBTORS P           -980 00352003                                                                               CASE FOR TEST 10 - 35
+            ETITION
+
+36C70036    APP TO SE           -980 00362003                                                                               CASE FOR TEST 10 - 36
+            T STAT DE
+            MD
+
+37C70037    APP TO SE           -980 00372003                                                                               CASE FOR TEST 10 - 37
+            T STAT DE
+            MD
+
+38C70038    APP TO SE           -980 00382003                                                                               CASE FOR TEST 10 - 38
+            T STAT DE
+            MD
+
+39C70039    APP TO SE           -980 00392003                                                                               CASE FOR TEST 10 - 39
+            T STAT DE
+            MD
+
+3CB70003    APP TO SE           -980 00032003                                                                               CASE FOR TEST 10 - 3
+            T STAT DE
+            MD
+
+40C70040    CREDITORS           -980 00402004                                                                               CASE FOR TEST 10 - 40
+             PETITION
+
+41C70041    APP TO SE           -980 00412004                                                                               CASE FOR TEST 10 - 41
+            T STAT DE
+            MD
+
+42C70042    APP TO SE           -980 00422004                                                                               CASE FOR TEST 10 - 42
+            T STAT DE
+            MD
+
+43C70043    APP TO SE           -980 00432004                                                                               CASE FOR TEST 10 - 43
+            T STAT DE
+            MD
+
+44C70044    CREDITORS           -980 00442004                                                                               CASE FOR TEST 10 - 44
+             PETITION
+
+45C70045    APP TO SE           -980 00452004                                                                               CASE FOR TEST 10 - 45
+            T STAT DE
+            MD
+
+46C70046    APP TO SE           -980 00462004                                                                               CASE FOR TEST 10 - 46
+            T STAT DE
+            MD
+
+47C70047    APP TO SE           -980 00472004                                                                               CASE FOR TEST 10 - 47
+            T STAT DE
+            MD
+
+48C70048    APP TO SE           -980 00482004                                                                               CASE FOR TEST 10 - 48
+            T STAT DE
+            MD
+
+49C70049    APP INT O           -980 00492004                                                                               CASE FOR TEST 10 - 49
+            RD (INSOL
+            V)
+
+4CB70004    NOT INSOL           -980                                                                                        CASE FOR TEST 10 - 4
+            V CASE
+
+50C70050    DEBTORS P           -980 00502005                                                                               CASE FOR TEST 10 - 50
+            ETITION
+
+51C70051    NOT INSOL           -980                                                                                        CASE FOR TEST 10 - 51
+            V CASE
+
+52C70052    CREDITORS           -980 00522005                                                                               CASE FOR TEST 10 - 52
+             PETITION
+
+53C70053    APP TO SE           -980 00532005                                                                               CASE FOR TEST 10 - 53
+            T STAT DE
+            MD
+
+54C70054    APP TO SE           -980 00542005                                                                               CASE FOR TEST 10 - 54
+            T STAT DE
+            MD
+
+55C70055    DEBTORS P           -980 00552005                                                                               CASE FOR TEST 10 - 55
+            ETITION
+
+56C70056    CREDITORS           -980 00562005                                                                               CASE FOR TEST 10 - 56
+             PETITION
+
+57C70057    APP TO SE           -980 00572005                                                                               CASE FOR TEST 10 - 57
+            T STAT DE
+            MD
+
+58C70058    APP TO SE           -980 00582005                                                                               CASE FOR TEST 10 - 58
+            T STAT DE
+            MD
+
+59C70059    APP TO SE           -980 00592005                                                                               CASE FOR TEST 10 - 59
+            T STAT DE
+            MD
+
+5CB70005    DEBTORS P           -980 00052005                                                                               CASE FOR TEST 10 - 5
+            ETITION
+
+60C70060    APP TO SE           -980 00602006                                                                               CASE FOR TEST 10 - 60
+            T STAT DE
+            MD
+
+61C70061    APP TO SE           -980 00612006                                                                               CASE FOR TEST 10 - 61
+            T STAT DE
+            MD
+
+62C70062    APP TO SE           -980 00622006                                                                               CASE FOR TEST 10 - 62
+            T STAT DE
+            MD
+
+63C70063    APP TO SE           -980 00632006                                                                               CASE FOR TEST 10 - 63
+            T STAT DE
+            MD
+
+64C70064    CREDITORS           -980 00642006                                                                               CASE FOR TEST 10 - 64
+             PETITION
+
+65C70065    DEBTORS P           -980 00652006                                                                               CASE FOR TEST 10 - 65
+            ETITION
+
+66C70066    APP TO SE           -980 00662006                                                                               CASE FOR TEST 10 - 66
+            T STAT DE
+            MD
+
+67C70067    APP TO SE           -980 00672006                                                                               CASE FOR TEST 10 - 67
+            T STAT DE
+            MD
+
+68C70068    CREDITORS           -980 00682006                                                                               CASE FOR TEST 10 - 68
+             PETITION
+
+69C70069    APP TO SE           -980 00692006                                                                               CASE FOR TEST 10 - 69
+            T STAT DE
+            MD
+
+6CB70006    APP TO SE           -980 00062006                                                                               CASE FOR TEST 10 - 6
+            T STAT DE
+            MD
+
+70C70070    DEBTORS P           -980 00702007                                                                               CASE FOR TEST 10 - 70
+            ETITION
+
+71C70071    APP TO SE           -980 00712007                                                                               CASE FOR TEST 10 - 71
+            T STAT DE
+            MD
+
+72C70072    APP TO SE           -980 00722007                                                                               CASE FOR TEST 10 - 72
+            T STAT DE
+            MD
+
+73C70073    APP TO SE           -980 00732007                                                                               CASE FOR TEST 10 - 73
+            T STAT DE
+            MD
+
+74C70074    APP TO SE           -980 00742007                                                                               CASE FOR TEST 10 - 74
+            T STAT DE
+            MD
+
+75C70075    APP TO SE           -980 00752007                                                                               CASE FOR TEST 10 - 75
+            T STAT DE
+            MD
+
+76C70076    CREDITORS           -980 00762007                                                                               CASE FOR TEST 10 - 76
+             PETITION
+
+77C70077    APP INT O           -980 00772007                                                                               CASE FOR TEST 10 - 77
+            RD (INSOL
+            V)
+
+78C70078    APP TO SE           -980 00782007                                                                               CASE FOR TEST 10 - 78
+            T STAT DE
+            MD
+
+79C70079    APP TO SE           -980 00792007                                                                               CASE FOR TEST 10 - 79
+            T STAT DE
+            MD
+
+7CB70007    APP INT O           -980 00072007                                                                               CASE FOR TEST 10 - 7
+            RD (INSOL
+            V)
+
+80C70080    CREDITORS           -980 00802008                                                                               CASE FOR TEST 10 - 80
+             PETITION
+
+81C70081    APP TO SE           -980 00812008                                                                               CASE FOR TEST 10 - 81
+            T STAT DE
+            MD
+
+82C70082    APP TO SE           -980 00822008                                                                               CASE FOR TEST 10 - 82
+            T STAT DE
+            MD
+
+83C70083    APP TO SE           -980 00832008                                                                               CASE FOR TEST 10 - 83
+            T STAT DE
+            MD
+
+84C70084    APP TO SE           -980 00842008                                                                               CASE FOR TEST 10 - 84
+            T STAT DE
+            MD
+
+85C70085    DEBTORS P           -980 00852008                                                                               CASE FOR TEST 10 - 85
+            ETITION
+
+86C70086    APP TO SE           -980 00862008                                                                               CASE FOR TEST 10 - 86
+            T STAT DE
+            MD
+
+87C70087    APP TO SE           -980 00872008                                                                               CASE FOR TEST 10 - 87
+            T STAT DE
+            MD
+
+88C70088    CREDITORS           -980 00882008                                                                               CASE FOR TEST 10 - 88
+             PETITION
+
+89C70089    APP TO SE           -980 00892008                                                                               CASE FOR TEST 10 - 89
+            T STAT DE
+            MD
+
+8CB70008    CREDITORS           -980 00082008                                                                               CASE FOR TEST 10 - 8
+             PETITION
+
+90C70090    APP TO SE           -980 00902009                                                                               CASE FOR TEST 10 - 90
+            T STAT DE
+            MD
+
+91C70091    APP INT O           -980 00912009                                                                               CASE FOR TEST 10 - 91
+            RD (INSOL
+            V)
+
+92C70092    CREDITORS           -980 00922009                                                                               CASE FOR TEST 10 - 92
+             PETITION
+
+93C70093    APP TO SE           -980 00932009                                                                               CASE FOR TEST 10 - 93
+            T STAT DE
+            MD
+
+94C70094    APP TO SE           -980 00942009                                                                               CASE FOR TEST 10 - 94
+            T STAT DE
+            MD
+
+95C70095    DEBTORS P           -980 00952009                                                                               CASE FOR TEST 10 - 95
+            ETITION
+
+96C70096    APP TO SE           -980 00962009                                                                               CASE FOR TEST 10 - 96
+            T STAT DE
+            MD
+
+97C70097    APP TO SE           -980 00972009                                                                               CASE FOR TEST 10 - 97
+            T STAT DE
+            MD
+
+98C70098    APP INT O           -980 00982009                                                                               CASE FOR TEST 10 - 98
+            RD (INSOL
+            V)
+
+99C70099    APP TO SE           -980 00992009                                                                               CASE FOR TEST 10 - 99
+            T STAT DE
+            MD
+
+9CB70009    APP TO SE           -980 00092009                                                                               CASE FOR TEST 10 - 9
+            T STAT DE
+            MD
+
+1D70001     APP INT O           -979                                                                                        CASE FOR TEST 11 - 1
+            RD (INSOL
+            V)
+
+2D70002     APP INT O           -979                                                                                        CASE FOR TEST 11 - 2
+            RD (INSOL
+            V)
+
+3D70003     APP INT O           -979                                                                                        CASE FOR TEST 11 - 3
+            RD (INSOL
+            V)
+
+
+130 rows selected.
+
+Test Data AFTER - system_data
+
+no rows selected
+
+
+Commit complete.
+
+
+0 rows deleted.
+
+
+130 rows deleted.
+
+
+0 rows deleted.
+
+
+10 rows deleted.
+
+
+
+--------------------------------------------------------------
+>>>> Test 11 is executed outside the test harness
+>>>> success - report directory object missing - error raised
+--------------------------------------------------------------
+
+
+================================================================================
+Insolvency Number Data Migration Report for
+Court Code '-989' at 20-OCT-2008 10:30:51 AM
+--------------------------------------------------------------------------------
+Error raised :File location specified is invalid (REPORTS Object may not be set).
+================================================================================

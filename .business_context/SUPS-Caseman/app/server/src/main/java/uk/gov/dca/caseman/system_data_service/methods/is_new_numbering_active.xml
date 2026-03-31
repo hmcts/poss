@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: SystemData
+	Method:  isNewNumberingActive()
+	File:    is_new_numbering_active.xml
+	Author:  Chris Vincent
+	Created: 15 May 2013
+	Description: 
+		Returns true if the new numbering system is active, else false
+-->
+<service-method>
+	<pipeline>
+		<SQLLite format-output="true"
+				 resultset-element="CaseNumbering"
+				 row-element="NewNumbering"
+				 field-name-as="element" >
+			<DataSource id="java:OracleDS"/>
+			<SQL>
+				SELECT 
+					CASE 
+						WHEN TRUNC(SYSDATE) >= TO_DATE(SD.ITEM_VALUE, 'YYYYMMDD') THEN 'true' 
+					ELSE 'false' 
+					END AS "IsActive"
+				FROM SYSTEM_DATA SD
+				WHERE SD.ITEM = 'NEW_NUMBERING_LIVE_DATE' 
+				AND SD.ADMIN_COURT_CODE = 0
+			</SQL>
+		</SQLLite>
+	</pipeline>
+	<Security roles="viewOnly medium high wcSuper scSuper bmsSuper aeSuper dmSuper cpSuper edsAdmin ccbcMan ccbcUser ccbcSGB2"/>
+</service-method>

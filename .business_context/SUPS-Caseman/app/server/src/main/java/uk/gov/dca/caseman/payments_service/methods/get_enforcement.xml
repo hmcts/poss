@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: Payments
+	Method: getEnforcement()
+	File: get_enforcement.xml
+	Author: Steve Blair
+	Description:
+		Get enforcement details for Suitors Cash. Calls relevant getEnforcementXXX depending on params.
+-->
+<service-method>
+	<pipeline>
+		<Java>
+			<Source class="uk.gov.dca.caseman.payments_service.java.GetEnforcementCustomProcessor" />
+		</Java>
+	</pipeline>
+	<Security roles="viewOnly medium high wcSuper scSuper bmsSuper aeSuper dmSuper cpSuper ccbcMan ccbcUser ccbcSGB2"/>
+</service-method>

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Called by: uk/gov/dca/caseman/codedparty_service/deleteCodedParty.xml
+
+	v1.0: Chris Hutt       20/12/04
+	
+	Does not delete a CODED_PARTY where have associated CASES (look on CASE_PARTY_ROLES)
+
+-->
+<QueryDef>
+  <DBMapDef location="uk/gov/dca/caseman/codedparty_service/map_cp_stats.xml"/>
+  <Query pivotNode="/CodedParties/CodedParty" tables="CPR CP" >
+      <Join/>
+      <Modify>
+      	 <CheckExists table="CPR" fields="party_id" onNotExist="skip" onExist="fail"/>
+      	 <Field name="cpr.party_id" xpath="PartyId"/>
+      		
+      	 <CheckExists table="CP" fields="code admin_court_code" onNotExist="fail" onExist="delete"/>
+       	 <Field name="cp.party_id" xpath="PartyId"/>
+      </Modify>
+  </Query>
+</QueryDef>

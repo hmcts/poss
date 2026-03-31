@@ -1,0 +1,62 @@
+<Group id="9008">
+	<ServicesRequired>
+		<mapping name="getHearingCO" serviceName="getHearingCO"/>
+		<service name="getHearingCO" cache="none" url="Hearing" method="getHearingCO">
+		</service>
+	</ServicesRequired>
+	<Protocols>
+		<OnSave>
+			<function>getHearingCO</function>
+			<functionCallback>GetHearingCOCallback</functionCallback>
+		</OnSave>
+	</Protocols>
+	<JavaScript>	
+		
+function getHearingCO() {
+    	    		
+    	    		
+    var coNumber = WPU.getValue(WPU.NODE_XPATHS['CONumber']);    		
+	var params = new ServiceParams();	    
+    params.addSimpleParameter("coNumber", coNumber );	
+	Services.callService("getHearingCO", params, GetHearingCOCallback, true);
+}
+
+	
+function GetHearingCOCallback() { }
+
+GetHearingCOCallback.onSuccess = function(dom) 
+{   
+	if (null != dom) 
+	{		
+		var xpath = "/ds/MaintainHearing"
+		
+		if( Services.exists( xpath ))
+		{	
+			Services.replaceNode( xpath, dom.selectSingleNode(xpath));
+		}
+		else
+		{	Services.addNode( dom.selectSingleNode( xpath ), "/ds");
+		}				
+		Save_All();  
+	}
+	else 
+	{
+		alert(Messages.NO_RESULTS_MESSAGE); 
+	} 
+}
+
+GetHearingCOCallback.onBusinessException = function(exception)  
+{
+
+	alert(Messages.FAILEDSAVE_MESSAGE); 
+}
+
+GetHearingCOCallback.onSystemException = function(exception) 
+{
+
+	alert(Messages.FAILEDSAVE_MESSAGE); 
+}
+
+
+	</JavaScript>
+</Group>

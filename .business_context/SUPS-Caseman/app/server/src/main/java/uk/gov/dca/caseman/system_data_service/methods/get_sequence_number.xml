@@ -1,0 +1,30 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: SystemData
+	Method:  getSequenceNumber()
+	File:    get_sequence_number.xml
+	Author:  Phil Haferer (EDS)
+	Created: 07-Apr-2006
+	Description: 
+		Retrieve the value of a particular System Data row that is used as a Sequence Number,
+		and DO NOT lock the for update.
+-->
+<service-method>
+	<pipeline>
+		<SQLLite format-output="true"
+				 resultset-element="ds"
+				 row-element="SystemData"
+				 field-name-as="element" >
+			<DataSource id="java:OracleDS"/>
+			<Param name="param.adminCourtCode" xpath="/params/param[@name='adminCourtCode']"/>
+			<Param name="param.item"           xpath="/params/param[@name='item']"/>
+			<SQL>
+				SELECT SD.ITEM_VALUE AS "ItemValue"
+				FROM   SYSTEM_DATA SD
+				WHERE  SD.ADMIN_COURT_CODE = ${param.adminCourtCode}
+				AND    SD.ITEM             = ${param.item}
+			</SQL>
+		</SQLLite>
+	</pipeline>
+	<Security roles="viewOnly medium high wcSuper scSuper bmsSuper aeSuper dmSuper"/>
+</service-method>

@@ -1,0 +1,96 @@
+/*
+ * Created on 27-Jul-2004
+ *
+ */
+package ${service.package};
+
+import java.io.StringWriter;
+
+import uk.gov.dca.db.ejb.ServiceBean;
+import javax.ejb.CreateException;
+import uk.gov.dca.db.exception.BusinessException;
+import uk.gov.dca.db.exception.SystemException;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
+/**
+ * @ejb.bean type="Stateless"
+ * 			 name="${service.name}Service"
+ *           jndi-name="ejb/${service.name}Service"
+ *           view-type="all"
+ *
+ * @ejb.interface service-endpoint-class="${service.package}.${service.name}ServiceService"
+ *
+ * @wsee.port-component name="${service.name}ServiceServicePort"
+ * @jboss-net.web-service urn = "${service.name}"
+ * @jboss-net.authentication domain="other" validate-unauthenticated-calls="true"
+ * jboss-net.authorization domain="other" roles-allowed="user"
+ *
+ * @soap.service urn="${service.name}"
+ *
+ * @author Michael Barker
+ *
+ */
+public class ${service.name}Bean extends ServiceBean
+{
+
+	/**
+	 * EJB lifecycle method called when the bean instance is created.
+	 * 
+	 * @ejb.create-method
+ 	 * @ejb.permission role-name="user"
+ 	 *
+	 * @throws CreateException
+	 */
+	public void ejbCreate() throws CreateException
+    {
+        try {
+        	initialise();
+        }
+        catch(SystemException e) {
+        	baseLog.error("Error occurred on creation of bean", e);
+        	throw new CreateException("Failed to initialise service: "+e.getMessage());
+        }
+    }
+
+    /**
+     * @wlws:exclude
+     */
+    public String[] getMethods()
+    {
+        return METHODS;
+    }
+    
+    private final static String SERVICE_NAME = "${service.name}";
+    private final static String PROJECT_FILE = "${service.project_config}";
+    private final static String FRAMEWORK_CONFIG_FILE = "${service.framework_config}";
+    private final static String[] METHODS = {
+        ${service.methods}
+    };
+    private static final Log log = LogFactory.getLog(${service.name}Bean.class);
+    
+	/**
+	 * @wlws:exclude
+	 */
+	public String getFrameworkConfigFile()
+	{
+		return FRAMEWORK_CONFIG_FILE;
+	}
+
+	/**
+	 * @wlws:exclude
+	 */
+	public String getProjectConfigFile()
+	{
+		return PROJECT_FILE;
+	}
+
+	/**
+	 * @wlws:exclude
+	 */
+	public String getServiceName()
+	{
+		return SERVICE_NAME;
+	}
+	
+	

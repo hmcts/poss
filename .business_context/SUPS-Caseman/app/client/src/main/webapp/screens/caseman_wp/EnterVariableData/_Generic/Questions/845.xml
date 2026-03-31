@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>845</Id>
+	<Label>CO status</Label>
+	<ObjectName>COStatus</ObjectName>
+	<Context ScreenId="CO19">
+	</Context>
+	
+	<Html>
+		<input id="COStatus" type="text"></input>
+	</Html>
+	<Javascript>
+		<XPath>/ds/EnterVariableData/CODStatus</XPath>
+		<componentName>##label##</componentName>
+		<HintText></HintText>
+		<isMandatory>return false;</isMandatory>
+		<isReadOnly>return true;</isReadOnly>
+		<mandatoryOn>COStatus.dataBinding</mandatoryOn>
+		<initialise>
+				var coStatus = WPU.getValue( WPU.NODE_XPATHS['COStatus'] );  			 			   	
+			   	Services.setValue(COStatus.dataBinding,coStatus);
+		</initialise>	
+	</Javascript>
+</Question>

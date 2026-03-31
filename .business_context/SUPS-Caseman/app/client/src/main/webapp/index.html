@@ -1,0 +1,28 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3c.org/TR/html4/strict.dtd">
+<html>
+	<head>
+		<title>SUPS CaseMan Menu Page - DO NOT CLOSE</title>
+        
+        <style type="text/css">
+        a { 
+		  	font-weight: bold; 
+		  	text-decoration:none; 
+		  	color: #0000FF;
+		}
+        </style>
+        
+        <script type="text/javascript">
+        	var win = null;
+            function openApplication()
+            {
+            	var currentTime = new Date();
+     	      	win = window.open("./screens/caseman_menu/index.html?logging=0&wpPRTwp=true&wpDBGwp=false&wpPRTora=true","CasemanMainMenu" + currentTime.getTime(),"top=0,left=0,width=983,height=680,scrollbars=no")
+            }
+        </script>		
+	</head>
+	<body onLoad="openApplication();">
+      <h2>Do Not Close This Window</h2>
+      <h2>CaseMan Launch Window</h2>
+      <p><a href="javascript:openApplication()">CaseMan Form Menu</a></p>
+	</body>
+</html>

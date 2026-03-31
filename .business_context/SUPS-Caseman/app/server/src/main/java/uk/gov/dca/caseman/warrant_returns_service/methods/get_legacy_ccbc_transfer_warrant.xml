@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: WarrantReturns
+	Method:  getLegacyCcbcTransferWarrant
+	Author:  Phil Haferer (EDS) 
+	Created: 04 Dec 2006
+	Description: 
+		Is the current Warrant one for which Final Returns should sent to CCBC?
+	Change History
+		11/12/2013 - Chris Vincent (Trac 5025), included CONTROL warrants in the query constraint for TCE
+-->
+<service-method>
+	<pipeline>
+		<SQLLite format-output="true"
+				 resultset-element="ds"
+				 row-element="Warrant"
+				 field-name-as="element" >
+			<DataSource id="java:OracleDS"/>
+			<Param name="param.warrantId" xpath="/params/param[@name='warrantId']"/>
+			<SQL>
+                SELECT DECODE(COUNT(*),0,'false','true') AS "Transfer"
+                FROM   WARRANTS     W
+                WHERE  W.WARRANT_ID = ${param.warrantId}
+                AND    W.CCBC_WARRANT = 'Y'
+                AND    W.WARRANT_TYPE IN ('EXECUTION','CONTROL')
+                AND    EXISTS 
+                (SELECT NULL 
+                 FROM   COURTS CRT
+                 WHERE  CRT.CODE = 335
+                 AND    CRT.SUPS_CENTRALISED_FLAG = 'N')
+			</SQL>
+		</SQLLite>
+  	</pipeline>
+  <Security roles="medium high wcSuper scSuper bmsSuper aeSuper dmSuper cpSuper ccbcMan ccbcUser ccbcSGB2"/>		  
+</service-method>

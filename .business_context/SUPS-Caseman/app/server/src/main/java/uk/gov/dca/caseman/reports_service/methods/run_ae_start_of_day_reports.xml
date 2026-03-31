@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: Reports
+	Method:  runAeStartOfDayReports()
+	File:    run_ae_start_of_day_reports.xml
+	Author:  Kevin Gichohi (EDS)
+	Created: 25 October 2005
+	Description: 
+		Calls the Custom Processor that builds the XML that is eventually passed to reports service.
+-->
+<service-method>
+	<pipeline> 
+		<Java callStyle="new">
+			<Source class="uk.gov.dca.caseman.reports_service.classes.OrderedAeStartOfDayReportsCustomProcessor"/>
+		</Java>
+	</pipeline>
+	<Transaction type="Supports" />	
+	<Dependencies>
+		<Dependency serviceName="StartOfDay"/>	
+		<Dependency serviceName="CaseEvent"/>	
+		<Dependency serviceName="Bms"/>	
+		<Dependency serviceName="UserCourt"/>	
+		<Dependency serviceName="SystemDate"/>	
+		<Dependency serviceName="NonWorkingDay"/>
+		<Dependency serviceName="Ae"/>
+		<Dependency serviceName="Case"/>
+	</Dependencies>		
+	<Security roles="viewOnly medium high wcSuper scSuper bmsSuper aeSuper dmSuper edsAdmin cpSuper"/>		
+</service-method>

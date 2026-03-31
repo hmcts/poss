@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<service-method>
+	<pipeline>
+		<Query>
+			<QueryDef location="uk/gov/dca/caseman/case_event_service/query_def_get_case_event_on_commit_list.xml"/>
+			<QueryExtension pivotNode="/CaseEvent/Options/Option">
+				<Param name="param.rvDomain" xpath="/params/param[@name = 'rvDomain']"/>
+				<Constraint>CCBC.RV_DOMAIN = ${param.rvDomain}</Constraint>
+			</QueryExtension>
+		</Query>
+	</pipeline>
+	<Security roles="user"/>
+</service-method>

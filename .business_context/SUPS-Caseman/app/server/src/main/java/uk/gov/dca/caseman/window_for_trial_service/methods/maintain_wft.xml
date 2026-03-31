@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: WindowForTrial
+	Method:  maintainWindowForTrial()
+	File:    maintain_window_for_trial.xml
+	Author:  Chris Hutt
+	Created: 3 feb 2005
+	Description: 
+		Insert/update a Window For Trial associated with a case
+-->
+<service-method>
+	<pipeline>
+		<Java>
+			<Source class="uk.gov.dca.caseman.window_for_trial_service.java.MaintainWftCustomProcessor"/>
+		</Java>
+	</pipeline>
+	<Dependencies>
+		<Dependency serviceName="CaseEvent"/>		
+	</Dependencies>			
+	<Security roles="medium high wcSuper scSuper bmsSuper aeSuper dmSuper cpSuper ccbcMan ccbcUser ccbcSGB2"/> 			
+</service-method>

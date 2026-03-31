@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<service-method>
+	<pipeline>		
+		<Query>
+			<QueryDef location="uk/gov/dca/caseman/co_service/query_def_co_on_event_commit.xml"/>
+			<QueryExtension pivotNode="/CoRecord">
+				<Param name="param.coNumber" xpath="/params/param[@name = 'coNumber']"/>															
+				<Constraint>
+					CO.CO_NUMBER = ${param.coNumber}																				
+				</Constraint>				
+			</QueryExtension>
+		</Query>		
+	</pipeline>
+	<Security roles="user"/>
+</service-method>

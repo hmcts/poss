@@ -1,0 +1,32 @@
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>634</Id>
+	<Label>Select Part 20 defendant</Label>
+	<ObjectName>Part20Defndt</ObjectName>
+	
+	<Context screenId="CJR186"><isVisible>false</isVisible></Context>
+	
+	<Html>	
+		<script type="text/javascript">
+			Grid.createInline("Part20Defndt", ["Party Type", "Number", "Name"] , 2, 1);
+		</script>
+	</Html>		
+	
+	<Javascript>
+		<XPath>/ds/EnterVariableData/Part20/part20Defndt</XPath>
+		<componentName>##label##</componentName>
+		<isMandatory>return false;</isMandatory>
+		<HintText>Select Part 20 defendant</HintText>	
+		<miscCode>		
+			Part20Defndt.srcData  = DATA_XPATH + "/Parties";
+			Part20Defndt.rowXPath = "LitigiousParty[./TypeCode = '" + CMC.PartyTypeCodesEnum.PART_20_DEFENDANT + "']";
+			Part20Defndt.keyXPath = "PartyId";
+			Part20Defndt.columns  = [
+				{xpath: "Type"},
+				{xpath: "Number", sort: "numerical", defaultSort:"true", defaultSortOrder:"ascending"},
+				{xpath: "Name"}
+			];
+			Part20Defndt.multipleSelection = false;					
+		</miscCode>		
+	</Javascript>
+
+</Question>

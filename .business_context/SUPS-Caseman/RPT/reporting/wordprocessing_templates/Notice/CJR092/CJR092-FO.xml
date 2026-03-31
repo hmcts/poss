@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- ====================================================================== -->
+<!--  -->
+<!-- FILENAME: $Source: C:/CVSRepository/serveroas/src/uk/gov/dca/caseman/wordprocessing_templates/Notice/CJR092/CJR092-FO.xml,v $ -->
+<!--  -->
+<!-- AUTHOR: $Author: conganer $-->
+<!--  -->
+<!-- DATE: $Date: 2006/06/05 14:14:02 $ -->
+<!--  -->
+<!-- Version: $Revision: 1.11 $ -->
+<!--  -->
+<!-- DESCRIPTION: This stylesheet is used to create an XSL:FO document that -->
+<!-- can be processed into a PDF version.  Business logic -->
+<!-- is embedded to generate the correct document text for the order -->
+<!-- required. -->
+<!--  -->
+<!-- INPUTS: XML document containing: the answers to questions asked of the -->
+<!-- user; case data retrieved from the database; HTML representing the  -->
+<!-- body of the document content (already edited by the user). -->
+<!--  -->
+<!-- OUTPUTS: XML document with FO tags containing instructions for the -->
+<!-- creation of a PDF document. -->
+<!--  -->
+<!-- ====================================================================== -->
+<root xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:fo="http://www.w3.org/1999/XSL/Format" xmlns="http://eds.com/supsfo">
+	<variables>@word.processing.url.xsl@supsfo.xsl</variables>
+	<addressee>
+		<blank/>
+		<subject/>
+		<instigators/>
+		<thirdparty/>
+	</addressee>
+	<header>
+		<fo:block font-size="16pt" font-weight="bold">Final third party</fo:block>
+		<fo:block font-size="16pt" font-weight="bold">debt order</fo:block>
+	</header>
+	<courtcase>
+		<court>
+			<xsl:copy-of select="$vdCourtHeaderBlock"/>
+		</court>
+		<caseparameters>
+			<parameter>
+				<name>
+					<fo:block font-weight="bold">Claim Number</fo:block>
+				</name>
+				<value>
+					<fo:block>
+						<xsl:value-of select="$vdClaimNumber"/>
+					</fo:block>
+				</value>
+			</parameter>
+			<parameter>
+				<name>
+					<fo:block font-weight="bold"><xsl:value-of select="$vdInstigatorPartyRole"/></fo:block>
+					<fo:block font-size="9pt">(including ref.)</fo:block>
+				</name>
+				<value>
+					<fo:block hyphenate="true">
+						<xsl:value-of select="$vdInstigatorName"/>
+					</fo:block>
+					<fo:block font-size="9pt" hyphenate="true">
+						<xsl:value-of select="$vdInstigatorReference"/>
+					</fo:block>
+				</value>
+			</parameter>
+			<parameter>
+				<name>
+					<fo:block font-weight="bold"><xsl:value-of select="$vdSubjectPartyRole"/></fo:block>
+					<fo:block font-size="9pt">(including ref.)</fo:block>
+				</name>
+				<value>
+					<fo:block hyphenate="true">
+						<xsl:value-of select="$vdSubjectName"/>
+					</fo:block>
+					<fo:block font-size="9pt" hyphenate="true">
+						<xsl:value-of select="$vdSubjectReference"/>
+					</fo:block>
+				</value>
+			</parameter>
+			<parameter>
+				<name>
+					<fo:block font-weight="bold">Third Party</fo:block>
+				</name>
+				<value>
+					<fo:block hyphenate="true">
+						<xsl:value-of select="$vdThirdPartyName"/>
+					</fo:block>
+				</value>
+			</parameter>
+		</caseparameters>
+	</courtcase>
+	<bodyintroright><fo:block space-before="0.4cm"><fo:inline text-align="center"><seal/></fo:inline></fo:block></bodyintroright>
+
+	<body>
+		<editable useid="N100CD">
+		<fo:block space-after="0.4cm">
+			<fo:inline font-weight="bold">On </fo:inline> <xsl:value-of select="$vdOrderDate"/>, <xsl:value-of select="$vdJudge"/>
+		</fo:block>
+		<fo:block space-after="0.4cm">
+			sitting at <xsl:value-of select="$vdHearingAtCourtNameDescription"/>, <xsl:value-of select="$vdHearingAtCourtAddress"/>
+		</fo:block>
+		<fo:block space-after="0.4cm">
+			<xsl:copy-of select="$vdHearingAttendees"/>
+		</fo:block>
+		<fo:block space-after="0.4cm">
+			<fo:inline font-weight="bold">and the court orders</fo:inline> that
+		</fo:block>
+		<fo:block space-after="0.4cm">
+			1.The third party pay to the <xsl:value-of select="$vdJudgmentCreditor"/> ('the judgment creditor') &#163;<xsl:value-of select="$vdPayMoney"/> on or before the <xsl:value-of select="$vdPayMoneyDate"/>.
+		</fo:block>
+		<fo:block space-after="0.4cm">
+			2. The judgment creditor's costs of this application &#163;<xsl:value-of select="$vdGoodsCostAmount"/> are to be retained out of the money recovered by the judgment creditor under this order in priority to the judgment debt.
+		</fo:block>
+		
+		</editable>
+		<fo:block text-align="center" font-weight="bold">
+			The effect of this order
+		</fo:block>
+
+			<fo:table table-layout="fixed">
+			<fo:table-column column-width="2cm"></fo:table-column>
+			<fo:table-column column-width="7cm"></fo:table-column>
+			<fo:table-column column-width="1cm"></fo:table-column>
+			<fo:table-column column-width="7cm"></fo:table-column>
+			<fo:table-body>
+				<fo:table-row>
+					<fo:table-cell/>
+					<fo:table-cell>
+						<fo:block>
+						The amount owed <fo:inline font-weight="bold">to</fo:inline> the judgment debtor by the third party will be reduced by what the third
+						party pays under this order <fo:inline font-weight="bold">and</fo:inline> any costs and expenses to which the third party is entitled.
+						</fo:block>
+					</fo:table-cell>
+					<fo:table-cell/>
+					<fo:table-cell>
+						<fo:block>
+						The amount owed <fo:inline font-weight="bold">by</fo:inline> the judgment debtor to the judgment creditor will be reduced by what the third party pays
+						under this order <fo:inline font-weight="bold">less</fo:inline> the judgment creditor's costs of the application, including the court fee.
+						</fo:block>
+					</fo:table-cell>
+				</fo:table-row>
+			</fo:table-body>
+		</fo:table>		
+	</body>
+	<defaultFooter id="CJR092"/>
+</root>

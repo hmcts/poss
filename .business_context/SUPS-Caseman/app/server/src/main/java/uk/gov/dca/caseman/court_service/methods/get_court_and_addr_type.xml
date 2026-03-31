@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- 
+	Service: Court
+	Method:  getCourtAndAddrType()
+	File:    get_court_and_addr_type.xml
+	Author:  Chris Hutt
+	Created: 16 feb 2006
+	Description: 
+		Retrieve details for specified court including specified type of address
+            Note: addresses returned under a seperate pivot node because there may be multiples
+--> 
+<service-method>
+	<pipeline>
+		<Query>
+  			<QueryDef location="uk/gov/dca/caseman/court_service/query_def_court_and_addr_type.xml"/>
+  				<QueryExtension pivotNode="/Courts/Court">
+    					<Param name="param.courtId" xpath="/params/param[@name = 'courtId']"/>
+  				</QueryExtension>
+  				<QueryExtension pivotNode="/Courts/Court/ContactDetails/Addresses/Address">
+    					<Param name="param.addressType" xpath="/params/param[@name = 'addressType']"/>
+    					<Param name="param.courtId" xpath="/params/param[@name = 'courtId']"/>
+  				</QueryExtension>
+		</Query>	
+  	</pipeline>
+	<Security roles="viewOnly medium high wcSuper scSuper bmsSuper aeSuper dmSuper cpSuper ccbcMan"/>	
+</service-method>

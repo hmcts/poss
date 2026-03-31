@@ -1,0 +1,30 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!-- 
+	Service: Codedparty
+	Method:  deleteCodedParty()
+	File:    deleteCodedParty.xml
+	Author:  Chris Hutt
+	Created: 20/12/04
+	Description: 
+		update a local coded party
+		Associated Use case:  UC017  Maintain Local Coded Parties
+
+	v1.0: Chris Hutt       20/12/04
+	V1.1: Chris Hutt       11/01/05 - checkexists promoted to the calling methods
+	10-Jul-2006 Phil Haferer: Added QueryExtension to populate the column CODED_PARTIES.CASCADE_UPDATE_FLAG
+	            when a Coded Party is updated.
+	            (TD 3951: Changes to Coded Party Details not cascaded into Payments and Warrants).
+-->
+<service-method>
+	<pipeline>
+		<Update>
+  			<QueryDef location="uk/gov/dca/caseman/codedparty_service/query_def.xml"/>
+			<DataSource xpath="/params/param[@name='codedPartyCode']"/>
+  				<QueryExtension pivotNode="/CodedParties/CodedParty">
+  					<CheckExists table="P" fields="party_id" onNotExist="fail" onExist="update"/>
+      				<Field name="cp.cascade_update_flag" value="Y"/>
+				</QueryExtension>
+		</Update>
+  	</pipeline>
+	<Security roles="cpSuper ccbcMan"/>			
+</service-method>

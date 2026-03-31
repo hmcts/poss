@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: CaseEvent
+	Method:  isEventForCase
+	Author:  Chris Hutt (EDS) 
+	Created: 08 June 2005
+	Description: 
+		Use SQLLite to determine whether a case has specified event registered against it
+-->
+<service-method>
+	<pipeline>
+		<SQLLite format-output="true"
+				 resultset-element="ds"
+				 row-element="Case"
+				 field-name-as="element" >
+			<DataSource id="java:OracleDS"/>
+			<Param name="param.eventId" xpath="/params/param[@name='eventId']"/>
+			<Param name="param.caseNumber" xpath="/params/param[@name='caseNumber']"/>
+			<SQL>
+				SELECT 
+						DECODE(COUNT(*),0,'false','true') 	AS "HasEvents"
+				FROM    CASE_EVENTS CE
+				WHERE   CE.STD_EVENT_ID = ${param.eventId}
+				AND     CE.CASE_NUMBER =  ${param.caseNumber}
+				AND 	CE.DELETED_FLAG != 'Y'
+			</SQL>
+		</SQLLite>
+  	</pipeline>
+	<Security roles="user"/>
+</service-method>

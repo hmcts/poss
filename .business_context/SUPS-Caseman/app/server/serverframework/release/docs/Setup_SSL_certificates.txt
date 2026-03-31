@@ -1,0 +1,66 @@
+Steps to enable SSL authentication.
+
+1)  Generate certificates.
+
+(you will need keytool which is part of ths 1.4 SDK to be on the path)
+
+Create directory ${jboss_base}/server/default/conf/ssl 
+
+In this directory run the following (replacing , e.g. VTUK049)
+
+keytool -genkey -alias tomcat -dname "CN=${MACHINE_NAME}, OU=Sups, O=sups, L=Telford, S=Telford, C=UK" -keyalg RSA -keypass password -storepass password -keystore mykeystore.keystore
+
+keytool -export -alias tomcat -storepass password -file server.cer -keystore mykeystore.keystore
+
+
+2)  Configure JBoss
+
+in ${jboss_base}/server/default/deploy/jbossweb-tomcat50.sar/server.xml
+
+add the following <Connector> element.
+
+<Server>
+
+  <Service>
+.
+.
+.
+.
+
+     <Connector port="8443" address="${jboss.bind.address}" maxThreads="100"
+            minSpareThreads="5" maxSpareThreads="15" scheme="https"
+            secure="true" clientAuth="false"
+	    keystoreFile="${jboss.server.home.dir}/conf/ssl/mykeystore.keystore"
+            keystorePass="password" sslProtocol="TLS">
+     </Connector>
+
+.
+.
+.
+  </Service>
+</Server>
+
+
+3)  Add certificate for use by IE
+
+a) In a command window type "mmc"
+
+b) File => Add/Remove Snapin => Add
+
+c) Select "Certificates"
+
+d) Add => Select "Computer Account" => Next => Finish => Close => OK
+
+e) Expand "Certificates"
+
+f) Right click on "Personal" => All Tasks => Import... => Next
+
+g) Browse to ${jboss_base}/server/default/conf/ssl/server.cer
+
+i) Next => Select "Automatic" option => Next => Finish
+
+
+
+
+
+

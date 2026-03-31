@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	v1.0 Chris Hutt 2/2/2005
+-->
+<service-method>
+	<pipeline>
+		<NewQuery>
+			<QueryDef location="uk/gov/dca/caseman/window_for_trial_service/query_def_case_wfts_join.xml"/>
+			<QueryExtension pivotNode="/WindowsForTrial/WindowForTrial">
+				<Param name="param.caseNumber" xpath="/params/param[@name = 'caseNumber']"/>
+				<Constraint>WFT.WFT_CASE_NUMBER = ${param.caseNumber}</Constraint>		
+			</QueryExtension>
+		</NewQuery>
+	</pipeline>
+	<Security roles="user"/>
+</service-method>
+
+

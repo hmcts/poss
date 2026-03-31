@@ -1,0 +1,354 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- ====================================================================== -->
+<!--  -->
+<!-- FILENAME: $Source: C:/CVSRepository/serveroas/src/uk/gov/dca/caseman/wordprocessing_templates/Notice/CJR091/CJR091-FO.xml,v $ -->
+<!--  -->
+<!-- AUTHOR: $Author: narges $-->
+<!--  -->
+<!-- DATE: $Date: 2006/05/30 11:43:19 $ -->
+<!--  -->
+<!-- Version: $Revision: 1.15 $ -->
+<!--  -->
+<!-- DESCRIPTION: This stylesheet is used to create an XSL:FO document that -->
+<!-- can be processed into a PDF version.  Business logic -->
+<!-- is embedded to generate the correct document text for the order -->
+<!-- required. -->
+<!--  -->
+<!-- INPUTS: XML document containing: the answers to questions asked of the -->
+<!-- user; case data retrieved from the database; HTML representing the  -->
+<!-- body of the document content (already edited by the user). -->
+<!--  -->
+<!-- OUTPUTS: XML document with FO tags containing instructions for the -->
+<!-- creation of a PDF document. -->
+<!--  -->
+<!-- ====================================================================== -->
+<root xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:fo="http://www.w3.org/1999/XSL/Format" xmlns="http://eds.com/supsfo">
+	<variables>@word.processing.url.xsl@supsfo.xsl</variables>
+	<duplex/>
+	<addressee>
+		<blank/>
+		<subject/>
+		<instigators/>
+		<thirdparty/>
+		<thirdpartybank/>
+	</addressee>
+	<header>
+		<fo:block font-size="16pt" font-weight="bold">Interim third party</fo:block>
+		<fo:block font-size="16pt" font-weight="bold">debt order</fo:block>
+	</header>
+	<courtcase>
+		<court>
+			<xsl:copy-of select="$vdCourtHeaderBlock"/>
+		</court>
+		<caseparameters>
+			<parameter>
+				<name>
+					<fo:block font-weight="bold">Claim Number</fo:block>
+				</name>
+				<value>
+					<fo:block>
+						<xsl:value-of select="$vdClaimNumber"/>
+					</fo:block>
+				</value>
+			</parameter>
+			<parameter>
+				<name>
+					<fo:block font-weight="bold"><xsl:value-of select="$vdInstigatorPartyRole"/></fo:block>
+					<fo:block font-size="9pt">(including ref.)</fo:block>
+				</name>
+				<value>
+					<fo:block hyphenate="true">
+						<xsl:value-of select="$vdInstigatorName"/>
+					</fo:block>
+					<fo:block font-size="9pt" hyphenate="true">
+						<xsl:value-of select="$vdInstigatorReference"/>
+					</fo:block>
+				</value>
+			</parameter>
+			<parameter>
+				<name>
+					<fo:block font-weight="bold"><xsl:value-of select="$vdSubjectPartyRole"/></fo:block>
+					<fo:block font-size="9pt">(including ref.)</fo:block>
+				</name>
+				<value>
+					<fo:block hyphenate="true">
+						<xsl:value-of select="$vdSubjectName"/>
+					</fo:block>
+					<fo:block font-size="9pt" hyphenate="true">
+						<xsl:value-of select="$vdSubjectReference"/>
+					</fo:block>
+				</value>
+			</parameter>
+			<parameter>
+				<name>
+					<fo:block font-weight="bold">Third Party</fo:block>
+				</name>
+				<value>
+					<fo:block hyphenate="true">
+						<xsl:value-of select="$vdThirdPartyName"/>
+					</fo:block>
+				</value>
+			</parameter>
+		</caseparameters>
+	</courtcase>
+
+	<body>
+		<editable useid="N100CA">
+		<fo:block space-after="0.4cm">
+			<fo:inline font-weight="bold">On</fo:inline>&#xA0;<xsl:value-of select="$vdJudgmentDate"/>, <xsl:value-of select="$vdJudge"/>
+		</fo:block>
+		<fo:block>
+			considered the application of the <xsl:value-of select="$vdInstigatorPartyNumber"/>&#xa0;<xsl:copy-of select="$vdInstigatorPartyRoleLower"/> ('the judgment creditor'),
+		</fo:block>
+		<fo:block space-after="0.4cm">
+			from which it appears:
+		</fo:block>
+		<fo:block space-after="0.4cm" start-indent="0.5cm">
+			a) there is an amount owing by the <xsl:value-of select="$vdSubjectPartyNumber"/>&#xa0;<xsl:value-of select="$vdSubjectPartyRoleLower"/> ('the judgment debtor') under the judgment or order given on <xsl:value-of select="$vdInterimChargingOrderDate"/> <xsl:value-of select="$vdJudgmentOtherCourt1"/> and
+		</fo:block>
+		<fo:block space-after="0.4cm" start-indent="0.5cm">
+			b) there is a debt due or accruing due by the third party to the judgment debtor
+		</fo:block>
+		<fo:block space-after="0.4cm">
+			<fo:inline font-weight="bold">and the court orders</fo:inline> that
+		</fo:block>
+		<fo:block space-after="0.4cm">
+			1.  The application will be heard at <xsl:value-of select="$vdHearingTime"/> on <xsl:value-of select="$vdHearingDate1"/> at <xsl:value-of select="$vdHearingCourtNameDescription"/>, <xsl:value-of select="$vdHearingCourtAddress"/> when a judge will decide whether a final third party debt order should be made.
+		</fo:block>
+		<fo:block space-after="0.4cm">
+			2. Until that hearing the third party must not, unless the court orders otherwise, pay to the judgment debtor, or to any other person, any sum of money due or
+			accruing due by the third party to the judgment debtor, except for any part of that sum which exceeds the total shown below.
+		</fo:block>
+		<fo:block space-after="0.4cm">
+			<fo:table table-layout="fixed">
+				<fo:table-column column-width="3.5cm"></fo:table-column>
+				<fo:table-column column-width="11.5cm"></fo:table-column>
+				<fo:table-body>
+					<fo:table-row>
+					<fo:table-cell/>
+					<fo:table-cell border-style="solid" border-width="0.02cm" padding-right="0.3cm" padding-left="0.3cm" padding-top="0.2cm" padding-bottom="0.2cm">	
+						<fo:block text-align="justify" space-after="0.4cm">
+							<fo:table table-layout="fixed">
+								<fo:table-column column-width="7.28cm"></fo:table-column>
+								<fo:table-column column-width="3.5cm"></fo:table-column>
+								<fo:table-body>
+									<fo:table-row>
+										<fo:table-cell padding-right="0.1cm">
+											<fo:block>
+												Amount now owing under the judgment or order including any costs and interest
+											</fo:block>
+										</fo:table-cell>
+										<fo:table-cell>
+											<fo:block text-align="right">
+												&#163;<xsl:call-template name="correctCalculation">
+															<xsl:with-param name="value"><xsl:value-of select="$vdAmountOutstanding"/></xsl:with-param>
+														</xsl:call-template>
+											</fo:block>
+										</fo:table-cell>
+									</fo:table-row>
+									<fo:table-row>
+										<fo:table-cell padding-right="0.1cm" padding-left="0.1cm">
+											<fo:block>
+												Court Fee
+											</fo:block>
+										</fo:table-cell>
+										<fo:table-cell>
+											<fo:block text-align="right">
+												&#163;<xsl:call-template name="correctCalculation"><xsl:with-param name="value">
+														<xsl:value-of select="$vdApplicationFee"/></xsl:with-param>
+													  </xsl:call-template>
+											</fo:block>
+										</fo:table-cell>
+									</fo:table-row>
+									<fo:table-row>
+										<fo:table-cell padding-right="0.1cm" padding-left="0.1cm">
+											<fo:block>
+												Costs of this application which may be allowed to the judgment creditor
+											</fo:block>
+										</fo:table-cell>
+										<fo:table-cell>
+											<fo:block text-align="right">
+												&#163;<xsl:call-template name="correctCalculation"><xsl:with-param name="value">
+														<xsl:value-of select="$vdApplicationCosts"/></xsl:with-param>
+													  </xsl:call-template>
+											</fo:block>
+										</fo:table-cell>
+									</fo:table-row>
+									<fo:table-row>
+										<fo:table-cell padding-right="0.1cm" padding-left="0.1cm">
+											<fo:block font-weight="bold" text-align="right">
+												Total
+											</fo:block>
+										</fo:table-cell>
+										<fo:table-cell border-top-style="solid" border-top-width="0.03cm" border-bottom-style="solid" border-bottom-width="0.03cm">
+											<fo:block text-align="right">
+												&#163;<xsl:value-of select="$vdTotalOwing"/>
+											</fo:block>
+										</fo:table-cell>
+									</fo:table-row>
+								</fo:table-body>
+							</fo:table>
+					</fo:block>
+				</fo:table-cell>
+				</fo:table-row>
+			</fo:table-body>
+			</fo:table>	
+		</fo:block>
+		<fo:block font-weight="bold">
+			This interim order does not authorise the third party to pay any money to the judgment creditor at this stage.
+		</fo:block>
+		<fo:block font-weight="bold" space-before="0.5cm">
+			Hardship
+		</fo:block>
+		<fo:block>
+			If the third party is a bank or building society, and the judgment debtor or their family suffers
+			hardships through not being able to meet ordinary living expenses as a result of not being able to
+			withdraw money from the account, a court may make a hardship payment order allowing some money to
+			be paid out. An application form (N244) can be obtained from any court office <fo:inline font-style="italic"> (see overleaf for
+			further details)</fo:inline>
+		</fo:block>
+		</editable>
+
+		<fo:block text-align="justify" break-before="page">
+			<fo:table table-layout="fixed">
+				<fo:table-column column-width="9.76cm"></fo:table-column>
+				<fo:table-column column-width="9.76cm"></fo:table-column>
+				<fo:table-body>
+					<fo:table-row>
+						<fo:table-cell padding-right="0.2cm">
+							<fo:block font-size="12pt" space-after="0.4cm" font-weight="bold">Hardship payment orders</fo:block>
+							<fo:block space-after="0.4cm">
+								An application for a hardship payment order may be made to:
+							</fo:block>
+							<fo:block space-after="0.4cm">
+								<list type="bullet">
+									<list-item>
+										<fo:block space-after="0.4cm">
+											<fo:inline font-weight="bold">any County Court hearing centre</fo:inline> where the interim third party debt order was made to a county court; or
+										</fo:block>
+									</list-item>
+									<list-item>
+										<fo:block space-after="0.4cm">
+											<fo:inline font-weight="bold">the Royal Courts of Justice in London or to any district registry,</fo:inline> where the interim third
+											party debt order was made by the High Court.
+										</fo:block>
+									</list-item>
+								</list>
+							</fo:block>
+							<fo:block space-after="0.4cm">
+								A fee may be payable for the application, but in certain circumstances, the applicant can apply for exemption or remission of the fee. Court staff
+								can provide further details about remission and exemption and provide the necessary forms.
+							</fo:block>
+							<fo:block space-after="0.4cm">
+								The application should be made using Form N244. It must include details of the judgment creditor, the court where the interim third party debt order
+								was made, if different, and the claim number. The form must include evidence of the hardship caused by not being able to meet ordinary living expenses
+								and must be accompanied by documentary evidence such as mortgage statements or rent book, wage or salary slips and bank statements proving the applicant's
+								financial position. There will usually be a hearing.
+							</fo:block>
+							<fo:block space-after="0.4cm">
+								In cases of exceptional urgency, the court may agree to deal with the application without notice being given to the judgment creditor. Details of why
+								the application is exceptionally urgent and why it should be dealt with without notice to the creditor, should be set out in the application.
+							</fo:block>
+						</fo:table-cell>
+						<fo:table-cell>
+							<fo:block space-after="0.4cm"/>
+							<fo:block space-after="0.4cm">
+								If the judge makes a hardship payment order, the court will draw up an order which will be faxed to the appropriate bank or building society who will
+								then be authorised to pay out the amount, or amounts, specified in the order.
+							</fo:block>
+							<fo:block space-after="0.4cm" font-weight="bold">
+								<fo:inline font-weight="bold">What the third party will do</fo:inline>
+							</fo:block>
+							<fo:block space-after="0.4cm">
+								If the third party <fo:inline font-weight="bold"> is a bank or building society </fo:inline> it must search for all accounts held solely by the judgment debtor and, within 7 days of receiving
+								this order, give details of them to the court and the judgment creditor, stating whether it holds sufficient to cover the total shown and, if not,
+								the amounts in them.
+							</fo:block>
+							<fo:block space-after="0.4cm">
+								A bank or building society may deduct an amount from any money held for the judgment debtor, for its expenses in complying with this order. This would
+								be in addition to the total amount shown above.
+							</fo:block>
+							<fo:block space-after="0.4cm">
+								If the third party <fo:inline font-weight="bold">is not a bank or building society</fo:inline> and claims to owe the judgment debtor no money or less
+								money than the total shown above, the third party must tell the court and the judgment creditor within 7 days of receiving this order.
+							</fo:block>
+							<fo:block space-after="0.4cm" font-weight="bold">The final order</fo:block>
+							<fo:block space-after="0.4cm">
+								If a final third party debt order is made at the hearing, it will require the third party to pay direct to the judgment creditor some or all of the money
+								which the third party owes to the judgment debtor.
+							</fo:block>
+						</fo:table-cell>
+					</fo:table-row>
+					<fo:table-row>
+						<fo:table-cell padding-right="0.2cm">
+							<fo:block font-size="12pt" space-after="0.4cm" font-weight="bold">Party Details</fo:block>
+						</fo:table-cell>
+					</fo:table-row>
+					<fo:table-row>
+						<fo:table-cell padding-right="0.2cm">
+							<fo:block font-weight="bold">The judgment creditor</fo:block>
+							<fo:block>Name: <xsl:value-of select="$vdJudgmentCreditorSolicitorName"/></fo:block>
+							<fo:block>Address for service:</fo:block>
+							<xsl:if test="string-length($vdJudgmentCreditorSolicitorAddress) > 0">
+								<xsl:call-template name="format-address-multi-line">
+									<xsl:with-param name="party">
+										<xsl:copy-of select="$vdJudgmentCreditorSolicitorAddress"/>
+									</xsl:with-param>
+								</xsl:call-template>
+							</xsl:if>
+							<fo:block>Reference: <xsl:value-of select="$vdJudgmentCreditorSolicitorReference"/></fo:block>
+							<fo:block space-after="0.4cm">Telephone: <xsl:value-of select="$vdJudgmentCreditorSolicitorTelephone"/></fo:block>
+						</fo:table-cell>
+						<fo:table-cell padding-right="0.2cm">
+							<fo:block font-weight="bold">The judgment debtor</fo:block>
+							<fo:block>Name: <xsl:value-of select="$vdJudgmentDebtorSolicitorName"/></fo:block>
+							<fo:block>Address:</fo:block>
+							<xsl:if test="string-length($vdJudgmentDebtorSolicitorAddress) > 0">
+								<xsl:call-template name="format-address-multi-line">
+									<xsl:with-param name="party">
+										<xsl:copy-of select="$vdJudgmentDebtorSolicitorAddress"/>
+									</xsl:with-param>
+								</xsl:call-template>
+							</xsl:if>
+							<fo:block>Reference: <xsl:value-of select="$vdJudgmentDebtorSolicitorReference"/></fo:block>
+							<fo:block space-after="0.4cm">Telephone: <xsl:value-of select="$vdJudgmentDebtorSolicitorTelephone"/></fo:block>
+						</fo:table-cell>
+					</fo:table-row>
+					<fo:table-row>
+						<fo:table-cell padding-right="0.2cm">
+							<fo:block font-weight="bold">The third party</fo:block>
+							<fo:block>Name: <xsl:value-of select="$vdThirdPartyName"/></fo:block>
+							<fo:block>Address for service:</fo:block>
+							<xsl:if test="string-length($vdThirdPartyAddress) > 0">
+								<xsl:call-template name="format-address-multi-line">
+									<xsl:with-param name="party">
+										<xsl:copy-of select="$vdThirdPartyAddress"/>
+									</xsl:with-param>
+								</xsl:call-template>
+							</xsl:if>
+							<fo:block>Reference: <xsl:value-of select="$vdThirdPartyAddressReference"/></fo:block>
+							<fo:block space-after="0.4cm">Telephone: <xsl:value-of select="$vdThirdPartyAddressTelephone"/></fo:block>
+						</fo:table-cell>
+						<fo:table-cell padding-right="0.2cm">
+							<xsl:if test="$vdIsBankOrBuildSoc = 'Y'">
+								<fo:block font-weight="bold">Banks and Building Societies</fo:block>
+								<fo:block>The name and address of the branch:</fo:block>
+								<xsl:if test="string-length($vdBranchName) > 0"><fo:block padding-left="1.5cm"><xsl:value-of select="$vdBranchName"/></fo:block></xsl:if>
+								<xsl:if test="string-length($vdBranchAddress) > 0">
+									<xsl:call-template name="format-address-multi-line">
+										<xsl:with-param name="party">
+											<xsl:copy-of select="$vdBranchAddress"/>
+										</xsl:with-param>
+									</xsl:call-template>
+								</xsl:if>
+								<fo:block>Sort code: <xsl:value-of select="$vdBranchSortCode"/></fo:block>
+								<fo:block space-after="0.4cm">Account no(s): <xsl:value-of select="$vdBranchAccountNumber"/></fo:block>
+							</xsl:if>
+						</fo:table-cell>
+					</fo:table-row>
+				</fo:table-body>
+			</fo:table>
+		</fo:block>
+	</body>
+	<defaultFooter id="CJR091"/>
+</root>

@@ -1,0 +1,114 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3c.org/TR/html4/strict.dtd">
+<html>
+	<head>
+		<title>ViewWFTExports</title>
+		<link href="ViewWFTExports.css" type="text/css" rel="stylesheet" title="Default">
+		<script type="text/javascript" src="../../Framework.js"></script>
+		<script type="text/javascript" src="../../ConcatCommon.js"></script>
+		<script type="text/javascript" src="ViewWFTExports.js"></script>
+	</head>
+	
+	<body>
+		
+		<form name="ViewWFTExports" id="ViewWFTExports">
+			
+			<!-- Framework Navigation Menu -->
+			<script type="text/javascript">MenuBarRenderer.createInline();</script> 
+				
+			<table class="layout">
+
+				<tr>
+					<td>
+						<!-- Header Panel -->
+						<div class="panel">
+							<table class="content">
+								<tr>
+									<td class="defaultLabel"><label for="Header_OwningCourtCode">Owning Court</label></td>
+									<td>
+										<input id="Header_OwningCourtCode" type="text" size=5 class="headerfield">&nbsp;
+										<input id="Header_OwningCourtName" type="text" size=35 class="headerfield">
+									</td>
+								</tr>
+							</table>
+						</div>
+						<!-- End Header Panel -->
+					</td>
+				</tr>
+				
+				<!-- Start Overdue Obligations Panel -->
+				<tr>
+					<td>
+						<div class="panel">
+							<table class="content" style="height: 528px;">
+								<tr>
+									<td valign="top">
+										<!-- Start Results Table -->
+										<table>
+											<tr>
+												<td>
+													<script type="text/javascript">
+														Grid.createInline("WFT_ExportsGrid",
+																		  ["Grouping Court", "Export Date", "File Name"],
+																		  28,														 
+																		  1																	 
+														);
+													</script>
+												</td>
+											</tr>
+											<tr>
+												<td><input id="WFT_ExportDownloadButton" type="button" value="Download Export" style="margin-left:5px;"></td>
+											</tr>
+										</table>
+										<!-- End Results Table -->
+									</td>
+								</tr>							
+							</table>
+						</div>
+					</td>
+				</tr>
+				<!-- End Overdue Obligations Panel -->
+
+			</table>
+
+			<!-- Status Bar Panel -->
+			<script type="text/javascript">
+				ActionBarRenderer.createInline(
+					"status_bar",
+					[
+						{id: "Status_CloseBtn", label: "Close"}
+					]
+				);
+			</script>
+			<!-- End Status Bar Panel -->
+			
+			<!-- Oracle Reports Progress Bar Popup -->
+			<div id="ProgressIndicator_Popup" class="popup">
+				<div id="ProgressIndicator_Panel" class="panel">
+					<table class="content" cellspacing="5">
+						<tr>
+							<td><label for="Progress_Bar">Generating Report</label></td>
+						</tr>
+						<tr>
+							<td><input size="67" type="text" id="Progress_Bar"></td>
+						</tr>
+						<tr>
+							<td id="Progress_Status"></td>
+						</tr>
+					</table>
+				</div>
+				<div id="ProgressIndicator_ActionBarContainer">
+					<script type="text/javascript">
+						ActionBarRenderer.createInlineNoStatusBar(
+							"ProgressIndicator_ActionBar",
+							[
+								{label: "Cancel", id: "Popup_Cancel"}
+							]
+						);	
+					</script>
+				</div>
+			</div>
+			<!-- End Oracle Reports Progress Bar Popup -->
+		
+		</form>
+	</body>
+</html>

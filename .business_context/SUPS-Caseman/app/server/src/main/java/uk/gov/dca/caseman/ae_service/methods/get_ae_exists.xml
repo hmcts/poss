@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: Ae
+	Method:  getAeExists()
+	File:    get_ae_exists.xml
+	Author:  Chris Vincent (EDS)
+	Created: 13 April 2006
+	Description: 
+		Determine whether the given Attachment of Earnings Number actually exists.
+-->
+<service-method>
+	<pipeline>
+		<SQLLite format-output="true"
+				 resultset-element="AeExistsCheck"
+				 row-element="AeList"
+				 field-name-as="element" >
+			<DataSource id="java:OracleDS"/>
+			<Param name="param.aeNumber" xpath="/params/param[@name='aeNumber']"/>
+			<SQL>
+				SELECT 	DISTINCT AE.AE_NUMBER 	AS "AeNumber"
+				FROM 	AE_APPLICATIONS AE
+				WHERE 	AE.AE_NUMBER = ${param.aeNumber}
+			</SQL>
+		</SQLLite>
+	</pipeline>
+	<Security roles="medium high wcSuper scSuper bmsSuper aeSuper dmSuper cpSuper"/>
+</service-method>

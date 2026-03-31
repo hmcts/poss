@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>176</Id>
+	<Label>Who are documents to be served on</Label>
+	<ObjectName>DocServedOn2</ObjectName>
+	<Html>	
+		<select id="DocServedOn2">
+			<option value=""></option>
+			<option value="CLM">Claimant</option>
+			<option value="DEF">Defendant</option>
+			<option value="OTH">Other</option>
+		</select>
+	</Html>
+	<Javascript>
+		<XPath>/ds/EnterVariableData/FastTrack/docServedOn</XPath>
+		<HintText>Select party to be served on</HintText>
+		<isMandatory>return true;</isMandatory>	
+		<enableOn>FurtherStatementReqd.dataBinding</enableOn>
+		<isEnabled>return('Y' == Services.getValue(FurtherStatementReqd.dataBinding));</isEnabled>
+		<logicOn>FurtherStatementReqd.dataBinding</logicOn>
+		<logic>
+			if('Y' != Services.getValue(FurtherStatementReqd.dataBinding))
+			{	Services.setValue(DocServedOn2.dataBinding,"");
+			}
+			else
+			{	Services.setValue(DocServedOn2.dataBinding,"DEF");
+			}
+		</logic>		
+	</Javascript>
+</Question>
+
+
+    
+    

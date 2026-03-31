@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Question>
+	<Id>281</Id>
+	<Label>Date of hearing required?</Label>
+	<ObjectName>HearingDateReqd</ObjectName>
+	<Html>
+		<input type="checkbox" id="HearingDateReqd"></input>
+	</Html>
+	<Javascript>
+		<XPath>/ds/EnterVariableData/SmallTrack/hearingDateReqd</XPath>
+		<HintText>Check box if hearing is required.</HintText>
+		<modelValue>checked: "Y", unchecked: "N"</modelValue>
+		<initialise>Services.setValue(HearingDateReqd.dataBinding, "N");</initialise>
+		<Context ScreenId="CJR023A">
+			<initialise>Services.setValue(HearingDateReqd.dataBinding, "Y");</initialise>
+		</Context>
+		<Context ScreenId="CJR023C">
+			<HintText>Check box if a hearing date is required</HintText>
+		</Context>
+	</Javascript>
+</Question>

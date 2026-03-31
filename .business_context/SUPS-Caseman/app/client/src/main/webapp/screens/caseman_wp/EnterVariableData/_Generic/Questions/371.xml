@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>371</Id>
+	<Label>What will be struck out?</Label>
+	<ObjectName>StruckOut</ObjectName>
+	<Html>	
+		<select id="StruckOut">
+			<option value=""></option>
+			<option value="C">Claim</option>
+			<option value="D">Defence</option>
+			<option value="CC">Counterclaim</option>
+			<option value="CD">Claim and Defence</option>
+			<option value="CCC">Claim and counterclaim</option>
+			<option value="CCD">Counterclaim and defence</option>		
+			<option value="CCCD">Claim, counterclaim and defence</option>
+		</select>
+	</Html>			
+	<Javascript>
+		<XPath>/ds/EnterVariableData/FailureToFile/struckOut</XPath>
+		<componentName>##label##</componentName>
+		<isMandatory>return true;</isMandatory>
+		<HintText>Select the details about what has been struck out</HintText>	
+		
+		
+		<Context ScreenId="CJR072">
+			<enableOn>OrderDetails2.dataBinding</enableOn>
+			<isEnabled>return('LQ' == Services.getValue(OrderDetails2.dataBinding));</isEnabled>
+			<logicOn>OrderDetails2.dataBinding</logicOn>
+			<logic>
+				if('LQ' != Services.getValue(OrderDetails2.dataBinding))
+				{	Services.setValue(StruckOut.dataBinding, "");
+				}
+			</logic>
+		</Context>
+	</Javascript>
+</Question>

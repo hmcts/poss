@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>9105</Id>
+	<Label>How are costs to be paid</Label>
+	<ObjectName>PayBy</ObjectName>  
+	<Html>
+		<select id="PayBy">
+			<option value=""></option>
+			<option value="I">Immediately</option>
+			<option value="G">By a given date of payment</option>
+		</select>
+	</Html>	
+	<Context ScreenId="O_5_5">
+		<isVisible>true</isVisible>
+		<Label>When will costs be paid</Label>
+	</Context>		
+	<Javascript>
+        <XPath>/ds/EnterVariableData/PayBy</XPath>
+		<HintText>Select how costs are to be paid</HintText>
+		<isMandatory>return true;</isMandatory>
+
+
+		<enableOn>JudgmentAmount.dataBinding</enableOn>
+        <isEnabled>
+        	var v1 = Services.getValue(JudgmentAmount.dataBinding);
+        	return (v1!=null &amp;&amp; v1 != "");
+      
+        </isEnabled>  
+        <logicOn>JudgmentAmount.dataBinding</logicOn>
+        <logic>
+        	var v1 = Services.getValue(JudgmentAmount.dataBinding);
+        	if(v1 == null || v1 == "")
+        	{
+        		Services.setValue(PayBy.dataBinding, "");
+        	}
+        </logic>
+        		
+        <Context ScreenId="O_5_5">
+			<isMandatory>return true;</isMandatory>
+			<isEnabled>return true;</isEnabled>
+		</Context>
+
+
+	</Javascript>
+</Question>  

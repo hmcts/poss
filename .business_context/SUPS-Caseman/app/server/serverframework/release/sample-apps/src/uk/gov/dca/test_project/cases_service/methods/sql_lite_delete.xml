@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<service-method>
+	<pipeline>
+		<SQLLite>
+			<DataSource id="java:SupsDS"/>
+			<Param name="params.name" xpath="/params/param[@name='name']"/>
+			<SQL type="delete">
+				DELETE FROM MY_TABLE WHERE NAME=${params.name}
+			</SQL>
+		</SQLLite>
+	</pipeline>
+	<Security roles="user"/>
+</service-method>

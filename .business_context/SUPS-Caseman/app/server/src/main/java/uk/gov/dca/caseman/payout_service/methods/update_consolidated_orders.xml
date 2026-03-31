@@ -1,0 +1,29 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: Payout
+	Method:  updateConsolidatedOrders()
+	File:    update_consolidated_orders.xml
+	Author:  A Bonnar (EDS)
+	Created: 6th March 2006
+	Description: 
+		Method to implement update the Consolidated Orders, setting status = PAID
+
+    Change History:
+    06-Apr-2006 Phil Haferer: Removed Admin Court Code from WHERE clause, as not required.
+    07-Apr-2006 Phil Haferer: Changed invalid column name from CO.STATUS to CO.CO_STATUS.
+-->
+<service-method>
+	<pipeline>
+		<SQLLite output="input">
+			<DataSource id="java:OracleDS"/>
+			<Param name="param.coNumber"          xpath="/params/param[@name='coNumber']"/>
+			<Param name="param.status"            xpath="/params/param[@name='status']"/>
+			<SQL type="update" tables="CONSOLIDATED_ORDERS">
+				UPDATE CONSOLIDATED_ORDERS CO
+				SET    CO.CO_STATUS        = ${param.status}
+				WHERE  CO.CO_NUMBER        = ${param.coNumber}
+			</SQL>
+		</SQLLite>
+	</pipeline>
+	<Security roles="viewOnly medium high wcSuper scSuper bmsSuper aeSuper dmSuper edsAdmin"/>		
+</service-method>
