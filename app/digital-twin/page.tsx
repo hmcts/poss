@@ -48,7 +48,7 @@ export default function CaseWalkPage() {
   const [expandedCards, setExpandedCards] = useState<Set<string>>(new Set());
   const [disabledTasks, setDisabledTasks] = useState<Set<string>>(new Set());
 
-  const waToggleVisible = shouldShowWaToggle(waTasks, waMappings);
+  const waToggleVisible = shouldShowWaToggle(waTasks as any, waMappings);
 
   const effectiveEnabled = useMemo(() =>
     computeEffectiveEnabledEvents(enabledEvents, disabledTasks, modelData.events, waTasks as any, waMappings as any, showWaTasks),
@@ -135,8 +135,8 @@ export default function CaseWalkPage() {
                 style={{ backgroundColor: entry.badge.color.background, color: entry.badge.color.text, border: `1px solid ${entry.badge.color.border}` }}>
                 {entry.badge.label}
               </span>
-              {showWaTasks && entry.eventName && (() => {
-                const chips = getTimelineChips(entry.eventName, waTasks as any, waMappings as any);
+              {showWaTasks && (entry as any).eventName && (() => {
+                const chips = getTimelineChips((entry as any).eventName, waTasks as any, waMappings as any);
                 if (chips.length === 0) return null;
                 return (
                   <div className="flex flex-wrap gap-1 mt-1">
