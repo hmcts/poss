@@ -13,6 +13,7 @@ export const ROUTES = [
   { path: '/product-catalogue', label: 'Product Catalogue', icon: 'catalogue' },
   { path: '/coverage-map', label: 'Coverage Map', icon: 'coverage' },
   { path: '/journey', label: 'Journey Explorer', icon: 'journey' },
+  { path: '/reference-data', label: 'Reference Data', icon: 'database' },
 ] as const;
 
 // -- Claim Types --------------------------------------------------------------
