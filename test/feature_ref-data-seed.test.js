@@ -173,35 +173,36 @@ suite('seed-events-and-assocs', () => {
 // ── Suite: seed-states ─────────────────────────────────────────────────────────
 
 suite('seed-states', () => {
-  test('states: 2 states from single ingestion file', () => {
+  test('states: 7 states from single ingestion file', () => {
     const result = statesFromIngested([mainClaimEngland]);
-    assert.equal(result.length, 2, 'statesFromIngested([MAIN_CLAIM_ENGLAND]) must return 2 states');
+    assert.equal(result.length, 7, 'statesFromIngested([MAIN_CLAIM_ENGLAND]) must return 7 states');
   });
 
-  test('states: field mapping technicalName→name, description empty', () => {
+  test('states: field mapping uiLabel→name, description empty', () => {
     const result = statesFromIngested([mainClaimEngland]);
-    const draft = result.find((s) => s.id === 'MCE_DRAFT');
-    assert.ok(draft !== undefined, 'MCE_DRAFT state must be present');
-    assert.equal(draft.id, 'MCE_DRAFT', 'id must be preserved');
-    assert.equal(draft.name, 'DRAFT', 'name must be set from technicalName ("DRAFT")');
-    assert.equal(draft.description, '', 'description must be empty string');
+    const s = result.find((s) => s.id === 'mce-draft');
+    assert.ok(s !== undefined, '"mce-draft" state must be present');
+    assert.equal(s.id, 'mce-draft', 'id must be preserved');
+    assert.equal(s.name, 'Draft', 'name must be set from uiLabel ("Draft")');
+    assert.equal(s.description, '', 'description must be empty string');
+    assert.equal(s.claimType, 'MAIN_CLAIM_ENGLAND', 'claimType must be carried through');
   });
 
   test('states: multiple files aggregate', () => {
     // Simulate two ingestion files by passing the same file twice with different state ids.
     const fileA = {
-      states: [{ id: 'ACW_DRAFT', technicalName: 'DRAFT', uiLabel: 'Draft', claimType: 'ACCELERATED_CLAIM_WALES' }],
+      states: [{ id: 'acw-draft', technicalName: 'DRAFT', uiLabel: 'Draft', claimType: 'ACCELERATED_CLAIM_WALES' }],
       transitions: [],
     };
     const fileB = {
-      states: [{ id: 'MCE_DRAFT', technicalName: 'DRAFT', uiLabel: 'Draft', claimType: 'MAIN_CLAIM_ENGLAND' }],
+      states: [{ id: 'mce-draft', technicalName: 'DRAFT', uiLabel: 'Draft', claimType: 'MAIN_CLAIM_ENGLAND' }],
       transitions: [],
     };
     const result = statesFromIngested([fileA, fileB]);
     assert.equal(result.length, 2, 'aggregating two single-state files must produce 2 states');
     const ids = result.map((s) => s.id);
-    assert.ok(ids.includes('ACW_DRAFT'), 'ACW_DRAFT must be present');
-    assert.ok(ids.includes('MCE_DRAFT'), 'MCE_DRAFT must be present');
+    assert.ok(ids.includes('acw-draft'), 'acw-draft must be present');
+    assert.ok(ids.includes('mce-draft'), 'mce-draft must be present');
   });
 });
 

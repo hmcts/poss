@@ -1,0 +1,118 @@
+{
+  "states": [
+    {
+      "id": "cc-draft",
+      "technicalName": "DRAFT",
+      "uiLabel": "Draft",
+      "claimType": "COUNTER_CLAIM",
+      "isDraftLike": true,
+      "isLive": false,
+      "isEndState": false,
+      "completeness": 80
+    },
+    {
+      "id": "cc-filed",
+      "technicalName": "FILED",
+      "uiLabel": "Filed",
+      "claimType": "COUNTER_CLAIM",
+      "isDraftLike": false,
+      "isLive": true,
+      "isEndState": false,
+      "completeness": 90
+    },
+    {
+      "id": "cc-linked-to-main",
+      "technicalName": "LINKED_TO_MAIN",
+      "uiLabel": "Linked to Main",
+      "claimType": "COUNTER_CLAIM",
+      "isDraftLike": false,
+      "isLive": true,
+      "isEndState": false,
+      "completeness": 60
+    },
+    {
+      "id": "cc-with-judge",
+      "technicalName": "WITH_JUDGE",
+      "uiLabel": "With Judge",
+      "claimType": "COUNTER_CLAIM",
+      "isDraftLike": false,
+      "isLive": true,
+      "isEndState": false,
+      "completeness": 70
+    },
+    {
+      "id": "cc-heard-together",
+      "technicalName": "HEARD_TOGETHER",
+      "uiLabel": "Heard Together",
+      "claimType": "COUNTER_CLAIM",
+      "isDraftLike": false,
+      "isLive": true,
+      "isEndState": false,
+      "completeness": 50
+    },
+    {
+      "id": "cc-determined",
+      "technicalName": "DETERMINED",
+      "uiLabel": "Determined",
+      "claimType": "COUNTER_CLAIM",
+      "isDraftLike": false,
+      "isLive": false,
+      "isEndState": false,
+      "completeness": 100
+    },
+    {
+      "id": "cc-closed",
+      "technicalName": "CLOSED",
+      "uiLabel": "Closed",
+      "claimType": "COUNTER_CLAIM",
+      "isDraftLike": false,
+      "isLive": false,
+      "isEndState": true,
+      "completeness": 40
+    }
+  ],
+  "transitions": [
+    {
+      "from": "cc-draft",
+      "to": "cc-filed",
+      "condition": "File counter-claim",
+      "isSystemTriggered": false,
+      "isTimeBased": false
+    },
+    {
+      "from": "cc-filed",
+      "to": "cc-linked-to-main",
+      "condition": "System links",
+      "isSystemTriggered": true,
+      "isTimeBased": false
+    },
+    {
+      "from": "cc-linked-to-main",
+      "to": "cc-with-judge",
+      "condition": "Refer to judge",
+      "isSystemTriggered": false,
+      "isTimeBased": false
+    },
+    {
+      "from": "cc-with-judge",
+      "to": "cc-heard-together",
+      "condition": "Judge joins hearing",
+      "isSystemTriggered": false,
+      "isTimeBased": false
+    },
+    {
+      "from": "cc-heard-together",
+      "to": "cc-determined",
+      "condition": "Judge determines",
+      "isSystemTriggered": false,
+      "isTimeBased": false
+    },
+    {
+      "from": "cc-determined",
+      "to": "cc-closed",
+      "condition": "Case closed",
+      "isSystemTriggered": true,
+      "isTimeBased": true
+    }
+  ]
+}

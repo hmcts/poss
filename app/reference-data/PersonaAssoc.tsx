@@ -20,6 +20,7 @@ import {
   isEventAssociated,
   isTaskAssociated,
 } from '../../src/ref-data/persona-assoc-logic.js';
+import { groupStatesByClaimType } from '../../src/ref-data/state-event-assoc-logic.js';
 
 interface PersonaAssocProps {
   personas: Persona[];
@@ -169,7 +170,8 @@ export default function PersonaAssoc({
                 style={{
                   cursor: 'pointer',
                   padding: '0.4rem 0.6rem',
-                  background: isSelected ? '#e0e7ff' : 'transparent',
+                  background: isSelected ? '#4f46e5' : 'transparent',
+                  color: isSelected ? '#fff' : 'inherit',
                   borderRadius: '4px',
                   marginBottom: '0.25rem',
                 }}
@@ -177,7 +179,7 @@ export default function PersonaAssoc({
                 <div style={{ fontWeight: isSelected ? 'bold' : 'normal', fontSize: '0.875rem' }}>
                   {persona.id}
                 </div>
-                <div style={{ fontSize: '0.75rem', color: '#6b7280', marginTop: '0.125rem' }}>
+                <div style={{ fontSize: '0.75rem', color: isSelected ? '#c7d2fe' : '#6b7280', marginTop: '0.125rem' }}>
                   {counts.states} states · {counts.events} events · {counts.tasks} tasks
                 </div>
               </li>
@@ -192,24 +194,38 @@ export default function PersonaAssoc({
           <p style={{ color: '#6b7280' }}>Select a persona to manage its associations</p>
         ) : (
           <div style={{ display: 'flex', gap: '1rem', alignItems: 'flex-start' }}>
-            <ChecklistSection
-              label="States"
-              items={states}
-              query={stateQuery}
-              onQueryChange={setStateQuery}
-              isChecked={(state) =>
-                isStateAssociated(selectedPersonaId, state.id, personaStateAssocs)
-              }
-              onToggle={(state) => {
-                const updated = toggleStateAssoc(
-                  selectedPersonaId,
-                  state.id,
-                  personaStateAssocs,
-                );
-                onStateAssocsChange(updated);
-              }}
-              getLabel={(state) => state.name ?? state.id}
-            />
+            {/* States — grouped by claim type */}
+            <section style={{ flex: 1, display: 'flex', flexDirection: 'column', gap: '0.5rem', minWidth: 0 }}>
+              <h3 style={{ margin: 0, fontSize: '0.875rem', fontWeight: 'bold' }}>States</h3>
+              <input
+                type="text"
+                placeholder="Filter states…"
+                value={stateQuery}
+                onChange={(e) => setStateQuery(e.target.value)}
+                style={{ padding: '0.25rem 0.5rem', border: '1px solid #d1d5db', borderRadius: '4px', fontSize: '0.875rem' }}
+              />
+              <div style={{ overflowY: 'auto', maxHeight: '400px', border: '1px solid #e5e7eb', borderRadius: '4px' }}>
+                {groupStatesByClaimType(filterItems(states, stateQuery)).map((group) => (
+                  <div key={group.label}>
+                    <div style={{ fontSize: '0.65rem', fontWeight: 'bold', textTransform: 'uppercase', letterSpacing: '0.05em', color: '#6b7280', padding: '0.35rem 0.5rem', background: '#f9fafb', borderBottom: '1px solid #e5e7eb' }}>
+                      {group.label}
+                    </div>
+                    {group.states.map((state) => (
+                      <div key={state.id} style={{ padding: '0.25rem 0.5rem', borderBottom: '1px solid #f3f4f6' }}>
+                        <label style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', cursor: 'pointer', fontSize: '0.875rem' }}>
+                          <input
+                            type="checkbox"
+                            checked={isStateAssociated(selectedPersonaId, state.id, personaStateAssocs)}
+                            onChange={() => onStateAssocsChange(toggleStateAssoc(selectedPersonaId, state.id, personaStateAssocs))}
+                          />
+                          {state.name}
+                        </label>
+                      </div>
+                    ))}
+                  </div>
+                ))}
+              </div>
+            </section>
             <ChecklistSection
               label="Events"
               items={events}

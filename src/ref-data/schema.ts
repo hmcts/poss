@@ -2,11 +2,13 @@ import { z } from 'zod';
 import { WaTaskSchema } from '../data-model/schemas.ts';
 
 export { WaTaskSchema };
+export type { WaTask } from '../data-model/schemas.ts';
 
 export const RefStateSchema = z.object({
   id: z.string(),
   name: z.string(),
   description: z.string(),
+  claimType: z.string(),
 });
 
 export type RefState = z.infer<typeof RefStateSchema>;

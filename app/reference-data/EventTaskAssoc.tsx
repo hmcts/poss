@@ -57,7 +57,8 @@ export default function EventTaskAssocEditor({
                 style={{
                   cursor: 'pointer',
                   padding: '0.25rem 0.5rem',
-                  background: isSelected ? '#e0e7ff' : 'transparent',
+                  background: isSelected ? '#4f46e5' : 'transparent',
+                  color: isSelected ? '#fff' : 'inherit',
                   fontWeight: isSelected ? 'bold' : 'normal',
                   borderRadius: '4px',
                 }}
@@ -114,8 +115,10 @@ export default function EventTaskAssocEditor({
                           width: '100%',
                           padding: '0.2rem 0.4rem',
                           fontSize: '0.85rem',
-                          border: '1px solid #d1d5db',
+                          border: '1px solid #4b5563',
                           borderRadius: '4px',
+                          background: '#1e293b',
+                          color: '#f1f5f9',
                         }}
                       />
                     </div>

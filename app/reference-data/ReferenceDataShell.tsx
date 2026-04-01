@@ -9,7 +9,11 @@ import type {
   EventTaskAssoc,
   PersonaStateAssoc,
   PersonaEventAssoc,
+  PersonaTaskAssoc,
 } from '../../src/ref-data/schema';
+import StateEventAssocEditor from './StateEventAssoc';
+import EventTaskAssocEditor from './EventTaskAssoc';
+import PersonaAssoc from './PersonaAssoc';
 
 // ---------------------------------------------------------------------------
 // Exported prop interfaces for downstream editor components
@@ -279,7 +283,43 @@ export function ReferenceDataShell() {
 
         {activeTab === 'waTasks' && <div />}
         {activeTab === 'personas' && <div />}
-        {activeTab === 'associations' && <div />}
+        {activeTab === 'associations' && (
+          <div className="flex flex-col gap-8">
+            <section>
+              <h2 className="text-sm font-semibold text-slate-300 mb-3">State ↔ Event</h2>
+              <StateEventAssocEditor
+                states={current.states}
+                events={current.events}
+                stateEventAssocs={current.stateEventAssocs}
+                onChange={(updated) => setCurrent((c) => c ? mergeEntityUpdate(c, 'stateEventAssocs', updated) : c)}
+              />
+            </section>
+            <section>
+              <h2 className="text-sm font-semibold text-slate-300 mb-3">Event ↔ WA Task</h2>
+              <EventTaskAssocEditor
+                events={current.events}
+                waTasks={current.waTasks}
+                eventTaskAssocs={current.eventTaskAssocs}
+                onChange={(updated) => setCurrent((c) => c ? mergeEntityUpdate(c, 'eventTaskAssocs', updated) : c)}
+              />
+            </section>
+            <section>
+              <h2 className="text-sm font-semibold text-slate-300 mb-3">Persona Associations</h2>
+              <PersonaAssoc
+                personas={current.personas}
+                states={current.states}
+                events={current.events}
+                waTasks={current.waTasks}
+                personaStateAssocs={current.personaStateAssocs}
+                personaEventAssocs={current.personaEventAssocs}
+                personaTaskAssocs={current.personaTaskAssocs}
+                onStateAssocsChange={(updated) => setCurrent((c) => c ? mergeEntityUpdate(c, 'personaStateAssocs', updated) : c)}
+                onEventAssocsChange={(updated) => setCurrent((c) => c ? mergeEntityUpdate(c, 'personaEventAssocs', updated) : c)}
+                onTaskAssocsChange={(updated) => setCurrent((c) => c ? mergeEntityUpdate(c, 'personaTaskAssocs', updated) : c)}
+              />
+            </section>
+          </div>
+        )}
       </div>
     </div>
   );
