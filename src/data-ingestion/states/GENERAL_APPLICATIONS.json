@@ -1,0 +1,84 @@
+{
+  "states": [
+    {
+      "id": "ga-draft",
+      "technicalName": "DRAFT",
+      "uiLabel": "Draft",
+      "claimType": "GENERAL_APPLICATIONS",
+      "isDraftLike": true,
+      "isLive": false,
+      "isEndState": false,
+      "completeness": 80
+    },
+    {
+      "id": "ga-filed",
+      "technicalName": "FILED",
+      "uiLabel": "Filed",
+      "claimType": "GENERAL_APPLICATIONS",
+      "isDraftLike": false,
+      "isLive": true,
+      "isEndState": false,
+      "completeness": 90
+    },
+    {
+      "id": "ga-with-judge",
+      "technicalName": "WITH_JUDGE",
+      "uiLabel": "With Judge",
+      "claimType": "GENERAL_APPLICATIONS",
+      "isDraftLike": false,
+      "isLive": true,
+      "isEndState": false,
+      "completeness": 60
+    },
+    {
+      "id": "ga-order-made",
+      "technicalName": "ORDER_MADE",
+      "uiLabel": "Order Made",
+      "claimType": "GENERAL_APPLICATIONS",
+      "isDraftLike": false,
+      "isLive": true,
+      "isEndState": false,
+      "completeness": 70
+    },
+    {
+      "id": "ga-closed",
+      "technicalName": "CLOSED",
+      "uiLabel": "Closed",
+      "claimType": "GENERAL_APPLICATIONS",
+      "isDraftLike": false,
+      "isLive": false,
+      "isEndState": true,
+      "completeness": 50
+    }
+  ],
+  "transitions": [
+    {
+      "from": "ga-draft",
+      "to": "ga-filed",
+      "condition": "File application",
+      "isSystemTriggered": false,
+      "isTimeBased": false
+    },
+    {
+      "from": "ga-filed",
+      "to": "ga-with-judge",
+      "condition": "Refer to judge",
+      "isSystemTriggered": false,
+      "isTimeBased": false
+    },
+    {
+      "from": "ga-with-judge",
+      "to": "ga-order-made",
+      "condition": "Judge decides",
+      "isSystemTriggered": false,
+      "isTimeBased": false
+    },
+    {
+      "from": "ga-order-made",
+      "to": "ga-closed",
+      "condition": "Completed",
+      "isSystemTriggered": true,
+      "isTimeBased": true
+    }
+  ]
+}

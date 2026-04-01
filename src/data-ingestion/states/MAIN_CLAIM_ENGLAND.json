@@ -1,33 +1,125 @@
 {
   "states": [
     {
-      "id": "MCE_DRAFT",
+      "id": "mce-draft",
       "technicalName": "DRAFT",
       "uiLabel": "Draft",
       "claimType": "MAIN_CLAIM_ENGLAND",
       "isDraftLike": true,
       "isLive": false,
       "isEndState": false,
-      "completeness": 10
+      "completeness": 80
     },
     {
-      "id": "MCE_ISSUED",
-      "technicalName": "ISSUED",
-      "uiLabel": "Issued",
+      "id": "mce-submitted",
+      "technicalName": "SUBMITTED",
+      "uiLabel": "Submitted",
+      "claimType": "MAIN_CLAIM_ENGLAND",
+      "isDraftLike": false,
+      "isLive": true,
+      "isEndState": false,
+      "completeness": 90
+    },
+    {
+      "id": "mce-with-judge",
+      "technicalName": "WITH_JUDGE",
+      "uiLabel": "With Judge",
+      "claimType": "MAIN_CLAIM_ENGLAND",
+      "isDraftLike": false,
+      "isLive": true,
+      "isEndState": false,
+      "completeness": 60
+    },
+    {
+      "id": "mce-listed-for-hearing",
+      "technicalName": "LISTED_FOR_HEARING",
+      "uiLabel": "Listed for Hearing",
+      "claimType": "MAIN_CLAIM_ENGLAND",
+      "isDraftLike": false,
+      "isLive": true,
+      "isEndState": false,
+      "completeness": 70
+    },
+    {
+      "id": "mce-order-made",
+      "technicalName": "ORDER_MADE",
+      "uiLabel": "Order Made",
       "claimType": "MAIN_CLAIM_ENGLAND",
       "isDraftLike": false,
       "isLive": true,
       "isEndState": false,
       "completeness": 50
+    },
+    {
+      "id": "mce-closed",
+      "technicalName": "CLOSED",
+      "uiLabel": "Closed",
+      "claimType": "MAIN_CLAIM_ENGLAND",
+      "isDraftLike": false,
+      "isLive": false,
+      "isEndState": true,
+      "completeness": 100
+    },
+    {
+      "id": "mce-struck-out",
+      "technicalName": "STRUCK_OUT",
+      "uiLabel": "Struck Out",
+      "claimType": "MAIN_CLAIM_ENGLAND",
+      "isDraftLike": false,
+      "isLive": false,
+      "isEndState": true,
+      "completeness": 40
     }
   ],
   "transitions": [
     {
-      "from": "DRAFT",
-      "to": "ISSUED",
-      "condition": null,
+      "from": "mce-draft",
+      "to": "mce-submitted",
+      "condition": "Claimant submits",
       "isSystemTriggered": false,
       "isTimeBased": false
+    },
+    {
+      "from": "mce-submitted",
+      "to": "mce-with-judge",
+      "condition": "Refer to judge",
+      "isSystemTriggered": false,
+      "isTimeBased": false
+    },
+    {
+      "from": "mce-submitted",
+      "to": "mce-listed-for-hearing",
+      "condition": "Auto-list 28d",
+      "isSystemTriggered": true,
+      "isTimeBased": true
+    },
+    {
+      "from": "mce-with-judge",
+      "to": "mce-listed-for-hearing",
+      "condition": "Judge lists",
+      "isSystemTriggered": false,
+      "isTimeBased": false
+    },
+    {
+      "from": "mce-with-judge",
+      "to": "mce-struck-out",
+      "condition": "Judge strikes out",
+      "isSystemTriggered": false,
+      "isTimeBased": false
+    },
+    {
+      "from": "mce-listed-for-hearing",
+      "to": "mce-order-made",
+      "condition": "Hearing concludes",
+      "isSystemTriggered": false,
+      "isTimeBased": false
+    },
+    {
+      "from": "mce-order-made",
+      "to": "mce-closed",
+      "condition": "Order enforced",
+      "isSystemTriggered": true,
+      "isTimeBased": true
     }
   ]
 }

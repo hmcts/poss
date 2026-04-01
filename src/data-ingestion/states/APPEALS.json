@@ -1,0 +1,101 @@
+{
+  "states": [
+    {
+      "id": "app-notice-filed",
+      "technicalName": "NOTICE_FILED",
+      "uiLabel": "Notice Filed",
+      "claimType": "APPEALS",
+      "isDraftLike": true,
+      "isLive": false,
+      "isEndState": false,
+      "completeness": 80
+    },
+    {
+      "id": "app-permission-review",
+      "technicalName": "PERMISSION_REVIEW",
+      "uiLabel": "Permission Review",
+      "claimType": "APPEALS",
+      "isDraftLike": false,
+      "isLive": true,
+      "isEndState": false,
+      "completeness": 90
+    },
+    {
+      "id": "app-permission-granted",
+      "technicalName": "PERMISSION_GRANTED",
+      "uiLabel": "Permission Granted",
+      "claimType": "APPEALS",
+      "isDraftLike": false,
+      "isLive": true,
+      "isEndState": false,
+      "completeness": 60
+    },
+    {
+      "id": "app-appeal-hearing",
+      "technicalName": "APPEAL_HEARING",
+      "uiLabel": "Appeal Hearing",
+      "claimType": "APPEALS",
+      "isDraftLike": false,
+      "isLive": true,
+      "isEndState": false,
+      "completeness": 70
+    },
+    {
+      "id": "app-appeal-decided",
+      "technicalName": "APPEAL_DECIDED",
+      "uiLabel": "Appeal Decided",
+      "claimType": "APPEALS",
+      "isDraftLike": false,
+      "isLive": false,
+      "isEndState": true,
+      "completeness": 50
+    },
+    {
+      "id": "app-dismissed",
+      "technicalName": "DISMISSED",
+      "uiLabel": "Dismissed",
+      "claimType": "APPEALS",
+      "isDraftLike": false,
+      "isLive": false,
+      "isEndState": true,
+      "completeness": 100
+    }
+  ],
+  "transitions": [
+    {
+      "from": "app-notice-filed",
+      "to": "app-permission-review",
+      "condition": "File notice",
+      "isSystemTriggered": false,
+      "isTimeBased": false
+    },
+    {
+      "from": "app-permission-review",
+      "to": "app-permission-granted",
+      "condition": "Grant permission",
+      "isSystemTriggered": false,
+      "isTimeBased": false
+    },
+    {
+      "from": "app-permission-review",
+      "to": "app-dismissed",
+      "condition": "Refuse permission",
+      "isSystemTriggered": false,
+      "isTimeBased": false
+    },
+    {
+      "from": "app-permission-granted",
+      "to": "app-appeal-hearing",
+      "condition": "List appeal",
+      "isSystemTriggered": false,
+      "isTimeBased": false
+    },
+    {
+      "from": "app-appeal-hearing",
+      "to": "app-appeal-decided",
+      "condition": "Decide appeal",
+      "isSystemTriggered": false,
+      "isTimeBased": false
+    }
+  ]
+}

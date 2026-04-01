@@ -8,6 +8,9 @@
  * main() is called at the bottom when this file is executed directly.
  */
 
+import pkg from '@next/env';
+pkg.loadEnvConfig(process.cwd());
+
 import type { Persona, RefEvent, EventTaskAssoc, RefState } from './schema.ts';
 import { ReferenceDataBlobSchema } from './schema.ts';
 import { writeReferenceData } from './blob-client.ts';
@@ -95,8 +98,9 @@ export function statesFromIngested(
 ): RefState[] {
   return files.flatMap(f => f.states).map(s => ({
     id: s.id,
-    name: s.technicalName,
+    name: s.uiLabel,
     description: '',
+    claimType: s.claimType,
   }));
 }
 

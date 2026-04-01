@@ -6,6 +6,7 @@ import {
   countAssociations,
   isEventAssociated,
   toggleAssociation,
+  groupStatesByClaimType,
 } from '../../src/ref-data/state-event-assoc-logic.js';
 
 interface StateEventAssocProps {
@@ -31,42 +32,44 @@ export default function StateEventAssocEditor({
 
   return (
     <div style={{ display: 'flex', gap: '1rem' }}>
-      {/* Left panel: state list */}
-      <div style={{ minWidth: '200px' }}>
-        <ul style={{ listStyle: 'none', padding: 0, margin: 0 }}>
-          {states.map((state) => {
-            const count = countAssociations(state.id, stateEventAssocs);
-            const isSelected = selectedStateId === state.id;
-            return (
-              <li
-                key={state.id}
-                onClick={() => setSelectedStateId(state.id)}
-                style={{
-                  cursor: 'pointer',
-                  padding: '0.25rem 0.5rem',
-                  background: isSelected ? '#e0e7ff' : 'transparent',
-                  fontWeight: isSelected ? 'bold' : 'normal',
-                }}
-              >
-                {state.name}{' '}
-                <span
-                  style={{
-                    display: 'inline-block',
-                    minWidth: '1.5rem',
-                    textAlign: 'center',
-                    background: '#6366f1',
-                    color: '#fff',
-                    borderRadius: '9999px',
-                    fontSize: '0.75rem',
-                    padding: '0 0.4rem',
-                  }}
-                >
-                  {count}
-                </span>
-              </li>
-            );
-          })}
-        </ul>
+      {/* Left panel: state list grouped by claim type */}
+      <div style={{ minWidth: '220px', maxWidth: '260px', overflowY: 'auto', maxHeight: '500px' }}>
+        {groupStatesByClaimType(states).map((group) => (
+          <div key={group.label} style={{ marginBottom: '0.75rem' }}>
+            <div style={{ fontSize: '0.7rem', fontWeight: 'bold', textTransform: 'uppercase', letterSpacing: '0.05em', color: '#6b7280', padding: '0.25rem 0.5rem' }}>
+              {group.label}
+            </div>
+            <ul style={{ listStyle: 'none', padding: 0, margin: 0 }}>
+              {group.states.map((state) => {
+                const count = countAssociations(state.id, stateEventAssocs);
+                const isSelected = selectedStateId === state.id;
+                return (
+                  <li
+                    key={state.id}
+                    onClick={() => setSelectedStateId(state.id)}
+                    style={{
+                      cursor: 'pointer',
+                      padding: '0.25rem 0.5rem',
+                      background: isSelected ? '#4f46e5' : 'transparent',
+                      color: isSelected ? '#fff' : 'inherit',
+                      fontWeight: isSelected ? 'bold' : 'normal',
+                      fontSize: '0.875rem',
+                      display: 'flex',
+                      justifyContent: 'space-between',
+                      alignItems: 'center',
+                      borderRadius: '3px',
+                    }}
+                  >
+                    {state.name}
+                    <span style={{ minWidth: '1.5rem', textAlign: 'center', background: '#6366f1', color: '#fff', borderRadius: '9999px', fontSize: '0.75rem', padding: '0 0.4rem' }}>
+                      {count}
+                    </span>
+                  </li>
+                );
+              })}
+            </ul>
+          </div>
+        ))}
       </div>
 
       {/* Right panel: event checklist or empty state */}

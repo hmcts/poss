@@ -1,0 +1,101 @@
+{
+  "states": [
+    {
+      "id": "ccmc-draft",
+      "technicalName": "DRAFT",
+      "uiLabel": "Draft",
+      "claimType": "COUNTER_CLAIM_MAIN_CLAIM_CLOSED",
+      "isDraftLike": true,
+      "isLive": false,
+      "isEndState": false,
+      "completeness": 80
+    },
+    {
+      "id": "ccmc-filed",
+      "technicalName": "FILED",
+      "uiLabel": "Filed",
+      "claimType": "COUNTER_CLAIM_MAIN_CLAIM_CLOSED",
+      "isDraftLike": false,
+      "isLive": true,
+      "isEndState": false,
+      "completeness": 90
+    },
+    {
+      "id": "ccmc-standalone-review",
+      "technicalName": "STANDALONE_REVIEW",
+      "uiLabel": "Standalone Review",
+      "claimType": "COUNTER_CLAIM_MAIN_CLAIM_CLOSED",
+      "isDraftLike": false,
+      "isLive": true,
+      "isEndState": false,
+      "completeness": 60
+    },
+    {
+      "id": "ccmc-with-judge",
+      "technicalName": "WITH_JUDGE",
+      "uiLabel": "With Judge",
+      "claimType": "COUNTER_CLAIM_MAIN_CLAIM_CLOSED",
+      "isDraftLike": false,
+      "isLive": true,
+      "isEndState": false,
+      "completeness": 70
+    },
+    {
+      "id": "ccmc-determined",
+      "technicalName": "DETERMINED",
+      "uiLabel": "Determined",
+      "claimType": "COUNTER_CLAIM_MAIN_CLAIM_CLOSED",
+      "isDraftLike": false,
+      "isLive": false,
+      "isEndState": false,
+      "completeness": 50
+    },
+    {
+      "id": "ccmc-closed",
+      "technicalName": "CLOSED",
+      "uiLabel": "Closed",
+      "claimType": "COUNTER_CLAIM_MAIN_CLAIM_CLOSED",
+      "isDraftLike": false,
+      "isLive": false,
+      "isEndState": true,
+      "completeness": 100
+    }
+  ],
+  "transitions": [
+    {
+      "from": "ccmc-draft",
+      "to": "ccmc-filed",
+      "condition": "File counter-claim",
+      "isSystemTriggered": false,
+      "isTimeBased": false
+    },
+    {
+      "from": "ccmc-filed",
+      "to": "ccmc-standalone-review",
+      "condition": "Main claim closed",
+      "isSystemTriggered": true,
+      "isTimeBased": false
+    },
+    {
+      "from": "ccmc-standalone-review",
+      "to": "ccmc-with-judge",
+      "condition": "Refer to judge",
+      "isSystemTriggered": false,
+      "isTimeBased": false
+    },
+    {
+      "from": "ccmc-with-judge",
+      "to": "ccmc-determined",
+      "condition": "Judge determines",
+      "isSystemTriggered": false,
+      "isTimeBased": false
+    },
+    {
+      "from": "ccmc-determined",
+      "to": "ccmc-closed",
+      "condition": "Case closed",
+      "isSystemTriggered": true,
+      "isTimeBased": true
+    }
+  ]
+}

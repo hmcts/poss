@@ -1,0 +1,101 @@
+{
+  "states": [
+    {
+      "id": "enf-warrant-requested",
+      "technicalName": "WARRANT_REQUESTED",
+      "uiLabel": "Warrant Requested",
+      "claimType": "ENFORCEMENT",
+      "isDraftLike": true,
+      "isLive": false,
+      "isEndState": false,
+      "completeness": 80
+    },
+    {
+      "id": "enf-warrant-issued",
+      "technicalName": "WARRANT_ISSUED",
+      "uiLabel": "Warrant Issued",
+      "claimType": "ENFORCEMENT",
+      "isDraftLike": false,
+      "isLive": true,
+      "isEndState": false,
+      "completeness": 90
+    },
+    {
+      "id": "enf-with-bailiff",
+      "technicalName": "WITH_BAILIFF",
+      "uiLabel": "With Bailiff",
+      "claimType": "ENFORCEMENT",
+      "isDraftLike": false,
+      "isLive": true,
+      "isEndState": false,
+      "completeness": 60
+    },
+    {
+      "id": "enf-eviction-scheduled",
+      "technicalName": "EVICTION_SCHEDULED",
+      "uiLabel": "Eviction Scheduled",
+      "claimType": "ENFORCEMENT",
+      "isDraftLike": false,
+      "isLive": true,
+      "isEndState": false,
+      "completeness": 70
+    },
+    {
+      "id": "enf-executed",
+      "technicalName": "EXECUTED",
+      "uiLabel": "Executed",
+      "claimType": "ENFORCEMENT",
+      "isDraftLike": false,
+      "isLive": false,
+      "isEndState": true,
+      "completeness": 50
+    },
+    {
+      "id": "enf-suspended",
+      "technicalName": "SUSPENDED",
+      "uiLabel": "Suspended",
+      "claimType": "ENFORCEMENT",
+      "isDraftLike": false,
+      "isLive": false,
+      "isEndState": true,
+      "completeness": 100
+    }
+  ],
+  "transitions": [
+    {
+      "from": "enf-warrant-requested",
+      "to": "enf-warrant-issued",
+      "condition": "Issue warrant",
+      "isSystemTriggered": false,
+      "isTimeBased": false
+    },
+    {
+      "from": "enf-warrant-issued",
+      "to": "enf-with-bailiff",
+      "condition": "Assign bailiff",
+      "isSystemTriggered": false,
+      "isTimeBased": false
+    },
+    {
+      "from": "enf-with-bailiff",
+      "to": "enf-eviction-scheduled",
+      "condition": "Schedule eviction",
+      "isSystemTriggered": false,
+      "isTimeBased": false
+    },
+    {
+      "from": "enf-eviction-scheduled",
+      "to": "enf-executed",
+      "condition": "Execute warrant",
+      "isSystemTriggered": false,
+      "isTimeBased": false
+    },
+    {
+      "from": "enf-with-bailiff",
+      "to": "enf-suspended",
+      "condition": "Judge suspends",
+      "isSystemTriggered": false,
+      "isTimeBased": false
+    }
+  ]
+}

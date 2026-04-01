@@ -1,0 +1,101 @@
+{
+  "states": [
+    {
+      "id": "acw-draft",
+      "technicalName": "DRAFT",
+      "uiLabel": "Draft",
+      "claimType": "ACCELERATED_CLAIM_WALES",
+      "isDraftLike": true,
+      "isLive": false,
+      "isEndState": false,
+      "completeness": 80
+    },
+    {
+      "id": "acw-filed",
+      "technicalName": "FILED",
+      "uiLabel": "Filed",
+      "claimType": "ACCELERATED_CLAIM_WALES",
+      "isDraftLike": false,
+      "isLive": true,
+      "isEndState": false,
+      "completeness": 90
+    },
+    {
+      "id": "acw-validated",
+      "technicalName": "VALIDATED",
+      "uiLabel": "Validated",
+      "claimType": "ACCELERATED_CLAIM_WALES",
+      "isDraftLike": false,
+      "isLive": true,
+      "isEndState": false,
+      "completeness": 60
+    },
+    {
+      "id": "acw-listed",
+      "technicalName": "LISTED",
+      "uiLabel": "Listed",
+      "claimType": "ACCELERATED_CLAIM_WALES",
+      "isDraftLike": false,
+      "isLive": true,
+      "isEndState": false,
+      "completeness": 70
+    },
+    {
+      "id": "acw-possession-order",
+      "technicalName": "POSSESSION_ORDER",
+      "uiLabel": "Possession Order",
+      "claimType": "ACCELERATED_CLAIM_WALES",
+      "isDraftLike": false,
+      "isLive": false,
+      "isEndState": false,
+      "completeness": 50
+    },
+    {
+      "id": "acw-closed",
+      "technicalName": "CLOSED",
+      "uiLabel": "Closed",
+      "claimType": "ACCELERATED_CLAIM_WALES",
+      "isDraftLike": false,
+      "isLive": false,
+      "isEndState": true,
+      "completeness": 100
+    }
+  ],
+  "transitions": [
+    {
+      "from": "acw-draft",
+      "to": "acw-filed",
+      "condition": "File claim",
+      "isSystemTriggered": false,
+      "isTimeBased": false
+    },
+    {
+      "from": "acw-filed",
+      "to": "acw-validated",
+      "condition": "System validates",
+      "isSystemTriggered": true,
+      "isTimeBased": false
+    },
+    {
+      "from": "acw-validated",
+      "to": "acw-listed",
+      "condition": "Auto-list 14d",
+      "isSystemTriggered": true,
+      "isTimeBased": true
+    },
+    {
+      "from": "acw-listed",
+      "to": "acw-possession-order",
+      "condition": "Order granted",
+      "isSystemTriggered": false,
+      "isTimeBased": false
+    },
+    {
+      "from": "acw-possession-order",
+      "to": "acw-closed",
+      "condition": "Warrant executed",
+      "isSystemTriggered": false,
+      "isTimeBased": false
+    }
+  ]
+}

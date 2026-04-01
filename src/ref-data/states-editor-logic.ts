@@ -24,7 +24,7 @@ export function applyStateEdit(
 }
 
 export function addNewState(states: RefState[]): RefState[] {
-  const newState: RefState = { id: generateStateId(), name: '', description: '' };
+  const newState: RefState = { id: generateStateId(), name: '', description: '', claimType: '' };
   return [...states, newState];
 }
 
