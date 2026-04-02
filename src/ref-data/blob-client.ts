@@ -28,6 +28,7 @@ const EMPTY_SEED: ReferenceDataBlob = {
   personaStateAssocs: [],
   personaEventAssocs: [],
   personaTaskAssocs: [],
+  transitions: [],
 };
 
 // ── Public API ───────────────────────────────────────────────────────────────
