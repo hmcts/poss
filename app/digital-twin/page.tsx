@@ -13,8 +13,7 @@ import {
   computeEffectiveEnabledEvents, getTaskToggleState, getEffectiveDisabledCount,
 } from '../../src/ui-wa-tasks/digital-twin-helpers';
 import { getUnmappedTasks, getTasksForEvent } from '../../src/wa-task-engine/index';
-import waTasks from '../../data/wa-tasks.json';
-import waMappings from '../../data/wa-mappings.json';
+import { blobToWaTasks, blobToWaMappings } from '../../src/ref-data/adapter';
 import {
   ABOUT_WHAT_PAGE_DOES,
   ABOUT_AVAILABLE_EVENTS,
@@ -38,7 +37,9 @@ function autoWalk(claimTypeId: string, states: any[], transitions: any[], allEve
 }
 
 export default function CaseWalkPage() {
-  const { modelData, activeClaimType } = useApp();
+  const { modelData, activeClaimType, refData } = useApp();
+  const waTasks = useMemo(() => blobToWaTasks(refData), [refData]);
+  const waMappings = useMemo(() => blobToWaMappings(refData), [refData]);
   const [enrichedSim, setEnrichedSim] = useState<EnrichedSimulation | null>(null);
   const [roleFilter, setRoleFilter] = useState('');
   const [enabledEvents, setEnabledEvents] = useState<Set<string>>(new Set());
