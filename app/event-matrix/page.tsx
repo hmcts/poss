@@ -92,11 +92,11 @@ export default function EventMatrixPage() {
           <option value="">All WA Tasks</option>
           {waFilterOptions.map((opt) => <option key={opt.value} value={opt.value}>{opt.label}</option>)}
         </select>
-        {refData?.personas?.length > 0 && (
+        {(refData?.personas?.length ?? 0) > 0 && (
           <select value={personaId ?? ''} onChange={(e) => setPersonaId(e.target.value || null)}
             className="px-3 py-2 text-[13px] bg-slate-800/50 text-slate-200 border border-slate-700/40 rounded-lg focus:outline-none focus:border-indigo-500/50">
             <option value="">All personas</option>
-            {refData.personas.map((p) => <option key={p.id} value={p.id}>{getPersonaLabel(p)}</option>)}
+            {refData?.personas?.map((p) => <option key={p.id} value={p.id}>{getPersonaLabel(p)}</option>)}
           </select>
         )}
         {hasFilters && (
