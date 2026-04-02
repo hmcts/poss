@@ -3,6 +3,7 @@
 import { useState, useMemo, useCallback } from 'react';
 import { useApp } from '../providers';
 import { getFilterOptions, applyFiltersAndSearch, prepareTableData, prepareCsvDownload, getEventMatrixSummary } from '../../src/ui-event-matrix/index';
+import { filterEventsByPersona, getPersonaLabel } from '../../src/event-matrix/persona-filter';
 import { getEventMatrixWaColumn, getWaTaskFilterOptions, filterEventsByWaTask } from '../../src/ui-wa-tasks/state-overlay-helpers';
 import { blobToWaTasks, blobToWaMappings } from '../../src/ref-data/adapter';
 import {
@@ -24,6 +25,7 @@ export default function EventMatrixPage() {
   const [systemOnly, setSystemOnly] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
   const [waTaskFilter, setWaTaskFilter] = useState('');
+  const [personaId, setPersonaId] = useState<string | null>(null);
 
   const filterOptions = useMemo(() => getFilterOptions(events), [events]);
   const waFilterOptions = useMemo(() => getWaTaskFilterOptions(waTasks), [waTasks]);
@@ -33,8 +35,9 @@ export default function EventMatrixPage() {
       ...(roleFilter ? { role: roleFilter } : {}),
       ...(systemOnly ? { systemOnly: true } : {}),
     }, searchQuery);
-    return waTaskFilter ? filterEventsByWaTask(baseFiltered as any, waTaskFilter, waTasks as any, waMappings) : baseFiltered;
-  }, [events, stateFilter, roleFilter, systemOnly, searchQuery, waTaskFilter, waTasks, waMappings]);
+    const waFiltered = waTaskFilter ? filterEventsByWaTask(baseFiltered as any, waTaskFilter, waTasks as any, waMappings) : baseFiltered;
+    return filterEventsByPersona(waFiltered as any, refData, personaId);
+  }, [events, stateFilter, roleFilter, systemOnly, searchQuery, waTaskFilter, waTasks, waMappings, refData, personaId]);
   const tableData = useMemo(() => prepareTableData(filteredEvents as any, filterOptions.roles), [filteredEvents, filterOptions.roles]);
   const summary = useMemo(() => getEventMatrixSummary(events, filteredEvents as any), [events, filteredEvents]);
 
@@ -47,7 +50,7 @@ export default function EventMatrixPage() {
     URL.revokeObjectURL(url);
   }, [filteredEvents]);
 
-  const hasFilters = stateFilter || roleFilter || systemOnly || searchQuery || waTaskFilter;
+  const hasFilters = stateFilter || roleFilter || systemOnly || searchQuery || waTaskFilter || personaId;
 
   return (
     <div className="space-y-5">
@@ -89,8 +92,15 @@ export default function EventMatrixPage() {
           <option value="">All WA Tasks</option>
           {waFilterOptions.map((opt) => <option key={opt.value} value={opt.value}>{opt.label}</option>)}
         </select>
+        {refData?.personas?.length > 0 && (
+          <select value={personaId ?? ''} onChange={(e) => setPersonaId(e.target.value || null)}
+            className="px-3 py-2 text-[13px] bg-slate-800/50 text-slate-200 border border-slate-700/40 rounded-lg focus:outline-none focus:border-indigo-500/50">
+            <option value="">All personas</option>
+            {refData.personas.map((p) => <option key={p.id} value={p.id}>{getPersonaLabel(p)}</option>)}
+          </select>
+        )}
         {hasFilters && (
-          <button onClick={() => { setStateFilter(''); setRoleFilter(''); setSystemOnly(false); setSearchQuery(''); setWaTaskFilter(''); }}
+          <button onClick={() => { setStateFilter(''); setRoleFilter(''); setSystemOnly(false); setSearchQuery(''); setWaTaskFilter(''); setPersonaId(null); }}
             className="text-[12px] text-indigo-400 hover:text-indigo-300 transition-colors">Clear</button>
         )}
       </div>
