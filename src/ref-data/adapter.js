@@ -1,1 +1,1 @@
-export { blobToEvents, blobToWaTasks, blobToWaMappings } from './adapter.ts';
+export { blobToEvents, blobToWaTasks, blobToWaMappings, pickTransitionsForClaim, blobToTransitions } from './adapter.ts';
