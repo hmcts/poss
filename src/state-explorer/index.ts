@@ -1,5 +1,7 @@
 import type { State, Transition, Event } from '../data-model/schemas.js';
 
+export { getPersonasForState } from './persona-helpers.ts';
+
 // ── Colour mapping ──────────────────────────────────────────────────
 
 export interface StateColor {
