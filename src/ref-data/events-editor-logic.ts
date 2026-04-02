@@ -43,7 +43,7 @@ export function applyEventEdit(
  */
 export function addNewEvent(events: RefEvent[]): { events: RefEvent[]; newId: string } {
   const newId = generateEventId();
-  const newEvent: RefEvent = { id: newId, name: '', description: '' };
+  const newEvent: RefEvent = { id: newId, name: '', description: '', actors: {}, isSystemEvent: false, hasOpenQuestions: false, notes: '' };
   return { events: [...events, newEvent], newId };
 }
 

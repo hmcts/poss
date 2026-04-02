@@ -17,6 +17,10 @@ export const RefEventSchema = z.object({
   id: z.string(),
   name: z.string(),
   description: z.string(),
+  actors: z.record(z.string(), z.boolean()).optional().default({}),
+  isSystemEvent: z.boolean().optional().default(false),
+  hasOpenQuestions: z.boolean().optional().default(false),
+  notes: z.string().optional().default(''),
 });
 
 export type RefEvent = z.infer<typeof RefEventSchema>;

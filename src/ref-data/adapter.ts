@@ -44,18 +44,15 @@ export function blobToEvents(
     const ref = eventById.get(assoc.eventId);
     if (!ref) continue;
 
-    // Cast to any to read optional enriched fields defensively
-    const r = ref as Record<string, unknown>;
-
     events.push({
       id: ref.id,
       name: ref.name,
       claimType: claimTypeId,
       state: assoc.stateId,
-      isSystemEvent: typeof r['isSystemEvent'] === 'boolean' ? r['isSystemEvent'] : false,
-      notes: typeof r['notes'] === 'string' ? r['notes'] : '',
-      hasOpenQuestions: typeof r['hasOpenQuestions'] === 'boolean' ? r['hasOpenQuestions'] : false,
-      actors: r['actors'] !== null && typeof r['actors'] === 'object' ? r['actors'] as Record<string, boolean> : {},
+      isSystemEvent: ref.isSystemEvent ?? false,
+      notes: ref.notes ?? '',
+      hasOpenQuestions: ref.hasOpenQuestions ?? false,
+      actors: ref.actors ?? {},
     });
   }
 

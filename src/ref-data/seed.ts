@@ -76,7 +76,7 @@ export function eventsFromMappings(mappings: WaMapping[]): RefEvent[] {
     for (const name of mapping.eventIds) {
       if (!seen.has(name)) {
         seen.set(name, true);
-        events.push({ id: slugify(name), name, description: '' });
+        events.push({ id: slugify(name), name, description: '', actors: {}, isSystemEvent: false, hasOpenQuestions: false, notes: '' });
       }
     }
   }
@@ -129,7 +129,15 @@ export function eventsFromIngested(
     for (const ev of file.events) {
       if (!seen.has(ev.id)) {
         seen.set(ev.id, true);
-        events.push({ id: ev.id, name: ev.name, description: '' });
+        events.push({
+          id: ev.id,
+          name: ev.name,
+          description: '',
+          isSystemEvent: ev.isSystemEvent,
+          notes: ev.notes,
+          actors: {},
+          hasOpenQuestions: false,
+        });
       }
     }
   }
