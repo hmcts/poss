@@ -3,6 +3,7 @@
 import { useContext, useState, useCallback, useEffect, type ReactNode } from 'react';
 import type { State, Transition } from '../src/data-model/schemas';
 import type { ReferenceDataBlob } from '../src/ref-data/schema';
+import { blobToEvents } from '../src/ref-data/adapter';
 import { CLAIM_TYPES } from '../src/app-shell/index';
 import { getDefaultTheme, toggleTheme as toggle, getThemeClass } from '../src/app-shell/index';
 import MAIN_CLAIM_ENGLAND_DATA from '../src/data-ingestion/states/MAIN_CLAIM_ENGLAND.json';
@@ -51,8 +52,11 @@ export function AppProvider({ children }: { children: ReactNode }) {
 
   const handleSetClaimType = useCallback((id: string) => {
     setActiveClaimType(id);
-    setModelData({ ...INGESTED_MODEL[id] ?? INGESTED_MODEL['MAIN_CLAIM_ENGLAND'], events: [] });
-  }, []);
+    setModelData((prev) => ({
+      ...INGESTED_MODEL[id] ?? INGESTED_MODEL['MAIN_CLAIM_ENGLAND'],
+      events: blobToEvents(refData, id),
+    }));
+  }, [refData]);
 
   const reloadRefData = useCallback(() => {
     setRefDataError(null);
@@ -78,6 +82,11 @@ export function AppProvider({ children }: { children: ReactNode }) {
       });
     return () => { cancelled = true; };
   }, [refetchTrigger]);
+
+  // Re-derive events whenever refData or activeClaimType changes
+  useEffect(() => {
+    setModelData((prev) => ({ ...prev, events: blobToEvents(refData, activeClaimType) }));
+  }, [refData, activeClaimType]);
 
   useEffect(() => {
     document.documentElement.className = getThemeClass(theme);
