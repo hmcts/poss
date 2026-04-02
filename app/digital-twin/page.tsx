@@ -216,7 +216,8 @@ export default function CaseWalkPage() {
           <EventsList events={modelData.events} states={modelData.states} enabledEvents={enabledEvents} onToggle={handleToggleEvent}
             expandedEvent={expandedEvent} setExpandedEvent={setExpandedEvent} currentStateId={enrichedSim?.simulation.currentStateId ?? ''}
             showWaTasks={showWaTasks} expandedCards={expandedCards} setExpandedCards={setExpandedCards}
-            disabledTasks={disabledTasks} onToggleTask={handleToggleTask} />
+            disabledTasks={disabledTasks} onToggleTask={handleToggleTask}
+            waTasks={waTasks} waMappings={waMappings} />
         </div>
       </div>
     </div>
@@ -271,11 +272,12 @@ function AboutPanel() {
   );
 }
 
-function EventsList({ events, states, enabledEvents, onToggle, expandedEvent, setExpandedEvent, currentStateId, showWaTasks, expandedCards, setExpandedCards, disabledTasks, onToggleTask }: {
+function EventsList({ events, states, enabledEvents, onToggle, expandedEvent, setExpandedEvent, currentStateId, showWaTasks, expandedCards, setExpandedCards, disabledTasks, onToggleTask, waTasks, waMappings }: {
   events: any[]; states: any[]; enabledEvents: Set<string>; onToggle: (id: string) => void;
   expandedEvent: string | null; setExpandedEvent: (id: string | null) => void; currentStateId: string;
   showWaTasks: boolean; expandedCards: Set<string>; setExpandedCards: (s: Set<string>) => void;
   disabledTasks: Set<string>; onToggleTask: (taskId: string) => void;
+  waTasks: any[]; waMappings: any[];
 }) {
   const stateMap = new Map(states.map((s: any) => [s.id, s.uiLabel]));
   const grouped = new Map<string, any[]>();
