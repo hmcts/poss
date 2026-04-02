@@ -4,4 +4,6 @@ export {
   eventsToActorGrid,
   eventsToCsv,
   getOpenQuestionCount,
+  filterEventsByPersona,
+  getPersonaLabel,
 } from './index.ts';

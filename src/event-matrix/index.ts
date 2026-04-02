@@ -123,3 +123,7 @@ export function eventsToCsv(events: Event[]): string {
 export function getOpenQuestionCount(events: Event[]): number {
   return events.filter((event) => event.hasOpenQuestions === true).length;
 }
+
+// ── Persona Filter ──────────────────────────────────────────────────
+
+export { filterEventsByPersona, getPersonaLabel } from './persona-filter.ts';
