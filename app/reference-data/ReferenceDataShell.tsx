@@ -14,6 +14,7 @@ import type {
 import StateEventAssocEditor from './StateEventAssoc';
 import EventTaskAssocEditor from './EventTaskAssoc';
 import PersonaAssoc from './PersonaAssoc';
+import TransitionsEditor from './TransitionsEditor';
 
 // ---------------------------------------------------------------------------
 // Exported prop interfaces for downstream editor components
@@ -83,7 +84,7 @@ export function EventsEditor(_props: EventsEditorProps) {
 // Tab types
 // ---------------------------------------------------------------------------
 
-type TabKey = 'states' | 'events' | 'waTasks' | 'personas' | 'associations';
+type TabKey = 'states' | 'events' | 'waTasks' | 'personas' | 'associations' | 'transitions';
 
 const TABS: { key: TabKey; label: string }[] = [
   { key: 'states', label: 'States' },
@@ -91,6 +92,7 @@ const TABS: { key: TabKey; label: string }[] = [
   { key: 'waTasks', label: 'WA Tasks' },
   { key: 'personas', label: 'Personas' },
   { key: 'associations', label: 'Associations' },
+  { key: 'transitions', label: 'Transitions' },
 ];
 
 // ---------------------------------------------------------------------------
@@ -283,6 +285,12 @@ export function ReferenceDataShell() {
 
         {activeTab === 'waTasks' && <div />}
         {activeTab === 'personas' && <div />}
+        {activeTab === 'transitions' && (
+          <TransitionsEditor
+            blob={current}
+            onChange={(updated) => setCurrent(updated)}
+          />
+        )}
         {activeTab === 'associations' && (
           <div className="flex flex-col gap-8">
             <section>

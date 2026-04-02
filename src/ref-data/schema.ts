@@ -69,6 +69,17 @@ export const PersonaTaskAssocSchema = z.object({
 
 export type PersonaTaskAssoc = z.infer<typeof PersonaTaskAssocSchema>;
 
+export const RefTransitionSchema = z.object({
+  id: z.string(),
+  fromStateId: z.string(),
+  toStateId: z.string(),
+  condition: z.string(),
+  isSystemTriggered: z.boolean(),
+  isTimeBased: z.boolean(),
+});
+
+export type RefTransition = z.infer<typeof RefTransitionSchema>;
+
 export const ReferenceDataBlobSchema = z.object({
   states: z.array(RefStateSchema),
   events: z.array(RefEventSchema),
@@ -79,6 +90,7 @@ export const ReferenceDataBlobSchema = z.object({
   personaStateAssocs: z.array(PersonaStateAssocSchema),
   personaEventAssocs: z.array(PersonaEventAssocSchema),
   personaTaskAssocs: z.array(PersonaTaskAssocSchema),
+  transitions: z.array(RefTransitionSchema).optional().default([]),
 });
 
 export type ReferenceDataBlob = z.infer<typeof ReferenceDataBlobSchema>;
