@@ -1,7 +1,8 @@
 'use client';
 
-import { createContext, useContext, useState, useCallback, useEffect, type ReactNode } from 'react';
-import type { State, Transition, Event } from '../src/data-model/schemas';
+import { useContext, useState, useCallback, useEffect, type ReactNode } from 'react';
+import type { State, Transition } from '../src/data-model/schemas';
+import type { ReferenceDataBlob } from '../src/ref-data/schema';
 import { CLAIM_TYPES } from '../src/app-shell/index';
 import { getDefaultTheme, toggleTheme as toggle, getThemeClass } from '../src/app-shell/index';
 import MAIN_CLAIM_ENGLAND_DATA from '../src/data-ingestion/states/MAIN_CLAIM_ENGLAND.json';
@@ -11,25 +12,9 @@ import COUNTER_CLAIM_MAIN_CLAIM_CLOSED_DATA from '../src/data-ingestion/states/C
 import ENFORCEMENT_DATA from '../src/data-ingestion/states/ENFORCEMENT.json';
 import APPEALS_DATA from '../src/data-ingestion/states/APPEALS.json';
 import GENERAL_APPLICATIONS_DATA from '../src/data-ingestion/states/GENERAL_APPLICATIONS.json';
+import { AppContext, type ModelData } from './context';
 
-// ── Model Data Context ──────────────────────────────────────────────
-
-interface ModelData {
-  states: State[];
-  transitions: Transition[];
-  events: Event[];
-}
-
-interface AppContextValue {
-  activeClaimType: string;
-  setActiveClaimType: (id: string) => void;
-  theme: string;
-  toggleTheme: () => void;
-  modelData: ModelData;
-  setModelData: (data: ModelData) => void;
-}
-
-const AppContext = createContext<AppContextValue | null>(null);
+export { AppContext } from './context';
 
 export function useApp() {
   const ctx = useContext(AppContext);
@@ -55,6 +40,10 @@ export function AppProvider({ children }: { children: ReactNode }) {
   const [activeClaimType, setActiveClaimType] = useState<string>(CLAIM_TYPES[0].id);
   const [theme, setTheme] = useState(getDefaultTheme);
   const [modelData, setModelData] = useState<ModelData>(() => ({ ...INGESTED_MODEL[CLAIM_TYPES[0].id] ?? INGESTED_MODEL['MAIN_CLAIM_ENGLAND'], events: [] }));
+  const [refData, setRefData] = useState<ReferenceDataBlob | null>(null);
+  const [refDataLoading, setRefDataLoading] = useState(false);
+  const [refDataError, setRefDataError] = useState<string | null>(null);
+  const [refetchTrigger, setRefetchTrigger] = useState(0);
 
   const handleToggleTheme = useCallback(() => {
     setTheme((t) => toggle(t));
@@ -64,6 +53,31 @@ export function AppProvider({ children }: { children: ReactNode }) {
     setActiveClaimType(id);
     setModelData({ ...INGESTED_MODEL[id] ?? INGESTED_MODEL['MAIN_CLAIM_ENGLAND'], events: [] });
   }, []);
+
+  const reloadRefData = useCallback(() => {
+    setRefDataError(null);
+    setRefetchTrigger((n) => n + 1);
+  }, []);
+
+  useEffect(() => {
+    let cancelled = false;
+    setRefDataLoading(true);
+    fetch('/api/reference-data')
+      .then((res) => res.json())
+      .then((data) => {
+        if (!cancelled) {
+          setRefData(data as ReferenceDataBlob);
+          setRefDataLoading(false);
+        }
+      })
+      .catch((err: unknown) => {
+        if (!cancelled) {
+          setRefDataError(err instanceof Error ? err.message : String(err));
+          setRefDataLoading(false);
+        }
+      });
+    return () => { cancelled = true; };
+  }, [refetchTrigger]);
 
   useEffect(() => {
     document.documentElement.className = getThemeClass(theme);
@@ -78,6 +92,10 @@ export function AppProvider({ children }: { children: ReactNode }) {
         toggleTheme: handleToggleTheme,
         modelData,
         setModelData,
+        refData,
+        refDataLoading,
+        refDataError,
+        reloadRefData,
       }}
     >
       {children}
