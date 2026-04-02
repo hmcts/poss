@@ -11,7 +11,7 @@
 import pkg from '@next/env';
 pkg.loadEnvConfig(process.cwd());
 
-import type { Persona, RefEvent, EventTaskAssoc, RefState } from './schema.ts';
+import type { Persona, RefEvent, EventTaskAssoc, RefState, StateEventAssoc } from './schema.ts';
 import { ReferenceDataBlobSchema } from './schema.ts';
 import { writeReferenceData } from './blob-client.ts';
 
@@ -29,6 +29,18 @@ type IngestedState = {
   uiLabel: string;
   claimType: string;
 };
+
+type IngestedEvent = {
+  id: string;
+  name: string;
+  claimType: string;
+  state: string;
+  actors: Record<string, boolean>;
+  isSystemEvent: boolean;
+  notes: string;
+  hasOpenQuestions: boolean;
+};
+
 
 // ── Pure transformation functions ────────────────────────────────────────────
 
@@ -104,6 +116,66 @@ export function statesFromIngested(
   }));
 }
 
+/**
+ * Flattens ingested event files into RefEvent records.
+ * Deduplicates by id (first occurrence wins).
+ */
+export function eventsFromIngested(
+  files: Array<{ claimType: string; events: IngestedEvent[] }>,
+): RefEvent[] {
+  const seen = new Map<string, true>();
+  const events: RefEvent[] = [];
+  for (const file of files) {
+    for (const ev of file.events) {
+      if (!seen.has(ev.id)) {
+        seen.set(ev.id, true);
+        events.push({ id: ev.id, name: ev.name, description: '' });
+      }
+    }
+  }
+  return events;
+}
+
+/**
+ * Builds state-event association rows from ingested event and state files.
+ * For each ingested event, finds the matching state by technicalName === event.state.
+ * Logs a warning to stderr (and skips) if no state match is found.
+ */
+export function stateEventAssocsFromIngested(
+  eventFiles: Array<{ claimType: string; events: IngestedEvent[] }>,
+  stateFiles: Array<{ states: IngestedState[] }>,
+): StateEventAssoc[] {
+  // Build lookup: technicalName → stateId (first match wins across all claim types)
+  const stateByTechnicalName = new Map<string, string>();
+  for (const file of stateFiles) {
+    for (const st of file.states) {
+      if (!stateByTechnicalName.has(st.technicalName)) {
+        stateByTechnicalName.set(st.technicalName, st.id);
+      }
+    }
+  }
+
+  const assocs: StateEventAssoc[] = [];
+  const seen = new Set<string>();
+  for (const file of eventFiles) {
+    for (const ev of file.events) {
+      const stateId = stateByTechnicalName.get(ev.state);
+      if (!stateId) {
+        if (ev.state) {
+          console.warn(`stateEventAssocsFromIngested: no state match for "${ev.state}" (event "${ev.id}") — skipping`);
+        }
+        continue;
+      }
+      const key = `${stateId}:${ev.id}`;
+      if (!seen.has(key)) {
+        seen.add(key);
+        assocs.push({ stateId, eventId: ev.id });
+      }
+    }
+  }
+  return assocs;
+}
+
 // ── main() ───────────────────────────────────────────────────────────────────
 
 export async function main(): Promise<void> {
@@ -129,16 +201,26 @@ export async function main(): Promise<void> {
     .filter(f => f.endsWith('.json'))
     .map(f => path.join(statesDir, f));
 
-  const ingestedFiles = await Promise.all(
+  const ingestedStateFiles = await Promise.all(
     stateFiles.map(async f => JSON.parse(await fs.readFile(f, 'utf-8'))),
   );
 
+  // Glob event ingestion files
+  const eventsDir = path.join(cwd, 'src/data-ingestion/events');
+  const eventJsonFiles = (await fs.readdir(eventsDir))
+    .filter(f => f.endsWith('.json'))
+    .map(f => path.join(eventsDir, f));
+
+  const ingestedEventFiles = await Promise.all(
+    eventJsonFiles.map(async f => JSON.parse(await fs.readFile(f, 'utf-8'))),
+  );
+
   const blob = {
-    states: statesFromIngested(ingestedFiles),
-    events: eventsFromMappings(waMappings),
+    states: statesFromIngested(ingestedStateFiles),
+    events: eventsFromIngested(ingestedEventFiles),
     waTasks,
     personas: personasFromMap(personaRoleMapping),
-    stateEventAssocs: [],
+    stateEventAssocs: stateEventAssocsFromIngested(ingestedEventFiles, ingestedStateFiles),
     eventTaskAssocs: eventTaskAssocsFromMappings(waMappings),
     personaStateAssocs: [],
     personaEventAssocs: [],
