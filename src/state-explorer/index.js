@@ -5,4 +5,5 @@ export {
   transitionsToEdges,
   getStateDetail,
   buildGraph,
+  getPersonasForState,
 } from './index.ts';

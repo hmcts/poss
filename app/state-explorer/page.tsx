@@ -8,6 +8,7 @@ import { prepareGraphData, prepareNodeWithBadge, prepareStateDetailPanel, getGra
 import { getNodeWaBadge, getStateDetailWaTasks, getTransitionWaTasks } from '../../src/ui-wa-tasks/state-overlay-helpers';
 import { getAboutSections } from '../../src/ui-about-state-explorer/index.js';
 import { blobToWaTasks, blobToWaMappings } from '../../src/ref-data/adapter';
+import { getPersonasForState } from '../../src/state-explorer/persona-helpers';
 
 export default function StateExplorerPage() {
   const { modelData, refData } = useApp();
@@ -72,6 +73,7 @@ export default function StateExplorerPage() {
   }, []);
 
   const detail = selectedStateId ? prepareStateDetailPanel(selectedStateId, modelData.states, modelData.events) : null;
+  const personas = selectedStateId ? getPersonasForState(refData, selectedStateId) : [];
   const waDetailTasks = selectedStateId ? getStateDetailWaTasks(selectedStateId, modelData.events, waTasks, waMappings) : [];
   const transitionWaTasks = selectedStateId
     ? getTransitionWaTasks(selectedStateId, modelData.states, modelData.transitions, modelData.events, waTasks, waMappings)
@@ -162,6 +164,24 @@ export default function StateExplorerPage() {
                 </div>
               </>
             )}
+            <>
+              <div className="h-px bg-slate-700/30 my-3" />
+              <h4 className="text-[11px] font-semibold text-slate-500 uppercase tracking-wider mb-2">Personas</h4>
+              {personas.length > 0 ? (
+                <div className="flex flex-wrap gap-1.5">
+                  {personas.map((persona) => (
+                    <span key={persona.id} className="inline-flex items-center gap-1 text-[11px] px-2 py-0.5 rounded-md bg-slate-700/50 text-slate-300">
+                      {persona.roles.join(', ')}
+                      {persona.isCrossCutting && (
+                        <span className="text-[10px] px-1.5 py-0.5 rounded-full font-medium bg-amber-500/20 text-amber-400 border border-amber-500/30 ml-1">cross-cutting</span>
+                      )}
+                    </span>
+                  ))}
+                </div>
+              ) : (
+                <p className="text-[11px] text-slate-600">No personas linked — add in Reference Data Editor</p>
+              )}
+            </>
             {transitionWaTasks.length > 0 && (
               <>
                 <div className="h-px bg-slate-700/30 my-3" />
