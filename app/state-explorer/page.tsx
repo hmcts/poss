@@ -7,15 +7,12 @@ import { useApp } from '../providers';
 import { prepareGraphData, prepareNodeWithBadge, prepareStateDetailPanel, getGraphLegend, getEdgeLegend } from '../../src/ui-state-explorer/index';
 import { getNodeWaBadge, getStateDetailWaTasks, getTransitionWaTasks } from '../../src/ui-wa-tasks/state-overlay-helpers';
 import { getAboutSections } from '../../src/ui-about-state-explorer/index.js';
-
-// ── Static WA data ─────────────────────────────────────────────────
-import waTasksData from '../../data/wa-tasks.json';
-import waMappingsData from '../../data/wa-mappings.json';
-const waTasks = waTasksData as any[];
-const waMappings = waMappingsData as any[];
+import { blobToWaTasks, blobToWaMappings } from '../../src/ref-data/adapter';
 
 export default function StateExplorerPage() {
-  const { modelData } = useApp();
+  const { modelData, refData } = useApp();
+  const waTasks = useMemo(() => blobToWaTasks(refData), [refData]);
+  const waMappings = useMemo(() => blobToWaMappings(refData), [refData]);
   const [selectedStateId, setSelectedStateId] = useState<string | null>(null);
 
   const graphData = useMemo(() => prepareGraphData(modelData.states, modelData.transitions), [modelData.states, modelData.transitions]);
