@@ -1,1 +1,1 @@
-export { blobToEvents, blobToWaMappings } from './adapter.ts';
+export { blobToEvents, blobToWaTasks, blobToWaMappings } from './adapter.ts';
