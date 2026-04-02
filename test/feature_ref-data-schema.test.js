@@ -17,7 +17,7 @@ import {
 // ── RefStateSchema ────────────────────────────────────────────────────
 
 describe('RefStateSchema', () => {
-  const valid = { id: 'state-001', name: 'Case Issued', description: 'Claim has been issued' };
+  const valid = { id: 'state-001', name: 'Case Issued', description: 'Claim has been issued', claimType: 'MAIN_CLAIM_ENGLAND' };
 
   it('RS-1: accepts valid state with id, name, description', () => {
     const result = RefStateSchema.safeParse(valid);
@@ -220,7 +220,7 @@ describe('PersonaTaskAssocSchema', () => {
 
 describe('ReferenceDataBlobSchema', () => {
   const validBlob = {
-    states: [{ id: 'state-001', name: 'Case Issued', description: 'Claim has been issued' }],
+    states: [{ id: 'state-001', name: 'Case Issued', description: 'Claim has been issued', claimType: 'MAIN_CLAIM_ENGLAND' }],
     events: [{ id: 'evt-001', name: 'Issue Claim', description: 'Claimant initiates proceedings' }],
     waTasks: [{
       id: 'wa-001',

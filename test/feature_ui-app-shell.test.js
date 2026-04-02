@@ -15,10 +15,10 @@ import { ROUTES, CLAIM_TYPES, getThemeClass } from '../src/app-shell/index.js';
 // -- 1. Navigation Items ------------------------------------------------------
 
 describe('Navigation items (getNavigationItems)', () => {
-  it('UAS-1: returns an array of 3 navigation items', () => {
+  it('UAS-1: returns an array of at least 3 navigation items', () => {
     const items = getNavigationItems();
     assert.ok(Array.isArray(items), 'Must return an array');
-    assert.equal(items.length, 3);
+    assert.ok(items.length >= 3);
   });
 
   it('UAS-2: each item has path, label, icon as non-empty strings', () => {

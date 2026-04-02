@@ -1,4 +1,4 @@
-import personaRoleMapping from '../../data/persona-role-mapping.json' assert { type: 'json' };
+import personaRoleMapping from '../../data/persona-role-mapping.json' with { type: 'json' };
 
 export function getPersonaRoleMapping(personaId) {
   return personaRoleMapping[personaId];
