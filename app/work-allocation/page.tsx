@@ -1,8 +1,8 @@
 'use client';
 
-import { useState } from 'react';
-import waTasks from '../../data/wa-tasks.json';
-import waMappings from '../../data/wa-mappings.json';
+import { useState, useMemo } from 'react';
+import { useApp } from '../providers';
+import { blobToWaTasks, blobToWaMappings } from '../../src/ref-data/adapter';
 import {
   getDashboardSummary,
   getAlignedTaskRows,
@@ -20,6 +20,11 @@ type ViewMode = 'tables' | 'by-context';
 export default function WorkAllocationPage() {
   const [viewMode, setViewMode] = useState<ViewMode>('tables');
   const [expandedRows, setExpandedRows] = useState<Set<string>>(new Set());
+
+  const { refData, refDataLoading } = useApp();
+
+  const waTasks = useMemo(() => blobToWaTasks(refData), [refData]);
+  const waMappings = useMemo(() => blobToWaMappings(refData), [refData]);
 
   const summary = getDashboardSummary(waTasks as any, waMappings);
   const alignedRows = getAlignedTaskRows(waTasks as any, waMappings);
@@ -46,6 +51,21 @@ export default function WorkAllocationPage() {
     link.click();
     URL.revokeObjectURL(url);
   };
+
+  if (refDataLoading) {
+    return (
+      <div className="space-y-8">
+        <div className="h-8 w-64 bg-slate-800/60 rounded animate-pulse" />
+        <div className="grid grid-cols-4 gap-4">
+          {[...Array(4)].map((_, i) => (
+            <div key={i} className="h-20 bg-slate-800/60 rounded-xl animate-pulse" />
+          ))}
+        </div>
+        <div className="h-3 bg-slate-800/60 rounded-full animate-pulse" />
+        <div className="h-48 bg-slate-800/60 rounded-xl animate-pulse" />
+      </div>
+    );
+  }
 
   return (
     <div className="space-y-8">
