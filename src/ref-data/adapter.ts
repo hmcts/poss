@@ -60,6 +60,16 @@ export function blobToEvents(
 }
 
 /**
+ * Returns the WA task list from the blob.
+ * Returns [] for null/undefined blob.
+ */
+export function blobToWaTasks(
+  blob: ReferenceDataBlob | null | undefined,
+): ReferenceDataBlob['waTasks'] {
+  return blob?.waTasks ?? [];
+}
+
+/**
  * Converts blob eventTaskAssocs into task-centric WA mapping objects.
  * Groups by waTaskId; first-encountered alignmentNotes wins per task.
  * Returns [] for null/undefined blob or empty eventTaskAssocs.
