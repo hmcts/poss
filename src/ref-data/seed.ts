@@ -11,7 +11,7 @@
 import pkg from '@next/env';
 pkg.loadEnvConfig(process.cwd());
 
-import type { Persona, RefEvent, EventTaskAssoc, RefState, StateEventAssoc } from './schema.ts';
+import type { Persona, RefEvent, EventTaskAssoc, RefState, StateEventAssoc, RefTransition } from './schema.ts';
 import { ReferenceDataBlobSchema } from './schema.ts';
 import { writeReferenceData } from './blob-client.ts';
 
@@ -182,6 +182,37 @@ export function stateEventAssocsFromIngested(
     }
   }
   return assocs;
+}
+
+// ── Ingested transition type ─────────────────────────────────────────────────
+
+type IngestedTransition = {
+  from: string;
+  to: string;
+  condition: string;
+  isSystemTriggered: boolean;
+  isTimeBased: boolean;
+};
+
+/**
+ * Converts an ingested state file's transitions array to RefTransition[].
+ * Accepts the full state file object ({ states, transitions }) or an array
+ * (treated as empty). Returns [] for null/undefined or missing transitions.
+ */
+export function transitionsFromIngested(
+  input: { states?: unknown[]; transitions?: IngestedTransition[] } | null | undefined | unknown[],
+): RefTransition[] {
+  if (!input || Array.isArray(input)) return [];
+  const raw = (input as { transitions?: IngestedTransition[] }).transitions;
+  if (!Array.isArray(raw) || raw.length === 0) return [];
+  return raw.map((t, i) => ({
+    id: `tr-${t.from}-${t.to}-${i}`,
+    fromStateId: t.from,
+    toStateId: t.to,
+    condition: t.condition ?? '',
+    isSystemTriggered: t.isSystemTriggered ?? false,
+    isTimeBased: t.isTimeBased ?? false,
+  }));
 }
 
 // ── main() ───────────────────────────────────────────────────────────────────

@@ -3,7 +3,7 @@
  * No side effects, no React, no DOM.
  */
 
-import type { ReferenceDataBlob } from './schema.ts';
+import type { ReferenceDataBlob, RefTransition } from './schema.ts';
 import type { Event } from '../data-model/schemas.ts';
 
 type WaMapping = {
@@ -67,6 +67,39 @@ export function blobToWaTasks(
   blob: ReferenceDataBlob | null | undefined,
 ): ReferenceDataBlob['waTasks'] {
   return blob?.waTasks ?? [];
+}
+
+/**
+ * Returns blob.transitions when non-empty, otherwise falls back to ingestedTransitions.
+ * Returns ingestedTransitions for null/undefined blob.
+ */
+export function pickTransitionsForClaim(
+  blob: ReferenceDataBlob | null | undefined,
+  ingestedTransitions: RefTransition[],
+): RefTransition[] {
+  if (!blob || !blob.transitions || blob.transitions.length === 0) return ingestedTransitions;
+  return blob.transitions;
+}
+
+/**
+ * Converts blob transitions to the Transition[] shape (from/to) used by ModelData.
+ * When blob.transitions is non-empty, uses them; otherwise uses ingestedTransitions.
+ * ingestedTransitions should already be in Transition shape (from/to).
+ */
+export function blobToTransitions(
+  blob: ReferenceDataBlob | null | undefined,
+  ingestedTransitions: Array<{ from: string; to: string; condition: string | null; isSystemTriggered: boolean; isTimeBased: boolean }>,
+): Array<{ from: string; to: string; condition: string | null; isSystemTriggered: boolean; isTimeBased: boolean }> {
+  if (blob && blob.transitions && blob.transitions.length > 0) {
+    return blob.transitions.map(t => ({
+      from: t.fromStateId,
+      to: t.toStateId,
+      condition: t.condition,
+      isSystemTriggered: t.isSystemTriggered,
+      isTimeBased: t.isTimeBased,
+    }));
+  }
+  return ingestedTransitions;
 }
 
 /**
