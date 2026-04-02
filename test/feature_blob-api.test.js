@@ -35,8 +35,8 @@ function resetBlobMock() {
 // ── Test fixtures ────────────────────────────────────────────────────────────
 
 const VALID_BLOB = {
-  states: [{ id: 's1', name: 'State One', description: 'desc' }],
-  events: [{ id: 'e1', name: 'Event One', description: 'desc' }],
+  states: [{ id: 's1', name: 'State One', description: 'desc', claimType: 'MAIN_CLAIM_ENGLAND' }],
+  events: [{ id: 'e1', name: 'Event One', description: 'desc', actors: {}, isSystemEvent: false, hasOpenQuestions: false, notes: '' }],
   waTasks: [{ id: 'wt1', triggerDescription: 'T', taskName: 'N', taskContext: 'claim', alignment: 'aligned' }],
   personas: [{ id: 'p1', roles: ['Caseworker'], isCrossCutting: false }],
   stateEventAssocs: [{ stateId: 's1', eventId: 'e1' }],
@@ -44,6 +44,7 @@ const VALID_BLOB = {
   personaStateAssocs: [{ personaId: 'p1', stateId: 's1' }],
   personaEventAssocs: [{ personaId: 'p1', eventId: 'e1' }],
   personaTaskAssocs: [{ personaId: 'p1', waTaskId: 'wt1' }],
+  transitions: [],
 };
 
 const EMPTY_SEED = {

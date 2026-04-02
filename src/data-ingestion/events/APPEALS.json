@@ -2,7 +2,7 @@
   "claimType": "APPEALS",
   "events": [
     {
-      "id": "appeals-awaiting-submission-to-hmcts-resume-appeal-application",
+      "id": "appeals-resume-appeal-application",
       "name": "Resume appeal application",
       "claimType": "APPEALS",
       "state": "AWAITING_SUBMISSION_TO_HMCTS",
@@ -21,7 +21,7 @@
       "hasOpenQuestions": false
     },
     {
-      "id": "appeals-awaiting-submission-to-hmcts-delete-draft-appeal-application",
+      "id": "appeals-delete-draft-appeal-application",
       "name": "Delete draft appeal application",
       "claimType": "APPEALS",
       "state": "AWAITING_SUBMISSION_TO_HMCTS",
@@ -40,7 +40,7 @@
       "hasOpenQuestions": false
     },
     {
-      "id": "appeals-awaiting-submission-to-hmcts-discard-appeal-application",
+      "id": "appeals-discard-appeal-application",
       "name": "Discard appeal application",
       "claimType": "APPEALS",
       "state": "AWAITING_SUBMISSION_TO_HMCTS",
@@ -59,7 +59,7 @@
       "hasOpenQuestions": false
     },
     {
-      "id": "appeals-pending-case-issued-create-service-request",
+      "id": "appeals-create-service-request",
       "name": "Create service request",
       "claimType": "APPEALS",
       "state": "PENDING_CASE_ISSUED",
@@ -78,7 +78,7 @@
       "hasOpenQuestions": false
     },
     {
-      "id": "appeals-pending-case-issued-upload-translated-document",
+      "id": "appeals-upload-translated-document",
       "name": "Upload translated document",
       "claimType": "APPEALS",
       "state": "PENDING_CASE_ISSUED",
@@ -97,45 +97,7 @@
       "hasOpenQuestions": false
     },
     {
-      "id": "appeals-pending-case-issued-delete-draft-appeal-application",
-      "name": "Delete draft appeal application",
-      "claimType": "APPEALS",
-      "state": "PENDING_CASE_ISSUED",
-      "actors": {
-        "Judge": false,
-        "Caseworker": false,
-        "Claimant": false,
-        "Defendant": false,
-        "LegalAdvisor": false,
-        "BailiffEnforcement": false,
-        "CourtAdmin": false,
-        "SystemAuto": false
-      },
-      "isSystemEvent": false,
-      "notes": "",
-      "hasOpenQuestions": false
-    },
-    {
-      "id": "appeals-pending-case-issued-discard-appeal-application",
-      "name": "Discard appeal application",
-      "claimType": "APPEALS",
-      "state": "PENDING_CASE_ISSUED",
-      "actors": {
-        "Judge": false,
-        "Caseworker": false,
-        "Claimant": false,
-        "Defendant": false,
-        "LegalAdvisor": false,
-        "BailiffEnforcement": false,
-        "CourtAdmin": false,
-        "SystemAuto": true
-      },
-      "isSystemEvent": true,
-      "notes": "",
-      "hasOpenQuestions": false
-    },
-    {
-      "id": "appeals-awaiting-resubmission-to-hmcts-re-submit-appeal",
+      "id": "appeals-re-submit-appeal",
       "name": "Re-submit appeal",
       "claimType": "APPEALS",
       "state": "AWAITING_RESUBMISSION_TO_HMCTS",
@@ -154,64 +116,7 @@
       "hasOpenQuestions": true
     },
     {
-      "id": "appeals-awaiting-resubmission-to-hmcts-resume-appeal-application",
-      "name": "Resume appeal application",
-      "claimType": "APPEALS",
-      "state": "AWAITING_RESUBMISSION_TO_HMCTS",
-      "actors": {
-        "Judge": false,
-        "Caseworker": false,
-        "Claimant": false,
-        "Defendant": false,
-        "LegalAdvisor": false,
-        "BailiffEnforcement": false,
-        "CourtAdmin": false,
-        "SystemAuto": false
-      },
-      "isSystemEvent": false,
-      "notes": "",
-      "hasOpenQuestions": false
-    },
-    {
-      "id": "appeals-awaiting-resubmission-to-hmcts-delete-draft-appeal-application",
-      "name": "Delete draft appeal application",
-      "claimType": "APPEALS",
-      "state": "AWAITING_RESUBMISSION_TO_HMCTS",
-      "actors": {
-        "Judge": false,
-        "Caseworker": false,
-        "Claimant": false,
-        "Defendant": false,
-        "LegalAdvisor": false,
-        "BailiffEnforcement": false,
-        "CourtAdmin": false,
-        "SystemAuto": false
-      },
-      "isSystemEvent": false,
-      "notes": "",
-      "hasOpenQuestions": false
-    },
-    {
-      "id": "appeals-awaiting-resubmission-to-hmcts-discard-appeal-application",
-      "name": "Discard appeal application",
-      "claimType": "APPEALS",
-      "state": "AWAITING_RESUBMISSION_TO_HMCTS",
-      "actors": {
-        "Judge": false,
-        "Caseworker": false,
-        "Claimant": false,
-        "Defendant": false,
-        "LegalAdvisor": false,
-        "BailiffEnforcement": false,
-        "CourtAdmin": false,
-        "SystemAuto": true
-      },
-      "isSystemEvent": true,
-      "notes": "",
-      "hasOpenQuestions": false
-    },
-    {
-      "id": "appeals-draft-discarded-delete",
+      "id": "appeals-delete",
       "name": "Delete",
       "claimType": "APPEALS",
       "state": "DRAFT_DISCARDED",
@@ -230,26 +135,7 @@
       "hasOpenQuestions": false
     },
     {
-      "id": "appeals-draft-discarded-discard-appeal-application",
-      "name": "Discard appeal application",
-      "claimType": "APPEALS",
-      "state": "DRAFT_DISCARDED",
-      "actors": {
-        "Judge": false,
-        "Caseworker": false,
-        "Claimant": false,
-        "Defendant": false,
-        "LegalAdvisor": false,
-        "BailiffEnforcement": false,
-        "CourtAdmin": false,
-        "SystemAuto": true
-      },
-      "isSystemEvent": true,
-      "notes": "",
-      "hasOpenQuestions": false
-    },
-    {
-      "id": "appeals-case-issued-notify-appeal-application",
+      "id": "appeals-notify-appeal-application",
       "name": "Notify appeal application",
       "claimType": "APPEALS",
       "state": "CASE_ISSUED",
@@ -268,7 +154,7 @@
       "hasOpenQuestions": false
     },
     {
-      "id": "appeals-case-issued-notice-of-discontinuance",
+      "id": "appeals-notice-of-discontinuance",
       "name": "Notice of discontinuance",
       "claimType": "APPEALS",
       "state": "CASE_ISSUED",
@@ -287,7 +173,7 @@
       "hasOpenQuestions": false
     },
     {
-      "id": "appeals-case-issued-stay-the-appeal",
+      "id": "appeals-stay-the-appeal",
       "name": "Stay the appeal",
       "claimType": "APPEALS",
       "state": "CASE_ISSUED",
@@ -306,7 +192,7 @@
       "hasOpenQuestions": false
     },
     {
-      "id": "appeals-case-issued-refer-to-judge",
+      "id": "appeals-refer-to-judge",
       "name": "Refer to Judge",
       "claimType": "APPEALS",
       "state": "CASE_ISSUED",
@@ -325,7 +211,7 @@
       "hasOpenQuestions": false
     },
     {
-      "id": "appeals-case-issued-upload-your-documents",
+      "id": "appeals-upload-your-documents",
       "name": "Upload your documents",
       "claimType": "APPEALS",
       "state": "CASE_ISSUED",
@@ -344,7 +230,7 @@
       "hasOpenQuestions": false
     },
     {
-      "id": "appeals-case-issued-amend-documents",
+      "id": "appeals-amend-documents",
       "name": "Amend documents",
       "claimType": "APPEALS",
       "state": "CASE_ISSUED",
@@ -363,26 +249,7 @@
       "hasOpenQuestions": false
     },
     {
-      "id": "appeals-case-issued-upload-translated-document",
-      "name": "Upload translated document",
-      "claimType": "APPEALS",
-      "state": "CASE_ISSUED",
-      "actors": {
-        "Judge": false,
-        "Caseworker": false,
-        "Claimant": false,
-        "Defendant": false,
-        "LegalAdvisor": false,
-        "BailiffEnforcement": false,
-        "CourtAdmin": false,
-        "SystemAuto": false
-      },
-      "isSystemEvent": false,
-      "notes": "",
-      "hasOpenQuestions": false
-    },
-    {
-      "id": "appeals-case-issued-enter-breathing-space",
+      "id": "appeals-enter-breathing-space",
       "name": "Enter breathing space",
       "claimType": "APPEALS",
       "state": "CASE_ISSUED",
@@ -401,7 +268,7 @@
       "hasOpenQuestions": false
     },
     {
-      "id": "appeals-case-issued-add-judicial-case-note",
+      "id": "appeals-add-judicial-case-note",
       "name": "Add judicial case note",
       "claimType": "APPEALS",
       "state": "CASE_ISSUED",
@@ -420,7 +287,7 @@
       "hasOpenQuestions": false
     },
     {
-      "id": "appeals-case-issued-add-case-note",
+      "id": "appeals-add-case-note",
       "name": "Add case note",
       "claimType": "APPEALS",
       "state": "CASE_ISSUED",
@@ -439,159 +306,7 @@
       "hasOpenQuestions": false
     },
     {
-      "id": "appeals-judicial-referral-notice-of-discontinuance",
-      "name": "Notice of discontinuance",
-      "claimType": "APPEALS",
-      "state": "JUDICIAL_REFERRAL",
-      "actors": {
-        "Judge": false,
-        "Caseworker": false,
-        "Claimant": false,
-        "Defendant": false,
-        "LegalAdvisor": false,
-        "BailiffEnforcement": false,
-        "CourtAdmin": false,
-        "SystemAuto": false
-      },
-      "isSystemEvent": false,
-      "notes": "",
-      "hasOpenQuestions": false
-    },
-    {
-      "id": "appeals-judicial-referral-stay-the-appeal",
-      "name": "Stay the appeal",
-      "claimType": "APPEALS",
-      "state": "JUDICIAL_REFERRAL",
-      "actors": {
-        "Judge": false,
-        "Caseworker": false,
-        "Claimant": false,
-        "Defendant": false,
-        "LegalAdvisor": false,
-        "BailiffEnforcement": false,
-        "CourtAdmin": false,
-        "SystemAuto": false
-      },
-      "isSystemEvent": false,
-      "notes": "",
-      "hasOpenQuestions": false
-    },
-    {
-      "id": "appeals-judicial-referral-add-judicial-case-note",
-      "name": "Add judicial case note",
-      "claimType": "APPEALS",
-      "state": "JUDICIAL_REFERRAL",
-      "actors": {
-        "Judge": false,
-        "Caseworker": false,
-        "Claimant": false,
-        "Defendant": false,
-        "LegalAdvisor": false,
-        "BailiffEnforcement": false,
-        "CourtAdmin": false,
-        "SystemAuto": false
-      },
-      "isSystemEvent": false,
-      "notes": "",
-      "hasOpenQuestions": false
-    },
-    {
-      "id": "appeals-judicial-referral-add-case-note",
-      "name": "Add case note",
-      "claimType": "APPEALS",
-      "state": "JUDICIAL_REFERRAL",
-      "actors": {
-        "Judge": false,
-        "Caseworker": false,
-        "Claimant": false,
-        "Defendant": false,
-        "LegalAdvisor": false,
-        "BailiffEnforcement": false,
-        "CourtAdmin": false,
-        "SystemAuto": false
-      },
-      "isSystemEvent": false,
-      "notes": "",
-      "hasOpenQuestions": false
-    },
-    {
-      "id": "appeals-judicial-referral-upload-your-documents",
-      "name": "Upload your documents",
-      "claimType": "APPEALS",
-      "state": "JUDICIAL_REFERRAL",
-      "actors": {
-        "Judge": false,
-        "Caseworker": false,
-        "Claimant": false,
-        "Defendant": false,
-        "LegalAdvisor": false,
-        "BailiffEnforcement": false,
-        "CourtAdmin": false,
-        "SystemAuto": false
-      },
-      "isSystemEvent": false,
-      "notes": "",
-      "hasOpenQuestions": false
-    },
-    {
-      "id": "appeals-judicial-referral-amend-documents",
-      "name": "Amend documents",
-      "claimType": "APPEALS",
-      "state": "JUDICIAL_REFERRAL",
-      "actors": {
-        "Judge": false,
-        "Caseworker": false,
-        "Claimant": false,
-        "Defendant": false,
-        "LegalAdvisor": false,
-        "BailiffEnforcement": false,
-        "CourtAdmin": false,
-        "SystemAuto": false
-      },
-      "isSystemEvent": false,
-      "notes": "",
-      "hasOpenQuestions": false
-    },
-    {
-      "id": "appeals-judicial-referral-upload-translated-document",
-      "name": "Upload translated document",
-      "claimType": "APPEALS",
-      "state": "JUDICIAL_REFERRAL",
-      "actors": {
-        "Judge": false,
-        "Caseworker": false,
-        "Claimant": false,
-        "Defendant": false,
-        "LegalAdvisor": false,
-        "BailiffEnforcement": false,
-        "CourtAdmin": false,
-        "SystemAuto": false
-      },
-      "isSystemEvent": false,
-      "notes": "",
-      "hasOpenQuestions": false
-    },
-    {
-      "id": "appeals-judicial-referral-enter-breathing-space",
-      "name": "Enter breathing space",
-      "claimType": "APPEALS",
-      "state": "JUDICIAL_REFERRAL",
-      "actors": {
-        "Judge": false,
-        "Caseworker": false,
-        "Claimant": false,
-        "Defendant": false,
-        "LegalAdvisor": false,
-        "BailiffEnforcement": false,
-        "CourtAdmin": false,
-        "SystemAuto": false
-      },
-      "isSystemEvent": false,
-      "notes": "",
-      "hasOpenQuestions": false
-    },
-    {
-      "id": "appeals-judicial-referral-make-order",
+      "id": "appeals-make-order",
       "name": "Make order",
       "claimType": "APPEALS",
       "state": "JUDICIAL_REFERRAL",
@@ -610,7 +325,7 @@
       "hasOpenQuestions": false
     },
     {
-      "id": "appeals-judicial-referral-amend-order",
+      "id": "appeals-amend-order",
       "name": "Amend order",
       "claimType": "APPEALS",
       "state": "JUDICIAL_REFERRAL",
@@ -629,7 +344,7 @@
       "hasOpenQuestions": false
     },
     {
-      "id": "appeals-judicial-referral-generate-order",
+      "id": "appeals-generate-order",
       "name": "Generate order",
       "claimType": "APPEALS",
       "state": "JUDICIAL_REFERRAL",
@@ -648,7 +363,7 @@
       "hasOpenQuestions": false
     },
     {
-      "id": "appeals-judicial-referral-notify-order",
+      "id": "appeals-notify-order",
       "name": "Notify order",
       "claimType": "APPEALS",
       "state": "JUDICIAL_REFERRAL",
@@ -667,64 +382,7 @@
       "hasOpenQuestions": false
     },
     {
-      "id": "appeals-case-progression-notice-of-discontinuance",
-      "name": "Notice of discontinuance",
-      "claimType": "APPEALS",
-      "state": "CASE_PROGRESSION",
-      "actors": {
-        "Judge": false,
-        "Caseworker": false,
-        "Claimant": false,
-        "Defendant": false,
-        "LegalAdvisor": false,
-        "BailiffEnforcement": false,
-        "CourtAdmin": false,
-        "SystemAuto": false
-      },
-      "isSystemEvent": false,
-      "notes": "",
-      "hasOpenQuestions": false
-    },
-    {
-      "id": "appeals-case-progression-stay-the-appeal",
-      "name": "Stay the appeal",
-      "claimType": "APPEALS",
-      "state": "CASE_PROGRESSION",
-      "actors": {
-        "Judge": false,
-        "Caseworker": false,
-        "Claimant": false,
-        "Defendant": false,
-        "LegalAdvisor": false,
-        "BailiffEnforcement": false,
-        "CourtAdmin": false,
-        "SystemAuto": false
-      },
-      "isSystemEvent": false,
-      "notes": "",
-      "hasOpenQuestions": false
-    },
-    {
-      "id": "appeals-case-progression-upload-translated-document",
-      "name": "Upload translated document",
-      "claimType": "APPEALS",
-      "state": "CASE_PROGRESSION",
-      "actors": {
-        "Judge": false,
-        "Caseworker": false,
-        "Claimant": false,
-        "Defendant": false,
-        "LegalAdvisor": false,
-        "BailiffEnforcement": false,
-        "CourtAdmin": false,
-        "SystemAuto": false
-      },
-      "isSystemEvent": false,
-      "notes": "",
-      "hasOpenQuestions": false
-    },
-    {
-      "id": "appeals-case-progression-manage-documents",
+      "id": "appeals-manage-documents",
       "name": "Manage documents",
       "claimType": "APPEALS",
       "state": "CASE_PROGRESSION",
@@ -743,425 +401,7 @@
       "hasOpenQuestions": false
     },
     {
-      "id": "appeals-case-progression-make-order",
-      "name": "Make order",
-      "claimType": "APPEALS",
-      "state": "CASE_PROGRESSION",
-      "actors": {
-        "Judge": false,
-        "Caseworker": false,
-        "Claimant": false,
-        "Defendant": false,
-        "LegalAdvisor": false,
-        "BailiffEnforcement": false,
-        "CourtAdmin": false,
-        "SystemAuto": false
-      },
-      "isSystemEvent": false,
-      "notes": "",
-      "hasOpenQuestions": false
-    },
-    {
-      "id": "appeals-case-progression-amend-order",
-      "name": "Amend order",
-      "claimType": "APPEALS",
-      "state": "CASE_PROGRESSION",
-      "actors": {
-        "Judge": false,
-        "Caseworker": false,
-        "Claimant": false,
-        "Defendant": false,
-        "LegalAdvisor": false,
-        "BailiffEnforcement": false,
-        "CourtAdmin": false,
-        "SystemAuto": false
-      },
-      "isSystemEvent": false,
-      "notes": "",
-      "hasOpenQuestions": false
-    },
-    {
-      "id": "appeals-case-progression-generate-order",
-      "name": "Generate order",
-      "claimType": "APPEALS",
-      "state": "CASE_PROGRESSION",
-      "actors": {
-        "Judge": false,
-        "Caseworker": false,
-        "Claimant": false,
-        "Defendant": false,
-        "LegalAdvisor": false,
-        "BailiffEnforcement": false,
-        "CourtAdmin": false,
-        "SystemAuto": false
-      },
-      "isSystemEvent": false,
-      "notes": "",
-      "hasOpenQuestions": false
-    },
-    {
-      "id": "appeals-case-progression-notify-order",
-      "name": "Notify order",
-      "claimType": "APPEALS",
-      "state": "CASE_PROGRESSION",
-      "actors": {
-        "Judge": false,
-        "Caseworker": false,
-        "Claimant": false,
-        "Defendant": false,
-        "LegalAdvisor": false,
-        "BailiffEnforcement": false,
-        "CourtAdmin": false,
-        "SystemAuto": false
-      },
-      "isSystemEvent": false,
-      "notes": "",
-      "hasOpenQuestions": false
-    },
-    {
-      "id": "appeals-case-progression-enter-breathing-space",
-      "name": "Enter breathing space",
-      "claimType": "APPEALS",
-      "state": "CASE_PROGRESSION",
-      "actors": {
-        "Judge": false,
-        "Caseworker": false,
-        "Claimant": false,
-        "Defendant": false,
-        "LegalAdvisor": false,
-        "BailiffEnforcement": false,
-        "CourtAdmin": false,
-        "SystemAuto": false
-      },
-      "isSystemEvent": false,
-      "notes": "",
-      "hasOpenQuestions": false
-    },
-    {
-      "id": "appeals-case-progression-add-judicial-case-note",
-      "name": "Add judicial case note",
-      "claimType": "APPEALS",
-      "state": "CASE_PROGRESSION",
-      "actors": {
-        "Judge": false,
-        "Caseworker": false,
-        "Claimant": false,
-        "Defendant": false,
-        "LegalAdvisor": false,
-        "BailiffEnforcement": false,
-        "CourtAdmin": false,
-        "SystemAuto": false
-      },
-      "isSystemEvent": false,
-      "notes": "",
-      "hasOpenQuestions": false
-    },
-    {
-      "id": "appeals-case-progression-add-case-note",
-      "name": "Add case note",
-      "claimType": "APPEALS",
-      "state": "CASE_PROGRESSION",
-      "actors": {
-        "Judge": false,
-        "Caseworker": false,
-        "Claimant": false,
-        "Defendant": false,
-        "LegalAdvisor": false,
-        "BailiffEnforcement": false,
-        "CourtAdmin": false,
-        "SystemAuto": false
-      },
-      "isSystemEvent": false,
-      "notes": "",
-      "hasOpenQuestions": false
-    },
-    {
-      "id": "appeals-hearing-readiness-notice-of-discontinuance",
-      "name": "Notice of discontinuance",
-      "claimType": "APPEALS",
-      "state": "HEARING_READINESS",
-      "actors": {
-        "Judge": false,
-        "Caseworker": false,
-        "Claimant": false,
-        "Defendant": false,
-        "LegalAdvisor": false,
-        "BailiffEnforcement": false,
-        "CourtAdmin": false,
-        "SystemAuto": false
-      },
-      "isSystemEvent": false,
-      "notes": "",
-      "hasOpenQuestions": false
-    },
-    {
-      "id": "appeals-hearing-readiness-stay-the-appeal",
-      "name": "Stay the appeal",
-      "claimType": "APPEALS",
-      "state": "HEARING_READINESS",
-      "actors": {
-        "Judge": false,
-        "Caseworker": false,
-        "Claimant": false,
-        "Defendant": false,
-        "LegalAdvisor": false,
-        "BailiffEnforcement": false,
-        "CourtAdmin": false,
-        "SystemAuto": false
-      },
-      "isSystemEvent": false,
-      "notes": "",
-      "hasOpenQuestions": false
-    },
-    {
-      "id": "appeals-hearing-readiness-upload-translated-document",
-      "name": "Upload translated document",
-      "claimType": "APPEALS",
-      "state": "HEARING_READINESS",
-      "actors": {
-        "Judge": false,
-        "Caseworker": false,
-        "Claimant": false,
-        "Defendant": false,
-        "LegalAdvisor": false,
-        "BailiffEnforcement": false,
-        "CourtAdmin": false,
-        "SystemAuto": false
-      },
-      "isSystemEvent": false,
-      "notes": "",
-      "hasOpenQuestions": false
-    },
-    {
-      "id": "appeals-hearing-readiness-manage-documents",
-      "name": "Manage documents",
-      "claimType": "APPEALS",
-      "state": "HEARING_READINESS",
-      "actors": {
-        "Judge": false,
-        "Caseworker": false,
-        "Claimant": false,
-        "Defendant": false,
-        "LegalAdvisor": false,
-        "BailiffEnforcement": false,
-        "CourtAdmin": false,
-        "SystemAuto": false
-      },
-      "isSystemEvent": false,
-      "notes": "",
-      "hasOpenQuestions": false
-    },
-    {
-      "id": "appeals-hearing-readiness-make-order",
-      "name": "Make order",
-      "claimType": "APPEALS",
-      "state": "HEARING_READINESS",
-      "actors": {
-        "Judge": false,
-        "Caseworker": false,
-        "Claimant": false,
-        "Defendant": false,
-        "LegalAdvisor": false,
-        "BailiffEnforcement": false,
-        "CourtAdmin": false,
-        "SystemAuto": false
-      },
-      "isSystemEvent": false,
-      "notes": "",
-      "hasOpenQuestions": false
-    },
-    {
-      "id": "appeals-hearing-readiness-amend-order",
-      "name": "Amend order",
-      "claimType": "APPEALS",
-      "state": "HEARING_READINESS",
-      "actors": {
-        "Judge": false,
-        "Caseworker": false,
-        "Claimant": false,
-        "Defendant": false,
-        "LegalAdvisor": false,
-        "BailiffEnforcement": false,
-        "CourtAdmin": false,
-        "SystemAuto": false
-      },
-      "isSystemEvent": false,
-      "notes": "",
-      "hasOpenQuestions": false
-    },
-    {
-      "id": "appeals-hearing-readiness-generate-order",
-      "name": "Generate order",
-      "claimType": "APPEALS",
-      "state": "HEARING_READINESS",
-      "actors": {
-        "Judge": false,
-        "Caseworker": false,
-        "Claimant": false,
-        "Defendant": false,
-        "LegalAdvisor": false,
-        "BailiffEnforcement": false,
-        "CourtAdmin": false,
-        "SystemAuto": false
-      },
-      "isSystemEvent": false,
-      "notes": "",
-      "hasOpenQuestions": false
-    },
-    {
-      "id": "appeals-hearing-readiness-notify-order",
-      "name": "Notify order",
-      "claimType": "APPEALS",
-      "state": "HEARING_READINESS",
-      "actors": {
-        "Judge": false,
-        "Caseworker": false,
-        "Claimant": false,
-        "Defendant": false,
-        "LegalAdvisor": false,
-        "BailiffEnforcement": false,
-        "CourtAdmin": false,
-        "SystemAuto": false
-      },
-      "isSystemEvent": false,
-      "notes": "",
-      "hasOpenQuestions": false
-    },
-    {
-      "id": "appeals-hearing-readiness-enter-breathing-space",
-      "name": "Enter breathing space",
-      "claimType": "APPEALS",
-      "state": "HEARING_READINESS",
-      "actors": {
-        "Judge": false,
-        "Caseworker": false,
-        "Claimant": false,
-        "Defendant": false,
-        "LegalAdvisor": false,
-        "BailiffEnforcement": false,
-        "CourtAdmin": false,
-        "SystemAuto": false
-      },
-      "isSystemEvent": false,
-      "notes": "",
-      "hasOpenQuestions": false
-    },
-    {
-      "id": "appeals-hearing-readiness-add-judicial-case-note",
-      "name": "Add judicial case note",
-      "claimType": "APPEALS",
-      "state": "HEARING_READINESS",
-      "actors": {
-        "Judge": false,
-        "Caseworker": false,
-        "Claimant": false,
-        "Defendant": false,
-        "LegalAdvisor": false,
-        "BailiffEnforcement": false,
-        "CourtAdmin": false,
-        "SystemAuto": false
-      },
-      "isSystemEvent": false,
-      "notes": "",
-      "hasOpenQuestions": false
-    },
-    {
-      "id": "appeals-hearing-readiness-add-case-note",
-      "name": "Add case note",
-      "claimType": "APPEALS",
-      "state": "HEARING_READINESS",
-      "actors": {
-        "Judge": false,
-        "Caseworker": false,
-        "Claimant": false,
-        "Defendant": false,
-        "LegalAdvisor": false,
-        "BailiffEnforcement": false,
-        "CourtAdmin": false,
-        "SystemAuto": false
-      },
-      "isSystemEvent": false,
-      "notes": "",
-      "hasOpenQuestions": false
-    },
-    {
-      "id": "appeals-prepare-for-hearing-conduct-hearing-notice-of-discontinuance",
-      "name": "Notice of discontinuance",
-      "claimType": "APPEALS",
-      "state": "PREPARE_FOR_HEARING_CONDUCT_HEARING",
-      "actors": {
-        "Judge": false,
-        "Caseworker": false,
-        "Claimant": false,
-        "Defendant": false,
-        "LegalAdvisor": false,
-        "BailiffEnforcement": false,
-        "CourtAdmin": false,
-        "SystemAuto": false
-      },
-      "isSystemEvent": false,
-      "notes": "",
-      "hasOpenQuestions": false
-    },
-    {
-      "id": "appeals-prepare-for-hearing-conduct-hearing-stay-the-appeal",
-      "name": "Stay the appeal",
-      "claimType": "APPEALS",
-      "state": "PREPARE_FOR_HEARING_CONDUCT_HEARING",
-      "actors": {
-        "Judge": false,
-        "Caseworker": false,
-        "Claimant": false,
-        "Defendant": false,
-        "LegalAdvisor": false,
-        "BailiffEnforcement": false,
-        "CourtAdmin": false,
-        "SystemAuto": false
-      },
-      "isSystemEvent": false,
-      "notes": "",
-      "hasOpenQuestions": false
-    },
-    {
-      "id": "appeals-prepare-for-hearing-conduct-hearing-upload-translated-document",
-      "name": "Upload translated document",
-      "claimType": "APPEALS",
-      "state": "PREPARE_FOR_HEARING_CONDUCT_HEARING",
-      "actors": {
-        "Judge": false,
-        "Caseworker": false,
-        "Claimant": false,
-        "Defendant": false,
-        "LegalAdvisor": false,
-        "BailiffEnforcement": false,
-        "CourtAdmin": false,
-        "SystemAuto": false
-      },
-      "isSystemEvent": false,
-      "notes": "",
-      "hasOpenQuestions": false
-    },
-    {
-      "id": "appeals-prepare-for-hearing-conduct-hearing-manage-documents",
-      "name": "Manage documents",
-      "claimType": "APPEALS",
-      "state": "PREPARE_FOR_HEARING_CONDUCT_HEARING",
-      "actors": {
-        "Judge": false,
-        "Caseworker": false,
-        "Claimant": false,
-        "Defendant": false,
-        "LegalAdvisor": false,
-        "BailiffEnforcement": false,
-        "CourtAdmin": false,
-        "SystemAuto": false
-      },
-      "isSystemEvent": false,
-      "notes": "",
-      "hasOpenQuestions": false
-    },
-    {
-      "id": "appeals-prepare-for-hearing-conduct-hearing-create-court-bundle",
+      "id": "appeals-create-court-bundle",
       "name": "Create court bundle",
       "claimType": "APPEALS",
       "state": "PREPARE_FOR_HEARING_CONDUCT_HEARING",
@@ -1180,577 +420,7 @@
       "hasOpenQuestions": false
     },
     {
-      "id": "appeals-prepare-for-hearing-conduct-hearing-make-order",
-      "name": "Make order",
-      "claimType": "APPEALS",
-      "state": "PREPARE_FOR_HEARING_CONDUCT_HEARING",
-      "actors": {
-        "Judge": false,
-        "Caseworker": false,
-        "Claimant": false,
-        "Defendant": false,
-        "LegalAdvisor": false,
-        "BailiffEnforcement": false,
-        "CourtAdmin": false,
-        "SystemAuto": false
-      },
-      "isSystemEvent": false,
-      "notes": "",
-      "hasOpenQuestions": false
-    },
-    {
-      "id": "appeals-prepare-for-hearing-conduct-hearing-amend-order",
-      "name": "Amend order",
-      "claimType": "APPEALS",
-      "state": "PREPARE_FOR_HEARING_CONDUCT_HEARING",
-      "actors": {
-        "Judge": false,
-        "Caseworker": false,
-        "Claimant": false,
-        "Defendant": false,
-        "LegalAdvisor": false,
-        "BailiffEnforcement": false,
-        "CourtAdmin": false,
-        "SystemAuto": false
-      },
-      "isSystemEvent": false,
-      "notes": "",
-      "hasOpenQuestions": false
-    },
-    {
-      "id": "appeals-prepare-for-hearing-conduct-hearing-generate-order",
-      "name": "Generate order",
-      "claimType": "APPEALS",
-      "state": "PREPARE_FOR_HEARING_CONDUCT_HEARING",
-      "actors": {
-        "Judge": false,
-        "Caseworker": false,
-        "Claimant": false,
-        "Defendant": false,
-        "LegalAdvisor": false,
-        "BailiffEnforcement": false,
-        "CourtAdmin": false,
-        "SystemAuto": false
-      },
-      "isSystemEvent": false,
-      "notes": "",
-      "hasOpenQuestions": false
-    },
-    {
-      "id": "appeals-prepare-for-hearing-conduct-hearing-notify-order",
-      "name": "Notify order",
-      "claimType": "APPEALS",
-      "state": "PREPARE_FOR_HEARING_CONDUCT_HEARING",
-      "actors": {
-        "Judge": false,
-        "Caseworker": false,
-        "Claimant": false,
-        "Defendant": false,
-        "LegalAdvisor": false,
-        "BailiffEnforcement": false,
-        "CourtAdmin": false,
-        "SystemAuto": false
-      },
-      "isSystemEvent": false,
-      "notes": "",
-      "hasOpenQuestions": false
-    },
-    {
-      "id": "appeals-prepare-for-hearing-conduct-hearing-enter-breathing-space",
-      "name": "Enter breathing space",
-      "claimType": "APPEALS",
-      "state": "PREPARE_FOR_HEARING_CONDUCT_HEARING",
-      "actors": {
-        "Judge": false,
-        "Caseworker": false,
-        "Claimant": false,
-        "Defendant": false,
-        "LegalAdvisor": false,
-        "BailiffEnforcement": false,
-        "CourtAdmin": false,
-        "SystemAuto": false
-      },
-      "isSystemEvent": false,
-      "notes": "",
-      "hasOpenQuestions": false
-    },
-    {
-      "id": "appeals-prepare-for-hearing-conduct-hearing-add-judicial-case-note",
-      "name": "Add judicial case note",
-      "claimType": "APPEALS",
-      "state": "PREPARE_FOR_HEARING_CONDUCT_HEARING",
-      "actors": {
-        "Judge": false,
-        "Caseworker": false,
-        "Claimant": false,
-        "Defendant": false,
-        "LegalAdvisor": false,
-        "BailiffEnforcement": false,
-        "CourtAdmin": false,
-        "SystemAuto": false
-      },
-      "isSystemEvent": false,
-      "notes": "",
-      "hasOpenQuestions": false
-    },
-    {
-      "id": "appeals-prepare-for-hearing-conduct-hearing-add-case-note",
-      "name": "Add case note",
-      "claimType": "APPEALS",
-      "state": "PREPARE_FOR_HEARING_CONDUCT_HEARING",
-      "actors": {
-        "Judge": false,
-        "Caseworker": false,
-        "Claimant": false,
-        "Defendant": false,
-        "LegalAdvisor": false,
-        "BailiffEnforcement": false,
-        "CourtAdmin": false,
-        "SystemAuto": false
-      },
-      "isSystemEvent": false,
-      "notes": "",
-      "hasOpenQuestions": false
-    },
-    {
-      "id": "appeals-decision-outcome-notice-of-discontinuance",
-      "name": "Notice of discontinuance",
-      "claimType": "APPEALS",
-      "state": "DECISION_OUTCOME",
-      "actors": {
-        "Judge": false,
-        "Caseworker": false,
-        "Claimant": false,
-        "Defendant": false,
-        "LegalAdvisor": false,
-        "BailiffEnforcement": false,
-        "CourtAdmin": false,
-        "SystemAuto": false
-      },
-      "isSystemEvent": false,
-      "notes": "",
-      "hasOpenQuestions": false
-    },
-    {
-      "id": "appeals-decision-outcome-stay-the-appeal",
-      "name": "Stay the appeal",
-      "claimType": "APPEALS",
-      "state": "DECISION_OUTCOME",
-      "actors": {
-        "Judge": false,
-        "Caseworker": false,
-        "Claimant": false,
-        "Defendant": false,
-        "LegalAdvisor": false,
-        "BailiffEnforcement": false,
-        "CourtAdmin": false,
-        "SystemAuto": false
-      },
-      "isSystemEvent": false,
-      "notes": "",
-      "hasOpenQuestions": false
-    },
-    {
-      "id": "appeals-decision-outcome-upload-translated-document",
-      "name": "Upload translated document",
-      "claimType": "APPEALS",
-      "state": "DECISION_OUTCOME",
-      "actors": {
-        "Judge": false,
-        "Caseworker": false,
-        "Claimant": false,
-        "Defendant": false,
-        "LegalAdvisor": false,
-        "BailiffEnforcement": false,
-        "CourtAdmin": false,
-        "SystemAuto": false
-      },
-      "isSystemEvent": false,
-      "notes": "",
-      "hasOpenQuestions": false
-    },
-    {
-      "id": "appeals-decision-outcome-manage-documents",
-      "name": "Manage documents",
-      "claimType": "APPEALS",
-      "state": "DECISION_OUTCOME",
-      "actors": {
-        "Judge": false,
-        "Caseworker": false,
-        "Claimant": false,
-        "Defendant": false,
-        "LegalAdvisor": false,
-        "BailiffEnforcement": false,
-        "CourtAdmin": false,
-        "SystemAuto": false
-      },
-      "isSystemEvent": false,
-      "notes": "",
-      "hasOpenQuestions": false
-    },
-    {
-      "id": "appeals-decision-outcome-make-order",
-      "name": "Make order",
-      "claimType": "APPEALS",
-      "state": "DECISION_OUTCOME",
-      "actors": {
-        "Judge": false,
-        "Caseworker": false,
-        "Claimant": false,
-        "Defendant": false,
-        "LegalAdvisor": false,
-        "BailiffEnforcement": false,
-        "CourtAdmin": false,
-        "SystemAuto": false
-      },
-      "isSystemEvent": false,
-      "notes": "",
-      "hasOpenQuestions": false
-    },
-    {
-      "id": "appeals-decision-outcome-amend-order",
-      "name": "Amend order",
-      "claimType": "APPEALS",
-      "state": "DECISION_OUTCOME",
-      "actors": {
-        "Judge": false,
-        "Caseworker": false,
-        "Claimant": false,
-        "Defendant": false,
-        "LegalAdvisor": false,
-        "BailiffEnforcement": false,
-        "CourtAdmin": false,
-        "SystemAuto": false
-      },
-      "isSystemEvent": false,
-      "notes": "",
-      "hasOpenQuestions": false
-    },
-    {
-      "id": "appeals-decision-outcome-generate-order",
-      "name": "Generate order",
-      "claimType": "APPEALS",
-      "state": "DECISION_OUTCOME",
-      "actors": {
-        "Judge": false,
-        "Caseworker": false,
-        "Claimant": false,
-        "Defendant": false,
-        "LegalAdvisor": false,
-        "BailiffEnforcement": false,
-        "CourtAdmin": false,
-        "SystemAuto": false
-      },
-      "isSystemEvent": false,
-      "notes": "",
-      "hasOpenQuestions": false
-    },
-    {
-      "id": "appeals-decision-outcome-notify-order",
-      "name": "Notify order",
-      "claimType": "APPEALS",
-      "state": "DECISION_OUTCOME",
-      "actors": {
-        "Judge": false,
-        "Caseworker": false,
-        "Claimant": false,
-        "Defendant": false,
-        "LegalAdvisor": false,
-        "BailiffEnforcement": false,
-        "CourtAdmin": false,
-        "SystemAuto": false
-      },
-      "isSystemEvent": false,
-      "notes": "",
-      "hasOpenQuestions": false
-    },
-    {
-      "id": "appeals-decision-outcome-enter-breathing-space",
-      "name": "Enter breathing space",
-      "claimType": "APPEALS",
-      "state": "DECISION_OUTCOME",
-      "actors": {
-        "Judge": false,
-        "Caseworker": false,
-        "Claimant": false,
-        "Defendant": false,
-        "LegalAdvisor": false,
-        "BailiffEnforcement": false,
-        "CourtAdmin": false,
-        "SystemAuto": false
-      },
-      "isSystemEvent": false,
-      "notes": "",
-      "hasOpenQuestions": false
-    },
-    {
-      "id": "appeals-decision-outcome-add-judicial-case-note",
-      "name": "Add judicial case note",
-      "claimType": "APPEALS",
-      "state": "DECISION_OUTCOME",
-      "actors": {
-        "Judge": false,
-        "Caseworker": false,
-        "Claimant": false,
-        "Defendant": false,
-        "LegalAdvisor": false,
-        "BailiffEnforcement": false,
-        "CourtAdmin": false,
-        "SystemAuto": false
-      },
-      "isSystemEvent": false,
-      "notes": "",
-      "hasOpenQuestions": false
-    },
-    {
-      "id": "appeals-decision-outcome-add-case-note",
-      "name": "Add case note",
-      "claimType": "APPEALS",
-      "state": "DECISION_OUTCOME",
-      "actors": {
-        "Judge": false,
-        "Caseworker": false,
-        "Claimant": false,
-        "Defendant": false,
-        "LegalAdvisor": false,
-        "BailiffEnforcement": false,
-        "CourtAdmin": false,
-        "SystemAuto": false
-      },
-      "isSystemEvent": false,
-      "notes": "",
-      "hasOpenQuestions": false
-    },
-    {
-      "id": "appeals-all-final-orders-issued-notice-of-discontinuance",
-      "name": "Notice of discontinuance",
-      "claimType": "APPEALS",
-      "state": "ALL_FINAL_ORDERS_ISSUED",
-      "actors": {
-        "Judge": false,
-        "Caseworker": false,
-        "Claimant": false,
-        "Defendant": false,
-        "LegalAdvisor": false,
-        "BailiffEnforcement": false,
-        "CourtAdmin": false,
-        "SystemAuto": false
-      },
-      "isSystemEvent": false,
-      "notes": "",
-      "hasOpenQuestions": false
-    },
-    {
-      "id": "appeals-all-final-orders-issued-stay-the-appeal",
-      "name": "Stay the appeal",
-      "claimType": "APPEALS",
-      "state": "ALL_FINAL_ORDERS_ISSUED",
-      "actors": {
-        "Judge": false,
-        "Caseworker": false,
-        "Claimant": false,
-        "Defendant": false,
-        "LegalAdvisor": false,
-        "BailiffEnforcement": false,
-        "CourtAdmin": false,
-        "SystemAuto": false
-      },
-      "isSystemEvent": false,
-      "notes": "",
-      "hasOpenQuestions": false
-    },
-    {
-      "id": "appeals-all-final-orders-issued-add-judicial-case-note",
-      "name": "Add judicial case note",
-      "claimType": "APPEALS",
-      "state": "ALL_FINAL_ORDERS_ISSUED",
-      "actors": {
-        "Judge": false,
-        "Caseworker": false,
-        "Claimant": false,
-        "Defendant": false,
-        "LegalAdvisor": false,
-        "BailiffEnforcement": false,
-        "CourtAdmin": false,
-        "SystemAuto": false
-      },
-      "isSystemEvent": false,
-      "notes": "",
-      "hasOpenQuestions": false
-    },
-    {
-      "id": "appeals-all-final-orders-issued-add-case-note",
-      "name": "Add case note",
-      "claimType": "APPEALS",
-      "state": "ALL_FINAL_ORDERS_ISSUED",
-      "actors": {
-        "Judge": false,
-        "Caseworker": false,
-        "Claimant": false,
-        "Defendant": false,
-        "LegalAdvisor": false,
-        "BailiffEnforcement": false,
-        "CourtAdmin": false,
-        "SystemAuto": false
-      },
-      "isSystemEvent": false,
-      "notes": "",
-      "hasOpenQuestions": false
-    },
-    {
-      "id": "appeals-all-final-orders-issued-upload-your-documents",
-      "name": "Upload your documents",
-      "claimType": "APPEALS",
-      "state": "ALL_FINAL_ORDERS_ISSUED",
-      "actors": {
-        "Judge": false,
-        "Caseworker": false,
-        "Claimant": false,
-        "Defendant": false,
-        "LegalAdvisor": false,
-        "BailiffEnforcement": false,
-        "CourtAdmin": false,
-        "SystemAuto": false
-      },
-      "isSystemEvent": false,
-      "notes": "",
-      "hasOpenQuestions": false
-    },
-    {
-      "id": "appeals-all-final-orders-issued-amend-documents",
-      "name": "Amend documents",
-      "claimType": "APPEALS",
-      "state": "ALL_FINAL_ORDERS_ISSUED",
-      "actors": {
-        "Judge": false,
-        "Caseworker": false,
-        "Claimant": false,
-        "Defendant": false,
-        "LegalAdvisor": false,
-        "BailiffEnforcement": false,
-        "CourtAdmin": false,
-        "SystemAuto": false
-      },
-      "isSystemEvent": false,
-      "notes": "",
-      "hasOpenQuestions": false
-    },
-    {
-      "id": "appeals-all-final-orders-issued-upload-translated-document",
-      "name": "Upload translated document",
-      "claimType": "APPEALS",
-      "state": "ALL_FINAL_ORDERS_ISSUED",
-      "actors": {
-        "Judge": false,
-        "Caseworker": false,
-        "Claimant": false,
-        "Defendant": false,
-        "LegalAdvisor": false,
-        "BailiffEnforcement": false,
-        "CourtAdmin": false,
-        "SystemAuto": false
-      },
-      "isSystemEvent": false,
-      "notes": "",
-      "hasOpenQuestions": false
-    },
-    {
-      "id": "appeals-all-final-orders-issued-enter-breathing-space",
-      "name": "Enter breathing space",
-      "claimType": "APPEALS",
-      "state": "ALL_FINAL_ORDERS_ISSUED",
-      "actors": {
-        "Judge": false,
-        "Caseworker": false,
-        "Claimant": false,
-        "Defendant": false,
-        "LegalAdvisor": false,
-        "BailiffEnforcement": false,
-        "CourtAdmin": false,
-        "SystemAuto": false
-      },
-      "isSystemEvent": false,
-      "notes": "",
-      "hasOpenQuestions": false
-    },
-    {
-      "id": "appeals-all-final-orders-issued-make-order",
-      "name": "Make order",
-      "claimType": "APPEALS",
-      "state": "ALL_FINAL_ORDERS_ISSUED",
-      "actors": {
-        "Judge": false,
-        "Caseworker": false,
-        "Claimant": false,
-        "Defendant": false,
-        "LegalAdvisor": false,
-        "BailiffEnforcement": false,
-        "CourtAdmin": false,
-        "SystemAuto": false
-      },
-      "isSystemEvent": false,
-      "notes": "",
-      "hasOpenQuestions": false
-    },
-    {
-      "id": "appeals-all-final-orders-issued-amend-order",
-      "name": "Amend order",
-      "claimType": "APPEALS",
-      "state": "ALL_FINAL_ORDERS_ISSUED",
-      "actors": {
-        "Judge": false,
-        "Caseworker": false,
-        "Claimant": false,
-        "Defendant": false,
-        "LegalAdvisor": false,
-        "BailiffEnforcement": false,
-        "CourtAdmin": false,
-        "SystemAuto": false
-      },
-      "isSystemEvent": false,
-      "notes": "",
-      "hasOpenQuestions": false
-    },
-    {
-      "id": "appeals-all-final-orders-issued-generate-order",
-      "name": "Generate order",
-      "claimType": "APPEALS",
-      "state": "ALL_FINAL_ORDERS_ISSUED",
-      "actors": {
-        "Judge": false,
-        "Caseworker": false,
-        "Claimant": false,
-        "Defendant": false,
-        "LegalAdvisor": false,
-        "BailiffEnforcement": false,
-        "CourtAdmin": false,
-        "SystemAuto": false
-      },
-      "isSystemEvent": false,
-      "notes": "",
-      "hasOpenQuestions": false
-    },
-    {
-      "id": "appeals-all-final-orders-issued-notify-order",
-      "name": "Notify order",
-      "claimType": "APPEALS",
-      "state": "ALL_FINAL_ORDERS_ISSUED",
-      "actors": {
-        "Judge": false,
-        "Caseworker": false,
-        "Claimant": false,
-        "Defendant": false,
-        "LegalAdvisor": false,
-        "BailiffEnforcement": false,
-        "CourtAdmin": false,
-        "SystemAuto": false
-      },
-      "isSystemEvent": false,
-      "notes": "",
-      "hasOpenQuestions": false
-    },
-    {
-      "id": "appeals-closed-closed",
+      "id": "appeals-closed",
       "name": "Closed",
       "claimType": "APPEALS",
       "state": "CLOSED",
@@ -1769,7 +439,7 @@
       "hasOpenQuestions": false
     },
     {
-      "id": "appeals-closed-disposal-and-retention",
+      "id": "appeals-disposal-and-retention",
       "name": "Disposal and retention?",
       "claimType": "APPEALS",
       "state": "CLOSED",
@@ -1788,7 +458,7 @@
       "hasOpenQuestions": false
     },
     {
-      "id": "appeals-case-stayed-lift-stay",
+      "id": "appeals-lift-stay",
       "name": "Lift stay",
       "claimType": "APPEALS",
       "state": "CASE_STAYED",
@@ -1807,83 +477,7 @@
       "hasOpenQuestions": false
     },
     {
-      "id": "appeals-case-stayed-refer-to-judge",
-      "name": "Refer to judge",
-      "claimType": "APPEALS",
-      "state": "CASE_STAYED",
-      "actors": {
-        "Judge": false,
-        "Caseworker": false,
-        "Claimant": false,
-        "Defendant": false,
-        "LegalAdvisor": false,
-        "BailiffEnforcement": false,
-        "CourtAdmin": false,
-        "SystemAuto": false
-      },
-      "isSystemEvent": false,
-      "notes": "",
-      "hasOpenQuestions": false
-    },
-    {
-      "id": "appeals-case-stayed-upload-your-documents",
-      "name": "Upload your documents",
-      "claimType": "APPEALS",
-      "state": "CASE_STAYED",
-      "actors": {
-        "Judge": false,
-        "Caseworker": false,
-        "Claimant": false,
-        "Defendant": false,
-        "LegalAdvisor": false,
-        "BailiffEnforcement": false,
-        "CourtAdmin": false,
-        "SystemAuto": false
-      },
-      "isSystemEvent": false,
-      "notes": "",
-      "hasOpenQuestions": false
-    },
-    {
-      "id": "appeals-case-stayed-amend-documents",
-      "name": "Amend documents",
-      "claimType": "APPEALS",
-      "state": "CASE_STAYED",
-      "actors": {
-        "Judge": false,
-        "Caseworker": false,
-        "Claimant": false,
-        "Defendant": false,
-        "LegalAdvisor": false,
-        "BailiffEnforcement": false,
-        "CourtAdmin": false,
-        "SystemAuto": false
-      },
-      "isSystemEvent": false,
-      "notes": "",
-      "hasOpenQuestions": false
-    },
-    {
-      "id": "appeals-case-stayed-notice-of-discontinuance",
-      "name": "Notice of discontinuance",
-      "claimType": "APPEALS",
-      "state": "CASE_STAYED",
-      "actors": {
-        "Judge": false,
-        "Caseworker": false,
-        "Claimant": false,
-        "Defendant": false,
-        "LegalAdvisor": false,
-        "BailiffEnforcement": false,
-        "CourtAdmin": false,
-        "SystemAuto": false
-      },
-      "isSystemEvent": false,
-      "notes": "",
-      "hasOpenQuestions": false
-    },
-    {
-      "id": "appeals-case-stayed-request-pin",
+      "id": "appeals-request-pin",
       "name": "Request PIN",
       "claimType": "APPEALS",
       "state": "CASE_STAYED",
@@ -1902,7 +496,7 @@
       "hasOpenQuestions": false
     },
     {
-      "id": "appeals-case-stayed-reset-pin",
+      "id": "appeals-reset-pin",
       "name": "Reset PIN",
       "claimType": "APPEALS",
       "state": "CASE_STAYED",
@@ -1921,7 +515,7 @@
       "hasOpenQuestions": false
     },
     {
-      "id": "appeals-case-stayed-update-stay-information",
+      "id": "appeals-update-stay-information",
       "name": "Update stay information",
       "claimType": "APPEALS",
       "state": "CASE_STAYED",
@@ -1940,388 +534,8 @@
       "hasOpenQuestions": false
     },
     {
-      "id": "appeals-case-stayed-make-order",
-      "name": "Make order",
-      "claimType": "APPEALS",
-      "state": "CASE_STAYED",
-      "actors": {
-        "Judge": false,
-        "Caseworker": false,
-        "Claimant": false,
-        "Defendant": false,
-        "LegalAdvisor": false,
-        "BailiffEnforcement": false,
-        "CourtAdmin": false,
-        "SystemAuto": false
-      },
-      "isSystemEvent": false,
-      "notes": "",
-      "hasOpenQuestions": false
-    },
-    {
-      "id": "appeals-case-stayed-amend-order",
-      "name": "Amend order",
-      "claimType": "APPEALS",
-      "state": "CASE_STAYED",
-      "actors": {
-        "Judge": false,
-        "Caseworker": false,
-        "Claimant": false,
-        "Defendant": false,
-        "LegalAdvisor": false,
-        "BailiffEnforcement": false,
-        "CourtAdmin": false,
-        "SystemAuto": false
-      },
-      "isSystemEvent": false,
-      "notes": "",
-      "hasOpenQuestions": false
-    },
-    {
-      "id": "appeals-case-stayed-generate-order",
-      "name": "Generate order",
-      "claimType": "APPEALS",
-      "state": "CASE_STAYED",
-      "actors": {
-        "Judge": false,
-        "Caseworker": false,
-        "Claimant": false,
-        "Defendant": false,
-        "LegalAdvisor": false,
-        "BailiffEnforcement": false,
-        "CourtAdmin": false,
-        "SystemAuto": false
-      },
-      "isSystemEvent": false,
-      "notes": "",
-      "hasOpenQuestions": false
-    },
-    {
-      "id": "appeals-case-stayed-notify-order",
-      "name": "Notify order",
-      "claimType": "APPEALS",
-      "state": "CASE_STAYED",
-      "actors": {
-        "Judge": false,
-        "Caseworker": false,
-        "Claimant": false,
-        "Defendant": false,
-        "LegalAdvisor": false,
-        "BailiffEnforcement": false,
-        "CourtAdmin": false,
-        "SystemAuto": false
-      },
-      "isSystemEvent": false,
-      "notes": "",
-      "hasOpenQuestions": false
-    },
-    {
-      "id": "appeals-case-stayed-upload-translated-document",
-      "name": "Upload translated document",
-      "claimType": "APPEALS",
-      "state": "CASE_STAYED",
-      "actors": {
-        "Judge": false,
-        "Caseworker": false,
-        "Claimant": false,
-        "Defendant": false,
-        "LegalAdvisor": false,
-        "BailiffEnforcement": false,
-        "CourtAdmin": false,
-        "SystemAuto": false
-      },
-      "isSystemEvent": false,
-      "notes": "",
-      "hasOpenQuestions": false
-    },
-    {
-      "id": "appeals-case-stayed-add-judicial-case-note",
-      "name": "Add judicial case note",
-      "claimType": "APPEALS",
-      "state": "CASE_STAYED",
-      "actors": {
-        "Judge": false,
-        "Caseworker": false,
-        "Claimant": false,
-        "Defendant": false,
-        "LegalAdvisor": false,
-        "BailiffEnforcement": false,
-        "CourtAdmin": false,
-        "SystemAuto": false
-      },
-      "isSystemEvent": false,
-      "notes": "",
-      "hasOpenQuestions": false
-    },
-    {
-      "id": "appeals-case-stayed-add-case-note",
-      "name": "Add case note",
-      "claimType": "APPEALS",
-      "state": "CASE_STAYED",
-      "actors": {
-        "Judge": false,
-        "Caseworker": false,
-        "Claimant": false,
-        "Defendant": false,
-        "LegalAdvisor": false,
-        "BailiffEnforcement": false,
-        "CourtAdmin": false,
-        "SystemAuto": false
-      },
-      "isSystemEvent": false,
-      "notes": "",
-      "hasOpenQuestions": false
-    },
-    {
-      "id": "appeals-breathing-space-refer-to-judge",
-      "name": "Refer to judge",
-      "claimType": "APPEALS",
-      "state": "BREATHING_SPACE",
-      "actors": {
-        "Judge": false,
-        "Caseworker": false,
-        "Claimant": false,
-        "Defendant": false,
-        "LegalAdvisor": false,
-        "BailiffEnforcement": false,
-        "CourtAdmin": false,
-        "SystemAuto": false
-      },
-      "isSystemEvent": false,
-      "notes": "",
-      "hasOpenQuestions": false
-    },
-    {
-      "id": "appeals-breathing-space-upload-your-documents",
-      "name": "Upload your documents",
-      "claimType": "APPEALS",
-      "state": "BREATHING_SPACE",
-      "actors": {
-        "Judge": false,
-        "Caseworker": false,
-        "Claimant": false,
-        "Defendant": false,
-        "LegalAdvisor": false,
-        "BailiffEnforcement": false,
-        "CourtAdmin": false,
-        "SystemAuto": false
-      },
-      "isSystemEvent": false,
-      "notes": "",
-      "hasOpenQuestions": false
-    },
-    {
-      "id": "appeals-breathing-space-amend-documents",
-      "name": "Amend documents",
-      "claimType": "APPEALS",
-      "state": "BREATHING_SPACE",
-      "actors": {
-        "Judge": false,
-        "Caseworker": false,
-        "Claimant": false,
-        "Defendant": false,
-        "LegalAdvisor": false,
-        "BailiffEnforcement": false,
-        "CourtAdmin": false,
-        "SystemAuto": false
-      },
-      "isSystemEvent": false,
-      "notes": "",
-      "hasOpenQuestions": false
-    },
-    {
-      "id": "appeals-breathing-space-notice-of-discontinuance",
-      "name": "Notice of discontinuance",
-      "claimType": "APPEALS",
-      "state": "BREATHING_SPACE",
-      "actors": {
-        "Judge": false,
-        "Caseworker": false,
-        "Claimant": false,
-        "Defendant": false,
-        "LegalAdvisor": false,
-        "BailiffEnforcement": false,
-        "CourtAdmin": false,
-        "SystemAuto": false
-      },
-      "isSystemEvent": false,
-      "notes": "",
-      "hasOpenQuestions": false
-    },
-    {
-      "id": "appeals-breathing-space-lift-breathing-space",
+      "id": "appeals-lift-breathing-space",
       "name": "Lift breathing space",
-      "claimType": "APPEALS",
-      "state": "BREATHING_SPACE",
-      "actors": {
-        "Judge": false,
-        "Caseworker": false,
-        "Claimant": false,
-        "Defendant": false,
-        "LegalAdvisor": false,
-        "BailiffEnforcement": false,
-        "CourtAdmin": false,
-        "SystemAuto": false
-      },
-      "isSystemEvent": false,
-      "notes": "",
-      "hasOpenQuestions": false
-    },
-    {
-      "id": "appeals-breathing-space-request-pin",
-      "name": "Request PIN",
-      "claimType": "APPEALS",
-      "state": "BREATHING_SPACE",
-      "actors": {
-        "Judge": false,
-        "Caseworker": false,
-        "Claimant": false,
-        "Defendant": false,
-        "LegalAdvisor": false,
-        "BailiffEnforcement": false,
-        "CourtAdmin": false,
-        "SystemAuto": false
-      },
-      "isSystemEvent": false,
-      "notes": "",
-      "hasOpenQuestions": false
-    },
-    {
-      "id": "appeals-breathing-space-reset-pin",
-      "name": "Reset PIN",
-      "claimType": "APPEALS",
-      "state": "BREATHING_SPACE",
-      "actors": {
-        "Judge": false,
-        "Caseworker": false,
-        "Claimant": false,
-        "Defendant": false,
-        "LegalAdvisor": false,
-        "BailiffEnforcement": false,
-        "CourtAdmin": false,
-        "SystemAuto": false
-      },
-      "isSystemEvent": false,
-      "notes": "",
-      "hasOpenQuestions": false
-    },
-    {
-      "id": "appeals-breathing-space-make-order",
-      "name": "Make order",
-      "claimType": "APPEALS",
-      "state": "BREATHING_SPACE",
-      "actors": {
-        "Judge": false,
-        "Caseworker": false,
-        "Claimant": false,
-        "Defendant": false,
-        "LegalAdvisor": false,
-        "BailiffEnforcement": false,
-        "CourtAdmin": false,
-        "SystemAuto": false
-      },
-      "isSystemEvent": false,
-      "notes": "",
-      "hasOpenQuestions": false
-    },
-    {
-      "id": "appeals-breathing-space-amend-order",
-      "name": "Amend order",
-      "claimType": "APPEALS",
-      "state": "BREATHING_SPACE",
-      "actors": {
-        "Judge": false,
-        "Caseworker": false,
-        "Claimant": false,
-        "Defendant": false,
-        "LegalAdvisor": false,
-        "BailiffEnforcement": false,
-        "CourtAdmin": false,
-        "SystemAuto": false
-      },
-      "isSystemEvent": false,
-      "notes": "",
-      "hasOpenQuestions": false
-    },
-    {
-      "id": "appeals-breathing-space-generate-order",
-      "name": "Generate order",
-      "claimType": "APPEALS",
-      "state": "BREATHING_SPACE",
-      "actors": {
-        "Judge": false,
-        "Caseworker": false,
-        "Claimant": false,
-        "Defendant": false,
-        "LegalAdvisor": false,
-        "BailiffEnforcement": false,
-        "CourtAdmin": false,
-        "SystemAuto": false
-      },
-      "isSystemEvent": false,
-      "notes": "",
-      "hasOpenQuestions": false
-    },
-    {
-      "id": "appeals-breathing-space-notify-order",
-      "name": "Notify order",
-      "claimType": "APPEALS",
-      "state": "BREATHING_SPACE",
-      "actors": {
-        "Judge": false,
-        "Caseworker": false,
-        "Claimant": false,
-        "Defendant": false,
-        "LegalAdvisor": false,
-        "BailiffEnforcement": false,
-        "CourtAdmin": false,
-        "SystemAuto": false
-      },
-      "isSystemEvent": false,
-      "notes": "",
-      "hasOpenQuestions": false
-    },
-    {
-      "id": "appeals-breathing-space-upload-translated-document",
-      "name": "Upload translated document",
-      "claimType": "APPEALS",
-      "state": "BREATHING_SPACE",
-      "actors": {
-        "Judge": false,
-        "Caseworker": false,
-        "Claimant": false,
-        "Defendant": false,
-        "LegalAdvisor": false,
-        "BailiffEnforcement": false,
-        "CourtAdmin": false,
-        "SystemAuto": false
-      },
-      "isSystemEvent": false,
-      "notes": "",
-      "hasOpenQuestions": false
-    },
-    {
-      "id": "appeals-breathing-space-add-judicial-case-note",
-      "name": "Add judicial case note",
-      "claimType": "APPEALS",
-      "state": "BREATHING_SPACE",
-      "actors": {
-        "Judge": false,
-        "Caseworker": false,
-        "Claimant": false,
-        "Defendant": false,
-        "LegalAdvisor": false,
-        "BailiffEnforcement": false,
-        "CourtAdmin": false,
-        "SystemAuto": false
-      },
-      "isSystemEvent": false,
-      "notes": "",
-      "hasOpenQuestions": false
-    },
-    {
-      "id": "appeals-breathing-space-add-case-note",
-      "name": "Add case note",
       "claimType": "APPEALS",
       "state": "BREATHING_SPACE",
       "actors": {

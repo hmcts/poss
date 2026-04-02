@@ -243,7 +243,7 @@ export function buildEvents(rows, claimTypeId, headerMap) {
     if (!name) continue;
     if (HEADER_LIKE_NAMES.has(name.toLowerCase())) continue;
 
-    const id = slugify(claimTypeId + '-' + currentState + '-' + name);
+    const id = slugify(claimTypeId + '-' + name);
 
     if (seen.has(id)) {
       console.warn(`[ingest-event-model] Duplicate event id "${id}" — skipping`);

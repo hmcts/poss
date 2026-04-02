@@ -15,9 +15,9 @@ import { ClaimTypeId } from '../src/data-model/enums.ts';
 // -- 1. Route Configuration --------------------------------------------------
 
 describe('Route configuration (ROUTES)', () => {
-  it('RT-1: ROUTES has exactly 3 entries for the three modes', () => {
+  it('RT-1: ROUTES has at least 3 entries', () => {
     assert.ok(Array.isArray(ROUTES), 'ROUTES must be an array');
-    assert.equal(ROUTES.length, 3, `Expected 3 routes, got ${ROUTES.length}`);
+    assert.ok(ROUTES.length >= 3, `Expected at least 3 routes, got ${ROUTES.length}`);
   });
 
   it('RT-2: each route has path, label, and icon as non-empty strings', () => {

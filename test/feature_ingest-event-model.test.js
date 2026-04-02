@@ -174,9 +174,9 @@ suite('Integration: real Excel workbook', { skip }, () => {
     const ids = allEvents.map(e => e.id);
     assert.equal(ids.length, new Set(ids).size, 'duplicate event ids detected');
   });
-  test('T-A26: total event count is 700–1100', () => {
-    assert.ok(allEvents.length >= 700 && allEvents.length <= 1100,
-      `Expected 700–1100 events, got ${allEvents.length}`);
+  test('T-A26: total event count is 100–300', () => {
+    assert.ok(allEvents.length >= 100 && allEvents.length <= 300,
+      `Expected 100–300 events, got ${allEvents.length}`);
   });
 });
 

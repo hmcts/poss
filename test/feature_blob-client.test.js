@@ -38,7 +38,7 @@ function resetMockState() {
 // ── Minimal valid ReferenceDataBlob JSON ─────────────────────────────────────
 
 const VALID_BLOB_CONTENT = JSON.stringify({
-  states: [{ id: 's1', name: 'State One', description: 'desc' }],
+  states: [{ id: 's1', name: 'State One', description: 'desc', claimType: 'MAIN_CLAIM_ENGLAND' }],
   events: [{ id: 'e1', name: 'Event One', description: 'desc' }],
   waTasks: [],
   personas: [{ id: 'p1', roles: ['Caseworker'], isCrossCutting: false }],
@@ -59,6 +59,7 @@ const EMPTY_SEED = {
   personaStateAssocs: [],
   personaEventAssocs: [],
   personaTaskAssocs: [],
+  transitions: [],
 };
 
 // ── Helper: turn a string into a Node Readable stream ────────────────────────
