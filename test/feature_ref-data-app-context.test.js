@@ -173,17 +173,39 @@ suite('AppContext shape', () => {
   });
 });
 
-// ── BLOCKED: Story-04 — ref-data-blob-adapter dependency ────────────────────
+// ── Story-04: blob events → modelData ───────────────────────────────────────
+// blobToEvents is now available; React component wiring is tested here via the
+// pure adapter function (RTL tests would be needed for full hook lifecycle).
 
-suite('Story-04: blob events → modelData (BLOCKED)', () => {
-  // T-C9 — BLOCKED: depends on ref-data-blob-adapter feature (blobToEvents function)
-  test('T-C9: modelData.events populated from blob after fetch; re-derived on claim type change', {
-    skip: 'BLOCKED — depends on ref-data-blob-adapter feature (blobToEvents). Do not implement until that feature is merged.',
-  }, async () => {
-    // Stub blobToEvents to return a known event array.
-    // Render <AppProvider>; mock fetch to return VALID_BLOB.
-    // Assert modelData.events equals stubbed result.
-    // Simulate setClaimType(); assert blobToEvents called with new claim type.
-    // Simulate fetch failure; assert modelData.events remains [].
+let blobToEvents;
+try {
+  const adapterMod = await import('../src/ref-data/adapter.js');
+  blobToEvents = adapterMod.blobToEvents;
+} catch {
+  blobToEvents = null;
+}
+
+suite('Story-04: blob events → modelData', () => {
+  // T-C9: validate the pure wiring logic that AppProvider uses
+  test('T-C9: blobToEvents derives correct events from blob for active claim type', () => {
+    assert.ok(blobToEvents, 'blobToEvents must be exported from src/ref-data/adapter.js');
+
+    // VALID_BLOB has: states=[{id:'s1', claimType:'MAIN_CLAIM_ENGLAND'}],
+    //                 events=[{id:'e1', name:'Event One'}],
+    //                 stateEventAssocs=[{stateId:'s1', eventId:'e1'}]
+    const events = blobToEvents(VALID_BLOB, 'MAIN_CLAIM_ENGLAND');
+    assert.ok(Array.isArray(events), 'must return an array');
+    assert.equal(events.length, 1, 'VALID_BLOB has one event for MAIN_CLAIM_ENGLAND');
+    assert.equal(events[0].id, 'e1');
+    assert.equal(events[0].name, 'Event One');
+    assert.equal(events[0].claimType, 'MAIN_CLAIM_ENGLAND');
+
+    // Claim type change: VALID_BLOB has no states for a different claim type
+    const otherEvents = blobToEvents(VALID_BLOB, 'ENFORCEMENT');
+    assert.deepEqual(otherEvents, [], 'different claim type with no states → []');
+
+    // Fetch failure: null blob → events remain []
+    const failEvents = blobToEvents(null, 'MAIN_CLAIM_ENGLAND');
+    assert.deepEqual(failEvents, [], 'null blob (fetch failure) → []');
   });
 });
