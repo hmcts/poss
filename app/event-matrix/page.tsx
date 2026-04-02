@@ -4,6 +4,7 @@ import { useState, useMemo, useCallback } from 'react';
 import { useApp } from '../providers';
 import { getFilterOptions, applyFiltersAndSearch, prepareTableData, prepareCsvDownload, getEventMatrixSummary } from '../../src/ui-event-matrix/index';
 import { getEventMatrixWaColumn, getWaTaskFilterOptions, filterEventsByWaTask } from '../../src/ui-wa-tasks/state-overlay-helpers';
+import { blobToWaTasks, blobToWaMappings } from '../../src/ref-data/adapter';
 import {
   PANEL_TITLE,
   SECTION_WHAT_IT_DOES,
@@ -13,14 +14,10 @@ import {
   SECTION_WA_TASK,
 } from '../../src/ui-about-event-matrix/index';
 
-// ── Static WA data ─────────────────────────────────────────────────
-import waTasksData from '../../data/wa-tasks.json';
-import waMappingsData from '../../data/wa-mappings.json';
-const waTasks = waTasksData as any[];
-const waMappings = waMappingsData as any[];
-
 export default function EventMatrixPage() {
-  const { modelData } = useApp();
+  const { modelData, refData } = useApp();
+  const waTasks = useMemo(() => blobToWaTasks(refData), [refData]);
+  const waMappings = useMemo(() => blobToWaMappings(refData), [refData]);
   const { events } = modelData;
   const [stateFilter, setStateFilter] = useState('');
   const [roleFilter, setRoleFilter] = useState('');
@@ -29,7 +26,7 @@ export default function EventMatrixPage() {
   const [waTaskFilter, setWaTaskFilter] = useState('');
 
   const filterOptions = useMemo(() => getFilterOptions(events), [events]);
-  const waFilterOptions = useMemo(() => getWaTaskFilterOptions(waTasks), []);
+  const waFilterOptions = useMemo(() => getWaTaskFilterOptions(waTasks), [waTasks]);
   const filteredEvents = useMemo(() => {
     const baseFiltered = applyFiltersAndSearch(events, {
       ...(stateFilter ? { state: stateFilter } : {}),
@@ -37,7 +34,7 @@ export default function EventMatrixPage() {
       ...(systemOnly ? { systemOnly: true } : {}),
     }, searchQuery);
     return waTaskFilter ? filterEventsByWaTask(baseFiltered as any, waTaskFilter, waTasks as any, waMappings) : baseFiltered;
-  }, [events, stateFilter, roleFilter, systemOnly, searchQuery, waTaskFilter]);
+  }, [events, stateFilter, roleFilter, systemOnly, searchQuery, waTaskFilter, waTasks, waMappings]);
   const tableData = useMemo(() => prepareTableData(filteredEvents as any, filterOptions.roles), [filteredEvents, filterOptions.roles]);
   const summary = useMemo(() => getEventMatrixSummary(events, filteredEvents as any), [events, filteredEvents]);
 
