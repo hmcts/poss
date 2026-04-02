@@ -3,7 +3,7 @@
 import { useContext, useState, useCallback, useEffect, type ReactNode } from 'react';
 import type { State, Transition } from '../src/data-model/schemas';
 import type { ReferenceDataBlob } from '../src/ref-data/schema';
-import { blobToEvents } from '../src/ref-data/adapter';
+import { blobToEvents, blobToTransitions } from '../src/ref-data/adapter';
 import { CLAIM_TYPES } from '../src/app-shell/index';
 import { getDefaultTheme, toggleTheme as toggle, getThemeClass } from '../src/app-shell/index';
 import MAIN_CLAIM_ENGLAND_DATA from '../src/data-ingestion/states/MAIN_CLAIM_ENGLAND.json';
@@ -52,10 +52,12 @@ export function AppProvider({ children }: { children: ReactNode }) {
 
   const handleSetClaimType = useCallback((id: string) => {
     setActiveClaimType(id);
-    setModelData((prev) => ({
-      ...INGESTED_MODEL[id] ?? INGESTED_MODEL['MAIN_CLAIM_ENGLAND'],
+    const ingested = INGESTED_MODEL[id] ?? INGESTED_MODEL['MAIN_CLAIM_ENGLAND'];
+    setModelData({
+      ...ingested,
       events: blobToEvents(refData, id),
-    }));
+      transitions: blobToTransitions(refData, ingested.transitions),
+    });
   }, [refData]);
 
   const reloadRefData = useCallback(() => {
@@ -83,9 +85,14 @@ export function AppProvider({ children }: { children: ReactNode }) {
     return () => { cancelled = true; };
   }, [refetchTrigger]);
 
-  // Re-derive events whenever refData or activeClaimType changes
+  // Re-derive events and transitions whenever refData or activeClaimType changes
   useEffect(() => {
-    setModelData((prev) => ({ ...prev, events: blobToEvents(refData, activeClaimType) }));
+    const ingested = INGESTED_MODEL[activeClaimType] ?? INGESTED_MODEL['MAIN_CLAIM_ENGLAND'];
+    setModelData((prev) => ({
+      ...prev,
+      events: blobToEvents(refData, activeClaimType),
+      transitions: blobToTransitions(refData, ingested.transitions),
+    }));
   }, [refData, activeClaimType]);
 
   useEffect(() => {
