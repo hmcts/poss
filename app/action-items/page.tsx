@@ -2,8 +2,7 @@
 
 import { useState, useMemo } from 'react';
 import { useApp } from '../providers';
-import waTasks from '../../data/wa-tasks.json';
-import waMappings from '../../data/wa-mappings.json';
+import { blobToWaTasks, blobToWaMappings } from '../../src/ref-data/adapter';
 import {
   getActionItems,
   getActionItemSummary,
@@ -25,11 +24,14 @@ export default function ActionItemsPage() {
   const [sortKey, setSortKey] = useState<string | undefined>(undefined);
   const [sortDir, setSortDir] = useState<SortDir>('asc');
 
-  const { modelData } = useApp();
+  const { modelData, refData } = useApp();
+
+  const waTasks = useMemo(() => blobToWaTasks(refData), [refData]);
+  const waMappings = useMemo(() => blobToWaMappings(refData), [refData]);
 
   const allItems = useMemo(
     () => getActionItems(modelData.states, modelData.transitions, modelData.events, waTasks, waMappings),
-    [modelData],
+    [modelData, waTasks, waMappings],
   );
 
   const summary = useMemo(() => getActionItemSummary(allItems), [allItems]);
