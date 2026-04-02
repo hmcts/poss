@@ -1,73 +1,11 @@
-  ---
-  Session Handoff — catalogue-coverage-map
-
-  Pipeline Status
-
-  - Feature: catalogue-coverage-map
-  - Alex: Done — feature spec with all 4 OQs resolved
-  - Cass: Done — 15 atomic stories (4 ACs each, all under 80 lines)
-  - Nigel: Partially done — test-spec.md written, test file NOT written, handoff NOT written
-  - Codey: Not started
-
-  What Needs Doing Next
-
-  1. Write test/feature_catalogue-coverage-map.test.js
-
-  The test-spec is at test/artifacts/feature_catalogue-coverage-map/test-spec.md with full AC-to-Test mapping (40 logic tests across stories 1-9 and 15). Stories 10-14 are UI-only
-  (Playwright).
-
-  Key function signatures from test-spec assumptions:
-  - matchByEventTrigger(item, events) → mapping tuples
-  - matchByDomainAndFeature(item, states, events) → inferred tuples
-  - getPersonaRoleMapping(personaId) → { roles, isCrossCutting }
-  - filterByReleaseScope(items, scope) → filtered items ('r1'|'r1+tbc'|'all')
-  - filterByClaimTypeRelevance(items, claimTypeId) → filtered items
-  - calculatePersonaCoverage(persona, mappings, states, events, roleMapping) → R2 shape
-  - identifyGaps(mappings, events, persona?) → ordered gap list
-  - traceJourneyCompleteness(persona, coverageMap, graph) → R4 shape or null
-  - surfaceDecisions(events, items) → decision list
-  - exportGapListCsv(gaps, persona?) → { content, filename, mimeType }
-
-  Imports from:
-  - src/catalogue-coverage-map/index.js (logic module)
-  - src/ui-catalogue-coverage-map/index.js (UI helpers)
-
-  Use node:test runner. Follow the mkItem() factory pattern from test/feature_product-catalogue-viewer.test.js. Also need mkState(), mkEvent(), mkTransition() factories.
-
-  CRITICAL: Previous Nigel agent hit the 4096 token limit. Write the test file directly (not via sub-agent), or split into multiple smaller agent calls per story group.
-
-  2. Write handoff-nigel.md after the test file.
-
-  3. Continue to Codey (plan then implement).
-
-  Key Files
-
-  ┌─────────────────────────────────────────────────────────────────────┬────────────────────────────┐
-  │                                File                                 │           Status           │
-  ├─────────────────────────────────────────────────────────────────────┼────────────────────────────┤
-  │ .blueprint/features/feature_catalogue-coverage-map/FEATURE_SPEC.md  │ Done (OQs resolved)        │
-  ├─────────────────────────────────────────────────────────────────────┼────────────────────────────┤
-  │ .blueprint/features/feature_catalogue-coverage-map/handoff-alex.md  │ Done                       │
-  ├─────────────────────────────────────────────────────────────────────┼────────────────────────────┤
-  │ .blueprint/features/feature_catalogue-coverage-map/handoff-cass.md  │ Done                       │
-  ├─────────────────────────────────────────────────────────────────────┼────────────────────────────┤
-  │ .blueprint/features/feature_catalogue-coverage-map/story-*.md       │ Done (15 files)            │
-  ├─────────────────────────────────────────────────────────────────────┼────────────────────────────┤
-  │ test/artifacts/feature_catalogue-coverage-map/test-spec.md          │ Done                       │
-  ├─────────────────────────────────────────────────────────────────────┼────────────────────────────┤
-  │ test/feature_catalogue-coverage-map.test.js                         │ NOT DONE — write this next │
-  ├─────────────────────────────────────────────────────────────────────┼────────────────────────────┤
-  │ .blueprint/features/feature_catalogue-coverage-map/handoff-nigel.md │ NOT DONE                   │
-  └─────────────────────────────────────────────────────────────────────┴────────────────────────────┘
-
-  Data Shapes (for test factories)                                                                                                                                                   
-   
-  - State: { id, technicalName, uiLabel, claimType, isDraftLike, isLive, isEndState, completeness }                                                                                  
-  - Transition: { from, to, condition, isSystemTriggered, isTimeBased }
-  - Event: { id, name, claimType, state, isSystemEvent, notes, hasOpenQuestions, actors: Record<string, boolean> }                                                                   
-  - CatalogueItem: Same as mkItem() in product-catalogue tests (ref, domainGroup, feature, eventTrigger, personas, moscow, release1, userStory, ucdRequired, notes, etc.)            
-                                                                                                                                                                                     
-  Also Done This Session (unrelated to pipeline)                                                                                                                                     
-                                                                                                                                                                                     
-  - Built app/product-catalogue/page.tsx — the React page for the product catalogue viewer with pagination (25 per page), filters, sort, expanded detail, CSV export. All 23 tests   
-  passing.  
+Context summary for new session:                                                                                                                     
+                                                                                                                                                       
+  - We agreed on Azure Blob Storage (single JSON blob) as the persistence layer for editable reference data. Small team, low concurrency risk, survives
+   deployments.                                                                                                                                        
+  - The blob schema will hold four entity arrays (states, events, waTasks, personas) and five M:M association arrays (stateEventAssocs,                
+  eventTaskAssocs, personaStateAssocs, personaEventAssocs, personaTaskAssocs). Single document, read/write atomically.                                 
+  - 12 atomic backlog items have been added to .blueprint/features/BACKLOG.md under a new section "Backlog (Reference Data Editor Layer)" — slugs
+  ref-data-schema through react-persona-assoc. These are ready to implement via the murmur8 pipeline.                                                  
+  - CLAUDE.md has been updated with full architecture docs: four-layer pattern, bridge file pattern, data flow, module layout, and test commands.
+  - The implement-feature slash command is at .claude/commands/implement-feature.md — it wasn't appearing in the skills list, which is why the session 
+  is restarting. 
