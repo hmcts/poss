@@ -145,35 +145,109 @@ export function eventsFromIngested(
 }
 
 /**
+ * Maps CCD state IDs (as used in ingested event files) to model state IDs.
+ * Key: `${claimType}:${ccdStateId}` — value: state id in the blob.
+ *
+ * CCD state IDs are more granular than the possession model states;
+ * multiple CCD IDs map to a single model state.
+ */
+const CCD_STATE_MAP: Record<string, string> = {
+  // ── Main Claim England ────────────────────────────────────────────────────
+  'MAIN_CLAIM_ENGLAND:AWAITING_SUBMISSION_TO_HMCTS': 'mce-draft',
+  'MAIN_CLAIM_ENGLAND:AWAITING_RESUBMISSION_TO_HMCTS': 'mce-draft',
+  'MAIN_CLAIM_ENGLAND:REQUESTED_FOR_DELETION': 'mce-draft',
+  'MAIN_CLAIM_ENGLAND:PENDING_CASE_ISSUED': 'mce-submitted',
+  'MAIN_CLAIM_ENGLAND:CASE_ISSUED': 'mce-submitted',
+  'MAIN_CLAIM_ENGLAND:CASE_PROGRESSION': 'mce-with-judge',
+  'MAIN_CLAIM_ENGLAND:JUDICIAL_REFERRAL': 'mce-with-judge',
+  'MAIN_CLAIM_ENGLAND:CASE_STAYED': 'mce-with-judge',
+  'MAIN_CLAIM_ENGLAND:BREATHING_SPACE': 'mce-with-judge',
+  'MAIN_CLAIM_ENGLAND:HEARING_READINESS': 'mce-listed-for-hearing',
+  'MAIN_CLAIM_ENGLAND:PREPARE_FOR_HEARING_CONDUCT_HEARING': 'mce-listed-for-hearing',
+  'MAIN_CLAIM_ENGLAND:DECISION_OUTCOME': 'mce-order-made',
+  'MAIN_CLAIM_ENGLAND:ALL_FINAL_ORDERS_ISSUED': 'mce-order-made',
+  'MAIN_CLAIM_ENGLAND:CLOSED': 'mce-closed',
+  // ── Appeals ───────────────────────────────────────────────────────────────
+  'APPEALS:AWAITING_SUBMISSION_TO_HMCTS': 'app-notice-filed',
+  'APPEALS:AWAITING_RESUBMISSION_TO_HMCTS': 'app-notice-filed',
+  'APPEALS:PENDING_CASE_ISSUED': 'app-notice-filed',
+  'APPEALS:DRAFT_DISCARDED': 'app-notice-filed',
+  'APPEALS:CASE_ISSUED': 'app-notice-filed',
+  'APPEALS:JUDICIAL_REFERRAL': 'app-permission-review',
+  'APPEALS:CASE_PROGRESSION': 'app-permission-granted',
+  'APPEALS:CASE_STAYED': 'app-appeal-hearing',
+  'APPEALS:BREATHING_SPACE': 'app-appeal-hearing',
+  'APPEALS:HEARING_READINESS': 'app-appeal-hearing',
+  'APPEALS:PREPARE_FOR_HEARING_CONDUCT_HEARING': 'app-appeal-hearing',
+  'APPEALS:DECISION_OUTCOME': 'app-appeal-decided',
+  'APPEALS:ALL_FINAL_ORDERS_ISSUED': 'app-appeal-decided',
+  'APPEALS:CLOSED': 'app-dismissed',
+  // ── Counter Claim ─────────────────────────────────────────────────────────
+  'COUNTER_CLAIM:AWAITING_SUBMISSION_TO_HMCTS': 'cc-draft',
+  'COUNTER_CLAIM:AWAITING_RESUBMISSION_TO_HMCTS': 'cc-draft',
+  'COUNTER_CLAIM:REQUESTED_FOR_DELETION': 'cc-draft',
+  'COUNTER_CLAIM:PENDING_CASE_ISSUED': 'cc-filed',
+  'COUNTER_CLAIM:CASE_ISSUED': 'cc-filed',
+  'COUNTER_CLAIM:CASE_PROGRESSION': 'cc-with-judge',
+  'COUNTER_CLAIM:JUDICIAL_REFERRAL': 'cc-with-judge',
+  'COUNTER_CLAIM:CASE_STAYED': 'cc-with-judge',
+  'COUNTER_CLAIM:BREATHING_SPACE': 'cc-with-judge',
+  'COUNTER_CLAIM:HEARING_READINESS': 'cc-heard-together',
+  'COUNTER_CLAIM:PREPARE_FOR_HEARING_CONDUCT_HEARING': 'cc-heard-together',
+  'COUNTER_CLAIM:DECISION_OUTCOME': 'cc-determined',
+  'COUNTER_CLAIM:ALL_FINAL_ORDERS_ISSUED': 'cc-determined',
+  'COUNTER_CLAIM:CLOSED': 'cc-closed',
+  // ── Enforcement ───────────────────────────────────────────────────────────
+  'ENFORCEMENT:AWAITING_SUBMISSION_TO_HMCTS': 'enf-warrant-requested',
+  'ENFORCEMENT:AWAITING_RESUBMISSION_TO_HMCTS': 'enf-warrant-requested',
+  'ENFORCEMENT:REQUESTED_FOR_DELETION': 'enf-warrant-requested',
+  'ENFORCEMENT:PENDING_CASE_ISSUED': 'enf-warrant-requested',
+  'ENFORCEMENT:DRAFT_DISCARDED': 'enf-warrant-requested',
+  'ENFORCEMENT:CASE_PROGRESSION': 'enf-warrant-issued',
+  'ENFORCEMENT:AWAITING_BAILIFF_ALLOCATION': 'enf-warrant-issued',
+  'ENFORCEMENT:JUDICIAL_REFERRAL': 'enf-with-bailiff',
+  'ENFORCEMENT:AWAITING_PROPERTY_VISIT': 'enf-with-bailiff',
+  'ENFORCEMENT:CASE_STAYED': 'enf-suspended',
+  'ENFORCEMENT:BREATHING_SPACE': 'enf-suspended',
+  'ENFORCEMENT:HEARING_READINESS': 'enf-eviction-scheduled',
+  'ENFORCEMENT:PREPARE_FOR_HEARING_CONDUCT_HEARING': 'enf-eviction-scheduled',
+  'ENFORCEMENT:AWAITING_SCHEDULING': 'enf-eviction-scheduled',
+  'ENFORCEMENT:AWAITING_ENFORCEMENT_OUTCOME': 'enf-executed',
+  'ENFORCEMENT:WRIT_ISSUED': 'enf-executed',
+  'ENFORCEMENT:CLOSED': 'enf-executed',
+  // ── General Applications ──────────────────────────────────────────────────
+  'GENERAL_APPLICATIONS:AWAITING_SUBMISSION_TO_HMCTS': 'ga-draft',
+  'GENERAL_APPLICATIONS:DRAFT_AWAITING_CATEGORISATION': 'ga-draft',
+  'GENERAL_APPLICATIONS:PENDING_CASE_ISSUED': 'ga-draft',
+  'GENERAL_APPLICATIONS:DRAFT_DISCARDED': 'ga-draft',
+  'GENERAL_APPLICATIONS:CASE_ISSUED': 'ga-filed',
+  'GENERAL_APPLICATIONS:JUDICIAL_REFERRAL': 'ga-with-judge',
+  'GENERAL_APPLICATIONS:CASE_PROGRESSION': 'ga-with-judge',
+  'GENERAL_APPLICATIONS:AWAITING_ADDITIONAL_PAYMENT': 'ga-with-judge',
+  'GENERAL_APPLICATIONS:CASE_STAYED': 'ga-with-judge',
+  'GENERAL_APPLICATIONS:BREATHING_SPACE': 'ga-with-judge',
+  'GENERAL_APPLICATIONS:HEARING_READINESS': 'ga-order-made',
+  'GENERAL_APPLICATIONS:PREPARE_FOR_HEARING_CONDUCT_HEARING': 'ga-order-made',
+  'GENERAL_APPLICATIONS:DECISION_OUTCOME': 'ga-order-made',
+  'GENERAL_APPLICATIONS:ALL_FINAL_ORDERS_ISSUED': 'ga-order-made',
+  'GENERAL_APPLICATIONS:CLOSED': 'ga-closed',
+};
+
+/**
  * Builds state-event association rows from ingested event and state files.
- * For each ingested event, finds the matching state by technicalName === event.state.
- * Logs a warning to stderr (and skips) if no state match is found.
+ * Matches ev.state (CCD state ID) against CCD_STATE_MAP keyed by claimType + CCD ID.
+ * Deduplicates by stateId:eventId pair.
  */
 export function stateEventAssocsFromIngested(
   eventFiles: Array<{ claimType: string; events: IngestedEvent[] }>,
-  stateFiles: Array<{ states: IngestedState[] }>,
+  _stateFiles: Array<{ states: IngestedState[] }>,
 ): StateEventAssoc[] {
-  // Build lookup: technicalName → stateId (first match wins across all claim types)
-  const stateByTechnicalName = new Map<string, string>();
-  for (const file of stateFiles) {
-    for (const st of file.states) {
-      if (!stateByTechnicalName.has(st.technicalName)) {
-        stateByTechnicalName.set(st.technicalName, st.id);
-      }
-    }
-  }
-
   const assocs: StateEventAssoc[] = [];
   const seen = new Set<string>();
   for (const file of eventFiles) {
     for (const ev of file.events) {
-      const stateId = stateByTechnicalName.get(ev.state);
-      if (!stateId) {
-        if (ev.state) {
-          console.warn(`stateEventAssocsFromIngested: no state match for "${ev.state}" (event "${ev.id}") — skipping`);
-        }
-        continue;
-      }
+      const stateId = CCD_STATE_MAP[`${file.claimType}:${ev.state}`];
+      if (!stateId) continue;
       const key = `${stateId}:${ev.id}`;
       if (!seen.has(key)) {
         seen.add(key);
