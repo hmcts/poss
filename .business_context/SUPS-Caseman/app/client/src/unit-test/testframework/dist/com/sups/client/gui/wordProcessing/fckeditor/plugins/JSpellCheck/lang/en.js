@@ -1,1 +1,0 @@
-FCKLang.JSpellCheckBtn			= 'Check Spelling' ;

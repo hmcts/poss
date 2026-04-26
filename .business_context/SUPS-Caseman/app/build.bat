@@ -1,2 +1,0 @@
-clientbuild.bat
-serverbuild.bat

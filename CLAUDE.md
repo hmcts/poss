@@ -4,7 +4,9 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project
 
-HMCTS Possessions Prototype — a Next.js application for visualising and analysing the civil possession case process model: state machines, events, work allocation tasks, and actor roles. It is a decision-support and analysis tool for BAs and designers, not a case management system.
+Statesmith — a generic Next.js application for modelling, visualising, and analysing process state machines. Users define their own states, events, work-allocation tasks, and personas through the Reference Data UI. There is no pre-loaded domain data; the app starts from a blank canvas.
+
+The service name is controlled by `APP_NAME` in `src/app-shell/index.ts`.
 
 ## Development Environment
 
@@ -55,74 +57,61 @@ Every module has both `index.ts` and `index.js` — the `.js` file re-exports ev
 ### Data Flow
 
 ```
-.business_context/ docs
-        │
-        ▼
-src/data-ingestion/     ──► data/*.json (static build-time JSON)
-        │
-        ▼
-app/providers.tsx       ──► AppContext (activeClaimType, theme)
-        │
-        ▼
+app/reference-data/   ──► /api/reference-data (Azure Blob)
+                                  │
+                                  ▼
+app/providers.tsx       ──► AppContext (activeModel, theme)
+                                  │
+                                  ▼
 Zustand store           ──► Feature logic modules (src/)
-        │
-        ▼
+                                  │
+                                  ▼
 UI orchestration        ──► React components (app/)
 ```
 
-`app/providers.tsx` is the central React context. It holds the active claim type, model data for all 7 claim types, and theme state. Components access it via `useContext(AppContext)`.
+`app/providers.tsx` is the central React context. It loads all data from the `/api/reference-data` endpoint (Azure Blob Storage) and derives `modelData` from the active user-defined model. When the blob is empty the app starts with no data — a blank canvas.
 
-The app currently uses **sample data embedded in `app/providers.tsx`** — there are no API routes for model data. Data is static JSON loaded at build time.
+### User-Defined Models
+
+There are no hard-coded model types. Users create states in the Reference Data editor and assign each state a `claimType` string — this string becomes the model ID. The sidebar model selector is populated dynamically from the unique `claimType` values present in the blob.
 
 ### Module Layout
 
 ```
 src/
-  data-model/          # Zod schemas, enums (ClaimTypeId, KNOWN_ROLES, WaTaskContext, WaAlignmentStatus), Zustand store factory
-  app-shell/           # ROUTES constant, CLAIM_TYPES, theme utilities
+  data-model/          # Zod schemas (State, Transition, Event, WaTask), WaAlignmentStatus enum, Zustand store
+  app-shell/           # APP_NAME constant, ROUTES, theme utilities
+  data-loading/        # getModelIdsFromBlob(), getModelDataForClaimType()
+  ref-data/            # ReferenceDataBlob schema, Azure Blob adapter, editor logic
   state-explorer/      # Graph building: statesToNodes, transitionsToEdges, getStateDetail
   ui-state-explorer/   # Auto-layout (Kahn's topological sort), node/edge display helpers
   event-matrix/        # filterEvents, searchEvents, eventsToCsv
   wa-task-engine/      # getTasksForEvent, getTasksForState, getAlignmentSummary
   ui-wa-tasks/         # WA task badges, enrichment helpers, panel data
-  model-health/        # Health scoring: completeness, reachability, open questions
-  caseman-comparison/  # Legacy Caseman vs new service comparison logic
-  ...                  # 34 modules total — logic and ui-* pairs for each feature
+  case-walk/           # Case simulation step-through logic
+  scenario-analysis/   # Scenario building
+  journey-explorer/    # Case journey mapping
+  ui-app-shell/        # Navigation helpers, theme toggle state
+  ui-about-*/          # Help/explainer text modules (one per feature)
+  ui-event-matrix/     # Table formatting, search highlights, CSV prep
+  ui-wa-tasks/         # WA task badges, enrichment, panel data
+  ui-case-walk/        # Simulation state display
+  ui-scenario-analysis/# Scenario UI prep
+  uncertainty-display/ # Open question rendering
+  wa-ingestion/        # WA task data transformation
 
 app/
   layout.tsx           # Root layout: AppProvider, Sidebar, Header
-  providers.tsx        # AppContext — claim type, model data, theme
+  providers.tsx        # AppContext — active model, model data, theme
+  context.ts           # AppContext type definitions (no JSX)
   components/          # Sidebar.tsx, Header.tsx
   state-explorer/      # React Flow graph visualisation
   event-matrix/        # Searchable/filterable event table
   digital-twin/        # Step-through case simulation
   work-allocation/     # WA task alignment dashboard
-  caseman-comparison/  # Caseman legacy comparison
-  action-items/        # Model gap and WA alignment action items
-  ...                  # 9 main routes total
+  journey/             # Journey explorer
+  reference-data/      # Reference data editors (states, events, tasks, personas, associations)
 ```
-
-### 7 Claim Types
-
-`ClaimTypeId` enum: `MAIN_CLAIM_ENGLAND`, `ACCELERATED_CLAIM_WALES`, `COUNTER_CLAIM`, `COUNTER_CLAIM_MAIN_CLAIM_CLOSED`, `ENFORCEMENT`, `APPEALS`, `GENERAL_APPLICATIONS`.
-
-### Key Actors
-
-`KNOWN_ROLES`: Judge, Caseworker, Claimant, Defendant, LegalAdvisor, BailiffEnforcement, CourtAdmin, SystemAuto.
-
-## Business Context
-
-Domain reference documents are in `.business_context/`:
-- `State model and dependencies v0.10.pdf` — state machine and dependency model for possession cases
-- `Event Model Possession Service V0.1.xlsx` — event model for the possession service
-- `R1A_WA_Tasks_vs_Event_Model_Analysis.md` — work allocation task alignment analysis
-- `spec.md` — technical specification
-
-Consult these when making decisions about domain logic, state transitions, or event handling.
-
-## Feature Backlog
-
-`.blueprint/features/BACKLOG.md` is the authoritative list of all features: status (Done/Ready/WIP), priority (P0–P3), effort (S/M/L/XL), and full implementation specs. Read it before starting any new feature to understand dependencies and the expected implementation detail.
 
 ## Deployment
 

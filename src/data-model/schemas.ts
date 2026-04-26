@@ -1,16 +1,13 @@
 import { z } from 'zod';
-import { WaTaskContext, WaAlignmentStatus } from './enums.ts';
-import type { WaTaskContextValue, WaAlignmentStatusValue } from './enums.ts';
+import { WaAlignmentStatus } from './enums.ts';
+import type { WaAlignmentStatusValue } from './enums.ts';
 
 export const StateSchema = z.object({
   id: z.string(),
   technicalName: z.string(),
   uiLabel: z.string(),
   claimType: z.string(),
-  isDraftLike: z.boolean(),
-  isLive: z.boolean(),
   isEndState: z.boolean(),
-  completeness: z.number().int().min(0).max(100),
 });
 
 export type State = z.infer<typeof StateSchema>;
@@ -38,31 +35,13 @@ export const EventSchema = z.object({
 
 export type Event = z.infer<typeof EventSchema>;
 
-export const ClaimTypeSchema = z.object({
-  id: z.string(),
-  name: z.string(),
-  description: z.string(),
-});
-
-export type ClaimType = z.infer<typeof ClaimTypeSchema>;
-
-export const BreathingSpaceEntrySchema = z.object({
-  stateFrom: z.string(),
-  stateTo: z.string(),
-  isConditional: z.boolean(),
-  conditions: z.array(z.string()),
-});
-
-export type BreathingSpaceEntry = z.infer<typeof BreathingSpaceEntrySchema>;
-
-const waTaskContextValues = Object.values(WaTaskContext) as [WaTaskContextValue, ...WaTaskContextValue[]];
 const waAlignmentValues = Object.values(WaAlignmentStatus) as [WaAlignmentStatusValue, ...WaAlignmentStatusValue[]];
 
 export const WaTaskSchema = z.object({
   id: z.string(),
   triggerDescription: z.string(),
   taskName: z.string(),
-  taskContext: z.enum(waTaskContextValues),
+  taskContext: z.string(),
   alignment: z.enum(waAlignmentValues),
 });
 

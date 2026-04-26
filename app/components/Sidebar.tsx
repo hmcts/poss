@@ -4,14 +4,16 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useState } from 'react';
 import { useApp } from '../providers';
-import { getNavigationItems, getClaimTypeSelectorOptions } from '../../src/ui-app-shell/index';
+import { getNavigationItems } from '../../src/ui-app-shell/index';
+import { APP_NAME } from '../../src/app-shell/index';
+import { getModelIdsFromBlob } from '../../src/data-loading/index';
 
 export function Sidebar() {
   const pathname = usePathname();
-  const { activeClaimType, setActiveClaimType } = useApp();
+  const { activeClaimType, setActiveClaimType, refData } = useApp();
   const [mobileOpen, setMobileOpen] = useState(false);
   const navItems = getNavigationItems();
-  const claimTypes = getClaimTypeSelectorOptions();
+  const modelIds = getModelIdsFromBlob(refData);
 
   return (
     <>
@@ -38,22 +40,24 @@ export function Sidebar() {
       >
         <div className="px-5 py-6">
           <h1 className="text-xs font-semibold tracking-[0.2em] text-slate-400 uppercase">
-            HMCTS Possessions
+            {APP_NAME}
           </h1>
         </div>
 
-        <div className="px-5 pb-5">
-          <label className="text-[11px] font-medium text-slate-500 block mb-1.5">Claim Type</label>
-          <select
-            value={activeClaimType}
-            onChange={(e) => setActiveClaimType(e.target.value)}
-            className="w-full text-sm bg-slate-800/60 text-slate-200 border border-slate-700/40 rounded-lg px-3 py-2 focus:outline-none focus:border-indigo-500/50 focus:ring-1 focus:ring-indigo-500/20 transition-all"
-          >
-            {claimTypes.map((ct) => (
-              <option key={ct.value} value={ct.value}>{ct.label}</option>
-            ))}
-          </select>
-        </div>
+        {modelIds.length > 0 && (
+          <div className="px-5 pb-5">
+            <label className="text-[11px] font-medium text-slate-500 block mb-1.5">Model</label>
+            <select
+              value={activeClaimType}
+              onChange={(e) => setActiveClaimType(e.target.value)}
+              className="w-full text-sm bg-slate-800/60 text-slate-200 border border-slate-700/40 rounded-lg px-3 py-2 focus:outline-none focus:border-indigo-500/50 focus:ring-1 focus:ring-indigo-500/20 transition-all"
+            >
+              {modelIds.map((id) => (
+                <option key={id} value={id}>{id}</option>
+              ))}
+            </select>
+          </div>
+        )}
 
         <div className="px-5 mb-3">
           <div className="h-px bg-gradient-to-r from-transparent via-slate-700/50 to-transparent" />
@@ -101,14 +105,12 @@ function NavIcon({ name, active }: { name: string; active: boolean }) {
       return <svg className={cls} fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 3v2m6-2v2M9 19v2m6-2v2M5 9H3m2 6H3m18-6h-2m2 6h-2M7 19h10a2 2 0 002-2V7a2 2 0 00-2-2H7a2 2 0 00-2 2v10a2 2 0 002 2zM9 9h6v6H9V9z" /></svg>;
     case 'clipboard':
       return <svg className={cls} fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4" /></svg>;
-    case 'compare':
-      return <svg className={cls} fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4" /></svg>;
-    case 'catalogue':
-      return <svg className={cls} fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" /></svg>;
-    case 'coverage':
-      return <svg className={cls} fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" /></svg>;
     case 'journey':
       return <svg className={cls} fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M13 5l7 7-7 7M5 5l7 7-7 7" /></svg>;
+    case 'database':
+      return <svg className={cls} fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M4 7c0-1.657 3.582-3 8-3s8 1.343 8 3M4 7v5c0 1.657 3.582 3 8 3s8-1.343 8-3V7M4 7v5m16-5v5M4 12v5c0 1.657 3.582 3 8 3s8-1.343 8-3v-5" /></svg>;
+    case 'package':
+      return <svg className={cls} fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 10V11" /></svg>;
     default:
       return <span className="w-4 h-4 rounded bg-slate-600" />;
   }
