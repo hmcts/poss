@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- 
+
+Extracts SUPS Caseman Batch components (non Polar Lake) and zips them into a seperate handover
+ 
+File history
+27/06/2007 - Chris Hutt: Created 
+29/10/2009 - Chris Vincent: changed build.num.major to CCBC_ and bulid.num.minor to build.bat.num
+-->
+<project name="caseman-batch" default="full_extract" basedir=".">
+	<property environment="env"/>
+	<property file="CasemanBatchHandover.properties"/>
+
+
+	<target name="clean">
+		<delete dir="${output.dir.name}"/>
+	</target>
+
+
+    	<target name="full_extract" depends="zip-all">
+	</target>
+
+
+    	<target name="copy-all" depends="copy-documentation, update-readme, copy-components">
+	</target>
+	
+	<target name="copy-documentation" depends="clean">
+		<copy todir="${output.dir.docs}" overwrite="true">
+			<fileset file="${caseman.location.batch}/SUPS_Caseman_NonPolarLakeBatch_Notes.doc"/>
+		        <fileset file="${caseman.location.batch}/Readme.txt"/>
+		</copy>
+	</target>
+		
+	<target name="update-readme" depends="clean">
+
+                <replaceregexp file="${output.dir.docs}/Readme.txt" byline="false">
+                     <regexp pattern="&lt;buildno&gt;"/>
+                     <substitution expression="CCBC_.${build.bat.num}"/>
+               </replaceregexp>
+
+               <tstamp>
+                     <format property="date.now" pattern="dd/MM/yyyy"/>
+               </tstamp>
+
+               <replaceregexp file="${output.dir.docs}/Readme.txt" byline="false">
+                   <regexp pattern="&lt;datecreated&gt;"/>
+                   <substitution expression="${date.now}"/>
+               </replaceregexp>
+        </target>
+
+
+    	<target name="copy-components" depends="clean">
+    	
+    	
+		<!-- scripts -->
+		<copy todir="${output.dir.offline}" overwrite="true">
+			<fileset dir="${caseman.location.batch.offline}"/>
+		</copy>
+
+		<!-- profiles -->
+		<copy todir="${output.dir.etc}" overwrite="true">
+			<fileset dir="${caseman.location.batch.etc}"/>
+		</copy>
+
+		<!-- functions -->
+		<copy todir="${output.dir.bin}" overwrite="true">
+			<fileset dir="${caseman.location.batch.bin}"/>
+		</copy>
+		
+		<!-- sql -->
+		<copy todir="${output.dir.sql}" overwrite="true">
+			<fileset file="${caseman.location.scripts}/*.sql"/>
+		</copy>
+
+	</target>
+ 
+
+    	<target name="zip-all" depends="copy-all">
+		<zip destfile="${output.zip.name}">
+			<zipfileset dir="${output.dir.name}"/>
+		</zip>
+	</target>
+</project>
+
+

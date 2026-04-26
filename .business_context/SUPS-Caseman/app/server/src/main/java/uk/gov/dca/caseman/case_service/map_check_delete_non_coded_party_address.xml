@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<DBMapDef>
+  <DataSource id="java:OracleDS"/>
+  <Tables>
+    <Table alias="GA" name="GIVEN_ADDRESSES"/>
+  </Tables>  
+  <Mapping>
+	<ds>
+		<isNonCodedPartyAddress>${GA.IS_NON_CODED_PARTY_ADDRESS}</isNonCodedPartyAddress>
+	</ds>
+  </Mapping>
+</DBMapDef>

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<service-method>
+	<pipeline>
+		<Add>
+			<QueryDef location="uk/gov/dca/test_project/testdata_service/test_query_def.xml"/>
+			<DataSource xpath="/params/param[@name='test']"/>
+			<QueryExtension pivotNode="/Test">
+				<CheckExists table="TD" fields="DESCRIPTION" onExist="skip" onNotExist="fail"/>
+			</QueryExtension>
+		</Add>
+	</pipeline>
+	<Security roles="user"/>
+</service-method>

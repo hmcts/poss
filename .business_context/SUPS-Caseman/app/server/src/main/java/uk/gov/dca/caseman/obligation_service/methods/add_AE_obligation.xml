@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: Obligation
+	Method:  addAEObligation()
+	File:    add_AE_obligation.xml
+	Author:  Amjad Khan
+	Created: 21 Jun 2005
+	Description:
+		Adds a AE Event based Obligation
+-->
+<service-method>
+	<pipeline>
+		<Java callStyle="new">
+			<Source class="uk.gov.dca.caseman.obligation_service.java.ObligationSequenceHelperCustomProcessor"/>
+		</Java>
+		<Add>
+			<QueryDef location="uk/gov/dca/caseman/obligation_service/query_def_add_ae_obligation.xml"/>
+			<DataSource xpath="/params/param[@name='caseNumber']"/>
+		</Add>
+	</pipeline>
+	<Security roles="medium high wcSuper scSuper bmsSuper aeSuper dmSuper cpSuper ccbcMan ccbcUser ccbcSGB2"/> 		
+</service-method>

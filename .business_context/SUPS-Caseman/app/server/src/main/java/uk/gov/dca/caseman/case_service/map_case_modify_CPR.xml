@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: Case
+	Method:  addCase()/updateCase()
+	File:    map_modify_case_CPR.xml
+	Author:  Phil Haferer (EDS)
+	Created: November 2004
+	Description: 
+		Mapping to support map_modify_case_CPR.xml
+		
+	Change History:
+	19-Jul-2005 Phil Haferer: Changes to support Address Type of 'SERVICE' (for AE).
+	20-Jun-2007 Chris Vincent: Added <DateOfReply> for CCBC Defect UCT Group2 1385
+	14-Oct-2016 Chris Vincent: Added RequestConfidentiality node.  Trac 5880
+-->
+<DBMapDef>
+  <DataSource id="java:OracleDS"/>
+  <Tables>
+    <Table alias="C" name="CASES"/>
+    <Table alias="GA" name="GIVEN_ADDRESSES"/>
+    <Table alias="CPR" name="CASE_PARTY_ROLES"/>
+    <Table alias="CPR2CPR" name="CPR_TO_CPR_RELATIONSHIP"/>
+    <Table alias="P" name="PARTIES"/>
+    <Table alias="SOLP" name="PARTIES"/>
+  </Tables>  
+  <Mapping>
+    <ds>
+	<ManageCase>
+		<CaseNumber>${C.CASE_NUMBER}</CaseNumber>
+		<OwningCourtCode>${C.ADMIN_CRT_CODE}</OwningCourtCode>
+		<CreditorCode></CreditorCode>
+		<Parties>
+			<Solicitor>
+				<SurrogateId></SurrogateId>
+				<PartyId>${SOLP.PARTY_ID}</PartyId>
+				<Number>${CPR.CASE_PARTY_NO}</Number>
+				<AddressUpdated></AddressUpdated>
+				<ContactDetails>
+					<Address>
+						<AddressId>${GA.ADDRESS_ID}</AddressId>
+						<Line>${GA.ADDRESS_LINE1}</Line>
+						<Line>${GA.ADDRESS_LINE2}</Line>
+						<Line>${GA.ADDRESS_LINE3}</Line>
+						<Line>${GA.ADDRESS_LINE4}</Line>
+						<Line>${GA.ADDRESS_LINE5}</Line>
+						<PostCode>${GA.POSTCODE}</PostCode>
+					</Address>
+					<PreferredCommunicationMethod>${CPR.PREFERRED_COMMUNICATION_METHOD}</PreferredCommunicationMethod>
+				</ContactDetails>
+				<DeleteNonCodedParty>
+					<PartyId>${SOLP.PARTY_ID}</PartyId>
+					<AddressId>${GA.ADDRESS_ID}</AddressId>
+				</DeleteNonCodedParty>
+			</Solicitor>
+			<LitigiousParty>
+                <AddressUpdated></AddressUpdated>
+                <DateofServiceUpdated></DateofServiceUpdated>
+				<SurrogateId></SurrogateId>
+				<PartyId>${P.PARTY_ID}</PartyId>
+				<Number>${CPR.CASE_PARTY_NO}</Number>
+				<Code></Code>
+				<ContactDetails>
+					<Address>
+						<AddressId>${GA.ADDRESS_ID}</AddressId>
+						<Line>${GA.ADDRESS_LINE1}</Line>
+						<Line>${GA.ADDRESS_LINE2}</Line>
+						<Line>${GA.ADDRESS_LINE3}</Line>
+						<Line>${GA.ADDRESS_LINE4}</Line>
+						<Line>${GA.ADDRESS_LINE5}</Line>
+						<PostCode>${GA.POSTCODE}</PostCode>
+						<DateFrom>${GA.VALID_FROM}</DateFrom>
+						<CreatedBy>${GA.UPDATED_BY}</CreatedBy>
+					</Address>
+					<PreferredCommunicationMethod>${CPR.PREFERRED_COMMUNICATION_METHOD}</PreferredCommunicationMethod>
+					<TranslationToWelsh>${CPR.WELSH_INDICATOR}</TranslationToWelsh>
+				</ContactDetails>							
+				<TypeCode>${CPR.PARTY_ROLE_CODE}</TypeCode>
+				<Reference>${CPR.REFERENCE}</Reference>
+				<SolicitorSurrogateId></SolicitorSurrogateId>
+				<CPR2CPRUpdate/>
+				<SolicitorReference>${CPR2CPR.PERSONAL_REFERENCE}</SolicitorReference>
+				<DateOfService>${CPR.DEFT_DATE_OF_SERVICE}</DateOfService>
+				<LastDateForService>${CPR.LAST_DATE_FOR_SERVICE}</LastDateForService>
+				<DateOfReply>${CPR.DEFT_LAST_DATE_FOR_REPLY}</DateOfReply>
+				<RequestConfidentiality>${CPR.CONFIDENTIAL}</RequestConfidentiality>
+				<SolicitorPayee>${CPR.PAYEE_FLAG}</SolicitorPayee>
+				<HistoricalAddresses>
+					<Address>
+						<Status></Status>
+						<AddressId>${GA.ADDRESS_ID}</AddressId>
+						<Line>${GA.ADDRESS_LINE1}</Line>
+						<Line>${GA.ADDRESS_LINE2}</Line>
+						<Line>${GA.ADDRESS_LINE3}</Line>
+						<Line>${GA.ADDRESS_LINE4}</Line>
+						<Line>${GA.ADDRESS_LINE5}</Line>
+						<PostCode>${GA.POSTCODE}</PostCode>
+						<DateFrom>${GA.VALID_FROM}</DateFrom>
+						<DateTo>${GA.VALID_TO}</DateTo>
+						<CreatedBy>${GA.UPDATED_BY}</CreatedBy>
+					</Address>
+				</HistoricalAddresses>
+				<DeleteNonCodedParty>
+					<PartyId>${P.PARTY_ID}</PartyId>
+				</DeleteNonCodedParty>
+				<Mediation>
+					<ContactName>${CPR.MEDIATION_NAME}</ContactName>
+					<TelephoneNumber>${CPR.MEDIATION_TEL_NO}</TelephoneNumber>
+					<EmailAddress>${CPR.MEDIATION_EMAIL}</EmailAddress>
+					<Availability>${CPR.MEDIATION_AVAILABILITY}</Availability>
+					<Notes>${CPR.MEDIATION_NOTES}</Notes>
+				</Mediation>
+			</LitigiousParty>
+		</Parties>
+	</ManageCase>
+    </ds>  
+</Mapping>
+</DBMapDef>

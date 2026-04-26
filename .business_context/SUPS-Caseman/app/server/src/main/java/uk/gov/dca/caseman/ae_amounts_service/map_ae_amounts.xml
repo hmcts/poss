@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+	Service: AeAmounts
+	Method:  updateAeAmounts()
+	File:    map_ae_amounts.xml
+	Author:  Chris Hutt
+	Created: 11 July 2005
+	Description: 
+		Amounts associated with an Ae Application
+		
+	Change History:
+	
+	1 Dec 2006	Chris Hutt
+			    Defects UCT838/839:	Requirement to update AE_APPLICATIONS and generate an AeEvent.
+			    MaintainAEAmounts/DateCreated added. AE_FEE added.
+ -->
+<DBMapDef>
+  <DataSource id="java:OracleDS"/>
+  <Tables>
+    <Table alias="FP" name="FEES_PAID"/>
+    <Table alias="FP1" name="FEES_PAID"/>
+    <Table alias="AEA" name="AE_APPLICATIONS"/>
+    <Table alias="CT"  name="COURTS"/>
+    <Table alias="REF" name="CCBC_REF_CODES"/>
+    <Table alias="PR1"  name="PARTY_ROLES"/>
+    <Table alias="P1"   name="PARTIES"/>
+    <Table alias="CPR1" name="CASE_PARTY_ROLES"/>
+    <Table alias="PR2"  name="PARTY_ROLES"/>
+    <Table alias="P2"   name="PARTIES"/>
+    <Table alias="CPR2" name="CASE_PARTY_ROLES"/>
+  </Tables>
+  <Mapping>
+	<MaintainAEAmounts>		
+		<CaseNumber>${AEA.CASE_NUMBER}</CaseNumber>
+		<AENumber>${AEA.AE_NUMBER}</AENumber>
+		<OwningCourtCode>${AEA.ISSUING_CRT_CODE}</OwningCourtCode>
+		<OwningCourtName>${CT.NAME}</OwningCourtName>
+		<ApplicationType>${AEA.AE_TYPE}</ApplicationType>
+		<ApplicationTypeDescription>${REF.RV_MEANING}</ApplicationTypeDescription>	
+		<DateCreated>${AEA.DATE_OF_CREATION}</DateCreated>
+		<Fee>${AEA.AE_FEE}</Fee>
+		<JudgmentDebtor>
+			<PartyRoleCode>${AEA.PARTY_AGAINST_PARTY_ROLE_CODE}</PartyRoleCode>
+			<PartyRoleDescription>${PR1.PARTY_ROLE_DESCRIPTION}</PartyRoleDescription>
+			<CasePartyNumber>${AEA.PARTY_AGAINST_CASE_PARTY_NO}</CasePartyNumber>
+			<PartyName>${P1.PERSON_REQUESTED_NAME}</PartyName>
+			<PartyKey>${P1.PARTY_KEY}</PartyKey>
+		</JudgmentDebtor>
+		<JudgmentCreditor>
+			<PartyRoleCode>${AEA.PARTY_FOR_PARTY_ROLE_CODE}</PartyRoleCode>
+			<PartyRoleDescription>${PR2.PARTY_ROLE_DESCRIPTION}</PartyRoleDescription>
+			<CasePartyNumber>${AEA.PARTY_FOR_CASE_PARTY_NO}</CasePartyNumber>
+			<PartyName>${P2.PERSON_REQUESTED_NAME}</PartyName>
+			<PartyKey>${P2.PARTY_KEY}</PartyKey>
+		</JudgmentCreditor>
+	
+	    <TotalFees>
+			<Currency>{AEA.AE_FEE_CURRENCY}</Currency>	
+			<Amount>${FP1.TOTAL_FEES}</Amount>
+		 </TotalFees>
+		
+		<AEAmounts>
+			<AEAmount>
+	  			<FeesPaidId>${FP.FEES_PAID_ID}</FeesPaidId>
+				<SurrogateId>1</SurrogateId>
+				<!-- <AllocationDate>${FP.ALLOCATION_DATE}</AllocationDate> -->
+				<AmountCurrency>${FP.AMOUNT_CURRENCY}</AmountCurrency>
+				<Amount>${FP.AMOUNT}</Amount>
+				<UserName>${FP.USER_ID}</UserName>
+				<ProcessType>${FP.PROCESS_TYPE}</ProcessType>
+				<DateCreated>${FP.DATE_CREATED}</DateCreated>
+				<Deleted>${FP.DELETED_FLAG}</Deleted>
+				<Type>${FP1.TYPE}</Type>
+				<Status>${STATUS}</Status>
+			</AEAmount>
+		</AEAmounts>	
+	</MaintainAEAmounts>
+  </Mapping>
+</DBMapDef>

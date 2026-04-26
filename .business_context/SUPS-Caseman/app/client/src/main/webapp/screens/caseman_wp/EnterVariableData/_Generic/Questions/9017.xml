@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>9017</Id>
+	<Label>Details of Order under Section 255</Label>
+	<ObjectName>S255details</ObjectName>
+
+	<Html>
+	   <textarea id="S255details" cols="30" rows="3"> 
+	   </textarea>
+	</Html>
+	<Javascript>
+        <XPath>/ds/EnterVariableData/S255details</XPath>
+		<HintText>Enter details of order under Section 255</HintText>
+        <isEnabled>return true;</isEnabled>
+        <enabledOn>S255details.dataBinding</enabledOn>
+        <transformToModel>return WPU.encodeLineBreaks( this, value );</transformToModel>
+		<transformToDisplay>return WPU.decodeLineBreaks( this, value );</transformToDisplay>      
+    </Javascript>
+</Question>

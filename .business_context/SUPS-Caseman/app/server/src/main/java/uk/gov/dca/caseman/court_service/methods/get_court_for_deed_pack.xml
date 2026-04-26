@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: Court
+	Method:  getCourtForDeedPack()
+	File:    get_court_for_deed_pack.xml
+	Author:  Ian Stainer (Valtech)
+	Created: 13 February 2005
+	Description: 
+		Retrieves the court code for the given deed pack number.
+-->
+<service-method>
+	<pipeline>
+		<SQLLite format-output="true"
+				 resultset-element="Courts"
+				 row-element="Court"
+				 field-name-as="element" >
+			<DataSource id="java:OracleDS"/>
+			<Param name="param.deedPack" xpath="/params/param[@name='deedPack']"/>
+			<SQL>
+				select code as "Code" from courts where deed_pack_number = ${param.deedPack}
+			</SQL>
+		</SQLLite>
+	</pipeline>
+	<Security roles="admin"/>	
+</service-method>

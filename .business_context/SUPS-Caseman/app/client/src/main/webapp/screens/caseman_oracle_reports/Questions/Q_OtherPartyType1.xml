@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--Question xmlns="http://eds.com/questionxhtml" xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd"-->
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>Q_OtherPartyType1</Id>
+	<Label>Other Party Type</Label>
+	<ObjectName>OtherPartyType1</ObjectName>
+	<Html>
+	<input id="OtherPartyType1" type="text" size="70"></input>
+	</Html>
+	<Javascript>
+		<XPath>/ds/var/page/OracleReportForm/OtherPartyType1</XPath>
+		<ReportVariableName>PARTY_OTHER</ReportVariableName>
+		<ReportVariableValue>Services.getValue(OtherPartyType1.dataBinding)</ReportVariableValue>
+		<ReportVariableCode>2320</ReportVariableCode>
+		<HintText></HintText>
+		<mandatoryOn>PartyMakingTheApplication.dataBinding</mandatoryOn>
+		<isMandatory>
+			return !OtherPartyType1.isReadOnly();
+		</isMandatory>		
+		<initialise></initialise>
+		<setDefault></setDefault>
+		<validateOn>
+		</validateOn>
+		<validate>
+		</validate>
+		<transformToDisplay>
+			 return (null != value) ? value.toUpperCase() : null;
+	    </transformToDisplay>
+        <transformToModel>
+             return (null != value) ? value.toUpperCase() : null;
+        </transformToModel>		
+		<readOnlyOn>
+		 	PartyMakingTheApplication.dataBinding
+		</readOnlyOn>
+		<isReadOnly>
+			var partyMakingTheApplication = Services.getValue(PartyMakingTheApplication.dataBinding);
+			var valueTest = Services.getValue( REF_DATA_XPATH + "/PartyMakingTheApplicationList/PartyMakingTheApplication[./Description = " + PartyMakingTheApplication.dataBinding + "]/Value" );
+			if (partyMakingTheApplication == "OTH" || valueTest == "OTH")
+			{
+				return false;
+			}
+			else
+			{
+				return true;
+			}
+		</isReadOnly>	
+		<miscCode>
+		</miscCode>
+	</Javascript>
+</Question>

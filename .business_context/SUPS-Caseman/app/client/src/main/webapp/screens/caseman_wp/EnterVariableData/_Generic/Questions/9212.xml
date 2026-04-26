@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>9212</Id>
+	<Label>Number of day of month Instalment due</Label>
+	<ObjectName>NumDayofMonthInstalDue</ObjectName>
+	<Html>		
+		<input type="text" id="NumDayofMonthInstalDue" size="2"></input>
+	</Html>
+	<Javascript>
+		<XPath>/ds/EnterVariableData/NumDayofMonthInstalDue</XPath>
+		<HintText>Enter number of day of month Instalment due</HintText>
+		<validateOn>NumDayofMonthInstalDue.dataBinding</validateOn>
+		<validate>
+			//Numeric. Max. value is 28.
+			var val = Services.getValue(NumDayofMonthInstalDue.dataBinding);
+			var err = WPU.validateInteger( val );
+			if( null == err ) {
+				if( 1 > val || val > 28)	{ 	
+					err = ErrorCode.getErrorCode("CaseMan_rangeBetweenOneTwentyeight_Msg");				
+				}
+			}
+			return err;
+		</validate>
+		<mandatoryOn>InstalmentPeriod2.dataBinding</mandatoryOn>
+		<isMandatory>
+      		var v1 = Services.getValue(InstalmentPeriod2.dataBinding);
+      		return(v1 == "MTH");
+		</isMandatory>					
+        <enableOn>InstalmentPeriod2.dataBinding</enableOn>
+        <isEnabled>
+      		var v1 = Services.getValue(InstalmentPeriod2.dataBinding);
+      		return(v1 == "MTH");
+        </isEnabled>
+        <logicOn>InstalmentPeriod2.dataBinding</logicOn>
+        <logic>	
+        	var v1 = Services.getValue(InstalmentPeriod2.dataBinding);
+        	if(v1 != "MTH")
+        	{
+        		Services.setValue(NumDayofMonthInstalDue.dataBinding, "");
+        	}
+        </logic>
+		
+	</Javascript>
+</Question>  

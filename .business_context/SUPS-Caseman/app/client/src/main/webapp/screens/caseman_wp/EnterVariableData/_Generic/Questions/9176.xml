@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>9176</Id>
+	<Label>Select letter</Label>
+	<ObjectName>SelectLetter2</ObjectName>
+	<Html>
+		<select id="SelectLetter2">
+			<option value=""></option>
+			<option value="1">EX501 Examinee attended - deposition enclosed/offer</option>
+			<option value="2">EX501 Officer attended - deposition enclosed/offer</option>
+			<option value="3">EX501 Examinee attended - deposition enclosed/no offer</option>
+			<option value="4">EX501 Officer attended - deposition enclosed/no offer</option>
+			<option value="5">EX504 Unable to serve officer: more info</option>
+			<option value="6">EX504 Unable to serve examinee: more info</option>
+		</select>
+	</Html>			
+	<Javascript>
+		<XPath>/ds/EnterVariableData/selectLetter2</XPath>
+		<HintText>Select letter</HintText>
+		<isEnabled>return true</isEnabled>
+		<isMandatory>return true;</isMandatory>
+	</Javascript>
+</Question>

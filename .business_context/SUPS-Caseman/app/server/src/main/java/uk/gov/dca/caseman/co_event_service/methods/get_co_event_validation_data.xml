@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: Co
+	Method:  getCoEventValidationData()
+	File:    get_co_event_validation_data.xml
+	Author:  Chris Hutt
+	Created: 13 July 2005
+	Description: 
+		Retrieve the configuration related to a specified standard event 
+		along with information specific to a particular consolidated 
+		order to support the validation associated with a creation of an event.
+-->
+<service-method>
+	<pipeline>
+		<Java>
+			<Source class="uk.gov.dca.caseman.co_event_service.java.GetCoEventValidationData"/>
+		</Java>
+	</pipeline>
+	<Dependencies>
+		<Dependency serviceName="Co"/>		
+		<Dependency serviceName="CoEvent"/>		
+		<Dependency serviceName="Warrant"/>				
+		<Dependency serviceName="Hearing"/>				
+		<Dependency serviceName="CaseEvent"/>		
+	</Dependencies>		
+	<Security roles="viewOnly medium high wcSuper scSuper bmsSuper aeSuper dmSuper cpSuper"/>	
+</service-method>

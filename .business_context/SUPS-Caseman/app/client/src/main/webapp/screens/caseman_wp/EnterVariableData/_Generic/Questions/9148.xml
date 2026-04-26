@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>9148</Id>
+	<Label>Addressee's reference</Label>
+	<ObjectName>AddresseeRef</ObjectName>	
+	<Html>	
+		<input id="AddresseeRef" type="text" size="35"></input>
+	</Html>
+	<Javascript>
+		<XPath>/ds/EnterVariableData/addresseeRef</XPath>
+		<HintText>Enter the addressee's reference</HintText>
+		<isEnabled>return true</isEnabled>
+		<isMandatory>return true;</isMandatory>
+		<mandatoryOn>AddresseeRef.dataBinding</mandatoryOn>
+	</Javascript>
+</Question>

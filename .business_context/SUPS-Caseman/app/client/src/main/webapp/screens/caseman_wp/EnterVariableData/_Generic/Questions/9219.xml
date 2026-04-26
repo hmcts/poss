@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>9219</Id>
+	<Label>Enter Suspense Item</Label>
+	<ObjectName>EnterSuspenseItem</ObjectName>
+	<Html>		
+		<input type="text" id="EnterSuspenseItem" size="35"></input>
+	</Html>
+
+	<Javascript>
+		<XPath>/ds/EnterVariableData/enterSuspenseItem</XPath>
+		<HintText>Enter Suspense Item</HintText>
+        <Context ScreenId="L_4_1">
+            <mandatoryOn>FeeRetained.dataBinding</mandatoryOn>            
+            <isMandatory>return('Y' == Services.getValue(FeeRetained.dataBinding));</isMandatory>
+            <enableOn>FeeRetained.dataBinding</enableOn>
+            <isEnabled>return('Y' == Services.getValue(FeeRetained.dataBinding));</isEnabled>
+            <logicOn>FeeRetained.dataBinding</logicOn>
+            <logic>
+            if('Y' != Services.getValue(FeeRetained.dataBinding))
+            {   Services.setValue(EnterSuspenseItem.dataBinding, "");
+            }
+             </logic>
+
+        </Context>
+        
+	</Javascript>
+</Question>  

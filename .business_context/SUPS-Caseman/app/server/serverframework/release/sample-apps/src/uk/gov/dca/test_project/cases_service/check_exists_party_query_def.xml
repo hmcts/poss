@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<QueryDef>
+	<DBMapDef location="uk/gov/dca/test_project/cases_service/check_exists_party_map.xml"/>
+	<Tables>
+	</Tables>
+	
+	<Query pivotNode="/Parties/Party" tables="ctcr">
+		<Modify>
+			<!-- deletes the solicitors of the specified party -->
+			<CheckExists table="ctcr" fields="cpr_a_case_number cpr_a_party_id cpr_a_party_role_code cpr_b_case_number cpr_b_party_id cpr_b_party_role_code" 
+				onExist="./Obsolete = 'Y' ? delete : update" onNotExist="./Skip='Y'?skip:add"/>
+		</Modify>
+	</Query>
+
+</QueryDef>

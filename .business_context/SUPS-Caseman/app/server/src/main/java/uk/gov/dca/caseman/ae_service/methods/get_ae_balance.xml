@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: Ae
+	Method:  getAeBalance
+	Author:  Chris Hutt (EDS) 
+	Created: 23 June 2005
+	Description: 
+		Use SQLLite to determine AE o/s balance
+-->
+<service-method>
+	<pipeline>
+		<SQLLite format-output="true"
+				 resultset-element="ds"
+				 row-element="Ae"
+				 field-name-as="element" >
+			<DataSource id="java:OracleDS"/>
+			<Param name="param.aeNumber" xpath="/params/param[@name='aeNumber']"/>
+			<SQL>				
+				SELECT  NVL(AEA.AMOUNT_OF_AE, 0)
+                        + NVL(
+                            (
+                                SELECT  SUM(FP.AMOUNT)
+                                FROM    FEES_PAID FP
+                                WHERE   FP.PROCESS_NUMBER = AEA.AE_NUMBER
+                            ),
+                            0
+                        )
+                        - NVL(
+                            (
+                                SELECT  SUM(PAY.AMOUNT)
+                                FROM    PAYMENTS PAY
+                                WHERE   PAY.SUBJECT_NO = AEA.AE_NUMBER 
+                                        AND PAY.PAYMENT_FOR = 'AE'
+                                        AND PAY.ERROR_INDICATOR != 'Y'
+                                        AND PAY.RD_DATE IS NULL
+                            ),
+                            0
+                        )
+                        AS "OutstandingBalance"
+                FROM 	AE_APPLICATIONS AEA
+                WHERE 	AEA.AE_NUMBER = ${param.aeNumber}
+			</SQL>
+		</SQLLite>
+  	</pipeline>
+	<Security roles="user"/>
+</service-method>

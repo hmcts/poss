@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<DBMapDef>
+  <DataSource id="java:OracleDS"/>
+  <Tables>
+    <Table alias="CO" name="CONSOLIDATED_ORDERS"/>
+    <Table alias="GA" name="GIVEN_ADDRESSES"/>
+  </Tables>  
+  <Mapping>
+	<PartyQueryResults>
+		<PartyQueryResult>
+			<CONumber>${CO.CO_NUMBER}</CONumber>
+			<COType>${CO.CO_TYPE}</COType>
+			<Status>${CO.CO_STATUS}</Status>
+			<Debtor>
+				<PartyName>${CO.DEBTOR_NAME}</PartyName>
+				<ContactDetails>
+					<Address>
+						<Line>${GA.ADDRESS_LINE1}</Line>
+						<Line>${GA.ADDRESS_LINE2}</Line>						
+					</Address>
+				</ContactDetails>
+			</Debtor>
+		</PartyQueryResult>
+	</PartyQueryResults>
+ </Mapping>
+ </DBMapDef>

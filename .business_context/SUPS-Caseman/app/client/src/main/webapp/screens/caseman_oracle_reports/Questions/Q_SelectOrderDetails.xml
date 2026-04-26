@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	19/12/2006 - CV - Added F6 keybinding to LOV via SelectOrderDetailsLOVGrid.raise configuration.
+	Temp_Caseman defects 299/334.
+	29/01/2007 - CV: Updated zoom field logic function to clear LOV value.  Temp_Caseman defect 428.
+-->
+<!--Question xmlns="http://eds.com/questionxhtml" xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd"-->
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>Q_SelectOrderDetails</Id>
+	<Label>Select Order details</Label>
+	<ObjectName>SelectOrderDetails</ObjectName>
+	<Html>
+		<table>
+			<tr>
+				<td>
+					<script type="text/javascript">
+						ZoomFieldRenderer.createInline("SelectOrderDetails", 10, 70);
+					</script>				
+				</td>
+				<td>
+					<input id="SelectOrderDetailsLOVButton" type="Button" value="LOV"/>
+				</td>
+			</tr>
+		</table>	
+		<script type="text/javascript">
+			LOVPopupRenderer.createInline( "SelectOrderDetailsLOVGrid", "Types", ["Description"], 10, 1, true );
+        </script>
+	</Html>
+	<Javascript>
+		<XPath>/ds/var/page/OracleReportForm/SelectOrderDetails</XPath>
+		<ReportVariableName>REPORT_VALUE_3</ReportVariableName>
+		<ReportVariableValue>Services.getValue(SelectOrderDetails.dataBinding)</ReportVariableValue>
+		<ReportVariableCode>1067</ReportVariableCode>
+		<HintText>Order details - LOV available - update allowed</HintText>
+		<mandatoryOn></mandatoryOn>
+		<isMandatory>return true;</isMandatory>
+		<setDefault></setDefault>
+		<validateOn></validateOn>
+		<validate>
+		</validate>
+		<readOnlyOn></readOnlyOn>
+		<isReadOnly></isReadOnly>
+		<maxLength></maxLength>
+		<transformToDisplay>
+			var description = Services.getValue( REF_DATA_XPATH + "/OrderDetailsList/OrderDetail[./Value = " + SelectOrderDetails.dataBinding + "]/Description" );
+			if (description != null)
+			{
+				return description;
+			}
+			else
+			{
+				return value;
+			}
+		</transformToDisplay>
+		<initialise>
+			dom = getList("../LOV/OrderDetailsList.xml"); 
+			Services.addNode(dom, REF_DATA_XPATH);
+		</initialise>
+		<logicOn>
+			"/ds/var/page/OracleReportForm/Dummy"
+		</logicOn>
+		<logic>
+			var lovValue = Services.getValue(SelectOrderDetailsLOVGrid.dataBinding);
+			if ( !CaseManUtils.isBlank(lovValue) )
+			{
+				Services.setValue(SelectOrderDetails.dataBinding, lovValue);
+				FormController.getInstance().processEvents();
+				Services.getAdaptorById("SelectOrderDetails")._raisePopup();
+				Services.setValue(SelectOrderDetailsLOVGrid.dataBinding, "");
+			}
+		</logic>
+		<miscCode>
+			SelectOrderDetails.componentName =	"Order details";
+			SelectOrderDetails.srcData = 		REF_DATA_XPATH + "/OrderDetailsList";
+			SelectOrderDetails.rowXPath = 		"OrderDetail";
+			SelectOrderDetails.keyXPath =		"Description";
+			
+			function SelectOrderDetailsLOVButton() {};
+			
+			SelectOrderDetailsLOVButton.tabIndex = __tabIdx++;
+
+			function SelectOrderDetailsLOVGrid() {};
+			
+			SelectOrderDetailsLOVGrid.dataBinding = "/ds/var/page/OracleReportForm/Dummy";
+			SelectOrderDetailsLOVGrid.srcData = REF_DATA_XPATH + "/OrderDetailsList";
+			SelectOrderDetailsLOVGrid.rowXPath = "OrderDetail";
+			SelectOrderDetailsLOVGrid.keyXPath = "Description";
+			SelectOrderDetailsLOVGrid.columns = [
+				{xpath: "Description"}
+			];
+			
+			SelectOrderDetailsLOVGrid.raise = {
+				eventBinding: {
+					singleClicks: [ {element: "SelectOrderDetailsLOVButton"} ],
+					keys: [ { key: Key.F6, element: "SelectOrderDetails" } ]
+				}
+			};
+			
+			function transformPoundSymbol(value)
+			{
+				//debugger;
+				var transformedValue = value;
+				if (value.indexOf("£") != -1)
+				{
+					transformedValue = replaceString(value, "£", "&amp;#65533");
+				}
+				return transformedValue;
+			}
+			
+			function replaceString(mainStr, searchStr, replaceStr)
+			{
+				return mainStr.split(searchStr).join(replaceStr);
+			}			
+		</miscCode>
+		<IsQuestion></IsQuestion>
+	</Javascript>
+</Question>

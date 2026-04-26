@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--Question xmlns="http://eds.com/questionxhtml" xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd"-->
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>Q_OtherPartyType3</Id>
+	<Label>Other Party Type</Label>
+	<ObjectName>OtherPartyType3</ObjectName>
+	<Html>
+	<input id="OtherPartyType3" type="text" size="70"></input>
+	</Html>
+	<Javascript>
+		<XPath>/ds/var/page/OracleReportForm/OtherPartyType3</XPath>
+		<ReportVariableName>PARTY_OTHER</ReportVariableName>
+		<ReportVariableValue>Services.getValue(OtherPartyType3.dataBinding)</ReportVariableValue>
+		<ReportVariableCode>4130</ReportVariableCode>
+		<HintText></HintText>
+		<mandatoryOn>PartyWhoHasDiscontinuedAClaim.dataBinding</mandatoryOn>
+		<isMandatory>
+			return !OtherPartyType3.isReadOnly();
+		</isMandatory>
+		<initialise></initialise>
+		<setDefault></setDefault>
+		<validateOn>
+		</validateOn>
+		<validate>
+		</validate>
+		<transformToDisplay>
+			 return (null != value) ? value.toUpperCase() : null;
+	    </transformToDisplay>
+        <transformToModel>
+             return (null != value) ? value.toUpperCase() : null;
+        </transformToModel>		
+		<readOnlyOn>PartyWhoHasDiscontinuedAClaim.dataBinding</readOnlyOn>
+		<isReadOnly>
+			var partyWhoHasDiscontinuedAClaim = Services.getValue(PartyWhoHasDiscontinuedAClaim.dataBinding);
+			var valueTest = Services.getValue( REF_DATA_XPATH + "/PartyWhoHasDiscontinuedAClaimList/PartyWhoHasDiscontinuedAClaim[./Description = " + PartyWhoHasDiscontinuedAClaim.dataBinding + "]/Value" );
+			if (partyWhoHasDiscontinuedAClaim == "OTH" || valueTest == "OTH")
+			{
+				return false;
+			}
+			else
+			{
+				return true;
+			}
+		</isReadOnly>		
+		<miscCode>
+		</miscCode>
+	</Javascript>
+</Question>

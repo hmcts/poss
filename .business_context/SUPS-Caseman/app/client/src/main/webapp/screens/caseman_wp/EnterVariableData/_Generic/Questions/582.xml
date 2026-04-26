@@ -1,0 +1,32 @@
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>582</Id>
+	<Label>Details of order</Label>
+	<ObjectName>OrderDetailse</ObjectName>
+	<Html>	
+		<textarea cols="80" rows="4" id="OrderDetailse"></textarea>
+	</Html>			
+	<Javascript>
+		<XPath>/ds/EnterVariableData/Interlocutory/orderDetailse</XPath>
+		<componentName>##label##</componentName>
+		<isMandatory>return true;</isMandatory>
+		<HintText>Enter terms of the order</HintText>	
+		<transformToModel>return WPU.encodeLineBreaks( this, value );</transformToModel>
+		<transformToDisplay>return WPU.decodeLineBreaks( this, value );</transformToDisplay>
+        <Context ScreenId="O_10_18">
+            <isEnabled>return true;</isEnabled>
+            <mandatoryOn>OrderDetailse.dataBinding</mandatoryOn>
+        </Context>
+        <Context ScreenId="O_10_19">
+            <isEnabled>return true;</isEnabled>
+            <mandatoryOn>OrderDetailse.dataBinding</mandatoryOn>
+        </Context>
+         <Context ScreenId="O_11_1_2_3_4">
+            <enableOn>OrderDetailse.dataBinding</enableOn>
+            <isEnabled>return WPU.calculateEventEnablement(693);</isEnabled>
+            <mandatoryOn>OrderDetailse.dataBinding</mandatoryOn>
+            <isMandatory>return WPU.calculateEventEnablement(693);</isMandatory>
+        </Context>
+        
+        
+	</Javascript>
+</Question>

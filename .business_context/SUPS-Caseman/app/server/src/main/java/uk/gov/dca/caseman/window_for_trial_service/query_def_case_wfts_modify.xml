@@ -1,0 +1,49 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	v1.0 Chris Hutt 2/2/2005
+	
+	To enable excluded dates to be amended an approach has been adopted of initially removing all
+	excluded dates and then adding the actual excluded dates associated with this update
+	
+	Change History:
+	20-Mar-2006 Phil Haferer: Added Field tag to pivot node /ds/MaintainWindowForTrial/WindowsForTrial/WindowForTrial
+	            to set the column WFT_EXTRACTED_FOR_DM to null everytime a Window For Trial is modified, in response
+	            to TD 2591: "UC024 - Maintain Window for Trial (WFT) - WFT_EXTRACTED_FOR_DM not nulled on amendment".
+	            This enables a Polar Lake circuit to pick up the change and distribute it to Diary Managers via the 
+	            Caseman Central Server.
+    23-Mar-2006 Phil Haferer (EDS):  Removed pivot node for processing exclusion dates, and moved the processing 
+                into a CustomProcessor, in response to 
+                TD 2585: "WFT Excluded Dates removed when WFT record not updated".
+	04-Apr-2006 Phil Haferer: TD 2591: "UC024 - Maintain Window for Trial (WFT) - WFT_EXTRACTED_FOR_DM not nulled on amendment".
+	            Removed the change implemented on 20-Mar-2006, as the change needs to be performed by the client,
+	            only for WFT that have changed.
+-->
+<QueryDef>
+	<DBMapDef location="uk/gov/dca/caseman/window_for_trial_service/map_case_wfts_modify.xml"/>
+	<Query pivotNode="/ds/MaintainWindowForTrial/WindowsForTrial/WindowForTrial" tables="WFT">
+	   	<Join/>
+	   	<Modify/>
+	</Query>
+	<!--
+	<Query pivotNode="/ds/MaintainWindowForTrial/WindowsForTrial/WindowForTrial/DatesSet" tables="WFT">
+	  <SQL type="select">
+		SELECT 'false' AS "WFT.DATES_SET" 
+		FROM DUAL
+      	  </SQL>
+          <Modify notModifiable="true"/>
+	</Query>
+	-->
+		<Query pivotNode="/ds/MaintainWindowForTrial/WindowsForTrial/WindowForTrial/Status" tables="WFT">
+		  <SQL type="select">
+			SELECT 'EXISTING' AS "WFT.WFT_STATUS" 
+			FROM DUAL
+	      	  </SQL>
+	          <Modify notModifiable="true"/>
+	          <!-- Modify>
+	          	<CheckExists table="wft" fields="wft_id wft_case_number wft_status " onExist="skip" onNotExist="skip"/>
+	          </Modify -->
+	</Query>
+</QueryDef>
+
+
+             

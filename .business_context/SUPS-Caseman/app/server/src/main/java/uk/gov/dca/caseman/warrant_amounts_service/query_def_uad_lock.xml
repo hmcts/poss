@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<QueryDef>
+  <DBMapDef location="uk/gov/dca/caseman/warrant_amounts_service/map_uad_lock.xml"/>
+  <Query pivotNode="/ds/WarrantAmounts/Warrant" tables="F">
+    <Join/>
+	<Modify>
+        <CheckExists table="F" fields="FEES_PAID_ID" onNotExist="add" onExist="update"/>
+		<Field name="F.FEES_PAID_ID" sequenceTable="FEES_PAID_SEQUENCE"/>
+    </Modify>
+  </Query>
+  <Query pivotNode="/ds/WarrantData" tables="W">
+    <Join/>
+	<Modify/>
+  </Query>
+</QueryDef>

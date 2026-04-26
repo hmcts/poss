@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: Reports
+	Method:  getEx77WelshFlags()
+	File:    get_ex77_welsh_flags.xml
+	Author:  Chris Vincent
+	Created: 19 January 2015
+	Description: 
+		Retrieves a list of Welsh Indicators for EX77 outputs to be printed
+		
+	Change History:
+
+-->
+<service-method>
+	<pipeline>
+		<SQLLite format-output="true"
+				 resultset-element="EX77Data"
+				 row-element="EX77Row"
+				 field-name-as="element" >
+			<DataSource id="java:OracleDS"/>
+				<Param name="param.returnDate" xpath="/params/param[@name='returnDate']"/>
+				<Param name="param.courtId" xpath="/params/param[@name='courtId']"/>
+			<SQL>
+				SELECT  NVL(CPR.WELSH_INDICATOR,'N') AS "WelshFlag"
+				FROM    WARRANT_RETURNS WARRET
+					   ,RETURN_CODES RETCODE
+					   ,WARRANTS WAR
+					   ,CASE_PARTY_ROLES     CPR
+				WHERE WAR.CURRENTLY_OWNED_BY = ${param.courtId}
+				AND WAR.CURRENTLY_OWNED_BY = WAR.EXECUTED_BY
+				AND   WAR.WARRANT_TYPE != 'AO'
+				AND   WAR.WARRANT_ID = WARRET.WARRANT_ID
+				AND   TRUNC(WARRET.WARRANT_RETURN_DATE) = TO_DATE(${param.returnDate}, 'YYYY-MM-DD')
+				AND   WARRET.RETURN_CODE NOT IN ('AD','AI' )
+				AND   WARRET.ERROR_INDICATOR = 'N'
+				AND   WARRET.NOTICE_REQUIRED = 'Y'
+				AND   RETCODE.RETURN_CODE = WARRET.RETURN_CODE
+				AND   RETCODE.ADMIN_COURT_CODE = WARRET.RETURN_CODE_COURT_CODE
+				AND   RETCODE.RETURN_TYPE = 'I'  
+				AND   CPR.CASE_NUMBER (+) = WAR.CASE_NUMBER
+				AND   CPR.CASE_PARTY_NO (+) = WAR.REP_CASE_PARTY_NO
+				AND   CPR.PARTY_ROLE_CODE (+) = WAR.REP_PARTY_ROLE_CODE
+			</SQL>
+		</SQLLite>
+	</pipeline>
+	<Security roles="viewOnly medium high wcSuper scSuper bmsSuper aeSuper dmSuper edsAdmin"/>
+	<Transaction type="RequiresNew" />
+</service-method>

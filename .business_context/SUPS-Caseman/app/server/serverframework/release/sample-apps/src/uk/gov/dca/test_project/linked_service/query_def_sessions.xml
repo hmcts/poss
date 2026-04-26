@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<QueryDef>
+      <DBMapDef location="uk/gov/dca/test_project/linked_service/map_sessions.xml"/>
+      <Tables>
+        <Table alias="HTP" name="HEARINGTYPEPOLICY"/>
+    </Tables>
+
+      <Query pivotNode="/Sessions/Session" tables="S SR CSC NLR">
+        <LinkedJoin key="S.COURT_SESSION_ID" type="root">
+              <Join>
+                  SR.SERIES_ID = S.SERIES_ID AND
+                  S.STATUS = 0 AND
+                  CSC.COURT_SESSION_ID = S.COURT_SESSION_ID AND
+                  NLR.NONLISTINGREASON_ID(+) = SR.NONLISTINGREASON_ID AND
+                  S.SESSION_DATE &gt;= to_date('2005-11-06', 'YYYY-MM-DD') AND
+                  S.SESSION_DATE &lt;= to_date('2005-11-12', 'YYYY-MM-DD') AND
+                  SR.COURT_ID = 1
+              </Join>
+        </LinkedJoin>
+        <Modify notModifiable="true"/>
+      </Query>
+
+      <Query pivotNode="/Sessions/Session/JudgeCourtrooms/JudgeCourtroom" tables="SJC SJ SC J JT JJT CR SR">
+          <LinkedJoin key="J.JUDGE_ID" type="sub">
+              <Parent key="S.COURT_SESSION_ID" tables="S"/>
+              <Join>
+                  SR.SERIES_ID = S.SERIES_ID AND
+                  SJC.SERIES_ID = S.SERIES_ID AND
+                  SJC.ISACTIVE = &apos;T&apos; AND
+                  SJ.SERIES_ID = S.SERIES_ID AND
+                  SJ.ISACTIVE = &apos;T&apos; AND
+                  SC.SERIES_ID = S.SERIES_ID AND
+                  SC.ISACTIVE = &apos;T&apos; AND
+                  JJT.JUDGE_JUDGETYPE_ID = SJC.JUDGE_JUDGETYPE_ID AND
+                  JT.JUDGETYPE_ID = JJT.JUDGETYPE_ID AND
+                  SJ.JUDGE_ID = JJT.JUDGE_ID AND
+                  J.JUDGE_ID = SJ.JUDGE_ID AND
+                  SC.COURTROOM_ID = SJC.COURTROOM_ID AND
+                  CR.COURTROOM_ID = SC.COURTROOM_ID AND
+                  'T' = SR.ISLISTING
+              </Join>
+            </LinkedJoin>
+
+            <Modify notModifiable="true"/>
+      </Query>
+
+      <Query pivotNode="/Sessions/Session/Judges/Judge" tables="SJ J SR">
+          <LinkedJoin key="J.JUDGE_ID" type="query">
+              <Parent key="S.COURT_SESSION_ID" tables="S"/>
+              <Join>
+                 SJ.SERIES_ID = SR.SERIES_ID AND
+                 SR.SERIES_ID = S.SERIES_ID AND
+                 SJ.ISACTIVE = &apos;T&apos; AND
+                 J.JUDGE_ID = SJ.JUDGE_ID AND
+                 'F' = SR.ISLISTING  AND
+                  S.SESSION_DATE &gt;= to_date('2005-11-06', 'YYYY-MM-DD') AND
+                  S.SESSION_DATE &lt;= to_date('2005-11-12', 'YYYY-MM-DD') AND
+                  SR.COURT_ID = 1
+              </Join>
+          </LinkedJoin>
+
+          <Modify notModifiable="true"/>
+      </Query>
+
+      <Query pivotNode="/Sessions/Session/Courtrooms/Courtroom" tables="SC CR SR">
+          <LinkedJoin key="CR.COURTROOM_ID" type="query">
+              <Parent key="S.COURT_SESSION_ID" tables="S"/>
+              <Join>
+                  SC.SERIES_ID = SR.SERIES_ID AND
+                  SR.SERIES_ID = S.SERIES_ID AND
+                  SC.ISACTIVE = &apos;T&apos; AND
+                  CR.COURTROOM_ID = SC.COURTROOM_ID AND
+                 'F' = SR.ISLISTING AND
+                  S.SESSION_DATE &gt;= to_date('2005-11-06', 'YYYY-MM-DD') AND
+                  S.SESSION_DATE &lt;= to_date('2005-11-12', 'YYYY-MM-DD') AND
+                  SR.COURT_ID = 1
+              </Join>
+          </LinkedJoin>
+          <Modify notModifiable="true">
+          </Modify>
+      </Query>
+
+      <Query pivotNode="/Sessions/Session/Policy" tables="P SR">
+          <LinkedJoin key="P.POLICY_ID" type="query">
+              <Parent key="S.COURT_SESSION_ID" tables="S"/>
+              <Join>
+                  P.POLICY_ID = SR.POLICY_ID AND
+                  SR.SERIES_ID = S.SERIES_ID AND
+                  S.SESSION_DATE &gt;= to_date('2005-11-06', 'YYYY-MM-DD') AND
+                  S.SESSION_DATE &lt;= to_date('2005-11-12', 'YYYY-MM-DD') AND
+                  SR.COURT_ID = 1
+              </Join>
+          </LinkedJoin>
+          <Modify notModifiable="true"/>
+      </Query>
+
+      <Query pivotNode="/Sessions/Session/Policy/HearingTypes/HearingType" tables="HT HTP HC P SR">
+          <LinkedJoin key="HT.HEARINGTYPE_ID" type="sub">
+              <Parent key="S.COURT_SESSION_ID" tables="S"/>
+              <Parent key="P.POLICY_ID" tables="P"/>
+              <Join>
+                HTP.POLICY_ID = P.POLICY_ID AND
+                HTP.ISACTIVE = 'T' AND
+                HT.HEARINGTYPE_ID = HTP.HEARINGTYPE_ID AND
+                HC.HEARINGCATEGORY_ID = HT.HEARINGCATEGORY_ID
+             </Join>
+          </LinkedJoin>
+          <Modify notModifiable="true"/>
+      </Query>
+
+</QueryDef>

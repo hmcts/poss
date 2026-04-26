@@ -1,0 +1,31 @@
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>609</Id>
+	<Label>Who is the Defendant to pay direct to</Label>
+	<ObjectName>DefPayDirctTo</ObjectName>
+ 
+	<Html>	
+		<select id="DefPayDirctTo">
+			<option value=""></option>
+			<option value="CLM">Claimant</option>
+			<option value="LIT">Claimant's litigation friend</option>
+			<option value="SOLS">Claimant's solicitors</option>
+		</select>
+	</Html>	
+	
+			
+	<Javascript>
+		<XPath>/ds/EnterVariableData/Settlement/defPayDirctTo</XPath>
+		<componentName>##label##</componentName>
+		<isMandatory>return false;</isMandatory>
+		<HintText>Select who is the Defendant to pay direct to</HintText>
+		<enableOn>PayDirctToOtherParty.dataBinding</enableOn>
+		<isEnabled>return('Y' == Services.getValue(PayDirctToOtherParty.dataBinding));</isEnabled>
+		<logicOn>PayDirctToOtherParty.dataBinding</logicOn>
+		<logic>
+			if('Y' != Services.getValue(PayDirctToOtherParty.dataBinding))
+			{	Services.setValue(DefPayDirctTo.dataBinding, "");
+			}
+		</logic>	
+					
+	</Javascript>
+</Question>

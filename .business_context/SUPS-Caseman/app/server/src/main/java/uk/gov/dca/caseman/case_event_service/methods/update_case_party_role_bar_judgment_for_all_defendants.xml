@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<service-method>
+	<pipeline>
+		<Update>
+			<QueryDef location="uk/gov/dca/caseman/case_event_service/query_def_update_case_party_role_bar_judgment.xml"/>
+			<DataSource xpath="/params/param name='casePartyRole'"/>
+			<QueryExtension pivotNode="/CasePartyRole">
+				<CheckExists table="CPR" 
+							 fields="case_number party_role_code" 
+							 onNotExist="skip" onExist="update"
+							 useOptimisticLock="false"/>
+				<SQL type="update" tables="CPR">
+					UPDATE CASE_PARTY_ROLES CPR 
+					SET    CPR.DEFT_BAR_JUDGMENT = ${CPR.DEFT_BAR_JUDGMENT}
+					WHERE  CPR.CASE_NUMBER       = ${CPR.CASE_NUMBER}
+					AND    CPR.PARTY_ROLE_CODE   = ${CPR.PARTY_ROLE_CODE}
+				</SQL>
+			</QueryExtension>
+		</Update>
+	</pipeline>
+	<Security roles="user"/>
+</service-method>

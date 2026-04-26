@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>681</Id>
+	<Label>Telephone Number</Label>
+	<ObjectName>TelephoneNumber</ObjectName>
+	<Html>
+	   <input type="text" id="TelephoneNumber"></input>
+	</Html>
+	<Javascript>
+		<XPath>/ds/EnterVariableData/Solicitor/ContactDetails/telephoneNumber</XPath>
+		<isMandatory>return false;</isMandatory>
+		<mandatoryOn>TelephoneNumber.dataBinding</mandatoryOn>	
+		<HintText>Enter Telephone Number</HintText>
+		<maxLength>24</maxLength>
+		<enableOn>NewAddressForService.dataBinding</enableOn>
+		<isEnabled>return('ACK' == Services.getValue(NewAddressForService.dataBinding));</isEnabled>
+		<logicOn>NewAddressForService.dataBinding</logicOn>
+		<logic>
+			if('ACK' != Services.getValue(NewAddressForService.dataBinding))
+			{	Services.setValue(TelephoneNumber.dataBinding, "");
+			}
+			else if( null != solNode )
+			{	var telNoNode = solNode.selectSingleNode("./ContactDetails/TelephoneNumber");
+			    if( null != telNoNode)
+				{ Services.setValue(TelephoneNumber.dataBinding, XML.getNodeTextContent( telNoNode));}
+			}
+		</logic>
+		<readOnlyOn>NewAddressForService.dataBinding</readOnlyOn>
+		<isReadOnly>return areAddressFieldsReadOnly();</isReadOnly>
+	</Javascript>
+</Question>

@@ -1,0 +1,231 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3c.org/TR/html4/strict.dtd">
+<html>
+	<head>
+		<title>CreatePayment</title>
+		<link href="CreatePayment.css" type="text/css" rel="stylesheet" />
+		<script type="text/javascript" src="../../Framework.js"></script>
+		<script type="text/javascript" src="../../CaseManIncludeFiles.js"></script>
+		<script type="text/javascript" src="../../StartOfDayUtils.js"></script>
+		<script type="text/javascript" src="CreatePayment.js"></script>
+		<script type="text/javascript" src="CreatePaymentMenuBar.js"></script>
+	</head>
+	
+	<body tabindex="-1">
+		<form name="CreatePayment" id="CreatePayment">
+		
+			<!-- Exit Button -->
+			<div class="exitScreenAdaptor" id="exitScreenHandler"></div>
+			
+			<!-- Navigation Bar (Not Framework) -->
+			<table class="CaseManMenuBar">
+				<tr>
+					<td>
+						<input id="Navigation_CreateCaseBtn" type="button" value="Cases" />
+						<input id="Navigation_CaseEventsBtn" type="button" value="Events" />
+						<input id="Navigation_WarrantsBtn" type="button" value="Warrants" />
+						<input id="Navigation_AeBtn" type="button" value="AE" />
+						<input id="Navigation_CoBtn" type="button" value="CO" />
+						<input id="Navigation_QueryBtn" type="button" value="Query" />
+					</td>
+				</tr>
+			</table>
+			
+			<table class="layout">
+				
+				<!-- Header Panel -->
+				<tr>
+					<td>
+						<div class="panel">
+							<table class="content">
+								<tr>
+									<td>
+										<table style="margin-right:5px; margin-top:5px; margin-bottom:5px;">
+											<tr>
+												<td class="headerLabel"><label for="Header_EnforcementNumber">Case/Enforcement Number</label></td>
+												<td><input id="Header_EnforcementNumber" type="text" size="15" /></td>
+												<td style="width:130px;">&nbsp;</td>
+												<td class="headerLabel"><label for="Header_UserCourtCode">Payment Owning Court</label></td>
+												<td><input id="Header_UserCourtCode" type="text" size="5" /></td>
+												<td colspan="2"><input id="Header_UserCourtName" type="text" size="32" /></td>
+											</tr>
+											<tr>
+												<td><label for="Header_EnforcementType">Case/Enforcement Type</label></td>
+												<td><select id="Header_EnforcementType" /></td>
+												<td style="width:130px;">&nbsp;</td>
+												<td><label for="Header_ExecutingCourtCode">Warrant Executing Court</label></td>
+												<td><input id="Header_ExecutingCourtCode" type="text" size="5" /></td>
+												<td>
+													<script type="text/javascript">
+														AutoCompletionRenderer.createInline("Header_ExecutingCourtName");
+													</script>
+												</td>
+												<td>&nbsp;<input id="Court_LovBtn" type="button" value="LOV" /></td>
+											</tr>
+											<tr>
+												<td colspan="7" align="right"><input id="Header_SearchBtn" type="button" value="Search" /></td>
+											</tr>
+										</table>
+									</td>
+								</tr>
+							</table>
+						</div>
+					</td>
+				</tr>
+				<!-- End Header Panel -->
+				
+				<tr>
+					<td>
+						<div class="panel">
+							<table class="content">
+								<tr>
+									<td valign="top">
+										<table>
+											<tr>
+												<td>
+													<script type="text/javascript">
+														Grid.createInline("Parties_Grid", ["Party Type", "Number", "Name"], 4, 1);
+													</script>
+												</td>
+											</tr>
+										</table>
+									</td>
+									
+									<td class="spacer">&nbsp;</td>
+									
+									<td valign="top">
+										<table style="margin-top:5px; margin-right:5px;">
+											<tr>
+												<td class="paymentLabel"><label for="Payment_Amount">Amount</label></td>
+												<td>
+													<input id="Payment_AmountCurrency" type="text" size="1">
+													<input id="Payment_Amount" type="text" size="15" />
+												</td>
+											</tr>
+											<tr><td colspan="2">&nbsp;</td></tr>
+											<tr>
+												<td class="paymentLabel"><label for="Payment_Type">Payment Type</label></td>
+												<td><select id="Payment_Type" /></td>
+											</tr>
+											<tr>
+												<td class="paymentLabel"><label for="Payment_RetentionType">Retention Type</label></td>
+												<td><select id="Payment_RetentionType" /></td>
+											</tr>
+										</table>
+									</td>
+								</tr>
+							</table>
+						</div>
+					</td>
+				</tr>
+																	
+				<tr>
+					<td>
+						<div class="panel">
+							<table class="content">
+								<tr>
+									<td style="height:368px;" valign="top">
+										<table style="margin-top:5px;">
+											<tr>
+												<td class="defaultLabel"><label for="Lodgment_Name">Paid in By</label></td>
+												<td>
+													<input id="Lodgment_Name" type="text" size="90" />&nbsp;
+													<input id="Lodgment_LovBtn" type="button" value="LOV" />
+												</td>
+											</tr>
+											<tr><td colspan="2">&nbsp;</td></tr>
+											<tr>
+												<td colspan="2"><hr /></td>
+											</tr>
+											<tr><td colspan="2">&nbsp;</td></tr>
+											<tr>
+												<td class="defaultLabel"><label for="Payee_Name">Payee</label></td>
+												<td>
+													<input id="Payee_PartyCode" type="text" size="5" />
+													<input id="Payee_Name" type="text" size="80" />&nbsp;
+													<input id="Payee_LovBtn" type="button" value="LOV" />
+												</td>
+											</tr>
+											<tr>
+												<td class="defaultLabel"><label for="Payee_Address1">Address</label></td>
+												<td><input id="Payee_Address1" type="text" size="60" /></td>
+											</tr>
+											<tr>
+												<td class="defaultLabel"><label for="Payee_Address2"></label></td>
+												<td><input id="Payee_Address2" type="text" size="60" /></td>
+											</tr>
+											<tr>
+												<td class="defaultLabel"><label for="Payee_Address3"></label></td>
+												<td><input id="Payee_Address3" type="text" size="60" /></td>
+											</tr>
+											<tr>
+												<td class="defaultLabel"><label for="Payee_Address4"></label></td>
+												<td><input id="Payee_Address4" type="text" size="60" /></td>
+											</tr>
+											<tr>
+												<td class="defaultLabel"><label for="Payee_Address5"</label></td>
+												<td><input id="Payee_Address5" type="text" size="60" /></td>
+											</tr>
+											<tr>
+												<td class="defaultLabel"><label for="Payee_PostCode">Postcode</label></td>
+												<td><input id="Payee_PostCode" type="text" size="20" /></td>
+											</tr>
+											<tr>
+												<td class="defaultLabel"><label for="Payee_DXNumber">DX Number</label></td>
+												<td><input id="Payee_DXNumber" type="text" size="50" /></td>
+											</tr>
+											<tr>
+												<td class="defaultLabel"><label for="Payee_Reference">Reference</label></td>
+												<td><input id="Payee_Reference" type="text" size="50" /></td>
+											</tr>
+										</table>
+									</td>
+								</tr>
+							</table>
+						</div>
+					</td>
+				</tr>
+			</table>
+	  
+			<!-- Status Bar -->
+			<script type="text/javascript">
+				ActionBarRenderer.createInline(
+					"status_bar",
+					[
+						{id: "Status_SaveBtn", label: "Save"},
+						{id: "Status_ClearBtn", label: "Clear"},
+						{id: "Status_CloseBtn", label: "Close"}
+					]
+				);
+			</script>
+						
+			<!-- LOV Popups -->
+			<script type="text/javascript">
+				LOVPopupRenderer.createInline("Lov_Court", "Courts", ["Code", "Court"], 10, 1, true);
+			</script>
+														
+			<script type="text/javascript">
+				LOVPopupRenderer.createInline(
+					"Lov_SearchResults",
+					"Enforcements List",
+					[
+						"Type", "Case/Enf No", "Executing Court", "Issuing Court",
+						"Party Against 1", "Party Against 2", "O/S"
+					],
+					10,
+					1,
+					false
+				);
+			</script>
+														
+			<script type="text/javascript">
+				LOVPopupRenderer.createInline(
+					"Lov_Lodgment", "Paid In By", ["Role", "Party Name"], 10, 1, false
+				);
+			</script>
+														
+			<!-- SUBFORMS -->
+			<div class="popup popupsubform" id="codedPartySearch_subform"></div>
+			
+		</form>
+	</body>
+</html>

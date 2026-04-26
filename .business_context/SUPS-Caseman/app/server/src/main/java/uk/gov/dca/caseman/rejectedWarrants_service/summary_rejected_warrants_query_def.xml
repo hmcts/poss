@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<QueryDef>
+	<DBMapDef location="uk/gov/dca/caseman/rejectedWarrants_service/summary_rejected_warrants_map.xml"/>
+	<Query pivotNode="/RejectedWarrants/RejectedWarrant" tables="RW RR CRC">	
+		<Join>
+			RW.REJECT_CODE = RR.REJECT_CODE AND
+			CRC.RV_LOW_VALUE (+) = RW.DEFENDANT_PCM AND 
+			CRC.RV_DOMAIN (+) = 'PREF_COMM_METHOD' 		
+  	    </Join>
+		<Modify/>
+	</Query>
+	
+	
+</QueryDef>

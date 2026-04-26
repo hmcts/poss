@@ -1,0 +1,192 @@
+/* Form display inline style */
+form#manageCOEvents
+{
+	display: inline;
+}
+
+/* Label widths */
+td.detailsLabel { width: 100px; }
+td.popupLabel { width: 125px; }
+
+/* Field widths */
+#Master_COEventDescription { width: 375px; }
+#EventDetails_Details { width: 350px; }
+#AddEvent_Details { width: 380px; }
+#EventDetails_Service { width: 100px; }
+#AddEvent_Service { width: 100px; }
+#AddEvent_Stage { width: 150px; }
+
+/* Field Margins */
+#AddEvent_DateReceived { margin-top: 5px; }
+
+/**************************************** SUBFORMS ******************************************/
+
+#selectEventOutput_subform
+{
+	left: 50%;
+	top: 50%;
+	margin-left: -190px;
+	margin-top: -130px;
+	width: 380px;
+	height: 259px;
+}
+
+/****************************************** GRID ********************************************/
+
+#Master_COEventGrid
+{
+	margin: 5px;
+	width: 460px;
+}
+
+#Master_COEventGrid .col0 { width: 16px; }
+#Master_COEventGrid .col1 { width: 75px; }
+#Master_COEventGrid .col2 { width: 45px; }
+#Master_COEventGrid .col3 { width: 230px; }
+#Master_COEventGrid .col4 { width: 39px; }
+#Master_COEventGrid .col5 
+{
+	text-align: center;
+	width: 10px;
+}
+
+#Master_COEventGrid .errorClass
+{
+    background: #d3e7d3;
+    border-color: #d3e7d3;
+}
+
+#Master_COEventGrid .errorEditOutputClass
+{
+    background: #d3e7d3;
+    border-color: #d3e7d3;
+}
+
+#Master_COEventGrid .errorEditOutputClass .col0
+{
+	background: url('../caseman_wp/WordProcessor/wordprocessing/images/buttons/icon_edt_table.gif') center left no-repeat;
+}
+
+#Master_COEventGrid .editOutputClass .col0
+{
+	background: url('../caseman_wp/WordProcessor/wordprocessing/images/buttons/icon_edt_table.gif') center left no-repeat;
+}
+
+#Master_COEventGrid .errorOpenOutputClass
+{
+    background: #d3e7d3;
+    border-color: #d3e7d3;
+}
+
+#Master_COEventGrid .errorOpenOutputClass .col0
+{
+	background: url('../caseman_wp/WordProcessor/wordprocessing/images/buttons/acrobat-icon.gif') center left no-repeat;
+}
+
+#Master_COEventGrid .openOutputClass .col0
+{
+	background: url('../caseman_wp/WordProcessor/wordprocessing/images/buttons/acrobat-icon.gif') center left no-repeat;
+}
+
+#Master_COEventGrid .errorFailOutputClass
+{
+    background: #d3e7d3;
+    border-color: #d3e7d3;
+}
+
+#Master_COEventGrid .errorFailOutputClass .col0
+{
+	background: url('../caseman_wp/WordProcessor/wordprocessing/images/buttons/docError.gif') center left no-repeat;
+}
+
+#Master_COEventGrid .failOutputClass .col0
+{
+	background: url('../caseman_wp/WordProcessor/wordprocessing/images/buttons/docError.gif') center left no-repeat;
+}
+
+#QueryPopup_CONumberGrid .col0 { width: 100px; }
+#QueryPopup_CONumberGrid .col1 { width: 100px; }
+#QueryPopup_CONumberGrid .col2 { width: 205px; }
+#QueryPopup_CONumberGrid .col3 { width: 200px; }
+#QueryPopup_CONumberGrid .col4 { width: 100px; }
+
+/***************************************** POP-UPS ******************************************/
+
+div#AddEvent_Popup
+{
+	visibility: hidden;
+	position: absolute;
+	left: 50%;
+	margin-left: -283px;
+	margin-top: -119px;
+	top: 50%;
+	width: 565px;
+	height: 238px;
+}
+		
+div#QueryCO_Popup
+{
+	visibility: hidden;
+	position: absolute;
+	left: 50%;
+	margin-left: -385px;
+	margin-top: -129px;
+	top: 50%;
+	width: 770px;
+	height: 258px;
+}
+
+/************************************* LOV POPUPS *****************************************/
+
+#Query_OwningCourtLOVGrid
+{
+	height: 302px;
+	width: 372px;
+	left: 50%;
+	margin-left: -186px;
+	margin-top: -151px;
+	top: 50%;
+}
+
+#Master_COEventLOVGrid
+{
+	height: 302px;
+	width: 422px;
+	left: 50%;
+	margin-left: -211px;
+	margin-top: -151px;
+	top: 50%;
+}
+
+#Master_COEventLOVGrid .col0 { width: 50px; }
+#Master_COEventLOVGrid .col1 { width: 300px; }
+
+#AddEvent_DetailsLOVGrid
+{
+	height: 302px;
+	width: 472px;
+	left: 50%;
+	top: 50%;
+	margin-top: -151px;
+	margin-left: -236px;
+}
+
+#AddEvent_PartyDetailsLOVGrid
+{
+	height: 302px;
+	width: 373px;
+	left: 50%;
+	top: 50%;
+	margin-top: -151px;
+	margin-left: -187px;
+}
+
+#AddEvent_CreditorLOVGrid
+{
+	height: 302px;
+	width: 456px;
+	left: 50%;
+	margin-left: -228px;
+	margin-top: -151px;
+	top: 50%;
+}

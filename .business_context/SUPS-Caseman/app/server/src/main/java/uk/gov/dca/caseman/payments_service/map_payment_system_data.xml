@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: Payments
+	Method: getPaymentSystemData()
+	File: map_payment_system_data.xml
+	Author: Steve Blair
+-->
+<DBMapDef>
+	<DataSource id="java:OracleDS" />
+	<Tables>
+		<Table alias="S" name="SYSTEM_DATA" />
+	</Tables>
+	<Mapping>
+		<SystemData>
+			<Item>
+				<Name>${S.ITEM}</Name>
+				<Value>${S.ITEM_VALUE}</Value>
+			</Item>
+		</SystemData>
+	</Mapping>
+</DBMapDef>

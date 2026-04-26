@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: NoticeOfIssue
+	Method:  getOutputDocumentFlow()
+	File:    get_output_document_flow.xml
+	Author:  Frederik Vandendriessche (EDS)
+	Created: 02 September 2005
+	Description: 
+		Retrieve CaseMan Word Processing Output Document Flow Data
+-->
+<service-method>
+	<pipeline>
+		<Query>
+			<QueryDef location="uk/gov/dca/caseman/noticeofissue_service/query_def_output_document_flow.xml"/>
+			<QueryExtension pivotNode="/Outputs/Output">
+				<Param name="param.eventSeq" xpath="/params/param[@name = 'eventSeq']"/>
+				<Constraint>WPO.EVENT_SEQ = ${param.eventSeq}</Constraint>
+			</QueryExtension>
+		</Query>
+		</pipeline>
+	<Security roles="user viewOnly medium high wcSuper scSuper bmsSuper aeSuper dmSuper cpSuper ccbcMan ccbcUser ccbcSGB2"/>	
+</service-method>

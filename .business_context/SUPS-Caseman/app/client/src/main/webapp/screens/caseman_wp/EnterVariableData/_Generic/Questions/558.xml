@@ -1,0 +1,49 @@
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>558</Id>
+	<Label>Amount of surety sum 2, if applicable</Label>
+	<ObjectName>SuretySum2</ObjectName>
+	<Html>	
+		<input type="text" id="DefaultCurrency558" size="1"></input>
+		<input type="text" id="SuretySum2"  size="11" maxlength="11"></input>
+	</Html>			
+	<Javascript>
+		<XPath>/ds/EnterVariableData/Remand/suretySum2</XPath>
+		<componentName>##label##</componentName>
+		<isMandatory>return false;</isMandatory>
+		<HintText>Enter the amount of the second surety sum</HintText>
+		<maxLength>11</maxLength>	
+		<enableOn>SuretySum1.dataBinding</enableOn>
+		<isEnabled>
+  			var val = Services.getValue(SuretySum1.dataBinding);
+  			return( null != val &amp;&amp; "" != val);
+		</isEnabled>
+		<logicOn>SuretySum1.dataBinding</logicOn>
+		<logic>
+			var val = Services.getValue(SuretySum1.dataBinding);
+  			if( null == val || "" == val)
+  			{	Services.setValue(SuretySum2.dataBinding, "");
+  			}
+		</logic>		
+		<validateOn>SuretySum2.dataBinding</validateOn>
+		<validate>
+			var val = Services.getValue(SuretySum2.dataBinding);
+			var err = validateCurrencyValue(val, 99999999.99);
+			if( null == err )
+			{	Services.setValue(SuretySum2.dataBinding, WPU.formatToTwoDP(val));
+			}
+			return err;
+		</validate>
+		<miscCode>
+			function DefaultCurrency558() {}
+			DefaultCurrency558.dataBinding = "/ds/EnterVariableData/curr1";
+			DefaultCurrency558.tabIndex = -1;
+			DefaultCurrency558.maxLength = 1;
+			DefaultCurrency558.isReadOnly = function(){return true;}
+			DefaultCurrency558.isTemporary = function(){return true;}
+			DefaultCurrency558.transformToDisplay = function(value){
+				return WPS.__CaseManUtils().transformCurrencySymbolToDisplay(value,null,null); }
+			DefaultCurrency558.transformToModel = function(value){
+				return WPS.__CaseManUtils().transformCurrencySymbolToModel(value,null,null); }
+		</miscCode>
+	</Javascript>
+</Question>

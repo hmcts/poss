@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: Co
+	Method:  getCoDebtCreditorAndPayee()
+	File:    get_co_debt_creditor_and_payee.xml
+	Author:  Phil Haferer (EDS)
+	Created: 02 September 2005
+	Description: 
+		Retrieve the details relating to a particular Creditor and their Payee within a Case, for the purpose
+		of associating them with a Consolidated Order Allowed Debt.
+		
+	Amended:24 November 2005
+	Amended By: MGG
+	Description: 
+		Added roles to security tag
+-->
+<service-method>
+	<pipeline>
+		<Query>
+			<QueryDef location="uk/gov/dca/caseman/co_service/query_def_get_co_debt_creditor.xml"/>
+			<QueryExtension pivotNode="/ds/Debt">
+				<Param name="param.caseNumber"    xpath="/params/param[@name = 'caseNumber']"/>
+				<Param name="param.partyRoleCode" xpath="/params/param[@name = 'partyRoleCode']"/>
+				<Param name="param.casePartyNo"   xpath="/params/param[@name = 'casePartyNo']"/>
+				<Constraint>C.CASE_NUMBER=${param.caseNumber}</Constraint>
+			</QueryExtension>
+		</Query>
+		<!-- If the Creditor has a Payee, retrieve then as well and add them to XML document. -->
+		<Java callStyle="new">
+			<Source class="uk.gov.dca.caseman.co_service.java.GetCoDebtPayeeCustomProcessor"/>
+		</Java>
+	</pipeline>
+	<Security roles="viewOnly medium high wcSuper scSuper bmsSuper aeSuper dmSuper cpSuper"/>
+</service-method>

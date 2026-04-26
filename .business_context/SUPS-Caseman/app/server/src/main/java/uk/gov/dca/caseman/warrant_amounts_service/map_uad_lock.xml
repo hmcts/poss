@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<DBMapDef>
+  <DataSource id="java:OracleDS"/>
+  <Tables>
+	<Table alias="W" name="WARRANTS"/>
+    <Table alias="F" name="FEES_PAID"/>
+  </Tables>
+  <Mapping>
+    <ds>
+	  <WarrantData>
+		  <WarrantId>${W.WARRANT_ID}</WarrantId>
+	  </WarrantData>
+	  <WarrantAmounts>
+		<Warrant>
+		  <FeesPaidId>${F.FEES_PAID_ID}</FeesPaidId>
+		  <ProcessNumber>${F.PROCESS_NUMBER}</ProcessNumber>
+		  <ProcessType>${F.PROCESS_TYPE}</ProcessType>
+		  <AllocationDate>${F.ALLOCATION_DATE}</AllocationDate>
+		  <Amount>${F.AMOUNT}</Amount>
+		  <AmountCurrency>${F.AMOUNT_CURRENCY}</AmountCurrency>
+		  <IssuingCourtCode>${F.ISSUING_COURT}</IssuingCourtCode>
+		  <UserId>${F.USER_ID}</UserId>
+		  <DateCreated>${F.DATE_CREATED}</DateCreated>
+		  <Deleted>${F.DELETED_FLAG}</Deleted>
+		</Warrant>
+	  </WarrantAmounts>
+    </ds>
+  </Mapping>
+</DBMapDef>

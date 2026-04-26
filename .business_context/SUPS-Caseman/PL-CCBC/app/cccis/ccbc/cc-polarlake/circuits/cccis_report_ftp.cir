@@ -1,0 +1,1725 @@
+<?xml version="1.0" encoding="utf-8"?>
+<pl:system-content xmlns:pl="http://www.polarlake.com/platform/1.0">
+    <pl:circuit name="cccis_report_ftp">
+        <pl:definitions>
+            <pl:definition name="SchedulerModuleApplicationCircuit" value="file:///{pl$polarlake_home}/SchedulerModule/circuits/SchedulerModule.cir"/>
+            <pl:definition name="ftp_rep_doc" value="file:///{pl$ftp_rep_home}/doc/ftp_rep_doc.html"/>
+            <pl:definition name="cccis_ftp_rep_db_connect" value="file:///{pl$ftp_rep_home}/circuits/cccis_report_ftp_db_connect.cir"/>
+        </pl:definitions>
+        <pl:importcircuit name="com.polarlake.circuits.BaseCircuit"/>
+        <pl:importcircuit name="SchedulerModuleApplicationCircuit"/>
+        <pl:importcircuit name="cccis_ftp_rep_db_connect"/>
+        <pl:importmodule name="com.polarlake.platform.databasemodule.DatabaseModuleApplication"/>
+        <pl:importmodule name="com.polarlake.scheduler.SchedulerModuleApplication"/>
+        <pl:importmodule name="com.polarlake.platform.MapperApplication"/>
+        <pl:importmodule name="com.polarlake.SnmpTrapModule"/>
+        <pl:documentation name="ftp_rep_doc"/>
+        <pl:application-data name="Resources" type="Resources">
+            <pl:application-data name="Functions" type="functions" application="com.polarlake.platform.librarymodule.LibraryModuleApplication">
+                <pl:application-data name="storeRepIds" type="function" application="com.polarlake.platform.librarymodule.LibraryModuleApplication" value="">
+                    <pl:application-data name="type" type="property" application="com.polarlake.platform.librarymodule.LibraryModuleApplication" value="beanshell"/>
+                    <pl:application-data name="methodName" type="property" application="com.polarlake.platform.librarymodule.LibraryModuleApplication" value="storeRepIds"/>
+                    <pl:application-data name="category" type="property" application="com.polarlake.platform.librarymodule.LibraryModuleApplication" value="Miscellaneous"/>
+                    <pl:application-data name="script" type="property" application="com.polarlake.platform.librarymodule.LibraryModuleApplication" value="String storeRepIds(String[] args){&#10;   String s= &quot;&quot;;&#10;&#10;   for(int i=0;i&lt; args.length;i++){&#10;      s += args[i];&#10;      if(i != (args.length-1))&#10;         s+= &quot;,&quot;;&#10;   }&#10;   return s;&#10;}"/>
+                    <pl:application-data name="description" type="property" application="com.polarlake.platform.librarymodule.LibraryModuleApplication" value=""/>
+                </pl:application-data>
+                <pl:application-data name="getMaxString200" type="function" application="com.polarlake.platform.librarymodule.LibraryModuleApplication" value="">
+                    <pl:application-data name="type" type="property" application="com.polarlake.platform.librarymodule.LibraryModuleApplication" value="beanshell"/>
+                    <pl:application-data name="methodName" type="property" application="com.polarlake.platform.librarymodule.LibraryModuleApplication" value="getMaxString200"/>
+                    <pl:application-data name="category" type="property" application="com.polarlake.platform.librarymodule.LibraryModuleApplication" value="Miscellaneous"/>
+                    <pl:application-data name="script" type="property" application="com.polarlake.platform.librarymodule.LibraryModuleApplication" value="String getMaxString200(String arg){&#10;    String s = arg;&#10;    if(s.length() &gt;150){&#10;        return s.substring(0,200);&#10;    }else{&#10;        return s;&#10;    }&#10;}"/>
+                    <pl:application-data name="description" type="property" application="com.polarlake.platform.librarymodule.LibraryModuleApplication" value=""/>
+                </pl:application-data>
+                <pl:application-data name="tagConvert" type="function" application="com.polarlake.platform.librarymodule.LibraryModuleApplication" value="">
+                    <pl:application-data name="type" type="property" application="com.polarlake.platform.librarymodule.LibraryModuleApplication" value="beanshell"/>
+                    <pl:application-data name="methodName" type="property" application="com.polarlake.platform.librarymodule.LibraryModuleApplication" value="tagConvert"/>
+                    <pl:application-data name="category" type="property" application="com.polarlake.platform.librarymodule.LibraryModuleApplication" value="Miscellaneous"/>
+                    <pl:application-data name="script" type="property" application="com.polarlake.platform.librarymodule.LibraryModuleApplication" value="import org.jdom.input.SAXBuilder;&#10;import org.jdom.output.Format;&#10;import org.jdom.output.XMLOutputter;&#10;&#10;String tagConvert(String arg){&#10;   private XMLOutputter out = new XMLOutputter(Format.getCompactFormat()); &#10;&#10;   SAXBuilder builder = new SAXBuilder();  &#10;   &#10;   return out.outputString(builder.build(new StringReader(arg)).getRootElement()); &#10;}"/>
+                    <pl:application-data name="description" type="property" application="com.polarlake.platform.librarymodule.LibraryModuleApplication" value=""/>
+                </pl:application-data>
+                <pl:application-data name="getFileType" type="function" application="com.polarlake.platform.librarymodule.LibraryModuleApplication" value="">
+                    <pl:application-data name="type" type="property" application="com.polarlake.platform.librarymodule.LibraryModuleApplication" value="beanshell"/>
+                    <pl:application-data name="methodName" type="property" application="com.polarlake.platform.librarymodule.LibraryModuleApplication" value="getFileType"/>
+                    <pl:application-data name="category" type="property" application="com.polarlake.platform.librarymodule.LibraryModuleApplication" value="Miscellaneous"/>
+                    <pl:application-data name="script" type="property" application="com.polarlake.platform.librarymodule.LibraryModuleApplication" value="String getFileType(String arg){&#10;&#10;   if(arg == null)&#10;      return &quot;&quot;;&#10;&#10;   String[] mimeParams = arg.split(&quot;/&quot;);&#10;&#10;   if(mimeParams.length &lt;=1)&#10;      return &quot;&quot;;&#10;&#10;   return mimeParams[1];&#10;}"/>
+                    <pl:application-data name="description" type="property" application="com.polarlake.platform.librarymodule.LibraryModuleApplication" value="Returns the file type from the MIME type string passed in."/>
+                </pl:application-data>
+            </pl:application-data>
+            <pl:application-data name="Initial Contexts" type="initialcontexts" application="com.polarlake.platform.librarymodule.LibraryModuleApplication"/>
+            <pl:application-data name="Scripts" type="scripts" application="com.polarlake.platform.librarymodule.LibraryModuleApplication">
+                <pl:application-data name="JDOM Process" type="script" application="com.polarlake.platform.librarymodule.LibraryModuleApplication" value="">
+                    <pl:application-data name="url" type="property" application="com.polarlake.platform.librarymodule.LibraryModuleApplication" value=""/>
+                    <pl:application-data name="remote" type="property" application="com.polarlake.platform.librarymodule.LibraryModuleApplication" value="false"/>
+                    <pl:application-data name="type" type="property" application="com.polarlake.platform.librarymodule.LibraryModuleApplication" value="beanshell"/>
+                    <pl:application-data name="cache" type="property" application="com.polarlake.platform.librarymodule.LibraryModuleApplication" value="never_resolve"/>
+                    <pl:application-data name="script" type="property" application="com.polarlake.platform.librarymodule.LibraryModuleApplication" value="import org.jdom.*;&#10;import org.jdom.input.*;&#10;import org.jdom.output.*;&#10;import com.polarlake.platform.api.*;&#10;import com.polarlake.platform.api.helper.*;&#10;import com.polarlake.platform.api.exception.*;&#10;&#10;/**&#10; * A JDOM beanshell must return a JDOM document.&#10; */&#10;Document processDocument(Document doc) {&#10;   return doc;&#10;}"/>
+                    <pl:application-data name="description" type="property" application="com.polarlake.platform.librarymodule.LibraryModuleApplication" value="A PolarLake Platform Beanshell script must be coded to return a JDOM document.They can be composed from calls to imported modules as well as local methods.Only the first method in the script will be executed, so it should make any appropriate method calls if the entire script is not contained in it."/>
+                </pl:application-data>
+            </pl:application-data>
+            <pl:application-data name="Statistics sensors" type="sensors" application="com.polarlake.sysinfo.SystemInformation"/>
+            <pl:application-data name="Condition Groups" type="conditiongroups" application="com.polarlake.platform.librarymodule.LibraryModuleApplication"/>
+            <pl:application-data name="XML Wrapper Request Processors" type="Wrapper-Request-Processors" application="com.polarlake.requestprocessors.wrapper.WrapperApplication"/>
+            <pl:application-data name="Document Variables" type="documentvariables" application="SYSTEM">
+                <pl:application-data name="vReportDoc" type="document">
+                    <pl:application-data name="schema" type="property" application="" value="ftp_report_control"/>
+                    <pl:application-data name="type" type="property" application="" value="xml"/>
+                    <pl:application-data name="root" type="property" application="" value="/ftp_report_record_list/ftp_report_record"/>
+                </pl:application-data>
+            </pl:application-data>
+            <pl:application-data name="Format Request processors" type="FormatRequestProcessors" application="com.polarlake.platform.librarymodule.LibraryModuleApplication"/>
+            <pl:application-data name="Server Document Variables" type="serverdocumentvariables" application="SYSTEM"/>
+            <pl:application-data name="Databases" type="dbroot" application="com.polarlake.platform.databasemodule.DatabaseModuleApplication"/>
+            <pl:application-data name="ScheduledEvents" type="ScheduledEvents" application="com.polarlake.scheduler.SchedulerModuleApplication">
+                <pl:application-data name="DB Rep Poller" type="ScheduledEvent">
+                    <pl:application-data name="Poller" type="Schedule">
+                        <pl:application-data name="Seconds" type="property" application="" value="{pl$poll_at_secs_past_minute}"/>
+                        <pl:application-data name="Minutes" type="property" value="{pl$poll_at_minutes_past_hour}"/>
+                        <pl:application-data name="Hours" type="property" value="*"/>
+                        <pl:application-data name="Day-of-Month" type="property" value="*"/>
+                        <pl:application-data name="Month" type="property" value="*"/>
+                        <pl:application-data name="Day-of-Week" type="property" value="?"/>
+                    </pl:application-data>
+                </pl:application-data>
+            </pl:application-data>
+        </pl:application-data>
+        <pl:seqlist name="Main Sequence"/>
+        <pl:seqlist name="Exception Sequence">
+            <pl:eventprocessor name="pl:printmessage" disable="false">
+                <pl:parameter name="design">
+                    <pl:parameter name="uid" value="3"/>
+                    <pl:parameter name="alias" value="Print Exception Message"/>
+                </pl:parameter>
+                <pl:parameter name="trigger" value="start"/>
+                <pl:parameter name="message" value="*************************************************&#10;=&gt; View:         Main View&#10;=&gt; Sequence: Exception Sequence&#10;=&gt; Message:   SYSTEM EXCEPTION.&#10;_________________________________"/>
+                <pl:parameter name="use_log4j" value="true"/>
+                <pl:parameter name="log_level" value="ERROR"/>
+            </pl:eventprocessor>
+            <pl:eventprocessor name="pl:trap" disable="false">
+                <pl:parameter name="design">
+                    <pl:parameter name="uid" value="162"/>
+                    <pl:parameter name="alias" value="SNMP Trap"/>
+                </pl:parameter>
+                <pl:parameter name="beforestart" value="Fatal Exception in circuit cccis_report_ftp"/>
+                <pl:parameter name="afterstart" value=""/>
+                <pl:parameter name="beforeend" value=""/>
+                <pl:parameter name="afterend" value=""/>
+                <pl:parameter name="host" value="{pl$snmp_address}"/>
+                <pl:parameter name="port" value="162"/>
+                <pl:parameter name="version1" value="false"/>
+            </pl:eventprocessor>
+            <pl:eventprocessor name="pl:script" disable="false">
+                <pl:parameter name="design">
+                    <pl:parameter name="uid" value="2"/>
+                    <pl:parameter name="alias" value="Output Exception"/>
+                </pl:parameter>
+                <pl:parameter name="name" value="outputDocument"/>
+            </pl:eventprocessor>
+            <pl:eventprocessor name="pl:starttransaction" disable="false">
+                <pl:parameter name="design">
+                    <pl:parameter name="uid" value="164"/>
+                    <pl:parameter name="alias" value="DB Start"/>
+                </pl:parameter>
+                <pl:parameter name="trigger" value="start"/>
+                <pl:parameter name="connection" value="DBConnect"/>
+                <pl:parameter name="transaction_key" value="TK_UPDATE_HEARTBEAT_ERR"/>
+                <pl:parameter name="transaction_level" value="0"/>
+            </pl:eventprocessor>
+            <pl:eventprocessor name="pl:sqltoxml" disable="false">
+                <pl:parameter name="design">
+                    <pl:parameter name="uid" value="166"/>
+                    <pl:parameter name="alias" value="DB SQL"/>
+                </pl:parameter>
+                <pl:parameter name="transaction_key" value="TK_UPDATE_HEARTBEAT_ERR"/>
+                <pl:parameter name="sql" value="insert into PL_XML_STATUS (sequence_no, circuit_name, shell_circuit_id,date_time_stamp, status) values(PL_XML_STATUS_SEQ.nextval,?,?,sysdate,?)"/>
+                <pl:parameter name="forward_option" value="8"/>
+                <pl:parameter name="sqlwarntoerror" value="false"/>
+                <pl:parameter name="query" value="true"/>
+                <pl:parameter name="input_mappings">
+                    <pl:parameter name="input schemas"/>
+                    <pl:parameter name="output schemas">
+                        <pl:parameter name="0">
+                            <pl:parameter name="root" value="/aa:parameters"/>
+                            <pl:parameter name="schema" value="dbsqlinput.3"/>
+                            <pl:parameter name="using" value="."/>
+                        </pl:parameter>
+                    </pl:parameter>
+                    <pl:parameter name="tracing" value="off"/>
+                    <pl:parameter name="exception-on-null" value="true"/>
+                    <pl:parameter name="exception-on-nomapping" value="false"/>
+                    <pl:parameter name="verbose-exceptions" value="false"/>
+                    <pl:parameter name="show-local-functions" value="false"/>
+                    <pl:parameter name="width" value="902"/>
+                    <pl:parameter name="height" value="614"/>
+                    <pl:parameter name="mappings">
+                        <pl:parameter name="[0]/aa:parameters/aa:param0/text()">
+                            <pl:parameter name="main">
+                                <pl:parameter name="nocontext">
+                                    <pl:parameter name="function-id" value="5"/>
+                                    <pl:parameter name="name" value="identity"/>
+                                    <pl:parameter name="location">
+                                        <pl:parameter name="x" value="486"/>
+                                        <pl:parameter name="y" value="58"/>
+                                    </pl:parameter>
+                                    <pl:parameter name="1">
+                                        <pl:parameter name="literal" value="cccisReportFtpControl"/>
+                                    </pl:parameter>
+                                </pl:parameter>
+                            </pl:parameter>
+                        </pl:parameter>
+                        <pl:parameter name="[0]/aa:parameters/aa:param1/text()">
+                            <pl:parameter name="main">
+                                <pl:parameter name="nocontext">
+                                    <pl:parameter name="function-id" value="3"/>
+                                    <pl:parameter name="name" value="identity"/>
+                                    <pl:parameter name="location">
+                                        <pl:parameter name="x" value="436"/>
+                                        <pl:parameter name="y" value="84"/>
+                                    </pl:parameter>
+                                    <pl:parameter name="1">
+                                        <pl:parameter name="literal" value="{pl$shell_circuit_id}"/>
+                                    </pl:parameter>
+                                </pl:parameter>
+                            </pl:parameter>
+                        </pl:parameter>
+                        <pl:parameter name="[0]/aa:parameters/aa:param2/text()">
+                            <pl:parameter name="main">
+                                <pl:parameter name="nocontext">
+                                    <pl:parameter name="function-id" value="1"/>
+                                    <pl:parameter name="name" value="identity"/>
+                                    <pl:parameter name="location">
+                                        <pl:parameter name="x" value="441"/>
+                                        <pl:parameter name="y" value="108"/>
+                                    </pl:parameter>
+                                    <pl:parameter name="1">
+                                        <pl:parameter name="literal" value="S"/>
+                                    </pl:parameter>
+                                </pl:parameter>
+                            </pl:parameter>
+                        </pl:parameter>
+                    </pl:parameter>
+                </pl:parameter>
+                <pl:parameter name="output_mappings"/>
+                <pl:parameter name="uses_transaction" value="true"/>
+            </pl:eventprocessor>
+            <pl:eventprocessor name="pl:committransaction" disable="false">
+                <pl:parameter name="design">
+                    <pl:parameter name="uid" value="167"/>
+                    <pl:parameter name="alias" value="DB Commit"/>
+                </pl:parameter>
+                <pl:parameter name="trigger" value="end"/>
+                <pl:parameter name="transaction_key" value="TK_UPDATE_HEARTBEAT_ERR"/>
+            </pl:eventprocessor>
+        </pl:seqlist>
+        <pl:seqlist name="Shutdown Circuit">
+            <pl:eventprocessor name="pl:printmessage" disable="false">
+                <pl:parameter name="design">
+                    <pl:parameter name="uid" value="58"/>
+                    <pl:parameter name="alias" value="Print Message"/>
+                </pl:parameter>
+                <pl:parameter name="trigger" value="start"/>
+                <pl:parameter name="message" value="*************************************************&#10;=&gt; View:         Main View&#10;=&gt; Sequence: Shutting Circuit&#10;=&gt; Message:   Shutdown command received, Shutting down.&#10;_________________________________"/>
+                <pl:parameter name="use_log4j" value="true"/>
+                <pl:parameter name="log_level" value="INFO"/>
+            </pl:eventprocessor>
+            <pl:eventprocessor name="pl:starttransaction" disable="false">
+                <pl:parameter name="design">
+                    <pl:parameter name="uid" value="171"/>
+                    <pl:parameter name="alias" value="DB Start"/>
+                </pl:parameter>
+                <pl:parameter name="trigger" value="start"/>
+                <pl:parameter name="connection" value="DBConnect"/>
+                <pl:parameter name="transaction_key" value="TK_HEARTBEAT_COMPLETE"/>
+                <pl:parameter name="transaction_level" value="0"/>
+            </pl:eventprocessor>
+            <pl:eventprocessor name="pl:sqltoxml" disable="false">
+                <pl:parameter name="design">
+                    <pl:parameter name="uid" value="173"/>
+                    <pl:parameter name="alias" value="DB SQL"/>
+                </pl:parameter>
+                <pl:parameter name="transaction_key" value="TK_HEARTBEAT_COMPLETE"/>
+                <pl:parameter name="sql" value="insert into PL_XML_STATUS (sequence_no, circuit_name, shell_circuit_id,date_time_stamp, status) values(PL_XML_STATUS_SEQ.nextval,?,?,sysdate,?)"/>
+                <pl:parameter name="forward_option" value="8"/>
+                <pl:parameter name="sqlwarntoerror" value="false"/>
+                <pl:parameter name="query" value="true"/>
+                <pl:parameter name="input_mappings">
+                    <pl:parameter name="input schemas"/>
+                    <pl:parameter name="output schemas">
+                        <pl:parameter name="0">
+                            <pl:parameter name="root" value="/aa:parameters"/>
+                            <pl:parameter name="schema" value="dbsqlinput.3"/>
+                            <pl:parameter name="using" value="."/>
+                        </pl:parameter>
+                    </pl:parameter>
+                    <pl:parameter name="tracing" value="off"/>
+                    <pl:parameter name="exception-on-null" value="true"/>
+                    <pl:parameter name="exception-on-nomapping" value="false"/>
+                    <pl:parameter name="verbose-exceptions" value="false"/>
+                    <pl:parameter name="show-local-functions" value="false"/>
+                    <pl:parameter name="width" value="902"/>
+                    <pl:parameter name="height" value="614"/>
+                    <pl:parameter name="mappings">
+                        <pl:parameter name="[0]/aa:parameters/aa:param0/text()">
+                            <pl:parameter name="main">
+                                <pl:parameter name="nocontext">
+                                    <pl:parameter name="function-id" value="5"/>
+                                    <pl:parameter name="name" value="identity"/>
+                                    <pl:parameter name="location">
+                                        <pl:parameter name="x" value="486"/>
+                                        <pl:parameter name="y" value="58"/>
+                                    </pl:parameter>
+                                    <pl:parameter name="1">
+                                        <pl:parameter name="literal" value="cccisReportFtpControl"/>
+                                    </pl:parameter>
+                                </pl:parameter>
+                            </pl:parameter>
+                        </pl:parameter>
+                        <pl:parameter name="[0]/aa:parameters/aa:param1/text()">
+                            <pl:parameter name="main">
+                                <pl:parameter name="nocontext">
+                                    <pl:parameter name="function-id" value="3"/>
+                                    <pl:parameter name="name" value="identity"/>
+                                    <pl:parameter name="location">
+                                        <pl:parameter name="x" value="436"/>
+                                        <pl:parameter name="y" value="84"/>
+                                    </pl:parameter>
+                                    <pl:parameter name="1">
+                                        <pl:parameter name="literal" value="{pl$shell_circuit_id}"/>
+                                    </pl:parameter>
+                                </pl:parameter>
+                            </pl:parameter>
+                        </pl:parameter>
+                        <pl:parameter name="[0]/aa:parameters/aa:param2/text()">
+                            <pl:parameter name="main">
+                                <pl:parameter name="nocontext">
+                                    <pl:parameter name="function-id" value="1"/>
+                                    <pl:parameter name="name" value="identity"/>
+                                    <pl:parameter name="location">
+                                        <pl:parameter name="x" value="441"/>
+                                        <pl:parameter name="y" value="108"/>
+                                    </pl:parameter>
+                                    <pl:parameter name="1">
+                                        <pl:parameter name="literal" value="F"/>
+                                    </pl:parameter>
+                                </pl:parameter>
+                            </pl:parameter>
+                        </pl:parameter>
+                    </pl:parameter>
+                </pl:parameter>
+                <pl:parameter name="output_mappings"/>
+                <pl:parameter name="uses_transaction" value="true"/>
+            </pl:eventprocessor>
+            <pl:eventprocessor name="pl:committransaction" disable="false">
+                <pl:parameter name="design">
+                    <pl:parameter name="uid" value="172"/>
+                    <pl:parameter name="alias" value="DB Commit"/>
+                </pl:parameter>
+                <pl:parameter name="trigger" value="end"/>
+                <pl:parameter name="transaction_key" value="TK_HEARTBEAT_COMPLETE"/>
+            </pl:eventprocessor>
+            <pl:eventprocessor name="pl:retrievedocument" disable="false">
+                <pl:parameter name="design">
+                    <pl:parameter name="uid" value="53"/>
+                    <pl:parameter name="alias" value="Retrieve Document"/>
+                </pl:parameter>
+                <pl:parameter name="transport">
+                    <pl:parameter name="name" value="transport.retrieve"/>
+                    <pl:parameter name="provider" value="transport.retrieve"/>
+                    <pl:parameter name="parameters">
+                        <pl:parameter name="address" value="file:///{pl$ftp_rep_home}/xml/shutdown.xml"/>
+                        <pl:parameter name="wait" value="false"/>
+                        <pl:parameter name="process_priority" value="5"/>
+                    </pl:parameter>
+                </pl:parameter>
+                <pl:parameter name="trigger" value="start"/>
+                <pl:parameter name="action" value="stream"/>
+                <pl:parameter name="options">
+                    <pl:parameter name="type" value="sink"/>
+                </pl:parameter>
+            </pl:eventprocessor>
+            <pl:eventprocessor name="pl:send" disable="false">
+                <pl:parameter name="design">
+                    <pl:parameter name="uid" value="57"/>
+                    <pl:parameter name="alias" value="Send to Channels"/>
+                    <pl:parameter name="description" value="Send to Channels"/>
+                </pl:parameter>
+                <pl:parameter name="formatter" value="XML"/>
+                <pl:parameter name="formatter_parameters">
+                    <pl:parameter name="normalise_namespaces" value="true"/>
+                </pl:parameter>
+                <pl:parameter name="channels">
+                    <pl:parameter name="address" value="{pl$ftp_rep_boot_circuit_xmlt_url}"/>
+                </pl:parameter>
+            </pl:eventprocessor>
+        </pl:seqlist>
+        <pl:seqlist name="DO FTP">
+            <pl:eventprocessor name="pl:printmessage" disable="false">
+                <pl:parameter name="design">
+                    <pl:parameter name="uid" value="141"/>
+                    <pl:parameter name="alias" value="Print Message"/>
+                </pl:parameter>
+                <pl:parameter name="trigger" value="start"/>
+                <pl:parameter name="message" value="*************************************************&#10;=&gt; View:         Do Ftp Report&#10;=&gt; Sequence: Do Ftp&#10;=&gt; Message:   Performing Report FTP.&#10;=&gt; Transfer Type:  {$v_Transfer_Type}&#10;=&gt; ReportId :&#9;{$vReportId}&#10;_________________________________"/>
+                <pl:parameter name="use_log4j" value="true"/>
+                <pl:parameter name="log_level" value="INFO"/>
+            </pl:eventprocessor>
+            <pl:eventprocessor name="pl:addprocessvariable" disable="false">
+                <pl:parameter name="design">
+                    <pl:parameter name="uid" value="325"/>
+                    <pl:parameter name="alias" value="Add Process Variables"/>
+                </pl:parameter>
+                <pl:parameter name="trigger" value="start"/>
+                <pl:parameter name="map">
+                    <pl:parameter name="vSendPath" value="{$vFileName}"/>
+                </pl:parameter>
+            </pl:eventprocessor>
+            <pl:eventprocessor name="pl:interpreter" disable="false">
+                <pl:parameter name="useview" value="Format File Path"/>
+                <pl:parameter name="design">
+                    <pl:parameter name="uid" value="319"/>
+                    <pl:parameter name="alias" value="PolarLake Interpreter"/>
+                </pl:parameter>
+            </pl:eventprocessor>
+            <pl:eventprocessor name="pl:interpreter" disable="false">
+                <pl:parameter name="useview" value="Send FTP"/>
+                <pl:parameter name="design">
+                    <pl:parameter name="uid" value="257"/>
+                    <pl:parameter name="alias" value="PolarLake Interpreter"/>
+                </pl:parameter>
+            </pl:eventprocessor>
+            <pl:eventprocessor name="pl:sqltoxml" disable="false">
+                <pl:parameter name="design">
+                    <pl:parameter name="uid" value="327"/>
+                    <pl:parameter name="alias" value="DB SQL - Write Heartbeat"/>
+                </pl:parameter>
+                <pl:parameter name="transaction_key" value="TK_PROCESS_REPORT"/>
+                <pl:parameter name="sql" value="insert into PL_XML_STATUS (sequence_no, circuit_name, shell_circuit_id,date_time_stamp, status) values(PL_XML_STATUS_SEQ.nextval,?,?,sysdate,?)"/>
+                <pl:parameter name="forward_option" value="8"/>
+                <pl:parameter name="sqlwarntoerror" value="false"/>
+                <pl:parameter name="query" value="false"/>
+                <pl:parameter name="input_mappings">
+                    <pl:parameter name="input schemas"/>
+                    <pl:parameter name="output schemas">
+                        <pl:parameter name="0">
+                            <pl:parameter name="root" value="/aa:parameters"/>
+                            <pl:parameter name="schema" value="dbsqlinput.3"/>
+                            <pl:parameter name="using" value="."/>
+                        </pl:parameter>
+                    </pl:parameter>
+                    <pl:parameter name="tracing" value="off"/>
+                    <pl:parameter name="exception-on-null" value="true"/>
+                    <pl:parameter name="exception-on-nomapping" value="false"/>
+                    <pl:parameter name="verbose-exceptions" value="false"/>
+                    <pl:parameter name="show-local-functions" value="false"/>
+                    <pl:parameter name="width" value="902"/>
+                    <pl:parameter name="height" value="614"/>
+                    <pl:parameter name="mappings">
+                        <pl:parameter name="[0]/aa:parameters/aa:param0/text()">
+                            <pl:parameter name="main">
+                                <pl:parameter name="nocontext">
+                                    <pl:parameter name="function-id" value="5"/>
+                                    <pl:parameter name="name" value="identity"/>
+                                    <pl:parameter name="location">
+                                        <pl:parameter name="x" value="486"/>
+                                        <pl:parameter name="y" value="58"/>
+                                    </pl:parameter>
+                                    <pl:parameter name="1">
+                                        <pl:parameter name="literal" value="cccisReportFtpControl"/>
+                                    </pl:parameter>
+                                </pl:parameter>
+                            </pl:parameter>
+                        </pl:parameter>
+                        <pl:parameter name="[0]/aa:parameters/aa:param1/text()">
+                            <pl:parameter name="main">
+                                <pl:parameter name="nocontext">
+                                    <pl:parameter name="function-id" value="3"/>
+                                    <pl:parameter name="name" value="identity"/>
+                                    <pl:parameter name="location">
+                                        <pl:parameter name="x" value="436"/>
+                                        <pl:parameter name="y" value="84"/>
+                                    </pl:parameter>
+                                    <pl:parameter name="1">
+                                        <pl:parameter name="literal" value="{pl$shell_circuit_id}"/>
+                                    </pl:parameter>
+                                </pl:parameter>
+                            </pl:parameter>
+                        </pl:parameter>
+                        <pl:parameter name="[0]/aa:parameters/aa:param2/text()">
+                            <pl:parameter name="main">
+                                <pl:parameter name="nocontext">
+                                    <pl:parameter name="function-id" value="1"/>
+                                    <pl:parameter name="name" value="identity"/>
+                                    <pl:parameter name="location">
+                                        <pl:parameter name="x" value="441"/>
+                                        <pl:parameter name="y" value="108"/>
+                                    </pl:parameter>
+                                    <pl:parameter name="1">
+                                        <pl:parameter name="literal" value="H"/>
+                                    </pl:parameter>
+                                </pl:parameter>
+                            </pl:parameter>
+                        </pl:parameter>
+                    </pl:parameter>
+                </pl:parameter>
+                <pl:parameter name="output_mappings"/>
+                <pl:parameter name="uses_transaction" value="true"/>
+            </pl:eventprocessor>
+            <pl:eventprocessor name="pl:dbupdate" disable="false">
+                <pl:parameter name="design">
+                    <pl:parameter name="uid" value="159"/>
+                    <pl:parameter name="alias" value="DB Update - Set status complete"/>
+                </pl:parameter>
+                <pl:parameter name="transaction_key" value="TK_PROCESS_REPORT"/>
+                <pl:parameter name="table_name" value="FTP_QUEUE"/>
+                <pl:parameter name="dbschema" value=""/>
+                <pl:parameter name="uses_transaction" value="true"/>
+                <pl:parameter name="xsd_mappings">
+                    <pl:parameter name="input schemas">
+                        <pl:parameter name="0">
+                            <pl:parameter name="root" value="/any"/>
+                            <pl:parameter name="schema" value=""/>
+                            <pl:parameter name="using" value="."/>
+                        </pl:parameter>
+                    </pl:parameter>
+                    <pl:parameter name="output schemas">
+                        <pl:parameter name="0">
+                            <pl:parameter name="root" value="/aa:FTP_QUEUE"/>
+                            <pl:parameter name="schema" value="dbtxn.TK_PROCESS_REPORT.FTP_QUEUE:update"/>
+                            <pl:parameter name="using" value="."/>
+                        </pl:parameter>
+                    </pl:parameter>
+                    <pl:parameter name="tracing" value="off"/>
+                    <pl:parameter name="exception-on-null" value="true"/>
+                    <pl:parameter name="exception-on-nomapping" value="false"/>
+                    <pl:parameter name="verbose-exceptions" value="false"/>
+                    <pl:parameter name="show-local-functions" value="false"/>
+                    <pl:parameter name="width" value="902"/>
+                    <pl:parameter name="height" value="620"/>
+                    <pl:parameter name="mappings">
+                        <pl:parameter name="[0]/aa:FTP_QUEUE/aa:set/aa:STATUS/text()">
+                            <pl:parameter name="main">
+                                <pl:parameter name="nocontext">
+                                    <pl:parameter name="function-id" value="2"/>
+                                    <pl:parameter name="name" value="identity"/>
+                                    <pl:parameter name="location">
+                                        <pl:parameter name="x" value="490"/>
+                                        <pl:parameter name="y" value="174"/>
+                                    </pl:parameter>
+                                    <pl:parameter name="1">
+                                        <pl:parameter name="literal" value="2"/>
+                                    </pl:parameter>
+                                </pl:parameter>
+                            </pl:parameter>
+                        </pl:parameter>
+                        <pl:parameter name="[0]/aa:FTP_QUEUE/aa:where/aa:REQUEST_ID/text()">
+                            <pl:parameter name="main">
+                                <pl:parameter name="nocontext">
+                                    <pl:parameter name="function-id" value="1"/>
+                                    <pl:parameter name="name" value="identity"/>
+                                    <pl:parameter name="location">
+                                        <pl:parameter name="x" value="417"/>
+                                        <pl:parameter name="y" value="274"/>
+                                    </pl:parameter>
+                                    <pl:parameter name="1">
+                                        <pl:parameter name="variable" value="vReportId"/>
+                                    </pl:parameter>
+                                </pl:parameter>
+                            </pl:parameter>
+                        </pl:parameter>
+                    </pl:parameter>
+                </pl:parameter>
+            </pl:eventprocessor>
+        </pl:seqlist>
+        <pl:seqlist name="Handle Exception">
+            <pl:eventprocessor name="pl:xmltoprocessvariable" disable="false">
+                <pl:parameter name="design">
+                    <pl:parameter name="uid" value="161"/>
+                    <pl:parameter name="alias" value="XML to Process Variable (simple)"/>
+                </pl:parameter>
+                <pl:parameter name="depth" value="any"/>
+                <pl:parameter name="element_name" value="exception"/>
+                <pl:parameter name="select" value="attribute_value"/>
+                <pl:parameter name="attribute_name" value="message"/>
+                <pl:parameter name="param_name" value="vXcpMessage"/>
+                <pl:parameter name="use_default" value="off"/>
+            </pl:eventprocessor>
+            <pl:eventprocessor name="pl:printmessage" disable="false">
+                <pl:parameter name="design">
+                    <pl:parameter name="uid" value="38"/>
+                    <pl:parameter name="alias" value="Print Message"/>
+                </pl:parameter>
+                <pl:parameter name="trigger" value="start"/>
+                <pl:parameter name="message" value="*************************************************&#10;=&gt; View:         Do Ftp Report&#10;=&gt; Sequence: Handle Exception&#10;=&gt; Message:   Exception occured during report FTP.&#10;&#9;  Exception:{$vXcpMessage}&#10;_________________________________"/>
+                <pl:parameter name="use_log4j" value="true"/>
+                <pl:parameter name="log_level" value="ERROR"/>
+            </pl:eventprocessor>
+            <pl:eventprocessor name="pl:starttransaction" disable="false">
+                <pl:parameter name="design">
+                    <pl:parameter name="uid" value="149"/>
+                    <pl:parameter name="alias" value="DB Start"/>
+                </pl:parameter>
+                <pl:parameter name="trigger" value="start"/>
+                <pl:parameter name="connection" value="DBConnect"/>
+                <pl:parameter name="transaction_key" value="TK_UPDATE_FILE_FAIL"/>
+                <pl:parameter name="transaction_level" value="0"/>
+            </pl:eventprocessor>
+            <pl:eventprocessor name="pl:dbupdate" disable="false">
+                <pl:parameter name="design">
+                    <pl:parameter name="uid" value="150"/>
+                    <pl:parameter name="alias" value="DB Update"/>
+                </pl:parameter>
+                <pl:parameter name="transaction_key" value="TK_UPDATE_FILE_FAIL"/>
+                <pl:parameter name="table_name" value="FTP_QUEUE"/>
+                <pl:parameter name="dbschema" value=""/>
+                <pl:parameter name="uses_transaction" value="true"/>
+                <pl:parameter name="xsd_mappings">
+                    <pl:parameter name="input schemas">
+                        <pl:parameter name="0">
+                            <pl:parameter name="root" value="/any"/>
+                            <pl:parameter name="schema" value=""/>
+                            <pl:parameter name="using" value="."/>
+                        </pl:parameter>
+                    </pl:parameter>
+                    <pl:parameter name="output schemas">
+                        <pl:parameter name="0">
+                            <pl:parameter name="root" value="/aa:FTP_QUEUE"/>
+                            <pl:parameter name="schema" value="dbtxn.TK_UPDATE_FILE_FAIL.FTP_QUEUE:update"/>
+                            <pl:parameter name="using" value="."/>
+                        </pl:parameter>
+                    </pl:parameter>
+                    <pl:parameter name="tracing" value="off"/>
+                    <pl:parameter name="exception-on-null" value="true"/>
+                    <pl:parameter name="exception-on-nomapping" value="false"/>
+                    <pl:parameter name="verbose-exceptions" value="false"/>
+                    <pl:parameter name="show-local-functions" value="false"/>
+                    <pl:parameter name="width" value="902"/>
+                    <pl:parameter name="height" value="614"/>
+                    <pl:parameter name="mappings">
+                        <pl:parameter name="[0]/aa:FTP_QUEUE/aa:set/aa:STATUS/text()">
+                            <pl:parameter name="main">
+                                <pl:parameter name="nocontext">
+                                    <pl:parameter name="function-id" value="2"/>
+                                    <pl:parameter name="name" value="identity"/>
+                                    <pl:parameter name="location">
+                                        <pl:parameter name="x" value="367"/>
+                                        <pl:parameter name="y" value="98"/>
+                                    </pl:parameter>
+                                    <pl:parameter name="1">
+                                        <pl:parameter name="literal" value="4"/>
+                                    </pl:parameter>
+                                </pl:parameter>
+                            </pl:parameter>
+                        </pl:parameter>
+                        <pl:parameter name="[0]/aa:FTP_QUEUE/aa:set/aa:ERROR_MESSAGE/text()">
+                            <pl:parameter name="main">
+                                <pl:parameter name="nocontext">
+                                    <pl:parameter name="function-id" value="7"/>
+                                    <pl:parameter name="name" value="getMaxString200"/>
+                                    <pl:parameter name="location">
+                                        <pl:parameter name="x" value="416"/>
+                                        <pl:parameter name="y" value="152"/>
+                                    </pl:parameter>
+                                    <pl:parameter name="1">
+                                        <pl:parameter name="variable" value="vXcpMessage"/>
+                                    </pl:parameter>
+                                </pl:parameter>
+                            </pl:parameter>
+                        </pl:parameter>
+                        <pl:parameter name="[0]/aa:FTP_QUEUE/aa:where/aa:REQUEST_ID/text()">
+                            <pl:parameter name="main">
+                                <pl:parameter name="nocontext">
+                                    <pl:parameter name="function-id" value="8"/>
+                                    <pl:parameter name="name" value="identity"/>
+                                    <pl:parameter name="location">
+                                        <pl:parameter name="x" value="384"/>
+                                        <pl:parameter name="y" value="204"/>
+                                    </pl:parameter>
+                                    <pl:parameter name="1">
+                                        <pl:parameter name="variable" value="vReportId"/>
+                                    </pl:parameter>
+                                </pl:parameter>
+                            </pl:parameter>
+                        </pl:parameter>
+                    </pl:parameter>
+                </pl:parameter>
+            </pl:eventprocessor>
+            <pl:eventprocessor name="pl:committransaction" disable="false">
+                <pl:parameter name="design">
+                    <pl:parameter name="uid" value="151"/>
+                    <pl:parameter name="alias" value="DB Commit"/>
+                </pl:parameter>
+                <pl:parameter name="trigger" value="end"/>
+                <pl:parameter name="transaction_key" value="TK_UPDATE_FILE_FAIL"/>
+            </pl:eventprocessor>
+        </pl:seqlist>
+        <pl:seqlist name="Is PDF Report"/>
+        <pl:seqlist name="Is HTML Report"/>
+        <pl:seqlist name="Invalid File Type"/>
+        <pl:seqlist name="Handle Invalid"/>
+        <pl:seqlist name="Do Process Reports"/>
+        <pl:seqlist name="Circuit start">
+            <pl:eventprocessor name="pl:printmessage" disable="false">
+                <pl:parameter name="design">
+                    <pl:parameter name="uid" value="206"/>
+                    <pl:parameter name="alias" value="Print Message"/>
+                </pl:parameter>
+                <pl:parameter name="trigger" value="start"/>
+                <pl:parameter name="message" value="*************************************************&#10;=&gt; View:         Main View&#10;=&gt; Sequence: Circuit Start&#10;=&gt; Message:   Circuit started&#10;=&gt; Circuit Id:&#9;{pl$shell_circuit_id}&#10;_________________________________"/>
+                <pl:parameter name="use_log4j" value="true"/>
+                <pl:parameter name="log_level" value="WARN"/>
+            </pl:eventprocessor>
+            <pl:eventprocessor name="pl:starttransaction" disable="false">
+                <pl:parameter name="design">
+                    <pl:parameter name="uid" value="209"/>
+                    <pl:parameter name="alias" value="DB Start"/>
+                </pl:parameter>
+                <pl:parameter name="trigger" value="start"/>
+                <pl:parameter name="connection" value="DBConnect"/>
+                <pl:parameter name="transaction_key" value="TK_DO_START_HEARTBEAT"/>
+                <pl:parameter name="transaction_level" value="0"/>
+            </pl:eventprocessor>
+            <pl:eventprocessor name="pl:sqltoxml" disable="false">
+                <pl:parameter name="design">
+                    <pl:parameter name="uid" value="208"/>
+                    <pl:parameter name="alias" value="DB SQL"/>
+                </pl:parameter>
+                <pl:parameter name="transaction_key" value="TK_DO_START_HEARTBEAT"/>
+                <pl:parameter name="sql" value="insert into PL_XML_STATUS (sequence_no, circuit_name, shell_circuit_id,date_time_stamp, status) values(PL_XML_STATUS_SEQ.nextval,?,?,sysdate,?)"/>
+                <pl:parameter name="forward_option" value="8"/>
+                <pl:parameter name="sqlwarntoerror" value="false"/>
+                <pl:parameter name="query" value="true"/>
+                <pl:parameter name="input_mappings">
+                    <pl:parameter name="input schemas"/>
+                    <pl:parameter name="output schemas">
+                        <pl:parameter name="0">
+                            <pl:parameter name="root" value="/aa:parameters"/>
+                            <pl:parameter name="schema" value="dbsqlinput.3"/>
+                            <pl:parameter name="using" value="."/>
+                        </pl:parameter>
+                    </pl:parameter>
+                    <pl:parameter name="tracing" value="off"/>
+                    <pl:parameter name="exception-on-null" value="true"/>
+                    <pl:parameter name="exception-on-nomapping" value="false"/>
+                    <pl:parameter name="verbose-exceptions" value="false"/>
+                    <pl:parameter name="show-local-functions" value="false"/>
+                    <pl:parameter name="width" value="902"/>
+                    <pl:parameter name="height" value="614"/>
+                    <pl:parameter name="mappings">
+                        <pl:parameter name="[0]/aa:parameters/aa:param0/text()">
+                            <pl:parameter name="main">
+                                <pl:parameter name="nocontext">
+                                    <pl:parameter name="function-id" value="5"/>
+                                    <pl:parameter name="name" value="identity"/>
+                                    <pl:parameter name="location">
+                                        <pl:parameter name="x" value="486"/>
+                                        <pl:parameter name="y" value="58"/>
+                                    </pl:parameter>
+                                    <pl:parameter name="1">
+                                        <pl:parameter name="literal" value="cccisReportFtpControl"/>
+                                    </pl:parameter>
+                                </pl:parameter>
+                            </pl:parameter>
+                        </pl:parameter>
+                        <pl:parameter name="[0]/aa:parameters/aa:param1/text()">
+                            <pl:parameter name="main">
+                                <pl:parameter name="nocontext">
+                                    <pl:parameter name="function-id" value="3"/>
+                                    <pl:parameter name="name" value="identity"/>
+                                    <pl:parameter name="location">
+                                        <pl:parameter name="x" value="436"/>
+                                        <pl:parameter name="y" value="84"/>
+                                    </pl:parameter>
+                                    <pl:parameter name="1">
+                                        <pl:parameter name="literal" value="{pl$shell_circuit_id}"/>
+                                    </pl:parameter>
+                                </pl:parameter>
+                            </pl:parameter>
+                        </pl:parameter>
+                        <pl:parameter name="[0]/aa:parameters/aa:param2/text()">
+                            <pl:parameter name="main">
+                                <pl:parameter name="nocontext">
+                                    <pl:parameter name="function-id" value="1"/>
+                                    <pl:parameter name="name" value="identity"/>
+                                    <pl:parameter name="location">
+                                        <pl:parameter name="x" value="441"/>
+                                        <pl:parameter name="y" value="108"/>
+                                    </pl:parameter>
+                                    <pl:parameter name="1">
+                                        <pl:parameter name="literal" value="S"/>
+                                    </pl:parameter>
+                                </pl:parameter>
+                            </pl:parameter>
+                        </pl:parameter>
+                    </pl:parameter>
+                </pl:parameter>
+                <pl:parameter name="output_mappings"/>
+                <pl:parameter name="uses_transaction" value="true"/>
+            </pl:eventprocessor>
+            <pl:eventprocessor name="pl:committransaction" disable="false">
+                <pl:parameter name="design">
+                    <pl:parameter name="uid" value="210"/>
+                    <pl:parameter name="alias" value="DB Commit"/>
+                </pl:parameter>
+                <pl:parameter name="trigger" value="end"/>
+                <pl:parameter name="transaction_key" value="TK_DO_START_HEARTBEAT"/>
+            </pl:eventprocessor>
+        </pl:seqlist>
+        <pl:seqlist name="Send Binary">
+            <pl:eventprocessor name="pl:printmessage" disable="false">
+                <pl:parameter name="design">
+                    <pl:parameter name="uid" value="265"/>
+                    <pl:parameter name="alias" value="Print Message"/>
+                </pl:parameter>
+                <pl:parameter name="trigger" value="start"/>
+                <pl:parameter name="message" value="*************************************************&#10;=&gt; View:         Send FTP&#10;=&gt; Sequence: Send Binary&#10;=&gt; Message:   Sending report.&#10;=&gt; Transfer Type:{$v_Transfer_Type}&#10;=&gt; SendPath:{$vSendPath}&#10;_________________________________"/>
+                <pl:parameter name="use_log4j" value="true"/>
+                <pl:parameter name="log_level" value="INFO"/>
+            </pl:eventprocessor>
+            <pl:eventprocessor name="pl:sendprocessvariable" disable="false">
+                <pl:parameter name="design">
+                    <pl:parameter name="uid" value="262"/>
+                    <pl:parameter name="alias" value="Send FTP Report"/>
+                    <pl:parameter name="description" value="Send to Channels"/>
+                </pl:parameter>
+                <pl:parameter name="channels">
+                    <pl:parameter name="ftp://{$v_ftp_server}">
+                        <pl:parameter name="user" value="{$v_username}"/>
+                        <pl:parameter name="password" value="eyR2X3Bhc3N3b3JkfQ=="/>
+                        <pl:parameter name="transfer_type" value="binary"/>
+                        <pl:parameter name="connection_mode" value="active"/>
+                        <pl:parameter name="action" value="put"/>
+                        <pl:parameter name="file" value="{$vSendPath}"/>
+                        <pl:parameter name="rename" value=""/>
+                        <pl:parameter name="delete_on_fail" value="false"/>
+                        <pl:parameter name="ifexists" value="replace"/>
+                    </pl:parameter>
+                </pl:parameter>
+                <pl:parameter name="java_encoding" value=""/>
+                <pl:parameter name="debug_channels" value="false"/>
+                <pl:parameter name="trigger" value="start"/>
+                <pl:parameter name="param_name" value="vDataStore"/>
+                <pl:parameter name="doc_var_name" value=""/>
+            </pl:eventprocessor>
+        </pl:seqlist>
+        <pl:seqlist name="Send Text">
+            <pl:eventprocessor name="pl:printmessage" disable="false">
+                <pl:parameter name="design">
+                    <pl:parameter name="uid" value="266"/>
+                    <pl:parameter name="alias" value="Print Message"/>
+                </pl:parameter>
+                <pl:parameter name="trigger" value="start"/>
+                <pl:parameter name="message" value="*************************************************&#10;=&gt; View:         Do Ftp Report&#10;=&gt; Sequence: Do Ftp&#10;=&gt; Message:   Sending report.&#10;=&gt; Transfer Type:  {$v_Transfer_Type}&#10;=&gt; SendPath:{$vSendPath}&#10;_________________________________"/>
+                <pl:parameter name="use_log4j" value="true"/>
+                <pl:parameter name="log_level" value="INFO"/>
+            </pl:eventprocessor>
+            <pl:eventprocessor name="pl:sendprocessvariable" disable="false">
+                <pl:parameter name="design">
+                    <pl:parameter name="uid" value="251"/>
+                    <pl:parameter name="alias" value="Send FTP Report"/>
+                    <pl:parameter name="description" value="Send to Channels"/>
+                </pl:parameter>
+                <pl:parameter name="channels">
+                    <pl:parameter name="ftp://{$v_ftp_server}">
+                        <pl:parameter name="connectretrylimit" value="{pl$ftp_rep_retry_count}"/>
+                        <pl:parameter name="connectretryinterval" value="{pl$ftp_rep_retry_interval}"/>
+                        <pl:parameter name="user" value="{$v_username}"/>
+                        <pl:parameter name="password" value="eyR2X3Bhc3N3b3JkfQ=="/>
+                        <pl:parameter name="transfer_type" value="ascii"/>
+                        <pl:parameter name="connection_mode" value="pasv"/>
+                        <pl:parameter name="action" value="put"/>
+                        <pl:parameter name="file" value="{$vSendPath}"/>
+                        <pl:parameter name="rename" value=""/>
+                        <pl:parameter name="delete_on_fail" value="false"/>
+                        <pl:parameter name="ifexists" value="replace"/>
+                    </pl:parameter>
+                </pl:parameter>
+                <pl:parameter name="java_encoding" value=""/>
+                <pl:parameter name="debug_channels" value="false"/>
+                <pl:parameter name="trigger" value="start"/>
+                <pl:parameter name="param_name" value="vDataStore"/>
+                <pl:parameter name="doc_var_name" value=""/>
+            </pl:eventprocessor>
+        </pl:seqlist>
+        <pl:seqlist name="Main sequence">
+            <pl:eventprocessor name="pl:printmessage" disable="false">
+                <pl:parameter name="design">
+                    <pl:parameter name="uid" value="276"/>
+                    <pl:parameter name="alias" value="Print Message"/>
+                </pl:parameter>
+                <pl:parameter name="trigger" value="start"/>
+                <pl:parameter name="message" value="*************************************************&#10;=&gt; View:         Main View&#10;=&gt; Sequence: Main sequence&#10;=&gt; Message:   Poll Performed, Processing.....&#10;_________________________________"/>
+                <pl:parameter name="use_log4j" value="true"/>
+                <pl:parameter name="log_level" value="WARN"/>
+            </pl:eventprocessor>
+            <pl:eventprocessor name="pl:starttransaction" disable="false">
+                <pl:parameter name="design">
+                    <pl:parameter name="uid" value="277"/>
+                    <pl:parameter name="alias" value="DB Start"/>
+                </pl:parameter>
+                <pl:parameter name="trigger" value="start"/>
+                <pl:parameter name="connection" value="DBConnect"/>
+                <pl:parameter name="transaction_key" value="TK_PROCESS_REPORTS"/>
+                <pl:parameter name="transaction_level" value="0"/>
+            </pl:eventprocessor>
+            <pl:eventprocessor name="pl:sqltoxml" disable="false">
+                <pl:parameter name="design">
+                    <pl:parameter name="uid" value="278"/>
+                    <pl:parameter name="alias" value="DB SQL - Write Start Heartbeat"/>
+                </pl:parameter>
+                <pl:parameter name="transaction_key" value="TK_PROCESS_REPORTS"/>
+                <pl:parameter name="sql" value="insert into PL_XML_STATUS (sequence_no, circuit_name, shell_circuit_id,date_time_stamp, status) values(PL_XML_STATUS_SEQ.nextval,?,?,sysdate,?)"/>
+                <pl:parameter name="forward_option" value="8"/>
+                <pl:parameter name="sqlwarntoerror" value="false"/>
+                <pl:parameter name="query" value="false"/>
+                <pl:parameter name="input_mappings">
+                    <pl:parameter name="input schemas"/>
+                    <pl:parameter name="output schemas">
+                        <pl:parameter name="0">
+                            <pl:parameter name="root" value="/aa:parameters"/>
+                            <pl:parameter name="schema" value="dbsqlinput.3"/>
+                            <pl:parameter name="using" value="."/>
+                        </pl:parameter>
+                    </pl:parameter>
+                    <pl:parameter name="tracing" value="off"/>
+                    <pl:parameter name="exception-on-null" value="true"/>
+                    <pl:parameter name="exception-on-nomapping" value="false"/>
+                    <pl:parameter name="verbose-exceptions" value="false"/>
+                    <pl:parameter name="show-local-functions" value="false"/>
+                    <pl:parameter name="width" value="902"/>
+                    <pl:parameter name="height" value="614"/>
+                    <pl:parameter name="mappings">
+                        <pl:parameter name="[0]/aa:parameters/aa:param0/text()">
+                            <pl:parameter name="main">
+                                <pl:parameter name="nocontext">
+                                    <pl:parameter name="function-id" value="5"/>
+                                    <pl:parameter name="name" value="identity"/>
+                                    <pl:parameter name="location">
+                                        <pl:parameter name="x" value="486"/>
+                                        <pl:parameter name="y" value="58"/>
+                                    </pl:parameter>
+                                    <pl:parameter name="1">
+                                        <pl:parameter name="literal" value="cccisReportFtpControl"/>
+                                    </pl:parameter>
+                                </pl:parameter>
+                            </pl:parameter>
+                        </pl:parameter>
+                        <pl:parameter name="[0]/aa:parameters/aa:param1/text()">
+                            <pl:parameter name="main">
+                                <pl:parameter name="nocontext">
+                                    <pl:parameter name="function-id" value="3"/>
+                                    <pl:parameter name="name" value="identity"/>
+                                    <pl:parameter name="location">
+                                        <pl:parameter name="x" value="436"/>
+                                        <pl:parameter name="y" value="84"/>
+                                    </pl:parameter>
+                                    <pl:parameter name="1">
+                                        <pl:parameter name="literal" value="{pl$shell_circuit_id}"/>
+                                    </pl:parameter>
+                                </pl:parameter>
+                            </pl:parameter>
+                        </pl:parameter>
+                        <pl:parameter name="[0]/aa:parameters/aa:param2/text()">
+                            <pl:parameter name="main">
+                                <pl:parameter name="nocontext">
+                                    <pl:parameter name="function-id" value="1"/>
+                                    <pl:parameter name="name" value="identity"/>
+                                    <pl:parameter name="location">
+                                        <pl:parameter name="x" value="441"/>
+                                        <pl:parameter name="y" value="108"/>
+                                    </pl:parameter>
+                                    <pl:parameter name="1">
+                                        <pl:parameter name="literal" value="H"/>
+                                    </pl:parameter>
+                                </pl:parameter>
+                            </pl:parameter>
+                        </pl:parameter>
+                    </pl:parameter>
+                </pl:parameter>
+                <pl:parameter name="output_mappings"/>
+                <pl:parameter name="uses_transaction" value="true"/>
+            </pl:eventprocessor>
+            <pl:eventprocessor name="pl:sqltoxml" disable="false">
+                <pl:parameter name="design">
+                    <pl:parameter name="uid" value="286"/>
+                    <pl:parameter name="alias" value="DB SQL - Get queued report details"/>
+                </pl:parameter>
+                <pl:parameter name="transaction_key" value="TK_PROCESS_REPORTS"/>
+                <pl:parameter name="sql" value="select fq.request_id, fq.document_id, fq.ftp_server, fq.ftp_user, fq.ftp_password, fq.path,fq.filename, fq.ftp_transfer_type from ftp_queue fq where fq.status = ?"/>
+                <pl:parameter name="forward_option" value="0"/>
+                <pl:parameter name="sqlwarntoerror" value="false"/>
+                <pl:parameter name="query" value="true"/>
+                <pl:parameter name="input_mappings">
+                    <pl:parameter name="input schemas"/>
+                    <pl:parameter name="output schemas">
+                        <pl:parameter name="0">
+                            <pl:parameter name="root" value="/aa:parameters"/>
+                            <pl:parameter name="schema" value="dbsqlinput.1"/>
+                            <pl:parameter name="using" value="."/>
+                        </pl:parameter>
+                    </pl:parameter>
+                    <pl:parameter name="tracing" value="off"/>
+                    <pl:parameter name="exception-on-null" value="true"/>
+                    <pl:parameter name="exception-on-nomapping" value="false"/>
+                    <pl:parameter name="verbose-exceptions" value="false"/>
+                    <pl:parameter name="show-local-functions" value="false"/>
+                    <pl:parameter name="width" value="902"/>
+                    <pl:parameter name="height" value="614"/>
+                    <pl:parameter name="mappings">
+                        <pl:parameter name="[0]/aa:parameters/aa:param0/text()">
+                            <pl:parameter name="main">
+                                <pl:parameter name="nocontext">
+                                    <pl:parameter name="function-id" value="1"/>
+                                    <pl:parameter name="name" value="identity"/>
+                                    <pl:parameter name="location">
+                                        <pl:parameter name="x" value="411"/>
+                                        <pl:parameter name="y" value="127"/>
+                                    </pl:parameter>
+                                    <pl:parameter name="1">
+                                        <pl:parameter name="literal" value="0"/>
+                                    </pl:parameter>
+                                </pl:parameter>
+                            </pl:parameter>
+                        </pl:parameter>
+                    </pl:parameter>
+                </pl:parameter>
+                <pl:parameter name="output_mappings">
+                    <pl:parameter name="input schemas">
+                        <pl:parameter name="0">
+                            <pl:parameter name="root" value="/aa:resultSet"/>
+                            <pl:parameter name="schema" value="dbsql.TK_PROCESS_REPORTS.query.select fq.request_id, fq.document_id, fq.ftp_server, fq.ftp_user, fq.ftp_password, fq.path,fq.filename, fq.ftp_transfer_type from ftp_queue fq where fq.status = ?"/>
+                            <pl:parameter name="using" value="."/>
+                        </pl:parameter>
+                    </pl:parameter>
+                    <pl:parameter name="output schemas">
+                        <pl:parameter name="0">
+                            <pl:parameter name="root" value="/ftp_report_queue_list"/>
+                            <pl:parameter name="schema" value="ftp_report_queue"/>
+                            <pl:parameter name="using" value="."/>
+                        </pl:parameter>
+                    </pl:parameter>
+                    <pl:parameter name="tracing" value="off"/>
+                    <pl:parameter name="exception-on-null" value="true"/>
+                    <pl:parameter name="exception-on-nomapping" value="false"/>
+                    <pl:parameter name="verbose-exceptions" value="false"/>
+                    <pl:parameter name="show-local-functions" value="false"/>
+                    <pl:parameter name="width" value="902"/>
+                    <pl:parameter name="height" value="614"/>
+                    <pl:parameter name="mappings">
+                        <pl:parameter name="[0]/ftp_report_queue_list">
+                            <pl:parameter name="main">
+                                <pl:parameter name="nocontext">
+                                    <pl:parameter name="control" value="true"/>
+                                    <pl:parameter name="function-id" value="1"/>
+                                    <pl:parameter name="name" value="iterate-all"/>
+                                    <pl:parameter name="actingParent" value="false"/>
+                                    <pl:parameter name="location">
+                                        <pl:parameter name="x" value="407"/>
+                                        <pl:parameter name="y" value="49"/>
+                                    </pl:parameter>
+                                    <pl:parameter name="1">
+                                        <pl:parameter name="array">
+                                            <pl:parameter name="1">
+                                                <pl:parameter name="xpath" value="/aa:resultSet"/>
+                                                <pl:parameter name="fullxpath" value="/aa:resultSet"/>
+                                                <pl:parameter name="using" value="0"/>
+                                            </pl:parameter>
+                                        </pl:parameter>
+                                    </pl:parameter>
+                                </pl:parameter>
+                            </pl:parameter>
+                        </pl:parameter>
+                        <pl:parameter name="[0]/ftp_report_queue_list/ftp_report_queue">
+                            <pl:parameter name="main">
+                                <pl:parameter name="nocontext">
+                                    <pl:parameter name="control" value="true"/>
+                                    <pl:parameter name="function-id" value="2"/>
+                                    <pl:parameter name="name" value="iterate-all"/>
+                                    <pl:parameter name="actingParent" value="false"/>
+                                    <pl:parameter name="location">
+                                        <pl:parameter name="x" value="407"/>
+                                        <pl:parameter name="y" value="65"/>
+                                    </pl:parameter>
+                                    <pl:parameter name="1">
+                                        <pl:parameter name="array">
+                                            <pl:parameter name="1">
+                                                <pl:parameter name="xpath" value="./aa:item"/>
+                                                <pl:parameter name="fullxpath" value="/aa:resultSet/aa:item"/>
+                                                <pl:parameter name="using" value="0"/>
+                                            </pl:parameter>
+                                        </pl:parameter>
+                                    </pl:parameter>
+                                </pl:parameter>
+                            </pl:parameter>
+                        </pl:parameter>
+                        <pl:parameter name="[0]/ftp_report_queue_list/ftp_report_queue/id/text()">
+                            <pl:parameter name="main">
+                                <pl:parameter name="nocontext">
+                                    <pl:parameter name="function-id" value="3"/>
+                                    <pl:parameter name="name" value="identity"/>
+                                    <pl:parameter name="location">
+                                        <pl:parameter name="x" value="407"/>
+                                        <pl:parameter name="y" value="90"/>
+                                    </pl:parameter>
+                                    <pl:parameter name="1">
+                                        <pl:parameter name="xpath" value="./aa:REQUEST_ID/text()"/>
+                                        <pl:parameter name="fullxpath" value="/aa:resultSet/aa:item/aa:REQUEST_ID"/>
+                                        <pl:parameter name="using" value="0"/>
+                                    </pl:parameter>
+                                </pl:parameter>
+                            </pl:parameter>
+                        </pl:parameter>
+                        <pl:parameter name="[0]/ftp_report_queue_list/ftp_report_queue/document_id/text()">
+                            <pl:parameter name="main">
+                                <pl:parameter name="nocontext">
+                                    <pl:parameter name="function-id" value="4"/>
+                                    <pl:parameter name="name" value="identity"/>
+                                    <pl:parameter name="location">
+                                        <pl:parameter name="x" value="407"/>
+                                        <pl:parameter name="y" value="114"/>
+                                    </pl:parameter>
+                                    <pl:parameter name="1">
+                                        <pl:parameter name="xpath" value="./aa:DOCUMENT_ID/text()"/>
+                                        <pl:parameter name="fullxpath" value="/aa:resultSet/aa:item/aa:DOCUMENT_ID"/>
+                                        <pl:parameter name="using" value="0"/>
+                                    </pl:parameter>
+                                </pl:parameter>
+                            </pl:parameter>
+                        </pl:parameter>
+                        <pl:parameter name="[0]/ftp_report_queue_list/ftp_report_queue/ftp_server/text()">
+                            <pl:parameter name="main">
+                                <pl:parameter name="nocontext">
+                                    <pl:parameter name="function-id" value="5"/>
+                                    <pl:parameter name="name" value="identity"/>
+                                    <pl:parameter name="location">
+                                        <pl:parameter name="x" value="407"/>
+                                        <pl:parameter name="y" value="130"/>
+                                    </pl:parameter>
+                                    <pl:parameter name="1">
+                                        <pl:parameter name="xpath" value="./aa:FTP_SERVER/text()"/>
+                                        <pl:parameter name="fullxpath" value="/aa:resultSet/aa:item/aa:FTP_SERVER"/>
+                                        <pl:parameter name="using" value="0"/>
+                                    </pl:parameter>
+                                </pl:parameter>
+                            </pl:parameter>
+                        </pl:parameter>
+                        <pl:parameter name="[0]/ftp_report_queue_list/ftp_report_queue/ftp_user/text()">
+                            <pl:parameter name="main">
+                                <pl:parameter name="nocontext">
+                                    <pl:parameter name="function-id" value="7"/>
+                                    <pl:parameter name="name" value="identity"/>
+                                    <pl:parameter name="location">
+                                        <pl:parameter name="x" value="407"/>
+                                        <pl:parameter name="y" value="146"/>
+                                    </pl:parameter>
+                                    <pl:parameter name="1">
+                                        <pl:parameter name="xpath" value="./aa:FTP_USER/text()"/>
+                                        <pl:parameter name="fullxpath" value="/aa:resultSet/aa:item/aa:FTP_USER"/>
+                                        <pl:parameter name="using" value="0"/>
+                                    </pl:parameter>
+                                </pl:parameter>
+                            </pl:parameter>
+                        </pl:parameter>
+                        <pl:parameter name="[0]/ftp_report_queue_list/ftp_report_queue/ftp_pwd/text()">
+                            <pl:parameter name="main">
+                                <pl:parameter name="nocontext">
+                                    <pl:parameter name="function-id" value="8"/>
+                                    <pl:parameter name="name" value="identity"/>
+                                    <pl:parameter name="location">
+                                        <pl:parameter name="x" value="407"/>
+                                        <pl:parameter name="y" value="162"/>
+                                    </pl:parameter>
+                                    <pl:parameter name="1">
+                                        <pl:parameter name="xpath" value="./aa:FTP_PASSWORD/text()"/>
+                                        <pl:parameter name="fullxpath" value="/aa:resultSet/aa:item/aa:FTP_PASSWORD"/>
+                                        <pl:parameter name="using" value="0"/>
+                                    </pl:parameter>
+                                </pl:parameter>
+                            </pl:parameter>
+                        </pl:parameter>
+                        <pl:parameter name="[0]/ftp_report_queue_list/ftp_report_queue/ftp_path/text()">
+                            <pl:parameter name="main">
+                                <pl:parameter name="nocontext">
+                                    <pl:parameter name="function-id" value="9"/>
+                                    <pl:parameter name="name" value="identity"/>
+                                    <pl:parameter name="location">
+                                        <pl:parameter name="x" value="407"/>
+                                        <pl:parameter name="y" value="178"/>
+                                    </pl:parameter>
+                                    <pl:parameter name="1">
+                                        <pl:parameter name="xpath" value="./aa:PATH/text()"/>
+                                        <pl:parameter name="fullxpath" value="/aa:resultSet/aa:item/aa:PATH"/>
+                                        <pl:parameter name="using" value="0"/>
+                                    </pl:parameter>
+                                </pl:parameter>
+                            </pl:parameter>
+                        </pl:parameter>
+                        <pl:parameter name="[0]/ftp_report_queue_list/ftp_report_queue/ftp_filename/text()">
+                            <pl:parameter name="main">
+                                <pl:parameter name="nocontext">
+                                    <pl:parameter name="function-id" value="10"/>
+                                    <pl:parameter name="name" value="identity"/>
+                                    <pl:parameter name="location">
+                                        <pl:parameter name="x" value="407"/>
+                                        <pl:parameter name="y" value="194"/>
+                                    </pl:parameter>
+                                    <pl:parameter name="1">
+                                        <pl:parameter name="xpath" value="./aa:FILENAME/text()"/>
+                                        <pl:parameter name="fullxpath" value="/aa:resultSet/aa:item/aa:FILENAME"/>
+                                        <pl:parameter name="using" value="0"/>
+                                    </pl:parameter>
+                                </pl:parameter>
+                            </pl:parameter>
+                        </pl:parameter>
+                        <pl:parameter name="[0]/ftp_report_queue_list/ftp_report_queue/ftp_transfer_type/text()">
+                            <pl:parameter name="main">
+                                <pl:parameter name="nocontext">
+                                    <pl:parameter name="function-id" value="11"/>
+                                    <pl:parameter name="name" value="identity"/>
+                                    <pl:parameter name="location">
+                                        <pl:parameter name="x" value="407"/>
+                                        <pl:parameter name="y" value="210"/>
+                                    </pl:parameter>
+                                    <pl:parameter name="1">
+                                        <pl:parameter name="xpath" value="./aa:FTP_TRANSFER_TYPE/text()"/>
+                                        <pl:parameter name="fullxpath" value="/aa:resultSet/aa:item/aa:FTP_TRANSFER_TYPE"/>
+                                        <pl:parameter name="using" value="0"/>
+                                    </pl:parameter>
+                                </pl:parameter>
+                            </pl:parameter>
+                        </pl:parameter>
+                    </pl:parameter>
+                </pl:parameter>
+                <pl:parameter name="test_params">
+                    <pl:parameter name="param0">
+                        <pl:parameter name="value" value="0"/>
+                        <pl:parameter name="type" value="12"/>
+                    </pl:parameter>
+                </pl:parameter>
+                <pl:parameter name="uses_transaction" value="true"/>
+            </pl:eventprocessor>
+            <pl:eventprocessor name="pl:interpreter" disable="false">
+                <pl:parameter name="design">
+                    <pl:parameter name="uid" value="314"/>
+                    <pl:parameter name="alias" value="PolarLake Interpreter"/>
+                </pl:parameter>
+                <pl:parameter name="useview" value="Do Update Queue Status"/>
+                <pl:parameter name="exceptions_to_xml" value="false"/>
+            </pl:eventprocessor>
+            <pl:eventprocessor name="pl:committransaction" disable="false">
+                <pl:parameter name="design">
+                    <pl:parameter name="uid" value="279"/>
+                    <pl:parameter name="alias" value="DB Commit"/>
+                </pl:parameter>
+                <pl:parameter name="trigger" value="end"/>
+                <pl:parameter name="transaction_key" value="TK_PROCESS_REPORTS"/>
+            </pl:eventprocessor>
+            <pl:eventprocessor name="pl:script" disable="false">
+                <pl:parameter name="design">
+                    <pl:parameter name="uid" value="308"/>
+                    <pl:parameter name="alias" value="JDOM Process"/>
+                </pl:parameter>
+                <pl:parameter name="name" value="JDOM Process"/>
+                <pl:parameter name="useScriptasAlias" value="true"/>
+            </pl:eventprocessor>
+            <pl:eventprocessor name="pl:interpreter" disable="false">
+                <pl:parameter name="design">
+                    <pl:parameter name="uid" value="289"/>
+                    <pl:parameter name="alias" value="PolarLake Interpreter"/>
+                </pl:parameter>
+                <pl:parameter name="useview" value="Process Reports"/>
+                <pl:parameter name="exceptions_to_xml" value="false"/>
+            </pl:eventprocessor>
+            <pl:eventprocessor name="pl:printmessage" disable="false">
+                <pl:parameter name="design">
+                    <pl:parameter name="uid" value="304"/>
+                    <pl:parameter name="alias" value="Print Message"/>
+                </pl:parameter>
+                <pl:parameter name="trigger" value="start"/>
+                <pl:parameter name="message" value="*************************************************&#10;=&gt; View:         Main View&#10;=&gt; Sequence: Main sequence&#10;=&gt; Message:   FINISHED&#10;_________________________________"/>
+                <pl:parameter name="use_log4j" value="true"/>
+                <pl:parameter name="log_level" value="INFO"/>
+            </pl:eventprocessor>
+        </pl:seqlist>
+        <pl:seqlist name="Process Reports">
+            <pl:eventprocessor name="pl:printmessage" disable="false">
+                <pl:parameter name="design">
+                    <pl:parameter name="uid" value="285"/>
+                    <pl:parameter name="alias" value="Print Message"/>
+                </pl:parameter>
+                <pl:parameter name="trigger" value="start"/>
+                <pl:parameter name="message" value="*************************************************&#10;=&gt; View:         Do Process Reports&#10;=&gt; Sequence: Process Reports&#10;=&gt; Message:   Processing Report.&#9; &#10;_________________________________"/>
+                <pl:parameter name="use_log4j" value="true"/>
+                <pl:parameter name="log_level" value="WARN"/>
+            </pl:eventprocessor>
+            <pl:eventprocessor name="pl:complexxmltoprocessvariable" disable="false">
+                <pl:parameter name="design">
+                    <pl:parameter name="uid" value="295"/>
+                    <pl:parameter name="alias" value="XML to Process Variable (complex)"/>
+                </pl:parameter>
+                <pl:parameter name="map">
+                    <pl:parameter name="vReportId" value="id"/>
+                    <pl:parameter name="v_ftp_server" value="ftp_server"/>
+                    <pl:parameter name="v_username" value="ftp_user"/>
+                    <pl:parameter name="v_password" value="ftp_pwd"/>
+                    <pl:parameter name="vFileName" value="ftp_filename"/>
+                    <pl:parameter name="v_Transfer_Type" value="ftp_transfer_type"/>
+                    <pl:parameter name="v_FTP_Path" value="ftp_path"/>
+                </pl:parameter>
+                <pl:parameter name="default_values">
+                    <pl:parameter name="vReportId" value=""/>
+                    <pl:parameter name="v_ftp_server" value=""/>
+                    <pl:parameter name="v_username" value=""/>
+                    <pl:parameter name="v_password" value=""/>
+                    <pl:parameter name="vFileName" value=""/>
+                    <pl:parameter name="v_Transfer_Type" value=""/>
+                    <pl:parameter name="v_FTP_Path" value=""/>
+                </pl:parameter>
+            </pl:eventprocessor>
+            <pl:eventprocessor name="pl:starttransaction" disable="false">
+                <pl:parameter name="design">
+                    <pl:parameter name="uid" value="292"/>
+                    <pl:parameter name="alias" value="DB Start"/>
+                </pl:parameter>
+                <pl:parameter name="trigger" value="start"/>
+                <pl:parameter name="connection" value="DBConnect"/>
+                <pl:parameter name="transaction_key" value="TK_PROCESS_REPORT"/>
+                <pl:parameter name="transaction_level" value="0"/>
+            </pl:eventprocessor>
+            <pl:eventprocessor name="pl:sqltoxml" disable="false">
+                <pl:parameter name="design">
+                    <pl:parameter name="uid" value="293"/>
+                    <pl:parameter name="alias" value="DB SQL - Get report data"/>
+                </pl:parameter>
+                <pl:parameter name="transaction_key" value="TK_PROCESS_REPORT"/>
+                <pl:parameter name="sql" value="select cs.data from document_store ds, content_store cs where ds.id = ? and cs.id = ds.content_store_id"/>
+                <pl:parameter name="forward_option" value="8"/>
+                <pl:parameter name="sqlwarntoerror" value="false"/>
+                <pl:parameter name="query" value="true"/>
+                <pl:parameter name="input_mappings">
+                    <pl:parameter name="input schemas">
+                        <pl:parameter name="0">
+                            <pl:parameter name="expand">
+                                <pl:parameter name="xsiTypeNamespaces">
+                                    <pl:parameter name="xsiTypePrefix0" value=""/>
+                                </pl:parameter>
+                                <pl:parameter name="[0]/ftp_report_queue_list/ftp_report_queue">
+                                    <pl:parameter name="temporaryRoot"/>
+                                </pl:parameter>
+                            </pl:parameter>
+                            <pl:parameter name="root" value="/ftp_report_queue_list"/>
+                            <pl:parameter name="schema" value="ftp_report_queue"/>
+                            <pl:parameter name="using" value="."/>
+                        </pl:parameter>
+                    </pl:parameter>
+                    <pl:parameter name="output schemas">
+                        <pl:parameter name="0">
+                            <pl:parameter name="root" value="/aa:parameters"/>
+                            <pl:parameter name="schema" value="dbsqlinput.1"/>
+                            <pl:parameter name="using" value="."/>
+                        </pl:parameter>
+                    </pl:parameter>
+                    <pl:parameter name="tracing" value="off"/>
+                    <pl:parameter name="exception-on-null" value="true"/>
+                    <pl:parameter name="exception-on-nomapping" value="false"/>
+                    <pl:parameter name="verbose-exceptions" value="false"/>
+                    <pl:parameter name="show-local-functions" value="false"/>
+                    <pl:parameter name="width" value="902"/>
+                    <pl:parameter name="height" value="614"/>
+                    <pl:parameter name="mappings">
+                        <pl:parameter name="[0]/aa:parameters">
+                            <pl:parameter name="main">
+                                <pl:parameter name="nocontext">
+                                    <pl:parameter name="control" value="true"/>
+                                    <pl:parameter name="function-id" value="2"/>
+                                    <pl:parameter name="name" value="iterate-all"/>
+                                    <pl:parameter name="actingParent" value="false"/>
+                                    <pl:parameter name="location">
+                                        <pl:parameter name="x" value="421"/>
+                                        <pl:parameter name="y" value="50"/>
+                                    </pl:parameter>
+                                    <pl:parameter name="1">
+                                        <pl:parameter name="array">
+                                            <pl:parameter name="1">
+                                                <pl:parameter name="xpath" value="/ftp_report_queue"/>
+                                                <pl:parameter name="fullxpath" value="/ftp_report_queue"/>
+                                                <pl:parameter name="using" value="0"/>
+                                            </pl:parameter>
+                                        </pl:parameter>
+                                    </pl:parameter>
+                                </pl:parameter>
+                            </pl:parameter>
+                        </pl:parameter>
+                        <pl:parameter name="[0]/aa:parameters/aa:param0/text()">
+                            <pl:parameter name="main">
+                                <pl:parameter name="nocontext">
+                                    <pl:parameter name="function-id" value="3"/>
+                                    <pl:parameter name="name" value="identity"/>
+                                    <pl:parameter name="location">
+                                        <pl:parameter name="x" value="421"/>
+                                        <pl:parameter name="y" value="83"/>
+                                    </pl:parameter>
+                                    <pl:parameter name="1">
+                                        <pl:parameter name="xpath" value="./document_id/text()"/>
+                                        <pl:parameter name="fullxpath" value="/ftp_report_queue/document_id"/>
+                                        <pl:parameter name="using" value="0"/>
+                                    </pl:parameter>
+                                </pl:parameter>
+                            </pl:parameter>
+                        </pl:parameter>
+                    </pl:parameter>
+                </pl:parameter>
+                <pl:parameter name="output_mappings">
+                    <pl:parameter name="input schemas">
+                        <pl:parameter name="0">
+                            <pl:parameter name="root" value="/aa:resultSet"/>
+                            <pl:parameter name="schema" value="dbsql.TK_PROCESS_REPORT.query.select cs.data from document_store ds, content_store cs where ds.id = ? and cs.id = ds.content_store_id"/>
+                            <pl:parameter name="using" value="."/>
+                        </pl:parameter>
+                    </pl:parameter>
+                    <pl:parameter name="output schemas">
+                        <pl:parameter name="0">
+                            <pl:parameter name="root" value="/any"/>
+                            <pl:parameter name="schema" value=""/>
+                            <pl:parameter name="using" value="."/>
+                        </pl:parameter>
+                    </pl:parameter>
+                    <pl:parameter name="tracing" value="off"/>
+                    <pl:parameter name="exception-on-null" value="true"/>
+                    <pl:parameter name="exception-on-nomapping" value="false"/>
+                    <pl:parameter name="verbose-exceptions" value="false"/>
+                    <pl:parameter name="show-local-functions" value="false"/>
+                    <pl:parameter name="width" value="902"/>
+                    <pl:parameter name="height" value="614"/>
+                    <pl:parameter name="mappings"/>
+                    <pl:parameter name="contexts">
+                        <pl:parameter name="4">
+                            <pl:parameter name="main">
+                                <pl:parameter name="nocontext">
+                                    <pl:parameter name="function-id" value="4"/>
+                                    <pl:parameter name="name" value="base64DecodeToProcessVariableObject"/>
+                                    <pl:parameter name="location">
+                                        <pl:parameter name="x" value="433"/>
+                                        <pl:parameter name="y" value="23"/>
+                                    </pl:parameter>
+                                    <pl:parameter name="1">
+                                        <pl:parameter name="literal" value="vDataStore"/>
+                                    </pl:parameter>
+                                    <pl:parameter name="2">
+                                        <pl:parameter name="xpath" value="/aa:resultSet/aa:item/aa:DATA/text()"/>
+                                        <pl:parameter name="fullxpath" value="/aa:resultSet/aa:item/aa:DATA"/>
+                                        <pl:parameter name="using" value="0"/>
+                                    </pl:parameter>
+                                </pl:parameter>
+                            </pl:parameter>
+                        </pl:parameter>
+                    </pl:parameter>
+                </pl:parameter>
+                <pl:parameter name="test_params">
+                    <pl:parameter name="param0">
+                        <pl:parameter name="value" value="1"/>
+                        <pl:parameter name="type" value="12"/>
+                    </pl:parameter>
+                </pl:parameter>
+                <pl:parameter name="uses_transaction" value="true"/>
+            </pl:eventprocessor>
+            <pl:eventprocessor name="pl:interpreter" disable="false">
+                <pl:parameter name="design">
+                    <pl:parameter name="uid" value="298"/>
+                    <pl:parameter name="alias" value="PolarLake Interpreter"/>
+                </pl:parameter>
+                <pl:parameter name="useview" value="Do FTP Report"/>
+                <pl:parameter name="exceptions_to_xml" value="true"/>
+            </pl:eventprocessor>
+            <pl:eventprocessor name="pl:committransaction" disable="false">
+                <pl:parameter name="design">
+                    <pl:parameter name="uid" value="294"/>
+                    <pl:parameter name="alias" value="DB Commit"/>
+                </pl:parameter>
+                <pl:parameter name="trigger" value="end"/>
+                <pl:parameter name="transaction_key" value="TK_PROCESS_REPORT"/>
+            </pl:eventprocessor>
+        </pl:seqlist>
+        <pl:seqlist name="Do Update Queue Status">
+            <pl:eventprocessor name="pl:printmessage" disable="false">
+                <pl:parameter name="design">
+                    <pl:parameter name="uid" value="312"/>
+                    <pl:parameter name="alias" value="Print Message"/>
+                </pl:parameter>
+                <pl:parameter name="trigger" value="start"/>
+                <pl:parameter name="message" value="*************************************************&#10;=&gt; View:         Main View&#10;=&gt; Sequence: Main sequence&#10;=&gt; Message:   Found Records to process, setting to Pending.&#10;_________________________________"/>
+                <pl:parameter name="use_log4j" value="true"/>
+                <pl:parameter name="log_level" value="INFO"/>
+            </pl:eventprocessor>
+            <pl:eventprocessor name="pl:dbupdate" disable="false">
+                <pl:parameter name="design">
+                    <pl:parameter name="uid" value="311"/>
+                    <pl:parameter name="alias" value="DB Update"/>
+                </pl:parameter>
+                <pl:parameter name="transaction_key" value="TK_PROCESS_REPORTS"/>
+                <pl:parameter name="table_name" value="FTP_QUEUE"/>
+                <pl:parameter name="dbschema" value=""/>
+                <pl:parameter name="uses_transaction" value="true"/>
+                <pl:parameter name="xsd_mappings">
+                    <pl:parameter name="input schemas">
+                        <pl:parameter name="0">
+                            <pl:parameter name="expand">
+                                <pl:parameter name="xsiTypeNamespaces">
+                                    <pl:parameter name="xsiTypePrefix0" value=""/>
+                                </pl:parameter>
+                                <pl:parameter name="[0]/ftp_report_queue_list">
+                                    <pl:parameter name="temporaryRoot"/>
+                                </pl:parameter>
+                                <pl:parameter name="[1]/ftp_report_queue_list/ftp_report_queue">
+                                    <pl:parameter name="temporaryRoot"/>
+                                </pl:parameter>
+                                <pl:parameter name="[2]/ftp_report_queue">
+                                    <pl:parameter name="temporaryRoot"/>
+                                </pl:parameter>
+                            </pl:parameter>
+                            <pl:parameter name="root" value="/ftp_report_queue_list"/>
+                            <pl:parameter name="schema" value="ftp_report_queue"/>
+                            <pl:parameter name="using" value="."/>
+                        </pl:parameter>
+                    </pl:parameter>
+                    <pl:parameter name="output schemas">
+                        <pl:parameter name="0">
+                            <pl:parameter name="root" value="/aa:FTP_QUEUE"/>
+                            <pl:parameter name="schema" value="dbtxn.TK_PROCESS_REPORTS.FTP_QUEUE:update"/>
+                            <pl:parameter name="using" value="."/>
+                        </pl:parameter>
+                    </pl:parameter>
+                    <pl:parameter name="tracing" value="off"/>
+                    <pl:parameter name="exception-on-null" value="true"/>
+                    <pl:parameter name="exception-on-nomapping" value="false"/>
+                    <pl:parameter name="verbose-exceptions" value="false"/>
+                    <pl:parameter name="show-local-functions" value="false"/>
+                    <pl:parameter name="width" value="774"/>
+                    <pl:parameter name="height" value="518"/>
+                    <pl:parameter name="mappings">
+                        <pl:parameter name="[0]/aa:FTP_QUEUE">
+                            <pl:parameter name="main">
+                                <pl:parameter name="nocontext">
+                                    <pl:parameter name="control" value="true"/>
+                                    <pl:parameter name="function-id" value="4"/>
+                                    <pl:parameter name="name" value="iterate-all"/>
+                                    <pl:parameter name="actingParent" value="false"/>
+                                    <pl:parameter name="location">
+                                        <pl:parameter name="x" value="357"/>
+                                        <pl:parameter name="y" value="50"/>
+                                    </pl:parameter>
+                                    <pl:parameter name="1">
+                                        <pl:parameter name="array">
+                                            <pl:parameter name="1">
+                                                <pl:parameter name="xpath" value="/ftp_report_queue"/>
+                                                <pl:parameter name="fullxpath" value="/ftp_report_queue"/>
+                                                <pl:parameter name="using" value="0"/>
+                                            </pl:parameter>
+                                        </pl:parameter>
+                                    </pl:parameter>
+                                </pl:parameter>
+                            </pl:parameter>
+                        </pl:parameter>
+                        <pl:parameter name="[0]/aa:FTP_QUEUE/aa:set/aa:STATUS/text()">
+                            <pl:parameter name="main">
+                                <pl:parameter name="nocontext">
+                                    <pl:parameter name="function-id" value="3"/>
+                                    <pl:parameter name="name" value="identity"/>
+                                    <pl:parameter name="location">
+                                        <pl:parameter name="x" value="376"/>
+                                        <pl:parameter name="y" value="111"/>
+                                    </pl:parameter>
+                                    <pl:parameter name="1">
+                                        <pl:parameter name="literal" value="1"/>
+                                    </pl:parameter>
+                                </pl:parameter>
+                            </pl:parameter>
+                        </pl:parameter>
+                        <pl:parameter name="[0]/aa:FTP_QUEUE/aa:where/aa:REQUEST_ID/text()">
+                            <pl:parameter name="main">
+                                <pl:parameter name="nocontext">
+                                    <pl:parameter name="function-id" value="5"/>
+                                    <pl:parameter name="name" value="identity"/>
+                                    <pl:parameter name="location">
+                                        <pl:parameter name="x" value="357"/>
+                                        <pl:parameter name="y" value="73"/>
+                                    </pl:parameter>
+                                    <pl:parameter name="1">
+                                        <pl:parameter name="xpath" value="./id/text()"/>
+                                        <pl:parameter name="fullxpath" value="/ftp_report_queue/id"/>
+                                        <pl:parameter name="using" value="0"/>
+                                    </pl:parameter>
+                                </pl:parameter>
+                            </pl:parameter>
+                        </pl:parameter>
+                    </pl:parameter>
+                </pl:parameter>
+            </pl:eventprocessor>
+        </pl:seqlist>
+        <pl:seqlist name="Format File Path">
+            <pl:eventprocessor name="pl:printmessage" disable="false">
+                <pl:parameter name="design">
+                    <pl:parameter name="uid" value="320"/>
+                    <pl:parameter name="alias" value="Print Message"/>
+                </pl:parameter>
+                <pl:parameter name="trigger" value="start"/>
+                <pl:parameter name="message" value="*************************************************&#10;=&gt; View:         Format File Path&#10;=&gt; Sequence: Format File Path&#10;=&gt; Message:   FTP Path Defined&#10;_________________________________"/>
+                <pl:parameter name="use_log4j" value="false"/>
+                <pl:parameter name="log_level" value="INFO"/>
+            </pl:eventprocessor>
+            <pl:eventprocessor name="pl:addprocessvariable" disable="false">
+                <pl:parameter name="design">
+                    <pl:parameter name="uid" value="326"/>
+                    <pl:parameter name="alias" value="Add Process Variables"/>
+                </pl:parameter>
+                <pl:parameter name="trigger" value="start"/>
+                <pl:parameter name="map">
+                    <pl:parameter name="vSendPath" value="{$v_FTP_Path}/{$vFileName}"/>
+                </pl:parameter>
+            </pl:eventprocessor>
+        </pl:seqlist>
+        <pl:seqlist name="New sequence 36"/>
+        <pl:table name="Main Table" operation="create">
+            <pl:namespace uri="http://www.w3.org/2001/XMLSchema" prefix="xs" operation="create"/>
+            <pl:namespace uri="http://www.polarlake.com/platform/1.0" prefix="pl" operation="create"/>
+            <pl:entry factory="com.polarlake.platform.event.NamedEventProcessorFactory" rule="/pl:exception" operation="create">
+                <pl:parameter name="epName" value="Exception Sequence"/>
+            </pl:entry>
+            <pl:entry factory="com.polarlake.platform.event.NamedEventProcessorFactory" rule="/shutdown" operation="create" description="Shutdown Circuit rule">
+                <pl:parameter name="epName" value="Shutdown Circuit"/>
+            </pl:entry>
+            <pl:entry factory="com.polarlake.platform.event.NamedEventProcessorFactory" rule="/circuit_start" operation="create" description="Circuit start rule">
+                <pl:parameter name="epName" value="Circuit start"/>
+            </pl:entry>
+            <pl:entry factory="com.polarlake.platform.event.NamedEventProcessorFactory" rule="/pl:scheduledEvent" operation="create" description="Main sequence rule">
+                <pl:parameter name="epName" value="Main sequence"/>
+            </pl:entry>
+        </pl:table>
+        <pl:table name="Do Ftp Report" operation="create">
+            <pl:namespace uri="http://www.polarlake.com/platform/1.0" prefix="pl" operation="create"/>
+            <pl:namespace uri="http://www.w3.org/2001/XMLSchema-instance" prefix="xsi" operation="create"/>
+            <pl:namespace uri="" prefix="ft" operation="create"/>
+            <pl:namespace uri="http://www.w3.org/2001/XMLSchema" prefix="xs" operation="create"/>
+            <pl:entry factory="com.polarlake.platform.event.NamedEventProcessorFactory" rule="/pl:exception" operation="create" description="Handle Exception rule">
+                <pl:parameter name="epName" value="Handle Exception"/>
+            </pl:entry>
+            <pl:entry factory="com.polarlake.platform.event.NamedEventProcessorFactory" rule="/ftp_report_queue" operation="create" description="DO FTP rule">
+                <pl:parameter name="epName" value="DO FTP"/>
+            </pl:entry>
+        </pl:table>
+        <pl:table name="Handle Report Type" operation="create">
+            <pl:namespace uri="" prefix="ft" operation="create"/>
+            <pl:namespace uri="http://www.w3.org/2001/XMLSchema" prefix="xs" operation="create"/>
+            <pl:namespace uri="http://www.w3.org/2001/XMLSchema-instance" prefix="xsi" operation="create"/>
+        </pl:table>
+        <pl:table name="Do Process Reports" operation="create"/>
+        <pl:table name="Send Report" operation="create">
+            <pl:entry factory="com.polarlake.platform.event.NamedEventProcessorFactory" rule="/ftp_report_queue[upper-case(&apos;{$v_Transfer_Type}&apos;) = &apos;BINARY&apos;]" operation="create" description="Send Binary rule">
+                <pl:parameter name="epName" value="Send Binary"/>
+            </pl:entry>
+            <pl:entry factory="com.polarlake.platform.event.NamedEventProcessorFactory" rule="/ftp_report_queue[upper-case(&apos;{$v_Transfer_Type}&apos;=&apos;ASCII&apos;)]" operation="create" description="Send Text rule">
+                <pl:parameter name="epName" value="Send Text"/>
+            </pl:entry>
+        </pl:table>
+        <pl:table name="Process Reports" operation="create">
+            <pl:namespace uri="" prefix="ft" operation="create"/>
+            <pl:namespace uri="http://www.w3.org/2001/XMLSchema" prefix="xs" operation="create"/>
+            <pl:namespace uri="http://www.w3.org/2001/XMLSchema-instance" prefix="xsi" operation="create"/>
+            <pl:entry factory="com.polarlake.platform.event.NamedEventProcessorFactory" rule="/ftp_report_queue_list/ftp_report_queue" operation="create" description="Process Reports rule">
+                <pl:parameter name="epName" value="Process Reports"/>
+            </pl:entry>
+        </pl:table>
+        <pl:table name="Do Update Queue Status" operation="create">
+            <pl:namespace uri="" prefix="ft" operation="create"/>
+            <pl:namespace uri="http://www.w3.org/2001/XMLSchema" prefix="xs" operation="create"/>
+            <pl:namespace uri="http://www.w3.org/2001/XMLSchema-instance" prefix="xsi" operation="create"/>
+            <pl:namespace uri="http://www.polarlake.com/platform/1.0" prefix="pl" operation="create"/>
+            <pl:entry factory="com.polarlake.platform.event.NamedEventProcessorFactory" rule="/ftp_report_queue_list/ftp_report_queue[count(/ftp_report_queue_list/ftp_report_queue)&gt;0]" operation="create" description="Do Update Queue Status rule">
+                <pl:parameter name="epName" value="Do Update Queue Status"/>
+            </pl:entry>
+        </pl:table>
+        <pl:table name="Format File Path" operation="create">
+            <pl:entry factory="com.polarlake.platform.event.NamedEventProcessorFactory" rule="/ftp_report_queue[string-length(normalize-space(ftp_path))&gt;0]" operation="create" description="Format File Path rule">
+                <pl:parameter name="epName" value="Format File Path"/>
+            </pl:entry>
+        </pl:table>
+        <pl:view name="Main View" operation="create">
+            <pl:table name="Main Table" operation="create"/>
+        </pl:view>
+        <pl:view name="Do Update Queue Status" operation="create">
+            <pl:table name="Do Update Queue Status" operation="create"/>
+        </pl:view>
+        <pl:view name="Process Reports" operation="create">
+            <pl:table name="Process Reports" operation="create"/>
+        </pl:view>
+        <pl:view name="Do FTP Report" operation="create">
+            <pl:table name="Do Ftp Report" operation="create"/>
+        </pl:view>
+        <pl:view name="Format File Path" operation="create">
+            <pl:table name="Format File Path" operation="create"/>
+        </pl:view>
+        <pl:view name="Send FTP" operation="create">
+            <pl:table name="Send Report" operation="create"/>
+        </pl:view>
+        <pl:schemalist>
+            <pl:schema description="ftp_report_queue" location="file:///{pl$ftp_rep_home}/schemas/ftp_report_queue.xsd" largeSchemaOptimization="false"/>
+        </pl:schemalist>
+        <pl:action name="transportprovider.command">
+            <pl:parameter name="provider" value="FtpClientProvider"/>
+            <pl:parameter name="alias" value="FTP"/>
+            <pl:parameter name="command" value="start"/>
+            <pl:parameter name="application" value="com.polarlake.ftpmodule.FTP"/>
+            <pl:parameter name="design">
+                <pl:parameter name="uid" value="29"/>
+            </pl:parameter>
+        </pl:action>
+        <pl:action name="transportprovider.command">
+            <pl:parameter name="command" value="start"/>
+            <pl:parameter name="application" value="SYSTEM"/>
+            <pl:parameter name="provider" value="xmltclientprovider"/>
+            <pl:parameter name="alias" value="XMLT Transport"/>
+            <pl:parameter name="ackonreceipt" value="false"/>
+            <pl:parameter name="ackonprocessed" value="false"/>
+            <pl:parameter name="design">
+                <pl:parameter name="uid" value="55"/>
+            </pl:parameter>
+        </pl:action>
+        <pl:action name="transportprovider.command">
+            <pl:parameter name="command" value="start"/>
+            <pl:parameter name="application" value="SYSTEM"/>
+            <pl:parameter name="provider" value="xmltserverprovider"/>
+            <pl:parameter name="alias" value="XMLT Listener"/>
+            <pl:parameter name="port" value="{pl$ftp_rep_xmlt_port}"/>
+            <pl:parameter name="useview" value="Main View"/>
+            <pl:parameter name="process_priority" value="5"/>
+            <pl:parameter name="ackonreceipt" value="false"/>
+            <pl:parameter name="ackonprocessed" value="false"/>
+            <pl:parameter name="design">
+                <pl:parameter name="uid" value="60"/>
+            </pl:parameter>
+        </pl:action>
+        <pl:action name="transport.retrieve">
+            <pl:parameter name="useview" value="Main View"/>
+            <pl:parameter name="address" value="file:///{pl$ftp_rep_home}/xml/startup.xml"/>
+            <pl:parameter name="wait" value="false"/>
+            <pl:parameter name="process_priority" value="5"/>
+            <pl:parameter name="design">
+                <pl:parameter name="uid" value="205"/>
+            </pl:parameter>
+        </pl:action>
+        <pl:action name="eventsource.command">
+            <pl:parameter name="source" value="com.polarlake.librarymodule.EventSubscriber"/>
+            <pl:parameter name="command" value="start"/>
+            <pl:parameter name="application" value="com.polarlake.platform.librarymodule.LibraryModuleApplication"/>
+            <pl:parameter name="design">
+                <pl:parameter name="uid" value="10"/>
+            </pl:parameter>
+            <pl:parameter name="eventsourceparameters">
+                <pl:parameter name="name" value="Report Queue DB Table Polller"/>
+                <pl:parameter name="description" value="Polls the report_queue DB table at specified intervals."/>
+                <pl:parameter name="category" value="com.polarlake.ScheduledEvent"/>
+                <pl:parameter name="event" value="DB Rep Poller"/>
+            </pl:parameter>
+            <pl:parameter name="useview" value="Main View"/>
+            <pl:parameter name="alias" value="Report Queue DB Table Polller"/>
+        </pl:action>
+    </pl:circuit>
+</pl:system-content>

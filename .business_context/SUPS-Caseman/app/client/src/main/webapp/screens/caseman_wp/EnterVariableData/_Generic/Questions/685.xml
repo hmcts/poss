@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>685</Id>
+	<Label>Solicitor Name</Label>
+	<ObjectName>SolName</ObjectName>	
+	<Html>
+	   <input type="text" id="SolName"></input>
+	</Html>
+	<Javascript>
+		<XPath>/ds/EnterVariableData/Solicitor/ContactDetails/solName</XPath>
+		<HintText>Enter Solicitor name</HintText>
+		<initialise>			
+			defNode = WPU.getSubjectPartyNode();
+			var solId = XML.getNodeTextContent(defNode.selectSingleNode("./SolicitorSurrogateId"));			
+			solNode = null;
+			if( null != solId &amp;&amp; "" != solId)
+			{	solNode = Services.getNode("//ManageCase/Parties/Solicitor[SurrogateId = '"+solId+"']");
+			}																
+		</initialise>
+		<isMandatory>return true;</isMandatory>
+		<mandatoryOn>NewAddressForService.dataBinding</mandatoryOn>					
+		<enableOn>NewAddressForService.dataBinding</enableOn>
+		<isEnabled>return('ACK' == Services.getValue(NewAddressForService.dataBinding));</isEnabled>
+		<logicOn>NewAddressForService.dataBinding</logicOn>
+		<logic>
+			if('ACK' != Services.getValue(NewAddressForService.dataBinding))
+			{	Services.setValue(SolName.dataBinding, "");
+			}
+			else
+			{	//check if a solicitor exisits for this defendant
+				if( null != solNode )
+			    {	var solNameNode = solNode.selectSingleNode("./Name");
+			    	if( null != solNameNode)
+			    	Services.setValue(SolName.dataBinding, XML.getNodeTextContent( solNameNode ));
+			    }				
+			}
+		</logic>
+		<readOnlyOn>NewAddressForService.dataBinding</readOnlyOn>
+		<isReadOnly>return areAddressFieldsReadOnly();</isReadOnly>
+		<miscCode>
+			areAddressFieldsReadOnly = function()
+			{
+				if('ACK' == Services.getValue(NewAddressForService.dataBinding))
+				{
+					// UCT Defect 774 - read only solicitor if coded party
+					if( null != solNode )
+				    {
+						var code = XML.selectNodeGetTextContent( solNode, "./Code" );
+			    		if( null != code &amp;&amp; "" != code )    		
+			    		{
+			    			return true;
+			    		}
+			    	}
+			    }
+			    return false;
+			}
+		</miscCode>
+	</Javascript>
+</Question>

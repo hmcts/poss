@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<DBMapDef>
+	<DataSource id="java:OracleDS"/>
+	<Tables>
+		<Table alias="C" name="CASES"/>
+		<Table alias="CE" name="CASE_EVENTS"/>
+		<Table alias="O" name="OBLIGATIONS"/>
+	</Tables>
+	<Mapping>
+		<ds>
+			<MaintainObligations>
+				<CaseNumber>${O.CASE_NUMBER}</CaseNumber>
+				<Obligations>
+					<Obligation>
+						<ObligationSeq>${O.OBLIGATION_SEQ}</ObligationSeq>
+						<EventSeq>${O.EVENT_SEQ}</EventSeq>
+						<ExpiryDate>${O.EXPIRY_DATE}</ExpiryDate>
+						<Notes>${O.NOTES}</Notes>
+						<LastUpdateUser>${O.LAST_USED_BY}</LastUpdateUser>
+						<DeleteFlag>${O.DELETE_FLAG}</DeleteFlag>
+					</Obligation>
+				</Obligations>
+			</MaintainObligations>
+		</ds>
+	</Mapping>
+</DBMapDef>

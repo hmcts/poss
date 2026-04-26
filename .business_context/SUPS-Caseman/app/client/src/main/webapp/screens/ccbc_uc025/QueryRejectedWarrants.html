@@ -1,0 +1,195 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN">
+
+<html>
+	<head>
+		<title>Query Rejected Warrants</title>
+		<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+		<link type="text/css" rel="stylesheet" title="Default" href="../CCBCStylesheet.css">
+		<link type="text/css" rel="stylesheet" href="QueryRejectedWarrants.css">
+		<script type="text/javascript" src="../../Framework.js"></script>
+		<script type="text/javascript" src="../../CaseManUtils.js"></script>
+		<script type="text/javascript" src="../CCBCShared.js"></script>
+		<script type="text/javascript" src="QueryRejectedWarrants.js"></script>
+	</head>
+	<body>
+		<form name="queryRejectedWarants" action="" id="queryRejectedWarants" >
+							<!-- Menu Bar -->
+			<script type="text/javascript">MenuBarRenderer.createInline();</script>
+
+			<div class="panel">
+				<table class="content" >				
+					<tr>
+						<td><label>Creditor Code</label></td>
+						<td width="25%"><input type="text" id="Query_CreditorCode_Txt" size="5"></td>
+						<td><label>Case Number</label></td>
+						<td><input type="text" id="Query_CaseNumber_Txt" size="10"></td>
+						<td></td>
+						<td></td>
+					</tr>
+
+					<tr>
+						<td><label>Warrant Number</label></td>
+						<td width="25%"><input type="text" id="Query_WarrantNumber_Txt" size="10"></td>
+				
+						<td><label>Claimant Name</label></td>
+						<td><input type="text" id="Query_ClaimantDetails_Txt" size=70></td>
+						<td></td>
+						<td></td>
+					</tr>
+
+					<tr>
+						<td><label>File Sequence</label></td>
+						<td width="25%"><input type="text" id="Query_FileSequence_Txt" size=5></td>
+						<td><label>Defendant Name</label></td>
+						<td><input type="text" id="Query_DefendantName_Txt" size=70></td>
+						<td></td>
+						<td align="right"><input id="Query_Search_Btn" type="button" value="Search" size="10"></td>
+					</tr>
+				</table>
+			</div>
+
+			<div class="panel" style="height: 489px;">
+				<table class="content" style="width: 960px;">
+					<tr>
+						<td valign="top">
+							<div id="rejectedWarrantTabArea" class="tabbedArea">
+								<script	type="text/javascript">	
+									TabSelector.createInline("rejectedWarrantTabSelector",[{tabLabel: 'Reject Warrant', pageId: 'Tabs_First_Page'},{tabLabel: 'Costs', pageId: 'Tabs_Second_Page'}]);							
+								</script>
+								<div class="pagedArea" id="rejectedWarrantPagedArea">
+									<div class="page" id="Tabs_First_Page">
+										<table class="tab_contents" width="100%">
+											<tr>
+												<td width="20%"><label>Case Number</label></td>
+												<td><input type="text" id="Tabs_CaseNumber_Txt" size="10"></td>
+											</tr>
+											<tr>
+												<td><label>Warrant Number</label></td>
+												<td><input type="text" id="Tabs_WarrantNumber_Txt" size="10"></td>
+											</tr>
+											<tr>
+												<td><label>Date Rejected</label></td>
+												<td><script type="text/javascript">DatePickerRenderer.createInline("Tabs_RejectDate_Cal", true);</script></td>
+											</tr>
+											<tr>
+												<td><label>Reject Reason</label></td>
+												<td><input type="text" id="Tabs_RejectCode_Txt" size=2>
+													<input type="text" id="Tabs_RejectReason_Txt" size=70></td>
+											</tr>
+											<tr>
+												<td><label>Creditor Code</label></td>
+												<td><input type="text" id="Tabs_CreditorCode_Txt" size="5"></td>
+											</tr>
+											<tr>
+												<td><label>Claimant Name</label></td>
+												<td><input type="text" id="Tabs_ClaimantDetails_Txt" size=70></td>
+											</tr>
+											<tr>
+												<td><label>Reference</label></td>
+												<td><input type="text" id="Tabs_Refrence_Txt" size=40></td>
+											</tr>
+											<tr>
+								
+												<td><label>File Sequence Number</label></td>
+												<td><input type="text" id="Tabs_FileSequence_Txt" size=5></td>
+											</tr>
+										</table>	
+										<hr>
+										<table class="tab_contents" >	
+											<tr>
+												<td width="20%"><label>Defendant Name</label></td>
+												<td colspan="3"><input type="text" id="Tabs_DefendantName_Txt" size=70></td>
+												
+											</tr>
+											<tr>
+												<td width="20%" valign="top"><label>Defendant Address</label></td>
+												<td width="25%"><input type="text" id="Tabs_DefendantAddress1_Txt" size="35"></td>
+												<td width="20%"><label>DX Number</label></td>
+												<td><input type="text" id="Tabs_DXNumber_Txt" size=35></td>
+											</tr>
+											<tr>
+												<td valign="top"></td>
+												<td><input type="text" id="Tabs_DefendantAddress2_Txt" size="35"></td>
+												<td><label>Telephone Number</label></td>
+												<td><input type="text" id="Tabs_TelephoneNumber_Txt" size=14></td>
+										
+											</tr>
+											<tr>
+												<td valign="top"></td>
+												<td><input type="text" id="Tabs_DefendantAddress3_Txt" size="35"></td>
+												<td><label>Fax Number</label></td>
+												<td><input type="text" id="Tabs_FaxNumber_Txt" size=24></td>
+										
+											</tr>
+											<tr>
+												<td valign="top"></td>
+												<td><input type="text" id="Tabs_DefendantAddress4_Txt" size="35"></td>
+												<td><label>Email Address</label></td>
+												<td><script type="text/javascript">ZoomFieldRenderer.createInline("Tabs_EmailAddress_Txt",5, 51);</script></td>												
+											
+											</tr>
+											<tr>
+												<td valign="top"></td>
+												<td><input type="text" id="Tabs_DefendantAddress5_Txt" size="35"></td>
+												<td><label>Communication Method</label></td>
+												<td> <input type="text" id="Tabs_CommMethod_Dbx" size="10"></td>
+											</tr>
+											<tr>
+												<td><label>Postcode</label></td>
+												<td colspan="3"><input type="text" id="Tabs_DefPostcode_Txt" size=10></td>
+											</tr>
+								
+											<tr>
+												<td><label>Enforcing Court Code</label></td>
+												<td colspan="3"><input type="text" id="Tabs_EnforcingCourtCode_Txt" size=5></td>
+											</tr>
+										</table>
+									</div>
+									<div class="page" id="Tabs_Second_Page">
+										<table class="tab_contents">
+											<tr>
+												<td width="20%"><label>Balance of Debt</label></td>
+												<td><input id="Tabs_Balance_Cur" type="text" size=1> <input type="text" id="Tabs_BalanceOfDebt_Txt" size=11></td>
+											</tr>
+								
+											<tr>
+												<td width="20%"><label>Amount</label></td>
+												<td><input id="Tabs_Amount_Cur" type="text" size=1> <input type="text" id="Tabs_Amount_Txt" size=11></td>
+											</tr>
+								
+											<tr>
+												<td width="20%"><label>Fee</label></td>
+												<td><input id="Tabs_Fees_Cur" type="text" size=1> <input type="text" id="Tabs_Fees_Txt" size=11></td>
+											</tr>
+								
+											<tr>
+												<td width="20%"><label>Costs</label></td>
+												<td><input id="Tabs_Costs_Cur" type="text" size=1> <input type="text" id="Tabs_Costs_Txt" size=11></td>
+											</tr>
+								
+											<tr>
+												<td><label>Validated</label></td>
+												<td><input type="checkbox" id="Tabs_Validated_CBx"></td>
+											</tr>
+										</table>
+									</div>
+								</div>
+							</div>
+						</td>
+					</tr>
+				</table>
+			</div>
+			<script type="text/javascript">
+				ActionBarRenderer.createInline(	"statusbar",
+					[
+						{id: "Zoom_Hidden_Btn", label: "Zoom"},
+					    {id: "Main_Previous_Btn", label: "Previous"},
+						{id: "Main_Next_Btn", label: "Next"},
+						{id: "Main_Clear_Btn", label: "Clear"},
+						{id: "Main_Back_Btn", label: "Close"}
+					]
+				);	
+			</script>
+		</form>
+	</body>
+</html>

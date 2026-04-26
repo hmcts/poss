@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<DBMapDef>
+  <DataSource id="java:OracleDS"/>
+  <Tables>
+    <Table alias="C" name="CASES"/>
+    <Table alias="GA" name="GIVEN_ADDRESSES"/>
+    <Table alias="CPR" name="CASE_PARTY_ROLES"/>
+    <Table alias="PR" name="PARTY_ROLES"/>
+    <Table alias="P" name="PARTIES"/>
+	<Table alias="CT" name="COURTS"/>	
+	<Table alias="CP" name="CODED_PARTIES"/>	
+    <!-- Table alias="AT" name="ADDRESS_TYPES"/ -->
+  </Tables>  
+  <Mapping>
+	<PartyQueryResults>
+		<PartyQueryResult>
+			<CaseNumber>${CPR.CASE_NUMBER}</CaseNumber>
+			<PartyType>${PR.PARTY_ROLE_DESCRIPTION}</PartyType>
+			<PartyName>${P.PERSON_REQUESTED_NAME}</PartyName>
+			<PartyCode>${CP.CODE}</PartyCode>
+			<Address1>${GA.ADDRESS_LINE1}</Address1>
+			<Address2>${GA.ADDRESS_LINE2}</Address2>
+			<InsolvencyNumber>${C.INSOLVENCY_NUMBER}</InsolvencyNumber>
+		</PartyQueryResult>
+	</PartyQueryResults>
+ </Mapping>
+ </DBMapDef>

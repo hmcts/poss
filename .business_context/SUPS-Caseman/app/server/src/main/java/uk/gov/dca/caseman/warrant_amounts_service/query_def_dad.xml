@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<QueryDef>
+  <DBMapDef location="uk/gov/dca/caseman/warrant_amounts_service/map_dad.xml"/>
+  <Query pivotNode="/ds/WarrantAmounts/Warrant" tables="F">
+    <Join/>
+    <Modify>
+      <Field name="F.FEES_PAID_ID" xpath="FeesPaidId"/>
+	  <Field name="F.PROCESS_NUMBER" xpath="ProcessNumber"/>
+	  <Field name="F.PROCESS_TYPE" xpath="ProcessType"/>
+	  <Field name="F.ALLOCATION_DATE" xpath="AllocationDate"/>
+	  <Field name="F.AMOUNT" xpath="Amount"/>
+	  <Field name="F.AMOUNT_CURRENCY" xpath="AmountCurrency"/>
+	  <Field name="F.ISSUING_COURT" xpath="IssuingCourtCode"/>
+	  <Field name="F.USER_ID" xpath="UserId"/>
+	  <Field name="F.DATE_CREATED" xpath="DateCreated"/>
+	</Modify>
+  </Query>
+</QueryDef>

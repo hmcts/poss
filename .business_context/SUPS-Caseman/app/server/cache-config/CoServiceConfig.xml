@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<service-config>
+
+	<service name="Co"/>
+
+	<method name="getCoFrequencyList">
+		<get>
+			<HTTPCache expires="endOfDay"/>
+		</get>
+	</method>
+	
+	<method name="getCoTypeList">
+		<get>
+			<HTTPCache expires="endOfDay"/>
+		</get>
+	</method>
+	
+	<method name="getDebtStatusList">
+		<get>
+			<HTTPCache expires="endOfDay"/>
+		</get>
+	</method>
+	
+	<method name="getFeeRateList">
+		<get>
+			<HTTPCache expires="endOfDay"/>
+		</get>
+	</method>
+	
+	<method name="getCoCompositionTypeList">
+		<get>
+			<HTTPCache expires="endOfDay"/>
+		</get>
+	</method>
+
+</service-config>

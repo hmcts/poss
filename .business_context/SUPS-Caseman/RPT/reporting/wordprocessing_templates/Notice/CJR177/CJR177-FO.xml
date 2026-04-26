@@ -1,0 +1,258 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- ====================================================================== -->
+<!--  -->
+<!-- FILENAME: $Source: C:/CVSRepository/serveroas/src/uk/gov/dca/caseman/wordprocessing_templates/Notice/CJR177/CJR177-FO.xml,v $ -->
+<!--  -->
+<!-- AUTHOR: $Author: jay $-->
+<!--  -->
+<!-- DATE: $Date: 2006/04/18 10:41:52 $ -->
+<!--  -->
+<!-- Version: $Revision: 1.8 $ -->
+<!--  -->
+<!-- DESCRIPTION: This stylesheet is used to create an XSL:FO document that -->
+<!-- can be processed into a PDF version.  Business logic -->
+<!-- is embedded to generate the correct document text for the order -->
+<!-- required. -->
+<!--  -->
+<!-- INPUTS: XML document containing: the answers to questions asked of the -->
+<!-- user; case data retrieved from the database; HTML representing the  -->
+<!-- body of the document content (already edited by the user). -->
+<!--  -->
+<!-- OUTPUTS: XML document with FO tags containing instructions for the -->
+<!-- creation of a PDF document. -->
+<!--  -->
+<!-- ====================================================================== -->
+<root xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:fo="http://www.w3.org/1999/XSL/Format" xmlns="http://eds.com/supsfo">
+	<variables>@word.processing.url.xsl@supsfo.xsl</variables>
+	<addressee>
+		<blank/>
+		<claimant/>
+		<subject/>
+	</addressee>
+	<header>
+		<fo:block font-size="16pt" font-weight="bold">Order on Settlement on Behalf of</fo:block>
+		<fo:block font-size="16pt" font-weight="bold">Child or Patient</fo:block>
+	</header>
+	<courtcase>
+		<court>
+			<xsl:copy-of select="$vdCourtHeaderBlock"/>
+		</court>
+		<caseparameters>
+			<parameter>
+				<name>
+					<fo:block font-weight="bold">Claim Number</fo:block>
+				</name>
+				<value>
+					<fo:block>
+						<xsl:value-of select="$vdClaimNumber"/>
+					</fo:block>
+				</value>
+			</parameter>
+			<parameter>
+				<name>
+					<fo:block font-weight="bold">Claimant</fo:block>
+					<fo:block font-size="9pt">(including ref.)</fo:block>
+				</name>
+				<value>
+					<fo:block hyphenate="true">
+						<xsl:value-of select="$vdClaimantName"/>
+					</fo:block>
+					<fo:block hyphenate="true" font-size="9pt">
+						<xsl:value-of select="$vdClaimantReference"/>
+					</fo:block>
+				</value>
+			</parameter>
+			<parameter>
+				<name>
+					<fo:block font-weight="bold">Defendant(s)</fo:block>
+					<fo:block font-size="9pt">(including ref.)</fo:block>
+				</name>
+				<value>
+					<fo:block hyphenate="true">
+						<xsl:value-of select="$vdDefendantName"/>
+					</fo:block>
+					<fo:block hyphenate="true" font-size="9pt">
+						<xsl:value-of select="$vdDefendantReference"/>
+					</fo:block>
+				</value>
+			</parameter>
+		</caseparameters>
+	</courtcase>
+
+	<body>
+	<editable useid="N100AE">
+		<fo:block space-after="0.4cm">
+			<xsl:choose>
+				<!-- Only if the defendant is represented do we add the defendant part of the sentence -->
+				<xsl:when test="$vdDefendantRepresentedBy = ''">
+					An application was made on <xsl:value-of select="$vdApplicationDate"/> by <xsl:value-of select="$vdPartyApplying"/> for the claimant.				
+				</xsl:when>
+				<xsl:otherwise>
+					An application was made on <xsl:value-of select="$vdApplicationDate"/> by <xsl:value-of select="$vdPartyApplying"/> for the claimant and was attended by <xsl:value-of select="normalize-space($vdDefendantRepresentedBy)"/> for the defendant.					
+				</xsl:otherwise>
+			</xsl:choose>
+		</fo:block>
+		<fo:block space-after="0.4cm">
+			<xsl:value-of select="$vdJudge"/> approved the following terms of settlement and made them an Order of the Court.
+		</fo:block>
+		<fo:block space-after="0.4cm">
+			BY CONSENT IT IS ORDERED that:-
+		</fo:block>
+
+		<xsl:if test="string-length($vdSatisfactionAmount) > 0">
+			<fo:block>
+				The claimant may accept the sum of &#163;<xsl:value-of select="$vdSatisfactionAmount"/> in satisfaction of the 
+						<xsl:if test="$vdMultipleClaims = 'Y'"> claims.</xsl:if>
+						<xsl:if test="$vdMultipleClaims = 'N' or $vdMultipleClaims = ''"> claim.</xsl:if>
+			</fo:block>
+		</xsl:if>
+		
+		<xsl:if test="$vdOrderSubject = 'ACC'">
+			<xsl:if test="$vdApportioned = 'Y'">
+				<fo:block>
+					The said sum of &#163;<xsl:value-of select="$vdSumAmount"/> is apportioned as follows:-
+				</fo:block>
+				
+				<xsl:if test="$vdAct = 'LAW'">
+					<fo:block start-indent="2cm">
+						a) under the Law Reform (Miscellaneous Provisions) Act 1934 the sum of &#163;<xsl:value-of select="$vdLawReformAmount"/>
+					</fo:block>
+				</xsl:if>
+
+				<xsl:if test="$vdAct = 'FATAL'">
+					<fo:block start-indent="2cm">
+						a) under the Fatal Accidents Act 1976;
+					</fo:block>
+					
+					<xsl:if test="$vdFatalAccidentPayee = 'BOTH'">				
+						<fo:block start-indent="4cm">
+							(i)  &#163;<xsl:value-of select="$vdClaimantClaimAmount"/> to the personal claim of the claimant,
+						</fo:block>
+						<fo:block start-indent="4cm">
+							(ii) &#163;<xsl:value-of select="$vdChildDependantAmount"/> to the personal claim of the child dependant
+						</fo:block>
+						<fo:block start-indent="4cm">
+							<xsl:value-of select="$vdChildNames"/>
+						</fo:block>
+					</xsl:if>
+
+					<xsl:if test="$vdFatalAccidentPayee = 'CLM'">
+						<fo:block start-indent="4cm">
+							(i) &#163;<xsl:value-of select="$vdClaimantClaimAmount"/> to the personal claim of the claimant
+						</fo:block>
+					</xsl:if>
+
+					<xsl:if test="$vdFatalAccidentPayee = 'CHILD'">
+						<fo:block start-indent="4cm">
+							(i)	&#163;<xsl:value-of select="$vdChildDependantAmount"/> to the personal claim of the child dependant
+						</fo:block>
+						<fo:block start-indent="4cm">
+							<xsl:value-of select="$vdChildNames"/>
+						</fo:block>						
+					</xsl:if>
+				</xsl:if>
+
+				<xsl:if test="$vdAct = 'BOTH'">
+					<fo:block start-indent="2cm">
+						a) under the Law Reform (Miscellaneous Provisions) Act 1934 the sum of &#163;<xsl:value-of select="$vdLawReformAmount"/>
+					</fo:block>
+					<fo:block start-indent="2cm">
+						b) under the Fatal Accidents Act 1976;
+					</fo:block>
+
+					<xsl:if test="$vdFatalAccidentPayee = 'BOTH'">					
+						<fo:block start-indent="4cm">
+							(i)  &#163;<xsl:value-of select="$vdClaimantClaimAmount"/> to the personal claim of the claimant,
+						</fo:block>
+						<fo:block start-indent="4cm">
+							(ii) &#163;<xsl:value-of select="$vdChildDependantAmount"/> to the personal claim of the child dependant
+						</fo:block>
+						<fo:block start-indent="4cm">
+							<xsl:value-of select="$vdChildNames"/>
+						</fo:block>
+					</xsl:if>
+
+					<xsl:if test="$vdFatalAccidentPayee = 'CLM'">					
+						<fo:block start-indent="4cm">
+							(i) &#163;<xsl:value-of select="$vdClaimantClaimAmount"/> to the personal claim of the claimant
+						</fo:block>
+						<fo:block start-indent="4cm">
+							<xsl:value-of select="$vdChildNames"/>
+						</fo:block>
+					</xsl:if>
+
+					<xsl:if test="$vdFatalAccidentPayee = 'CHILD'">
+						<fo:block start-indent="4cm">
+							(i) &#163;<xsl:value-of select="$vdChildDependantAmount"/> to the personal claim of the child dependant(s)
+						</fo:block>
+						<fo:block start-indent="4cm">
+							<xsl:value-of select="$vdChildNames"/>
+						</fo:block>
+					</xsl:if>
+				</xsl:if>
+			</xsl:if>
+		</xsl:if>
+		<xsl:if test="/variabledata/order/settlement/paydirect = 'Y'">
+			<fo:block space-before="0.4cm">
+				<xsl:value-of select="$vdDefendantPayDirect"/>
+			</fo:block>
+		</xsl:if>		
+
+		<xsl:if test="$vdOrderSubject = 'ACC'">
+			<!-- This is only relevant if the user chose 'Fatal accident' in the QA screen for the Claim/order in respect of question -->
+			<fo:block space-before="0.4cm">
+				The defendant pay the <xsl:value-of select="$vdDefendantInvest"/> on or before <xsl:value-of select="$vdPayDate2"/>
+				<xsl:if test="$vdFirstCharge1 = 'Y'"> subject to a first charge under section 16(6) of the Legal Aid Act 1988 </xsl:if>
+				to be invested and accumulated in the Special Investment Account pending further order.
+			</fo:block>
+		</xsl:if>
+		<fo:block space-before="0.4cm">
+			The claimant's solicitor attend a hearing for further investment directions on <xsl:value-of select="$vdHearingDate"/> at <xsl:value-of select="$vdHearingTime"/> at <xsl:value-of select="$vdHearingCourtNameDescription"/>, <xsl:value-of select="$vdHearingCourtAddress"/>.
+		</fo:block>
+		<xsl:if test="$vdPaidMajority = 'Y'">		
+			<fo:block space-before="0.4cm">
+				The fund to be paid to the child on majority as <xsl:value-of select="$vdChildHeShe"/> may request.
+			</fo:block>
+		</xsl:if>	
+		<xsl:if test="variabledata/order/settlement/receiverapplication= 'Y'">
+			<fo:block space-before="0.4cm">
+				<xsl:value-of select="$vdApplicationReceiver"/>
+			</fo:block>
+		</xsl:if>
+		<xsl:if test="$vdInterest = 'Y'">
+			<fo:block space-before="0.4cm">
+				Any interest accrued up to the date of this order on any money in court paid in by or on behalf of the dependant be paid
+				out to the defendant's solicitors.
+			</fo:block>
+		</xsl:if>
+		
+		<xsl:choose> 		
+			<xsl:when test="$vdRightsWording = 'Y'">
+				<fo:block space-before="0.4cm">		
+					The defendant pay the claimant's costs to be assessed with permission to request assessment to be dispensed with and the claimant's solicitor waiving any claim to further costs.
+				</fo:block>						
+			</xsl:when>
+			<xsl:otherwise>
+				<fo:block space-before="0.4cm">						
+					The defendant pay the claimant's costs to be assessed with permission to request assessment to be dispensed with.
+				</fo:block>											
+			</xsl:otherwise>
+		</xsl:choose>			
+		
+		<xsl:if test="$vdClaimantCosts = 'Y'">
+			<fo:block space-before="0.4cm">
+				The claimant's costs be assessed in accordance with Regulation 107 of the Civil Legal Aid (General) Regulations 1989.
+			</fo:block>
+		</xsl:if>
+		<fo:block space-before="0.4cm">
+			Upon payment of the sum(s) and costs referred to above, the defendant be discharged from further liability in respect
+			of all claims made by the claimant against him in these proceedings.
+		</fo:block>
+		<fo:block space-before="0.4cm">
+			All further proceedings be stayed except that either party has permission to apply to the court for the purpose of carrying
+			this order into effect.
+		</fo:block>
+	</editable>
+	</body>
+	<defaultFooter id="CJR177"/>
+</root>

@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: Co Dividends
+	Method:  getDividendsDeclared()
+	File:    get_dividends_declared.xml
+	Author:  Chris Vincent (EDS)
+	Created: 05 January 2006
+	Description: 
+		Retrieves a list of all Consolidated Orders at the court specified that have previously had a dividend 
+		declared.
+-->
+<service-method>
+	<pipeline>
+		<Query>
+			<QueryDef location="uk/gov/dca/caseman/co_dividend_service/query_def_get_dividends_declared.xml"/>
+			<QueryExtension pivotNode="/ConsolidatedOrderList/ConsolidatedOrder">
+				<Param name="param.adminCourtCode" xpath="/params/param[@name = 'adminCourtCode']"/>
+				<SQL type="select">
+					SELECT /*+ INDEX(CO,XIF1CONSOLIDATED_ORDERS) */ CO.ADMIN_COURT_CODE AS "CO.ADMIN_COURT_CODE", 
+						CO.CO_NUMBER AS "CO.CO_NUMBER", 
+						CO.DEBTOR_NAME AS "CO.DEBTOR_NAME",
+						CO.CO_STATUS AS "CO.CO_STATUS",
+						(SELECT NVL(SUM(PY.AMOUNT),0)
+						FROM   PAYMENTS PY
+						WHERE  PY.SUBJECT_NO = CO.CO_NUMBER
+						AND    PY.PAYOUT_DATE IS NULL
+						AND    PY.RD_DATE IS NULL
+						AND    PY.PASSTHROUGH = 'N'
+						AND    PY.RETENTION_TYPE = 'AO/CAEO') AS "MONIES_IN_COURT",
+						(SELECT DECODE(COUNT(*),0,'N','Y')
+						FROM   PAYMENTS PY
+						WHERE  PY.PAYMENT_FOR = 'CO'
+						AND    PY.SUBJECT_NO = CO.CO_NUMBER
+						AND    NVL(PY.OVERPAYMENT_AMOUNT, 0) &gt; 0
+						AND    PY.OVERPAYEE_NAME IS NULL) AS "UNRES_OVRPAY",
+						CO.ORA_ROWSCN AS "CO_ORA_ROWSCN"
+					FROM CONSOLIDATED_ORDERS CO
+					WHERE CO.ADMIN_COURT_CODE = ${param.adminCourtCode}
+						AND CO.ADHOC_DIVIDEND = 'Y'
+				</SQL>
+			</QueryExtension>
+		</Query>
+	</pipeline>
+	<Security roles="viewOnly medium high wcSuper scSuper bmsSuper aeSuper dmSuper cpSuper"/>	
+</service-method>

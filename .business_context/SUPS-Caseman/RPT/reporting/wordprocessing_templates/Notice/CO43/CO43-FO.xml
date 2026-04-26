@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- ====================================================================== -->
+<!--  -->
+<!-- FILENAME: $Source: C:/CVSRepository/serveroas/src/uk/gov/dca/caseman/wordprocessing_templates/Notice/CO43/CO43-FO.xml,v $ -->
+<!--  -->
+<!-- AUTHOR: $Author: ian $-->
+<!--  -->
+<!-- DATE: $Date: 2006/06/02 12:16:49 $ -->
+<!--  -->
+<!-- Version: $Revision: 1.9 $ -->
+<!--  -->
+<!-- DESCRIPTION: This stylesheet is used to create an XSL:FO document that -->
+<!-- can be processed into a PDF version.  Business logic -->
+<!-- is embedded to generate the correct document text for the order -->
+<!-- required. -->
+<!--  -->
+<!-- INPUTS: XML document containing: the answers to questions asked of the -->
+<!-- user; case data retrieved from the database; HTML representing the  -->
+<!-- body of the document content (already edited by the user). -->
+<!--  -->
+<!-- OUTPUTS: XML document with FO tags containing instructions for the -->
+<!-- creation of a PDF document. -->
+<!--  -->
+<!-- ====================================================================== -->
+<root xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:fo="http://www.w3.org/1999/XSL/Format" xmlns="http://eds.com/supsfo">
+	<variables>@word.processing.url.xsl@supsfo.xsl</variables>
+	<addressee>
+			<blank/>
+			<creditor/>
+			<debtor/>
+	</addressee>
+	<header>
+		<fo:block font-size="16pt" font-weight="bold">Notice of Intention to Review</fo:block>
+	</header>
+	<courtcase>
+		<court>
+			<xsl:copy-of select="$vdCourtHeaderBlock"/>
+		</court>
+		<caseparameters>
+			<parameter>
+				<name>
+					<fo:block font-weight="bold">AO/CAEO Number</fo:block>
+				</name>
+				<value>
+					<fo:block>
+						<xsl:value-of select="$vdCONumber"/>
+					</fo:block>
+				</value>
+			</parameter>
+			<parameter>
+				<name>
+					<fo:block font-weight="bold">Creditor</fo:block>
+					<fo:block font-size="9pt">(including ref.)</fo:block>
+				</name>
+				<value>
+					<xsl:call-template name="display-creditor-name-and-reference-template">
+						<xsl:with-param name="addressee">
+							<xsl:value-of select="$addressee"/>
+						</xsl:with-param>
+					</xsl:call-template>										
+				</value>
+			</parameter>				
+			<parameter>
+				<name>
+					<fo:block font-weight="bold">Debtor</fo:block>
+				</name>
+				<value>
+					<fo:block hyphenate="true">
+						<xsl:value-of select="$vdCODebtorName"/>
+					</fo:block>
+				</value>
+			</parameter>
+		</caseparameters>
+	</courtcase>
+	<bodyintroright><fo:block><fo:inline text-align="center"><seal/></fo:inline></fo:block></bodyintroright>
+	
+	<body>
+	<editable useid="N1009F">
+		<fo:block space-after="0.8cm"/>
+		<fo:block space-after="0.4cm" font-weight="bold">
+			The administration order made on <xsl:value-of select="$vdCODate"/> is to be reviewed by the court
+		</fo:block>
+		<fo:block space-after="0.4cm">
+			<xsl:value-of select="$vdReviewRequester"/>
+		</fo:block>
+		<fo:block space-after="0.8cm">
+			<fo:table table-layout="fixed">
+				<fo:table-column column-width="19.28cm"/>
+				<fo:table-body>
+					<fo:table-row>
+						<fo:table-cell padding-top="0.2cm"  padding-bottom="0.2cm" padding-left="0.2cm" padding-right="0.2cm" border-style="solid" border-width="0.02cm">
+							<fo:table table-layout="fixed">
+								<fo:table-column column-width="18.8cm" />
+									<fo:table-body>
+										<fo:table-row>
+											<fo:table-cell padding-bottom="0.4cm">				
+												<fo:block>
+													<fo:inline font-weight="bold">Take notice that </fo:inline>this matter will be heard at
+												</fo:block>
+											</fo:table-cell>
+										</fo:table-row>
+										<fo:table-row>
+											<fo:table-cell padding-bottom="0.4cm">
+												<fo:block>
+													<xsl:value-of select="$vdHearingCourtNameDescription"/>, <xsl:value-of select="$vdHearingCourtAddress"/>
+												</fo:block>
+											</fo:table-cell>
+										</fo:table-row>
+										<fo:table-row>
+											<fo:table-cell padding-left="0.5cm" padding-bottom="0.4cm">
+												<fo:block>
+													on <xsl:value-of select="$vdHearingDate"/>
+												</fo:block>															
+											</fo:table-cell>
+										</fo:table-row>
+										<fo:table-row>
+											<fo:table-cell padding-left="0.5cm" padding-bottom="0.4cm">
+												<fo:block>
+													at <xsl:value-of select="$vdHearingTime"/>
+												</fo:block>															
+											</fo:table-cell>
+										</fo:table-row>
+										<fo:table-row>
+											<fo:table-cell padding-bottom="0.4cm">
+												<fo:block>
+													when the court will review the administration order
+												</fo:block>															
+											</fo:table-cell>
+										</fo:table-row>
+									</fo:table-body>								
+							</fo:table>						
+						</fo:table-cell>												
+					</fo:table-row>
+				</fo:table-body>
+			</fo:table>
+		</fo:block>
+		<fo:block text-align="right" space-after="0.4cm">
+			<fo:inline font-weight="bold">Dated </fo:inline><xsl:value-of select="$vdEventDate"/>
+		</fo:block>
+		<fo:block space-after="0.4cm" font-weight="bold">
+			To the debtor
+		</fo:block>
+		<fo:table table-layout="fixed">
+		<fo:table-column column-width="19.28cm"/>
+		<fo:table-body>
+		<fo:table-row>
+		<fo:table-cell  padding-left="0.5cm">		
+		<fo:block>
+			<list type="bullet">
+				<list-item>
+					<fo:block space-after="0.2cm">
+						If the review is being held at your request (or because you object to the court's intention to revoke the order) you must attend the court on the above date.  If you do not attend the order may be revoked.
+					</fo:block>
+				</list-item>
+				<list-item space-after="0.2cm">
+					<fo:block>
+						If the review is being held at the direction of the court or a creditor, it is in your best interest to attend the court on the above date.
+					</fo:block>
+				</list-item>
+			</list>
+		</fo:block>
+		</fo:table-cell>
+		</fo:table-row>
+		</fo:table-body>
+		</fo:table>
+	</editable>
+	</body>
+	<defaultFooter id="CO43" CO="true"/>
+</root>

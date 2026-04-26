@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: Per
+	Method:  updateAePer()
+	File:    update_ae_per.xml
+	Author:  Phil Haferer (EDS), Ian Stainer (Valtech)
+	Created: 07 June 2005
+	Description: 
+		Add AE protected earnings rate details.
+-->
+<service-method>
+	<pipeline>
+		<Transform>
+			<Template location="uk/gov/dca/caseman/per_service/transforms/update_per_pre_update.xsl"/>
+		</Transform>
+		<Update>
+			<QueryDef location="uk/gov/dca/caseman/per_service/query_def_update_ae_per.xml"/>
+			<DataSource xpath="/params/param[@name='calculatePer']"/>
+			<QueryExtension pivotNode="/ds/CalculatePER">
+				<CheckExists table="AEA" fields="AE_NUMBER" onExist="update" onNotExist="fail"/>
+			</QueryExtension>
+		</Update>
+		<Java>
+			<!-- This class determines whether or not an event 857 needs to be created based on the content of the dom -->
+			<Source class="uk.gov.dca.caseman.per_service.java.AddAeEvent857CustomProcessor"/>
+		</Java>		
+	</pipeline>
+	<Dependencies>
+		<Dependency serviceName="AeEvent"/>
+	</Dependencies>				
+	<Security roles="medium high wcSuper scSuper bmsSuper aeSuper dmSuper cpSuper"/>				
+</service-method>

@@ -1,0 +1,196 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- ====================================================================== -->
+<!--  -->
+<!-- FILENAME: $Source: C:/CVSRepository/serveroas/src/uk/gov/dca/caseman/wordprocessing_templates/Notice/CJR186/CJR186-FO.xml,v $ -->
+<!--  -->
+<!-- AUTHOR: $Author: kevin $-->
+<!--  -->
+<!-- DATE: $Date: 2006/05/23 12:24:25 $ -->
+<!--  -->
+<!-- Version: $Revision: 1.8 $ -->
+<!--  -->
+<!-- DESCRIPTION: This stylesheet is used to create an XSL:FO document that -->
+<!-- can be processed into a PDF version.  Business logic -->
+<!-- is embedded to generate the correct document text for the order -->
+<!-- required. -->
+<!--  -->
+<!-- INPUTS: XML document containing: the answers to questions asked of the -->
+<!-- user; case data retrieved from the database; HTML representing the  -->
+<!-- body of the document content (already edited by the user). -->
+<!--  -->
+<!-- OUTPUTS: XML document with FO tags containing instructions for the -->
+<!-- creation of a PDF document. -->
+<!--  -->
+<!-- ====================================================================== -->
+<root xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:fo="http://www.w3.org/1999/XSL/Format" xmlns="http://eds.com/supsfo">
+	<variables>@word.processing.url.xsl@supsfo.xsl</variables>
+	<addressee>
+		<instigators/>
+	</addressee>
+	<header>
+		<fo:block font-size="16pt" font-weight="bold">Notice of Issue (Part 20 claim)</fo:block>
+	</header>
+	<courtcase>
+		<court>
+			<xsl:copy-of select="$vdCourtHeaderBlock"/>
+		</court>
+		<caseparameters>
+			<parameter>
+				<name>
+					<fo:block font-weight="bold">Claim Number</fo:block>
+				</name>
+				<value>
+					<fo:block>
+						<xsl:value-of select="$vdClaimNumber"/>
+					</fo:block>
+				</value>
+			</parameter>
+			<parameter>
+				<name>
+					<fo:block font-weight="bold"><xsl:value-of select="$vdInstigatorPartyRole"/></fo:block>
+					<fo:block font-size="9pt">(including ref.)</fo:block>
+				</name>
+				<value>
+					<fo:block hyphenate="true">
+						<xsl:value-of select="$vdInstigatorName"/>
+					</fo:block>
+					<fo:block font-size="9pt" hyphenate="true">
+						<xsl:value-of select="$vdInstigatorReference"/>
+					</fo:block>
+				</value>
+			</parameter>
+			<parameter>
+				<name>
+					<fo:block font-weight="bold"><xsl:value-of select="$vdSubjectPartyRole"/></fo:block>
+					<fo:block font-size="9pt">(including ref.)</fo:block>
+				</name>
+				<value>
+					<fo:block hyphenate="true">
+						<xsl:value-of select="$vdSubjectName"/>
+					</fo:block>
+					<fo:block font-size="9pt" hyphenate="true">
+						<xsl:value-of select="$vdSubjectReference"/>
+					</fo:block>
+				</value>
+			</parameter>				
+			<parameter>
+				<name>
+					<fo:block font-weight="bold">Issue Fee</fo:block>
+				</name>
+				<value>
+					<fo:block>
+						&#163;<xsl:call-template name="correctCalculation">
+							<xsl:with-param name="value"><xsl:value-of select="$vdPart20IssueFee"/></xsl:with-param>
+						</xsl:call-template>
+					</fo:block>
+				</value>
+			</parameter>
+		</caseparameters>
+	</courtcase>
+	<bodyintroright><fo:block><fo:inline text-align="center"><seal/></fo:inline></fo:block></bodyintroright>
+	
+	<body>
+		<fo:block space-after="0.4cm">
+			Your Part 20 claim was issued on <xsl:value-of select="$vdSystemDate"/>.
+		</fo:block>
+		<fo:block>
+			<xsl:choose>
+				<xsl:when test="$vdServedBy = 'CRT'">
+					The court sent it and accompanying papers to the Part 20 defendant by first class post on
+					<xsl:value-of select="$vdSystemDate"/> and it will be deemed served on
+					<xsl:value-of select="$vdPostedDate"/>. The Part 20 defendant has until
+					<xsl:value-of select="$vdServiceReplyDate"/> to reply			
+				</xsl:when>
+				<xsl:when test="$vdServedBy = 'CLM'">
+					As you requested the claim form
+						<xsl:choose>
+							<xsl:when test="$vdParticularsEnclosed = 'Y'">
+								 which includes particulars of claim
+							</xsl:when>
+							<xsl:otherwise/>
+						</xsl:choose>
+						 is returned to you,
+						<xsl:choose>
+							<xsl:when test="$vdFormsIncluded = 'Y'">
+						with the relevant response forms
+							</xsl:when>
+							<xsl:otherwise/>
+						</xsl:choose>				 
+						for you to serve them on the Part 20 defendant(s). You must also serve copies of any statements of case already filed in the main claim				
+				</xsl:when>
+			</xsl:choose>.
+		</fo:block>
+
+	</body>
+
+	<footnote noteextent="6.8">
+	<fo:block space-after="0.1cm" font-family="Times" text-align="justify">
+		<fo:table table-layout="fixed">
+			<fo:table-column column-width="10cm"></fo:table-column>
+			<fo:table-column column-width="9.28cm"></fo:table-column>
+			<fo:table-body>
+				<fo:table-row keep-with-next="always">
+					<fo:table-cell number-columns-spanned="2" border-top-style="solid" border-top-width="0.02cm" border-left-style="solid" border-left-width="0.02cm" border-right-style="solid" border-right-width="0.02cm">
+						<fo:block space-after="0.1cm"/>
+						<fo:block text-align="center" font-weight="bold" font-size="9pt">Notes for guidance</fo:block>
+					</fo:table-cell>
+				</fo:table-row>
+				<fo:table-row keep-with-next="always">
+					<fo:table-cell padding-left="0.1cm" padding-right="0.1cm" border-left-style="solid" border-left-width="0.02cm">
+						<fo:block space-after="0.1cm"/>
+						<fo:block font-size="9pt" space-after="0.1cm" padding-left="0.1cm" font-weight="bold">Service</fo:block>
+						<list type="bullet">
+							<list-item>
+								<fo:block font-size="9pt" space-after="0.4cm">
+									The claim form must be served on the Part 20 defendant within 14 days of filing your defence to the main claim unless the court has directed otherwise.
+								</fo:block>
+							</list-item>
+						</list>
+						<fo:block font-size="9pt" space-after="0.1cm" padding-left="0.1cm" font-weight="bold">Entering default judgment</fo:block>
+						<list type="bullet">
+							<list-item>
+								<fo:block font-size="9pt" space-after="0.4cm">
+									you will need the court's permission to enter judgment in default if you have not satisfied any default judgment against you in the main claim or you wish to obtain judgment for any remedy other than a contribution or an indemnity.
+								</fo:block>
+							</list-item>
+						</list>
+					</fo:table-cell>
+					<fo:table-cell padding-left="0.1cm" padding-right="0.1cm" border-right-style="solid" border-right-width="0.02cm">
+						<fo:block space-after="0.1cm"/>
+						<fo:block  space-after="0.4cm" font-weight="bold" font-size="9pt">The Part 20 defendant may</fo:block>
+						<list type="bullet">
+							<list-item>
+								<fo:block font-size="9pt" space-after="0.4cm">
+									<fo:inline font-weight="bold">admit the truth of the whole or any part of your claim.</fo:inline> You may apply to the court for judgment to be entered on the admission.
+								</fo:block>
+								<fo:block/>
+							</list-item>
+							<list-item>
+								<fo:block font-size="9pt" space-after="0.4cm">
+									<fo:inline font-weight="bold">dispute all or part of your claim.</fo:inline> The court will arrange a hearing and tell you and the other parties to the claim when and where to attend.
+									At the hearing the judge will usually give directions about the future case management of the claim but may make any other order considered appropriate, e.g. striking out all or part
+									of a statement of case.
+								</fo:block>
+								<fo:block/>
+							</list-item>
+							<list-item>
+								<fo:block font-size="9pt">
+									<fo:inline font-weight="bold">not reply at all.</fo:inline> The Part 20 defendant will be considered to have admitted your claim and be bound by any judgment or decision made in the
+									main claim where it relates to this claim.
+								</fo:block>
+							</list-item>
+						</list>
+					</fo:table-cell>
+				</fo:table-row>
+				<fo:table-row keep-with-next="always">
+					<fo:table-cell number-columns-spanned="2" border-bottom-style="solid" border-bottom-width="0.02cm" border-left-style="solid" border-left-width="0.02cm" border-right-style="solid" border-right-width="0.02cm">
+						<fo:block space-after="0.1cm"/>
+						<fo:block text-align="center" font-weight="bold" font-size="9pt">You must inform the court immediately if your claim is settled or discontinued.</fo:block>
+					</fo:table-cell>
+				</fo:table-row>
+			</fo:table-body>
+		</fo:table>	
+		</fo:block>	
+	</footnote>
+	<defaultFooter id="CJR186"/>
+</root>

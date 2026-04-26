@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<DBMapDef>
+	<DataSource id="java:OracleDS"/>
+	<Tables>
+		<Table alias="RW" name="REJECT_WARRANTS"/>
+		<Table alias="RR" name="REJECT_REASONS"/>
+		<Table alias="CRC" name="CCBC_REF_CODES"/>
+	</Tables>
+	<Mapping>
+		<RejectedWarrants>
+			<RejectedWarrant>
+				
+				<BalanceOfDebt>${RW.BALANCE_OF_DEBT}</BalanceOfDebt>
+				<Amount>${RW.AMOUNT}</Amount>
+				<Fee>${RW.FEE}</Fee>
+				<Costs>${RW.COSTS}</Costs>
+				<Validated>${RW.VALIDATED}</Validated>
+		
+			</RejectedWarrant>
+		</RejectedWarrants>
+	</Mapping>
+</DBMapDef>

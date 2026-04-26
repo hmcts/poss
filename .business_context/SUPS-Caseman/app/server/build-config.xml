@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="caseman_server-config_build" default="deploy" basedir=".">
+	<property environment="env"/>
+	<property file="c:/SUPS/build/caseman/caseman_server/config.properties"/>
+	<target name="set-dev-env">
+		<echo message="*****************************************************************"/>
+		<echo message="*Adding web-config to ear to DEVELOPMENT environment.  *"/>
+		<echo message="*****************************************************************"/>
+		<echo>jboss_server_dir is:   ${jboss_server_dir}</echo>
+		<echo>build_config is:  ${build_config}</echo>
+		<echo>source_config is:   ${source_config}</echo>
+		<echo>transformation_dist is:    ${transformation_dist}</echo>
+		<echo message=""/>
+		<property name="build_config" value="${build_config}"/>
+		<property name="server_dist" value="${server_dist}"/>
+		<property name="source_config" value="${source_config}"/>
+		<property name="jboss.server.dir" value="${jboss_server_dir}"/>
+		<property name="application_name" value="${application_name}"/>
+		<delete dir="${build_config}/dev"/>
+		<mkdir dir="${build_config}/dev"/>
+		<copy file="${server_dist}" todir="${build_config}/dev" overwrite="true"/>
+		<ear destfile="${build_config}/dev/${application_name}.ear" update="true">
+			<fileset dir="${source_config}/dev/">
+				<include name="caseman-config.xml"/>
+			</fileset>
+		</ear>
+		<copy file="${build_config}/dev/${application_name}.ear" todir="${jboss_server_dir}/deploy" overwrite="true"/>
+	</target>
+	<target name="set-test-env">
+		<property name="build.env" value="test"/>
+		<echo message="*********************************************************"/>
+		<echo message="*Adding web-config to ear to TEST environment. *"/>
+		<echo message="*********************************************************"/>
+		<echo message=""/>
+		<delete dir="${build_config}/test"/>
+		<mkdir dir="${build_config}/test"/>
+		<copy file="${server_dist}" todir="${build_config}/test" overwrite="true"/>
+		<ear destfile="${build_config}/test/${application_name}.ear" update="true">
+			<fileset dir="${source_config}/test/">
+				<include name="caseman-config.xml"/>
+			</fileset>
+		</ear>
+	</target>
+	<target name="set-uct-env">
+		<property name="build.env" value="uct"/>
+		<echo message="*********************************************************"/>
+		<echo message="*Adding web-config to ear to  UCT environment. *"/>
+		<echo message="*********************************************************"/>
+		<echo message=""/>
+		<delete dir="${build_config}/uct"/>
+		<mkdir dir="${build_config}/uct"/>
+		<copy file="${server_dist}" todir="${build_config}/uct" overwrite="true"/>
+		<ear destfile="${build_config}/uct/${application_name}.ear" update="true">
+			<fileset dir="${source_config}/uct/">
+				<include name="caseman-config.xml"/>
+			</fileset>
+		</ear>
+	</target>
+	<target name="set-live-env">
+		<property name="build.env" value="live"/>
+		<echo message="*********************************************************"/>
+		<echo message="*Adding web-config to ear to LIVE environment. *"/>
+		<echo message="*********************************************************"/>
+		<echo message=""/>
+		<delete dir="${build_config}/live"/>
+		<mkdir dir="${build_config}/live"/>
+		<copy file="${server_dist}" todir="${build_config}/live"/>
+		<ear destfile="${build_config}/live/${application_name}.ear" update="true" overwrite="true">
+			<fileset dir="${source_config}/production/">
+				<include name="caseman-config.xml"/>
+			</fileset>
+		</ear>
+	</target>
+	<target name="uct" depends="set-uct-env"/>
+	<target name="dev" depends="set-dev-env">
+	</target>
+	<target name="test" depends="set-test-env"/>
+	<target name="live" depends="set-live-env"/>
+	<target name="all" depends="dev, uct, test, live">
+	</target>
+</project>

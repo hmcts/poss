@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<DBMapDef>
+	<DataSource id="java:OracleDS"/>
+	<Tables>
+		<Table alias="P" name="PRINT_JOB"/>
+	</Tables>
+	<Mapping>
+		<Report>
+			<!--  Standard Report Fields -->
+			<PrintJobId>${P.PRINT_JOB_ID}</PrintJobId>
+			<CourtUser>${P.REPORT_ID}</CourtUser>
+			<CourtCode>${P.COURT}</CourtCode>
+			<CourtUser>${P.USER_ID}</CourtUser>
+		</Report>
+	</Mapping>
+</DBMapDef>

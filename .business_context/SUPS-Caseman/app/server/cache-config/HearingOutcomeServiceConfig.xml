@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<service-config>
+
+	<service name="Hearingoutcome"/>
+
+	<method name="getHearingOutcomes">
+		<get>
+			<HTTPCache expires="endOfDay"/>
+		</get>
+	</method>
+
+</service-config>

@@ -1,0 +1,42 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3c.org/TR/html4/strict.dtd">
+<html>
+	<head>
+		<title>ProgressBar_SubForm</title>
+		<meta http-equiv="charset" content="UTF8">
+    	<link href="ProgressBar_SubForm.css" type="text/css" rel="stylesheet">
+    	<script type="text/javascript" src="../../Framework.js"></script>
+		<script type="text/javascript" src="../../CaseManIncludeFiles.js"></script>		
+		<script type="text/javascript" src="ProgressBar_SubForm.js"></script>
+  	</head>
+	<body>
+	
+    	<form id="progressBarSubForm" class="subform">
+
+			<div id="ProgressIndicator_Panel" class="panel">
+				<table cellspacing="5" class="content">
+				<tr>
+				<td><label for="Progress_Bar">Generating Report</label></td>
+				</tr>
+				<tr>
+				<td><input size="67" type="text" id="Progress_Bar" ></td>
+				</tr>
+				<tr>
+				<td id="Progress_Status"></td>
+				</tr>
+				</table>
+			</div>
+			<div id="ProgressIndicator_ActionBarContainer">							
+				<script type="text/javascript">
+					ActionBarRenderer.createInlineNoStatusBar(
+						"ProgressIndicator_ActionBar",
+						[
+							{label: "Cancel", id: "ProgressBarPopup_CancelButton"}
+						]
+					);	
+				</script>
+			</div>								
+			
+		</form>
+    
+    </body>    
+</html>

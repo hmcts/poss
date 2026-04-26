@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: Co
+	Method:  getCoFrequencyList()
+	File:    map_get_co_frequency_list.xml
+	Author:  Phil Haferer (EDS)
+	Created: 01 September 2005
+	Description: 
+		Retrieve the list of Consolidated Order Frequencies.
+-->
+<DBMapDef>
+	<DataSource id="java:OracleDS"/>
+	<Tables>
+		<Table alias="REF"  name="CCBC_REF_CODES"/>		
+	</Tables>
+	<Mapping>
+		<COFrequency>
+			<Frequency>
+				<Value>${REF.RV_LOW_VALUE}</Value>
+				<Description>${REF.RV_MEANING}</Description>
+			</Frequency>
+		</COFrequency>
+	</Mapping>
+</DBMapDef>

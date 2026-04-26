@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: Reports
+	Method:  runTransferCOReport()
+	File:    run_transfer_co_report.xml
+	Author:  Anthony Bonnar (EDS)
+	Created: 22 November 2005
+	Description: 
+		Calls the Custom Processor that builds the XML that is eventually passed to reports service.
+-->
+<service-method>
+	<pipeline> 
+		<Java callStyle="new">
+			<Source class="uk.gov.dca.caseman.reports_service.classes.TransferCOCustomProcessor"/>
+		</Java>
+	</pipeline>
+	<Dependencies>
+		<Dependency/>	
+	</Dependencies>		
+	<Security roles="viewOnly medium high wcSuper scSuper bmsSuper aeSuper dmSuper edsAdmin cpSuper"/>		
+</service-method>

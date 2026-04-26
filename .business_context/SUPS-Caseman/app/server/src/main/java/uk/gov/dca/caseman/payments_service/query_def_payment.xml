@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: Payments
+	Method: getPayment()
+	File: query_def_payment.xml
+	Author: Steve Blair
+	Change History:
+		11/08/2006 (Chris Vincent), updated AmountNowDue pivot node so P.OVERPAYMENT_AMOUNT
+		is evaluated to 0 if null, otherwise calculation returns null.  Defect 4201.
+-->
+<QueryDef>
+	<DBMapDef location="uk/gov/dca/caseman/payments_service/map_payment.xml" />
+	<Query pivotNode="/Payment" tables="P CP CT">
+		<Join>
+			CP.PARTY_ID (+) = P.PAYEE_ID AND
+			P.ADMIN_COURT_CODE = CT.CODE
+		</Join>
+	</Query>
+	<Query pivotNode="/Payment/AmountNowDue" tables="P">
+		<SQL type="select">
+			SELECT P.AMOUNT - NVL(P.OVERPAYMENT_AMOUNT, 0) AS "AMOUNT_NOW_DUE"
+			FROM	PAYMENTS P
+			WHERE	P.TRANSACTION_NUMBER = ${P.TRANSACTION_NUMBER} AND
+						P.ADMIN_COURT_CODE = ${P.ADMIN_COURT_CODE}
+		</SQL>
+		<Modify notModifiable="true" />
+	</Query>
+	<Query pivotNode="/Payment/AOPassthroughTransactionNumber" tables="P">
+		<SQL type="select">
+			SELECT P.TRANSACTION_NUMBER AS "AO_TRANS_NO"
+			FROM	PAYMENTS P
+			WHERE	P.RELATED_TRANSACTION_NUMBER = ${P.TRANSACTION_NUMBER} AND
+						P.RELATED_ADMIN_COURT_CODE = ${P.ADMIN_COURT_CODE} AND
+						P.ERROR_INDICATOR != 'Y'
+		</SQL>
+		<Modify notModifiable="true" />
+	</Query>
+</QueryDef>

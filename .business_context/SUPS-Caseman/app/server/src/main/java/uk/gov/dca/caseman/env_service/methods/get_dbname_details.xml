@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- 
+	Service: Env
+	Method:  getDbnameDetails()
+	File:    get_dbname_details.xml
+	Author:  Chris Hutt
+	Created: 15 April 2005
+	Description: 
+		Retrive details of current database connection. Supports the About screen
+--> 
+<service-method>
+	<pipeline>
+		<Query>
+  			<QueryDef location="uk/gov/dca/caseman/env_service/dbname_query_def.xml"/>
+  			<QueryExtension pivotNode="/Database">
+  			</QueryExtension>
+  	    </Query>
+	</pipeline>
+	<Security roles="viewOnly medium high wcSuper scSuper bmsSuper aeSuper dmSuper cpSuper admin edsAdmin ccbcMan ccbcUser ccbcSGB2 ccbcTape"/>
+</service-method>

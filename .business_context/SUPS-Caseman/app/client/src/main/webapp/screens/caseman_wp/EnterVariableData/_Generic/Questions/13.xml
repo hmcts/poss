@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--Question xmlns="http://eds.com/questionxhtml" xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd"-->
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>13</Id>
+	<Label>Envelope marked as (other)</Label>
+	<ObjectName>EnvelopeMarkOther</ObjectName>
+	<Html>
+		<input type="text" id="EnvelopeMarkOther" size="25"/>
+	</Html>
+	<Javascript>
+		<XPath>/ds/EnterVariableData/Process/envelope/other</XPath>
+		<HintText>Enter the envelope marked as information</HintText>
+		<mandatoryOn>ProcessEnvelopeMark.dataBinding</mandatoryOn>
+		<isMandatory>
+			return ('OTH' == Services.getValue(ProcessEnvelopeMark.dataBinding));                                             
+		</isMandatory>
+		<enableOn>ProcessEnvelopeMark.dataBinding</enableOn>
+		<isEnabled>
+			return ('OTH' == Services.getValue(ProcessEnvelopeMark.dataBinding));
+		</isEnabled>
+		<logicOn>ProcessEnvelopeMark.dataBinding</logicOn>
+		<logic>
+			if('OTH' != Services.getValue(ProcessEnvelopeMark.dataBinding))
+			{	Services.setValue(EnvelopeMarkOther.dataBinding, "");
+			}
+		</logic>
+	</Javascript>
+</Question>

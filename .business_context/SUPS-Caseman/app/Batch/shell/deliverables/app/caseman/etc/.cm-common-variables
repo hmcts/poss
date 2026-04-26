@@ -1,0 +1,93 @@
+# Common Variables
+#  Author: David Morris
+# Purpose: Define core variables used by all project scripts
+
+# Change History
+# Chris Hutt 6 Nov 2007: OFFLINE_SCRIPTS_EXEC added
+
+declare -x                     RELEASE_SERIES=$(/bin/cat ${BASE_DIR}/${APP_NAME}/etc/${APP_ID}-release)
+
+# Need this to run properly under Autosys which strangely does not have $USER set!
+# what the line below does is leave user alone if it already exists but if not
+# then it snarfs it out of the AutoSys variable $__owner:
+if [ ! -z $__owner ]; then
+    declare -x      USER=${USER:-$__owner}
+    declare -rx     USER=${USER:-$__owner}
+    declare -rx  LOGNAME=${LOGNAME:-$__owner}
+    declare -rx USERNAME=${USERNAME:-$__owner}
+    declare -rx BASH_ENV=~/.bashrc
+fi
+
+# Java Settings
+declare -x                      JAVA_HOME=/opt/java
+declare -x                  JAVA_FLAGS_MX=mx512M    # maximum size of java memory allocation pool
+declare -x                  JAVA_FLAGS_MS=ms256M    # minimum size of java memory allocation pool
+
+           # Polar Lake Settings
+declare -x                 POLARLAKE_HOME=/opt/polarlake
+declare -x              POLARLAKE_LIB_DIR=${POLARLAKE_HOME}/polarlake/lib
+declare -x                  POLARLAKE_DNS=""
+ 
+          # Application PolarLake Settings
+declare -x                          STUMP=${APP_ID}-polarlake
+declare -x                     APP_PL_DIR=${BASE_DIR}/${APP_NAME}/${STUMP}
+declare -x             APP_PL_CIRCUIT_DIR=${APP_PL_DIR}/Common/server
+declare -x                 APP_PL_XML_DIR=${APP_PL_DIR}/xml
+declare -x          APP_PL_PROPERTIES_DIR=${APP_PL_DIR}/Common/config
+declare -x     APP_PL_PROPERTIES_FILENAME=${APP_PL_PROPERTIES_DIR}/${APP_NAME}.props
+declare -x	APP_COURT_CONFIG_FILENAME=${HOME}/.court_config.xml
+declare -x              APP_PL_CONFIG_DIR=${APP_PL_DIR}/lib           # Where classes12.zip lives
+declare -x                 APP_PL_LOG_DIR=${BASE_DIR}/${APP_NAME}/log # Where you want PolarLake Log files
+
+# PolarLake CaseMan Central Server Connection: ABSE00018 = 10.0.0.90
+declare -x     APP_PL_CMCS_CONNECT_STRING='jdbc:oracle:thin:@10.1.1.10:1526:CASM'
+declare -x                 APP_PL_CMCS_ID=CASM_POLAR
+declare -x                 APP_PL_CMCS_PW=CASM_POLAR
+
+# PolarLake SUPS Database Connection:
+declare -x     APP_PL_SUPS_CONNECT_STRING='jdbc:oracle:thin:@(DESCRIPTION=(ADDRESS_LIST=(ADDRESS=(PROTOCOL=TCP)(HOST=csa00086-v)(PORT=1521))(ADDRESS=(PROTOCOL=TCP)(HOST=csa00072-v)(PORT=1521)))(LOAD_BALANCE=on)(CONNECT_DATA=(SERVER=DEDICATED)(SERVICE_NAME=cman)))'
+#declare -x     APP_PL_SUPS_CONNECT_STRING='jdbc:oracle:thin:@(DESCRIPTION=(ADDRESS_LIST=(ADDRESS=(PROTOCOL=TCP)(HOST=csa00072-v)(PORT=1521)))(CONNECT_DATA=(SERVER=DEDICATED)(SERVICE_NAME=cman)))'
+declare -x                 APP_PL_SUPS_ID=cman
+declare -x                 APP_PL_SUPS_PW=cman
+
+# PolarLake FTP Connections:
+# FTP Settings Caseman Central
+declare -x FTP_CASEMANCENTRALSERVER_ADDRESS='ftp://10.1.1.10'
+declare -x      FTP_CASEMANCENTRAL_USERNAME=ftpuser
+declare -x      FTP_CASEMANCENTRAL_PASSWORD=ftpuser01
+declare -x    FTP_CASEMANCENTRAL_FOLDERPATH=/tools/app/CaseMan/wft_central_sups/
+# FTP Settings RTL
+declare -x   FTP_CASEMANRTLSERVER_ADDRESS='ftp://10.28.1.150'
+declare -x        FTP_CASEMANRTL_USERNAME=rtltrust
+declare -x        FTP_CASEMANRTL_PASSWORD=Connect1
+declare -x       FTP_CASEMANRTL_FOLDERPATH=
+# FTP Settings RTL Archive
+declare -x   FTP_CASEMANRTL_ARCHIVE_SERVER_ADDRESS='file:///app/caseman/archive'
+declare -x        FTP_CASEMANRTL_ARCHIVE_USERNAME=rtltrust
+declare -x        FTP_CASEMANRTL_ARCHIVE_PASSWORD=Connect1
+declare -x       FTP_CASEMANRTL_ARCHIVE_FOLDERPATH='/'
+
+# Mail Server
+declare -x       MAIL_SERVER='localhost'
+
+# Oracle Settings
+declare -x                    ORACLE_BASE=/u01/app/oracle
+declare -x                    ORACLE_HOME=${ORACLE_BASE}/pl
+declare -x                        SQLPLUS=${ORACLE_HOME}/bin/sqlplus
+declare -x                           PATH=${PATH}:${ORACLE_HOME}/bin
+declare -x                      TNS_ADMIN=${ORACLE_HOME}/network/admin
+
+
+# Application DB Connection Settings
+declare -x                        DB_USER=cman
+declare -x                  DB_IDENTIFIER=cman
+declare -x                    DB_INSTANCE=cman
+declare -x                            ORA=${DB_USER}/${DB_IDENTIFIER}@${DB_INSTANCE}
+
+# Application SQL files
+
+declare -x                    APP_SQL_DIR=${BASE_DIR}/${APP_NAME}/sql
+
+# Location of scripts calling batch jobs
+
+declare -x           OFFLINE_SCRIPTS_EXEC=${BASE_DIR}/${APP_NAME}/bin/offline

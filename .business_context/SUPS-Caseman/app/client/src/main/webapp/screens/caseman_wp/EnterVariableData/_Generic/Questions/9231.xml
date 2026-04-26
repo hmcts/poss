@@ -1,0 +1,354 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Change History:
+	12-Dec-2011 - Chris Vincent.  Added validation to prevent any more than 4 Payees from being added. Trac 4621.
+-->
+<Question>
+	<Id>9231</Id>
+	<Label>Payee</Label>
+	<ObjectName>PayeeGrid</ObjectName>
+	<Html>	
+		<div class="popup" id="Payee_Popup">
+		<table  class="content">
+			<tr><td><label for="PayeeDetail">Payee Detail</label></td>
+				<td><input id="PayeeDetail" type="text" size="70"></input></td>
+			</tr>
+			<tr><td><label for="PayeeName">Payee Name</label></td>
+				<td><input id="PayeeName" type="text"></input></td>
+			</tr>
+			<tr><td><label for="PayeeAdd1">Address Line 1</label></td>
+				<td><input id="PayeeAdd1" type="text" size="70"></input></td>
+			</tr>
+			<tr><td><label for="PayeeAdd2">Address Line 2</label></td>
+				<td><input id="PayeeAdd2" type="text" size="70"></input></td>
+			</tr>
+			<tr><td><label for="PayeeAdd3">Address Line 3</label></td>
+				<td><input id="PayeeAdd3" type="text" size="70"></input></td>
+			</tr>
+			<tr><td><label for="PayeeAdd4">Address Line 4</label></td>
+				<td><input id="PayeeAdd4" type="text" size="70"></input></td>
+			</tr>
+			<tr><td><label for="PayeeAdd5">Address Line 5</label></td>
+				<td><input id="PayeeAdd5" type="text" size="70"></input></td>
+			</tr>
+			<tr><td><label for="Postcode">Postcode</label></td>
+				<td><input id="Postcode" type="text" size="8"></input></td>
+			</tr>
+			<tr><td><label for="PayeeRef">Payee Reference</label></td>
+				<td><input id="PayeeRef" type="text"></input></td>
+			</tr>
+			<tr><td><label for="BankName">Bank Name</label></td>
+				<td><input id="BankName" type="text"></input></td>
+			</tr>
+			<tr><td><label for="BankAdd1">Bank Address Line 1</label></td>
+				<td><input id="BankAdd1" type="text" size="70"></input></td>
+			</tr>
+			<tr><td><label for="BankAdd2">Bank Address Line 2</label></td>
+				<td><input id="BankAdd2" type="text" size="70"></input></td>
+			</tr>
+			<tr><td><label for="BankAdd3">Bank Address Line 3</label></td>
+				<td><input id="BankAdd3" type="text" size="70"></input></td>
+			</tr>
+			<tr><td><label for="BankAdd4">Bank Address Line 4</label></td>
+				<td><input id="BankAdd4" type="text" size="70"></input></td>
+			</tr>
+			<tr><td><label for="BankAdd5">Bank Address Line 5</label></td>
+				<td><input id="BankAdd5" type="text" size="70"></input></td>
+			</tr>
+			<tr><td><label for="BankPostcode">Bank Postcode</label></td>
+				<td><input id="BankPostcode" type="text" size="8"></input></td>
+			</tr>
+			<tr><td><label for="Sortcode">Sortcode</label></td>
+				<td><input id="Sortcode" type="text"></input></td>
+			</tr>
+			<tr><td><label for="Accnumber">Account Number</label></td>
+				<td><input id="Accnumber" type="text"></input></td>
+			</tr>
+			<tr><td><label for="PayeeAmount">Payee Amount</label></td>
+				<td><input id="PayeeAmount" type="text"></input></td>
+			</tr>
+			<tr><td>
+					<input id="PayeeAddBtn" type="button" value="Add"></input>
+					<input id="PayeeCancelBtn" type="button" value="Cancel"></input>
+				</td>
+			</tr>
+		</table>
+		</div>
+      	<table width="100%">
+        	<tr><td>
+        	<script type="text/javascript">Grid.createInline("PayeeGrid", ["Detail", "Name", "Address", "Reference", "Bank Name", "Bank Address", "Sortcode", "Account Number", "Amount"] , 4, 1);</script>
+        	</td></tr>
+        	<tr><td>
+        	<input id="PayeePopupBtn" type="button" value="Add Details"></input>
+        	</td></tr>        	
+      	</table>
+	</Html>		
+	<Javascript>
+		<XPath>/ds/EnterVariableData/PayeeBranch/payeedetails</XPath>
+		<isMandatory>return true;</isMandatory>
+		<mandatoryOn>PayeeGrid.dataBinding</mandatoryOn>
+		<HintText>Enter details of payee</HintText>	
+		<isEnabled>return true;</isEnabled>
+		<initialise>Services.setValue("/ds/tmp/isFormEnabled", "true");</initialise>
+		<miscCode>	
+		PayeeGrid.srcData = "/ds/EnterVariableData/PayeeBranch/payee_cols";
+		PayeeGrid.rowXPath = "payee";
+		PayeeGrid.keyXPath = "payeeid";
+		PayeeGrid.columns = [{xpath: "detail"},{xpath: "name"},{xpath: "address"},{xpath: "reference"},{xpath: "bankname"},{xpath: "bankaddress"},{xpath: "sortcode"},{xpath: "accnumber"},{xpath: "amount"}];
+			
+		function FormEnabled(){}
+		FormEnabled.dataBinding = "/ds/tmp/isFormEnabled";
+		
+		function PayeePopupBtn() {}
+		PayeePopupBtn.actionBinding = function() 
+		{	
+			if ( PAYEE_COUNT == 4 )
+			{
+				alert("You can only create a maximum of 4 Payees.");
+			}
+			else
+			{
+				Services.dispatchEvent("Payee_Popup", PopupGUIAdaptor.EVENT_RAISE); 
+				Services.setValue(FormEnabled.dataBinding, "true");
+				Services.setValue(PayeeDetail.dataBinding, "");
+				Services.setValue(PayeeName.dataBinding, "");
+				Services.setValue(PayeeAdd1.dataBinding, "");
+				Services.setValue(PayeeAdd2.dataBinding, "");
+				Services.setValue(PayeeAdd3.dataBinding, "");
+				Services.setValue(PayeeAdd4.dataBinding, "");
+				Services.setValue(PayeeAdd5.dataBinding, "");
+				Services.setValue(Postcode.dataBinding, "");
+				Services.setValue(PayeeRef.dataBinding, "");
+				Services.setValue(BankName.dataBinding, "");
+				Services.setValue(BankAdd1.dataBinding, "");
+				Services.setValue(BankAdd2.dataBinding, "");
+				Services.setValue(BankAdd3.dataBinding, "");
+				Services.setValue(BankAdd4.dataBinding, "");
+				Services.setValue(BankAdd5.dataBinding, "");
+				Services.setValue(BankPostcode.dataBinding, "");
+				Services.setValue(Sortcode.dataBinding, "");
+				Services.setValue(Accnumber.dataBinding, "");
+				Services.setValue(PayeeAmount.dataBinding, "");			
+			}
+		}
+	
+		var PAYEE_COUNT = 0;
+	
+		function isPopupField(aField) {	
+			var isPopupField = false;
+			if (null != aField &amp;&amp; null != aField.getDataBinding) {
+				var db = aField.getDataBinding();
+				var i=0;
+				while (popupFieldsDBLen >= i &amp;&amp; !isPopupField) {
+					isPopupField = (db == popupFieldsDB[i]);
+					i++; } }
+			return isPopupField; }
+	
+		function PayeeAddBtn(){}
+		PayeeAddBtn.actionBinding = function() {	
+			var popupInvalidFields = new Array();
+			invalidFields = FormController.getInstance().validateForm(false, false);
+			if (invalidFields.length > 0) {	
+				var invalidFieldsLen = invalidFields.length;
+				for (var i=0; invalidFieldsLen >= i; i++) {
+					var invalidField = invalidFields[i];
+					if (isPopupField(invalidField)) {
+						popupInvalidFields.push(invalidField); } } } 
+			if (popupInvalidFields.length == 0) {	
+				PAYEE_COUNT++;
+				var payeeDOM= XML.createDOM();
+							
+			payeeDOM.loadXML("&lt;payee>&lt;payeeid>" + PAYEE_COUNT +"&lt;/payeeid>"+
+								"&lt;detail>&lt;/detail>&lt;name>&lt;/name>&lt;address>&lt;/address>&lt;reference>&lt;/reference>&lt;bankname>&lt;/bankname>&lt;bankaddress>&lt;/bankaddress>"+
+								"&lt;sortcode>&lt;/sortcode>&lt;accnumber>&lt;/accnumber>&lt;amount>&lt;/amount>&lt;/payee>");
+										
+				var pbpcXPath = "/ds/EnterVariableData/PayeeBranch/payee_cols";			
+				Services.addNode(payeeDOM, pbpcXPath);
+				
+				var pbpcXPath2 = pbpcXPath + "/payee[payeeid = " + PAYEE_COUNT +"]/";
+				Services.setValue(pbpcXPath2 + "detail", Services.getValue(PayeeDetail.dataBinding));
+				Services.setValue(pbpcXPath2 + "name", Services.getValue(PayeeName.dataBinding));
+				Services.setValue(pbpcXPath2 + "address", Services.getValue(PayeeAdd1.dataBinding) + ", " +Services.getValue(PayeeAdd2.dataBinding) + " " + Services.getValue(PayeeAdd3.dataBinding) + " " + Services.getValue(PayeeAdd4.dataBinding) + " " + Services.getValue(PayeeAdd5.dataBinding) + " " + Services.getValue(Postcode.dataBinding));
+				Services.setValue(pbpcXPath2 + "reference", Services.getValue(PayeeRef.dataBinding));
+				Services.setValue(pbpcXPath2 + "bankname", Services.getValue(BankName.dataBinding));
+				Services.setValue(pbpcXPath2 + "bankaddress", Services.getValue(BankAdd1.dataBinding) + ", " +Services.getValue(BankAdd2.dataBinding) + " " + Services.getValue(BankAdd3.dataBinding) + " " + Services.getValue(BankAdd4.dataBinding) + " " + Services.getValue(BankAdd5.dataBinding) + " " + Services.getValue(BankPostcode.dataBinding));
+				Services.setValue(pbpcXPath2 + "sortcode", Services.getValue(Sortcode.dataBinding));
+				Services.setValue(pbpcXPath2 + "accnumber", Services.getValue(Accnumber.dataBinding));
+				Services.setValue(pbpcXPath2 + "amount", Services.getValue(PayeeAmount.dataBinding));
+				
+				Services.dispatchEvent("Payee_Popup", PopupGUIAdaptor.EVENT_LOWER);
+			}
+			else {
+				alert("Form cannot be submitted as it has invalid value(s)"); }	}
+
+		function PayeeCancelBtn(){}
+		PayeeCancelBtn.actionBinding = function() {	
+			var a = Services.getValue(PayeeGrid.dataBinding);
+			if(a == "1") {
+				Services.setValue(FormEnabled.dataBinding, "false"); }
+			else {
+				Services.setValue(FormEnabled.dataBinding, "true"); } 					
+			FormController.getInstance().hideFormExtensionPopup("Payee_Popup");	}			
+		
+		function PayeeDetail(){}
+		PayeeDetail.dataBinding 	= "/ds/var/app/WPData/payeedetails/payeeDetail";
+		PayeeDetail.helpText 		= "Enter the payee details";
+		PayeeDetail.mandatoryOn = [FormEnabled.dataBinding];
+		PayeeDetail.maxLength = 260;
+		PayeeDetail.isMandatory = function() { 
+			return(Services.getValue(FormEnabled.dataBinding) == "true"); } 		
+		
+		function PayeeName(){}
+		PayeeName.dataBinding 	= "/ds/var/app/WPData/payeedetails/payeeName";
+		PayeeName.helpText 		= "Enter the payee name";
+		PayeeName.mandatoryOn = [FormEnabled.dataBinding];
+		PayeeName.maxLength = 70;
+		PayeeName.isMandatory = function() {
+			return(Services.getValue(FormEnabled.dataBinding) == "true"); }
+		
+		function PayeeAdd1(){}
+		PayeeAdd1.dataBinding 	= "/ds/var/app/WPData/payeedetails/payeeAdd1";
+		PayeeAdd1.helpText 		= "Enter payee address line 1";
+		PayeeAdd1.mandatoryOn = [FormEnabled.dataBinding];
+		PayeeAdd1.maxLength = 35;
+		PayeeAdd1.isMandatory = function() {
+			return (Services.getValue(FormEnabled.dataBinding) == "true"); }
+		
+		function PayeeAdd2(){}
+		PayeeAdd2.dataBinding 	= "/ds/var/app/WPData/payeedetails/payeeAdd2";
+		PayeeAdd2.helpText 		= "Enter payee address line 2";
+		PayeeAdd2.mandatoryOn = [FormEnabled.dataBinding];
+		PayeeAdd2.maxLength = 35;
+		PayeeAdd2.isMandatory = function() {
+			return (Services.getValue(FormEnabled.dataBinding) == "true"); }
+		
+		function PayeeAdd3(){}
+		PayeeAdd3.dataBinding 	= "/ds/var/app/WPData/payeedetails/payeeAdd3";
+		PayeeAdd3.maxLength = 35;
+		PayeeAdd3.helpText 		= "Enter payee address line 3";
+	
+		function PayeeAdd4(){}
+		PayeeAdd4.dataBinding 	= "/ds/var/app/WPData/payeedetails/payeeAdd4";
+		PayeeAdd4.maxLength = 35;
+		PayeeAdd4.helpText 		= "Enter payee address line 4";
+	
+		function PayeeAdd5(){}
+		PayeeAdd5.dataBinding 	= "/ds/var/app/WPData/payeedetails/payeeAdd5";
+		PayeeAdd5.maxLength = 35;		
+		PayeeAdd5.helpText 		= "Enter payee address line 5";
+	
+		function Postcode(){}
+		Postcode.dataBinding 	= "/ds/var/app/WPData/payeedetails/postcode";
+		Postcode.helpText 		= "Enter payee postcode";
+		Postcode.validateOn = [Postcode.dataBinding];
+		Postcode.validate = function() {
+			var value = Services.getValue(Postcode.dataBinding);
+			if(!CaseManValidationHelper.validatePostCode(value)) {
+				return ErrorCode.getErrorCode("CaseMan_invalidPostcodeFormat_Msg");	}
+			return null; }		
+		
+		function PayeeRef(){}
+		PayeeRef.dataBinding = "/ds/var/app/WPData/payeedetails/payeeRef";	
+		PayeeRef.helpText = "Enter payee reference";
+		PayeeRef.mandatoryOn = [FormEnabled.dataBinding];
+		PayeeRef.maxLength = 35;
+		PayeeRef.isMandatory = function() {
+			return (Services.getValue(FormEnabled.dataBinding) == "true"); }
+		
+		function BankName(){}
+		BankName.dataBinding = "/ds/var/app/WPData/payeedetails/bankName";	
+		BankName.helpText = "Enter payee bank name";
+		BankName.maxLength = 70;
+		BankName.mandatoryOn = [FormEnabled.dataBinding];
+		BankName.isMandatory = function() {
+			return(Services.getValue(FormEnabled.dataBinding) == "true"); }
+		
+		function BankAdd1(){}
+		BankAdd1.dataBinding = "/ds/var/app/WPData/payeedetails/bankAdd1";	
+		BankAdd1.helpText = "Enter bank address line 1";
+		BankAdd1.mandatoryOn = [FormEnabled.dataBinding];
+		BankAdd1.maxLength = 35;
+		BankAdd1.isMandatory = function() {
+			return(Services.getValue(FormEnabled.dataBinding) == "true"); }
+		
+		function BankAdd2(){}
+		BankAdd2.dataBinding = "/ds/var/app/WPData/payeedetails/bankAdd2";	
+		BankAdd2.helpText = "Enter bank address line 2";
+		BankAdd2.mandatoryOn = [FormEnabled.dataBinding];
+		BankAdd2.maxLength = 35;
+		BankAdd2.isMandatory = function() {	
+			return(Services.getValue(FormEnabled.dataBinding) == "true"); }
+		
+		function BankAdd3(){}
+		BankAdd3.dataBinding = "/ds/var/app/WPData/payeedetails/bankAdd3";	
+		BankAdd3.maxLength = 35;
+		BankAdd3.helpText = "Enter bank address line 3";
+		
+		function BankAdd4(){}
+		BankAdd4.dataBinding = "/ds/var/app/WPData/payeedetails/bankAdd4";	
+		BankAdd4.maxLength = 35;
+		BankAdd4.helpText = "Enter bank address line 4";
+		
+		function BankAdd5(){}
+		BankAdd5.dataBinding = "/ds/var/app/WPData/payeedetails/bankAdd5";	
+		BankAdd5.maxLength = 35;
+		BankAdd5.helpText = "Enter bank address line 5";
+		
+		function BankPostcode(){}
+		BankPostcode.dataBinding = "/ds/var/app/WPData/payeedetails/bankPostcode";	
+		BankPostcode.helpText = "Enter bank postcode";
+		BankPostcode.validateOn = [BankPostcode.dataBinding];
+		BankPostcode.validate = function() {
+			var value = Services.getValue(BankPostcode.dataBinding);
+			if(!CaseManValidationHelper.validatePostCode(value)) {
+				return ErrorCode.getErrorCode("CaseMan_invalidPostcodeFormat_Msg"); }
+			return null; }
+		
+		function Sortcode(){}
+		Sortcode.dataBinding = "/ds/var/app/WPData/payeedetails/bankSortcode";	
+		Sortcode.helpText = "Enter sortcode";
+		Sortcode.mandatoryOn = [FormEnabled.dataBinding];
+		Sortcode.isMandatory = function() { return false; }
+		Sortcode.validateOn = [Sortcode.dataBinding];
+		Sortcode.validate = function() {
+			var value = Services.getValue(Sortcode.dataBinding);
+			if(!CaseManValidationHelper.validateSortCode(value)) {
+				return ErrorCode.getErrorCode("CaseMan_invalidSortCode_Msg"); }
+			return null; }		
+		
+		function Accnumber(){}
+		Accnumber.dataBinding = "/ds/var/app/WPData/payeedetails/accNumber";	
+		Accnumber.helpText = "Enter account number";
+		Accnumber.mandatoryOn = [FormEnabled.dataBinding];
+		Accnumber.isMandatory = function() { return false; }
+		Accnumber.validateOn = [Accnumber.dataBinding];
+		Accnumber.validate = function() {
+			var value = Services.getValue(Accnumber.dataBinding);
+			if(!CaseManValidationHelper.validateNumber(value)) {
+				return ErrorCode.getErrorCode("CaseMan_invalid_integer_format"); }
+			return null; }		
+		
+		function PayeeAmount(){}
+		PayeeAmount.dataBinding = "/ds/var/app/WPData/payeedetails/payeeAmount";	
+		PayeeAmount.helpText = "Enter payee amount";
+		PayeeAmount.validateOn = [PayeeAmount.dataBinding];
+		PayeeAmount.validate = function() {
+			var value = Services.getValue(PayeeAmount.dataBinding);
+			var max = 99999999.99;
+			var err = validateCurrencyValue(value, max);
+			if( null != err ) {
+				return err; }
+			return null; }	
+		
+		var popupFieldsDB = [	PayeeDetail.dataBinding, PayeeName.dataBinding,PayeeAdd1.dataBinding,PayeeAdd2.dataBinding,
+								PayeeAdd3.dataBinding,PayeeAdd4.dataBinding,PayeeAdd5.dataBinding,Postcode.dataBinding,PayeeRef.dataBinding,
+								BankName.dataBinding,BankAdd1.dataBinding,BankAdd2.dataBinding,BankAdd3.dataBinding,BankAdd4.dataBinding,
+								BankAdd5.dataBinding,BankPostcode.dataBinding,Sortcode.dataBinding,Accnumber.dataBinding,PayeeAmount.dataBinding ];
+		var popupFieldsDBLen = popupFieldsDB.length;
+	
+		function Payee_Popup(){}
+		Payee_Popup.nextFocusedAdaptorId = function() { 
+			return 'PayeeAddBtn'; }					
+		</miscCode>
+	</Javascript>
+</Question>

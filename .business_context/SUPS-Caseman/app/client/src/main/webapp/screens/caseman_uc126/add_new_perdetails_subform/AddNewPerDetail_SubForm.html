@@ -1,0 +1,61 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3c.org/TR/html4/strict.dtd">
+<html>
+
+	<head>
+		<title>AddNewPerDetail_SubForm</title>
+		<link href="AddNewPerDetail_SubForm.css" type="text/css" rel="stylesheet">
+		<script type="text/javascript" src="../../../Framework.js"></script>
+    	<script type="text/javascript" src="../../../CaseManSubFormIncludeFiles.js"></script>
+		<script type="text/javascript" src="AddNewPerDetail_SubForm.js"></script>
+  	</head>
+
+	<body>
+	
+    	<form id="addNewPerDetailSubform" class="subform">
+
+			<div class="panel">
+				<table class="content" style="height:180px;">
+					<tr>
+						<td valign="top">
+							<table>
+								<tr>																																				
+									<td class="defaultLabel"><label for='AddNewPerDetailPopup_DetailCode'>Detail Code</label></td>										
+									<td><input id="AddNewPerDetailPopup_DetailCode" type="text" size=15></td>																				
+								</tr>
+								<tr>
+									<td class="defaultLabel"><label for='AddNewPerDetailPopup_PERGroup'>PER Group</label></td>										
+									<td><input id="AddNewPerDetailPopup_PERGroup" type="text" size=1></td>
+								</tr>
+								<tr>
+									<td class="defaultLabel"><label for='AddNewPerDetailPopup_AllowMultiples'>Allow Multiples</label></td>										
+									<td><input id="AddNewPerDetailPopup_AllowMultiples" type="checkbox"></td>
+								</tr>
+								<tr>
+									<td class="defaultLabel"><label for='AddNewPerDetailPopup_Prompt'>Prompt</label></td>										
+									<td><input id="AddNewPerDetailPopup_Prompt" type="text" size=40></td>
+								</tr>	      
+								<tr>
+									<td class="AddNewPerDetailPopup_AmountAllowedEditableLabel"><label for='AddNewPerDetailPopup_AmountAllowedEditable'>Amount Allowed Editable</label></td>										
+									<td><input id="AddNewPerDetailPopup_AmountAllowedEditable" type="checkbox"></td>
+								</tr>								
+							</table>
+						</td>
+				</table>
+			</div>
+			
+			<!-- Subform action bar -->
+			<script type="text/javascript">
+				ActionBarRenderer.createInline(
+					"addNewPerDetail_statusbar",
+					[
+						{id: "AddNewPerDetailPopup_SaveButton", label: "Save"},	
+						{id: "AddNewPerDetailPopup_CancelButton", label: "Cancel"}
+					]
+				);
+			</script>
+
+		</form>
+    
+    </body>
+    
+</html>

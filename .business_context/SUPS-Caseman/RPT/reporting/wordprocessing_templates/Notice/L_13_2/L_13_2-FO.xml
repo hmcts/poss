@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- ====================================================================== -->
+<!--  -->
+<!-- FILENAME: $Source: C:/CVSRepository/serveroas/src/uk/gov/dca/caseman/wordprocessing_templates/Notice/L_13_2/L_13_2-FO.xml,v $ -->
+<!--  -->
+<!-- AUTHOR: $Author: shane $-->
+<!--  -->
+<!-- DATE: $Date: 2006/07/04 13:09:28 $ -->
+<!--  -->
+<!-- Version: $Revision: 1.16 $ -->
+<!--  -->
+<!-- DESCRIPTION: This stylesheet is used to create an XSL:FO document that -->
+<!-- can be processed into a PDF version.  Business logic -->
+<!-- is embedded to generate the correct document text for the order -->
+<!-- required. -->
+<!--  -->
+<!-- INPUTS: XML document containing: the answers to questions asked of the -->
+<!-- user; case data retrieved from the database; HTML representing the  -->
+<!-- body of the document content (already edited by the user). -->
+<!--  -->
+<!-- OUTPUTS: XML document with FO tags containing instructions for the -->
+<!-- creation of a PDF document. -->
+<!--  -->
+<!--  10 Jan 2011, Chris Vincent. Trac 4134. Reference HM Courts & Tribunals Service instead of Her Majesty's Courts Service -->
+<!-- ====================================================================== -->
+<root xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:fo="http://www.w3.org/1999/XSL/Format" xmlns="http://eds.com/supsfo">
+	<variables>@word.processing.url.xsl@supsfo.xsl</variables>
+	<duplex/>
+	<addressee>
+		<eventSelectedWarrantPartyAgainst/>
+	</addressee>
+	<header>
+		<fo:block font-size="16pt" font-weight="bold">Notice of visit</fo:block>
+		<fo:block font-size="16pt" font-weight="bold">by the Bailiff</fo:block>
+	</header>
+	<courtcase>
+		<court>
+			<xsl:copy-of select="$vdWarrantCourtHeaderBlock"/>
+		</court>
+		<caseparameters>
+			<parameter>
+				<name>
+					<fo:block font-weight="bold">Case Number</fo:block>
+				</name>
+				<value>
+					<fo:block>
+						<xsl:value-of select="$vdWarrantCaseNumber"/>
+					</fo:block>
+				</value>
+			</parameter>
+			<parameter>
+				<name>
+					<fo:block font-weight="bold">Warrant Number</fo:block>
+				</name>
+				<value>
+					<fo:block>
+						<xsl:choose>
+							<xsl:when test="string-length($vdWarrantLocalNumber) > 0"><xsl:value-of select="$vdWarrantLocalNumber"/></xsl:when>
+							<xsl:otherwise><xsl:value-of select="$vdWarrantNumber"/></xsl:otherwise>
+						</xsl:choose>
+					</fo:block>
+				</value>
+			</parameter>
+			<parameter>
+				<name>
+					<fo:block font-weight="bold">Name of Foreign Court</fo:block>
+				</name>
+				<value>
+					<fo:block>
+						<xsl:value-of select="$vdWarrantIssueCourtName"/>
+					</fo:block>
+				</value>
+			</parameter>
+			<parameter>
+				<name>
+					<fo:block font-weight="bold">Judgment Creditor</fo:block>
+				</name>
+				<value>
+					<fo:block>
+						<xsl:value-of select="$vdPartyForName"/>
+					</fo:block>
+				</value>
+			</parameter>
+			<parameter>
+				<name>
+					<fo:block font-weight="bold">Date of Visit</fo:block>
+				</name>
+				<value>
+					<fo:block>
+						<xsl:value-of select="$vdBailiffVisitDate"/>
+					</fo:block>
+				</value>
+			</parameter>
+		</caseparameters>
+	</courtcase>
+
+	<body>
+		<editable useid="N100C2">
+			<fo:block font-size="12pt">
+				<fo:block space-after="0.4cm"/>
+			
+				<list>
+			
+					<list-item>
+						<fo:block>		
+							<fo:inline>A notice was sent warning you that the bailiff would call if you did not pay the full amount of £<cursor text="Enter Oustanding Amount here."/></fo:inline> 
+						</fo:block>	
+					</list-item>
+						
+					<list-item>
+						<fo:block space-before="0.2cm">
+							<fo:inline>The bailiff called today with a warrant to remove enough of your goods to sell at public auction in order to raise the amount due, plus any extra costs for arranging removal and sale</fo:inline> 
+						</fo:block>
+					</list-item>
+					<list-item>
+						<fo:block space-before="0.2cm">
+							<fo:inline>There was nobody in.</fo:inline>&#xa0;<fo:inline font-weight="bold">The bailiff will call again</fo:inline> 
+						</fo:block>
+					</list-item>
+					<list-item>
+						<fo:block space-before="0.2cm">
+							<fo:inline font-weight="bold">Your goods will not be removed if you pay the amount of the warrant.</fo:inline> 
+						</fo:block>			
+					</list-item>
+				</list>
+
+			</fo:block>
+		</editable>
+	</body>
+
+	<footnote noteextent="6">
+		<fo:block space-after="0.2cm"  font-family="Times">
+			<fo:table table-layout="fixed" width="100%">
+				<fo:table-column column-width="19.28cm"/>
+				<fo:table-body table-layout="fixed">
+					<fo:table-row keep-with-next="always">
+						<fo:table-cell padding-left="0.1cm" padding-right="0.1cm" border-style="solid" border-width="0.02cm">
+							<fo:block space-before="0.1cm" space-after="0.4cm" font-weight="bold" font-size="16pt">How to pay</fo:block>
+							<fo:block font-size="10pt" space-after="0.4cm">
+								If you have already paid you must contact the court as soon as possible. If not you must pay the amount.
+							</fo:block>
+							<fo:block font-size="10pt">
+								<fo:inline font-weight="bold">By calling at the court office:</fo:inline> you may pay by cash, cheque (<fo:inline font-style="italic">if supported by a cheque guarantee card)</fo:inline>, by bankers or
+							</fo:block>
+							<fo:block start-indent="1cm" font-size="10pt" space-after="0.4cm">
+								giro draft.
+							</fo:block>
+							<fo:block font-size="10pt" space-after="0.4cm">
+								<fo:inline font-weight="bold">By giving your payment to the bailiff:</fo:inline> cash, cheque, banker or giro draft.
+							</fo:block>
+							<fo:block font-size="10pt">
+								<fo:inline font-weight="bold">By post:</fo:inline> do not send cash by post. You may use postal orders, cheque, bankers or giro draft.
+							</fo:block>
+							<fo:block font-size="10pt" start-indent="1cm" space-after="0.4cm">
+								Enclose this form and a self-addressed envelope so the court can send you a receipt.
+							</fo:block>
+							<fo:block font-size="10pt">
+								Cheques should be made payable to HM COURTS &amp; TRIBUNALS SERVICE and crossed.
+							</fo:block>
+						</fo:table-cell>
+					</fo:table-row>
+				</fo:table-body>
+			</fo:table>
+		</fo:block>
+	</footnote>
+	<defaultFooter id="L_13_2" type="bailiff"/>
+</root>

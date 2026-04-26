@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: Co
+	Method:  getPayeeCodedParty()
+	File:    query_def_get_payee_coded_party.xml
+	Author:  Phil Haferer (EDS)
+	Created: 12 September 2005
+	Description: 
+		Retrieve the details of Coded Party in a format suitable for Consolidated Order Allowed Debts.
+-->
+<QueryDef>
+	<DBMapDef location="uk/gov/dca/caseman/co_service/map_get_payee_coded_party.xml"/>
+	<Query pivotNode="/ds/Payee" tables="P CP GA">
+		<Join>
+			    P.PARTY_ID  =    CP.PARTY_ID 
+			AND GA.PARTY_ID (+)= P.PARTY_ID 
+			AND	GA.VALID_TO IS   NULL 
+		</Join>
+	</Query>  
+</QueryDef>

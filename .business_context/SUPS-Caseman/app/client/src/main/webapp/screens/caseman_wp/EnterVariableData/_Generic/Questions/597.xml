@@ -1,0 +1,15 @@
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>597</Id>
+	<Label>Is there more than one claim?</Label>
+	<ObjectName>MoreThanOneClaim</ObjectName>
+
+	<Html>	
+		<input type="checkbox" id="MoreThanOneClaim"></input>
+	</Html>			
+	<Javascript>
+		<XPath>/ds/EnterVariableData/Settlement/moreThanOneClaim</XPath>
+		<componentName>##label##</componentName>
+		<modelValue>checked: "Y", unchecked: "N"</modelValue>
+		<HintText>Check box if there is more than one claim</HintText>			
+	</Javascript>
+</Question>

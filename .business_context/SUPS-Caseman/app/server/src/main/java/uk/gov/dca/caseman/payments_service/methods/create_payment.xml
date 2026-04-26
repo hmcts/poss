@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: Payments
+	Method: createPayment()
+	File: create_payment.xml
+	Author: Steve Blair
+	Description:
+		Create a new payment on the database.
+	
+	Change History:
+	20-June-2006 Kevin Gichohi (EDS): Separated the saving of the payment and calling of the receipt to two different transactions
+				
+-->
+<service-method>
+	<pipeline>
+		<Java callStyle="new">
+			<Source class="uk.gov.dca.caseman.payments_service.java.PopulateReportIdCustomProcessor" />
+		</Java>
+		<Add>
+			<QueryDef location="uk/gov/dca/caseman/payments_service/query_def_create_payment.xml" />
+			<DataSource xpath="/params/param[@name='payment']" />
+		</Add>
+		<Java callStyle="new">
+			<Source class="uk.gov.dca.caseman.payments_service.java.UpdateCODebtsCustomProcessor" />
+		</Java>
+		<Transform>
+			<Template location="uk/gov/dca/caseman/payments_service/transforms/transform_create_payment.xsl" />
+		</Transform>
+		<Java callStyle="new">
+			<Source class="uk.gov.dca.caseman.payments_service.java.CreatePaymentCustomProcessor" />
+		</Java>
+	</pipeline>
+	<Dependencies>
+		<Dependency serviceName="WarrantReturns" />
+		<Dependency serviceName="Bms" />
+		<Dependency serviceName="Warrant" />
+		<Dependency serviceName="SystemData" />
+		<Dependency serviceName="Co" />
+		<Dependency serviceName="CoEvent" />
+		<Dependency serviceName="Case" />
+		<Dependency serviceName="CaseEvent" />
+	</Dependencies>
+	<Security roles="medium high wcSuper scSuper bmsSuper aeSuper dmSuper cpSuper" />
+</service-method>

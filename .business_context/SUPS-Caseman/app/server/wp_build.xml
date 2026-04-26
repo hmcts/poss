@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="wp-server-side" default="build-wp-war">
+	
+
+    <property environment="env" />
+
+	<property name="build.debug" value="true"/>
+	<property name="application_base" value="${env.PROJECT_BASE}"/>
+	<property name="application_src" value="${application_base}/src"/>
+	
+	<property name="application_base" value="${env.PROJECT_BASE}"/>       
+    <echo level="debug">loading: ${application_base}/application.properties</echo>   
+    <property file="${application_base}/application.properties"/>
+	<property name="application_build" value="${application_base}/build/${target_platform}"/>
+	<property name="application_ear_metainf" value="${application_build}/ear_metainf"/>         
+   
+
+	<property name="application_dist" value="${application_base}/dist"/>
+	<property name="application_lib" value="${application_base}/lib"/>
+	<property name="application_bin" value="${application_base}/bin"/>
+	<property name="application_conf" value="${application_base}/conf"/>
+	<property name="server_ip" value="http://localhost:7070"/>
+	
+	<property name="app.name" value="server_caseman"/>
+	
+	<property name="src" value="${basedir}/../../src"/>
+	<property name="src.app" value="${src}"/>
+	
+	<property name="resources" value="${basedir}/../../rsc"/>
+	<property name="bin" value="${basedir}/../../bin"/>
+	<property name="dist" value="${application_dist}"/>
+	<property name="build" value="${basedir}/../build"/>
+	<property name="build.wp.classes" value="${build}/wordprocessing_servlets"/>
+	<property name="app" value="${basedir}/${app.name}"/>
+	<property name="lib" value="${basedir}/lib"/>	
+	<property name="src.wp.java" value="${src.app}/uk/gov/dca/caseman/wordprocessing_servlets"/>
+	<property name="src.wordprocessingtemplates" value="${basedir}/../../../../RPT/wordprocessing_templates" />
+	
+	<property name="meta-inf" value="${build}/META-INF"/>
+
+	<!-- deployment files -->
+	<property name="war" value="${app.name}.war"/>
+	<property name="wsr" value="${app.name}.wsr"/>
+	<property name="ear" value="${app.name}.ear"/>
+	<property name="ejb.jar" value="${app.name}-ejb.jar"/>
+	<property name="xmlquery2.jar" value="xmlquery2.jar"/>
+	
+
+	
+	<property name="temp.build.dir" value="c:/SUPS/build/caseman/caseman_server/temp_wp_build"/>
+	<property name="output.dir" value="c:/SUPS/build/caseman/caseman_server/wp_test_outputs"/>
+	<property name="test.src.wordprocessingtemplates" value="${basedir}/src/uk/gov/dca/caseman/wordprocessing_templates" />
+	<!--property name="word.processing.url.build" value="${temp.build.dir}"/-->
+	<property name="expanded.tools" location="${sups.extracted}"/>
+			
+	<property name="src.wp.java" value="${src.app}/uk/gov/dca/caseman/wordprocessing_servlets"/>
+	<property name="build.wordprocessingtemplates" value="c:/SUPS/build/caseman/caseman_server/build_wordprocessing_templates" /> 
+	<property name="deploy.wordprocessingtemplates" value="c:/SUPS/build/caseman/caseman_server/deploy_wordprocessing_templates" /> 
+	
+	<property name="word.processing.url.build" value="${build.wordprocessingtemplates}"/>
+	<property name="word.processing.url.deploy" value="http://${env.SUPS_SERVER}/casemanwp"/>
+	
+	<property file="${expanded.tools}/../tool_version.properties"/>
+			
+	<path id="project.path">
+		<pathelement location="${lib}/${xmlquery2.jar}" />
+		<fileset dir="${lib}" includes="**/*.jar" />
+		<fileset dir="${application_lib}">
+			<include name="**/*.jar"/>
+	    </fileset>
+		<pathelement path="${custom_path}"/>
+	</path>
+	
+	<taskdef name="metrics" classname="uk.gov.dca.caseman.metrics.LineCount" >
+		<classpath>
+      		<pathelement location="${basedir}/lib/metricstask.jar"/>
+			<pathelement location="${basedir}/../../lib/metricstask.jar"/>
+		</classpath>
+	</taskdef>  
+	
+	<taskdef name="build_templates_task" classname="uk.gov.dca.caseman.tools.BuildTemplatesTask">
+			<classpath>				
+				<pathelement location="${basedir}/lib/outputgeneratortask.jar"/>
+				<pathelement location="${basedir}/../../lib/outputgeneratortask.jar"/>
+				<pathelement location="${expanded.tools}/fop-1.0/lib/avalon-framework-4.2.0.jar"/>
+			</classpath>
+	 </taskdef>
+	
+	<target name="init">
+		<delete dir="${output.dir}"/>
+		<mkdir dir="${output.dir}"/>
+		<mkdir dir="${application_jars}" />
+	</target>
+	
+	<!-- WP Server build targets, previously found in the main caseman server build.xml -->
+	<target name="build-templates">
+		<build_templates_task 	outputs="${src.wordprocessingtemplates}/Outputs.xml" 
+								src="${build.wordprocessingtemplates}/" 
+								xhtmlStyle="${build.wordprocessingtemplates}/_Generic/supsxhtml.xsl"/>
+	</target>
+	
+	
+	
+	<target name="build-wp-war" depends="init, build-convertDsToWpData_xsl">	
+			</target>
+	
+	<target name="build-convertDsToWpData_xsl">
+		<xslt 
+			in="${application_src}/uk/gov/dca/caseman/noticeofissue_service/classes/src_convertDsToWpData.xsl" 
+			style="${application_src}/uk/gov/dca/caseman/noticeofissue_service/classes/gen_ds2wp_do.xsl" 
+			out="${application_src}/uk/gov/dca/caseman/noticeofissue_service/classes/convertDsToWpData.xsl"
+			force="true"/>
+	</target>
+		
+		
+	<target name="wp-metrics">
+		<mkdir dir="c:\build\metrics\server"/>
+		<metrics basedir="${basedir}/src/uk/gov/dca/caseman" destdir="c:\build\metrics\server">
+			<include name="noticeofissue_service/**/*"/>
+			<include name="wordprocessing/**/*"/>
+			<include name="wordprocessing_service/**/*"/>
+			<include name="wordprocessing_templates/**/*"/>
+			<exclude name="**/*.eps"/>
+			<exclude name="**/*.ttf"/>
+		</metrics>
+	</target>
+	
+	<target name="re-deploy_wordprocessing_war" depends="build-wp-war">
+		<!-- update existing ear file -->
+		<ear destfile="${application_ears}/caseman.ear" update="true">
+			<fileset dir="${application_jars}">
+				<include name="server_wordprocessing.war" />
+			</fileset>
+		</ear>	
+		<!-- re-deploy to server-->
+		<copy file="${application_ears}/caseman.ear" tofile="${deploy.dir}/caseman.ear" overwrite="true"/>
+	</target>
+	
+	<target name="deploy_outputgeneratortasks">
+		<ant target="deploy_to_project" dir="${application_base}/../OutputGeneratorTask" >
+			<property name="deploy_to" value="${application_base}/lib" />
+		</ant>
+	</target>
+	
+	
+	
+	
+	<!--target name="build-wp-ear"--><!--depends="build-wp-war"-->	 		 	
+	 	<!--ear destfile="${application_ears}/wp.ear" appxml="${application_src}/uk/gov/dca/caseman/wordprocessing/build/application.xml">
+	 		<fileset dir="${application_jars}">
+	 			<include name="Noticeofissue.jar" />
+	 			<include name="server_wordprocessing.war" />	 			
+	 		</fileset>
+	 		<fileset dir="${framework_lib}/SUPS-JBOSS" >
+	 			<include name="${xmlquery2.jar}" />
+	 		</fileset>	 			 		
+	 		<metainf dir="${application_src}/uk/gov/dca/caseman/wordprocessing/build">  
+	 			<include name="jboss-app.xml" />
+	 		</metainf>	 		
+	 	</ear>	 		 	
+	</target-->
+	
+</project>
+
+

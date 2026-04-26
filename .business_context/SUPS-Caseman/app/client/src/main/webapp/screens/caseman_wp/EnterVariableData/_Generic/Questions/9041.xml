@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>9041</Id>
+	<Label>Select from the following</Label>
+	<ObjectName>PetitionInstructions</ObjectName>
+	<Html>
+		<select id="PetitionInstructions">
+		  <option value=""></option>
+		  <option value="DIS">Petition be dismissed</option>
+		  <option value="LEAVE">Petitioner has leave to withdraw this Petition</option> 		  
+		</select>
+	</Html>
+	<Javascript>
+      <XPath>/ds/EnterVariableData/PetitionInstructions</XPath>
+		<HintText>Select from the following</HintText>
+        <isEnabled>return true;</isEnabled>    
+		<isMandatory>return true;</isMandatory>
+        <mandatoryOn>PetitionInstructions.dataBinding</mandatoryOn>   
+	</Javascript>
+</Question>

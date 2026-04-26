@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+Change History
+	27/06/2006	Chris Hutt	TD3687 ECHR_ARTICLE_PROTOCOL.DEFT_CASE_NUMBER having event sequence (erroneously) assigned.
+-->
+<QueryDef>
+	<DBMapDef location="uk/gov/dca/caseman/hra_service/map_hra_update.xml"/>
+	<Query pivotNode="/ds/HumanRightsAct/Cases/Case" tables = "ED">
+	  <Join/>
+	  <Modify>
+	  </Modify>
+	</Query>
+
+	<Query pivotNode="/ds/HumanRightsAct/Cases/Case/Articles/Article" tables="EAP">
+		  <Join>
+	      </Join>
+		  <Modify>
+	            <Field name="EAP.EVENT_SEQ" xpath="../../EventSequence"/>
+	            <Field name="EAP.DEFT_CASE_NUMBER" xpath="../../CaseNumber"/>
+	            <Field name="EAP.ART_OR_PROT" value="A"/>
+		  </Modify>
+	 </Query>
+	 
+	 <Query pivotNode="/ds/HumanRightsAct/Cases/Case/Protocols/Protocol" tables="EAP">
+	  <Join>
+          </Join>
+	  <Modify>
+                  <Field name="EAP.EVENT_SEQ" xpath="../../EventSequence"/>
+                  <Field name="EAP.DEFT_CASE_NUMBER" xpath="../../CaseNumber"/>
+                  <Field name="EAP.ART_OR_PROT" value="P"/>
+	  </Modify>
+	 </Query>
+
+</QueryDef>
+
+
+

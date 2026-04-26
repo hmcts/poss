@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<QueryDef>
+	<DBMapDef location="uk/gov/dca/test_project/cases_service/distinct_test_map.xml"/>
+	<Tables>
+	</Tables>
+	
+	<Query pivotNode="/CasePartyRoles/CasePartyRole" tables="cpr" selectDistinct="true">
+		<Modify notModifiable="true"/>
+	</Query>
+
+</QueryDef>

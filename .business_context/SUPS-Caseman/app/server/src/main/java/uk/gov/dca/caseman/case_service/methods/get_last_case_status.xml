@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<service-method>
+	<pipeline>
+		<Query>
+			<QueryDef location="uk/gov/dca/caseman/case_service/query_def_get_last_case_status.xml"/>
+			<QueryExtension pivotNode="/ds/Case">
+				<Param name="param.caseNumber" xpath="/params/param[@name = 'caseNumber']"/>
+				<!-- Select Description: 
+						- The "REF1" sub-query gets a list of event id's that can change the case status.
+						- The "CE1" sub-query uses this list to get a list of those event id's that exist
+						  for the given Case Number (and haven't been set in error), ordered to with 
+						  the most recent Case Event at the beginning of the list.
+						- The sub-query surrounding "CE1" pulls out the Case Event from the beginning of the list 
+						  just retrieved.
+						- The "REF" outer-query retrieves the Case Status associated with the most recent 
+						  Event Id (that causes changes of status).
+				-->
+                <SQL type="select">
+					SELECT ${param.caseNumber} AS "C.CASE_NUMBER"
+					,      REF.RV_IIT_CODE_1   AS "C.STATUS"
+					FROM   CCBC_REF_CODES REF
+					WHERE  REF.RV_DOMAIN = 'EVENT_SETTING_CASE_STATUS'
+					AND    REF.RV_LOW_VALUE IN (
+						SELECT CE.STD_EVENT_ID FROM (
+							SELECT CE1.STD_EVENT_ID
+							FROM   CASE_EVENTS CE1
+							WHERE  CE1.CASE_NUMBER = ${param.caseNumber}
+							AND    CE1.DELETED_FLAG = 'N'
+							AND    CE1.STD_EVENT_ID IN (
+								SELECT REF1.RV_LOW_VALUE
+								FROM   CCBC_REF_CODES REF1
+								WHERE  REF1.RV_DOMAIN = 'EVENT_SETTING_CASE_STATUS'
+							)
+							ORDER BY CE1.EVENT_DATE DESC, CE1.EVENT_SEQ DESC
+						) CE WHERE ROWNUM = 1
+					)
+                </SQL>
+			</QueryExtension>
+		</Query>
+	</pipeline>
+	<Security roles="user"/>
+</service-method>

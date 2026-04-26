@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: Codedparty
+	Method:  getCodedPartiesReplaceList()
+	File:    map_replacelist.xml
+	Author:  Chris Vincent
+	Created: 14 November 2005
+	Description: 
+-->
+<DBMapDef>
+  <DataSource id="java:OracleDS"/>
+  <Tables>
+    <Table alias="CP" name="CODED_PARTIES"/>
+    <Table alias="P" name="PARTIES"/>
+    <Table alias="GA" name="GIVEN_ADDRESSES"/>    
+  </Tables>
+  <Mapping>
+    <CodedParties>
+    	<CodedParty>
+    		<Code>${CP.CODE}</Code>
+    		<Name>${P.PERSON_REQUESTED_NAME}</Name>	
+			<ContactDetails>
+				<Address>
+					<AddressId>${GA.ADDRESS_ID}</AddressId>
+					<Line>${GA.ADDRESS_LINE1}</Line>
+					<Line>${GA.ADDRESS_LINE2}</Line>
+				</Address>
+			</ContactDetails>
+    	</CodedParty>
+    </CodedParties>	
+  </Mapping>
+</DBMapDef>

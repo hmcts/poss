@@ -1,0 +1,27 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: CaseEvent
+	Method:  addCaseEvent()
+	File:    add_case_event.xml
+	Description: 
+	    Adds a Case Event that has been created manually through the client GUI.
+-->
+<service-method>
+	<pipeline>
+		<Java callStyle="new">
+			<Source class="uk.gov.dca.caseman.common.java.ExpandSubjectPartyKey"/>
+		</Java>
+		<Java callStyle="new">
+			<Source class="uk.gov.dca.caseman.common.java.ExpandPartyKey"/>
+		</Java>
+		<Java callStyle="new">
+			<Source class="uk.gov.dca.caseman.case_event_service.java.AddCaseEventCustomProcessor"/>
+		</Java>
+	</pipeline>
+	<Dependencies>
+		<Dependency serviceName="Obligation"/>
+		<Dependency serviceName="WindowForTrial"/>		
+		<Dependency serviceName="UserCourt"/>	
+	</Dependencies>			
+	<Security roles="medium high wcSuper scSuper bmsSuper aeSuper dmSuper cpSuper ccbcMan ccbcUser ccbcSGB2"/>
+</service-method>

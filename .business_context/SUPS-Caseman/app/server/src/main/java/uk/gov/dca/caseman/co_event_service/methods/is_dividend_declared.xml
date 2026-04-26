@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: Co
+	Method:  isDividendDeclared
+	Author:  Chris Hutt (EDS) 
+	Created: 19 July 2005
+	Description: 
+		Use SQLLite to determine whether a dividend has been declared on a consolidated order 
+		
+		Change history:
+		
+		v1.1	Chris Hutt	3 August 2005
+		     	1.refactored from the CoService to the CoEventService. 
+		     	2.Selection now based on CO_EVENTS (as per legacy)
+-->
+<service-method>
+	<pipeline>
+		<SQLLite format-output="true"
+				 resultset-element="ds"
+				 row-element="CO"
+				 field-name-as="element" >
+			<DataSource id="java:OracleDS"/>
+			<Param name="param.coNumber" xpath="/params/param[@name='coNumber']"/>
+			<SQL>
+				SELECT  
+						DECODE(COUNT(*),0,'false','true') AS "DividendDeclared"
+				FROM 	DEBT_DIVIDENDS DD, CO_EVENTS COE
+				WHERE 	COE.CO_NUMBER = ${param.coNumber}
+				AND 	COE.ALD_DEBT_SEQ IS NOT NULL
+				AND 	DD.DD_ALD_SEQ = COE.ALD_DEBT_SEQ 
+				AND 	DD.CREATED = 'Y'
+				AND 	DD.DD_CO_NUMBER = COE.CO_NUMBER
+			</SQL>
+		</SQLLite>
+  	</pipeline>
+	<Security roles="user"/>
+</service-method>
+
+

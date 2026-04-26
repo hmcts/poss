@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: Payments
+	Method: getPayment()
+	File: get_payment.xml
+	Author: Steve Blair
+	Description:
+		Get details of a payment.
+-->
+<service-method>
+	<pipeline>
+		<Query>
+			<QueryDef location="uk/gov/dca/caseman/payments_service/query_def_payment.xml" />
+			<QueryExtension pivotNode="/Payment">
+				<Param name="param.transactionNumber" xpath="/params/param[@name = 'transactionNumber']" />
+				<Param name="param.courtCode" xpath="/params/param[@name = 'courtCode']" />
+				<Constraint>
+					P.TRANSACTION_NUMBER = ${param.transactionNumber} AND
+					P.ADMIN_COURT_CODE = ${param.courtCode}
+				</Constraint>
+			</QueryExtension>
+		</Query>
+	</pipeline>
+	<Security roles="viewOnly medium high wcSuper scSuper bmsSuper aeSuper dmSuper cpSuper ccbcMan ccbcUser ccbcSGB2"/>
+</service-method>

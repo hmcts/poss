@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: WarrantReturn
+	Method:  getWarrantCodes()
+	File:    get_warrant_codes.xml
+	Author:  Tun Shwe
+	Created: 
+	Description: 
+		Reference data service which returns a list of Warrant Return Codes based upon a 
+		court code parameter passed in.
+-->
+<service-method>
+  <pipeline>
+    <Query>
+      <QueryDef location="uk/gov/dca/caseman/warrant_returns_service/query_code_def.xml"/>
+      <QueryExtension pivotNode="/ds/WarrantCodes/WarrantCode">
+        <Param name="param.courtCode" xpath="/params/param[@name='courtCode']"/>
+      </QueryExtension>
+    </Query>
+  </pipeline>
+  <Security roles="medium high wcSuper scSuper bmsSuper aeSuper dmSuper cpSuper ccbcMan ccbcUser ccbcSGB2" />		  
+</service-method>

@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>353</Id>
+	<Label>Instalment period</Label>
+	<ObjectName>InstalmentPeriod2</ObjectName>
+	<Html>
+		<select id="InstalmentPeriod2">
+			<option value=""></option>
+			<option value="WK">Weekly</option>
+			<option value="MTH">Monthly</option>
+			<option value="FOR">Fortnightly</option>
+		</select>
+	</Html>			
+	<Javascript>
+		<XPath>/ds/EnterVariableData/Judgment/instalmentperiod</XPath>
+		<componentName>##label##</componentName>
+		<isMandatory>return true;</isMandatory>
+		<HintText>Enter the instalment period</HintText>
+		
+		 <Context ScreenId="O_7_8">
+            <mandatoryOn>CostPaid.dataBinding</mandatoryOn>
+            <isMandatory>return ("INST" == Services.getValue(CostPaid.dataBinding));</isMandatory>
+            <enableOn>CostPaid.dataBinding</enableOn>
+            <isEnabled>return ("INST" == Services.getValue(CostPaid.dataBinding));</isEnabled>
+            <logicOn>CostPaid.dataBinding</logicOn>
+            <logic>
+            if("INST" != Services.getValue(CostPaid.dataBinding)){
+                    Services.setValue(InstalmentPeriod2.dataBinding, "");
+            }
+            </logic>
+       
+         </Context>
+         
+		 <Context ScreenId="O_1_3_4">
+            <enableOn>IntalmentAmount2.dataBinding</enableOn>
+            <isEnabled>
+          		var v1 = Services.getValue(IntalmentAmount2.dataBinding);
+          		return(v1 != null &amp;&amp; v1!= "");
+            </isEnabled>
+            <logicOn>IntalmentAmount2.dataBinding</logicOn>
+            <logic>	
+            	var v1 = Services.getValue(IntalmentAmount2.dataBinding);
+            	if(v1 == null || v1== "")
+            	{
+            		Services.setValue(InstalmentPeriod2.dataBinding, "");
+            	}
+            </logic>
+         </Context>
+		 <Context ScreenId="N33">
+            <mandatoryOn>IntalmentAmount2.dataBinding</mandatoryOn>	
+            <isMandatory>
+            	var v1 = Services.getValue(IntalmentAmount2.dataBinding);
+            	return(v1 != null &amp;&amp; v1!= "");
+            </isMandatory>	 
+            <enableOn>IntalmentAmount2.dataBinding</enableOn>
+            <isEnabled>
+          		var v1 = Services.getValue(IntalmentAmount2.dataBinding);
+          		return(v1 != null &amp;&amp; v1!= "");
+            </isEnabled>
+            <logicOn>IntalmentAmount2.dataBinding</logicOn>
+            <logic>	
+            	var v1 = Services.getValue(IntalmentAmount2.dataBinding);
+            	if(v1 == null || v1== "")
+            	{
+            		Services.setValue(InstalmentPeriod2.dataBinding, "");
+            	}
+            </logic>
+         </Context>         
+	</Javascript>
+</Question>    
+                                                       
+     

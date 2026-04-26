@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- 
+	Service: Case
+	Method:  updateCase()
+	File:    update_case.xml
+	Author:  Chris Hutt
+	Created: 5 Nov 2006
+	Description: 
+		Update case, including associated updates and event creation
+	Change History:
+	21/06/2007: Chris Vincent, added SystemDate and CCBC Dependencies to allow CCBC functionality to work.
+				Previously not needed as service calls were unreachable, UCT_Group2 Defect 1371 resulted in
+				changes which made it reachable.
+--> 
+<service-method>
+	<pipeline>
+		<Transform>
+			<Template location="uk/gov/dca/caseman/case_service/transforms/modify_case.xsl"/>
+		</Transform>
+		<Update>
+			<QueryDef location="uk/gov/dca/caseman/case_service/query_def_case_modify.xml"/>
+			<DataSource xpath="/params/param[@name='caseNumber']"/>
+			<QueryExtension pivotNode="/ds/ManageCase">
+				<CheckExists table="c" fields="case_number" onNotExist="fail" onExist="update"/>
+			</QueryExtension>
+		</Update>
+		<Java callStyle="new">
+			<Source class="uk.gov.dca.caseman.case_service.java.ManageCasePartiesCustomProcessor"/>
+		</Java>
+		<Update>
+			<QueryDef location="uk/gov/dca/caseman/case_service/query_def_case_modify_CPR.xml"/>
+			<DataSource xpath="/params/param[@name='caseNumber']"/>
+		</Update>
+		<Java callStyle="new">
+			<Source class="uk.gov.dca.caseman.case_service.java.DeleteNonCodedPartyCustomProcessor"/>
+		</Java>
+		<Java callStyle="new">
+			<Source class="uk.gov.dca.caseman.case_service.java.InsertManageCaseCaseEventsCustomProcessor"/>
+		</Java>
+	</pipeline>
+	<Dependencies>
+		<Dependency serviceName="SystemDate"/>
+		<Dependency serviceName="Ccbc"/>
+	</Dependencies>
+	<Security roles="medium high wcSuper scSuper bmsSuper aeSuper dmSuper cpSuper ccbcMan ccbcUser ccbcSGB2"/>	
+</service-method>

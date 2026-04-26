@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    Change History
+    TRAC Ticket 707.
+    17-06-2009 Mark Groen - Incorporate changes defined by Chris Vincent re scalabilty for Navigate to View Payments
+    and Transfer Case. Added <EnforcementParent>${P.ENFORCEMENT_PARENT}</EnforcementParent>
+-->
+<DBMapDef>
+	<DataSource id="java:OracleDS" />
+	<Tables>
+		<Table alias="P" name="PAYMENTS" />
+	</Tables>
+	<Mapping>
+	  <Payments>
+		<Payment>
+			<TransactionNumber>${P.TRANSACTION_NUMBER}</TransactionNumber>
+			<EnforcementNumber>${P.SUBJECT_NO}</EnforcementNumber>
+			<EnforcementType>${P.PAYMENT_FOR}</EnforcementType>
+            <EnforcementParent>${P.ENFORCEMENT_PARENT}</EnforcementParent>
+            <Amount>${P.AMOUNT}</Amount>
+			<AmountCurrency>${P.AMOUNT_CURRENCY}</AmountCurrency>
+			<PaymentType>${P.PAYMENT_TYPE}</PaymentType>
+			<RetentionType>${P.RETENTION_TYPE}</RetentionType>
+			<OverpaymentAmount/>
+			<OverpaymentAmountCurrency/>
+			<AmountNowDue/>
+			<CounterPayment>${P.COUNTER_PAYMENT}</CounterPayment>
+			<PaymentDate>${P.DATE_ENTERED}</PaymentDate>
+			<ReleaseDate>${P.RELEASE_DATE}</ReleaseDate>
+			<PayoutDate>${P.PAYOUT_DATE}</PayoutDate>
+			<RDDate>${P.RD_DATE}</RDDate>
+			<Notes>${P.NOTES}</Notes>
+			<Lodgment>
+				<Name />
+				<PartyRole />
+				<CasePartyNumber />
+				<Address>
+					<Line />
+					<Line />
+					<Line />
+					<Line />
+					<Line />
+					<PostCode />
+					<Reference />
+				</Address>
+			</Lodgment>
+			<PONumber1/>
+			<PONumber2/>
+			<POTotal/>
+			<POTotalCurrency/>
+			<ReceiptRequired/>
+			<BailiffKnowledge>${P.BAILIFF_KNOWLEDGE}</BailiffKnowledge>
+			<EnforcementCourt>${P.ENFORCEMENT_COURT_CODE}</EnforcementCourt>
+			<AdminCourt>${P.ADMIN_COURT_CODE}</AdminCourt>
+			<IssuingCourt>${P.ISSUING_COURT}</IssuingCourt>
+			<IssuingCourtName/>
+			<VerificationReportID>${P.VERIFICATION_REPORT_ID}</VerificationReportID>
+			<CreatedBy>${P.CREATED_BY}</CreatedBy>
+			<Payee>
+				<Name />
+				<Code />
+				<PartyID />
+				<Address>
+					<Line />
+					<Line />
+					<Line />
+					<Line />
+					<Line />
+					<PostCode />
+					<Reference />
+				</Address>
+				<DX />
+			</Payee>
+			<Overpayee>
+				<Name />
+				<Address>
+					<Line />
+					<Line />
+					<Line />
+					<Line />
+					<Line />
+					<PostCode />
+				</Address>
+			</Overpayee>
+			<Passthrough>${P.PASSTHROUGH}</Passthrough>
+			<Error>${P.ERROR_INDICATOR}</Error>			
+			<RelatedAdminCourt/>
+			<RelatedTransactionNumber />
+			<AOPassthroughTransactionNumber/>
+			<PayoutReportID/>
+			<DebtSeq>${P.ALD_DEBT_SEQ}</DebtSeq>
+			<!--Used as parameters for creating & updating payments -->
+			<OldRetentionType />
+			<OldAmount />
+			<OldError />
+			<ReportNumber />
+			<ReportType />
+		</Payment>
+	  </Payments>
+	</Mapping>
+</DBMapDef>

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Change History -->
+<!-- 10th Jan 2007 - TEMP_caseman defect 374 - MGG, added hint text -->
+<!--Question xmlns="http://eds.com/questionxhtml" xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd"-->
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>CM_AAEF_QUESTION_2</Id>
+	<Label>End Date</Label>
+	<ObjectName>EndDate</ObjectName>
+	<Html>
+		<script type="text/javascript">
+			DatePickerRenderer.createInline("EndDate", true);
+		</script>
+	</Html>
+	<Javascript>
+		<XPath>/ds/var/page/OracleReportForm/EndDate</XPath>
+		<ReportVariableName>P_END_DATE</ReportVariableName>
+		<ReportVariableValue>CaseManUtils.convertDateToDisplay(Services.getValue(EndDate.dataBinding))</ReportVariableValue>
+		<HintText>Enter the End Date</HintText>
+		<isMandatory>return false;</isMandatory>
+		<initialise></initialise>
+		<setDefault>
+		</setDefault>		
+		<validateOn>StartDate.dataBinding, EndDate.dataBinding</validateOn>
+		<validate>
+				var ec = validateEndDate(StartDate, EndDate);
+			    return ec;
+		</validate>
+		<miscCode>
+			Status_RunReportButton.validationList = ["StartDate", "EndDate"];
+			EndDate.weekends = true;
+		</miscCode>
+	</Javascript>
+</Question>

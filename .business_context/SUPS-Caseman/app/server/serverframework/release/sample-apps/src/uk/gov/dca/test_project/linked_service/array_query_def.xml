@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<QueryDef>
+	<DBMapDef location="uk/gov/dca/test_project/linked_service/array_map.xml"/>
+	
+	<Query pivotNode="/Cases/Case" tables="C">
+		<SQL type="select">
+			SELECT 
+				CAST(COLLECT(CASE_NUMBER) AS VARCHAR2_LIST) AS "C.CASE_NUMBER",
+				CASE_TYPE AS "C.CASE_TYPE"
+			FROM
+				CASES 
+			GROUP BY
+				CASE_TYPE
+		</SQL>
+		<Modify>
+		</Modify>
+	</Query>
+	
+</QueryDef>

@@ -1,0 +1,32 @@
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>601</Id>
+	<Label>What act is sum to be apportioned under?</Label>
+	<ObjectName>ApportionSumAct</ObjectName>
+
+	<Html>	
+		<select id="ApportionSumAct">
+			<option value=""></option>
+			<option value="FATAL">Fatal accidents act</option>
+			<option value="LAW">Law  reform act</option>
+			<option value="BOTH">Both</option>
+		</select>
+	</Html>			
+
+	
+	<Javascript>
+		<XPath>/ds/EnterVariableData/Settlement/apportionSumAct</XPath>
+		<componentName>##label##</componentName>
+		<isMandatory>return true;</isMandatory>
+		<HintText>Select what act is the sum to be apportioned under</HintText>	
+		
+		<enableOn>ApportionSum.dataBinding</enableOn>
+		<isEnabled>return('Y' == Services.getValue(ApportionSum.dataBinding));</isEnabled>
+		<logicOn>ApportionSum.dataBinding</logicOn>
+		<logic>
+			if('Y' != Services.getValue(ApportionSum.dataBinding))
+			{	Services.setValue(ApportionSumAct.dataBinding, "");
+			}
+		</logic>		
+			
+	</Javascript>
+</Question>

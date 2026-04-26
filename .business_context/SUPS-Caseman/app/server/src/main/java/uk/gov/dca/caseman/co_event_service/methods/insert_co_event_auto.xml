@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<service-method>
+	<pipeline> 
+		<Java callStyle="new">
+			<Source class="uk.gov.dca.caseman.co_event_service.java.InsertCoEventBMSCustomProcessor"/>
+		</Java>
+		<Update>
+			<QueryDef location="uk/gov/dca/caseman/co_event_service/query_def_insert_co_event_row.xml"/>
+			<DataSource xpath="/params/param[@name='coEvent']"/>
+			<QueryExtension pivotNode="/COEvent">
+				<CheckExists table="COE" fields="CO_EVENT_SEQ" onNotExist="add" onExist="skip"/>
+			</QueryExtension>
+		</Update>
+	</pipeline>
+	<Security roles="user"/>
+</service-method>
+
+

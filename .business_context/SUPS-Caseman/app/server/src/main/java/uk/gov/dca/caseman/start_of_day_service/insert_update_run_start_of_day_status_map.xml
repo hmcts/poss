@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: StartOfDay
+	File:    insert_update_run_start_of_day_status_map.xml
+	Author:  Kevin Gichohi (EDS)
+	Created: 01 November 2005
+	Description: 
+      Map file for insert_update_run_start_of_day_status_def.xml
+-->
+<DBMapDef>
+	<DataSource id="java:OracleDS"/>
+	<Tables>
+		<Table alias="SD" name="SYSTEM_DATA"/>
+	</Tables>
+	<Mapping>
+        <insertUpdateRunStartOfDayStatus>
+            <row>
+    			<item>${SD.ITEM}</item>
+    			<itemValue>${SD.ITEM_VALUE}</itemValue>
+    			<adminCourtCode>${SD.ADMIN_COURT_CODE}</adminCourtCode>
+            </row>
+        </insertUpdateRunStartOfDayStatus>
+	</Mapping>
+</DBMapDef>

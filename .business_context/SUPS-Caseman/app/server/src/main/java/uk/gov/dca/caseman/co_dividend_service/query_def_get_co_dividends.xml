@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: Co Dividends
+	Method:  getCoDividends()
+	File:    query_def_get_co_dividends.xml
+	Author:  Tim Connor (Valtech)
+	Created: 18 October 2005
+	Description: 
+		Retrieves the list of dividends for a Consolidated Order
+-->
+<QueryDef>
+  <DBMapDef location="uk/gov/dca/caseman/co_dividend_service/map_get_co_dividends.xml"/>
+  
+  <Query pivotNode="/ds/MaintainCO/Dividends/Dividend" tables="D">
+	  <LinkedJoin type="root" key="D.DIV_CO_NUMBER D.DIV_NUMBER">
+	  	<Join/>
+	  </LinkedJoin>
+	  <Modify notModifiable="true"/>
+  </Query>
+  
+  <Query pivotNode="/ds/MaintainCO/Dividends/Dividend/Debts/Debt" tables="">
+	<LinkedSQL type="query" key="DD.DD_SEQ">
+		<Parent key="D.DIV_CO_NUMBER D.DIV_NUMBER" tables="D"/>
+		<SQL>
+		(SELECT  DD.DD_CO_NUMBER         AS "D.DIV_CO_NUMBER"
+		,        DD.DD_DIV_NUMBER        AS "D.DIV_NUMBER"
+		,        P.PERSON_REQUESTED_NAME AS "P.PERSON_REQUESTED_NAME"
+		,        DD.DD_SEQ               AS "DD.DD_SEQ"
+		,		 DD.DD_DIV_NUMBER        AS "DD.DD_DIV_NUMBER"
+		,        DD.DD_PAYEE_DETAILS     AS "DD.DD_PAYEE_DETAILS"
+		,        DD.DD_AMOUNT            AS "DD.DD_AMOUNT"
+		,        DD.DD_AMOUNT_CURRENCY   AS "DD.DD_AMOUNT_CURRENCY"
+		,        DD.DD_PO_NUMBER         AS "DD.DD_PO_NUMBER"
+		,        DD.DD_TOTAL_PO          AS "DD.DD_TOTAL_PO"
+		,        DD.DD_TOTAL_PO_CURRENCY AS "DD.DD_TOTAL_PO_CURRENCY"
+		,        DD.ORA_ROWSCN           AS "DD_ORA_ROWSCN"
+		,        AD.ORA_ROWSCN           AS "AD_ORA_ROWSCN"
+		,        CP.ORA_ROWSCN           AS "CP_ORA_ROWSCN"
+		,        P.ORA_ROWSCN            AS "P_ORA_ROWSCN"
+		,        GA.ORA_ROWSCN           AS "GA_ORA_ROWSCN"
+		FROM     DEBT_DIVIDENDS  DD
+		,		 ALLOWED_DEBTS   AD
+		,        CODED_PARTIES   CP
+		,        PARTIES         P
+		,        GIVEN_ADDRESSES GA
+		WHERE    DD.DD_CO_NUMBER      = ${param.coNumber}
+		AND      AD.DEBT_SEQ          = DD.DD_ALD_SEQ
+		AND      CP.PARTY_ID          = AD.CP_CREDITOR_ID
+		AND      P.PARTY_ID           = CP.PARTY_ID
+		AND      GA.PARTY_ID          = P.PARTY_ID
+		AND      GA.ADDRESS_TYPE_CODE = 'CODED PARTY'
+		) UNION (
+		SELECT   DD.DD_CO_NUMBER         AS "D.DIV_CO_NUMBER"
+		,        DD.DD_DIV_NUMBER        AS "D.DIV_NUMBER"
+		,        P.PERSON_REQUESTED_NAME AS "P.PERSON_REQUESTED_NAME"
+		,        DD.DD_SEQ               AS "DD.DD_SEQ"
+		,		 DD.DD_DIV_NUMBER        AS "DD.DD_DIV_NUMBER"       
+		,        DD.DD_PAYEE_DETAILS     AS "DD.DD_PAYEE_DETAILS"    
+		,        DD.DD_AMOUNT            AS "DD.DD_AMOUNT"           
+		,        DD.DD_AMOUNT_CURRENCY   AS "DD.DD_AMOUNT_CURRENCY"  
+		,        DD.DD_PO_NUMBER         AS "DD.DD_PO_NUMBER"        
+		,        DD.DD_TOTAL_PO          AS "DD.DD_TOTAL_PO"         
+		,        DD.DD_TOTAL_PO_CURRENCY AS "DD.DD_TOTAL_PO_CURRENCY"
+		,        DD.ORA_ROWSCN           AS "DD_ORA_ROWSCN"
+		,        AD.ORA_ROWSCN           AS "AD_ORA_ROWSCN"
+		,        NULL                    AS "CP_ORA_ROWSCN"
+		,        P.ORA_ROWSCN            AS "P_ORA_ROWSCN"
+		,        GA.ORA_ROWSCN           AS "GA_ORA_ROWSCN"
+		FROM     DEBT_DIVIDENDS  DD
+		,		 ALLOWED_DEBTS   AD
+		,        PARTIES         P
+		,        GIVEN_ADDRESSES GA
+		WHERE    DD.DD_CO_NUMBER      = ${param.coNumber}
+		AND      AD.DEBT_SEQ          = DD.DD_ALD_SEQ
+		AND      GA.ALD_SEQ           = AD.DEBT_SEQ
+		AND      GA.PARTY_ID          = P.PARTY_ID
+		AND      GA.ADDRESS_TYPE_CODE = 'CO CRED'
+		AND      GA.VALID_TO          IS NULL)
+		</SQL>
+	</LinkedSQL>
+  </Query>
+</QueryDef>

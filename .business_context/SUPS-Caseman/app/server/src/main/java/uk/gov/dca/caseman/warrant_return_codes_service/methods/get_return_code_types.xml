@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: WarrantReturnCodes
+	Method:  getReturnCodeTypes()
+	File:    get_return_code_types.xml
+	Author:  
+	Created: 
+	Description: 
+        List of Return Codes of Warrants, each return codes has an associated type (1:1)
+-->
+<service-method>
+	<pipeline>
+		<Query>
+  			<QueryDef location="uk/gov/dca/caseman/warrant_return_codes_service/query_def_types.xml"/>
+  			<QueryExtension pivotNode="/ReturnCodeTypes/ReturnCodeType">
+				<Constraint>CRC.RV_DOMAIN = 'RETURN_CODES.RETURN_TYPE'</Constraint>
+  			</QueryExtension>
+  	    </Query>
+	</pipeline>
+	<Security roles="wcSuper ccbcMan"/>
+</service-method>

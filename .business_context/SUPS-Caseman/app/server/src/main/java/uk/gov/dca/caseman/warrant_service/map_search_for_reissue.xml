@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<DBMapDef>
+  <DataSource id="java:OracleDS"/>
+  <Tables>
+    <Table alias="W" name="WARRANTS"/>
+	<Table alias="C" name="COURTS"/>
+  </Tables>
+  <Mapping>
+	<ds>
+		<Warrants>
+			<Warrant>
+				<WarrantID>${W.WARRANT_ID}</WarrantID>
+				<WarrantNumber>${W.WARRANT_NUMBER}</WarrantNumber>
+				<LocalNumber>${W.LOCAL_WARRANT_NUMBER}</LocalNumber>
+				<WarrantType>${W.WARRANT_TYPE}</WarrantType>
+				<IssuedBy>${W.ISSUED_BY}</IssuedBy>
+				<IssuedByName>${C.NAME}</IssuedByName>
+				<IssueDate>${W.WARRANT_ISSUE_DATE}</IssueDate>
+				<ExecutedBy>${W.EXECUTED_BY}</ExecutedBy>
+				<CaseNumber>${W.CASE_NUMBER}</CaseNumber>
+				<OwnedBy>${W.CURRENTLY_OWNED_BY}</OwnedBy>
+				<DateRequestReceived>${W.RECEIPT_DATE}</DateRequestReceived>
+			</Warrant>
+		</Warrants>
+	</ds>
+  </Mapping>
+</DBMapDef>

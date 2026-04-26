@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Change History -->
+ <!-- 10 Aug 2006 - TD4177 Kevin Gichohi (EDS) - Changed setDefault to initialise so that the AllWarrants.dataBinding field can have a default value of 'Y'. -->
+<!-- 10 Aug 2006 - TD4400 Mark Groen (EDS) - Changed help text to be in line with SUPs and not Legacy -->
+<!--Question xmlns="http://eds.com/questionxhtml" xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd"-->
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>CM_COP_N326_QUESTION_1</Id>
+	<Label>Produce Notices for all Warrants</Label>
+	<ObjectName>AllWarrants</ObjectName>
+	<Html>
+			<input id="AllWarrants" type="checkbox"/>
+			<!--<input id="AllWarrants" type="text" size="1"></input> -->
+	</Html>
+	<Javascript>
+		<XPath>/ds/var/page/OracleReportForm/AllWarrants</XPath>
+		<ReportVariableName>P_DEF1_FLAG</ReportVariableName>
+		<ReportVariableValue>Services.getValue(AllWarrants.dataBinding)</ReportVariableValue>
+		<HintText>Check box to print by Issue Date or uncheck to access Second Defendant Field.</HintText>
+		<isMandatory>return true;</isMandatory>
+		<maxLength>1</maxLength>
+<!--
+		<transformToDisplay>
+			return (null != value) ? value.toUpperCase() : null;
+		</transformToDisplay>
+		<transformToModel>
+			return (null != value) ? value.toUpperCase() : null;
+		</transformToModel>			
+-->
+        // 10 Aug 2006 - TD4177 Kevin Gichohi (EDS) - Changed setDefault to initialise so that the AllWarrants.dataBinding field can have a default value of 'Y'.
+		<initialise>Services.setValue(AllWarrants.dataBinding, "Y");</initialise>
+<!--
+		<validate>
+			var errCode = null;
+			var allWarrants = Services.getValue(AllWarrants.dataBinding);
+			if (! CaseManUtils.isBlank(allWarrants))
+			{
+				if (allWarrants != "Y" &amp;&amp; allWarrants != "N")
+				{
+					errCode = ErrorCode.getErrorCode("CaseMan_InvalidAllowMultiplesTxt_Msg");
+				}
+			}
+			return errCode;
+		</validate>
+-->
+		<logicOn>AllWarrants.dataBinding</logicOn>
+		<logic>
+			var allWarrants = Services.getValue(AllWarrants.dataBinding);
+			if (! CaseManUtils.isBlank(allWarrants))
+			{
+				if (allWarrants == "Y")
+				{
+					Status_RunReportButton.validationList = ["IssueDate", "PaymentDate"];
+				}
+				else
+				{
+					Status_RunReportButton.validationList = ["CaseNumber", "WarrantNumber", "PaymentDate"];
+				}
+			}
+		</logic>
+		<miscCode>
+			var SEARCH_RESULTS_XPATH = PAGE_XPATH + "/tmp/Warrants";
+			AllWarrants.modelValue = {checked: 'Y', unchecked: 'N'};
+			
+			Status_RunReportButton.enableOn = [AllWarrants.dataBinding, IssueDate.dataBinding, PaymentDate.dataBinding, CaseNumber.dataBinding, WarrantNumber.dataBinding, SEARCH_RESULTS_XPATH];
+			Status_RunReportButton.isEnabled = function()
+			{
+				//alert("isEnabled");
+				var allWarrants = Services.getValue(AllWarrants.dataBinding);
+				//alert(allWarrants);
+				if (! CaseManUtils.isBlank(allWarrants))
+				{
+					if (allWarrants == "N")
+					{
+						var caseNumber = Services.getValue(CaseNumber.dataBinding);
+						//alert("Case : " + caseNumber);
+						if ( caseNumber == null || CaseManUtils.isBlank(caseNumber))
+						{
+							//alert("due to case");
+							return false;
+						}
+				        
+				        var errCode = validateWarrant();
+						if (errCode == null)
+						{
+							return true;
+						}
+						else
+						{
+							return false;
+						}	        				
+					}
+					else
+					{
+						//alert("Becasue of Y");
+						return true;
+					}
+				}
+				else
+				{
+					//alert("Blanked");
+					return false;
+				}				
+			}		
+		</miscCode>
+	</Javascript>
+</Question>

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>341</Id>
+	<Label>Written evidence from defendant</Label>
+	<ObjectName>HasDefWrittenEvidence</ObjectName>
+	<Html>
+		<input type="checkbox" id="HasDefWrittenEvidence"></input>
+	</Html>
+	<Javascript>
+		<XPath>/ds/EnterVariableData/PossessionOrder/hasDefWrittenEvidence</XPath>
+		<componentName>##label##</componentName>
+		<HintText>Check box if there is any written evidence from the defendant</HintText>
+		<modelValue>checked: "Y", unchecked: "N"</modelValue>
+	</Javascript>
+</Question>

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- 
+	Service:  Case
+	QueryDef: query_def_get_case_for_bms.xml
+	Author:   Chris Hutt (EDS) 
+	Created:  3 April 07
+-->
+<QueryDef>
+  <DBMapDef location="uk/gov/dca/caseman/case_service/map_get_case_for_bms.xml"/>
+  	<Query pivotNode="/Case" tables="C">
+    	<Join/>
+    	<Modify notModifiable="true"/>
+  	</Query>
+</QueryDef>

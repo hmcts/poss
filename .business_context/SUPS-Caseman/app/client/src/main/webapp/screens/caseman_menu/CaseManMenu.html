@@ -1,0 +1,51 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3c.org/TR/html4/strict.dtd">
+<html>
+
+	<head>
+		<title>CaseManMenu</title>
+		<link href="CaseManMenu.css" type="text/css" rel="stylesheet">
+		<script type="text/javascript" src="../../Framework.js"></script>
+    	<script type="text/javascript" src="../../CaseManIncludeFiles.js"></script>
+		<script type="text/javascript" src="CaseManMenu.js"></script>
+	</head>
+
+	<body tabindex="-1">
+
+		<form name="CaseManMenu" id="caseManMenu">
+
+			<table class="CaseManMenuBar">
+				<tr>
+					<td>&nbsp;</td>
+				</tr>
+			</table>
+			
+			<table class="layout">
+
+				<tr>
+					<td>
+						<div class="panel">
+							<table class="content" style="height: 575px;">
+								<tr><td><script type="text/javascript">Grid.createInline("Detail_FormsGrid", ["Title"], 33, 1);</script></td></tr>
+							</table>
+						</div>
+					</td>
+				</tr>
+
+			</table>
+
+			<!-- Status Bar Panel -->
+			<script type="text/javascript">
+				ActionBarRenderer.createInline(
+					"status_bar",
+					[
+						{id: "Status_SelectButton", label: "Select"}
+					]
+				);
+			</script>
+		    <!-- End Status Bar Panel -->
+
+		</form>
+
+	</body>
+
+</html>

@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project name="oracle-reports-supsapplication" default="generate-oracle-reports-javascript" basedir=".">
+  
+ 	<!-- <property name="caseman-oracle-reports.dir" value="${basedir}/src/main/webapp/screens/caseman_oracle_reports"/> -->
+	
+	<target name="clean-oracle-reports-test-area">
+	  <delete dir="${caseman-oracle-reports.dir}/generated"/>       		
+	</target>
+		
+	<target name="generate-oracle-reports-html">
+		<echo>Generating HTML for Oracle Reports, deleting ${caseman-oracle-reports.dir}/generated/*.html</echo>
+		<delete>
+			<fileset dir="${caseman-oracle-reports.dir}/generated" includes="*.html"/>
+		</delete>
+		<copy file="${caseman-oracle-reports.dir}/OracleReports.css" todir="${caseman-oracle-reports.dir}/generated"/>
+		<xslt basedir="${caseman-oracle-reports.dir}/Screens" destdir="${caseman-oracle-reports.dir}/generated" style="${caseman-oracle-reports.dir}/xsl/GenerateOracleReportsHtml.xsl"/>		
+	</target>
+	
+	<target name="generate-oracle-reports-javascript">
+		<echo>Generating JavaScript for Oracle Repeorts, deleting ${caseman-oracle-reports.dir}/generated/*.js</echo>
+		<delete>
+			<fileset dir="${caseman-oracle-reports.dir}/generated" includes="*.js"/>
+		</delete>
+		<xslt extension=".js" 
+			basedir="${caseman-oracle-reports.dir}/screens"
+			style="${caseman-oracle-reports.dir}/xsl/generateOracleReportsJavaScript.xsl"		
+			destdir="${caseman-oracle-reports.dir}/generated">		
+			<param name="templateDir" expression="${caseman-wp.server.dir}/"/>
+			<param name="webfileDir" expression="${caseman-oracle-reports.dir}/"/>
+		</xslt>
+	</target>
+
+	<target name="generate-oracle-reports-CFG-1" depends="generate-oracle-reports-CFG-Output-QA">
+		<mkdir dir="${caseman-oracle-reports.dir}/generated"/>
+		<delete file="${caseman-oracle-reports.dir}/generated/WordProcessingConfig.xml"/>
+		<xslt in="${caseman-wp.server.dir}/OracleReportsOutputs.xml"
+			style="${caseman-oracle-reports.dir}/xsl/generateOracleReportsWordProcessingConfig.xsl"		
+			out="${caseman-oracle-reports.dir}/generated/WordProcessingConfig.xml"
+			destdir="${caseman-oracle-reports.dir}">		
+			<param name="templateDir" expression="${caseman-wp.server.dir}/"/>
+		</xslt>
+	</target>
+	
+	<target name="generate-oracle-reports-CFG-Output-QA">
+		<echo>caseman-oracle-reports.dir=${caseman-oracle-reports.dir}</echo>
+		<delete file="${caseman-oracle-reports.dir}/generated/QuestionsQA.xml"/>
+		<xslt in="${caseman-wp.server.dir}/OracleReportsOutputs.xml"
+			style="${caseman-oracle-reports.dir}/xsl/GenerateOracleReportsQuestionsQA.xsl"		
+			out="${caseman-oracle-reports.dir}/generated/QuestionsQA.xml"
+			destdir="${caseman-oracle-reports.dir}">		
+			<param name="templateDir" expression="${caseman-wp.server.dir}/"/>
+			<param name="webfileDir" expression="${caseman-oracle-reports.dir}/"/>
+		</xslt>
+	</target>
+	
+	<target name="generate-oracle-reports-CFG-applicationconfig-forms">
+		<!-- transform the application config xml using the stylesheet /EnterVariableData/_Generic/generateApplicationConfig.xsl-->
+		<xslt in="${oc4j.applications}/${application.name}_client/caseman/applicationconfig.xml"
+			style="${caseman-oracle-reports.dir}/xsl/generateApplicationConfig.xsl"		
+			out="${oc4j.applications}/${application.name}_client/caseman/applicationconfig_temp.xml">
+			<param name="templateDir" expression="${caseman-oracle-reports.dir}/"/>
+			<param name="webfileDir" expression="${caseman-oracle-reports.dir}/generated/"/>
+		</xslt>	
+		<move file="${oc4j.applications}/${application.name}_client/caseman/applicationconfig_temp.xml" tofile="${oc4j.applications}/${application.name}_client/caseman/applicationconfig.xml" />
+	</target>
+	
+	<target name="generate-oracle-reports-CFG-applicationconfig-forms-OAS">
+		<!-- transform the application config xml using the stylesheet /EnterVariableData/_Generic/generateApplicationConfig.xsl-->
+		<xslt in="${assemble.dir}/applicationconfig.xml"
+			style="${caseman-oracle-reports.dir}/xsl/generateApplicationConfig.xsl"		
+			out="${assemble.dir}/applicationconfig_temp.xml">
+			<param name="templateDir" expression="${caseman-oracle-reports.dir}/"/>
+			<param name="webfileDir" expression="${caseman-oracle-reports.dir}/generated/"/>
+		</xslt>	
+		<move file="${assemble.dir}/applicationconfig_temp.xml" tofile="${assemble.dir}/applicationconfig.xml" />
+	</target>		
+</project>

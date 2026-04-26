@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>9166</Id>
+	<Label>Letter for</Label>
+	<ObjectName>RequestFor</ObjectName>
+	<Html>
+		<select id="RequestFor">
+            <option value=""></option>         
+			<option value="RCJ">Case received from RCJ</option>			
+			<option value="ATT">Return Attachment of Earnings request</option>			
+			<option value="OFQ">Return Order for Questioning request</option>			
+			<option value="OTH">Other</option>
+		</select>
+	</Html>			
+	<Javascript>
+		<XPath>/ds/EnterVariableData/requestFor</XPath>
+		<HintText>Select what the letter is in respect of</HintText>
+		<isEnabled>return true</isEnabled>
+		<mandatoryOn>RequestFor.dataBinding</mandatoryOn>
+		<isMandatory>return true;</isMandatory>
+	</Javascript>
+</Question>  

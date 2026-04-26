@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>93</Id>
+	<Label>Position of person served</Label>
+	<ObjectName>PersonServedPosition</ObjectName>
+	<Html>		
+		<input type="text" id="PersonServedPosition"></input>
+	</Html>
+	<Javascript>
+		<XPath>/ds/EnterVariableData/Service/personServedPosition</XPath>
+		<HintText>Enter position of person served (e.g. director, partner)</HintText>
+		<isMandatory>return false;</isMandatory>
+	</Javascript>
+</Question>

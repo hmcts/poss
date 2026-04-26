@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>9151</Id>
+	<Label>Enter type of process</Label>
+	<ObjectName>ProcessType</ObjectName>	
+	<Html>	
+		<input id="ProcessType" type="text" size="35"></input>
+	</Html>
+	<Javascript>
+		<XPath>/ds/EnterVariableData/ConfNotice/processtype</XPath>
+		<HintText>Enter the type of process</HintText>
+		
+	    <Context ScreenId="L_13_12">
+            <mandatoryOn>ProcessType.dataBinding</mandatoryOn>
+            <isMandatory>return true;</isMandatory>
+        </Context>
+        
+        <Context ScreenId="L_4_1">
+            <mandatoryOn>DocType.dataBinding</mandatoryOn>
+            <isMandatory>return ("IR" == Services.getValue(DocType.dataBinding));</isMandatory>
+            <enableOn>DocType.dataBinding</enableOn>
+            <isEnabled>return ("IR" == Services.getValue(DocType.dataBinding));</isEnabled>
+            <logicOn>DocType.dataBinding</logicOn>
+            
+            <logic>
+            if("IR" != Services.getValue(DocType.dataBinding)){
+                Services.setValue(ProcessType.dataBinding,"");
+            } 
+            </logic>
+        </Context>
+        
+        <Context ScreenId="L_1_2">
+        	<isMandatory>return true;</isMandatory>
+         	<enableOn>LetterProcessTypes.dataBinding</enableOn>
+			<isEnabled>return ("OTH" == Services.getValue(LetterProcessTypes.dataBinding));</isEnabled>
+			<logicOn>LetterProcessTypes.dataBinding</logicOn>
+			<logic>
+				if("OTH" != Services.getValue(LetterProcessTypes.dataBinding))
+				{	
+					Services.setValue(ProcessType.dataBinding, "");
+				}
+			</logic>	       	
+        </Context>        
+        <Context ScreenId="L_6_1_2_3_4_7">
+            <mandatoryOn>InRespectOf.dataBinding</mandatoryOn>
+            <isMandatory>return return9151();</isMandatory>
+            <enableOn>InRespectOf.dataBinding</enableOn>
+            <isEnabled>return return9151();</isEnabled>
+            <logicOn>InRespectOf.dataBinding</logicOn>
+            <logic>
+                if(!return9151())
+                {   
+                    Services.setValue(ProcessType.dataBinding, "");
+                }
+            </logic>    
+            
+            <miscCode>
+                function return9151(){
+                    var n9151 = false;
+                    if(
+                      "OTH" == Services.getValue(InRespectOf.dataBinding)
+                         
+                    ){
+                        n9151 = true;
+                    }
+                    return n9151;
+                }
+            </miscCode>        
+        </Context> 
+        
+        
+	</Javascript>
+</Question>

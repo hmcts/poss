@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Author:	Chris Hutt
+	V1.0:	24 Oct 2005
+	Retrieve sufficient AE detail to create a Warrant.
+	
+	Change History
+	13/11/2009 Chris Vincent - changed the LIKE to an equals (=) in the constraint as  will always know full AE Number.  Trac 2255.
+-->
+<service-method>
+	<pipeline>
+		<NewQuery>
+			<QueryDef location="uk/gov/dca/caseman/ae_service/query_def_ae_for_warrant_insert.xml"/>
+			
+			<QueryExtension pivotNode="/ds/AEApplication">
+				<Param name="param.aeNumber" xpath="/params/param[@name = 'aeNumber']"/>
+				<Constraint>A.AE_NUMBER = ${param.aeNumber}</Constraint>
+			</QueryExtension>			
+		
+		</NewQuery>
+	</pipeline>
+    <Security roles="medium high wcSuper scSuper bmsSuper aeSuper dmSuper"/>   		
+</service-method>

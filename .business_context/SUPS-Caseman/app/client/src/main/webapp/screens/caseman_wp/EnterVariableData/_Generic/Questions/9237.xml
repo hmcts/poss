@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>9237</Id>
+	<Label>Select Party for</Label>
+	<ObjectName>PartyFor</ObjectName>
+	<Html>
+		<script type="text/javascript">Grid.createInline("PartyFor", ["Party Type", "Name"] , 2, 1);</script>
+	</Html>
+	<Javascript>
+		<XPath>/ds/EnterVariableData/PartyFor</XPath>
+		<componentName>##label##</componentName>
+		<HintText>Select party for</HintText>
+		<mandatoryOn>PartyFor.dataBinding</mandatoryOn>	
+		<isMandatory>				
+			return true;
+		</isMandatory>
+		<initialise>
+			var aDom = WPU.getCurrentCaseData(); 
+			var partyDom = WPU.getSubjectPartyNode(aDom, true);   	
+	   		var partyId = XML.getNodeTextContent(partyDom.selectSingleNode("./PartyId"));
+	   		var upDom = aDom.selectSingleNode("//Parties/LitigiousParty[./PartyId = '"+partyId+"']");
+	   		var partyAgainst = XML.getNodeTextContent( upDom.selectSingleNode("Name"));
+	   		var dsd = WPU._getDsDOM();
+	   		var ifps = dsd.selectSingleNode("params/param/judgementxml/ds/MaintainJudgment/Judgments/Judgment[PartyId = '"+partyId+"']/InFavourParties");
+	   		
+			for(var i = 0; i &lt; ifps.childNodes.length; i++) 
+			{
+				var node = ifps.childNodes[i];
+				Services.addNode(node, REF_DATA_XPATH + "/IFPTS");	
+			}
+		</initialise>
+		<miscCode>
+			PartyFor.srcData = REF_DATA_XPATH + "/IFPTS";
+			PartyFor.rowXPath = "*";
+			PartyFor.keyXPath = "PartyKey";
+			PartyFor.columns = [
+				{xpath: "PartyRoleCode"},
+				{xpath: "Name"}
+			];
+			PartyFor.multipleSelection = true;					
+		</miscCode>
+		<Context ScreenId="O_7_12_5">
+			<initialise>		
+				var dsd = WPU._getDsDOM();
+			   	var valNode = dsd.selectSingleNode("params/param/JudgementId");
+				if (null!= valNode) { 
+					var valVal = XML.getNodeTextContent(valNode);
+			   		var ifps = dsd.selectSingleNode("params/param/judgementxml/ds/MaintainJudgment/Judgments/Judgment[JudgmentId = '"+valVal+"']/InFavourParties");
+			   		var partyNodes = ifps.selectNodes("Party");
+			   		if (null != partyNodes) {
+			   			var partyNodesLen = partyNodes.length;
+			   			for (var i=0; partyNodesLen > i; i++) {
+			   				var partyNode = partyNodes[i];		   									
+							Services.addNode(partyNode, REF_DATA_XPATH + "/IFPTS");	
+			   			} 
+			   		}					
+				}					
+			</initialise>		
+			<miscCode>
+				PartyFor.multipleSelection = false;	
+			</miscCode>
+		</Context>
+	</Javascript>
+</Question>

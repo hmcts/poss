@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- 
+Change History
+	29/01/2013 - Chris Vincent, removed 'Allocation' from field label.  Trac 4763
+-->
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>275</Id>
+	<Label>Directions Questionnaires considered in respect of</Label>
+	<ObjectName>ConsiderAllocQA</ObjectName>
+	<Html>
+		<select id="ConsiderAllocQA">
+			<option value=""></option>
+			<option value="CLM">Claim</option>
+			<option value="CTR">Counterclaim</option>
+			<option value="BTH">Claim and Counterclaim</option>
+		</select>
+	</Html>
+	<Javascript>
+		<XPath>/ds/EnterVariableData/MultiTrackAllocation/considerAllocQA</XPath>
+		<componentName>##label##</componentName>
+		<HintText>What are the directions question's considered in respect of - list available</HintText>				
+		<mandatoryOn>ConsiderAllocQA.dataBinding</mandatoryOn>
+		<isMandatory>return true;</isMandatory>
+		<enableOn></enableOn>
+		<isEnabled></isEnabled>
+		<logicOn></logicOn>
+		<logic>
+		</logic>
+	</Javascript>
+</Question>

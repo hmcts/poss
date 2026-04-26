@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- ====================================================================== -->
+<!--  -->
+<!-- FILENAME: $Source: C:/CVSRepository/serveroas/src/uk/gov/dca/caseman/wordprocessing_templates/Notice/L_5_1/L_5_1-FO.xml,v $ -->
+<!--  -->
+<!-- AUTHOR: $Author: jay $-->
+<!--  -->
+<!-- DATE: $Date: 2006/06/21 08:49:11 $ -->
+<!--  -->
+<!-- Version: $Revision: 1.19 $ -->
+<!--  -->
+<!-- DESCRIPTION: This stylesheet is used to create an XSL:FO document that -->
+<!-- can be processed into a PDF version.  Business logic -->
+<!-- is embedded to generate the correct document text for the order -->
+<!-- required. -->
+<!--  -->
+<!-- INPUTS: XML document containing: the answers to questions asked of the -->
+<!-- user; case data retrieved from the database; HTML representing the  -->
+<!-- body of the document content (already edited by the user). -->
+<!--  -->
+<!-- OUTPUTS: XML document with FO tags containing instructions for the -->
+<!-- creation of a PDF document. -->
+<!--  -->
+<!-- ====================================================================== -->
+<root xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:fo="http://www.w3.org/1999/XSL/Format" xmlns="http://eds.com/supsfo">
+	<variables>@word.processing.url.xsl@supsfo.xsl</variables>
+	<layout yourRef="true">letter</layout>
+	<logo/>
+	<addressee>
+		<subject/>
+	</addressee>	
+	<body>
+	<editable>
+		<fo:block space-after="0.4cm">Dear <xsl:value-of select="$vdGreeting"/></fo:block>
+		<fo:block space-after="0.4cm" font-size="12pt" font-weight="bold" text-align="center">Re: Case Number: <xsl:value-of select="$vdClaimNumber"/>&#xa0;<xsl:value-of select="$vdClaimantName"/> v <xsl:value-of select="$vdSubjectName"/>
+		</fo:block>
+			<xsl:choose>
+				<xsl:when test="$vdEarningsOrderOther = 'RCJ'">
+					<fo:block space-after="0.8cm">
+						Take notice that the above matter has been transferred from the Royal Courts of Justice Number. <xsl:value-of select="$vdRCJCaseNo"/> to the <xsl:value-of select="$vdCourtOrDistrict"/> at <xsl:value-of select="$vdCourtSelection"/>
+						and has been allocated Number. <xsl:value-of select="$vdNewCaseNumber"/> which should be quoted on all future correspondence.
+					</fo:block>
+				</xsl:when>
+				<xsl:otherwise>
+					<fo:block space-after="0.4cm">
+						I am returning your request for
+						<xsl:choose>
+							<xsl:when test="$vdEarningsOrderOther = 'ATT'">
+								an attachment of earnings order
+							</xsl:when>
+							<xsl:when test="$vdEarningsOrderOther = 'OFQ'">
+								an order for oral examination
+							</xsl:when>
+							<xsl:when test="$vdEarningsOrderOther = 'OTH'"><xsl:value-of select="$vdReturnProcessType"/></xsl:when>
+						</xsl:choose>
+						<xsl:value-of select="$vdOrderFee"/> in the above case. You must issue the proceedings in the defendant's local <xsl:value-of select="$vdCourtOrDistrict"/> which in this case is
+						<xsl:value-of select="$vdCourtSelection"/>.
+					</fo:block>
+				</xsl:otherwise>
+			</xsl:choose>
+		<fo:block space-after="0.8cm">Please instruct the Court to transfer the case to the <xsl:value-of select="$vdCourtOrDistrict"/> at <xsl:value-of select="$vdCourtSelection"/>.</fo:block>
+		<fo:block space-after="1.5cm"><xsl:value-of select="$vdLetterEnding"/></fo:block>
+		<fo:block><xsl:value-of select="$vdName"/></fo:block>
+		<fo:block><xsl:value-of select="$vdSection"/> Section</fo:block>
+		<fo:block>Ext <xsl:value-of select="$vdExtension"/></fo:block>
+		</editable>
+	</body>
+	<letterfooter id="L_5_1"/>
+</root>

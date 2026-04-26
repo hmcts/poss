@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>117</Id>
+	<Label>Trial in respect of</Label>
+	<ObjectName>TrialRespective</ObjectName>
+	<Html>		
+		<select id="TrialRespective">
+			<option value=""></option>
+			<option value="CLM">Claim</option>
+			<option value="CTR">Counterclaim</option>
+			<option value="BTH">Claim and counterclaim</option>
+		</select>
+	</Html>
+	<Javascript>
+		<XPath>/ds/EnterVariableData/TrialNotice/trialRespective</XPath>
+		<HintText>Trial in respect of - list available</HintText>
+		<isMandatory>return true;</isMandatory>
+	</Javascript>
+</Question>

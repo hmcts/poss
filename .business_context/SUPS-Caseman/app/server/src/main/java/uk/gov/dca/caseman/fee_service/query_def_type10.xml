@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<QueryDef>
+	<DBMapDef location="uk/gov/dca/caseman/fee_service/map_type10.xml"/>
+	<Query pivotNode="/Type10FeeTypes/Fee" tables="C">
+	<Join>
+		C.RV_DOMAIN = 'DMS_TYPE_10_NOTES'			
+	</Join>
+		<Modify notModifiable="true"/>
+	</Query>
+</QueryDef>

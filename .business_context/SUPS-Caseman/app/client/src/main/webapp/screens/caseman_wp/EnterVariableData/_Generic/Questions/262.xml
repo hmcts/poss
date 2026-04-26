@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>262</Id>
+	<Label>What is to be filed with Listing Questionnaire?</Label>
+	<ObjectName>FiledWithLQA</ObjectName>
+	<Html>	
+		<select id="FiledWithLQA">
+			<option value=""></option>
+			<option value="E">Experts' reports</option>
+			<option value="ER">Experts' reports and replies to requests for further info</option>
+			<option value="EW">Experts' reports and witness statements</option>
+			<option value="EWR">Experts' reports, reports, witness statements and replies to request</option>
+			<option value="R">Replies to requests for further information</option>
+			<option value="W">Witness statements</option>
+			<option value="WR">Witness statements and replies to requests for further information</option>		
+		</select>
+	</Html>
+	<Javascript>
+		<XPath>/ds/EnterVariableData/FastTrack/filedWithLQA</XPath>
+		<HintText>What is to be filed with the  Listing Questionnaire</HintText>
+		<isMandatory>return true;</isMandatory>	
+		<mandatoryOn>FiledWithLQA.dataBinding</mandatoryOn>
+		<enableOn>FiledWithQA.dataBinding</enableOn>
+		<isEnabled>return('Y' == Services.getValue(FiledWithQA.dataBinding));</isEnabled>
+		<logicOn>FiledWithQA.dataBinding</logicOn>
+		<logic>
+			if('Y' != Services.getValue(FiledWithQA.dataBinding))
+			{	Services.setValue(FiledWithLQA.dataBinding, "");
+			}
+		</logic>
+		
+	</Javascript>
+</Question>
+      
+     
+     
+    
+      
+
+      
+     

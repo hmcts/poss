@@ -1,0 +1,232 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3c.org/TR/html4/strict.dtd">
+<html>
+	<head>
+		<title>CreateUpdatePassthrough</title>
+		<link href="CreateUpdatePassthrough.css" type="text/css" rel="stylesheet" />
+		<script type="text/javascript" src="../../Framework.js"></script>
+		<script type="text/javascript" src="../../CaseManIncludeFiles.js"></script>
+		<script type="text/javascript" src="../../StartOfDayUtils.js"></script>
+		<script type="text/javascript" src="CreateUpdatePassthrough.js"></script>
+		<script type="text/javascript" src="CreateUpdatePassthrough_MenuBarCode.js"></script>
+	</head>
+	
+	<body tabindex="-1">
+		<form name="CreateUpdatePassthrough" id="CreateUpdatePassthrough">
+			
+			<!-- Exit Button -->
+			<div class="exitScreenAdaptor" id="exitScreenHandler"></div>
+			
+			<!-- Navigation Bar (Not Framework) -->
+			<table class="CaseManMenuBar">
+				<tr>
+					<td>
+						<input id="Navigation_CreateCaseBtn" type="button" value="Cases">
+						<input id="Navigation_CaseEventsBtn" type="button" value="Case Events">
+						<input id="Navigation_WarrantsBtn" type="button" value="Warrants">
+						<input id="Navigation_AeBtn" type="button" value="AE Events">
+						<input id="Navigation_CoBtn" type="button" value="CO/CAEO">
+						<input id="Navigation_QueryBtn" type="button" value="Query">
+					</td>
+				</tr>
+			</table>
+			
+			<table class="layout">
+				
+				<!-- Header Panel -->
+				<tr>
+					<td>
+						<div class="panel">
+							<table class="content">
+								<tr>
+									<td>
+										<table style="margin-right:5px; margin-top:5px; margin-bottom:5px;">
+											<tr>
+												<td class="headerLabel"><label for="Header_EnforcementNumber">Case/Enforcement Number</label></td>
+												<td><input id="Header_EnforcementNumber" type="text" size="15" /></td>
+												<td style="width:130px;">&nbsp;</td>
+												<td class="headerLabel"><label for="Header_UserCourtCode">Payment Owning Court</label></td>
+												<td><input id="Header_UserCourtCode" type="text" size="5" /></td>
+												<td colspan="2"><input id="Header_UserCourtName" type="text" size="32" /></td>
+											</tr>
+											<tr>
+												<td><label for="Header_EnforcementType">Case/Enforcement Type</label></td>
+												<td><select id="Header_EnforcementType" /></td>
+												<td style="width:130px;">&nbsp;</td>
+												<td><label for="Header_ExecutingCourtCode">Warrant Executing Court</label></td>
+												<td><input id="Header_ExecutingCourtCode" type="text" size="5" /></td>												
+												<td>
+													<script type="text/javascript">
+														AutoCompletionRenderer.createInline("Header_ExecutingCourtName");
+													</script>
+												</td>
+												<td>&nbsp;<input id="Court_LovBtn" type="button" value="LOV" /></td>
+											</tr>
+											<tr>
+												<!--td><input id="ShowDOM_Btn" type="button" value="showDOM" onclick="showDOM()"></td-->
+												<td colspan="7" align="right"><input id="Header_SearchBtn" type="button" value="Search" /></td>
+											</tr>
+										</table>
+									</td>
+								</tr>
+							</table>
+						</div>
+					</td>
+				</tr>
+				<!-- End Header Panel -->
+				
+				<!-- Parties Summary Panel -->
+				<tr>
+					<td>
+						<div class="panel">
+							<table class="content">
+								<tr>
+									<td valign="top">
+										<table>
+											<tr>
+												<td>
+													<script type="text/javascript">
+														Grid.createInline("Parties_Grid", ["Party Type", "Number", "Name"], 4, 1);
+													</script>
+												</td>
+											</tr>
+										</table>
+									</td>
+								</tr>
+							</table>
+						</div>
+					</td>
+				</tr>
+				<!-- End Parties Summary Panel -->
+				
+				<!-- Passthroughs Panel -->
+				<tr>
+					<td>
+						<div class="panel">
+							<table class="content" style="height:350px;">
+								<tr>
+									<td valign="top" style="width:570px;">
+										<table style="margin:5px;">
+											<tr>
+												<td>
+													<script type="text/javascript">
+														Grid.createInline("Payment_PaymentDetails_Grid", ["Trans No.", "Date Entered", "", "Amount", "Paid To"], 19, 1);
+													</script>
+												</td>
+											</tr>
+											<tr>
+												<td align="right"><input id="Payment_AddPaymentBtn" type="button" value="Add Passthrough" style="margin-top:5px;"/></td>
+											</tr>
+										</table>										
+									</td>
+
+									<td class="spacer">&nbsp;</td>
+
+									<td valign="top">										
+										<table style="margin-top:5px;">
+											<tr>
+												<td class="defaultLabel"><label for="Payment_TransNo">Transaction Number</label></td>
+												<td colspan="2"><input type="text" id="Payment_TransNo" size="30"></td>
+											</tr>
+											<tr>
+												<td class="defaultLabel"><label for="Payment_DateEntered">Date Entered</label></td>
+												<td colspan="2">
+													<script type="text/javascript">
+														DatePickerRenderer.createInline("Payment_DateEntered", true);
+													</script>
+												</td>
+											</tr>
+											<tr>
+												<td class="defaultLabel"><label for="Payment_Amount">Amount</label></td>
+												<td><input id="Payment_Amount_Currency" size="1"></td>
+												<td><input type="text" id="Payment_Amount" size="23"></td>
+											</tr>
+											<tr>
+												<td class="defaultLabel"><label for="Payment_PaidTo">Paid To</label></td>
+												<td colspan="2"><input type="text" id="Payment_PaidTo" size="30"></td>
+											</tr>
+											<tr>
+												<td class="defaultLabel"><label for="Payment_Error">Error</label></td>
+												<td colspan="2"><input type="checkbox" id="Payment_Error"></td>
+											</tr>
+										</table>
+									</td>									
+								</tr>
+							</table>
+						</div>
+					</td>
+				</tr>
+				<!-- End Passthroughs Panel -->
+
+			</table>
+	  
+			<!-- Status Bar -->
+			<script type="text/javascript">
+				ActionBarRenderer.createInline(
+					"status_bar",
+					[
+						{id: "Status_SaveBtn", label: "Save"},
+						{id: "Status_ClearBtn", label: "Clear"},
+						{id: "Status_CloseBtn", label: "Close"}
+					]
+				);
+			</script>
+			
+			<!-- Form Extension Popups -->
+			<div class="popup" id="Add_Payment">
+				<table class="content">
+					<tr>
+						<td valign="top">
+							<table style="margin-top:5px; width:100%;">
+								<tr>
+									<td class="defaultLabel"><label for="Add_Payment_Amount">Amount</label></td>
+									<td style="width:35px;"><input id="Add_Payment_Amount_Currency" size="1"></td>
+									<td><input type="text" id="Add_Payment_Amount" size="23"></td>
+								</tr>
+								<tr>
+									<td class="defaultLabel"><label for="Add_Payment_PaidTo">Paid To</label></td>
+									<td colspan="2"><select id="Add_Payment_PaidTo"></select></td>
+								</tr>								
+								<tr>
+									<td colspan="3">&nbsp;</td>
+								</tr>
+							    <tr>
+							        <td align="right" colspan="3">
+							        	<input class="popupButton" type="button" value="Save" id="Add_Payment_OkBtn">							        	
+							        	<input class="popupButton" type="button" value="Cancel" id="Add_Payment_CancelBtn">
+							        </td>
+							    </tr>
+							</table>
+						</td>
+					</tr>
+				</table>
+			</div>
+						
+			<!-- LOV Popups -->					
+			<script type="text/javascript">
+				LOVPopupRenderer.createInline("Lov_Court", "Courts", ["Code", "Court"], 10, 1, true);
+			</script>
+
+			<!--script type="text/javascript">
+				LOVPopupRenderer.createInline(
+					"Lov_SearchResults",	"Enforcements List",
+					["Type", "Case/Enf No", "Party Against 1", "Party Against 2", "O/S"], 10, 1, false
+				);
+			</script-->
+			<script type="text/javascript">
+				LOVPopupRenderer.createInline(
+					"Lov_SearchResults",
+					"Enforcements List",
+					[
+						"Type", "Case/Enf No", "Executing Court", "Issuing Court",
+						"Party Against 1", "Party Against 2", "O/S"
+					],
+					10,
+					1,
+					false
+				);
+			</script>
+			
+			
+		</form>
+	</body>
+</html>

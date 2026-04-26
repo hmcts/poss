@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<service-method>
+	<pipeline>
+		<Script>
+			<Source location="uk/gov/dca/test_project/cases_service/scripts/validate_output.js"/>
+		</Script>
+		<XSDValidate>
+			<Schema location="uk/gov/dca/test_project/cases_service/xml_schemas/validate_output.xsd"/>
+		</XSDValidate>
+	</pipeline>
+	<Security roles="user"/>
+</service-method>

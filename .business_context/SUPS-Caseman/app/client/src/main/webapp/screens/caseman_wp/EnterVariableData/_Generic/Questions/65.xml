@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>65</Id>
+	<Label>Name of person served</Label>
+	<ObjectName>PersonServed</ObjectName>
+	<Html>		
+		<input type="text" id="PersonServed"></input>
+	</Html>
+	<Javascript>
+		<XPath>/ds/EnterVariableData/Service/personServed</XPath>
+		<HintText>Enter full name of person served</HintText>
+		<isMandatory>return true;</isMandatory>
+		<componentName>##label##</componentName>
+	</Javascript>
+</Question>

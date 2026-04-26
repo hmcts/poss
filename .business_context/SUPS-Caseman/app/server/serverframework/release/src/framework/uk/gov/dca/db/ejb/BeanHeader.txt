@@ -1,0 +1,247 @@
+/*
+ * Created on 27-Jul-2004
+ *
+ */
+package ${service.package};
+
+import java.rmi.RemoteException;
+
+import javax.ejb.CreateException;
+import javax.ejb.EJBException;
+import javax.ejb.SessionContext;
+import javax.naming.InitialContext;
+import javax.naming.NamingException;
+import uk.gov.dca.db.exception.BusinessException;
+import uk.gov.dca.db.exception.SystemException;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import uk.gov.dca.db.security.SecurityService;
+import uk.gov.dca.db.security.InvalidUserSessionException;
+import uk.gov.dca.db.security.SecurityServiceLocalHome;
+import uk.gov.dca.db.ejb.ServiceLocator;
+import uk.gov.dca.db.ejb.ServiceLocatorException;
+import uk.gov.dca.db.XMLService;
+import uk.gov.dca.db.XMLServiceFactory;
+import uk.gov.dca.db.ejb.ExceptionRewriter;
+import uk.gov.dca.db.pipeline.IComponentContext;
+import uk.gov.dca.db.pipeline.ComponentContext;
+import uk.gov.dca.db.security.AuthorizationException;
+import uk.gov.dca.db.pipeline.component_input.ComponentInput;
+import uk.gov.dca.db.util.SUPSLogEvent;
+import uk.gov.dca.db.util.SUPSLogFactory;
+import java.io.Writer;
+import java.io.IOException;
+import org.jdom.Document;
+
+/**
+ * @ejb.bean type="Stateless"
+ * 			 name="${service.name}Service"
+ *           jndi-name="${service.name}Service"
+ *			 local-jndi-name="ejb/${service.name}ServiceLocal"
+ *           view-type="${ejb.interfaces}"
+ *
+ * @ejb.interface service-endpoint-class="${service.package}.${service.name}ServiceService"
+ *
+ * @ejb.ejb-ref ejb-name="${service.name}Service"
+ *				view-type="local"
+ *				ref-name="ejb/${service.name}ServiceLocal"
+ *
+ * @ejb.ejb-external-ref view-type="local"
+ *						 type="Session"
+ *						 ref-name="ejb/SecurityServiceLocal"
+ *						 home="uk.gov.dca.db.security.SecurityServiceLocalHome"
+ *						 business="uk.gov.dca.db.security.SecurityService"
+ *						 link="SecurityService"
+ *
+ * @ejb.ejb-external-ref view-type="local"
+ *						 type="Session"
+ *						 ref-name="ejb/CommandProcessorLocal"
+ *						 home="uk.gov.dca.db.impl.command.CommandProcessorLocalHome"
+ *						 business="uk.gov.dca.db.impl.command.CommandProcessor"
+ *						 link="CommandProcessor"
+ *
+ * @oc4j.bean jndi-name="${service.name}Service" pool-cache-timeout="0"
+ *
+ * @wsee.port-component name="${service.name}ServiceServicePort"
+ * @jboss-net.web-service urn = "${service.name}"
+ * @jboss-net.authentication domain="other" validate-unauthenticated-calls="true"
+ * jboss-net.authorization domain="other" roles-allowed="user"
+ *
+ * @soap.service urn="${service.name}"
+ *
+ * @author Michael Barker
+ *
+ */
+public class ${service.name}Bean implements javax.ejb.SessionBean
+{
+
+	/**
+	 * EJB lifecycle method called when the bean instance is created.
+	 * 
+	 * @ejb.create-method
+ 	 * @ejb.permission role-name="user"
+ 	 *
+	 * @throws CreateException
+	 */
+	public void ejbCreate() throws CreateException
+    {
+        try {
+        	initialise();
+        }
+        catch(SystemException e) {
+        	baseLog.error("Error occurred on creation of bean", e);
+        	throw new CreateException("Failed to initialise service: "+e.getMessage());
+        }
+    }
+        
+    /* (non-Javadoc)
+     * @see javax.ejb.SessionBean#setSessionContext(javax.ejb.SessionContext)
+     */
+    public void setSessionContext(SessionContext ctx) throws EJBException, RemoteException
+    {
+        this.ctx = ctx;
+    }
+
+    /* (non-Javadoc)
+     * @see javax.ejb.SessionBean#ejbRemove()
+     */
+    public void ejbRemove() throws EJBException, RemoteException
+    {
+        // TODO Auto-generated method stub
+        
+    }
+
+    /* (non-Javadoc)
+     * @see javax.ejb.SessionBean#ejbActivate()
+     */
+    public void ejbActivate() throws EJBException, RemoteException
+    {
+        try {
+        	initialise();
+        }
+        catch(SystemException e) {
+        	baseLog.error("Error occurred on activation of bean", e);
+        	throw new EJBException("Failed to initialise service: "+e.getMessage());
+        }
+    }
+
+    /* (non-Javadoc)
+     * @see javax.ejb.SessionBean#ejbPassivate()
+     */
+    public void ejbPassivate() throws EJBException, RemoteException
+    {
+        service = null;
+    }
+    
+    /**
+     * @wlws:exclude
+     */
+    public String[] getMethods()
+    {
+        return METHODS;
+    }
+    
+    private final static String SERVICE_NAME = "${service.name}";
+    private final static String PROJECT_FILE = "${service.project_config}";
+    private final static String FRAMEWORK_CONFIG_FILE = "${service.framework_config}";
+    private final static String[] METHODS = {
+        ${service.methods}
+    };
+    private static final Log log = SUPSLogFactory.getLogger(${service.name}Bean.class);
+    
+	/**
+	 * @wlws:exclude
+	 */
+	public String getFrameworkConfigFile()
+	{
+		return FRAMEWORK_CONFIG_FILE;
+	}
+
+	/**
+	 * @wlws:exclude
+	 */
+	public String getProjectConfigFile()
+	{
+		return PROJECT_FILE;
+	}
+
+	/**
+	 * @wlws:exclude
+	 */
+	public String getServiceName()
+	{
+		return SERVICE_NAME;
+	}
+
+	
+	protected void authenticate(String user, String mac, String params) throws BusinessException, SystemException {
+    	try {
+    		String status = (String) service.getApplicationRegistry().get("security:status");
+            	        	
+    	       	// validate the message authentication code sent with the message to check if the message is from a valid user with an active
+    	       	// session
+    	       	SecurityService security = (SecurityService) ServiceLocator.getInstance().getService(SecurityService.class);
+    	       	if(!security.validateMAC(user, mac, params) && (status == null || !status.toUpperCase().equals("INACTIVE"))) {
+    	       		throw new InvalidUserSessionException("Failed validation of message authentication code");
+    	       	}
+    	}
+        catch(ServiceLocatorException e) {
+         	throw new SystemException("Service failed whilst trying to validate user session: " + e.getMessage(), e);
+        }
+    }
+    
+    protected void authorize(String securityInfo, IComponentContext context) throws BusinessException, SystemException {
+    	String status = (String) service.getApplicationRegistry().get("security:status");
+
+    	       	// validate the message authentication code sent with the message to check if the message is from a valid user with an active
+    	       	// session
+	       	SecurityService security = (SecurityService) ServiceLocator.getInstance().getService(SecurityService.class);
+	       	if(!security.authorize(securityInfo, context) && (status == null || !status.toUpperCase().equals("INACTIVE"))){
+	       		/**
+	       		* Create a SUPSLogEvent here indicating user is not authorised to execute the method
+	       		*/
+	       		SUPSLogEvent event = new SUPSLogEvent((String)context.getSystemItem(IComponentContext.SERVICE_NAME_KEY), "Method Execution Authorisation", "AUTHORISATION", (String)context.getSystemItem(IComponentContext.USER_ID_KEY), "Failure", "User is not authorised to execute method: " + (String)context.getSystemItem(IComponentContext.METHOD_NAME_KEY));
+                auditLog.info(event);	       		
+	       		throw new AuthorizationException("The user does not have the required roles for this operation");
+			}
+    }
+	
+    protected void rollback() {
+        try
+        {
+            ctx.setRollbackOnly();
+        }
+        catch (IllegalStateException e)
+        {
+            log.warn("Failed to rollback transaction, probably a non-transactional method");
+        }
+    }
+    
+    protected transient XMLService service = null;
+    protected static final Log baseLog = LogFactory.getLog(${service.name}Bean.class);
+    private final Log auditLog = SUPSLogFactory.getAuditLogger(${service.name}Bean.class.getName());
+    private SessionContext ctx = null;
+    protected ExceptionRewriter m_exceptionRewriter = new ExceptionRewriter();
+    
+    public void initialise() throws SystemException
+    {
+        if (service == null)
+        {
+            service = XMLServiceFactory.getInstance(getServiceName(), getMethods(), getFrameworkConfigFile(), getProjectConfigFile());
+            service.initialise();  
+        }
+    }
+    
+    /**
+     * 
+     * @ejb.interface-method view-type="${ejb.interfaces}"
+     * @ejb.permission role-name="user"
+     * @ejb.transaction type="NotSupported"
+     * 
+     * @param password
+     *      
+     */
+    public String ping() throws SystemException,
+            BusinessException { 		
+ 		return "Ping: ${service.name}Service is ${service.package}.${service.name}Bean";
+ 	}

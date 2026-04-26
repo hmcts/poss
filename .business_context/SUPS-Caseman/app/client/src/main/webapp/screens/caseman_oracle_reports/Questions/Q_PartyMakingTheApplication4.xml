@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	19/12/2006 - CV - Added F6 keybinding to LOV via PartyMakingTheApplication4LOVGrid.raise configuration.
+	Temp_Caseman defects 299/334.
+-->
+<!--Question xmlns="http://eds.com/questionxhtml" xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd"-->
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>Q_PartyMakingTheApplication4</Id>
+	<Label>Party Making the Application</Label>
+	<ObjectName>PartyMakingTheApplication4</ObjectName>
+	<Html> 
+		<input id="PartyMakingTheApplication4" type="text" size="15" > </input>
+		<input id="PartyMakingTheApplication4LOVButton" type="Button" value="LOV"></input>
+        <script type="text/javascript">
+			LOVPopupRenderer.createInline( "PartyMakingTheApplication4LOVGrid", "Party Making The Application", ["Value", "Description"], 10, 1, true );
+        </script>
+	</Html>
+	<Javascript>
+		<XPath>/ds/var/page/OracleReportForm/PartyMakingTheApplication4</XPath>
+		<ReportVariableName>PARTY</ReportVariableName>
+		<ReportVariableValue>Services.getValue(PartyMakingTheApplication4.dataBinding)</ReportVariableValue>
+		<ReportVariableCode>2690</ReportVariableCode>
+		<HintText>Party making the application - list available</HintText>
+		<isMandatory>return true;</isMandatory>
+		<initialise>
+			dom = getList("../LOV/PartyMakingTheApplicationList.xml"); 
+			Services.addNode(dom, REF_DATA_XPATH);
+		</initialise>
+		<setDefault></setDefault>
+		<validateOn></validateOn>
+		<validate>
+			var description = Services.getValue(REF_DATA_XPATH + "/PartyMakingTheApplicationList/PartyMakingTheApplication[./Value = " + PartyMakingTheApplication4.dataBinding + "]/Description");
+			var valueTest = Services.getValue( REF_DATA_XPATH + "/PartyMakingTheApplicationList/PartyMakingTheApplication[./Description = " + PartyMakingTheApplication4.dataBinding + "]/Value" );
+			if (description == null &amp;&amp; valueTest == null)
+			{
+				// This is not a valid value - see list of Values
+				return ErrorCode.getErrorCode("CaseMan_Reports_Invalid_LOV_Msg");
+			}
+			else
+			{
+				return null;
+			}
+		</validate>
+		<transformToDisplay>
+			var description = Services.getValue( REF_DATA_XPATH + "/PartyMakingTheApplicationList/PartyMakingTheApplication[./Value = " + PartyMakingTheApplication4.dataBinding + "]/Description" );
+			if (description != null)
+			{
+				return description;
+			}
+			else
+			{
+				return value;
+			}
+	    </transformToDisplay>
+        <transformToModel>
+			return (null != value) ? value.toUpperCase() : null;
+        </transformToModel>
+		<miscCode>
+			PartyMakingTheApplication4.componentName = 	"Party making the application";
+			PartyMakingTheApplication4.srcData = 		REF_DATA_XPATH + "/PartyMakingTheApplicationList";
+			PartyMakingTheApplication4.rowXPath = 		"PartyMakingTheApplication";
+			
+			function PartyMakingTheApplication4LOVButton() {};
+			PartyMakingTheApplication4LOVButton.tabIndex = __tabIdx++;
+		
+			function PartyMakingTheApplication4LOVGrid() {};
+			
+			PartyMakingTheApplication4LOVGrid.dataBinding = PartyMakingTheApplication4.dataBinding;
+			PartyMakingTheApplication4LOVGrid.srcData = 	REF_DATA_XPATH + "/PartyMakingTheApplicationList";
+			PartyMakingTheApplication4LOVGrid.rowXPath = 	"PartyMakingTheApplication";
+			PartyMakingTheApplication4LOVGrid.keyXPath = 	"Value";
+			PartyMakingTheApplication4LOVGrid.columns = 	[
+				{xpath: "Value"},
+				{xpath: "Description"}
+			];
+			PartyMakingTheApplication4LOVGrid.raise = {
+				eventBinding: {
+					singleClicks: [ {element: "PartyMakingTheApplication4LOVButton"} ],
+					keys: [ { key: Key.F6, element: "PartyMakingTheApplication4" } ]
+				}
+			};
+			
+			PartyMakingTheApplication4LOVGrid.nextFocusedAdaptorId = function() {
+				return "OtherPartyType7";
+			}
+		</miscCode>
+	</Javascript>
+</Question>

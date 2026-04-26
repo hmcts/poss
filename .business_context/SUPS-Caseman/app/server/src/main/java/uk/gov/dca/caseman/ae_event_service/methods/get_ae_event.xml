@@ -1,0 +1,31 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: AeEvent
+	Method:  getAeEvent()
+	File:    get_ae_event.xml
+	Author:  Phil Haferer (EDS)
+	Created: 31-Jul-2006 
+	Description: 
+        Retrieve a single AE Event.
+        Derived from get_ae_events.xml.
+        Created in repsonse to TD 4018: Performance: Pagination required when displaying list of Case Events.
+		
+    Change History:
+-->
+<service-method>
+	<pipeline>
+		<NewQuery>
+			<QueryDef location="uk/gov/dca/caseman/ae_event_service/query_def_get_ae_event.xml"/>
+			<QueryExtension pivotNode="/ManageAEEvents">
+				<Param name="param.aeNumber" xpath="/params/param[@name = 'aeNumber']"/>
+			</QueryExtension>
+			<QueryExtension pivotNode="/ManageAEEvents/AEEvents/AEEvent">
+				<Param name="param.caseEventSeq" xpath="/params/param[@name = 'caseEventSeq']"/>
+			</QueryExtension>
+		</NewQuery>
+		<Java>
+			<Source class="uk.gov.dca.caseman.ae_event_service.java.GetAeEventsTransformationCustomProcessor"/>
+		</Java>
+	</pipeline>
+	<Security roles="viewOnly medium high wcSuper scSuper bmsSuper aeSuper dmSuper cpSuper"/>	
+</service-method>

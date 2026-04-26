@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: CaseEvent
+	Method:  getMcolDataExistsForEvent()
+	Author:  Chris Vincent
+	Created: 4 Oct 2013
+	Description: 
+		Use SQLLite to determine if an MCOL_DATA row exists for the event sequence.  Introduced as
+		part of CCBC SDT
+-->
+<service-method>
+	<pipeline>
+		<SQLLite format-output="true"
+				 resultset-element="ds"
+				 row-element="CaseEvent"
+				 field-name-as="element" >
+			<DataSource id="java:OracleDS"/>
+			<Param name="param.eventSeq" xpath="/params/param[@name='eventSeq']"/>
+			<SQL>
+				SELECT 	
+     					DECODE(COUNT(*),0,'false','true')		AS  "MCOLDataExists"
+				FROM 	MCOL_DATA
+				WHERE
+     					RETURN_INFO = ${param.eventSeq}
+			</SQL>
+		</SQLLite>
+  	</pipeline>
+	<Security roles="user"/>
+</service-method>

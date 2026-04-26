@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<service-method>
+	<pipeline>
+		<Add>
+			<QueryDef location="uk/gov/dca/transformation/case_legacy_service/query_def_add_address.xml"/>
+			<DataSource xpath="/params/param name='address'"/>
+		</Add>
+	</pipeline>
+	<Security roles="user"/>
+</service-method>

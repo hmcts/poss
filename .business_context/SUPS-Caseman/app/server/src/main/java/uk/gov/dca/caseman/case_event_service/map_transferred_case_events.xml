@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<DBMapDef>
+	<DataSource id="java:OracleDS"/>
+	<Tables>
+		<Table alias="CE" name="CASE_EVENTS"/>
+	</Tables>
+	<Mapping>
+		<CaseEvent>
+			<CaseEventSeq>${CE.EVENT_SEQ}</CaseEventSeq>
+			<CaseNumber>${CE.CASE_NUMBER}</CaseNumber>
+			<StandardEventId>${CE.STD_EVENT_ID}</StandardEventId>
+			<SubjectCasePartyNumber>${CE.CASE_PARTY_NO}</SubjectCasePartyNumber>
+			<SubjectPartyRoleCode>${CE.PARTY_ROLE_CODE}</SubjectPartyRoleCode>
+			<Applicant>${CE.REQUESTER}</Applicant>
+			<EventDetails>${CE.DETAILS}</EventDetails>
+			<EventDate>${CE.EVENT_DATE}</EventDate>
+			<Result>${CE.RESULT}</Result>
+			<WarrantId>${CE.WARRANT_ID}</WarrantId>
+			<JudgmentSeq>${CE.JUDG_SEQ}</JudgmentSeq>
+			<VarySeq>${CE.VARY_SEQ}</VarySeq>
+			<HrgSeq>${CE.HRG_SEQ}</HrgSeq>
+			<DeletedFlag>${CE.DELETED_FLAG}</DeletedFlag>
+			<UserName>${CE.USERNAME}</UserName>
+			<ReceiptDate>${CE.RECEIPT_DATE}</ReceiptDate>
+			<BMSTask>${CE.BMS_TASK_NUMBER}</BMSTask>
+			<StatsModule>${CE.STATS_MODULE}</StatsModule>
+			<CourtCode>${CE.CRT_CODE}</CourtCode>
+			<AgeCategory>${CE.AGE_CATEGORY}</AgeCategory>
+			<ResultDate>${CE.RESULT_DATE}</ResultDate>
+			<DateToRtl>${CE.DATE_TO_RTL}</DateToRtl>
+			<CaseFlag>${CE.CASE_FLAG}</CaseFlag>
+		</CaseEvent>
+	</Mapping>
+</DBMapDef>

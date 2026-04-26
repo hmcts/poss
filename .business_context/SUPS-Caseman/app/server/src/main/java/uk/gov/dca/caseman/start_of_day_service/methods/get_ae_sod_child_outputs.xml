@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: StartOfDay
+	Method:  getAeEventOutputs()
+	File:    get_ae_event_outputs.xml
+	Author:  Chris Hutt
+	Created: 5 dec 2005
+	Description: 
+		Get EventOutputs associated with a specified AE event
+-->
+<service-method>
+	<pipeline>
+		<SQLLite format-output="true"
+				 resultset-element="AeEventOutputs"
+				 row-element="AeEventOutput"
+				 field-name-as="element" >
+			<DataSource id="java:OracleDS"/>
+			<Param name="param.authLstId" xpath="/params/param[@name='authLstId']"/>
+			<Param name="param.courtId" xpath="/params/param[@name = 'courtId']"/>
+			<Param name="param.userId" xpath="/params/param[@name = 'userId']"/>
+			<SQL>
+				SELECT 
+					ro.report_id				AS "ReportId"
+					,ot.printer_type			AS "PrinterType"
+					,ot.no_of_copies			AS "Copies"
+					,ot.tray					AS "Tray"
+					,du.user_default_printer	AS "Printer"
+					,c.fap_id					AS "FAPId"
+				FROM 
+					ae_events ae
+					,report_output ro
+					,order_types ot
+					,dca_user du
+					,courts c
+				WHERE NVL(ae.sod_reference,-1) = ${param.authLstId}
+				AND ae.std_event_id in (174,852,871)
+				AND ae.event_date > TRUNC(SYSDATE-8)
+				AND ro.ae_event_seq = ae.ae_event_seq
+				AND ot.order_id = ro.order_id
+				AND du.user_id = ${param.userId}
+				AND NVL(du.printer_court_code, ${param.courtId}) = c.code
+				ORDER BY ro.report_id
+			</SQL>
+		</SQLLite>
+	</pipeline>
+	<Security roles="viewOnly medium high wcSuper scSuper bmsSuper aeSuper dmSuper edsAdmin"/>
+</service-method>

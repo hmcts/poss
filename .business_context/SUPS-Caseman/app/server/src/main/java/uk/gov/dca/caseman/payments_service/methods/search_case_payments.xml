@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: Payments
+	Method: searchCaseWarrantPayments()
+	File: search_case_warrant_payments.xml
+	Author: Chris Vincent
+	Description:
+		Returns any payments linked to a case including payments on AEs, foreign and home warrants
+		which are linked to the Case.
+
+	Change History
+    TRAC Ticket 707.
+    17-06-2009 Mark Groen - Incorporate changes defined by Chris Vincent re scalabilty for Navigate to View Payments.
+-->
+<service-method>
+	<pipeline>
+		<Query>
+			<QueryDef location="uk/gov/dca/caseman/payments_service/query_def_search_payments.xml" />
+			<QueryExtension pivotNode="/SearchResults/Payment">
+				<Param name="param.enforcementNumber" xpath="/params/param[@name = 'enforcementNumber']" />
+				<Constraint>
+					P.ENFORCEMENT_PARENT = ${param.enforcementNumber}
+				</Constraint>
+			</QueryExtension>
+		</Query>
+	</pipeline>
+	<Security roles="viewOnly medium high wcSuper scSuper bmsSuper aeSuper dmSuper cpSuper ccbcMan ccbcUser ccbcSGB2"/>
+</service-method>

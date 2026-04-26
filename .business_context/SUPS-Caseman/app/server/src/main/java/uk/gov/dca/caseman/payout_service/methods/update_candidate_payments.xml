@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: Payout
+	Method:  updateCandidatePayments()
+	File:    update_candidate_payments.xml
+	Author:  Phil Haferer (EDS)
+	Created: 16-Jan-2006
+	Description: 
+		Method to implement SUPS implementation of the Legacy stored procedure "p_payout_update()".
+-->
+<service-method>
+	<pipeline>
+		<SQLLite output="input">
+			<DataSource id="java:OracleDS"/>
+			<Param name="param.adminCourtCode" xpath="/params/param[@name='adminCourtCode']"/>
+			<Param name="param.itemDate"       xpath="/params/param[@name='itemDate']"/>
+			<Param name="param.reportId"       xpath="/params/param[@name='reportId']"/>
+			<SQL type="update" tables="PAY">
+				UPDATE PAYMENTS PAY			
+				SET    PAY.PAYOUT_DATE      = TO_DATE(${param.itemDate},'YYYY-MM-DD')
+				,      PAY.PAYOUT_REPORT_ID = ${param.reportId}
+				,      PAY.NOTES = 
+					  (SELECT DECODE(PAY.NOTES,NULL,NULL,PAY.NOTES||' ')||
+						      TO_CHAR(CDP1.CDP_DIV_NUMBER)||
+						      '/'||
+						      ${param.reportId}
+					   FROM   CANDIDATE_DIVIDEND_PAYMENTS CDP1
+					   WHERE  CDP1.CDP_TRANSACTION_NUMBER = PAY.TRANSACTION_NUMBER
+					   AND    CDP1.ADMIN_COURT_CODE = ${param.adminCourtCode})
+				WHERE  PAY.ADMIN_COURT_CODE = ${param.adminCourtCode}
+				AND    PAY.TRANSACTION_NUMBER IN
+					  (SELECT CDP2.CDP_TRANSACTION_NUMBER
+					   FROM   CANDIDATE_DIVIDEND_PAYMENTS CDP2
+					   WHERE CDP2.ADMIN_COURT_CODE = ${param.adminCourtCode})
+			</SQL>
+		</SQLLite>
+	</pipeline>
+	<Security roles="viewOnly medium high wcSuper scSuper bmsSuper aeSuper dmSuper edsAdmin"/>		
+</service-method>

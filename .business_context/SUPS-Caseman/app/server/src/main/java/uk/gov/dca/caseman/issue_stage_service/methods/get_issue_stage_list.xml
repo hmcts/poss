@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: IssueStage
+	Method:  getIssueStageList()
+	File:    get_issue_stage_list.xml
+	Author:  
+	Created: 
+	Description: 
+        List of Stages that can be recorded against the issue of CO and AE Events
+-->
+<service-method>
+	<pipeline>
+		<Query>
+			<QueryDef location="uk/gov/dca/caseman/issue_stage_service/query_def_issue_stage_list.xml"/>
+			<QueryExtension pivotNode="/StageList/Stage">
+				<Constraint>CCBC.RV_DOMAIN = 'ISSUE_STAGE'</Constraint>
+			</QueryExtension>
+		</Query>
+	</pipeline>
+	<Security roles="viewOnly medium high wcSuper scSuper bmsSuper aeSuper dmSuper cpSuper"/>	
+</service-method>

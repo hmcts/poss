@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<service-method>
+	<pipeline>
+		<Update>
+			<QueryDef location="uk/gov/dca/caseman/judgment_service/query_def_modify_judgment.xml"/>
+			<DataSource xpath="/params/param[@name='JudgmentSequence']"/>
+			<QueryExtension pivotNode="/ds/MaintainJudgment/Judgments/Judgment">
+				<CheckExists table="J" fields="judg_seq" onNotExist="skip" onExist="update"/>
+			</QueryExtension>
+			<QueryExtension pivotNode="/ds/MaintainJudgment/Judgments/Judgment/ApplicationsToVary/Variation">
+				<CheckExists table="V" fields="vary_seq" onNotExist="skip" onExist="update"/>
+			</QueryExtension>
+			<QueryExtension pivotNode="/ds/MaintainJudgment/Judgments/Judgment/ApplicationsToSetAside/Application">
+				<CheckExists table="CE" fields="event_seq" onNotExist="skip" onExist="update"/>
+			</QueryExtension>
+		</Update>
+		<Java>
+			<Source class="uk.gov.dca.caseman.case_event_service.java.InsertCaseEvent160JudgRecSetAsideCustomProcessor"/>
+		</Java>
+		<Java>
+			<Source class="uk.gov.dca.caseman.case_event_service.java.InsertCaseEvent140ApplicationToVaryJudgmentCustomProcessor"/>
+		</Java>
+		<Java>
+			<Source class="uk.gov.dca.caseman.case_event_service.java.InsertCaseEvent150VariationResultGrantedCustomProcessor"/>
+		</Java>
+		<Java>
+			<Source class="uk.gov.dca.caseman.case_event_service.java.InsertCaseEvent155VariationResultDeterminedCustomProcessor"/>
+		</Java>
+		<Java>
+			<Source class="uk.gov.dca.caseman.case_event_service.java.InsertCaseEvent170SetAsideGrantedCustomProcessor"/>
+		</Java>
+		<Java>
+			<Source class="uk.gov.dca.caseman.case_event_service.java.InsertCaseEvent200ApplicationToVaryHearingCustomProcessor"/>
+		</Java>
+		<Java>
+			<Source class="uk.gov.dca.caseman.case_event_service.java.InsertCaseEvent375RegistrationDateEnteredCustomProcessor"/>
+		</Java>
+		<Java>
+			<Source class="uk.gov.dca.caseman.case_event_service.java.InsertCaseEvent600ChangeJudgStatusCustomProcessor"/>
+		</Java>
+		<Java>
+			<Source class="uk.gov.dca.caseman.case_event_service.java.InsertCaseEvent79FinalPaymentEnteredCustomProcessor"/>
+		</Java>
+		<Java>
+			<Source class="uk.gov.dca.caseman.case_event_service.java.InsertCaseEvent55ApplicationToVaryObjectorCustomProcessor"/>
+		</Java>
+		<Java>			
+			<Source class="uk.gov.dca.caseman.case_event_service.java.UpdateCaseEvent140ResultRefusedCustomProcessor"/>
+		</Java>		
+		<Java callStyle="new">
+			<Source class="uk.gov.dca.caseman.case_event_service.java.InsertCaseEvent236JudgAmendedAfterRegCustomProcessor"/>
+		</Java>		
+	</pipeline>
+	<Dependencies>
+		<Dependency serviceName="CaseEvent"/>		
+	</Dependencies>
+	<Security roles="user"/>
+</service-method>

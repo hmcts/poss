@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Called by: uk/gov/dca/caseman/codedparty_service/query_cp_stats_def.xml
+
+	v1.0: Chris Hutt       10/12/05   
+-->
+<DBMapDef>
+  <DataSource id="java:OracleDS"/>
+  <Tables>
+    <Table alias="CP" name="CODED_PARTIES"/>
+    <Table alias="CPR" name="CASE_PARTY_ROLES"/>   
+  </Tables>
+  <Mapping>
+    <CodedParties>
+    	<CodedParty>
+    		<Code>${CP.CODE}</Code>
+    		<PartyId>${CP.PARTY_ID}</PartyId>
+			<AdminCourtCode>${CP.ADMIN_COURT_CODE}</AdminCourtCode>
+			<CaseCount>${CPR.COUNT}</CaseCount>
+		 </CodedParty>
+    </CodedParties>	
+  </Mapping>
+</DBMapDef>

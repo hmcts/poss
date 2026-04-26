@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: User
+	Method:  addUserBusinessRole()
+	File:    add_user_business_role.xml
+	Author:  Ian Stainer (Valtech)
+	Created: 09 November 2005
+	Description: 
+		Add a new user's details.
+
+    Change History:
+	31-Jun-2006 Phil Haferer (EDS): Addition of Audit Event Logging.
+	26-Sep-2008 Nilesh Mistry (Logica): Changed name as part of RFC 521 (TRAC ticket #11) and will add all user details 
+				except for possible admin role
+-->
+<service-method>
+	<pipeline>
+		<Transform>
+			<Template location="uk/gov/dca/caseman/user_service/transforms/add_user.xsl"/>
+		</Transform>	
+		<Update>
+			<QueryDef location="uk/gov/dca/caseman/user_service/query_def_add_user_business_role.xml"/>
+			<DataSource xpath="/params/param[@name='maintainUser']"/>
+			<QueryExtension pivotNode="/ds/MaintainUser">
+				<!-- DU.USER_ID is already in the map for the check exists -->
+				<CheckExists table="DU" fields="USER_ID" onExist="fail" onNotExist="add"/>
+			</QueryExtension>
+			<QueryExtension pivotNode="/ds/MaintainUser/UserCourt">
+				<!-- Need to specify where to look for the UR.USER_ID because that column is not in the map -->
+				<!-- for the UserCourt pivot node -->
+				<CheckExists table="UC" fields="COURT_CODE USER_ID" onExist="fail" onNotExist="add"/>
+				<Field name="UC.USER_ID" property="DU.USER_ID"/>									
+			</QueryExtension>			
+			<QueryExtension pivotNode="/ds/MaintainUser/UserCourt/UserRole">
+				<!-- Need to specify where to look for the UR.USER_ID and UR.COURT_CODE because those columns -->
+				<!-- are not in the UserRole pivot node -->
+				<CheckExists table="UR" fields="COURT_CODE USER_ID ROLE_ID" onExist="fail" onNotExist="add"/>
+				<Field name="UR.USER_ID" property="DU.USER_ID"/>	
+				<Field name="UR.COURT_CODE" property="UC.COURT_CODE"/>													
+			</QueryExtension>
+		</Update>
+		<Java callStyle="new">
+			<Source class="uk.gov.dca.caseman.user_service.java.AuditEventAddUserProfileCustomProcessor"/>
+		</Java>
+	</pipeline>
+	<Security roles="admin"/>
+</service-method>

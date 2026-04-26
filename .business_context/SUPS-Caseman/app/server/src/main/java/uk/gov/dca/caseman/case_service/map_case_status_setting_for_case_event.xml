@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<DBMapDef>
+  <DataSource id="java:OracleDS"/>
+  <Tables>
+    <Table alias="REF" name="CCBC_REF_CODES"/>
+  </Tables>  
+  <Mapping>
+	<CaseEventSettingCaseStatusList>
+		<CaseEvent>
+			<StandardEventId>${REF.RV_LOW_VALUE}</StandardEventId>
+			<CaseStatus>${REF.RV_IIT_CODE_1}</CaseStatus>
+		</CaseEvent>
+	</CaseEventSettingCaseStatusList>
+  </Mapping>
+</DBMapDef>

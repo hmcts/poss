@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>448</Id>
+	<Label>Date warrant ordered</Label>
+	<ObjectName>WarrantOrderDate</ObjectName>
+	<Html>	
+		<script type="text/javascript">
+			WP_DatePickerRenderer.createInline("WarrantOrderDate");
+		</script>
+	</Html>			
+	<Javascript>
+		<XPath>/ds/EnterVariableData/DisobedienceArrest/warrantOrderDate</XPath>
+		<componentName>##label##</componentName>
+		<isMandatory>return true;</isMandatory>
+		<HintText>Enter the date N40B ordered, in the format DD-MON-YYYY</HintText>	
+		<validateOn>WarrantOrderDate.dataBinding</validateOn>
+		<validate>		   		   
+			return isWorkingDayInPast(Services.getValue(WarrantOrderDate.dataBinding));</validate>
+		<miscCode>WarrantOrderDate.weekends = false;</miscCode>
+		
+		
+		<Context ScreenId="CJR102">
+			<HintText>Enter the date in the format DD-MON-YYYY</HintText>
+			<miscCode>WarrantOrderDate.weekends = true;</miscCode>
+			<validate>return isInPast(Services.getValue(WarrantOrderDate.dataBinding));</validate>
+		</Context>
+	</Javascript>
+</Question>

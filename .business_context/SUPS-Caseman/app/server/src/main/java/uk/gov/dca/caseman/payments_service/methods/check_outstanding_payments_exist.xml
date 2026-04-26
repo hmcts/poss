@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: Payments
+	Method: checkOutstandingPaymentsExist()
+	File: check_outstanding_payments_exist.xml
+	Author: Chris Vincent
+	Description:
+		Checks for outstanding payments on a case record.  This includes home warrants,
+		foreign warrants and attachment of earnings on the case.  An outstanding payment
+		is one where the PAYOUT_DATE is blank, the RD_DATE is blank and the payment is not
+		a passthrough.  CaseMan Defect 6420.
+-->
+<service-method>
+	<pipeline>
+		<Query>
+			<QueryDef location="uk/gov/dca/caseman/payments_service/query_def_check_outstanding_payments_exist.xml" />
+			<QueryExtension pivotNode="/OutstandingPaymentsExist">
+				<Param name="param.caseNumber" xpath="/params/param[@name = 'caseNumber']" />
+			</QueryExtension>
+		</Query>
+	</pipeline>
+	<Security roles="medium high wcSuper scSuper bmsSuper aeSuper dmSuper cpSuper ccbcMan ccbcUser ccbcSGB2" />
+</service-method>

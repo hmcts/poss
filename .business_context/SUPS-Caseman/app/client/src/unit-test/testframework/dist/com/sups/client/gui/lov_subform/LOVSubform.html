@@ -1,0 +1,41 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3c.org/TR/html4/strict.dtd">
+<html>
+	<head>
+		<title>Subform</title>
+		<script type="text/javascript" src="../../../../../Framework.js"></script>
+		<script type="text/javascript" src="LOVSubform.js"></script>
+	</head>
+	
+    
+  	<body>
+    	<form id="subform" class="subform">
+
+			<div class="popupTitle">
+				<script type="text/javascript">document.write(getURLParameters()['label']);</script>
+			</div>
+			<div class="panel" style="padding: 10px">
+				<script type="text/javascript">
+					var isFiltered = getURLParameters()['isFiltered'];
+					if(isFiltered && isFiltered == "true")
+					{
+						FilteredGrid.createInline( "frameworkLOVSubFormGrid", eval(getURLParameters()['cols']), parseInt(getURLParameters()['rows']), parseInt(getURLParameters()['groupSize']) );
+					}
+					else
+					{
+						Grid.createInline( "frameworkLOVSubFormGrid", eval(getURLParameters()['cols']), parseInt(getURLParameters()['rows']), parseInt(getURLParameters()['groupSize']) );
+					}
+				</script>
+			</div>
+			
+			<script type="text/javascript">
+				ActionBarRenderer.createInlineNoStatusBar(
+					"actionbar",
+					[
+						{id: "submit_button", label: "OK", className: "submitButton"},
+						{id: "cancel_button", label: "Cancel"}
+					]
+				);
+			</script>
+		</form>
+    </body>
+</html>

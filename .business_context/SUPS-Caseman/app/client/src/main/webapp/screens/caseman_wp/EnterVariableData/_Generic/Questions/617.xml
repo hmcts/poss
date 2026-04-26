@@ -1,0 +1,29 @@
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>617</Id>
+	<Label>Application for a receiver to be made</Label>
+	<ObjectName>AppForReceiver</ObjectName>
+   
+	<Html>	
+		<input type="checkbox" id="AppForReceiver"></input>
+	</Html>			
+	<Javascript>
+		<XPath>/ds/EnterVariableData/Settlement/appForReceiver</XPath>
+		<componentName>##label##</componentName>
+		<modelValue>checked: "Y", unchecked: "N"</modelValue>
+		<HintText>Check box is application for receiver is to be appointed to be made</HintText>
+		<enableOn>ClaimFor.dataBinding</enableOn>
+		<isEnabled>
+			var val1 = Services.getValue(ClaimFor.dataBinding);
+			return(val1 == 'PTNT');
+		</isEnabled>
+		<logicOn>ClaimFor.dataBinding</logicOn>
+		<logic>
+			var val1 = Services.getValue(ClaimFor.dataBinding);
+			if(val1 != 'PTNT')
+			{	Services.setValue(AppForReceiver.dataBinding ,"N");
+			}
+		</logic>
+		
+					
+	</Javascript>
+</Question>

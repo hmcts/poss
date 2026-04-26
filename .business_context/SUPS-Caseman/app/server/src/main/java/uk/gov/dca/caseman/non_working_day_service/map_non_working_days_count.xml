@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<DBMapDef>
+  <DataSource id="java:OracleDS"/>
+  <Tables>
+    <Table alias="NWD" name="NON_WORKING_DAYS" />
+  </Tables>
+  <Mapping>
+    <ds>
+	    <NonWorkingDaysCount>${NWD.DAY_COUNT}</NonWorkingDaysCount>	
+    </ds>
+  </Mapping>
+</DBMapDef>

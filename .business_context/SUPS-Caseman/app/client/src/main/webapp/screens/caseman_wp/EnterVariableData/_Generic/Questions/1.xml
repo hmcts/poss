@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--Question xmlns="http://eds.com/questionxhtml" xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd"-->
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>1</Id>
+	<Label>Who is to serve claim</Label>
+	<ObjectName>ClaimServedBy</ObjectName>
+	<Html>
+		<select id="ClaimServedBy">
+			<option value=""></option>
+			<option value="claimant">Claimant</option>
+			<option value="court">Court</option>
+		</select>
+	</Html>
+	<Javascript>
+		<XPath>/ds/EnterVariableData/ServedBy</XPath>
+		<HintText>Select who is to serve the claim</HintText>
+		<isMandatory>return true;</isMandatory>
+		<mandatoryOn>ClaimServedBy.dataBinding</mandatoryOn>
+	</Javascript>
+</Question>
+<!-- $Header: /CVSRepository/clientoas/caseman/screens/caseman_wp/EnterVariableData/_Generic/Questions/1.xml,v 1.3 2006/03/01 15:40:39 conganer Exp $
+  -->
+<!-- 
+	 $Log: 1.xml,v $
+	 Revision 1.3  2006/03/01 15:40:39  conganer
+	 WP Development Team OAS Migration
+	
+	 Revision 1.16  2005/10/21 07:40:55  f_vdd
+	 *** empty log message ***
+	
+	 Revision 1.14.6.2  2005/10/05 13:31:30  narges
+	 *** empty log message ***
+	
+	 Revision 1.15  2005/09/26 13:39:17  shane
+	 Amend hint text
+	
+	 Revision 1.14  2005/05/24 14:28:53  kevin
+	 *** empty log message ***
+	
+	 Revision 1.13  2005/03/16 15:04:12  f_vdd
+	 *** empty log message ***
+	
+	 Revision 1.10  2005/02/27 11:48:19  f_vdd
+	 removed null methods from question
+	
+	 Revision 1.9  2005/02/04 10:13:08  kevin
+	 Namespace causing rendering problems. Removed until discussion with FV
+	
+	 Revision 1.8  2005/02/03 15:31:57  kevin
+	 Initial namespace was causing problems. Removed for now. KB
+	
+	 Revision 1.7  2005/01/31 15:54:52  f_vdd
+	 Update to namespace/schema references and inclusing of keywords to subsitute.
+	
+  -->

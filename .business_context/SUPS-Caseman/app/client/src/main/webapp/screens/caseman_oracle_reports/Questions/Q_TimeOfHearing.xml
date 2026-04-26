@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--Question xmlns="http://eds.com/questionxhtml" xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd"-->
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>Q_TimeOfHearing</Id>
+	<Label>Time of Hearing</Label>
+	<ObjectName>TimeOfHearing</ObjectName>
+	<Html>
+		<input id="TimeOfHearing" type="text" size="8"></input>
+	</Html>
+	<Javascript>
+		<XPath>/ds/var/page/OracleReportForm/TimeOfHearing</XPath>
+		<ReportVariableName>HRG_TIME</ReportVariableName>
+		<ReportVariableValue>Services.getValue(TimeOfHearing.dataBinding)</ReportVariableValue>
+		<ReportVariableCode>901</ReportVariableCode>
+		<ParameterType>H</ParameterType>		
+		<HintText>Enter the hearing time, 24 hour format (HH:MM eg 08:30, 14:30)</HintText>
+		<isMandatory>return true;</isMandatory>
+		<initialise></initialise>	
+		<setDefault>
+		</setDefault>	
+		<transformToDisplay>return transformToDisplayTime(value, VAR_PAGE_XPATH + "/Tmp/Hearing/ValidTime");</transformToDisplay>
+		<transformToModel>return transformToModelTime(value, VAR_PAGE_XPATH + "/Tmp/Hearing/ValidTime");</transformToModel>			
+		<validateOn>
+		</validateOn>
+		<validate>	  
+			var timeInSecs = Services.getValue(TimeOfHearing.dataBinding);
+			return validateTimeAt(timeInSecs, VAR_PAGE_XPATH + "/Tmp/Hearing/ValidTime");    
+		</validate>
+		<miscCode>
+			function validateTimeAt(pTime, validTimeFlagXPath)
+			{
+				if ( null == validTimeFlagXPath )
+				{
+					return null;
+				}
+				
+				if(Services.getValue(validTimeFlagXPath) == "N")
+				{
+					return ErrorCode.getErrorCode("CaseMan_invalidTime_Msg");
+				}
+				
+				var errCode = null;
+				if ( !CaseManUtils.isBlank(pTime) )
+				{
+					// The value put in the dom is supposed to be a number, so first check if it is numeric
+					errCode = CaseManValidationHelper.validatePattern(pTime, /^\d+$/, "CaseMan_invalidTime_Msg");
+					if( null == errCode )
+					{
+						// If it is numeric, check that it is within a valid range
+						if(pTime &lt; 0 || pTime &gt; 86400)
+						{
+							errCode = ErrorCode.getErrorCode("CaseMan_invalidTime_Msg");
+						}
+					}	
+				}
+				return errCode;	
+			}
+
+
+			
+			/**********************************************************************************/
+			
+			// This method ensures a time is transformed so that it can be validated correctly.
+			// If the pTime param is not a valid time then the method stores teh incorrect value to tyeh DOM
+			// A CONSTANT is placed at the end of a value as a quick fix re validating wether the user has entered
+			// an invlid time in number format e.g. 66, 456, 45678.  This means that the incorrect value will 
+			// not get transformed into a display time when transforming from seconds after midnight to hh:mm
+			function transformToModelTime(pTime, validTimeFlagXPath)
+			{
+				var convertedTime = null;
+				if( null != pTime )
+				{
+					if(CaseManValidationHelper.validateTime(pTime))
+					{
+						Services.setValue(validTimeFlagXPath, "Y");
+						return CaseManUtils.convertTimeToSeconds(pTime);
+					}
+				}
+				
+				Services.setValue(validTimeFlagXPath, "N");
+				return pTime;
+			}
+			
+			/**********************************************************************************/
+				
+			// This method ensures a time is transformed from the DOM to display correctly.
+			// Even if invalid must be displayed as the user entered.
+			function transformToDisplayTime(pTime, validTimeFlagXPath)
+			{	
+				if(Services.getValue(validTimeFlagXPath) == "N")
+				{
+					return pTime;
+				}
+				
+				if( null != pTime &amp;&amp; !isNaN(pTime) )
+				{
+					var convertedTime = CaseManUtils.convertSecondsToTime(pTime);
+					if( null != convertedTime )
+					{
+						if(CaseManValidationHelper.validateTime(convertedTime))
+						{
+							return convertedTime;
+						}
+					}
+				}
+				return pTime;
+			}
+						
+		</miscCode>
+	</Javascript>
+</Question>

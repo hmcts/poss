@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>827</Id>
+	<Label>Enter review interval period</Label>
+	<ObjectName>EntRevIntPeriod</ObjectName>
+	<Html>
+		<input id="EntRevIntPeriod" type="text"></input>
+	</Html>
+	<Javascript>
+		<XPath>/ds/EnterVariableData/EntRevIntPeriod</XPath>
+		<componentName>##label##</componentName>
+		<HintText>Enter the interval period the order is to be reviewed</HintText>
+		<isMandatory>return true;</isMandatory>
+		<mandatoryOn>EntRevIntPeriod.dataBinding</mandatoryOn>
+		
+		<Context ScreenId="CO25">
+			<enableOn>ReviewPeriod.dataBinding</enableOn>
+			<isEnabled>return ('Y' == Services.getValue(ReviewPeriod.dataBinding));</isEnabled>
+			<logicOn>ReviewPeriod.dataBinding</logicOn>
+			<logic>
+				if('Y' != Services.getValue(ReviewPeriod.dataBinding))
+				{
+					Services.setValue(EntRevIntPeriod.dataBinding, "");
+				}
+			</logic>
+		</Context>
+			
+	</Javascript>
+</Question>

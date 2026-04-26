@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	19/12/2006 - CV - Added F6 keybinding to LOV via ItemDetailsLOVGrid.raise configuration.
+	Temp_Caseman defects 299/334.
+	29/01/2007 - CV: Updated zoom field logic function to clear LOV value.  Temp_Caseman defect 428.
+-->
+<!--Question xmlns="http://eds.com/questionxhtml" xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd"-->
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>Q_EnterItemDetails</Id>
+	<Label>Enter Details of Offence</Label>
+	<ObjectName>ItemDetails</ObjectName>
+	<Html>
+		<table>
+			<tr>
+				<td>
+					<script type="text/javascript">
+						ZoomFieldRenderer.createInline("ItemDetails", 10, 70);
+					</script>				
+				</td>
+				<td>
+					<input id="ItemDetailsLOVButton" type="Button" value="LOV"/>
+				</td>
+			</tr>
+		</table>		
+		<script type="text/javascript">
+			LOVPopupRenderer.createInline( "ItemDetailsLOVGrid", "Types", ["Description"], 10, 1, true );
+        </script>      
+	</Html>
+	<Javascript>
+		<XPath>/ds/var/page/OracleReportForm/ItemDetails</XPath>
+		<ReportVariableName>REPORT_VALUE_3</ReportVariableName>
+		<ReportVariableValue>Services.getValue(ItemDetails.dataBinding)</ReportVariableValue>
+		<ReportVariableCode>1066</ReportVariableCode>
+		<HintText>Select DFLT1 or DFLT2 to display appropriate N59 text - LOV available</HintText>
+		<mandatoryOn></mandatoryOn>
+		<isMandatory>return true;</isMandatory>
+		<setDefault></setDefault>
+		<validateOn></validateOn>
+		<validate>
+		</validate>
+		<readOnlyOn></readOnlyOn>
+		<isReadOnly></isReadOnly>
+		<maxLength></maxLength>
+		<transformToDisplay>
+			var description = Services.getValue( REF_DATA_XPATH + "/ItemDetailsList/ItemDetail[./Value = " + ItemDetails.dataBinding + "]/Description" );
+			if (description != null)
+			{
+				return description;
+			}
+			else
+			{
+				return value;
+			}
+		</transformToDisplay>
+		<initialise>
+			dom = getList("../LOV/ItemDetailsList.xml"); 
+			Services.addNode(dom, REF_DATA_XPATH);
+		</initialise>
+		<logicOn>
+			"/ds/var/page/OracleReportForm/Dummy"
+		</logicOn>
+		<logic>
+			var lovValue = Services.getValue(ItemDetailsLOVGrid.dataBinding);
+			if ( !CaseManUtils.isBlank(lovValue) )
+			{
+				Services.setValue(ItemDetails.dataBinding, lovValue );
+				FormController.getInstance().processEvents();
+				Services.getAdaptorById("ItemDetails")._raisePopup();
+				Services.setValue(ItemDetailsLOVGrid.dataBinding, "");
+			}
+		</logic>
+		<miscCode>
+			ItemDetails.componentName 	=		"Item Details";
+			ItemDetails.srcData 		= 		REF_DATA_XPATH + "/ItemDetailsList";
+			ItemDetails.rowXPath 		= 		"ItemDetail";
+			ItemDetails.keyXPath 		=		"Description";
+
+			function ItemDetailsLOVButton() {};
+			ItemDetailsLOVButton.tabIndex = __tabIdx++;
+			
+			function ItemDetailsLOVGrid() {};
+			ItemDetailsLOVGrid.dataBinding = "/ds/var/page/OracleReportForm/Dummy";
+			ItemDetailsLOVGrid.srcData = REF_DATA_XPATH + "/ItemDetailsList";
+			ItemDetailsLOVGrid.rowXPath = "ItemDetail";
+			ItemDetailsLOVGrid.keyXPath = "Description";
+			ItemDetailsLOVGrid.columns = [
+				{xpath: "Description"}
+			];
+			
+			ItemDetailsLOVGrid.raise = {
+				eventBinding: {
+					singleClicks: [ {element: "ItemDetailsLOVButton"} ],
+					keys: [ { key: Key.F6, element: "ItemDetails" } ]
+				}
+			};
+		</miscCode>
+		<IsQuestion></IsQuestion>
+	</Javascript>
+</Question>

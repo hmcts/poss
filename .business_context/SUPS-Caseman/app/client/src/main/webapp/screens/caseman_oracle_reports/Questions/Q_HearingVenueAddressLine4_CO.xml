@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Change History -->
+<!-- 10th Jan 2007 - TEMP_caseman defect 374 - MGG, added hint text -->
+<!--Question xmlns="http://eds.com/questionxhtml" xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd"-->
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>Q_HearingVenueAddressLine4_CO</Id>
+	<Label>Hearing Venue Address Line 4</Label>
+	<ObjectName>HearingVenueAddressLine4</ObjectName>
+	<Html>
+		<input id="HearingVenueAddressLine4" type="text" size="70"></input>
+	</Html>
+	<Javascript>
+		<XPath>/ds/var/page/OracleReportForm/HearingVenueAddressLine4</XPath>
+		<ReportVariableName>HRG_ADD_4</ReportVariableName>
+		<ReportVariableValue>Services.getValue(HearingVenueAddressLine4.dataBinding)</ReportVariableValue>
+		<ReportVariableCode>12230</ReportVariableCode>
+		<!-- <ParameterType>S</ParameterType> -->
+		<HintText>Fourth Line of the Hearing venue address</HintText>
+		<isMandatory>return false;</isMandatory>
+		<isReadOnly>
+			return true;
+		</isReadOnly>		
+		<initialise></initialise>
+		<transformToDisplay>
+			return (null != value) ? value.toUpperCase() : null;
+		</transformToDisplay>
+		<transformToModel>
+			return (null != value) ? value.toUpperCase() : null;
+		</transformToModel>		
+		<setDefault>
+		</setDefault>		
+		<validateOn>
+		</validateOn>
+		<validate>
+		</validate>
+		<miscCode>
+		</miscCode>
+	</Javascript>
+</Question>

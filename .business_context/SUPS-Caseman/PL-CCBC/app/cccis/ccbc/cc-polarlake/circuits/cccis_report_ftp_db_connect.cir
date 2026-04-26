@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<pl:system-content xmlns:pl="http://www.polarlake.com/platform/1.0">
+    <pl:circuit name="cccis_ftp_rep_db_connect">
+        <pl:importcircuit name="com.polarlake.circuits.BaseCircuit"/>
+        <pl:importmodule name="com.polarlake.platform.databasemodule.DatabaseModuleApplication"/>
+        <pl:application-data name="Resources" type="Resources">
+            <pl:application-data name="Functions" type="functions" application="com.polarlake.platform.librarymodule.LibraryModuleApplication"/>
+            <pl:application-data name="Initial Contexts" type="initialcontexts" application="com.polarlake.platform.librarymodule.LibraryModuleApplication"/>
+            <pl:application-data name="Scripts" type="scripts" application="com.polarlake.platform.librarymodule.LibraryModuleApplication"/>
+            <pl:application-data name="Statistics sensors" type="sensors" application="com.polarlake.sysinfo.SystemInformation"/>
+            <pl:application-data name="Condition Groups" type="conditiongroups" application="com.polarlake.platform.librarymodule.LibraryModuleApplication"/>
+            <pl:application-data name="XML Wrapper Request Processors" type="Wrapper-Request-Processors" application="com.polarlake.requestprocessors.wrapper.WrapperApplication"/>
+            <pl:application-data name="Document Variables" type="documentvariables" application="SYSTEM"/>
+            <pl:application-data name="Format Request processors" type="FormatRequestProcessors" application="com.polarlake.platform.librarymodule.LibraryModuleApplication"/>
+            <pl:application-data name="Server Document Variables" type="serverdocumentvariables" application="SYSTEM"/>
+            <pl:application-data name="Databases" type="dbroot" application="com.polarlake.platform.databasemodule.DatabaseModuleApplication">
+                <pl:application-data name="DBConnect" type="database" application="com.polarlake.platform.databasemodule.DatabaseModuleApplication" value="">
+                    <pl:application-data name="driver_class" type="property" application="com.polarlake.platform.databasemodule.DatabaseModuleApplication" value="{pl$db_driver_class}"/>
+                    <pl:application-data name="connect_string" type="property" application="com.polarlake.platform.databasemodule.DatabaseModuleApplication" value="{pl$db_connect_string}"/>
+                    <pl:application-data name="username" type="property" application="com.polarlake.platform.databasemodule.DatabaseModuleApplication" value="{pl$db_user_name}"/>
+                    <pl:application-data name="password" type="property" application="com.polarlake.platform.databasemodule.DatabaseModuleApplication" value="e3BsJGRiX3Bhc3N3b3JkfQ=="/>
+                    <pl:application-data name="read_only" type="property" application="com.polarlake.platform.databasemodule.DatabaseModuleApplication" value="false"/>
+                    <pl:application-data name="use_pool" type="property" application="com.polarlake.platform.databasemodule.DatabaseModuleApplication" value="true"/>
+                    <pl:application-data name="use_stmt_pool" type="property" application="com.polarlake.platform.databasemodule.DatabaseModuleApplication" value="true"/>
+                    <pl:application-data name="retry_interval" type="property" application="com.polarlake.platform.databasemodule.DatabaseModuleApplication" value="3000"/>
+                    <pl:application-data name="retry_limit" type="property" application="com.polarlake.platform.databasemodule.DatabaseModuleApplication" value="0"/>
+                    <pl:application-data name="check_sql" type="property" application="com.polarlake.platform.databasemodule.DatabaseModuleApplication" value=""/>
+                    <pl:application-data name="driver_jars" type="property">
+                        <pl:application-data name="{pl$db_class}" type="property"/>
+                    </pl:application-data>
+                </pl:application-data>
+            </pl:application-data>
+        </pl:application-data>
+    </pl:circuit>
+</pl:system-content>

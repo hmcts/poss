@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>268</Id>
+	<Label>Questionnaire submitted in respect of</Label>
+	<ObjectName>QASubmittedIRO</ObjectName>
+	<Html>	 
+		<select id="QASubmittedIRO">
+			<option value=""></option>
+			<option value="CLM">Claim</option>
+			<option value="CTR">Counterclaim</option>
+		</select>	   
+	</Html>
+	<Javascript>
+		<XPath>/ds/EnterVariableData/Allocation/qASubmittedIRO</XPath>
+		<componentName>##label##</componentName>
+		<HintText>Enter the details about the questionnaire  submitted - list available</HintText>
+		
+		<mandatoryOn></mandatoryOn>
+		<isMandatory>return true;</isMandatory>				
+	</Javascript>
+</Question>

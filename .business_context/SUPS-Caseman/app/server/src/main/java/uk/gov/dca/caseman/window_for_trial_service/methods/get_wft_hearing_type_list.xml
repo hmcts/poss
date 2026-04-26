@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<service-method>
+	<pipeline>
+	  <Query>
+	    <QueryDef location="uk/gov/dca/caseman/window_for_trial_service/query_def_wft_hearing_type_list.xml"/>
+  	    <QueryExtension pivotNode="/HearingTypes/HearingType">
+   	      <Constraint>CRC.RV_DOMAIN = 'WFT_HEARING_TYPE'</Constraint>
+  	    </QueryExtension>
+	  </Query>
+	</pipeline>
+	<Security roles="user"/>
+</service-method>

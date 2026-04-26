@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: Courts
+	Method:  getAddressTypeList
+	Author:  Chris Vincent (EDS) 
+	Created: 24 November 2005
+	Description: Use SQLLite to retrieve list of court specific address types
+-->
+<service-method>
+	<pipeline>
+		<SQLLite format-output="true"
+				 resultset-element="AddressTypes"
+				 row-element="AddressType"
+				 field-name-as="element" >
+			<DataSource id="java:OracleDS"/>
+			<SQL>
+				SELECT AT.ADDRESS_TYPE_CODE As "Value", 
+					   AT.ADDRESS_TYPE_DESCRIPTION As "Description"
+				FROM  ADDRESS_TYPES AT
+				WHERE 
+				(
+					AT.ADDRESS_TYPE_CODE = 'WELSH_OFFICE' OR
+					AT.ADDRESS_TYPE_CODE = 'OFFICE' OR
+					AT.ADDRESS_TYPE_CODE = 'COURTHOUSE'
+				)
+				ORDER BY AT.ADDRESS_TYPE_DESCRIPTION
+			</SQL>
+		</SQLLite>
+  	</pipeline>
+	<Security roles="viewOnly medium high wcSuper scSuper bmsSuper aeSuper dmSuper cpSuper edsAdmin ccbcMan ccbcUser ccbcSGB2 ccbcTape admin"/>
+</service-method>

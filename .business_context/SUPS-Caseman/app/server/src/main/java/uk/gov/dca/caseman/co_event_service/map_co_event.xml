@@ -1,0 +1,38 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<DBMapDef>
+  <DataSource id="java:OracleDS"/>
+  <Tables>
+    <Table alias="COE" name="CO_EVENTS"/>
+  </Tables>  
+  <Mapping>
+	<COEvent>
+	
+		<CONumber>${COE.CO_NUMBER}</CONumber>
+		<StandardEventId>${COE.STD_EVENT_ID}</StandardEventId>
+		<StandardEventDescription></StandardEventDescription>
+		<EventDetails>${COE.DETAILS}</EventDetails>
+		<EventDate>${COE.EVENT_DATE}</EventDate>
+		<UserName>${COE.USERNAME}</UserName>
+		<ReceiptDate>${COE.RECEIPT_DATE}</ReceiptDate>
+		<IssueStage>${COE.ISSUE_STAGE}</IssueStage>
+		<Service>${COE.SERVICE_STATUS}</Service>
+		<BailiffId>${COE.BAILIFF_IDENTIFIER}</BailiffId>
+		<ServiceDate>${COE.SERVICE_DATE}</ServiceDate>
+		<ErrorInd>${COE.ERROR_INDICATOR}</ErrorInd>
+		<OwningCourtCode></OwningCourtCode>
+		<DebtSeqNumber>${COE.ALD_DEBT_SEQ}</DebtSeqNumber>
+		
+ 		<!-- THE FOLLOWING ARE POPULATED SERVER-SIDE -->
+ 		<COEventSeq>${COE.CO_EVENT_SEQ}</COEventSeq>
+ 		<BMSTask>${COE.BMS_TASK_NUMBER}</BMSTask>
+ 		<StatsModule>${COE.STATS_MODULE}</StatsModule>
+ 		<AgeCategory>${COE.AGE_CATEGORY}</AgeCategory>
+ 		<WarrantId>${COE.WARRANT_ID}</WarrantId>
+ 		<ProcessDate>${COE.PROCESS_DATE}</ProcessDate>
+		<CreatingCourt>${COE.CREATING_COURT}</CreatingCourt>
+		<CreatingSection>${COE.CREATING_SECTION}</CreatingSection>	
+	</COEvent>
+  </Mapping>
+</DBMapDef>
+
+

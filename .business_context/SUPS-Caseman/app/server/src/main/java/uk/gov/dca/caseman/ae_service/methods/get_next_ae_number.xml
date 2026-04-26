@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: Ae
+	Method:  getNextAeNumber()
+	File:    get_next_ae_number.xml
+	Author:  Chris Vincent
+	Created: 07 Oct 2015
+	Description: 
+		Returns the next AE Number from the database function 'next_ae_number'
+-->
+<service-method>
+	<pipeline>
+		<SQLLite format-output="true"
+				 resultset-element="ds"
+				 row-element="Ae"
+				 field-name-as="element" >
+			<DataSource id="java:OracleDS"/>
+			<SQL>
+				SELECT next_ae_number AS "AeNumber" FROM DUAL
+			</SQL>
+		</SQLLite>
+	</pipeline>
+	<Security roles="viewOnly medium high wcSuper scSuper bmsSuper aeSuper dmSuper cpSuper edsAdmin ccbcMan ccbcUser ccbcSGB2"/>
+</service-method>

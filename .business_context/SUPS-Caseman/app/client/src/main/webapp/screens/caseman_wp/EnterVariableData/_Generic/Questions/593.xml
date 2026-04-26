@@ -1,0 +1,14 @@
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>593</Id>
+	<Label>Was Defendant represented at the hearing</Label>
+	<ObjectName>WasDefRep</ObjectName>
+	<Html>	
+		<input type="checkbox" id="WasDefRep"></input>
+	</Html>			
+	<Javascript>
+		<XPath>/ds/EnterVariableData/Settlement/wasDefRep</XPath>
+		<componentName>##label##</componentName>
+		<modelValue>checked: "Y", unchecked: "N"</modelValue>
+		<HintText>Check box if the Defendant was represented at the hearing</HintText>			
+	</Javascript>
+</Question>

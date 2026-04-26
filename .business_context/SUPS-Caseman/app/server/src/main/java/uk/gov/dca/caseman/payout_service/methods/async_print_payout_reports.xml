@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: Payout
+	Method:  asyncPrintPayoutReports()
+	File:    async_print_payout_reports.xml
+	Author:  Kevin Gichohi (EDS)
+	Created: 20 April 2006
+	Description: 
+		Calls the Custom Processor that builds the XML that is eventually passed to reports service.
+-->
+
+<service-method>
+	<pipeline>
+		<AsyncCall service="Reports" method="runCompletePayoutReports">
+			<Destination name="AsyncQueue"/>
+		</AsyncCall>
+	</pipeline>
+	<Dependencies>
+		<Dependency serviceName="Reports"/>	
+	</Dependencies>
+	<Security roles="viewOnly medium high wcSuper scSuper bmsSuper aeSuper dmSuper edsAdmin cpSuper"/>
+</service-method>

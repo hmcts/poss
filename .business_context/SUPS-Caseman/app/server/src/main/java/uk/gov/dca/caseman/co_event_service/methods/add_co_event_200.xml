@@ -1,0 +1,51 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: CoEvent
+	Method:  addCoEvent200()
+	File:    add_co_event_200.xml
+	Author:  Phil Haferer (EDS)
+	Created: 01-Aug-2006
+	Description: 
+		Add a Consolidated Order Event 200.
+        Derived from add_co_event.xml.
+        In the course of fixing :-
+            CASEMAN TD 3959: MAINTAIN CO HEARING - UC008: The CO Hearing Event 200 is not updated in line 
+                             with a revised hearing date/time.
+        identified that the HRG_SEQ had been omitted from map_co_event.xml.
+        The HrgSeq was passed to the service method from InsertCoEvent200CreateHearingCustomProcessor.java,
+        but this method is used by other parts of the system that do not provide the HrgSeq, therefore it 
+        is safer to copy of the method and add the HrgSeq purely for the usage by 
+        InsertCoEvent200CreateHearingCustomProcessor.
+        
+	Change History:
+	24-Aug-2006 Phil Haferer: (TD CASEMAN 4700: CO Event 975 Process Stage not set to AUTO).
+	    Changed reference to query_def_insert_co_event_200.xml to query_def_insert_co_event_ext.xml
+-->
+<service-method>
+	<pipeline> 
+		<Java callStyle="new">
+			<Source class="uk.gov.dca.caseman.co_event_service.java.InsertCoEventBMSCustomProcessor"/>
+		</Java>
+		<Update>
+			<QueryDef location="uk/gov/dca/caseman/co_event_service/query_def_insert_co_event_row_ext.xml"/>
+			<DataSource xpath="/params/param[@name='coEvent']"/>
+			<QueryExtension pivotNode="/COEvent">
+				<CheckExists table="COE" fields="CO_EVENT_SEQ" onNotExist="add" onExist="skip"/>
+			</QueryExtension>
+		</Update>
+		<Java>
+			<Source class="uk.gov.dca.caseman.co_event_service.java.InsertCoEventUpdatesCustomProcessor"/>
+		</Java>
+		<Java>
+			<Source class="uk.gov.dca.caseman.co_event_service.java.PostInsertCoEventNavigationCustomProcessor"/>
+		</Java>
+	</pipeline>
+	<Dependencies>
+		<Dependency serviceName="SystemDate"/>		
+		<Dependency serviceName="Bms"/>						
+		<Dependency serviceName="NonWorkingDay"/>
+		<Dependency serviceName="Co"/>
+		<Dependency serviceName="UserCourt"/>	
+	</Dependencies>		
+	<Security roles="medium high wcSuper scSuper bmsSuper aeSuper dmSuper cpSuper"/>		
+</service-method>

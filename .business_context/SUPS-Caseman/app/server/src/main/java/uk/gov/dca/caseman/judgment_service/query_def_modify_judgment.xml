@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<QueryDef>
+  <DBMapDef location="uk/gov/dca/caseman/judgment_service/map_judgment.xml"/>
+    <Query pivotNode="/ds/MaintainJudgment/Judgments/Judgment" tables="J">
+	<Join/>
+    <Modify>
+		<Field name="J.JUDG_SEQ" sequenceTable="JUDG_SEQUENCE"/>
+		<Field name="J.CASE_NUMBER" xpath="../../CaseNumber"/>
+		<!--<Field name="J.JUDGMENT_COURT_CODE" xpath="../../OwningCourtCode"/> -->
+	</Modify>
+  </Query>
+  <Query pivotNode="/ds/MaintainJudgment/Parties/Party" tables="CPR">
+	<Join/>
+    <Modify/>
+  </Query>
+  <Query pivotNode="/ds/MaintainJudgment/Judgments/Judgment/ApplicationsToSetAside/Application" tables="CE">
+	<Join/>
+    <Modify>
+    	<Field name="CE.EVENT_SEQ" sequenceTable="EVENT_SEQUENCE"/>
+	</Modify>
+  </Query> 
+  <Query pivotNode="/ds/MaintainJudgment/Judgments/Judgment/ApplicationsToVary/Variation" tables="V">
+	<Join/>
+    <Modify>
+    	<Field name="V.VARY_SEQ" sequenceTable="VARY_SEQUENCE"/>
+    	<Field name="V.JUDG_SEQ" xpath="../../JudgmentId"/>
+    	<Field name="V.DETERMINATION_AMOUNT_CURRENCY" xpath="./ResultAmountCurrency"/>
+	</Modify>
+  </Query> 
+  <Query pivotNode="/ds/MaintainJudgment/Judgments/Judgment/InFavourParties/Party" tables="IP">
+	<Join/>
+    <Modify>
+    	<Field name="IP.JUDG_SEQ" xpath="../../JudgmentId"/>
+    	<Field name="IP.CASE_NUMBER" xpath="../../../../CaseNumber"/>
+	</Modify>
+  </Query> 
+  <Query pivotNode="/ds/MaintainJudgment/Judgments/Judgment/JudgmentHearing/Hearing" tables="H">
+	<Join/>
+    <Modify>
+    	<Field name="H.HRG_SEQ" sequenceTable="HRG_SEQUENCE"/>
+    	<Field name="H.CASE_NUMBER" xpath="../../../../CaseNumber"/>
+		<Field name="H.CRT_CODE" xpath="../../../../OwningCourtCode"/>
+		<Field name="H.ADDRESS_ID" xpath="Address/AddressID"/>
+	</Modify>
+  </Query> 
+</QueryDef>

@@ -1,0 +1,26 @@
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>574</Id>
+	<Label>Date until which order is in force</Label>
+	<ObjectName>InForceDate</ObjectName>
+	<Html>	
+		<script type="text/javascript">
+			WP_DatePickerRenderer.createInline("InForceDate");
+		</script>
+	</Html>			
+	<Javascript>
+		<XPath>/ds/EnterVariableData/Interlocutory/inForceDate</XPath>
+		<componentName>##label##</componentName>
+		<isMandatory>return true;</isMandatory>
+		<HintText>Enter the date in the format DD-MMM-YYYY</HintText>	
+		<validateOn>InForceDate.dataBinding</validateOn>
+		<validate>return isInFuture(Services.getValue(InForceDate.dataBinding));</validate>	
+		<enableOn>OrderToProduce.dataBinding</enableOn>
+		<isEnabled>return( 'N16' == Services.getValue(OrderToProduce.dataBinding));</isEnabled>
+		<logicOn>OrderToProduce.dataBinding</logicOn>
+		<logic>
+			if( 'N16' != Services.getValue(OrderToProduce.dataBinding))
+			{	Services.setValue(InForceDate.dataBinding, "");
+			}
+		</logic>	
+	</Javascript>
+</Question>

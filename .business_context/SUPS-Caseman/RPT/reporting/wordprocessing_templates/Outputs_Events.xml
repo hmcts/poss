@@ -1,0 +1,645 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Change History
+	27/11/2012 - Chris Vincent: Added bulk print attribute to certain events. Trac 4761
+	11/01/2013 - Chris Vincent: Removed bulk printing attributes for the RFS release.
+	28/01/2013 - Chris Vincent, added event 196 configurations (Trac 4763), new 
+				 transfer reason INTERLOC JUDGMT event 340/350 configurations (Trac 4765)
+				 and event 396 + 397 configurations (Trac 4762) for RFS 3719.
+	17/04/2013 - Chris Vincent, re-introduced the bulk printing attributes ready for bulk printing release.  Trac 4761.
+-->
+<Events>
+	<Event id="1" code="1" bulkprint="true">
+		<Output id="CJR002"/>
+		<CaseTypes>
+			<CaseType>QB CLAIM - SPEC ONLY</CaseType>
+			<CaseType>CH CLAIM - SPEC ONLY</CaseType>
+			<CaseType>CLAIM - SPEC ONLY</CaseType>
+			<CaseType>BULK CLAIM</CaseType>
+			<CaseType>TCC - SPEC ONLY</CaseType>
+			<CaseType>MERC - SPEC ONLY</CaseType>
+			<CaseType>CLAIM - TCC SPEC ONLY</CaseType>
+		</CaseTypes>
+	</Event>
+	<Event id="1" code="2" bulkprint="true">
+		<Output id="CJR003"/>
+		<CaseTypes>
+			<CaseType>QB PERSONAL INJURY</CaseType>
+			<CaseType>QB CLAIM-UNSPEC ONLY</CaseType>
+			<CaseType>CH CLAIM-UNSPEC ONLY</CaseType>
+			<CaseType>CLAIM - UNSPEC ONLY</CaseType>
+			<CaseType>PERSONAL INJURY</CaseType>
+			<CaseType>HRA CLAIM</CaseType>
+			<CaseType>QB HRA CLAIM</CaseType>
+			<CaseType>CH HRA CLAIM</CaseType>
+			<CaseType>TCC - UNSPEC</CaseType>
+			<CaseType>MERC - UNSPEC</CaseType>
+			<CaseType>CLAIM - TCC UNSPEC</CaseType>
+		</CaseTypes>
+	</Event>
+	<Event id="1" code="3">
+		<Output id="CJR179"/>
+		<CaseTypes>
+			<CaseType>QB CLAIM-MULT/OTHER</CaseType>
+			<CaseType>CH CLAIM-MULT/OTHER</CaseType>
+			<CaseType>CLAIM - MULT/OTHER</CaseType>
+			<CaseType>ORIG TRIB</CaseType>
+			<CaseType>CH ORIG APPLN</CaseType>
+			<CaseType>CH ORIG L&amp;T 24</CaseType>
+			<CaseType>CH ORIG L\\&amp;T 24</CaseType>
+			<CaseType>CH ORIG L T 24</CaseType>
+			<CaseType>CH ORIG L&amp;T 38</CaseType>
+			<CaseType>CH ORIG L\\&amp;T 38</CaseType>
+			<CaseType>CH ORIG L T 38</CaseType>
+			<CaseType>INJUNCTION</CaseType>
+			<CaseType>ORIG APPLN</CaseType>
+			<CaseType>ORIG L&amp;T 24</CaseType>
+			<CaseType>ORIG L\\&amp;T 24</CaseType>
+			<CaseType>ORIG L T 24</CaseType>
+			<CaseType>ORIG L&amp;T 38</CaseType>
+			<CaseType>ORIG L T 38</CaseType>
+			<CaseType>QB ORIG APPLN</CaseType>
+			<CaseType>QB ORIG L&amp;T 24</CaseType>
+			<CaseType>QB ORIG L\\&amp;T 24</CaseType>
+			<CaseType>QB ORIG L T 24</CaseType>
+			<CaseType>QB ORIG L&amp;T 38</CaseType>
+			<CaseType>QB ORIG L\\&amp;T 38</CaseType>
+			<CaseType>QB ORIG L T 38</CaseType>
+			<CaseType>ROG (HP)</CaseType>
+			<CaseType>ROG(DETINUE)</CaseType>
+			<CaseType>TCC - MULTI/OTHER</CaseType>
+			<CaseType>TCC - ARBITRATION</CaseType>
+			<CaseType>TCC - PRE ACTION</CaseType>
+			<CaseType>TCC - ADJUDICATION</CaseType>
+			<CaseType>MERC - MULTI/OTHER</CaseType>
+			<CaseType>MERC - ARBITRATION</CaseType>
+			<CaseType>MERC - PRE ACTION</CaseType>
+			<CaseType>CLAIM - TCC MULTI/OTHER</CaseType>
+			<CaseType>CLAIM - TCC ARBITRATION</CaseType>
+			<CaseType>CLAIM - TCC PRE ACTION</CaseType>
+			<CaseType>CLAIM - TCC ADJUDICATION</CaseType>
+		</CaseTypes>
+	</Event>
+	<Event id="1" code="9">
+		<Output id="CJR183"/>
+		<CaseTypes>
+			<CaseType>CH CLAIM PROBATE</CaseType>
+		</CaseTypes>
+	</Event>
+	<Event id="1" code="4">
+		<Output id="CJR185"/>
+			<CaseTypes>
+			<CaseType>QB PART 8 CLAIM</CaseType>
+			<CaseType>CH PART 8 CLAIM</CaseType>
+			<CaseType>PART 8 CLAIM</CaseType>
+		</CaseTypes>
+	</Event>
+	<Event id="1" code="5"><!-- with hearing QB CLAIM-MULT/OTHER","CH CLAIM-MULT/OTHER","CLAIM - MULT/OTHER","ORIG TRIB", "CH ORIG APPLN", "CH ORIG L&T 24", "CH ORIG L\\&T 24", "CH ORIG L T 24", "CH ORIG L&T 38", "CH ORIG L\\&T 38", "CH ORIG L T 38", "INJUNCTION", "ORIG APPLN", "ORIG L&T 24", "ORIG L\\&T 24", "ORIG L T 24", "ORIG L&T 38", "ORIG L T 38", "QB ORIG APPLN", "QB ORIG L&T 24", "QB ORIG L\\&T 24", "QB ORIG L T 24", "QB ORIG L&T 38", "QB ORIG L\\&T 38", "QB ORIG L T 38", "ROG (HP)", "ROG(DETINUE) -->
+		<Output id="CJR187"/>
+			<CaseTypes>
+			<CaseType>QB CLAIM-MULT/OTHER</CaseType>
+			<CaseType>CH CLAIM-MULT/OTHER</CaseType>
+			<CaseType>CLAIM - MULT/OTHER</CaseType>
+			<!--  TD TMP 335>CaseType>ORIG TRIB</CaseType-->
+			<CaseType>CH ORIG APPLN</CaseType>
+			<CaseType>CH ORIG L&amp;T 24</CaseType>
+			<CaseType>CH ORIG L\\&amp;T 24</CaseType>
+			<CaseType>CH ORIG L T 24</CaseType>
+			<CaseType>CH ORIG L&amp;T 38</CaseType>
+			<CaseType>CH ORIG L\\&amp;T 38</CaseType>
+			<CaseType>CH ORIG L T 38</CaseType>
+			<CaseType>INJUNCTION</CaseType>
+			<CaseType>ORIG APPLN</CaseType>
+			<CaseType>ORIG L&amp;T 24</CaseType>
+			<CaseType>ORIG L\\&amp;T 24</CaseType>
+			<CaseType>ORIG L T 24</CaseType>
+			<CaseType>ORIG L&amp;T 38</CaseType>
+			<CaseType>ORIG L T 38</CaseType>
+			<CaseType>QB ORIG APPLN</CaseType>
+			<CaseType>QB ORIG L&amp;T 24</CaseType>
+			<CaseType>QB ORIG L\\&amp;T 24</CaseType>
+			<CaseType>QB ORIG L T 24</CaseType>
+			<CaseType>QB ORIG L&amp;T 38</CaseType>
+			<CaseType>QB ORIG L\\&amp;T 38</CaseType>
+			<CaseType>QB ORIG L T 38</CaseType>
+			<CaseType>ROG (HP)</CaseType>
+			<CaseType>ROG(DETINUE)</CaseType>
+		</CaseTypes>
+	</Event>
+	<Event id="1" code="6">
+		<Output id="CJR188"/>
+			<CaseTypes>
+			<CaseType>ACC POSSN</CaseType>
+			<CaseType>QB ACC POSSN</CaseType>
+			<CaseType>CH ACC POSSN</CaseType>
+		</CaseTypes>
+	</Event>
+	<Event id="1" code="8">
+		<Output id="CJR189"/>
+			<CaseTypes>
+			<CaseType>MORT POSSN</CaseType>
+			<CaseType>RENT POSSN SOC LLORD</CaseType>
+			<CaseType>RENT POSSN PRIVATE</CaseType>
+			<CaseType>L/A MORT POSSN</CaseType>
+			<CaseType>PART 55 I</CaseType>
+			<CaseType>PART 55 III</CaseType>
+			<CaseType>FORFEITURE - TENANT</CaseType>
+			<CaseType>QB L/A MORT POSSN</CaseType>
+			<CaseType>QB MORT POSSN</CaseType>
+			<CaseType>QB RENT PSN SOC LLRD</CaseType>
+			<CaseType>QB RENT PSN PRIVATE</CaseType>
+			<CaseType>CH L/A MORT POSSN</CaseType>
+			<CaseType>CH MORT POSSN</CaseType>
+			<CaseType>CH RENT PSN SOC LLRD</CaseType>
+			<CaseType>CH RENT PSN PRIVATE</CaseType>
+		</CaseTypes>
+	</Event>
+	<Event id="1" code="10">
+		<Output id="CJR190"/>
+			<CaseTypes>
+			<CaseType>DEMOTION CLAIM</CaseType>
+		</CaseTypes>
+	</Event>
+	<Event id="1" code="1">
+		<Output id="L_14_8"/>
+			<CaseTypes>
+				<CaseType>APP TO SET STAT DEMD</CaseType>
+			</CaseTypes>
+	</Event>
+	<Event id="10" code="1" ccbc="suppress"><Output id="CJR010"/></Event>
+	<Event id="12" code="1" ccbc="suppress"><Output id="CJR010"/></Event>
+	<Event id="13" code="1"><Output id="CJR065"/></Event>
+	<Event id="17" code="1"><Output id="CJR175"/></Event>
+	<Event id="38" code="1" ccbc="suppress" bulkprint="true"><Output id="CJR011"/></Event>
+	<Event id="42" code="1"><Output id="CJR014"/></Event>
+	<Event id="43" code="1"><Output id="CJR1424"/></Event>
+	<Event id="44" code="1"><Output id="CJR014"/></Event>
+	<Event id="49" code="1"><Output id="CJR012"/></Event>
+	<Event id="51" code="1"><Output id="CJR016"/></Event>
+	<Event id="60" code="1" ccbc="suppress"><Output id="CJR013"/></Event>
+	<Event id="63" code="1"><Output id="CJR022"/></Event>
+	<Event id="103" code="1" bulkprint="true"><Output id="CJR069"/></Event>
+	<Event id="104" code="1" bulkprint="true"><Output id="CJR070"/></Event>
+	<Event id="150" code="1" ccbc="suppress"><Output id="N35"/></Event>
+	<Event id="155" code="1"><Output id="N35A"/></Event>
+	<Event id="181" code="1"><Output id="CJR065B"/></Event>
+	<Event id="0-FinalReturn-DO" code="1"><Output id="CJR065_DO"/></Event>
+	<Event id="205" code="1"><Output id="CJR027"/></Event>
+	<Event id="212" code="1"><Output id="CJR023B"/></Event>
+	<Event id="216" code="1"><Output id="CJR023D"/></Event>
+	<Event id="222" code="1"><Output id="CJR176"/></Event>
+	<Event id="230" code="1" ccbc="suppress" bulkprint="true"><Output id="CJR040"/></Event>
+	<Event id="240" code="1" ccbc="suppress" bulkprint="true"><Output id="CJR041"/></Event>
+	<Event id="250" code="1" ccbc="suppress" bulkprint="true"><Output id="CJR042"/></Event>
+	<Event id="251" code="1" bulkprint="true"><Output id="CJR065A"/></Event>
+	<Event id="252" code="1"><Output id="CJR046"/></Event>
+	<Event id="253" code="1"><Output id="CJR043"/></Event>
+	<Event id="254" code="1"><Output id="CJR049"/></Event>
+	<Event id="256" code="1"><Output id="CJR065C"/></Event>
+	<Event id="310" code="1"><Output id="N32_2"/></Event>
+	<Event id="320" code="1"><Output id="N32_5"/></Event>
+	<Event id="300" code="1"><Output id="N32"/></Event>
+	<Event id="322" code="1"><Output id="N33"/></Event>
+	<Event id="332" code="1"><Output id="CJR065C"/></Event>
+	<Event id="333" code="1" bulkprint="true"><Output id="CJR065C"/></Event>
+	<Event id="600" code="1"><Output id="N441A"/></Event>
+	<!-- Added only for double clicking on CaseEvent screen. Event 620 is created as a result of creating Warrant return 159/160-->
+	<Event id="620" code="1" ccbc="suppress"><Output id="O_1_3_4"/></Event> 
+	
+	<Event id="756" code="1"><Output id="CJR071"/></Event>
+	<Event id="762" code="1"><Output id="CJR065"/></Event>
+	<!-- Release 3-->
+	<Event id="18" code="1"><Output id="CJR009"/></Event>
+	<Event id="208" code="1"><Output id="CJR028"/></Event>
+	<Event id="95" code="1"><Output id="CJR030"/></Event>
+	<Event id="53" code="1"><Output id="CJR031"/></Event>
+	
+	<Event id="196" code="1">
+		<Output id="CJR032A"/>
+		<Tracks>
+			<Track>SMALL</Track>
+		</Tracks>
+	</Event>
+	<Event id="196" code="2">
+		<Output id="CJR032B"/>
+		<Tracks>
+			<Track>FAST</Track>
+		</Tracks>
+	</Event>
+	<Event id="196" code="3">
+		<Output id="CJR032C"/>
+		<Tracks>
+			<Track>MULTI</Track>
+		</Tracks>
+	</Event>
+
+	<Event id="340" code="1">
+		<Output id="CJR018A"/>
+		<TransferReasons>
+			<TransferReason>DEFENCE FILED</TransferReason>
+		</TransferReasons>
+	</Event>
+	<Event id="350" code="1">
+		<Output id="CJR018A"/>
+		<TransferReasons>
+			<TransferReason>DEFENCE FILED</TransferReason>
+		</TransferReasons>
+	</Event>
+	<Event id="340" code="2">
+		<Output id="CJR018B"/>
+		<TransferReasons>
+			<TransferReason>ADMISSION</TransferReason>
+			<TransferReason>APP FOR RECON</TransferReason>
+			<TransferReason>PLTF APP TO INCREASE</TransferReason>
+		</TransferReasons>
+	</Event>
+	<Event id="350" code="2">
+		<Output id="CJR018B"/>
+		<TransferReasons>
+			<TransferReason>ADMISSION</TransferReason>
+			<TransferReason>APP FOR RECON</TransferReason>
+			<TransferReason>PLTF APP TO INCREASE</TransferReason>
+		</TransferReasons>
+	</Event>
+	<Event id="340" code="3">
+		<Output id="CJR018C"/>
+		<TransferReasons>
+			<TransferReason>SPECIALIST LIST</TransferReason>
+		</TransferReasons>
+	</Event>
+	<Event id="350" code="3">
+		<Output id="CJR018C"/>
+		<TransferReasons>
+			<TransferReason>SPECIALIST LIST</TransferReason>
+		</TransferReasons>
+	</Event>
+	<Event id="340" code="4">
+		<Output id="CJR018D"/>
+		<TransferReasons>
+			<TransferReason>FIXING FOR TRIAL</TransferReason>
+		</TransferReasons>
+	</Event>
+	<Event id="350" code="4">
+		<Output id="CJR018D"/>
+		<TransferReasons>
+			<TransferReason>FIXING FOR TRIAL</TransferReason>
+		</TransferReasons>
+	</Event>
+	<Event id="340" code="5" bulkprint="true">
+		<Output id="CJR018E"/>
+		<TransferReasons>
+			<TransferReason>HIGH CT ENFCMENT</TransferReason>
+		</TransferReasons>
+	</Event>
+	<Event id="350" code="5" bulkprint="true">
+		<Output id="CJR018E"/>
+		<TransferReasons>
+			<TransferReason>HIGH CT ENFCMENT</TransferReason>
+		</TransferReasons>
+	</Event>
+	<Event id="340" code="6">
+		<Output id="CJR018F"/>
+		<TransferReasons>
+			<TransferReason>ALLOCATION</TransferReason>
+		</TransferReasons>
+	</Event>
+	<Event id="350" code="6">
+		<Output id="CJR018F"/>
+		<TransferReasons>
+			<TransferReason>ALLOCATION</TransferReason>
+		</TransferReasons>
+	</Event>
+	<Event id="340" code="7">
+		<Output id="CJR018G"/>
+		<TransferReasons>
+			<TransferReason>DISTRICT JUDG ORDER</TransferReason>
+			<TransferReason>FOR DIRECTIONS</TransferReason>
+		</TransferReasons>
+	</Event>
+	<Event id="350" code="7">
+		<Output id="CJR018G"/>
+		<TransferReasons>
+			<TransferReason>DISTRICT JUDG ORDER</TransferReason>
+			<TransferReason>FOR DIRECTIONS</TransferReason>
+		</TransferReasons>
+	</Event>
+	<Event id="340" code="8">
+		<Output id="CJR018H"/>
+		<TransferReasons>
+			<TransferReason>DIRCTNS AFTER ALLOC</TransferReason>
+		</TransferReasons>
+	</Event>
+	<Event id="350" code="8">
+		<Output id="CJR018H"/>
+		<TransferReasons>
+			<TransferReason>DIRCTNS AFTER ALLOC</TransferReason>
+		</TransferReasons>
+	</Event>
+	<Event id="340" code="9">
+		<Output id="CJR018I"/>
+		<TransferReasons>
+			<TransferReason>APP TO SET ASIDE</TransferReason>
+			<TransferReason>REDETERMINATION</TransferReason>
+		</TransferReasons>
+	</Event>
+	<Event id="350" code="9">
+		<Output id="CJR018I"/>
+		<TransferReasons>
+			<TransferReason>APP TO SET ASIDE</TransferReason>
+			<TransferReason>REDETERMINATION</TransferReason>
+		</TransferReasons>
+	</Event>
+	<Event id="340" code="10" bulkprint="true">
+		<Output id="CJR018J"/>
+		<TransferReasons>
+			<TransferReason>ATTACH EARNINGS</TransferReason>
+			<TransferReason>CHARGING ORDER</TransferReason>
+			<TransferReason>JUDGMT SUMMONS</TransferReason>
+			<TransferReason>ORD FOR QUESTIONING</TransferReason>
+			<TransferReason>THIRD PARTY DEBT ORD</TransferReason>
+			<TransferReason>CCBC SOL NOT ACTING</TransferReason>
+		</TransferReasons>
+	</Event>
+	<Event id="350" code="10" bulkprint="true">
+		<Output id="CJR018J"/>
+		<TransferReasons>
+			<TransferReason>ATTACH EARNINGS</TransferReason>
+			<TransferReason>CHARGING ORDER</TransferReason>
+			<TransferReason>JUDGMT SUMMONS</TransferReason>
+			<TransferReason>ORD FOR QUESTIONING</TransferReason>
+			<TransferReason>THIRD PARTY DEBT ORD</TransferReason>
+			<TransferReason>CCBC SOL NOT ACTING</TransferReason>
+		</TransferReasons>
+	</Event>
+	<Event id="340" code="11">
+		<Output id="CJR018K"/>
+		<TransferReasons>
+			<TransferReason>PLTF REFUSES AMOUNT</TransferReason>
+		</TransferReasons>
+	</Event>
+	<Event id="340" code="12">
+		<Output id="CJR018L"/>
+		<TransferReasons>
+			<TransferReason>APP TO LIFT STAY</TransferReason>
+		</TransferReasons>
+	</Event>
+	<Event id="350" code="11">
+		<Output id="CJR018K"/>
+		<TransferReasons>
+			<TransferReason>PLTF REFUSES AMOUNT</TransferReason>
+		</TransferReasons>
+	</Event>
+	<Event id="350" code="12">
+		<Output id="CJR018L"/>
+		<TransferReasons>
+			<TransferReason>APP TO LIFT STAY</TransferReason>
+		</TransferReasons>
+	</Event>
+	<Event id="340" code="13">
+		<Output id="CJR018M"/>
+		<TransferReasons>
+			<TransferReason>INTERLOC JUDGMT</TransferReason>
+		</TransferReasons>
+	</Event>
+	<Event id="350" code="13">
+		<Output id="CJR018M"/>
+		<TransferReasons>
+			<TransferReason>INTERLOC JUDGMT</TransferReason>
+		</TransferReasons>
+	</Event>
+	<Event id="218" code="1"><Output id="CJR020"/></Event>
+	<Event id="228" code="1"><Output id="CJR019"/></Event>
+	<Event id="220" code="1"><Output id="CJR021"/></Event>
+	<Event id="210" code="1"><Output id="CJR023A"/></Event>
+	<Event id="389" code="1"><Output id="CJR036"/></Event>
+	<Event id="394" code="1"><Output id="CJR037"/></Event>
+	<Event id="392" code="1"><Output id="CJR038"/></Event>
+	<Event id="391" code="1"><Output id="CJR039"/></Event>
+	<Event id="395" code="1"><Output id="CJR034"/></Event>
+	<Event id="396" code="1"><Output id="CJR035"/></Event>
+	<Event id="202" code="1"><Output id="CJR024"/></Event>
+	<Event id="260" code="1" bulkprint="true"><Output id="CJR050"/></Event>
+	<Event id="262" code="1" bulkprint="true"><Output id="CJR051"/></Event>
+	<Event id="295" code="1"><Output id="CJR052"/></Event>
+	<Event id="270" code="1"><Output id="CJR053"/></Event>
+	<Event id="272" code="1"><Output id="CJR055"/></Event>
+	<Event id="290" code="1"><Output id="CJR054"/></Event>
+	<Event id="69" code="1"><Output id="CJR060"/></Event>	
+	<Event id="328" code="1"><Output id="CJR061"/></Event>
+	<Event id="227" code="1"><Output id="CJR072"/></Event>	
+	<Event id="214" code="1"><Output id="CJR023C"/></Event>	
+	<Event id="15" code="1" ><Output id="CJR073"/></Event>	
+	<Event id="450" code="1"><Output id="CJR080"/></Event>
+	<Event id="31" code="1"><Output id="CJR080"/></Event>
+	<Event id="484" code="1"><Output id="CJR081"/></Event>
+	<Event id="485" code="1"><Output id="CJR082"/></Event>
+	<Event id="451" code="1"><Output id="CJR083"/></Event>
+	<Event id="32" code="1"><Output id="CJR083"/></Event>
+	<Event id="475" code="1"><Output id="CJR090"/></Event>
+	<Event id="471" code="1"><Output id="CJR091"/></Event>
+	<Event id="472" code="1"><Output id="CJR092"/></Event>
+	<Event id="294" code="1"><Output id="CJR100"/></Event>
+	<Event id="442" code="1" bulkprint="true"><Output id="CJR094"/></Event>
+	<Event id="440" code="1"><Output id="CJR093"/></Event>
+	<Event id="293" code="1"><Output id="CJR101"/></Event>
+	<Event id="490" code="1"><Output id="CJR102"/></Event>
+	<Event id="296" code="1"><Output id="CJR103"/></Event>
+	<Event id="297" code="1"><Output id="CJR104"/></Event>
+	<Event id="98" code="1"><Output id="CJR170"/></Event>
+	<Event id="766" code="1"><Output id="CJR177"/></Event>
+	<Event id="768" code="1"><Output id="CJR178"/></Event>
+	<Event id="770" code="1"><Output id="CJR184"/></Event>
+	<Event id="84" code="1"><Output id="CJR186"/></Event>
+	<Event id="85" code="1"><Output id="CJR186"/></Event>
+	<Event id="86" code="1"><Output id="CJR186"/></Event>
+	<Event id="87" code="1"><Output id="CJR186A"/></Event>
+	<Event id="221" code="1"><Output id="CJR199"/></Event>
+	<Event id="708" code="1"><Output id="CJR202"/></Event>
+	<Event id="315" code="1"><Output id="CJR351"/></Event>
+	<Event id="318" code="1"><Output id="CJR352"/></Event>
+	<Event id="191" code="1"><Output id="CJR105"/></Event>
+	<Event id="971" code="1"><Output id="CO02"/></Event>	
+	<Event id="332" code="2"><Output id="CO03"/></Event>
+	<!--Event id="856" code="3"><Output id="CO05"/></Event-->
+	<Event id="856" code="1"><Output id="CO05"/></Event>
+	<!--Event id="864" code="5"><Output id="CO09"/></Event-->
+	<Event id="864" code="1"><Output id="CO09"/></Event>
+	<!--Event id="873" code="5"><Output id="CO10"/></Event-->
+	<Event id="873" code="1"><Output id="CO10"/></Event>
+	<Event id="941" code="1"><Output id="CO13"/></Event>
+	<Event id="940" code="1"><Output id="CO14"/></Event>
+	<Event id="944" code="1"><Output id="CO15"/></Event>
+	<Event id="955" code="1"><Output id="CO16"/></Event>
+	<Event id="956" code="1"><Output id="CO17"/></Event>
+	<Event id="943" code="1"><Output id="CO18"/></Event>
+	<Event id="958" code="1"><Output id="CO19"/></Event>
+	<Event id="946" code="1"><Output id="CO20"/></Event>
+	<Event id="942" code="1"><Output id="CO21"/></Event>
+	<Event id="954" code="1"><Output id="CO22"/></Event>
+	<Event id="951" code="1"><Output id="CO23"/></Event>
+	<Event id="865" code="1"><Output id="CO24"/></Event>
+	<Event id="877" code="1"><Output id="CO24"/></Event>
+	<Event id="920" code="1"><Output id="CO25"/></Event>
+	<Event id="928" code="1"><Output id="CO26"/></Event>
+	<Event id="926" code="1"><Output id="CO27"/></Event>
+	<Event id="927" code="1"><Output id="CO27"/></Event>
+	<Event id="929" code="1"><Output id="CO28"/></Event>
+	<Event id="924" code="1"><Output id="CO29"/></Event>
+	<Event id="937" code="1"><Output id="CO30"/></Event>
+	<Event id="938" code="1"><Output id="CO31"/></Event>
+	<Event id="921" code="1"><Output id="CO32"/></Event>
+	<Event id="916" code="1"><Output id="CO33"/></Event>
+	<Event id="923" code="1"><Output id="CO34"/></Event>
+	<Event id="917" code="1"><Output id="CO35"/></Event>
+	<!--Event id="855" code="6"><Output id="CO36"/></Event-->
+	<Event id="855" code="1"><Output id="CO36"/></Event>
+	<!--Event id="860" code="6"><Output id="CO37"/></Event-->
+	<Event id="860" code="1"><Output id="CO37"/></Event>
+	<!--Event id="896" code="2"><Output id="CO41"/></Event-->
+	<Event id="896" code="1"><Output id="CO41"/></Event>
+	<Event id="931" code="1"><Output id="CO43"/></Event>
+	<Event id="930" code="1"><Output id="CO44"/></Event>
+	<Event id="947" code="1"><Output id="CO52"/></Event>
+	<Event id="965" code="1"><Output id="COLET"/></Event>
+	<Event id="430" code="1"><Output id="FE45"/></Event>
+
+	<!-- r5/6 -->
+	<!--Event id="332" code="2"><Output id="C030"/></Event-->
+    <!-- Release 7 Screens -->
+	   		<Event id="0-FinalReturn-159" code="1"><Output id="O_1_3_4"/></Event>
+    		<Event id="0-FinalReturn-160" code="1"><Output id="O_1_3_4"/></Event>
+  			<Event id="0-FinalReturn-AI" code="1"><Output id="EX96"/></Event>
+			<Event id="0-FinalReturn-NE" code="1"><Output id="N54"/></Event>
+			
+    		<Event id="491" code="1"><Output id="O_2_6"/></Event>
+
+		
+    
+    		<!-- output chained to event 170 -->
+            <!-- //Aggregation of O_3_1,O_3_2,O_5_1 // -->
+			<!-- take out ccbc="suppress" for uct grp 2 1550 -->
+    		<Event id="170" code="1"><Output id="O_3_1_2_5_1"/></Event>
+            
+    		<Event id="233" code="1"><Output id="O_5_5"/></Event>
+    		<Event id="323" code="1" bulkprint="true"><Output id="O_5_6"/></Event>
+    
+    		<Event id="305" code="1"><Output id="O_7_8"/></Event>
+    		<Event id="140" code="1" ccbc="suppress">
+    			<Output id="O_7_12_5"/>
+    				<ApplicantParty>PARTY AGAINST</ApplicantParty>
+    		</Event>
+    		<Event id="48" code="1" ccbc="suppress"><Output id="O_7_12_6"/></Event>
+    		
+    		<Event id="351" code="1"><Output id="O_8_5"/></Event>
+    		<Event id="331" code="1"><Output id="O_8_12"/></Event>
+    		<Event id="707" code="1"><Output id="O_9_1"/></Event>
+    		<Event id="715" code="1"><Output id="O_9_2"/></Event>
+        	<Event id="650" code="1"><Output id="O_10_1"/></Event>
+            <Event id="651" code="1"><Output id="O_10_2"/></Event>
+            <Event id="652" code="1"><Output id="O_10_3"/></Event>
+            <Event id="653" code="1"><Output id="O_10_4"/></Event>
+            <Event id="654" code="1"><Output id="O_10_5"/></Event>
+            <Event id="655" code="1"><Output id="O_10_6"/></Event>
+            <Event id="656" code="1"><Output id="O_10_7"/></Event>
+            <Event id="657" code="1"><Output id="O_10_8"/></Event>
+            <Event id="658" code="1"><Output id="O_10_9"/></Event>
+            <Event id="659" code="1"><Output id="O_10_10"/></Event>
+            <Event id="660" code="1"><Output id="O_10_11"/></Event>
+            <Event id="661" code="1"><Output id="O_10_12"/></Event>            
+           	<Event id="662" code="1"><Output id="O_10_13"/></Event>
+            <Event id="663" code="1"><Output id="O_10_14"/></Event>
+            <Event id="664" code="1"><Output id="O_10_15"/></Event>
+            <Event id="665" code="1"><Output id="O_10_16"/></Event>
+            <Event id="667" code="1"><Output id="O_10_17"/></Event>
+            <Event id="668" code="1"><Output id="O_10_18"/></Event>
+            <Event id="669" code="1"><Output id="O_10_19"/></Event>
+            <Event id="670" code="1"><Output id="O_10_20"/></Event>
+            <Event id="185" code="1"><Output id="CJR065"/></Event>
+
+            <Event id="690" code="1"><Output id="O_11_1_2_3_4"/></Event>
+            <Event id="691" code="1"><Output id="O_11_1_2_3_4"/></Event>
+            <Event id="692" code="1"><Output id="O_11_1_2_3_4"/></Event>
+            <Event id="693" code="1"><Output id="O_11_1_2_3_4"/></Event>
+            
+            <!-- AE Event 100 -->
+            <!--
+            Determined in CaseManCreateRequest.js
+            <Event id="100" code="1"><Output id="L_BLANK"/></Event>
+            <Event id="105" code="1"><Output id="L_BLANK"/></Event>
+			-->
+            <!-- CO Event 100 -->
+            <Event id="966" code="1"><Output id="L_BLANK_CO"/></Event>
+            <Event id="967" code="1"><Output id="L_BLANK_CO"/></Event>
+
+			<Event id="546" code="1"><Output id="L_BLANK_MED"/></Event>
+			<Event id="547" code="1"><Output id="L_BLANK_MED"/></Event>
+
+            <!-- merged L_10_<x> -->
+            <Event id="114" code="1"><Output id="L_10_1_2_15_16"/></Event>
+            
+            
+            <Event id="20" code="1"><Output id="L_1_2"/></Event>
+            <Event id="30" code="1"><Output id="L_1_2"/></Event>
+            <Event id="772" code="1"><Output id="L_1_3"/></Event>
+            <Event id="91" code="1"><Output id="L_1_6"/></Event>
+            <Event id="505" code="1"><Output id="L_3_9"/></Event>
+          
+          	<!-- CO Events for 174 and 175 -->
+            <Event id="177" code="1"><Output id="L_4_1"/></Event>
+            <Event id="179" code="1"><Output id="L_4_1"/></Event>
+            
+            <Event id="182" code="1" condition="userPromptOK"><Output id="L_4_4"/></Event>
+            <Event id="192" code="1" condition="userPromptOK"><Output id="L_4_4"/></Event>
+            <Event id="760" code="1"><Output id="L_4_11"/></Event>
+            <Event id="117" code="1"><Output id="L_5_1"/></Event>
+            
+            <!-- Merged L_6_<x> -->
+            <Event id="106" code="1"><Output id="L_6_1_2_3_4_7"/></Event>                     
+            
+
+            <Event id="892" code="1"><Output id="L_8_6"/></Event>
+            
+            <!-- merged L_9_<x> -->
+            <Event id="109" code="1"><Output id="L_9_1_2_3_4_9_10"/></Event>			
+			
+			<Event id="0-InterimReturn-FN" code="1"><Output id="L_13_1"/></Event>
+			<Event id="0-InterimReturn-NV" code="1"><Output id="L_13_2"/></Event>
+			<Event id="0-InterimReturn-NP" bulkprint="true" code="1"><Output id="L_13_3"/></Event>
+			<Event id="0-InterimReturn-AI" code="1"><Output id="EX96"/></Event>
+			<Event id="0-InterimReturn-NE" code="1"><Output id="N54"/></Event>
+			<Event id="0-InterimReturn-AX" code="1"><Output id="L_BLANK_AX"/></Event>
+			<Event id="0-InterimReturn-AY" code="1"><Output id="L_BLANK_AY"/></Event>
+			<Event id="0-InterimReturn-AE" code="1"><Output id="N246A"/></Event>
+			
+			<Event id="23" code="1"><Output id="L_13_12"/></Event> 
+            
+            <Event id="115" code="1"><Output id="L_14_1"/></Event>
+           <!--  <Event id="117" code="1"><Output id="L_14_2"/></Event> -->
+            <!--Event id="662" code="1"><Output id="L_14_8"/></Event-->
+            
+            <!-- an event with no output -->
+            <Event id="968" code="1"><Output id="X01"/></Event>
+            
+            <Event id="111" code="1"><Output id="L_BLANK_CO"/></Event>
+            
+    		<!-- Issue Task Begin  -->
+    		
+            <Event id="57" code="1"><Output id="CJR065"/></Event>
+            <Event id="59" code="1"><Output id="CJR065"/></Event>
+            <Event id="72" code="1" ccbc="suppress"><Output id="CJR065"/></Event>
+            <Event id="96" code="1"><Output id="CJR065"/></Event>
+            <Event id="145" code="1"><Output id="CJR065"/></Event>
+            <Event id="187" code="1"><Output id="CJR065"/></Event>
+            <Event id="188" code="1"><Output id="CJR065"/></Event>
+            <Event id="189" code="1"><Output id="CJR065"/></Event>
+            <Event id="259" code="1"><Output id="CJR065"/></Event>
+            <Event id="441" code="1"><Output id="CJR065"/></Event>
+            <Event id="444" code="1"><Output id="CJR065"/></Event>
+			<Event id="445" code="1"><Output id="CJR065"/></Event>
+            <Event id="473" code="1"><Output id="CJR065"/></Event>
+            <Event id="749" code="1"><Output id="CJR065"/></Event>   
+            <Event id="750" code="1" ccbc="suppress"><Output id="CJR065"/></Event>          
+            
+    		<!-- Issue Task End  -->
+            <Event id="126" code="1"><Output id="L_BLANK_AE_CAPS"/></Event>          
+            
+</Events>

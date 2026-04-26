@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: Case
+	Map:     map_get_obsolete_case_type_alternative_list.xml
+	Author:  Phil Haferer (EDS) 
+	Created: 14 March 2005
+-->
+<DBMapDef>
+  <DataSource id="java:OracleDS"/>
+  <Tables>
+    <Table alias="C" name="CASES"/>
+    <Table alias="REF" name="CCBC_REF_CODES"/>
+    <Table alias="REFM" name="CCBC_REF_CODES"/>
+  </Tables>  
+  <Mapping>
+	<Case>
+		<CaseNumber>${C.CASE_NUMBER}</CaseNumber>
+		<CaseType>${C.CASE_TYPE}</CaseType>
+		<CaseTypeList>
+			<CaseType>
+				<Type>${REF.RV_LOW_VALUE}</Type>
+	    		<Description>${REFM.RV_MEANING}</Description>	
+			</CaseType>
+		</CaseTypeList>
+	</Case>
+</Mapping>
+</DBMapDef>

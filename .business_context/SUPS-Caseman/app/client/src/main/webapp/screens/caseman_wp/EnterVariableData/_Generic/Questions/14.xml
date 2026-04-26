@@ -1,0 +1,855 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- 
+Change History
+	29/01/2013 - Chris Vincent, added HTML label contexts for the CJR032 outputs and changed label for CJR031 (Trac 4763)
+-->
+<Question>
+	<Id>14</Id>
+	<Label>Venue</Label>
+	<ObjectName>VenueName</ObjectName>
+	<Context screenId="CJR061">
+		<isVisible>true</isVisible>
+		<Label>Next hearing venue</Label>
+	</Context>
+	<Context screenId="CJR082">
+		<isVisible>true</isVisible>
+		<Label>N40B Hearing venue</Label>
+	</Context>
+	<Context screenId="CJR083">
+		<isVisible>true</isVisible>
+		<Label>Hearing N79A venue</Label>
+	</Context>
+	<Context screenId="CJR031">
+		<isVisible>true</isVisible>
+		<Label>Questionnaire to be returned to</Label>
+	</Context>
+	<Context screenId="CJR032A">
+		<isVisible>true</isVisible>
+		<Label>Questionnaire to be returned to</Label>
+	</Context>
+	<Context screenId="CJR032B">
+		<isVisible>true</isVisible>
+		<Label>Questionnaire to be returned to</Label>
+	</Context>
+	<Context screenId="CJR032C">
+		<isVisible>true</isVisible>
+		<Label>Questionnaire to be returned to</Label>
+	</Context>
+	<Context screenId="O_10_10"><isVisible>false</isVisible></Context>
+    <Context screenId="O_10_12"><isVisible>false</isVisible></Context>
+	<Html>
+		<table>
+			<tr>
+				<td><input id="VenueCode" type="text" size="5"></input></td>
+				<td><input id="VenueName" type="text" size="40"></input></td>
+				<td><input id="VenueLOVBtn" type="button" value="Select"></input></td>
+			</tr>
+		</table>	
+		<div class="popup" id="SelectVenue_Popup">
+			<table class="content">
+				<tr><td>
+						<table>
+							<tr><td><label for="SelectVenue_VenueCode">Venue</label></td>
+								<td><input type="text" id="SelectVenue_VenueCode" size="3" maxlength="3"></input></td>
+								<td><script type="text/javascript">AutoCompletionRenderer.createInline("SelectVenue_VenueName");</script></td>
+								<td><input id="SelectVenue_VenueLOVBtn" type="button" value="LOV"></input></td>
+							</tr>
+						</table>
+					</td>
+				</tr>
+				<tr><td valign="top">
+						<table width="95%">
+							<tr><td><script type="text/javascript">
+										Grid.createInline("selectVenue_Address_Grid",["Address 1", "Address 2"], 12, 1); 
+									</script></td>
+							</tr>
+						</table>
+					</td>
+					<td><table>
+							<tr><td><label for="SelectVenue_ContactDetails_Address_Line1">Address Details</label></td>
+								<td><input type="text" id="SelectVenue_ContactDetails_Address_Line1" size="50"></input></td>
+							</tr>
+							<tr><td> </td>
+								<td><input type="text" id="SelectVenue_ContactDetails_Address_Line2" size="50"></input></td>
+							</tr>
+							<tr><td>  </td>
+								<td><input type="text" id="SelectVenue_ContactDetails_Address_Line3" size="50"></input></td>
+							</tr>
+							<tr>
+								<td> </td>
+								<td><input type="text" id="SelectVenue_ContactDetails_Address_Line4" size="50"></input></td>
+							</tr>
+							<tr><td> </td>
+								<td><input type="text" id="SelectVenue_ContactDetails_Address_Line5" size="50"></input></td>
+							</tr>
+							<tr>
+								<td><label for="SelectVenue_ContactDetails_Address_Postcode">Postcode</label></td>
+								<td><input type="text" id="SelectVenue_ContactDetails_Address_Postcode" size="15"></input></td>
+							</tr>
+							<tr><td><label for="SelectVenue_ContactDetails_Address_DXNumber">DX Number</label></td>
+								<td><input type="text" id="SelectVenue_ContactDetails_Address_DXNumber" size="30"></input></td>
+							</tr>
+							<tr><td><label for="SelectVenue_ContactDetails_Address_TelephoneNumber">Telephone Number</label></td>
+								<td><input type="text" id="SelectVenue_ContactDetails_Address_TelephoneNumber" size="30"></input></td>
+							</tr>
+							<tr><td><label for="SelectVenue_ContactDetails_Address_FaxNumber">Fax Number</label></td>
+								<td><input type="text" id="SelectVenue_ContactDetails_Address_FaxNumber" size="30"></input></td>
+							</tr>
+						</table>
+					</td>
+				</tr>
+				<tr style="height: 2px;">
+					<td colspan="2"> </td>
+				</tr>
+				<tr><td colspan="2" align="right"><input type="button" value="OK" id="SelectVenue_OKBtn"></input></td>
+					<td colspan="2" align="right"><input type="button" value="Cancel" id="SelectVenue_CancelBtn"></input></td>
+				</tr>
+			</table>
+		</div>
+		<script type="text/javascript">
+			LOVPopupRenderer.createInline( "CourtsLOVGrid", "Courts", ["Code", "Court"], 12, 1, true );
+		</script>
+	</Html>
+	<Javascript>
+  		<XPath>/ds/EnterVariableData/HearingVenue</XPath>
+		<HintText>Select the hearing venue</HintText>
+		<mandatoryOn>VenueName.dataBinding</mandatoryOn>
+		<isMandatory>return true;</isMandatory>
+		<isEnabled>return true;</isEnabled>
+		<isReadOnly>return true;</isReadOnly>
+		<initialise>if (null != WP &amp;&amp; null != WP.GetScreenProcess &amp;&amp; null != WP.GetScreenProcess()) { WPU.loadCourt(); }</initialise>					
+		<miscCode>
+
+VenueName.courtDataLoadCallBack = function() {
+	Services.setValue(VenueCode.dataBinding, WPU.getCaseOwningCourt());
+	Services.setValue(SelectVenue_VenueCode.dataBinding, WPU.getCaseOwningCourt()); }
+
+
+var NEW_HEARING_VENUE_TMP_PATH_Q14 = "/ds/var/page/Tmp/Venue";
+var NEW_HEARING_TMP_PATH = "/ds/var/page/Tmp/Hearing";
+
+function setOwningCrtDetails() {			   	
+   	var hcrtcode  =  WPU.getCaseOwningCourt();			   
+   	var addxpath = REF_DATA_XPATH + "/Courts/Court[./Code='"+hcrtcode+"']/ContactDetails/Address"; 
+   	var xpathName = REF_DATA_XPATH + "/Courts/Court[./Code='"+hcrtcode+"']/Name";   	 			   	 
+   	Services.setValue(VenueCode.dataBinding, hcrtcode);
+   	Services.setValue(SelectVenue_VenueCode.dataBinding, hcrtcode);   	 
+   	Services.setValue(VenueName.dataBinding, Services.getValue(xpathName));	   	 			   	 		   	 
+   	var addAr = Services.getNodes(addxpath);
+   	if (null != addAr &amp;&amp; addAr.length == 1) {				   	 	
+   	 	var ln1 = Services.getValue(addxpath+"/Line[1]");
+   	 	var ln2 = Services.getValue(addxpath+"/Line[2]");
+   	 	var ln3 = Services.getValue(addxpath+"/Line[3]");
+   	 	var ln4 = Services.getValue(addxpath+"/Line[4]");
+   	 	var ln5 = Services.getValue(addxpath+"/Line[5]");
+   	 	var pcode = Services.getValue(addxpath+"/PostCode");
+   	 	Services.setValue(AdLine1.dataBinding, ln1);
+	 	Services.setValue(AdLine2.dataBinding, ln2);
+	 	Services.setValue(AdLine3.dataBinding, ln3);
+	 	Services.setValue(AdLine4.dataBinding, ln4);
+	 	Services.setValue(AdLine5.dataBinding, ln5);
+	 	Services.setValue(Postcode.dataBinding, pcode); } }
+
+function VenueCode() {}
+VenueCode.tabIndex = __tabIdx++;
+VenueCode.dataBinding = "/ds/EnterVariableData/HearingVenueCode";
+VenueCode.isReadOnly = function(){ return true; }
+VenueCode.maxLength = 3;
+VenueCode.helpText = "Unique three digit court location code - list available.";
+VenueCode.mandatoryOn = [VenueCode.dataBinding];
+VenueCode.isMandatory = function(){	return VenueName.isMandatory(); }	
+VenueCode.isTemporary = function(){  return true; }
+VenueCode.logicOn = [VenueCode.dataBinding];
+VenueCode.logic = function(xpath) {    
+	var code = Services.getValue(VenueCode.dataBinding);     
+    var xpathName = REF_DATA_XPATH + "/Courts/Court[./Code = " + VenueCode.dataBinding + "]/Name";
+	var venueName = Services.getValue(xpathName);
+    Services.setValue(VenueCode.dataBinding, code);
+    Services.setValue(VenueName.dataBinding, venueName);
+	Services.setValue(SelectVenue_VenueCode.dataBinding, code);
+	Services.setValue(SelectVenue_VenueName.dataBinding, code);
+	var address = REF_DATA_XPATH + "/Courts/Court[./Code = " + VenueCode.dataBinding + "]/ContactDetails/Address";		
+	if (Services.countNodes(address) == 1) {	    
+		var xid    = Services.getValue(address + "/Id");
+	    var line1  = Services.getValue(address + "/Line[1]");
+	    var line2  = Services.getValue(address + "/Line[2]");
+	    var line3  = Services.getValue(address + "/Line[3]");
+	    var line4  = Services.getValue(address + "/Line[4]");
+	    var line5  = Services.getValue(address + "/Line[5]");
+	    var pcode  = Services.getValue(address + "/PostCode");	    
+		Services.setValue(REF_DATA_XPATH + "/Address/AddressId", xid);	
+	    Services.setValue(AdLine1.dataBinding,line1);		   
+	    Services.setValue(AdLine2.dataBinding,line2);
+	    Services.setValue(AdLine3.dataBinding,line3);
+	    Services.setValue(AdLine4.dataBinding,line4);
+	    Services.setValue(AdLine5.dataBinding,line5);
+	    Services.setValue(Postcode.dataBinding,pcode); }
+	else {   
+		Services.setValue(NEW_HEARING_TMP_PATH + "/Address/AddressId", '');	
+		Services.setValue(AdLine1.dataBinding,'');		   
+		Services.setValue(AdLine2.dataBinding,'');
+		Services.setValue(AdLine3.dataBinding,'');
+		Services.setValue(AdLine4.dataBinding,'');
+		Services.setValue(AdLine5.dataBinding,'');
+		Services.setValue(Postcode.dataBinding,'');	} }
+
+VenueName.srcData = REF_DATA_XPATH + "/Courts";
+VenueName.rowXPath = "Court";
+VenueName.keyXPath = "Code";
+VenueName.displayXPath = "Name";
+
+function VenueLOVBtn() {}
+VenueLOVBtn.tabIndex = __tabIdx++;
+VenueLOVBtn.actionBinding = function() {
+	Services.dispatchEvent("SelectVenue_Popup", PopupGUIAdaptor.EVENT_RAISE);
+	var venueCode = Services.getValue(VenueCode.dataBinding);
+	Services.setValue(SelectVenue_VenueCode.dataBinding, venueCode); }
+/** PostBuildX 15a **/
+VenueLOVBtn.additionalBindings = {
+	eventBinding: {
+		keys: [ { key: Key.F6, element: "VenueCode" }, { key: Key.F6, element: "VenueName" } ]
+	}
+};
+			
+function SelectVenue_Popup(){}
+SelectVenue_Popup.nextFocusedAdaptorId = function() { 
+	return 'SelectVenue_VenueLOVBtn';  }
+SelectVenue_Popup.lower = {
+	eventBinding: {
+		singleClicks: [ {element: "SelectVenue_CancelBtn"} ],
+		keys: [ { key: Key.F4, element: "SelectVenue_Popup" } ]
+	}
+};
+
+/*			SELECT VENUE/COURT - FIELD VALIDATION ETC */
+function SelectVenue_VenueCode() {}
+function SelectVenue_VenueName() {}
+function SelectVenue_ContactDetails_Address_Line1() {}
+function SelectVenue_ContactDetails_Address_Line2() {}
+function SelectVenue_ContactDetails_Address_Line3() {}
+function SelectVenue_ContactDetails_Address_Line4() {}
+function SelectVenue_ContactDetails_Address_Line5() {}
+function SelectVenue_ContactDetails_Address_Postcode() {}
+function SelectVenue_ContactDetails_Address_TelephoneNumber() {}
+function SelectVenue_ContactDetails_Address_DXNumber() {}
+function SelectVenue_ContactDetails_Address_FaxNumber() {}
+function selectVenue_Address_Grid() {};
+
+function CourtsLOVGrid() {};
+CourtsLOVGrid.dataBinding = "/ds/var/page/SelectedLOVRow/Q14OwningCourt";
+
+SelectVenue_VenueCode.dataBinding = NEW_HEARING_VENUE_TMP_PATH_Q14 + "/VenueCode";
+SelectVenue_VenueName.dataBinding = NEW_HEARING_VENUE_TMP_PATH_Q14 + "/VenueName";
+SelectVenue_ContactDetails_Address_Line1.dataBinding = NEW_HEARING_VENUE_TMP_PATH_Q14 + "/Address/Line[1]";
+SelectVenue_ContactDetails_Address_Line2.dataBinding = NEW_HEARING_VENUE_TMP_PATH_Q14 + "/Address/Line[2]";
+SelectVenue_ContactDetails_Address_Line3.dataBinding = NEW_HEARING_VENUE_TMP_PATH_Q14 + "/Address/Line[3]";
+SelectVenue_ContactDetails_Address_Line4.dataBinding = NEW_HEARING_VENUE_TMP_PATH_Q14 + "/Address/Line[4]";
+SelectVenue_ContactDetails_Address_Line5.dataBinding = NEW_HEARING_VENUE_TMP_PATH_Q14 + "/Address/Line[5]";
+SelectVenue_ContactDetails_Address_Postcode.dataBinding = NEW_HEARING_VENUE_TMP_PATH_Q14 + "/Address/PostCode";
+SelectVenue_ContactDetails_Address_DXNumber.dataBinding = NEW_HEARING_VENUE_TMP_PATH_Q14 + "/DXNumber";
+SelectVenue_ContactDetails_Address_TelephoneNumber.dataBinding = NEW_HEARING_VENUE_TMP_PATH_Q14 + "/TelephoneNumber";
+SelectVenue_ContactDetails_Address_FaxNumber.dataBinding = NEW_HEARING_VENUE_TMP_PATH_Q14 + "/FaxNumber";
+selectVenue_Address_Grid.dataBinding = "/ds/var/page/SelectedGridRow/SelectedAddressQ14"; // will use this below to bind fields correctly to correct bit of xml
+
+CourtsLOVGrid.srcData = REF_DATA_XPATH + "/Courts";
+CourtsLOVGrid.rowXPath = "Court";
+CourtsLOVGrid.keyXPath = "Code";
+CourtsLOVGrid.columns = [ {xpath: "Code"}, {xpath: "Name"} ];
+CourtsLOVGrid.raise = {
+	eventBinding: {
+		singleClicks: [ {element: "SelectVenue_VenueLOVBtn"} ],
+		keys: [ { key: Key.F6, element: "SelectVenue_VenueCode" }, 	{ key: Key.F6, element: "SelectVenue_VenueName" } ]	} 
+};
+
+CourtsLOVGrid.logicOn = [CourtsLOVGrid.dataBinding];
+CourtsLOVGrid.logic = function(xpath) {
+	var courtCode = Services.getValue(CourtsLOVGrid.dataBinding);
+	if (null != courtCode &amp;&amp; "" != courtCode) {	
+		var xpathName = REF_DATA_XPATH + "/Courts/Court[Code = " + courtCode + "]/Name";		
+		var courtName = Services.getValue(xpathName); }
+	Services.setValue(SelectVenue_VenueCode.dataBinding, courtCode);
+	Services.setValue(SelectVenue_VenueName.dataBinding, courtCode); }
+
+SelectVenue_VenueCode.tabIndex = __tabIdx++;
+SelectVenue_VenueCode.isReadOnly = function() {	return false; }
+SelectVenue_VenueCode.isTemporary = function() { return false; }
+SelectVenue_VenueCode.maxLength = 3;
+SelectVenue_VenueCode.helpText = "Unique three digit court location code - list available.";
+SelectVenue_VenueCode.isMandatory = function() { return false; }
+SelectVenue_VenueCode.logicOn = [SelectVenue_VenueCode.dataBinding];
+SelectVenue_VenueCode.logic = function(xpath) {
+	var code = Services.getValue(SelectVenue_VenueCode.dataBinding);
+	var xpathName = REF_DATA_XPATH + "/Courts/Court[./Code = " + SelectVenue_VenueCode.dataBinding + "]/Name";	
+	var venueName = Services.getValue(xpathName);
+	if(venueName != null &amp;&amp; venueName != "") {
+		Services.setValue(SelectVenue_VenueName.dataBinding, code);		
+		Services.setValue(CourtsLOVGrid.dataBinding, code);	}
+	else {
+		Services.setValue(SelectVenue_VenueCode.dataBinding, "");
+		Services.setValue(SelectVenue_VenueName.dataBinding, "");
+		Services.setValue(CourtsLOVGrid.dataBinding, ""); } } 
+
+/************************************************** SelectVenue_VenueName   **************************************************************/
+SelectVenue_VenueName.tabIndex = __tabIdx++;
+SelectVenue_VenueName.isReadOnly = function(){ return false; }
+SelectVenue_VenueName.isTemporary = function(){ return true; }
+SelectVenue_VenueName.maxLength = 30;
+SelectVenue_VenueName.helpText = "Name of the Court.";
+SelectVenue_VenueName.isMandatory = function(){ return true; }
+SelectVenue_VenueName.validate = function(){ return null; }
+SelectVenue_VenueName.srcData = REF_DATA_XPATH + "/Courts";
+SelectVenue_VenueName.rowXPath = "Court";
+SelectVenue_VenueName.keyXPath = "Code";
+SelectVenue_VenueName.displayXPath = "Name";
+SelectVenue_VenueName.logicOn  = [SelectVenue_VenueName.dataBinding];
+SelectVenue_VenueName.logic = function(xpath) { 
+	var codeOrName = Services.getValue(SelectVenue_VenueName.dataBinding);      
+	var xpath = REF_DATA_XPATH + "/Courts/Court[Code = " + SelectVenue_VenueName.dataBinding + "]/Code";
+	var code = Services.getValue(xpath);
+	if(code == null || "" == code) {
+		var name = Services.getValue(SelectVenue_VenueName.dataBinding);     
+		code = Services.getValue(REF_DATA_XPATH + "/Courts/Court[Name = " + SelectVenue_VenueName.dataBinding + "]/Code"); }
+	if( code != null &amp;&amp; code != "") { 	
+		Services.setValue(SelectVenue_VenueCode.dataBinding, code); }
+	else { 
+		Services.setValue(SelectVenue_VenueName.dataBinding, "");
+		Services.setValue(SelectVenue_VenueCode.dataBinding, "");
+		Services.setValue(SelectVenue_ContactDetails_Address_Line1.dataBinding, "");
+		Services.setValue(SelectVenue_ContactDetails_Address_Line2.dataBinding, "");
+		Services.setValue(SelectVenue_ContactDetails_Address_Line3.dataBinding, "");
+		Services.setValue(SelectVenue_ContactDetails_Address_Line4.dataBinding, "");
+		Services.setValue(SelectVenue_ContactDetails_Address_Line5.dataBinding, "");
+		Services.setValue(SelectVenue_ContactDetails_Address_Postcode.dataBinding, "");
+		Services.setValue(SelectVenue_ContactDetails_Address_DXNumber.dataBinding, "");
+		Services.setValue(SelectVenue_ContactDetails_Address_TelephoneNumber.dataBinding, "");
+		Services.setValue(SelectVenue_ContactDetails_Address_FaxNumber.dataBinding, "");
+		Services.setValue(selectVenue_Address_Grid.dataBinding, ""); }  }
+
+SelectVenue_ContactDetails_Address_Line1.tabIndex = __tabIdx++;
+SelectVenue_ContactDetails_Address_Line1.isReadOnly = function()  {	return true;}
+SelectVenue_ContactDetails_Address_Line1.isTemporary = function() {	return true;}
+SelectVenue_ContactDetails_Address_Line1.isMandatory = function() {	if (null != WP &amp;&amp; null != WP.GetScreenProcess &amp;&amp; null != WP.GetScreenProcess()) { 
+	if (210 == WP.GetScreenProcess().getEvent()) {
+		return('Y'  == Services.getValue(HearingDateReqd.dataBinding)); }
+	return true; } }
+SelectVenue_ContactDetails_Address_Line1.transformToDisplay = function(value) {	return (null != value) ? value.toUpperCase() : null; }
+SelectVenue_ContactDetails_Address_Line1.transformToModel = function(value) {	return (null != value) ? value.toUpperCase() : null; }
+
+SelectVenue_ContactDetails_Address_Line2.tabIndex = __tabIdx++;
+SelectVenue_ContactDetails_Address_Line2.isReadOnly = function() {	return true;}
+SelectVenue_ContactDetails_Address_Line2.isTemporary = function() { return true;}
+SelectVenue_ContactDetails_Address_Line2.isMandatory = function() {  if (null != WP &amp;&amp; null != WP.GetScreenProcess &amp;&amp; null != WP.GetScreenProcess()) { 
+	if (210 == WP.GetScreenProcess().getEvent()) {
+		return('Y'  == Services.getValue(HearingDateReqd.dataBinding)); }
+	return true; } }
+SelectVenue_ContactDetails_Address_Line2.transformToDisplay = function(value) {	return (null != value) ? value.toUpperCase() : null; }
+SelectVenue_ContactDetails_Address_Line2.transformToModel = function(value) {	return (null != value) ? value.toUpperCase() : null; }
+
+SelectVenue_ContactDetails_Address_Line3.tabIndex = __tabIdx++;
+SelectVenue_ContactDetails_Address_Line3.isReadOnly = function() { 	return true;}
+SelectVenue_ContactDetails_Address_Line3.isMandatory = function(){ 	return false;}
+SelectVenue_ContactDetails_Address_Line3.transformToDisplay = function(value) {	return (null != value) ? value.toUpperCase() : null; }
+SelectVenue_ContactDetails_Address_Line3.transformToModel = function(value) {	return (null != value) ? value.toUpperCase() : null; }
+
+SelectVenue_ContactDetails_Address_Line4.tabIndex = __tabIdx++;
+SelectVenue_ContactDetails_Address_Line4.isReadOnly = function() { 	return true;}
+SelectVenue_ContactDetails_Address_Line4.isMandatory = function(){ 	return false;}
+SelectVenue_ContactDetails_Address_Line4.transformToDisplay = function(value) {	return (null != value) ? value.toUpperCase() : null; }
+SelectVenue_ContactDetails_Address_Line4.transformToModel = function(value) {	return (null != value) ? value.toUpperCase() : null; }
+
+SelectVenue_ContactDetails_Address_Line5.tabIndex = __tabIdx++;
+SelectVenue_ContactDetails_Address_Line5.isReadOnly = function() { return true;}
+SelectVenue_ContactDetails_Address_Line5.isMandatory = function() {	return false;}
+SelectVenue_ContactDetails_Address_Line5.transformToDisplay = function(value){	return (null != value) ? value.toUpperCase() : null; }
+SelectVenue_ContactDetails_Address_Line5.transformToModel = function(value) {	return (null != value) ? value.toUpperCase() : null;} 
+
+SelectVenue_ContactDetails_Address_Postcode.tabIndex = __tabIdx++;
+SelectVenue_ContactDetails_Address_Postcode.isReadOnly = function() {	return true;}
+SelectVenue_ContactDetails_Address_Postcode.isMandatory = function(){	return false;}
+SelectVenue_ContactDetails_Address_Postcode.transformToDisplay = function(value) {	return (null != value) ? value.toUpperCase() : null; }
+SelectVenue_ContactDetails_Address_Postcode.transformToModel = function(value) {	return (null != value) ? value.toUpperCase() : null; }
+
+SelectVenue_ContactDetails_Address_TelephoneNumber.tabIndex = __tabIdx++;
+SelectVenue_ContactDetails_Address_TelephoneNumber.isReadOnly = function() { return true; }
+SelectVenue_ContactDetails_Address_TelephoneNumber.isMandatory = function() {	return false;}
+SelectVenue_ContactDetails_Address_TelephoneNumber.transformToDisplay = function(value) {	return (null != value) ? value.toUpperCase() : null; }
+SelectVenue_ContactDetails_Address_TelephoneNumber.transformToModel = function(value) {	return (null != value) ? value.toUpperCase() : null; }
+
+SelectVenue_ContactDetails_Address_DXNumber.tabIndex = __tabIdx++;
+SelectVenue_ContactDetails_Address_DXNumber.isReadOnly = function() {return true;}
+SelectVenue_ContactDetails_Address_DXNumber.isMandatory = function() { 	return false; }
+SelectVenue_ContactDetails_Address_DXNumber.tabIndex = __tabIdx++;
+SelectVenue_ContactDetails_Address_DXNumber.isReadOnly = function() { 	return true; }
+SelectVenue_ContactDetails_Address_DXNumber.isMandatory = function() {	return false;}
+
+SelectVenue_ContactDetails_Address_FaxNumber.tabIndex = __tabIdx++;
+SelectVenue_ContactDetails_Address_FaxNumber.isReadOnly = function() { 	return true;}
+SelectVenue_ContactDetails_Address_FaxNumber.isMandatory = function(){	return false;}
+
+function SelectVenue_VenueLOVBtn() {}
+SelectVenue_VenueLOVBtn.tabIndex = __tabIdx++;
+
+function SelectVenue_OKBtn() {}
+SelectVenue_OKBtn.tabIndex = __tabIdx++;
+SelectVenue_OKBtn.enableOn = [NEW_HEARING_VENUE_TMP_PATH_Q14 + "/Address/Line[1]"];
+SelectVenue_OKBtn.isEnabled = function() {	
+	var c = Services.getValue(NEW_HEARING_VENUE_TMP_PATH_Q14 + "/Address/Line[1]");
+	if(c != null &amp;&amp; c!= "") {
+		return true; }
+	else {
+		return false; } }
+SelectVenue_OKBtn.actionBinding = function() {	
+	var venueCode = Services.getValue(SelectVenue_VenueCode.dataBinding);
+	var venueName = Services.getValue(SelectVenue_VenueName.dataBinding);
+	var addressId = Services.getValue(selectVenue_Address_Grid.dataBinding);
+	var add1 = Services.getValue(SelectVenue_ContactDetails_Address_Line1.dataBinding);
+	var add2 = Services.getValue(SelectVenue_ContactDetails_Address_Line2.dataBinding);	
+	var add3 = Services.getValue(SelectVenue_ContactDetails_Address_Line3.dataBinding);	
+	var add4 = Services.getValue(SelectVenue_ContactDetails_Address_Line4.dataBinding);
+	var add5 = Services.getValue(SelectVenue_ContactDetails_Address_Line5.dataBinding);
+	var postcode = Services.getValue(SelectVenue_ContactDetails_Address_Postcode.dataBinding);		
+	var dxNo = Services.getValue(SelectVenue_ContactDetails_Address_DXNumber.dataBinding);
+	var telNo = Services.getValue(SelectVenue_ContactDetails_Address_TelephoneNumber.dataBinding);
+	var faxNo = Services.getValue(SelectVenue_ContactDetails_Address_FaxNumber.dataBinding);
+	var screenValid = true;
+	if((venueCode == null || venueCode == "") || (venueName == null || venueName == "") || (add1 == null || add2 == "")){
+		screenValid = false; }
+	if(screenValid){
+	 	var xpathName = REF_DATA_XPATH + "/Courts/Court[./Code = " + SelectVenue_VenueName.dataBinding + "]/Name";	 
+	 	var checkVenueName = Services.getValue(xpathName);
+	 	if( null != checkVenueName &amp;&amp; checkVenueName.length > 0) {
+    		venueName = checkVenueName; }
+		Services.setValue(VenueCode.dataBinding, venueCode);		
+		Services.setValue(VenueName.dataBinding, venueName);
+		Services.setValue(NEW_HEARING_TMP_PATH + "/Address/AddressId", addressId);
+		Services.setValue(AdLine1.dataBinding, add1);
+		Services.setValue(AdLine2.dataBinding, add2);			
+		Services.setValue(AdLine3.dataBinding, add3);
+		Services.setValue(AdLine4.dataBinding, add4);
+		Services.setValue(AdLine5.dataBinding, add5);
+		Services.setValue(Postcode.dataBinding, postcode);			
+		FormController.getInstance().hideFormExtensionPopup("SelectVenue");	}
+	else{
+		alert("Please ensure you have selected valid venue details."); } }
+
+function SelectVenue_CancelBtn() {}
+SelectVenue_CancelBtn.tabIndex = __tabIdx++;
+
+selectVenue_Address_Grid.srcData = REF_DATA_XPATH + "/Courts/Court[./Code = " + CourtsLOVGrid.dataBinding + "]/ContactDetails"; //List of Courts/venues addresses
+selectVenue_Address_Grid.rowXPath = "Address";		// Individual Court/venue
+selectVenue_Address_Grid.keyXPath = "AddressId";  	// Unique identifier for a Court/venue
+selectVenue_Address_Grid.columns = [   				// column bindings
+	{xpath: "Line[1]", sort: function(a,b){if(a &lt; b){return 1;};if(a &gt; b){return -1;};return 0;}},
+	{xpath: "Line[2]", sort: function(a,b){if(a &lt; b){return 1;};if(a &gt; b){return -1;};return 0;}} ];
+
+selectVenue_Address_Grid.retrieveOn = [CourtsLOVGrid.dataBinding];
+selectVenue_Address_Grid.srcDataOn = [CourtsLOVGrid.dataBinding];
+selectVenue_Address_Grid.logicOn = [selectVenue_Address_Grid.dataBinding, CourtsLOVGrid.dataBinding];
+selectVenue_Address_Grid.logic = function(xpath) {
+	var courtCode = Services.getValue(CourtsLOVGrid.dataBinding);
+	var addressId = Services.getValue(selectVenue_Address_Grid.dataBinding);
+	if (courtCode != null &amp;&amp; "" != courtCode &amp;&amp; addressId != null &amp;&amp; "" != addressId){
+		var b11 = REF_DATA_XPATH + "/Courts/Court[./Code = ";
+		var b13 = "]/ContactDetails/";
+		var b12 = b13+"Address[./AddressId = ";
+		var xpathAdd1 = b11+courtCode+b12+addressId+"]/Line[1]";	
+		var xpathAdd2 = b11+courtCode+b12+addressId+"]/Line[2]";	
+		var xpathAdd3 = b11+courtCode+b12+addressId+"]/Line[3]";	
+		var xpathAdd4 = b11+courtCode+b12+addressId+"]/Line[4]";	
+		var xpathAdd5 = b11+courtCode+b12+addressId+"]/Line[5]";	
+		var xpathPostcode = b11+courtCode+b12+addressId+"]/PostCode";	
+		var xpathDXNo = b11+courtCode+b13+"DX";	
+		var xpathTelNo = b11+courtCode+b13+"TelephoneNumber";	
+		var xpathFaxNo = b11+courtCode+b13+"FaxNumber";	
+		var add1 = Services.getValue(xpathAdd1);
+		var add2 = Services.getValue(xpathAdd2);
+		var add3 = Services.getValue(xpathAdd3); if(add3 == null) add3 = "";	
+		var add4 = Services.getValue(xpathAdd4); if(add4 == null) add4 = "";
+		var add5 = Services.getValue(xpathAdd5); if(add5 == null) add5 = "";
+		var postcode = Services.getValue(xpathPostcode);		
+		var dxNo = Services.getValue(xpathDXNo);   if(dxNo == null)  dxNo = "";
+		var telNo = Services.getValue(xpathTelNo); if(telNo == null) telNo = "";
+		var faxNo = Services.getValue(xpathFaxNo); if(faxNo == null) faxNo= "";
+		Services.setValue(SelectVenue_ContactDetails_Address_Line1.dataBinding, add1);
+		Services.setValue(SelectVenue_ContactDetails_Address_Line2.dataBinding, add2);
+		Services.setValue(SelectVenue_ContactDetails_Address_Line3.dataBinding, add3);
+		Services.setValue(SelectVenue_ContactDetails_Address_Line4.dataBinding, add4);
+		Services.setValue(SelectVenue_ContactDetails_Address_Line5.dataBinding, add5);
+		Services.setValue(SelectVenue_ContactDetails_Address_Postcode.dataBinding, postcode);		
+		Services.setValue(SelectVenue_ContactDetails_Address_DXNumber.dataBinding, dxNo);
+		Services.setValue(SelectVenue_ContactDetails_Address_TelephoneNumber.dataBinding, telNo);
+		Services.setValue(SelectVenue_ContactDetails_Address_FaxNumber.dataBinding, faxNo);	}
+	else {
+		Services.setValue(SelectVenue_ContactDetails_Address_Line1.dataBinding, "");
+		Services.setValue(SelectVenue_ContactDetails_Address_Line2.dataBinding, "");
+		Services.setValue(SelectVenue_ContactDetails_Address_Line3.dataBinding, "");
+		Services.setValue(SelectVenue_ContactDetails_Address_Line4.dataBinding, "");
+		Services.setValue(SelectVenue_ContactDetails_Address_Line5.dataBinding, "");
+		Services.setValue(SelectVenue_ContactDetails_Address_Postcode.dataBinding, "");		
+		Services.setValue(SelectVenue_ContactDetails_Address_DXNumber.dataBinding, "");
+		Services.setValue(SelectVenue_ContactDetails_Address_TelephoneNumber.dataBinding, "");
+		Services.setValue(SelectVenue_ContactDetails_Address_FaxNumber.dataBinding, ""); } }	</miscCode>
+	
+	<Context ScreenId="CJR046">
+		<initialise>WPU.loadCourt(); Services.setValue(VenueCode.dataBinding,"");</initialise>	
+		<isMandatory>return true;</isMandatory>
+		<enableOn>HearingListed.dataBinding</enableOn>
+		<isEnabled>
+			var isListed = Services.getValue(HearingListed.dataBinding);
+			return ('Y' == isListed);</isEnabled>
+		<logicOn>HearingListed.dataBinding</logicOn>
+		<logic>				
+			if('Y' != Services.getValue(HearingListed.dataBinding)) {   
+				Services.setValue(VenueName.dataBinding, "");
+				Services.setValue(VenueCode.dataBinding, ""); }			
+		</logic>
+	  <miscCode>
+				VenueLOVBtn.enableOn = [HearingListed.dataBinding];
+			  	VenueLOVBtn.isEnabled = function() {	
+			  		var isListed = Services.getValue(HearingListed.dataBinding);
+			  		return ('Y' == isListed); }	
+			  	VenueCode.enableOn =  [HearingListed.dataBinding];
+		  		VenueCode.isEnabled = function() {	
+			  		var isListed = Services.getValue(HearingListed.dataBinding);
+			  		return ('Y' == isListed); }
+		  		VenueCode.logicOn = [HearingListed.dataBinding];
+		  		VenueCode.logic = function(xpath) {	
+		  			var isListed = Services.getValue(HearingListed.dataBinding);
+			  		if('Y' != Services.getValue(HearingListed.dataBinding)) {	
+		  				Services.setValue(VenueCode.dataBinding, "");
+		  				Services.setValue(VenueName.dataBinding, ""); }
+		  			else {	
+						setOwningCrtDetails(); } }    
+	  </miscCode>
+	</Context>	
+		<Context ScreenId="O_11_1_2_3_4">
+		<enableOn>VenueName.dataBinding</enableOn>
+		<isEnabled>if (null != WP &amp;&amp; null != WP.GetScreenProcess &amp;&amp; null != WP.GetScreenProcess()) { 
+				var str = WPU.getValue( WPU.NODE_XPATHS['CaseEventId']);
+				return(str == 690 || str == 692); }
+		</isEnabled>
+		<logicOn>VenueName.dataBinding</logicOn>
+		<logic>	
+			var str = WPU.getValue( WPU.NODE_XPATHS['CaseEventId']);			
+			if(str != 690 &amp;&amp; str != 692) {   
+				Services.setValue(VenueName.dataBinding, "");
+				Services.setValue(VenueCode.dataBinding, ""); }			
+		</logic>
+	  <miscCode>
+				VenueLOVBtn.enableOn = [VenueName.dataBinding];
+			  	VenueLOVBtn.isEnabled = function() { if (null != WP &amp;&amp; null != WP.GetScreenProcess &amp;&amp; null != WP.GetScreenProcess()) { 	
+					var str = WPU.getValue( WPU.NODE_XPATHS['CaseEventId']);
+					return(str == 690 || str == 692); }	}
+			  	VenueCode.enableOn =  [VenueCode.dataBinding];
+		  		VenueCode.isEnabled = function() {	if (null != WP &amp;&amp; null != WP.GetScreenProcess &amp;&amp; null != WP.GetScreenProcess()) { 
+					var str = WPU.getValue( WPU.NODE_XPATHS['CaseEventId']);
+					return(str == 690 || str == 692); } }
+		  		VenueCode.logicOn = [VenueCode.dataBinding];
+		  		VenueCode.logic = function(xpath) {	
+					var str = WPU.getValue( WPU.NODE_XPATHS['CaseEventId']);
+					if(str != 690 &amp;&amp; str != 692) {	
+		  				Services.setValue(VenueCode.dataBinding, "");
+		  				Services.setValue(VenueName.dataBinding, ""); }
+		  			else {	
+						setOwningCrtDetails(); } }    
+	  </miscCode>
+	</Context>
+	<Context ScreenId="CJR020">
+	  <mandatoryOn>TrialDateFixed.dataBinding</mandatoryOn>
+	  <isMandatory>return ('FIX' == Services.getValue(TrialDateFixed.dataBinding))</isMandatory>
+	  <enableOn>TrialDateFixed.dataBinding</enableOn>
+		<isEnabled>return('FIX' == Services.getValue(TrialDateFixed.dataBinding));</isEnabled>
+		<logicOn>TrialDateFixed.dataBinding</logicOn>
+		<logic>if('FIX' != Services.getValue(TrialDateFixed.dataBinding)) {
+				Services.setValue(VenueCode.dataBinding, "");}</logic>
+	  <miscCode>
+	  	VenueLOVBtn.enableOn = [TrialDateFixed.dataBinding];
+	  	VenueLOVBtn.isEnabled = function() {
+			var isEnb = ('FIX' == Services.getValue(TrialDateFixed.dataBinding));
+	  		if( !isEnb ){	
+	  			Services.setValue(VenueCode.dataBinding, "");}
+	  		return isEnb;}	
+	  	VenueCode.enableOn =  [TrialDateFixed.dataBinding];
+		VenueCode.isEnabled = function() {
+			var isEnb = ('FIX' == Services.getValue(TrialDateFixed.dataBinding));
+			if (!isEnb) {	
+				Services.setValue(VenueCode.dataBinding, ""); }
+			else {
+				var curVal = Services.getValue(VenueCode.dataBinding); 
+				if( null == curVal || "" == curVal) {	
+					Services.setValue(VenueCode.dataBinding, WPU.getCaseOwningCourt()); } }
+			return isEnb; }	</miscCode>
+	</Context>
+	<Context ScreenId="CJR060">
+	  <mandatoryOn>TrialDateFixed.dataBinding</mandatoryOn>
+	  <isMandatory>return ('FIX' == Services.getValue(TrialDateFixed.dataBinding))</isMandatory>
+	  <enableOn>TrialDateFixed.dataBinding</enableOn>
+		<isEnabled>return('FIX' == Services.getValue(TrialDateFixed.dataBinding));</isEnabled>
+		<logicOn>TrialDateFixed.dataBinding</logicOn>
+		<logic>if('FIX' != Services.getValue(TrialDateFixed.dataBinding)) {
+					Services.setValue(VenueCode.dataBinding, ""); }	</logic>
+	  <miscCode>
+	  	VenueLOVBtn.enableOn = [TrialDateFixed.dataBinding];
+	  	VenueLOVBtn.isEnabled = function() {
+	  		var isEnb = ('FIX' == Services.getValue(TrialDateFixed.dataBinding));	  		
+	  		if( !isEnb ) {	
+	  			Services.setValue(VenueCode.dataBinding, ""); }
+	  		return isEnb; }	
+	  	VenueCode.enableOn =  [TrialDateFixed.dataBinding];
+		VenueCode.isEnabled = function() {
+			var isEnb = ('FIX' == Services.getValue(TrialDateFixed.dataBinding));
+			if (!isEnb) {
+				Services.setValue(VenueCode.dataBinding, ""); }
+			else {
+				var curVal = Services.getValue(VenueCode.dataBinding); 
+				if( null == curVal || "" == curVal)	{	
+					Services.setValue(VenueCode.dataBinding, WPU.getCaseOwningCourt()); } }
+			return isEnb; } </miscCode>
+	</Context>		
+	<Context ScreenId="CJR061">
+		<enableOn>HearingListed.dataBinding</enableOn>
+		<isEnabled>return('Y' == Services.getValue(HearingListed.dataBinding));</isEnabled>
+		<mandatoryOn>HearingListed.dataBinding</mandatoryOn>
+		<isMandatory>return('Y' == Services.getValue(HearingListed.dataBinding));</isMandatory>
+		<logicOn>HearingListed.dataBinding</logicOn>
+		<logic>if('Y' != Services.getValue(HearingListed.dataBinding)) { Services.setValue(VenueCode.dataBinding, ""); }</logic>
+		<miscCode>
+			VenueLOVBtn.enableOn = [HearingListed.dataBinding];
+		  	VenueLOVBtn.isEnabled = function() {
+		  		var isEnb = ('Y' == Services.getValue(HearingListed.dataBinding));
+		  		if (!isEnb) {
+		  			Services.setValue(VenueCode.dataBinding, ""); }
+		  		return isEnb; }		
+		  	VenueCode.enableOn =  [HearingListed.dataBinding];
+		  	VenueCode.isEnabled = function() {
+				var isEnb = ('Y' == Services.getValue(HearingListed.dataBinding));			  		
+		  		if( !isEnb ) {
+					Services.setValue(VenueCode.dataBinding, ""); }
+		  		else {
+					var curVal = Services.getValue(VenueCode.dataBinding); 
+					if( null == curVal || "" == curVal) {	
+						Services.setValue(VenueCode.dataBinding, WPU.getCaseOwningCourt()); } }
+		  		return isEnb; }	  
+	  </miscCode>
+	</Context>	
+	<Context ScreenId="CJR072">
+			<enableOn>OrderDetails2.dataBinding</enableOn>
+			<isEnabled>return('HRG' == Services.getValue(OrderDetails2.dataBinding));</isEnabled>
+			<logicOn>OrderDetails2.dataBinding</logicOn>
+			<logic>
+				if('HRG' != Services.getValue(OrderDetails2.dataBinding))
+				{	Services.setValue(VenueName.dataBinding, "");
+					Services.setValue(VenueCode.dataBinding, "");
+				}
+			</logic>
+			<miscCode>
+				VenueLOVBtn.enableOn = [OrderDetails2.dataBinding];
+			  	VenueLOVBtn.isEnabled = function() {
+					var isEnb = ('HRG' == Services.getValue(OrderDetails2.dataBinding));
+			  		if (!isEnb) {
+			  			Services.setValue(VenueCode.dataBinding, ""); }
+			  		return isEnb; }	
+			  	VenueCode.enableOn =  [OrderDetails2.dataBinding];
+		  		VenueCode.isEnabled = function() { if (null != WP &amp;&amp; null != WP.GetScreenProcess &amp;&amp; null != WP.GetScreenProcess()) { 
+		  			var isEnb = ('HRG' == Services.getValue(OrderDetails2.dataBinding));
+			  		if( !isEnb ) {
+			  			Services.setValue(VenueCode.dataBinding, ""); }
+			  		else {
+						var curVal = Services.getValue(VenueCode.dataBinding); 
+						if( null == curVal || "" == curVal) {
+							Services.setValue(VenueCode.dataBinding, WPU.getCaseOwningCourt()); } }
+			  		return isEnb; } }
+	  		</miscCode>
+		</Context>
+		
+		<Context ScreenId="CJR093">
+			<enableOn>WhoConsidApp2.dataBinding</enableOn>
+			<isEnabled>return hearingFieldsEnabled();</isEnabled>
+			<miscCode>
+				VenueLOVBtn.enableOn = [WhoConsidApp2.dataBinding];
+				VenueLOVBtn.isEnabled = hearingFieldsEnabled;
+				VenueCode.enableOn = [WhoConsidApp2.dataBinding];
+				VenueCode.isEnabled = hearingFieldsEnabled;
+			</miscCode>
+		</Context>
+		
+		<Context ScreenId="CJR178">
+			<enableOn>WitnessTo.dataBinding</enableOn>
+			<isEnabled>return( 'AC' == Services.getValue(WitnessTo.dataBinding));</isEnabled>
+			<logicOn>WitnessTo.dataBinding</logicOn>
+			<logic>
+				if( 'AC' != Services.getValue(WitnessTo.dataBinding))
+				{	Services.setValue(VenueName.dataBinding, "");
+					Services.setValue(VenueCode.dataBinding, "");
+				}
+			</logic>	
+			<miscCode>
+				VenueLOVBtn.enableOn = [WitnessTo.dataBinding];
+			  	VenueLOVBtn.isEnabled = function() {	
+			  		var isEnb = ( 'AC' == Services.getValue(WitnessTo.dataBinding));			  		
+			  		if( !isEnb ) {
+						Services.setValue(VenueCode.dataBinding, ""); }
+			  		return isEnb; }	
+			  	VenueCode.enableOn =  [WitnessTo.dataBinding];
+		  		VenueCode.isEnabled = function() {	if (null != WP &amp;&amp; null != WP.GetScreenProcess &amp;&amp; null != WP.GetScreenProcess()) { 
+					var isEnb = ( 'AC' == Services.getValue(WitnessTo.dataBinding));			  		
+			  		if (!isEnb) {
+			  			Services.setValue(VenueCode.dataBinding, ""); }
+			  		else {
+						var curVal = Services.getValue(VenueCode.dataBinding); 
+						if( null == curVal || "" == curVal) {	
+							Services.setValue(VenueCode.dataBinding, WPU.getCaseOwningCourt()); } } 
+			  		return isEnb; } }
+	  		</miscCode>
+		</Context>
+		<Context ScreenId="CJR105">			
+			<enableOn>NoticeOfFurtherHearing.dataBinding</enableOn>
+			<isEnabled>return( 'Y' == Services.getValue(NoticeOfFurtherHearing.dataBinding));</isEnabled>
+			<logicOn>NoticeOfFurtherHearing.dataBinding</logicOn>
+			<logic>if( 'Y' != Services.getValue(NoticeOfFurtherHearing.dataBinding)) { Services.setValue(VenueName.dataBinding, ""); }
+			</logic>
+			<miscCode>
+				VenueLOVBtn.enableOn = [NoticeOfFurtherHearing.dataBinding];
+			  	VenueLOVBtn.isEnabled = function() {	
+			  		var isEnb = ( 'Y' == Services.getValue(NoticeOfFurtherHearing.dataBinding));
+			  		if (!isEnb) {
+						Services.setValue(VenueCode.dataBinding, ""); }
+			  		return isEnb; }	
+			  	VenueCode.enableOn =  [NoticeOfFurtherHearing.dataBinding];
+		  		VenueCode.isEnabled = function() {	if (null != WP &amp;&amp; null != WP.GetScreenProcess &amp;&amp; null != WP.GetScreenProcess()) { 
+					var isEnb = ( 'Y' == Services.getValue(NoticeOfFurtherHearing.dataBinding));			  		
+			  		if( !isEnb ) {
+						Services.setValue(VenueCode.dataBinding, ""); }
+			  		else {
+			  			var curVal = Services.getValue(VenueCode.dataBinding); 
+						if( null == curVal || "" == curVal) {	
+							Services.setValue(VenueCode.dataBinding, WPU.getCaseOwningCourt()); } }
+			  		return isEnb; } }
+	  		</miscCode>	  			  		
+		</Context>		
+		<Context ScreenId="CO23">		
+			<initialise>
+				WPU.loadCourt();
+				Services.setValue(VenueCode.dataBinding,"");
+			</initialise>		
+			<isMandatory>return true;</isMandatory>
+			<enableOn>DisStrAdj.dataBinding</enableOn>
+			<isEnabled>return ('ADJ' == Services.getValue(DisStrAdj.dataBinding));</isEnabled>
+			<logicOn>DisStrAdj.dataBinding</logicOn>
+			<logic>				
+				if('ADJ' != Services.getValue(DisStrAdj.dataBinding)) {   
+					Services.setValue(VenueName.dataBinding, "");
+					Services.setValue(VenueCode.dataBinding, ""); }				
+			</logic>
+			<miscCode>
+				VenueLOVBtn.enableOn = [DisStrAdj.dataBinding];
+			  	VenueLOVBtn.isEnabled = function() { return ('ADJ' == Services.getValue(DisStrAdj.dataBinding)); }	
+			  	VenueCode.enableOn =  [DisStrAdj.dataBinding];
+		  		VenueCode.isEnabled = function() { return ('ADJ' == Services.getValue(DisStrAdj.dataBinding)); }
+		  		VenueCode.logicOn = [DisStrAdj.dataBinding];
+		  		VenueCode.logic = function(xpath) {
+		  			if('ADJ' != Services.getValue(DisStrAdj.dataBinding)) {
+		  				Services.setValue(VenueCode.dataBinding, "");
+		  				Services.setValue(VenueName.dataBinding, ""); }
+		  			else {	
+						setOwningCrtDetails(); } }
+	  		</miscCode>	  			  		
+		</Context>		
+		<Context ScreenId="CO34">
+			<initialise>
+				WPU.loadCourt();
+				Services.setValue(VenueCode.dataBinding,"");
+			</initialise>			
+			<isMandatory>return true;</isMandatory>
+			<enableOn>DisStrAdj.dataBinding</enableOn>
+			<isEnabled>return ('ADJ' == Services.getValue(DisStrAdj.dataBinding));</isEnabled>
+			<logicOn>DisStrAdj.dataBinding</logicOn>
+			<logic>if('ADJ' != Services.getValue(DisStrAdj.dataBinding)) {   
+						Services.setValue(VenueName.dataBinding, "");
+						Services.setValue(VenueCode.dataBinding, ""); } </logic>
+			<miscCode>
+				VenueLOVBtn.enableOn = [DisStrAdj.dataBinding];
+			  	VenueLOVBtn.isEnabled = function() { return ('ADJ' == Services.getValue(DisStrAdj.dataBinding)); }	
+			  	VenueCode.enableOn =  [DisStrAdj.dataBinding];
+		  		VenueCode.isEnabled = function() { return ('ADJ' == Services.getValue(DisStrAdj.dataBinding)); }
+		  		VenueCode.logicOn = [DisStrAdj.dataBinding];
+		  		VenueCode.logic = function(xpath) {
+		  			if('ADJ' != Services.getValue(DisStrAdj.dataBinding)) {
+		  				Services.setValue(VenueCode.dataBinding, "");
+		  				Services.setValue(VenueName.dataBinding, ""); }
+		  			else {	
+						setOwningCrtDetails(); } }
+	  		</miscCode>	  			  		
+		</Context>
+		
+		<Context ScreenId="CO32">			
+			<enableOn>SetAsideWHearing.dataBinding</enableOn>
+			<isEnabled>return( 'Y' == Services.getValue(SetAsideWHearing.dataBinding));</isEnabled>
+			<logicOn>SetAsideWHearing.dataBinding</logicOn>
+			<logic>if ('Y' != Services.getValue(SetAsideWHearing.dataBinding)) Services.setValue(VenueName.dataBinding, "");</logic>
+			<miscCode>
+				VenueLOVBtn.enableOn = [SetAsideWHearing.dataBinding];
+			  	VenueLOVBtn.isEnabled = function() {	
+			  		var isEnb = ( 'Y' == Services.getValue(SetAsideWHearing.dataBinding));			  		
+			  		if( !isEnb ) {
+						Services.setValue(VenueCode.dataBinding, "");}
+			  		return isEnb; }	
+			  	VenueCode.enableOn =  [SetAsideWHearing.dataBinding];
+		  		VenueCode.isEnabled = function() {	if (null != WP &amp;&amp; null != WP.GetScreenProcess &amp;&amp; null != WP.GetScreenProcess()) { 
+					var isEnb = ( 'Y' == Services.getValue(SetAsideWHearing.dataBinding));			  		
+			  		if (!isEnb) {
+						Services.setValue(VenueCode.dataBinding, ""); }
+			  		else {
+						var curVal = Services.getValue(VenueCode.dataBinding); 
+						if( null == curVal || "" == curVal) {	
+							Services.setValue(VenueCode.dataBinding, WPU.getCaseOwningCourt()); } }
+			  		return isEnb; } }
+	  		</miscCode>	  			  		
+		</Context>		
+		<Context ScreenId="O_3_1_2_5_1">
+			<isMandatory>return ("J" == Services.getValue(ReasonSetAside.dataBinding))</isMandatory> 
+			<mandatoryOn>ReasonSetAside.dataBinding</mandatoryOn>
+			<enableOn>ReasonSetAside.dataBinding</enableOn>
+			<isEnabled>return ("J" == Services.getValue(ReasonSetAside.dataBinding))</isEnabled>
+			<logicOn>ReasonSetAside.dataBinding</logicOn>
+			<logic>if("J" != Services.getValue(ReasonSetAside.dataBinding)) {	
+					Services.setValue(VenueName.dataBinding, "");
+					Services.setValue(VenueCode.dataBinding, ""); }
+			</logic>
+			<miscCode>
+				VenueLOVBtn.enableOn = [ReasonSetAside.dataBinding];
+			  	VenueLOVBtn.isEnabled = function() {	
+			  		var isEnb = ( "J" == Services.getValue(ReasonSetAside.dataBinding));			  		
+			  		if (!isEnb) {
+			  			Services.setValue(VenueCode.dataBinding, ""); }
+			  		return isEnb; }	
+			  	VenueCode.enableOn =  [ReasonSetAside.dataBinding];
+		  		VenueCode.isEnabled = function() {	if (null != WP &amp;&amp; null != WP.GetScreenProcess &amp;&amp; null != WP.GetScreenProcess()) { 
+					var isEnb = ( "J" == Services.getValue(ReasonSetAside.dataBinding));
+					if( !isEnb ) {
+						Services.setValue(VenueCode.dataBinding, ""); }
+			  		else {
+						var curVal = Services.getValue(VenueCode.dataBinding); 
+						if( null == curVal || "" == curVal) {	
+							Services.setValue(VenueCode.dataBinding, WPU.getCaseOwningCourt()); } }
+			  		return isEnb; } }
+	  		</miscCode>			
+		</Context>
+        <Context ScreenId="O_2_6">            
+            <isMandatory>return true;</isMandatory> 
+            <mandatoryOn>VenueName.dataBinding</mandatoryOn>
+          </Context>
+        <Context ScreenId="O_7_8">          
+            <isMandatory>return true;</isMandatory> 
+            <mandatoryOn>VenueName.dataBinding</mandatoryOn>
+        </Context>        
+	    <Context ScreenId="O_10_7">        
+            <isMandatory>return true;</isMandatory> 
+            <mandatoryOn>VenueName.dataBinding</mandatoryOn>
+        </Context>    
+       <Context ScreenId="O_10_11">
+            <isMandatory>return true;</isMandatory> 
+            <mandatoryOn>VenueName.dataBinding</mandatoryOn>
+        </Context>            	
+	</Javascript>
+</Question>

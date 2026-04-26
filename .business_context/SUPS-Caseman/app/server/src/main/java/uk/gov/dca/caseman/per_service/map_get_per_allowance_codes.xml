@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: Per
+	Method:  getPerAllowanceCodes()
+	File:    map_get_per_allowance_codes.xml
+	Author:  Phil Haferer (EDS), Ian Stainer (Valtech)
+	Created: 01 June 2005
+	Description: 
+		The 'Mapping' for retreiving the 'Standard Allowance' reference data for 
+		Calculating the Protected Earnings Rate.
+		Note that this mapping is translated into a form where each Category is extracted
+		into separate groups before been returned to the client.
+-->
+<DBMapDef>
+	<DataSource id="java:OracleDS"/>
+	<Tables>
+		<Table alias="PER" name="PER_DETAILS"/>
+		<Table alias="SDW" name="SYSTEM_DATA"/>
+		<Table alias="SDM" name="SYSTEM_DATA"/>
+	</Tables>
+	<Mapping>
+		<PerDetailList>
+			<PerDetail>
+				<Group>${PER.PER_GROUP}</Group>
+				<Code>${PER.DETAIL_CODE}</Code>
+				<Description>${PER.PROMPT}</Description>
+				<WeeklyAllowance>${SDW.ITEM_VALUE}</WeeklyAllowance>
+				<WeeklyAllowanceCurrency>${SDW.ITEM_VALUE_CURRENCY}</WeeklyAllowanceCurrency>
+				<MonthlyAllowance>${SDM.ITEM_VALUE}</MonthlyAllowance>
+				<MonthlyAllowanceCurrency>${SDM.ITEM_VALUE_CURRENCY}</MonthlyAllowanceCurrency>
+				<AllowMultiples>${PER.ALLOW_MULTIPLES}</AllowMultiples>
+				<Category>${PER.PER_CATEGORY}</Category>
+				<AmountAllowedEditable>${PER.AMOUNT_ALLOWED_EDITABLE}</AmountAllowedEditable>
+			</PerDetail>
+		</PerDetailList>
+	</Mapping>
+</DBMapDef>

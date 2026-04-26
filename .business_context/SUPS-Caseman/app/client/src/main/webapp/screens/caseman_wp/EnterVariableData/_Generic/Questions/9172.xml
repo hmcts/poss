@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>9172</Id>
+	<Label>Enquiry about</Label>
+	<ObjectName>EnquiryAbout</ObjectName>
+	<Html>
+		<select id="EnquiryAbout">
+			<option value=""></option>
+			<option value="FR">Fee refund</option>
+			<option value="PO">Payment out</option>
+		</select>
+	</Html>			
+	<Javascript>
+		<XPath>/ds/EnterVariableData/enquiryAbout</XPath>
+		<HintText>Enquiry about</HintText>
+        <Context ScreenId="L_6_1_2_3_4_7">
+                <mandatoryOn>SelectLetter3.dataBinding,AmountFeePayment.dataBinding,LetterDate.dataBinding</mandatoryOn>
+                <isMandatory>return return9172();</isMandatory>
+                <enableOn>SelectLetter3.dataBinding,AmountFeePayment.dataBinding,LetterDate.dataBinding</enableOn>
+                <isEnabled>return return9172();</isEnabled>
+                <logicOn>SelectLetter3.dataBinding,AmountFeePayment.dataBinding,LetterDate.dataBinding</logicOn>
+                <logic>if(!return9172())
+                    {
+                       Services.setValue(EnquiryAbout.dataBinding, "");
+                    }
+                </logic>
+                <miscCode>
+                        function return9172(){
+                            var n9172 = false;
+                            if(
+                                 ("1" != Services.getValue(SelectLetter3.dataBinding)&amp;&amp;
+                                    LetterDate.isEnabled())|| 
+                                  ( AmountFeePayment.isEnabled()&amp;&amp;
+                                  ("1" != Services.getValue(SelectLetter3.dataBinding)&amp;&amp;
+                                  "4" != Services.getValue(SelectLetter3.dataBinding)))
+                               ){
+                                n9172 = true;
+                            }
+                            return n9172;
+                        }
+                </miscCode>
+        
+        </Context>
+   </Javascript>
+
+</Question>

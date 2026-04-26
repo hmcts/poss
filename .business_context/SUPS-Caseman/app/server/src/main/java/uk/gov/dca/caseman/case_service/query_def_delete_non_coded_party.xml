@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<QueryDef>
+  <DBMapDef location="uk/gov/dca/caseman/case_service/map_delete_non_coded_party.xml"/>
+  <Query pivotNode="/ds/DeleteNonCodedParty/PartyId" tables="P">
+    <Join/>
+	<Modify>			
+	    <CheckExists table="P" fields="party_id" onNotExist="skip" onExist="delete" useOptimisticLock="false"/>
+	</Modify>
+  </Query> 
+  <Query pivotNode="/ds/DeleteNonCodedParty/AddressId" tables="GA">
+    <Join/>
+	<Modify>			
+	    <CheckExists table="GA" fields="address_id" onNotExist="skip" onExist="delete" useOptimisticLock="false"/>
+	</Modify>
+  </Query> 
+</QueryDef>

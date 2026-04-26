@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	v1.0 Chris Hutt 18/4/2005
+	Returns a list of parties associated with the case
+	against whom an active judgment exists.
+	This is determined by value of JUDGMENTS.STATUS - a judgment is deemed to be 
+	active if set to 'VARIED' or NULL.
+
+	v1.1 Chris Hutt 6/5/2005 
+	InfavourOf parties also returned	
+-->
+<service-method>
+	<pipeline>
+		<NewQuery>
+			<QueryDef location="uk/gov/dca/caseman/judgment_service/query_def_parties_with_active_judgment.xml"/>
+			<QueryExtension pivotNode="/Judgments/Judgment">
+				<Param name="param.caseNumber" xpath="/params/param[@name = 'caseNumber']"/>
+				<Constraint>JDG.CASE_NUMBER = ${param.caseNumber}</Constraint>		
+			</QueryExtension>
+		</NewQuery>
+	</pipeline>
+	<Security roles="user"/>
+</service-method>
+
+

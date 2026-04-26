@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>164</Id>
+	<Label>What is to be allocated to track</Label>
+	<ObjectName>AllocationToTrack</ObjectName>
+	<Html>	
+		<select id="AllocationToTrack">
+			<option value=""></option>
+			<option value="CLM">Claim</option>
+			<option value="CTR">Counterclaim</option>
+			<option value="BTH">Claim and counterclaim</option>    
+		</select>
+	</Html>
+	<Javascript>
+		<XPath>/ds/EnterVariableData/Transfer/allocationToTrack</XPath>
+		<HintText>Enter the details to be allocated to track</HintText>
+		<isMandatory>return true;</isMandatory>
+		
+		<Context ScreenId="CJR018K">
+			<HintText>Select allocation to track</HintText>
+		</Context>	
+	</Javascript>
+</Question>

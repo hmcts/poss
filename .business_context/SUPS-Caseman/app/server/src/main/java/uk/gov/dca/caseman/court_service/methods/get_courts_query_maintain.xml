@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: Court
+	Method:  getCourtsQueryMaintain
+	File:    get_courts_query_maintain.xml
+	Author:  Chris Vincent (EDS)
+	Created: 24 November 2005
+	Description: Wildcard query search for a court used on maintain court data screen
+-->
+<service-method>
+	<pipeline>
+		<Query>
+  			<QueryDef location="uk/gov/dca/caseman/court_service/query_def_query_maintain.xml"/>
+			<QueryExtension pivotNode="/Courts/Court">    	
+				<Param name="param.code" xpath="/params/param[@name = 'code']"/>
+				<Param name="param.name" xpath="/params/param[@name = 'courtName']"/>
+				<Param name="param.id" xpath="/params/param[@name = 'id']"/>
+				<Param name="param.districtregistry" xpath="/params/param[@name = 'districtregistry']"/>
+				<Param name="param.supsCourtInd" xpath="/params/param[@name = 'supsCourtInd']"/>
+					<Constraint>
+					(
+						(
+							${param.code} IS NULL OR CT.CODE = ${param.code}
+						)
+						AND																									
+						(
+							${param.name} IS NULL OR CT.NAME = UPPER(${param.name})
+						) 
+						AND																									
+						(
+							${param.id} IS NULL OR CT.ID LIKE ${param.id}
+						) 
+						AND
+						(
+							${param.districtregistry} IS NULL OR CT.DISTRICT_REGISTRY = ${param.districtregistry}
+						)
+						AND
+						(
+							${param.supsCourtInd} IS NULL OR CT.SUPS_CENTRALISED_FLAG = ${param.supsCourtInd}
+						)												
+					)
+			</Constraint>
+			<OrderBy>CT.CODE</OrderBy>
+			</QueryExtension>
+
+		</Query>
+  	</pipeline>
+	<Security roles="viewOnly medium high wcSuper scSuper bmsSuper aeSuper dmSuper cpSuper edsAdmin ccbcMan ccbcUser ccbcSGB2 ccbcTape admin"/>
+</service-method>

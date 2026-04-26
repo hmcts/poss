@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<service-method>
+	<pipeline>
+		<Update>
+			<QueryDef location="uk/gov/dca/caseman/case_service/query_def_case_modify_parties.xml"/>
+			<DataSource xpath="/params/param[@name='parties']"/>
+		</Update>
+	</pipeline>
+	<Security roles="user"/>
+</service-method>

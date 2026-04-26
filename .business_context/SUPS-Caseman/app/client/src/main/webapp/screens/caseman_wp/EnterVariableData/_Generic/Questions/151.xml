@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>151</Id>
+	<Label>Date of hearing</Label>
+	<ObjectName>HearingDate2</ObjectName>
+	<Context screenId="CJR053"><isVisible>false</isVisible></Context>
+	<Context screenId="CJR055"><isVisible>false</isVisible></Context>
+	<Context screenId="CJR054"><isVisible>false</isVisible></Context>
+    <Context screenId="CO03"><isVisible>false</isVisible></Context>
+    <Context screenId="CO05"><isVisible>false</isVisible></Context>
+    <Context screenId="CO09"><isVisible>false</isVisible></Context>
+    <Context screenId="CO10"><isVisible>false</isVisible></Context>
+    <Context screenId="CO13"><isVisible>false</isVisible></Context>
+    <Context screenId="CO15"><isVisible>false</isVisible></Context>
+    <Context screenId="CO16"><isVisible>false</isVisible></Context>
+    <Context screenId="CO17"><isVisible>false</isVisible></Context>
+    <Context screenId="CO18"><isVisible>false</isVisible></Context>
+    <Context screenId="CO19"><isVisible>false</isVisible></Context>
+    <Context screenId="CO20"><isVisible>false</isVisible></Context>
+    <Context screenId="CO21"><isVisible>false</isVisible></Context>
+    <Context screenId="CO21"><isVisible>false</isVisible></Context>
+    <Context screenId="CO23"><isVisible>false</isVisible></Context>
+    <Context screenId="CO24"><isVisible>false</isVisible></Context>
+    <Context screenId="CO25"><isVisible>false</isVisible></Context>
+    <Context screenId="CO26"><isVisible>false</isVisible></Context>
+    <Context screenId="CO27"><isVisible>false</isVisible></Context>
+    <Context screenId="CO32"><isVisible>false</isVisible></Context>
+    <Context screenId="CO33"><isVisible>false</isVisible></Context>
+    <Context screenId="CO34"><isVisible>false</isVisible></Context>
+    <Context screenId="CO35"><isVisible>false</isVisible></Context>
+    <Context screenId="CO36"><isVisible>false</isVisible></Context>
+    <Context screenId="CO37"><isVisible>false</isVisible></Context>
+	<Context screenId="CO52"><isVisible>false</isVisible></Context>
+	<Context screenId="CO29"><isVisible>false</isVisible></Context>
+	<Context screenId="CO30"><isVisible>false</isVisible></Context>
+	<Context screenId="CO28"><isVisible>false</isVisible></Context>
+    <Context screenId="CO31"><isVisible>false</isVisible></Context>
+    <Context screenId="CO41"><isVisible>false</isVisible></Context>	
+ 	<Context screenId="CJR065B"><isVisible>false</isVisible></Context>
+	<Context screenId="CJR060"><isVisible>false</isVisible></Context>
+	<Context screenId="CJR170"><isVisible>false</isVisible></Context>
+	<Context screenId="CJR178"><isVisible>false</isVisible></Context>
+	<Context screenId="CJR061"><isVisible>false</isVisible></Context>
+	<Context screenId="CJR073"><isVisible>false</isVisible></Context>
+	<Context screenId="O_5_5"><isVisible>false</isVisible></Context>
+	<Context screenId="O_5_6"><isVisible>false</isVisible></Context>
+	<Context screenId="CJR175"><isVisible>false</isVisible></Context>
+	<Context screenId="CJR065"><isVisible>false</isVisible></Context>
+	<Context screenId="CJR065C"><isVisible>false</isVisible></Context>
+	<Context screenId="CJR065_DO"><isVisible>false</isVisible></Context>
+	<Context screenId="CJR043"><isVisible>false</isVisible></Context>
+	<Context screenId="CJR353"><isVisible>false</isVisible></Context>
+	<Context screenId="CJR082">
+		<isVisible>true</isVisible>
+		<Label>Date of N79A hearing</Label>
+	</Context>
+	<Html>	
+		<script type="text/javascript">WP_DatePickerRenderer.createInline("HearingDate2", false);</script>	                                  
+	</Html>
+	<Javascript>
+		<XPath>/ds/EnterVariableData/Service/hearingDate2</XPath>
+		<HintText>Select the hearing date</HintText>
+		<isMandatory>return true;</isMandatory>		
+		<isReadOnly>return false;</isReadOnly>
+		<Notes>Auto populated from RefId 150</Notes>			
+		<Context ScreenId="CJR080">
+			<enableOn>WhoConsidApp.dataBinding</enableOn>
+			<isEnabled>return('J' == Services.getValue(WhoConsidApp.dataBinding));</isEnabled>
+			<logicOn>WhoConsidApp.dataBinding</logicOn>
+			<logic>
+				if ('J' != Services.getValue(WhoConsidApp.dataBinding)) {
+					Services.setValue(HearingDate2.dataBinding, ""); }
+			</logic>
+			<validate>return isWorkingDayInPast(Services.getValue(HearingDate2.dataBinding));</validate>
+		</Context>
+		<Context ScreenId="O_10_18">
+			<validate>return isWorkingDayInPast(Services.getValue(HearingDate2.dataBinding));</validate>		
+		</Context>			
+		<Context ScreenId="CJR083">
+			<enableOn>IsNewN79AsReqd.dataBinding</enableOn>
+			<isEnabled>
+				if (IsNewN79AsReqd.isEnabled()) {
+				  	if( 'Y' == Services.getValue(IsNewN79AsReqd.dataBinding)) {
+						return true; }					
+					return false; }
+				return true;
+			</isEnabled>
+			<logicOn>IsNewN79AsReqd.dataBinding</logicOn>
+			<logic>
+				if (IsNewN79AsReqd.isEnabled() &amp;&amp; 'Y' != Services.getValue(IsNewN79AsReqd.dataBinding)) {
+					Services.setValue(HearingDate2.dataBinding, ""); }
+			</logic>
+			<validate>return isWorkingDayInPast(Services.getValue(HearingDate2.dataBinding));</validate>
+		</Context>
+		<Context ScreenId="CJR030">
+			<validate>return isWorkingDayInFuture(Services.getValue(HearingDate2.dataBinding));</validate>
+		</Context>
+		<Context ScreenId="CJR050">
+			<validate>return isWorkingDayInPast(Services.getValue(HearingDate2.dataBinding));</validate>
+		</Context>
+		<Context ScreenId="CJR052">
+			<validate>return isWorkingDayInPast(Services.getValue(HearingDate2.dataBinding));</validate>
+		</Context>
+		<Context ScreenId="CJR072">
+			<validate>return isWorkingDayInPast(Services.getValue(HearingDate2.dataBinding));</validate>
+		</Context>		
+		<Context ScreenId="CJR030">
+			<validate>return isWorkingDayInFuture(Services.getValue(HearingDate2.dataBinding));</validate>
+		</Context>
+		<Context ScreenId="CJR082">
+			<validate>return isWorkingDayInPast(Services.getValue(HearingDate2.dataBinding));</validate>
+		</Context>
+		<Context ScreenId="CJR094">
+			<validate>return isWorkingDayInPast(Services.getValue(HearingDate2.dataBinding));</validate>
+		</Context>
+		<Context ScreenId="O_11_1_2_3_4">
+			<validate>return isWorkingDayInPast(Services.getValue(HearingDate2.dataBinding));</validate>
+		</Context>		
+		<Context ScreenId="O_8_12">
+			<validate>return isWorkingDayInPast(Services.getValue(HearingDate2.dataBinding));</validate>
+		</Context>							
+	</Javascript>
+</Question>

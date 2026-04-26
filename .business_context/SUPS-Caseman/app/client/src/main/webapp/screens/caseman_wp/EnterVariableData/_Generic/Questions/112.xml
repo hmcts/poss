@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>112</Id>
+	<Label>DX number</Label>
+	<ObjectName>DXNumber</ObjectName>
+	<Html>		
+		<input type="text" id="DXNumber"></input>
+	</Html>
+	<Javascript>
+		<XPath>/ds/EnterVariableData/Service/DXNumber</XPath>
+		<HintText>Enter DX number</HintText>
+		<isMandatory>return true;</isMandatory>
+		<enableOn>ServiceMethod.dataBinding</enableOn>
+		<isEnabled>return( 'EXCH' == Services.getValue(ServiceMethod.dataBinding));</isEnabled>
+		<logicOn>ServiceMethod.dataBinding</logicOn>
+		<logic>
+			if( 'EXCH' != Services.getValue(ServiceMethod.dataBinding))
+			{	Services.setValue(DXNumber.dataBinding, "");
+			}
+		</logic>
+	</Javascript>
+</Question>

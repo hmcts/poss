@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: Codedparty
+	Method:  getCodedPartiesShortNew()
+	File:    query_def_short_new.xml
+	Author:  Phil Haferer
+	Created: 11/07/2006
+	Description: 
+		Query Def for service to return a list of coded parties (summary of a coded party)
+
+	Change History:
+	12-Jul-2006 Phil Haferer: Modified to use the copy of the name and address in CODED_PARTIES table to improve performance.
+	            (TD 3949: Performance: Wildcard search on Coded Party name).
+-->
+<QueryDef>
+  <DBMapDef location="uk/gov/dca/caseman/codedparty_service/map_short_new.xml"/>
+  <Query pivotNode="/CodedParties/CodedParty" tables="CP">
+		<Join/>
+		<Modify notModifiable="true"/>
+  </Query>
+</QueryDef>

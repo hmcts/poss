@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<service-config>
+
+	<service name="WindowForTrial"/>
+
+	<method name="getReasonForAdjList">
+		<get>
+			<HTTPCache expires="endOfDay"/>
+		</get>
+	</method>
+	
+	<method name="getTrackList">
+		<get>
+			<HTTPCache expires="endOfDay"/>
+		</get>
+	</method>
+	
+	<method name="getWftStatusList">
+		<get>
+			<HTTPCache expires="endOfDay"/>
+		</get>
+	</method>
+
+</service-config>

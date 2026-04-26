@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>177</Id>
+	<Label>Other party</Label>
+	<ObjectName>DocServedOn2Other</ObjectName>
+	<Html>	
+		<input type="text" id="DocServedOn2Other"></input>
+	</Html>
+	<Javascript>
+		<XPath>/ds/EnterVariableData/FastTrack/docServedOn2Other</XPath>
+		<HintText>Enter the party or parties.</HintText>
+		<isMandatory>return true;</isMandatory>	
+		<enableOn>DocServedOn2.dataBinding</enableOn>
+		<isEnabled>return('OTH' == Services.getValue(DocServedOn2.dataBinding));</isEnabled>
+		<logicOn>DocServedOn2.dataBinding</logicOn>
+		<logic>
+			if('OTH' != Services.getValue(DocServedOn2.dataBinding))
+			{	Services.setValue(DocServedOn2Other.dataBinding, "");
+			}		
+		</logic>
+		<!-- <transformToModel>return WPU.encodeLineBreaks( this, value );</transformToModel>
+		<transformToDisplay>return WPU.decodeLineBreaks( this, value );</transformToDisplay>-->
+		
+		<Context ScreenId="CJR060">
+			<HintText>Enter the party or parties e.g. claimant, defendant 1 etc</HintText>
+		</Context>
+	</Javascript>
+</Question>

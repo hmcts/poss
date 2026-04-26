@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: DmsReport
+	Method:  getOverdueObligations()
+	File:    map_DMS.xml
+	Author:  Dave Turner
+	Created: 2004
+	
+Change History 
+	11 Oct 2006	Chris Hutt TD:5638 - pagination added
+	04 Aug 2009 Chris Vincent: Removed Claimant and Defendant nodes and also table
+	references to parties and case_party_roles.  TRAC 1186.
+-->
+<DBMapDef>
+	<DataSource id="java:OracleDS"/>
+	<Tables>
+		<Table alias="OB" name="OBLIGATIONS"/>
+		<Table alias="OT" name="OBLIGATION_TYPES"/>
+		<Table alias="CA" name="CASES"/>
+	</Tables>
+	<Mapping>
+		<ds>
+			<OverdueObligations>
+				<Obligation>
+					<CaseNumber>${OB.CASE_NUMBER}</CaseNumber>
+					<ObligationType>${OB.OBLIGATION_TYPE}</ObligationType>
+					<ObligationDescription>${OT.OBLIGATION_TEXT}</ObligationDescription>
+					<ExpiryDate>${OB.EXPIRY_DATE}</ExpiryDate>
+					<LastUsedBy>${OB.LAST_USED_BY}</LastUsedBy>
+					<Notes>${OB.NOTES}</Notes>
+					<ObligationSequence>${OB.OBLIGATION_SEQ}</ObligationSequence>
+					<DeleteFlag>${OB.DELETE_FLAG}</DeleteFlag>
+				</Obligation>
+			</OverdueObligations>
+		</ds>
+	</Mapping>
+</DBMapDef>

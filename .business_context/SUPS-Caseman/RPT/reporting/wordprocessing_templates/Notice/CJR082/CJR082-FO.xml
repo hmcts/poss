@@ -1,0 +1,206 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- ====================================================================== -->
+<!--  -->
+<!-- FILENAME: $Source: C:/CVSRepository/serveroas/src/uk/gov/dca/caseman/wordprocessing_templates/Notice/CJR082/CJR082-FO.xml,v $ -->
+<!--  -->
+<!-- AUTHOR: $Author: conganer $-->
+<!--  -->
+<!-- DATE: $Date: 2006/06/05 14:14:02 $ -->
+<!--  -->
+<!-- Version: $Revision: 1.9 $ -->
+<!--  -->
+<!-- DESCRIPTION: This stylesheet is used to create an XSL:FO document that -->
+<!-- can be processed into a PDF version.  Business logic -->
+<!-- is embedded to generate the correct document text for the order -->
+<!-- required. -->
+<!--  -->
+<!-- INPUTS: XML document containing: the answers to questions asked of the -->
+<!-- user; case data retrieved from the database; HTML representing the  -->
+<!-- body of the document content (already edited by the user). -->
+<!--  -->
+<!-- OUTPUTS: XML document with FO tags containing instructions for the -->
+<!-- creation of a PDF document. -->
+<!--  -->
+<!-- ====================================================================== -->
+<root xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:fo="http://www.w3.org/1999/XSL/Format" xmlns="http://eds.com/supsfo">
+	<variables>@word.processing.url.xsl@supsfo.xsl</variables>
+	<duplex/>
+	<layout>warrant</layout>
+	<addressee copies="2">
+		<blank/>
+	</addressee>
+	<header>
+		<fo:block font-size="16pt" font-weight="bold">Warrant of committal</fo:block>
+		<fo:block font-size="16pt" font-weight="bold">for disobedience</fo:block>
+		<fo:block font-size="16pt">(order to attend court for</fo:block>
+		<fo:block font-size="16pt">questioning)</fo:block>
+	</header>
+	<courtcase>
+		<court>
+			<xsl:copy-of select="$vdCourtHeaderBlock"/>
+		</court>
+		<caseparameters>
+			<parameter>
+				<name>
+					<fo:block font-weight="bold">Claim Number</fo:block>
+				</name>
+				<value>
+					<fo:block>
+						<xsl:value-of select="$vdClaimNumber"/>
+					</fo:block>
+				</value>
+			</parameter>
+			<parameter>
+				<name>
+					<fo:block font-weight="bold">Warrant Number</fo:block>
+				</name>
+				<value>
+					<fo:block>
+						<xsl:value-of select="$vdWarrantNumber"/>
+					</fo:block>
+				</value>
+			</parameter>			
+					<parameter>
+						<name>
+							<fo:block font-weight="bold">Creditor(s)</fo:block>
+						</name>
+						<value>
+							<fo:block hyphenate="true">
+								<xsl:value-of select="$vdJudgmentCreditorName"/>
+							</fo:block>
+							<fo:block hyphenate="true" font-size="9pt">
+								<xsl:value-of select="$vdJudgmentCreditorReference"/>
+							</fo:block>
+						</value>
+					</parameter>
+					<parameter>
+						<name>
+							<fo:block font-weight="bold">Debtor</fo:block>
+						</name>
+						<value>
+							<fo:block hyphenate="true">
+								<xsl:value-of select="$vdJudgmentDebtorName"/>
+							</fo:block>
+						</value>
+					</parameter>
+			<parameter>
+				<name>
+					<fo:block font-weight="bold">Date</fo:block>
+				</name>
+				<value>
+					<fo:block>
+						<xsl:value-of select="$vdEventDate"/>
+					</fo:block>
+				</value>
+			</parameter>
+		</caseparameters>
+	</courtcase>
+	<bodyintroright><fo:block space-before="0.4cm"><fo:inline text-align="center"><seal/></fo:inline></fo:block></bodyintroright>
+
+	<body>
+		<editable useid="N100D5">
+		<fo:block space-after="0.4cm">
+			<fo:inline font-weight="bold">To</fo:inline> the bailiffs of the court and every constable within the district of the court and to the Governor of Her Majesty's Prison
+		</fo:block>
+		<fo:block>
+			<fo:inline font-weight="bold">On </fo:inline> <xsl:value-of select="$vdHearingAtCourtDate"/>, <xsl:value-of select="$vdJudge"/>
+		</fo:block>
+		<fo:block>
+			sitting at <xsl:value-of select="$vdHearingAtCourtNameDescription"/>, <xsl:value-of select="$vdHearingAtCourtAddress"/>
+		</fo:block>
+		<fo:block space-after="0.4cm">
+			found that <xsl:value-of select="$vdWhoIs"/> of <xsl:value-of select="$vdWhereIs"/> ('the judgment debtor') had committed a breach of the order to attend court for questioning dated <xsl:value-of select="$vdQuestioningDate"/> and is accordingly in contempt of court and
+		</fo:block>
+		<fo:block space-after="0.4cm">
+			<fo:inline font-weight="bold">ordered that </fo:inline> <xsl:value-of select="$vdDebtorHeShe"/> be committed for contempt to Her Majesty's Prison <xsl:value-of select="$vdDisobedienceArrestPrisonName"/> for a period of <xsl:value-of select="$vdDisobedienceArrestCommittalDays"/> days and that the order for committal be suspended so long as <xsl:value-of select="$vdDebtorHeShe"/>
+			attend court at the time and place specified in that order and otherwise comply with the order to attend court for questioning dated <xsl:value-of select="$vdQuestioningDate"/><xsl:if test="string-length($vdOtherSuspensionDetails) > 0">&#xa0;<xsl:value-of select="$vdOtherSuspensionDetails"/>.</xsl:if><xsl:if test="string-length($vdOtherSuspensionDetails) = 0">.</xsl:if>
+		</fo:block>
+		<fo:block space-after="0.4cm">
+			<fo:inline font-weight="bold">On </fo:inline> <xsl:value-of select="$vdArrestDate"/>, the judgment debtor was arrested and brought before <xsl:value-of select="$vdCertifiedNonAttendanceJudge"/> sitting at <xsl:value-of select="$vdHearingCourtNameDescription"/>, <xsl:value-of select="$vdHearingCourtAddress"/> on <xsl:value-of select="$vdHearingDate"/>.
+		</fo:block>
+		<fo:block>
+			The judge was satisfied that
+		<list type="bullet">
+			<list-item>
+				<fo:block space-after="0.4cm">
+					<fo:inline>the judgment debtor <xsl:value-of select="$vdDisobedienceContempt"/> as required by the order to attend court for questioning dated <xsl:value-of select="$vdQuestioningDate"/></fo:inline>
+				</fo:block>
+			</list-item>
+			<list-item>
+				<fo:block space-after="0.4cm">
+					at the time and place mentioned in the order for committal dated <xsl:value-of select="$vdHearingAtCourtDate"/> the judgment debtor did not <xsl:value-of select="$vdQuestioningContempt2"/>
+				</fo:block>
+			</list-item>
+			<list-item>
+				<fo:block space-after="0.4cm">
+					<fo:inline>the conditions for suspension of that order of committal were therefore not met</fo:inline>
+				</fo:block>
+			</list-item>
+			<list-item>
+				<fo:block space-after="0.4cm">
+					<fo:inline>the judgment debtor persists in the contempt of court and that the order for committal dated the <xsl:value-of select="$vdHearingAtCourtDate"/> should not be discharged.</fo:inline>
+				</fo:block>
+			</list-item>
+		</list>
+		</fo:block>
+		<fo:block space-after="0.4cm">
+			You the bailiffs and constables are therefore required to deliver <xsl:value-of select="$vdWhoIs"/> to the Governor of Her Majesty's Prison <xsl:value-of select="$vdDisobedienceArrestPrisonName"/>
+		</fo:block>
+		<fo:block space-after="0.4cm">
+			and you the Governor to receive <xsl:value-of select="$vdDebtorHimHer"/> and safely keep <xsl:value-of select="$vdDebtorHimHer"/> in prison for <xsl:value-of select="$vdDisobedienceArrestCommittalDays"/> days from the date of <xsl:value-of select="$vdDebtorHisHer"/> arrest or until lawfully discharged if sooner.
+		</fo:block>
+		<fo:block>
+			Dated <xsl:value-of select="$vdWarrantDate"/>
+		</fo:block>
+		</editable>	
+		
+		<fo:block break-before="page"/>
+		<fo:block space-after="17cm">&#xa0;</fo:block>
+		<fo:table table-layout="fixed">
+			<fo:table-column column-width="19.28cm"></fo:table-column>
+			<fo:table-body>
+				<fo:table-row keep-with-next="always">
+					<fo:table-cell border-top-style="solid" border-top-width="0.08cm">
+						<fo:block space-before="0.6cm"  space-after="0.8cm" font-size="12pt" font-weight="bold">Bailiff's Certificate</fo:block>
+					</fo:table-cell>
+				</fo:table-row>
+				<fo:table-row keep-with-next="always">
+					<fo:table-cell>
+						<fo:block space-after="0.6cm" font-size="10pt">I arrested <xsl:value-of select="$vdWhoIs"/>, the judgment debtor, on __________________________________________________</fo:block>
+					</fo:table-cell>
+				</fo:table-row>
+				<fo:table-row keep-with-next="always">
+					<fo:table-cell>
+						<fo:block space-after="0.6cm" font-size="10pt">and brought <xsl:value-of select="$vdDebtorHimHer"/></fo:block>
+					</fo:table-cell>
+				</fo:table-row>
+				<fo:table-row keep-with-next="always">
+					<fo:table-cell>
+						<fo:block space-after="0.6cm" font-size="10pt">[before the judge on __________________________________________________]</fo:block>
+					</fo:table-cell>
+				</fo:table-row>
+				<fo:table-row keep-with-next="always">
+					<fo:table-cell>
+						<fo:block space-after="0.6cm" font-size="10pt">[into the custody of the Governor of Her Majesty's Prison</fo:block>
+					</fo:table-cell>
+				</fo:table-row>
+				<fo:table-row keep-with-next="always">
+					<fo:table-cell>
+						<fo:block space-after="1.0cm" font-size="10pt">at __________________________________________________ on __________________________________________________].</fo:block>
+					</fo:table-cell>
+				</fo:table-row>
+				<fo:table-row keep-with-next="always">
+					<fo:table-cell>
+						<fo:block font-size="10pt">Signed ______________________________________</fo:block>
+					</fo:table-cell>
+				</fo:table-row>
+				<fo:table-row keep-with-next="always">
+					<fo:table-cell padding-left="2cm">
+						<fo:block font-size="10pt">Bailiff of the County Court</fo:block>
+					</fo:table-cell>
+				</fo:table-row>
+			</fo:table-body>
+		</fo:table>	
+	</body>
+	<defaultFooter id="CJR082"/>
+</root>

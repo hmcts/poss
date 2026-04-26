@@ -1,0 +1,332 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN">
+
+<html>
+<head>
+
+	<title>Received Customer Tapes</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+	<link type="text/css" rel="stylesheet" title="Default" href="../CCBCStylesheet.css">
+	<link href="LogReceivedTapes.css" type="text/css" rel="stylesheet">
+    <script type="text/javascript" src="../../Framework.js"></script>
+    <script type="text/javascript" src="../../CaseManUtils.js"></script>
+    <script type="text/javascript" src="../../Messages.js"></script>
+    <script type="text/javascript" src="../CCBCShared.js"></script>
+	<script type="text/javascript" src="LogReceivedTapes.js"></script>
+</head>
+
+<body>
+    <form name="LogReceivedTapes" action="" id="LogReceivedTapes">
+    <div class="popup" id="Add_popup">
+		<table  class="content">
+			<tr>
+				<td align="center"><label>Add Tape File</label></td>
+			</tr>
+		</table>
+		<div class="panel">
+  				<table class="content" style="width: 240">
+				<tr>
+					<td width="28%">
+						<label for='Add_File_Name_Txt'>File Name</label>
+					</td>
+					<td colspan="3" width="72%">
+						<input id="Add_File_Name_Txt" type="text" size=20>
+					</td>
+				</tr>
+	  			<tr>
+					<td width="32%">
+						<label for='Add_Number_Of_Records_Txt'>Number of Records</label>
+					</td>
+					<td colspan="3" width="72%">
+						<input id="Add_Number_Of_Records_Txt" type="text" size=20>
+					</td>
+				</tr>
+ 	 		   <tr>
+					<td width="28%">
+						<label>Warrant Fees</label>
+					</td>
+					<td width="5%">
+						<input id="Add_Warrant_Fees_Cur" type="text"  size=2>
+					</td>
+					<td colspan="2" width="67%" align="left" >
+						<input id="Add_Warrant_Fees_Txt" type="text" size=10>
+					</td>
+				</tr>
+	 			<tr>
+					<td width="28%">
+						<label>Comments</label>
+					</td>
+					<td colspan="3" width="72%">
+						<script type="text/javascript">ZoomFieldRenderer.createInline("Add_Comments_Zoom", 5, 80);</script>
+					</td>
+				</tr>
+				<tr>
+					<td colspan="4" width="100%" align="right">
+						<input id="Add_OK_Btn" type="button" value="OK" size="10">
+						<input id="Add_Clear_Btn" type="button" value="Clear" >
+						<input id="Add_Cancel_Btn" type="button" value="Close">
+					</td>
+				</tr>
+		   	</table>
+		</div>
+	</div>
+	<div class="popup" id="Query_popup">
+		<table width="500px">
+			<tr>
+				<td align="center"><label>Search</label></td>
+			</tr>
+			<tr>
+				<td>
+					<div class="panel">
+			    		<table class="content" style="width: 555px;">
+			 		    	<tr>
+								<td width="20%">
+									<label for='Query_Library_Number_Txt'>Library Number</label>
+								</td>
+								<td width="40%">
+									<input type="text" id="Query_Library_Number_Txt" size=10>
+								</td>
+							</tr>
+							<tr>
+								<td width="20%">
+									<label for='Query_Customer_ID_Txt'>Customer</label>
+								</td>
+								<td colspan="3" width="80%">
+									<input type="text" id="Query_Customer_ID_Txt" size=4>
+									<input id="Query_Customer_Desc_Txt" type="text" size=40>
+									<input id="Query_Customer_LOV_Btn" type="button" value="LOV">
+								</td>
+							</tr>
+							<tr>
+								<td width="20%">
+									<label for='Query_Date_Received_Txt'>Date Received</label>
+								</td>
+								<td width="80%">
+								    <input type="text" id="Query_Date_Received_Txt" size="20"/>
+								</td>
+							</tr>
+			
+							<tr>
+								<td width="20%">
+									<label for='Query_Date_Returned_Txt'>Date Returned</label>
+								</td>
+			
+								<td width="80%">
+									<input type="text" id="Query_Date_Returned_Txt" size=20>
+								</td>
+							</tr>
+		
+							<tr>
+								<td width="20%">
+									<label for='Query_Tape_File_Name_Txt'>File Name</label>
+								</td>
+								<td colspan="3" width="80%">
+									<input id="Query_Tape_File_Name_Txt" type="text" size=11>
+								</td>
+							</tr>
+			
+				 	 		<tr>
+		 				  	    <td colspan = "4"  width="100%" align = "right">
+									 <input id="Query_Search_Btn" type="button" value="Search" >
+								</td>
+							</tr>
+						</table>
+					</div>
+					<div class="panel">
+						<table class="content" style="width: 555px;">
+					 		<tr>
+								<td width="100%" colspan=2 >
+									<div style="margin-top: 4px; margin-bottom: 4px;">
+										<script type="text/javascript" >Grid.createInline("Query_Tapes_Grid", ["Library Number", "Customer Code", "Customer Name", "Date Received", "Date Returned"], 8, 1);</script>
+									</div>
+								</td>
+							</tr>
+							<tr>
+								<td id="audit1" colspan = "4" align="center" width="100%">
+									<input id="Query_Grid_Prev" type="button" value= "&lt Previous" size=15 />
+									<label for = "Query_Grid_PageNumber">Page</label>
+					 				<input id="Query_Grid_PageNumber" type="text" size=4 style="text-align: center"/>
+					 				<input id="Query_Grid_Next"  type="button" value="  Next &gt  "  size=15 />
+								</td>
+							</tr>
+							<tr>
+								<td id="audit2" align="right" colspan = "4">
+								  	 <input id="Query_Select_Btn" type="button" value="Select">
+									 <input id="Query_Clear_Btn" type="button" value="Clear">
+									 <input id="Query_Cancel_Btn" type="button" value="Close">
+								</td>
+							</tr>
+						</table>
+					</div>
+				</td>
+			</tr>
+		</table>
+	</div>
+    <script type="text/javascript">LOVPopupRenderer.createInline( "Customer_Popup_LOV", "Select Customer", ["Code", "Name"], 8, 1,true);</script>
+    <script type="text/javascript">LOVPopupRenderer.createInline( "Query_Customer_Popup_LOV", "Select Customer", ["Code", "Name"], 8, 1,true);</script>
+    <table width="100%">
+  		<tr>
+   			<td>
+   				<script type="text/javascript">MenuBarRenderer.createInline();</script>
+   			</td>
+   		 </tr>
+	</table>
+	<div class="logic" id="LogicObjectOne"></div>
+	<div class="panel">
+		<table class="content" style="width: 965px;">
+			<tr valign="middle">
+				<td width="15%">
+					<label for='Main_Library_Number_Txt'>Library Number</label>
+				</td>
+				<td width="85%">
+					<input type="text" id="Main_Library_Number_Txt" size=10>
+				</td>
+			</tr>
+		</table>
+		</div>
+		<div class="panel">
+		<table class="content" style="width: 965px;  height: 190 px; border:1px;">
+			<tr>
+				<td>
+					<label for='Main_Customer_ID_Txt'>Customer</label>
+				</td>
+				<td>
+					<input type="text" id="Main_Customer_ID_Txt" size=4>
+					<input id="Main_Customer_Desc_Txt" type="text" size=111>
+					<input id="Main_Customer_LOV_Btn" type="button" value="LOV">
+				</td>
+			</tr>
+			<tr>
+				<td width="15%">
+					<label>Date Received</label>
+				</td>
+				<td colspan="3" width="85%">
+    			    <script type="text/javascript">DatePickerRenderer.createInline("Main_Date_Received_Cal", true);</script>
+				</td>
+			</tr>
+			<tr>
+				<td width="15%">
+					<label>Date to Operations</label>
+				</td>
+				<td colspan="3" width="85%">
+					 <script type="text/javascript">DatePickerRenderer.createInline("Main_Date_To_Operations_Cal", true);</script>
+				</td>
+			</tr>
+			<tr>
+				<td width="15%">
+					<label for='Main_Comments_Txt'>Comments</label>
+				</td>
+				<td colspan="3" width="85%">
+					<input type="text" id="Main_Comments_Txt" size=87>
+				</td>
+			</tr>
+			<tr>
+				<td width="15%">
+					<label>Date Returned</label>
+				</td>
+				<td colspan="3" width="85%">
+    			    <script type="text/javascript">DatePickerRenderer.createInline("Main_Date_Returned_Cal", true);</script>
+				</td>
+			</tr>
+
+			<tr>
+				<td width="15%">
+					&nbsp;
+				</td>
+
+				<td colspan="3" width="85%">
+					&nbsp;
+				</td>
+
+			</tr>
+ 		</table>
+ 	</div>
+	<table class="layout" style="width: 985px;  height: 385px;">
+		<tr>
+			<td width="45%" height="100%">
+				<div class="panel">
+					<table class="content" style="width: 400; height: 385px;">
+		  				<tr>
+						<td valign="top">
+							<div style="margin: 5px;">
+								<script type="text/javascript" >Grid.createInline("Main_Tape_Files_Grid", ["File Name"], 20, 1);</script>
+							</div>
+						</td>
+						<td></td>
+					</tr>
+					<tr>
+  		   		     	<td align = "right">
+							<input id="Main_Add_Btn" type="button" value="Add" size=10>
+							<input  id="Main_Remove_Btn" type="button" value="Remove" size=10>&nbsp;
+                    	</td>
+                   </tr>
+				</table>
+			</div>
+		</td>
+		<td width="55%" height="100%">
+			<div class="panel" style="margin-left: 5px;">
+				<table class="content" style="width:650; height: 385px;">
+					<tr>
+						<td width="25%">
+							<br><label for='Detail_File_Name_Txt'>File Name</label>
+						</td>
+						<td colspan="3" width="70%">
+						    <br>
+							<input id="Detail_File_Name_Txt" type="text" size=20>
+						</td>
+					</tr>
+		  			<tr>
+						<td width="25%">
+							<label for='Detail_Number_Of_Records_Txt'>Number of Records</label>
+						</td>
+						<td colspan="3" width="70%">
+							<input id="Detail_Number_Of_Records_Txt" type="text" size=20>
+						</td>
+					</tr>
+	 	 		    <tr>
+						<td width="25%">
+							<label>Warrant Fees</label>
+						</td>
+						<td colspan="3" width="70%">
+							<input id="Detail_Warrant_Fees_Cur" type="text"  size=3 >
+							<input id="Detail_Warrant_Fees_Txt" type="text" size=10>
+						</td>
+		    		</tr>
+		 			<tr>
+						<td width="25%">
+							<label>Comments</label>
+						</td>
+						<td colspan="3" width="70%">
+							<script type="text/javascript">ZoomFieldRenderer.createInline("Detail_Comments_Zoom", 5, 50);</script>
+						</td>
+					</tr>
+
+					<tr>
+						<td width="25%">
+							<label for='Detail_Status_Txt'>Status</label>
+						</td>
+						<td colspan="3" width="70%">
+						    <input id="Detail_Status_Txt" type="text" size=10>
+						</td>
+					</tr>
+
+			 		<tr>
+  	                    	<td colspan = "4" height = "250" ></td>
+                  		</tr>
+ 				     	</table>
+      			</div>
+      		</td>
+      	</tr>
+ 	</table>
+   <script type="text/javascript">
+	ActionBarRenderer.createInline(	"statusbar",
+								[
+								 {id: "Main_Zoom_Btn", label:   "Zoom1"},
+								 {id: "Main_Save_Btn", label:   "Save"},
+								 {id: "Main_Delete_Btn", label: "Delete"},
+								 {id: "Main_Clear_Btn", label:  "Clear"},
+		                         {id: "Main_Back_Btn", label:   "Close"}
+		                        ]);
+	</script>
+	</form>
+</body>
+</html>

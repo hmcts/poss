@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: Codedparty
+	Method:  getNatCodedPartiesFilter()
+	File:    map_get_nat_coded_parties_filter.xml
+	Author:  Phil Haferer
+	Created: 01 December 2005
+	Description: 
+		Summary map of National Coded Parties.
+	Updated 08/02/2006:
+		Chris Vincent - Added Party Id and Address Id to map which are needed for audit
+		Also added Payee Id and Payee Address Id which are also required for audit
+	05-Jan-2007 Phil Haferer: 
+				Added table alias' for Claimant entity, and the Default Claimant tag elements.
+                (TD Group2 3557: "Maintain National Coded Parties - Default Claimant not being stored on database").
+-->
+<DBMapDef>
+  <DataSource id="java:OracleDS"/>
+  <Tables>
+    <Table alias="CP" name="CODED_PARTIES"/>
+    <Table alias="P" name="PARTIES"/>
+    <Table alias="GA" name="GIVEN_ADDRESSES"/>
+	<Table alias="PY" name="PAYEES"/>
+	<Table alias="PGA" name="GIVEN_ADDRESSES"/>
+	<Table alias="PP" name="PARTIES"/>
+	<Table alias="P2P" name="PARTY_TO_PARTY_RELATIONSHIP"/>
+    <Table alias="CLP2P" name="PARTY_TO_PARTY_RELATIONSHIP"/>
+    <Table alias="CLP"   name="PARTIES"/>
+    <Table alias="CLGA"  name="GIVEN_ADDRESSES"/>
+  </Tables>
+  <Mapping>
+    <CodedParties>
+    	<CodedParty>
+    		<Code>${CP.CODE}</Code>
+    		<CourtCode>${CP.ADMIN_COURT_CODE}</CourtCode>
+    		<Name>${P.PERSON_REQUESTED_NAME}</Name>
+			<PartyId>${P.PARTY_ID}</PartyId>
+			<AddressId>${GA.ADDRESS_ID}</AddressId>
+			<Line>${GA.ADDRESS_LINE1}</Line>
+			<Line>${GA.ADDRESS_LINE2}</Line>
+			<PostCode>${GA.POSTCODE}</PostCode>
+			<Payee>
+				<PayeeId>${PY.PARTY_ID}</PayeeId>
+				<AddressId>${PGA.ADDRESS_ID}</AddressId>
+			</Payee>
+    	    <DefaultClaimant>
+				<PartyId>${CLP.PARTY_ID}</PartyId>
+				<AddressId>${CLGA.ADDRESS_ID}</AddressId>
+	        </DefaultClaimant>
+    	</CodedParty>
+    </CodedParties>	
+  </Mapping>
+</DBMapDef>

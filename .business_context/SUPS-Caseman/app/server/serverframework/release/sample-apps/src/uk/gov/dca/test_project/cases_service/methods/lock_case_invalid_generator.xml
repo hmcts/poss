@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<service-method>
+	<pipeline>
+		<Lock wait="false">
+			<datasource id="java:SupsDS" table="locking_table"/>
+			<lockId generator="uk.gov.dca.test_project.cases_service.classes.InvalidClassName"/>
+		</Lock>
+		<Wait delay="15000"/>
+	</pipeline>
+	<Security roles="user"/>
+	<Transaction type="Required"/>
+</service-method>

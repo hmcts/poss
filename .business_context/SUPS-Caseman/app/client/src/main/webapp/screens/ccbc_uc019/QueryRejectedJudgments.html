@@ -1,0 +1,317 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN">
+<html>
+<head>
+<title>Query Rejected Judgments</title>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<link type="text/css" rel="stylesheet" title="Default" href="../CCBCStylesheet.css">
+<link type="text/css" rel="stylesheet" href="QueryRejectedJudgments.css">
+<script type="text/javascript" src="../../Framework.js"></script>
+<script type="text/javascript" src="../../CaseManUtils.js"></script>
+<script type="text/javascript" src="../../Messages.js"></script>
+<script type="text/javascript" src="../CCBCShared.js"></script>
+<script type="text/javascript" src="QueryRejectedJudgments.js"></script>
+
+
+</head>
+<body style="width:100%">
+<form name="QueryRejectedJudgments" action="" id="QueryRejectedJudgments" >
+<!-- Menu Bar -->
+<script type="text/javascript">MenuBarRenderer.createInline();</script>
+
+<div class="panel" >
+<table class="content"  width="100%">
+	<tr>				
+		<td width="15%"><label for="Query_Case_Number_Txt">Case Number</label></td>
+		<td colspan="2"><input type="text" id="Query_Case_Number_Txt" size=10></td>		
+		<td width="10%"><label for="Query_Payee_Name_Txt">Payee Name</label></td>
+		<td colspan="2"><input type="text" id="Query_Payee_Name_Txt" size=70></td>
+		<td>&nbsp;</td>
+	</tr>
+	<tr>						
+		<td><label for="Query_File_Sequence_Number_Txt">File Sequence Number</label></td>
+		<td colspan="2"><input type="text" id="Query_File_Sequence_Number_Txt" size=5></td>
+		<td><label for="Query_Creditor_Code_Txt">Creditor Code</label></td>
+		<td colspan="2"><input type="text" id="Query_Creditor_Code_Txt" size=5>&nbsp;<input type="text" id="Query_Customer_Name_Txt" size=70>&nbsp;
+		<script type="text/javascript">LOVPopupRenderer.createInline( "customerLOV", "Customer LOV", ["Creditor Code", "Customer Name"], 10, 1,true);</script>
+		<input type="button" value="LOV" id="Query_Customer_LOV_Btn" size="8" /></td>
+		<td align="right"><input type="button" id="Query_Search_Btn" value="Search"></td>	
+	</tr>	
+</table>
+</div>
+<div class="panel" style="height: 513px;">
+<table class="content" width="100%" >
+	<tr>		
+		<td valign="top">
+			<div id="RejectedJudgmentsTabArea" class="tabbedArea">
+			<script type="text/javascript">	
+				TabSelector.createInline("RejectedJudgmentsTabSelector",[{tabLabel: 'Reject Judgments', pageId: 'FirstPage'}, {tabLabel: 'Payee Details', pageId: 'SecondPage'},{tabLabel: 'Payment Details', pageId: 'ThirdPage'}]);
+			</script>			
+			<div id="RejectedJudgmentsPagedArea" class="pagedArea">
+<!-- Page Number 1 -->
+		<div class="page" id="FirstPage">
+		<table class="tab_content" width="100%">
+			<tr>
+				<td width="18%"><label for="Tabs_Case_Number_Txt">Case Number</label></td>
+				<td colspan="5"><input type="text" id="Tabs_Case_Number_Txt" size=10></td>
+			</tr>
+			<tr>
+				<td><label>Reject Date and Reason</label></td>
+				<td width="17%"><script type="text/javascript">DatePickerRenderer.createInline("Tabs_Date_Rejected_Cal", false);</script></td>
+				<td width="13%" align="left"><input type="text" id="Tabs_Reject_Code_Txt" size=2></td>
+				
+				<td align="left" colspan="3"><span style="position:relative;right:85px;"><input type="text" id="Tabs_Reject_Reason_Txt" size=70></span></td>
+			</tr>
+	
+			<tr>
+				<td><label for="Tabs_File_Sequence_Txt">File Sequence</label></td>
+				<td><input type="text" id="Tabs_File_Sequence_Txt" size=5></td>
+				<td><label for="Tabs_Creditor_Code_Txt">Creditor Code</label>
+				<td width="14%"><input type="text" id="Tabs_Creditor_Code_Txt" size=5.7></td>
+				<td width="13%" align="left" ><label for="Tabs_Defendant_Id_Txt">Defendant Id</label></td>
+    			<td width="25%" align="left"><span style="position:relative;left:2px;"><input type="text" id="Tabs_Defendant_Id_Txt" size=1></span></td>
+			</tr>
+			</table>
+			
+			<table class="tab_content" width="100%">
+			<tr>
+				<td width="18%" valign="top"><label for="Tabs_Defendant_Address1_Txt">Defendant Address</label></td>
+				<td width="32%"><input id="Tabs_Defendant_Address1_Txt" size="35" ></td>
+				<td width="18%"><label for="Tabs_Judgment_Type_Txt">Judgment Type</label></td>
+				<td width="32%"><input type="text" id="Tabs_Judgment_Type_Txt" size=10></td>
+			</tr>
+			
+			<tr>
+				<td>&nbsp;</td>
+				<td><input id="Tabs_Defendant_Address2_Txt" size="35" ></td>
+				<td><label for="Tabs_Joint_CBx">Joint Judgment</label></td>
+			  	<td><input type="checkbox" id="Tabs_Joint_CBx"></td>
+			</tr>
+			
+			<tr>
+				<td>&nbsp;</td>
+				<td><input id="Tabs_Defendant_Address3_Txt" size="35" ></td>
+				<td><label for="Tabs_Frequency_Txt">Frequency</label>
+				<td><input type="text" id="Tabs_Frequency_Txt" size=11></td>
+			</tr>
+			
+			<tr>
+				<td>&nbsp;</td>
+				<td><input id="Tabs_Defendant_Address4_Txt" size="35" ></td>
+				<td><label>First Payment Date</label>
+				<td><script type="text/javascript">DatePickerRenderer.createInline("Tabs_First_Payment_Date_Cal", true);</script></td>
+			</tr>
+					
+			<tr>
+				<td>&nbsp;</td>
+				<td><input id="Tabs_Defendant_Address5_Txt" size="35" ></td>
+				<td><label for="Tabs_Judgment_Amount_Txt">Judgment Amount</label>
+				<td><input type = "text" id ="Tabs_Judgment_Amount_Cur" size = "1">
+				<input type="text" id="Tabs_Judgment_Amount_Txt" size=11>
+				</td>
+		    </tr>			
+			
+			<tr>
+				
+				<td><label for="Tabs_Post_Code_Txt">Postcode</label></td>
+				<td><input type="text" id="Tabs_Post_Code_Txt" size=10></td>
+				<td><label for="Tabs_Interest_Txt">Interest</label></td>
+				<td>			
+					<input type = "text" id ="Tabs_Interest_Cur" size = "1">
+					<input type="text" id="Tabs_Interest_Txt" size=11>
+				</td>
+			</tr>
+	
+			<tr>
+				<td><label for="Tabs_DX_Number_Txt">DX Number</label></td>
+				<td><input type="text" id="Tabs_DX_Number_Txt" size=35></td>
+				<td><label for="Tabs_Total_Costs_Txt">Total Costs</label></td>
+				<td>
+				<input type = "text" id ="Tabs_Total_Costs_Cur" size = "1">
+				<input type="text" id="Tabs_Total_Costs_Txt" size=11>
+				</td>
+			</tr>
+		
+			<tr>
+				<td><label for="Tabs_Telephone_Number_Txt">Telephone Number</label></td>
+				<td><input type="text" id="Tabs_Telephone_Number_Txt" size=14></td>
+				<td><label for="Tabs_Paid_Before_Judgment_Txt">Paid Before Judgment</label></td>				
+				<td>
+				<input type = "text" id ="Tabs_Paid_Before_Judgment_Cur" size = "1">
+				<input type="text" id="Tabs_Paid_Before_Judgment_Txt" size=11>
+				</td>
+			</tr>
+		
+			<tr>
+				<td><label for="Tabs_Fax_Number_Txt">Fax Number</label></td>
+				<td><input type="text" id="Tabs_Fax_Number_Txt" size=24></td>
+				<td><label for="Tabs_Total_Txt">Total</label></td>
+				<td>
+				<input type = "text" id ="Tabs_Total_Cur" size = "1">
+				<input type="text" id="Tabs_Total_Txt" size=11>
+				</td>
+			</tr>
+			<tr>
+				<td><label>Email Address</label></td>
+				<td><script type="text/javascript">ZoomFieldRenderer.createInline("Tabs_Email_Address_Txt",5, 51);</script></td>												
+				<td><label for="Tabs_Instalment_Amount_Txt">Instalment Amount</label></td>
+				<td>
+				<input type = "text" id ="Tabs_Instalment_Amount_Cur" size = "1">
+				<input type="text" id="Tabs_Instalment_Amount_Txt" size=11>
+				</td>
+			</tr>
+			<tr>
+				<td><label for="Tabs_Comm_Method_Txt">Communication Method</label></td>
+				<td colspan="3"><input type="text" id="Tabs_Comm_Method_Txt" size=10></td>
+			</tr>
+				<tr>
+				<td><label>Defendant DoB</label></td>
+				<td colspan="3"><input class="datetext"  type="text" id="Tabs_DoB_Cal" size=23/></td>
+			</tr>
+		</table>
+		</div>
+<!-- End of Page Number 1 -->
+
+<!-- Page Number 2 -->
+<div class="page" id="SecondPage">
+		<table class="tab_contents" width="100%">
+			<tr>
+				<td width="20%"><label for="Tabs_Payee_Name_Txt">Payee Name</label></td>
+				<td><input type="text" id="Tabs_Payee_Name_Txt" size=70></td>
+			</tr>
+			<tr>
+				<td valign="top"><label for="Tabs_Payee_Address1_Txt">Address</label></td>
+				<td ><input type="text" id="Tabs_Payee_Address1_Txt" size=35></td>				
+			</tr>
+			
+			<tr>
+				<td>&nbsp;</td>
+				<td><input type="text" id="Tabs_Payee_Address2_Txt" size=35></td>				
+			</tr>
+			<tr>
+				<td>&nbsp;</td>
+				<td ><input type="text" id="Tabs_Payee_Address3_Txt" size=35></td>				
+			</tr>
+			<tr>
+				<td>&nbsp;</td>
+				<td ><input type="text" id="Tabs_Payee_Address4_Txt" size=35></td>				
+			</tr>
+			<tr>
+				<td>&nbsp;</td>
+				<td ><input type="text" id="Tabs_Payee_Address5_Txt" size=35></td>				
+			</tr>			
+			<tr>
+				<td><label for="Tabs_Payee_Postcode_Txt">Postcode</label></td>
+				<td><input type="text" id="Tabs_Payee_Postcode_Txt" size=10></td>
+			</tr>
+			<tr>
+				<td><label for="Tabs_Payee_DX_Txt">DX Number</label></td>
+				<td><input type="text" id="Tabs_Payee_DX_Txt" size=35></td>
+			</tr>		
+			<tr>
+				<td><label for="Tabs_Payee_Telephone_Txt">Telephone Number</label></td>
+				<td><input type="text" id="Tabs_Payee_Telephone_Txt" size=14></td>
+			</tr>
+			
+			<tr>
+				<td><label for="Tabs_Payee_Fax_Txt">Fax Number</label></td>
+				<td><input type="text" id="Tabs_Payee_Fax_Txt" size=24></td>
+			</tr>
+			<tr>
+				<td><label>Email Address</label></td>
+				<td><script type="text/javascript">ZoomFieldRenderer.createInline("Tabs_Payee_Email_Txt",5, 51);</script></td>												
+				
+			</tr>
+			<tr>
+				<td><label for="Tabs_Payee_Comm_Method_Txt">Communication Method</label></td>
+				<td><input type="text" id="Tabs_Payee_Comm_Method_Txt" size=10></td>
+			</tr>
+			<tr>
+				<td><label for="Tabs_Reference_Txt">Reference</label></td>
+				<td><input type="text" id="Tabs_Reference_Txt" size=25></td>
+			</tr>
+			<tr>
+				<td><label for="Tabs_Validated_CBx">Validated</label></td>
+				<td><input type="checkbox" id="Tabs_Validated_CBx" size=1></td>
+			</tr>
+		</table>
+		</div>
+<!-- End of Page Number 2 -->
+<!-- Page Number 3 -->
+<div class="page" id="ThirdPage">
+		<table class="tab_contents" width="100%">
+			<tr>
+				<td width="20%"><label for="Tabs_Slip_Codeline1_Txt">Slip Codeline 1</label>
+				</td>
+				<td><input type="text" id="Tabs_Slip_Codeline1_Txt" size=70></td>
+			</tr>
+			<tr>
+				<td><label for="Tabs_Slip_Codeline2_Txt">Slip Codeline 2</label>
+				</td>
+				<td><input type="text" id="Tabs_Slip_Codeline2_Txt" size=70></td>
+			</tr>
+			<tr>
+				<td><label for="Tabs_Bank_Sort_Code_Txt">Bank Sort Code</label></td>
+				<td><input type="text" id="Tabs_Bank_Sort_Code_Txt" size=10></td>
+			</tr>
+			<tr>
+				<td><label for="Tabs_Bank_Account_Number_Txt">Bank Account Number</label>
+				</td>
+				<td><input type="text" id="Tabs_Bank_Account_Number_Txt" size=20></td>
+			<tr>
+				<td><label for="Tabs_Account_Holder_Txt">Account Holder</label></td>
+				<td><input type="text" id="Tabs_Account_Holder_Txt" size=70></td>
+			</tr>
+			<tr>
+				<td><label for="Tabs_Bank_Name_Txt">Bank Name</label></td>
+				<td><input type="text" id="Tabs_Bank_Name_Txt" size=30></td>
+			</tr>
+			<tr>
+				<td><label for="Tabs_Bank_Information1_Txt">Bank Information 1</label></td>
+				<td><input type="text" id="Tabs_Bank_Information1_Txt" size=30></td>
+			</tr>
+			<tr>
+				<td><label for="Tabs_Bank_Information2_Txt">Bank Information 2</label></td>
+				<td><input type="text" id="Tabs_Bank_Information2_Txt" size=30></td>
+			</tr>
+			<tr>
+				<td><label for="Tabs_Giro_Account_Number_Txt">Giro Account Number</label></td>
+				<td><input type="text" id="Tabs_Giro_Account_Number_Txt" size=10></td>
+			</tr>
+			<tr>
+				<td><label for="Tabs_Giro_Transaction_Code1_Txt">Giro Transaction Code 1</label></td>
+				<td><input type="text" id="Tabs_Giro_Transaction_Code1_Txt" size=10></td>
+			</tr>
+			<tr>
+				<td><label for="Tabs_Giro_Transaction_Code2_Txt">Giro Transaction Code 2</label></td>
+				<td><input type="text" id="Tabs_Giro_Transaction_Code2_Txt" size=2></td>
+			</tr>
+			<tr>
+				<td><label for="Tabs_APACS_Transaction_Code_Txt">APACS Transaction Code</label></td>
+				<td><input type="text" id="Tabs_APACS_Transaction_Code_Txt" size=2></td>
+			</tr>			
+		</table>
+		</div>
+<!-- End of Page Number 4 -->
+	</div>
+	</div>	
+	<td>			
+</tr>
+</table>
+</div>
+
+<script type="text/javascript">
+	ActionBarRenderer.createInline(	"statusbar",
+							[
+								{id: "Zoom_Hidden_Btn", label: "Zoom"},
+								{id: "Master_Previous_Btn", label: "Previous"},
+								{id: "Master_Next", label: "Next"},
+					            {id: "Master_Clear", label: "Clear"},
+					            {id: "Master_Back", label: "Close"}
+							]);	  
+	
+	
+</script>
+
+</form>
+</body>
+</html>

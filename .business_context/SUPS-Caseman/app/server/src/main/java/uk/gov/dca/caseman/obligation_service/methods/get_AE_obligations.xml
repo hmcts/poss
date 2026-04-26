@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: Obligation
+	Method:  getAEObligations()
+	File:    get_AE_obligations.xml
+	Author:  Amjad Khan
+	Created: 21 Jun 2005
+	Description:
+		Retrieves Obligations associated with AE Events
+-->
+<service-method>
+	<pipeline>
+		<NewQuery>
+			<QueryDef location="uk/gov/dca/caseman/obligation_service/query_def_get_ae_obligations.xml"/>
+			<QueryExtension pivotNode="/ds/MaintainObligations">
+				<Param name="param.caseNumber" xpath="/params/param[@name = 'caseNumber']"/>
+				<Constraint>C.CASE_NUMBER = ${param.caseNumber}</Constraint>
+			</QueryExtension>
+		</NewQuery>
+	</pipeline>
+	<Security roles="viewOnly medium high wcSuper scSuper bmsSuper aeSuper dmSuper cpSuper ccbcMan ccbcUser ccbcSGB2"/> 		
+</service-method>

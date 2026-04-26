@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: Co
+	Method:  getCoDebtCreditor()
+	File:    query_def_get_co_debt_creditor.xml
+	Author:  Phil Haferer (EDS)
+	Created: 02 September 2005
+	Description: 
+		Retrieve the details relating to a particular Creditor within a Case, for the purpose
+		of associating them with a Consolidated Order Allowed Debt.
+-->
+<QueryDef>
+  <DBMapDef location="uk/gov/dca/caseman/co_service/map_get_co_debt_creditor.xml"/>
+  <Query pivotNode="/ds/Debt" tables="C CT">
+	<Join>
+		CT.CODE = C.ADMIN_CRT_CODE
+	</Join>
+	<Alias name="GA_TABLE_ALIAS" select="'GA'"/>
+	<Alias name="EXISTING_VALUE" select="'EXISTING'"/>
+  </Query>
+  
+  <Query pivotNode="/ds/Debt/Creditor" tables="P CP">
+	<SQL type="select">
+		(SELECT P.PARTY_ID                        AS "P.PARTY_ID"
+		,      NULL                               AS "CP.CODE"
+		,      GA.ADDRESS_ID                      AS "GA.ADDRESS_ID"
+		,      GA.ADDRESS_LINE1                   AS "GA.ADDRESS_LINE1"
+		,      GA.ADDRESS_LINE2                   AS "GA.ADDRESS_LINE2"
+		,      GA.ADDRESS_LINE3                   AS "GA.ADDRESS_LINE3"
+		,      GA.ADDRESS_LINE4                   AS "GA.ADDRESS_LINE4"
+		,      GA.ADDRESS_LINE5                   AS "GA.ADDRESS_LINE5"
+		,      GA.POSTCODE                        AS "GA.POSTCODE"
+		,      GA.ADDRESS_TYPE_CODE               AS "GA.ADDRESS_TYPE_CODE"
+		,      GA.VALID_FROM                      AS "GA.VALID_FROM"
+		,      GA.VALID_TO                        AS "GA.VALID_TO"
+		,      GA.UPDATED_BY                      AS "GA.UPDATED_BY"
+		,      GA.PARTY_ID                        AS "GA.PARTY_ID"
+		,      P.DX_NUMBER                        AS "P.DX_NUMBER"
+		,      P.TEL_NO                           AS "P.TEL_NO"
+		,      P.PERSON_REQUESTED_NAME            AS "P.PERSON_REQUESTED_NAME"
+		,      P.FAX_NUMBER                       AS "P.FAX_NUMBER"
+		,      P.EMAIL_ADDRESS                    AS "P.EMAIL_ADDRESS"
+		,      CPR.PAYEE_FLAG                     AS "CPR.PAYEE_FLAG"
+		,      CPR.PREFERRED_COMMUNICATION_METHOD AS "CPR.PREF_COMM_METHOD"
+		,      CPR.WELSH_INDICATOR                AS "CPR.WELSH_INDICATOR"
+		,      CPR.REFERENCE                      AS "CPR.REFERENCE"
+		,      CPR2CPR.CPR_B_CASE_NUMBER          AS "CPR2CPR.CPR_B_CASE_NUMBER"
+		,      CPR2CPR.CPR_B_CASE_PARTY_NO        AS "CPR2CPR.CPR_B_CASE_PARTY_NO"
+		,      CPR2CPR.CPR_B_PARTY_ROLE_CODE      AS "CPR2CPR.CPR_B_PARTY_ROLE_CODE"
+		,      CPR2CPR.PERSONAL_REFERENCE         AS "CPR2CPR.PERSONAL_REFERENCE"
+		,      CPR.ORA_ROWSCN                     AS "CPR_ORA_ROWSCN"
+		,      P.ORA_ROWSCN                       AS "P_ORA_ROWSCN"
+		,      NULL                               AS "CP_ORA_ROWSCN"
+		,      GA.ORA_ROWSCN                      AS "GA_ORA_ROWSCN"
+		,      CPR2CPR.ORA_ROWSCN                 AS "CPR2CPR_ORA_ROWSCN"
+		FROM   CASE_PARTY_ROLES        CPR
+		,      PARTIES                 P
+		,      GIVEN_ADDRESSES         GA
+		,      CPR_TO_CPR_RELATIONSHIP CPR2CPR 
+		WHERE  CPR.CASE_NUMBER      = ${param.caseNumber} 
+		AND    CPR.PARTY_ROLE_CODE  = ${param.partyRoleCode} 
+		AND    CPR.CASE_PARTY_NO    = ${param.casePartyNo} 
+		AND    P.PARTY_ID           = CPR.PARTY_ID 
+		AND    GA.CASE_NUMBER       = CPR.CASE_NUMBER
+		AND    GA.PARTY_ROLE_CODE   = CPR.PARTY_ROLE_CODE
+		AND    GA.CASE_PARTY_NO     = CPR.CASE_PARTY_NO
+		AND    GA.ADDRESS_TYPE_CODE = 'SERVICE'
+		AND    GA.VALID_TO IS NULL
+		AND    CPR2CPR.CPR_A_CASE_NUMBER     (+)= CPR.CASE_NUMBER
+		AND    CPR2CPR.CPR_A_PARTY_ROLE_CODE (+)= CPR.PARTY_ROLE_CODE
+		AND    CPR2CPR.CPR_A_CASE_PARTY_NO   (+)= CPR.CASE_PARTY_NO
+		AND    CPR2CPR.CPR_B_PARTY_ROLE_CODE (+)= 'SOLICITOR' 
+		AND    CPR2CPR.DELETED_FLAG          (+)= 'N'
+		) UNION (
+		SELECT P.PARTY_ID                         AS "P.PARTY_ID"
+		,      CP.CODE                            AS "CP.CODE"
+		,      GA.ADDRESS_ID                      AS "GA.ADDRESS_ID"
+		,      GA.ADDRESS_LINE1                   AS "GA.ADDRESS_LINE1"
+		,      GA.ADDRESS_LINE2                   AS "GA.ADDRESS_LINE2"
+		,      GA.ADDRESS_LINE3                   AS "GA.ADDRESS_LINE3"
+		,      GA.ADDRESS_LINE4                   AS "GA.ADDRESS_LINE4"
+		,      GA.ADDRESS_LINE5                   AS "GA.ADDRESS_LINE5"
+		,      GA.POSTCODE                        AS "GA.POSTCODE"
+		,      GA.ADDRESS_TYPE_CODE               AS "GA.ADDRESS_TYPE_CODE"
+		,      GA.VALID_FROM                      AS "GA.VALID_FROM"
+		,      GA.VALID_TO                        AS "GA.VALID_TO"
+		,      GA.UPDATED_BY                      AS "GA.UPDATED_BY"
+		,      GA.PARTY_ID                        AS "GA.PARTY_ID"
+		,      P.DX_NUMBER                        AS "P.DX_NUMBER"
+		,      P.TEL_NO                           AS "P.TEL_NO"
+		,      P.PERSON_REQUESTED_NAME            AS "P.PERSON_REQUESTED_NAME"
+		,      P.FAX_NUMBER                       AS "P.FAX_NUMBER"
+		,      P.EMAIL_ADDRESS                    AS "P.EMAIL_ADDRESS"
+		,      CPR.PAYEE_FLAG                     AS "CPR.PAYEE_FLAG"
+		,      CPR.PREFERRED_COMMUNICATION_METHOD AS "CPR.PREF_COMM_METHOD"
+		,      CPR.WELSH_INDICATOR                AS "CPR.WELSH_INDICATOR"
+		,      CPR.REFERENCE                      AS "CPR.REFERENCE"
+		,      CPR2CPR.CPR_B_CASE_NUMBER          AS "CPR2CPR.CPR_B_CASE_NUMBER"
+		,      CPR2CPR.CPR_B_CASE_PARTY_NO        AS "CPR2CPR.CPR_B_CASE_PARTY_NO"
+		,      CPR2CPR.CPR_B_PARTY_ROLE_CODE      AS "CPR2CPR.CPR_B_PARTY_ROLE_CODE"
+		,      CPR2CPR.PERSONAL_REFERENCE         AS "CPR2CPR.PERSONAL_REFERENCE"
+		,      CPR.ORA_ROWSCN                     AS "CPR_ORA_ROWSCN"
+		,      P.ORA_ROWSCN                       AS "P_ORA_ROWSCN"
+		,      CP.ORA_ROWSCN                      AS "CP_ORA_ROWSCN"
+		,      GA.ORA_ROWSCN                      AS "GA_ORA_ROWSCN"
+		,      CPR2CPR.ORA_ROWSCN                 AS "CPR2CPR_ORA_ROWSCN"
+		FROM   CASE_PARTY_ROLES CPR
+		,      PARTIES          P
+		,      CODED_PARTIES    CP
+		,      GIVEN_ADDRESSES  GA
+		,      CPR_TO_CPR_RELATIONSHIP CPR2CPR 
+		WHERE  CPR.CASE_NUMBER      = ${param.caseNumber} 
+		AND    CPR.PARTY_ROLE_CODE  = ${param.partyRoleCode} 
+		AND    CPR.CASE_PARTY_NO    = ${param.casePartyNo} 
+		AND    P.PARTY_ID           = CPR.PARTY_ID 
+		AND    CP.PARTY_ID          = CPR.PARTY_ID 
+		AND    GA.CASE_NUMBER       IS NULL
+		AND    GA.PARTY_ROLE_CODE   IS NULL
+		AND    GA.CASE_PARTY_NO     IS NULL
+		AND    GA.PARTY_ID          = CPR.PARTY_ID
+		AND    GA.ADDRESS_TYPE_CODE = 'CODED PARTY'
+		AND    CPR2CPR.CPR_A_CASE_NUMBER     (+)= CPR.CASE_NUMBER
+		AND    CPR2CPR.CPR_A_CASE_PARTY_NO   (+)= CPR.CASE_PARTY_NO
+		AND    CPR2CPR.CPR_A_PARTY_ROLE_CODE (+)= CPR.PARTY_ROLE_CODE
+		AND    CPR2CPR.CPR_B_PARTY_ROLE_CODE (+)= 'SOLICITOR' 
+		AND    CPR2CPR.DELETED_FLAG          (+)= 'N')
+	</SQL>
+  </Query>  
+</QueryDef>

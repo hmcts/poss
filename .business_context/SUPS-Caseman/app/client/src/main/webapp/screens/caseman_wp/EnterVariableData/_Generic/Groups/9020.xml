@@ -1,0 +1,69 @@
+<Group id="9020">
+	<ServicesRequired>
+		<mapping name="updateCaseEventRegisterJudgment" serviceName="updateCaseEventRegisterJudgment"/>
+		<service name="updateCaseEventRegisterJudgment" cache="none" url="CaseEvent" method="updateCaseEventRegisterJudgment">
+		</service>
+	</ServicesRequired>
+	<Protocols>
+		<OnSave>
+			<function>updateCaseEventRegisterJudgment</function>
+			<functionCallback>updateCaseEventRegisterJudgmentCallback</functionCallback>
+		</OnSave>
+	</Protocols>
+	<JavaScript>	
+		
+function updateCaseEventRegisterJudgment() 
+{  	
+	var caseEventSeq = Services.getValue("/ds/CaseEvent/CaseEventSeq");
+	var eventDetails = Services.getValue("/ds/EnterVariableData/Judgment/isregistered");
+	var params = new ServiceParams();
+	var caseEventDOM = XML.createDOM(null,null,null);
+	var judgmentid = Services.getValue( "/ds/EnterVariableData/newjudgmentid");
+	var caseNumber = WP.GetScreenProcess().getCaseNumber();
+	var owningCourt = WPU.getCaseOwningCourt();
+	var eventDate = Services.getValue("/ds/CaseEvent/EventDate");
+	var eventId = Services.getValue("/ds/CaseEvent/StandardEventId");
+	var subjectNo = Services.getValue("/ds/CaseEvent/SubjectCasePartyNumber");
+	
+	caseEventDOM.loadXML("&lt;CaseEvent>&lt;CaseEventSeq>" + caseEventSeq + "&lt;/CaseEventSeq>"+
+						"&lt;EventDetails>" + eventDetails + "&lt;/EventDetails>"+
+						"&lt;JudgmentSeq>"+judgmentid+"&lt;/JudgmentSeq>"+
+						"&lt;CaseNumber>"+caseNumber+"&lt;/CaseNumber>"+
+						"&lt;OwningCourt>"+owningCourt+"&lt;/OwningCourt>"+
+						"&lt;EventDate>"+eventDate+"&lt;/EventDate>"+
+						"&lt;StdEventId>"+eventId+"&lt;/StdEventId>"+
+						"&lt;CasePartyNumber>"+subjectNo+"&lt;/CasePartyNumber>"+
+						"&lt;/CaseEvent>");
+	
+	params.addDOMParameter("caseEvent", caseEventDOM );		
+	Services.callService("updateCaseEventRegisterJudgment", params, updateCaseEventRegisterJudgmentCallback, true);	
+	Save_All();  
+}
+
+	
+function updateCaseEventRegisterJudgmentCallback() { }
+
+updateCaseEventRegisterJudgmentCallback.onSuccess = function(dom) {
+
+	if (null != dom) 
+	{   				
+		
+		Save_All();  		
+	}
+	else {
+		alert(Messages.NO_RESULTS_MESSAGE); } }
+
+updateCaseEventRegisterJudgmentCallback.onBusinessException = function(exception)  
+{
+
+	alert(Messages.FAILEDSAVE_MESSAGE); 
+}
+
+updateCaseEventRegisterJudgmentCallback.onSystemException = function(exception) 
+{
+
+	alert(Messages.FAILEDSAVE_MESSAGE); 
+}
+	
+	</JavaScript>
+</Group>

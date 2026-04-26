@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<DBMapDef>
+	<DataSource id="java:SupsDS"/>
+	<Tables>
+		<Table alias="C" name="CASES"/>
+	</Tables>
+	<Mapping>
+		<Cases>
+			<Case>
+				<CaseNumbers>${C.CASE_NUMBER}</CaseNumbers>
+				<CaseType>${C.CASE_TYPE}</CaseType>
+			</Case>
+		</Cases>
+	</Mapping>
+</DBMapDef>

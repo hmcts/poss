@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: CoEvent
+	Method:  updateCoEventWarrantId()
+	File:    update_co_event_warrant_id.xml
+	Author:  Chris Hutt
+	Created: 12 June 2006
+	Description: 
+		Update the warrant id on a co event. This is needed for events 968 (create warrants). Fixed while investigating TD3466
+
+    Change History:
+
+-->
+<service-method>
+	<pipeline>
+		<SQLLite output="input">
+			<DataSource id="java:OracleDS"/>
+			<Param name="param.coEventSeq"		xpath="/params/param[@name='coEventSeq']"/>
+			<Param name="param.warrantId"		xpath="/params/param[@name='warrantId']"/>
+			<SQL type="update" tables="CO_EVENTS">
+				UPDATE CO_EVENTS CO
+				SET	CO.WARRANT_ID = ${param.warrantId}
+				WHERE CO.CO_EVENT_SEQ = ${param.coEventSeq}
+			</SQL>
+		</SQLLite>
+	</pipeline>
+	<Security roles="viewOnly medium high wcSuper scSuper bmsSuper aeSuper dmSuper edsAdmin"/>	
+	<!-- Transaction type="RequiresNew" / -->	
+</service-method>

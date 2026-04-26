@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: Payout
+	Method:  getDebtDividendsTotalForUpdate()
+	File:    get_debt_dividends_total_for_update.xml
+	Author:  Phil Haferer (EDS)
+	Created: 16-Jan-2006
+	Description: 
+		Method to implement SUPS implementation of the Legacy stored procedure "p_payout_update()".
+-->
+<service-method>
+	<pipeline>
+		<SQLLite format-output="true"
+				 resultset-element="DebtDividends"
+				 row-element="DebtDividend"
+				 field-name-as="element" >
+			<DataSource id="java:OracleDS"/>
+			<Param name="param.debtDividendSeq" xpath="/params/param[@name='debtDividendSeq']"/>
+			<SQL>
+				SELECT DD.DD_TOTAL_PO AS "TotalPO"
+				FROM   DEBT_DIVIDENDS DD
+				WHERE  DD.DD_SEQ = ${param.debtDividendSeq}
+				FOR UPDATE OF DD.DD_TOTAL_PO
+			</SQL>
+		</SQLLite>
+	</pipeline>
+	<Security roles="viewOnly medium high wcSuper scSuper bmsSuper aeSuper dmSuper edsAdmin"/>		
+</service-method>

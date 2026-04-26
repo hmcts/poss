@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- CHANGE HISTORY -->
+<!-- 04/02/2013 - Chris Vincent, replaced word allocation with directions in content.  Trac 4763. -->
+<root xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:fo="http://www.w3.org/1999/XSL/Format" xmlns="http://eds.com/supsfo">
+	<variables>@word.processing.url.xsl@supsfo.xsl</variables>
+	<duplex/>
+	<layout>order</layout>
+	<addressee>
+		<blank/>
+		<claimants/>
+		<defendants/>
+		<part20claimants/>
+		<part20defendants/>
+	</addressee>
+	<header>
+		<fo:block font-size="16pt" font-weight="bold">Standard order end of stay - no </fo:block>
+		<fo:block font-size="16pt" font-weight="bold">directions questionnaires or notice </fo:block>
+		<fo:block font-size="16pt" font-weight="bold">of settlement filed</fo:block>
+	</header>
+	<courtcase>
+		<court>
+			<xsl:copy-of select="$vdCourtHeaderBlock"/>
+		</court>
+		<caseparameters>
+			<parameter>
+				<name>
+					<fo:block font-weight="bold">Claim Number</fo:block>
+				</name>
+				<value>
+					<fo:block>
+						<xsl:value-of select="$vdClaimNumber"/>
+					</fo:block>
+				</value>
+			</parameter>
+			<parameter>
+				<name>
+					<fo:block font-weight="bold">Date</fo:block>
+				</name>
+				<value>
+					<fo:block>
+						<xsl:value-of select="$vdEventDate"/>
+					</fo:block>
+				</value>
+			</parameter>
+		</caseparameters>
+	</courtcase>
+	<bodyintroright><fo:block space-before="0.4cm"><fo:inline text-align="center"><seal/></fo:inline></fo:block></bodyintroright>
+	<body>
+	<editable useid="N1008F">
+		<fo:block space-before="0.8cm" space-after="0.8cm">
+			The parties to this <xsl:value-of select="$vdClaimCounterClaimBoth"/> having failed either to file completed questionnaires by the date required, or to inform the court that the <xsl:value-of select="$vdClaimCounterClaimBoth"/> has been settled.
+		</fo:block>
+		<fo:block space-after="0.8cm">
+			<xsl:value-of select="$vdJudge"/> orders that this <xsl:value-of select="$vdClaimCounterClaimBoth"/> be struck out unless the parties file completed directions questionnaires with the court on or before <xsl:value-of select="$vdAllocationQuestionaireFileDate"/>.	
+		</fo:block>
+		<fo:block >
+			Date <xsl:value-of select="$datetoday"/>
+		</fo:block>
+	</editable>
+	</body>
+	<defaultFooter id="CJR071"/>
+</root>

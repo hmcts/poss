@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Change History
+		Chris Hutt 	26 sept 2007 
+					linked join removed (in response to a performance requirement)
+-->
+<QueryDef>
+    <DBMapDef location="uk/gov/dca/caseman/warrant_service/map_search.xml"/>
+    <Query pivotNode="/ds/Warrants/Warrant" tables="W C">
+	</Query>
+	
+    <Query pivotNode="/ds/Warrants/Warrant/FinalReturnCodes/FinalReturn" tables="WR RC">
+		<Join>
+			WR.WARRANT_ID 		= ${W.WARRANT_ID} AND
+			WR.ERROR_INDICATOR 	= 'N' AND
+			WR.RETURN_CODE 		= RC.RETURN_CODE AND
+			RC.RETURN_TYPE 		= 'F'
+		</Join>
+	</Query>
+</QueryDef>

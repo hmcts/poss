@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: CourtSections
+	Method:  updateCourtSections()
+	File:    update_CourtSections.xml
+	Author:  Dave Turner
+	Created: 
+	Description: 
+		Performs an insert of any new court sections added on screen and updates any 
+		existing court sections.
+-->
+<service-method>
+	<pipeline>
+		<Add service="courtsections" name="updateCourtSections">
+			<QueryDef location="uk/gov/dca/caseman/court_sections_service/query_def_modify.xml"/>
+			<DataSource xpath="/params/param[@name='Sections']"/>
+		</Add>
+	</pipeline>
+	<Security roles="admin wcSuper ccbcMan bmsSuper"/>		
+</service-method>

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: Co
+	Method:  getCoDebtPartyList()
+	File:    map_get_co_debt_party_list.xml
+	Author:  Phil Haferer (EDS)
+	Created: 02 September 2005
+	Description: 
+		Retrieve the list of Parties associated with a Case.
+-->
+<DBMapDef>
+	<DataSource id="java:OracleDS"/>
+	<Tables>
+		<Table alias="CPR" name="CASE_PARTY_ROLES"/>		
+		<Table alias="P"   name="PARTIES"/>		
+	</Tables>
+	<Mapping>
+		<ds>
+			<Parties>
+				<Party>
+					<PartyKey>${CPR.PARTY_KEY}</PartyKey>
+					<PartyRoleCode>${CPR.PARTY_ROLE_CODE}</PartyRoleCode>
+					<CasePartyNumber>${CPR.CASE_PARTY_NO}</CasePartyNumber>
+					<Name>${P.PERSON_REQUESTED_NAME}</Name>
+				</Party>
+			</Parties>
+		</ds>
+	</Mapping>
+</DBMapDef>

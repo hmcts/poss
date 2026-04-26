@@ -1,0 +1,57 @@
+<Group id="9021">
+	<ServicesRequired>
+		<mapping name="getWarrantReturns" serviceName="getWarrantReturns"/>
+		<service name="getWarrantReturns" cache="none" url="WarrantReturns" method="getWarrantReturns">
+		</service>
+	</ServicesRequired>
+	<Protocols>
+		<OnSave>
+			<function>getWarrantReturns</function>
+			<functionCallback>getWarrantReturnsCallback</functionCallback>
+		</OnSave>
+	</Protocols>
+	<JavaScript>	
+		
+function getWarrantReturns() 
+{  	
+	var warrantID = Services.getValue("/ds/EnterVariableData/Warrant/WarrantID");	
+	var params = new ServiceParams();
+	params.addSimpleParameter("warrantID", warrantID);	
+	Services.callService("getWarrantReturns", params, getWarrantReturnsCallback, true);	
+}
+
+	
+function getWarrantReturnsCallback() { }
+
+getWarrantReturnsCallback.onSuccess = function(dom) {
+
+	if (null != dom) 
+	{   	
+		//N54 wants AppointmentDate and AppointmentTime
+		var caseEventSeq = Services.getValue("ds/CaseEvent/CaseEventSeq");
+		var appDateNode = dom.selectSingleNode("/ds/WarrantReturns/WarrantEvents/WarrantEvent[./CaseEventSeq="+caseEventSeq+"]/AppointmentDate");
+		var appTimeNode = dom.selectSingleNode("/ds/WarrantReturns/WarrantEvents/WarrantEvent[./CaseEventSeq="+caseEventSeq+"]/AppointmentTime");
+		Services.addNode(appDateNode, "/ds/EnterVariableData/Warrant");
+		Services.addNode(appTimeNode, "/ds/EnterVariableData/Warrant");
+		
+			
+				
+		Save_All();  		
+	}
+	else {
+		alert(Messages.NO_RESULTS_MESSAGE); } }
+
+getWarrantReturnsCallback.onBusinessException = function(exception)  
+{
+
+	alert(Messages.FAILEDSAVE_MESSAGE); 
+}
+
+getWarrantReturnsCallback.onSystemException = function(exception) 
+{
+
+	alert(Messages.FAILEDSAVE_MESSAGE); 
+}
+	
+	</JavaScript>
+</Group>

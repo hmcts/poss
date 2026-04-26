@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: Noticeofissue
+	Method:  getCaseEventSeq()
+	File:    get_case_event_seq.xml
+	Author:  Anoop Sehdev (Valtech)
+	Created: 01 September 2006
+	Description: 
+		Uses SQLLite to get CaseEventSeq for an event identified by caseNumber param and std_event_id = 1
+-->
+<service-method>
+	<pipeline>
+		<SQLLite format-output="true"
+				 resultset-element="CaseEventSeq"
+				 row-element="CaseEventSeqElement"
+				 field-name-as="element" >
+			<DataSource id="java:OracleDS"/>
+			<Param name="param.caseNumber" xpath="/params/param[@name='caseNumber']"/>
+			<SQL>
+				select 
+					min(ce.event_seq)  as "CaseEventSeq"
+				from 
+					case_events ce 
+				where 
+					ce.case_number = ${param.caseNumber}
+				and 
+					ce.std_event_id = 1
+			</SQL>
+		</SQLLite>
+	</pipeline>
+	<Security roles="medium high wcSuper scSuper bmsSuper aeSuper dmSuper cpSuper ccbcMan ccbcUser ccbcSGB2"/>
+</service-method>

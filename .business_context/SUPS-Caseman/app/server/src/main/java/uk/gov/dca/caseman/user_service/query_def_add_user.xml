@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: User
+	Method:  updateUser()
+	File:    query_def_add_user.xml
+	Author:  Ian Stainer (Valtech)
+	Created: 09 November 2005
+	Description: 
+		Add user details.
+-->
+<QueryDef>
+  <DBMapDef location="uk/gov/dca/caseman/user_service/map_add_user.xml"/>
+  <Query pivotNode="/ds/MaintainUser" tables="DU">
+    <Join/>
+    <Modify/>
+  </Query>
+  <Query pivotNode="/ds/MaintainUser/UserCourt" tables="UC">
+    <Join/>
+    <Modify/>
+  </Query>  
+  <Query pivotNode="/ds/MaintainUser/UserCourt/UserRole" tables="UR">
+    <Join/>
+    <Modify/>
+  </Query>
+</QueryDef>

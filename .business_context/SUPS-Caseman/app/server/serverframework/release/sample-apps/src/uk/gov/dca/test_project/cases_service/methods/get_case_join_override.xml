@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<service-method>
+	<pipeline>
+		<Query>
+			<QueryDef location="uk/gov/dca/test_project/cases_service/query_def.xml"/>
+			<QueryExtension pivotNode="/Case">
+				<Join>C.CASE_NUMBER = '4WB00002'</Join>
+			</QueryExtension>
+			<QueryExtension pivotNode="/Case/Parties/ClaimantParties/Claimant">
+				<Join>
+					CPR.PARTY_ROLE_CODE = 'CLAIMANT' AND
+					P.PARTY_ID = CPR.PARTY_ID
+				</Join>
+			</QueryExtension>
+		</Query>
+	</pipeline>
+	<Security roles="user"/>
+</service-method>

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: StartOfDay
+	Method:  isEventForAeOnDate()
+	File:    is_event_for_ae_on_date.xml
+	Author:  Chris Hutt
+	Created: 5 dec 2005
+	Description: 
+		Established whether a specified event exists for an AE_Application on the day specified 
+-->
+<service-method>
+	<pipeline>
+		<SQLLite format-output="true"
+				 resultset-element="ds"
+				 row-element="AeEvent"
+				 field-name-as="element" >
+			<DataSource id="java:OracleDS"/>
+				<Param name="param.eventId" xpath="/params/param[@name='eventId']"/>
+				<Param name="param.aeNumber" xpath="/params/param[@name='aeNumber']"/>
+				<Param name="param.eventDate" xpath="/params/param[@name='eventDate']"/>			
+			<SQL>
+				SELECT  
+						DECODE(COUNT(*),0,'false','true') AS "AeEventExists"
+				FROM 	AE_EVENTS AE
+				WHERE	AE.AE_NUMBER    =  ${param.aeNumber}
+				AND 	AE.STD_EVENT_ID =  ${param.eventId}
+				AND 	TRUNC(AE.EVENT_DATE) = TO_DATE( ${param.eventDate}, 'YYYY-MM-DD')
+				AND 	(AE.ERROR_INDICATOR IS NULL OR AE.ERROR_INDICATOR = 'N')
+			</SQL>
+		</SQLLite>
+	</pipeline>
+	<Security roles="viewOnly medium high wcSuper scSuper bmsSuper aeSuper dmSuper edsAdmin"/>
+</service-method>

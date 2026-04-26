@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: Co
+	Method:  updateCoCaseEvent()
+	File:    map_modify_co_case_event.xml
+	Author:  Phil Haferer (EDS)
+	Created: 22 September 2005
+	Description: 
+		Update Consolidated Order Case Event.
+-->
+<DBMapDef>
+	<DataSource id="java:OracleDS"/>
+	<Tables>
+		<Table alias="COCE" name="CO_CASE_EVENTS"/>
+	</Tables>
+	<Mapping>
+		<ds>
+			<CoCaseEvent>
+				<AldDebtSeq>${COCE.ALD_DEBT_SEQ}</AldDebtSeq>
+				<AdminCourtCode>${COCE.ADMIN_COURT_CODE}</AdminCourtCode>
+				<CoNumber>${COCE.CO_NUMBER}</CoNumber>
+				<StdEventId>${COCE.STD_EVENT_ID}</StdEventId>
+				<CreatedDate>${COCE.CREATED_DATE}</CreatedDate>
+				<EventDetails>${COCE.EVENT_DETAILS}</EventDetails>
+				<TransferStatus>${COCE.TRANSFER_STATUS}</TransferStatus>
+				<TransferDate>${COCE.TRANSFER_DATE}</TransferDate>
+				<CaseNumber>${COCE.CASE_NUMBER}</CaseNumber>
+			</CoCaseEvent>
+		</ds>
+	</Mapping>
+</DBMapDef>

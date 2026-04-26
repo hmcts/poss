@@ -1,0 +1,194 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: Payments
+	Method: getEnforcementCo()
+	File: co.xml
+	Author: Steve Blair
+	
+	Amended:
+	01/05/2007 - Mark Groen , CASEMAN Defect 6179. Validating against Old Numer to check if CO live. This is wrong.  
+ 				 Should only validate on the status of the CO.
+	11/11/2009 - Mark Groen - TRAC 2012.  Looks at incorrect status of  DEBTOR PAYING.  The value should be  DEBTR PAYNG. 
+				This is within the <Query pivotNode="/Enforcement/COInfo" tables="CO"> node
+	01/12/2011 - Chris Vincent, added pivot node for MoneyInCourt for Trac 4587
+-->
+<QueryDef>
+	<DBMapDef location="uk/gov/dca/caseman/payments_service/map_enforcement.xml" />
+	<Query pivotNode="/Enforcement" tables="CO CT C">
+		<SQL type="select">
+			SELECT	CO.CO_NUMBER AS "C.ENFORCEMENT_NUMBER"
+					, 'CO' AS "C.ENFORCEMENT_TYPE"
+					, CO.ADMIN_COURT_CODE AS "C.COURT_CODE"
+					, CT.NAME AS "C.COURT_NAME"
+					, 0 AS "C.NO_EVENTS"
+					, NULL AS "C.CASE_NUMBER"
+					, NULL AS "C.CASE_STATUS"
+					, NULL AS "C.WARRANT_TYPE"
+					, NULL AS "C.PRE_ISSUE_BALANCE"
+					, NULL AS "C.DEBT"
+					, NULL AS "C.WARRANT_EXECUTING_COURT"
+					, NULL AS "C.WARRANT_ISSUING_COURT"
+					, CO.CO_TYPE AS "C.CO_TYPE"
+			FROM	CONSOLIDATED_ORDERS CO
+					, COURTS CT
+			WHERE	CO.CO_NUMBER = ${param.coNumber}
+					AND CT.CODE = CO.ADMIN_COURT_CODE
+		</SQL>
+		<Modify notModifiable="true" />
+	</Query>
+	<Query pivotNode="/Enforcement/Parties/Party" tables="CO G P CP">
+		<SQL type="select">
+			SELECT	CO.DEBTOR_NAME AS "C.PARTY_NAME"
+					, 'DEBTOR' AS "C.PARTY_ROLE"
+					, NULL AS "C.PARTY_NUMBER"
+					, P.DX_NUMBER AS "C.DX_NUMBER"
+					, P.PARTY_ID AS "C.PARTY_ID"
+					, NULL AS "C.PAYEE_FLAG"
+					, CP.CODE AS "C.PARTY_CODE"
+			FROM	CONSOLIDATED_ORDERS CO
+					, PARTIES P
+					, GIVEN_ADDRESSES G
+					, CODED_PARTIES CP
+			WHERE	CO.CO_NUMBER = ${C.ENFORCEMENT_NUMBER}
+					AND G.CO_NUMBER (+) = CO.CO_NUMBER
+					AND G.ADDRESS_TYPE_CODE (+) = 'CO DEBTOR'
+					AND G.VALID_TO IS NULL
+					AND P.PARTY_ID (+) = G.PARTY_ID
+					AND CP.PARTY_ID (+) = G.PARTY_ID
+			UNION
+			SELECT	P.PERSON_REQUESTED_NAME AS "C.PARTY_NAME"
+					, 'EMPLOYER' AS "C.PARTY_ROLE"
+					, NULL AS "C.PARTY_NUMBER"
+					, P.DX_NUMBER AS "C.DX_NUMBER"
+					, P.PARTY_ID AS "C.PARTY_ID"
+					, NULL AS "C.PAYEE_FLAG"
+					, CP.CODE AS "C.PARTY_CODE"
+			FROM	CONSOLIDATED_ORDERS CO
+					, PARTIES P
+					, GIVEN_ADDRESSES G
+					, CODED_PARTIES CP
+			WHERE	CO.CO_NUMBER = ${C.ENFORCEMENT_NUMBER}
+					AND G.CO_NUMBER = CO.CO_NUMBER
+					AND G.ADDRESS_TYPE_CODE = 'CO EMPLOYER'
+					AND G.VALID_TO IS NULL
+					AND P.PARTY_ID = G.PARTY_ID
+					AND P.PERSON_REQUESTED_NAME IS NOT NULL
+					AND CP.PARTY_ID (+) = P.PARTY_ID
+            <!-- Employers must be listed first for Overpayments screen. -->
+			ORDER BY "C.PARTY_ROLE" DESC
+		</SQL>
+		<Modify notModifiable="true" />
+	</Query>
+	<Query pivotNode="/Enforcement/Parties/Party/Address" tables="G">
+		<SQL type="select">
+			SELECT	G.ADDRESS_LINE1 AS "C.PARTY_ADDR1"
+					, G.ADDRESS_LINE2 AS "C.PARTY_ADDR2"
+					, G.ADDRESS_LINE3 AS "C.PARTY_ADDR3"
+					, G.ADDRESS_LINE4 AS "C.PARTY_ADDR4"
+					, G.ADDRESS_LINE5 AS "C.PARTY_ADDR5"
+					, G.POSTCODE AS "C.PARTY_POSTCODE"
+					, G.REFERENCE AS "C.REFERENCE"
+			FROM	GIVEN_ADDRESSES G
+			WHERE	G.CO_NUMBER = ${C.ENFORCEMENT_NUMBER}
+					AND G.ADDRESS_TYPE_CODE LIKE '%' || ${C.PARTY_ROLE}
+					AND G.VALID_TO IS NULL
+		</SQL>
+		<Modify notModifiable="true" />
+	</Query>
+	<Query pivotNode="/Enforcement/WarrantID" tables="W WR RC">
+		<SQL type="select">
+			SELECT W.WARRANT_ID AS "C.WARRANT_ID"
+			FROM	WARRANTS W
+			WHERE	${C.CO_TYPE} = 'AO'
+					AND W.CO_NUMBER = ${C.ENFORCEMENT_NUMBER}
+					AND W.WARRANT_ID NOT IN
+					(
+						SELECT	WR.WARRANT_ID
+						FROM	RETURN_CODES RC
+								, WARRANT_RETURNS WR
+						WHERE	WR.ERROR_INDICATOR = 'N'
+					       		AND RC.RETURN_CODE = WR.RETURN_CODE
+                        		AND RC.ADMIN_COURT_CODE =
+                                        WR.RETURN_CODE_COURT_CODE
+                            	AND RC.RETURN_TYPE = 'F'
+					)
+		</SQL>
+		<Modify notModifiable="true" />
+	</Query>
+	<Query pivotNode="/Enforcement/COInfo" tables="CO">
+		<SQL type="select">
+			<!--SELECT	CO.OLD_NUMBER AS "C.CO_INFO"  CASEMAN Defect 6179, comment this line out and add line below.
+			      TRAC 2012.  Looks at incorrect status of  DEBTOR PAYING.  The value should be  DEBTR PAYNG. -->
+			SELECT	'LIVE' AS "C.CO_INFO"
+			FROM	CONSOLIDATED_ORDERS CO
+			WHERE	CO.CO_NUMBER = ${C.ENFORCEMENT_NUMBER}
+					AND (
+                            CO.CO_STATUS = 'LIVE'
+                            OR CO.CO_STATUS = 'DEBTR PAYNG'
+                        )
+			UNION
+			SELECT	'NOT LIVE' AS "C.CO_INFO"
+			FROM	CONSOLIDATED_ORDERS CO
+			WHERE	CO.CO_NUMBER = ${C.ENFORCEMENT_NUMBER}
+					AND (
+                            CO.CO_STATUS IS NULL
+                            OR (
+                                CO.CO_STATUS != 'LIVE'
+                                AND CO.CO_STATUS != 'DEBTR PAYNG'
+                            )
+                        )
+		</SQL>
+		<Modify notModifiable="true" />
+	</Query>
+	<Query pivotNode="/Enforcement/OutstandingBalance" tables="AD PY CO">
+		<SQL type="select">
+			SELECT	COALESCE(
+						(
+							SELECT  SUM(AD.DEBT_AMOUNT_ALLOWED)
+							FROM	ALLOWED_DEBTS AD
+							WHERE	AD.DEBT_CO_NUMBER = ${C.ENFORCEMENT_NUMBER}
+									AND AD.DEBT_STATUS IN
+                                            ('LIVE', 'SCHEDULE2', 'PAID')
+						),
+						0
+					) +
+					COALESCE(CO.FEE_AMOUNT, 0) -
+					COALESCE(
+						(
+							SELECT	SUM(PY.AMOUNT)
+							FROM	PAYMENTS PY
+							WHERE	PY.SUBJECT_NO = ${C.ENFORCEMENT_NUMBER}
+									AND PY.RD_DATE IS NULL
+									AND PY.ERROR_INDICATOR = 'N'
+						),
+						0
+					)
+					AS "C.BALANCE"
+			FROM	CONSOLIDATED_ORDERS CO
+			WHERE	CO.CO_NUMBER = ${C.ENFORCEMENT_NUMBER}
+		</SQL>
+		<Modify notModifiable="true" />
+	</Query>
+	<Query pivotNode="/Enforcement/DividendsExist" tables="DV">
+		<SQL type="select">
+			SELECT DECODE(COUNT(*),0,'false','true') AS "DV.DIVIDENDS_EXIST" 
+			FROM   DIVIDENDS DV
+			WHERE  DV.DIV_CO_NUMBER = ${C.ENFORCEMENT_NUMBER}
+		</SQL>
+		<Modify notModifiable="true"/>
+	</Query>
+	
+	<Query pivotNode="/Enforcement/MoneyInCourt" tables="PY">
+		<SQL type="select">
+			SELECT DECODE(COUNT(*),0,'false','true') AS "C.MONEY_IN_COURT" 
+			FROM   PAYMENTS PY
+			WHERE  PY.SUBJECT_NO = ${C.ENFORCEMENT_NUMBER}
+			AND	   PY.PAYMENT_FOR IN ('CO', 'AO/CAEO')
+			AND    PY.PASSTHROUGH = 'N'
+			AND	   PY.RD_DATE IS NULL
+			AND    PY.ERROR_INDICATOR = 'N'
+			AND    PY.PAYOUT_DATE IS NULL
+		</SQL>
+		<Modify notModifiable="true"/>
+	</Query>
+</QueryDef>

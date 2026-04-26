@@ -1,0 +1,45 @@
+<Group id="9007">	
+	<ServicesRequired>
+		<mapping name="updateCaseEventBms" serviceName="updateCaseEventBms"/>
+		<service name="updateCaseEventBms" cache="none" url="/CaseEvent/CaseEvent" method="updateCaseEventBms">
+		</service>
+	</ServicesRequired>
+	<Protocols>
+		<OnSave>
+			<function>updateCaseEventBms</function>
+			<functionCallback>updateCaseEventBmsCallBack</functionCallback>
+		</OnSave>
+	</Protocols>
+	<JavaScript>
+	function updateCaseEventBms() {
+		var serviceName = "updateCaseEventBms";	  	    	  
+		var eventSeqNo = Services.getValue("ds/CaseEvent/CaseEventSeq");	  	  	  	  
+		var bmsTaskNo = WPU.getBMSTask();
+	    if( null  != bmsTaskNo ) {
+			var updateBMS = WPU.getupdateCaseEventXML( eventSeqNo, bmsTaskNo );	  	  	 
+			var params = new ServiceParams();
+			params.addDOMParameter("caseEvent", updateBMS);				
+			Services.callService(serviceName, params, updateCaseEventBmsCallBack, true); }
+		  else {
+		  	Save_All(); } }
+
+	function updateCaseEventBmsCallBack(){}
+	updateCaseEventBmsCallBack.onSuccess = function(dom) {
+		if (null != dom)  {	
+			Save_All(); }
+		else  {
+			alert(Messages.NO_RESULTS_MESSAGE); } }
+
+	updateCaseEventBmsCallBack.onBusinessException = function(exception)  {
+		alert(Messages.FAILEDSAVE_MESSAGE); }
+	
+	updateCaseEventBmsCallBack.onSystemException = function(exception) {
+		alert(Messages.FAILEDSAVE_MESSAGE); }
+
+	</JavaScript>
+</Group>
+
+	
+
+
+	

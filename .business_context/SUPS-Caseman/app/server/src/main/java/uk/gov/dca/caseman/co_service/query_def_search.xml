@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<QueryDef>
+    <DBMapDef location="uk/gov/dca/caseman/co_service/map_search.xml"/>
+    <Query pivotNode="/Results/CoRecord" tables="CO GA">
+	 <Join>
+		GA.CO_NUMBER =  CO.CO_NUMBER 
+		AND GA.ADDRESS_TYPE_CODE = 'CO DEBTOR'	
+        AND GA.VALID_TO IS NULL   
+	</Join>
+    </Query>
+</QueryDef>

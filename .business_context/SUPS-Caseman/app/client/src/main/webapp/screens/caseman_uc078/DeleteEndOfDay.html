@@ -1,0 +1,195 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3c.org/TR/html4/strict.dtd">
+<html>
+
+	<head>
+		<title>DeleteEndOfDay</title>
+		<link href="DeleteEndOfDay.css" type="text/css" rel="stylesheet">
+		<script type="text/javascript" src="../../Framework.js"></script>
+		<script type="text/javascript" src="../../CaseManIncludeFiles.js"></script>
+		<script type="text/javascript" src="DeleteEndOfDay_Constants.js"></script>
+		<script type="text/javascript" src="DeleteEndOfDay_HelperFunctions.js"></script>
+		<script type="text/javascript" src="DeleteEndOfDay.js"></script>
+	</head>
+	
+	<body>
+		<form name="DeleteEndOfDay" id="deleteEndOfDay">
+			
+			<!-- Framework Navigation Menu -->
+			<script type="text/javascript">MenuBarRenderer.createInline();</script>	
+			
+			<!-- Content -->
+			<table class="layout">
+
+				<!-- Header Panel -->
+				<tr>
+					<td>
+						<div class="panel">
+							<table class="content">
+								<tr>
+									<td class="defaultLabel" nowrap><label for='Header_ReportNumber'>Report Number</label></td>
+									<td align="left"><input id="Header_ReportNumber" type="text" size=15 style="margin-top: 5px; margin-bottom: 5px;"></td>
+									
+									<td style="width:188px;">&nbsp;</td>
+									
+									<td style="width:230px;" nowrap><label for='Header_ReportDate'>End of Day Report Date</label></td>
+									<td>
+										<script type="text/javascript">DatePickerRenderer.createInline("Header_ReportDate", true);</script>
+									</td>		
+								</tr>
+							</table>
+						</div>
+					</td>
+				</tr>
+				<!-- End Header Panel -->
+				
+				<tr>
+					<td>
+						<div class="panel">
+							<table class="content" style="height:478px;">
+								<tr>
+									<!-- Payments In Panel -->
+									<td valign="top">
+										<table style="margin-top: 5px;">
+											<tr>
+												<td colspan="2">
+													<label>Payments In</label>
+												</td>
+											</tr>
+											<tr>
+												<td class="defaultLabel"><label for="PaymentsIn_Ordinary">Ordinary</label></td>
+												<td>
+													<input type="text" id="PaymentsIn_OrdinaryCurrency" size="1">
+													&nbsp;<input type="text" id="PaymentsIn_Ordinary" size="15">
+												</td>
+											</tr>
+											<tr>
+												<td class="defaultLabel"><label for="PaymentsIn_Cheque">Cheque</label></td>
+												<td>
+													<input type="text" id="PaymentsIn_ChequeCurrency" size="1">
+													&nbsp;<input type="text" id="PaymentsIn_Cheque" size="15">
+												</td>
+											</tr>
+											<tr>
+												<td class="defaultLabel"><label for="PaymentsIn_Judgment1000">Judgment (1000+)</label></td>
+												<td>
+													<input type="text" id="PaymentsIn_Judgment1000Currency" size="1">
+													&nbsp;<input type="text" id="PaymentsIn_Judgment1000" size="15">
+												</td>
+											</tr>
+											<tr>
+												<td class="defaultLabel"><label for="PaymentsIn_AOCAEO">AO/CAEO</label></td>
+												<td>
+													<input type="text" id="PaymentsIn_AOCAEOCurrency" size="1">
+													&nbsp;<input type="text" id="PaymentsIn_AOCAEO" size="15">
+												</td>
+											</tr>
+											<tr>
+												<td class="defaultLabel"><label for="PaymentsIn_Miscellaneous">Miscellaneous</label></td>
+												<td>
+													<input type="text" id="PaymentsIn_MiscellaneousCurrency" size="1">
+													&nbsp;<input type="text" id="PaymentsIn_Miscellaneous" size="15">
+												</td>
+											</tr>
+											<tr>
+												<td class="defaultLabel"><label for="PaymentsIn_GrandTotalIn">Grand Total In</label></td>
+												<td>
+													<input type="text" id="PaymentsIn_GrandTotalInCurrency" size="1">
+													&nbsp;<input type="text" id="PaymentsIn_GrandTotalIn" size="15">
+												</td>
+											</tr>
+										</table>
+									</td>
+									<!-- End Payments In Panel -->
+		
+									<td class="spacer">&nbsp;</td>
+									
+									<!-- Payments Out Panel -->
+									<td valign="top">
+										<table style="margin-top: 5px;">
+											<tr>
+												<td colspan="2">
+													<label>Payments Out</label>
+												</td>
+											</tr>
+											<tr>
+												<td class="defaultLabel"><label for="PaymentsOut_Ordinary">Ordinary</label></td>
+												<td>
+													<input type="text" id="PaymentsOut_OrdinaryCurrency" size="1">
+													&nbsp;<input type="text" id="PaymentsOut_Ordinary" size="15">
+												</td>
+											</tr>
+											<tr>
+												<td class="defaultLabel"><label for="PaymentsOut_Cheque">Cheque</label></td>
+												<td>
+													<input type="text" id="PaymentsOut_ChequeCurrency" size="1">
+													&nbsp;<input type="text" id="PaymentsOut_Cheque" size="15">
+												</td>
+											</tr>
+											<tr>
+												<td class="defaultLabel"><label for="PaymentsOut_Judgment1000">Judgment (1000+)</label></td>
+												<td>
+													<input type="text" id="PaymentsOut_Judgment1000Currency" size="1">
+													&nbsp;<input type="text" id="PaymentsOut_Judgment1000" size="15">
+												</td>
+											</tr>
+											<tr>
+												<td class="defaultLabel"><label for="PaymentsOut_AOCAEO">AO/CAEO</label></td>
+												<td>
+													<input type="text" id="PaymentsOut_AOCAEOCurrency" size="1">
+													&nbsp;<input type="text" id="PaymentsOut_AOCAEO" size="15">
+												</td>
+											</tr>
+											<tr>
+												<td class="defaultLabel"><label for="PaymentsOut_Miscellaneous">Miscellaneous</label></td>
+												<td>
+													<input type="text" id="PaymentsOut_MiscellaneousCurrency" size="1">
+													&nbsp;<input type="text" id="PaymentsOut_Miscellaneous" size="15">
+												</td>
+											</tr>
+											<tr>
+												<td class="defaultLabel"><label for="PaymentsOut_GrandTotalOut">Grand Total Out</label></td>
+												<td>
+													<input type="text" id="PaymentsOut_GrandTotalOutCurrency" size="1">
+													&nbsp;<input type="text" id="PaymentsOut_GrandTotalOut" size="15">
+												</td>
+											</tr>
+										</table>
+									</td>
+									<!-- Payments Out Panel -->
+
+								</tr>
+							</table>
+						</div>
+					</td>
+				</tr>
+														
+				<!-- Instructions Panel -->
+				<tr>
+					<td>
+						<div class="panel">
+							<table class="content">
+								<tr>
+									<td style="height:40px;" align="center">
+										<label>Click Save or F3 to delete record</label>
+									</td>
+								</tr>
+							</table>
+						</div>
+					</td>
+				</tr>
+				<!-- End Instructions Panel -->
+				
+			</table>
+			
+			<!-- Status -->
+			<script type="text/javascript">
+				ActionBarRenderer.createInline("status_bar", [
+						{ id: "Status_SaveButton", label: "Save"},
+						{ id: "Status_CloseButton", label: "Close"}
+					]
+				);
+			</script>
+			
+		</form>
+	</body>
+</html>

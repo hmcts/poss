@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<service-method>
+	<pipeline>
+		<Update>
+			<!-- Note: This method only updates the CASE_EVENTS.DETAILS. -->
+			<QueryDef location="uk/gov/dca/caseman/case_event_service/query_def_update_case_event_details.xml"/>
+			<DataSource xpath="/params/param name='caseEvents'"/>
+			<QueryExtension pivotNode="/CaseEvents/CaseEvent">
+				<CheckExists 
+					condition="./Status = 'DETAILS_CHANGED'"
+					onConditionTrue="continue" onConditionFalse="skip"
+					table="CE" fields="EVENT_SEQ" onNotExist="fail" onExist="update"/>
+			</QueryExtension>
+		</Update>
+	</pipeline>
+	<Security roles="medium high wcSuper scSuper bmsSuper aeSuper dmSuper cpSuper ccbcMan ccbcUser ccbcSGB2"/>
+	<!--  removed viewOnly role... -->
+</service-method>

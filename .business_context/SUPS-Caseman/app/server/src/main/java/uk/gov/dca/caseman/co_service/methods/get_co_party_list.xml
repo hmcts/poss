@@ -1,0 +1,97 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: Co
+	Method:  getCoPartyList
+	Author:  Chris Hutt (EDS) 
+	Created: 17 Oct 2005
+	Description: 
+		Use SQLLite to retrieve parties on a ConsolidatedOrder (and associated ALLOWED_DEBTS)
+
+	Change history
+	v1.1	Chris Hutt	9/2/06	defect 2103. 'Co Debtor' does not return party_id (meed to go to GIVEN_ADDRESSES'
+	V1.2    Phil Haferer 20/9/06 Added the condition 'GA.VALID_TO IS NULL' to the selects for non-coded CO CRED,
+	        non-coded CO PAYEE, and non-coded CO PAYEE, to ensure that on the current version of the address is retrieved.
+	        These additional rows was causing client-side crashes in some circumstances in the Maintain CO Events screen.
+	        (TD CASEMAN 5316: CO Events:Crash on selecting CO Creditors).
+-->
+<service-method>
+	<pipeline>
+		<SQLLite format-output="true"
+				 resultset-element="COParties"
+				 row-element="COParty"
+				 field-name-as="element" >
+			<DataSource id="java:OracleDS"/>
+			<Param name="param.coNumber" xpath="/params/param[@name='coNumber']"/>
+			<SQL>			
+				(
+					SELECT 	P.PERSON_REQUESTED_NAME   	AS "Name"
+						,   GA.ADDRESS_TYPE_CODE	  	AS "Type" 
+                    	, 	AD.DEBT_SEQ   		      	AS "DebtSeqNumber" 
+						,   P.PARTY_ID 					AS "PartyId"
+					FROM 	ALLOWED_DEBTS AD 
+						, 	PARTIES P
+						, 	GIVEN_ADDRESSES GA
+					WHERE	AD.DEBT_CO_NUMBER 		= 	${param.coNumber}
+					AND     GA.ALD_SEQ 				= 	AD.DEBT_SEQ
+					AND 	P.PARTY_ID 				= 	GA.PARTY_ID
+					AND 	GA.ADDRESS_TYPE_CODE 	= 	'CO CRED'				
+					AND     GA.VALID_TO             IS NULL
+				) 	UNION (				
+					SELECT 	P.PERSON_REQUESTED_NAME 	AS 	"Name"
+						,   'CO CRED'					AS	"Type" 
+                    	, 	AD.DEBT_SEQ   				AS 	"DebtSeqNumber" 
+						,   P.PARTY_ID 					AS  "PartyId"
+					FROM 	ALLOWED_DEBTS AD 
+						, 	PARTIES P
+					WHERE	AD.DEBT_CO_NUMBER 		= 	${param.coNumber}
+					AND 	P.PARTY_ID 				= 	AD.CP_CREDITOR_ID					
+				) UNION (				
+					SELECT 	P.PERSON_REQUESTED_NAME 	AS 	"Name"
+						,   GA.ADDRESS_TYPE_CODE		AS 	"Type" 
+                    	, 	AD.DEBT_SEQ   				AS 	"DebtSeqNumber" 
+						,   P.PARTY_ID 					AS  "PartyId"
+					FROM 	ALLOWED_DEBTS AD 
+						, 	PARTIES P
+						, 	GIVEN_ADDRESSES GA
+					WHERE	AD.DEBT_CO_NUMBER 		= 	${param.coNumber}
+					AND     GA.ALD_SEQ 				= 	AD.DEBT_SEQ
+					AND 	P.PARTY_ID 				= 	GA.PARTY_ID
+					AND 	GA.ADDRESS_TYPE_CODE 	= 	'CO PAYEE'				
+					AND     GA.VALID_TO             IS NULL
+				) 	UNION (				
+					SELECT 	P.PERSON_REQUESTED_NAME 	AS 	"Name"
+						,   'CO CRED'					AS 	"Type" 
+                    	,	AD.DEBT_SEQ   				AS 	"DebtSeqNumber" 
+						,   P.PARTY_ID 					AS  "PartyId"
+					FROM 	ALLOWED_DEBTS AD 
+						, 	PARTIES P
+					WHERE	AD.DEBT_CO_NUMBER 		= 	${param.coNumber}
+					AND 	P.PARTY_ID 				= 	AD.CP_PAYEE_ID					
+				) UNION (				
+					SELECT 	CO.DEBTOR_NAME 				AS 	"Name"
+						,   'CO DEBTOR'					AS 	"Type" 
+            			, 	0							AS 	"DebtSeqNumber" 
+						,   GA.PARTY_ID					AS  "PartyId"
+					FROM 	CONSOLIDATED_ORDERS CO
+						, 	GIVEN_ADDRESSES GA
+					WHERE	CO.CO_NUMBER 				= 	${param.coNumber}
+					AND		GA.CO_NUMBER 				= 	CO.CO_NUMBER
+					AND 	GA.ADDRESS_TYPE_CODE 		= 	'CO DEBTOR'
+					AND     GA.VALID_TO                 IS NULL
+				) UNION (		
+					SELECT	P.PERSON_REQUESTED_NAME		AS 	"Name"
+						,	GA.ADDRESS_TYPE_CODE		AS 	"Type" 
+						,	0							AS 	"DebtSeqNumber"
+						,   P.PARTY_ID 					AS  "PartyId"
+					FROM 	GIVEN_ADDRESSES GA
+						, 	PARTIES P
+					WHERE 	GA.CO_NUMBER 				= 	${param.coNumber}
+					AND		GA.ADDRESS_TYPE_CODE 		= 	'CO EMPLOYER'
+					AND     GA.VALID_TO 				IS 	NULL
+					AND		P.PARTY_ID 					= 	GA.PARTY_ID			
+				)
+			</SQL>
+		</SQLLite>
+  	</pipeline>
+	<Security roles="medium high wcSuper scSuper bmsSuper aeSuper dmSuper"/>
+</service-method>

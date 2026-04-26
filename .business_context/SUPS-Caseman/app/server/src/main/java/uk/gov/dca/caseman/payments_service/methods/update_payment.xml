@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: Payments
+	Method: updatePayment()
+	File: update_payment.xml
+	Author: Steve Blair
+	Description:
+		Updates a payment that has been amended.
+-->
+<service-method>
+	<pipeline>
+		<Java callStyle="new">
+			<Source class="uk.gov.dca.caseman.payments_service.java.PopulateReportIdCustomProcessor" />
+		</Java>
+		<Update>
+			<QueryDef location="uk/gov/dca/caseman/payments_service/query_def_update_payment.xml" />
+			<DataSource xpath="/params/param[@name='payment']" />
+			<QueryExtension pivotNode="/Payment">
+				<CheckExists table="P" fields="TRANSACTION_NUMBER ADMIN_COURT_CODE" onNotExist="fail" onExist="update" />
+			</QueryExtension>
+		</Update>
+		<Transform>
+			<Template location="uk/gov/dca/caseman/payments_service/transforms/transform_update_payment.xsl" />
+		</Transform>
+		<Java callStyle="new">
+			<Source class="uk.gov.dca.caseman.payments_service.java.UpdatePaymentCustomProcessor" />
+		</Java>
+	</pipeline>
+	<Dependencies>
+		<Dependency serviceName="WarrantReturns" />
+		<Dependency serviceName="Bms" />
+		<Dependency serviceName="Warrant" />
+	</Dependencies>
+	<Security roles="medium high wcSuper scSuper bmsSuper aeSuper dmSuper" />
+</service-method>

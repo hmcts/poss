@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>274</Id>
+	<Label>Reasons for hearing</Label>
+	<ObjectName>ReasonsForHearing</ObjectName>
+	<Html>
+		<input type="text" id="ReasonsForHearing"></input>	  
+	</Html>
+	<Javascript>
+		<XPath>/ds/EnterVariableData/Allocation/reasonsForHearing</XPath>
+		<componentName>##label##</componentName>
+		<HintText>Enter the reasons for hearing</HintText>				
+		<mandatoryOn>ReasonsForHearing.dataBinding</mandatoryOn>
+		<isMandatory>return false;</isMandatory>
+		<enableOn>IsReasonForHearing.dataBinding</enableOn>
+		<isEnabled>return('Y' == Services.getValue(IsReasonForHearing.dataBinding));</isEnabled>
+		<logicOn>IsReasonForHearing.dataBinding</logicOn>
+		<logic>
+			if('Y' != Services.getValue(IsReasonForHearing.dataBinding))
+			{	Services.setValue(ReasonsForHearing.dataBinding, "");
+			}
+		</logic>
+	</Javascript>
+</Question>

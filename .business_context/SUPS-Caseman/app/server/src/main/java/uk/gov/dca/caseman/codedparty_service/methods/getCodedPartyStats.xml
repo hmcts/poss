@@ -1,0 +1,33 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: Codeparty
+	Method:  getCodedPartyStats()
+	File:    getCodedPartyStats.xml
+	Author:  Chris Hutt
+	Description: 
+	    Retrieves the number of times that a given Coded Party has been used in Cases.
+-->
+<service-method>
+	<pipeline>
+		<Query>
+  			<QueryDef location="uk/gov/dca/caseman/codedparty_service/query_cp_stats_def.xml"/>
+  				<QueryExtension pivotNode="/CodedParties/CodedParty">
+    				<Param name="param.codedPartyCode" xpath="/params/param[@name = 'codedPartyCode']"/>
+    				<Param name="param.adminCourtCode" xpath="/params/param[@name = 'adminCourtCode']"/>
+					<SQL type="select">
+                    SELECT CP.CODE AS "CP.CODE",
+    					CP.PARTY_ID AS "CP.PARTY_ID",
+						CP.ADMIN_COURT_CODE AS "CP.ADMIN_COURT_CODE",
+						CP.ORA_ROWSCN AS "CP_ORA_ROWSCN",
+						( SELECT COUNT(*)
+							FROM CASE_PARTY_ROLES CPR
+							WHERE CPR.PARTY_ID = CP.PARTY_ID ) AS "CPR.COUNT" 
+					FROM CODED_PARTIES CP
+					WHERE CP.ADMIN_COURT_CODE = ${param.adminCourtCode} AND
+                        CP.CODE = ${param.codedPartyCode}
+                    </SQL>			
+  				</QueryExtension>
+		</Query>
+  	</pipeline>
+	<Security roles="wcSuper scSuper bmsSuper aeSuper dmSuper cpSuper ccbcMan"/>		
+</service-method>

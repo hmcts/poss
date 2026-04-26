@@ -1,0 +1,102 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!-- 
+    Service: Qbp
+    Method:  getCaseParties()
+    File:    query_def_caseparties.xml
+    
+	13/12/2004 CJHutt 
+		For coded parties the address is not case related . test Director defect 113
+	13/04/2005 P E Haferer
+		For change to relationship to addresses, and to exclude unused Solicitors.
+	5/4/2006 G Miller
+		Updates to remove full table scan on CPR ( a bit filthy) Defect #2953 
+	25/08/2006 P E Haferer
+		Correction to clause which excludes unused Solicitors.
+		Removed usage of GIVEN_ADDRESSES.PARTY_ID for identifying non-coded parties.
+		(TD CASEMAN 4835: Query By Party: Fails to find some Solicitors).
+			
+	Chris Hutt 	26 sept 2007 
+			    Inclusion of params in query changes to avoid OR's and NULL tests by use of NVL 
+			    (in response to a performance requirement.
+			    
+	Chris Hutt 	28 sept 2007 
+			    Performance: joins to GIVEN_ADDRESSES improved of first union to avoid full table scan
+-->
+<QueryDef>
+	<DBMapDef location="uk/gov/dca/caseman/qbp_service/map_caseparties.xml"/>
+	
+
+	<Query pivotNode="/PartyQueryResults/PartyQueryResult" tables="CPR PR P GA C CT CP">
+		<!--
+		<SQL type="select">
+SELECT * FROM (
+	SELECT ROW_NUMBER() OVER (ORDER BY rownum) AS R,"CP.CODE","CPR.CASE_NUMBER","GA.ADDRESS_LINE1", "GA.ADDRESS_LINE2", "P.PERSON_REQUESTED_NAME", "PR.PARTY_ROLE_DESCRIPTION" FROM	
+	(SELECT null AS "CP.CODE", 
+		CPR.CASE_NUMBER AS "CPR.CASE_NUMBER", 
+		GA.ADDRESS_LINE1 AS "GA.ADDRESS_LINE1", 
+		GA.ADDRESS_LINE2 AS "GA.ADDRESS_LINE2", 
+		P.PERSON_REQUESTED_NAME AS "P.PERSON_REQUESTED_NAME", 
+		PR.PARTY_ROLE_DESCRIPTION AS "PR.PARTY_ROLE_DESCRIPTION"
+	FROM CASES C, CASE_PARTY_ROLES CPR, GIVEN_ADDRESSES GA, PARTIES P, PARTY_ROLES PR 
+	WHERE PR.PARTY_ROLE_CODE = CPR.PARTY_ROLE_CODE AND 
+		P.PARTY_ID = CPR.PARTY_ID AND 
+		C.CASE_NUMBER = CPR.CASE_NUMBER AND 
+		GA.CASE_NUMBER = CPR.CASE_NUMBER AND 
+        GA.PARTY_ROLE_CODE = CPR.PARTY_ROLE_CODE AND 
+        GA.CASE_PARTY_NO = CPR.CASE_PARTY_NO AND 
+        GA.ADDRESS_LINE1 LIKE NVL(UPPER (${param.address1}), GA.ADDRESS_LINE1 )AND
+		GA.ADDRESS_LINE2 LIKE NVL(UPPER (${param.address2}), GA.ADDRESS_LINE2 )AND 
+        GA.VALID_TO IS NULL AND 
+       (CPR.PARTY_ROLE_CODE &lt;&gt; 'SOLICITOR' OR 
+        EXISTS
+            (SELECT NULL 
+             FROM   CPR_TO_CPR_RELATIONSHIP CPR2CPRB
+             WHERE  CPR2CPRB.CPR_B_CASE_NUMBER     = CPR.CASE_NUMBER
+             AND    CPR2CPRB.CPR_B_PARTY_ROLE_CODE = CPR.PARTY_ROLE_CODE
+             AND    CPR2CPRB.CPR_B_CASE_PARTY_NO   = CPR.CASE_PARTY_NO
+             AND    CPR2CPRB.DELETED_FLAG          = 'N'
+            )
+       ) AND 
+	  (C.ADMIN_CRT_CODE = ${param.owningCourtCode} AND
+		CPR.CASE_NUMBER LIKE NVL(UPPER (${param.caseNumber}), CPR.CASE_NUMBER )AND
+		P.PERSON_REQUESTED_NAME LIKE NVL(UPPER (${param.partyName}), P.PERSON_REQUESTED_NAME )AND		
+		CPR.PARTY_ROLE_CODE LIKE NVL(UPPER (${param.partyType}), CPR.PARTY_ROLE_CODE )
+      )
+	UNION ALL
+	SELECT CP.CODE AS "CP.CODE", 
+		CPR.CASE_NUMBER AS "CPR.CASE_NUMBER", 
+		CP.ADDRESS_LINE1 AS "GA.ADDRESS_LINE1", 
+		CP.ADDRESS_LINE2 AS "GA.ADDRESS_LINE2", 
+		CP.PERSON_REQUESTED_NAME AS "P.PERSON_REQUESTED_NAME", 
+		PR.PARTY_ROLE_DESCRIPTION AS "PR.PARTY_ROLE_DESCRIPTION"
+	FROM CASES C, CODED_PARTIES CP, CASE_PARTY_ROLES CPR, PARTY_ROLES PR 
+	WHERE PR.PARTY_ROLE_CODE = CPR.PARTY_ROLE_CODE AND 
+		C.CASE_NUMBER = CPR.CASE_NUMBER AND 
+		CP.ADDRESS_LINE1 LIKE NVL(UPPER (${param.address1}), CP.ADDRESS_LINE1 )AND
+		CP.ADDRESS_LINE2 LIKE NVL(UPPER (${param.address2}), CP.ADDRESS_LINE2 )AND 
+        CP.PARTY_ID = CPR.PARTY_ID AND
+       (CPR.PARTY_ROLE_CODE &lt;&gt; 'SOLICITOR' OR 
+        EXISTS
+        (SELECT NULL 
+         FROM   CPR_TO_CPR_RELATIONSHIP CPR2CPRB
+         WHERE  CPR2CPRB.CPR_B_CASE_NUMBER     = CPR.CASE_NUMBER
+         AND    CPR2CPRB.CPR_B_PARTY_ROLE_CODE = CPR.PARTY_ROLE_CODE
+         AND    CPR2CPRB.CPR_B_CASE_PARTY_NO   = CPR.CASE_PARTY_NO
+         AND    CPR2CPRB.DELETED_FLAG          = 'N'
+        )
+       ) AND 
+	  (	C.ADMIN_CRT_CODE = ${param.owningCourtCode} AND	  
+	   	CPR.CASE_NUMBER LIKE NVL(UPPER (${param.caseNumber}), CPR.CASE_NUMBER )AND
+		CP.PERSON_REQUESTED_NAME LIKE NVL(UPPER (${param.partyName}), CP.PERSON_REQUESTED_NAME )AND		
+		CPR.PARTY_ROLE_CODE LIKE NVL(UPPER (${param.partyType}), CPR.PARTY_ROLE_CODE )
+      )
+	ORDER BY 2,6,5,1,3,4
+) )
+WHERE R&lt;(${param.pageNumber}*${param.pageSize})+1 AND R>(${param.pageNumber}-1)*${param.pageSize}
+        </SQL>
+        -->
+		<Modify notModifiable="true"/>	
+	</Query>
+	
+
+</QueryDef>

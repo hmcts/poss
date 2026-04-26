@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: Ae
+	Method:  getAeEmpWelshTranslation
+	Author:  Chris Vincent 
+	Created: 24 November 2015
+	Description: 
+		Use SQLLite to determine whether the AE Employer has requested for outputs translated to Welsh.
+-->
+<service-method>
+	<pipeline>
+		<SQLLite format-output="true" 
+				 resultset-element="ds"
+				 row-element="Ae" 
+				 field-name-as="element">
+			<DataSource id="java:OracleDS"/>
+			<Param name="param.aeNumber" xpath="/params/param[@name = 'aeNumber']"/>
+			<SQL>
+				SELECT DECODE(COUNT(*), 0, 'N','Y') AS "WelshTranslation"
+				FROM parties p, ae_applications aa
+				WHERE aa.ae_number = ${param.aeNumber}
+				AND p.party_id = NVL(aa.debtors_employers_party_id,0)
+				AND NVL(welsh_indicator,'N') = 'Y'
+			</SQL>
+		</SQLLite>
+	</pipeline>
+	<Security roles="viewOnly medium high wcSuper scSuper bmsSuper aeSuper dmSuper cpSuper ccbcMan ccbcUser ccbcSGB2"/>
+</service-method>

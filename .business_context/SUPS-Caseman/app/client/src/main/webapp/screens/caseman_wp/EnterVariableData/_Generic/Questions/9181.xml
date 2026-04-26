@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>9181</Id>
+	<Label>Amount of warrant</Label>
+	<ObjectName>WarrantAmount</ObjectName>
+	<Html>		
+		<input id="DefaultCurrency9181" type="text" size="1"></input><input type="text" id="WarrantAmount" size="11" maxlength="11"></input>
+	</Html>
+	<Javascript>
+		<XPath>/ds/EnterVariableData/warrantAmount</XPath>
+		<HintText>Enter amount of warrant</HintText>
+		<maxLength>11</maxLength>
+		<isEnabled>return true</isEnabled>
+		<isMandatory>return false;</isMandatory>	
+		<transformToModel>
+			if( null == value || "" == value )
+			{  return "0.00";
+			}
+			else
+			{ return value;
+			}
+		</transformToModel>	
+		<validateOn>WarrantAmount.dataBinding</validateOn>
+		<validate>return validateWarrantAmount( 999999.99 );</validate>		
+		<miscCode>
+			function DefaultCurrency9181() {}
+			DefaultCurrency9181.dataBinding = "/ds/EnterVariableData/curr1";
+			DefaultCurrency9181.tabIndex = -1;
+			DefaultCurrency9181.maxLength = 1;
+			DefaultCurrency9181.isReadOnly = function(){return true;}
+			DefaultCurrency9181.isTemporary = function(){return true;}
+			DefaultCurrency9181.transformToDisplay = function(value){
+				return WPS.__CaseManUtils().transformCurrencySymbolToDisplay(value,null,null); }
+			DefaultCurrency9181.transformToModel = function(value){
+				return WPS.__CaseManUtils().transformCurrencySymbolToModel(value,null,null); }
+
+			function validateWarrantAmount( maxVal )
+			{
+				var value = Services.getValue(WarrantAmount.dataBinding);	      			      
+    		    var err = null;
+			      
+			    if( '0.00' != value) 
+			    { 
+			    	err = validateCurrencyValue(value, maxVal); 
+				}
+			      
+			    if( err == null)
+			    { 	        
+					var dsDom = WPU._getDsDOM();
+				 	var liveDebts = WPU.getNodes("/params/param/ds/MaintainCO/Debts/Debt[DebtStatus='LIVE']", dsDom);
+				 	var schedule2Debts = WPU.getNodes("/params/param/ds/MaintainCO/Debts/Debt[DebtStatus='SCHEDULE2']", dsDom);
+				 	var totalAllowed = 0;
+				 	var paidOut = 0;
+				 	var passthroughs = 0;
+				 	for( var i=0; i &lt; liveDebts.length; i++)
+				 	{
+				 		var debtNode = liveDebts[i];
+						var amount1 = parseFloat(WPU.getValue("DebtAmountAllowed",debtNode)); 	
+						totalAllowed += amount1;		
+						
+						var amount2 = parseFloat(WPU.getValue("Dividends",debtNode)); 
+						paidOut += amount2;
+						
+						var amount3 = parseFloat(WPU.getValue("Passthroughs",debtNode)); 
+						passthroughs += amount3;
+				 	}
+				 	
+				 	for( var i=0; i &lt; schedule2Debts.length; i++)
+				 	{
+				 		var debtNode = schedule2Debts[i];
+						var amount4 = parseFloat(WPU.getValue("DebtAmountAllowed",debtNode)); 	
+						totalAllowed += amount4;		
+						
+						var amount5 = parseFloat(WPU.getValue("Dividends",debtNode)); 
+						paidOut += amount5;
+						
+						var amount6 = parseFloat(WPU.getValue("Passthroughs",debtNode)); 
+						passthroughs += amount6;
+				 	}
+				 	
+					var moniesInCourt = WPU.getValue("/params/param/ds/MaintainCO/DebtSummary/MoniesInCourt");
+					if(moniesInCourt == null || moniesInCourt == "") moniesInCourt = 0.00;
+					moniesInCourt = parseFloat(moniesInCourt);
+					 
+					var totalFees = WPU.getValue("/params/param/ds/MaintainCO/DebtSummary/FeeAmount");
+					if(totalFees == null || totalFees == "") totalFees = 0.00;
+					totalFees = parseFloat(totalFees);
+									
+					var feesPaid = WPU.getValue("/params/param/ds/MaintainCO/DebtSummary/TotalFeesPaid");
+					if(feesPaid == null || feesPaid == "") feesPaid = 0.00;
+					feesPaid = parseFloat(feesPaid);
+				
+
+					var balanceOutstandingAmount = parseFloat(totalAllowed) + totalFees - paidOut - feesPaid - passthroughs - moniesInCourt;
+				      
+				    var warrantAmount = parseFloat( value );
+				     		        		      
+				    if( warrantAmount > balanceOutstandingAmount.toFixed(2))
+				    {  
+				    	err = ErrorCode.getErrorCode("Caseman_invalidWarrantAmount_Msg");		        		       
+				  	}
+				    else
+				    {	
+				    	var returnVal = WPU.formatToTwoDP(value);		      	
+						Services.setValue(WarrantAmount.dataBinding, returnVal);
+				  	}
+					      		      			 			      			 
+		  	      	var returnVal = WPU.formatToTwoDP(value);		      	
+					Services.setValue(WarrantAmount.dataBinding, returnVal);
+				  }   
+				  return err;		   	       
+			}
+		</miscCode>
+	</Javascript>
+</Question>  

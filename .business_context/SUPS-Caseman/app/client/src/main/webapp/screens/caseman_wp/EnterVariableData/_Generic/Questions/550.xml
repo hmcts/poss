@@ -1,0 +1,22 @@
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>550</Id>
+	<Label>Who conveys to Place of safety</Label>
+	<ObjectName>ConveyToPOSBy</ObjectName>
+	<Html>	
+		<input type="text" id="ConveyToPOSBy"></input>
+	</Html>			
+	<Javascript>
+		<XPath>/ds/EnterVariableData/Hospital/conveyToPOSBy</XPath>
+		<componentName>##label##</componentName>
+		<HintText>Enter the name of the person who will take the defendant to the POS</HintText>
+		<isMandatory>return false;</isMandatory>
+		<enableOn>IsPlaceOfSafetyId.dataBinding</enableOn>
+		<isEnabled>return( 'Y' == Services.getValue(IsPlaceOfSafetyId.dataBinding));</isEnabled>
+		<logicOn>IsPlaceOfSafetyId.dataBinding</logicOn>
+		<logic>
+			if( 'Y' != Services.getValue(IsPlaceOfSafetyId.dataBinding))
+			{	Services.setValue(ConveyToPOSBy.dataBinding, "");
+			}
+		</logic>
+	</Javascript>
+</Question>

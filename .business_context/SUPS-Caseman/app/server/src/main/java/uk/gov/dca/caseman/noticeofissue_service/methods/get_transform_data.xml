@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: NoticeOfIssue
+	Method:  getTransformData()
+	File:    get_transform_data.xml
+	Author:  Frederik Vandendriessche (EDS)
+	Created: 02 September 2005
+	Description: 
+		Retrieve CaseMan Word Processing Output Transformed Data
+	Change History:
+		12/07/2012, Chris Vincent: Adding missing dependencies for Trac 4694.
+-->
+<service-method>
+	<pipeline>
+		<Java>
+			<Source class="uk.gov.dca.caseman.noticeofissue_service.classes.DataProcessorTransform"/>
+		</Java>
+	</pipeline>
+	<Dependencies>
+		<Dependency serviceName="Case"/>
+		<Dependency serviceName="Court"/>
+		<Dependency serviceName="WindowForTrial"/>
+		<Dependency serviceName="SystemData"/>
+		<Dependency serviceName="WarrantReturns"/>
+		<Dependency serviceName="NonWorkingDay"/>
+		<Dependency serviceName="Warrant"/>
+		<Dependency serviceName="CaseEvent"/>
+	</Dependencies>
+	<Security roles="user viewOnly medium high wcSuper scSuper bmsSuper aeSuper dmSuper cpSuper ccbcMan ccbcUser ccbcSGB2"/>
+</service-method>

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: PartyRole
+	Method:  getPartyRoles()
+	File:    get_party_roles.xml
+	Author:  
+	Created: 
+	Description: 
+        List of Party Roles of Parties on a Case
+-->
+<service-method>
+	<pipeline>
+		<SQLLite format-output="true"
+				 resultset-element="PartyRoles"
+				 row-element="PartyRole"
+				 field-name-as="element" >
+			<DataSource id="java:OracleDS"/>
+			<SQL>
+				SELECT PR.PARTY_ROLE_CODE AS "Code"
+				,      PR.PARTY_ROLE_DESCRIPTION AS "Description"
+				FROM PARTY_ROLES PR
+				WHERE PR.PARTY_ROLE_CODE NOT IN ('NCP', 'NCP PAYEE')
+			</SQL>
+		</SQLLite>
+  	</pipeline>
+	<Security roles="viewOnly medium high wcSuper scSuper bmsSuper aeSuper dmSuper cpSuper ccbcMan ccbcUser ccbcSGB2"/>	
+</service-method>

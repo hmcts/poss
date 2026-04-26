@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<DBMapDef>
+  <DataSource id="java:OracleDS"/>
+  <Tables>
+    <Table alias="V" name="VARIATIONS"/>
+  </Tables>  
+  <Mapping>
+	<Variation>
+		<VarySeq>${V.VARY_SEQ}</VarySeq>
+		<ApplicantResponse>${V.PLAINTIFF_RESPONSE}</ApplicantResponse>
+	</Variation>
+  </Mapping>
+</DBMapDef>

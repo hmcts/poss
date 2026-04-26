@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: CaseEvent
+	Method:  updateCaseEventWithWarrantIdForAeEvent()
+	File:    update_case_event_with_warrant_id_for_ae_event.xml
+	Author:  Chris Hutt
+	Created: 6 June 2006
+	Description: 
+		TD3445: Update the warrant id on an Case event associated with an AE event. This is needed for ae events 876 and 856 which:
+			1. create a warrant
+        	2. have associated case events 462 and 458. 
+
+    Change History:
+
+-->
+<service-method>
+	<pipeline>
+		<SQLLite output="input">
+			<DataSource id="java:OracleDS"/>
+			<Param name="param.aeEventSeq"		xpath="/params/param[@name='aeEventSeq']"/>
+			<Param name="param.warrantId"		xpath="/params/param[@name='warrantId']"/>
+			<SQL type="update" tables="CASE_EVENTS">
+				UPDATE CASE_EVENTS CE
+				SET	CE.WARRANT_ID = ${param.warrantId}
+				WHERE CE.EVENT_SEQ IN (	SELECT AE.CASE_EVENT_SEQ 
+										FROM AE_EVENTS AE  
+										WHERE AE.AE_EVENT_SEQ = ${param.aeEventSeq})
+			</SQL>
+		</SQLLite>
+	</pipeline>
+	<Security roles="viewOnly medium high wcSuper scSuper bmsSuper aeSuper dmSuper edsAdmin"/>	
+	<!-- Transaction type="RequiresNew" / -->	
+</service-method>

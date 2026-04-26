@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: WpOutput
+	Method:  getAeOutputCourtCode
+	File:    get_ae_output_court_code.xml
+	Author:  Chris Vincent 
+	Created: 21 October 2015
+	Description: 
+		Retrieves the CRT_CODE from a CASE_EVENT row linked to an AE event output
+-->
+<service-method>
+	<pipeline>
+		<SQLLite format-output="true" 
+				 resultset-element="ds"
+				 row-element="Output" 
+				 field-name-as="element">
+			<DataSource id="java:OracleDS"/>
+			<Param name="param.outputId" xpath="/params/param[@name = 'outputId']"/>
+			<SQL>
+				SELECT ce.crt_code AS "CourtCode"
+				FROM case_events ce, ae_events ae, wp_output wp
+				WHERE wp.output_id = ${param.outputId}
+				AND ae.ae_event_seq = wp.ae_event_seq
+				AND ce.event_seq = ae.case_event_seq
+			</SQL>
+		</SQLLite>
+	</pipeline>
+	<Security roles="viewOnly medium high wcSuper scSuper bmsSuper aeSuper dmSuper cpSuper ccbcMan ccbcUser ccbcSGB2"/>
+</service-method>

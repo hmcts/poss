@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: User
+	Method:  validateUser()
+	File:    validate_user.xml
+	Author:  Ian Stainer (Valtech)
+	Created: 14 Novemeber 2005
+	Description: 
+        This service is only invoked when an administrator is editing user profiles on the client. 
+		It performs various validations on a user's profile as identified by the given user id. The
+		validations include verifying that the administrator's court matches the user's court. If they
+		differ a business exception is thrown. If a profile does not already exist in the database then
+		the status of the user is set to 'NEW' before being sent back to the client. If the client saves
+		the profile then it is created in the database.
+-->
+<service-method>
+	<pipeline>
+		<Java>
+			<Source class="uk.gov.dca.caseman.user_service.java.ValidateUserCustomProcessor"/>
+		</Java>		
+	</pipeline>
+	<Dependencies>
+		<Dependency serviceName="Court"/>
+	</Dependencies>			
+	<Security roles="viewOnly medium high wcSuper scSuper bmsSuper aeSuper dmSuper cpSuper edsAdmin admin ccbcMan ccbcUser ccbcSGB2 ccbcTape"/>
+</service-method>

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>373</Id>
+	<Label>Date of evidence read</Label>
+	<ObjectName>EvidenceReadDate</ObjectName>
+	<Html>	
+		<script type="text/javascript">
+			WP_DatePickerRenderer.createInline("EvidenceReadDate");
+		</script>
+	</Html>			
+	<Javascript>
+		<XPath>/ds/EnterVariableData/SubsService/evidenceReadDate</XPath>
+		<componentName>##label##</componentName>
+		<isMandatory>return true;</isMandatory>
+		<HintText>Enter the date of evidence read in the format DD-MON-YYYY</HintText>
+		<validateOn>EvidenceReadDate.dataBinding</validateOn>
+		<validate>
+			return isWorkingDayInPast(Services.getValue(EvidenceReadDate.dataBinding));
+		</validate>	
+		<miscCode>
+			EvidenceReadDate.weekends = false;
+		</miscCode>
+	</Javascript>
+</Question>

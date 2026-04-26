@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>344</Id>
+	<Label>Does suspension include costs?</Label>
+	<ObjectName>IncSuspCosts</ObjectName>
+	<Html>
+		<input type="checkbox" id="IncSuspCosts"></input>
+	</Html>
+	
+	<Context screenId="CJR055"><isVisible>false</isVisible></Context>
+			
+	<Javascript>
+		<XPath>/ds/EnterVariableData/PossessionOrder/incSuspCosts</XPath>
+		<componentName>##label##</componentName>
+		<modelValue>checked: "Y", unchecked: "N"</modelValue>
+		<HintText>Check box if there are costs included in conditions for suspension</HintText>		
+	</Javascript>
+</Question>

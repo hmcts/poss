@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project-config>
+	<lookup-items>
+		<item id="java:OracleDS" class="uk.gov.dca.db.impl.JNDIConfigurationItem">java:OracleDS</item>
+
+		<!-- item id="java:OracleDS" class="uk.gov.dca.db.impl.JDBCConfigurationItem">
+			<driver>oracle.jdbc.driver.OracleDriver</driver>
+			<url>jdbc:oracle:thin:@oracle:1521:casm</url>
+			<user>casm2</user>
+			<pass>casm2</pass>
+		</item -->
+
+		<item id="validation:schema" class="uk.gov.dca.db.impl.StringConfigurationItem">casm2</item>
+		
+		<item id="security:status" class="uk.gov.dca.db.impl.StringConfigurationItem">inactive</item>
+	</lookup-items>
+</project-config>

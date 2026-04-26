@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>180</Id>
+	<Label>Is there a date for reply</Label>
+	<ObjectName>IsReplyDate</ObjectName>
+	<Html>	
+		<input type="checkbox" id="IsReplyDate"></input>
+	</Html>
+	<Javascript>
+		<XPath>/ds/EnterVariableData/FastTrack/isReplyDate</XPath>
+		<HintText>Check box if  there a date for reply</HintText>
+		<!--isMandatory>return true;</isMandatory-->	
+		<modelValue>checked: "Y", unchecked: "N"</modelValue>
+		<enableOn>FurtherInformation.dataBinding</enableOn>
+		<isEnabled>return('Y' == Services.getValue(FurtherInformation.dataBinding));</isEnabled>
+		<logicOn>FurtherInformation.dataBinding</logicOn>
+		<logic>
+			if('Y' != Services.getValue(FurtherInformation.dataBinding))
+			{	Services.setValue(IsReplyDate.dataBinding, "N");
+			}
+		</logic>
+	</Javascript>
+</Question>

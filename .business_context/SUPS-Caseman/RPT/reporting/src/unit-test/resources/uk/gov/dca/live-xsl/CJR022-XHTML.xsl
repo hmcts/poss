@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsl:stylesheet xmlns:ora="http://www.oracle.com/XSL/Transform/java" xmlns:supsfo="http://eds.com/supsfo" xmlns:fo="http://www.w3.org/1999/XSL/Format" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="1.0" xmlns:ns0="xmlns" ns0:xsl="http://www.w3.org/1999/XSL/Transform"><xsl:import href="supsfo.xsl"/><xsl:strip-space elements="*"/><xsl:output method="xml"/><xsl:template match="/"><editableSections><div class="EDITME" id="N1008B"><div><font size="4" face="Times New Roman">
+			<div style="margin-top: 0.8cm; margin-bottom: 0.4cm; font-size: 12pt;"><xsl:value-of xmlns="http://eds.com/supsfo" select="$vdJudge"/> has considered the statements of case and allocation questionnaires filed and requires further information before making a final decision about allocation.</div>
+			<div style="margin-bottom: 0.4cm; font-size: 12pt;"><xsl:value-of xmlns="http://eds.com/supsfo" select="$vdJudge"/> orders the <xsl:value-of xmlns="http://eds.com/supsfo" select="$vdFiler"/> to provide information about:-</div>
+			<div style="margin-bottom: 0.4cm; font-size: 12pt;">
+				<xsl:copy-of xmlns="http://eds.com/supsfo" select="$vdDocumentDetails"/>
+			</div>
+			<div style="margin-bottom: 0.4cm; font-size: 12pt;">This information and any accompanying documents should be delivered to the court and copied to the other parties on or before <xsl:value-of xmlns="http://eds.com/supsfo" select="$vdFiledDate"/>.</div>
+		</font></div></div></editableSections></xsl:template><xsl:template name="pagesequence"><xsl:param name="addressee"/></xsl:template></xsl:stylesheet>

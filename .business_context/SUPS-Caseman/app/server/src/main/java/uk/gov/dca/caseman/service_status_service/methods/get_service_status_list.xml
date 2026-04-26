@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: ServiceStatus
+	Method:  getServiceStatusList()
+	File:    get_service_status_list.xml
+	Author:  
+	Created: 
+	Description: 
+        List of Statuses for AE and CO Events
+-->
+<service-method>
+	<pipeline>
+		<Query>
+			<QueryDef location="uk/gov/dca/caseman/service_status_service/query_def_service_status_list.xml"/>
+			<QueryExtension pivotNode="/ServiceList/Service">
+				<Constraint>CCBC.RV_DOMAIN = 'SERVICE_STATUS'</Constraint>
+			</QueryExtension>
+		</Query>
+	</pipeline>
+	<Security roles="viewOnly medium high wcSuper scSuper bmsSuper aeSuper dmSuper cpSuper"/>	
+</service-method>

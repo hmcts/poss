@@ -1,0 +1,251 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:fo="http://www.w3.org/1999/XSL/Format" xmlns="http://eds.com/supsfo">
+	<variables>@word.processing.url.xsl@supsfo.xsl</variables>
+	<addressee copies="2">
+		<warrantPartyFor />
+	</addressee>
+	<header>
+		<fo:block font-size="16pt" font-weight="bold">Creditor's Reply to Debtor's</fo:block>
+		<fo:block font-size="16pt" font-weight="bold">Application to Suspend</fo:block>
+		<fo:block font-size="16pt" font-weight="bold">Warrant of Control</fo:block>
+	</header>
+	<courtcase>
+		<court>
+			<xsl:copy-of select="$vdWarrantCourtHeaderBlock"/>
+		</court>
+		<caseparameters>
+			<parameter>
+				<name>
+					<fo:block font-weight="bold">Case Number</fo:block>
+				</name>
+				<value>
+					<fo:block>
+						<xsl:value-of select="$vdWarrantCaseNumber"/>
+					</fo:block>
+				</value>
+			</parameter>
+			<parameter>
+				<name>
+					<fo:block font-weight="bold">Warrant Number</fo:block>
+				</name>
+				<value>
+					<fo:block>
+						<xsl:choose>
+							<xsl:when test="string-length($vdWarrantLocalNumber) > 0"><xsl:value-of select="$vdWarrantLocalNumber"/></xsl:when>
+							<xsl:otherwise><xsl:value-of select="$vdWarrantNumber"/></xsl:otherwise>
+						</xsl:choose>
+					</fo:block>
+				</value>
+			</parameter>
+			<parameter>
+				<name>
+					<fo:block font-weight="bold">Creditor</fo:block>
+					<fo:block font-size="9pt">(including ref.)</fo:block>
+				</name>
+				<value>
+					<fo:block hyphenate="true">
+						<xsl:value-of select="$vdPartyForName"/>
+					</fo:block>
+					<fo:block font-size="9pt" hyphenate="true">
+						<xsl:value-of select="$vdPartyForReference"/>
+					</fo:block>
+				</value>
+			</parameter>
+			<parameter>
+				<name>
+					<fo:block font-weight="bold">Debtor</fo:block>
+					<fo:block font-size="9pt">(including ref.)</fo:block>
+				</name>
+				<value>
+					<fo:block hyphenate="true">
+						<xsl:value-of select="$vdPartyAgainstName"/>
+					</fo:block>
+					<fo:block font-size="9pt" hyphenate="true">
+						<xsl:value-of select="$vdPartyAgainstReference"/>
+					</fo:block>
+				</value>
+			</parameter>
+			
+		</caseparameters>
+	</courtcase>
+	<body>
+		<fo:block>
+			Enclosed is a copy of an application made by the debtor for suspension of the warrant issued in this case (and/or for a variation of the order made).
+		</fo:block>		
+		<list type="bullet">
+			<list-item><fo:block>The court will make an order in the terms of the debtor's offer unless you write to the court with your objections. You have 16 days from the date of the postmark to do this.</fo:block></list-item>
+			<list-item><fo:block>Only <fo:inline font-weight="bold">one</fo:inline> box should be ticked.</fo:block></list-item>
+			<list-item><fo:block>Please remember to sign and date the form.</fo:block></list-item>
+		</list>
+		<fo:block space-before="0.2cm" space-after="0.1cm" font-weight="bold">
+			If you ACCEPT the debtor's offer:
+		</fo:block>		
+		<fo:block space-after="0.2cm" font-weight="bold">
+			<list type="checkBoxWithLabel">
+				<list-item>
+					<bulletText>1.</bulletText>
+					<fo:block font-weight="bold">I accept the debtor's offer</fo:block>
+				</list-item>
+			</list>						
+		</fo:block>
+		<fo:list-block  start-indent="1cm" space-after="0.2cm"  font-size="9pt" end-indent="1.5cm">
+			<fo:list-item  >
+			 	<fo:list-item-label>
+			   		<fo:block>&#x2022;</fo:block>
+			 </fo:list-item-label>
+			 <fo:list-item-body	start-indent="1.3cm">
+			   <fo:block>Return the form to the court office within the 16 day time limit (explained above).</fo:block>
+			 </fo:list-item-body>
+			</fo:list-item>
+			<fo:list-item>
+				<fo:list-item-label><fo:block>&#x2022;</fo:block></fo:list-item-label>
+				<fo:list-item-body start-indent="1.3cm">
+					<fo:block>The court will make an order suspending the warrant (and varying the order) so long as payment is made in accordance with the offer.</fo:block>
+				</fo:list-item-body>
+			</fo:list-item>		
+		</fo:list-block>
+		<fo:block space-after="0.1cm">
+			<fo:inline font-weight="bold">Note</fo:inline> If the debtor does not keep up the payments, you may ask the court to reissue the warrant. Ask at the court office for Form N445.
+		</fo:block>	
+		<fo:block space-after="0.1cm" font-weight="bold">
+			If you AGREE to the suspension but DO NOT ACCEPT the debtor's offer <fo:inline font-size="8pt">(eg because you think the debtor could pay more)</fo:inline>:
+		</fo:block>	
+		<fo:block space-after="0.2cm" font-weight="bold">
+			<list type="checkBoxWithLabel">
+				<list-item>
+					<bulletText>2.</bulletText>
+					<fo:block>I do not accept the debtor's offer of payment but I will accept payment</fo:block>
+					<fo:block font-weight="normal">
+						<fo:table table-layout="fixed">
+							<fo:table-column column-width="4cm"/>
+							<fo:table-column column-width="1cm"/>
+							<fo:table-column column-width="5cm"/>
+							<fo:table-column column-width="2cm"/>													
+							<fo:table-body>
+								<fo:table-row>
+									<fo:table-cell>
+										<fo:block>(by instalments of &#163;</fo:block>
+									</fo:table-cell>	
+									<fo:table-cell>
+										<fo:block>&#xa0;</fo:block>
+									</fo:table-cell>	
+									<fo:table-cell>
+										<fo:block>per month) or (in full by</fo:block>
+									</fo:table-cell>	
+									<fo:table-cell text-align="right">
+										<fo:block>&#xa0;)</fo:block>
+									</fo:table-cell>										
+								</fo:table-row>
+							</fo:table-body>
+						</fo:table>
+					</fo:block>										
+				</list-item>
+			</list>						
+		</fo:block>
+		
+		<fo:list-block  start-indent="1cm" space-after="0.1cm"  font-size="9pt" end-indent="1.5cm">
+			<fo:list-item  >
+			 	<fo:list-item-label>
+			   		<fo:block>&#x2022;</fo:block>
+			 </fo:list-item-label>
+			 <fo:list-item-body	start-indent="1.3cm">
+			   		<fo:block>Give your reasons in the space below.</fo:block>
+			 </fo:list-item-body>
+			</fo:list-item>
+			<fo:list-item>
+				<fo:list-item-label><fo:block>&#x2022;</fo:block></fo:list-item-label>
+				<fo:list-item-body start-indent="1.3cm">
+					<fo:block>Return the form to the court office within the 16 day time limit (explained above).</fo:block>
+				</fo:list-item-body>
+			</fo:list-item>
+			<fo:list-item>
+				<fo:list-item-label><fo:block>&#x2022;</fo:block></fo:list-item-label>
+				<fo:list-item-body start-indent="1.3cm">
+					<fo:block>The court will fix the rate of payment and will send you and the debtor a copy of the order.</fo:block>
+				</fo:list-item-body>
+			</fo:list-item>
+		</fo:list-block>
+		
+		<fo:block space-before="0.2cm" space-after="0.1cm" font-weight="bold">
+			If you DO NOT AGREE to the suspension and you DO NOT ACCEPT the debtor's offer:
+		</fo:block>		
+		<fo:block space-after="0.2cm" font-weight="bold">
+			<list type="checkBoxWithLabel">
+				<list-item>
+					<bulletText>3.</bulletText>
+					<fo:block font-weight="bold">I do not accept the debtor's offer of payment because I wish the bailiff to proceed with the warrant</fo:block>
+				</list-item>
+			</list>						
+		</fo:block>
+		<fo:list-block  start-indent="1cm" space-after="0.2cm"  font-size="9pt" end-indent="1.5cm">
+			<fo:list-item  >
+			 	<fo:list-item-label>
+			   		<fo:block>&#x2022;</fo:block>
+			 </fo:list-item-label>
+			 <fo:list-item-body	start-indent="1.3cm">
+			   		<fo:block>Give your reasons in the space below.</fo:block>
+			 </fo:list-item-body>
+			</fo:list-item>
+			<fo:list-item>
+				<fo:list-item-label><fo:block>&#x2022;</fo:block></fo:list-item-label>
+				<fo:list-item-body start-indent="1.3cm">
+					<fo:block>Return the form to the court office within the 16 day time limit (explained above).</fo:block>
+				</fo:list-item-body>
+			</fo:list-item>
+			<fo:list-item>
+				<fo:list-item-label><fo:block>&#x2022;</fo:block></fo:list-item-label>
+				<fo:list-item-body start-indent="1.3cm">
+					<fo:block>The court will return a copy of this form to you showing the date when the application and your objections will be heard. (The debtor will also receive a copy.)</fo:block>
+				</fo:list-item-body>
+			</fo:list-item>
+			<fo:list-item>
+				<fo:list-item-label><fo:block>&#x2022;</fo:block></fo:list-item-label>
+				<fo:list-item-body start-indent="1.3cm">
+					<fo:block>If you do not attend the hearing, the court will make an order in your absence.</fo:block>
+				</fo:list-item-body>
+			</fo:list-item>
+		</fo:list-block>
+	
+		<fo:block space-after="1.3cm">
+			<fo:inline font-weight="bold">Record here your objections to the debtor's proposals </fo:inline><fo:inline font-style="italic" font-size="7pt">(continue on a separate sheet if necessary)</fo:inline>
+		</fo:block>
+		<fo:table table-layout="fixed">
+			<fo:table-column column-width="9.64cm"></fo:table-column>
+			<fo:table-column column-width="9.64cm"></fo:table-column>
+			<fo:table-body>
+				<fo:table-row>
+					<fo:table-cell display-align="after">
+						<fo:block space-after="0.2cm"><fo:inline font-weight="bold">Signed .................................................</fo:inline>Creditor<xsl:value-of select="$vdSolicitorsText"/></fo:block>
+						<fo:block font-weight="bold">Dated .................................................</fo:block>		
+							
+					</fo:table-cell>	
+					<fo:table-cell padding-right="1cm">
+						<fo:block text-align="center" font-size="8pt">This section to be completed by the court</fo:block>
+						<fo:table table-layout="fixed" border-style="solid" border-width="0.02cm"  padding-left="0.2cm" padding-right="0.2cm"  >
+							<fo:table-column column-width="9.64cm"></fo:table-column>
+							<fo:table-body>
+								<fo:table-row>
+									<fo:table-cell text-align="center" height="0.6cm" display-align="after"><fo:block>Date hearing notice sent ......../..................../.........</fo:block></fo:table-cell>														
+								</fo:table-row>
+								<fo:table-row>
+									<fo:table-cell><fo:block space-after="0.2cm" font-weight="bold">To the creditor and debtor</fo:block></fo:table-cell>														
+								</fo:table-row>
+								<fo:table-row>
+									<fo:table-cell><fo:block line-height="125%" space-after="0.2cm"><fo:inline font-weight="bold">Take Notice</fo:inline> that the debtor's application will be heard by the court at ..................................................................................................</fo:block></fo:table-cell>														
+								</fo:table-row>
+								<fo:table-row>
+									<fo:table-cell text-align="center"><fo:block space-before="0.2cm" space-after="0.2cm">on ......../..................../......... at ........:........ AM/PM.</fo:block></fo:table-cell>														
+								</fo:table-row>
+									<fo:table-row>
+									<fo:table-cell text-align="center"><fo:block font-weight="bold">If you do not attend the hearing the court</fo:block>
+																	<fo:block font-weight="bold">will make and order in your absence</fo:block></fo:table-cell>														
+								</fo:table-row>								
+							</fo:table-body>
+						</fo:table>																							
+					</fo:table-cell>
+				</fo:table-row>
+			</fo:table-body>
+		</fo:table>	
+	</body>
+	<defaultFooter id="N246A"/>
+</root>

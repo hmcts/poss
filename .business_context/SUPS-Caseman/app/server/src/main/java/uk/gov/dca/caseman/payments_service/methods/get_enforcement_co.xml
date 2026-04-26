@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: Payments
+	Method: getEnforcementCo()
+	File: get_enforcement_co.xml
+	Author: Steve Blair
+	Description:
+		Get CO details for Suitors Cash. Called from getEnforcement.
+-->
+<service-method>
+	<pipeline>
+		<Query>
+			<QueryDef location="uk/gov/dca/caseman/payments_service/query_def_enforcement/co.xml" />
+			<QueryExtension pivotNode="/Enforcement">
+				<Param name="param.coNumber" xpath="/params/param[@name = 'coNumber']" />
+			</QueryExtension>
+		</Query>
+	</pipeline>
+	<Security roles="viewOnly medium high wcSuper scSuper bmsSuper aeSuper dmSuper"/>
+</service-method>

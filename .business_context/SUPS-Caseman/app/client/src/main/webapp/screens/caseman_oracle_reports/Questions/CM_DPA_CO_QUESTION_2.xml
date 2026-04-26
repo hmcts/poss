@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--Question xmlns="http://eds.com/questionxhtml" xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd"-->
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>CM_DPA_CO_QUESTION_2</Id>
+	<Label>Debt Number</Label>
+	<ObjectName>DebtNumber</ObjectName>
+	<Html>
+		<input id="DebtNumber" type="text" size="4"></input>
+	</Html>
+	<Javascript>
+		<XPath>/ds/var/page/OracleReportForm/DebtNumber</XPath>
+		<ReportVariableName>P_CREDITOR_NUMBER</ReportVariableName>
+		<ReportVariableValue>Services.getValue(DebtNumber.dataBinding)</ReportVariableValue>
+		<HintText>Enter the Debt (Creditor) Number quoted on the Initial Report (blank if debtor)</HintText>
+		<maxLength>3</maxLength>
+		<isMandatory>return false;</isMandatory>	
+		<logicOn>DebtNumber.dataBinding</logicOn>
+		<logic>
+			var value = Services.getValue(DebtNumber.dataBinding);
+			if ((null != value) || (value != ''))
+			{
+				if (DebtNumber.validate() == null)
+				{
+					searchCODebt();
+				}
+			}
+		</logic>
+		<miscCode>
+			
+			DebtNumber.enableOn = [SEARCH_RESULTS_XPATH];
+			DebtNumber.isEnabled = function()
+			{
+				var errCode = validateCO();
+				if (errCode == null)
+				{
+					return true;
+				}
+				else
+				{
+					return false;
+				}
+			}
+						
+			function searchCODebt()
+			{
+				var coNumber = Services.getValue(CONumber.dataBinding);				
+			    //Call Search Service now
+				var params = new ServiceParams();
+				params.addSimpleParameter("coNumber", coNumber);
+				Services.callService("getDebtsCount", params, DebtNumber, true);			
+			}
+			
+			DebtNumber.onSuccess = function(dom) {
+				//debugger;
+			    if(dom != null) {
+			        var node = dom.selectSingleNode("/ds/CODebts");
+			        Services.replaceNode(SEARCH_RESULTS_DEBT_XPATH, node);
+			        
+			        var debtCount = Services.getValue(SEARCH_RESULTS_DEBT_XPATH + "/DebtCount");
+					var paramDebtCount = Services.getValue(DebtNumber.dataBinding);
+			        if(parseInt(paramDebtCount) > parseInt(debtCount)) 
+					{
+			           alert("Invalid Debt Number. Maximum is " + debtCount); 
+			        } 
+			    }
+			}
+			
+			DebtNumber.validateOn = [SEARCH_RESULTS_DEBT_XPATH];
+			DebtNumber.validate = function(value)
+			{
+				var value = Services.getValue(this.dataBinding);
+				if (!CaseManUtils.isBlank(value)) {
+					if (!CaseManValidationHelper.validateNumber(value))
+					{
+						return ErrorCode.getErrorCode("CaseMan_Reports_Enter_Number");
+					}
+					else
+					{
+						return validateCODebt();
+					}
+				}
+				else 
+				{
+					return null;
+				}			
+			}			
+			
+			function validateCODebt()
+			{
+				//debugger;
+				var errCode = null;
+				var paramDebtCount = Services.getValue(DebtNumber.dataBinding);
+				if (paramDebtCount == null || paramDebtCount == '')
+				{
+					return null;
+				}
+				var debtCount = Services.getValue(SEARCH_RESULTS_DEBT_XPATH + "/DebtCount");
+				if(parseInt(paramDebtCount) > parseInt(debtCount)) 
+				{
+		           errCode = ErrorCode.getErrorCode("CaseMan_InvalidDebtCount_Msg");
+		        }
+		        return errCode;
+			}	
+		</miscCode>				
+	</Javascript>
+</Question>

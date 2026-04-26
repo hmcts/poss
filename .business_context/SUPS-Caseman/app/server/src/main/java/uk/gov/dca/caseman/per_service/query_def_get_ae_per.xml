@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: Per
+	Method:  getAePer()
+	File:    query_def_get_per.xml
+	Author:  Phil Haferer (EDS), Ian Stainer (Valtech)
+	Created: 06 June 2005
+	Description: 
+		Retrieve AE protected earnings rate details.
+-->
+<QueryDef>
+  <DBMapDef location="uk/gov/dca/caseman/per_service/map_get_ae_per.xml"/>
+  <Query pivotNode="/ds/CalculatePER" tables="AEA CPRF PF PRF CPRA PA PRA REF">
+    <Join>
+    	     CPRF.CASE_NUMBER     = AEA.CASE_NUMBER
+	    AND  CPRF.PARTY_ROLE_CODE = AEA.PARTY_FOR_PARTY_ROLE_CODE
+	    AND  CPRF.CASE_PARTY_NO   = AEA.PARTY_FOR_CASE_PARTY_NO
+    	AND  CPRF.PARTY_ID        = PF.PARTY_ID
+    	AND  CPRF.PARTY_ROLE_CODE = PRF.PARTY_ROLE_CODE    	
+    	AND  CPRA.CASE_NUMBER     = AEA.CASE_NUMBER
+	    AND  CPRA.PARTY_ROLE_CODE = AEA.PARTY_AGAINST_PARTY_ROLE_CODE
+	    AND  CPRA.CASE_PARTY_NO   = AEA.PARTY_AGAINST_CASE_PARTY_NO
+    	AND  CPRA.PARTY_ID        = PA.PARTY_ID
+    	AND  CPRA.PARTY_ROLE_CODE = PRA.PARTY_ROLE_CODE    	
+		AND  AEA.AE_TYPE          = REF.RV_LOW_VALUE
+		AND  REF.RV_DOMAIN        = 'AE_TYPE'         
+    </Join>
+    <Alias name="EVENT857_COUNT" select="( SELECT COUNT(ae.std_event_id) FROM ae_events ae WHERE  ae.ae_number = AEA.AE_NUMBER AND ae.std_event_id = '857' )"/>
+    <Alias name="AEA.AE_TOTAL_EXISTS" select="DECODE(AEA.PROTECTED_EARNINGS_RATE,null,'NEW','EXISTING')"/>
+    <Modify/>
+  </Query>
+ 
+  <Query pivotNode="/ds/CalculatePER/PerDetail" tables="API PER">
+    <Join>
+    	    API.AE_NUMBER       = ${AEA.AE_NUMBER}
+    	AND API.DETAIL_CODE     = PER.DETAIL_CODE
+    	AND API.ERROR_INDICATOR = 'N'
+    </Join>
+    <Alias name="EXISTING_VALUE" select="'EXISTING'"/>
+  </Query>
+</QueryDef>

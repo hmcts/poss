@@ -1,0 +1,28 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: CoEvent
+	Method:  addCoEvent200()/insertCoEventRowExt()
+	File:    query_def_insert_co_event_ext.xml
+	Author:  Phil Haferer (EDS)
+	Created: 01-Aug-2006
+	Description: 
+		Add a Consolidated Order Event 200.
+        Derived from query_def_insert_co_event.xml.
+
+	Change History:
+	24-Aug-2006 Phil Haferer: (TD CASEMAN 4700: CO Event 975 Process Stage not set to AUTO).
+	    Identified that like CO Event 200 (that prompted the creation of this file) another tag was missing, 
+	    namely ProcessStage.
+	    Renamed file from query_def_insert_co_event_200.xml to query_def_insert_co_event_ext.xml
+	    Changed reference to map_co_event_200.xml, to map_co_event_ext.xml.
+-->
+<QueryDef>
+  <DBMapDef location="uk/gov/dca/caseman/co_event_service/map_co_event_ext.xml"/>
+  <Query pivotNode="/COEvent" tables="COE">
+	<Join/>
+    <Modify>
+		<Field name="COE.CO_EVENT_SEQ" sequenceTable="CO_EVENT_SEQUENCE"/>
+		<Field name="COE.ERROR_INDICATOR" value="N"/>
+	</Modify>
+  </Query>
+</QueryDef>

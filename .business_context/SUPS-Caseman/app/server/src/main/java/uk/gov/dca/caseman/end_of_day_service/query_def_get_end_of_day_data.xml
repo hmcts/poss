@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<QueryDef>
+  <DBMapDef location="uk/gov/dca/caseman/end_of_day_service/map_get_end_of_day_data.xml"/>
+  <Query pivotNode="/EndOfDayRecords/PaymentSummaries/PaymentSummary" tables="PS">
+	<Join/>
+  </Query>
+  <Query pivotNode="/EndOfDayRecords" tables="PS">
+	<SQL type="select">
+  		SELECT	( SELECT DECODE(COUNT(*),0,'false','true') 
+				FROM   PAYMENT_SUMMARY PS2
+				WHERE  SUBSTR( PS2.REPORT_ID, 1, 3 ) = 'B/F'
+				AND    PS2.ADMIN_COURT_CODE = ${param.adminCourtCode}
+				AND    PS2.VALID = 'Y'
+				AND    PS2.DCS_DATE = TO_DATE( ${param.dcsDate}, 'YYYY-MM-DD' ) ) AS "PS.ACCOUNTING_PERIOD_ENDED",
+				( SELECT DECODE(COUNT(*),0,'true','false')
+				FROM   PAYMENT_SUMMARY PS2
+				WHERE  SUBSTR( PS2.REPORT_ID, 1, 3 ) = 'B/F'
+				AND    PS2.ADMIN_COURT_CODE = ${param.adminCourtCode}
+				AND    PS2.VALID = 'Y')  AS "PS.NO_BROUGHT_FORWARD_ROW"
+		FROM DUAL
+	</SQL>
+	<Modify notModifiable="true"/>
+  </Query>
+</QueryDef>

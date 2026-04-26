@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>369</Id>
+	<Label>Party or Parties who failed to file Listing Questionnaire</Label>
+	<ObjectName>PartiesFailedToFile</ObjectName>
+	<Html>
+		<script type="text/javascript">Grid.createInline("PartiesFailedToFile", ["Party Type", "Number", "Name"] , 2, 1);</script>
+	</Html>			
+	<Javascript>
+		<XPath>/ds/EnterVariableData/FailureToFile/partiesFailedToFile</XPath>
+		<componentName>##label##</componentName>
+		<isMandatory>return true;</isMandatory>
+
+		<HintText>Enter party or parties who failed to file Listing Questionnaire</HintText>
+		<miscCode>		 
+			PartiesFailedToFile.srcData = DATA_XPATH + "/Parties";
+			PartiesFailedToFile.rowXPath = "*[./Status != 'REMOVED']";	
+			<!-- PartiesFailedToFile.rowXPath = "LitigiousParty[./TypeCode = '" + CMC.PartyTypeCodesEnum.CLAIMANT + "' or ./TypeCode = '" + CMC.PartyTypeCodesEnum.DEFENDANT + "'  or ./TypeCode = '" + CMC.PartyTypeCodesEnum.PART_20_CLAIMANT + "'  or ./TypeCode = '" + CMC.PartyTypeCodesEnum.PART_20_DEFENDANT + "']";-->
+			PartiesFailedToFile.keyXPath = "PartyId";
+			PartiesFailedToFile.columns = [
+				{xpath: "Type"},
+				{xpath: "Number", sort: "numerical", defaultSort:"true", defaultSortOrder:"ascending"},
+				{xpath: "Name"}
+			];
+			PartiesFailedToFile.multipleSelection = true;	
+		
+			// Since PartiesFailedToFile is a multi-select grid and grids do not implement mandatory protocol, we need to
+			// use some other field in the same group as this question to be defined in the validateOn xpaths. 
+			// OrderDetails2 here has become one such possible candidate since it is itseld a mandatory field.
+			
+			PartiesFailedToFile.validateOn = [PartiesFailedToFile.dataBinding + "/PartyId", OrderDetails2.dataBinding];
+			PartiesFailedToFile.validate = function()
+			{ 
+				var ec = null;
+				var countParties = Services.countNodes(PartiesFailedToFile.dataBinding + "/PartyId");
+				if (countParties == 0)
+				{
+					ec = ErrorCode.getErrorCode("CaseMan_AtLeastOnePartyMustBeSelected");
+				}
+				return ec;
+			 }	
+/*			 
+			PartiesFailedToFile.logicOn = [PartiesFailedToFile.dataBinding + "/PartyId"];
+			PartiesFailedToFile.logic = function(event)
+			{
+				var countParties = Services.countNodes(PartiesFailedToFile.dataBinding + "/PartyId");
+				if (countParties == 0)
+				{
+					alert("At least one party must be selected.");
+				}	
+			}			 				
+*/			
+		</miscCode>	
+	</Javascript>
+</Question>

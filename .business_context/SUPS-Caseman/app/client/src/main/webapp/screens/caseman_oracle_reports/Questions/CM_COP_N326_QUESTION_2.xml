@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--Question xmlns="http://eds.com/questionxhtml" xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd"-->
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>CM_COP_N326_QUESTION_2</Id>
+	<Label>Date of Issue</Label>
+	<ObjectName>IssueDate</ObjectName>
+	<Html>
+		<script type="text/javascript">
+			DatePickerRenderer.createInline("IssueDate", false);
+		</script>
+	</Html>
+	<Javascript>
+		<XPath>/ds/var/page/OracleReportForm/IssueDate</XPath>
+		<ReportVariableName>P_ISSUE_DATE</ReportVariableName>
+		<ReportVariableValue>CaseManUtils.convertDateToDisplay(Services.getValue(IssueDate.dataBinding))</ReportVariableValue>
+		<HintText>Enter an Issue Date in Past, eg 01-APR-2001</HintText>
+		<isMandatory>return true;</isMandatory>
+		<initialise></initialise>
+		<validateOn>
+			IssueDate.dataBinding
+		</validateOn>
+		<readOnlyOn>AllWarrants.dataBinding</readOnlyOn>
+		<isReadOnly>
+			var allWarrants = Services.getValue(AllWarrants.dataBinding);
+			if (! CaseManUtils.isBlank(allWarrants))
+			{
+				if (allWarrants == "Y")
+				{
+					return false;
+				}
+				else
+				{
+					return true;
+				}
+			}
+			else
+			{
+				return true;
+			}
+		</isReadOnly>
+		<logicOn>AllWarrants.dataBinding</logicOn>
+		<logic>
+			var allWarrants = Services.getValue(AllWarrants.dataBinding);
+			if (! CaseManUtils.isBlank(allWarrants))
+			{
+				if (allWarrants == "Y")
+				{
+					Services.setValue(IssueDate.dataBinding, CaseManUtils.convertDateToPattern(CaseManUtils.daysInPast(CaseManUtils.createDate(getTodaysDate()), 1, true), CaseManUtils.DATE_MODEL_FORMAT));
+				}
+				else
+				{
+					Services.setValue(IssueDate.dataBinding, "");
+				}
+			}			
+		</logic>
+		<setDefault>
+			Services.setValue(IssueDate.dataBinding, CaseManUtils.convertDateToPattern(CaseManUtils.daysInPast(CaseManUtils.createDate(getTodaysDate()), 1, true), CaseManUtils.DATE_MODEL_FORMAT));
+		</setDefault>		
+		<validate>
+			    var issueDate = Services.getValue(IssueDate.dataBinding);
+			    var issueDateObj = CaseManUtils.isBlank(issueDate) ? null : CaseManUtils.createDate(issueDate);
+			    var ec = null;
+			    if(issueDateObj != null)
+			    {
+			      ec = validatePastDate(issueDateObj);     
+			    }
+			    return ec;		
+		</validate>		
+		<miscCode>
+			function validatePastDate(dateObj)
+			{    
+			  //debugger;
+			  var todayDateObj = CaseManUtils.createDate(getTodaysDate());
+			  if(CaseManUtils.compareDates(todayDateObj, dateObj) == 0 || CaseManUtils.compareDates(todayDateObj, dateObj) == 1)
+			  {
+			    ec = ErrorCode.getErrorCode("CaseMan_dateCannotBeInTheFuture_Msg");
+			    return faildedValidation (ec);
+			  }
+			  else
+			  {
+				return null;
+			  }      
+			  return null;   
+			}				
+		</miscCode>	
+	</Javascript>
+</Question>

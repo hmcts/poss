@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: Dom
+	Method:  getFeesPaid()
+	File:    get_fees_paid.xml
+	Author:  Ian Stainer (Valtech)
+	Created: 12 July 2005
+	Description: 
+		Returns the sum of fees paid in all dividends rows for the co number
+-->
+<service-method>
+	<pipeline>
+		<SQLLite format-output="true"
+				 resultset-element="ResultSet"
+				 row-element="Row"
+				 field-name-as="element" >			
+			<DataSource id="java:OracleDS"/>
+			<Param name="param.coNumber" xpath="/params/param[@name = 'coNumber']"/>
+			<SQL>				
+				SELECT NVL(SUM(d.div_fee),0) as "Amount"
+				FROM   dividends d
+				WHERE  d.div_co_number = ${param.coNumber}
+				AND    d.created = 'Y'				
+			</SQL>
+		</SQLLite>
+	</pipeline>
+	<Security roles="user"/>
+</service-method>

@@ -1,0 +1,51 @@
+<Group id="9019">
+	<ServicesRequired>
+		<mapping name="getCourtMaintain" serviceName="getCourtMaintain"/>
+		<service name="getCourtMaintain" cache="none" url="Court" method="getCourtMaintain">
+		</service>
+	</ServicesRequired>
+	<Protocols>
+		<OnSave>
+			<function>getCourtMaintain</function>
+			<functionCallback>getCourtMaintainCallback</functionCallback>
+		</OnSave>
+	</Protocols>
+	<JavaScript>	
+		
+function getCourtMaintain() 
+{  	
+	var courtId = WPU.getValue("/params/param[@name = 'courtId']");
+	var params = new ServiceParams();
+
+	params.addSimpleParameter( "courtCode", courtId );				
+	Services.callService("getCourtMaintain", params, getCourtMaintainCallback, true);	
+}
+
+	
+function getCourtMaintainCallback() { }
+
+getCourtMaintainCallback.onSuccess = function(dom) {
+
+	if (null != dom) 
+	{   		
+		Services.addNode(dom.selectSingleNode("//Court/ContactDetails"), "/ds/EnterVariableData/CourtContact");				
+		
+		Save_All();  		
+	}
+	else {
+		alert(Messages.NO_RESULTS_MESSAGE); } }
+
+getCourtMaintainCallback.onBusinessException = function(exception)  
+{
+
+	alert(Messages.FAILEDSAVE_MESSAGE); 
+}
+
+getCourtMaintainCallback.onSystemException = function(exception) 
+{
+
+	alert(Messages.FAILEDSAVE_MESSAGE); 
+}
+	
+	</JavaScript>
+</Group>

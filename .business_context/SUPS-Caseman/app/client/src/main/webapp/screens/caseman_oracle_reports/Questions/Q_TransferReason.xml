@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	19/12/2006 - CV - Added F6 keybinding to LOV via TransferReasonLOVGrid.raise configuration.
+	Temp_Caseman defects 299/334.
+-->
+<!--Question xmlns="http://eds.com/questionxhtml" xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd"-->
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>Q_TransferReason</Id>
+	<Label>Transfer Reason</Label>
+	<ObjectName>TransferReason</ObjectName>
+	<Html> 
+		<input id="TransferReason" type="text" size="20" > </input>
+		<input id="TransferReasonLOVButton" type="Button" value="LOV"></input>
+		<script type="text/javascript">
+              LOVPopupRenderer.createInline( "TransferReasonLOVGrid", "Transfer Reason", ["Value", "Description"], 10, 1, true );
+        </script>
+	</Html>
+	<Javascript>
+		<XPath>/ds/var/page/OracleReportForm/TransferReason</XPath>
+		<ReportVariableName>TRF_REASON</ReportVariableName>
+		<ReportVariableValue>Services.getValue(TransferReason.dataBinding)</ReportVariableValue>
+		<ReportVariableCode>2300</ReportVariableCode>
+		<HintText></HintText>
+		<isMandatory>return true;</isMandatory>
+		<initialise>
+		</initialise>
+		<setDefault>
+		</setDefault>
+		<validateOn>
+		</validateOn>
+		<validate>
+			var description = Services.getValue(REF_DATA_XPATH + "/TransferReasonList/TransferReason[./Value = " + TransferReason.dataBinding + "]/Description");
+			var valueTest = Services.getValue( REF_DATA_XPATH + "/TransferReasonList/TransferReason[./Description = " + TransferReason.dataBinding + "]/Value" );
+			if (description == null &amp;&amp; valueTest == null)
+			{
+				// This is not a valid value - see list of Values
+				return ErrorCode.getErrorCode("CaseMan_Reports_Invalid_LOV_Msg");
+			}
+			else
+			{
+				return null;
+			}
+		</validate>
+		<transformToDisplay>
+			var description = Services.getValue( REF_DATA_XPATH + "/TransferReasonList/TransferReason[./Value = " + TransferReason.dataBinding + "]/Description" );
+			if (description != null)
+			{
+				return description;
+			}
+			else
+			{
+				return value;
+			}
+	    </transformToDisplay>
+        <transformToModel>
+             return (null != value) ? value.toUpperCase() : null;
+        </transformToModel>
+		<miscCode>
+
+		  TransferReason.initialise = function() 
+		  { 
+				dom = getList("../LOV/TransferReasonList.xml"); 
+				Services.addNode(dom, REF_DATA_XPATH);
+				return false; 
+		  }
+		  
+		  	TransferReason.srcData 		  = REF_DATA_XPATH + "/TransferReasonList";
+			TransferReason.rowXPath 	  = "TransferReason";
+			TransferReason.keyXPath 	  = "Value";
+			
+			function TransferReasonLOVButton() {}
+			TransferReasonLOVButton.tabIndex = __tabIdx++;
+			
+			function TransferReasonLOVGrid() {};
+			TransferReasonLOVGrid.dataBinding = TransferReason.dataBinding;
+			TransferReasonLOVGrid.srcData 	  = REF_DATA_XPATH + "/TransferReasonList";
+			TransferReasonLOVGrid.rowXPath    = "TransferReason";
+			TransferReasonLOVGrid.keyXPath    = "Value";
+			TransferReasonLOVGrid.columns     = [
+				{xpath: "Value"},
+				{xpath: "Description"}
+			];
+			TransferReasonLOVGrid.raise = {
+				eventBinding: {
+					singleClicks: [ {element: "TransferReasonLOVButton"} ],
+					keys: [ { key: Key.F6, element: "TransferReason" } ]
+				}
+			};	
+		</miscCode>
+	</Javascript>
+</Question>

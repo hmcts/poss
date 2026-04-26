@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: CoEvent
+	Method:  isResponseFiled
+	Author:  Chris Hutt (EDS) 
+	Created: 3 August 2005
+	Description: 
+		Use SQLLite to determine whether a response have been filed to a consolidated order event
+-->
+<service-method>
+	<pipeline>
+		<SQLLite format-output="true"
+				 resultset-element="ds"
+				 row-element="CO"
+				 field-name-as="element" >
+			<DataSource id="java:OracleDS"/>
+			<Param name="param.eventDate" xpath="/params/param[@name='eventDate']"/>
+			<Param name="param.coNumber" xpath="/params/param[@name='coNumber']"/>
+			<SQL>
+				SELECT 
+						DECODE(COUNT(*),0,'false','true') 	AS "HasResponseFiled"
+				FROM    CO_EVENTS COE
+				WHERE   COE.EVENT_DATE &gt; ${param.eventDate}
+				AND     COE.CO_NUMBER =  ${param.coNumber}
+				AND     COE.STD_EVENT_ID IN ('858', '859', '878', '879')
+				AND 	COE.ERROR_INDICATOR != 'Y'
+			</SQL>
+		</SQLLite>
+  	</pipeline>
+	<Security roles="user"/>
+</service-method>

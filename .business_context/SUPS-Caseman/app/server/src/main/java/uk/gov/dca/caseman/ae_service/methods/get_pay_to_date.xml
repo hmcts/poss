@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<service-method>
+	<pipeline>
+		<Query>
+			<QueryDef location="uk/gov/dca/caseman/ae_service/query_def_pay_to_date.xml"/>
+			<QueryExtension pivotNode="/PayToDate">
+				<Param name="param.aeNumber" xpath="/params/param[@name = 'aeNumber']"/>
+			</QueryExtension>
+		</Query>
+	</pipeline>
+	<Security roles="user"/>
+</service-method>

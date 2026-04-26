@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>873</Id>
+	<Label>Judge's name</Label>
+	<ObjectName>JudgeName</ObjectName>
+	<Html>
+		<input id="JudgeName" type="text" maxlength="70"></input>
+	</Html>
+	
+	<Javascript>
+		<XPath>/ds/EnterVariableData/JudgeName</XPath>
+		<HintText>Enter the Judge's name (e.g. Smith)</HintText>
+		<maxLength>70</maxLength>
+		<isMandatory>return true;</isMandatory>
+		<enableOn>JudgeTitle.dataBinding</enableOn>
+		<isEnabled>
+			var blnEnabled = true;
+			var judgeTitle = Services.getValue(JudgeTitle.dataBinding);
+			if ( judgeTitle == 'Other' ) { blnEnabled = false; }
+			return blnEnabled;
+		</isEnabled>
+		<logicOn>JudgeTitle.dataBinding</logicOn>
+		<logic>
+			var judgeTitle = Services.getValue(JudgeTitle.dataBinding);
+			if ( judgeTitle == 'Other' ) { Services.setValue(JudgeName.dataBinding, ""); }
+		</logic>
+	</Javascript>
+</Question>

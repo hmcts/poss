@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<service-method>
+	<pipeline>
+		<Update>
+  			<QueryDef location="uk/gov/dca/caseman/returnedTapes_service/modify_returned_tape_query_def.xml"/>
+			<DataSource xpath="/params/param[@name='ReturnedTape']"/>
+  				<QueryExtension pivotNode="/ReturnedTape">
+  					<CheckExists table="T" fields="SEQNO" onNotExist="fail" onExist="update" useOptimisticLock="true"/>
+  				</QueryExtension>
+  				<QueryExtension  pivotNode="/ReturnedTape/TapeFiles/TapeFile" >
+  					<CheckExists table="TFI" fields="ORDERSEQ" onNotExist="fail" onExist="update" useOptimisticLock="true"/>
+  				</QueryExtension>
+		</Update>
+  	</pipeline>
+	<Security roles="ccbcMan ccbcTape"/>
+</service-method>

@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	19/12/2006 - CV - Added F6 keybinding to LOV via PaymentDetailsLOVGrid.raise configuration.
+	Temp_Caseman defects 299/334.
+	29/01/2007 - CV: Updated zoom field logic function to clear LOV value.  Temp_Caseman defect 428.
+-->
+<!--Question xmlns="http://eds.com/questionxhtml" xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd"-->
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>Q_PaymentDetails</Id>
+	<Label>Payment Details</Label>
+	<ObjectName>PaymentDetails</ObjectName>
+	<Html>
+		<table>
+			<tr>
+				<td>
+					<script type="text/javascript">
+						ZoomFieldRenderer.createInline("PaymentDetails", 10, 70);
+					</script>				
+				</td>
+				<td>
+					<input id="PaymentDetailsLOVButton" type="Button" value="LOV"/>
+				</td>
+			</tr>
+		</table>		
+		<script type="text/javascript">
+			LOVPopupRenderer.createInline( "PaymentDetailsLOVGrid", "Types", ["Description"], 10, 1, true );
+        </script>
+	</Html>
+	<Javascript>
+		<XPath>/ds/var/page/OracleReportForm/PaymentDetails</XPath>
+		<ReportVariableName>REPORT_VALUE_3</ReportVariableName>
+		<ReportVariableValue>Services.getValue(PaymentDetails.dataBinding)</ReportVariableValue>
+		<ReportVariableCode>959</ReportVariableCode>
+		<HintText>Enter DFLT to display N370 text - LOV available - update allowed</HintText>
+		<mandatoryOn></mandatoryOn>
+		<isMandatory>return true;</isMandatory>
+		<setDefault></setDefault>
+		<validateOn></validateOn>
+		<validate></validate>
+		<readOnlyOn></readOnlyOn>
+		<isReadOnly></isReadOnly>
+		<maxLength></maxLength>
+		<transformToDisplay>
+			var description = Services.getValue( REF_DATA_XPATH + "/PaymentDetailsList/PaymentDetails[./Value = " + PaymentDetails.dataBinding + "]/Description" );
+			if (description != null)
+			{
+				return description;
+			}
+			else
+			{
+				return value;
+			}
+		</transformToDisplay>
+		<transformToModel>
+			return (null != value) ? value.toUpperCase() : null;
+		</transformToModel>
+		<initialise>
+			dom = getList("../LOV/PaymentDetailsList.xml"); 
+			Services.addNode(dom, REF_DATA_XPATH);
+		</initialise>
+		<logicOn>
+			"/ds/var/page/OracleReportForm/Dummy"
+		</logicOn>
+		<logic>
+			var lovValue = Services.getValue(PaymentDetailsLOVGrid.dataBinding);
+			if ( !CaseManUtils.isBlank(lovValue) )
+			{
+				Services.setValue(PaymentDetails.dataBinding, lovValue);
+				FormController.getInstance().processEvents();
+				Services.getAdaptorById("PaymentDetails")._raisePopup();
+				Services.setValue(PaymentDetailsLOVGrid.dataBinding, "");
+			}
+		</logic>
+		<miscCode>
+			PaymentDetails.componentName =	"Payment Details";
+			PaymentDetails.srcData = 		REF_DATA_XPATH + "/PaymentDetailsList";
+			PaymentDetails.rowXPath = 		"PaymentDetails";
+			PaymentDetails.keyXPath =		"Description";
+			
+			function PaymentDetailsLOVButton() {};
+			PaymentDetailsLOVButton.tabIndex = __tabIdx++;
+			
+			function PaymentDetailsLOVGrid() {};
+			
+			PaymentDetailsLOVGrid.dataBinding = "/ds/var/page/OracleReportForm/Dummy";
+			PaymentDetailsLOVGrid.srcData = REF_DATA_XPATH + "/PaymentDetailsList";
+			PaymentDetailsLOVGrid.rowXPath = "PaymentDetails";
+			PaymentDetailsLOVGrid.keyXPath = "Description";
+			PaymentDetailsLOVGrid.columns = [
+				{xpath: "Description"}
+			];
+			
+			PaymentDetailsLOVGrid.raise = {
+				eventBinding: {
+					singleClicks: [ {element: "PaymentDetailsLOVButton"} ],
+					keys: [ { key: Key.F6, element: "PaymentDetails" } ]
+				}
+			};
+		</miscCode>
+		<IsQuestion></IsQuestion>
+	</Javascript>
+</Question>

@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<DBMapDef>
+	<DataSource id="java:OracleDS"/>
+	<Tables>
+		<Table alias="C" name="COURTS"/>
+		<Table alias="CO" name="CONSOLIDATED_ORDERS"/>
+		<Table alias="H" name="HEARINGS"/>
+		<Table alias="GA" name="GIVEN_ADDRESSES"/>
+		<Table alias="CCBC" name="CCBC_REF_CODES"/>
+	</Tables>
+	<Mapping>
+		<ds>
+			<MaintainHearing>
+				<COType>${CO.CO_TYPE}</COType>/>
+				<CONumber>${CO.CO_NUMBER}</CONumber>/>
+				<Defendant>${CO.DEBTOR_NAME}</Defendant>/>
+				<OwningCourtCode>${CO.ADMIN_COURT_CODE}</OwningCourtCode>
+				<OwningCourt>${C.NAME}</OwningCourt>
+				<OwningCourtAddressDetail>
+					<Address>
+						<AddressId>${GA.ADDRESS_ID}</AddressId>
+						<Line>${GA.ADDRESS_LINE1}</Line>
+						<Line>${GA.ADDRESS_LINE2}</Line>
+						<Line>${GA.ADDRESS_LINE3}</Line>
+						<Line>${GA.ADDRESS_LINE4}</Line>
+						<Line>${GA.ADDRESS_LINE5}</Line>
+						<PostCode>${GA.POSTCODE}</PostCode>
+					</Address>
+					<DXNumber>${C.DX_NUMBER}</DXNumber>
+					<TelephoneNumber>${C.TEL_NO}</TelephoneNumber>
+					<FaxNumber>${C.FAX_NO}</FaxNumber>
+				</OwningCourtAddressDetail>
+				<Hearings>
+					<Hearing>
+						<HearingID>${H.HRG_SEQ}</HearingID>
+						<SurrogateId>${H.HRG_SEQ}</SurrogateId>
+						<VenueCode>${H.CRT_CODE}</VenueCode>
+						<VenueName>${H.VENUE}</VenueName>
+						<TypeOfHearingCode>${H.HRG_TYPE}</TypeOfHearingCode>
+						<TypeOfHearing>${CCBC.RV_MEANING}</TypeOfHearing>
+						<Date>${H.HRG_DATE}</Date>
+						<Day></Day>
+						<Time>${H.HRG_TIME}</Time>
+						<Address>
+							<AddressId>${GA.ADDRESS_ID}</AddressId>
+							<Line>${GA.ADDRESS_LINE1}</Line>
+							<Line>${GA.ADDRESS_LINE2}</Line>
+							<Line>${GA.ADDRESS_LINE3}</Line>
+							<Line>${GA.ADDRESS_LINE4}</Line>
+							<Line>${GA.ADDRESS_LINE5}</Line>
+							<PostCode>${GA.POSTCODE}</PostCode>
+						</Address>
+						<DXNumber>${C.DX_NUMBER}</DXNumber>
+						<TelephoneNumber>${C.TEL_NO}</TelephoneNumber>
+						<FaxNumber>${C.FAX_NO}</FaxNumber>
+						<HoursAllowed>${H.HOURS_ALLOWED}</HoursAllowed>
+						<MinsAllowed>${H.MINS_ALLOWED}</MinsAllowed>
+						<DateOfRequestToList>${H.RECEIPT_DATE}</DateOfRequestToList>
+					</Hearing>
+				</Hearings>
+			</MaintainHearing>
+		</ds>
+	</Mapping>
+</DBMapDef>

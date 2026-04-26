@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--Question xmlns="http://eds.com/questionxhtml" xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd"-->
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>Q_MaximumFine</Id>
+	<Label>Maximum Fine</Label>
+	<ObjectName>MaximumFine</ObjectName>
+	<Html>
+		<input id="DefaultCurrency" type="text" size="1"></input>
+		<input id="MaximumFine" type="text" size="7"></input>
+	</Html>
+	<Javascript>
+		<XPath>/ds/var/page/OracleReportForm/MaximumFine</XPath>
+		<ReportVariableName>REPORT_VALUE_2</ReportVariableName>
+		<ReportVariableValue>Services.getValue(MaximumFine.dataBinding)</ReportVariableValue>
+		<HintText>Enter the maximum amount the debtor can be fined</HintText>
+		<isMandatory>return true;</isMandatory>
+		<maxLength>7</maxLength>
+		<validateOn>MaximumFine.dataBinding</validateOn>	
+		<validate>
+			var errCode = null;
+			var value = Services.getValue(this.dataBinding);
+			if (!CaseManUtils.isBlank(value)) {
+				if (!CaseManValidationHelper.validateFloatNumber(value))
+				{
+					errCode = ErrorCode.getErrorCode("CaseMan_Reports_Enter_Number");
+				}
+				if (value &lt; 0)
+				{
+					errCode = ErrorCode.getErrorCode("CaseMan_Reports_Enter_Number");
+				}
+				//return CaseManValidationHelper.validatePattern(value, CaseManValidationHelper.NUMERIC_PATTERN, "CaseMan_Reports_Enter_Number");
+			}
+
+			return errCode;
+		</validate>
+		<transformToDisplay>
+			// uct defect 268 - set the currency correctly
+			var returnValue = value;	
+			if(returnValue != null){
+				if(returnValue != ""){
+					var fVal = parseFloat(value).toFixed(2);
+					
+					if(!isNaN(fVal)){
+						returnValue = CaseManUtils.isBlank(value) ? "" : fVal;
+					}
+				}	
+			}
+			return returnValue;
+		</transformToDisplay>
+		<transformToModel>
+			// uct defect 268 - set the currency correctly
+			var returnValue = value;	
+			if(returnValue != null){
+				if(returnValue != ""){
+					var fVal = parseFloat(value).toFixed(2);					
+					if(!isNaN(fVal)){
+						returnValue = CaseManUtils.isBlank(value) ? "" : fVal;
+					}
+				}	
+			}
+			return returnValue;
+		</transformToModel>
+	</Javascript>
+</Question>

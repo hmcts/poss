@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?><!--
+	Service: Dictionary
+	Method:  updateDictionary()
+	File:    update_dictionary.xml
+	Author:  Tim Grant (Valtech)
+	Created: 07 June 2006
+	Description: 
+		Adds or removes words from the JSpell dictionary files for the appropriate court.
+		Required params - courtShortName, operation, word.
+-->
+<service-method>
+	<pipeline>
+		<Java>
+			<Source class="uk.gov.dca.caseman.dictionary_service.classes.UpdateDictionary"/>
+		</Java>
+	</pipeline>
+	<Security roles="admin"/>
+</service-method>

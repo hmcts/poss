@@ -1,0 +1,60 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: TransferCase
+	Method:  cancelTransferCaseUpdateWft()
+	File:    cancel_transfer_case_update_wft.xml
+	Author:  Phil Haferer (EDS)
+	Created: 06-Mar-2006
+	Description: 
+		Method to update some of the fields of the WINDOW_FOR_TRAIL rows that relate the cancellation of a 
+		Case transfer.
+		The columns that require updating fall into categories, one relating to all Case transfers,
+		the other only for those Cases being transferred to Legacy Courts.
+
+		For Legacy Court Case Transfers :-
+    		The current status of each row is reinstated from WFT_OLD_STATUS.
+    		WFT_OLD_STATUS is set to null.
+
+		For All Case Transfers :-
+		    (These columns updates related support the Diary Manager Email processing in Caseman Central Server).
+    		WFT_CURRENT_COURT is reinstated from WFT_PREVIOUS_COURT.
+    		WFT_PREVIOUS_COURT is set to null.
+	
+	Change History:
+	11/06/2012 - Chris Vincent: Trac 4692, change to 2nd SQLLite node to only update WFT records where the WFT_PREVIOUS_COURT is not NULL
+-->
+<service-method>
+	<pipeline>
+        <!-- For Legacy Court Case Transfers. -->
+		<SQLLite output="input">
+			<DataSource id="java:OracleDS"/>
+			<Param name="param.caseNumber" xpath="/params/param[@name='caseNumber']"/>
+			<SQL type="update" tables="WFT">
+				UPDATE WINDOW_FOR_TRIAL WFT
+				SET    WFT.WFT_STATUS           = WFT.WFT_OLD_STATUS
+				,      WFT.WFT_OLD_STATUS       = NULL
+				WHERE  WFT.WFT_CASE_NUMBER      = ${param.caseNumber}
+                AND    EXISTS 
+                (SELECT NULL
+                 FROM   COURTS   CRT
+                 WHERE  CRT.CODE = WFT.WFT_CURRENT_COURT
+                 AND    CRT.SUPS_CENTRALISED_FLAG != 'Y'
+                )
+			</SQL>
+		</SQLLite>
+
+        <!-- For All Case Transfers. -->
+		<SQLLite output="input">
+			<DataSource id="java:OracleDS"/>
+			<Param name="param.caseNumber" xpath="/params/param[@name='caseNumber']"/>
+			<SQL type="update" tables="WFT">
+				UPDATE WINDOW_FOR_TRIAL WFT
+				SET    WFT.WFT_CURRENT_COURT    = WFT.WFT_PREVIOUS_COURT
+				,      WFT.WFT_PREVIOUS_COURT   = NULL
+				WHERE  WFT.WFT_CASE_NUMBER      = ${param.caseNumber}
+				AND	   WFT.WFT_PREVIOUS_COURT   IS NOT NULL
+			</SQL>
+		</SQLLite>
+	</pipeline>
+	<Security roles="viewOnly medium high wcSuper scSuper bmsSuper aeSuper dmSuper edsAdmin"/>		
+</service-method>

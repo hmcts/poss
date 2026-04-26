@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: Payments
+	Method: getPaymentTypes()
+	File: get_payment_types.xml
+	Author: Steve Blair
+	Description:
+		Get payment types from CCBC_REF_CODES table.
+-->
+<service-method>
+	<pipeline>
+		<Query>
+			<QueryDef location="uk/gov/dca/caseman/payments_service/query_def_payment_types.xml" />
+			<QueryExtension pivotNode="/PaymentTypes/PaymentType">
+				<Constraint>
+					CRC.RV_DOMAIN = 'PAYMENT TYPE'
+				</Constraint>
+				<Ordering>
+					CRC.RV_MEANING
+				</Ordering>
+			</QueryExtension>
+		</Query>
+	</pipeline>
+	<Security roles="medium high wcSuper scSuper bmsSuper aeSuper dmSuper cpSuper" />
+</service-method>

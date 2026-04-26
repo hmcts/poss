@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: Judgment
+	Method:  getCostsForJudgmentList
+	Author:  Mark Groen (EDS) 
+	Created: 01-May-2007
+	Description: Use SQLLite to retrieve all costs re ccbc judgments
+	Change Log:
+		15/05/2007 - Chris Vincent, added order by on effective date to ensure the latest bands are 
+		retrieved first.
+-->
+<service-method>
+	<pipeline>
+		<SQLLite format-output="true"
+				 resultset-element="Costs"
+				 row-element="Cost"
+				 field-name-as="element" >
+			<DataSource id="java:OracleDS"/>
+			<SQL>
+			SELECT C.PROCESS          AS "Process"
+			,      C.RANGE_FROM       AS "From"
+			,      C.RANGE_TO         AS "To"
+			,      C.COSTS            AS "Costs" 
+			,      C.EFFECTIVE_DATE   AS "EffectiveDate"
+			,      ROWNUM             AS "UniqueId"
+			FROM COSTS C
+			ORDER BY C.EFFECTIVE_DATE DESC
+			</SQL>
+		</SQLLite>
+  	</pipeline>
+	<Security roles="viewOnly medium high wcSuper scSuper bmsSuper aeSuper dmSuper cpSuper edsAdmin ccbcMan ccbcUser ccbcSGB2 ccbcTape admin"/>
+</service-method>

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: WpOutput
+	Method:  createOutput()
+	File:    create_output.xml
+	Author:  Frederik Vandendriessche (EDS)
+	Created: 02 September 2005
+	Description: 
+		Delegates creation of output to SUPS Reporting component.
+-->
+<service-method>
+	<pipeline>
+		<InvokeReport project="${uk.gov.dca.caseman.reportConfig}" xpath="params/param[@name='ReportRequest']">
+			<ReportStore id="java:OracleDS"/>
+			<Destination>XSLFOHigh</Destination>
+		</InvokeReport>
+	</pipeline>
+	<Security roles="viewOnly medium high wcSuper scSuper bmsSuper aeSuper dmSuper cpSuper ccbcMan ccbcUser ccbcSGB2"/>
+</service-method>

@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	19/12/2006 - CV - Added F6 keybinding to LOV via WhoFailedToLodgeQuestionnaireLOVButton.additionalBindings configuration.
+	Temp_Caseman defects 299/334.
+-->
+<!--Question xmlns="http://eds.com/questionxhtml" xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd"-->
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>Q_WhoFailedToLodgeQuestionnaire</Id>
+	<Label>Who Failed to Lodge Questionnaire</Label>
+	<ObjectName>WhoFailedToLodgeQuestionnaire</ObjectName>
+	<Html>
+		<input id="WhoFailedToLodgeQuestionnaire" type="text" size="70"></input>
+		<input id="WhoFailedToLodgeQuestionnaireLOVButton" type="Button" value="LOV"/>
+		<script type="text/javascript">
+				LOVPopupRenderer.createInline( "WhoFailedToLodgeQuestionnaireLOVGrid", "Types", ["Value", "Description"], 10, 1, true );
+        </script>
+	</Html>
+	<Javascript>
+		<XPath>/ds/var/page/OracleReportForm/WhoFailedToLodgeQuestionnaire</XPath>
+		<ReportVariableName>PARTY</ReportVariableName>
+		<ReportVariableValue>Services.getValue(WhoFailedToLodgeQuestionnaire.dataBinding)</ReportVariableValue>
+		<ReportVariableCode>2120</ReportVariableCode>
+		<HintText>Which party failed to lodge questionnare - list available</HintText>
+		<mandatoryOn></mandatoryOn>
+		<isMandatory>return false;</isMandatory>
+		<setDefault></setDefault>
+		<validateOn></validateOn>
+		<validate>
+			var description = Services.getValue(REF_DATA_XPATH + "/WhoFailedToLodgeQuestionnaireList/WhoFailedToLodgeQuestionnaire[./Value = " + WhoFailedToLodgeQuestionnaire.dataBinding + "]/Description");
+			var valueTest = Services.getValue( REF_DATA_XPATH + "/WhoFailedToLodgeQuestionnaireList/WhoFailedToLodgeQuestionnaire[./Description = " + WhoFailedToLodgeQuestionnaire.dataBinding + "]/Value" );
+			if (description == null &amp;&amp; valueTest == null)
+			{
+				// This is not a valid value - see list of Values
+				return ErrorCode.getErrorCode("CaseMan_Reports_Invalid_LOV_Msg");
+			}
+			else
+			{
+				return null;
+			}
+		</validate>
+		<readOnlyOn>ReasonForReferral.dataBinding</readOnlyOn>
+		<isReadOnly>
+			var reasonForReferral = Services.getValue(ReasonForReferral.dataBinding);
+		    if (reasonForReferral == "ALL")
+			{
+				return true;
+			}
+			else
+			{
+				return false;
+			}
+		</isReadOnly>
+		<maxLength></maxLength>
+		<transformToDisplay>
+			var description = Services.getValue( REF_DATA_XPATH + "/WhoFailedToLodgeQuestionnaireList/WhoFailedToLodgeQuestionnaire[./Value = " + WhoFailedToLodgeQuestionnaire.dataBinding + "]/Description" );
+			if (description != null)
+			{
+				return description;
+			}
+			else
+			{
+				return value;
+			}
+		</transformToDisplay>
+		<transformToModel>
+			return (null != value) ? value.toUpperCase() : null;
+		</transformToModel>
+		<initialise>
+			dom = getList("../LOV/WhoFailedToLodgeQuestionnaireList.xml");
+			Services.addNode(dom, REF_DATA_XPATH);
+		</initialise>
+		<logicOn></logicOn>
+		<logic></logic>
+		<miscCode>
+			WhoFailedToLodgeQuestionnaire.componentName =	"Who failed to lodge questionnaire";
+			WhoFailedToLodgeQuestionnaire.srcData = 		REF_DATA_XPATH + "/WhoFailedToLodgeQuestionnaireList";
+			WhoFailedToLodgeQuestionnaire.rowXPath = 		"WhoFailedToLodgeQuestionnaire";
+			WhoFailedToLodgeQuestionnaire.keyXPath =		"Value";
+				
+			function WhoFailedToLodgeQuestionnaireLOVButton() {};
+			WhoFailedToLodgeQuestionnaireLOVButton.tabIndex = __tabIdx++;
+			
+			WhoFailedToLodgeQuestionnaireLOVButton.enableOn = [ReasonForReferral.dataBinding];
+			WhoFailedToLodgeQuestionnaireLOVButton.isEnabled = function()
+			{
+			  return !WhoFailedToLodgeQuestionnaire.isReadOnly();
+			}
+			
+			WhoFailedToLodgeQuestionnaireLOVButton.actionBinding = function() {
+				Services.dispatchEvent("WhoFailedToLodgeQuestionnaireLOVGrid", PopupGUIAdaptor.EVENT_RAISE);
+			}
+			WhoFailedToLodgeQuestionnaireLOVButton.additionalBindings = {
+				eventBinding: {
+					keys: [ { key: Key.F6, element: "WhoFailedToLodgeQuestionnaire" } ]
+				}
+			};
+			
+			function WhoFailedToLodgeQuestionnaireLOVGrid() {};
+			
+			WhoFailedToLodgeQuestionnaireLOVGrid.dataBinding = WhoFailedToLodgeQuestionnaire.dataBinding;
+			WhoFailedToLodgeQuestionnaireLOVGrid.srcData = REF_DATA_XPATH + "/WhoFailedToLodgeQuestionnaireList";
+			WhoFailedToLodgeQuestionnaireLOVGrid.rowXPath = "WhoFailedToLodgeQuestionnaire";
+			WhoFailedToLodgeQuestionnaireLOVGrid.keyXPath = "Value";
+			WhoFailedToLodgeQuestionnaireLOVGrid.columns = [
+				{xpath: "Value"},
+				{xpath: "Description"}
+			];
+			
+			WhoFailedToLodgeQuestionnaireLOVGrid.nextFocusedAdaptorId = function() {
+				return "OtherPartyType6";
+			}
+		</miscCode>
+		<IsQuestion></IsQuestion>
+	</Javascript>
+</Question>

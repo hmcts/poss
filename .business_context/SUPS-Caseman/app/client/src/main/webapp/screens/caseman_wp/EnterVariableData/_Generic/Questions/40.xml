@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>40</Id>
+	<Label>Amount paid before judgment</Label>
+	<ObjectName>PrePaid</ObjectName>
+	<Html>
+	  <input id="DefaultCurrency40" type="text" size="1"></input> <input id="PrePaid" type="text" size="11" maxlength="11"></input>
+	</Html>
+	
+	<Context screenId="N32_2"><isVisible>false</isVisible></Context>
+	<Context screenId="N32_5"><isVisible>false</isVisible></Context>
+	<Context screenId="CJR050"><isVisible>false</isVisible></Context>
+	<Context screenId="CJR051"><isVisible>false</isVisible></Context>
+	<Context screenId="CJR052"><isVisible>false</isVisible></Context>
+	<Context screenId="CJR053"><isVisible>false</isVisible></Context>
+	<Context screenId="CJR055"><isVisible>false</isVisible></Context>
+	<Context screenId="CJR090"><isVisible>false</isVisible></Context>
+    <Context screenId="CO28"><isVisible>false</isVisible></Context>
+    <Context screenId="CO31"><isVisible>false</isVisible></Context>
+	<Javascript>
+		<XPath>/ds/EnterVariableData/Judgment/prepaid</XPath>
+		<HintText>Enter the amount paid before judgment</HintText>
+		<maxLength>11</maxLength>
+		<isMandatory>return false;</isMandatory>
+		<mandatoryOn>PrePaid.dataBinding</mandatoryOn>
+		<validateOn>PrePaid.dataBinding, JudgmentAmount.dataBinding, CostAmount.dataBinding</validateOn>
+		<validate>return validatePrePaid( 99999999.99 );</validate>	
+		<transformToModel>		  		  
+		  if (null == value || "" == value) {
+		  	return "0.00"; }
+		  else {
+		  	return value; }
+		</transformToModel>
+		<miscCode>
+			function validatePrePaid( maxVal, notAmountErrMsg)
+			{
+				 var value = Services.getValue(PrePaid.dataBinding);	      			      
+			      var err = validateCurrencyValue(value, maxVal); 			      
+			      if( err == null)
+			      { 	        
+				      //must be less than Q39 + Q38
+				      var costStg = Services.getValue(CostAmount.dataBinding);
+				      var cost = 0;
+				      if( null != costStg &amp;&amp; costStg.length > 0)
+				      { cost = parseFloat(costStg,10);
+				      }
+				      var jAmntStg = Services.getValue(JudgmentAmount.dataBinding);
+				      var jAmnt = 0;
+				      if( null != jAmntStg &amp;&amp; jAmntStg.length > 0)
+				      {  jAmnt = parseFloat(jAmntStg, 10);
+				      }
+				      var prepaidamt = parseFloat( value );
+				      		        		      
+				      if( prepaidamt >= (cost + jAmnt))
+				      {  err = ErrorCode.getErrorCode("CaseMan_payedbefore_exceeds_total_amount");		        		       
+				      }
+				      else
+				      {	var returnVal = WPU.formatToTwoDP(value);		      	
+						Services.setValue(PrePaid.dataBinding, returnVal);
+				      }		      		      			 			      			 
+				   }				   
+				   return err;		   	       
+			}
+
+			function DefaultCurrency40() {}
+			DefaultCurrency40.dataBinding = "/ds/EnterVariableData/curr1";
+			DefaultCurrency40.tabIndex = -1;
+			DefaultCurrency40.maxLength = 3;
+			DefaultCurrency40.isReadOnly = function(){return true;}
+			DefaultCurrency40.isTemporary = function(){return true;}
+			DefaultCurrency40.transformToDisplay = function(value){
+				return WPS.__CaseManUtils().transformCurrencySymbolToDisplay(value,null,null); }
+			DefaultCurrency40.transformToModel = function(value){
+				return WPS.__CaseManUtils().transformCurrencySymbolToModel(value,null,null); }
+		</miscCode>
+	</Javascript>
+</Question>

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>422</Id>
+	<Label>Days between request and inspection</Label>
+	<ObjectName>ReqToInspectDays</ObjectName>
+	<Html>
+		<input type="text" id="ReqToInspectDays" size="3"></input>
+	</Html>
+	
+	<Javascript>
+		<XPath>/ds/EnterVariableData/SmallTrack/reqToInspectDays</XPath>
+		<HintText>Enter the number of days between the request and inspection</HintText>
+		<isMandatory>return true;</isMandatory>
+		<enableOn>IsInspectDirns.dataBinding</enableOn>
+		<isEnabled>return('Y' == Services.getValue(IsInspectDirns.dataBinding));</isEnabled>
+		<logicOn>IsInspectDirns.dataBinding</logicOn>
+		<logic>
+			if('Y' != Services.getValue(IsInspectDirns.dataBinding))
+			{	Services.setValue(ReqToInspectDays.dataBinding, "");
+			}
+		</logic>
+		<validateOn>ReqToInspectDays.dataBinding</validateOn>
+		<validate>return WPU.validateInteger(Services.getValue(ReqToInspectDays.dataBinding));</validate>
+	</Javascript>
+</Question>

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<service-method>
+	<pipeline>
+		<SQLLite output="input">
+			<DataSource id="java:OracleDS" />
+			<Param name="param.reportType" xpath="/params/param[@name = 'reportType']" />
+			<Param name="param.courtId" xpath="/params/param[@name = 'courtId']" />
+			<SQL type="update" tables="RD">
+				DELETE FROM REPORT_DATA RD
+				WHERE	RD.REPORT_TYPE = ${param.reportType} AND
+							RD.ADMIN_COURT_CODE = ${param.courtId}
+			</SQL>
+		</SQLLite>
+	</pipeline>
+	<Security roles="viewOnly medium high wcSuper scSuper bmsSuper aeSuper dmSuper edsAdmin"/>
+</service-method>

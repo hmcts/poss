@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<DBMapDef>
+	<DataSource id="java:SupsDS"/>
+	<Tables>
+		<Table alias="CTCR" name="CPR_TO_CPR_RELATIONSHIP" />
+	</Tables>
+	<Mapping>
+		<Parties>
+			<Party>									
+				<AId>${CTCR.CPR_A_PARTY_ID}</AId>	
+				<ACaseNumber>${CTCR.CPR_A_CASE_NUMBER}</ACaseNumber>
+				<APartyRoleCd>${CTCR.CPR_A_PARTY_ROLE_CODE}</APartyRoleCd>
+				<BId>${CTCR.CPR_B_PARTY_ID}</BId>
+				<BCaseNumber>${CTCR.CPR_B_CASE_NUMBER}</BCaseNumber>
+				<BPartyRoleCd>${CTCR.CPR_B_PARTY_ROLE_CODE}</BPartyRoleCd>
+			</Party>
+		</Parties>
+	</Mapping>
+</DBMapDef>

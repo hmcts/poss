@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: Co
+	Method:  addCoEvent()
+	File:    add_co_event.xml
+	Author:  Chris Hutt
+	Created: 13 July 2005
+	Description: 
+		Insert an Co Event along with associated updates. 
+		Relevant navigational information will be returned to the client.
+
+    Change History
+		Chris Hutt 29 Sept 2006: TD Caseman-5404: add a CaseEvent / CoCaseEvent if necessary, via UpdateCoCaseEventsCustomProcessor
+-->
+<service-method>
+	<pipeline> 
+		<Java callStyle="new">
+			<Source class="uk.gov.dca.caseman.co_event_service.java.InsertCoEventBMSCustomProcessor"/>
+		</Java>
+		<Update>
+			<QueryDef location="uk/gov/dca/caseman/co_event_service/query_def_insert_co_event_row.xml"/>
+			<DataSource xpath="/params/param[@name='coEvent']"/>
+			<QueryExtension pivotNode="/COEvent">
+				<CheckExists table="COE" fields="CO_EVENT_SEQ" onNotExist="add" onExist="skip"/>
+			</QueryExtension>
+		</Update>
+		<Java>
+			<Source class="uk.gov.dca.caseman.co_event_service.java.InsertCoEventUpdatesCustomProcessor"/>
+		</Java>
+		<Java callStyle="new">
+			<Source class="uk.gov.dca.caseman.co_event_service.java.UpdateCoCaseEventsCustomProcessor"/>
+		</Java>
+		<Java>
+			<Source class="uk.gov.dca.caseman.co_event_service.java.PostInsertCoEventNavigationCustomProcessor"/>
+		</Java>
+	</pipeline>
+	<Dependencies>
+		<Dependency serviceName="SystemDate"/>		
+		<Dependency serviceName="Bms"/>						
+		<Dependency serviceName="NonWorkingDay"/>
+		<Dependency serviceName="Co"/>
+		<Dependency serviceName="UserCourt"/>	
+		<Dependency serviceName="Case"/>
+	</Dependencies>		
+	<Security roles="medium high wcSuper scSuper bmsSuper aeSuper dmSuper cpSuper"/>		
+</service-method>

@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--Question xmlns="http://eds.com/questionxhtml" xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd"-->
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>CM_DPA_FW_QUESTION_1</Id>
+	<Label>Local Warrant Number</Label>
+	<ObjectName>LocalWarrantNumber</ObjectName>
+	<Html>
+		<input id="LocalWarrantNumber" type="text" size="10"></input>
+	</Html>
+	<Javascript>
+		<XPath>/ds/var/page/OracleReportForm/WarrantNumber</XPath>
+		<ReportVariableName>P_LOCAL_NUMBER</ReportVariableName>
+		<ReportVariableValue>Services.getValue(LocalWarrantNumber.dataBinding)</ReportVariableValue>
+		<HintText>Enter the Local Warrant Number Located on the Initial Report</HintText>
+		<isMandatory>return true;</isMandatory>
+		<maxLength>8</maxLength>
+		<transformToDisplay>
+			return (null != value) ? value.toUpperCase() : null;
+		</transformToDisplay>
+		<transformToModel>
+			return (null != value) ? value.toUpperCase() : null;
+		</transformToModel>			
+		<initialise>
+			Status_RunReportButton.isEnabled();
+		</initialise>
+		<logicOn>LocalWarrantNumber.dataBinding</logicOn>
+		<logic>
+			var value = Services.getValue(LocalWarrantNumber.dataBinding);
+			if (!CaseManUtils.isBlank(value) &amp;&amp; null != value)
+			{
+				searchWarrants();
+			}
+		</logic>
+		
+		
+		<miscCode>
+			Status_RunReportButton.validationList = ["LocalWarrantNumber"];
+			var SEARCH_RESULTS_XPATH = PAGE_XPATH + "/tmp/Warrants";
+			Status_RunReportButton.enableOn = [SEARCH_RESULTS_XPATH];
+			Status_RunReportButton.isEnabled = function()
+			{
+				var errCode = validateWarrant();
+				if (errCode == null)
+				{
+					return true;
+				}
+				else
+				{
+					return false;
+				}
+			}			
+			function searchWarrants()
+			{
+				var localWarrantNumber = Services.getValue(LocalWarrantNumber.dataBinding);				
+			    //Call Search Service now
+				var params = new ServiceParams();
+				params.addSimpleParameter("localNumber", localWarrantNumber);
+				
+				//Wildcard search removed, might as well delete them.
+				/*
+				params.addSimpleParameter("warrantNumber", "%");
+				params.addSimpleParameter("caseNumber", "%");
+				params.addSimpleParameter("CONumber", "%");
+				params.addSimpleParameter("issueDate", "%");
+				params.addSimpleParameter("issuedBy", "%");
+				*/
+				
+				Services.callService("searchWarrants", params, LocalWarrantNumber, true);			
+			}
+			
+			LocalWarrantNumber.onSuccess = function(dom) {
+			    if(dom != null) {
+			        var node = dom.selectSingleNode("/ds/Warrants");
+			        Services.replaceNode(SEARCH_RESULTS_XPATH, node);
+			        
+			        var count = Services.countNodes(SEARCH_RESULTS_XPATH + "/Warrant");
+			        if(count == 0) {
+			           alert("Local Warrant Number does not exist."); 
+					   Services.setValue(LocalWarrantNumber.dataBinding, "");
+			        } else if(count >= 1) {
+			        	//alert("Valid Warrant Number"); 
+			        }
+			    }
+			}
+			
+			function validateWarrant()
+			{
+				var errCode = null;
+				//alert("Checking for Warrant Number. Click Ok.");
+				var count = Services.countNodes(SEARCH_RESULTS_XPATH + "/Warrant");
+				if(count == 0) {
+		           errCode = ErrorCode.getErrorCode("CaseMan_noLocalWarrantExists_Msg");
+		        }
+		        return errCode;
+			}
+		</miscCode>
+	</Javascript>
+</Question>

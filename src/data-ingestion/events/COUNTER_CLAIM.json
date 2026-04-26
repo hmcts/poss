@@ -1,0 +1,860 @@
+{
+  "claimType": "COUNTER_CLAIM",
+  "events": [
+    {
+      "id": "counter-claim-create-claim",
+      "name": "Create Claim",
+      "claimType": "COUNTER_CLAIM",
+      "state": "AWAITING_SUBMISSION_TO_HMCTS",
+      "actors": {
+        "Judge": false,
+        "Caseworker": false,
+        "Claimant": false,
+        "Defendant": false,
+        "LegalAdvisor": false,
+        "BailiffEnforcement": false,
+        "CourtAdmin": false,
+        "SystemAuto": true
+      },
+      "isSystemEvent": true,
+      "notes": "",
+      "hasOpenQuestions": false
+    },
+    {
+      "id": "counter-claim-delete-draft-claim",
+      "name": "Delete Draft Claim",
+      "claimType": "COUNTER_CLAIM",
+      "state": "AWAITING_SUBMISSION_TO_HMCTS",
+      "actors": {
+        "Judge": false,
+        "Caseworker": false,
+        "Claimant": false,
+        "Defendant": false,
+        "LegalAdvisor": false,
+        "BailiffEnforcement": false,
+        "CourtAdmin": false,
+        "SystemAuto": false
+      },
+      "isSystemEvent": false,
+      "notes": "",
+      "hasOpenQuestions": false
+    },
+    {
+      "id": "counter-claim-resume-claim",
+      "name": "Resume Claim",
+      "claimType": "COUNTER_CLAIM",
+      "state": "AWAITING_SUBMISSION_TO_HMCTS",
+      "actors": {
+        "Judge": false,
+        "Caseworker": false,
+        "Claimant": false,
+        "Defendant": false,
+        "LegalAdvisor": false,
+        "BailiffEnforcement": false,
+        "CourtAdmin": false,
+        "SystemAuto": false
+      },
+      "isSystemEvent": false,
+      "notes": "",
+      "hasOpenQuestions": false
+    },
+    {
+      "id": "counter-claim-discard-claim",
+      "name": "Discard Claim?",
+      "claimType": "COUNTER_CLAIM",
+      "state": "AWAITING_SUBMISSION_TO_HMCTS",
+      "actors": {
+        "Judge": false,
+        "Caseworker": false,
+        "Claimant": false,
+        "Defendant": false,
+        "LegalAdvisor": false,
+        "BailiffEnforcement": false,
+        "CourtAdmin": false,
+        "SystemAuto": true
+      },
+      "isSystemEvent": true,
+      "notes": "System time out event",
+      "hasOpenQuestions": false
+    },
+    {
+      "id": "counter-claim-re-submit-claim",
+      "name": "Re-Submit claim",
+      "claimType": "COUNTER_CLAIM",
+      "state": "AWAITING_RESUBMISSION_TO_HMCTS",
+      "actors": {
+        "Judge": false,
+        "Caseworker": false,
+        "Claimant": false,
+        "Defendant": false,
+        "LegalAdvisor": false,
+        "BailiffEnforcement": false,
+        "CourtAdmin": false,
+        "SystemAuto": false
+      },
+      "isSystemEvent": false,
+      "notes": "Design pending",
+      "hasOpenQuestions": false
+    },
+    {
+      "id": "counter-claim-create-service-request",
+      "name": "Create Service Request???",
+      "claimType": "COUNTER_CLAIM",
+      "state": "PENDING_CASE_ISSUED",
+      "actors": {
+        "Judge": false,
+        "Caseworker": false,
+        "Claimant": false,
+        "Defendant": false,
+        "LegalAdvisor": false,
+        "BailiffEnforcement": false,
+        "CourtAdmin": false,
+        "SystemAuto": false
+      },
+      "isSystemEvent": false,
+      "notes": "Need to investigate this further to understand response - part of fee payment design work",
+      "hasOpenQuestions": false
+    },
+    {
+      "id": "counter-claim-case-issued-after-payment",
+      "name": "Case Issued after payment",
+      "claimType": "COUNTER_CLAIM",
+      "state": "PENDING_CASE_ISSUED",
+      "actors": {
+        "Judge": false,
+        "Caseworker": false,
+        "Claimant": false,
+        "Defendant": false,
+        "LegalAdvisor": false,
+        "BailiffEnforcement": false,
+        "CourtAdmin": false,
+        "SystemAuto": false
+      },
+      "isSystemEvent": false,
+      "notes": "Need to investigate this further to understand response - part of fee payment design work",
+      "hasOpenQuestions": false
+    },
+    {
+      "id": "counter-claim-generate-claim-form",
+      "name": "Generate claim form",
+      "claimType": "COUNTER_CLAIM",
+      "state": "PENDING_CASE_ISSUED",
+      "actors": {
+        "Judge": false,
+        "Caseworker": false,
+        "Claimant": false,
+        "Defendant": false,
+        "LegalAdvisor": false,
+        "BailiffEnforcement": false,
+        "CourtAdmin": false,
+        "SystemAuto": false
+      },
+      "isSystemEvent": false,
+      "notes": "",
+      "hasOpenQuestions": false
+    },
+    {
+      "id": "counter-claim-upload-translated-document",
+      "name": "Upload translated document",
+      "claimType": "COUNTER_CLAIM",
+      "state": "PENDING_CASE_ISSUED",
+      "actors": {
+        "Judge": false,
+        "Caseworker": false,
+        "Claimant": false,
+        "Defendant": false,
+        "LegalAdvisor": false,
+        "BailiffEnforcement": false,
+        "CourtAdmin": false,
+        "SystemAuto": false
+      },
+      "isSystemEvent": false,
+      "notes": "",
+      "hasOpenQuestions": false
+    },
+    {
+      "id": "counter-claim-update-counter-claim",
+      "name": "Update Counter Claim",
+      "claimType": "COUNTER_CLAIM",
+      "state": "PENDING_CASE_ISSUED",
+      "actors": {
+        "Judge": false,
+        "Caseworker": false,
+        "Claimant": false,
+        "Defendant": false,
+        "LegalAdvisor": false,
+        "BailiffEnforcement": false,
+        "CourtAdmin": false,
+        "SystemAuto": false
+      },
+      "isSystemEvent": false,
+      "notes": "need to consider what happens if something has changed on main claim",
+      "hasOpenQuestions": false
+    },
+    {
+      "id": "counter-claim-delete-draft-counter-claim",
+      "name": "Delete Draft Counter Claim",
+      "claimType": "COUNTER_CLAIM",
+      "state": "PENDING_CASE_ISSUED",
+      "actors": {
+        "Judge": false,
+        "Caseworker": false,
+        "Claimant": false,
+        "Defendant": false,
+        "LegalAdvisor": false,
+        "BailiffEnforcement": false,
+        "CourtAdmin": false,
+        "SystemAuto": true
+      },
+      "isSystemEvent": true,
+      "notes": "",
+      "hasOpenQuestions": false
+    },
+    {
+      "id": "counter-claim-discard-counter-claim",
+      "name": "Discard  Counter Claim",
+      "claimType": "COUNTER_CLAIM",
+      "state": "PENDING_CASE_ISSUED",
+      "actors": {
+        "Judge": false,
+        "Caseworker": false,
+        "Claimant": false,
+        "Defendant": false,
+        "LegalAdvisor": false,
+        "BailiffEnforcement": false,
+        "CourtAdmin": false,
+        "SystemAuto": false
+      },
+      "isSystemEvent": false,
+      "notes": "",
+      "hasOpenQuestions": false
+    },
+    {
+      "id": "counter-claim-notify-counter-claim",
+      "name": "Notify counter claim",
+      "claimType": "COUNTER_CLAIM",
+      "state": "CASE_ISSUED",
+      "actors": {
+        "Judge": false,
+        "Caseworker": false,
+        "Claimant": false,
+        "Defendant": false,
+        "LegalAdvisor": false,
+        "BailiffEnforcement": false,
+        "CourtAdmin": false,
+        "SystemAuto": true
+      },
+      "isSystemEvent": true,
+      "notes": "",
+      "hasOpenQuestions": false
+    },
+    {
+      "id": "counter-claim-respond-to-counter-claim",
+      "name": "Respond to counter claim",
+      "claimType": "COUNTER_CLAIM",
+      "state": "CASE_ISSUED",
+      "actors": {
+        "Judge": false,
+        "Caseworker": false,
+        "Claimant": false,
+        "Defendant": false,
+        "LegalAdvisor": false,
+        "BailiffEnforcement": false,
+        "CourtAdmin": false,
+        "SystemAuto": false
+      },
+      "isSystemEvent": false,
+      "notes": "",
+      "hasOpenQuestions": false
+    },
+    {
+      "id": "counter-claim-upload-your-documents",
+      "name": "Upload your documents",
+      "claimType": "COUNTER_CLAIM",
+      "state": "CASE_ISSUED",
+      "actors": {
+        "Judge": false,
+        "Caseworker": false,
+        "Claimant": false,
+        "Defendant": false,
+        "LegalAdvisor": false,
+        "BailiffEnforcement": false,
+        "CourtAdmin": false,
+        "SystemAuto": false
+      },
+      "isSystemEvent": false,
+      "notes": "Maybe staff only event\r\nTo include deleting documents",
+      "hasOpenQuestions": false
+    },
+    {
+      "id": "counter-claim-amend-a-document",
+      "name": "Amend a document",
+      "claimType": "COUNTER_CLAIM",
+      "state": "CASE_ISSUED",
+      "actors": {
+        "Judge": false,
+        "Caseworker": false,
+        "Claimant": false,
+        "Defendant": false,
+        "LegalAdvisor": false,
+        "BailiffEnforcement": false,
+        "CourtAdmin": false,
+        "SystemAuto": false
+      },
+      "isSystemEvent": false,
+      "notes": "",
+      "hasOpenQuestions": false
+    },
+    {
+      "id": "counter-claim-add-a-case-note",
+      "name": "Add a case note",
+      "claimType": "COUNTER_CLAIM",
+      "state": "CASE_ISSUED",
+      "actors": {
+        "Judge": false,
+        "Caseworker": false,
+        "Claimant": false,
+        "Defendant": false,
+        "LegalAdvisor": false,
+        "BailiffEnforcement": false,
+        "CourtAdmin": false,
+        "SystemAuto": false
+      },
+      "isSystemEvent": false,
+      "notes": "",
+      "hasOpenQuestions": false
+    },
+    {
+      "id": "counter-claim-discontinue-counter-claim",
+      "name": "Discontinue Counter Claim",
+      "claimType": "COUNTER_CLAIM",
+      "state": "CASE_ISSUED",
+      "actors": {
+        "Judge": false,
+        "Caseworker": false,
+        "Claimant": false,
+        "Defendant": false,
+        "LegalAdvisor": false,
+        "BailiffEnforcement": false,
+        "CourtAdmin": false,
+        "SystemAuto": false
+      },
+      "isSystemEvent": false,
+      "notes": "",
+      "hasOpenQuestions": false
+    },
+    {
+      "id": "counter-claim-refer-to-judge",
+      "name": "Refer to judge",
+      "claimType": "COUNTER_CLAIM",
+      "state": "CASE_ISSUED",
+      "actors": {
+        "Judge": false,
+        "Caseworker": false,
+        "Claimant": false,
+        "Defendant": false,
+        "LegalAdvisor": false,
+        "BailiffEnforcement": false,
+        "CourtAdmin": false,
+        "SystemAuto": false
+      },
+      "isSystemEvent": false,
+      "notes": "",
+      "hasOpenQuestions": false
+    },
+    {
+      "id": "counter-claim-judicial-notes",
+      "name": "Judicial notes",
+      "claimType": "COUNTER_CLAIM",
+      "state": "CASE_ISSUED",
+      "actors": {
+        "Judge": false,
+        "Caseworker": false,
+        "Claimant": false,
+        "Defendant": false,
+        "LegalAdvisor": false,
+        "BailiffEnforcement": false,
+        "CourtAdmin": false,
+        "SystemAuto": false
+      },
+      "isSystemEvent": false,
+      "notes": "",
+      "hasOpenQuestions": false
+    },
+    {
+      "id": "counter-claim-stay-the-counter-claim",
+      "name": "Stay the counter claim",
+      "claimType": "COUNTER_CLAIM",
+      "state": "CASE_ISSUED",
+      "actors": {
+        "Judge": false,
+        "Caseworker": false,
+        "Claimant": false,
+        "Defendant": false,
+        "LegalAdvisor": false,
+        "BailiffEnforcement": false,
+        "CourtAdmin": false,
+        "SystemAuto": false
+      },
+      "isSystemEvent": false,
+      "notes": "Note: MI requirement for reason case is stayed",
+      "hasOpenQuestions": false
+    },
+    {
+      "id": "counter-claim-counter-claim-stay-lifted",
+      "name": "Counter Claim Stay lifted",
+      "claimType": "COUNTER_CLAIM",
+      "state": "CASE_STAYED",
+      "actors": {
+        "Judge": false,
+        "Caseworker": false,
+        "Claimant": false,
+        "Defendant": false,
+        "LegalAdvisor": false,
+        "BailiffEnforcement": false,
+        "CourtAdmin": false,
+        "SystemAuto": false
+      },
+      "isSystemEvent": false,
+      "notes": "",
+      "hasOpenQuestions": false
+    },
+    {
+      "id": "counter-claim-amend-documents",
+      "name": "Amend documents",
+      "claimType": "COUNTER_CLAIM",
+      "state": "CASE_STAYED",
+      "actors": {
+        "Judge": false,
+        "Caseworker": false,
+        "Claimant": false,
+        "Defendant": false,
+        "LegalAdvisor": false,
+        "BailiffEnforcement": false,
+        "CourtAdmin": false,
+        "SystemAuto": false
+      },
+      "isSystemEvent": false,
+      "notes": "",
+      "hasOpenQuestions": false
+    },
+    {
+      "id": "counter-claim-update-counter-claim-stay-information",
+      "name": "Update Counter Claim stay information",
+      "claimType": "COUNTER_CLAIM",
+      "state": "CASE_STAYED",
+      "actors": {
+        "Judge": false,
+        "Caseworker": false,
+        "Claimant": false,
+        "Defendant": false,
+        "LegalAdvisor": false,
+        "BailiffEnforcement": false,
+        "CourtAdmin": false,
+        "SystemAuto": false
+      },
+      "isSystemEvent": false,
+      "notes": "",
+      "hasOpenQuestions": false
+    },
+    {
+      "id": "counter-claim-make-an-order",
+      "name": "Make an order",
+      "claimType": "COUNTER_CLAIM",
+      "state": "CASE_STAYED",
+      "actors": {
+        "Judge": false,
+        "Caseworker": false,
+        "Claimant": false,
+        "Defendant": false,
+        "LegalAdvisor": false,
+        "BailiffEnforcement": false,
+        "CourtAdmin": false,
+        "SystemAuto": false
+      },
+      "isSystemEvent": false,
+      "notes": "",
+      "hasOpenQuestions": false
+    },
+    {
+      "id": "counter-claim-generate-an-order",
+      "name": "Generate an order",
+      "claimType": "COUNTER_CLAIM",
+      "state": "CASE_STAYED",
+      "actors": {
+        "Judge": false,
+        "Caseworker": false,
+        "Claimant": false,
+        "Defendant": false,
+        "LegalAdvisor": false,
+        "BailiffEnforcement": false,
+        "CourtAdmin": false,
+        "SystemAuto": false
+      },
+      "isSystemEvent": false,
+      "notes": "",
+      "hasOpenQuestions": false
+    },
+    {
+      "id": "counter-claim-notify-order",
+      "name": "Notify Order",
+      "claimType": "COUNTER_CLAIM",
+      "state": "CASE_STAYED",
+      "actors": {
+        "Judge": false,
+        "Caseworker": false,
+        "Claimant": false,
+        "Defendant": false,
+        "LegalAdvisor": false,
+        "BailiffEnforcement": false,
+        "CourtAdmin": false,
+        "SystemAuto": false
+      },
+      "isSystemEvent": false,
+      "notes": "",
+      "hasOpenQuestions": false
+    },
+    {
+      "id": "counter-claim-amend-order",
+      "name": "Amend order",
+      "claimType": "COUNTER_CLAIM",
+      "state": "CASE_STAYED",
+      "actors": {
+        "Judge": false,
+        "Caseworker": false,
+        "Claimant": false,
+        "Defendant": false,
+        "LegalAdvisor": false,
+        "BailiffEnforcement": false,
+        "CourtAdmin": false,
+        "SystemAuto": false
+      },
+      "isSystemEvent": false,
+      "notes": "Judicial approval",
+      "hasOpenQuestions": false
+    },
+    {
+      "id": "counter-claim-strike-out-counter-claim",
+      "name": "Strike out counter claim",
+      "claimType": "COUNTER_CLAIM",
+      "state": "CASE_PROGRESSION",
+      "actors": {
+        "Judge": false,
+        "Caseworker": false,
+        "Claimant": false,
+        "Defendant": false,
+        "LegalAdvisor": false,
+        "BailiffEnforcement": false,
+        "CourtAdmin": false,
+        "SystemAuto": false
+      },
+      "isSystemEvent": false,
+      "notes": "",
+      "hasOpenQuestions": false
+    },
+    {
+      "id": "counter-claim-events-for-outcome-of-order",
+      "name": "events for outcome of order",
+      "claimType": "COUNTER_CLAIM",
+      "state": "CASE_PROGRESSION",
+      "actors": {
+        "Judge": false,
+        "Caseworker": false,
+        "Claimant": false,
+        "Defendant": false,
+        "LegalAdvisor": false,
+        "BailiffEnforcement": false,
+        "CourtAdmin": false,
+        "SystemAuto": false
+      },
+      "isSystemEvent": false,
+      "notes": "",
+      "hasOpenQuestions": false
+    },
+    {
+      "id": "counter-claim-generate-order",
+      "name": "Generate order",
+      "claimType": "COUNTER_CLAIM",
+      "state": "CASE_PROGRESSION",
+      "actors": {
+        "Judge": false,
+        "Caseworker": false,
+        "Claimant": false,
+        "Defendant": false,
+        "LegalAdvisor": false,
+        "BailiffEnforcement": false,
+        "CourtAdmin": false,
+        "SystemAuto": false
+      },
+      "isSystemEvent": false,
+      "notes": "",
+      "hasOpenQuestions": false
+    },
+    {
+      "id": "counter-claim-outcome-of-hearing",
+      "name": "Outcome of hearing",
+      "claimType": "COUNTER_CLAIM",
+      "state": "DECISION_OUTCOME",
+      "actors": {
+        "Judge": false,
+        "Caseworker": false,
+        "Claimant": false,
+        "Defendant": false,
+        "LegalAdvisor": false,
+        "BailiffEnforcement": false,
+        "CourtAdmin": false,
+        "SystemAuto": false
+      },
+      "isSystemEvent": false,
+      "notes": "",
+      "hasOpenQuestions": false
+    },
+    {
+      "id": "counter-claim-case-outcome",
+      "name": "Case Outcome",
+      "claimType": "COUNTER_CLAIM",
+      "state": "DECISION_OUTCOME",
+      "actors": {
+        "Judge": false,
+        "Caseworker": false,
+        "Claimant": false,
+        "Defendant": false,
+        "LegalAdvisor": false,
+        "BailiffEnforcement": false,
+        "CourtAdmin": false,
+        "SystemAuto": false
+      },
+      "isSystemEvent": false,
+      "notes": "",
+      "hasOpenQuestions": false
+    },
+    {
+      "id": "counter-claim-notify-outcome",
+      "name": "Notify outcome",
+      "claimType": "COUNTER_CLAIM",
+      "state": "DECISION_OUTCOME",
+      "actors": {
+        "Judge": false,
+        "Caseworker": false,
+        "Claimant": false,
+        "Defendant": false,
+        "LegalAdvisor": false,
+        "BailiffEnforcement": false,
+        "CourtAdmin": false,
+        "SystemAuto": false
+      },
+      "isSystemEvent": false,
+      "notes": "",
+      "hasOpenQuestions": false
+    },
+    {
+      "id": "counter-claim-manage-documents",
+      "name": "Manage documents",
+      "claimType": "COUNTER_CLAIM",
+      "state": "DECISION_OUTCOME",
+      "actors": {
+        "Judge": false,
+        "Caseworker": false,
+        "Claimant": false,
+        "Defendant": false,
+        "LegalAdvisor": false,
+        "BailiffEnforcement": false,
+        "CourtAdmin": false,
+        "SystemAuto": false
+      },
+      "isSystemEvent": false,
+      "notes": "",
+      "hasOpenQuestions": false
+    },
+    {
+      "id": "counter-claim-close-counter-claim",
+      "name": "Close counter claim",
+      "claimType": "COUNTER_CLAIM",
+      "state": "DECISION_OUTCOME",
+      "actors": {
+        "Judge": false,
+        "Caseworker": false,
+        "Claimant": false,
+        "Defendant": false,
+        "LegalAdvisor": false,
+        "BailiffEnforcement": false,
+        "CourtAdmin": false,
+        "SystemAuto": false
+      },
+      "isSystemEvent": false,
+      "notes": "",
+      "hasOpenQuestions": false
+    },
+    {
+      "id": "counter-claim-allocate-to-track",
+      "name": "Allocate to track",
+      "claimType": "COUNTER_CLAIM",
+      "state": "DECISION_OUTCOME",
+      "actors": {
+        "Judge": false,
+        "Caseworker": false,
+        "Claimant": false,
+        "Defendant": false,
+        "LegalAdvisor": false,
+        "BailiffEnforcement": false,
+        "CourtAdmin": false,
+        "SystemAuto": false
+      },
+      "isSystemEvent": false,
+      "notes": "",
+      "hasOpenQuestions": false
+    },
+    {
+      "id": "counter-claim-adjournment",
+      "name": "Adjournment",
+      "claimType": "COUNTER_CLAIM",
+      "state": "DECISION_OUTCOME",
+      "actors": {
+        "Judge": false,
+        "Caseworker": false,
+        "Claimant": false,
+        "Defendant": false,
+        "LegalAdvisor": false,
+        "BailiffEnforcement": false,
+        "CourtAdmin": false,
+        "SystemAuto": false
+      },
+      "isSystemEvent": false,
+      "notes": "",
+      "hasOpenQuestions": false
+    },
+    {
+      "id": "counter-claim-dismissed",
+      "name": "Dismissed",
+      "claimType": "COUNTER_CLAIM",
+      "state": "DECISION_OUTCOME",
+      "actors": {
+        "Judge": false,
+        "Caseworker": false,
+        "Claimant": false,
+        "Defendant": false,
+        "LegalAdvisor": false,
+        "BailiffEnforcement": false,
+        "CourtAdmin": false,
+        "SystemAuto": false
+      },
+      "isSystemEvent": false,
+      "notes": "",
+      "hasOpenQuestions": false
+    },
+    {
+      "id": "counter-claim-add-judgement",
+      "name": "Add judgement",
+      "claimType": "COUNTER_CLAIM",
+      "state": "ALL_FINAL_ORDERS_ISSUED",
+      "actors": {
+        "Judge": false,
+        "Caseworker": false,
+        "Claimant": false,
+        "Defendant": false,
+        "LegalAdvisor": false,
+        "BailiffEnforcement": false,
+        "CourtAdmin": false,
+        "SystemAuto": false
+      },
+      "isSystemEvent": false,
+      "notes": "",
+      "hasOpenQuestions": false
+    },
+    {
+      "id": "counter-claim-amend-judgement",
+      "name": "Amend judgement",
+      "claimType": "COUNTER_CLAIM",
+      "state": "ALL_FINAL_ORDERS_ISSUED",
+      "actors": {
+        "Judge": false,
+        "Caseworker": false,
+        "Claimant": false,
+        "Defendant": false,
+        "LegalAdvisor": false,
+        "BailiffEnforcement": false,
+        "CourtAdmin": false,
+        "SystemAuto": false
+      },
+      "isSystemEvent": false,
+      "notes": "",
+      "hasOpenQuestions": false
+    },
+    {
+      "id": "counter-claim-enter-breathing-space",
+      "name": "Enter breathing space",
+      "claimType": "COUNTER_CLAIM",
+      "state": "ALL_FINAL_ORDERS_ISSUED",
+      "actors": {
+        "Judge": false,
+        "Caseworker": false,
+        "Claimant": false,
+        "Defendant": false,
+        "LegalAdvisor": false,
+        "BailiffEnforcement": false,
+        "CourtAdmin": false,
+        "SystemAuto": false
+      },
+      "isSystemEvent": false,
+      "notes": "",
+      "hasOpenQuestions": false
+    },
+    {
+      "id": "counter-claim-lift-breathing-space",
+      "name": "Lift breathing space",
+      "claimType": "COUNTER_CLAIM",
+      "state": "ALL_FINAL_ORDERS_ISSUED",
+      "actors": {
+        "Judge": false,
+        "Caseworker": false,
+        "Claimant": false,
+        "Defendant": false,
+        "LegalAdvisor": false,
+        "BailiffEnforcement": false,
+        "CourtAdmin": false,
+        "SystemAuto": false
+      },
+      "isSystemEvent": false,
+      "notes": "",
+      "hasOpenQuestions": false
+    },
+    {
+      "id": "counter-claim-make-an-application",
+      "name": "Make an application",
+      "claimType": "COUNTER_CLAIM",
+      "state": "CLOSED",
+      "actors": {
+        "Judge": false,
+        "Caseworker": false,
+        "Claimant": false,
+        "Defendant": false,
+        "LegalAdvisor": false,
+        "BailiffEnforcement": false,
+        "CourtAdmin": false,
+        "SystemAuto": false
+      },
+      "isSystemEvent": false,
+      "notes": "",
+      "hasOpenQuestions": false
+    },
+    {
+      "id": "counter-claim-raise-a-query",
+      "name": "Raise a query",
+      "claimType": "COUNTER_CLAIM",
+      "state": "CLOSED",
+      "actors": {
+        "Judge": false,
+        "Caseworker": false,
+        "Claimant": false,
+        "Defendant": false,
+        "LegalAdvisor": false,
+        "BailiffEnforcement": false,
+        "CourtAdmin": false,
+        "SystemAuto": false
+      },
+      "isSystemEvent": false,
+      "notes": "",
+      "hasOpenQuestions": false
+    }
+  ]
+}

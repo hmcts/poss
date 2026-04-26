@@ -1,0 +1,285 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN">
+
+<html>
+<head>
+	<title>Return Customer Tapes</title>
+	<link type="text/css" rel="stylesheet" title="Default" href="../CCBCStylesheet.css">
+    <link href="LogReturnTapes.css" type="text/css" rel="stylesheet">
+	<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+
+    <script type="text/javascript" src="../../Framework.js"></script>
+    <script type="text/javascript" src="../../CaseManUtils.js"></script>
+   	<script type="text/javascript" src="../CCBCShared.js"></script>
+	<script type="text/javascript" src="LogReturnedTapes.js"></script>
+</head>
+
+<!--****************************************************************************
+****************************** Begin: Screen Body Section  *********************
+*****************************************************************************-->
+<body>
+	<!--****************************************************************************
+	****************************** Begin: Form Definition Section  *****************
+	*****************************************************************************-->
+    <form name="LogReturnedTapes" action="" id="LogReturnedTapes">
+		<div class="popup" id="Query_popup">
+			<table width="500px">
+				<tr>
+					<td align="center"><label>Search</label></td>
+				</tr>
+				<tr>
+					<td>
+		<!--****************************************************************************
+		****************************** Begin: Search Area Section  *********************
+		*****************************************************************************-->
+						<div class="panel">
+					    	<table class="content" style="width: 560px;">
+								<tr>
+									<td width="20%"><label for='Query_LibraryNumber_Txt'>Library Number</label></td>
+									<td width="80%"><input type="text" id="Query_LibraryNumber_Txt" size=10></td>
+								</tr>
+								<tr>
+									<td width="20%"><label>Customer</label></td>
+									<td width="80%">
+										<input type="text" id="Query_CustomerID_Txt" size=4>
+										<input id="Query_CustomerDescription_Txt" type="text" size=40>
+										<input id="Master_CustomerLOV" type="button" value="LOV">
+										<script type="text/javascript">LOVPopupRenderer.createInline("Customer_LOV", "Select Customer", ["Code", "Name"], 8, 1,true);</script>
+									</td>
+								</tr>
+								<tr>
+									<td width="20%"><label>Date Received</label></td>
+									<td width="80%"><input type="text"  id="Query_DateReceived_Txt" size=15 ></td>
+								</tr>
+								<tr>
+									<td width="20%"> <label for='Query_DateReturned_Txt'>Date Returned</label></td>
+									<td width="80%"><input type="text" id="Query_DateReturned_Txt" size=15></td>
+								</tr>
+								<tr>
+									<td width="20%"><label for='Query_FileName_Txt'>File Name</label></td>
+									<td width="80%"><input type="text" id="Query_FileName_Txt" size=11></td>
+								</tr>
+								<tr>
+									<td id="audit1" align="right" width="100%" colspan="2"  >
+										 <input id="Query_Search_Btn" type="button" value="Search" >
+									</td>
+								</tr>
+							</table>
+						</div>
+						<div class="panel">
+							<table class="content" style="width: 560px;">
+								<tr>
+									<td id="popupgrid" COLSPAN=2 align="right" width="100%">
+										<div style="margin-top: 4px; margin-bottom: 4px;">
+											<script type="text/javascript" >Grid.createInline("Query_Tapes_Grid", ["Library Number", "Customer Code", "Customer Name", "Date Received", "Date Returned"], 8, 1);</script>
+										</div>
+									</td>
+								</tr>
+								<tr>
+									<td id="audit2" align="center" width="100%" COLSPAN=2>
+										 <input id="Query_Grid_Prev" type="button" value="&lt Previous" size=15 />
+										 <label for = "Query_Grid_PageNumber">Page</label>
+										 <input id="Query_Grid_PageNumber" type="text" size=4 style="text-align: center"/>
+										 <input id="Query_Grid_Next"  type="button" value="  Next &gt  "  size=15 />
+									</td>
+								</tr>
+								<tr>
+									<td id="audit3" align="right" COLSPAN=2>
+										<input id="Query_Select_Btn" type="button" value="Select" >
+										<input id="Query_Clear_Btn" type="button" value="Clear">
+										<input id="Query_Cancel_Btn" type="button" value="Close" >
+									</td>
+								</tr>
+				 			</table>
+			      		</div>
+					</td>
+				</tr>
+			</table>
+		</div>
+      <!--****************************************************************************
+	  ****************************** End: Search Area Section  ***********************
+	  *****************************************************************************-->
+
+		<!--****************************************************************************
+		****************************** Begin: Navigation Section  **********************
+		*****************************************************************************-->
+		<table width="100%">
+	  		<tr>
+	   			<td>
+	   				<script type="text/javascript">MenuBarRenderer.createInline();</script>
+	   			</td>
+	   		</tr>
+		</table>
+
+		<!--****************************************************************************
+		****************************** End: Navigation Section  ************************
+		********************************************************************************
+
+
+		********************************************************************************
+		****************************** Begin: Quick Search Area Section  ***************
+		*****************************************************************************-->
+		<div class="panel">
+			<table class="content" style="width: 965px;">
+				<tr valign="top">
+					<td width="15%" ><label for='Master_LibraryNumber_Txt'>Library Number&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label></td>
+					<td width="85%" >
+						<input type="text" id="Master_LibraryNumber_Txt" size=10>
+					</td>
+				</tr>
+			</table>
+		</div>
+		<!--****************************************************************************
+		****************************** End: Quick Search Area Section  *****************
+		*****************************************************************************-->
+
+
+		<!--****************************************************************************
+		****************************** Begin: Result Area Section  *********************
+		*****************************************************************************-->
+		<div class="logic" id="LogicObjectOne"></div>
+		<div class="panel">
+			<table class="content" style="width: 965px;  height: 170px;">
+				<tr valign="top">
+					<td width="15%" align="left"><label for='Master_Degaussed_CBx'>Degaussed</label></td>
+					<td width="85%">
+						<select id="Master_Degaussed_CBx">
+							<option></option>
+							<option value="Y">Yes</option>
+							<option value="N">No</option>
+						</select>
+					</td>
+				</tr>
+				<tr valign="top">
+					<td width="15%" ><label for='Master_CustomerID_Txt'>Customer</label></td>
+					<td colspan="3" width="85%" >
+						<input type="text" id="Master_CustomerID_Txt" size=4>
+
+						<input id="Master_CustomerDescription_Txt" type="text" size=111>
+					</td>
+				</tr>
+				<tr valign="top">
+					<td width="15%" ><label>Date Received</label></td>
+					<td colspan="3" width="85%">
+						<script type="text/javascript">DatePickerRenderer.createInline("Master_DateReceived_Cal", true);</script>
+					</td>
+
+				</tr>
+				<tr valign="top">
+					<td width="15%"> <label>Date Returned</label></td>
+					<td colspan="3" width="85%">
+						<script type="text/javascript">DatePickerRenderer.createInline("Master_DateReturned_Cal", true);</script>
+    				</td>
+				</tr>
+				<tr valign="top">
+					<td width="15%"><label>Date to Operations</label></td>
+					<td colspan="3" width="85%">
+						<script type="text/javascript">DatePickerRenderer.createInline("Master_DateToOperations_Cal", true);</script>
+					</td>
+				</tr>
+
+				<tr valign="top">
+					<td width="15%"><label for='Master_Comments_Txt'>Comments</label></td>
+					<td colspan="3" width="85%"><input type="text" id="Master_Comments_Txt" size=87>
+				</td>
+				</tr>
+				<tr valign="top">
+					<td width="15%">&nbsp;</td>
+					<td colspan="3" width="85%">
+						&nbsp;
+					</td>
+				</tr>
+			</table>
+ 		</div>
+		<!--****************************************************************************
+		****************************** Begin: File Grid Master Area Section  ***********
+		*****************************************************************************-->
+ 		<table class="layout" style="width: 985px;  height: 273px ;">
+ 		<tr>
+ 			<td width="45%" height="100%">
+ 			<div class="panel">
+ 			<table class="content" style="width:600;height: 273px ;">
+	 			<tr valign="top">
+					<td valign="top" width="30%">
+					<div style="margin: 5px;">
+						<script type="text/javascript" >Grid.createInline("Master_TapeFiles_Grid", ["File Name"], 20, 1);</script>
+					</div>
+					</td>
+				</tr>
+		</table>
+		<!--****************************************************************************
+		****************************** End: File Grid Master Area Section  *************
+		*****************************************************************************-->
+
+			</div>
+			</td>
+			<!--****************************************************************************
+			****************************** Begin: File Detail Area Section  ****************
+			*****************************************************************************-->
+			<td height="100%">
+			<div class="panel" style="margin-left: 5px;">
+				<table class="content" style="width:650; height: 273px ;">
+							<tr> <td colspan="2"> &nbsp; </td> </tr>
+							<tr>
+								<td width="26%"><label for='Master_File_Name_Txt'>File Name</label></td>
+								<td colspan="3" width="70%">
+									<input id="Master_File_Name_Txt" type="text" size=11>
+								</td>
+							</tr>
+							<tr>
+								<td width="26%"><label for='Master_Number_Of_Records_Txt'>Number of Records</label></td>
+								<td colspan="3" width="70%"><input id="Master_Number_Of_Records_Txt" type="text" size=5></td>
+							</tr>
+							<tr>
+								<td width="26%"> <label for='Master_WarrantFeesCurrencySign_Txt'>Warrant Fees</label></td>
+								<td colspan="2" width="70%" align="left"><input id="Master_WarrantFeesCurrencySign_Txt" type="text"  size=1 >&nbsp;<input id="Master_WarrantFeesAmount_Txt" type="text" size=10></td>
+							</tr>
+
+							<tr>
+								<td width="26%"><label>Comments</label></td>
+								<td colspan="3" width="70%"><script type="text/javascript">ZoomFieldRenderer.createInline("Master_FileComments_Txt", 5, 50);</script></td>
+							</tr>
+							<tr>
+								<td width="26%"> <label for='Master_Status_Txt'>Status</label></td>
+								<td colspan="3" width="70%"><input id="Master_Status_Txt" type="text" size=7></td>
+							</tr>
+							<tr>
+								<td colspan="4" height="229"></td>
+							</tr>
+			 	</table>
+			</div>
+        </td>
+    	<!--****************************************************************************
+		****************************** End: File Detail Area Section  ****************
+		*****************************************************************************-->
+
+        </tr>
+ 		</table>
+		<!--****************************************************************************
+		****************************** End: Result Area Section  ***********************
+		*****************************************************************************-->
+
+	<!--****************************************************************************
+	****************************** Begin: Form Footer Area Section  ****************
+	*****************************************************************************-->
+    <script type="text/javascript">
+		ActionBarRenderer.createInline(	"statusbar",
+										[
+									 	 {id: "Main_Clear_Obj", label:   "OBJ1"},
+										 {id: "Main_Zoom_Btn", label:   "Zoom1"},
+								         {id: "Main_Save_Btn", label: "Save"},
+				                         {id: "Main_Clear_Btn", label: "Clear"},
+				                         {id: "Main_Back_Btn", label: "Close"}
+				                        ]);
+	</script>
+	<!--****************************************************************************
+	****************************** End: Form Footer Area Section  ******************
+	*****************************************************************************-->
+	</form>
+	<!--****************************************************************************
+	****************************** End: Form Definition Section  *******************
+	*****************************************************************************-->
+</body>
+<!--****************************************************************************
+****************************** End: Screen Body Section  ***********************
+*****************************************************************************-->
+</html>

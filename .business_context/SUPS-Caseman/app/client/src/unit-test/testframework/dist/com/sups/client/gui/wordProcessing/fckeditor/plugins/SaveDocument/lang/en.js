@@ -1,0 +1,1 @@
+FCKLang.SaveDocumentBtn			= 'Save Document' ;

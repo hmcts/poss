@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: AeAmounts
+	Method:  getAmountTypeList
+	Author:  Chris Vincent (EDS) 
+	Created: 13 September 2005
+	Description: 
+		Use SQLLite to retrieve list of amount types
+-->
+<!-- service-method visibility="local" -->
+<service-method>
+	<pipeline>
+		<SQLLite format-output="true"
+				 resultset-element="AmountTypes"
+				 row-element="AmountType"
+				 field-name-as="element" >
+			<DataSource id="java:OracleDS"/>
+			<SQL>
+				SELECT CCBC.RV_LOW_VALUE As "Value"
+				FROM  CCBC_REF_CODES CCBC
+				WHERE CCBC.RV_DOMAIN = 'FEE_REFUND_AMOUNT_TYPE'
+			</SQL>
+		</SQLLite>
+  	</pipeline>
+	<Security roles="viewOnly medium high wcSuper scSuper bmsSuper aeSuper dmSuper"/>	
+</service-method>

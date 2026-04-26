@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: SystemDate
+	Method:  getSystemDate()
+	File:    get_system_date.xml
+	Author:  
+	Created: 
+	Description: 
+        Gets the System date
+-->
+<service-method>
+	<pipeline>
+		<Query>
+			<QueryDef location="uk/gov/dca/caseman/system_date_service/query_def.xml"/>
+			<QueryExtension pivotNode="/SystemDate">
+                <SQL type="select">SELECT SYSDATE FROM DUAL</SQL>
+			</QueryExtension>
+		</Query>
+	</pipeline>
+	<Security roles="viewOnly medium high wcSuper scSuper bmsSuper aeSuper dmSuper admin edsAdmin cpSuper ccbcMan ccbcUser ccbcSGB2 ccbcTape admin"/>
+</service-method>

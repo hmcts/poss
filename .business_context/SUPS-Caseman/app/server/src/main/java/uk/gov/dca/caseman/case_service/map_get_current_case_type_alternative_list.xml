@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: Case
+	Map:     map_get_current_case_type_alternative_list.xml
+	Author:  Phil Haferer (EDS) 
+	Created: 14 March 2005
+-->
+<DBMapDef>
+  <DataSource id="java:OracleDS"/>
+  <Tables>
+    <Table alias="C" name="CASES"/>
+    <Table alias="CREF" name="CCBC_REF_CODES"/>
+    <Table alias="REF" name="CCBC_REF_CODES"/>
+  </Tables>  
+  <Mapping>
+	<Case>
+		<CaseNumber>${C.CASE_NUMBER}</CaseNumber>
+		<CaseType>${C.CASE_TYPE}</CaseType>
+		<CaseTypeGrouping>${CREF.RV_HIGH_VALUE}</CaseTypeGrouping>
+		<CaseTypeList>
+			<CaseType>
+				<Type>${REF.RV_LOW_VALUE}</Type>
+	    		<Description>${REF.RV_MEANING}</Description>	
+			</CaseType>
+		</CaseTypeList>
+	</Case>
+</Mapping>
+</DBMapDef>

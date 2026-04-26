@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: Payments
+	Method: getPassthroughCoEvent()
+	File: get_passthrough_co_event.xml
+	Author: Tony White
+	Description:
+		Get details of a Passthrough CO Event.
+-->
+<service-method>
+	<pipeline>		
+		<SQLLite format-output="true"
+			resultset-element="ds"
+			row-element="COEvent"
+			field-name-as="element"
+		>
+			<DataSource id="java:OracleDS" />
+			<Param name="param.coNumber" xpath="/params/param[@name = 'coNumber']" />
+			<Param name="param.debtSeq" xpath="/params/param[@name = 'debtSeq']" />
+			<Param name="param.coEventId" xpath="/params/param[@name = 'coEventId']" />
+			<SQL>
+				SELECT
+					COE.CO_EVENT_SEQ AS "COEventSeq",
+					COE.CO_NUMBER AS "CONumber",
+					COE.STD_EVENT_ID AS "StandardEventId",
+					COE.USERNAME	AS "UserName",
+					COE.ALD_DEBT_SEQ AS "DebtSeqNumber",
+					COE.ERROR_INDICATOR AS "ErrorInd"
+				FROM
+					CO_EVENTS COE
+				WHERE
+					COE.CO_NUMBER = ${param.coNumber} AND
+					COE.ALD_DEBT_SEQ = ${param.debtSeq} AND
+					COE.STD_EVENT_ID = ${param.coEventId} AND
+					ROWNUM = 1
+				ORDER BY
+					COE.EVENT_DATE DESC,
+					COE.CO_EVENT_SEQ DESC
+				FOR
+					UPDATE
+			</SQL>
+		</SQLLite>
+	</pipeline>
+	<Security roles="medium high wcSuper scSuper bmsSuper aeSuper dmSuper" />
+</service-method>

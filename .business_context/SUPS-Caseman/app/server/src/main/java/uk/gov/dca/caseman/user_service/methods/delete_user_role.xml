@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: User
+	Method:  deactivateUser()
+	File:    delete_user_role.xml
+	Author:  Ian Stainer
+	Created: 19-Apr-2006
+	Description:
+		Part of the deactivateion of a user is removing the user role record
+		because if a user is reactivated in another court the role may be different 
+-->
+<service-method>
+	<pipeline>
+		<SQLLite output="input">
+			<DataSource id="java:OracleDS"/>
+			<Param name="param.userId" xpath="/params/param[@name='userIdToDelete']"/>
+			<Param name="param.roleId" xpath="/params/param[@name='roleId']"/>
+			<Param name="param.courtCode" xpath="/params/param[@name='courtCode']"/>			
+			<SQL type="update" tables="UR">
+				DELETE FROM USER_ROLE UR
+				WHERE  UR.USER_ID = ${param.userId}
+				AND    UR.ROLE_ID = ${param.roleId}
+				AND    UR.COURT_CODE = ${param.courtCode}				
+			</SQL>
+		</SQLLite>
+	</pipeline>
+	<Security roles="admin"/>
+</service-method>

@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- edited with XMLSPY v5 rel. 3 U (http://www.xmlspy.com) by Fred (Electronic Data Systems LTD) -->
+<!-- edited with XMLSpy v2005 rel. 3 U (http://www.altova.com) by Fred (EDS LTD) -->
+<!--
+    $Header: /CVSRepository/clientoas/caseman/screens/caseman_wp/EnterVariableData/_Generic/Question.xsd,v 1.2 2006/03/01 15:40:59 conganer Exp $
+    $Log: Question.xsd,v $
+    Revision 1.2  2006/03/01 15:40:59  conganer
+    WP Development Team OAS Migration
+
+    Revision 1.9  2005/02/24 11:06:37  f_vdd
+    *** empty log message ***
+
+    Revision 1.8  2005/02/21 17:43:22  f_vdd
+    *** empty log message ***
+
+    Revision 1.7  2005/02/15 12:23:08  f_vdd
+    *** empty log message ***
+
+    Revision 1.6  2005/02/14 15:12:08  f_vdd
+    provided for transformToModel, tranformToDisplay, validateOn, componentName and maxlength
+
+    Revision 1.5  2005/01/31 16:11:37  f_vdd
+    ongoing development
+
+    Revision 1.4  2005/01/31 12:22:38  f_vdd
+    *** empty log message ***
+
+    Revision 1.3  2005/01/20 13:57:38  f_vdd
+    *** empty log message ***
+
+    Revision 1.2  2005/01/20 13:32:32  f_vdd
+    *** empty log message ***
+
+    Revision 1.1  2005/01/20 13:28:00  f_vdd
+    *** empty log message ***
+
+    Revision 1.1.2.3  2005/01/18 10:16:32  f_vdd
+    Createing a meaningful CVS kkv keyword combination
+
+    Revision 1.1.2.2  2005/01/18 10:15:19  f_vdd
+    *** empty log message ***
+
+  -->
+<xs:schema targetNamespace="http://eds.com/questionxhtml" xmlns:ns1="http://eds.com/questionxhtml" xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" attributeFormDefault="unqualified">
+    <xs:element name="Question">
+        <xs:annotation>
+            <xs:documentation>A question represents a question field in a web application which is viewed as an HTML form widget.It extends the concept of the simple HTML form field with extensive javascript/XML object binding in use by the framework.</xs:documentation>
+        </xs:annotation>
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="Id">
+                    <xs:annotation>
+                        <xs:documentation>The Id of a Question defined in this XML is the name of this XML file (excl ext) and is used to compose Groups / Screens</xs:documentation>
+                    </xs:annotation>
+                </xs:element>
+                <xs:element name="Label">
+                    <xs:annotation>
+                        <xs:documentation>The Label of a Question defined in this XML is the Label that will show on the HTML page(s) bareing this question.</xs:documentation>
+                    </xs:annotation>
+                </xs:element>
+                <xs:element name="ObjectName">
+                    <xs:annotation>
+                        <xs:documentation>The ObjectName of a Question defined in this XML relates to the id of the browser HTML element and the name of the (framework configuration) JavaScript object</xs:documentation>
+                    </xs:annotation>
+                </xs:element>
+                <xs:element name="Html">
+                    <xs:complexType>
+                        <xs:sequence>
+                            <xs:any namespace="##other" minOccurs="0" maxOccurs="unbounded"/>
+                        </xs:sequence>
+                    </xs:complexType>
+                </xs:element>
+                <xs:element name="Context" minOccurs="0" maxOccurs="unbounded">
+                    <xs:complexType>
+                        <xs:sequence>
+                            <xs:element name="isVisible" minOccurs="0"/>
+                            <xs:element name="Label"/>
+                        </xs:sequence>
+                        <xs:attribute name="ScreenId" use="required"/>
+                    </xs:complexType>
+                </xs:element>
+                <xs:element name="Javascript">
+                    <xs:complexType>
+                        <xs:sequence>
+                            <xs:element name="XPath" type="xs:string"/>
+                            <xs:element name="componentName"/>
+                            <xs:element name="HintText" type="xs:string"/>
+                            <xs:element name="initialise" type="xs:string" minOccurs="0"/>
+                            <xs:element name="mandatoryOn" minOccurs="0"/>
+                            <xs:element name="isMandatory" type="xs:string" minOccurs="0"/>
+                            <xs:element name="validate" type="xs:string" minOccurs="0"/>
+                            <xs:element name="validateOn" minOccurs="0"/>
+                            <xs:element name="logic" minOccurs="0"/>
+                            <xs:element name="logicOn" minOccurs="0"/>
+                            <xs:element name="isEnabled" minOccurs="0"/>
+                            <xs:element name="enableOn" minOccurs="0"/>
+                            <xs:element name="postSetValue" type="xs:string" minOccurs="0"/>
+                            <xs:element name="modelValue" type="xs:string" minOccurs="0"/>
+                            <xs:element name="maxLength" minOccurs="0"/>
+                            <xs:element name="transformToModel" minOccurs="0"/>
+                            <xs:element name="transformToDisplay" minOccurs="0"/>
+                            <xs:element name="miscCode" type="xs:string" minOccurs="0"/>
+                            <xs:element name="readOnlyOn" type="xs:string" minOccurs="0"/>
+                            <xs:element name="isReadOnly" type="xs:string" minOccurs="0"/>
+                            <xs:element name="Context" minOccurs="0" maxOccurs="unbounded">
+                                <xs:complexType>
+                                    <xs:sequence>
+                                        <xs:element name="HintText" type="xs:string" minOccurs="0"/>
+                                        <xs:element name="initialise" type="xs:string" minOccurs="0"/>
+                                        <xs:element name="mandatoryOn" minOccurs="0"/>
+                                        <xs:element name="isMandatory" type="xs:string" minOccurs="0"/>
+                                        <xs:element name="validate" type="xs:string" minOccurs="0"/>
+                                        <xs:element name="validateOn" minOccurs="0"/>
+                                        <xs:element name="logic" minOccurs="0"/>
+                                        <xs:element name="logicOn" minOccurs="0"/>
+                                        <xs:element name="isEnabled" minOccurs="0"/>
+                                        <xs:element name="enableOn" minOccurs="0"/>
+                                        <xs:element name="postSetValue" type="xs:string" minOccurs="0"/>
+                                        <xs:element name="modelValue" type="xs:string" minOccurs="0"/>
+                                        <xs:element name="maxLength" minOccurs="0"/>
+                                        <xs:element name="transformToModel" minOccurs="0"/>
+                                        <xs:element name="transformToDisplay" minOccurs="0"/>
+                                        <xs:element name="miscCode" type="xs:string" minOccurs="0"/>
+                                        <xs:element name="readOnlyOn" type="xs:string" minOccurs="0"/>
+                                        <xs:element name="isReadOnly" type="xs:string" minOccurs="0"/>
+                                    </xs:sequence>
+                                    <xs:attribute name="ScreenId" use="required"/>
+                                </xs:complexType>
+                            </xs:element>
+                        </xs:sequence>
+                    </xs:complexType>
+                </xs:element>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+</xs:schema>

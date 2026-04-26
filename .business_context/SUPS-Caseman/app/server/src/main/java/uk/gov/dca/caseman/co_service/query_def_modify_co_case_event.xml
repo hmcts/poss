@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: Co
+	Method:  updateCoCaseEvent()
+	File:    query_def_modify_co_case_event.xml
+	Author:  Phil Haferer (EDS)
+	Created: 22 September 2005
+	Description: 
+		Update Consolidated Order Case Event.
+-->
+<QueryDef>
+  <DBMapDef location="uk/gov/dca/caseman/co_service/map_modify_co_case_event.xml"/>
+  <Query pivotNode="/ds/CoCaseEvent" tables="COCE">
+	<Join/>
+    <Modify/>
+  </Query>
+</QueryDef>

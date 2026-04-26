@@ -1,0 +1,25 @@
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>654</Id>
+	<Label>Select solicitor (if appropriate)</Label>
+	<ObjectName>Solicitor</ObjectName>
+	<Html>	
+		 <script type="text/javascript">Grid.createInline("Solicitor", [ "Solicitor Representing"] , 3, 1);</script>
+	</Html>		
+	
+	<Javascript>
+		<XPath>/ds/EnterVariableData/InvestmentSchedule/solicitor</XPath>
+		<componentName>##label##</componentName>
+		<isMandatory>return false;</isMandatory>
+		<HintText>Select solicitor (if appropriate) - List available</HintText>	
+		<initialise>WPU.loadRepresentations();</initialise>
+		<miscCode>		 
+			Solicitor.srcData = "/ds/var/app/wp/representations";
+			Solicitor.rowXPath = "representation";
+			Solicitor.keyXPath = "PartyId";
+			Solicitor.columns = [				
+				{xpath: "Representation"}
+			];
+			Solicitor.multipleSelection = false;			
+		</miscCode>		
+	</Javascript>
+</Question>

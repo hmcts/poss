@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>9040</Id>
+	<Label>Deemed served on what day after posting</Label>
+	<ObjectName>ServedonDay</ObjectName>
+	<Html>		
+		<input id="ServedonDay" type="text" size="2"></input>
+	</Html>
+	<Javascript>
+        <XPath>/ds/EnterVariableData/ServedonDay</XPath>
+		<HintText>Enter number of the day petition served on (eg. 4 for 4th)</HintText>
+		<isEnabled>return true;</isEnabled> 
+		<isMandatory>return true;</isMandatory>
+
+		<validateOn>ServedonDay.dataBinding</validateOn>
+		<validate>
+			var value = Services.getValue(ServedonDay.dataBinding);
+			
+	
+			if(!CaseManValidationHelper.validateNumber(value)) {
+				return ErrorCode.getErrorCode("Caseman_nonNumericPartyCode_Msg");
+			}
+			return null;					
+		</validate>
+		
+
+	<!--    <transformToDisplay>return WPU.addThToValue(value);</transformToDisplay> -->
+	
+	</Javascript>
+</Question>

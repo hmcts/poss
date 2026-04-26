@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<service-method>
+	<pipeline>
+		<Query> 
+			<QueryDef location="uk/gov/dca/test_project/cases_service/rowid_query_def.xml"/>
+			<QueryExtension pivotNode="/Case">
+				<Param name="param.rowId" xpath="/params/param[@name='rowId']"/>
+				<Constraint>c.rowid = ${param.rowId}</Constraint>
+			</QueryExtension>
+		</Query>		 
+	</pipeline>
+	<Dependencies>
+		<Dependency serviceName="Test"/> 
+	</Dependencies>
+	<Security roles="user"/>
+</service-method>

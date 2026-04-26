@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: Ae
+	Method:  getLovGenericList
+	Author:  Chris Hutt 
+	Created: 11 july 2005
+	Description: 
+		Use SQLLite to return list of codes / descriptions associated
+                with a specified RV_DOMAIN value
+-->
+<service-method>
+	<pipeline>
+		<SQLLite format-output="true"
+				 resultset-element="Options"
+				 row-element="Option"
+				 field-name-as="element" >
+			<DataSource id="java:OracleDS"/>
+			<Param name="param.rvDomain" xpath="/params/param[@name='rvDomain']"/>
+			<SQL>	
+				SELECT 	REF1.RV_LOW_VALUE  	As "Code"
+				, 		REF1.RV_MEANING	 	As "Description"
+				FROM 	CCBC_REF_CODES REF1 
+				WHERE 	REF1.RV_DOMAIN = ${param.rvDomain}									
+			</SQL>
+		</SQLLite>
+  	</pipeline>
+	<Security roles="user"/>
+</service-method>

@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: WarrantReturns
+	Method:  updateCcbcWarrantReturnErrorInd()
+	File:    update_ccbc_warrant_return_error_ind.xml
+	Author:  Chris Hutt
+	Created: 07Jan08
+	Description: 
+		TD Caseman 6479: when a foreign warrant return code is 'errored-off' the equivalent
+		return code on the corresponding CCBC home warrant should also be errored off.
+		Similarly, the home warrant return code should be updated when the return code erroring-off
+		is cancelled
+
+    Change History:
+
+-->
+<service-method>
+	<pipeline>
+		<SQLLite output="input">
+			<DataSource id="java:OracleDS"/>
+			<Param name="param.errorIndValue"	xpath="/params/param[@name='errorIndValue']"/>
+			<Param name="param.foreignWarrantReturnId"	xpath="/params/param[@name='foreignWarrantReturnId']"/>
+			<SQL type="update" tables="WARRANT_RETURNS">
+				UPDATE WARRANT_RETURNS WR1
+				SET	WR1.ERROR_INDICATOR = ${param.errorIndValue}  
+				WHERE WR1.WARRANT_ID IN 
+             	   (SELECT 	W1.WARRANT_ID
+              		FROM 	WARRANTS W1
+              		WHERE 	W1.WARRANT_ID 			= WR1.WARRANT_ID
+              		AND 	W1.CCBC_WARRANT     	= 'Y'
+              		AND		W1.ISSUED_BY			= '335'
+              		AND 	W1.LOCAL_WARRANT_NUMBER IS NULL
+              		AND 	W1.WARRANT_NUMBER 		IN 
+                      (	SELECT 	W2.WARRANT_NUMBER 
+                       	FROM 	WARRANTS W2, WARRANT_RETURNS WR2
+                  		WHERE 	W2.WARRANT_ID 					= WR2.WARRANT_ID
+                  		AND 	W2.CASE_NUMBER 					= W1.CASE_NUMBER
+                  		AND 	W2.LOCAL_WARRANT_NUMBER			IS NOT NULL
+                  		AND 	WR2.RETURN_CODE 				= WR1.RETURN_CODE
+                  		AND 	TRUNC(WR2.WARRANT_RETURN_DATE) 	= TRUNC(WR1.WARRANT_RETURN_DATE)
+                  		AND 	WR2.WARRANT_RETURNS_ID 			= ${param.foreignWarrantReturnId}  
+                  	  )
+             	   )
+             	   AND 		WR1.RETURN_CODE 		IN 
+             	   	 (	SELECT 	RC.RETURN_CODE 
+             	   	 	FROM 	RETURN_CODES RC
+        				WHERE 	RC.RETURN_CODE = WR1.RETURN_CODE
+        				AND 	RC.RETURN_TYPE = 'F'
+        			 )
+			</SQL>
+		</SQLLite>
+	</pipeline>
+	<Security roles="medium high wcSuper scSuper bmsSuper aeSuper dmSuper"/>
+	<!-- Transaction type="RequiresNew" / -->	
+</service-method>

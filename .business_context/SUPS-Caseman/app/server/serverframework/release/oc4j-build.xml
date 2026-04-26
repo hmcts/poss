@@ -1,0 +1,354 @@
+<project name="SUPS_OC4J_Management" default="usage" basedir=".">
+
+    <description>
+  
+        This file is supposed to be able to work standalone or as targets imported into a 
+        project's main/wrapper build file.
+        
+        1.] Property notations summary:
+            "." properties are properties loaded from .properties files, eclipse ant launcher "main" panel or 
+                command line -Dproperty.name=propertyvalue. Essentially a property a user can modify for their environment
+            "_" underscore/underbar are "global" properties declared and used somewhere within the build file
+            "-" hyphen/minus/dash properties are defined within the context of a macro
+        
+    </description>
+
+    <target name="usage">
+        <echo>
+            Usage: To obtain a summary of targets within this build file
+                   Use the command "ant -f oc4j-build.xml -projecthelp"
+        </echo>
+    </target>
+
+    <target name="-init_oc4j_properties" description="carries out some housekeeping tasks and attempts to ensure the environment is configured correctly">
+        <!-- define some global messages -->
+        <property name="oc4j.build.error.title" value="SUPS-BUILD-ERROR: "/>
+
+        <echo>application_base: ${application_base}</echo>
+        <property environment="env" />
+
+        <property file="${user.home}/sups_antuser.properties"/>
+        
+        <!-- 
+            properties are immutable, so try and set ones we require 
+            and may not have been set in the oc4j.properties file 
+        -->      
+        <condition property="application_base" value="${env.PROJECT_BASE}">
+                <isset property="env.PROJECT_BASE}"/>
+        </condition>   
+
+        <fail unless="application_base"
+            message="${oc4j.build.error.title}You have not defined the application_base property, preventing us from managing the oc4j deployment.If you are using eclipse, set a property in the main tab of the external tool runner for ant" />
+        
+        <available file="${application_base}/application.properties" type="file" property="application_properties_file"  value="${application_base}/application.properties"/>      
+        <available file="${application_base}/oc4j.properties" type="file" property="oc4j_properties_file" value="${application_base}/oc4j.properties"/>
+            
+        <fail unless="application_properties_file"
+            message="${oc4j.build.error.title}Unable to find application.properties file in application_base=${application_base}" />
+        <fail unless="oc4j_properties_file"
+            message="${oc4j.build.error.title}Unable to find oc4j.properties file in application_base=${application_base}"/>        
+
+        
+        <property file="${application_properties_file}" />
+        <property file="${oc4j_properties_file}" />
+
+        <echo level="debug">ant-contrib-jar: ${ant-contrib-jar}</echo>
+        <condition property="ant.contrib.jar"
+            value="${framework.release}/lib/ant-contrib/ant-contrib-1.0b1.jar">
+            <not>
+                <isset property="ant.contrib.jar" />
+            </not>
+        </condition>
+        <echo level="debug">ant-contrib-jar: ${ant-contrib-jar}</echo>
+        <!-- Ant contrib stuff -->
+        <taskdef resource="net/sf/antcontrib/antcontrib.properties">
+            <classpath>
+                <pathelement location="${framework.release}/lib/ant-contrib/ant-contrib-1.0b1.jar" />
+            </classpath>
+        </taskdef>
+    </target>
+
+    <target name="oc4j__undeploy-ear" depends="-init_oc4j_properties">
+        <macro__private-undeploy-OC4J-ear
+                deployment-name="${application.name}_server"/>
+    </target>
+
+    
+    <target name="oc4j__deploy-ear"
+        depends="-init_oc4j_properties" 
+        description="Deploys the application Ear file and then binds the internal web applications which the Sups Server Framework Depends on">
+
+        <if>
+            <not>
+                <available file="${application_base}/build/OAS/ear/${application.name}.ear" type="file" property="application_server_found"/>      
+            </not>
+            <then>
+                <echo>
+                    
+                    ${oc4j.build.error.title} 
+                        Unable to find ear file to deploy '${application_base}/build/OAS/ear/${application.name}.ear'"
+                    
+                </echo> 
+                <fail unless="application_server_found" message="no ear found" />
+            </then>
+        </if>
+        <if>
+            <socket server="${oc4j.check.server}"
+                port="${oc4j.check.port}" />
+            <then>   
+                <java description="Deploys the application Ear file"
+                    fork="true" dir="${oc4j.home.dir}"
+                    jar="${oc4j.home.dir}/j2ee/home/admin.jar">
+                    <arg value="${oc4j.admin.url}" />
+                    <arg value="admin" />
+                    <arg value="${oc4j.admin.password}" />
+                    <arg value="-deploy" />
+                    <arg value="-file" />
+                    <arg value="${application_base}/build/OAS/ear/${application.name}.ear" />
+                    <arg value="-deploymentName" />
+                    <arg value="${application.name}_server" />
+                </java>
+             </then>   
+            <else>
+                <fail message="OC4J is not running!!! Please start OC4J and try binding the war again"/>
+            </else>   
+         </if>
+    </target>
+
+    <target name="oc4j__bind-ear-web-modules"
+        depends="-init_oc4j_properties">
+
+        <if>
+            <socket server="${oc4j.check.server}"
+                port="${oc4j.check.port}" />
+            <then>   
+            <java description="Binds (HTTPS) the sups-invoker-${applications_name}.war file to /${application.name}_invoker, this application holds the AJAX Servlet"
+                fork="true" dir="${oc4j.home.dir}"
+                jar="${oc4j.home.dir}/j2ee/home/admin.jar">
+                <arg value="${oc4j.admin.url}" />
+                <arg value="admin" />
+                <arg value="${oc4j.admin.password}" />
+                <arg value="-bindWebApp" />
+                <arg value="${application.name}_server" />
+                <arg value="sups-invoker-${application.name}" />
+                <arg value="${ocj4.https.site}" />
+                <arg value="/${application.name}_invoker" />
+            </java>
+            <java description="Binds (HTTP) the sups-invoker-${applications_name}.war file to the secure website as the invoker servlet requires login to be SSL /${application.name}_invoker, this application holds the AJAX Servlet"
+                fork="true" dir="${oc4j.home.dir}"
+                jar="${oc4j.home.dir}/j2ee/home/admin.jar">
+                <arg value="${oc4j.admin.url}" />
+                <arg value="admin" />
+                <arg value="${oc4j.admin.password}" />
+                <arg value="-bindWebApp" />
+                <arg value="${application.name}_server" />
+                <arg value="sups-invoker-${application.name}" />
+                <arg value="${ocj4.http.site}" />
+                <arg value="/${application.name}_invoker" />
+            </java>        
+            <java description="Binds the sups-content-${applications_name}.war file to /${application.name}_content"
+                fork="true" dir="${oc4j.home.dir}"
+                jar="${oc4j.home.dir}/j2ee/home/admin.jar">
+                <arg value="${oc4j.admin.url}" />
+                <arg value="admin" />
+                <arg value="${oc4j.admin.password}" />
+                <arg value="-bindWebApp" />
+                <arg value="${application.name}_server" />
+                <arg value="sups-content-${application.name}" />
+                <arg value="${ocj4.http.site}" />
+                <arg value="/${application.name}_content" />
+            </java>           
+            <!--  the applications should not deploy or work with the web services anymore -->
+            <if>
+            	<isset property="create.web.services"/>
+            	<then>
+	            <java description="Binds the WebserviceAssmbler web application for the OASURLBuilder. This is a legacy webservice but is there to cater for non refactored JUnit tests"
+	                fork="true" dir="${oc4j.home.dir}"
+	                jar="${oc4j.home.dir}/j2ee/home/admin.jar">
+	                <arg value="${oc4j.admin.url}" />
+	                <arg value="admin" />
+	                <arg value="${oc4j.admin.password}" />
+	                <arg value="-bindWebApp" />
+	                <arg value="${application.name}_server" />
+	                <arg value="${application.name}_web" />
+	                <arg value="${ocj4.http.site}" />
+	                <arg value="/${application.name}_server" />
+	            </java>
+	            </then>
+            </if>
+            </then>   
+           <else>
+               <fail message="OC4J is not running!!! Please start OC4J and try binding the war again"/>
+           </else>   
+        </if>
+   
+    </target>
+
+ 
+    <target name="oc4j__start" 
+        depends="-init_oc4j_properties"
+        description="deploy to OC4J if that is where we are deploying to">
+        <if>
+            <not>
+                <socket server="${oc4j.check.server}"
+                    port="${oc4j.check.port}" />
+            </not>
+            <then>
+                <java fork="true" dir="${oc4j.home.dir}/j2ee/home"
+                    jar="${oc4j.home.dir}/j2ee/home/oc4j.jar">
+                    <jvmarg
+                        value="${oc4j.xbootclasspath}" />
+                </java>
+            </then>
+        </if>
+    </target>
+
+    <target name="oc4j__stop" depends="-init_oc4j_properties"      
+        description="will stop any oc4j running on ormi port 23791">
+  
+        <if>
+            <socket server="${oc4j.check.server}"
+                port="${oc4j.check.port}" />
+            <then>  
+                <java fork="true" dir="${oc4j.home.dir}/j2ee/home"
+                    jar="${oc4j.home.dir}/j2ee/home/admin.jar">
+                    <arg value="${oc4j.admin.url}" />
+                    <arg value="admin" />
+                    <arg value="${oc4j.admin.password}" />
+                    <arg value="-shutdown" />
+                    <jvmarg
+                        value="${oc4j.xbootclasspath}" />
+                </java>
+            </then>   
+            <else>
+                <echo message="No listeners on port ${oc4j.check.port}"/>
+            </else>   
+        </if>      
+    </target>
+   
+    <target name="oc4j__debug" depends="-init_oc4j_properties">
+        <if>
+            <not>   
+            <socket server="${oc4j.check.server}"
+                port="${oc4j.check.port}" />
+            </not>
+            <then>  
+                <java fork="true" dir="${oc4j.home.dir}/j2ee/home"
+                    jar="${oc4j.home.dir}/j2ee/home/oc4j.jar">
+                    <jvmarg
+                        value="${oc4j.xbootclasspath}" />
+                    <jvmarg value="-Xdebug" />
+                    <jvmarg value="${debug.socket}" />
+                </java>
+            </then>   
+            <else>
+                <fail message="OC4J is already running!!! Please stop OC4J and try start debug session again"/>
+            </else>   
+        </if>      
+    </target>
+    
+    <target name="oc4j__install" depends="-init_oc4j_properties">
+        <description>
+            [Target] oc4j__install
+                Provides the user the ability to configure their oc4j.properties file within their application_base
+                
+                a properties file with the following entries will be created
+                                
+                oc4j.home.dir=d:/eclipse/workspace/tools/extracted/oc4j-9.0.4
+                oc4j.admin.password=oracle
+    
+                framework.release=D:/eclipse/workspace/XMLQuery2_HEAD/build/release
+    
+                debug.socket=-Xrunjdwp:transport=dt_socket,address=8787,server=y,suspend=y
+    
+                oc4j.check.server=localhost
+                oc4j.check.port=7070
+    
+                oc4j.secure.port=7443
+    
+                ocj4.https.site=sups-secure-web-site
+                ocj4.http.site=sups-http-web-site
+    
+                oc4j.admin.url=ormi://localhost:23791            
+        </description>
+        
+        <taskdef resource="net/sf/antcontrib/antcontrib.properties">
+            <classpath>
+                <pathelement location="${framework.release}/lib/ant-contrib/ant-contrib-1.0b1.jar" />
+            </classpath>
+        </taskdef>
+            
+        <input message="Install OC4J in: " addproperty="oc4j-install.home.dir" defaultvalue="c:/"/>            
+            
+        <property name="ocj4-install.https.site" value="sups-https-web-site"/>                                
+        <property name="ocj4-install.http.site" value="sups-http-web-site"/>
+        <property name="oc4j-install.admin.password" value="oracle"/>
+        <property name="oc4j-install.debug.socket" value="-Xrunjdwp:transport=dt_socket,address=8787,server=y,suspend=y"/>
+        <property name="oc4j-install.check.server" value="localhost"/>
+        
+        <input message="Path to Framework Release directory [Default: ${basedir}]" 
+            addproperty="oc4j-install.framework.release" 
+            defaultvalue="${basedir}"/>
+        <input message="OC4J HTTP Port: [Default: 7070]" 
+            addproperty="oc4j-install.check.port" 
+            defaultvalue="7070"/>
+        <input message="OC4J HTTPS/SSL Port: [Default: 7443]" 
+            addproperty="oc4j-install.secure.port" 
+            defaultvalue="7443"/>
+
+        <property name="oc4j-install.admin.url" value="ormi://localhost:23791"/>
+        <property name="oc4j.debug.socket" value="-Xrunjdwp:transport=dt_socket,address=${oc4j-install.debug.socket},server=y,suspend=${oc4j-install.debug.suspend}"/>
+            
+        <echo>OC4J installation properties:</echo>
+        <echo>${oc4j-install.home.dir}/oc4j-9.0.4</echo>
+        <echo>${oc4j-install.admin.password}</echo>
+        <echo>${oc4j-install.framework.release}</echo>
+        <echo>${oc4j-install.debug.socket}</echo>
+        <echo>${oc4j-install.check.server}</echo>
+        <echo>${oc4j-install.check.port}</echo>
+        <echo>${oc4j-install.secure.port}</echo>
+        <echo>${ocj4-install.https.site}</echo>
+        <echo>${ocj4-install.http.site}</echo>
+        <echo>${oc4j-install.admin.url}</echo>
+        
+        <propertyfile file="${application_base}/oc4j.properties">            
+            <entry key="oc4j.home.dir" value="${oc4j-install.home.dir}/oc4j-9.0.4"/>
+            <entry key="oc4j.admin.password" value="${oc4j-install.admin.password}"/>
+            <entry key="framework.release" value="${oc4j-install.framework.release}"/>
+            <entry key="debug.socket" value="${oc4j.debug.socket}"/>
+            <entry key="oc4j.check.server" value="${oc4j-install.check.server}"/>
+            <entry key="oc4j.check.port" value="${oc4j-install.check.port}"/>
+            <entry key="oc4j.secure.port" value="${oc4j-install.secure.port}"/>
+            <entry key="ocj4.https.site" value="${ocj4-install.https.site}"/>
+            <entry key="ocj4.http.site" value="${ocj4-install.http.site}"/>
+            <entry key="oc4j.admin.url" value="${oc4j-install.admin.url}"/>
+        </propertyfile>   
+    </target>
+
+    
+    <macrodef name="macro__private-undeploy-OC4J-ear">
+        <attribute name="deployment-name" />           
+        <sequential>
+            <if>
+                <socket server="${oc4j-check-server}"
+                    port="${oc4j-check-port}" />
+                <then>
+                    <!-- deploy to OC4J if that is where we are deploying to -->
+                    <java fork="true" dir="${oc4j_home_dir}"
+                        jar="${oc4j_home_dir}/j2ee/home/admin.jar">
+                        <arg value="${oc4j_ormi_admin_url}" />
+                        <arg value="admin" />
+                        <arg value="${oc4j_admin_password}" />
+                        <arg value="-undeploy" />
+                        <arg value="@{deployment-name}" />
+                    </java>
+                </then>
+                <else>
+                    <fail message="OC4J is not running!!! Please start OC4J and try undeploying again"/>
+                </else>
+            </if>
+        </sequential>
+    </macrodef>
+
+    
+</project>

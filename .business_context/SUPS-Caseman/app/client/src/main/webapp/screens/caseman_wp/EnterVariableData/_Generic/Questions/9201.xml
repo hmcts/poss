@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>9201</Id>
+	<Label>Payable order number</Label>
+	<ObjectName>PayableOrderNumber</ObjectName>
+	<Html>	
+		<input type="text" size="10" id="PayableOrderNumber"></input>
+	</Html>			
+	<Javascript>
+		<XPath>/ds/EnterVariableData/payableOrderNumber</XPath>
+		<HintText>Enter the number of the payable order</HintText>
+        
+        <Context ScreenId="L_6_1_2_3_4_7">
+     
+            <mandatoryOn>EnquiryAbout.dataBinding</mandatoryOn>
+             <isMandatory>return return9201();</isMandatory>
+             <enableOn>EnquiryAbout.dataBinding</enableOn>
+             <isEnabled>return return9201();</isEnabled>
+             <logicOn>EnquiryAbout.dataBinding</logicOn>
+                <logic>if(!return9201())
+                    {
+                        Services.setValue(PayableOrderNumber.dataBinding, "");
+                    }
+                </logic>
+                <miscCode>
+                    function return9201(){
+                        var n9201 = false;
+                        if(
+                                EnquiryAbout.isEnabled()
+                        ){
+                            n9201 = true;
+                        }
+                        return n9201;
+                    }
+                </miscCode>
+            
+        </Context>
+		
+		
+	</Javascript>		
+</Question>

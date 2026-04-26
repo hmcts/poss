@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: Case
+	Method:  getCaseJurisdiction
+	Author:  Chris Vincent 
+	Created: 03 July 2014
+	Description: 
+		Use SQLLite to return the jurisdiction based upon the case type of the case
+-->
+<service-method>
+	<pipeline>
+		<SQLLite format-output="true" 
+				 resultset-element="ds"
+				 row-element="Case" 
+				 field-name-as="element">
+			<DataSource id="java:OracleDS"/>
+			<Param name="param.caseNumber" xpath="/params/param[@name = 'caseNumber']"/>
+			<SQL>
+				SELECT REF.RV_IIT_CODE_1 AS "Jurisdiction"
+				FROM CCBC_REF_CODES REF, CASES C
+				WHERE C.CASE_NUMBER = ${param.caseNumber}
+				AND REF.RV_LOW_VALUE = C.CASE_TYPE 
+				AND (REF.RV_DOMAIN = 'CURRENT_CASE_TYPE' OR REF.RV_DOMAIN = 'CASE_TYPE_OBSOLETE_BY_IIT')
+			</SQL>
+		</SQLLite>
+	</pipeline>
+	<Security roles="viewOnly medium high wcSuper scSuper bmsSuper aeSuper dmSuper cpSuper ccbcMan ccbcUser ccbcSGB2"/>
+</service-method>

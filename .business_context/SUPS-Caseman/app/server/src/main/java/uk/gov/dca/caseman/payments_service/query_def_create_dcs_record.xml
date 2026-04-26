@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: Payments
+	Method: createDcsRecord()
+	File: query_def_create_dcs_record.xml
+	Author: Steve Blair
+-->
+<QueryDef>
+	<DBMapDef location="uk/gov/dca/caseman/payments_service/map_dcs_record.xml" />
+	<Query pivotNode="/DCSData" tables="DCS">
+		<Modify />
+	</Query>
+</QueryDef>

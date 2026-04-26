@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Question>
+	<Id>865</Id>
+	<Label></Label>
+	<ObjectName>PossessAdLine4</ObjectName>
+	<Html>
+		<input id="PossessAdLine4" type="text" size="50"></input>
+	</Html>
+	<Javascript>
+		<XPath>/ds/EnterVariableData/Possession/Address/Line[4]</XPath>
+		<componentName>Possession Address Line 4</componentName>
+		<HintText>Enter the fourth line of the possession address</HintText>		
+		<isMandatory>return false;</isMandatory>
+		<isReadOnly>if (null != WP &amp;&amp; null != WP.GetScreenProcess &amp;&amp; null != WP.GetScreenProcess()) { 
+				var localNumber = WPU.getValue("/params/param[@name='xml']/ds/Warrant/LocalNumber");
+				if (localNumber == "" || localNumber == null) return true; }</isReadOnly>		
+		<mandatoryOn>PossessAdLine4.dataBinding</mandatoryOn>
+		<initialise>
+			var partyAgainstNumber = WPU.getValue("/params/param[@name='xml']/WarrantReturn/PartyAgainstNumber");
+			var def1Addr4 = WPU.getValue("/params/param[@name='xml']/ds/Warrant/Defendant1/Address/Line[4]");
+			var def2Addr4 = WPU.getValue("/params/param[@name='xml']/ds/Warrant/Defendant2/Address/Line[4]");
+			var partyAgainstAddr4 = "";
+			if(partyAgainstNumber == 1) {
+				partyAgainstAddr4 = def1Addr4;
+			} else {
+				partyAgainstAddr4 = def2Addr4; }
+			var otherPossessAddr4 = WPU.getValue("/params/param[@name='xml']/ds/ManageCase/OtherPossessionAddress/Address/Line[4]");
+			var possessAddr4 = "";
+			if(otherPossessAddr4 != "") {
+				possessAddr4 = otherPossessAddr4;
+			} else {
+				possessAddr4 = partyAgainstAddr4; }
+			Services.setValue(PossessAdLine4.dataBinding, possessAddr4); 
+		</initialise>		
+	</Javascript>
+</Question>		

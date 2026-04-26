@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>824</Id>
+	<Label>Date for fine</Label>
+	<ObjectName>EnterFineDate</ObjectName>
+	<Html>
+	  <script type="text/javascript">WP_DatePickerRenderer.createInline("EnterFineDate", false);</script>
+	</Html>
+	<Javascript>
+		<XPath>/ds/EnterVariableData/EnterFineDate</XPath>
+		<componentName>##label##</componentName>
+		<HintText>Enter Date by which the fine must be paid in the format DD-MMM-YYYY</HintText>
+		<isMandatory>return true;</isMandatory>
+		<mandatoryOn>EnterFineDate.dataBinding</mandatoryOn>
+		<validateOn>EnterFineDate.dataBinding</validateOn>
+		<validate>
+			return isWorkingDayInFuture(Services.getValue(EnterFineDate.dataBinding));	
+		</validate>
+		<miscCode>
+			EnterFineDate.weekends = false;
+		</miscCode>
+		<initialise>
+		  	loadNonWorkingDays();
+		</initialise>
+		<Context ScreenId="CO24">
+			<enableOn>FineOrPrison.dataBinding</enableOn>
+			<isEnabled>
+				var v1 = Services.getValue(FineOrPrison.dataBinding);
+				return (v1 == 'FINE');
+			</isEnabled>
+			<logicOn>FineOrPrison.dataBinding</logicOn>
+			<logic>
+				var v1 = Services.getValue(FineOrPrison.dataBinding);
+				if(v1 != 'FINE')
+				{	Services.setValue(EnterFineAmount.dataBinding, "");
+				}
+			</logic>
+		</Context>
+		
+	</Javascript>
+</Question>

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<service-method>
+	<pipeline>
+		<LinkedQuery>
+			<QueryDef location="uk/gov/dca/test_project/linked_service/court_query_def.xml"/>
+			<QueryExtension pivotNode="/Courts/Court" tables="UC">
+				<Table alias="UC" name="USER_COURT"/>
+				<Param name="param.userId" xpath="/params/param[@name='userId']"/>
+				<Constraint>
+					UC.USER_ID = ${param.userId} 
+					AND UC.COURT_CODE = C.COURT_CODE
+				</Constraint>
+			</QueryExtension>
+		</LinkedQuery>
+	</pipeline>
+	<Security roles="user"/>
+</service-method>

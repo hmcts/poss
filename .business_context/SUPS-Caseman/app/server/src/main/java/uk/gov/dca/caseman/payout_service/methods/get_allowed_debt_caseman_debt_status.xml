@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: Payout
+	Method:  getAllowedDebts()
+	File:    get_allowed_debt_caseman_debt_status.xml
+	Author:  Anthony Bonnar
+	Created: 9th March 2006
+	Description: 
+
+-->
+<service-method>
+	<pipeline>
+		<SQLLite format-output="true"
+				 resultset-element="ds"
+				 row-element="allowedDebt"
+				 field-name-as="element" >
+			<DataSource id="java:OracleDS"/>
+				<Param name="param.adminCourtCode" xpath="/params/param[@name='adminCourtCode']"/>
+				<Param name="param.coNumber"       xpath="/params/param[@name='coNumber']"/>
+			<SQL>
+			    SELECT 	AD.DEBT_SEQ 			AS "caseManDebt"
+				FROM   	ALLOWED_DEBTS AD
+				WHERE  AD.DEBT_CO_NUMBER        = ${param.coNumber}
+				AND    AD.DEBT_ADMIN_COURT_CODE = ${param.adminCourtCode}
+
+			</SQL>
+		</SQLLite>
+	</pipeline>
+	<Security roles="viewOnly medium high wcSuper scSuper bmsSuper aeSuper dmSuper edsAdmin"/>	
+</service-method>

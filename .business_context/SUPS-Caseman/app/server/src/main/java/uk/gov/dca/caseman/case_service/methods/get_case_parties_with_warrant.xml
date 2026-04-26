@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: Case
+	Method:  getCasePartieswithwarrant()
+	Author:  Chris Hutt (EDS) 
+	Created: 15 nov 2005
+	Description: 
+		Use SQLLite to retrieve a list of case parties against whom a warrant exists.
+-->
+<service-method>
+	<pipeline>
+		<SQLLite format-output="true"
+				 resultset-element="Parties"
+				 row-element="Party"
+				 field-name-as="element" >
+			<DataSource id="java:OracleDS"/>
+			<Param name="param.caseNumber" xpath="/params/param[@name='caseNumber']"/>
+			<SQL>
+				SELECT
+  						P.PERSON_REQUESTED_NAME 							AS "Name"
+ 					,  	CPR.CASE_PARTY_NO 									AS "CasePartyNumber"
+ 					,  	CPR.PARTY_ROLE_CODE 								AS "PartyRoleCode"
+ 					,  	CPR.PARTY_ROLE_CODE || '_' || CPR.CASE_PARTY_NO 	AS "PartyKey"
+				FROM 
+						CASE_PARTY_ROLES CPR
+					, 	WARRANTS W
+					, 	PARTIES P
+				WHERE
+						CPR.CASE_NUMBER =  ${param.caseNumber}
+					AND P.PARTY_ID = CPR.PARTY_ID
+					AND (
+							(  		W.CASE_NUMBER 			=  CPR.CASE_NUMBER
+        						AND W.DEF1_PARTY_ROLE_CODE 	= CPR.PARTY_ROLE_CODE
+ 								AND W.DEF1_CASE_PARTY_NO 	= CPR.CASE_PARTY_NO
+    						) 
+    							OR 
+    						(  		W.CASE_NUMBER 			=  CPR.CASE_NUMBER
+        						AND W.DEF2_PARTY_ROLE_CODE 	= CPR.PARTY_ROLE_CODE
+ 								AND W.DEF2_CASE_PARTY_NO 	= CPR.CASE_PARTY_NO
+    						)
+    					)
+				GROUP BY 
+						P.PERSON_REQUESTED_NAME
+					, 	CPR.CASE_PARTY_NO
+					,  	CPR.PARTY_ROLE_CODE
+			</SQL>
+		</SQLLite>
+  	</pipeline>
+	<Security roles="user"/>
+</service-method>

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>9170</Id>
+	<Label>Details of supporting or opposing creditors (if applicable)</Label>
+	<ObjectName>SupportCreditorsDet</ObjectName>	
+		
+	<Html>	
+		<textarea id="SupportCreditorsDet" cols="40" rows="6"></textarea>
+	</Html>
+	
+	<Javascript>
+		<XPath>/ds/EnterVariableData/supportCreditorsDet</XPath>
+		<HintText>Enter details of supporting or opposing creditors</HintText>
+		<isEnabled>return true</isEnabled>
+		<isMandatory>return false;</isMandatory>
+		<transformToModel>return WPU.encodeLineBreaks( this, value );</transformToModel>
+		<transformToDisplay>return WPU.decodeLineBreaks( this, value );</transformToDisplay>      		
+	</Javascript>
+</Question>

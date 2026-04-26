@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Change History:
+	16-Feb-2010 - Chris Vincent.  Added Context Nodes for the outputs CJR023A and CJR023C as part of Trac 1923.
+-->
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>119</Id>
+	<Label>Listing or Re-listing?</Label>
+	<ObjectName>Listing</ObjectName>
+	<Html>		
+		<select id="Listing">
+			<option value=""></option>
+			<option value="LST">Listing</option>
+			<option value="RELST">Re-listing</option>
+		</select>
+	</Html>
+	<Javascript>
+		<XPath>/ds/EnterVariableData/TrialNotice/listing</XPath>
+		<HintText>Select a listing type - list available</HintText>
+		<isMandatory>return true;</isMandatory>
+		
+		<Context ScreenId="CJR024">
+			<HintText>Select a listing type</HintText>
+			<enableOn>HearingType2.dataBinding</enableOn>
+			<isEnabled>
+				var val = Services.getValue(HearingType2.dataBinding);
+				return( val == 'DISPOSAL/ASSESSMENT' || val == 'FAST TRACK' || val == 'MULTI TRACK' );
+			</isEnabled>
+			<logicOn>HearingType2.dataBinding</logicOn>
+			<logic>
+				var val = Services.getValue(HearingType2.dataBinding);
+				if( val != 'DISPOSAL/ASSESSMENT' &amp;&amp; val != 'FAST TRACK' &amp;&amp; val != 'MULTI TRACK' )
+				{	Services.setValue(Listing.dataBinding, "");
+				}
+			</logic>
+		</Context>
+		
+		<Context ScreenId="CJR023A">
+			<isReadOnly>return true;</isReadOnly>
+			<enableOn>HearingDateReqd.dataBinding</enableOn>
+			<isEnabled>
+				var val = Services.getValue(HearingDateReqd.dataBinding);
+				return ( val == "Y" );
+			</isEnabled>
+			<logicOn>HearingDateReqd.dataBinding</logicOn>
+			<logic>
+				var val = Services.getValue(HearingDateReqd.dataBinding);
+				if ( val == "Y" )
+				{	
+					Services.setValue(Listing.dataBinding, "LST");
+				}
+				else
+				{
+					Services.setValue(Listing.dataBinding, "");
+				}
+			</logic>
+		</Context>
+		
+		<Context ScreenId="CJR023C">
+			<isReadOnly>return true;</isReadOnly>
+			<enableOn>HearingDateReqd.dataBinding</enableOn>
+			<isEnabled>
+				var val = Services.getValue(HearingDateReqd.dataBinding);
+				return ( val == "Y" );
+			</isEnabled>
+			<logicOn>HearingDateReqd.dataBinding</logicOn>
+			<logic>
+				var val = Services.getValue(HearingDateReqd.dataBinding);
+				if ( val == "Y" )
+				{	
+					Services.setValue(Listing.dataBinding, "LST");
+				}
+				else
+				{
+					Services.setValue(Listing.dataBinding, "");
+				}
+			</logic>
+		</Context>
+	</Javascript>
+</Question>

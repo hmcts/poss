@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Question>
+	<Id>364</Id>
+	<Label>Party seeking this order</Label>
+	<ObjectName>PartySeekingOrder</ObjectName>
+	<Html>
+		<script type="text/javascript">Grid.createInline("PartySeekingOrder", ["Party Type", "Number"] , 2, 1);</script>
+	</Html>
+	<Javascript>
+		<XPath>/ds/EnterVariableData/ASBO/partySeekingOrder</XPath>		
+		<HintText>Select who has applied for this order</HintText>		
+		<isMandatory>return true;</isMandatory>	
+		<initialise>
+			WPU.addOtherLitigiousParty("Applicant", "APPLICANT");						
+		</initialise>
+		<miscCode>		 
+			PartySeekingOrder.srcData = DATA_XPATH + "/Parties";
+			PartySeekingOrder.rowXPath = "LitigiousParty[./TypeCode = '" + CMC.PartyTypeCodesEnum.CLAIMANT + "' or ./TypeCode = '" + CMC.PartyTypeCodesEnum.DEFENDANT + "']";
+			PartySeekingOrder.keyXPath = "PartyId";
+			PartySeekingOrder.columns = [
+				{xpath: "Type"},
+				{xpath: "Number", sort: "numerical", defaultSort:"true", defaultSortOrder:"ascending"}			
+			];
+			PartySeekingOrder.multipleSelection = false;			
+		</miscCode>	
+	</Javascript>
+</Question>

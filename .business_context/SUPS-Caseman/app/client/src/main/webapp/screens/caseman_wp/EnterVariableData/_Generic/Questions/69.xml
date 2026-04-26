@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>69</Id>
+	<Label>Reason for preliminary hearing</Label>
+	<ObjectName>PreliminaryHearingReason</ObjectName>
+	<Html>
+	  <select id="PreliminaryHearingReason">
+	    <option value=""></option>
+	    <option value="DIS">To consider disposing of case</option>
+	    <option value="SD">Special directions are needed</option>
+	  </select>
+	</Html>
+	<Javascript>
+		<XPath>/ds/EnterVariableData/PreliminaryHearing/reason</XPath>
+		<isMandatory>return true;</isMandatory>
+		<mandatoryOn>PreliminaryHearingReason.dataBinding</mandatoryOn>	
+		<HintText>Select reason for preliminary hearing</HintText>
+	</Javascript>
+</Question>

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--Question xmlns="http://eds.com/questionxhtml" xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd"-->
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>Q_YesOrNo</Id>
+	<Label>Click on Run Report Button to Print This Report.</Label>
+	<ObjectName>YesOrNo</ObjectName>
+	<IsQuestion>N</IsQuestion>
+	<Html>
+	</Html>
+	<Javascript>
+		<XPath>/ds/var/page/OracleReportForm/YesOrNo</XPath>
+		<ReportVariableName>YES_OR_NO</ReportVariableName>
+		<ReportVariableValue>"Y"</ReportVariableValue>
+		<miscCode>
+			Status_RunReportButton.validationList = [];
+		</miscCode>
+	</Javascript>
+</Question>

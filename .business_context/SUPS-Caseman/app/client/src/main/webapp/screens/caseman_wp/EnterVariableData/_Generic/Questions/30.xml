@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>30</Id>
+	<Label>Document</Label>
+	<ObjectName>Document</ObjectName>
+	<Html>	
+	    <select id="Document" >
+	      <option value=""></option>
+	      <option value="CF">Claim Form</option>
+	      <option value="CFPC">Claim Form and Particulars of Claim</option>
+	      <option value="PC">Particulars of Claim</option>  
+	      <option value="OTH">Other</option>
+	    </select>			
+	</Html>
+	<Javascript>
+		<XPath>/ds/EnterVariableData/Document</XPath>
+		<componentName>##label##</componentName>
+		<HintText>Which document is service to be dispensed with?</HintText>
+		<isMandatory>return true;</isMandatory>	
+		<mandatoryOn>Document.dataBinding</mandatoryOn>	
+	</Javascript>
+</Question>

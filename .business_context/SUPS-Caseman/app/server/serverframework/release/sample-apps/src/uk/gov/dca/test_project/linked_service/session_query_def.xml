@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<QueryDef>
+	<DBMapDef location="uk/gov/dca/test_project/linked_service/session_map.xml"/>
+	<Tables>
+		<Table alias="HP" name="HEARINGTYPE_POLICY" />
+		<Table alias="CJ" name="COURTSESSION_JUDGE" />
+	</Tables>
+	
+	<!-- 
+	The master root node of the linked queries for the 
+	cases service
+	 -->
+	<Query pivotNode="/Sessions/Session" tables="C">
+		<LinkedJoin key="C.ID" type="root">
+			<Join/>
+		</LinkedJoin>
+		<Modify>
+		  <CheckExists table="C" fields="ID" onExist="delete" onNotExist="add"/>
+		</Modify>
+	</Query>
+	
+	<!-- 
+	This node is a sub linked join.  Meaning that its join will absorbed by
+	the any parent query.
+	 -->
+	<Query pivotNode="/Sessions/Session/Judges/Judge" tables="CJ J">
+		<LinkedJoin key="J.ID" type="sub">
+			<Parent key="C.ID" tables="C"/>
+			<Join>
+				CJ.COURTSESSION_ID = C.ID AND
+				CJ.JUDGE_ID = J.ID
+			</Join>
+		</LinkedJoin>
+		<Modify>
+		  <Field name="CJ.COURTSESSION_ID" property="C.ID"/>
+		  <CheckExists table="CJ" fields="COURTSESSION_ID" onExist="delete" onNotExist="add"/>
+		  <CheckExists table="J" fields="ID"/>
+		</Modify>
+	</Query>
+
+	<!-- 
+	This is parent query meaning that it must contain a join that will link it to the key fields
+	of the root and any parent pivot nodes.
+	-->
+	<Query pivotNode="/Sessions/Session/Policy" tables="P">
+		<LinkedJoin key="P.ID" type="query">
+			<Parent key="C.ID" tables="C"/>
+			<Join>
+				P.ID = C.POLICY_ID
+			</Join>
+		</LinkedJoin>
+        <Modify>
+		  <CheckExists table="P" fields="ID" onExist="delete" onNotExist="add"/>
+		</Modify>
+	</Query>
+	
+	<Query pivotNode="/Sessions/Session/Policy/HearingTypes/HearingType" tables="H HP">
+		<LinkedJoin key="H.ID" type="sub">
+			<Parent key="C.ID" tables="C"/>
+			<Parent key="P.ID" tables="P"/>
+			<Join>
+				HP.HEARINGTYPE_ID = H.ID AND
+				HP.POLICY_ID = P.ID
+			</Join>
+		</LinkedJoin>
+		<Modify>
+		  <Field name="HP.POLICY_ID" property="P.ID"/>
+		  <CheckExists table="HP" fields="POLICY_ID" onExist="delete" onNotExist="add"/>
+		  <CheckExists table="H" fields="ID" onExist="skip" onNotExist="add"/>
+		</Modify>
+	</Query>
+	
+
+</QueryDef>

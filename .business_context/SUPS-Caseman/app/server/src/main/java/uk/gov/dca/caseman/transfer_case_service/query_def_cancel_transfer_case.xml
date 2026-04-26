@@ -1,0 +1,30 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: TransferCase 
+	Method:  cancelTransferCase()
+	File:    query_def_cancel_transfer_case.xml
+	Author:  Phil Haferer (EDS)
+	Created: 27 July 2005
+	Description: 
+		'Query Def' for cancelling the transfer a case.
+		
+	Change History:
+	09-Mar-2006 Phil Haferer: Added Field tag to clear the TRANS_CASE_TYPE column, in response to 
+	            TD 2485: "Transfer Case Type is not cleared when cancel a case transfer".
+-->
+<QueryDef>
+  <DBMapDef location="uk/gov/dca/caseman/transfer_case_service/map_cancel_transfer_case.xml"/>
+  <Query pivotNode="/TransferCase" tables="C">
+	<Join/>
+    <Modify>
+		<Field name="C.TRANS_CRT_CODE"      value=""/>
+		<Field name="C.DATE_OF_TRANSFER"    value=""/>
+		<Field name="C.STATUS"              value=""/>
+		<Field name="C.TRANSFER_REASON"     value=""/>
+		<Field name="C.DATE_TRANSFERRED_IN" value=""/>
+		<Field name="C.TRANSFER_STATUS"     value=""/>
+		<Field name="C.XFER_RECEIPT_DATE"   value=""/>
+        <Field name="C.TRANS_CASE_TYPE"     value=""/>
+    </Modify>
+  </Query>
+</QueryDef>

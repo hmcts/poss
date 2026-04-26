@@ -1,0 +1,54 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: Codedparty
+	Method:  getAllCodedPartiesShortNew()
+	File:    getAllCodedPartiesShortNew.xml
+	Author:  Chris Vincent
+	Created: 12/07/2006
+	Description: 
+		Retrieves a list of Coded Parties based on a wildcard search on name and an admin court code
+	    as well as national coded parties in the range 1500-1999 which are on court 335.
+
+	Change History:
+	13-Jul-2006 Phil Haferer: Modified to use the copy of the name in CODED_PARTIES table for the 
+	            wildcard search to improve performance.
+	            (TD 3949: Performance: Wildcard search on Coded Party name).
+	20/09/2011 - Chris Vincent, added search for CCBC National Coded Parties in range 7000-9999.  Trac 4553.
+-->
+<service-method>
+	<pipeline>
+		<Query>
+  			<QueryDef location="uk/gov/dca/caseman/codedparty_service/query_def_short_new.xml"/>
+		  	<QueryExtension pivotNode="/CodedParties/CodedParty">				
+				<Param name="param.adminCourtCode" xpath="/params/param[@name = 'adminCourtCode']"/>
+				<Param name="param.partyName" xpath="/params/param[@name = 'partyName']"/>
+				<Param name="param.pageNumber" xpath="/params/param[@name = 'pageNumber']"/>		
+				<Param name="param.pageSize" xpath="/params/param[@name = 'pageSize']"/>				
+
+				<Paged pageNumber="${param.pageNumber}" pageSize="${param.pageSize}"/>																													
+				<OrderBy>CP.CODE</OrderBy>
+				<Constraint>
+					( 
+						( 
+							CP.ADMIN_COURT_CODE = ${param.adminCourtCode} OR
+							CP.ADMIN_COURT_CODE = 0 OR
+							( 
+								CP.ADMIN_COURT_CODE = 335 AND 
+								CP.CODE BETWEEN 1500 AND 1999 
+							) OR
+							( 
+								CP.ADMIN_COURT_CODE = 335 AND 
+								CP.CODE BETWEEN 7000 AND 9999 
+							)
+						) AND
+						( 
+							${param.partyName} IS NULL OR 
+							CP.PERSON_REQUESTED_NAME LIKE UPPER( ${param.partyName} ) 
+						)
+					)
+				</Constraint>
+			</QueryExtension>		
+		</Query>
+  	</pipeline>
+	<Security roles="medium high wcSuper scSuper bmsSuper aeSuper dmSuper cpSuper"/>
+</service-method>

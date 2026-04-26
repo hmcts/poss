@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: Payments
+	Method: getPaymentSystemData()
+	File: query_def_payment_system_data.xml
+	Author: Steve Blair
+-->
+<QueryDef>
+	<DBMapDef location="uk/gov/dca/caseman/payments_service/map_payment_system_data.xml" />
+	<Query pivotNode="/SystemData/Item" tables="S">
+		<Modify notModifiable="true" />
+	</Query>
+</QueryDef>

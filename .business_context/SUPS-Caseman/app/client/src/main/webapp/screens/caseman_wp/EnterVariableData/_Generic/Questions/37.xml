@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>37</Id>
+	<Label>Judge's title</Label>
+	<ObjectName>JudgeTitle</ObjectName>
+	<Html>
+		<select id="JudgeTitle" >
+			<option value=""></option>			
+			<option value="Circuit Judge">Circuit Judge</option>
+			<option value="Deputy Circuit Judge">Deputy Circuit Judge</option>
+			<option value="District Judge">District Judge</option>
+			<option value="Deputy District Judge">Deputy District Judge</option>
+			<option value="Her Honour Judge">Her Honour Judge</option>
+			<option value="His Honour Judge">His Honour Judge</option>
+			<option value="Mr Justice">Mr Justice (High Court Judge)</option>
+			<option value="Mrs Justice">Mrs Justice (High Court Judge)</option>
+			<option value="Recorder">Recorder</option>
+	</select>				
+	</Html>
+	<Context screenId="CJR082">
+		<isVisible>true</isVisible>
+		<Label>Judge’s title at N79A</Label>
+	</Context>
+	
+	<Javascript>
+		<XPath>/ds/EnterVariableData/JudgeTitle</XPath>
+		<HintText>Select the Judge's title</HintText>
+		<isMandatory>return true;</isMandatory>
+		<mandatoryOn>JudgeTitle.dataBinding</mandatoryOn>
+		
+		<Context ScreenId="CJR028">
+		  <enableOn>DirectionsGiven.dataBinding</enableOn>
+		  <isEnabled>return( 'Y' == Services.getValue(DirectionsGiven.dataBinding));</isEnabled>
+		  <logicOn>DirectionsGiven.dataBinding</logicOn>
+		  <logic>
+		  	if( 'Y' != Services.getValue(DirectionsGiven.dataBinding))
+		  	{	Services.setValue(JudgeTitle.dataBinding, "");
+		  	}
+		  </logic>
+		</Context>
+		
+		<Context ScreenId="CJR065">
+		  <isMandatory>
+		  	var eventid= Services.getValue("/ds/var/app/WPData/WordProcessing/Event/StandardEventId");
+		  	if(185 == eventid)
+		  	{
+		  		return false;
+		  	}
+		  	else
+		  	{
+		  		return true;
+		  	}
+		  </isMandatory>
+		  <mandatoryOn></mandatoryOn>
+		</Context>
+		
+		<Context ScreenId="CJR065C">
+		  <isMandatory>
+		  	var eventid= Services.getValue("/ds/var/app/WPData/WordProcessing/Event/StandardEventId");
+		  	if(185 == eventid)
+		  	{
+		  		return false;
+		  	}
+		  	else
+		  	{
+		  		return true;
+		  	}
+		  </isMandatory>
+		  <mandatoryOn></mandatoryOn>
+		</Context>
+		
+		<Context ScreenId="CJR080">
+			<enableOn>WhoConsidApp.dataBinding</enableOn>
+			<isEnabled>return('J' == Services.getValue(WhoConsidApp.dataBinding));</isEnabled>
+			<logicOn>WhoConsidApp.dataBinding</logicOn>
+			<logic>
+				if('J' != Services.getValue(WhoConsidApp.dataBinding))
+				{	Services.setValue(JudgeTitle.dataBinding, "");
+				}
+			</logic>
+		</Context>
+		
+		<Context ScreenId="CJR083">
+			<enableOn>IsNewN79AsReqd.dataBinding</enableOn>
+			<isEnabled>
+				if(IsNewN79AsReqd.isEnabled())
+				{  	if( 'Y' == Services.getValue(IsNewN79AsReqd.dataBinding))
+					{	return true;
+					}
+					return false;
+				}
+				return true;
+			</isEnabled>
+			<logicOn>IsNewN79AsReqd.dataBinding</logicOn>
+			<logic>
+				if( IsNewN79AsReqd.isEnabled() &amp;&amp; 'Y' != Services.getValue(IsNewN79AsReqd.dataBinding))
+				{	Services.setValue(JudgeTitle.dataBinding, "");
+				}
+			</logic>
+		</Context>
+		
+		<Context ScreenId="O_3_1_2_5_1">
+			<isMandatory>return ("J" == Services.getValue(ReasonSetAside.dataBinding))</isMandatory> 
+			<mandatoryOn>ReasonSetAside.dataBinding</mandatoryOn>
+			<enableOn>ReasonSetAside.dataBinding</enableOn>
+			<isEnabled>return ("J" == Services.getValue(ReasonSetAside.dataBinding))</isEnabled>
+			<logicOn>ReasonSetAside.dataBinding</logicOn>
+			<logic>
+				if("J" != Services.getValue(ReasonSetAside.dataBinding))
+				{	
+					Services.setValue(JudgeTitle.dataBinding, "");
+				}
+			</logic>			
+		</Context>
+        
+         <Context ScreenId="O_2_6">
+            <isMandatory>return true;</isMandatory>
+            <mandatoryOn>JudgeTitle.dataBinding</mandatoryOn>
+        </Context>
+        <Context ScreenId="O_7_8">
+            <isMandatory>return true;</isMandatory>
+            <mandatoryOn>JudgeTitle.dataBinding</mandatoryOn>
+        </Context>
+        
+        <Context ScreenId="O_10_1">
+            <isMandatory>return true;</isMandatory>
+            <mandatoryOn>JudgeTitle.dataBinding</mandatoryOn>
+        </Context>
+        
+         <Context ScreenId="O_10_6">
+            <isMandatory>return true;</isMandatory>
+            <mandatoryOn>JudgeTitle.dataBinding</mandatoryOn>
+        </Context>
+         <Context ScreenId="O_10_7">
+            <isMandatory>return true;</isMandatory>
+            <mandatoryOn>JudgeTitle.dataBinding</mandatoryOn>
+        </Context>
+        <Context ScreenId="O_10_11">
+            <isMandatory>return true;</isMandatory>
+            <mandatoryOn>JudgeTitle.dataBinding</mandatoryOn>
+        </Context>
+        <Context ScreenId="O_10_12">
+            <isMandatory>return true;</isMandatory>
+            <mandatoryOn>JudgeTitle.dataBinding</mandatoryOn>
+        </Context>
+        <Context ScreenId="O_10_10">
+            <isMandatory>return true;</isMandatory>
+            <mandatoryOn>JudgeTitle.dataBinding</mandatoryOn>
+        </Context>
+         <Context ScreenId="O_10_18">
+            <isMandatory>return true;</isMandatory>
+            <mandatoryOn>JudgeTitle.dataBinding</mandatoryOn>
+        </Context>
+        
+        <Context ScreenId="O_10_19">
+            <isMandatory>return true;</isMandatory>
+            <mandatoryOn>JudgeTitle.dataBinding</mandatoryOn>
+        </Context>
+		
+		<Context ScreenId="CJR093">
+			<enableOn>WhoConsidApp2.dataBinding</enableOn>
+			<isEnabled>return ("J" == Services.getValue(WhoConsidApp2.dataBinding))</isEnabled>
+			<logicOn>WhoConsidApp2.dataBinding</logicOn>
+			<logic>
+				if("J" != Services.getValue(WhoConsidApp2.dataBinding))
+				{	
+					Services.setValue(JudgeTitle.dataBinding, "");
+				}
+			</logic>			
+		</Context>
+		
+	</Javascript>
+</Question>

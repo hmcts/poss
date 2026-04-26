@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<DBMapDef>
+	<DataSource id="java:OracleDS"/>
+	<Tables>
+		<Table alias="O" name="OBLIGATIONS"/>
+	</Tables>
+	<Mapping>
+		<Obligation>
+			<CaseNumber>${O.CASE_NUMBER}</CaseNumber>
+			<ObligationType>${O.OBLIGATION_TYPE}</ObligationType>
+			<LastUpdateUser>${O.LAST_USED_BY}</LastUpdateUser>
+		</Obligation>
+	</Mapping>
+</DBMapDef>

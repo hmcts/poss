@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: Court
+	Method:  getCourtAndAddrType()
+	File:    query_def_court_and_addr_type.xml
+	Author:  Chris Hutt
+	Created: 16 feb 2006
+	Description: 
+		Retrieve Court details and specified address type.
+				
+	Change History:
+
+-->
+<QueryDef>
+  <DBMapDef location="uk/gov/dca/caseman/court_service/map_court_and_addr_type.xml"/>
+  <Query pivotNode="/Courts/Court" tables="CT">
+  		<SQL type="select">
+  			SELECT 
+  					CT.CODE AS "CT.CODE"
+  				,	CT.NAME AS "CT.NAME"
+  				, 	CT.DX_NUMBER AS "CT.DX_NUMBER"
+  				,	CT.TEL_NO AS "CT.TEL_NO"
+  				, 	CT.FAX_NO AS "CT.FAX_NO"
+  				,	CT.DISTRICT_REGISTRY AS "CT.DISTRICT_REGISTRY"
+  			FROM 	COURTS CT
+  			WHERE 	CT.CODE = ${param.courtId}
+  			AND 	CT.CASEMAN_INSERVICE = 'Y'
+    	</SQL>
+  </Query>
+  
+  <Query pivotNode="/Courts/Court/ContactDetails/Addresses/Address" tables="CT GA">
+    		<SQL type="select">
+  			SELECT 
+  					GA.ADDRESS_ID AS "GA.ADDRESS_ID"
+  				,	GA.ADDRESS_LINE1 AS "GA.ADDRESS_LINE1"
+  				,   GA.ADDRESS_LINE2 AS "GA.ADDRESS_LINE2"
+  				,   GA.ADDRESS_LINE3 AS "GA.ADDRESS_LINE3"
+  				,   GA.ADDRESS_LINE4 AS "GA.ADDRESS_LINE4"
+				,	GA.ADDRESS_LINE5 as "GA.ADDRESS_LINE5"
+				, 	GA.POSTCODE AS "GA.POSTCODE"
+				,	GA.VALID_FROM AS "GA.VALID_FROM"
+				,   GA.VALID_TO AS "GA.VALID_TO"
+				,	GA.ADDRESS_TYPE_CODE AS "GA.ADDRESS_TYPE_CODE"
+  			FROM 	GIVEN_ADDRESSES GA
+  			WHERE 	GA.COURT_CODE = ${param.courtId}
+  			AND 	GA.ADDRESS_TYPE_CODE = ${param.addressType}
+  			AND  	GA.VALID_TO IS NULL
+    	</SQL>
+  </Query>
+  
+</QueryDef>

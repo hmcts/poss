@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<service-config>
+
+	<service name="Payments"/>
+
+	<method name="getPaymentTypes">
+		<get>
+			<HTTPCache expires="endOfDay"/>
+		</get>
+	</method>
+	
+	<method name="getRetentionTypes">
+		<get>
+			<HTTPCache expires="endOfDay"/>
+		</get>
+	</method>
+	
+	<method name="getPassthroughRetentionTypes">
+		<get>
+			<HTTPCache expires="endOfDay"/>
+		</get>
+	</method>
+
+</service-config>

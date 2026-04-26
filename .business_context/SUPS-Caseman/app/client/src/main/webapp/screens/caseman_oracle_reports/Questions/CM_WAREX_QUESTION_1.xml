@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- 
+	16/08/2006 - MGG - defect 4381 - setdefault to initialise.  After fixing this defect found validation to be incorrect
+									changed the validatePastDate function
+	03/10/2006 - MGG - defect 5305 - Ensure report only called once, for each date
+-->
+<!--Question xmlns="http://eds.com/questionxhtml" xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd"-->
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>CM_WAREX_QUESTION_1</Id>
+	<Label>Issue Date</Label>
+	<ObjectName>IssueDate</ObjectName>
+	<Html>
+		<script type="text/javascript">
+			DatePickerRenderer.createInline("IssueDate", false);
+		</script>
+	</Html>
+	<Javascript>
+		<XPath>/ds/var/page/OracleReportForm/IssueDate</XPath>
+		<ReportVariableName>P_WAR_ISSUE_DATE</ReportVariableName>
+		<ReportVariableValue>CaseManUtils.convertDateToDisplay(Services.getValue(IssueDate.dataBinding))</ReportVariableValue>
+		<HintText>Enter an Issue Date in Past, eg 01-APR-2001</HintText>
+		<isMandatory>return true;</isMandatory>
+		<initialise>
+			Services.setValue("/ds/var/app/OracleReportForm/CM_WAREX/ReportRun", "false");
+			Services.setValue(IssueDate.dataBinding, getTodaysDate());
+		</initialise>
+		<logicOn>IssueDate.dataBinding</logicOn>
+		<logic>
+			var issueDate = Services.getValue(IssueDate.dataBinding);
+			if(IssueDate.validate() == null)
+			{
+				Services.setValue("/ds/var/app/OracleReportForm/CM_WAREX/ReportRun", "false");	
+				if (!CaseManUtils.isBlank(issueDate)) {
+					checkExecutedWarrantsExist(issueDate);
+				}
+				else {
+					Services.setValue(_executedWarrantsExistXPath, "true");
+				}
+			}
+		</logic>
+		<validateOn>IssueDate.dataBinding</validateOn>
+		<validate>
+			    var issueDate = Services.getValue(IssueDate.dataBinding);
+			    var issueDateObj = CaseManUtils.isBlank(issueDate) ? null : CaseManUtils.createDate(issueDate);
+			    var ec = null;
+			    if(issueDateObj != null)
+			    {
+			      ec = validatePastDate(issueDateObj);     
+			    }
+			    return ec;		
+		</validate>
+		<miscCode>
+			var _executedWarrantsExistXPath = "/ds/var/page/OracleReportForm/ExecutedWarrantsExist";
+
+			Status_RunReportButton.validationList = ["IssueDate"];	
+			
+			function checkExecutedWarrantsExist(issueDate)
+			{
+				var params = new ServiceParams();
+				params.addSimpleParameter("issueDate", CaseManUtils.convertDateToDisplay(issueDate));
+				// var owningCourtCode = Services.getValue("/ds/var/page/tmp/OwningCourtCode");  // returns null
+				var owningCourtCode = CaseManUtils.getUserParameter(CaseManFormParameters.COURTNUMBER_XPATH);
+				params.addSimpleParameter("owningCourtCode", owningCourtCode);
+
+				Services.callService("checkExecutedWarrantsExist", params, checkExecutedWarrantsExist, true);
+			}
+			checkExecutedWarrantsExist.onSuccess = function(dom)
+			{
+				if (dom != null) {
+					var results = dom.selectSingleNode("/ExecutedWarrantsFound");
+					if (results != null) {
+						if (XML.getNodeTextContent(results) == 0) {
+							Services.setValue(_executedWarrantsExistXPath, "false");
+							alert("There are no Warrants to be printed.");
+						}
+						else {
+							Services.setValue(_executedWarrantsExistXPath, "true");
+						}
+					}
+					else {
+						this.onError();
+					}
+				}
+				else {
+					this.onError();
+				}
+			}
+			checkExecutedWarrantsExist.onError = function()
+			{
+				alert("Error querying database to check count of executed Warrants");
+			}
+
+			function validatePastDate(dateObj)
+			{    
+			  var todayDateObj = CaseManUtils.createDate(getTodaysDate());
+			  // changed code to be efficient and correct.  date cannot be in the future
+			  // but can be 'today'
+			  // removed if(CaseManUtils.compareDates(todayDateObj, dateObj) == 0 || CaseManUtils.compareDates(todayDateObj, dateObj) == 1)
+			  if(CaseManUtils.compareDates(todayDateObj, dateObj) == 1)
+			  {
+			    ec = ErrorCode.getErrorCode("CaseMan_dateCannotBeInTheFuture_Msg");
+			    return faildedValidation (ec);
+			  }
+			  else
+			  {
+				return null;
+			  }      
+			  return null;   
+			}			
+			
+			Status_RunReportButton.enableOn = [_executedWarrantsExistXPath,
+											    "/ds/var/app/OracleReportForm/CM_WAREX/ReportRun"];
+			Status_RunReportButton.isEnabled = function()
+			{
+				
+			var returnValue = false;
+			if (Services.getValue(_executedWarrantsExistXPath) == "true") {
+				returnValue = true;
+			}
+			
+			// defect 5305. Don't allow the report to run twice as prints empty report 2nd time.
+			var reportRun = Services.getValue("/ds/var/app/OracleReportForm/CM_WAREX/ReportRun");
+			if(reportRun != null){
+				if(reportRun == "true"){
+					returnValue = false;
+				}
+			}		
+			
+						
+			return returnValue;
+			}
+		</miscCode>
+
+
+
+
+	</Javascript>
+</Question>

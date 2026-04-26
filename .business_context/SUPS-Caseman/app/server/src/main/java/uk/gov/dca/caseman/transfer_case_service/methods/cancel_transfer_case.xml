@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: TransferCase
+	Method:  cancelTransferCase()
+	File:    cancel_transfer_case.xml
+	Author:  Phil Haferer (EDS)
+	Created: 26 July 2005
+	Description: 
+		Cancel the transfer the specified Case to another Court.
+-->
+<service-method>
+	<pipeline>
+		<Update>
+			<QueryDef location="uk/gov/dca/caseman/transfer_case_service/query_def_cancel_transfer_case.xml"/>
+			<DataSource xpath="/params/param[@name='transferCase']"/>
+			<QueryExtension pivotNode="/TransferCase">
+				<CheckExists table="c" fields="case_number" onNotExist="fail" onExist="update"/>
+			</QueryExtension>
+		</Update>
+		<Java>
+			<Source class="uk.gov.dca.caseman.transfer_case_service.java.InsertCaseEvent046TransferInCorrectErrorCustomProcessor"/>
+		</Java>		
+	</pipeline>
+	<Dependencies>
+		<Dependency serviceName="SystemDate"/>
+		<Dependency serviceName="CaseEvent"/>
+	</Dependencies>	
+	<Security roles="medium high wcSuper scSuper bmsSuper aeSuper dmSuper cpSuper ccbcMan ccbcUser ccbcSGB2"/>
+</service-method>

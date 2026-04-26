@@ -1,0 +1,285 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- ====================================================================== -->
+<!--  -->
+<!-- FILENAME: $Source: C:/CVSRepository/serveroas/src/uk/gov/dca/caseman/wordprocessing_templates/Notice/O_7_12_6/O_7_12_6-FO.xml,v $ -->
+<!--  -->
+<!-- AUTHOR: $Author: jay $-->
+<!--  -->
+<!-- DATE: $Date: 2006/06/26 10:11:10 $ -->
+<!--  -->
+<!-- Version: $Revision: 1.12 $ -->
+<!--  -->
+<!-- DESCRIPTION: This stylesheet is used to create an XSL:FO document that -->
+<!-- can be processed into a PDF version.  Business logic -->
+<!-- is embedded to generate the correct document text for the order -->
+<!-- required. -->
+<!--  -->
+<!-- INPUTS: XML document containing: the answers to questions asked of the -->
+<!-- user; case data retrieved from the database; HTML representing the  -->
+<!-- body of the document content (already edited by the user). -->
+<!--  -->
+<!-- OUTPUTS: XML document with FO tags containing instructions for the -->
+<!-- creation of a PDF document. -->
+<!--  -->
+<!-- ====================================================================== -->
+<root xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:fo="http://www.w3.org/1999/XSL/Format" xmlns="http://eds.com/supsfo">
+	<variables>@word.processing.url.xsl@supsfo.xsl</variables>
+	<layout>warrant</layout>
+	<addressee>
+		<blank/>
+		<instigators/>
+	</addressee>
+	<header>
+		<fo:block font-size="16pt" font-weight="bold">Certificate of Judgment or Order</fo:block>
+		<fo:block font-size="16pt" font-weight="bold">(for evidence only)</fo:block>
+	</header>
+	<courtcase>
+		<court>
+			<xsl:copy-of select="$vdCourtHeaderBlock"/>
+		</court>
+		<caseparameters>
+			<parameter>
+				<name>
+					<fo:block font-weight="bold">Claim Number</fo:block>
+				</name>
+				<value>
+					<fo:block>
+						<xsl:value-of select="$vdClaimNumber"/>
+					</fo:block>
+				</value>
+			</parameter>
+			<parameter>
+				<name>
+					<fo:block font-weight="bold"><xsl:value-of select="$vdInstigatorPartyRole"/></fo:block>
+					<fo:block font-size="9pt">(including ref.)</fo:block>
+				</name>
+				<value>
+					<fo:block hyphenate="true">
+						<xsl:value-of select="$vdInstigatorName"/>
+					</fo:block>
+					<fo:block font-size="9pt" hyphenate="true">
+						<xsl:value-of select="$vdInstigatorReference"/>
+					</fo:block>
+				</value>
+			</parameter>
+			<parameter>
+				<name>
+					<fo:block font-weight="bold"><xsl:value-of select="$vdSubjectPartyRole"/></fo:block>
+					<fo:block font-size="9pt">(including ref.)</fo:block>
+				</name>
+				<value>
+					<fo:block hyphenate="true">
+						<xsl:value-of select="$vdSubjectName"/>
+					</fo:block>
+					<fo:block font-size="9pt" hyphenate="true">
+						<xsl:value-of select="$vdSubjectReference"/>
+					</fo:block>
+				</value>
+			</parameter>
+		</caseparameters>
+	</courtcase>
+	
+	<body><editable useid="N100B0">
+		<fo:block font-weight="bold" space-after="0.4cm">
+			This certificate is granted <xsl:value-of select="$vdCertificatePurpose"/>
+		</fo:block>
+		<fo:block font-weight="bold">
+			Case Details	
+		</fo:block>
+		<fo:block space-after="0.4cm">
+			<fo:table table-layout="fixed">
+				<fo:table-column column-width="11cm"></fo:table-column>
+				<fo:table-column column-width="8cm"></fo:table-column>
+				<fo:table-body>
+					<fo:table-row>
+						<fo:table-cell>
+							<fo:block>Date of issue of proceedings</fo:block>
+						</fo:table-cell>
+						<fo:table-cell padding-top="0.1cm" padding-bottom="0.1cm" border-style="solid" border-width="0.02cm">
+							<fo:block start-indent="0.3cm"><xsl:value-of select="$vdProceedingsDate"/></fo:block>
+						</fo:table-cell>
+					</fo:table-row>
+				</fo:table-body>
+			</fo:table>
+		</fo:block>
+		<fo:block space-after="0.4cm">
+			<fo:table table-layout="fixed">
+				<fo:table-column column-width="11cm"></fo:table-column>
+				<fo:table-column column-width="8cm"></fo:table-column>
+				<fo:table-body>
+					<fo:table-row>
+						<fo:table-cell>
+							<fo:block>Cause of action</fo:block>
+						</fo:table-cell>
+						<fo:table-cell padding-top="0.1cm" padding-bottom="0.1cm" border-style="solid" border-width="0.02cm">
+							<fo:block start-indent="0.3cm"><xsl:value-of select="$vdCauseOfAction"/></fo:block>
+						</fo:table-cell>
+					</fo:table-row>
+				</fo:table-body>
+			</fo:table>
+		</fo:block>
+		<fo:block space-after="0.4cm">
+			<fo:table table-layout="fixed">
+				<fo:table-column column-width="11cm"></fo:table-column>
+				<fo:table-column column-width="8cm"></fo:table-column>
+				<fo:table-body>
+					<fo:table-row>
+						<fo:table-cell>
+							<fo:block>Date of judgment</fo:block>
+						</fo:table-cell>
+						<fo:table-cell padding-top="0.1cm" padding-bottom="0.1cm" border-style="solid" border-width="0.02cm">
+							<fo:block start-indent="0.3cm"><xsl:value-of select="$vdJudgmentDateOut"/></fo:block>
+						</fo:table-cell>
+					</fo:table-row>
+				</fo:table-body>
+			</fo:table>
+		</fo:block>
+		<fo:block font-weight="bold">
+			Judgment details	
+		</fo:block>
+		<fo:block>
+			Judgment entered against <xsl:value-of select="$vdSubjectPartyRole"/>
+		</fo:block>
+		<fo:block space-after="0.4cm">
+			<fo:table table-layout="fixed">
+				<fo:table-column column-width="8.5cm"></fo:table-column>
+				<fo:table-column column-width="6.5cm"></fo:table-column>
+				<fo:table-body>
+					<fo:table-row>
+						<fo:table-cell>
+							<fo:block>Amount of judgment</fo:block>
+						</fo:table-cell>
+						<fo:table-cell text-align="right" border-style="solid" border-width="0.02cm">
+							<fo:block padding-top="0.1cm" padding-bottom="0.1cm" end-indent="0.3cm">&#163;
+								<xsl:call-template name="correctCalculation">
+									<xsl:with-param name="value"><xsl:value-of select="$vdAmount"/></xsl:with-param>
+								</xsl:call-template>
+							</fo:block>
+						</fo:table-cell>
+					</fo:table-row>
+				</fo:table-body>
+			</fo:table>
+		</fo:block>
+		<fo:block>
+			<fo:table table-layout="fixed">
+				<fo:table-column column-width="8.5cm"></fo:table-column>
+				<fo:table-column column-width="6.5cm"></fo:table-column>
+				<fo:table-body>
+					<fo:table-row>
+						<fo:table-cell>
+							<fo:block>Debt or claim</fo:block>
+						</fo:table-cell>
+						<fo:table-cell padding="0.1cm" text-align="right" border-top-style="solid" border-top-width="0.02cm" border-right-width="0.02cm" border-right-style="solid" border-left-width="0.02cm" border-left-style="solid">
+							<fo:block end-indent="0.3cm">&#163;<xsl:call-template name="correctCalculation">
+									<xsl:with-param name="value"><xsl:value-of select="$vdAmountOfDebt"/></xsl:with-param>
+								</xsl:call-template>
+								</fo:block>
+						</fo:table-cell>
+					</fo:table-row>
+					<fo:table-row>
+						<fo:table-cell>
+							<fo:block>Costs</fo:block>
+						</fo:table-cell>
+						<fo:table-cell padding="0.1cm" text-align="right" border-right-style="solid" border-right-width="0.02cm" border-left-style="solid" border-left-width="0.02cm">
+							<fo:block end-indent="0.3cm">&#163;<xsl:call-template name="correctCalculation">
+									<xsl:with-param name="value"><xsl:value-of select="$vdGoodsCostAmount"/></xsl:with-param>
+								</xsl:call-template>
+							</fo:block>
+						</fo:table-cell>
+					</fo:table-row>
+					<fo:table-row>
+						<fo:table-cell>
+							<fo:block>Interest to date of judgment</fo:block>
+						</fo:table-cell>
+						<fo:table-cell padding="0.1cm" text-align="right" border-right-style="solid" border-right-width="0.02cm" border-left-style="solid" border-left-width="0.02cm">
+							<fo:block end-indent="0.3cm">&#163;<xsl:call-template name="correctCalculation">
+									<xsl:with-param name="value"><xsl:value-of select="$vdInterestToJudgmentDate"/></xsl:with-param>
+								</xsl:call-template>
+							</fo:block>
+						</fo:table-cell>
+					</fo:table-row>
+					<fo:table-row>
+						<fo:table-cell>
+							<fo:block>Subsequent costs</fo:block>
+						</fo:table-cell>
+						<fo:table-cell padding="0.1cm" text-align="right" border-right-style="solid" border-right-width="0.02cm" border-left-style="solid" border-left-width="0.02cm">
+							<fo:block end-indent="0.3cm">&#163;<xsl:call-template name="correctCalculation">
+									<xsl:with-param name="value"><xsl:value-of select="$vdSubsequentCosts"/></xsl:with-param>
+								</xsl:call-template>
+							</fo:block>
+						</fo:table-cell>
+					</fo:table-row>
+					<fo:table-row>
+						<fo:table-cell>
+							<fo:block>Interest from date of judgment*</fo:block>
+						</fo:table-cell>
+						<fo:table-cell padding="0.1cm" text-align="right" border-right-style="solid" border-right-width="0.02cm" border-left-style="solid" border-left-width="0.02cm">
+							<fo:block end-indent="0.3cm">&#163;<xsl:call-template name="correctCalculation">
+									<xsl:with-param name="value"><xsl:value-of select="$vdInterestSinceJudgmentdate"/></xsl:with-param>
+								</xsl:call-template>
+							</fo:block>
+						</fo:table-cell>
+					</fo:table-row>
+					<fo:table-row>
+						<fo:table-cell>
+							<fo:block>Total Amount</fo:block>
+						</fo:table-cell>
+						<fo:table-cell padding="0.1cm" text-align="right" border-style="solid" border-width="0.02cm">
+							<fo:block end-indent="0.3cm">&#163;<xsl:call-template name="correctCalculation">
+									<xsl:with-param name="value"><xsl:value-of select="$vdTotalAmountOwing"/></xsl:with-param>
+								</xsl:call-template>
+							</fo:block>
+						</fo:table-cell>
+					</fo:table-row>
+				</fo:table-body>
+			</fo:table>
+		</fo:block>
+
+	</editable></body>	
+		
+	<footnote noteextent="7.5">
+		<fo:block font-family="Times" font-size="10pt">
+			<fo:block space-after="0.4cm">
+				<fo:table table-layout="fixed">
+					<fo:table-column column-width="19.28cm"></fo:table-column>
+					<fo:table-body>
+						<fo:table-row>
+							<fo:table-cell border-bottom-style="solid" border-bottom-width="0.02cm">
+								<fo:block>&#xa0;</fo:block>
+							</fo:table-cell>
+						</fo:table-row>
+					</fo:table-body>
+				</fo:table>
+			</fo:block>		
+			<fo:block font-weight="bold">
+				For court use only	
+			</fo:block>
+			<fo:block space-after="0.4cm">
+				(This certificate is only valid if sealed by the court and if this section is completed)
+			</fo:block>
+			<fo:block space-after="0.4cm">
+				I certify that this is a true extract of the court record in this case
+			</fo:block>
+			<fo:block space-after="0.4cm">
+				<fo:inline font-weight="bold">Dated</fo:inline>&#xA0;<xsl:value-of select="$datetoday"/>&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;
+				&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;(for) <fo:inline font-weight="bold"><xsl:value-of select="$vdChief"/>:</fo:inline>
+			</fo:block>
+			<fo:block space-after="0.4cm">
+				<fo:table table-layout="fixed">
+					<fo:table-column column-width="19.28cm"></fo:table-column>
+					<fo:table-body>
+						<fo:table-row>
+							<fo:table-cell border-bottom-style="solid" border-bottom-width="0.02cm">
+								<fo:block>&#xa0;</fo:block>
+							</fo:table-cell>
+						</fo:table-row>
+					</fo:table-body>
+				</fo:table>
+			</fo:block>
+			<fo:block space-after="2cm">
+				*Where judgment is for more than &#163;5000 or includes a sum in respect of contractual or late payment interest, the <xsl:value-of select="$vdInstigatorPartyRole"/> may be entitled to further interest.
+			</fo:block>
+		</fo:block>
+	</footnote>
+	<defaultFooter id="O_7_12_6"/>
+</root>

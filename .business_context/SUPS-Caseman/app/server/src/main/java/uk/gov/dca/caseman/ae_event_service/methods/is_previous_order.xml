@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: AeEvent
+	Method:  isEventForAe
+	Author:  Chris Hutt (EDS) 
+	Created: 23 June 2005
+	Description: 
+		Use SQLLite to determine whether an AE has a previous event which has not been served
+
+	Chris Hutt	23/6/2005
+
+	Chris Hutt	23/1/2006	Defect 2041
+									Search for previous order should not be confined to the event being entrered
+
+	Chris Hutt	16/3/2006	Defect 2577
+									Search for previous order where status NULL or 'NOT SERVED'
+
+	Chris Hutt  18/07/2006	Defect 3980
+									To detect if previous order served, then 
+										AE.SERVICE_DATE will be NULL (previous test was NOT NULL)
+										AE.ISSUE_STAGE IS NOT NULL 
+										
+									
+-->
+<service-method>
+	<pipeline>
+		<SQLLite format-output="true"
+				 resultset-element="ds"
+				 row-element="Ae"
+				 field-name-as="element" >
+			<DataSource id="java:OracleDS"/>
+			<Param name="param.aeNumber" xpath="/params/param[@name='aeNumber']"/>
+			<SQL>
+				SELECT 
+						DECODE(COUNT(*),0,'false','true') as "PreviousOrderExists"
+				FROM 	AE_EVENTS AE
+				WHERE 	AE.AE_NUMBER = ${param.aeNumber}
+				AND 	(AE.SERVICE_STATUS = 'NOT SERVED' OR AE.SERVICE_DATE IS NULL)
+				AND 	AE.ISSUE_STAGE IS NOT NULL
+				AND		( AE.ERROR_INDICATOR IS NULL OR AE.ERROR_INDICATOR != 'Y')
+			</SQL>
+		</SQLLite>
+  	</pipeline>
+	<Security roles="user"/>
+</service-method>

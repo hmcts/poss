@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--Question xmlns="http://eds.com/questionxhtml" xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd"-->
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>Q_EnterWhatTheApplicationIsFor</Id>
+	<Label>Enter what the application is for</Label>
+	<ObjectName>EnterWhatTheApplicationIsFor</ObjectName>
+	<Html>
+		<script type="text/javascript">
+			ZoomFieldRenderer.createInline("EnterWhatTheApplicationIsFor", 10, 70);
+		</script>
+	</Html>
+	<Javascript>
+		<XPath>/ds/var/page/OracleReportForm/EnterWhatTheApplicationIsFor</XPath>
+		<ReportVariableName>APPLICATION_REASON</ReportVariableName>
+		<ReportVariableValue>Services.getValue(EnterWhatTheApplicationIsFor.dataBinding)</ReportVariableValue>
+		<ReportVariableCode>12190</ReportVariableCode>
+		<HintText>Enter the reason for the application</HintText>
+		<isMandatory>return true;</isMandatory>
+		<initialise></initialise>
+		<setDefault></setDefault>
+		<validateOn>
+		</validateOn>
+		<validate>
+		</validate>
+		<transformToDisplay>
+			 return (null != value) ? value.toUpperCase() : null;
+	    </transformToDisplay>
+        <transformToModel>
+             return (null != value) ? value.toUpperCase() : null;
+        </transformToModel>		
+		<miscCode>
+		</miscCode>
+	</Javascript>
+</Question>

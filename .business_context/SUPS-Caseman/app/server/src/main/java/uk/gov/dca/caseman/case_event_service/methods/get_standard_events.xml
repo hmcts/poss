@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: CaseEvent
+	Method:  getStandardEvents()
+	File:    get_standard_events.xml
+	Author:  
+	Created: 
+	Description: 
+        List of Standard Event Types for a Case
+-->
+<service-method>
+	<pipeline>
+		<Query>
+			<QueryDef location="uk/gov/dca/caseman/case_event_service/query_def_get_standard_events.xml"/>
+			<QueryExtension pivotNode="/StandardEvents/StandardEvent">
+			</QueryExtension>
+		</Query>
+	</pipeline>
+	<Security roles="viewOnly medium high wcSuper scSuper bmsSuper aeSuper dmSuper cpSuper ccbcMan ccbcUser ccbcSGB2"/>
+</service-method>

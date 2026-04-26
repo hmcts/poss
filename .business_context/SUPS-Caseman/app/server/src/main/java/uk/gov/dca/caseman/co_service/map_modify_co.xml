@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: Co
+	Method:  addCo()/updateCo()
+	File:    map_modify_co.xml
+	Author:  Phil Haferer (EDS)
+	Created: 04 August 2005
+	Description: 
+		The 'Mapping' for modifying a Consolidated Order.
+
+	Change History:
+	
+    v1.1 5/5/06	Chris Hutt
+				RFC1473: Debtors DateOfBirth added
+-->
+<DBMapDef>
+	<DataSource id="java:OracleDS"/>
+	<Tables>
+		<Table alias="CO" name="CONSOLIDATED_ORDERS"/>
+		<Table alias="P"  name="PARTIES"/>
+		<Table alias="GA" name="GIVEN_ADDRESSES"/>
+	</Tables>
+	<Mapping>
+		<ds>
+			<MaintainCO>
+				<CONumber>${CO.CO_NUMBER}</CONumber>
+				<OldNumber>${CO.OLD_NUMBER}</OldNumber>
+				<OwningCourtCode>${CO.ADMIN_COURT_CODE}</OwningCourtCode>
+				<OwningCourt></OwningCourt>
+				<COType>${CO.CO_TYPE}</COType>
+				<COStatus>${CO.CO_STATUS}</COStatus>
+				<DebtorName>${CO.DEBTOR_NAME}</DebtorName>
+				<ApplnReceivedDate>${CO.APPLN_RECEIVED_DATE}</ApplnReceivedDate>
+				<OrderDate>${CO.ORDER_DATE}</OrderDate>
+				<CompType>${CO.COMP_TYPE}</CompType>
+				<CompRate>${CO.COMP_RATE}</CompRate>
+				<DividendTarget>${CO.DIVIDEND_TARGET}</DividendTarget>
+				<FeeRate>${CO.FEE_RATE}</FeeRate>
+				<AdhocDividend>${CO.ADHOC_DIVIDEND}</AdhocDividend>
+				<InstalAmount>${CO.INSTAL_AMOUNT}</InstalAmount>
+				<InstalAmountCurrency>${CO.INSTAL_AMOUNT_CURRENCY}</InstalAmountCurrency>
+				<Frequency>${CO.FREQUENCY}</Frequency>
+				<FirstPaymentDate>${CO.FIRST_PAYMENT_DATE}</FirstPaymentDate>
+				<ReviewDate>${CO.REVIEW_DATE}</ReviewDate>
+				<RevokedDischargeDate>${CO.REVOKED_DISCHARGED_DATE}</RevokedDischargeDate>
+				<DebtorOccupation>${CO.DEBTOR_OCCUPATION}</DebtorOccupation>
+				<PayrollNumber>${CO.PAYROLL_NUMBER}</PayrollNumber>
+				<NamedEmployer>${CO.NAMED_EMPLOYER}</NamedEmployer>
+				<ProtectedEarningsRate>${CO.PROTECTED_EARNINGS_RATE}</ProtectedEarningsRate>
+				<ProtectedEarningsRateCurrency>${CO.PER_CURRENCY}</ProtectedEarningsRateCurrency>
+				<Debtor>
+					<PartyId>${P.PARTY_ID}</PartyId>
+					<DX>${P.DX_NUMBER}</DX>
+					<TelNo>${P.TEL_NO}</TelNo>
+					<FaxNo>${P.FAX_NUMBER}</FaxNo>
+					<Email>${P.EMAIL_ADDRESS}</Email>
+					<CommMethod>${P.PREFERRED_COMMUNICATION_METHOD}</CommMethod>
+					<TranslationToWelsh>${P.WELSH_INDICATOR}</TranslationToWelsh>		
+					<DateOfBirth>${P.PERSON_DOB}</DateOfBirth>				
+					<Address>
+						<Status/>
+						<AddressSurrogateId></AddressSurrogateId>
+						<AddressId>${GA.ADDRESS_ID}</AddressId>
+						<Line>${GA.ADDRESS_LINE1}</Line>
+						<Line>${GA.ADDRESS_LINE2}</Line>
+						<Line>${GA.ADDRESS_LINE3}</Line>
+						<Line>${GA.ADDRESS_LINE4}</Line>
+						<Line>${GA.ADDRESS_LINE5}</Line>
+						<PostCode>${GA.POSTCODE}</PostCode>
+						<CreatedBy>${GA.UPDATED_BY}</CreatedBy>
+						<ValidFrom>${GA.VALID_FROM}</ValidFrom>
+						<ValidTo>${GA.VALID_TO}</ValidTo>
+					</Address>
+					<AddressHistory>
+						<Address>
+							<Status/>
+							<AddressSurrogateId></AddressSurrogateId>
+							<AddressId>${GA.ADDRESS_ID}</AddressId>
+							<Line>${GA.ADDRESS_LINE1}</Line>
+							<Line>${GA.ADDRESS_LINE2}</Line>
+							<Line>${GA.ADDRESS_LINE3}</Line>
+							<Line>${GA.ADDRESS_LINE4}</Line>
+							<Line>${GA.ADDRESS_LINE5}</Line>
+							<PostCode>${GA.POSTCODE}</PostCode>
+							<CreatedBy>${GA.UPDATED_BY}</CreatedBy>
+							<ValidFrom>${GA.VALID_FROM}</ValidFrom>
+							<ValidTo>${GA.VALID_TO}</ValidTo>
+						</Address>
+					</AddressHistory>
+				</Debtor>
+				<Employer>
+					<PartyId>${P.PARTY_ID}</PartyId>
+					<Name>${P.PERSON_REQUESTED_NAME}</Name> 
+					<DX>${P.DX_NUMBER}</DX>
+					<TelNo>${P.TEL_NO}</TelNo>
+					<FaxNo>${P.FAX_NUMBER}</FaxNo>
+					<Email>${P.EMAIL_ADDRESS}</Email>
+					<CommMethod>${P.PREFERRED_COMMUNICATION_METHOD}</CommMethod>
+					<TranslationToWelsh>${P.WELSH_INDICATOR}</TranslationToWelsh>					
+					<Address>
+						<Status/>
+						<AddressSurrogateId></AddressSurrogateId>
+						<AddressId>${GA.ADDRESS_ID}</AddressId>
+						<Line>${GA.ADDRESS_LINE1}</Line>
+						<Line>${GA.ADDRESS_LINE2}</Line>
+						<Line>${GA.ADDRESS_LINE3}</Line>
+						<Line>${GA.ADDRESS_LINE4}</Line>
+						<Line>${GA.ADDRESS_LINE5}</Line>
+						<PostCode>${GA.POSTCODE}</PostCode>
+						<CreatedBy>${GA.UPDATED_BY}</CreatedBy>
+						<ValidFrom>${GA.VALID_FROM}</ValidFrom>
+						<ValidTo>${GA.VALID_TO}</ValidTo>
+					</Address>
+					<AddressHistory>
+						<Address>
+							<Status/>
+							<AddressSurrogateId></AddressSurrogateId>
+							<AddressId>${GA.ADDRESS_ID}</AddressId>
+							<Line>${GA.ADDRESS_LINE1}</Line>
+							<Line>${GA.ADDRESS_LINE2}</Line>
+							<Line>${GA.ADDRESS_LINE3}</Line>
+							<Line>${GA.ADDRESS_LINE4}</Line>
+							<Line>${GA.ADDRESS_LINE5}</Line>
+							<PostCode>${GA.POSTCODE}</PostCode>
+							<CreatedBy>${GA.UPDATED_BY}</CreatedBy>
+							<ValidFrom>${GA.VALID_FROM}</ValidFrom>
+							<ValidTo>${GA.VALID_TO}</ValidTo>
+						</Address>
+					</AddressHistory>
+				</Employer>
+				<Workplace>
+					<Address>
+						<Status/>
+						<AddressSurrogateId></AddressSurrogateId>
+						<AddressId>${GA.ADDRESS_ID}</AddressId>
+						<Line>${GA.ADDRESS_LINE1}</Line>
+						<Line>${GA.ADDRESS_LINE2}</Line>
+						<Line>${GA.ADDRESS_LINE3}</Line>
+						<Line>${GA.ADDRESS_LINE4}</Line>
+						<Line>${GA.ADDRESS_LINE5}</Line>
+						<PostCode>${GA.POSTCODE}</PostCode>
+						<CreatedBy>${GA.UPDATED_BY}</CreatedBy>
+						<ValidFrom>${GA.VALID_FROM}</ValidFrom>
+						<ValidTo>${GA.VALID_TO}</ValidTo>
+					</Address>
+					<AddressHistory>
+						<Address>
+							<Status/>
+							<AddressSurrogateId></AddressSurrogateId>
+							<AddressId>${GA.ADDRESS_ID}</AddressId>
+							<Line>${GA.ADDRESS_LINE1}</Line>
+							<Line>${GA.ADDRESS_LINE2}</Line>
+							<Line>${GA.ADDRESS_LINE3}</Line>
+							<Line>${GA.ADDRESS_LINE4}</Line>
+							<Line>${GA.ADDRESS_LINE5}</Line>
+							<PostCode>${GA.POSTCODE}</PostCode>
+							<CreatedBy>${GA.UPDATED_BY}</CreatedBy>
+							<ValidFrom>${GA.VALID_FROM}</ValidFrom>
+							<ValidTo>${GA.VALID_TO}</ValidTo>
+						</Address>
+					</AddressHistory>
+				</Workplace>
+				<DebtSummary>
+					<Currency></Currency>
+					<AmountAllowed/>
+					<TotalPaidOut/>
+					<MoniesInCourt/>
+					<FeeAmount>${CO.FEE_AMOUNT}</FeeAmount>
+					<FeeAmountCurrency>${CO.FEE_AMOUNT_CURRENCY}</FeeAmountCurrency>
+					<TotalFeesPaid/>
+					<ScheduleTwoFee/>
+					<TotalDue/>
+					<TotalPassthroughs/>
+					<ScheduleTwoTotal/>
+					<TotalOutstanding/>
+					<BalanceDueFromDebtor/>
+				</DebtSummary>
+				<PaymentDividendInProgress></PaymentDividendInProgress>
+				<ReleasableMoniesInCourt></ReleasableMoniesInCourt>
+				<UnresolvedOverpayment></UnresolvedOverpayment>
+				<PrePayoutListRun></PrePayoutListRun>
+				<CourtOfTransfer>${CO.COURT_OF_TRANSFER}</CourtOfTransfer>
+				<CourtNameOfTransfer></CourtNameOfTransfer>
+			</MaintainCO>
+		</ds>
+	</Mapping>
+</DBMapDef>

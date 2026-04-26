@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- 
+Change History
+	06/02/2013 - Chris Vincent, changed references to Allocation Questionnaires to Directions Questionnaires.  Trac 4763
+-->
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>9</Id>
+	<Label>Date by which DQ to be filed</Label>
+	<ObjectName>AqFiledByDate</ObjectName>
+	<Html>		
+		<script type="text/javascript">WP_DatePickerRenderer.createInline("AqFiledByDate", false);</script>
+	</Html>
+	<Javascript>
+		<XPath>/ds/EnterVariableData/AQ/filedByDate</XPath>
+		<HintText>Select the date by which directions questionnaire is to be filed</HintText>
+		<isMandatory>return true;</isMandatory>
+		<mandatoryOn>AqFiledByDate.dataBinding</mandatoryOn>
+		<transformToModel>
+			return transformDateToModel(value);
+		</transformToModel>
+		<transformToDisplay>
+			alert('transformToDisplay');
+			alert('value='+value);
+			alert('hasVal = '+ Services.getValue(AqFiledByDate.dataBinding));
+			if (value != null)
+			{
+				if (value.search(CaseManValidationHelper.YYYYMMDD_DATE_PATTERN) != -1)
+				{
+					return CaseManUtils.convertDateToDisplay(value);
+				}
+			}
+			return value;
+		</transformToDisplay>	
+	</Javascript>
+</Question>

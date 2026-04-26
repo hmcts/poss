@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="caseman_server_build" default="deploy" basedir=".">
+	<target name="init">
+		<!-- Copy all files from clearcase into the local machine.  This improves the build performance -->
+		<sync todir="c:/SUPS/build/caseman/transformation_server/lib">
+			<fileset dir="${user.dir}/lib"/>
+		</sync>
+		<sync todir="c:/SUPS/build/caseman/transformation_server/serverframework">
+			<fileset dir="${user.dir}/serverframework"/>
+		</sync>
+		<copy todir="c:/SUPS/build/caseman/transformation_server/serverframework/release/dist">
+			<fileset dir="${user.dir}/rsc/dist/"/>
+		</copy>
+		<sync todir="c:/SUPS/build/caseman/transformation_server/src">
+			<fileset dir="${user.dir}/src"/>
+		</sync>
+		<sync todir="c:/SUPS/build/caseman/transformation_server/rsc">
+			<fileset dir="${user.dir}/rsc"/>
+		</sync>
+		<copy todir="c:/SUPS/build/caseman/transformation_server">
+			<fileset dir="${user.dir}">
+				<include name="*.properties"/>
+				<include name="*.xml"/>
+			</fileset>
+		</copy>
+		<copy todir="c:/SUPS/build/caseman/transformation_server/serverframework/release/build/META-INF" overwrite="true">
+			<fileset dir="${user.dir}/rsc">
+				<include name="application.xml"/>
+			</fileset>
+		</copy>
+		<copy todir="c:/SUPS/build/caseman/transformation_server/serverframework/release/" overwrite="true">
+			<fileset dir="${user.dir}/rsc">
+				<include name="build.xml"/>
+			</fileset>
+		</copy>
+		<copy todir="c:/SUPS/build/caseman/transformation_server/web-config">
+			<fileset dir="${user.dir}/web-config"/>
+		</copy>
+	</target>
+	<target name="deploy" depends="init">
+		<!-- Call the real build file, using the local version of the code -->
+		<ant antfile="c:/SUPS/build/caseman/transformation_server/serverframework/release/build.xml" target="clean">
+			<property name="basedir" value="c:/SUPS/build/caseman/transformation_server/serverframework/release"/>
+			<property name="env.PROJECT_BASE" value="c:/SUPS/build/caseman/transformation_server"/>
+		</ant>
+		<ant antfile="c:/SUPS/build/caseman/transformation_server/serverframework/release/build.xml" target="deploy">
+			<property name="basedir" value="c:/SUPS/build/caseman/transformation_server/serverframework/release"/>
+			<property name="env.PROJECT_BASE" value="c:/SUPS/build/caseman/transformation_server"/>
+		</ant>
+		<ant antfile="c:/SUPS/build/caseman/transformation_server/build-config.xml" target="dev">
+		</ant>
+	</target>
+	<target name="clean">
+		<delete dir="c:/SUPS/build/caseman/transformation_server"/>
+	</target>
+</project>

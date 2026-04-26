@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: Qbp
+	Method:  getCoParties()
+	File:    get_co_parties.xml
+	Author:  Chris Hutt
+	Created: 17 Nov 2004
+	Description:
+		Retrieves details of consolidated orders and associated parties based on criteria supplied.
+		
+	Change History
+		Chris Hutt 	26 sept 2007 
+					Constraint changed to avoid OR's and NULL tests by use of NVL (in response to a performance requirement)
+-->
+<service-method>
+	<pipeline>
+		<Query>
+			<QueryDef location="uk/gov/dca/caseman/qbp_service/query_def_coparties.xml"/>
+			<QueryExtension pivotNode="/PartyQueryResults/PartyQueryResult">
+				<Param name="param.coNumber" xpath="/params/param[@name = 'coNumber']"/>
+				<Param name="param.owningCourtCode" xpath="/params/param[@name = 'owningCourtCode']"/>
+				<Param name="param.partyName" xpath="/params/param[@name = 'partyName']"/>
+				<Param name="param.address1" xpath="/params/param[@name = 'address1']"/>
+				<Param name="param.address2" xpath="/params/param[@name = 'address2']"/>
+				<Param name="param.empName" xpath="/params/param[@name = 'empName']"/>																
+				<Param name="param.owningCourtName" xpath="/params/param[@name = 'owningCourtName']"/>	
+				<Param name="param.pageNumber" xpath="/params/param[@name = 'pageNumber']"/>		
+				<Param name="param.pageSize" xpath="/params/param[@name = 'pageSize']"/>
+				
+				<Paged pageNumber="${param.pageNumber}" pageSize="${param.pageSize}"/>
+				<OrderBy>CO.CO_NUMBER, CO.DEBTOR_NAME, GA.ADDRESS_LINE1, GA.ADDRESS_LINE2, CO.CO_TYPE, CO.CO_STATUS</OrderBy>			
+				<Constraint>
+					( CO.ADMIN_COURT_CODE = ${param.owningCourtCode} AND
+						(
+							(
+								CO.CO_NUMBER LIKE NVL(UPPER (${param.coNumber}), CO.CO_NUMBER )
+							) 
+							AND																									
+							(
+								CO.DEBTOR_NAME LIKE NVL(UPPER (${param.partyName}), CO.DEBTOR_NAME )
+							) 
+							AND
+							(
+								GA.ADDRESS_LINE1 LIKE NVL(UPPER (${param.address1}), GA.ADDRESS_LINE1 )
+							) 
+							AND						
+							(
+								GA.ADDRESS_LINE2 LIKE NVL(UPPER (${param.address2}), GA.ADDRESS_LINE2 )
+							) 
+							AND
+							(
+								NVL(CO.NAMED_EMPLOYER, 'v') LIKE NVL(UPPER (${param.empName}), nvl(CO.NAMED_EMPLOYER,'v') )
+							)												
+						)
+					)
+				</Constraint>
+			</QueryExtension>
+		</Query>
+	</pipeline>
+	<Security roles="viewOnly medium high wcSuper scSuper bmsSuper aeSuper dmSuper cpSuper"/>	
+</service-method>

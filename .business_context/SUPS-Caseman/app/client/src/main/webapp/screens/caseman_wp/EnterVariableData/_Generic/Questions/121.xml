@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>121</Id>
+	<Label>Time estimate for trial</Label>
+	<ObjectName>TrialTimeEst</ObjectName>
+	<Html>		
+		<input type="text" id="TrialTimeEst" size="5"></input>
+		<select id="TrialTimeEstUnits">
+			<option value=""></option>
+			<option value="MIN">Minutes</option>
+			<option value="HR">Hours</option>			
+			<option value="DAYS">Days</option>
+		</select>
+	</Html>
+	<Javascript>
+		<XPath>/ds/EnterVariableData/TrialNotice/trialTimeEst</XPath>
+		<HintText>Enter the time estimate for the trial (e.g. 2 days)</HintText>
+		<isMandatory>return false;</isMandatory>
+
+		<validateOn>TrialTimeEst.dataBinding</validateOn>
+		<validate>return WPU.validateInteger(Services.getValue(TrialTimeEst.dataBinding));</validate>	
+		<enableOn>DirectionsGiven.dataBinding</enableOn>
+		  <isEnabled>return( 'Y' == Services.getValue(DirectionsGiven.dataBinding));</isEnabled>
+		  <logicOn>DirectionsGiven.dataBinding</logicOn>
+		  <logic>
+		  	if( 'Y' != Services.getValue(DirectionsGiven.dataBinding))
+		  	{	Services.setValue(TrialTimeEst.dataBinding, "");
+		  	}
+		  </logic>			
+		<miscCode>			
+			function TrialTimeEstUnits() {}
+			TrialTimeEstUnits.dataBinding = "/ds/EnterVariableData/TrialNotice/trialTimeEstUnits";
+			TrialTimeEstUnits.tabIndex = __tabIdx++;
+			TrialTimeEstUnits.helpText = "Select unit time";
+			TrialTimeEstUnits.mandatoryOn = [TrialTimeEst.dataBinding];
+			TrialTimeEstUnits.isMandatory = function()
+			{	var val = Services.getValue(TrialTimeEst.dataBinding);
+				return( null != val &amp;&amp; "" != val );
+			}	
+			TrialTimeEstUnits.isTemporary = function(){  return true; }		
+			TrialTimeEstUnits.enableOn = [TrialTimeEst.dataBinding];
+			TrialTimeEstUnits.isEnabled = function()
+			{ return TrialTimeEst.isEnabled();	
+			}									
+		</miscCode>
+		<Context ScreenId="CJR020">
+			<isMandatory>return true;</isMandatory>
+			<enableOn>TrialDateFixed.dataBinding</enableOn>
+			<isEnabled>return('FIX' == Services.getValue(TrialDateFixed.dataBinding));</isEnabled>
+			<logicOn>TrialDateFixed.dataBinding</logicOn>
+			<logic>
+				if('FIX' != Services.getValue(TrialDateFixed.dataBinding))
+				{	Services.setValue(TrialTimeEst.dataBinding,"");
+					Services.setValue(TrialTimeEstUnits.dataBinding,"");
+				}
+			</logic>
+		</Context>
+		<Context ScreenId="CJR060">			
+			<enableOn>TrialDateFixed.dataBinding</enableOn>
+			<isEnabled>
+				var val = Services.getValue(TrialDateFixed.dataBinding);
+				return('FIX' == val || 'TBF' == val );
+			</isEnabled>
+			<logicOn>TrialDateFixed.dataBinding</logicOn>
+			<logic>
+				var val = Services.getValue(TrialDateFixed.dataBinding);
+				if('FIX' != val &amp;&amp; 'TBF' != val )
+				{	Services.setValue(TrialTimeEst.dataBinding, "");
+					Services.setValue(TrialTimeEstUnits.dataBinding, "");
+				}
+			</logic>
+			<isMandatory>return true;</isMandatory>
+		</Context>
+	</Javascript>
+</Question>

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: Court
+	Method:  getCourtsQueryMaintain
+	File:    map_query_maintain.xml
+	Author:  Chris Vincent (EDS)
+	Created: 24 November 2005
+	Description: Wildcard query search for a court used on maintain court data screen
+-->
+<DBMapDef>
+  <DataSource id="java:OracleDS"/>
+  <Tables>
+    <Table alias="CT" name="COURTS"/>
+  </Tables>
+  <Mapping>
+    <Courts>
+    	<Court>
+    		<CourtCode>${CT.CODE}</CourtCode>
+    		<CourtName>${CT.NAME}</CourtName>	
+			<ID>${CT.ID}</ID>
+			<DistrictRegistry>${CT.DISTRICT_REGISTRY}</DistrictRegistry>
+    	</Court>
+    </Courts>	
+  </Mapping>
+</DBMapDef>

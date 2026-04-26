@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: Payout
+	Method:  setDividendCreated()
+	File:    set_dividend_created.xml
+	Author:  Phil Haferer (EDS)
+	Created: 13-Jan-2006
+	Description: 
+		Method to implement SUPS implementation of the Legacy stored procedure "p_payout_update()".
+-->
+<service-method>
+	<pipeline>
+		<SQLLite output="input">
+			<DataSource id="java:OracleDS"/>
+			<Param name="param.adminCourtCode" xpath="/params/param[@name='adminCourtCode']"/>
+			<Param name="param.reportId"       xpath="/params/param[@name='reportId']"/>
+			<SQL type="update" tables="DIV">
+				UPDATE DIVIDENDS DIV			
+				SET    DIV.CREATED       = 'Y'
+				,      DIV.DIV_REPORT_ID = ${param.reportId}
+				WHERE  DIV.CREATED = 'N'
+				AND    DIV.DIV_CO_NUMBER IN 
+				(      SELECT CO.CO_NUMBER 
+				       FROM   CONSOLIDATED_ORDERS CO
+				       WHERE  CO.ADMIN_COURT_CODE = ${param.adminCourtCode})
+			</SQL>
+		</SQLLite>
+	</pipeline>
+	<Security roles="viewOnly medium high wcSuper scSuper bmsSuper aeSuper dmSuper edsAdmin"/>		
+</service-method>

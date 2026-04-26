@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<DBMapDef>
+	<DataSource id="java:OracleDS"/>
+	
+	<Tables>
+		<Table alias="T" name="TAPES"/>	
+		<Table alias="TFI" name="TAPE_FILES" />	
+	</Tables>
+	
+	<Mapping>
+		<ReceivedTapes>
+			<ReceivedTape>
+				<LibraryNumber>${T.SEQNO}</LibraryNumber>
+				<DateReceived>${T.DATE_RECD}</DateReceived>
+				<DateToOperations>${T.DATE_TO_OPS}</DateToOperations>
+				<Comments>${T.COMMENTS}</Comments>				
+				<TapeFiles>
+					<TapeFile>
+						<OrderSeq>${TFI.ORDERSEQ}</OrderSeq>
+						<FileName>${TFI.FILE_NAME}</FileName>
+						<NumberOfRecords>${TFI.NO_RECORDS}</NumberOfRecords>
+						<Fees>${TFI.FEES}</Fees>
+						<Comments>${TFI.OUTPUTS}</Comments>
+						<Remove>
+							<OrderSeq>${TFI.ORDERSEQ}</OrderSeq>
+							<Removed></Removed>
+						</Remove>
+					</TapeFile>
+				</TapeFiles>
+			</ReceivedTape>
+		</ReceivedTapes>
+	</Mapping>
+</DBMapDef>

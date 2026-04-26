@@ -1,0 +1,58 @@
+<project name="caseman_server_update_xmlquery2" default="update_xmlquery2">
+
+    <target name="init" description="Performs initialisation">
+	    <property name="dist.dir" value="serverframework/release/lib/SUPS-OAS"/>
+	    <property name="build.dir" value="update_xmlquery2"/>	
+	    <property name="resources.dir" value="build_resources"/>				
+
+        <property name="lib.dir" value="serverframework/release/lib/xalan"/>    	
+        <property name="xalan.jar" value="${lib.dir}\xalan.jar"/>
+        <property name="xslt.style" value="${resources.dir}\update_xmlquery2.xsl"/>    	    	
+
+		<echo>update_xmlquery2</echo>
+		<echo>lib.dir=${lib.dir}</echo>
+		<!-- Delete this directory each time so the transform is applied to clean files. -->        	
+		<!-- Otherwise the transform will incrementally add the Caseman service references each time the process is run. -->        			
+        <delete dir="${build.dir}" />                	
+        	
+        <mkdir dir="${dist.dir}"/>
+        <mkdir dir="${build.dir}"/>        
+
+    	<!-- Copy the xmlquery.jar into the build directory where we can update it -->
+		<copy file="${dist.dir}\xmlquery2.jar" todir="${build.dir}"/>                	
+    </target>
+
+    <target name="extract_ejb-jar" depends="init" description="Extracts ejb-jar.xml from the xmlquery2.jar">    
+		<unzip src="${build.dir}\xmlquery2.jar" dest="${build.dir}\unzip\in">
+		    <patternset>
+		        <include name="**/ejb-jar.xml"/>
+		    </patternset>
+		</unzip>
+	</target>
+
+    <target name="transform_ejb-jar" depends="extract_ejb-jar" description="Transforms the ejb-jar.xml file so that the framework security bean can call Caseman services">
+    	<xslt
+    		in="${build.dir}\unzip\in\META-INF\ejb-jar.xml"
+			out="${build.dir}\unzip\out\META-INF\ejb-jar.xml"
+    		style="${xslt.style}"
+    		classpath="xalan.jar">
+				<!-- Use an xml catalog to point to the locally stored dtd instead of going to the web -->
+				<xmlcatalog>
+					<dtd
+						publicId="-//Sun Microsystems, Inc.//DTD Enterprise JavaBeans 2.0//EN"
+						location="${resources.dir}\ejb-jar_2_0.dtd"/>
+				</xmlcatalog>
+    	</xslt>    	
+    </target>
+
+    <target name="update_xmlquery2" depends="transform_ejb-jar" description="Re-jars xmlquery2.xml with the updated ejb-jar.xml and copies to the distribution directory">
+    	<!-- Update the xmlquery2 file-->
+    	<jar destfile="${build.dir}\xmlquery2.jar" update="true">
+    		<fileset dir="${build.dir}\unzip\out" includes="META-INF\ejb-jar.xml"/>
+    	</jar>
+    	
+    	<!-- Copy the updated xmlquery2 file to the distribution directory-->
+		<copy file="${build.dir}\xmlquery2.jar" todir="${dist.dir}"/>                    	
+    </target>
+
+</project>

@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: Ae
+	Method:  getNextAeId()
+	File:    get_next_ae_id.xml
+	Author:  pz9j2w
+	Created: 27 Jun 2005
+	Description:
+		Calculate the next AE Sequence Number for the given Court
+-->
+<service-method>
+	<pipeline>
+		<!-- Calculate the next AE Sequence Number for the given Court. -->
+		<Java>
+			<Source class="uk.gov.dca.caseman.ae_service.java.CreateAENumberCustomProcessor"/>
+		</Java>		
+<!--		<Query>
+			
+  			<QueryDef location="uk/gov/dca/caseman/ae_service/query_def_next_id.xml"/>
+			<QueryExtension pivotNode="/AENumber/CourtCode">				
+				<Param name="param.caseNumber" xpath="/params/param[@name = 'caseNumber']"/>
+				<Constraint>C.CASE_NUMBER = ${param.caseNumber}</Constraint>
+			</QueryExtension>
+			<QueryExtension pivotNode="/AENumber/EnforcementLetter">
+				<Constraint>E.YEAR_VALUE = TO_CHAR(SYSDATE, 'YYYY')</Constraint>
+			</QueryExtension>			
+  	    </Query>
+-->
+	</pipeline>
+	<Dependencies>
+		<Dependency serviceName="SystemData"/>		
+	</Dependencies>			
+    <Security roles="medium high wcSuper scSuper bmsSuper aeSuper dmSuper cpSuper"/>   		
+</service-method>
+
+
+
+

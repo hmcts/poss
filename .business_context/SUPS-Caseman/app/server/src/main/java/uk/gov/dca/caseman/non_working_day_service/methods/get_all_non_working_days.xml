@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: NonWorkingDay
+	Method:  getAllNonWorkingDays
+	Author:  Chris Vincent (EDS) 
+	Created: 29 November 2005
+	Description: Use SQLLite to retrieve all non working days including those
+				 in error.
+-->
+<service-method>
+	<pipeline>
+		<Query>
+  			<QueryDef location="uk/gov/dca/caseman/non_working_day_service/query_def.xml"/>
+  		</Query>
+  	</pipeline>
+	<Security roles="viewOnly medium high wcSuper scSuper bmsSuper aeSuper dmSuper cpSuper edsAdmin ccbcMan ccbcUser ccbcSGB2 ccbcTape admin"/>
+</service-method>

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>337</Id>
+	<Label>Cost type?</Label>
+	<ObjectName>CostType</ObjectName>
+	<Html>
+		<select id="CostType">
+			<option value=""></option>
+			<option value="F">Fixed</option>
+			<option value="A">Assessed</option>
+			<option value="M">Added to mortgage</option>
+		</select>
+	</Html>			
+	<Javascript>
+		<XPath>/ds/EnterVariableData/InterimCosts/PossessionOrder/costType</XPath>
+		<componentName>##label##</componentName>
+		<HintText>Indicate the type of costs – list available</HintText>
+		<isMandatory>return true;</isMandatory>
+		<enableOn>HasCostOrder.dataBinding</enableOn>
+		<isEnabled>
+			return('Y' == Services.getValue(HasCostOrder.dataBinding));
+		</isEnabled>
+		<logicOn>HasCostOrder.dataBinding</logicOn>
+		<logic>
+			if('Y' != Services.getValue(HasCostOrder.dataBinding))
+			{	Services.setValue(CostType.dataBinding, "");
+			}
+		</logic>
+	</Javascript>
+</Question>  

@@ -1,0 +1,22 @@
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>503</Id>
+	<Label>Account number</Label>
+	<ObjectName>AccountNum</ObjectName>
+	<Html>	
+		<input type="text" id="AccountNum"></input>
+	</Html>			
+	<Javascript>
+		<XPath>/ds/EnterVariableData/ThirdPartyDebt/accountNum</XPath>
+		<componentName>##label##</componentName>
+		<isMandatory>return false;</isMandatory>
+		<HintText>Enter the account number</HintText>	
+		<enableOn>IsBankOrBuildSoc.dataBinding</enableOn>
+		<isEnabled>return('Y' == Services.getValue(IsBankOrBuildSoc.dataBinding));</isEnabled>
+		<logicOn>IsBankOrBuildSoc.dataBinding</logicOn>
+		<logic>
+			if('Y' != Services.getValue(IsBankOrBuildSoc.dataBinding))
+			{	Services.setValue(AccountNum.dataBinding);
+			}
+		</logic>		
+	</Javascript>
+</Question>

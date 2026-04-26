@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>436</Id>
+	<Label>Either party intend to show a video?</Label>
+	<ObjectName>IsShowVideo</ObjectName>
+	<Html>
+		<input type="checkbox" id="IsShowVideo"></input>
+	</Html>
+	
+	<Javascript>
+		<XPath>/ds/EnterVariableData/SmallTrack/isShowVideo</XPath>
+		<HintText>Check box if either party intend to show a video as evidence</HintText>
+		<modelValue>checked: "Y", unchecked: "N"</modelValue>
+		
+		<enableOn>DirectionsTypeReqd.dataBinding, IsSpecialDirns.dataBinding, ExpertProfession.dataBinding, InclWitnessStatements.dataBinding, IsExpertEvidenceNec.dataBinding</enableOn>
+		<isEnabled>
+			var val1 = Services.getValue(IsSpecialDirns.dataBinding);
+			var val2 = Services.getValue(InclWitnessStatements.dataBinding);
+			
+			return(('Y' == val1 &amp;&amp; IsSpecialDirns.isEnabled()) || ExpertProfession.isEnabled() || IsExpertEvidenceNec.isEnabled());
+			
+		</isEnabled>
+		<logicOn>DirectionsTypeReqd.dataBinding, IsSpecialDirns.dataBinding, ExpertProfession.dataBinding, InclWitnessStatements.dataBinding, IsExpertEvidenceNec.dataBinding</logicOn>
+		<logic>
+			var val1 = Services.getValue(IsSpecialDirns.dataBinding);
+			var val2 = Services.getValue(InclWitnessStatements.dataBinding);
+			
+			if(('Y' != val1 || !IsSpecialDirns.isEnabled()) &amp;&amp; !ExpertProfession.isEnabled() &amp;&amp; !IsExpertEvidenceNec.isEnabled() )
+			{	Services.setValue(IsShowVideo.dataBinding, "N");
+			}
+		</logic>
+		<initialise>Services.setValue(IsShowVideo.dataBinding, "N");</initialise>
+	</Javascript>
+</Question>

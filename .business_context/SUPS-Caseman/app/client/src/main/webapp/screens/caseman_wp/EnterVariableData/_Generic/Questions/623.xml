@@ -1,0 +1,15 @@
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>623</Id>
+	<Label>Is there a cost order for the claimant's solicitor</Label>
+	<ObjectName>CostForClmsSolicitor</ObjectName>
+
+	<Html>	
+		<input type="checkbox" id="CostForClmsSolicitor"></input>
+	</Html>			
+	<Javascript>
+		<XPath>/ds/EnterVariableData/Settlement/costForClmsSolicitor</XPath>
+		<componentName>##label##</componentName>
+		<modelValue>checked: "Y", unchecked: "N"</modelValue>
+		<HintText>Check box if there is a costs order for the Claimant's Solicitors</HintText>			
+	</Javascript>
+</Question>

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--Question xmlns="http://eds.com/questionxhtml" xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd"-->
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>CM_DATE_START_QUESTION_4</Id>
+	<Label>Start Date</Label>
+	<ObjectName>Params_StartDate_Txt</ObjectName>
+	<Html>
+		<script type="text/javascript">
+			DatePickerRenderer.createInline("Params_StartDate_Txt", false);
+		</script>
+	</Html>
+	<Javascript>
+		<XPath>/ds/var/page/OracleReportForm/StartDate</XPath>
+		<ReportVariableName>P_REPORT_START_DATE</ReportVariableName>
+		<ReportVariableValue>CaseManUtils.convertDateToDisplay(Services.getValue(Params_StartDate_Txt.dataBinding))</ReportVariableValue>
+		<HintText>Enter the Start Date</HintText>
+		<isMandatory>return true;</isMandatory>
+		<initialise></initialise>	
+		<validateOn>
+			Params_StartDate_Txt.dataBinding, Params_EndDate_Txt.dataBinding
+		</validateOn>
+		<validate>
+			    var ec = validateStartDateForBMSLiveDate(Params_StartDate_Txt, Params_EndDate_Txt);
+			    return ec;
+		</validate>
+		<miscCode>
+			Status_RunReportButton.validationList = ["Params_StartDate_Txt", "Params_EndDate_Txt"];
+			Params_StartDate_Txt.weekends = true;
+		</miscCode>
+	</Javascript>
+</Question>

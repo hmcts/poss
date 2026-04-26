@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service:  Case
+	QueryDef: query_def_get_current_case_type_alternative_list.xml
+	Author:   Phil Haferer (EDS) 
+	Created:  14 March 2005
+	
+	Change History:
+		Chris Hutt 27/3/07: TD 5992 (Vantive Case 252776)
+							Cater for obsolete CaseTypes.
+							
+	    Chris Hutt 25/09/07 TD 6442 
+	    					Need to exclude 'MAGS ORDER' case type from the list of alternatives offered.
+	
+-->
+<QueryDef>
+  <DBMapDef location="uk/gov/dca/caseman/case_service/map_get_current_case_type_alternative_list.xml"/>
+  <Query pivotNode="/Case" tables="C CREF">
+	<Join>
+		C.CASE_TYPE = CREF.RV_LOW_VALUE
+		AND (	CREF.RV_DOMAIN = 'CURRENT_CASE_TYPE' 
+		     OR CREF.RV_DOMAIN = 'CASE_TYPE_OBSOLETE_BY_IIT' )
+	</Join>
+	<Modify/>
+  </Query>
+  <Query pivotNode="/Case/CaseTypeList/CaseType" tables="REF">
+	<Join>
+		REF.RV_DOMAIN = 'CURRENT_CASE_TYPE'
+		AND REF.RV_HIGH_VALUE = ${CREF.RV_HIGH_VALUE}
+		AND REF.RV_LOW_VALUE != 'MAGS ORDER'
+	</Join>
+	<Modify notModifiable="true"/>
+  </Query>
+</QueryDef>

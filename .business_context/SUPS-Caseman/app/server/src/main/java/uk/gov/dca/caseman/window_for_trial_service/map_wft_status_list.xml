@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<DBMapDef>
+	<DataSource id="java:OracleDS"/>
+	<Tables>
+		<Table alias="CCBC" name="CCBC_REF_CODES"/>
+	</Tables>
+	<Mapping>	
+		<WFTStatuses>		
+			<Status>
+				<Value>${CCBC.RV_LOW_VALUE}</Value>
+				<Description>${CCBC.RV_MEANING}</Description>
+			</Status>
+		</WFTStatuses>
+	</Mapping>
+</DBMapDef>

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>9083</Id>
+	<Label>Does this order suspend</Label>
+	<ObjectName>OrderSuspend</ObjectName>
+	<Html>
+		<select id="OrderSuspend">
+		  <option value=""></option>
+		  <option value="PJ">Previous judgment</option>
+		  <option value="PO">Previous order</option>		 		  
+		</select>
+	</Html>
+	<Javascript>
+        <XPath>/ds/EnterVariableData/OrderSuspend</XPath>
+		<HintText>Select suspension for</HintText>
+		<isEnabled>return true</isEnabled>
+		<isMandatory>return true;</isMandatory>		 
+ 	</Javascript>
+</Question>

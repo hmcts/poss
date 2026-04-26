@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: Payout
+	Method:  resetCoAdhocDividend()
+	File:    reset_co_adhoc_dividend.xml
+	Author:  Phil Haferer (EDS)
+	Created: 13-Jan-2006
+	Description: 
+		Method to implement SUPS implementation of the Legacy stored procedure "p_payout_update()".
+-->
+<service-method>
+	<pipeline>
+		<SQLLite output="input">
+			<DataSource id="java:OracleDS"/>
+			<Param name="param.adminCourtCode" xpath="/params/param[@name='adminCourtCode']"/>
+			<SQL type="update" tables="CO">
+				UPDATE CONSOLIDATED_ORDERS CO	
+				SET    CO.ADHOC_DIVIDEND = 'N'
+				WHERE  CO.ADMIN_COURT_CODE = ${param.adminCourtCode}
+				AND    CO.ADHOC_DIVIDEND = 'Y'
+				AND    EXISTS 
+				(SELECT NULL
+				 FROM   CANDIDATE_DIVIDEND_PAYMENTS CDP
+				 WHERE  CDP.CDP_DIV_NUMBER IS NOT NULL
+				 AND    CDP.CDP_CO_NUMBER = CO.CO_NUMBER
+				 AND    CDP.ADMIN_COURT_CODE = ${param.adminCourtCode})
+			</SQL>
+		</SQLLite>
+	</pipeline>
+	<Security roles="viewOnly medium high wcSuper scSuper bmsSuper aeSuper dmSuper edsAdmin"/>		
+</service-method>

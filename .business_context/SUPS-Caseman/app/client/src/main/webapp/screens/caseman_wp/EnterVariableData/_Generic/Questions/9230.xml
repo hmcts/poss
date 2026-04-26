@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>9230</Id>
+	<Label>Select the name of party in favour</Label>
+	<ObjectName>InFavourOfParty</ObjectName>
+	<Html>
+		<script type="text/javascript">
+			AutoCompletionRenderer.createInline("InFavourOfParty");		
+		</script>
+	</Html>
+	<Javascript>
+		<XPath>/ds/EnterVariableData/SelectedInFavourOfPartyId</XPath>
+		<HintText>Select the party in favour</HintText>
+		<enableOn>JudgmentSelection.dataBinding</enableOn>
+		<isEnabled>return true;</isEnabled>
+		<mandatoryOn>JudgmentSelection.dataBinding</mandatoryOn>
+		<isMandatory>return true;</isMandatory>
+		<logicOn>JudgmentSelection.dataBinding</logicOn>
+		<logic>
+			var js  = Services.getValue(JudgmentSelection.dataBinding);
+			var dsd = WPU._getDsDOM();
+			// Get the in favour of parties for the selected judgment
+			var inFavourParties = dsd.selectSingleNode("params/param/judgementxml/ds/MaintainJudgment/Judgments/Judgment[JudgmentId = '"+js+"']/InFavourParties");
+
+			// Remove the in favour of parties from previously selected judgment
+			Services.removeNode(REF_DATA_XPATH + "/IFParties" );
+			// Add the in favour of parties for the selected judgment
+			for(var i = 0; i &lt; inFavourParties.childNodes.length; i++) 
+			{
+				var node = inFavourParties.childNodes[i];
+				addPartyIdToInFavourPartyXml(node, dsd);
+				Services.addNode(node, REF_DATA_XPATH + "/IFParties");	
+			}		
+	
+			// If there's only one party then automatically select it
+			if(inFavourParties.childNodes.length == 1)
+			{
+				var partyId = Services.getValue(REF_DATA_XPATH + "/IFParties/Party/PartyId");
+				Services.setValue(InFavourOfParty.dataBinding, partyId);	
+			}
+			else
+			{
+				// Otherwise clear the control to force the user to make the selection
+				Services.setValue(InFavourOfParty.dataBinding, "");					
+			}
+		</logic>
+		<miscCode>
+			InFavourOfParty.srcData = REF_DATA_XPATH + "/IFParties";
+			InFavourOfParty.rowXPath = "Party";
+			InFavourOfParty.keyXPath = "PartyId";
+			InFavourOfParty.displayXPath = "Name";	
+			
+			/**
+			 * This function is called when the "infavour of" parties for the selected
+			 * judgment are copied from the ds dom to the dom the Q and A screen is bound to.
+			 * When this happens the parties do not have party ids in the xml fragment. The
+			 * responsibility of this function is to look up the party id in the ds dom for 
+			 * the in favour of party who is being added to the screen's dom and add the party id information
+			 * to the in favour party's xml fragment before it is added to the screen's dom.
+			 */
+			function addPartyIdToInFavourPartyXml(partyNode, dsDom)
+			{
+				var partyIdElementName = "PartyId";
+				// If this judgment has already been selected by the user
+				// then this code will have already executed and populated 
+				// the party ids so skip this code because we don't want to add them twice.
+				if (null == partyNode.selectSingleNode(partyIdElementName))
+				{
+					// Create a new element that will contain the party id text
+					var partyIdElement = XML.createElement(partyNode, partyIdElementName);
+					// Add the party id element to the in favour party node
+					partyNode.appendChild(partyIdElement);
+					// Retrieve the text from the party key node 
+					var partyKeyText = partyNode.selectSingleNode("PartyKey").text;				
+					// Get the party id text for the party key
+					var partyIdText = dsDom.selectSingleNode("/params/param/judgementxml/ds/MaintainJudgment/Parties/Party[PartyKey='" + partyKeyText + "']/PartyId").text;
+					// Set the party id text in the party id element
+					XML.setElementTextContent(partyNode, partyIdElementName, partyIdText);
+				}
+			}
+		</miscCode>
+	
+	</Javascript>
+</Question>

@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>377</Id>
+	<Label>Name of newspaper</Label>
+	<ObjectName>NewspaperName</ObjectName>
+	<Html>	
+		<input type="text" id="NewspaperName"></input>
+	</Html>			
+	<Javascript>
+		<XPath>/ds/EnterVariableData/SubsService/newspaperName</XPath>
+		<componentName>##label##</componentName>
+		<isMandatory>return false;</isMandatory>
+		<HintText>Enter the name of the newspaper (if applicable)</HintText>	
+		<enableOn>HowDocServed.dataBinding</enableOn>
+		<isEnabled>return( 'NEWS' == Services.getValue(HowDocServed.dataBinding));</isEnabled>
+		<logicOn>HowDocServed.dataBinding</logicOn>
+		<logic>
+			if( 'NEWS' != Services.getValue(HowDocServed.dataBinding))
+			{	Services.setValue(NewspaperName.dataBinding, "");
+			}
+		</logic>
+		
+		<Context ScreenId="O_10_5">
+			<isMandatory>return true;</isMandatory>
+			<enableOn>PublishedIn.dataBinding</enableOn>
+			<isEnabled>
+				var val1 = Services.getValue(PublishedIn.dataBinding);	
+				return( val1 == "OTH" || val1 == "BTH");
+			</isEnabled>
+			<logicOn>PublishedIn.dataBinding</logicOn>
+			<logic>
+				var val1 = Services.getValue(PublishedIn.dataBinding);	
+				if(val1 != "OTH" &amp;&amp; val1 != "BTH") 
+				{	Services.setValue(NewspaperName.dataBinding, "");
+				}
+			</logic>
+		</Context>
+	</Javascript>
+</Question>

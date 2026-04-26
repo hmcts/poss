@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>9204</Id>
+	<Label>Amount of Cheque/Payable order</Label>
+	<ObjectName>PayableOrderAmount</ObjectName>
+	<Html>
+		<input id="DefaultCurrency9204" type="text" size="1"></input> 	
+		<input type="text" size="10" id="PayableOrderAmount"></input>
+	</Html>			
+	<Javascript>
+		<XPath>/ds/EnterVariableData/payableOrderAmount</XPath>
+		<HintText>Enter the amount of the payable order</HintText>
+		<miscCode>
+			function DefaultCurrency9204() {}
+			DefaultCurrency9204.dataBinding = "/ds/EnterVariableData/curr1";
+			DefaultCurrency9204.tabIndex = -1;
+			DefaultCurrency9204.maxLength = 1;
+			DefaultCurrency9204.isReadOnly = function(){return true;}
+			DefaultCurrency9204.isTemporary = function(){return true;}
+			DefaultCurrency9204.transformToDisplay = function(value){
+				return WPS.__CaseManUtils().transformCurrencySymbolToDisplay(value,null,null); }
+			DefaultCurrency9204.transformToModel = function(value){
+				return WPS.__CaseManUtils().transformCurrencySymbolToModel(value,null,null); }
+		</miscCode>
+		
+        <Context ScreenId="L_6_1_2_3_4_7">
+			<mandatoryOn>SelectLetter3.dataBinding,PayableOrderSent.dataBinding,DrawnInFavourOf.dataBinding</mandatoryOn>
+			<isMandatory>return return9204();</isMandatory>
+			<enableOn>SelectLetter3.dataBinding,PayableOrderSent.dataBinding,DrawnInFavourOf.dataBinding</enableOn>
+			<isEnabled>return return9204();</isEnabled>
+			<logicOn>SelectLetter3.dataBinding,PayableOrderSent.dataBinding,DrawnInFavourOf.dataBinding</logicOn>
+			<logic>if(!return9204())
+			    {
+			        Services.setValue(PayableOrderAmount.dataBinding, "");
+			    }
+			</logic>
+			<miscCode>
+				function DefaultCurrency9204() {}
+				DefaultCurrency9204.dataBinding = "/ds/EnterVariableData/curr1";
+				DefaultCurrency9204.tabIndex = -1;
+				DefaultCurrency9204.maxLength = 1;
+				DefaultCurrency9204.isReadOnly = function(){return true;}
+				DefaultCurrency9204.isTemporary = function(){return true;}
+				DefaultCurrency9204.transformToDisplay = function(value){
+					return WPS.__CaseManUtils().transformCurrencySymbolToDisplay(value,null,null); }
+				DefaultCurrency9204.transformToModel = function(value){
+					return WPS.__CaseManUtils().transformCurrencySymbolToModel(value,null,null); }
+
+                function return9204(){
+                    var n9204 = false;
+                    if(
+                        //All conditions are mutually exclusive
+                        //Condition 1
+                        (("3" == Services.getValue(SelectLetter3.dataBinding)||
+                        "4" == Services.getValue(SelectLetter3.dataBinding))&amp;&amp;
+             
+                        Salutation.isEnabled())||
+                        
+                        //Condition  2
+                        ("3" == Services.getValue(SelectLetter3.dataBinding) &amp;&amp;
+                        PayableOrderSent.isEnabled())||
+                        
+                        // Condition 3
+                        DrawnInFavourOf.isEnabled()
+                        
+                    ){
+                        n9204 = true;
+                    }
+                    return n9204;
+                }
+			</miscCode>
+        </Context>
+        <validate>
+			//Validation: only numeric characters allowed and two decimal places.
+			//Error message: Currency amounts must be in the format of 0.00.
+			//Max length: 999999.99		     
+            var value = Services.getValue(PayableOrderAmount.dataBinding);      
+          	var maxVal = 999999.99;         
+          	var err = null;
+          
+          	if( '0.00 ' != value )
+          	{   err = validateCurrencyValue(value, maxVal);
+              if( null == err)
+              { 
+                var returnVal = WPU.formatToTwoDP(value);
+                Services.setValue(PayableOrderAmount.dataBinding, returnVal);
+              } 
+          	}
+          	return err;                             
+        </validate>
+        <transformToModel>        
+          if( null == value || "" == value )
+          {  return "0.00 ";
+          }
+          else
+          { return value;
+          }
+        </transformToModel>
+        <transformToDisplay>            
+            if( '0.00 ' == value) return "0.00";
+            return value;           
+        </transformToDisplay>
+	</Javascript>	
+
+</Question>

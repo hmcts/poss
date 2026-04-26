@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<DBMapDef>
+	<DataSource id="java:OracleDS"/>
+	
+	<Tables>
+		<Table alias="RJ" name="REJECT_JUDGMENTS"/>		
+		<Table alias="RR" name="REJECT_REASONS" />
+		<Table alias="RV" name="CCBC_REF_CODES" />
+	</Tables>
+	
+	<Mapping>
+		<RejectedJudgments>
+			<RejectedJudgment>
+						
+				
+				<PayeeName>${RJ.PAYEE_NAME}</PayeeName>
+				<PayeeAddr1>${RJ.PAYEE_ADDR_1}</PayeeAddr1>
+				<PayeeAddr2>${RJ.PAYEE_ADDR_2}</PayeeAddr2>
+				<PayeeAddr3>${RJ.PAYEE_ADDR_3}</PayeeAddr3>
+				<PayeeAddr4>${RJ.PAYEE_ADDR_4}</PayeeAddr4>
+				<PayeeAddr5>${RJ.PAYEE_ADDR_5}</PayeeAddr5>
+				<PayeePostCode>${RJ.PAYEE_POSTCODE}</PayeePostCode>
+				<PayeeDXNumber>${RJ.PAYEE_DX_NO}</PayeeDXNumber>
+				<PayeeTelephoneNumber>${RJ.PAYEE_TEL_NO}</PayeeTelephoneNumber>
+				<PayeeFaxNumber>${RJ.PAYEE_FAX_NO}</PayeeFaxNumber>
+				<PayeeEmailAddress>${RJ.PAYEE_EMAIL}</PayeeEmailAddress>
+				<PayeeCommMethod>${RV.RV_MEANING}</PayeeCommMethod>
+				<PayeeReference>${RJ.PAYEE_REFERENCE}</PayeeReference>
+				<Validated>${RJ.VALIDATED}</Validated>
+				
+			
+				
+			</RejectedJudgment>
+		</RejectedJudgments>
+		
+	</Mapping>
+</DBMapDef>

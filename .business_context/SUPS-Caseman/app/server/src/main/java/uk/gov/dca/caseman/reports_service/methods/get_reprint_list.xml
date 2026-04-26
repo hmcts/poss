@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: Reports
+	Method:  getReprintList()
+	File:    get_reprint_list.xml
+	Description: 
+        Retrieve a paged list of Reports for reprinting.
+
+	Change History:
+	21-Aug-2006 Phil Haferer: Added Pagination in response to performance guidelines.
+	            (TD 4458: Reprint Reports not performant).
+-->
+<service-method>
+	<pipeline>
+		<SQLLite format-output="true"
+				 resultset-element="SuitorsCashReports"
+				 row-element="SuitorsCashReport"
+				 field-name-as="element" >			
+			<DataSource id="java:OracleDS"/>
+			<Param name="param.userId" xpath="/params/param[@name='userId']"/>
+			<Param name="param.courtId" xpath="/params/param[@name='courtId']"/>			
+			<Param name="param.pageNumber" xpath="/params/param[@name = 'pageNumber']"/>
+			<Param name="param.pageSize" xpath="/params/param[@name = 'pageSize']"/>
+			<SQL>												
+                select rp_username        as "UserName"   
+                ,      du_user_short_name as "Alias"
+                ,      rp_case_number     as "CaseNumber" 
+                ,      rp_report_id       as "ReportId"   
+                ,      rp_report_name     as "ReportName" 
+                ,      rp_report_date     as "Date"       
+                ,      rp_printed         as "Printed"    
+                ,      rp_fw_report_id    as "FWReportId" 
+                ,      rp_order_id        as "ModuleName"
+                from
+                   (select row_number() 
+                           over(order by rp.report_date desc
+                                ,        rp.fw_report_id) as r
+                    ,      rp.username       as rp_username   
+                    ,      decode(du.user_short_name, null, 'Alias Not Allocated', du.user_short_name) as du_user_short_name
+                    ,      rp.case_number    as rp_case_number 
+                    ,      rp.report_id      as rp_report_id   
+                    ,      rp.report_name    as rp_report_name 
+                    ,      rp.report_date    as rp_report_date 
+                    ,      rp.printed        as rp_printed     
+                    ,      rp.fw_report_id   as rp_fw_report_id
+                    ,      rp.order_id       as rp_order_id
+                    from   report_reprints   rp              
+                    ,      user_court        uc              
+                    ,      report_queue      rq              
+                    ,      dca_user          du
+                    where  rp.username       = uc.user_id           
+                    and    uc.user_id        = du.user_id           
+                    and    uc.court_code     = ${param.courtId}     	   
+                    and    rp.fw_report_id   = rq.id                
+                    and    rq.document_id    is not null
+                    order by rp.report_date desc, rp.fw_report_id)
+                where r &lt; ((${param.pageNumber}*${param.pageSize})+1)
+                and   r &gt; ((${param.pageNumber}*${param.pageSize})-${param.pageSize})
+			</SQL>
+		</SQLLite>		
+	</pipeline>
+	<Security roles="scSuper wcSuper aeSuper"/>
+</service-method>

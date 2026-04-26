@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<QueryDef>
+	<DBMapDef location="uk/gov/dca/transformation/case_legacy_service/map_add_case.xml"/>
+	<Query pivotNode="/Case" tables="C">
+		<Join/>
+		<Modify>
+						<!--<CheckExists table="C" fields="case_number" onNotExist="add" onExist="fail"/>
+ 						<Field name="CEI.CASE_NUMBER" property="CE.CASE_NUMBER"/> -->
+		</Modify>
+	</Query>
+</QueryDef>

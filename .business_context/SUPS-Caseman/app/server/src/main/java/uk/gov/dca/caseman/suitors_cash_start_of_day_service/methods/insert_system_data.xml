@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<service-method>
+	<pipeline>
+		<Update>
+			<QueryDef location="uk/gov/dca/caseman/suitors_cash_start_of_day_service/query_def_system_data.xml" />
+			<DataSource xpath="/params/param[@name='systemData']" />
+			<QueryExtension pivotNode="/SystemData">
+				<CheckExists
+					table="SD"
+					fields="ITEM ADMIN_COURT_CODE"
+					useOptimisticLock="false"
+					onNotExist="add"
+					onExist="update"
+				/>
+			</QueryExtension>
+		</Update>
+	</pipeline>
+	<Security roles="viewOnly medium high wcSuper scSuper bmsSuper aeSuper dmSuper edsAdmin cpSuper"/>
+</service-method>

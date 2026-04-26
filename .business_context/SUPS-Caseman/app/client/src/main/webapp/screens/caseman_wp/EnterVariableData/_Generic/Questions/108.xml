@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>108</Id>
+	<Label>Service Address 4</Label>
+	<ObjectName>ServiceAddress4</ObjectName>
+	<Html>		
+		<input id="ServiceAddress4" type="text" size="50"></input>		
+	</Html>
+	
+	<Context screenId="CJR083">
+		<isVisible>true</isVisible>
+		<Label>Third Party Address line 4</Label>
+	</Context>
+	
+	<Javascript>
+		<XPath>/ds/EnterVariableData/Service/Address/Line[4]</XPath>
+		<HintText>Enter the fourth line of the service address</HintText>
+		<isMandatory>return false;</isMandatory>
+		<enableOn>ServiceMethod.dataBinding</enableOn>
+		<isEnabled>
+			var val = Services.getValue(ServiceMethod.dataBinding);
+			return( 'DELIV' == val || 'POST' == val || 'OTH' == val );
+		</isEnabled>
+		<logicOn>ServiceMethod.dataBinding</logicOn>
+		<logic>
+			var val = Services.getValue(ServiceMethod.dataBinding);
+			if( 'DELIV' != val &amp;&amp; 'POST' != val  &amp;&amp; 'OTH' != val)
+			{	Services.setValue(ServiceAddress4.dataBinding, "");
+			}
+		</logic>
+		
+		<Context ScreenId="O_10_5">
+			<enableOn>ServiceAddress4.dataBinding</enableOn>					
+			<isEnabled>return true;</isEnabled>
+			<logicOn></logicOn>
+			<logic></logic>
+		</Context>
+		
+		<Context ScreenId="CJR073">
+			<enableOn>HowDocServed.dataBinding</enableOn>					
+			<isEnabled>return('NEWS' != Services.getValue(HowDocServed.dataBinding));</isEnabled>
+			<logicOn>HowDocServed.dataBinding</logicOn>
+			<logic>
+				if('NEWS' == Services.getValue(HowDocServed.dataBinding))
+				{	Services.setValue(ServiceAddress4.dataBinding, "");
+				}
+			</logic>
+			<isMandatory>return false;</isMandatory>
+			<mandatoryOn>ServiceAddress2.dataBinding</mandatoryOn>
+		</Context>
+		<Context ScreenId="CJR090">
+			<enableOn>ServiceAddress1.dataBinding</enableOn>					
+			<isEnabled>return null;</isEnabled>
+			<logicOn>ServiceAddress1.dataBinding</logicOn>
+			<logic></logic>
+			<isMandatory>return false;</isMandatory>
+			<mandatoryOn>ServiceAddress2.dataBinding</mandatoryOn>
+		</Context>
+	</Javascript>
+</Question>

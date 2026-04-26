@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<DBMapDef>
+  <DataSource id="java:OracleDS"/>
+  <Tables>
+    <Table alias="WPO" name="WP_OUTPUT"/>
+  </Tables>  
+  <Mapping>
+	<Outputs>
+	   <Output>
+			<OutputId>${WPO.OUTPUT_ID}</OutputId>
+			<CreatedOn>${WPO.DATE_CREATED}</CreatedOn>
+			<EventSeq>${WPO.EVENT_SEQ}</EventSeq>
+			<FinalInd>${WPO.FINAL_IND}</FinalInd>
+			<Username>${WPO.USERNAME}</Username>
+			<Printed>${WPO.PRINTED}</Printed>
+		</Output>
+	</Outputs>
+</Mapping>
+</DBMapDef>

@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>9092</Id>
+	<Label>Enter date defence filed</Label>
+	<ObjectName>DateDefenceFiled</ObjectName>
+	<Html>
+		<script type="text/javascript">WP_DatePickerRenderer.createInline("DateDefenceFiled", false);</script>
+	</Html>
+	
+	<Context screenId="L_3_9"><isVisible>false</isVisible></Context>
+	
+	<Javascript>
+    	<XPath>/ds/EnterVariableData/DateDefenceFiled</XPath>
+		<HintText>Enter the date defence filed</HintText>
+		<validate>
+			 //Date picker: error message “The value does not conform to a valid date format of DD-MMM-YYYY
+			 //Validation: Date cannot be in the future 
+			 return isInPast(Services.getValue(DateDefenceFiled.dataBinding),"false");                                						
+		</validate>
+		<isMandatory>return true;</isMandatory>
+		<mandatoryOn>DateDefenceFiled.dataBinding</mandatoryOn>
+      	<isEnabled>return true;</isEnabled> 		
+		
+		<Context ScreenId="O_3_1_2_5_1">
+			<isMandatory>return ("D" == Services.getValue(ReasonSetAside.dataBinding))</isMandatory> 
+			<mandatoryOn>ReasonSetAside.dataBinding</mandatoryOn>
+			<enableOn>ReasonSetAside.dataBinding</enableOn>
+			<isEnabled>return ("D" == Services.getValue(ReasonSetAside.dataBinding))</isEnabled>
+			<logicOn>ReasonSetAside.dataBinding</logicOn>
+			<logic>
+				if("D" != Services.getValue(ReasonSetAside.dataBinding))
+				{	
+					Services.setValue(DateDefenceFiled.dataBinding, "");
+				}
+			</logic>	
+		</Context>	
+       		
+	</Javascript>
+</Question>  

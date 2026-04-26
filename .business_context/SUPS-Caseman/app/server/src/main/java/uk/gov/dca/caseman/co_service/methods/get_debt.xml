@@ -1,0 +1,57 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: Co
+	Method:  getDebt
+	Author:  Chris Hutt (EDS) 
+	Created: 8 August 2005
+	Description: 
+		Use SQLLite to retrieve details of individual debts associated with a
+                consolidated order 
+
+    Change History:
+    19-Sep-2006 Phil Haferer: Modified SQL so that only current addresses are selected.  
+                The existing criteria had been producing unexpected duplicates in some cases (where historical 
+                addresses existed) and causing the CO Events client to crash.
+                (TD CASEMAN 5245: UC116 Crash occur after the first creditor update when change the creditor 
+                                  from/to a coded party).
+-->
+<service-method>
+	<pipeline>
+		<SQLLite format-output="true"
+				 resultset-element="Debts"
+				 row-element="Debt"
+				 field-name-as="element" >
+			<DataSource id="java:OracleDS"/>
+			<Param name="param.coNumber" xpath="/params/param[@name='coNumber']"/>
+			<SQL>
+				(
+					SELECT  
+							AD.DEBT_SEQ 				AS "DebtSeqNumber"
+						,	AD.DEBT_CASE_NUMBER 		AS "CaseNumber"
+						,	P.PERSON_REQUESTED_NAME  	AS "CreditorName"
+						,	AD.DEBT_STATUS 				AS "DebtStatus"
+					FROM 	ALLOWED_DEBTS AD 
+						, 	PARTIES P
+						, 	GIVEN_ADDRESSES GA
+					WHERE	AD.DEBT_CO_NUMBER 		= 	${param.coNumber}
+					AND     GA.ALD_SEQ 				= 	AD.DEBT_SEQ
+					AND 	P.PARTY_ID 				= 	GA.PARTY_ID
+					AND 	GA.ADDRESS_TYPE_CODE 	= 	'CO CRED'				
+					AND     GA.VALID_TO             IS NULL
+				) 	UNION (				
+					SELECT 								
+							AD.DEBT_SEQ 				AS "DebtSeqNumber"
+						,	AD.DEBT_CASE_NUMBER 		AS "CaseNumber"
+						,	P.PERSON_REQUESTED_NAME  	AS "CreditorName"
+						,	AD.DEBT_STATUS 				AS "DebtStatus"
+					FROM 	ALLOWED_DEBTS AD 
+						, 	PARTIES P
+					WHERE	AD.DEBT_CO_NUMBER 		= 	${param.coNumber}
+					AND 	P.PARTY_ID 				= 	AD.CP_CREDITOR_ID					
+				)
+				
+			</SQL>
+		</SQLLite>
+  	</pipeline>
+	<Security roles="user"/>
+</service-method>

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--Question xmlns="http://eds.com/questionxhtml" xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd"-->
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>Q_Hearing2VenuePostcode</Id>
+	<Label>Hearing Venue Postcode</Label>
+	<ObjectName>Hearing2VenuePostcode</ObjectName>
+	<Html>
+		<input id="Hearing2VenuePostcode" type="text" size="8"></input>
+	</Html>
+	<Javascript>
+		<XPath>/ds/var/page/OracleReportForm/Hearing2VenuePostcode</XPath>
+		<ReportVariableName>REPORT_VALUE_12</ReportVariableName>
+		<ReportVariableValue>Services.getValue(Hearing2VenuePostcode.dataBinding)</ReportVariableValue>
+		<HintText>Enter the Hearing venue postcode</HintText>
+		<isMandatory>return false;</isMandatory>
+		<isReadOnly>
+			return true;
+		</isReadOnly>		
+		<initialise></initialise>
+		<transformToDisplay>
+			return (null != value) ? value.toUpperCase() : null;
+		</transformToDisplay>
+		<transformToModel>
+			return (null != value) ? value.toUpperCase() : null;
+		</transformToModel>		
+		<setDefault>
+		</setDefault>		
+		<validateOn>
+		</validateOn>
+		<validate>
+		</validate>
+		<miscCode>
+		</miscCode>
+	</Javascript>
+</Question>

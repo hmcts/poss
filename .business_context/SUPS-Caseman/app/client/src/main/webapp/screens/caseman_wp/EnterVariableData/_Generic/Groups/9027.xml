@@ -1,0 +1,38 @@
+<Group id="9027">
+	<ServicesRequired>
+		<mapping name="getCaseJurisdiction" serviceName="getCaseJurisdiction"/>
+		<service name="getCaseJurisdiction" cache="none" url="Case" method="getCaseJurisdiction">
+		</service>
+	</ServicesRequired>
+	<Protocols>
+	</Protocols>
+	<JavaScript>
+		var callingService = false;	
+				
+		function getCaseJurisdiction() {
+			if (!callingService) {
+				callingService = true;
+				var caseNo = Services.getValue("/ds/ManageCase/CaseNumber");
+				var params = new ServiceParams();
+				var service = "getCaseJurisdiction";
+				params.addSimpleParameter("caseNumber", caseNo);
+				Services.callService(service, params, getCaseJurisdictionCallback, true); }
+			else { 	} }
+			
+		function getCaseJurisdictionCallback() { }
+		getCaseJurisdictionCallback.onSuccess = function(dom) {
+			callingService = false;
+			if (null != dom) {		
+				var jurisdiction = (dom.selectSingleNode("/ds/Case/Jurisdiction")).text;
+				Services.setValue("/ds/var/page/CaseJurisdiction", jurisdiction);
+			}
+			else {
+				alert(Messages.NO_RESULTS_MESSAGE); } }
+
+		getCaseJurisdictionCallback.onBusinessException = function(exception)  {
+			alert(Messages.FAILEDSAVE_MESSAGE); }
+
+		getCaseJurisdictionCallback.onSystemException = function(exception) {
+			alert(Messages.FAILEDSAVE_MESSAGE); }
+	</JavaScript>
+</Group>

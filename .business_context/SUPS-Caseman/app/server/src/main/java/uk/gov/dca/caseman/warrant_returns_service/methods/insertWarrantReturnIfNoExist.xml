@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<service-method>
+  <pipeline>
+    <Update>
+      <QueryDef location="uk/gov/dca/caseman/warrant_returns_service/query_def_insert_WarrantReturns.xml"/>
+      <DataSource xpath="/params/param[@name='NewReturn']"/>
+      <QueryExtension pivotNode="/ds/WarrantReturns/WarrantEvents/WarrantEvent">
+        <CheckExists table="WR" fields="WARRANT_RETURNS_ID" onNotExist="add" onExist="fail"/>
+      </QueryExtension>
+    </Update>
+    <Java callStyle="new">
+      <Source class="uk.gov.dca.caseman.warrant_returns_service.java.InsertWarrantReturnCaseEventsBMSCustomProcessor"/>
+    </Java>
+	<Java callStyle="new">
+      <Source class="uk.gov.dca.caseman.warrant_returns_service.java.TransferCCBCWarrantReturnCustomProcessor"/>
+    </Java>
+	<SQLLite output="input">
+		<DataSource id="java:OracleDS"/>
+		<Param name="param.warrantReturnsID" xpath="/ds/WarrantReturns/WarrantEvents/WarrantEvent/WarrantReturnsID"/>
+		<Param name="param.caseEventSeq" xpath="/ds/WarrantReturns/WarrantEvents/WarrantEvent/CaseEventSeq"/>
+		<Param name="param.toTransfer" xpath="/ds/WarrantReturns/WarrantEvents/WarrantEvent/ToTransfer"/>
+		<SQL type="update">
+			UPDATE 
+					WARRANT_RETURNS WR
+			SET 
+					WR.EVENT_SEQ 			= ${param.caseEventSeq}
+				, 	WR.TO_TRANSFER 			= ${param.toTransfer}
+			WHERE 	WARRANT_RETURNS_ID 		= ${param.warrantReturnsID}
+			AND 	${param.caseEventSeq} 	IS NOT NULL
+		</SQL>
+	</SQLLite>		
+	<SQLLite output="input">
+		<DataSource id="java:OracleDS"/>
+		<Param name="param.warrantReturnsID" xpath="/ds/WarrantReturns/WarrantEvents/WarrantEvent/WarrantReturnsID"/>
+		<Param name="param.coEventSeq" xpath="/ds/WarrantReturns/WarrantEvents/WarrantEvent/COEventSeq"/>
+		<Param name="param.toTransfer" xpath="/ds/WarrantReturns/WarrantEvents/WarrantEvent/ToTransfer"/>
+		<SQL type="update">
+			UPDATE 
+					WARRANT_RETURNS WR
+			SET 
+					WR.TO_TRANSFER 		= ${param.toTransfer}
+				, 	WR.CO_EVENT_SEQ 	= ${param.coEventSeq}
+			WHERE 	WARRANT_RETURNS_ID 	= ${param.warrantReturnsID}
+			AND 	${param.coEventSeq} IS NOT NULL
+		</SQL>	
+	</SQLLite>			
+  </pipeline>
+  <Dependencies>
+    <Dependency serviceName="CaseEvent"/>
+    <Dependency serviceName="CoEvent"/>
+    <Dependency serviceName="Warrant"/>	
+    <Dependency serviceName="Bms"/>
+  </Dependencies>	  
+  <Security roles="medium high wcSuper scSuper bmsSuper aeSuper dmSuper"/>		  
+</service-method>

@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- ====================================================================== -->
+<!--  -->
+<!-- FILENAME: $Source: C:/CVSRepository/serveroas/src/uk/gov/dca/caseman/wordprocessing_templates/Notice/CJR022/CJR022-FO.xml,v $ -->
+<!--  -->
+<!-- AUTHOR: $Author: jay $-->
+<!--  -->
+<!-- DATE: $Date: 2006/07/05 14:14:32 $ -->
+<!--  -->
+<!-- Version: $Revision: 1.10 $ -->
+<!--  -->
+<!-- DESCRIPTION: This stylesheet is used to create an XSL:FO document that -->
+<!-- can be processed into a PDF version.  Business logic -->
+<!-- is embedded to generate the correct document text for the order -->
+<!-- required. -->
+<!--  -->
+<!-- INPUTS: XML document containing: the answers to questions asked of the -->
+<!-- user; case data retrieved from the database; HTML representing the  -->
+<!-- body of the document content (already edited by the user). -->
+<!--  -->
+<!-- OUTPUTS: XML document with FO tags containing instructions for the -->
+<!-- creation of a PDF document. -->
+<!--  -->
+<!-- CHANGE HISTORY -->
+<!-- 28/01/2013 - Chris Vincent, removed word allocation from content.  Trac 4763. -->
+<!-- ====================================================================== -->
+<root xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:fo="http://www.w3.org/1999/XSL/Format" xmlns="http://eds.com/supsfo">
+	<variables>@word.processing.url.xsl@supsfo.xsl</variables>
+	<duplex/>
+	<layout>order</layout>
+	<addressee>
+		<blank/>
+		<claimants/>
+		<defendants/>
+		<part20claimants/>
+		<part20defendants/>
+	</addressee>
+	<header>
+		<fo:block font-size="16pt" font-weight="bold">Order for Further Information</fo:block>
+		<fo:block font-size="12pt">(allocation)</fo:block>
+	</header>
+	<courtcase>
+		<court>
+			<xsl:copy-of select="$vdCourtHeaderBlock"/>
+		</court>
+		<caseparameters>
+			<parameter>
+				<name>
+					<fo:block font-weight="bold">Claim Number</fo:block>
+				</name>
+				<value>
+					<fo:block>
+						<xsl:value-of select="$vdClaimNumber"/>
+					</fo:block>
+				</value>
+			</parameter>
+			<parameter>
+				<name>
+					<fo:block font-weight="bold">Date</fo:block>
+				</name>
+				<value>
+					<fo:block>
+						<xsl:value-of select="$vdEventDate"/>
+					</fo:block>
+				</value>
+			</parameter>
+		</caseparameters>
+	</courtcase>
+	<bodyintroleft/>
+	<body>
+		<editable useid="N1008B">
+			<fo:block space-before="0.8cm" space-after="0.4cm" font-size="12pt"><xsl:value-of select="$vdJudge"/> has considered the statements of case and questionnaires filed and requires further information before making a final decision about allocation.</fo:block>
+			<fo:block space-after="0.4cm" font-size="12pt"><xsl:value-of select="$vdJudge"/> orders the <xsl:value-of select="$vdFiler"/> to provide information about:-</fo:block>
+			<fo:block space-after="0.4cm" font-size="12pt">
+				<xsl:copy-of select="$vdDocumentDetails"/>
+			</fo:block>
+			<fo:block space-after="0.4cm" font-size="12pt">This information and any accompanying documents should be delivered to the court and copied to the other parties on or before <xsl:value-of select="$vdFiledDate"/>.</fo:block>
+		</editable>
+	</body>
+	<footnote noteextent="3.0">
+		<fo:block space-after="0.2cm">
+			<fo:table table-layout="fixed">
+				<fo:table-column column-width="19cm"/>
+				<fo:table-body>
+					<fo:table-row>
+						<fo:table-cell border-top-style="solid" border-right-style="solid" border-left-style="solid" border-bottom-style="solid"
+							border-top-width="0.02cm" border-right-width="0.02cm" border-left-width="0.02cm" border-bottom-width="0.02cm"
+							padding-right="0.2cm" padding-left="0.2cm" padding-bottom="0.2cm" padding-top="0.2cm" >
+							<fo:block font-size="12pt"><fo:inline font-weight="bold">Note:</fo:inline> Where an allocation hearing is necessary because a party does not provide the information ordered above, the court may order that party to pay the costs of any other party attending the hearing.</fo:block>
+						</fo:table-cell>
+					</fo:table-row>
+				</fo:table-body>
+			</fo:table>
+				
+		</fo:block>
+	</footnote>
+	<defaultFooter id="CJR022"/>
+</root>

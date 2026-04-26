@@ -1,0 +1,122 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!--
+
+	Tests for the Messages class.
+
+-->
+
+<html>
+  <head>
+    <title>Unit tests for messages</title>
+    <link rel="stylesheet" type="text/css" href="../../jsunit/css/jsUnitStyle.css">
+
+	<script type="text/javascript" src='./jsunit/app/jsUnitCore.js'></script>       
+   	<script type="text/javascript" src='./Framework.js'></script>	
+	<script type="text/javascript" src='./Messages.js'></script> 	   	
+	<script type="text/javascript" src='./MockFormController.js'></script> 	
+  </head>
+  
+  <body>
+  
+	<form name="theForm" id="theForm" action="#" method="POST"></form>
+    
+    <script type="text/javascript">
+	
+//	FormController.initialise(document.forms.theForm);	
+	
+	function setUp()
+	{
+	}
+      
+	function tearDown()
+	{
+	}
+	  
+	function exposeTestFunctionNames()
+	{
+		var functionNames = [
+							'testNonMatchingBracketsInMessage',
+							'testParameterSubstitution'							
+							];
+		    
+		return functionNames;
+	}
+
+	/*
+	 * Tests the exception handling when the brackets in the message do not match
+	 */
+	function testNonMatchingBracketsInMessage()
+	{
+		try	{
+			Messages.format("Hello {{0}. This is my test message.", new Array("one", "two"));
+			// Expecting an exception to be thrown so if we get here it is a failure
+			fail("Expected an exception to be thrown while parsing the message");
+		} catch (e) {
+			if (e.constructor == JsUnitException) {fail("Expected an exception to be thrown while parsing the message");}		
+			assertTrue(true);
+		}		
+		
+		try	{
+			Messages.format("Hello {0{}}. This is my test message.", new Array("one", "two"));
+			// Expecting an exception to be thrown so if we get here it is a failure
+			fail("Expected an exception to be thrown while parsing the message");
+		} catch (e) {
+			if (e.constructor == JsUnitException) {fail("Expected an exception to be thrown while parsing the message");}		
+			assertTrue(true);
+		}		
+
+		try	{
+			Messages.format("Hello {0{. This is my test message.", new Array("one", "two"));
+			// Expecting an exception to be thrown so if we get here it is a failure
+			fail("Expected an exception to be thrown while parsing the message");
+		} catch (e) {
+			if (e.constructor == JsUnitException) {fail("Expected an exception to be thrown while parsing the message");}		
+			assertTrue(true);
+		}		
+
+		try	{
+			Messages.format("Hello 0}. This is my test message.", new Array("one", "two"));
+			// Expecting an exception to be thrown so if we get here it is a failure
+			fail("Expected an exception to be thrown while parsing the message");
+		} catch (e) {
+			if (e.constructor == JsUnitException) {fail("Expected an exception to be thrown while parsing the message");}
+			assertTrue(true);
+		}						
+	
+		try	{
+			Messages.format("Hello {0. This is my test message.", new Array("one", "two"));
+			// Expecting an exception to be thrown so if we get here it is a failure
+			fail("Expected an exception to be thrown while parsing the message");
+		} catch (e) {
+			if (e.constructor == JsUnitException) {fail("Expected an exception to be thrown while parsing the message");}
+			assertTrue(true);
+		}			
+		
+		try	{
+			Messages.format("Hello {0}. This is my test message. {1", new Array("one", "two"));
+			// Expecting an exception to be thrown so if we get here it is a failure
+			fail("Expected an exception to be thrown while parsing the message");
+		} catch (e) {
+			if (e.constructor == JsUnitException) {fail("Expected an exception to be thrown while parsing the message");}
+			assertTrue(true);
+		}								
+	}
+    
+	/*
+	 * Tests the parameter substitution works
+	 */
+	function testParameterSubstitution()
+	{
+		msg = Messages.format("Hello {1}. This is my test message. Hello {2}.", new Array("one", "two"));
+		assertEquals("Hello two. This is my test message. Hello undefined.", msg);
+		
+		msg = Messages.format("Hello {0}. This is my test message. Hello {1}.", new Array("one", "two"));
+		assertEquals("Hello one. This is my test message. Hello two.", msg);
+		
+		msg = Messages.format("Hello {0}. This is my test message. Hello {0}.", new Array("one"));
+		assertEquals("Hello one. This is my test message. Hello one.", msg);
+	}	
+	
+    </script>
+  </body>
+</html>

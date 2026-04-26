@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>122</Id>
+	<Label>Select one of the following</Label>
+	<ObjectName>SelectItemLsA</ObjectName>
+	<Html>		
+		<select id="SelectItemLsA">
+			<option value=""></option>
+			<option value="AGPTS">The timetable may be agreed by the parties</option>
+			<option value="STA">The timetable (subject to approval by the judge) will be</option>
+		</select>
+	</Html>
+	<Javascript>
+		<XPath>/ds/EnterVariableData/TrialNotice/selectItemLsA</XPath>
+		<HintText>Select one of the following - list available</HintText>
+		<isMandatory>return true;</isMandatory>
+		<enableOn>DirectionsGiven.dataBinding</enableOn>
+		  <isEnabled>return( 'Y' == Services.getValue(DirectionsGiven.dataBinding));</isEnabled>
+		  <logicOn>DirectionsGiven.dataBinding</logicOn>
+		  <logic>
+		  	if( 'Y' != Services.getValue(DirectionsGiven.dataBinding))
+		  	{	Services.setValue(SelectItemLsA.dataBinding, "");
+		  	}
+		  	else
+		  	{	Services.setValue(SelectItemLsA.dataBinding, "AGPTS");
+		  	}
+		  </logic>		  		
+	</Javascript>
+</Question>

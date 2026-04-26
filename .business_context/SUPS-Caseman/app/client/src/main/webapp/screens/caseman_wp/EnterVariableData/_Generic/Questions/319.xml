@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>319</Id>
+	<Label>Time estimate</Label>
+	<ObjectName>TimeEstimate</ObjectName>
+	<Html>		
+		<input type="text" id="TimeEstimate" size="5"></input>
+		<select id="TimeEstimateUnits">
+			<option value=""></option>
+			<option value="MIN">Minutes</option>
+			<option value="HR">Hours</option>			
+			<option value="DAYS">Days</option>
+		</select>
+	</Html>
+	<Javascript>
+		<XPath>/ds/EnterVariableData/ConfNotice/timeEstimate</XPath>
+		<HintText>Hearing duration (e.g. 10 minutes)</HintText>						
+		<isMandatory>return true;</isMandatory>
+		<enableOn>IsHearingTimeEst.dataBinding</enableOn>
+		<isEnabled>return( 'Y' == Services.getValue(IsHearingTimeEst.dataBinding));</isEnabled>
+		<logicOn>IsHearingTimeEst.dataBinding</logicOn>
+		<logic>
+			if( 'Y' != Services.getValue(IsHearingTimeEst.dataBinding))
+			{	Services.setValue(TimeEstimate.dataBinding, "");
+			}
+		</logic>
+		<validateOn>TimeEstimate.dataBinding</validateOn>
+		<validate>
+			return(WPU.validateInteger(Services.getValue(TimeEstimate.dataBinding)));
+		</validate>
+		<miscCode>			
+			function TimeEstimateUnits() {}
+			TimeEstimateUnits.dataBinding = "/ds/EnterVariableData/ConfNotice/timeEstimateUnits";
+			TimeEstimateUnits.tabIndex = __tabIdx++;
+			TimeEstimateUnits.helpText = "Select unit time";
+			TimeEstimateUnits.mandatoryOn = [IsHearingTimeEst.dataBinding];
+			TimeEstimateUnits.isMandatory = function()
+			{	return( 'Y' == Services.getValue(IsHearingTimeEst.dataBinding));			
+			}	
+			TimeEstimateUnits.isTemporary = function(){  return true; }		
+			TimeEstimateUnits.enableOn = [IsHearingTimeEst.dataBinding];
+			TimeEstimateUnits.isEnabled = function()
+			{	return( 'Y' == Services.getValue(IsHearingTimeEst.dataBinding));
+			}	
+			TimeEstimateUnits.logicOn = [TimeEstimate.dataBinding];	
+			TimeEstimateUnits.logic = function()
+			{	var val = Services.getValue(TimeEstimate.dataBinding);
+				if( null == val || val.length == 0 )
+				{ Services.setValue(TimeEstimateUnits.dataBinding, "");
+				}
+			}
+		</miscCode>
+		
+		
+		<Context ScreenId="CO02">
+			<isMandatory>return true;</isMandatory>
+			<enableOn>IsHearingTimeEst.dataBinding</enableOn>
+			<isEnabled>return('Y' == Services.getValue(IsHearingTimeEst.dataBinding));</isEnabled>
+			<logicOn>IsHearingTimeEst.dataBinding</logicOn>
+			<logic>
+				if('Y' != Services.getValue(IsHearingTimeEst.dataBinding))
+				{	Services.setValue(TimeEstimate.dataBinding, "");
+				}
+			</logic>
+		</Context>
+		
+
+		
+	</Javascript>
+</Question>

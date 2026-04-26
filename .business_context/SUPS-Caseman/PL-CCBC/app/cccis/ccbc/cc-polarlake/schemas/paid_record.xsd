@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified">
+		<xsd:simpleType name="record.cpc_code">
+		<xsd:restriction base="xsd:decimal">
+			<xsd:totalDigits value="4"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="record.claim_number">
+		<xsd:restriction base="xsd:string">
+			<xsd:length value="8" fixed="true"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="record.notification_type">
+		<xsd:restriction base="xsd:string">
+			<xsd:length value="1" fixed="true"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="record.defendant_id">
+		<xsd:restriction base="xsd:decimal">
+			<xsd:totalDigits value="1"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="record.last_payement_date">
+		<xsd:restriction base="xsd:string">
+			<xsd:length value="6" fixed="true"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:element name="record">
+	<xsd:complexType>
+		<xsd:sequence>
+			<xsd:element name="cpc_code" type="record.cpc_code"/>
+			<xsd:element name="claim_number" type="record.claim_number"/>
+			<xsd:element name="notification_type" type="record.notification_type"/>
+			<xsd:element name="defendant_id" type="record.defendant_id"/>
+			<xsd:element name="last_payement_date" type="record.last_payement_date"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	</xsd:element>
+</xsd:schema>

@@ -1,0 +1,17 @@
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>489</Id>
+	<Label>Third party postcode</Label>
+	<ObjectName>ThirdPartyPostCode</ObjectName>
+	
+	<Html>	
+		<input type="text" id="ThirdPartyPostCode"  size="8"></input>
+	</Html>			
+	<Javascript>
+		<XPath>/ds/EnterVariableData/ThirdPartyDebt/ThirdParty/Address/PostCode</XPath>
+		<componentName>##label##</componentName>
+		<isMandatory>return false;</isMandatory>
+		<HintText>Third party Postcode</HintText>	
+		<validateOn>ThirdPartyPostCode.dataBinding</validateOn>
+		<validate>return WPU.validatePostcode(Services.getValue(ThirdPartyPostCode.dataBinding));</validate>		
+	</Javascript>
+</Question>

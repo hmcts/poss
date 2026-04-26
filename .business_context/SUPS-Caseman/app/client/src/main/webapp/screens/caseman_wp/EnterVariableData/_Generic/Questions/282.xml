@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Question>
+	<Id>282</Id>
+	<Label>Time allowed for hearing</Label>
+	<ObjectName>HearingTimeAllowed</ObjectName>
+	<Html>
+		<input type="text" id="HearingTimeAllowed" size="5"></input>
+		<select id="HearingTimeAllowedUnits">
+			<option value=""></option>
+			<option value="MIN">Minutes</option>
+			<option value="HR">Hours</option>			
+			<option value="DAYS">Days</option>
+		</select>
+	</Html>
+	<Javascript>
+		<XPath>/ds/EnterVariableData/SmallTrack/hearingTimeAllowed</XPath>
+		<HintText>Enter the time allowed for hearing (e.g. 30 minutes)</HintText>
+		  <mandatoryOn>HearingTimeAllowed.dataBinding, HearingDateReqd.dataBinding</mandatoryOn>
+		<isMandatory>if (null != WP &amp;&amp; null != WP.GetScreenProcess &amp;&amp; null != WP.GetScreenProcess()) { 
+				if (210 == WP.GetScreenProcess().getEvent()) {	return('Y'  == Services.getValue(HearingDateReqd.dataBinding)); }
+			return true; }</isMandatory>
+		<isEnabled>return true;</isEnabled>
+		<validateOn>HearingTimeAllowed.dataBinding</validateOn>
+		<validate>return WPU.validateInteger(Services.getValue(HearingTimeAllowed.dataBinding));</validate>
+		<miscCode>
+			function HearingTimeAllowedUnits() {}
+			HearingTimeAllowedUnits.dataBinding = "/ds/EnterVariableData/SmallTrack/hearingTimeAllowedUnits";
+			HearingTimeAllowedUnits.tabIndex = __tabIdx++;
+			HearingTimeAllowedUnits.helpText = "Select unit time";	
+			HearingTimeAllowedUnits.mandatoryOn = [HearingTimeAllowed.dataBinding];
+			HearingTimeAllowedUnits.isMandatory = function() { return HearingTimeAllowed.isMandatory(); }
+			HearingTimeAllowedUnits.enableOn = [HearingTimeAllowed.dataBinding];
+			HearingTimeAllowedUnits.isEnabled = function() { return HearingTimeAllowed.isEnabled(); }		
+			HearingTimeAllowedUnits.logicOn = [HearingTimeAllowed.dataBinding];
+			HearingTimeAllowedUnits.logic = function() {
+				if(!HearingTimeAllowed.isEnabled())	Services.setValue(HearingTimeAllowedUnits.dataBinding,""); }
+		</miscCode>		
+	</Javascript>
+</Question>

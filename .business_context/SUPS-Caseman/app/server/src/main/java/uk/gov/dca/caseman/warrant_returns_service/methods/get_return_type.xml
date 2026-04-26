@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: WarrantReturns
+	Method:  getReturnType
+	Author:  Phil Haferer (EDS) 
+	Created: 04 Dec 2006
+	Description: 
+		Get the Return Type for a given Code.
+-->
+<service-method>
+	<pipeline>
+		<SQLLite format-output="true"
+				 resultset-element="ds"
+				 row-element="ReturnCodes"
+				 field-name-as="element" >
+			<DataSource id="java:OracleDS"/>
+			<Param name="param.returnCodeCourtCode" xpath="/params/param[@name='returnCodeCourtCode']"/>
+			<Param name="param.returnCode" xpath="/params/param[@name='returnCode']"/>
+			<SQL>
+                SELECT RC.RETURN_TYPE AS "ReturnType"
+                FROM   RETURN_CODES RC
+                WHERE  RC.RETURN_CODE      = ${param.returnCode}
+                AND    RC.ADMIN_COURT_CODE = ${param.returnCodeCourtCode}
+			</SQL>
+		</SQLLite>
+  	</pipeline>
+  <Security roles="medium high wcSuper scSuper bmsSuper aeSuper dmSuper cpSuper ccbcMan ccbcUser ccbcSGB2"/>		  
+</service-method>

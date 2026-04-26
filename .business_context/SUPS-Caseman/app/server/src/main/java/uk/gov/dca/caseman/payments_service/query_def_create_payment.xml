@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: Payments
+	Method: createPayment()
+	File: query_def_create_payment.xml
+	Author: Steve Blair
+-->
+<QueryDef>
+	<DBMapDef location="uk/gov/dca/caseman/payments_service/map_payment.xml" />
+	<Query pivotNode="/Payment" tables="P">
+		<Modify>
+			<CheckExists table="P" fields="TRANSACTION_NUMBER ADMIN_COURT_CODE" onNotExist="add" onExist="fail" />
+		</Modify>
+	</Query>
+</QueryDef>

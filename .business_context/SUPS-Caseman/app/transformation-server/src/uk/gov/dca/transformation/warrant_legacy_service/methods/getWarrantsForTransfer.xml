@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<service-method>
+	<pipeline>
+		<Query>
+			<QueryDef location="uk/gov/dca/transformation/warrant_legacy_service/query_def_get_warrant.xml"/>
+			<QueryExtension pivotNode="/ds/Warrant">
+				<Param name="param.warrantNumber" xpath="/params/param[@name = 'warrantNumber']"/>
+				<Constraint>W.WARRANT_NUMBER = ${param.warrantNumber}</Constraint>
+			</QueryExtension>
+		</Query>
+		<Java>
+			<Source class="uk.gov.dca.transformation.warrant_legacy_service.WarrantSupsCallProcessor"/>
+		</Java>
+	</pipeline>
+	<Security roles="user"/>
+</service-method>

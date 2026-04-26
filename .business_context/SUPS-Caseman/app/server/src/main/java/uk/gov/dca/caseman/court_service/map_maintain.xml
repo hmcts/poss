@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: Court
+	Method:  getCourtMaintain
+	File:    map_maintain.xml
+	Author:  Chris Vincent (EDS)
+	Created: 24 November 2005
+	Description: Retrieves the data for a court for use on the maintain court data screen
+	Change History
+	09-Feb-2010 - Chris Vincent, Trac 2629, included the Welsh Court Name fields in the map
+	08/11/2011 - Chris Vincent.  Added <DefaultPrinter> and <FAPId> to the map for Trac 4591.
+	05/09/2012 - Chris Vincent: Added DR Telephone, DR Opening Hours and By Appointment Flag.  Trac 4718
+-->
+<DBMapDef>
+  <DataSource id="java:OracleDS"/>
+  <Tables>
+    <Table alias="CT" name="COURTS"/>
+    <Table alias="GA" name="GIVEN_ADDRESSES"/>
+    <Table alias="P"  name="PERSONALISE"/>
+  </Tables>
+  <Mapping>
+	<ds>
+		<Court>
+			<Code>${CT.CODE}</Code>
+			<Name>${CT.NAME}</Name>
+			<ID>${CT.ID}</ID>
+			<DistrictRegistry>${CT.DISTRICT_REGISTRY}</DistrictRegistry>			
+			<InService>${CT.CASEMAN_INSERVICE}</InService>
+			<SUPSCourt>${CT.SUPS_CENTRALISED_FLAG}</SUPSCourt>
+			<GroupingCourtCode>${CT.WFT_GROUPING_COURT}</GroupingCourtCode>
+			<DMCourtCode>${CT.DM_COURT_CODE}</DMCourtCode>
+			<WelshHighCourtName>${CT.WELSH_HIGH_COURT_NAME}</WelshHighCourtName>
+			<WelshCountyCourtName>${CT.WELSH_COUNTY_COURT_NAME}</WelshCountyCourtName>
+			<DefaultPrinter>${CT.DEFAULT_PRINTER}</DefaultPrinter>
+			<FAPId>${CT.FAP_ID}</FAPId>
+			<ContactDetails>
+				<Addresses>
+					<Address>						
+						<AddressId>${GA.ADDRESS_ID}</AddressId>
+						<SurrogateId>${GA.ADDRESS_ID}</SurrogateId>
+						<CourtCode>${GA.COURT_CODE}</CourtCode>
+						<Type>${GA.ADDRESS_TYPE_CODE}</Type>
+						<Line>${GA.ADDRESS_LINE1}</Line>
+						<Line>${GA.ADDRESS_LINE2}</Line>
+						<Line>${GA.ADDRESS_LINE3}</Line>
+						<Line>${GA.ADDRESS_LINE4}</Line>
+						<Line>${GA.ADDRESS_LINE5}</Line>
+						<PostCode>${GA.POSTCODE}</PostCode>
+						<DateFrom>${GA.VALID_FROM}</DateFrom>
+						<DateTo>${GA.VALID_TO}</DateTo>
+					</Address>
+				</Addresses>
+				<DXNumber>${CT.DX_NUMBER}</DXNumber>
+				<TelephoneNumber>${CT.TEL_NO}</TelephoneNumber>
+				<FaxNumber>${CT.FAX_NO}</FaxNumber>
+				<DRTelephoneNumber>${CT.DR_TEL_NO}</DRTelephoneNumber>
+			</ContactDetails>
+			
+			<OpenFrom>${P.OPEN_FROM}</OpenFrom>
+			<OpenTo>${P.CLOSED_AT}</OpenTo>
+			<AccountType>${P.ACCOUNT_TYPE}</AccountType>
+			<AccountingCode>${P.ACCOUNTING_CODE}</AccountingCode>
+			<BailiffOpenFrom>${P.BAILIFF_OPENING}</BailiffOpenFrom>
+			<BailiffOpenTo>${P.BAILIFF_CLOSING}</BailiffOpenTo>
+			<BailiffTelephoneNumber>${P.BAILIFF_TELEPHONE}</BailiffTelephoneNumber>
+			<BailiffFaxNumber>${P.BAILIFF_FAX}</BailiffFaxNumber>
+			<DROpenFrom>${P.DR_OPEN_FROM}</DROpenFrom>
+			<DROpenTo>${P.DR_CLOSED_AT}</DROpenTo>
+			<ByAppointment>${P.BY_APPOINTMENT_IND}</ByAppointment>
+			<GroupingCourtStatus>
+				<IsGroupingCourt>${CT.IS_GROUPING_CRT}</IsGroupingCourt>
+			</GroupingCourtStatus>
+		</Court>
+	</ds>
+  </Mapping>
+</DBMapDef>

@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: Co
+	Method:  getCo()
+	File:    map_get_co.xml
+	Author:  Phil Haferer (EDS)
+	Created: 04 August 2005
+	Description: 
+		The 'Mapping' for retrieving details for a Consolidated Order.
+
+	Change History:
+	
+    v1.1 5/5/06	Chris Hutt
+				RFC1473: Debtors DateOfBirth added
+	15/02/2011 - Chris Vincent, added <TransferCOFlag/> node required for Trac 4215.
+			
+-->
+<DBMapDef>
+	<DataSource id="java:OracleDS"/>
+	<Tables>
+		<Table alias="CO"      name="CONSOLIDATED_ORDERS"/>
+		<Table alias="CRT"     name="COURTS"/>
+		<Table alias="CRTTRAN" name="COURTS"/>
+		<Table alias="P"       name="PARTIES"/>
+		<Table alias="GA"      name="GIVEN_ADDRESSES"/>
+		<Table alias="COE"     name="CO_EVENTS"/>
+		<Table alias="PO"      name="PAYABLE_ORDERS"/>
+		<Table alias="DV"      name="DIVIDENDS"/>
+		<Table alias="DD"      name="DEBT_DIVIDENDS"/>
+		<Table alias="PY"      name="PAYMENTS"/>
+	</Tables>
+	<Mapping>
+		<ds>
+			<MaintainCO>
+				<CONumber>${CO.CO_NUMBER}</CONumber>
+				<OldNumber>${CO.OLD_NUMBER}</OldNumber>
+				<OwningCourtCode>${CO.ADMIN_COURT_CODE}</OwningCourtCode>
+				<OwningCourt>${CRT.NAME}</OwningCourt>
+				<TransferCOFlag/>
+				<COType>${CO.CO_TYPE}</COType>
+				<COStatus>${CO.CO_STATUS}</COStatus>
+				<DebtorName>${CO.DEBTOR_NAME}</DebtorName>
+				<ApplnReceivedDate>${CO.APPLN_RECEIVED_DATE}</ApplnReceivedDate>
+				<OrderDate>${CO.ORDER_DATE}</OrderDate>
+				<CompType>${CO.COMP_TYPE}</CompType>
+				<CompRate>${CO.COMP_RATE}</CompRate>
+				<DividendTarget>${CO.DIVIDEND_TARGET}</DividendTarget>
+				<FeeRate>${CO.FEE_RATE}</FeeRate>
+				<AdhocDividend>${CO.ADHOC_DIVIDEND}</AdhocDividend>
+				<InstalAmount>${CO.INSTAL_AMOUNT}</InstalAmount>
+				<InstalAmountCurrency>${CO.INSTAL_AMOUNT_CURRENCY}</InstalAmountCurrency>
+				<Frequency>${CO.FREQUENCY}</Frequency>
+				<FirstPaymentDate>${CO.FIRST_PAYMENT_DATE}</FirstPaymentDate>
+				<ReviewDate>${CO.REVIEW_DATE}</ReviewDate>
+				<RevokedDischargeDate>${CO.REVOKED_DISCHARGED_DATE}</RevokedDischargeDate>
+				<DebtorOccupation>${CO.DEBTOR_OCCUPATION}</DebtorOccupation>
+				<PayrollNumber>${CO.PAYROLL_NUMBER}</PayrollNumber>
+				<NamedEmployer>${CO.NAMED_EMPLOYER}</NamedEmployer>
+				<ProtectedEarningsRate>${CO.PROTECTED_EARNINGS_RATE}</ProtectedEarningsRate>
+				<ProtectedEarningsRateCurrency>${CO.PER_CURRENCY}</ProtectedEarningsRateCurrency>
+				<Event920ProducedToday>${COE.EVENT_920_TODAY}</Event920ProducedToday>
+				<Debtor>
+					<PartyId>${P.PARTY_ID}</PartyId>
+					<DX>${P.DX_NUMBER}</DX>
+					<TelNo>${P.TEL_NO}</TelNo>
+					<FaxNo>${P.FAX_NUMBER}</FaxNo>
+					<Email>${P.EMAIL_ADDRESS}</Email>
+					<CommMethod>${P.PREFERRED_COMMUNICATION_METHOD}</CommMethod>
+					<TranslationToWelsh>${P.WELSH_INDICATOR}</TranslationToWelsh>		
+					<DateOfBirth>${P.PERSON_DOB}</DateOfBirth>				
+					<Address>
+						<SCN table="${GA_TABLE_ALIAS}">${GA_ORA_ROWSCN}</SCN>
+						<Status>${EXISTING_VALUE}</Status>
+						<AddressSurrogateId>${GA.ADDRESS_ID}</AddressSurrogateId>
+						<AddressId>${GA.ADDRESS_ID}</AddressId>
+						<Line>${GA.ADDRESS_LINE1}</Line>
+						<Line>${GA.ADDRESS_LINE2}</Line>
+						<Line>${GA.ADDRESS_LINE3}</Line>
+						<Line>${GA.ADDRESS_LINE4}</Line>
+						<Line>${GA.ADDRESS_LINE5}</Line>
+						<PostCode>${GA.POSTCODE}</PostCode>
+						<CreatedBy>${GA.UPDATED_BY}</CreatedBy>
+						<ValidFrom>${GA.VALID_FROM}</ValidFrom>
+						<ValidTo>${GA.VALID_TO}</ValidTo>
+					</Address>
+					<AddressHistory>
+					</AddressHistory>
+				</Debtor>
+				<Employer>
+					<PartyId>${P.PARTY_ID}</PartyId>
+					<Name>${P.PERSON_REQUESTED_NAME}</Name> 
+					<DX>${P.DX_NUMBER}</DX>
+					<TelNo>${P.TEL_NO}</TelNo>
+					<FaxNo>${P.FAX_NUMBER}</FaxNo>
+					<Email>${P.EMAIL_ADDRESS}</Email>
+					<CommMethod>${P.PREFERRED_COMMUNICATION_METHOD}</CommMethod>
+					<TranslationToWelsh>${P.WELSH_INDICATOR}</TranslationToWelsh>					
+					<Address>
+						<SCN table="${GA_TABLE_ALIAS}">${GA_ORA_ROWSCN}</SCN>
+						<Status>${EXISTING_VALUE}</Status>
+						<AddressSurrogateId>${GA.ADDRESS_ID}</AddressSurrogateId>
+						<AddressId>${GA.ADDRESS_ID}</AddressId>
+						<Line>${GA.ADDRESS_LINE1}</Line>
+						<Line>${GA.ADDRESS_LINE2}</Line>
+						<Line>${GA.ADDRESS_LINE3}</Line>
+						<Line>${GA.ADDRESS_LINE4}</Line>
+						<Line>${GA.ADDRESS_LINE5}</Line>
+						<PostCode>${GA.POSTCODE}</PostCode>
+						<CreatedBy>${GA.UPDATED_BY}</CreatedBy>
+						<ValidFrom>${GA.VALID_FROM}</ValidFrom>
+						<ValidTo>${GA.VALID_TO}</ValidTo>
+					</Address>
+					<AddressHistory>
+					</AddressHistory>
+				</Employer>
+				<Workplace>
+					<Address>
+						<Status>${EXISTING_VALUE}</Status>
+						<AddressSurrogateId>${GA.ADDRESS_ID}</AddressSurrogateId>
+						<AddressId>${GA.ADDRESS_ID}</AddressId>
+						<Line>${GA.ADDRESS_LINE1}</Line>
+						<Line>${GA.ADDRESS_LINE2}</Line>
+						<Line>${GA.ADDRESS_LINE3}</Line>
+						<Line>${GA.ADDRESS_LINE4}</Line>
+						<Line>${GA.ADDRESS_LINE5}</Line>
+						<PostCode>${GA.POSTCODE}</PostCode>
+						<CreatedBy>${GA.UPDATED_BY}</CreatedBy>
+						<ValidFrom>${GA.VALID_FROM}</ValidFrom>
+						<ValidTo>${GA.VALID_TO}</ValidTo>
+					</Address>
+					<AddressHistory>
+					</AddressHistory>
+				</Workplace>
+				<DebtSummary>
+					<Currency></Currency>
+					<AmountAllowed/>
+					<TotalPaidOut/>
+					<MoniesInCourt>${MONIES_IN_COURT}</MoniesInCourt>
+					<FeeAmount>${CO.FEE_AMOUNT}</FeeAmount>
+					<FeeAmountCurrency>${CO.FEE_AMOUNT_CURRENCY}</FeeAmountCurrency>
+					<TotalFeesPaid>${TOTAL_FEES_PAID}</TotalFeesPaid>
+					<ScheduleTwoFee/>
+					<TotalDue/>
+					<TotalPassthroughs/>
+					<ScheduleTwoTotal/>
+					<TotalOutstanding/>
+					<BalanceDueFromDebtor/>
+				</DebtSummary>
+				<PaymentDividendInProgress>${DIV_IN_PROGRESS}</PaymentDividendInProgress>
+				<ReleasableMoniesInCourt>${RELEASEABLE}</ReleasableMoniesInCourt>
+				<UnresolvedOverpayment>${UNRES_OVRPAY}</UnresolvedOverpayment>
+				<PrePayoutListRun>${PREPAYOUT_LIST_RUN}</PrePayoutListRun>
+				<CourtOfTransfer>${CO.COURT_OF_TRANSFER}</CourtOfTransfer>
+				<CourtNameOfTransfer>${CRTTRAN.NAME}</CourtNameOfTransfer>
+			</MaintainCO>
+		</ds>
+	</Mapping>
+</DBMapDef>

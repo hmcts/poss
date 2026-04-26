@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>142</Id>
+	<Label>Party who applied to issue this summons</Label>
+	<ObjectName>PartyApplied</ObjectName>
+	<Html>		
+		<script type="text/javascript">Grid.createInline("PartyApplied", ["Party Type", "Number", "Name"] , 2, 1);</script>
+	</Html>
+	<Javascript>
+		<XPath>/ds/EnterVariableData/Service/partyApplied</XPath>
+		<HintText>Enter the party name who applied to issue this summons</HintText>
+		<isMandatory>return true;</isMandatory>	
+		<isEnabled>return true;</isEnabled>
+		<miscCode>		 
+			PartyApplied.srcData = DATA_XPATH + "/Parties";
+			PartyApplied.rowXPath = "*[./Status != 'REMOVED']";			                                     
+			PartyApplied.keyXPath = "PartyId";
+			PartyApplied.columns = [
+				{xpath: "Type"},
+				{xpath: "Number", sort: "numerical", defaultSort:"true", defaultSortOrder:"ascending"},
+				{xpath: "Name"}
+			];
+			PartyApplied.multipleSelection = false;			
+		</miscCode>
+	</Javascript>
+</Question>

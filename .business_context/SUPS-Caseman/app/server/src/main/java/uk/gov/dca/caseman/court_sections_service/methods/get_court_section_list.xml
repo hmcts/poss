@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: CourtSections
+	Method:  getCourtSectionList()
+	File:    get_court_section_list.xml
+	Author:  Ian Stainer (Valtech)
+	Created: 16 November 2005
+	Description: 
+		Retrieves the list of sections for a particular court.
+-->
+<service-method>
+	<pipeline>
+		<SQLLite format-output="true"
+				 resultset-element="Sections"
+				 row-element="Section"
+				 field-name-as="element" >			
+			<DataSource id="java:OracleDS"/>
+			<Param name="param.courtId" xpath="/params/param[@name = 'courtId']"/>
+			<SQL>																		
+				SELECT	section_name as "Id",
+						section_name as "Description"
+				FROM	sections
+				WHERE	admin_court_code = ${param.courtId}
+			</SQL>
+		</SQLLite>		
+	</pipeline>
+	<Security roles="viewOnly medium high wcSuper scSuper bmsSuper aeSuper dmSuper admin cpSuper ccbcMan ccbcUser ccbcSGB2 ccbcTape"/>			
+</service-method>

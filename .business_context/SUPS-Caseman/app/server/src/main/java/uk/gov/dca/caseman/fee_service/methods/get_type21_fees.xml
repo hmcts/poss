@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: Fee
+	Method:  getType21Fees()
+	File:    get_type21_fees.xml
+	Author:  
+	Created: 
+	Description: 
+        List of Note Types for Obligation Type 21
+	Change History:
+	31/01/2013 - Change to reference data service now called via SQLLite and data now sourced from CCBC_REF_CODES
+				 instead of the VALID_VALUES table.  Trac 4763.
+-->
+<service-method>
+	<pipeline>
+		<SQLLite format-output="true" 
+				 resultset-element="Type21FeeTypes"
+				 row-element="Fee" 
+				 field-name-as="element">
+			<DataSource id="java:OracleDS"/>
+			<SQL>
+				SELECT rv_low_value AS "Id"
+					   ,rv_meaning AS "Description"
+				FROM ccbc_ref_codes
+				WHERE rv_domain = 'DMS_TYPE_21_NOTES'
+			</SQL>
+		</SQLLite>
+	</pipeline>
+	<Security roles="viewOnly medium high wcSuper scSuper bmsSuper aeSuper dmSuper cpSuper ccbcMan ccbcUser ccbcSGB2"/> 	
+</service-method>

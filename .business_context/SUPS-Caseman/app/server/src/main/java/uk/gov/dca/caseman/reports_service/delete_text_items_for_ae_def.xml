@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<QueryDef>
+	<DBMapDef location="uk/gov/dca/caseman/reports_service/insert_text_items_for_ae_map.xml"/>
+
+
+	<Query pivotNode="/delete_text_items/row" tables="TI">
+		<Modify>
+			<CheckExists table="TI" fields="TEXT_CASE_NUMBER" useOptimisticLock="false" onExist="delete" onNotExist="skip"/>
+		</Modify>
+	</Query>
+	
+</QueryDef>

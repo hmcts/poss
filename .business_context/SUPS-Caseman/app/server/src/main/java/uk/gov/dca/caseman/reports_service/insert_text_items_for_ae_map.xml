@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<DBMapDef>
+	<DataSource id="java:OracleDS"/>
+	<Tables>
+		<Table alias="TI" name="TEXT_ITEMS"/>
+	</Tables>
+	<Mapping>
+        <delete_text_items>
+            <row>
+    			<TEXT_CASE_NUMBER>${TI.TEXT_CASE_NUMBER}</TEXT_CASE_NUMBER>
+            </row>
+        </delete_text_items>	
+        <insert_text_items>
+            <row>
+    			<TEXT_CASE_NUMBER>${TI.TEXT_CASE_NUMBER}</TEXT_CASE_NUMBER>
+    			<TEXT_ORDER_ORD_ID>${TI.TEXT_ORDER_ORD_ID}</TEXT_ORDER_ORD_ID>
+    			<TEXT_VALUE>${TI.TEXT_VALUE}</TEXT_VALUE>
+    			<TEXT_DETAIL_CODE>${TI.TEXT_DETAIL_CODE}</TEXT_DETAIL_CODE>
+            </row>
+        </insert_text_items>
+	</Mapping>
+</DBMapDef>

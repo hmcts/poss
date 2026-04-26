@@ -1,0 +1,317 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- ====================================================================== -->
+<!--  -->
+<!-- FILENAME: $Source: C:/CVSRepository/serveroas/src/uk/gov/dca/caseman/wordprocessing_templates/Notice/CJR1424/CJR1424-FO.xml,v $ -->
+<!--  -->
+<!-- AUTHOR: $Author: jay $-->
+<!--  -->
+<!-- DATE: $Date: 2006/06/21 15:00:11 $ -->
+<!--  -->
+<!-- Version: $Revision: 1.10 $ -->
+<!--  -->
+<!-- DESCRIPTION: This stylesheet is used to create an XSL:FO document that -->
+<!-- can be processed into a PDF version.  Business logic -->
+<!-- is embedded to generate the correct document text for the order -->
+<!-- required. -->
+<!--  -->
+<!-- INPUTS: XML document containing: the answers to questions asked of the -->
+<!-- user; case data retrieved from the database; HTML representing the  -->
+<!-- body of the document content (already edited by the user). -->
+<!--  -->
+<!-- OUTPUTS: XML document with FO tags containing instructions for the -->
+<!-- creation of a PDF document. -->
+<!--  -->
+<!-- ====================================================================== -->
+<root xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:fo="http://www.w3.org/1999/XSL/Format" xmlns="http://eds.com/supsfo">
+	<variables>@word.processing.url.xsl@supsfo.xsl</variables>
+	<addressee>
+		<claimant/>
+	</addressee>
+	<header>
+		<fo:block font-size="16pt" font-weight="bold">Notice of Admission -</fo:block>
+		<fo:block font-size="16pt" font-weight="bold">Return of goods</fo:block>
+		<fo:block font-size="12pt">(hire-purchase or conditional sale)</fo:block>
+	</header>
+	<courtcase>
+		<court>
+			<xsl:copy-of select="$vdCourtHeaderBlock"/>
+		</court>
+		<caseparameters>
+			<parameter>
+				<name>
+					<fo:block font-weight="bold">Claim Number</fo:block>
+				</name>
+				<value>
+					<fo:block>
+						<xsl:value-of select="$vdClaimNumber"/>
+					</fo:block>
+				</value>
+			</parameter>
+			<parameter>
+				<name>
+					<fo:block font-weight="bold">Claimant</fo:block>
+					<fo:block font-size="9pt">(including ref.)</fo:block>
+				</name>
+				<value>
+					<fo:block hyphenate="true">
+						<xsl:value-of select="$vdClaimantName"/>
+					</fo:block>
+					<fo:block font-size="9pt" hyphenate="true">
+						<xsl:value-of select="$vdClaimantReference"/>
+					</fo:block>
+				</value>
+			</parameter>
+			<parameter>
+				<name>
+					<fo:block font-weight="bold">Defendant</fo:block>
+					<fo:block font-size="9pt">(including ref.)</fo:block>
+				</name>
+				<value>
+					<fo:block hyphenate="true">
+						<xsl:value-of select="$vdSubjectDefendantName"/>
+					</fo:block>
+					<fo:block font-size="9pt" hyphenate="true">
+						<xsl:value-of select="$vdSubjectDefendantReference"/>
+					</fo:block>
+				</value>				
+			</parameter>
+			<parameter>
+				<name>
+					<fo:block font-weight="bold">Date</fo:block>
+				</name>
+				<value>
+					<fo:block>
+						<xsl:value-of select="$vdEventDate"/>
+					</fo:block>
+				</value>
+			</parameter>
+			<dobparameter partyType="subject"/>
+		</caseparameters>
+	</courtcase>
+
+	<body>
+		<fo:block font-size="9pt">
+			<fo:table table-layout="fixed">
+				<fo:table-column column-width="9cm"/>
+				<fo:table-column column-width="9cm"/>
+				<fo:table-body>
+					<fo:table-row>
+						<fo:table-cell number-columns-spanned="2">
+							<fo:block font-weight="bold" text-align="center">Important notes for claimant</fo:block>
+							<fo:block>
+								   Enclosed with this notice is a copy of the defendant's admission of your claim
+								</fo:block>
+						</fo:table-cell>
+					</fo:table-row>
+					<fo:table-row>
+						<fo:table-cell number-columns-spanned="2">
+							<list type="bullet">
+								<list-item>
+									<fo:block font-size="9pt">
+												Tick and complete either A or B and make sure that the judgment details at D are completed
+										</fo:block>
+								</list-item>
+								<list-item>
+									<fo:block font-size="9pt">
+												Remember to sign and date the form.  Your signature certifies that the information you have given is correct
+										</fo:block>
+								</list-item>
+								<list-item>
+									<fo:block font-size="9pt">
+												Return the form to the court within 14 days.
+										</fo:block>
+								</list-item>
+							</list>
+						</fo:table-cell>
+					</fo:table-row>
+					
+					<fo:table-row>					
+						<fo:table-cell border-top-style="solid" border-top-width="0.02cm" border-right-style="solid" border-right-width="0.02cm">								
+							<fo:table>
+								<fo:table-body>
+									<fo:table-row>
+
+										<fo:table-cell padding-bottom="1em" padding-top="1em" padding-right="1em">
+											<fo:block>
+												<list type="checkBoxWithLabel">
+													<list-item>
+														<bulletText>A</bulletText>
+														<fo:block font-weight="bold">
+														I DO NOT accept the amount admitted by the defendant in satisfaction of my claim.
+													 </fo:block>
+													</list-item>
+												</list>
+												<fo:block space-before="0.2cm"/>
+												<fo:block>
+													 You should attend court on the day fixed for the hearing.  If you do not attend, an order may be made in your absence.
+												</fo:block>
+											</fo:block>
+										</fo:table-cell>
+					
+									</fo:table-row>
+									<fo:table-row>
+										
+										<fo:table-cell border-top-style="solid" border-top-width="0.02cm" border-bottom-style="solid" border-bottom-width="0.02cm" padding-bottom="1em" padding-right="1em" padding-top="1em">
+											<list type="checkBoxWithLabel">
+												<list-item>
+													<bulletText>B</bulletText>
+													<fo:block font-weight="bold" space-after="0.3cm">
+														I ACCEPT the amount admitted by the defendant in satisfaction of my claim.
+													 </fo:block>
+												</list-item>
+											</list>
+											<fo:block space-after="0.2cm">Tick only <fo:inline font-weight="bold">one</fo:inline> box and follow
+											 the instructions given.
+											</fo:block>
+											<list type="checkbox">
+												<list-item>
+													<fo:block font-weight="bold" white-space-collapse="false">      I accept the defendant's proposal for payment.</fo:block>
+													<fo:block space-after="0.2cm">Complete all the judgment details at D.  The court will make an order under sections 133 and 135 of the 
+													Consumer Credit Act 1974 for the return of the goods, suspended in accordance with the offer.
+													You will not have to attend court on the day fixed for the hearing.</fo:block>
+												</list-item>
+												<list-item>
+													<fo:block font-weight="bold" white-space-collapse="false">      The defendant has not made any proposal for payment.</fo:block>
+													<fo:block space-after="0.2cm">
+													Complete all the judgment details at D. Say how you want the defendant to pay.  You can ask for the judgment 
+													to be paid by instalments or in one payment.  The court will send the defendant an order to pay.  You will also be sent a copy.
+												</fo:block>
+												</list-item>
+												<list-item>
+													<fo:block font-weight="bold" white-space-collapse="false">       I do NOT accept the defendant's proposal for payment.</fo:block>
+													<fo:block>
+													Complete all the judgment details at D and say how you want the defendant to pay.  Give your reasons for objecting to the 
+													defendant's offer of payment in the space opposite. (Continue on the back of this form if necessary.)  The court will fix 
+													a rate of payment and send the defendant an order to pay.  You will also be sent a copy.
+												</fo:block>
+												</list-item>
+											</list>
+										</fo:table-cell>
+																				
+									</fo:table-row>
+								</fo:table-body>
+							</fo:table>
+						</fo:table-cell>
+						
+						<fo:table-cell border-top-style="solid" border-top-width="0.02cm">									
+							<fo:table>
+								<fo:table-body>
+									<fo:table-row>
+
+										<fo:table-cell padding-left="1em">
+											<fo:block>
+												<fo:inline font-weight="bold">C</fo:inline>
+												<list type="checkbox">
+													<list-item>
+														<fo:block padding-bottom="0.2cm">
+															Defendant's date of birth is not stated in the form of reply but is known by the claimant as
+														</fo:block>
+														<xsl:call-template name="manualDOB"/>
+
+													</list-item>
+													<list-item>
+														<fo:block space-before="0.2cm" padding-top="0.2cm">
+															Defendant's date of birth is not stated in the form of reply and is not known to the claimant.
+														</fo:block>
+													</list-item>
+												</list>
+											</fo:block>
+										</fo:table-cell>
+						
+									</fo:table-row>
+									<fo:table-row>
+										
+										<fo:table-cell border-top-style="solid" border-top-width="0.02cm" border-bottom-width="0.02cm" padding-top="1em" padding-bottom="1em">
+											<fo:table table-layout="fixed">
+												<fo:table-column column-width="9cm"/>
+												<fo:table-body>
+													<fo:table-row>
+														<fo:table-cell border-top-style="solid" padding-left="1em">
+															<fo:block space-after="0.2cm">
+																<fo:inline font-weight="bold">D Judgment details</fo:inline>
+																<fo:block>If you are not accepting the defendant's proposal for payment, say
+											  how you would like the judgment to be paid.
+																</fo:block>
+															</fo:block>
+															<fo:block space-after="0.2cm">I would like the judgment to be paid</fo:block>
+															<list type="checkbox">
+																<list-item>
+																	<fo:block space-after="0.2cm">(immediately)</fo:block>
+																</list-item>
+																<list-item>
+																	<fo:block space-after="0.2cm" white-space-collapse="false">(by instalments of &#163;           per month)</fo:block>
+																</list-item>
+																<list-item>
+																	<fo:block white-space-collapse="false">(in full by                                        )</fo:block>
+																</list-item>
+															</list>
+															<fo:block space-after="0.2cm">...............................................................................................................</fo:block>
+															<fo:block font-family="Times" font-weight="bold" font-style="italic">
+												List goods to be returned.....................................................................
+															</fo:block>
+														</fo:table-cell>
+													</fo:table-row>
+													<fo:table-row>
+														<fo:table-cell padding-top="1em" padding-bottom="1em" padding-left="1em">
+															<fo:table table-layout="fixed">
+																<fo:table-column column-width="6.5cm"/>
+																<fo:table-column column-width="1.5cm"/>
+																<fo:table-column column-width="1cm"/>
+																<fo:table-body>
+																	<fo:table-row>
+																		<fo:table-cell padding="0.1cm">
+																			<fo:block padding-right="0.2cm" space-before="0.3cm" space-after="0.3cm" font-weight="bold">Enter amounts as shown</fo:block>
+																			<fo:block padding-right="0.2cm" space-after="0.3cm">Amount of the unpaid balance of total price as stated in the claim...............................................</fo:block>
+																			<fo:block padding-right="0.2cm" space-after="0.5cm">Deduct amount (if any) paid since issue.............</fo:block>
+																		</fo:table-cell>
+																		<fo:table-cell border-left-style="solid" border-left-width="0.02cm"/>
+																		<fo:table-cell border-right-style="solid" border-right-width="0.02cm" border-left-style="dotted" border-left-width="0.02cm"/>
+																	</fo:table-row>
+																	<fo:table-row>
+																		<fo:table-cell padding="0.1cm">
+																			<fo:block font-weight="bold" text-align="right">Balance of total price</fo:block>
+																		</fo:table-cell>
+																		<fo:table-cell border-left-style="solid" border-left-width="0.02cm" border-top="solid" border-top-width="0.02cm" border-right-style="dotted" border-right-width="0.02cm" border-bottom-style="dotted" border-bottom-width="0.02cm"/>
+																		<fo:table-cell border-top-style="solid" border-top-width="0.02cm" border-right-style="solid" border-right-width="0.02cm" border-bottom-style="dotted" border-bottom-width="0.02cm"/>
+																	</fo:table-row>
+																	<fo:table-row>
+																		<fo:table-cell padding="0.2cm">
+																			<fo:block space-before="0.2cm" padding-right="0.2cm">Court fees entered on claim................................</fo:block>
+																			<fo:block space-before="0.2cm" padding-right="0.2cm">Solicitor's costs (if any) on issuing claim...........</fo:block>
+																			<fo:block space-before="0.2cm" padding-right="0.2cm">Solicitor's costs (if any) on entering judgment...</fo:block>
+																		</fo:table-cell>
+																		<fo:table-cell border-top-style="solid" border-top-width="0.02cm" border-right-style="solid" border-right-width="0.02cm" border-left-style="solid" border-left-width="0.02cm">
+																		</fo:table-cell>
+																		<fo:table-cell border-top-style="solid" border-top-width="0.02cm" border-right-style="solid" border-right-width="0.02cm" border-left-style="solid" border-left-width="0.02cm">
+																		</fo:table-cell>
+																	</fo:table-row>
+																	<fo:table-row>
+																		<fo:table-cell padding="0.1cm">
+																			<fo:block font-weight="bold" text-align="right">Total of fees and solicitor's costs</fo:block>
+																		</fo:table-cell>
+																		<fo:table-cell border-left-style="solid" border-left-width="0.02cm" border-top="solid" border-top-width="0.02cm" border-right-style="dotted" border-right-width="0.02cm" border-bottom-style="dotted" border-bottom-width="0.02cm"/>
+																		<fo:table-cell border-top-style="solid" border-top-width="0.02cm" border-right-style="solid" border-right-width="0.02cm" border-bottom-style="dotted" border-bottom-width="0.02cm"/>
+																	</fo:table-row>
+																</fo:table-body>
+															</fo:table>
+														</fo:table-cell>
+													</fo:table-row>
+												</fo:table-body>
+											</fo:table>
+										</fo:table-cell>																				
+									</fo:table-row>									
+								</fo:table-body>
+							</fo:table>
+						</fo:table-cell>
+					</fo:table-row>							
+				</fo:table-body>
+			</fo:table>
+			<fo:block font-family="Times" font-size="10pt" font-weight="bold">
+				I certify that the information given is correct</fo:block>
+			<signature signaturetype="signature"/>			
+		</fo:block>
+	</body>
+								
+	<defaultFooter id="CJR1424"/>
+	
+</root>

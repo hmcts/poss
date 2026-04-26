@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: CaseEvent
+	Method:  updateCaseEventRegisterJudgment
+	File:    update_case_event_register_judgment.xml
+	Author:  Chris Hutt (EDS)
+	Created: 05 may 2006
+	Description: 
+        Enables case event to be updated with decision as to whether judgment
+        to be updated.
+		Introduced as part of RFC1473
+
+	Change History:
+		18/10/2013 - Chris Vincent, Trac 4997.  Added CCBCJudgmentCaseEventUpdatesCustomProcessor to handle
+					 creation of CCBC MCOL updates.  Required for CCBC SDT.
+-->
+<service-method>
+	<pipeline>
+		<Update>
+			<!-- Note: This method only updates the CASE_EVENTS.REGISTER_JUDGMENT -->
+			<QueryDef location="uk/gov/dca/caseman/case_event_service/query_def_update_case_event_register_judgment.xml"/>
+			<DataSource xpath="/params/param name='caseEvent'"/>
+			<QueryExtension pivotNode="/CaseEvent">
+				<CheckExists table="CE" fields="EVENT_SEQ" onNotExist="fail" onExist="update" useOptimisticLock="false"/>
+			</QueryExtension>
+		</Update>
+		<Java callStyle="new">
+			<Source class="uk.gov.dca.caseman.case_event_service.java.CCBCJudgmentCaseEventUpdatesCustomProcessor"/>
+		</Java>
+	</pipeline>
+	<Dependencies>
+		<Dependency serviceName="Ccbc"/>
+		<Dependency serviceName="Judgment"/>
+	</Dependencies>
+	<Security roles="medium high wcSuper scSuper bmsSuper aeSuper dmSuper cpSuper ccbcMan ccbcUser ccbcSGB2"/>
+</service-method>

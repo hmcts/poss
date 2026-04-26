@@ -1,0 +1,245 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3c.org/TR/html4/strict.dtd">
+<html>
+	
+	<head>
+		<title>AddHearing_SubForm</title>
+		<link href="AddHearing_SubForm.css" type="text/css" rel="stylesheet">
+		<script type="text/javascript" src="../../../Framework.js"></script>
+		<script type="text/javascript" src="../../../ConcatCommon.js"></script>
+		<script type="text/javascript" src="../HearingConstants.js"></script>
+		<script type="text/javascript" src="../HearingHelperFunctions.js"></script>
+		<script type="text/javascript" src="AddHearing_SubForm.js"></script>
+	</head>
+	
+	<body>
+		<form id="addHearingSubform" class="subform">
+			<div class="panel">
+				<table class="content">
+					<tr>
+						<td valign="top">
+							<table>
+								<tr>
+									<td><label for='AddHearing_DateOfRequestToList'>Date of Request to List&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label></td>
+									<td colspan="3">
+										<script type="text/javascript">
+											DatePickerRenderer.createInline("AddHearing_DateOfRequestToList", false);
+										</script>
+										<!--<br>-->
+									</td>
+								</tr>
+								<tr>
+									<td><label for='AddHearing_HearingType_Code'>Hearing Type</label></td>
+									<td>
+										<input id="AddHearing_HearingType_Code" type="text" size="5"/>
+									</td>
+									<td>
+										<script type="text/javascript">
+											AutoCompletionRenderer.createInline("AddHearing_HearingType_Name");
+										</script>
+									</td>
+									<td>
+										<input id="AddHearing_HearingType_LOVBtn" type="Button" size="8" value="LOV"/>
+									</td>
+								</tr>						
+								<tr>
+									<td><label for="AddHearing_HearingOnDate">On</label></td>
+									<td colspan="3">
+										<table>
+											<tr>
+												<td>
+													<script type="text/javascript">
+														DatePickerRenderer.createInline("AddHearing_HearingOnDate", false);
+													</script>
+												</td>
+												<td>
+													<input id="AddHearing_HearingOnDay" type="text" size="12"/>
+												</td>
+												<td>
+													<label for="AddHearing_HearingOnTime">at</label>
+												</td>
+												<td>
+													<input id="AddHearing_HearingOnTime" type="text" size="3"/>
+												</td>
+											</tr>
+										</table>
+									</td>		        												
+								</tr>		
+								<tr>
+									<td><label for="AddHearing_HearingTimeAllowedHours">Time Allowed</label></td>
+									<td colspan="3">
+										<input id="AddHearing_HearingTimeAllowedHours" type="text" size="1"/>
+										Hours
+										<input id="AddHearing_HearingTimeAllowedMins" type="text" size="1"/>		        			
+										Minutes
+									</td>
+								</tr>
+								<tr>									
+									<td><label for="AddHearing_VenueCode">Venue</label></td>
+									<td colspan="3">
+										<input id="AddHearing_VenueCode" type="text" size="5"/>
+										<input id="AddHearing_VenueName" type="text" size="40"/>
+										<input id="AddHearing_AddVenueBtn" type="Button" value="Select"/>
+									</td>						
+								</tr>
+								<tr>		        												
+									<td><label for="AddHearing_ContactDetails_Address_Line1">Address</label></td>
+									<td colspan="3"><input id="AddHearing_ContactDetails_Address_Line1" type="text" size="50"/></td>
+								</tr>
+								<tr>
+																		
+									<td>&nbsp;</td>
+									<td colspan="3"><input id="AddHearing_ContactDetails_Address_Line2" type="text" size="50"/></td>
+								</tr>
+								<tr>
+																		
+									<td>&nbsp;</td>
+									<td colspan="3"><input id="AddHearing_ContactDetails_Address_Line3" type="text" size="50"/></td>
+								</tr>
+								<tr>
+									<td>&nbsp;</td>
+									<td colspan="3"><input id="AddHearing_ContactDetails_Address_Line4" type="text" size="50"/></td>
+								</tr>
+								<tr>
+									<td>&nbsp;</td>
+									<td colspan="3"><input id="AddHearing_ContactDetails_Address_Line5" type="text" size="50"/></td>
+								</tr>
+								<tr>
+									<td><label for="AddHearing_ContactDetails_Address_Postcode">Postcode</label></td>
+									<td colspan="3"><input id="AddHearing_ContactDetails_Address_Postcode" type="text" size="8"/></td>
+								</tr>
+								<tr>
+									<td><label for="AddHearing_ContactDetails_Address_DXNumber">DX Number</label></td>
+									<td colspan="3"><input id="AddHearing_ContactDetails_Address_DXNumber" type="text" size="24"/></td>
+								</tr>
+								<tr>
+									<td><label for="AddHearing_ContactDetails_TelephoneNumber">Telephone Number</label></td>
+									<td colspan="3"><input id="AddHearing_ContactDetails_TelephoneNumber" type="text" size="24"/></td>
+								</tr>
+								<tr>
+									<td><label for="AddHearing_ContactDetails_FaxNumber">Fax Number</label></td>
+									<td colspan="3"><input id="AddHearing_ContactDetails_FaxNumber" type="text" size="24"/></td>
+								</tr>								
+							</table>
+						</td>
+					</tr>	
+				</table>		
+			</div>
+	
+			<!-- Status Bar Panel -->
+			<script type="text/javascript">
+				ActionBarRenderer.createInline(
+					"status_bar",
+					[
+						{id: "AddHearing_OKBtn", label: "OK"},
+						{id: "AddHearing_CancelBtn", label: "Cancel"}
+					]
+				);
+			</script>
+			<!-- End Status Bar Panel -->
+	
+			<!-- Venue Selection popup -->
+			<div class="popup" id="SelectVenue">
+				<table class="content">
+					<tr>
+						<td colspan="2">
+							<table>
+								<tr>
+									<td><label for="SelectVenue_VenueCode">Venue</label></td>
+									<td>
+										<input type="text" id="SelectVenue_VenueCode" size="3"/>
+									</td>
+									<td>
+										<script type="text/javascript">
+											AutoCompletionRenderer.createInline("SelectVenue_VenueName");
+										</script>
+									</td>
+									<td><input id="SelectVenue_VenueLOVBtn" type="Button" value="LOV"/></td>
+								</tr>
+							</table>
+						</td>
+					</tr>
+					<tr>
+						<td valign="top">
+							<table>
+								<tr>
+									<td>
+										<!-- Address Grid 	-->								 
+										<script type="text/javascript">
+											Grid.createInline(
+												"selectVenue_Address_Grid",
+												["Address 1", "Address 2"], 
+												12,			
+												1	
+											); 
+										</script>																			
+									</td>	
+								</tr>					
+							</table>					
+						</td>
+						<td>
+							<table>
+								<tr>
+									<td><label for="SelectVenue_ContactDetails_Address_Line1">Address Details</label></td>
+									<td><input type="text" id="SelectVenue_ContactDetails_Address_Line1" size="50"/></td>
+								</tr>
+								<tr>
+									<td>&nbsp;</td>
+									<td><input type="text" id="SelectVenue_ContactDetails_Address_Line2" size="50"/></td>
+								</tr>
+								<tr>
+									<td>&nbsp;</td>
+									<td><input type="text" id="SelectVenue_ContactDetails_Address_Line3" size="50"/></td>
+								</tr>
+								<tr>
+									<td>&nbsp;</td>
+									<td><input type="text" id="SelectVenue_ContactDetails_Address_Line4" size="50"/></td>
+								</tr>
+								<tr>
+									<td>&nbsp;</td>
+									<td><input type="text" id="SelectVenue_ContactDetails_Address_Line5" size="50"/></td>
+								</tr>
+								<tr>
+									<td><label for="SelectVenue_ContactDetails_Address_Postcode">Postcode</label></td>
+									<td><input type="text" id="SelectVenue_ContactDetails_Address_Postcode" size="15"/></td>
+								</tr>						
+								<tr>
+									<td><label for="SelectVenue_ContactDetails_Address_DXNumber">DX Number</label></td>
+									<td><input type="text" id="SelectVenue_ContactDetails_Address_DXNumber" size="30"/></td>
+								</tr>
+								<tr>
+									<td><label for="SelectVenue_ContactDetails_Address_TelephoneNumber">Telephone Number</label></td>
+									<td><input type="text" id="SelectVenue_ContactDetails_Address_TelephoneNumber" size="30"/></td>
+								</tr>
+								<tr>
+									<td><label for="SelectVenue_ContactDetails_Address_FaxNumber">Fax Number</label></td>
+									<td><input type="text" id="SelectVenue_ContactDetails_Address_FaxNumber" size="30"/></td>
+								</tr>
+							
+							</table>
+						</td>
+					</tr>
+					<tr style="height:2px;">
+						<td colspan="2">&nbsp;</td>
+					</tr>
+					<tr>
+						<td colspan="2" align="right">
+							<input class="popupButton" type="button" value="OK" id="SelectVenue_OKBtn"/>
+							<input class="popupButton" type="button" value="Cancel" id="SelectVenue_CancelBtn"/>
+						</td>
+					</tr>
+				</table>
+			</div>
+			<!-- Venue Selection popup -->
+			
+			<!-- Hearing Type popup -->
+			<script type="text/javascript">
+				LOVPopupRenderer.createInline( "selectHearingTypeLOV", "Select Hearing Type", [ "Code", "Description"], 12, 1, true );
+			</script>
+	
+			<!-- Select hearing/court opoup popup -->
+			<script type="text/javascript">
+				LOVPopupRenderer.createInline( "selectVenueLOV", "Select Venue", ["Code", "Court"], 12, 1, true );
+			</script>		
+		</form>
+	</body>
+</html>

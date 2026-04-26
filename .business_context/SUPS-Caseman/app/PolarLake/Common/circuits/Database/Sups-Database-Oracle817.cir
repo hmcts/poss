@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<pl:system-content xmlns:pl="http://www.polarlake.com/platform/1.0">
+    <pl:circuit name="Sups-Database-Oracle817">
+        <pl:importcircuit name="com.polarlake.circuits.BaseCircuit"/>
+        <pl:importmodule name="com.polarlake.platform.databasemodule.DatabaseModuleApplication"/>
+        <pl:application-data name="Resources" type="Resources">
+            <pl:application-data name="Functions" type="functions" application="com.polarlake.platform.librarymodule.LibraryModuleApplication"/>
+            <pl:application-data name="Initial Contexts" type="initialcontexts" application="com.polarlake.platform.librarymodule.LibraryModuleApplication"/>
+            <pl:application-data name="Scripts" type="scripts" application="com.polarlake.platform.librarymodule.LibraryModuleApplication"/>
+            <pl:application-data name="Statistics sensors" type="sensors" application="com.polarlake.sysinfo.SystemInformation"/>
+            <pl:application-data name="Condition Groups" type="conditiongroups" application="com.polarlake.platform.librarymodule.LibraryModuleApplication"/>
+            <pl:application-data name="XML Wrapper Request Processors" type="Wrapper-Request-Processors" application="com.polarlake.requestprocessors.wrapper.WrapperApplication"/>
+            <pl:application-data name="Document Variables" type="documentvariables" application="SYSTEM"/>
+            <pl:application-data name="Format Request processors" type="FormatRequestProcessors" application="com.polarlake.platform.librarymodule.LibraryModuleApplication"/>
+            <pl:application-data name="Server Document Variables" type="serverdocumentvariables" application="SYSTEM"/>
+            <pl:application-data name="Databases" type="dbroot" application="com.polarlake.platform.databasemodule.DatabaseModuleApplication">
+                <pl:application-data name="CasemanSups" type="database" application="com.polarlake.platform.databasemodule.DatabaseModuleApplication" value="">
+                    <pl:application-data name="driver_class" type="property" application="com.polarlake.platform.databasemodule.DatabaseModuleApplication" value="oracle.jdbc.driver.OracleDriver"/>
+                    <pl:application-data name="connect_string" type="property" application="com.polarlake.platform.databasemodule.DatabaseModuleApplication" value="{pl$DatabaseConnectionSups}"/>
+                    <pl:application-data name="username" type="property" application="com.polarlake.platform.databasemodule.DatabaseModuleApplication" value="{pl$DatabaseUserSups} "/>
+                    <pl:application-data name="password" type="property" application="com.polarlake.platform.databasemodule.DatabaseModuleApplication" value="e3BsJERhdGFiYXNlUGFzc3dvcmRTdXBzfQ=="/>
+                    <pl:application-data name="read_only" type="property" application="com.polarlake.platform.databasemodule.DatabaseModuleApplication" value="false"/>
+                    <pl:application-data name="use_pool" type="property" application="com.polarlake.platform.databasemodule.DatabaseModuleApplication" value="true"/>
+                    <pl:application-data name="use_stmt_pool" type="property" application="com.polarlake.platform.databasemodule.DatabaseModuleApplication" value="true"/>
+                    <pl:application-data name="retry_interval" type="property" application="com.polarlake.platform.databasemodule.DatabaseModuleApplication" value="3000"/>
+                    <pl:application-data name="retry_limit" type="property" application="com.polarlake.platform.databasemodule.DatabaseModuleApplication" value="0"/>
+                    <pl:application-data name="check_sql" type="property" application="com.polarlake.platform.databasemodule.DatabaseModuleApplication" value=""/>
+                    <pl:application-data name="driver_jars" type="property">
+                        <pl:application-data name="file:///{pl$caseman_home}/Common/lib/classes12.zip" type="property"/>
+                    </pl:application-data>
+                </pl:application-data>
+                <pl:application-data name="CasemanLegacyCentral" type="database" application="com.polarlake.platform.databasemodule.DatabaseModuleApplication" value="">
+                    <pl:application-data name="driver_class" type="property" application="com.polarlake.platform.databasemodule.DatabaseModuleApplication" value="oracle.jdbc.driver.OracleDriver"/>
+                    <pl:application-data name="connect_string" type="property" application="com.polarlake.platform.databasemodule.DatabaseModuleApplication" value="{pl$DatabaseConnectionCasemanLegacy}"/>
+                    <pl:application-data name="username" type="property" application="com.polarlake.platform.databasemodule.DatabaseModuleApplication" value="{pl$DatabaseUserCasemanLegacy}"/>
+                    <pl:application-data name="password" type="property" application="com.polarlake.platform.databasemodule.DatabaseModuleApplication" value="e3BsJERhdGFiYXNlUGFzc3dvcmRDYXNlbWFuTGVnYWN5fQ=="/>
+                    <pl:application-data name="read_only" type="property" application="com.polarlake.platform.databasemodule.DatabaseModuleApplication" value="false"/>
+                    <pl:application-data name="use_pool" type="property" application="com.polarlake.platform.databasemodule.DatabaseModuleApplication" value="false"/>
+                    <pl:application-data name="use_stmt_pool" type="property" application="com.polarlake.platform.databasemodule.DatabaseModuleApplication" value="true"/>
+                    <pl:application-data name="retry_interval" type="property" application="com.polarlake.platform.databasemodule.DatabaseModuleApplication" value="3000"/>
+                    <pl:application-data name="retry_limit" type="property" application="com.polarlake.platform.databasemodule.DatabaseModuleApplication" value="0"/>
+                    <pl:application-data name="check_sql" type="property" application="com.polarlake.platform.databasemodule.DatabaseModuleApplication" value=""/>
+                    <pl:application-data name="driver_jars" type="property">
+                        <pl:application-data name="file:///D:/Oracle/ora817/jdbc/lib/classes12.zip" type="property"/>
+                    </pl:application-data>
+                </pl:application-data>
+                <pl:application-data name="CasemanTest" type="database" application="com.polarlake.platform.databasemodule.DatabaseModuleApplication" value="">
+                    <pl:application-data name="driver_class" type="property" application="com.polarlake.platform.databasemodule.DatabaseModuleApplication" value="oracle.jdbc.driver.OracleDriver"/>
+                    <pl:application-data name="connect_string" type="property" application="com.polarlake.platform.databasemodule.DatabaseModuleApplication" value="{pl$DatabaseConnectionSupsCentral}"/>
+                    <pl:application-data name="username" type="property" application="com.polarlake.platform.databasemodule.DatabaseModuleApplication" value=" {pl$DatabaseUserSupsCentral}"/>
+                    <pl:application-data name="password" type="property" application="com.polarlake.platform.databasemodule.DatabaseModuleApplication" value="e3BsJERhdGFiYXNlUGFzc3dvcmRTdXBzQ2VudHJhbH0="/>
+                    <pl:application-data name="read_only" type="property" application="com.polarlake.platform.databasemodule.DatabaseModuleApplication" value="false"/>
+                    <pl:application-data name="use_pool" type="property" application="com.polarlake.platform.databasemodule.DatabaseModuleApplication" value="true"/>
+                    <pl:application-data name="use_stmt_pool" type="property" application="com.polarlake.platform.databasemodule.DatabaseModuleApplication" value="true"/>
+                    <pl:application-data name="retry_interval" type="property" application="com.polarlake.platform.databasemodule.DatabaseModuleApplication" value="3000"/>
+                    <pl:application-data name="retry_limit" type="property" application="com.polarlake.platform.databasemodule.DatabaseModuleApplication" value="0"/>
+                    <pl:application-data name="check_sql" type="property" application="com.polarlake.platform.databasemodule.DatabaseModuleApplication" value=""/>
+                    <pl:application-data name="driver_jars" type="property">
+                        <pl:application-data name="file:///D:/Oracle/ora817/jdbc/lib/classes12.zip" type="property"/>
+                    </pl:application-data>
+                </pl:application-data>
+            </pl:application-data>
+        </pl:application-data>
+        <pl:seqlist name="Your Sequence1128001714015"/>
+        <pl:seqlist name="Exception Sequence1127302830156">
+            <pl:eventprocessor name="pl:script" disable="false">
+                <pl:parameter name="design">
+                    <pl:parameter name="uid" value="2"/>
+                    <pl:parameter name="alias" value="Output Exception"/>
+                </pl:parameter>
+                <pl:parameter name="name" value="outputDocument"/>
+            </pl:eventprocessor>
+        </pl:seqlist>
+        <pl:table name="Main Table1128001714046" operation="create">
+            <pl:namespace uri="http://www.w3.org/2001/XMLSchema" prefix="xs" operation="create"/>
+            <pl:namespace uri="http://www.polarlake.com/platform/1.0" prefix="pl" operation="create"/>
+        </pl:table>
+    </pl:circuit>
+</pl:system-content>

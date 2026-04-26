@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>89</Id>
+	<Label>Date of Return of Goods Order</Label>
+	<ObjectName>ReturnOfGoodsDate</ObjectName>
+	<Html>
+	  <script type="text/javascript">WP_DatePickerRenderer.createInline("ReturnOfGoodsDate", false);</script>
+	</Html>
+	<Javascript>
+		<XPath>/ds/EnterVariableData/Order/returnofgoodsdate</XPath>
+		<isMandatory>return true;</isMandatory>	
+		<mandatoryOn>ReturnOfGoodsDate.dataBinding</mandatoryOn>
+		<HintText>Select or enter the date of the return of goods order</HintText>
+		<validateOn>ReturnOfGoodsDate.dataBinding</validateOn>
+		<validate>
+			//date cannot be in the future
+			var isFuture = isFutureDate(Services.getValue(ReturnOfGoodsDate.dataBinding));
+			var err = null;
+			if( true == isFuture)
+			{ 	err = ErrorCode.getErrorCode("CaseMan_dateCannotBeInTheFuture_Msg");				
+			}
+			return err;
+		</validate>
+	</Javascript>
+</Question>

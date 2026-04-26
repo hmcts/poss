@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>328</Id>
+	<Label>Sum to be payable within</Label>
+	<ObjectName>SumPayableWithin</ObjectName>
+	<Html>
+		<select id="SumPayableWithin">
+			<option value=""></option>
+			<option value="FD">Within 14 days</option>
+			<option value="GD">On a given date</option>
+			<option value="PIC">Is to be paid into court</option>
+		</select>
+	</Html>
+	<Javascript>
+		<XPath>/ds/EnterVariableData/DefaultCostsCert/whenSumPayable</XPath>
+		<componentName>##label##</componentName>
+		<HintText>Enter the duration of amount to be payable - list available</HintText>
+		<isMandatory>return true;</isMandatory>
+	</Javascript>
+</Question>     
+     
+    
+

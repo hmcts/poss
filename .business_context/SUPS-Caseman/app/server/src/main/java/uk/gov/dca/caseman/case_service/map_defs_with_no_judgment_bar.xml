@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+v1.0 Chris Hutt 4/2/2005
+-->
+<DBMapDef>
+<DataSource id="java:OracleDS"/>
+<Tables>
+  <Table alias="CPR" name="CASE_PARTY_ROLES"/>
+</Tables>
+  <Mapping>  
+    <Case>
+  	<Parties>
+  	  <Party>
+  	    <!--SubjectPartyKey>${CPR.PARTY_ID}</SubjectPartyKey-->
+  	    <CasePartyNumber>${CPR.CASE_PARTY_NO}</CasePartyNumber>
+  	    <PartyRoleCode>${CPR.PARTY_ROLE_CODE}</PartyRoleCode>
+  	    <Bar>${CPR.DEFT_BAR_JUDGMENT}</Bar>
+  	  </Party>
+  	</Parties>
+    </Case>	
+  </Mapping>
+</DBMapDef>

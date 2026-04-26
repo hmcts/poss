@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<DBMapDef>
+	<DataSource id="java:OracleDS" />
+	<Tables>
+		<Table alias="P" name="PAYMENTS" />
+	</Tables>
+	<Mapping>
+		<PostalReceipts>
+			<NoOfPayments>${PAYMENTS_EXISTS}</NoOfPayments>
+		</PostalReceipts>
+	</Mapping>
+</DBMapDef>

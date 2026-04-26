@@ -1,0 +1,538 @@
+
+<!-- ===========================================================================
+ = CASEMAN
+ =
+ = Name:        build.xml
+ = Description: Build file for a specific project.
+ =
+ = $Revision: $
+ = $Author: $
+ = $Date: $
+ = $URL: $
+ =
+ = Copyright Logica UK Ltd. 2012
+ =========================================================================== -->
+
+<project name="database" basedir="." default="build-current-database">
+
+	<property name="orig_working_dir" value="${basedir}" />
+
+	<!-- LOAD STANDARD PROPERTIES FROM ENVIRONMENT VARIABLES AND PROPERTY FILES -->
+	<import file="../build/build-setup-env.xml" />
+
+	<!-- Define classpath for compilation -->
+	<import file="../build/build-set-classpath.xml" />
+
+	<!-- STANDARD TARGETS -->
+	<import file="../build/build-standard-targets.xml" />
+
+	<!-- EXTRA TARGETS -->
+	<import file="build-extras.xml" />
+
+	<!-- TEST TARGETS -->
+	<import file="../build/build-test-targets.xml" />
+
+	<!-- General initialisation - ensure build directory (for classes) and dist 
+        directory (for jar) are present if they do not already exist -->
+	<target name="init" description="Create the distribution dirs">
+		<mkdir dir="${target.dir}" />
+		<mkdir dir="${lib.app.dir}" />
+		<mkdir dir="${logs.dir}" />
+		<mkdir dir="${logs.dir}/migration" />
+		<mkdir dir="${logs.dir}/production" />
+		<mkdir dir="${logs.dir}/populate-data" />
+	</target>
+
+	<!-- Delete the build and distribution folders -->
+	<target name="clean" description="Cleanup the build and distribution dirs">
+		<delete dir="${target.dir}" />
+		<delete dir="${lib.app.dir}" />
+		<delete dir="${logs.dir}/migration" />
+		<delete dir="${logs.dir}/production" />
+		<delete dir="${logs.dir}/populate-data" />
+		<delete dir="${logs.dir}" />
+	</target>
+
+	<!-- Copies <any name>.template files to <any name> substituting any matching properties in memory -->
+	<target name="configure-property-files" description="Copies files in the project with the pattern '*.template' to '*', dropping the .template suffix">
+		<echo level="info" message="Templatising all configuration files" />
+		<copy todir="${basedir}" overwrite="true">
+			<fileset dir="${basedir}">
+				<include name="**/*.template" />
+			</fileset>
+			<filterchain>
+				<filterreader classname="org.apache.tools.ant.filters.ExpandProperties" />
+			</filterchain>
+			<mapper type="glob" from="*.template" to="*" />
+		</copy>
+	</target>
+
+	<!-- Copy bin resources -->
+	<target name="-copy-resources" depends="init" description="Copy any resources in the database directory">
+		<copy todir="${mcol-db-scripts.dir}" overwrite="true">
+			<fileset dir=".">
+				<include name="data/**/*.*" />
+				<include name="ddl/**/*.*" />
+				<include name="mig/**/*.*" />
+				<include name="privileges/**/*.*" />
+				<include name="utils/**/*.*" />
+			</fileset>
+		</copy>
+	</target>
+
+	<!-- Build zip file -->
+	<target name="dist" depends="-copy-resources" description="Generate the distribution">
+		<zip zipfile="${lib.app.dir}/${dist.jar}" basedir="${target.dir}" />
+	</target>
+
+	<!-- Run sqlplus script with optional parameters -->
+    <!-- Run sqlplus script with optional parameters -->
+    <target name="-run-sql" description="This task runs an sqlplus script">
+        <echo level="info" message="Running: sqlplus -L ${db.sys.user}/password@${db.sid} as sysdba @${script} ${param1} ${param2} ${param3} for type ${script-type}, script ${script-name}" />
+        <exec executable="sqlplus" resultproperty="sql.result" failonerror="true" dir="." output="logs/${script-type}/${script-name}.log">
+            <arg value="-L" />
+            <arg value="${db.sys.user}/${db.system.pass}@${db.sid}" />
+            <arg value="as" />
+            <arg value="sysdba" />
+            <arg value="@${script}" />
+            <arg value="${param1}" />
+            <arg value="${param2}" />
+            <arg value="${param3}" />
+        </exec>
+
+		<fail message="An error occurred while running sqlplus script - see logs/${script-type}/${script-name}.log for details.">
+			<condition>
+				<not>
+					<equals arg1="${sql.result}" arg2="0" />
+				</not>
+			</condition>
+		</fail>
+	</target>
+
+	<!-- Run sqlldr script with optional parameters -->
+	<target name="-run-sqlldr" description="This task runs an sqlldr script">
+		<echo level="info" message="Running (from ${script-dir}): sqlldr userid=${db.system.user}/password@${db.sid} bad=${script-name}.bad control=${script-name}.ctl data=${script-name}.csv skip=1 errors=0 log=${orig_working_dir}/logs/${script-type}/${script-name}.log" />
+		<exec executable="sqlldr" resultproperty="sql.result" failonerror="true" dir="${script-dir}" output="logs/${script-type}/${script-name}.log">
+			<arg value="userid=${db.system.user}/${db.system.pass}@${db.sid}" />
+			<arg value="bad=${script-name}.bad" />
+			<arg value="control=${script-name}.ctl" />
+			<arg value="data=${script-name}.csv" />
+			<arg value="skip=1" />
+			<arg value="errors=0" />
+			<arg value="log=${orig_working_dir}/logs/production/mcol.card_scheme.log" />
+		</exec>
+
+		<fail message="An error occurred while running sqlldr - see logs/${script-type}/${script-name}.log for details.">
+			<condition>
+				<not>
+					<equals arg1="${sql.result}" arg2="0" />
+				</not>
+			</condition>
+		</fail>
+	</target>
+
+	<!-- Build all databases at baseline version -->
+	<target name="create-baseline-schemas" depends="init" description="This task runs the baseline database build scripts">
+
+		<antcall target="-run-sql">
+			<param name="script-name" value="drop_users" />
+			<param name="script-type" value="production" />
+			<param name="script" value="utils/drop_users.sql" />
+			<param name="param1" value="" />
+			<param name="param2" value="" />
+			<param name="param3" value="" />
+		</antcall>
+
+		<antcall target="-run-sql">
+			<param name="script-name" value="create_users" />
+			<param name="script-type" value="production" />
+			<param name="script" value="utils/create_users.sql" />
+			<param name="param1" value="" />
+			<param name="param2" value="" />
+			<param name="param3" value="" />
+		</antcall>
+
+		<antcall target="-run-sql">
+			<param name="script-name" value="create_caseman_ddl" />
+			<param name="script-type" value="production" />
+			<param name="script" value="utils/install_all_ddl.sql" />
+			<param name="param1" value="baseline" />
+			<param name="param2" value="CASEMAN" />
+			<param name="param3" value="" />
+		</antcall>
+
+		<antcall target="-run-sql">
+			<param name="script-name" value="create_caseman_grants" />
+			<param name="script-type" value="production" />
+			<param name="script" value="utils/install_all_grants.sql" />
+			<param name="param1" value="baseline" />
+			<param name="param2" value="CASEMAN" />
+			<param name="param3" value="" />
+		</antcall>
+
+	</target>
+
+	<!-- Build all databases at latest version -->
+	<target name="create-current-schemas" depends="init" description="This task runs the current database build scripts">
+
+		<antcall target="-run-sql">
+			<param name="script-name" value="drop_users" />
+			<param name="script-type" value="production" />
+			<param name="script" value="utils/drop_users.sql" />
+			<param name="param1" value="" />
+			<param name="param2" value="" />
+			<param name="param3" value="" />
+		</antcall>
+
+		<antcall target="-run-sql">
+			<param name="script-name" value="create_users" />
+			<param name="script-type" value="production" />
+			<param name="script" value="utils/create_users.sql" />
+			<param name="param1" value="" />
+			<param name="param2" value="" />
+			<param name="param3" value="" />
+		</antcall>
+
+		<antcall target="-run-sql">
+			<param name="script-name" value="create_caseman_ddl" />
+			<param name="script-type" value="production" />
+			<param name="script" value="utils/install_all_ddl.sql" />
+			<param name="param1" value="current" />
+			<param name="param2" value="CASEMAN" />
+			<param name="param3" value="" />
+		</antcall>
+
+		<antcall target="-run-sql">
+			<param name="script-name" value="create_caseman_grants" />
+			<param name="script-type" value="production" />
+			<param name="script" value="utils/install_all_grants.sql" />
+			<param name="param1" value="current" />
+			<param name="param2" value="CASEMAN" />
+			<param name="param3" value="" />
+		</antcall>
+
+	</target>
+
+	<!-- Run the migration scripts to move from the baseline to the current version. These migration scripts 
+	are used to evolve the production database. -->
+	<!-- Migrate all schemas from the baseline version to the current version -->
+	<target name="migrate-baseline-database" description="Migrate the baseline database to the current version">
+
+		<antcall target="-run-sql">
+			<param name="script-name" value="01_mcol_reference_data_amounts_ddl" />
+			<param name="script-type" value="migration" />
+			<param name="script" value="utils/sql_wrapper.sql" />
+			<param name="param1" value="mig/production/027_3.0/01_mcol_reference_data_amounts_ddl.sql" />
+			<param name="param2" value="" />
+			<param name="param3" value="" />
+		</antcall>
+
+		
+		<!-- end of migration/upgrade -->
+
+		<!-- Post Migration Tasks -->
+        <!-- <antcall target="-run-sql">
+			<param name="script-name" value="post_migration_privileges" />
+			<param name="script-type" value="test_tools" />
+			<param name="script" value="utils/sql_wrapper.sql" />
+			<param name="param1" value="privileges/development/post_migration_privileges.sql" />
+			<param name="param2" value="" />
+			<param name="param3" value="" />
+		</antcall> -->
+		<!-- End of Post Migration Tasks -->
+
+		<antcall target="-run-sql">
+			<param name="script-name" value="fire_triggers" />
+			<param name="script-type" value="migration" />
+			<param name="script" value="utils/fire_triggers.sql" />
+			<param name="param1" value="" />
+			<param name="param2" value="" />
+			<param name="param3" value="" />
+		</antcall>
+
+		<antcall target="-run-sql">
+			<param name="script-name" value="compile_invalid_objects" />
+			<param name="script-type" value="migration" />
+			<param name="script" value="utils/compile_invalid_objects.sql" />
+			<param name="param1" value="" />
+			<param name="param2" value="" />
+			<param name="param3" value="" />
+		</antcall>
+
+	</target>
+
+	<!-- Disable Constraints -->
+	<target name="disable-constraints" depends="init" description="This task disables the database constraints.">
+
+		<antcall target="-run-sql">
+			<param name="script-name" value="disable_fk_constraints" />
+			<param name="script-type" value="populate-data" />
+			<param name="script" value="utils/fk_constraints.sql" />
+			<param name="param1" value="disable" />
+			<param name="param2" value="" />
+			<param name="param3" value="" />
+		</antcall>
+		
+		<antcall target="-run-sql">
+			<param name="script-name" value="disable_triggers" />
+			<param name="script-type" value="populate-data" />
+			<param name="script" value="utils/triggers.sql" />
+			<param name="param1" value="disable" />
+			<param name="param2" value="" />
+			<param name="param3" value="" />
+		</antcall>
+
+	</target>
+
+	<!-- Enable Constraints -->
+	<target name="enable-constraints" depends="init" description="This task enables the database constraints.">
+
+		<antcall target="-run-sql">
+			<param name="script-name" value="enable_fk_constraints" />
+			<param name="script-type" value="populate-data" />
+			<param name="script" value="utils/fk_constraints.sql" />
+			<param name="param1" value="enable" />
+			<param name="param2" value="" />
+			<param name="param3" value="" />
+		</antcall>
+
+		<antcall target="-run-sql">
+			<param name="script-name" value="enable_triggers" />
+			<param name="script-type" value="populate-data" />
+			<param name="script" value="utils/triggers.sql" />
+			<param name="param1" value="enable" />
+			<param name="param2" value="" />
+			<param name="param3" value="" />
+		</antcall>
+
+	</target>
+
+	<!-- Populate Base (Reference) Data -->
+	<target name="-populate-reference-data" depends="init" description="This task populates the reference data">
+
+		<antcall target="disable-constraints"/>
+
+		<antcall target="-run-sql">
+			<param name="script-name" value="truncate_tables" />
+			<param name="script-type" value="populate-data" />
+			<param name="script" value="utils/truncate_tables.sql" />
+			<param name="param1" value="" />
+			<param name="param2" value="" />
+			<param name="param3" value="" />
+		</antcall>
+		
+		<!-- Start Data load from static directory. -->
+		
+		<antcall target="enable-constraints"/>
+
+	</target>
+	
+	<!-- Populate Transactional Data -->
+	<target name="-populate-transactional-data" depends="init" description="This task populates the transactional data">
+
+		<antcall target="disable-constraints"/>
+
+		<!-- Start Data load from transactional directory. -->
+		
+		<antcall target="enable-constraints"/>
+
+	</target>
+	
+	<!-- Reset sequences -->
+	<target name="-reset-sequences" depends="init" description="This task resets sequences to take account of data added to the database">
+
+		<antcall target="-run-sql">
+			<param name="script-name" value="reset_sequence" />
+			<param name="script-type" value="populate-data" />
+			<param name="script" value="utils/reset_sequence.sql" />
+			<param name="param1" value="" />
+			<param name="param2" value="" />
+			<param name="param3" value="" />
+		</antcall>
+
+	</target>
+	
+	<!-- Build all databases at baseline version -->
+	<!-- <target name="build-baseline-database" depends="create-baseline-schemas, migrate-baseline-database, -populate-reference-data, -populate-transactional-data, -reset-sequences" description="Create the baseline schema (the version of the schemas wo which migration scripts are applied)"> -->
+	<target name="build-baseline-database" depends="create-baseline-schemas, migrate-baseline-database" description="Create the baseline schema (the version of the schemas wo which migration scripts are applied)">
+		<zip zipfile="${lib.app.dir}/${dist.jar}" basedir="${target.dir}" />
+	</target>
+
+	<!-- Build all databases at latest version -->
+	<!-- <target name="build-current-database" depends="create-current-schemas, -populate-reference-data, -populate-transactional-data, -reset-sequences" description="Generate the database distribution"> -->
+		<target name="build-current-database" depends="create-current-schemas" description="Generate the database distribution">
+		<zip zipfile="${lib.app.dir}/${dist.jar}" basedir="${target.dir}" />
+	</target>
+
+	<!-- Calls extra targets required by this project. -->
+	<target name="extras" depends="" description="Run extra targets for this project">
+		<echo level="info" message="Running extra targets for project: ${ant.project.name}" />
+	</target>
+
+	<!-- This task is only called by dev server -->
+	<target name="update-dev-database" depends="init" description="This task runs the production database build scripts">
+
+		<antcall target="-run-sql">
+			<param name="script-name" value="05_mcol_update_payment_global_parameters_data" />
+			<param name="script-type" value="dev" />
+			<param name="script" value="utils/sql_wrapper.sql" />
+			<param name="param1" value="mig/hudson/05_mcol_update_payment_global_parameters_data.sql" />
+			<param name="param2" value="" />
+			<param name="param3" value="" />
+		</antcall>
+
+		<antcall target="-run-sql">
+			<param name="script-name" value="06_mcol_add_test_reference_data_amounts" />
+			<param name="script-type" value="dev" />
+			<param name="script" value="utils/sql_wrapper.sql" />
+			<param name="param1" value="mig/hudson/06_mcol_add_test_reference_data_amounts.sql" />
+			<param name="param2" value="" />
+			<param name="param3" value="" />
+		</antcall>
+
+	</target>
+
+	<!-- Build all databases at latest version -->
+	<target name="load-data" depends="-populate-reference-data, -populate-transactional-data, -reset-sequences" description="Load all base and transactional test data">
+		<zip zipfile="${lib.app.dir}/${dist.jar}" basedir="${target.dir}" />
+	</target>
+	
+	<!-- New DBUnit Targets, extract reference data first -->
+	
+	<target name="dbunit-extract-refdata" description="extracts all reference data from a given schema" >
+		
+		<!-- Set our extract file name -->
+		<property name="extract.file.name" value="./data/static/${my.cm.db.user}_csv" />
+		
+		<fail unless="my.cm.db.driver" />
+		<fail unless="my.cm.db.url" />
+		<fail unless="my.cm.db.user" />
+		<fail unless="my.cm.db.pass" />
+		
+		<echo message="dbunit-extract-refdata starts, extract file is ${extract.file.name}"/>
+		<dbunit driver="${my.cm.db.driver}" 
+			    url="${my.cm.db.url}" 
+			    userid="${my.cm.db.user}" 
+			    password="${my.cm.db.pass}">
+			
+			<dbconfig>			
+				<property name="datatypeFactory" value="org.dbunit.ext.oracle.OracleDataTypeFactory" /> 
+			</dbconfig>
+			
+			<export dest="${extract.file.name}" format="csv">
+				<table name="ACTION_TASK_XREF" />
+				<table name="ALLOWED_DEBTS" />
+				<table name="ADDRESS_TYPES" />
+				<table name="AGE_CATEGORY" />
+				<table name="AUDIT_CONFIG" />
+				<table name="CCBC_REF_CODES" />
+				<table name="CASES" />
+				<table name="CASE_PARTY_ROLES" />
+				<table name="CONSOLIDATED_ORDERS" />
+				<table name="CDR_MCOL_EVENT_MAPPING" />
+				<table name="CDR_MCOL_STATUS_MAPPING" />
+				<table name="CHANGED_EVENTS" />
+				<table name="CODED_PARTIES" />
+				<table name="COSTS" />
+				<table name="COURTS" />
+				<table name="CO_EVENT_VALIDATIONS" />
+				<table name="CO_TEXT_ITEMS" />
+				<table name="CURRENCY" />			
+				<table name="DCA_USER" />
+				<table name="DOCUMENT_VARIABLES" />
+				<table name="ENFORCEMENT_LETTERS" />
+				<table name="EVENT_OUTPUTS" />
+				<table name="GIVEN_ADDRESSES" />
+				<table name="ITEM_DETAILS" />
+				<table name="JUDGES" />
+				<table name="LOCAL_AUTHORITY_CODES" />
+				<table name="NATIONAL_CODED_PARTIES" />
+				<table name="NON_WORKING_DAYS" />
+				<table name="NON_WORKING_DAYS_EXCEPTIONS" />
+				<table name="OBLIGATION_EVENTS" />
+				<table name="OBLIGATION_RULES" />
+				<table name="OBLIGATION_TYPES" />
+				<table name="ORDER_TYPES" />
+				<table name="OUTPUT_DETAILS" />
+				<table name="PARTIES" />
+				<table name="PARTY_TYPES" />
+				<table name="PARTY_ROLES" />
+				<table name="PAYEES" />
+				<table name="PERSONALISE" />
+				<table name="PER_DETAILS" />
+				<table name="PRE_REQ_EVENTS" />
+				<table name="RETURN_CODES" />
+				<table name="SECTIONS" />
+				<table name="STANDARD_EVENTS" />
+				<table name="SUB_DETAIL_VARIABLES" />
+				<!--<table name="SYSTEM_DATA" />-->
+				<table name="TASKS" />
+				<table name="TASK_TYPES" />
+				<table name="TMP_RTL_CHARACTER_MAP" />
+				<table name="USER_COURT" />
+				<table name="USER_ROLE" />
+				<table name="VALID_VALUES" />
+			
+			</export>			
+		</dbunit>			
+		<echo message="dbunit-extract-refdata completes"/>		
+	</target>
+	
+	<target name="dbunit-load-refdata" description="loads data to a specific schema" >
+		<echo message="starts"/>
+		
+		<fail unless="my.xe.db.driver" />
+		<fail unless="my.xe.db.url" />
+		<fail unless="my.xe.db.user" />
+		<fail unless="my.xe.db.pass" />
+		
+		<antcall target="disable-constraints"/>
+		
+		<!-- Set our extract file name to load from -->
+		<property name="extract.file.name" value="./data/static/${my.cm.db.user}_csv" /> 
+		<dbunit driver="${my.xe.db.driver}" 
+				url="${my.xe.db.url}" 
+				userid="${my.xe.db.user}" 
+				password="${my.xe.db.pass}">
+							
+			<dbconfig>			
+				<property name="datatypeFactory" value="org.dbunit.ext.oracle.OracleDataTypeFactory" /> 
+			</dbconfig>
+					
+			<operation type="CLEAN_INSERT"  src="${extract.file.name}" format="csv" />
+							
+		</dbunit>
+			
+		<antcall target="enable-constraints"/>
+		
+		<echo message="completes"/>	
+		
+	</target>
+	
+	<target name="-dbunit-extract-dtd" description="create dtd file based on schema" >
+		
+		<echo message="starts"/>
+		
+		<property name="dtd.file.name" value="./data/static/${my.cm.db.user}_dtd.xml" />
+		
+		<dbunit driver="${my.xe.db.driver}" 
+					    url="${my.xe.db.url}" 
+					    userid="${my.xe.db.user}" 
+					    password="${my.xe.db.pass}">
+					
+					<dbconfig>			
+						<property name="datatypeFactory" value="org.dbunit.ext.oracle.OracleDataTypeFactory" /> 
+					</dbconfig>
+			
+					<export dest="${dtd.file.name}" format="dtd" />
+					
+		</dbunit>				
+			
+		<echo message="completes"/>		
+		
+	</target>
+		
+	
+	
+
+</project>

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<QueryDef>
+	<DBMapDef location="uk/gov/dca/test_project/cases_service/custom_sql_sequence_map.xml"/>
+	<Tables>
+	</Tables>
+	
+	<Query pivotNode="/Test" tables="C">
+		<Modify>
+			<Field name="C.ID" sequenceTable="custom_sql_sequence"/>
+			<CheckExists table="C" fields="ID" onExist="skip"/>
+			<SQL type="insert" tables="C">
+				INSERT INTO CUSTOM_SQL_SEQ_TEST (ID, SURROGATE) VALUES (${C.ID}, ${C.ID})
+			</SQL>
+		</Modify>
+	</Query>
+
+</QueryDef>

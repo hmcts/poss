@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<DBMapDef>
+	<DataSource id="java:OracleDS" />
+	<Tables>
+		<Table alias="A" name="AE_APPLICATIONS" />
+	</Tables>
+	<Mapping>
+		<AEApplications>
+			<AEApplication>
+				<AENumber>${A.AE_NUMBER}</AENumber>
+				<DebtorsEmployersPartyId>$(A.DEBTORS_EMPLOYERS_PARTY_ID)</DebtorsEmployersPartyId>
+			</AEApplication>
+		</AEApplications>
+	</Mapping>
+</DBMapDef>

@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: TransferCase
+	Method:  getTransferReason()
+	File:    get_transfer_reason.xml
+	Author:  Phil Haferer (EDS)
+	Created: 05 July 2005
+	Description: 
+		Retrieve a given Transfer Reason.
+		
+	Change History:
+	01-Aug-2005 Phil Haferer (EDS): Remove 'DECODE()' of RV_IIT_CODE_1 into an EventId.
+-->
+<service-method>
+	<pipeline>
+		<SQLLite format-output="true"
+				 resultset-element="ds"
+				 row-element="TransferReason"
+				 field-name-as="element" >
+			<DataSource id="java:OracleDS"/>
+			<Param name="param.transferReasonCode" xpath="/params/param[@name = 'transferReasonCode']"/>
+			<SQL>
+				SELECT REF.RV_LOW_VALUE   AS "Code"                    
+				,      REF.RV_MEANING     AS "Description"
+				,      REF.RV_IIT_CODE_1  AS "JudgmentType"
+				,      REF.RV_IIT_CODE_2  AS "CJRNumber"
+				FROM   CCBC_REF_CODES REF
+				WHERE  REF.RV_DOMAIN = 'TRANS_REASON'
+				AND    REF.RV_LOW_VALUE = ${param.transferReasonCode}
+			</SQL>
+		</SQLLite>
+	</pipeline>
+	<Security roles="high wcSuper scSuper bmsSuper aeSuper dmSuper"/>
+</service-method>

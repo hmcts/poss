@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: Hearing
+	Method:  isPastAeHearing
+	Author:  Chris Hutt (EDS) 
+	Created: 7 Nov 2005 2005
+	Description: 
+		Use SQLLite to determine whether hearings of an AE type exist for the Case
+		where the hearing date is in the future
+
+	v1.1	Chris Hutt	23 may 2006	
+						defect uct284: hearings should include the distinct AE types and the 'AE' type
+
+	V1.2	Chris Hutt	23 may 2006
+						'select sysdate from dual' replaced following Phil haferer code review
+-->
+<service-method>
+	<pipeline>
+		<SQLLite format-output="true"
+				 resultset-element="ds"
+				 row-element="Case"
+				 field-name-as="element" >
+			<DataSource id="java:OracleDS"/>
+			<Param name="param.caseNumber" xpath="/params/param[@name='caseNumber']"/>
+			<SQL>
+				SELECT 
+						DECODE(COUNT(*),0,'false','true') 	AS "HasFutureAeHearings"
+				FROM    HEARINGS H
+				WHERE   H.CASE_NUMBER = ${param.caseNumber}
+				AND   	(	
+							(	H.HRG_TYPE IN	(SELECT RV_LOW_VALUE FROM CCBC_REF_CODES REF  WHERE REF.RV_DOMAIN = 'CURRENT_HRG_TYPE_AE'))
+                         OR
+                       		(	H.HRG_TYPE = 'AE')
+						)
+				AND   	(	H.HRG_DATE  = SYSDATE
+						OR 
+							H.HRG_DATE &gt; SYSDATE
+						)
+			</SQL>
+		</SQLLite>
+  	</pipeline>
+	<Security roles="user"/>
+</service-method>

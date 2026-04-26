@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Called by: uk/gov/dca/caseman/codedparty_service/getCodedPartyStats.xml
+
+	v1.0: Chris Hutt       10/01/2005
+	V1.1: Chris Hutt       21/01/2005 - removed CODED_PARTIES from selection and 
+	                                    no longer check for 'DEFENDANT' (a copy and paste bug!)
+-->
+<QueryDef>
+  <DBMapDef location="uk/gov/dca/caseman/codedparty_service/map_cp_stats.xml"/>
+  <Query pivotNode="/CodedParties/CodedParty" tables="CP">
+  	   <Join/>
+       <Modify/>
+  </Query>
+</QueryDef>

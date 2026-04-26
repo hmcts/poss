@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: Payments
+	Method: getSchedule2Debts()
+	File: get_schedule2_debts.xml
+	Author: Tony White
+	Description:
+		Get all schedule 2 debts on a CO.
+-->
+<service-method>
+	<pipeline>
+		<Query>
+			<QueryDef location="uk/gov/dca/caseman/payments_service/query_def_get_schedule2_debts.xml" />
+			<QueryExtension pivotNode="/Debts/Debt">
+				<Param name="param.coNumber" xpath="/params/param[@name = 'coNumber']" />
+				<Constraint>AD.DEBT_CO_NUMBER = ${param.coNumber}</Constraint>
+				<Constraint>AD.DEBT_STATUS = 'SCHEDULE2'</Constraint>
+			</QueryExtension>
+		</Query>
+	</pipeline>
+	<Security roles="medium high wcSuper scSuper bmsSuper aeSuper dmSuper" />
+</service-method>

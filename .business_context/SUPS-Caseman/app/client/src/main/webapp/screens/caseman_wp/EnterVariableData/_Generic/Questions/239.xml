@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>239</Id>
+	<Label>Number of days after service</Label>
+	<ObjectName>DaysAfterService</ObjectName>
+	<Html>	
+		<input type="text" size="4" id="DaysAfterService"></input>
+	</Html>
+	<Javascript>
+		<XPath>/ds/EnterVariableData/FastTrack/daysAfterService</XPath>
+		<HintText>Enter number of days after service</HintText>
+		<isMandatory>return true;</isMandatory>			
+		<enableOn>ReachAgreementBy.dataBinding</enableOn>
+		<isEnabled>return('SD' == Services.getValue(ReachAgreementBy.dataBinding));</isEnabled>
+		<logicOn>ReachAgreementBy.dataBinding</logicOn>
+		<logic>
+			if('SD' != Services.getValue(ReachAgreementBy.dataBinding))
+			{	Services.setValue(DaysAfterService.dataBinding, "");
+			}
+		</logic>
+		<validationOn>DaysAfterService.dataBinding</validationOn>
+		<validate>
+			var val = Services.getValue( DaysAfterService.dataBinding );
+			var err = WPU.validateInteger( val );
+			if( null == err )
+			{	if( val &lt;= 0 )
+				{	err =  ErrorCode.getErrorCode("CaseMan_negativeAmountEntered_Msg"); 
+				}
+			}
+			return err;
+		</validate>
+	</Javascript>
+</Question>

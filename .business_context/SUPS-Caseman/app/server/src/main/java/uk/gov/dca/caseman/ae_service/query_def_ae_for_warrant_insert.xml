@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+Change History
+	28/06/2006	TD3766. Service was failing to return an AE when employee details have not been enetered (a valid scenario). 
+						This is because a row on the PARTIES table will be created but no corresponding row created on GIVEN_ADDRESSES. 
+						A.DEBTORS_EMPLOYERS_PARTY_ID should therefore be used IN joining to PARTIES and	NOT GIVEN_ADDRESSES.PARTY_ID 
+						when attempting to retrieve the employer's name 
+						*Note*: on the employer details being subsequently entered the PARTIES row will be updated and a GIVEN_ADDRESSES row inserted.
+						
+	04/12/2006  Defect UCT864
+						PartyFor Address detials required (added to warrant if party not represented)
+					
+    13/02/2006  Chris Hutt
+    			Party Agianst address - look for 'SERVICE'
+    			Party For - if a coded party then join on party id instead of case_number etc.
+	11/11/2009 Chris Vincent - Query now returns Owning Court of Case instead of Issuing Court of AE.  Trac 1667.
+	13/11/2009 Chris Vincent - /ds/AEApplication/PartyFor/Representative pivot node now joins on A.AE_NUMBER = ${param.aeNumber} which 
+		is prevents query from performing a full table scan.  Trac 2255.
+-->
+<QueryDef>
+  <DBMapDef location="uk/gov/dca/caseman/ae_service/map_ae_for_warrant_insert.xml"/>
+  <Query pivotNode="/ds/AEApplication" tables="CT A GA GA3 GA4 CPR CPR2 P P2 P4 CP GA5 C">	 
+    <LinkedJoin type="root" key="A.AE_NUMBER A.CASE_NUMBER">
+    	<Join>
+		C.CASE_NUMBER = A.CASE_NUMBER
+		AND CT.CODE = C.ADMIN_CRT_CODE
+		AND GA.COURT_CODE = C.ADMIN_CRT_CODE
+		AND GA.ADDRESS_TYPE_CODE = 'OFFICE'
+		AND GA.VALID_TO IS NULL
+		AND CPR.CASE_NUMBER = A.CASE_NUMBER
+		AND CPR.PARTY_ROLE_CODE =  A.PARTY_FOR_PARTY_ROLE_CODE
+		AND CPR.CASE_PARTY_NO = A.PARTY_FOR_CASE_PARTY_NO
+		AND P.PARTY_ID = CPR.PARTY_ID
+		AND CP.PARTY_ID (+)= CPR.PARTY_ID
+		AND CPR2.CASE_NUMBER = A.CASE_NUMBER
+		AND CPR2.PARTY_ROLE_CODE =  A.PARTY_AGAINST_PARTY_ROLE_CODE
+		AND CPR2.CASE_PARTY_NO = A.PARTY_AGAINST_CASE_PARTY_NO
+		AND P2.PARTY_ID = CPR2.PARTY_ID
+		AND GA3.CASE_NUMBER = A.CASE_NUMBER
+		AND GA3.PARTY_ROLE_CODE = A.PARTY_AGAINST_PARTY_ROLE_CODE
+		AND GA3.CASE_PARTY_NO = A.PARTY_AGAINST_CASE_PARTY_NO
+		AND GA3.VALID_TO IS NULL
+		AND GA3.ADDRESS_TYPE_CODE = 'SERVICE'
+		AND GA4.PARTY_ID (+)= A.DEBTORS_EMPLOYERS_PARTY_ID
+		AND GA4.VALID_TO IS NULL
+		AND P4.PARTY_ID = A.DEBTORS_EMPLOYERS_PARTY_ID
+		AND ( 
+				(	     GA5.PARTY_ID IS NOT NULL
+					AND  GA5.PARTY_ID = CPR.PARTY_ID
+				)
+		OR    	
+				(     	 GA5.PARTY_ID IS NULL
+					AND  GA5.CASE_NUMBER = A.CASE_NUMBER
+					AND  GA5.PARTY_ROLE_CODE = A.PARTY_FOR_PARTY_ROLE_CODE
+					AND  GA5.CASE_PARTY_NO = A.PARTY_FOR_CASE_PARTY_NO
+					AND  GA5.VALID_TO IS NULL
+				)
+			)
+    	</Join>
+    </LinkedJoin>
+    <Modify notModifiable="true"/>   
+  </Query>
+  
+  <Query pivotNode="/ds/AEApplication/PartyFor/Representative" tables="A GA2 CPR3 CPR2CPR P3 CP2">	 
+    <LinkedJoin type="root" key="A.PARTY_FOR_PARTY_ROLE_CODE A.PARTY_FOR_CASE_PARTY_NO">
+    	<Parent key="A.AE_NUMBER A.CASE_NUMBER" tables="A"/>
+    	<Join>
+    	A.AE_NUMBER = ${param.aeNumber}
+		AND CPR2CPR.CPR_A_CASE_NUMBER = A.CASE_NUMBER
+		AND CPR2CPR.CPR_A_PARTY_ROLE_CODE = A.PARTY_FOR_PARTY_ROLE_CODE
+		AND CPR2CPR.CPR_A_CASE_PARTY_NO = A.PARTY_FOR_CASE_PARTY_NO
+		AND ( CPR2CPR.DELETED_FLAG IS NULL OR CPR2CPR.DELETED_FLAG = 'N')
+		AND CPR3.CASE_NUMBER = A.CASE_NUMBER
+		AND CPR3.CASE_PARTY_NO = CPR2CPR.CPR_B_CASE_PARTY_NO 
+		AND CPR3.PARTY_ROLE_CODE = CPR2CPR.CPR_B_PARTY_ROLE_CODE
+		AND CP2.PARTY_ID (+)= CPR3.PARTY_ID
+		AND P3.PARTY_ID = CPR3.PARTY_ID
+    	AND GA2.CASE_NUMBER = CPR2CPR.CPR_A_CASE_NUMBER 
+		AND GA2.PARTY_ROLE_CODE = CPR3.PARTY_ROLE_CODE
+		AND GA2.CASE_PARTY_NO = CPR3.CASE_PARTY_NO
+		AND GA2.VALID_TO IS NULL
+    	</Join>
+    </LinkedJoin>
+    <Modify notModifiable="true"/>   
+  </Query>
+
+</QueryDef>

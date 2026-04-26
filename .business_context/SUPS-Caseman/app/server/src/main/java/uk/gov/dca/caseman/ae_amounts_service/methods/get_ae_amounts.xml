@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: AeAmounts
+	Method:  getAeAmounts()
+	File:    get_ae_amounts.xml
+	Author:  Chris Hutt
+	Created: 11 July 2005
+	Description: 
+		Retrieve Amounts associated with an Ae Application
+-->
+<service-method>
+	<pipeline>
+		<NewQuery>
+			<QueryDef location="uk/gov/dca/caseman/ae_amounts_service/query_def_ae_amounts.xml"/>
+			<QueryExtension pivotNode="/MaintainAEAmounts">
+				<Param name="param.aeNumber" xpath="/params/param[@name = 'aeNumber']"/>
+				<Constraint>AEA.AE_NUMBER = ${param.aeNumber}</Constraint>
+			</QueryExtension>
+		</NewQuery>
+	</pipeline>
+	<Security roles="medium high wcSuper scSuper bmsSuper aeSuper dmSuper"/> 	
+</service-method>

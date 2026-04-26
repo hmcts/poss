@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>76</Id>
+	<Label>Defendant's intention</Label>
+	<ObjectName>DefendantsIntention</ObjectName>
+	<Html>
+	  <select id="DefendantsIntention">
+	    <option value=""></option>
+	    <option value="ALL">Defend all of the claim</option>
+	    <option value="CTST">Contest the Court's jurisdiction</option>
+	    <option value="PRT">Defend part of the claim</option>
+	    <option value="OTH">Other</option>
+	  </select>
+	</Html>
+	<Javascript>
+		<XPath>/ds/EnterVariableData/defendantintention</XPath>
+		<isMandatory>return true;</isMandatory>	
+		<mandatoryOn>DefendantsIntention.dataBinding</mandatoryOn>
+		<HintText>Select the option that defendant has indicated an intention to</HintText>
+	</Javascript>
+</Question>

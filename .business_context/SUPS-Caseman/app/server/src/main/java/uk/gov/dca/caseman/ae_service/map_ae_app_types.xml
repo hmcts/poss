@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<DBMapDef>
+	<DataSource id="java:OracleDS" />
+	<Tables>
+		<Table alias="REF" name="CCBC_REF_CODES" />
+	</Tables>
+	<Mapping>
+		<AEAppTypes>
+			<AEAppType>
+				<Id>${REF.RV_LOW_VALUE}</Id>
+				<Name>${REF.RV_MEANING}</Name>
+			</AEAppType>
+		</AEAppTypes>
+	</Mapping>
+</DBMapDef>

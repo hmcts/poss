@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: Payout
+	Method:  updateDebtDividends()
+	File:    update_debt_dividends.xml
+	Author:  Phil Haferer (EDS)
+	Created: 16-Jan-2006
+	Description: 
+		Method to implement SUPS implementation of the Legacy stored procedure "p_payout_update()".
+-->
+<service-method>
+	<pipeline>
+		<SQLLite output="input">
+			<DataSource id="java:OracleDS"/>
+			<Param name="param.print" xpath="/params/param[@name='print']"/>
+			<Param name="param.po_total" xpath="/params/param[@name='po_total']"/>
+			<Param name="param.po_number" xpath="/params/param[@name='po_number']"/>
+			<Param name="param.payee_name" xpath="/params/param[@name='payee_name']"/>
+			<Param name="param.caduReportId" xpath="/params/param[@name='caduReportId']"/>
+			<Param name="param.payeeAddr1" xpath="/params/param[@name='payeeAddr1']"/>
+			<Param name="param.payeeAddr2" xpath="/params/param[@name='payeeAddr2']"/>
+			<Param name="param.payeeAddr3" xpath="/params/param[@name='payeeAddr3']"/>
+			<Param name="param.payeeAddr4" xpath="/params/param[@name='payeeAddr4']"/>
+			<Param name="param.payeeAddr5" xpath="/params/param[@name='payeeAddr5']"/>
+			<Param name="param.payeePostcode" xpath="/params/param[@name='payeePostcode']"/>
+			<Param name="param.payeeReference" xpath="/params/param[@name='payeeReference']"/>
+			<Param name="param.payeeDx" xpath="/params/param[@name='payeeDx']"/>
+			<Param name="param.debtDividendSeq" xpath="/params/param[@name='debtDividendSeq']"/>
+			<SQL type="update" tables="DD">
+				UPDATE DEBT_DIVIDENDS DD
+				SET    DD.DD_TOTAL_PO      = DECODE(${param.print},'N',NULL,${param.po_total})
+				,      DD.DD_PO_NUMBER     = DECODE(${param.print},'N',NULL,${param.po_number})
+				,      DD.DD_PAYEE_DETAILS = 
+	                       ${param.payee_name}||' '||
+				           DECODE(${param.print},'N','[ADDRESS UNKNOWN]'||${param.caduReportId}, 	
+				                  ${param.payeeAddr1}||' '||
+				                  ${param.payeeAddr2}||' '||
+				                  DECODE(${param.payeeAddr3},NULL,NULL,${param.payeeAddr3}||' ')||
+				                  DECODE(${param.payeeAddr4},NULL,NULL,${param.payeeAddr4}||' ')||
+				                  DECODE(${param.payeeAddr5},NULL,NULL,${param.payeeAddr5}||' ')||
+				                  DECODE(${param.payeePostcode},NULL,NULL,${param.payeePostcode}||' ')||
+				                  DECODE(${param.payeeReference},NULL,NULL,${param.payeeReference}||' ')||
+				                  ${param.payeeDx})
+				,      DD.CREATED          = 'Y'
+				,      DD.DD_PPL_NUMBER    = NULL
+				WHERE  DD.DD_SEQ = ${param.debtDividendSeq}
+			</SQL>
+		</SQLLite>
+	</pipeline>
+	<Security roles="viewOnly medium high wcSuper scSuper bmsSuper aeSuper dmSuper edsAdmin"/>		
+</service-method>

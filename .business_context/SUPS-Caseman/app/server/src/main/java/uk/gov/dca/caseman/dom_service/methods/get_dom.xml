@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: Dom
+	Method:  getDom()
+	File:    get_dom.xml
+	Author:  Phil Haferer (EDS), Ian Stainer (Valtech)
+	Created: 06 July 2005
+	Description: 
+		Retrieve determination of means details.
+-->
+<service-method>
+	<pipeline>
+		<Query>
+			<QueryDef location="uk/gov/dca/caseman/dom_service/query_def_get_dom.xml"/>
+			<QueryExtension pivotNode="/ds/DeterminationOfMeans">
+				<Param name="param.coNumber" xpath="/params/param[@name = 'coNumber']"/>
+				<Constraint>CO.CO_NUMBER = ${param.coNumber}</Constraint>
+			</QueryExtension>
+		</Query>		
+		<Java>
+			<Source class="uk.gov.dca.caseman.dom_service.java.CalculateTotalDebtsCustomProcessor"/>
+		</Java>		
+		<Java>
+			<Source class="uk.gov.dca.caseman.dom_service.java.Event907CountCustomProcessor"/>
+		</Java>				
+	</pipeline>
+	<Security roles="medium high wcSuper scSuper bmsSuper aeSuper dmSuper cpSuper"/> 	
+</service-method>

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: Printedoutput
+	Method:  runOrderPrinting()
+	File:    run_order_printing.xml
+	Author:  Frederik Vandendriessche (EDS)
+	Created: 07 Jun 2006
+	Description:
+		Provides the reprint functionality for the run order printing screen, using sups_reporting framework
+-->
+<service-method>
+	<pipeline> 
+		<Java callStyle="new">
+			<Source class="uk.gov.dca.caseman.printedoutput_service.classes.RunOrderPrintingCustomProcessor"/>
+		</Java>
+	</pipeline>
+	<Dependencies>
+		<Dependency serviceName="Reports"/>	
+		<Dependency serviceName="Court"/>
+	</Dependencies>		
+	<Security roles="viewOnly medium high wcSuper bmsSuper aeSuper dmSuper cpSuper scSuper ccbcMan ccbcUser ccbcSGB2"/>	
+</service-method>

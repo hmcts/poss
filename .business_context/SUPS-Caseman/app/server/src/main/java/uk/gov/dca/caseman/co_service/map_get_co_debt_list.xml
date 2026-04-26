@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: Co
+	Method:  getCoDebtList()
+	File:    map_get_co_debt_list.xml
+	Author:  Phil Haferer (EDS)
+	Created: 17 August 2005
+	Description: 
+		The 'Mapping' for retrieve the list of Debts associated with a Consolidated Order.
+
+	Change History:
+	11-01-2006 Phil Haferer: Comms Method and Welsh Indicator for Creditor/Payee mapped into the ALLOWED_DEBTS.
+	18-08-2010 Mark Groen: TRAC 1936. Added the node <DebtSeq>${AD.DEBT_SEQ}</DebtSeq> to the <Creditor> and 
+							<Payee> nodes -  just after <PartyId> in both cases.
+-->
+<DBMapDef>
+	<DataSource id="java:OracleDS"/>
+	<Tables>
+		<Table alias="AD"  name="ALLOWED_DEBTS"/>
+		<Table alias="CRT" name="COURTS"/>
+		<Table alias="CP"  name="CODED_PARTIES"/>
+		<Table alias="P"   name="PARTIES"/>
+		<Table alias="GA"  name="GIVEN_ADDRESSES"/>
+		<Table alias="PY"  name="PAYMENTS"/>
+		<Table alias="DD"  name="DEBT_DIVIDENDS"/>
+	</Tables>
+	<Mapping>
+		<ds>
+			<MaintainCO>
+				<Debts>
+					<Debt>
+						<DebtSeq>${AD.DEBT_SEQ}</DebtSeq>
+						<DebtSurrogateId>${AD.DEBT_SEQ}</DebtSurrogateId>
+						<DebtAmountAllowed>${AD.DEBT_AMOUNT_ALLOWED}</DebtAmountAllowed>
+						<DebtAmountAllowedCurrency>${AD.DEBT_AMOUNT_ALLOWED_CURRENCY}</DebtAmountAllowedCurrency>
+						<DebtAmountOriginal>${AD.DEBT_AMOUNT_ORIGINAL}</DebtAmountOriginal>
+						<DebtAmountOriginalCurrency>${AD.DEBT_AMOUNT_ORIGINAL_CURRENCY}</DebtAmountOriginalCurrency>
+						<CasemanDebt>${AD.CASEMAN_DEBT}</CasemanDebt>
+						<DebtStatus>${AD.DEBT_STATUS}</DebtStatus>
+						<Passthroughs>${PASSTHROUGHS}</Passthroughs>
+						<!-- &&& Sum of related Passthrough PAYMENTS for this Debt. -->
+						<Dividends>${DIVIDENDS}</Dividends>
+						<!-- &&& Sum of Amounts in DEBT_DIVIDENDS where CREATED = 'Y'. -->
+						<Balance/>
+						<!-- &&& Sum of Passthroughs and Divends. -->
+						<BalanceCurrency/>
+						<DebtCaseNumber>${AD.DEBT_CASE_NUMBER}</DebtCaseNumber>
+						<PartyKey>${AD.PARTY_KEY}</PartyKey>
+						<PartyRoleCode>${AD.DEFT_PARTY_ROLE_CODE}</PartyRoleCode>
+						<CasePartyNumber>${AD.DEFT_CASE_PARTY_NO}</CasePartyNumber>
+						<DebtAdminCourtCode>${AD.DEBT_ADMIN_COURT_CODE}</DebtAdminCourtCode>
+						<DebtAdminCourtName>${CRT.NAME}</DebtAdminCourtName>
+						<CPCreditorId>${AD.CP_CREDITOR_ID}</CPCreditorId>
+						<CreditorReference>${AD.DEBT_CREDITOR_REFERENCE}</CreditorReference>
+						<CreditorCommMethod>${AD.CREDITOR_PREF_COMM_METHOD}</CreditorCommMethod>
+						<CreditorTranslationToWelsh>${AD.CREDITOR_WELSH_INDICATOR}</CreditorTranslationToWelsh>					
+						<CPPayeeId>${AD.CP_PAYEE_ID}</CPPayeeId>
+						<PayeeReference>${AD.DEBT_PAYEE_REFERENCE}</PayeeReference>
+						<PayeeCommMethod>${AD.PAYEE_PREF_COMM_METHOD}</PayeeCommMethod>
+						<PayeeTranslationToWelsh>${AD.PAYEE_WELSH_INDICATOR}</PayeeTranslationToWelsh>					
+						<AddressUnknown>${AD.ADDRESS_UNKNOWN}</AddressUnknown>
+						<DebtPayeeIndicator>${AD.DEBT_PAYEE_INDICATOR}</DebtPayeeIndicator>
+						<Creditor>
+							<CPCode>${CP.CODE}</CPCode>
+							<PartyId>${P.PARTY_ID}</PartyId>
+							<DebtSeq>${AD.DEBT_SEQ}</DebtSeq>
+							<Name>${P.PERSON_REQUESTED_NAME}</Name> 
+							<DX>${P.DX_NUMBER}</DX>
+							<TelNo>${P.TEL_NO}</TelNo>
+							<FaxNo>${P.FAX_NUMBER}</FaxNo>
+							<Email>${P.EMAIL_ADDRESS}</Email>
+							<CommMethod>${AD.CREDITOR_PREF_COMM_METHOD}</CommMethod>
+							<TranslationToWelsh>${AD.CREDITOR_WELSH_INDICATOR}</TranslationToWelsh>
+							<Reference>${AD.DEBT_CREDITOR_REFERENCE}</Reference>
+							<Address>
+								<SCN table="${ADDRESS_ALIAS}">${GA_ORA_ROWSCN}</SCN>
+								<Status>${STATUS}</Status>
+								<AddressSurrogateId>${GA.ADDRESS_ID}</AddressSurrogateId>
+								<AddressId>${GA.ADDRESS_ID}</AddressId>
+								<Line>${GA.ADDRESS_LINE1}</Line>
+								<Line>${GA.ADDRESS_LINE2}</Line>
+								<Line>${GA.ADDRESS_LINE3}</Line>
+								<Line>${GA.ADDRESS_LINE4}</Line>
+								<Line>${GA.ADDRESS_LINE5}</Line>
+								<PostCode>${GA.POSTCODE}</PostCode>
+								<AddressTypeCode>${GA.ADDRESS_TYPE_CODE}</AddressTypeCode>
+								<CreatedBy>${GA.UPDATED_BY}</CreatedBy>
+								<ValidFrom>${GA.VALID_FROM}</ValidFrom>
+								<ValidTo>${GA.VALID_TO}</ValidTo>
+							</Address>
+							<AddressHistory>
+							</AddressHistory>
+						</Creditor>
+						<Payee>
+							<CPCode>${CP.CODE}</CPCode>
+							<PartyId>${P.PARTY_ID}</PartyId>
+							<DebtSeq>${AD.DEBT_SEQ}</DebtSeq>
+							<Name>${P.PERSON_REQUESTED_NAME}</Name> 
+							<DX>${P.DX_NUMBER}</DX>
+							<TelNo>${P.TEL_NO}</TelNo>
+							<FaxNo>${P.FAX_NUMBER}</FaxNo>
+							<Email>${P.EMAIL_ADDRESS}</Email>
+							<CommMethod>${AD.PAYEE_PREF_COMM_METHOD}</CommMethod>
+							<TranslationToWelsh>${AD.PAYEE_WELSH_INDICATOR}</TranslationToWelsh>
+							<Reference>${AD.DEBT_PAYEE_REFERENCE}</Reference>
+							<Address>
+								<SCN table="${ADDRESS_ALIAS}">${GA_ORA_ROWSCN}</SCN>
+								<Status>${STATUS}</Status>
+								<AddressSurrogateId>${GA.ADDRESS_ID}</AddressSurrogateId>
+								<AddressId>${GA.ADDRESS_ID}</AddressId>
+								<Line>${GA.ADDRESS_LINE1}</Line>
+								<Line>${GA.ADDRESS_LINE2}</Line>
+								<Line>${GA.ADDRESS_LINE3}</Line>
+								<Line>${GA.ADDRESS_LINE4}</Line>
+								<Line>${GA.ADDRESS_LINE5}</Line>
+								<PostCode>${GA.POSTCODE}</PostCode>
+								<AddressTypeCode>${GA.ADDRESS_TYPE_CODE}</AddressTypeCode>
+								<CreatedBy>${GA.UPDATED_BY}</CreatedBy>
+								<ValidFrom>${GA.VALID_FROM}</ValidFrom>
+								<ValidTo>${GA.VALID_TO}</ValidTo>
+							</Address>
+							<AddressHistory>
+							</AddressHistory>
+						</Payee>
+					</Debt>
+				</Debts>
+			</MaintainCO>
+		</ds>
+	</Mapping>
+</DBMapDef>

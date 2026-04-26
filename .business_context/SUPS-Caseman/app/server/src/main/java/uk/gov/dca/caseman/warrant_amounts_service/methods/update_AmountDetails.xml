@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<service-method>
+  <pipeline>
+    <Java callStyle="new">
+      <Source class="uk.gov.dca.caseman.warrant_amounts_service.java.UpdateErrorIndicatorsCustomProcessor"/>
+    </Java>	
+    <Update>
+      <QueryDef location="uk/gov/dca/caseman/warrant_amounts_service/query_def_uad.xml"/>
+      <DataSource xpath="/params/param[@name='WarrantAmounts']"/>
+    </Update>
+    <Java callStyle="new">
+      <Source class="uk.gov.dca.caseman.warrant_amounts_service.java.InsertAmountsCaseEventsCustomProcessor"/>
+    </Java>
+  </pipeline>
+	<Dependencies>
+		<Dependency serviceName="CaseEvent"/>
+		<Dependency serviceName="WarrantReturns"/>
+	</Dependencies>	  
+  <Security roles="wcSuper"/>  
+</service-method>

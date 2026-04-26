@@ -1,0 +1,127 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3c.org/TR/html4/strict.dtd">
+<html>
+
+	<head>
+		<title>HearingDetails_SubForm</title>
+		<link href="HearingDetails_SubForm.css" type="text/css" rel="stylesheet">
+		<script type="text/javascript" src="../../../Framework.js"></script>
+    	<script type="text/javascript" src="../../../CaseManSubFormIncludeFiles.js"></script>
+		<script type="text/javascript" src="../JudgmentVariables.js"></script>
+		<script type="text/javascript" src="HearingDetails_SubForm.js"></script>
+  	</head>
+
+	<body>
+	
+    	<form id="hearingDetailsSubform" class="subform">
+
+			<div class="panel">
+				<table class="content">
+					<tr>
+						<td>
+							<table>
+								<tr>
+									<td style="width:50px;"><label for="HearingDetails_VenueCode">Venue</label></td>
+									<td>
+										<input type="text" id="HearingDetails_VenueCode" size="5"/>
+									</td>
+									<td>
+										<script type="text/javascript">AutoCompletionRenderer.createInline("HearingDetails_VenueName");</script>
+									</td>
+									<td>&nbsp;<input id="HearingDetails_VenueLOVButton" type="Button" value="LOV"/></td>
+								</tr>
+							</table>
+						</td>
+						<td>
+							<table>
+								<tr>
+									<td style="width:120px;"><label for="HearingDetails_HearingType">Type of Hearing</label></td>
+									<td><input type="text" id="HearingDetails_HearingType" size="50"/></td>
+								</tr>
+							</table>
+						</td>
+					</tr>
+					<tr>
+						<td>
+							<table>
+								<tr>
+									<td style="width:50px;"><label for="HearingDetails_Date">Date</label></td>
+									<td><script type="text/javascript">DatePickerRenderer.createInline("HearingDetails_Date", false);</script></td>
+								</tr>
+							</table>
+						</td>
+						<td>
+							<table>
+								<tr>
+									<td style="width:120px;"><label for="HearingDetails_Time">Time</label></td>
+									<td><input type="text" id="HearingDetails_Time" size="15"/></td>
+								</tr>
+							</table>
+						</td>
+					</tr>
+					<tr>
+						<td valign="top">
+							<script type="text/javascript">Grid.createInline("HearingDetails_VenueAddressesGrid", ["Address"], 10, 1);</script>
+						</td>
+						<td>
+							<table>
+								<tr>
+									<td><label for="HearingDetails_ContactDetails_Address_Line1">Address Details</label></td>
+									<td><input type="text" id="HearingDetails_ContactDetails_Address_Line1" size="50"/></td>
+								</tr>
+								<tr>
+									<td>&nbsp;</td>
+									<td><input type="text" id="HearingDetails_ContactDetails_Address_Line2" size="50"/></td>
+								</tr>
+								<tr>
+									<td>&nbsp;</td>
+									<td><input type="text" id="HearingDetails_ContactDetails_Address_Line3" size="50"/></td>
+								</tr>
+								<tr>
+									<td>&nbsp;</td>
+									<td><input type="text" id="HearingDetails_ContactDetails_Address_Line4" size="50"/></td>
+								</tr>
+								<tr>
+									<td>&nbsp;</td>
+									<td><input type="text" id="HearingDetails_ContactDetails_Address_Line5" size="50"/></td>
+								</tr>
+								<tr>
+									<td><label for="HearingDetails_ContactDetails_Address_Postcode">Postcode</label></td>
+									<td><input type="text" id="HearingDetails_ContactDetails_Address_Postcode" size="15"/></td>
+								</tr>
+								<tr>
+									<td><label for="HearingDetails_ContactDetails_DX">DX Number</label></td>
+									<td><input type="text" id="HearingDetails_ContactDetails_DX" size="50"/></td>
+								</tr>
+								<tr>
+									<td><label for="HearingDetails_ContactDetails_TelephoneNumber">Telephone Number</label></td>
+									<td><input type="text" id="HearingDetails_ContactDetails_TelephoneNumber" size="30"/></td>
+								</tr>
+								<tr>
+									<td><label for="HearingDetails_ContactDetails_FaxNumber">Fax Number</label></td>
+									<td><input type="text" id="HearingDetails_ContactDetails_FaxNumber" size="30"/></td>
+								</tr>
+							</table>
+						</td>
+					</tr>
+				</table>
+			</div>
+			
+			<!-- Subform action bar -->
+			<script type="text/javascript">
+				ActionBarRenderer.createInline(
+					"hearingDetails_statusbar",
+					[
+						{id: "HearingDetails_OkButton", label: "Ok"},	
+						{id: "HearingDetails_CancelButton", label: "Cancel"}
+					]
+				);
+			</script>
+
+			<!-- LOV Popups -->
+			<script type="text/javascript">LOVPopupRenderer.createInline( "CourtsLOVGrid", "Courts", ["Code", "Court"], 10, 1, true );</script>
+
+		</form>
+    
+    </body>
+    
+</html>

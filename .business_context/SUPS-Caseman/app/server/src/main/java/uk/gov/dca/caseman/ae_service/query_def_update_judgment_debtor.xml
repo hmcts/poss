@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<QueryDef>
+  <DBMapDef location="uk/gov/dca/caseman/ae_service/map_ae_case_modify.xml"/>      
+   <Query pivotNode="/ds/Case/Parties/Party" tables="P CPR">		
+		<Join/>
+	    <Modify>
+			<CheckExists table="P" fields="PARTY_ID" onNotExist="fail" onExist="update"/>
+	        <Field name="P.PARTY_ID" xpath="PartyId"/>
+	        <Field name="P.TEL_NO" xpath="ContactDetails/TelephoneNumber"/>
+			<Field name="P.FAX_NUMBER" xpath="ContactDetails/FaxNumber"/>
+			<Field name="P.EMAIL_ADDRESS" xpath="ContactDetails/EmailAddress"/>
+
+			<CheckExists table="CPR" fields="CASE_NUMBER PARTY_ROLE_CODE CASE_PARTY_NO" onNotExist="fail" onExist="update"/>
+			<Field name="CPR.CASE_NUMBER" xpath="../../CaseNumber"/>
+			<Field name="CPR.PARTY_ROLE_CODE" xpath="PartyRoleCode"/>
+			<Field name="CPR.CASE_PARTY_NO" xpath="CasePartyNumber"/>
+			<Field name="CPR.PREFERRED_COMMUNICATION_METHOD" xpath="ContactDetails/PreferredCommunicationMethod"/>
+			<Field name="CPR.WELSH_INDICATOR" xpath="ContactDetails/WelshIndicator"/>					
+		</Modify>
+    </Query>
+    <Query pivotNode="/ds/Case/Parties/Party/ContactDetails/Addresses/Address" tables="GA">		
+		<Join/>
+	    <Modify>
+			<CheckExists table="GA" fields="ADDRESS_ID" onNotExist="add" onExist="update"/>
+	        <Field name="GA.ADDRESS_ID" sequenceTable="ADDR_SEQUENCE"/>
+			<Field name="GA.ADDRESS_TYPE_CODE" xpath="TypeCode"/>
+			<Field name="GA.ADDRESS_LINE1" xpath="Line[1]"/>
+			<Field name="GA.ADDRESS_LINE2" xpath="Line[2]"/>
+			<Field name="GA.ADDRESS_LINE3" xpath="Line[3]"/>
+			<Field name="GA.ADDRESS_LINE4" xpath="Line[4]"/>
+			<Field name="GA.ADDRESS_LINE5" xpath="Line[5]"/>
+			<Field name="GA.POSTCODE" xpath="PostCode"/>
+			<Field name="GA.VALID_FROM" xpath="ValidFrom"/>
+			<Field name="GA.VALID_TO" xpath="ValidTo"/>
+			<Field name="GA.REFERENCE" xpath="Reference"/>
+			<Field name="GA.CASE_NUMBER" xpath="CaseNumber"/>
+			<Field name="GA.PARTY_ROLE_CODE" xpath="PartyRoleCode"/>
+			<Field name="GA.CASE_PARTY_NO" xpath="CasePartyNo"/>		
+		</Modify>
+    </Query>
+    <Query pivotNode="/ds/Case/AEApplications/AEApplication" tables="A">
+	  <Join/>
+      <Modify>	
+		<CheckExists table="A" fields="AE_NUMBER" onNotExist="add" onExist="update"/>				
+		<Field name="A.AE_NUMBER" xpath="AENumber"/>
+		<Field name="A.AE_TYPE" xpath="AEType"/>
+	    <Field name="A.DATE_OF_RECEIPT" xpath="DateOfReceipt"/>
+	    <Field name="A.DATE_OF_CREATION" xpath="DateOfCreation"/>
+	    <Field name="A.DATE_OF_ISSUE" xpath="DateOfIssue"/>
+	    <Field name="A.AMOUNT_OF_AE" xpath="AmountOfAE"/>
+		<Field name="A.DEBTOR_OCCUPATION" xpath="Occupation"/>
+		<Field name="A.PAYROLL_NUMBER" xpath="PayrollNo"/>
+		<Field name="A.NAMED_EMPLOYER" xpath="NamedEmployer"/>
+		<Field name="A.AE_FEE" xpath="AEFee"/>
+		<Field name="A.CAPS_SEQUENCE" xpath="CAPSSequence"/>
+		<Field name="A.ISSUING_CRT_CODE" xpath="CourtCode"/>
+		<Field name="A.JUDG_SEQ" xpath="JudgementSeq"/>
+		<Field name="A.AMOUNT_OF_AE_CURRENCY" xpath="AmountOfAECurrency"/>
+		<Field name="A.AE_FEE_CURRENCY" xpath="AEFeeCurrency"/>
+		<Field name="A.CASE_NUMBER" xpath="CaseNumber"/>
+		<Field name="A.PARTY_AGAINST_PARTY_ROLE_CODE" xpath="PartyAgainstPartyRoleCode"/>
+		<Field name="A.PARTY_AGAINST_CASE_PARTY_NO" xpath="PartyAgainstCasePartyNumber"/>
+		<Field name="A.PARTY_FOR_PARTY_ROLE_CODE" xpath="PartyForPartyRoleCode"/>
+		<Field name="A.PARTY_FOR_CASE_PARTY_NO" xpath="PartyForCasePartyNumber"/>
+		<Field name="A.DEBTORS_EMPLOYERS_PARTY_ID" sequenceTable="PARTIES_SEQUENCE"/>
+		<!--
+		<Field name="A.DEBTORS_EMPL_PREF_COMMS_METHOD" xpath="DebtorsEmplPrefCommsMethod"/>
+		<Field name="A.DEBTORS_EMPL_WELSH_INDICATOR" xpath="DebtorsEmplWelshindicator"/>
+		-->
+	  </Modify>
+    </Query>
+    <Query pivotNode="/ds/Case/AEApplications/AEApplication/Employer" tables="P">
+	  <Join/>
+      <Modify>
+		<CheckExists table="P" fields="PARTY_ID" onNotExist="add" onExist="update"/>
+		<Field name="P.PARTY_ID" xpath="../DebtorsEmployersPartyId"/>
+		<Field name="P.PERSON_REQUESTED_NAME" xpath="PersonRequestedName"/>
+	    <Field name="P.PARTY_TYPE_CODE" xpath="TypeCode"/>
+	    <Field name="P.TEL_NO" xpath="ContactDetails/TelephoneNumber"/>
+	    <Field name="P.FAX_NUMBER" xpath="ContactDetails/FaxNumber"/>
+	    <Field name="P.EMAIL_ADDRESS" xpath="ContactDetails/EmailAddress"/>
+	  </Modify>
+    </Query>
+    <Query pivotNode="/ds/Case/AEApplications/AEApplication/Employer/ContactDetails/Addresses/Address" tables="GA">		
+		<Join/>
+	    <Modify>
+			<CheckExists table="GA" fields="ADDRESS_ID" onNotExist="add" onExist="update"/>				
+	        <Field name="GA.ADDRESS_ID" sequenceTable="ADDR_SEQUENCE"/>
+			<Field name="GA.ADDRESS_TYPE_CODE" xpath="TypeCode"/>
+			<Field name="GA.ADDRESS_LINE1" xpath="Line[1]"/>
+			<Field name="GA.ADDRESS_LINE2" xpath="Line[2]"/>
+			<Field name="GA.ADDRESS_LINE3" xpath="Line[3]"/>
+			<Field name="GA.ADDRESS_LINE4" xpath="Line[4]"/>
+			<Field name="GA.ADDRESS_LINE5" xpath="Line[5]"/>
+			<Field name="GA.POSTCODE" xpath="PostCode"/>
+			<Field name="GA.VALID_FROM" xpath="ValidFrom"/>
+			<Field name="GA.VALID_TO" xpath="ValidTo"/>
+			<Field name="GA.REFERENCE" xpath="Reference"/>			
+			<Field name="GA.PARTY_ID" xpath="../../../../DebtorsEmployersPartyId"/>		
+		</Modify>
+    </Query>
+</QueryDef>

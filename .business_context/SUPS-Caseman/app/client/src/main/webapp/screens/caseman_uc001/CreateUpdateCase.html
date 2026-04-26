@@ -1,0 +1,564 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3c.org/TR/html4/strict.dtd">
+<html>
+
+	<head>
+		<title>CreateUpdateCase</title>
+		<link href="CreateUpdateCase.css" type="text/css" rel="stylesheet">
+		<script type="text/javascript" src="../../Framework.js"></script>
+		<script type="text/javascript" src="../../ConcatCommon.js"></script>
+		<script type="text/javascript" src="../caseman_wp/WordProcessing.js"></script>
+		<script type="text/javascript" src="CreateUpdateCase.js"></script>
+	</head>
+
+	<body>
+		<form name="CreateUpdateCase" id="createUpdateCase">
+	
+			<!-- Framework Navigation Menu -->
+			<script type="text/javascript">MenuBarRenderer.createInline();</script>
+	
+			<table class="layout">
+	
+				  <!-- Header Panel -->
+				<tr>
+					<td>
+	
+						<div class="panel">
+							<table class="content">
+								<tr>
+									<td class="cucLabel"><label for='Header_CaseNumber'>Case&nbsp;Number</label></td>
+									<td><input id="Header_CaseNumber" type="text" size="15" style="margin-top:3px;"/></td>
+									<td style="width:25px;">&nbsp;</td>
+									<td>&nbsp;</td>
+									
+									<td class="cucLabel"><label for='Header_InsolvNo'>Insolvency No</label></td>
+									<td><input id="Header_InsolvNo" type="text" size="5" style="margin-top:3px;"/></td>
+									<td class="nopad"><label class="nopad" for='Header_InsolvYear'>of</label></td>
+									<td><input id="Header_InsolvYear" type="text" size="5" style="margin-top:3px;"/></td>
+									
+									<td class="cucLabel2"><label for='Header_OwningCourtCode'>Owning Court</label></td>
+									<td><input id="Header_OwningCourtCode" type="text" size="5" style="margin-top:3px;"/>&nbsp;</td>
+									<td colspan="2">
+										<script type="text/javascript">AutoCompletionRenderer.createInline("Header_OwningCourtName");</script>
+									</td>
+									<td><input id="Header_OwningCourtLOVButton" type="Button" value="LOV" style="margin-top:3px;"/></td>
+								</tr>
+								
+								<tr>
+									<td class="cucLabel"><label for='Header_CaseType'>Case Type</label></td>
+									<td colspan="2"><script type="text/javascript">AutoCompletionRenderer.createInline("Header_CaseType");</script></td>
+									<td><input id="Header_CaseTypeLOVButton" type="Button" value="LOV"/></td>
+
+									<td class="cucLabel"><label for='Header_CaseDetails'>Details</label></td>
+									<td colspan="3">
+										<script type="text/javascript">ZoomFieldRenderer.createInline("Header_CaseDetails");</script>
+									</td>
+
+									<td class="cucLabel2"><label for='Header_PreferredCourtCode'>Preferred Court</label></td>
+									<td><input id="Header_PreferredCourtCode" type="text" size="5"/>&nbsp;</td>
+									<td colspan="2">
+										<script type="text/javascript">AutoCompletionRenderer.createInline("Header_PreferredCourtName");</script>
+									</td>
+									<td><input id="Header_PreferredCourtLOVButton" type="Button" value="LOV"/></td>
+								</tr>
+								
+								<tr>
+									<td class="cucLabel"><label for='Header_CaseStatus'>Case Status</label></td>
+									<td><input id="Header_CaseStatus" type="text" size="15" style="margin-bottom:3px;"/></td>
+									
+									<td colspan="3" style="text-align: left;"><label for='Header_CaseAllocatedTo'>Case Provisionally Allocated To</label></td>
+									<td colspan="3"><select id="Header_CaseAllocatedTo"></select></td>
+									
+									<td class="defaultLabel" colspan="2"><label for='Header_ParticularsOfClaimButton'>Particulars of Claim?</label></td>
+									<td><input id="Header_ParticularsOfClaimButton" type="Button" value="View Details"/></td>
+									<td><label for='Header_MCOLCaseFlag'>MCOL Case</label></td>
+									<td style="text-align:center;"><input id="Header_MCOLCaseFlag" type="checkbox" style="margin-bottom:3px;"></td>
+								</tr>
+							</table>
+						</div>
+					</td>
+				</tr>
+				<!-- End Header Panel -->
+	
+				<tr>
+					<td>
+						<div class="panel">
+							<table class="content" style="height:446px;">
+		
+								<tr>
+		
+									<!-- Master Panel -->
+									<td>
+		
+										<table style="height:446px;">
+		
+											<tr>
+												<td valign="top">
+													<script type="text/javascript">Grid.createInline("masterGrid", ["Type", "Number", "Name", "Solicitor"], 22, 1);</script>
+												</td>
+											</tr>
+		
+											<tr>
+												<td valign="bottom" align="right">
+		
+													<table>
+		
+														<tr>
+															<td><label for='Master_PartyType'>Party Type</label></td>
+															<td>
+																<select id="Master_PartyType" style="margin-right:5px; margin-bottom:5px;"></select>
+															</td>
+														</tr>
+														<tr>
+															<td>&nbsp;</td>
+															<td>
+																<input id="Master_AddPartyButton" type="Button" value="Add" style="margin-right:5px;"/>
+																<input id="Master_RemovePartyButton" type="Button" value="Remove" style="margin-right:5px;"/>
+															</td>
+														</tr>
+		
+													</table>
+		
+												</td>
+											</tr>
+		
+										</table>
+		
+									</td>
+		
+									<td class="spacer">&nbsp;</td>
+		
+									<!-- Party Details Panel -->
+									<td valign="top">
+		
+										<div class="tabbedArea" id="myTabbedArea" >
+		
+											<script type="text/javascript">
+												TabSelector.createInline("myTabSelector",[{tabLabel: 'Party', pageId: 'firstPage'},
+																					 {tabLabel: 'Solicitor', pageId: 'secondPage'},
+																					 {tabLabel: 'Mediation', pageId: 'thirdPage'}]);
+											</script>
+		
+											<div class="pagedArea" id="myPagedArea">
+		
+												<div class="page" id="firstPage">
+		
+													<table>
+		
+														<tr>
+															<td valign="top">
+		
+																<table>
+		
+																	<tr>
+																		<td class="partyLabel"><label for='LitigiousParty_Code'>Name</label></td>
+																		<td colspan="2">
+																			<input id="LitigiousParty_Code" type="text" size="5"/>
+																			<input id="LitigiousParty_Name" type="text" size="40"/>
+																		</td>
+																		<td><input id="LitigiousParty_CodeLOVButton" type="Button" value="LOV"/></td>
+																		<!--<td style="width:55px;">&nbsp;</td>-->
+																		<td>&nbsp;</td>
+																	</tr>
+																	<tr>
+																		<td class="partyLabel"><label for='LitigiousParty_ContactDetails_Address_Line1'>Address</label></td>
+																		<td colspan="2"><input id="LitigiousParty_ContactDetails_Address_Line1" type="text" size="50"/></td>
+																		<td colspan="2">&nbsp;</td>
+																	</tr>
+																	<tr>
+																		<td>&nbsp;</td>
+																		<td colspan="2"><input id="LitigiousParty_ContactDetails_Address_Line2" type="text" size="50"/></td>
+																		<td colspan="2">&nbsp;</td>
+																	</tr>
+																	<tr>
+																		<td>&nbsp;</td>
+																		<td colspan="2"><input id="LitigiousParty_ContactDetails_Address_Line3" type="text" size="50"/></td>
+																		<td colspan="2">&nbsp;</td>
+																	</tr>
+																	<tr>
+																		<td>&nbsp;</td>
+																		<td colspan="2"><input id="LitigiousParty_ContactDetails_Address_Line4" type="text" size="50"/></td>
+																		<td colspan="2">&nbsp;</td>
+																	</tr>
+																	<tr>
+																		<td>&nbsp;</td>
+																		<td colspan="2"><input id="LitigiousParty_ContactDetails_Address_Line5" type="text" size="50"/></td>
+																		<td colspan="2">&nbsp;</td>
+																	</tr>
+																	<tr>
+																		<td class="partyLabel"><label for='LitigiousParty_ContactDetails_Address_Postcode'>Postcode</label></td>
+																		<td colspan="2"><input id="LitigiousParty_ContactDetails_Address_Postcode" type="text" size="15"/></td>
+																		<td colspan="2">&nbsp;</td>
+																	</tr>
+																	<tr>
+																		<td class="partyLabel"><label for='LitigiousParty_ContactDetails_DX'>DX Number</label></td>
+																		<td colspan="2"><input id="LitigiousParty_ContactDetails_DX" type="text" size="50"/></td>
+																		<td colspan="2">&nbsp;</td>
+																	</tr>
+																	<tr>
+																		<td class="partyLabel"><label for='LitigiousParty_ContactDetails_TelephoneNumber'>Telephone Number</label></td>
+																		<td colspan="2"><input id="LitigiousParty_ContactDetails_TelephoneNumber" type="text" size="30"/></td>
+																		<td colspan="2">&nbsp;</td>
+																	</tr>
+																	<tr>
+																		<td class="partyLabel"><label for='LitigiousParty_ContactDetails_FaxNumber'>Fax Number</label></td>
+																		<td colspan="2"><input id="LitigiousParty_ContactDetails_FaxNumber" type="text" size="30"/></td>
+																		<td colspan="2">&nbsp;</td>
+																	</tr>
+																	<tr>
+																		<td class="partyLabel"><label for='LitigiousParty_ContactDetails_EmailAddress'>Email Address</label></td>
+																		<td colspan="2"><input id="LitigiousParty_ContactDetails_EmailAddress" type="text" size="50"/></td>
+																		<td colspan="2">&nbsp;</td>
+																	</tr>
+																	<tr>
+																		<td class="partyLabel"><label for='LitigiousParty_ContactDetails_PreferredMethodOfCommunication'>Communication Method</label></td>
+																		<td><select id="LitigiousParty_ContactDetails_PreferredMethodOfCommunication"/></td>
+																		<td class="partyLabel"><label for='LitigiousParty_ContactDetails_TranslationToWelsh'>Translation To Welsh</label></td>
+																		<td colspan="2"><input id="LitigiousParty_ContactDetails_TranslationToWelsh" type="checkbox"/></td>
+																	</tr>
+																	<tr>
+																		<td class="partyLabel"><label for='LitigiousParty_Reference'>Reference</label></td>
+																		<td colspan="2"><input id="LitigiousParty_Reference" type="text" size="50"/></td>
+																		<td colspan="2">&nbsp;</td>
+																	</tr>
+																	<tr>
+																		<td class="partyLabel"><label for='LitigiousParty_DateOfService'>Date of Service</label></td>
+																		<td colspan="2"><script type="text/javascript">DatePickerRenderer.createInline("LitigiousParty_DateOfService", true);</script></td>
+																		<td colspan="2">&nbsp;</td>
+																	</tr>
+																	<tr>
+																		<td class="partyLabel"><label for='LitigiousParty_LastDateForService'>Last Date For Service</label></td>
+																		<td colspan="2"><script type="text/javascript">DatePickerRenderer.createInline("LitigiousParty_LastDateForService", true);</script></td>
+																		<td colspan="2">&nbsp;</td>
+																	</tr>
+																	<tr>
+																		<td class="partyLabel"><label for="LitigiousParty_DateOfBirth">Date of Birth</label></td>
+																		<td colspan="2"><input type="text" class="datetext" id="LitigiousParty_DateOfBirth" size="23"/></td>
+																		<td colspan="2">&nbsp;</td>
+																	</tr>
+																	<tr>
+																		<td class="partyLabel"><label for='LitigiousParty_SelectSolicitor'>Select/Deselect Solicitor</label></td>
+																		<td colspan="3">
+																			<select id="LitigiousParty_SelectSolicitor"><option>No Solicitor</option></select>
+																			<input id="LitigiousParty_AddSolicitorButton" type="Button" value="Add Solicitor"/>
+																		</td>
+																		<td>&nbsp;</td>
+																	</tr>
+																	<tr>
+																		<td class="partyLabel"><label for='LitigiousParty_Confidential'>Request Confidentiality</label></td>
+																		<td colspan="4">
+																			<input id="LitigiousParty_Confidential" type="checkbox" style="margin-bottom:3px; margin-right:20px;"/>
+																			<input id="LitigiousParty_AddAddressButton" type="Button" value="Add Address" style="margin-top:2px; margin-bottom:2px; margin-right:5px;"/>
+																			<input id="LitigiousParty_ViewHistoricalAddressesButton" type="button" value="Historical Addresses" style="margin-top:2px; margin-bottom:2px; margin-right:5px;"/>
+																		</td>
+																	</tr>
+		
+																</table>
+		
+															</td>
+														</tr>
+		
+													</table>
+		
+												</div>
+		
+												<div class="page" id="secondPage">
+		
+													<table>
+		
+														<tr>
+															<td valign="top">
+		
+																<table>
+																	<tr>
+																		<td><label for='SolicitorParty_Code'>Solicitor</label></td>
+																		<td>
+																			<input id="SolicitorParty_Code" type="text" size="5"/>
+																			<input id="SolicitorParty_Name" type="text" size="40"/>
+																		</td>
+																		<td>&nbsp;<input id="SolicitorParty_CodeLOVButton" type="Button" value="LOV"/></td>
+																	</tr>
+																	<tr>
+																		<td><label for='SolicitorParty_ContactDetails_Address_Line1'>Address</label></td>
+																		<td><input id="SolicitorParty_ContactDetails_Address_Line1" type="text" size="50"/></td>
+																		<td>&nbsp;</td>
+																	</tr>
+																	<tr>
+																		<td>&nbsp;</td>
+																		<td><input id="SolicitorParty_ContactDetails_Address_Line2" type="text" size="50"/></td>
+																		<td>&nbsp;</td>
+																	</tr>
+																	<tr>
+																		<td>&nbsp;</td>
+																		<td><input id="SolicitorParty_ContactDetails_Address_Line3" type="text" size="50"/></td>
+																		<td>&nbsp;</td>
+																	</tr>
+																	<tr>
+																		<td>&nbsp;</td>
+																		<td><input id="SolicitorParty_ContactDetails_Address_Line4" type="text" size="50"/></td>
+																		<td>&nbsp;</td>
+																	</tr>
+																	<tr>
+																		<td>&nbsp;</td>
+																		<td><input id="SolicitorParty_ContactDetails_Address_Line5" type="text" size="50"/></td>
+																		<td>&nbsp;</td>
+																	</tr>
+																	<tr>
+																		<td><label for='SolicitorParty_ContactDetails_Address_Postcode'>Postcode</label></td>
+																		<td><input id="SolicitorParty_ContactDetails_Address_Postcode" type="text" size="15"/></td>
+																		<td>&nbsp;</td>
+																	</tr>
+																	<tr>
+																		<td><label for='SolicitorParty_ContactDetails_DX'>DX Number</label></td>
+																		<td><input id="SolicitorParty_ContactDetails_DX" type="text" size="50"/></td>
+																		<td>&nbsp;</td>
+																	</tr>
+																	<tr>
+																		<td><label for='SolicitorParty_ContactDetails_TelephoneNumber'>Telephone Number</label></td>
+																		<td><input id="SolicitorParty_ContactDetails_TelephoneNumber" type="text" size="30"/></td>
+																		<td>&nbsp;</td>
+																	</tr>
+																	<tr>
+																		<td><label for='SolicitorParty_ContactDetails_FaxNumber'>Fax Number</label></td>
+																		<td><input id="SolicitorParty_ContactDetails_FaxNumber" type="text" size="30"/></td>
+																		<td>&nbsp;</td>
+																	</tr>
+																	<tr>
+																		<td><label for='SolicitorParty_ContactDetails_EmailAddress'>Email Address</label></td>
+																		<td><input id="SolicitorParty_ContactDetails_EmailAddress" type="text" size="50"/></td>
+																		<td>&nbsp;</td>
+																	</tr>
+																	<tr>
+																		<td><label for='SolicitorParty_ContactDetails_PreferredMethodOfCommunication'>Communication Method</label></td>
+																		<td>
+																			<select id="SolicitorParty_ContactDetails_PreferredMethodOfCommunication"/>
+																		</td>
+																		<td>&nbsp;</td>
+																	</tr>
+																	<tr>
+																		<td><label for='SolicitorParty_Reference'>Reference</label></td>
+																		<td><input id="SolicitorParty_Reference" type="text" size="50"/></td>
+																		<td>&nbsp;</td>
+																	</tr>
+																	<tr>
+																		<td><label for='SolicitorParty_Payee'>Payee?</label></td>
+																		<td><input id="SolicitorParty_Payee" type="checkbox"/></td>
+																		<td>&nbsp;</td>
+																	</tr>
+		
+																</table>
+		
+															</td>
+														</tr>
+		
+													</table>
+		
+												</div>
+												
+												<div class="page" id="thirdPage">
+													<table>
+														<tr>
+															<td valign="top">
+																<table>
+																	<tr>
+																		<td class="mediationLabel"><label for='Mediation_ContactName'>Contact Name</label></td>
+																		<td><input id="Mediation_ContactName" type="text" size="50"/></td>
+																	</tr>
+																	<tr>
+																		<td class="mediationLabel"><label for='Mediation_TelephoneNumber'>Telephone Number</label></td>
+																		<td><input id="Mediation_TelephoneNumber" type="text" size="30"/></td>
+																	</tr>
+																	<tr>
+																		<td class="mediationLabel"><label for='Mediation_EmailAddress'>Email Address</label></td>
+																		<td><input id="Mediation_EmailAddress" type="text" size="50"/></td>
+																	</tr>
+																	<tr>
+																		<td class="mediationLabel"><label for='Mediation_Availability'>Availability</label></td>
+																		<td>
+																			<script type="text/javascript">ZoomFieldRenderer.createInline("Mediation_Availability");</script>
+																		</td>
+																	</tr>
+																	<tr>
+																		<td class="mediationLabel"><label for='Mediation_Notes'>Additional Info</label></td>
+																		<td>
+																			<script type="text/javascript">ZoomFieldRenderer.createInline("Mediation_Notes");</script>
+																		</td>
+																	</tr>
+																</table>
+															</td>
+														</tr>
+													</table>
+												</div>
+												
+											</div>
+										</div>
+		
+									</td>
+									<!-- End Party Details Panel -->
+		
+								</tr>
+		
+							</table>
+						</div>
+					</td>
+				</tr>
+	
+				<!-- Footer Panel -->
+				<tr>
+					<td>
+						<div class="panel">
+							<table class="content">
+								<tr>
+									<td>
+		
+										<table>
+											<tr>
+												<td class="defaultLabel"><label for='Footer_DetailsOfClaimButton'>Details of Claim</label></td>
+												<td><input id="Footer_DetailsOfClaimButton" type="button" value="Add Details" class="addUpdateButton"/></td>
+												<td class="footerSpacer">&nbsp;</td>
+												<td class="defaultLabel"><label for='Footer_HearingDetailsButton'>Hearing Details</label></td>
+												<td><input id="Footer_HearingDetailsButton" type="button" value="Add Details" class="addUpdateButton"/></td>
+												<td class="footerSpacer">&nbsp;</td>
+												<td style="width:200px;"><label for='Footer_OtherPossessionAddressButton'>Other Possession Address</label></td>
+												<td><input id="Footer_OtherPossessionAddressButton" type="button" value="Add Details" class="addUpdateButton"/></td>
+											</tr>
+										</table>
+		
+									</td>
+		
+								</tr>
+		
+							</table>
+						</div>
+					</td>
+				</tr>
+				<!-- End Footer Panel -->
+	
+			</table>
+			
+			<!-- Status Bar Panel -->
+			<script type="text/javascript">
+				ActionBarRenderer.createInline(
+					"status_bar",
+					[
+						{id: "Status_SaveButton", label: "Save"},
+						{id: "Status_ClearButton", label: "Clear"},
+						{id: "Status_CloseButton", label: "Close"}
+					]
+				);
+			</script>
+			<!-- End Status Bar Panel -->
+	
+			<!--  Form Extension Popups -->
+	
+			<!-- Details of Claim popup -->
+			<div class="popup" id="Details_Of_Claim_Popup">
+				<table class="content">
+					<tr>
+						<td><label for="DetailsOfClaim_DateRequestReceived">Date Request Received</label></td>
+						<td><script type="text/javascript">DatePickerRenderer.createInline("DetailsOfClaim_DateRequestReceived", false);</script></td>
+					</tr>
+					<tr>
+						<td><label for="DetailsOfClaim_AmountClaimed">Amount Claimed</label></td>
+						<td><input type="text" id="DetailsOfClaim_AmountClaimedCurrency" size="1"/>&nbsp;<input type="text" id="DetailsOfClaim_AmountClaimed" size="15"/></td>
+					</tr>
+					<tr>
+						<td><label for="DetailsOfClaim_CourtFee">Court Fee</label></td>
+						<td><input type="text" id="DetailsOfClaim_CourtFeeCurrency" size="1"/>&nbsp;<input type="text" id="DetailsOfClaim_CourtFee" size="15"/></td>
+					</tr>
+					<tr>
+						<td><label for="DetailsOfClaim_SolicitorsCosts">Solicitors Costs</label></td>
+						<td><input type="text" id="DetailsOfClaim_SolicitorsCostsCurrency" size="1"/>&nbsp;<input type="text" id="DetailsOfClaim_SolicitorsCosts" size="15"/></td>
+					</tr>
+					<tr>
+						<td><label for="DetailsOfClaim_Total">Total</label></td>
+						<td><input type="text" id="DetailsOfClaim_TotalCurrency" size="1"/>&nbsp;<input type="text" id="DetailsOfClaim_Total" size="15"/></td>
+					</tr>
+					<tr>
+						<td><label for="DetailsOfClaim_DateOfIssue">Date of Issue</label></td>
+						<td><script type="text/javascript">DatePickerRenderer.createInline("DetailsOfClaim_DateOfIssue", false);</script></td>
+					</tr>
+					<tr style="height:2px;">
+						<td colspan=2>&nbsp;</td>
+					</tr>
+					<tr>
+						<td colspan=2 align="right">
+							<input class="popupButton" type="button" value="Ok" id="DetailsOfClaim_OkButton"/>
+							<input class="popupButton" type="button" value="Cancel" id="DetailsOfClaim_CancelButton"/>
+						</td>
+					</tr>
+				</table>
+			</div>
+			<!-- End Details of Claim popup -->
+	
+			<!-- Particulars of Claim popup -->
+			<div class="popup" id="Particulars_Of_Claim_Popup">
+				<table class="content">
+					<tr>
+						<td><label style="margin-left: 20px" for="ParticularsOfClaim_Details">Particulars of Claim</label></td>
+					</tr>
+					<tr>
+						<td>
+							<textarea style="margin-left: 20px; overflow:hidden;" id="ParticularsOfClaim_Details" cols="80" rows="10">
+							</textarea>
+						</td>
+					</tr>
+					<tr style="height:2px;">
+						<td>&nbsp;</td>
+					</tr>
+					<tr>
+						<td align="right"><input class="popupButton" type="button" value="Close" id="ParticularsOfClaim_CloseButton"/></td>
+					</tr>
+				</table>
+			</div>
+			<!-- End Particulars of Claim popup -->
+	
+			<!-- Notification Date popup -->
+			<div class="popup" id="Notification_Date_Popup">
+				<table class="content">
+					<tr>
+						<td><label for="Notification_Date">Notification Date</label><br/></td>
+						<td><script type="text/javascript">DatePickerRenderer.createInline("Notification_Date", true);</script></td>
+					</tr>
+					<tr style="height:2px;">
+						<td colspan=2>&nbsp;</td>
+					</tr>
+					<tr>
+						<td colspan=2 align="right"><input class="popupButton" type="button" value="Close" id="Notification_CloseButton"/></td>
+					</tr>
+				</table>
+			</div>
+			<!-- End Notification Date popup -->
+	
+			<!-- Non-visual data change listeners -->
+			<div class="logic" id="populateSolicitorListLogic"></div>
+			<div class="logic" id="makeFieldsTemporaryLogic"></div>
+			<div class="logic" id="populatePartyTypeListLogic"></div>
+			<div class="logic" id="updateDetailsLogic"></div>
+	
+			<!-- LOV POPUPs -->
+			<script type="text/javascript">LOVSubformRenderer.createInline( "Header_CaseTypeLOVGrid", "Case Types", ["Type", "Description"], 10, 1, true );</script>
+			<script type="text/javascript">LOVSubformRenderer.createInline( "CourtsLOVGrid", "Courts", ["Code", "Court"], 10, 1, true );</script>
+	
+			<!-- AUDIT PANELS -->
+			<div class="auditPanel" id="headerPanel"></div>
+			<div class="auditPanel" id="masterDetailsPanel"></div>
+			<div class="auditPanel" id="otherPossessionAddressPanel"></div>
+	
+			<!-- AUDIT SELECTOR ADAPTOR -->
+			<script type="text/javascript">AuditSelectorRenderer.createInline( "Audit_PanelSelector" );</script>
+			
+			<!-- SUBFORMS -->
+			<div class="popup popupsubform" id="audit_subform"></div>
+			<div class="popup popupsubform" id="hearingDetails_subform"></div>
+			<div class="popup popupsubform" id="otherPossnAddress_subform"></div>
+			<div class="popup popupsubform" id="viewHistAddresses_subform"></div>
+			<div class="popup popupsubform" id="addNewAddress_subform"></div>
+			<div class="popup popupsubform" id="addNewSolicitor_subform"></div>
+			<div class="popup popupsubform" id="codedPartySearch_subform"></div>
+			<div class="popup popupsubform" id="ProgressBar_SubForm"></div>
+	
+		</form>
+	
+	</body>
+
+</html>

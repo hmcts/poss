@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: Case
+	Method:  updateCaseTrackJudge
+	File:    map_case_track_judge.xml
+	Author:  Chris Vincent
+	Created: 28 January 2013
+	Description: 
+		Map to update Case Track and Judge details.
+-->
+<DBMapDef>
+  <DataSource id="java:OracleDS"/>
+  <Tables>
+    <Table alias="C"  name="CASES"/>
+  </Tables>  
+  <Mapping>
+     <Case>
+	    <CaseNumber>${C.CASE_NUMBER}</CaseNumber>
+		<Track>${C.TRACK}</Track>
+		<Judge>${C.JUDGE}</Judge>
+     </Case>
+  </Mapping>
+</DBMapDef>

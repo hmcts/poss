@@ -1,0 +1,349 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- ====================================================================== -->
+<!--  -->
+<!-- FILENAME: $Source: C:/CVSRepository/serveroas/src/uk/gov/dca/caseman/wordprocessing_templates/Notice/EX96/EX96-FO.xml,v $ -->
+<!--  -->
+<!-- AUTHOR: $Author: shane $-->
+<!--  -->
+<!-- DATE: $Date: 2006/05/24 16:30:16 $ -->
+<!--  -->
+<!-- Version: $Revision: 1.2 $ -->
+<!--  -->
+<!-- DESCRIPTION: This stylesheet is used to create an XSL:FO document that -->
+<!-- can be processed into a PDF version.  Business logic -->
+<!-- is embedded to generate the correct document text for the order -->
+<!-- required. -->
+<!--  -->
+<!-- INPUTS: XML document containing: the answers to questions asked of the -->
+<!-- user; case data retrieved from the database; HTML representing the  -->
+<!-- body of the document content (already edited by the user). -->
+<!--  -->
+<!-- OUTPUTS: XML document with FO tags containing instructions for the -->
+<!-- creation of a PDF document. -->
+<!--  -->
+<!-- ====================================================================== -->
+<root xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:fo="http://www.w3.org/1999/XSL/Format" xmlns="http://eds.com/supsfo">
+	<variables>@word.processing.url.xsl@supsfo.xsl</variables>
+	<duplex/>
+	<addressee copies="2">
+		<warrantPartyFor/>
+	</addressee>
+	<header>
+		<fo:block font-size="16pt" font-weight="bold">Notice of Appointment (with Bailiff)</fo:block>
+		<fo:block font-size="12pt" font-weight="bold">for execution of warrant for Possession or Delivery</fo:block>
+	</header>
+	<courtcase>
+		<court>
+			<xsl:copy-of select="$vdWarrantCourtHeaderBlock"/>
+		</court>
+		<caseparameters>
+			<parameter>
+				<name>
+					<fo:block font-weight="bold">Court Ref/Bailiff Number</fo:block>
+				</name>
+				<value>
+					<fo:block>
+						<xsl:value-of select="$vdBailiffAreaNumber"/>
+					</fo:block>
+				</value>
+			</parameter>			
+			<parameter>
+				<name>
+					<fo:block font-weight="bold">Date</fo:block>
+				</name>
+				<value>
+					<fo:block>
+						<xsl:value-of select="$vdWarrantReceiptDate"/>
+					</fo:block>
+				</value>
+			</parameter>
+		</caseparameters>
+	</courtcase>
+	
+	
+	<body>
+		<fo:block space-after="0.4cm">
+			<fo:inline font-weight="bold">Take notice </fo:inline>that the undermentioned warrant will be executed by the bailiff of the court
+		</fo:block>
+			
+		<fo:block space-after="0.4cm">			
+			<fo:inline font-weight="bold">on </fo:inline><xsl:value-of select="$vdAppointmentDate"/> at <xsl:value-of select="$vdAppointmentTime"/>
+		</fo:block>
+		<fo:block>
+			<fo:inline font-weight="bold">Appointment:</fo:inline>
+		</fo:block>
+		
+		<fo:block space-after="0.4cm">
+			<fo:table table-layout="fixed">
+				<fo:table-column column-width="2.2cm"></fo:table-column>
+				<fo:table-column column-width="2.2cm"></fo:table-column>
+				<fo:table-column column-width="5.2cm"></fo:table-column>
+				<fo:table-column column-width="4.0cm"></fo:table-column>
+				<fo:table-column column-width="5.6cm"></fo:table-column>
+				<fo:table-body>
+					<fo:table-row keep-with-next="always">
+						<fo:table-cell padding-right="0.1cm" padding-left="0.1cm" border-top-style="solid" border-top-width="0.02cm" border-left-style="solid" border-left-width="0.02cm" border-right-style="solid" border-right-width="0.02cm">
+							<fo:block space-before="0.11cm" space-after="0.11cm" font-size="8pt" font-weight="bold">Case No</fo:block>
+						</fo:table-cell>
+						<fo:table-cell padding-right="0.1cm" padding-left="0.1cm" border-top-style="solid" border-top-width="0.02cm" border-left-style="solid" border-left-width="0.02cm" border-right-style="solid" border-right-width="0.02cm">
+							<fo:block space-before="0.11cm" space-after="0.11cm" font-size="8pt" font-weight="bold">Warrant No</fo:block>
+						</fo:table-cell>
+						<fo:table-cell padding-right="0.1cm" padding-left="0.1cm" border-top-style="solid" border-top-width="0.02cm" border-left-style="solid" border-left-width="0.02cm" border-right-style="solid" border-right-width="0.02cm">
+							<fo:block space-before="0.11cm" space-after="0.11cm" font-size="8pt" font-weight="bold">Claimant's Name/Ref</fo:block>
+						</fo:table-cell>
+						<fo:table-cell padding-right="0.1cm" padding-left="0.1cm" border-top-style="solid" border-top-width="0.02cm" border-left-style="solid" border-left-width="0.02cm" border-right-style="solid" border-right-width="0.02cm">
+							<fo:block space-before="0.11cm" space-after="0.11cm" font-size="8pt" font-weight="bold">Defendant</fo:block>
+						</fo:table-cell>
+						<fo:table-cell padding-right="0.1cm" padding-left="0.1cm" border-top-style="solid" border-top-width="0.02cm" border-left-style="solid" border-left-width="0.02cm" border-right-style="solid" border-right-width="0.02cm">
+							<fo:block space-before="0.11cm" space-after="0.11cm" font-size="8pt" font-weight="bold">Address (for appointment)</fo:block>
+						</fo:table-cell>
+					</fo:table-row>
+					<fo:table-row keep-with-next="always">
+						<fo:table-cell padding-right="0.1cm" padding-left="0.1cm" border-bottom-style="solid" border-bottom-width="0.02cm" border-top-style="solid" border-top-width="0.02cm" border-left-style="solid" border-left-width="0.02cm" border-right-style="solid" border-right-width="0.02cm">
+							<fo:block space-before="0.11cm" space-after="0.11cm" font-size="8pt"><xsl:value-of select="$vdClaimNumber"/></fo:block>
+						</fo:table-cell>
+						<fo:table-cell padding-right="0.1cm" padding-left="0.1cm" border-bottom-style="solid" border-bottom-width="0.02cm" border-top-style="solid" border-top-width="0.02cm" border-left-style="solid" border-left-width="0.02cm" border-right-style="solid" border-right-width="0.02cm">
+							<fo:block space-before="0.11cm" space-after="0.11cm" font-size="8pt"><xsl:value-of select="$vdWarrantNumber"/></fo:block>
+						</fo:table-cell>
+						<fo:table-cell padding-right="0.1cm" padding-left="0.1cm" border-bottom-style="solid" border-bottom-width="0.02cm" border-top-style="solid" border-top-width="0.02cm" border-left-style="solid" border-left-width="0.02cm" border-right-style="solid" border-right-width="0.02cm">
+							<fo:block space-before="0.11cm" space-after="0.11cm" font-size="8pt"><xsl:value-of select="$vdWarrantClaimantName"/></fo:block>
+							<fo:block space-before="0.11cm" space-after="0.11cm" font-size="8pt"><xsl:value-of select="$vdWarrantPartyForReference"/></fo:block>
+						</fo:table-cell>
+						<fo:table-cell padding-right="0.1cm" padding-left="0.1cm" border-bottom-style="solid" border-bottom-width="0.02cm" border-top-style="solid" border-top-width="0.02cm" border-left-style="solid" border-left-width="0.02cm" border-right-style="solid" border-right-width="0.02cm">
+							<fo:block space-before="0.11cm" space-after="0.11cm" font-size="8pt"><xsl:value-of select="$vdSelectedWarrantPartyAgainstName"/></fo:block>
+						</fo:table-cell>
+						<fo:table-cell padding-right="0.1cm" padding-left="0.1cm"  border-bottom-style="solid" border-bottom-width="0.02cm" border-top-style="solid" border-top-width="0.02cm" border-left-style="solid" border-left-width="0.02cm" border-right-style="solid" border-right-width="0.02cm">
+							<fo:block space-before="0.11cm" space-after="0.11cm" font-size="8pt"><xsl:value-of select="$vdAppointmentAddress"/></fo:block>
+						</fo:table-cell>
+					</fo:table-row>
+				</fo:table-body>
+			</fo:table>
+		</fo:block>
+		<fo:block space-after="0.4cm">
+			<fo:table table-layout="fixed">
+				<fo:table-column column-width="19.2cm"></fo:table-column>
+				<fo:table-body>
+					<fo:table-row keep-with-next="always">
+						<fo:table-cell padding-right="0.1cm" padding-left="0.1cm" border-bottom-style="solid" border-bottom-width="0.02cm" border-top-style="solid" border-top-width="0.02cm" border-left-style="solid" border-left-width="0.02cm" border-right-style="solid" border-right-width="0.02cm">
+							<list type="bullet">
+								<list-item><fo:block font-weight="bold" font-size="9pt">A possession warrant by itself does not give a county court bailiff authority to use force to evict.
+											However, the landlord or the landlord's agent can authorise the bailiff (and the Police, if necessary) to use REASONABLE force, if that becomes necessary.
+											</fo:block>
+								</list-item>
+								<list-item><fo:block font-weight="bold" font-size="9pt">If you have any reason to believe that the bailiff will encounter any difficulties that may perhaps require additional bailiffs Police assistance,
+											please contact the Court Manager or Bailiff Manager at the court immediately. 
+											<fo:inline font-style="italic">(This must be a minimum of at least 5 working days before the appointment to avoid postponement - 
+											 *Please indicate that you have done so on the slip below).
+											</fo:inline>
+											</fo:block>
+								</list-item>								
+							</list>
+						</fo:table-cell>
+					</fo:table-row>
+				</fo:table-body>
+			</fo:table>
+		</fo:block>
+		<fo:block space-after="0.2cm">
+		<list type="bullet">
+			<list-item><fo:block font-size="9pt"><fo:inline font-weight="bold">The appointment must be confirmed</fo:inline> by completing and returning the tear off slip below, to arrive at the court at least
+						3 working days before the appointment date otherwise the appointment will be cancelled.
+						</fo:block>
+			</list-item>
+			<list-item><fo:block font-size="9pt">You should meet the bailiff outside the premises at the address at the time stated.
+						</fo:block>
+			</list-item>
+			<list-item><fo:block font-size="9pt">You should be able to provide him with evidence of your identity.
+						</fo:block>
+			</list-item>
+			<list-item><fo:block font-size="9pt">In the case of a warrant possession you should arrange to secure the premises against re-entry.
+						</fo:block>
+			</list-item>
+			<list-item><fo:block font-size="9pt">If the warrant is for delivery of goods you must identify the goods and provide for their removal and transport.
+						</fo:block>
+			</list-item>								
+		</list>
+		</fo:block>
+		<getFooter></getFooter>		
+		<leader></leader>
+		<fo:block break-after="page">
+			<fo:block text-align="justify">
+				<fo:table table-layout="fixed">
+					<fo:table-column column-width="10.16cm"></fo:table-column>
+					<fo:table-column column-width="1cm"></fo:table-column>
+					<fo:table-column column-width="8.12cm"></fo:table-column>
+					<fo:table-body>
+						<fo:table-row>
+							<fo:table-cell height="1cm">
+								<fo:block font-size="14pt" font-weight="bold">Confirmation of Bailiff's appointment</fo:block>
+							</fo:table-cell>
+							<fo:table-cell number-rows-spanned="2">
+								<fo:block></fo:block>
+							</fo:table-cell>
+							<fo:table-cell number-rows-spanned="4">
+								<courtcase>
+									<court>
+										<xsl:copy-of select="$vdWarrantCourtHeaderBlock"/>
+									</court>
+									<caseparameters>
+										<parameter>
+											<name>
+												<fo:block font-weight="bold">Court Ref/Bailiff Number</fo:block>
+											</name>
+											<value>
+												<fo:block>
+													<xsl:value-of select="$vdBailiffAreaNumber"/>
+												</fo:block>
+											</value>
+										</parameter>
+										<parameter>
+											<name>
+												<fo:block font-weight="bold">Claimant</fo:block>
+											</name>
+											<value>
+												<fo:block>
+													<xsl:value-of select="$vdWarrantClaimantName"/>
+												</fo:block>
+											</value>
+										</parameter>
+										<parameter>
+											<name>
+												<fo:block font-weight="bold">Claimant's ref</fo:block>
+											</name>
+											<value>
+												<fo:block>
+													<xsl:value-of select="$vdWarrantPartyForReference"/>
+												</fo:block>
+											</value>
+										</parameter>
+										<parameter>
+											<name>
+												<fo:block font-weight="bold">Claimant's Tel No</fo:block>
+											</name>
+											<value>
+												<fo:block>
+													<xsl:value-of select="$vdWarrantPartyForTelephoneNumber"/>
+												</fo:block>
+											</value>
+										</parameter>
+										<parameter>
+											<name>
+												<fo:block font-weight="bold">Land Agent</fo:block>
+											</name>
+										</parameter>
+										<parameter>
+											<name>
+												<fo:block font-weight="bold">Land Agent's Tel No</fo:block>
+											</name>
+										</parameter>
+										<parameter>
+											<name>
+												<fo:block font-weight="bold">Appointment Date</fo:block>
+											</name>
+											<value>
+												<fo:block>
+													<xsl:value-of select="$vdAppointmentDate"/>
+												</fo:block>
+											</value>
+										</parameter>
+										<parameter>
+											<name>
+												<fo:block font-weight="bold">Time</fo:block>
+											</name>
+											<value>
+												<fo:block>
+													<xsl:value-of select="$vdAppointmentTime"/>
+												</fo:block>
+											</value>
+										</parameter>
+									</caseparameters>
+								</courtcase>
+							</fo:table-cell>
+						</fo:table-row>
+						<fo:table-row>
+							<fo:table-cell>
+								<fo:block font-style="italic" space-after="0.4cm">Please complete this slip <fo:inline font-style="italic" text-decoration="underline">in full</fo:inline> before signing and returning to court.</fo:block>
+								<fo:block><fo:inline font-weight="bold">I confirm</fo:inline> that I, or my agent, will attend the appointment on the date shown.
+								Any agent attending on my behalf will have my authority to authorise the bailiff (and the Police, if necessary) to use reasonable 
+								force to carry out the eviction.</fo:block>
+								<!--<fo:block space-after="0.75cm"/>-->
+							</fo:table-cell>
+						</fo:table-row>
+						<fo:table-row>
+							<fo:table-cell>
+								<signature signaturetype="warrantsignaturedate"/>
+							</fo:table-cell>
+						</fo:table-row>
+						<fo:table-row>
+							<fo:table-cell>
+								<fo:block space-before="0.1cm">
+									<list type="checkBoxWithLabel">
+										<list-item>
+											<fo:block font-size="10pt" >* I consider that the Bailiff may require assistance in respect of Warrant No. <xsl:value-of select="$vdWarrantNumber"/>
+											and I confirm that I have spoken to:
+											</fo:block>
+										</list-item>
+										<list-item>
+											<fo:block font-size="10pt">The Court Manager</fo:block>
+										</list-item>
+										<list-item>
+											<fo:block font-size="10pt">Bailiff Manager</fo:block>
+										</list-item>
+										<list-item>
+											<fo:block font-size="10pt">Other Court Officer <fo:inline font-style="italic">(please specify)</fo:inline></fo:block>
+										</list-item>
+									</list>
+								</fo:block>
+							</fo:table-cell>
+							<fo:table-cell></fo:table-cell>
+						</fo:table-row>
+					</fo:table-body>
+				</fo:table>
+			</fo:block>
+		</fo:block>
+		<fo:block>
+			<fo:table table-layout="fixed">
+				<fo:table-column column-width="19.28cm" padding-right="10pt"></fo:table-column>
+				<fo:table-body>
+					<fo:table-row>
+						<fo:table-cell>
+							<fo:block font-size="16pt" font-weight="bold" text-align="left" space-after="0.4cm">Guidance Notes for the Notice of Appointment (with Bailiff) for Execution of Warrant of Possession or Delivery</fo:block>
+						</fo:table-cell>
+					</fo:table-row>
+					<fo:table-row>
+						<fo:table-cell padding-right="10pt">
+							<list type="bullet">
+								<list-item>
+									<fo:block font-size="11pt" space-after="0.3cm">The entitlement to use force comes from the authority given by the person entitled to possession, and not by virtue of the issue of the Warrant of Possession.</fo:block>
+								</list-item>
+								<list-item>
+									<fo:block font-size="11pt" space-after="0.3cm">Whilst the claimant can authorise the bailiff to use reasonable force to carry out the eviction, they are not <fo:inline font-style="italic" text-decoration="underline">empowered</fo:inline>
+									to instruct or order the bailiff to use such force, reasonable or otherwise.
+									</fo:block>
+								</list-item>
+								<list-item>
+									<fo:block font-size="11pt" space-after="0.3cm">Where the use of resonable force is necessary, the bailiff will assess the situation based on the Court Service Risk Assessment guidelines 
+									and use his/her judgment in determining whether or not to proceed with the eviction.
+									</fo:block>
+								</list-item>
+								<list-item>
+									<fo:block font-size="11pt" space-after="0.3cm">If the bailiff decides that the use of force would be necessary, the bailiff will ask the claimant/agent (in accordance with the confirmation slip on the EX96) 
+									to sign the possession warrant giving authority to use force. If the authority is not forthcoming then the bailiff will decide the appropriate action to take. 
+									</fo:block>
+								</list-item>
+								<list-item>
+									<fo:block font-size="11pt" space-after="0.3cm">In the event of the bailiff  deciding, in the interest of health and safety not to use reasonable force s/he will withdraw from the eviction.</fo:block>
+								</list-item>
+								<list-item>
+									<fo:block font-size="11pt" space-after="0.3cm">If the occupier(s) fail to vacate the premises, the claimant may apply to the court for the occupier's committal for disobedience of the possession order. 
+									<fo:inline font-style="italic">(See Bell v Tuohy CA NLJ 19 April p587)</fo:inline> [2002].</fo:block>
+								</list-item>
+							</list>
+						</fo:table-cell>
+					</fo:table-row>
+				</fo:table-body>
+			</fo:table>
+		</fo:block>
+		
+	</body>
+	<defaultFooter id="EX96" suppress="true"/>
+</root>

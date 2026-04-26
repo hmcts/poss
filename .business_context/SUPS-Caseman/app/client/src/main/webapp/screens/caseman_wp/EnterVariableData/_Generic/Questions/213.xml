@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>213</Id>
+	<Label>Party to inform court</Label>
+	<ObjectName>PartyToInform</ObjectName>
+	<Html>	
+		<select id="PartyToInform">
+			<option value=""></option>
+			<option value="CLM">The claimant</option>
+			<option value="DEF">The defendant</option>
+			<option value="OTH">Other</option>
+		</select>
+	</Html>
+	<Javascript>
+		<XPath>/ds/EnterVariableData/FastTrack/partyToInform</XPath>
+		<HintText>Party to inform court </HintText>
+		<isMandatory>return true;</isMandatory>	
+		<enableOn>IsInstructionNotified.dataBinding</enableOn>
+		<isEnabled>return('Y' == Services.getValue(IsInstructionNotified.dataBinding));</isEnabled>	
+		<logicOn>IsInstructionNotified.dataBinding</logicOn>
+		<logic>
+			if('Y' != Services.getValue(IsInstructionNotified.dataBinding))
+			{	Services.setValue(PartyToInform.dataBinding, "");
+			}
+		</logic>
+		
+		<Context ScreenId="CJR060">
+			<HintText>Select the party to inform court </HintText>
+		</Context>
+	</Javascript>
+</Question>

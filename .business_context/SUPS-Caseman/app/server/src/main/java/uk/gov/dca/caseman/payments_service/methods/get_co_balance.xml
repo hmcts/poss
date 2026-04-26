@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: Payments
+	Method:  getCoBalance
+	Author:  Tony White 
+	Created: 20 Feb 2006
+	Description: 
+		Use SQLLite to determine CO balance
+-->
+<service-method>
+	<pipeline>
+		<SQLLite format-output="true"
+			resultset-element="ds"
+			row-element="Debt"
+			field-name-as="element"
+		>
+			<DataSource id="java:OracleDS" />
+			<Param name="param.coNumber" xpath="/params/param[@name='coNumber']" />
+			<SQL type="select" tables="C AD P D">
+				SELECT C.RV_LOW_VALUE AS "Status",
+							(
+								SELECT	NVL(SUM(AD.DEBT_AMOUNT_ALLOWED), 0)
+								FROM	ALLOWED_DEBTS AD
+								WHERE	AD.DEBT_CO_NUMBER = ${param.coNumber} AND
+                      						AD.DEBT_STATUS = C.RV_LOW_VALUE
+							) AS "AmountAllowed",
+							(
+								(
+									SELECT	NVL(SUM(P.AMOUNT), 0)
+									FROM	PAYMENTS P,
+						                        ALLOWED_DEBTS AD
+									WHERE	P.ERROR_INDICATOR = 'N' AND
+												P.SUBJECT_NO = ${param.coNumber} AND
+						                        P.ALD_DEBT_SEQ = AD.DEBT_SEQ AND
+						                        AD.DEBT_STATUS = C.RV_LOW_VALUE
+								) +
+								(
+									SELECT	NVL(SUM(D.DD_AMOUNT), 0)
+									FROM	DEBT_DIVIDENDS D,
+												ALLOWED_DEBTS AD
+									WHERE	D.DD_ALD_SEQ = AD.DEBT_SEQ AND
+												AD.DEBT_CO_NUMBER = ${param.coNumber} AND
+						                        AD.DEBT_STATUS = C.RV_LOW_VALUE
+								)
+							) AS "PaidToDate"
+				FROM	CCBC_REF_CODES C
+		        WHERE	C.RV_DOMAIN = 'ALLOWED_DEBTS.DEBT_STATUS'
+			</SQL>
+		</SQLLite>
+  	</pipeline>
+	<Security roles="medium high wcSuper scSuper bmsSuper aeSuper dmSuper" />
+</service-method>

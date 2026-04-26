@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: CourtSections
+	Method:  getCourtSections()
+	File:    get_CourtSections.xml
+	Author:  Dave Turner
+	Created: 
+	Description: 
+		Retrieves a list of Court Sections associated with a particular court.
+-->
+<service-method>
+	<pipeline>
+		<NewQuery service="courtsections" name="getCourtSections">
+			<QueryDef location="uk/gov/dca/caseman/court_sections_service/query_def_SEC.xml"/>
+			<QueryExtension pivotNode="/ds/CourtDetails">
+				<Param name="param.courtId" xpath="/params/param[@name = 'courtId']"/>
+				<Constraint>CR.CODE = ${param.courtId}</Constraint>
+			</QueryExtension>
+		</NewQuery>
+	</pipeline>
+	<Security roles="admin wcSuper ccbcMan bmsSuper"/>	
+</service-method>

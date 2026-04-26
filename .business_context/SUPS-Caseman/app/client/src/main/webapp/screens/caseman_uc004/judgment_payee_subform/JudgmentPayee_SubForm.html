@@ -1,0 +1,158 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3c.org/TR/html4/strict.dtd">
+<html>
+
+	<head>
+		<title>JudgmentPayee_SubForm</title>
+		<link href="JudgmentPayee_SubForm.css" type="text/css" rel="stylesheet">
+		<script type="text/javascript" src="../../../Framework.js"></script>
+    	<script type="text/javascript" src="../../../CaseManSubFormIncludeFiles.js"></script>
+		<script type="text/javascript" src="JudgmentPayee_SubForm.js"></script>
+  	</head>
+
+	<body>
+	
+    	<form id="judgmentPayeeSubform" class="subform">
+
+			<div class="panel">
+				<table class="content">
+					<tr>
+						<td>
+							<div class="tabbedArea" id="myTabbedArea" >
+							
+								<script type="text/javascript">
+									TabSelector.createInline("myTabSelector",[ {tabLabel: "Payee Details", pageId: "Payee_Details_Page"},
+																				{tabLabel: "Bank Details", pageId: "Payee_BankDetails_Page"} ] 
+															);
+								</script>
+	
+								<div class="pagedArea" id="myPagedArea">
+									<!-- PAYEE DETAILS -->
+									<div class="page" id="Payee_Details_Page">
+										<table>
+											<tr>
+												<td class="defaultLabel"><label for="PayeeDetails_Name">Payee Name</label></td>
+												<td><input type="text" id="PayeeDetails_Name" size="40"></td>
+											</tr>
+											<tr>
+												<td class="defaultLabel"><label for="PayeeDetails_ContactDetails_Address_Line1">Address</label></td>
+												<td><input type="text" id="PayeeDetails_ContactDetails_Address_Line1" size="50"></td>
+											</tr>
+											<tr>
+												<td>&nbsp;</td>
+												<td><input type="text" id="PayeeDetails_ContactDetails_Address_Line2" size="50"></td>
+											</tr>
+											<tr>
+												<td>&nbsp;</td>
+												<td><input type="text" id="PayeeDetails_ContactDetails_Address_Line3" size="50"></td>
+											</tr>
+											<tr>
+												<td>&nbsp;</td>
+												<td><input type="text" id="PayeeDetails_ContactDetails_Address_Line4" size="50"></td>
+											</tr>
+											<tr>
+												<td>&nbsp;</td>
+												<td><input type="text" id="PayeeDetails_ContactDetails_Address_Line5" size="50"></td>
+											</tr>
+											<tr>
+												<td class="defaultLabel"><label for="PayeeDetails_ContactDetails_Address_PostCode">Postcode</label></td>
+												<td><input type="text" id="PayeeDetails_ContactDetails_Address_PostCode" size="15"></td>
+											</tr>
+											<tr>
+												<td class="defaultLabel"><label for="PayeeDetails_ContactDetails_DXNumber">DX Number</label></td>
+												<td><input type="text" id="PayeeDetails_ContactDetails_DXNumber" size="50"></td>
+											</tr>
+											<tr>
+												<td class="defaultLabel"><label for="PayeeDetails_ContactDetails_TelephoneNumber">Telephone Number</label></td>
+												<td><input type="text" id="PayeeDetails_ContactDetails_TelephoneNumber" size="30"></td>
+											</tr>
+											<tr>
+												<td class="defaultLabel"><label for="PayeeDetails_ContactDetails_FaxNumber">Fax Number</label></td>
+												<td><input type="text" id="PayeeDetails_ContactDetails_FaxNumber" size="30"></td>
+											</tr>
+											<tr>
+												<td class="defaultLabel"><label for="PayeeDetails_ContactDetails_Email">Email</label></td>
+												<td><input type="text" id="PayeeDetails_ContactDetails_Email" size="50"></td>
+											</tr>
+											<tr>
+												<td class="defaultLabel"><label for="PayeeDetails_Reference">Reference</label></td>
+												<td><input type="text" id="PayeeDetails_Reference" size="50"></td>
+											</tr>
+										</table>
+									</div>
+									
+									<!-- PAYEE BANK DETAILS -->
+									<div class="page" id="Payee_BankDetails_Page">
+										<table>
+											<tr>
+												<td style="width:175px;"><label for="PayeeDetails_BankName">Bank Name</label></td>
+												<td><input type="text" id="PayeeDetails_BankName" size="40"></td>
+											</tr>
+											<tr>
+												<td style="width:175px;"><label for="PayeeDetails_AccNumber">Account Number</label></td>
+												<td><input type="text" id="PayeeDetails_AccNumber" size="20"></td>
+											</tr>
+											<tr>
+												<td style="width:175px;"><label for="PayeeDetails_SortCode">Sort Code</label></td>
+												<td><input type="text" id="PayeeDetails_SortCode" size="15"></td>
+											</tr>
+											<tr>
+												<td style="width:175px;"><label for="PayeeDetails_AccountHolder">Account Holder</label></td>
+												<td><input type="text" id="PayeeDetails_AccountHolder" size="40"></td>
+											</tr>
+											<tr>
+												<td style="width:175px;"><label for="PayeeDetails_SlipCodeLine1">Slip Codeline 1</label></td>
+												<td><input type="text" id="PayeeDetails_SlipCodeLine1" size="30"></td>
+											</tr>
+											<tr>
+												<td style="width:175px;"><label for="PayeeDetails_SlipCodeLine2">Slip Codeline 2</label></td>
+												<td><input type="text" id="PayeeDetails_SlipCodeLine2" size="30"></td>
+											</tr>
+											<tr>
+												<td style="width:175px;"><label for="PayeeDetails_BankInformation1">Bank Information 1</label></td>
+												<td><input type="text" id="PayeeDetails_BankInformation1" size="50"></td>
+											</tr>
+											<tr>
+												<td style="width:175px;"><label for="PayeeDetails_BankInformation2">Bank Information 2</label></td>
+												<td><input type="text" id="PayeeDetails_BankInformation2" size="50"></td>
+											</tr>
+											<tr>
+												<td style="width:175px;"><label for="PayeeDetails_GiroAccountNumber">Giro Account Number</label></td>
+												<td><input type="text" id="PayeeDetails_GiroAccountNumber" size="20"></td>
+											</tr>
+											<tr>
+												<td style="width:175px;"><label for="PayeeDetails_GiroTransactionCode1">Giro Transaction Code 1</label></td>
+												<td><input type="text" id="PayeeDetails_GiroTransactionCode1" size="20"></td>
+											</tr>
+											<tr>
+												<td style="width:175px;"><label for="PayeeDetails_GiroTransactionCode2">Giro Transaction Code 2</label></td>
+												<td><input type="text" id="PayeeDetails_GiroTransactionCode2" size="20"></td>
+											</tr>
+											<tr>
+												<td style="width:175px;"><label for="PayeeDetails_APACSTransactionCode">APACS Transaction Code</label></td>
+												<td><input type="text" id="PayeeDetails_APACSTransactionCode" size="20"></td>
+											</tr>
+										</table>
+									</div>
+								</div>
+							</div>
+						</td>
+					</tr>
+				</table>
+			</div>
+			
+			<!-- Subform action bar -->
+			<script type="text/javascript">
+				ActionBarRenderer.createInline(
+					"judgmentPayee_statusbar",
+					[
+						{id: "PayeeDetails_OkButton", label: "Ok"},	
+						{id: "PayeeDetails_CancelButton", label: "Cancel"}
+					]
+				);
+			</script>
+
+		</form>
+    
+    </body>
+    
+</html>

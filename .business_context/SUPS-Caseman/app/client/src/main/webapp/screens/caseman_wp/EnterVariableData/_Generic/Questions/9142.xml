@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>9142</Id>
+	<Label>Date of Adjourned Hearing</Label>
+	<ObjectName>AdjournedDate</ObjectName>
+    
+	<Html>
+		<script type="text/javascript">WP_DatePickerRenderer.createInline("AdjournedDate", false);</script>
+	</Html>
+	<Javascript>
+		<XPath>/ds/EnterVariableData/adjournedDate</XPath>
+		<HintText>Enter the adjourned date</HintText>
+		<validation>
+			//Date picker: error message “The value does not conform to a valid date format of DD-MMM-YYYY”.
+			//Validation: Date cannot be in the past
+            return isInFuture(Services.getValue(AdjournedDate.dataBinding),"false");
+		</validation>
+		<enableOn>AdjournedDate.dataBinding</enableOn>
+		<isEnabled>if (null != WP &amp;&amp; null != WP.GetScreenProcess &amp;&amp; null != WP.GetScreenProcess()) { return(WPU.getValue( WPU.NODE_XPATHS['CaseEventId']) == 690); } return false;</isEnabled>	
+		<isMandatory>return true;</isMandatory>	
+	    <validate>
+	    	//Date picker: error message “The value does not conform to a valid date format of DD-MMM-YYYY”.
+			//Validation: Date cannot be in the past
+				
+    			var checkDate = Services.getValue(AdjournedDate.dataBinding); 
+				var err = null;
+				if( false == isFutureDate(checkDate))
+				{ 	
+					err = ErrorCode.getErrorCode("CaseMan_dateCannotBeInThePast_Msg");
+				}				
+				return err;	
+	    </validate>					
+	</Javascript>
+</Question>

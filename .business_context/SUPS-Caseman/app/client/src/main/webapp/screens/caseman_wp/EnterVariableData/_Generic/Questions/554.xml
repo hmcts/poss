@@ -1,0 +1,25 @@
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>554</Id>
+	<Label>Details of breach(es)</Label>
+	<ObjectName>BreachDtls</ObjectName>
+	<Html>	
+		<textarea id="BreachDtls" cols="30" rows="3"></textarea>
+	</Html>			
+	<Javascript>
+		<XPath>/ds/EnterVariableData/ArrestWarrent/breachDtls</XPath>
+		<componentName>##label##</componentName>
+		<isMandatory>return false;</isMandatory>
+		<HintText>Enter details of breaches - free text</HintText>
+		<enableOn>IsBreachesSchdAttched.dataBinding</enableOn>
+		<isEnabled>return( 'Y' != Services.getValue(IsBreachesSchdAttched.dataBinding));</isEnabled>
+		<logicOn>IsBreachesSchdAttched.dataBinding</logicOn>
+		<logic>
+			if( 'Y' == Services.getValue(IsBreachesSchdAttched.dataBinding))
+			{	Services.setValue(BreachDtls.dataBinding, "");
+			}
+		</logic>		
+		<transformToModel>return WPU.encodeLineBreaks( this, value );</transformToModel>
+		<transformToDisplay>return WPU.decodeLineBreaks( this, value );</transformToDisplay>
+	
+	</Javascript>
+</Question>

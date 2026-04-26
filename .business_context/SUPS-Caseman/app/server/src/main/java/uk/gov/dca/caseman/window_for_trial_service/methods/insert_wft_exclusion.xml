@@ -1,0 +1,33 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: WindowForTrial
+	Method:  insertWftExclusions()
+	File:    insert_wft_exclusion.xml
+	Author:  Phil Haferer (EDS)
+	Created: 23-Mar-2006
+	Description: 
+		Insert a WFT_EXCLUSIONS row.
+        (Created in response to, TD 2585: "WFT Excluded Dates removed when WFT record not updated").
+-->
+<service-method>
+	<pipeline>
+		<SQLLite output="input">
+			<DataSource id="java:OracleDS"/>
+			<Param name="param.caseNumber" xpath="/params/param[@name='caseNumber']"/>
+			<Param name="param.wftId" xpath="/params/param[@name='wftId']"/>
+			<Param name="param.exclusionDate" xpath="/params/param[@name='exclusionDate']"/>
+			<SQL type="update" tables="WFE">
+                INSERT INTO WFT_EXCLUSIONS WFE
+                (      WFE.WFE_WFT_CASE_NUMBER 
+                ,      WFE.WFE_WFT_ID          
+                ,      WFE.WFE_EXCLUSION_DATE  
+                ) VALUES 
+                (      ${param.caseNumber}
+                ,      ${param.wftId}
+                ,      TO_DATE(${param.exclusionDate}, 'YYYY-MM-DD')
+                )				
+			</SQL>
+		</SQLLite>
+	</pipeline>
+	<Security roles="user"/>
+</service-method>

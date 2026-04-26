@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	v1.0 Chris Hutt 10/2/2005
+	
+-->
+<QueryDef>
+	<DBMapDef location="uk/gov/dca/caseman/judgment_service/map_defs_with_no_active_judgment.xml"/>
+	<Query pivotNode="/Case/Parties/Party" tables="JDG CPR">
+	   	<Join>
+			cpr.party_role_code in ('DEFENDANT', 'PT 20 DEF') and
+			cpr.case_number NOT IN 
+				( select j.case_number from judgments j
+				where j.against_party_role_code = cpr.party_role_code 
+       				and j.case_number = cpr.case_number
+       				and j.against_case_party_no = cpr.case_party_no
+       				and (j.status is null or j.status = 'VARIED'))	   	
+       		</Join>
+          	<Modify notModifiable="true"/>
+	</Query>
+</QueryDef>
+
+
+             

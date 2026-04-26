@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: Co
+	Method:  getCoFeeAmountCalc()
+	File:    get_co_fee_amount_calc.xml
+	Author:  Phil Haferer
+	Created: 27-May-2006
+	Description: 
+		Get the 'amounts' used to calculate the Fee Amount on a Consolidated Order.
+		(TD 3435: Create Postal Payments on C: incorrect overpayment amount.).
+		
+    Change History:
+-->
+<service-method>
+	<pipeline>
+		<SQLLite format-output="true"
+				 resultset-element="ds"
+				 row-element="CoFeeAmountCalc"
+				 field-name-as="element" >
+			<DataSource id="java:OracleDS"/>
+				<Param name="param.coNumber" xpath="/params/param[@name='coNumber']"/>
+			<SQL>
+                SELECT (SELECT NVL(SUM(AD.DEBT_AMOUNT_ALLOWED),0)
+                        FROM   ALLOWED_DEBTS AD
+                        WHERE  AD.DEBT_CO_NUMBER = ${param.coNumber}
+                        AND    AD.DEBT_STATUS IN ('LIVE', 'PAID')) AS "TotalAllowed"
+                ,      (SELECT NVL(SUM(PY.AMOUNT),0)
+                        FROM   PAYMENTS      PY
+                        WHERE  PY.PAYMENT_FOR     = 'CO'
+                        AND    PY.SUBJECT_NO      = ${param.coNumber}
+                        AND    PY.PASSTHROUGH     = 'Y'
+                        AND    PY.ERROR_INDICATOR = 'N') as "TotalPassthrough"
+                ,      (SELECT NVL(SUM(AD.DEBT_AMOUNT_ALLOWED),0)
+                        FROM   ALLOWED_DEBTS AD
+                        WHERE  AD.DEBT_CO_NUMBER = ${param.coNumber}
+                        AND    AD.DEBT_STATUS    = 'SCHEDULE2') as "TotalSchedule2"
+                FROM    DUAL
+			</SQL>
+		</SQLLite>
+	</pipeline>
+	<Security roles="user"/>	
+</service-method>

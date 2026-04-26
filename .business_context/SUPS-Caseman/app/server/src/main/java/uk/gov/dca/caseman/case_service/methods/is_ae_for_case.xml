@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: Ae
+	Method:  isAeforCase
+	Author:  Chris Hutt (EDS) 
+	Created: 24 jan 2006
+	Description: 
+		Use SQLLite to determine whether an AE is associated with the case
+		
+	Change History
+    v1.0	24 jan 20006	Chris Hutt
+-->
+<service-method>
+	<pipeline>
+		<SQLLite format-output="true"
+				 resultset-element="ds"
+				 row-element="Case"
+				 field-name-as="element" >
+			<DataSource id="java:OracleDS"/>
+			<Param name="param.caseNumber" xpath="/params/param[@name='caseNumber']"/>
+			<SQL>
+				SELECT  
+					DECODE(COUNT(*),0,'false','true') AS "AeExists"
+				FROM 	AE_APPLICATIONS AEA
+				WHERE	AEA.CASE_NUMBER =  ${param.caseNumber}
+			</SQL>
+		</SQLLite>
+  	</pipeline>
+	<Security roles="user"/>
+</service-method>

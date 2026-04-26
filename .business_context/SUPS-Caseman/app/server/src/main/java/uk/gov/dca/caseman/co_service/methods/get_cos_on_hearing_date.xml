@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: Co
+	Method:  getCosOnHearingDate()
+	File:    get_cos_on_hearing_date.xml
+	Author:  Kevin Gichohi (EDS)
+	Created: 14 October 2005
+	Description: 
+		gets the consolidated orders for a given hearing date.
+-->
+<service-method>
+	<pipeline>
+		<SQLLite format-output="true"
+				 resultset-element="ds"
+				 row-element="Co"
+				 field-name-as="element" >
+			<DataSource id="java:OracleDS"/>
+			<Param name="param.hearingDate" xpath="/params/param[@name='hearingDate']"/>
+			<Param name="param.adminCourtCode" xpath="/params/param[@name='adminCourtCode']"/>
+			<SQL>
+				SELECT DISTINCT CO.CO_NUMBER AS "coNumber"
+				,      CO.ADMIN_COURT_CODE  AS "AdminCourtCode" 
+				FROM   CONSOLIDATED_ORDERS CO
+				,      HEARINGS H 
+				WHERE  CO.CO_NUMBER = H.CO_NUMBER 
+				AND 	H.HRG_DATE = TO_DATE (${param.hearingDate}, 'YYYY-MM-DD')
+				AND 	CO.ADMIN_COURT_CODE = ${param.adminCourtCode}
+			</SQL>
+		</SQLLite>
+	</pipeline>
+	<Security roles="viewOnly medium high wcSuper scSuper bmsSuper aeSuper dmSuper edsAdmin cpSuper"/>
+</service-method>
+

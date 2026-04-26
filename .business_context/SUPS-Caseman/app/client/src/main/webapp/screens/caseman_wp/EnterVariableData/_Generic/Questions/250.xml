@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>250</Id>
+	<Label>Expert Report Permitted?</Label>
+	<ObjectName>IsExpertReport</ObjectName>
+	<Html>	
+		<input type="checkbox" id="IsExpertReport"></input>
+	</Html>
+	<Javascript>
+		<XPath>/ds/EnterVariableData/FastTrack/isExpertReport</XPath>
+		<HintText>Check box if expert report permitted</HintText>
+		<isMandatory>return true;</isMandatory>	
+		<modelValue>checked: "Y", unchecked: "N"</modelValue>
+		<enableOn>ExchangeReports.dataBinding, PermitExpertWitnesses.dataBinding</enableOn>
+		<isEnabled>
+			return('Y' == Services.getValue(ExchangeReports.dataBinding) &amp;&amp;
+					'Y' != Services.getValue(PermitExpertWitnesses.dataBinding));
+		</isEnabled>
+		<logicOn>ExchangeReports.dataBinding, PermitExpertWitnesses.dataBinding</logicOn>
+		<logic>
+			if('Y' != Services.getValue(ExchangeReports.dataBinding) ||
+					'Y' == Services.getValue(PermitExpertWitnesses.dataBinding))
+			{	Services.setValue(IsExpertReport.dataBinding, "N");
+			}
+		</logic>
+	</Javascript>
+</Question>

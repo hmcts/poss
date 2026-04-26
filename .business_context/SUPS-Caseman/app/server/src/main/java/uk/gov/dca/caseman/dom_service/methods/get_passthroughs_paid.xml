@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: Dom
+	Method:  getPassthroughsPaid()
+	File:    get_passthroughs_paid.xml
+	Author:  Ian Stainer (Valtech)
+	Created: 12 July 2005
+	Description: 
+		Returns the sum of passthroughs paid
+-->
+<service-method>
+	<pipeline>
+		<SQLLite format-output="true"
+				 resultset-element="ResultSet"
+				 row-element="Row"
+				 field-name-as="element" >			
+			<DataSource id="java:OracleDS"/>
+			<Param name="param.coNumber" xpath="/params/param[@name = 'coNumber']"/>
+			<SQL>				
+				SELECT NVL(SUM(pay.amount), 0) as "Amount"
+				FROM   payments pay
+				,      allowed_debts ald
+				WHERE  ald.debt_seq = pay.ald_debt_seq
+				AND    pay.passthrough = 'Y'
+				AND    ald.debt_co_number = ${param.coNumber}
+				AND    ald.debt_status in ('LIVE', 'PAID')
+				AND    pay.error_indicator = 'N'						
+			</SQL>
+		</SQLLite>
+	</pipeline>
+	<Security roles="user"/>
+</service-method>

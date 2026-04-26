@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+v1.0 Chris Hutt 4/2/2005
+-->
+<DBMapDef>
+<DataSource id="java:OracleDS"/>
+<Tables>
+  <Table alias="JDG" name="JUDGMENTS"/>
+  <Table alias="IP" name="INFAVOUR_PARTIES"/>
+</Tables>
+  <Mapping>  
+    	<Judgments>
+    		<Judgment>
+    		    <CaseNumber>${JDG.CASE_NUMBER}</CaseNumber>
+    		    <JudgmentId>${JDG.JUDG_SEQ}</JudgmentId>
+    		   	<Status>{JDG.STATUS}</Status>
+  				<Against>
+  				    <Parties>
+	  	  				<Party>
+		  	    			<CasePartyNumber>${JDG.AGAINST_CASE_PARTY_NO}</CasePartyNumber>
+		  	    			<PartyRoleCode>${JDG.AGAINST_PARTY_ROLE_CODE}</PartyRoleCode>
+		  	    			<!--SubjectPartyKey></SubjectPartyKey-->
+	  	  				</Party>
+	  	  			</Parties>
+  	  			</Against>
+  	  			<InFavour>
+  	  			  	<Parties>
+	  	  				<Party>
+		  	    			<CasePartyNumber>${IP.CASE_PARTY_NO}</CasePartyNumber>
+		  	    			<PartyRoleCode>${IP.PARTY_ROLE_CODE}</PartyRoleCode>
+		  	    			<!--SubjectPartyKey></SubjectPartyKey-->
+	  	  				</Party>
+	  	  			</Parties>
+  	  			</InFavour>
+  			</Judgment>
+  		</Judgments>
+  </Mapping>
+</DBMapDef>

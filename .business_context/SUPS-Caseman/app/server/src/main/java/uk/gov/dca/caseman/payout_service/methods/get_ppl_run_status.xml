@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: Payout
+	Method:  getPrePayoutRunStatus()
+	File:    get_ppl_run_status.xml
+	Author:  A. Bonnar (EDS)
+	Created: 9th December 2005
+	Description: 
+		Determine whether the Pre Payout List has been run.
+-->
+<service-method>
+	<pipeline>
+		<SQLLite format-output="true"
+				 resultset-element="ds"
+				 row-element="PrePayoutRunning"
+				 field-name-as="element" >
+			<DataSource id="java:OracleDS"/>
+				<Param name="param.adminCourtCode" xpath="/params/param[@name='adminCourtCode']"/>
+			
+			<SQL>
+				SELECT COUNT(*) AS "ppl" FROM PAYABLE_ORDER_HEADER
+					 WHERE ADMIN_COURT_CODE = ${param.adminCourtCode}  				
+			</SQL>
+		</SQLLite>
+	</pipeline>
+	<Security roles="viewOnly medium high wcSuper scSuper bmsSuper aeSuper dmSuper edsAdmin"/>	
+</service-method>

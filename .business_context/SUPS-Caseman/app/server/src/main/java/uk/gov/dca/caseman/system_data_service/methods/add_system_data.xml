@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<service-method>
+	<pipeline>
+		<Update>
+			<QueryDef location="uk/gov/dca/caseman/system_data_service/query_def_add.xml"/>
+			<DataSource xpath="/params/param[@name='SystemData']"/>
+
+			<QueryExtension pivotNode="/SystemDataList/SystemData">
+				<CheckExists table="SD" fields="ITEM" onNotExist="add" onExist="skip"/>						
+			</QueryExtension>
+		</Update>
+	</pipeline>
+	<Security roles="viewOnly medium high wcSuper scSuper bmsSuper aeSuper dmSuper"/>
+</service-method>

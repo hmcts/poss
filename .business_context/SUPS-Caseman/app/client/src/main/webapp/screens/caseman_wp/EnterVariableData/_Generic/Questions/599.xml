@@ -1,0 +1,23 @@
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>599</Id>
+	<Label>Is the sum to be apportioned</Label>
+	<ObjectName>ApportionSum</ObjectName>
+ 
+	<Html>	
+		<input type="checkbox" id="ApportionSum"></input>
+	</Html>			
+	<Javascript>
+		<XPath>/ds/EnterVariableData/Settlement/apportionSum</XPath>
+		<componentName>##label##</componentName>
+		<modelValue>checked: "Y", unchecked: "N"</modelValue>
+		<HintText>Check box if the sum is to be apportioned</HintText>	
+		<enableOn>ClaimFor.dataBinding</enableOn>
+		<isEnabled>return('ACC' == Services.getValue(ClaimFor.dataBinding));</isEnabled>
+		<logicOn>ClaimFor.dataBinding</logicOn>
+		<logic>
+			if('ACC' != Services.getValue(ClaimFor.dataBinding))
+			{	Services.setValue(ApportionSum.dataBinding, "N");
+			}
+		</logic>			
+	</Javascript>
+</Question>

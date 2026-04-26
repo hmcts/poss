@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<service-method>
+	<pipeline>
+		<SQLLite output="input">
+			<DataSource id="java:SupsDS"/>
+			<Param name="params.caseNumber" xpath="/params/param[@name='caseNumber']"/>
+			<SQL>
+				SELECT CASE_NUMBER AS "CaseNumber", 
+					CASE_TYPE AS "CaseType", 
+					DATE_OF_ISSUE AS "DateOfIssue" 
+				FROM CASES 
+				WHERE CASE_NUMBER=${params.caseNumber}
+			</SQL>
+		</SQLLite>
+	</pipeline>
+	<Security roles="user"/>
+</service-method>

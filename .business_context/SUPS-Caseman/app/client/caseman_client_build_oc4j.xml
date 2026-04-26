@@ -1,0 +1,394 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project name="caseman_client_build_oc4j" default="deploy" basedir=".">
+	<description>
+    		Deploy targets are development targets
+    		Exploded deployments do not undeploy from OC4J first
+    		
+    		Dist targets drop the artifacts in the directories specified by drop_dir 
+    	</description>
+
+	<echo>Loading default properties from. ${user.home}/sups_antuser.properties</echo>
+	<echo>To set any property as default for you workstation place it in the file</echo>
+	<echo>${user.home}/sups_antuser.properties</echo>
+
+	<property file="${user.home}/sups_antuser.properties" />
+
+	<echo>loading environment variables</echo>
+	<property environment="env" />
+
+	<property name="framework.dir" value="../${name.eclipse.project.server}/ServerFramework/release" />
+	<property name="fw.lib" value="${framework.dir}/lib" />
+	<property name="wpctrl.dir" value="${basedir}/../wordprocessing/WPCtrl"/>
+
+	<path id="project.path">
+		<fileset dir="${fw.lib}" includes="**/*.jar" />
+		<fileset dir="../Tools/Java/SubFormGeneration/lib" includes="*.jar" />
+	</path>
+
+	<taskdef resource="net/sf/antcontrib/antcontrib.properties">
+		<classpath>
+			<fileset dir="${fw.lib}/ant-contrib">
+				<include name="**/*.jar" />
+			</fileset>
+		</classpath>
+	</taskdef>
+	
+	<!-- Fail the build if the WorkProcessing controller folder is missing.-->
+	<if>
+		<not>
+			<available property="WPCtrl-project-exists" value="true" file="${wpctrl.dir}/WP.js" type="file" />
+		</not>
+		<then>
+			<fail message="Please create wordprocessing controller folder from ClearCase. Could not find ${wpctrl.dir}"/>
+		</then>
+	</if>	
+	
+	<!-- These are constants to prevent typos -->
+	<property name="jboss-platform" value="JBOSS" />
+	<property name="oas-platform" value="OAS" />
+
+	<target name="init">
+		<echo>loading ..${name.eclipse.project.server}/oc4j.properties</echo>
+		<property file="../${name.eclipse.project.server}/oc4j.properties" />
+
+		<property name="error.label" value="CASEMAN-ERROR:" />
+		<fail unless="target.platform" message="${error.label} target.platform=[OAS|JBOSS] property must be set to build." />
+		<fail unless="oas.server.dir" message="${error.label} oas.server.dir property specifying the location of either OAS|OC4J base directory must be set to build." />
+		<fail unless="secure.port" message="${error.label} secure port property specifying the SSL port on which the appserver's HTTPS invoker login service is located must be set to build." />
+
+		<property name="drop_dir" value="c:/temp/${target.platform}" description="This is a default if you don't like it set drop_dir in the ${user.home}/sups_antuser.properties" />
+
+		<echo>
+                The following parameters have been configured and are being used
+                1.) target.platform = ${target.platform}
+                2.) secure.port = ${secure.port}
+                3.) oas.server.dir = ${oas.server.dir}
+            </echo>
+
+		<property name="frmwrk.dist.dir" value="clientframework/dist" />
+		<property name="src" value="src" />
+
+		<property name="assemble.dir" value="clientframework/fwktmp" />
+		<property name="fman.tmpdir" value="${java.io.tmpdir}/familyman" />
+		<property name="appconfig" value="applicationconfig.xml" />
+
+		<property name="oc4j.applications" value="${oc4j_home_dir}/j2ee/home/applications" description="the directory where OAS unpacks the ears and wars into" />
+
+		<property name="war.dir" value="${build.dir}/${target.platform}" />
+		
+		<mkdir dir="${build.dir}" />
+		
+		<!-- PRECOMPILE: -->
+		<mkdir dir="${precompile.dir}" />
+	</target>
+
+	<!-- PRECOMPILE: -->
+	<target name="clean-precompile" depends="init">
+		<delete dir="${precompile.dir}"/>
+	</target>
+
+	<target name="-prepare-war-no-wp" depends="init, concatErrorFiles, set-webapp-root, create-fw-temp, -deploy.exploded" />
+	<target name="-prepare-war" depends="init, concatErrorFiles, set-webapp-root, create-fw-temp, generate-wp-CFG-2, generate-wp-html, generate-wp-javascript,  generate-oracle-reports-CFG-1, generate-oracle-reports-html, generate-oracle-reports-javascript, -deploy.exploded" />
+
+	<target name="concatErrorFiles" depends="init">
+		<property name="application-xmldir" value="${basedir}/${application.name}/xml" />
+		<copy file="${frmwrk.dist.dir}/error_msg_build/FW_ErrorMsgs.xml" todir="${application-xmldir}" />
+		<xslt extension=".xml" in="${application-xmldir}/data.xml" out="${application-xmldir}/allErrors.xml" basedir="${application-xmldir}" style="${frmwrk.dist.dir}/error_msg_build/joiner.xsl" destdir="${application-xmldir}" force="yes" />
+	</target>
+
+	<target name="set-webapp-root" depends="init">
+		<delete dir="${assemble.dir}" failonerror="false" />
+		<mkdir dir="${assemble.dir}" />
+		<mkdir dir="c:/Temp/${target.platform}" />
+		<delete dir="${build.dir}/${target.platform}" failonerror="false" />
+
+		<mkdir dir="${build.dir}/${target.platform}" />
+
+		<available property="framework-js-deployed" value="true" file="${oc4j.applications}/${application.name}_client/${application.name}/Framework.js" type="file" />
+
+	</target>
+
+	<target name="create-fw-temp" unless="framework-js-deployed">
+		<!-- Copy files we want to apply tokens to -->
+		<copy todir="${assemble.dir}">
+			<fileset dir="${frmwrk.dist.dir}">
+				<include name="**.js" />
+				<include name="**.html" />
+				<include name="**.css" />
+			</fileset>
+			<filterset>
+				<filter token="client_framework.images_path" value="./images" />
+				<filter token="client_framework.webapp-root" value="/${application.name}" />
+			</filterset>
+			
+			<!-- PRECOMPILE: -->
+        	<filterset>
+            	<filter token="PRECOMPILE_DESTINATION_DIR" value="${precompile.dir}"/>
+				<filter token="USE_CLIENTBUILD_SERVICE" value="false"/>
+        	</filterset>
+		</copy>
+
+		<!-- Copy files we don&apos;t want to apply tokens to - avoids corruption of gifs
+			     which occurs when we copy them with the filter set for some reason -->
+		<copy todir="${assemble.dir}">
+			<fileset dir="${frmwrk.dist.dir}">
+				<exclude name="**.js" />
+				<exclude name="**.html" />
+				<exclude name="**.css" />
+			</fileset>
+		</copy>
+		
+	</target>
+
+	<target name="-deploy.exploded" depends="init, copy.frmwrk.exploded">
+		<copy todir="${oc4j.applications}/${application.name}_client/${application.name}">
+
+			<fileset dir="${basedir}/${application.name}">
+				<include name="**/*.html" />
+				<include name="**/*.css" />
+				<include name="**/*.png" />
+				<include name="**/*.js" />
+				<include name="**/*.xml" />
+				<include name="**/*.xsd" />
+				<include name="**/*.jsp" />
+				<include name="**/*.gif" />
+				<exclude name="applicationconfig.xml" />
+				<include name="WEB-INF/**/*" />
+			</fileset>
+
+			<!-- Include the common code at the caseman/ level -->
+			<fileset dir="../${name.eclipse.project.common}/client">
+				<include name="*.js" />
+				<include name="*.html" />
+				<include name="*.xml" />
+				<include name="*.css" />
+			</fileset>
+
+			<filterset>
+				<filter token="wp_directory_root" value="."/>
+			</filterset>
+		</copy>
+
+		<!-- Include the bits of jsunit that need to be deployed -->
+
+		<copy todir="${oc4j.applications}/${application.name}_client/${application.name}" overwrite="true">
+			<fileset dir="${basedir}/${application.name}">
+				<include name="${appconfig}" />
+			</fileset>
+			<filterset>
+				<filter token="URLBUILDER" value="${url_builder}" />
+				<filter token="SECUREPORT" value="${secure.port}" />
+			</filterset>
+		</copy>
+
+		<echo>
+                replacing:  "Framework[^js]*js"
+                with:       "${framework-js-file}"
+       </echo>
+
+		<!-- PRECOMPILE: include precompiled files -->
+		<copy todir="${oc4j.applications}/${application.name}_client/${application.name}" overwrite="true">
+			<fileset dir="${precompile.dir}">
+		      	<include name="*.js"/>
+			</fileset>
+		</copy>
+		
+		<!-- PRECOMPILE: -->
+		<replaceregexp byline="true">
+			<regexp pattern="Framework[^js]*js" />
+			<substitution expression="${framework-js-file}" />
+			<fileset dir="${oc4j.applications}/${application.name}_client/${application.name}">
+				<include name="**/*.html" />
+				<include name="**/*.xml" />
+				<include name="**/*.xsl" />
+				<include name="**/*.js" />
+			</fileset>
+		</replaceregexp>
+
+		<!-- This will concatenate the files and store them relative to the precompile.base.dir -->
+		<!-- Which we are setting to be the oc4j deployment directory so all the concatenated files are stored-->
+		<!-- directly in oc4j -->
+		<ant antfile="concat-build.xml" target="concat-screens">
+			<property name="precompile.base.dir" value="${oc4j.applications}/${application.name}_client/${application.name}"/>			
+		</ant>
+
+	</target>
+
+	<target name="copy.frmwrk.exploded" unless="framework-js-deployed">
+		<copy todir="${oc4j.applications}/${application.name}_client/${application.name}">
+			<!-- Include the framework non graphics files -->
+			<fileset dir="${assemble.dir}">
+				<include name="**/Framework_precompile.js" />
+				<exclude name="**/*.gif" />
+				<exclude name="**/*.png" />
+				<exclude name="**/Framework_concat.js" />
+				<exclude name="**/Framework_debug.js" />
+				<exclude name="**/Framework_debug2.js" />
+			</fileset>
+		</copy>
+
+		<copy todir="${oc4j.applications}/${application.name}_client/${application.name}">
+			<!-- Include the framework non graphics files -->
+			<fileset dir="${assemble.dir}">
+				<include name="**" />
+				<exclude name="**/*.gif" />
+				<exclude name="**/*.png" />
+				<exclude name="**/Framework_precompile.js" />
+				<exclude name="**/Framework_concat.js" />
+				<exclude name="**/Framework_debug.js" />
+				<exclude name="**/Framework_debug2.js" />
+			</fileset>
+		</copy>
+
+		<copy todir="${oc4j.applications}/${application.name}_client/${application.name}">
+			<!-- Include the framework graphics files -->
+			<fileset dir="${assemble.dir}">
+				<include name="**/*.gif" />
+				<include name="**/*.png" />
+			</fileset>
+		</copy>
+
+	</target>
+
+	<target name="_bind_exploded_webapp" depends="init">
+		<!-- Copy the non-wp/oracle modified applicationconfig.xml file to deployed directory along with token replacements --> 
+		<copy todir="${oc4j.applications}/${application.name}_client/${application.name}" overwrite="true">
+			<fileset dir="${basedir}/${application.name}">
+				<include name="${appconfig}" />
+			</fileset>
+			<filterset>
+				<filter token="URLBUILDER" value="${url_builder}" />
+				<filter token="SECUREPORT" value="${secure.port}" />
+			</filterset>
+		</copy>		
+		<if>
+			<not>
+				<available property="war-deployed" value="true" file="${oc4j.applications}/${application.name}_client/${application.name}.war" type="file" />
+			</not>
+			<then>
+				<antcall target="generateWordProcessingController" />
+				<antcall target="-build.war" />
+				<antcall target="_deploy" />
+			</then>
+		</if>
+	</target>
+	
+	<target name="_bind_exploded_webapp_WP" depends="init">
+		<!-- Modify Applicationconfig.xml in the deployed folder to include WP/Oracle forms. --> 
+		<antcall target="generate-wp-CFG-applicationconfig-forms" />
+		<antcall target="generate-oracle-reports-CFG-applicationconfig-forms" />
+		<antcall target="generateWordProcessingController" />
+		<if>
+			<not>
+				<available property="war-deployed" value="true" file="${oc4j.applications}/${application.name}_client/${application.name}.war" type="file" />
+			</not>
+			<then>
+				<antcall target="_deploy" />
+			</then>	
+		</if>		
+	</target>	
+
+	<target name="-build.war">
+		<mkdir dir="${war.dir}" />
+		<echo>creating war ${war.dir}/${application.name}.war using: ${oc4j.applications}/${application.name}_client/${application.name}</echo>
+		<jar destfile="${war.dir}/${application.name}.war">
+			<!-- Include the application code -->
+			<fileset dir="${oc4j.applications}/${application.name}_client/${application.name}">
+				<include name="**" />
+				<exclude name="**/Framework_concat.js" />
+				<exclude name="**/Framework_debug.js" />
+				<exclude name="**/Framework_debug2.js" />
+				<exclude name="**/clientbuild/**" />				
+			</fileset>
+		</jar>
+		<copy file="${war.dir}/${application.name}.war" todir="${drop_dir}" />
+	</target>
+
+	<target name="_deploy" depends="init, -build.war">
+		<if>
+			<equals arg1="${target.platform}" arg2="${jboss-platform}" />
+			<then>
+				<property name="target.dir" value="${jboss.deploy.dir}" />
+				<!-- make sure there is not file or directory by the same name in the jboss directory -->
+				<delete file="${jboss.deploy.dir}/${application.name}.war" failonerror="false" />
+				<delete dir="${jboss.deploy.dir}/${application.name}.war" failonerror="false" />
+				<copy todir="${target.dir}" file="${build.dir}/${target.platform}/${application.name}.war" />
+			</then>
+			<else>
+				<property name="target.dir" value="${drop_dir}" />
+				<macro__private-deploy-OC4J-war deployment-name="${application.name}_client" module-name="${application.name}" web-root="${application.name}" war-dir="${war.dir}" />
+			</else>
+		</if>
+	</target>
+
+	
+	<target name="wp_bind">
+	<macro__private-deploy-OC4J-war-wp deployment-name="caseman" module-name="sever_wordprocessing" web-root="casemanwp" war-dir="c:\build\caseman_server_oc4j\build\OAS\" />
+	</target>
+
+	<target name="generateWordProcessingController" depends="init" 
+			description="Generate Wordprocessing controller by concatenating all JS files in ${wpctrl.dir} and it's sub-directories">
+		<echo message="Copying WordProcessing Controller to ${oc4j.applications}/${application.name}_client/caseman/screens/caseman_wp/"/>
+		<!-- concat.force defaults to yes, so no need to delete WordProcessing.js -->
+		<concat destfile="${oc4j.applications}/${application.name}_client/caseman/screens/caseman_wp/WordProcessing.js" fixlastline="yes">
+			<fileset dir="${wpctrl.dir}/Framework">
+				<include name="*.js" />
+			</fileset>
+			<fileset dir="${wpctrl.dir}">
+				<include name="*.js" />
+			</fileset>
+			<fileset dir="${wpctrl.dir}/CaseMan">
+				<include name="*.js" />
+			</fileset>
+			<fileset dir="${wpctrl.dir}/CaseManORA">
+				<include name="*.js" />
+			</fileset>
+		</concat>
+	</target>
+	
+	<target name="undeploy" depends="init" description="Remove the war from the appserver">
+		<if>
+			<equals arg1="${target.platform}" arg2="${jboss-platform}" />
+			<then>
+				<delete file="${jboss_server_dir}/${application.name}.war" />
+			</then>
+			<else>
+				<macro__private-undeploy-OC4J-ear deployment-name="${application.name}_client" />
+			</else>
+		</if>
+	</target>
+
+	<target name="clean" depends="init, undeploy">
+		<delete dir="${build.dir}" />
+		<antcall target="clean-wp"/>
+		<antcall target="clean-oracle-reports-test-area"/>		
+	</target>
+
+	<target name="deploy-exploded-oc4j" depends="init, -prepare-war-no-wp, _bind_exploded_webapp" description="Deploy exploded (non war'd ) screens with no Wordprocessing resources" />
+	<target name="deploy" depends="init, -prepare-war, _bind_exploded_webapp_WP" description="Deploy exploded (non war'd ) Wordprocessing questions and templates with the rest of the screens" />
+	<target name="deploy-clean" depends="clean, -prepare-war, _bind_exploded_webapp_WP" description="Deploy exploded (non war'd ) Wordprocessing questions and templates with the rest of the screens" />
+
+	<target name="deploy-client-and-server" description="Build Client and Server from Clean" >
+		<antcall target="clean"/>
+		
+		<ant target="clean"
+			antfile="../server/caseman_server_build_oc4j.xml"
+			inheritall="false">
+		</ant>
+
+		<ant target="deploy-wp"
+			antfile="../server/caseman_server_build_oc4j.xml"
+			inheritall="false">
+		</ant>
+		
+		<antcall target="deploy"/>
+	</target>
+
+	<import file="oc4j-build.xml" description="import OC4J Deployment and Build Management macros and targets" />
+	<import file="wp-build.xml" description="import xsl-fo word processing targets" />
+	<import file="oracle-reports-build.xml" description="import oracle report word processing targets" />
+    <import file="precompile-build.xml" description="import sups applications precompile targets"/>	
+	<import file="concat-build.xml" description="concatenates javascript files into one file for improved browser performance"/>		
+	
+</project>

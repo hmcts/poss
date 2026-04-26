@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: CoEvents
+	Method:  updateCoDebtStatus()
+	File:    update_co_debt_status.xml
+	Author:  CJHutt (EDS)
+	Created: 28-Mar-2006
+	Description: Update all debts associated with CO from X to Y
+
+-->
+<service-method>
+	<pipeline>
+		<SQLLite output="input">
+			<DataSource id="java:OracleDS"/>
+			<Param name="param.coNumber"    xpath="/params/param[@name='coNumber']"/>
+			<Param name="param.oldStatus"   xpath="/params/param[@name='oldStatus']"/>
+			<Param name="param.newStatus" 	xpath="/params/param[@name='newStatus']"/>
+			<SQL type="update" tables="AD">
+				UPDATE 	ALLOWED_DEBTS AD
+		        SET 	AD.DEBT_STATUS 		= ${param.newStatus}
+		        WHERE 	AD.DEBT_STATUS 		= ${param.oldStatus}
+		        AND 	AD.DEBT_CO_NUMBER 	= ${param.coNumber}
+			</SQL>
+		</SQLLite>
+	</pipeline>
+	<Security roles="viewOnly medium high wcSuper scSuper bmsSuper aeSuper dmSuper edsAdmin"/>		
+</service-method>

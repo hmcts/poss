@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>829</Id>
+	<Label>Revoked/Discharged</Label>
+	<ObjectName>RevokedDischarged</ObjectName>
+	<Html>
+		<select id = "RevokedDischarged">
+			<option value = ""></option>
+			<option value = "DISCHARGED">Discharged</option>
+			<option value = "REVOKED">Revoked</option>
+		</select>
+	</Html>
+	<Javascript>
+		<XPath>/ds/EnterVariableData/RevokedDischarged</XPath>
+		<componentName>##label##</componentName>
+		<HintText>Select whether the AO has been Revoked or Discharged</HintText>
+		<isMandatory>return true;</isMandatory>
+		<mandatoryOn>RevokedDischarged.dataBinding</mandatoryOn>
+		<logicOn>RevokedDischarged.dataBinding</logicOn>
+		<logic>
+			var a = Services.getValue(RevokedDischarged.dataBinding);
+			if(a == 'DISCHARGED')
+			{	alert('CO status set to DISCHARGED');
+			}
+			else if(a == 'REVOKED')
+			{	alert('CO status set to REVOKED');
+			}
+		</logic>
+	</Javascript>
+</Question>

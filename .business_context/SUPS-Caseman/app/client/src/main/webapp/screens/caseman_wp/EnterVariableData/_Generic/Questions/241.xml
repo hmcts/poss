@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>241</Id>
+	<Label>Without prejudice discussion?</Label>
+	<ObjectName>WithoutPrejDisc</ObjectName>
+	<Html>	
+		<input type="checkbox" id="WithoutPrejDisc"></input>
+	</Html>
+	<Javascript>
+		<XPath>/ds/EnterVariableData/FastTrack/withoutPrejDisc</XPath>
+		<HintText>Check box if there is to be discussion without prejudice</HintText>
+		<isMandatory>return true;</isMandatory>	
+		<modelValue>checked: "Y", unchecked: "N"</modelValue>
+		<enableOn>ReportsAgreed.dataBinding</enableOn>
+		<isEnabled>return('Y'  == Services.getValue(ReportsAgreed.dataBinding));</isEnabled>
+		<logicOn>ReportsAgreed.dataBinding</logicOn>
+		<logic>
+			if('Y'  != Services.getValue(ReportsAgreed.dataBinding))
+			{	Services.setValue(WithoutPrejDisc.dataBinding, "N");
+			}
+		</logic>
+	</Javascript>
+</Question>

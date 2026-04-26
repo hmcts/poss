@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<QueryDef>
+<DBMapDef location="uk/gov/dca/caseman/printedoutput_service/map_GJOO.xml"/>
+	<Query pivotNode="/ds/JudgmentOrderOutput" tables="CE">
+		<SQL>
+            SELECT ${param.judgmentId} AS "JUDGMENT_ID"                          
+            ,      CASE_NUMBER         AS "CASE_NUMBER"                             
+            ,      STD_EVENT_ID        AS "STD_EVENT_ID"                    
+            ,      EVENT_SEQ           AS "EVENT_SEQ"                        
+            FROM   CASE_EVENTS
+			WHERE  EVENT_SEQ = 
+			   (SELECT MAX(CE.EVENT_SEQ)
+			    FROM   CASE_EVENTS CE
+				WHERE  CE.CASE_NUMBER = ${param.caseNumber}
+				AND    CE.CASE_PARTY_NO = ${param.casePartyNumber}
+				AND    CE.PARTY_ROLE_CODE = ${param.casePartyRole}
+				AND    CE.DELETED_FLAG = 'N'
+				AND    CE.STD_EVENT_ID in (230, 240)
+			   )
+		</SQL>		
+	    <Modify notModifiable="true"/>	
+	</Query>		
+</QueryDef>

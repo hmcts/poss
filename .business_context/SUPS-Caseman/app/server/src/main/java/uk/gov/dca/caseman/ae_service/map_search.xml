@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+Change History:
+	11/11/2009 Chris Vincent: Add CASES table to list of tables and pointed the Owning Court
+	    at the ADMIN_CRT_CODE on the CASES table instead of the Issuing Court of the AE.
+	    TRAC 1667.
+-->
+<DBMapDef>
+  <DataSource id="java:OracleDS"/>
+  <Tables>
+	<Table alias="AEA" name="AE_APPLICATIONS"/>
+	<Table alias="GA"  name="GIVEN_ADDRESSES"/>
+	<Table alias="PR"  name="PARTY_ROLES"/>
+	<Table alias="P"   name="PARTIES"/>
+	<Table alias="CPR" name="CASE_PARTY_ROLES"/>
+	<Table alias="E" name="AE_EVENTS" />
+    <Table alias="C" name="CASES" />
+  </Tables>
+  <Mapping>
+	<Results>
+		<AERecord>
+			<AENumber>${AEA.AE_NUMBER}</AENumber>
+			<CaseNumber>${AEA.CASE_NUMBER}</CaseNumber>
+            <OwningCourt>${C.ADMIN_CRT_CODE}</OwningCourt>
+			<JudgmentDebtor>
+				<PartyRoleCode>${AEA.PA_PARTY_ROLE_CODE}</PartyRoleCode>
+				<PartyRoleDescription>${PR.PARTY_ROLE_DESCRIPTION}</PartyRoleDescription>
+				<CasePartyNumber>${AEA.PA_CASE_PARTY_NO}</CasePartyNumber>
+				<PartyName>${P.PERSON_REQUESTED_NAME}</PartyName>
+				<PartyKey>${P.PARTY_KEY}</PartyKey>
+				<ContactDetails>
+					<Address>
+						<Line>${GA.ADDRESS_LINE1}</Line>
+					</Address>
+				</ContactDetails>
+			</JudgmentDebtor>
+			<AEEvents>
+				<Event>
+					<EventId>${E.STD_EVENT_ID}</EventId>
+				</Event>
+			</AEEvents>
+		</AERecord>
+	</Results>
+  </Mapping>
+</DBMapDef>

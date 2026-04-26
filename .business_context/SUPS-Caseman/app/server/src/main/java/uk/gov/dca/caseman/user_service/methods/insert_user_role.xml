@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: User
+	Method: insertUserRole()
+	File: insert_user_role.xml
+	Author: Ian Stainer
+	Description:
+		Inserts a new record into the USER_ROLE table when reactivating a deactivated user profile.
+-->
+<service-method>
+	<pipeline>
+		<SQLLite output="input">
+			<DataSource id="java:OracleDS" />
+			<Param name="param.userId" xpath="/params/param[@name='maintainUser']/ds/MaintainUser/UserId" />
+			<Param name="param.roleId" xpath="/params/param[@name='roleToInsert']" />
+			<Param name="param.courtCode" xpath="/params/param[@name='maintainUser']/ds/MaintainUser/CourtCode" />
+			<SQL type="update" tables="UR">			
+				INSERT INTO USER_ROLE (
+					USER_ID, ROLE_ID, COURT_CODE
+				) values (
+					${param.userId}, 
+					${param.roleId}, 
+					${param.courtCode}
+				)			
+			</SQL>
+		</SQLLite>
+	</pipeline>
+	<Security roles="admin" />
+</service-method>

@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>340</Id>
+	<Label>Date order ceases if payment received</Label>
+	<ObjectName>OrderCeaseDate</ObjectName>
+	<Html>
+		<script type="text/javascript" >
+			WP_DatePickerRenderer.createInline("OrderCeaseDate");	
+		</script>
+	</Html>
+	<Javascript>
+		<XPath>/ds/EnterVariableData/PossessionOrder/orderCeaseDate</XPath>
+		<componentName>##label##</componentName>
+		<HintText>Enter the date the order will cease if payment received</HintText>
+		<isMandatory>return true;</isMandatory>
+		<enableOn>PaymentDate.dataBinding</enableOn>					
+		<isEnabled>
+			return true;	 
+		</isEnabled>
+		<!--logicOn>PaymentDate.dataBinding</logicOn>
+		<logic>
+			var val = Services.getValue(PaymentDate.dataBinding);
+			if( null != val &amp;&amp; 0 != val.length)
+			{	Services.setValue(OrderCeaseDate.dataBinding);
+			}
+		</logic-->
+		<validateOn>OrderCeaseDate.dataBinding</validateOn>
+			<validate>
+				var checkDate = Services.getValue(OrderCeaseDate.dataBinding);
+				var isValid = isFutureDate(checkDate);
+				var err = null;
+				if( false != isValid)
+				{	
+					if(isNonWorkingDate( checkDate ))
+					{	err = ErrorCode.getErrorCode("CaseMan_dateNonWorkingDay_Msg");
+					}
+				}
+				else
+				{ 	err = ErrorCode.getErrorCode("CaseMan_dateCannotBeInThePast_Msg");
+				}
+				return err;
+			</validate>
+			<miscCode>OrderCeaseDate.weekends = false;</miscCode>
+			<Context ScreenId="CJR054">
+				<enableOn>OrderCeaseDate.dataBinding</enableOn>					
+				<isEnabled>
+					return true; 
+				</isEnabled>
+				<logicOn>OrderCeaseDate.dataBinding</logicOn>
+				<logic>
+					
+				</logic>
+			</Context>
+	</Javascript>
+</Question>

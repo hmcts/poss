@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- ====================================================================== -->
+<!--  -->
+<!-- FILENAME: $Source: C:/CVSRepository/serveroas/src/uk/gov/dca/caseman/wordprocessing_templates/Notice/CJR011/CJR011-FO.xml,v $ -->
+<!--  -->
+<!-- AUTHOR: $Author: jay $-->
+<!--  -->
+<!-- DATE: $Date: 2006/04/06 07:42:27 $ -->
+<!--  -->
+<!-- Version: $Revision: 1.10 $ -->
+<!--  -->
+<!-- DESCRIPTION: This stylesheet is used to create an XSL:FO document that -->
+<!-- can be processed into a PDF version.  Business logic -->
+<!-- is embedded to generate the correct document text for the order -->
+<!-- required. -->
+<!--  -->
+<!-- INPUTS: XML document containing: the answers to questions asked of the -->
+<!-- user; case data retrieved from the database; HTML representing the  -->
+<!-- body of the document content (already edited by the user). -->
+<!--  -->
+<!-- OUTPUTS: XML document with FO tags containing instructions for the -->
+<!-- creation of a PDF document. -->
+<!--  -->
+<!-- ====================================================================== -->
+<root xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:fo="http://www.w3.org/1999/XSL/Format" xmlns="http://eds.com/supsfo">
+	<variables>@word.processing.url.xsl@supsfo.xsl</variables>
+	<addressee>
+		<claimants/>
+	</addressee>
+	<header>
+		<fo:block font-size="16pt" font-weight="bold">Notice that Acknowledgement of </fo:block>
+		<fo:block font-size="16pt" font-weight="bold">Service Has Been Filed</fo:block>
+	</header>
+	<courtcase>
+		<court>
+			<xsl:copy-of select="$vdCourtHeaderBlock"/>
+		</court>
+		<caseparameters>
+			<parameter>
+				<name>
+					<fo:block font-weight="bold">Claim Number</fo:block>
+				</name>
+				<value>
+					<fo:block>
+						<xsl:value-of select="$vdClaimNumber"/>
+					</fo:block>
+				</value>
+			</parameter>
+			<parameter>
+				<name>
+					<fo:block font-weight="bold">Claimant</fo:block>
+					<fo:block font-size="9pt">(including ref.)</fo:block>
+				</name>
+				<value>
+					<fo:block hyphenate="true">
+						<xsl:value-of select="$vdClaimantName"/>
+					</fo:block>
+					<fo:block font-size="9pt" hyphenate="true">
+						<xsl:value-of select="$vdClaimantReference"/>
+					</fo:block>
+				</value>
+			</parameter>
+			<parameter>
+				<name>
+					<fo:block font-weight="bold"><xsl:value-of select="$vdSubjectPartyRole"/></fo:block>
+					<fo:block font-size="9pt">(including ref.)</fo:block>
+				</name>
+				<value>
+					<fo:block hyphenate="true">
+						<xsl:value-of select="$vdSubjectDefendantName"/>
+					</fo:block>
+					<fo:block font-size="9pt" hyphenate="true">
+						<xsl:value-of select="$vdSubjectReference"/>
+					</fo:block>
+				</value>
+			</parameter>
+			<parameter>
+				<name>
+					<fo:block font-weight="bold">Date</fo:block>
+				</name>
+				<value>
+					<fo:block>
+						<xsl:value-of select="$vdEventDate"/>
+					</fo:block>
+				</value>
+			</parameter>
+		</caseparameters>
+	</courtcase>
+	<bodyintroleft/>
+	
+	<body>
+		<editable useid="N100C0">
+		<fo:block space-after="0.4cm"><fo:inline font-weight="bold">The Defendant filed an Acknowledgement of Service on </fo:inline><fo:inline border-style="solid" border-width="0.02cm" text-align="center" padding="0.1cm"><xsl:value-of select="$vdReceiptDate"/></fo:inline></fo:block>
+		<fo:block space-after="0.4cm">The defendant responded to the claim indicating an intention to <xsl:value-of select="$vdDefendantIntention"/></fo:block>
+		<fo:block space-after="0.4cm">
+			The defendant has 28 days from the date of service of the claim form with particulars of claim, or of the 
+			particulars of claim, to file <xsl:value-of select="$vdDefendantIntentionValue"/>
+		</fo:block>
+		<xsl:if test="$vdDefendantNameCorrected = 'Y'">
+			<fo:block space-after="0.4cm">The defendant's name has been corrected to read <xsl:value-of select="$vdNewDefendantName"/></fo:block>
+		</xsl:if>
+		<fo:block space-after="0.4cm"><xsl:value-of select="$vdServiceAddressGivenValue"/></fo:block>
+		<fo:block><xsl:value-of select="$vdServiceName"/></fo:block>
+		<xsl:call-template name="format-address-multi-line">
+			<xsl:with-param name="party">
+				<xsl:copy-of select="$vdServiceAddress"/>
+			</xsl:with-param>
+		</xsl:call-template>
+		<fo:block><xsl:value-of select="$vdServiceAddressDX"/></fo:block>
+		</editable>
+	</body>
+	<defaultFooter id="CJR011"/>
+</root>

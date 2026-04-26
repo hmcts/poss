@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>693</Id>
+	<Label>Costs of Provisional Assessment in the Sum of</Label>
+	<ObjectName>ProvisionalAssessmentCosts</ObjectName>
+	<Html>			
+		 <input id="DefaultCurrency693" type="text" size="1"></input> <input id="ProvisionalAssessmentCosts" type="text" size="9" maxlength="9"></input>
+	</Html>
+
+	<Javascript>
+		<XPath>/ds/EnterVariableData/ProvisionalAssessmentCosts</XPath>
+		<HintText>Enter Provisional Assessment costs</HintText>
+		<maxLength>9</maxLength>		
+		<isMandatory>return true;</isMandatory>
+		<validateOn>ProvisionalAssessmentCosts.dataBinding</validateOn>
+		<validate>		   
+			var val = Services.getValue(ProvisionalAssessmentCosts.dataBinding);
+			var err = validateCurrencyValue(val, 5000.00, true);
+			if( null == err )
+			{
+				Services.setValue(ProvisionalAssessmentCosts.dataBinding, WPU.formatToTwoDP(val));
+			}
+			return err;
+		</validate>
+		<miscCode>
+			function DefaultCurrency693() {}
+			DefaultCurrency693.dataBinding = "/ds/EnterVariableData/curr1";
+			DefaultCurrency693.tabIndex = -1;
+			DefaultCurrency693.maxLength = 1;
+			DefaultCurrency693.isReadOnly = function(){return true;}
+			DefaultCurrency693.isTemporary = function(){return true;}
+			DefaultCurrency693.transformToDisplay = function(value){
+				return WPS.__CaseManUtils().transformCurrencySymbolToDisplay(value,null,null); }
+			DefaultCurrency693.transformToModel = function(value){
+				return WPS.__CaseManUtils().transformCurrencySymbolToModel(value,null,null); }
+        </miscCode>
+	</Javascript>
+</Question>

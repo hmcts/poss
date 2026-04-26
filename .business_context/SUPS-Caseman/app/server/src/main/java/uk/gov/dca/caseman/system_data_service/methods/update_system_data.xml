@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: SystemData
+	Method:  updateSystemData()
+	File:    update_system_data.xml
+	Author:  Tony White
+	Created: 5 Sept 2005
+	Description: 
+		Create/Update system data for specified court.
+-->
+<service-method>
+	<pipeline>
+		<Update>
+			<QueryDef location="uk/gov/dca/caseman/system_data_service/query_def_update.xml"/>
+			<DataSource xpath="/params/param[@name='systemData']"/>
+
+			<QueryExtension pivotNode="/SystemDataItem">
+				<CheckExists table="SD" fields="ITEM ADMIN_COURT_CODE" onNotExist="add" onExist="update"/>
+			</QueryExtension>
+		</Update>
+	</pipeline>
+	<Security roles="edsAdmin"/>
+</service-method>

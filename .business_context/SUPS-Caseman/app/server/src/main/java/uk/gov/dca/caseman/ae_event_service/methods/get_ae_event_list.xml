@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: AeEvent
+	Method:  getAEEventList
+	Author:  Chris Hutt (EDS) 
+	Created: 16 June 2005
+	Description: 
+		Use SQLLite to retrieve lov list associated with a specified event and case_type
+                
+-->
+<!-- service-method visibility="local" -->
+<service-method>
+	<pipeline>
+		<SQLLite format-output="true"
+				 resultset-element="StandardEvents"
+				 row-element="StandardEvent"
+				 field-name-as="element" >
+			<DataSource id="java:OracleDS"/>
+			<SQL>
+				SELECT SE.EVENT_ID 		As "StandardEventId"
+				,      SE.DESCRIPTION   As "StandardEventDescription"
+                ,      SE.CATEGORY      As "StandardEventCategory"
+                ,      DECODE(SE.CATEGORY, 'Q', 'true', 'false') As "MagsEvent"
+				FROM  STANDARD_EVENTS SE
+				WHERE SE.CATEGORY IN ('A','E','K','M', 'Q') 
+				OR    SE.EVENT_ID = '999'
+			</SQL>
+		</SQLLite>
+  	</pipeline>
+	<Security roles="viewOnly medium high wcSuper scSuper bmsSuper aeSuper dmSuper cpSuper"/>	
+</service-method>

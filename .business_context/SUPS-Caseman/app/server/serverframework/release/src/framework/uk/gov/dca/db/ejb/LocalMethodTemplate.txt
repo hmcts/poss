@@ -1,0 +1,124 @@
+    /**
+     * @ejb.interface-method view-type="local"
+	 * @ejb.permission role-name="user"
+	 * @ejb.transaction type="${method.transaction.type}"
+	 *
+	 * @wlws:exclude
+     * 
+     * @param params
+     * @param w
+     * @throws BusinessException
+     * @throws SystemException
+     */
+    public void ${method.name}Local (String params, Writer stream) throws BusinessException, SystemException
+    {
+        final String methodName = "${method.name}";
+        try {
+        	uk.gov.dca.db.pipeline.CallStack cs = uk.gov.dca.db.pipeline.CallStack.getInstance();
+        	cs.push(getServiceName(), methodName, params);
+        	IComponentContext context = cs.peek();
+    	    
+         	uk.gov.dca.db.pipeline.component_input.ComponentInput inputHolder = new uk.gov.dca.db.pipeline.component_input.ComponentInput( context.getInputConverterFactory() );
+            uk.gov.dca.db.pipeline.component_input.ComponentInput outputHolder = new uk.gov.dca.db.pipeline.component_input.ComponentInput( context.getInputConverterFactory() );
+            inputHolder.setData(params, String.class); 
+            
+            service.executeTemplate(methodName, inputHolder, outputHolder);
+
+            cs.pop();
+            
+            // get output
+            Object outputObj = outputHolder.getData(String.class);
+            if (outputObj!=null)
+            {
+            	try {
+        			stream.write((String)outputObj);
+        		}
+        		catch(IOException e) {
+        			throw new SystemException("Failed to write output: "+e.getMessage(),e);
+        		}
+            }
+        } 
+        catch(BusinessException e) {
+        	log.error(e.getMessage(),e);
+        	// need to rollback explicitly
+        	rollback();
+        	throw e;
+        }
+        catch(SystemException e) {
+        	log.error(e.getMessage(),e);
+        	// NOTE: following comment should be true but JBOSS prepends undesired text
+        	// to the error msg if throw a runtime exception - therefore rollback explicitly (for now) 
+        	// [rollback is automatic because SystemException extends RuntimeException]
+        	rollback();
+        	throw e;
+        }
+        catch(RuntimeException e) {
+        	log.error(e.getMessage(),e);
+        	// NOTE: following comment should be true but JBOSS prepends undesired text
+        	// to the error msg if throw a runtime exception - therefore rollback explicitly (for now) 
+        	// [rollback is automatic because SystemException extends RuntimeException]
+        	rollback();
+        	throw new SystemException("Service call '" + SERVICE_NAME + "." + methodName + "' failed : " + e.getMessage(), e);
+        }
+        catch (Throwable e) {
+        	//make sure catch all other possible exceptions
+        	log.error(e.getMessage(),e);
+        	// need to rollback explicitly
+        	rollback();
+            throw new SystemException("Service call '" + SERVICE_NAME + "." + methodName + "' failed : " + e.getMessage(), e);
+        }
+    }
+
+	/**
+     * @ejb.interface-method view-type="local"
+	 * @ejb.permission role-name="user"
+	 * @ejb.transaction type="${method.transaction.type}"
+	 *
+	 * @wlws:exclude
+     * 
+     * @param inputHolder
+     * @param outputHolder
+     * @throws BusinessException
+     * @throws SystemException
+     */
+    public void ${method.name}Local2 (uk.gov.dca.db.pipeline.component_input.ComponentInput inputHolder, uk.gov.dca.db.pipeline.component_input.ComponentInput outputHolder) throws BusinessException, SystemException
+    {
+        final String methodName = "${method.name}";
+        try {
+        	uk.gov.dca.db.pipeline.CallStack cs = uk.gov.dca.db.pipeline.CallStack.getInstance();
+        	cs.push(getServiceName(), methodName, inputHolder);
+        	
+            service.executeTemplate(methodName, inputHolder, outputHolder);
+
+            cs.pop();
+        } 
+        catch(BusinessException e) {
+        	log.error(e.getMessage(),e);
+        	// need to rollback explicitly
+        	rollback();
+        	throw e;
+        }
+        catch(SystemException e) {
+        	log.error(e.getMessage(),e);
+        	// NOTE: following comment should be true but JBOSS prepends undesired text
+        	// to the error msg if throw a runtime exception - therefore rollback explicitly (for now) 
+        	// [rollback is automatic because SystemException extends RuntimeException]
+        	rollback();
+        	throw e;
+        }
+        catch(RuntimeException e) {
+        	log.error(e.getMessage(),e);
+        	// NOTE: following comment should be true but JBOSS prepends undesired text
+        	// to the error msg if throw a runtime exception - therefore rollback explicitly (for now) 
+        	// [rollback is automatic because SystemException extends RuntimeException]
+        	rollback();
+        	throw new SystemException("Service call '" + SERVICE_NAME + "." + methodName + "' failed : " + e.getMessage(), e);
+        }
+        catch (Throwable e) {
+        	//make sure catch all other possible exceptions
+        	log.error(e.getMessage(),e);
+        	// need to rollback explicitly
+        	rollback();
+            throw new SystemException("Service call '" + SERVICE_NAME + "." + methodName + "' failed : " + e.getMessage(), e);
+        }
+    }

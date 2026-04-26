@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<QueryDef>
+	<DBMapDef location="uk/gov/dca/caseman/reports_service/insert_hearing_map.xml"/>
+	
+	<Query pivotNode="/insert_hearing/row" tables="H">
+	    <Modify>
+			<Field name="H.HRG_SEQ" sequenceTable="HRG_SEQUENCE"/>
+		</Modify>
+	</Query>
+	
+</QueryDef>

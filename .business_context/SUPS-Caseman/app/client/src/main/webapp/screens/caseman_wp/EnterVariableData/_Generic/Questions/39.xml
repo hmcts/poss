@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>39</Id>
+	<Label>Amount of costs</Label>
+	<ObjectName>CostAmount</ObjectName>
+	<Html>
+	  <input id="DefaultCurrency39" type="text" size="1"></input> 
+	  <input id="CostAmount" type="text" size="9" maxlength="8"></input>
+	</Html>
+	
+	<Context screenId="CJR053"><isVisible>false</isVisible></Context>
+	<Context screenId="CJR055"><isVisible>false</isVisible></Context>
+	<Context screenId="CJR090"><isVisible>false</isVisible></Context>
+	
+	<Javascript>
+		<XPath>/ds/EnterVariableData/Judgment/costs</XPath>
+		<HintText>Enter the total cost</HintText>
+		<maxLength>8</maxLength>
+		<isMandatory>return true;</isMandatory>
+		<initialise>Services.setValue(CostAmount.dataBinding,"0.00")</initialise>
+		<mandatoryOn>CostAmount.dataBinding</mandatoryOn>
+		<validateOn>CostAmount.dataBinding</validateOn>
+		<validate> 
+		  var value = Services.getValue(CostAmount.dataBinding);		 
+	      var maxVal = 99999.99;	     
+	      var err = null;
+	     
+	      if ("" ==  CaseManUtils.stripSpaces(value)) value = "0";
+	     
+	        err = validateCurrencyValue(value, maxVal);
+		      if( null == err)
+		      { 
+		      	var returnVal = WPU.formatToTwoDP(value);
+			    Services.setValue(CostAmount.dataBinding, returnVal);
+		      }	
+		  return err;	   	      	    	      
+		</validate>
+		
+		<miscCode>
+			function DefaultCurrency39() {}
+			DefaultCurrency39.dataBinding = "/ds/EnterVariableData/curr1";
+			DefaultCurrency39.tabIndex = -1;
+			DefaultCurrency39.maxLength = 3;
+			DefaultCurrency39.isReadOnly = function(){return true;}
+			DefaultCurrency39.isTemporary = function(){return true;}
+			DefaultCurrency39.transformToDisplay = function(value){
+				return WPS.__CaseManUtils().transformCurrencySymbolToDisplay(value,null,null); }
+			DefaultCurrency39.transformToModel = function(value){
+				return WPS.__CaseManUtils().transformCurrencySymbolToModel(value,null,null); }
+        </miscCode>
+        <Context ScreenId="CJR043">
+			<initialise><!-- empty initialise to override default 0.00 setting, instead should come from determination judgment --></initialise>
+	    </Context>
+		<Context ScreenId="N32_5">
+		  <isMandatory>return false;</isMandatory>
+		</Context>
+		<Context ScreenId="N32_2">
+		  <isMandatory>return false;</isMandatory>
+		</Context>
+		<Context ScreenId="CJR065A">
+		  <initialise>Services.setValue(CostAmount.dataBinding, "0.00");</initialise>		  
+		</Context>
+		<Context ScreenId="O_5_5">
+			<enableOn>CostType2.dataBinding</enableOn>
+			<isEnabled>return('F' == Services.getValue(CostType2.dataBinding));</isEnabled>
+			<logicOn>CostType2.dataBinding</logicOn>
+			<logic>
+				if('F' != Services.getValue(CostType2.dataBinding))
+				{	Services.setValue(CostAmount.dataBinding, "0.00");
+				}
+				else {
+					Services.setValue(CostAmount.dataBinding, "");
+				}				
+			</logic>
+		</Context>
+		<Context ScreenId="CJR050">
+			<enableOn>CostType.dataBinding</enableOn>
+			<isEnabled>return('F' == Services.getValue(CostType.dataBinding));</isEnabled>
+			<logicOn>CostType.dataBinding</logicOn>
+			<logic>
+				if('F' != Services.getValue(CostType.dataBinding))
+				{	Services.setValue(CostAmount.dataBinding, "0.00");
+				}
+				else {
+					Services.setValue(CostAmount.dataBinding, "");
+				}				
+			</logic>
+		</Context>
+		<Context ScreenId="CJR051">
+			<enableOn>HasCostOrder.dataBinding</enableOn>
+			<isEnabled>return('Y' == Services.getValue(HasCostOrder.dataBinding));</isEnabled>
+			<logicOn>HasCostOrder.dataBinding</logicOn>
+			<logic>
+				if('Y' != Services.getValue(HasCostOrder.dataBinding))
+				{	Services.setValue(CostAmount.dataBinding, "0.00");
+				}
+				else {
+					Services.setValue(CostAmount.dataBinding, "");
+				}				
+			</logic>
+		</Context>
+		<Context ScreenId="CJR052">
+			<enableOn>CostType2.dataBinding</enableOn>
+			<isEnabled>return('F' == Services.getValue(CostType2.dataBinding));</isEnabled>
+			<logicOn>CostType2.dataBinding</logicOn>
+			<logic>
+				if('F' != Services.getValue(CostType2.dataBinding))
+				{	Services.setValue(CostAmount.dataBinding, "0.00");
+				}
+				else {
+					Services.setValue(CostAmount.dataBinding, "");
+				}
+			</logic>
+		</Context>
+		<Context ScreenId = "CO28">
+			<HintText>Enter optional full Costs text as required to be printed</HintText>
+		</Context>
+		<Context ScreenId = "CO29">
+			<HintText>Enter optional full Costs text as required to be printed</HintText>
+		</Context>
+	</Javascript>
+</Question>

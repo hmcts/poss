@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>9162</Id>
+	<Label>Document type</Label>
+	<ObjectName>DocType</ObjectName>
+	<Html>
+		<select id="DocType">
+			<option value=""></option>
+			<option value="L">Letter</option>
+			<option value="IR">Issue request</option>
+			<option value="OTH">Other</option>
+		</select>
+	</Html>			
+	<Javascript>
+		<XPath>/ds/EnterVariableData/docType</XPath>
+		<HintText>Select document type</HintText>
+		<isEnabled>return true</isEnabled>
+		<mandatoryOn>DocType.dataBinding</mandatoryOn>
+		<isMandatory>return true;</isMandatory>
+	</Javascript>
+</Question>  

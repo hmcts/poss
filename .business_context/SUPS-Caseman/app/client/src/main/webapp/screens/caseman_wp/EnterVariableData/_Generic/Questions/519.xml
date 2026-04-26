@@ -1,0 +1,47 @@
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>519</Id>
+	<Label>Amount of charge</Label>
+	<ObjectName>AmntOfCharge</ObjectName>
+	<Html>	
+		<input type="text" id="DefaultCurrency519" size="1"></input>
+		<input type="text" id="AmntOfCharge"></input>
+	</Html>			
+	<Javascript>
+		<XPath>/ds/EnterVariableData/FinalChargeOrder/amntOfCharge</XPath>
+		<componentName>##label##</componentName>
+		<isMandatory>return true;</isMandatory>
+		<HintText>Enter the amount of the charge</HintText>	
+		<validate>
+			var val = Services.getValue(AmntOfCharge.dataBinding);
+			var err = WPU.validateCurrency(val);
+			if( null == err )
+			{	Services.setValue(AmntOfCharge.dataBinding, WPU.formatToTwoDP(val));
+			}
+			return err;
+		</validate>
+		<validateOn>AmntOfCharge.dataBinding</validateOn>	
+		<miscCode>
+			function DefaultCurrency519() {}
+			DefaultCurrency519.dataBinding = "/ds/EnterVariableData/curr1";
+			DefaultCurrency519.tabIndex = -1;
+			DefaultCurrency519.maxLength = 1;
+			DefaultCurrency519.isReadOnly = function(){return true;}
+			DefaultCurrency519.isTemporary = function(){return true;}
+			DefaultCurrency519.transformToDisplay = function(value){
+				return WPS.__CaseManUtils().transformCurrencySymbolToDisplay(value,null,null); }
+			DefaultCurrency519.transformToModel = function(value){
+				return WPS.__CaseManUtils().transformCurrencySymbolToModel(value,null,null); }
+		</miscCode>
+		
+		<Context ScreenId="CJR094">
+			<validate>
+				var val = Services.getValue(AmntOfCharge.dataBinding);
+				var err = validateCurrencyValue(val, 99999999.99);
+				if( null == err)
+				{	Services.setValue(AmntOfCharge.dataBinding, WPU.formatToTwoDP(val));
+				}
+				return err;
+			</validate>
+		</Context>	
+	</Javascript>
+</Question>

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>9022</Id>
+	<Label>Date of petition</Label>
+	<ObjectName>PetitionDate</ObjectName>
+	<Html>
+		<script type="text/javascript">WP_DatePickerRenderer.createInline("PetitionDate", false);</script>
+	</Html>
+	<Javascript>
+        <XPath>/ds/EnterVariableData/PetitionDate</XPath>
+		<HintText>Select the petition date</HintText>
+		<validateOn>PetitionDate.dataBinding</validateOn>
+		<initialise> Services.setValue(PetitionDate.dataBinding,calcReceiptDate());</initialise>
+        <validate>
+            //Date picker: error message “The value does not conform to a valid date format of DD-MMM-YYYY”.
+            // Validation: Date cannot be in the future. Working day only.      
+            return isWorkingDayInPast(Services.getValue(PetitionDate.dataBinding));
+        </validate> 
+		<isEnabled>return true;</isEnabled>
+        <isMandatory>return true;</isMandatory>
+        <mandatoryOn>PetitionDate.dataBinding</mandatoryOn>
+        <miscCode>
+        	PetitionDate.weekends = false;
+            function  calcReceiptDate(){
+            	receiptDateDom = "/params/param/ds/ManageCase/DetailsOfClaim/DateRequestReceived";
+                return WPU.getValue(receiptDateDom,null);
+           	}
+      	</miscCode>
+ 	</Javascript>
+</Question>

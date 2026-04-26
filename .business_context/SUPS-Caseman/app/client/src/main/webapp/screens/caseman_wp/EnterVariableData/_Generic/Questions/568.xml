@@ -1,0 +1,21 @@
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>568</Id>
+	<Label>Which order is to be produced?</Label>
+	<ObjectName>OrderToProduce</ObjectName>
+	<Html>	
+		<select id="OrderToProduce">
+			<option value=""></option>
+			<option value="N16">N16</option>
+			<option value="N16(1)">N16(1)</option>
+		</select>
+	</Html>			
+	<Javascript>
+		<XPath>/ds/EnterVariableData/Interlocutory/orderToProduce</XPath>
+		<componentName>##label##</componentName>
+		<isMandatory>return true;</isMandatory>
+		<HintText>Select which order is to be produced</HintText>			
+	</Javascript>
+</Question>
+
+       
+   

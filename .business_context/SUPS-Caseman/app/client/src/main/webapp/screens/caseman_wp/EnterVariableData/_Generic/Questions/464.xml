@@ -1,0 +1,207 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>464</Id>
+	<Label>Date of hearing of N39</Label>
+	<ObjectName>N39HearingDate</ObjectName>
+	<Context screenId="O_10_18">
+		<isVisible>true</isVisible>
+		<Label>Select date of hearing</Label>
+	</Context>
+	<Context screenId="O_10_19">
+		<isVisible>true</isVisible>
+		<Label>Select date of hearing</Label>
+	</Context>
+	<Context screenId="O_10_17">
+		<isVisible>true</isVisible>
+		<Label>Date of hearing</Label>
+	</Context>
+	<Context screenId="L_8_6">
+		<isVisible>true</isVisible>
+		<Label>Date N63 hearing</Label>
+	</Context>
+	<Html>
+		<table>
+			<tr>
+				<td>
+					<script type="text/javascript">
+					WP_DatePickerRenderer.createInline("N39HearingDate");
+					</script>
+				</td>
+				<td>
+					<input id="N39HearingDateLOVBtn" type="button" value="Select"></input>
+				</td>
+			</tr>
+		</table>
+		<div class="popup" id="SelectHearingDate_Popup">
+			<table class="content">
+				<tr>
+					<td>
+						<script type="text/javascript">Grid.createInline("SelectHearingDateGrid", ["Court Code", "Court Name", "Type", "Date", "Time"] , 2, 1);</script>
+					</td>
+				</tr>
+				<tr style="height: 2px;">
+					<td> </td>
+				</tr>
+				<tr>
+					<td align="right">
+						<input type="button" value="OK" id="SelectHearingDate_OKBtn"></input>
+						<input type="button" value="Cancel" id="SelectHearingDate_CancelBtn"></input>
+					</td>
+				</tr>
+			</table>
+		</div>
+	</Html>
+	<Javascript>
+		<XPath>/ds/EnterVariableData/SuspCOforDisobedience/n39HearingDate</XPath>
+		<componentName>##label##</componentName>
+		<isMandatory>return true;</isMandatory>
+		<HintText>Enter N39 hearing date, in format DD-MMM-YYYY</HintText>
+		<logicOn>HearingDate2.dataBinding</logicOn>
+		<logic>Services.setValue( N39HearingDate.dataBinding ,Services.getValue(HearingDate2.dataBinding));</logic>
+		<miscCode>
+		function SelectHearingDate_Popup(){}
+		SelectHearingDate_Popup.nextFocusedAdaptorId = function() {
+			return 'N39ServiceDate'; } 
+		  
+		SelectHearingDate_Popup.raise = {
+			eventBinding: {
+				singleClicks: [ {element: "N39HearingDateLOVBtn"} ],
+				keys: [ { key: Key.F6, element: "N39HearingDate" } ] } };
+			
+		SelectHearingDate_Popup.lower = {
+			eventBinding: {
+				singleClicks: [ {element: "SelectHearingDate_CancelBtn"} ],
+				keys: [ { key: Key.F4, element: "SelectHearingDate_Popup" } ]
+			}
+		};
+        
+		function N39HearingDateLOVBtn() {}
+		N39HearingDateLOVBtn.tabIndex = __tabIdx++;
+			
+		function SelectHearingDate_OKBtn(){}
+		SelectHearingDate_OKBtn.actionBinding = function() { 	
+			var hid = Services.getValue(SelectHearingDateGrid.dataBinding);
+			var dateSel = Services.getValue("/ds/MaintainHearing/Hearings/Hearing[./HearingID = '"+hid+"']/Date");                
+			Services.setValue(N39HearingDate.dataBinding, dateSel);				
+			FormController.getInstance().hideFormExtensionPopup("SelectHearingDate"); }
+			
+		SelectHearingDate_OKBtn.additionalBindings = {
+			eventBinding: {
+				doubleClicks: [ {element: "SelectHearingDateGrid"} ]
+			}
+		};
+			
+		function SelectHearingDate_CancelBtn(){}
+		
+		function SelectHearingDateGrid(){}
+		SelectHearingDateGrid.dataBinding = "/ds/EnterVariableData/Service/selectHearingGrid";
+		SelectHearingDateGrid.helpText = "Select the hearing venue";
+		SelectHearingDateGrid.srcData	= "/ds/MaintainHearing/Hearings"; 
+		SelectHearingDateGrid.keyXPath  = "HearingID";
+		SelectHearingDateGrid.rowXPath	= "Hearing";   
+		SelectHearingDateGrid.columns = [
+			{xpath: "VenueCode"},
+			{xpath: "VenueName"},
+			{xpath: "TypeOfHearing"},
+			{xpath: "Date", sort: CaseManUtils.sortGridDatesDsc, defaultSort:"true", defaultSortOrder:"descending", transformToDisplay: CaseManUtils.formatGridDate},
+			{xpath: "Time",  transformToDisplay: CaseManUtils.convertSecondsToTime}  ];			
+		</miscCode>
+		<Context ScreenId="CJR083">
+			<enableOn>IsNewN79AsReqd.dataBinding</enableOn>
+			<isEnabled>
+				if(IsNewN79AsReqd.isEnabled()) {
+				  	if( 'Y' == Services.getValue(IsNewN79AsReqd.dataBinding)) {
+						return true; }
+					return false; }
+				return true;
+			</isEnabled>
+			<logicOn>IsNewN79AsReqd.dataBinding</logicOn>
+			<logic>
+				if (IsNewN79AsReqd.isEnabled() &amp;&amp; 'Y' != Services.getValue(IsNewN79AsReqd.dataBinding)) {
+					Services.setValue(N39HearingDate.dataBinding, ""); }				
+			</logic>
+			<miscCode>
+                N39HearingDateLOVBtn.enableOn = [IsNewN79AsReqd.dataBinding];
+                N39HearingDateLOVBtn.isEnabled = function() {
+                    if(IsNewN79AsReqd.isEnabled()) {   
+						if( 'Y' == Services.getValue(IsNewN79AsReqd.dataBinding)) {
+							return true; }
+						return false; }
+					return true; }
+            </miscCode>
+		</Context>
+		<Context ScreenId="O_10_18">
+			<initialise>WPU.getCurrentCaseHearings("hearings") </initialise>
+			<enableOn>N39HearingDate.dataBinding</enableOn>
+			<isEnabled>return true;</isEnabled>
+			<HintText>Select the hearing date by clicking the select button</HintText>
+			<logicOn>N39HearingDate.dataBinding</logicOn>
+			<logic></logic>
+			<miscCode>
+				N39HearingDateLOVBtn.enableOn = [N39HearingDate.dataBinding];
+                N39HearingDateLOVBtn.isEnabled = function() {return true;}
+            </miscCode>
+			<validate>
+				var err = null;
+				var isFuture = isFutureDate(Services.getValue(N39HearingDate.dataBinding));
+				if (null != isFuture &amp;&amp; isFuture) {
+					err = ErrorCode.getErrorCode("CaseMan_dateCannotBeInTheFuture_Msg"); }					
+				return err;
+			</validate>
+		</Context>
+		<Context ScreenId="O_10_17">
+			<initialise>WPU.getCurrentCaseHearings("hearings")</initialise>
+			<enableOn>N39HearingDate.dataBinding</enableOn>
+			<isEnabled>return true;</isEnabled>
+			<HintText>Select the hearing date by clicking the select button</HintText>
+			<logicOn>N39HearingDate.dataBinding</logicOn>
+			<logic></logic>
+			<miscCode>
+				N39HearingDateLOVBtn.enableOn = [N39HearingDate.dataBinding];
+                N39HearingDateLOVBtn.isEnabled = function() {return true;}
+			</miscCode>
+		</Context>
+		<Context ScreenId="O_10_19">
+			<initialise>WPU.getCurrentCaseHearings("hearings")</initialise>
+			<enableOn>N39HearingDate.dataBinding</enableOn>
+			<isEnabled>return true;</isEnabled>
+			<HintText>Select the hearing date by clicking the select button</HintText>
+			<logicOn>N39HearingDate.dataBinding</logicOn>
+			<logic></logic>
+			<miscCode>
+				N39HearingDateLOVBtn.enableOn = [N39HearingDate.dataBinding];
+                N39HearingDateLOVBtn.isEnabled = function() {return true;}
+            </miscCode>
+			<validate>
+				var err = null;
+				var isFuture = isFutureDate(Services.getValue(N39HearingDate.dataBinding));
+				if (null != isFuture &amp;&amp; isFuture) {
+					err = ErrorCode.getErrorCode("CaseMan_dateCannotBeInTheFuture_Msg"); }
+				else {
+					var checkDate = Services.getValue(N39HearingDate.dataBinding); 
+					if (isNonWorkingDate(checkDate ))  {
+						err = ErrorCode.getErrorCode("CaseMan_dateNonWorkingDay_Msg"); } }				
+				return err;
+			</validate>
+		</Context>
+		<Context ScreenId="L_8_6">
+			<initialise>WPU.getCurrentCaseHearings("n63")</initialise>
+			<enableOn>N39HearingDate.dataBinding</enableOn>
+			<isEnabled>return true;</isEnabled>
+			<HintText>Select the date of the N63 hearing</HintText>
+			<logicOn>N39HearingDate.dataBinding</logicOn>
+			<logic></logic>
+			<validate>
+				var checkDate = Services.getValue(N39HearingDate.dataBinding); 
+				var err = null;
+				if (isNonWorkingDate(checkDate ))  {
+					err = ErrorCode.getErrorCode("CaseMan_dateNonWorkingDay_Msg"); }
+				return err;
+			</validate>
+			<miscCode>
+				N39HearingDateLOVBtn.enableOn = [N39HearingDate.dataBinding];
+                N39HearingDateLOVBtn.isEnabled = function() {return true;}
+			</miscCode>
+		</Context>
+	</Javascript>
+</Question>

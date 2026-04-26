@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:fo="http://www.w3.org/1999/XSL/Format" xmlns="http://eds.com/supsfo">
+	<variables>@word.processing.url.xsl@supsfo.xsl</variables>
+	<layout>order</layout>
+	<duplex/>
+	<addressee>
+		<blank/>
+		<claimants/>
+		<defendants/>
+		<part20claimants/>
+		<part20defendants/>
+	</addressee>
+	<header>
+		<fo:block font-size="16pt" font-weight="bold">General Directions Order</fo:block>
+	</header>
+	<courtcase>
+		<court>
+			<xsl:copy-of select="$vdCourtHeaderBlock"/>
+		</court>
+		<caseparameters>
+			<parameter>
+				<name>
+					<fo:block font-weight="bold">Claim Number</fo:block>
+				</name>
+				<value>
+					<fo:block>
+						<xsl:value-of select="$vdClaimNumber"/>
+					</fo:block>
+				</value>
+			</parameter>
+			<parameter>
+				<name>
+					<fo:block font-weight="bold">Date</fo:block>
+				</name>
+				<value>
+					<fo:block>
+						<xsl:value-of select="$vdEventDate"/>
+					</fo:block>
+				</value>
+			</parameter>
+		</caseparameters>
+	</courtcase>
+	<bodyintroright><fo:block space-before="0.4cm" space-after="1cm"><fo:inline text-align="center"><seal/></fo:inline></fo:block></bodyintroright>
+	<body>
+		<editable useid="N10085">
+		<fo:block space-before="1.0cm" space-after="0.4cm">
+			Before <xsl:value-of select="$vdJudge"/> sitting at <xsl:value-of select="$vdHearingAtCourtNameDescription"/>, <xsl:value-of select="$vdHearingAtCourtAddress"/>
+		</fo:block>
+
+		<xsl:if test="string-length($vdHearingAttendees) > 0">
+			<fo:block space-after="0.4cm"><xsl:copy-of select="$vdHearingAttendees"/></fo:block>
+		</xsl:if>
+
+		<xsl:choose>
+			<xsl:when test="string-length($vdFastTrackDirectionsE1) > 0 or 
+							string-length($vdFastTrackGeneralDirectionsC1) > 0  or 
+							string-length($vdFastTrackGeneralDirectionsC2) > 0 or 
+							string-length($vdFastTrackGeneralDirectionsC3) > 0 or 
+							string-length($vdFastTrackDirectionsF1) > 0 or 
+							string-length($vdFastTrackDirectionsG2) > 0 or 
+							string-length($vdFastTrackDirectionsG3) > 0 or 
+							string-length($vdFastTrackDirectionsG4) > 0 or 
+							string-length($vdFastTrackDirectionsG5) > 0 or 
+							string-length($vdFastTrackDirectionsG6) > 0 or 
+							string-length($vdFastTrackDirectionsG9) > 0 or 
+							string-length($vdFastTrackDirectionsG10) > 0 or 
+							string-length($vdFastTrackDirectionsH1) > 0 or 
+							string-length($vdFastTrackDirectionsH2) > 0 or 
+							string-length($vdFastTrackDirectionsI1) > 0 or 
+							string-length($vdFastTrackDirectionsI2) > 0 or 
+							string-length($vdFastTrackDirectionsI3) > 0 or 
+							string-length($vdFastTrackDirectionsI4) > 0 or 
+							string-length($vdFastTrackDirectionsI5) > 0 or 
+							string-length($vdFastTrackDirectionsI6) > 0 or 
+							string-length($vdFastTrackDirectionsI7) > 0 or 
+							string-length($vdFastTrackDirectionsI8) > 0 or 
+							string-length($vdFastTrackDirectionsI9) > 0 or 
+							string-length($vdFastTrackDirectionsI10) > 0 or 
+							string-length($vdFastTrackDirectionsI12) > 0 or 
+							string-length($vdFastTrackDirectionsI13) > 0 or 
+							string-length($vdFastTrackDirectionsI14) > 0 or 
+							string-length($vdFastTrackDirectionsI15) > 0 or 
+							string-length($vdFastTrackDirectionsI16) > 0 or 
+							string-length($vdFastTrackDirectionsJ1) > 0 or 
+							string-length($vdFastTrackDirectionsJ2) > 0 or 
+							string-length($vdFastTrackDirectionsK1) > 0 or 
+							string-length($vdFastTrackDirectionsK2) > 0 or 
+							string-length($vdFastTrackDirectionsL1) > 0 or 
+							string-length($vdFastTrackDirectionsM1) > 0"><fo:block space-after="0.4cm"><xsl:value-of select="$vdFastTrackDirectionsD1"/></fo:block></xsl:when>
+		</xsl:choose>
+		<xsl:if test="string-length($vdFastTrackGeneralDirectionsC1) > 0"><fo:block space-after="0.4cm"><xsl:value-of select="$vdFastTrackGeneralDirectionsC1"/></fo:block></xsl:if>
+		<xsl:if test="string-length($vdFastTrackGeneralDirectionsC2) > 0"><fo:block space-after="0.4cm"><xsl:value-of select="$vdFastTrackGeneralDirectionsC2"/></fo:block></xsl:if>
+		<xsl:if test="string-length($vdFastTrackGeneralDirectionsC3) > 0"><fo:block space-after="0.4cm"><xsl:value-of select="$vdFastTrackGeneralDirectionsC3"/></fo:block></xsl:if>
+		<xsl:if test="string-length($vdFastTrackDirectionsE1) > 0"><fo:block space-after="0.4cm"><xsl:call-template name="formatTextAreaText"><xsl:with-param name="text"><xsl:copy-of select="$vdFastTrackDirectionsE1"/></xsl:with-param></xsl:call-template></fo:block></xsl:if>
+		<xsl:if test="string-length($vdFastTrackDirectionsF1) > 0"><fo:block space-after="0.4cm"><xsl:value-of select="$vdFastTrackDirectionsF1"/></fo:block></xsl:if>
+		<xsl:if test="string-length($vdFastTrackDirectionsG2) > 0"><fo:block space-after="0.4cm"><xsl:value-of select="$vdFastTrackDirectionsG2"/><xsl:if test="string-length($vdFastTrackDirectionsG3) > 0"> <xsl:value-of select="$vdFastTrackDirectionsG3"/></xsl:if><xsl:if test="string-length($vdFastTrackDirectionsG3) = 0">.</xsl:if></fo:block></xsl:if>
+		<xsl:if test="string-length($vdFastTrackDirectionsG4) > 0"><fo:block space-after="0.4cm"><xsl:value-of select="$vdFastTrackDirectionsG4"/></fo:block></xsl:if>
+		<xsl:if test="string-length($vdFastTrackDirectionsG5) > 0"><fo:block space-after="0.4cm"><xsl:value-of select="$vdFastTrackDirectionsG5"/></fo:block></xsl:if>
+		<xsl:if test="string-length($vdFastTrackDirectionsG6) > 0"><fo:block space-after="0.4cm"><xsl:value-of select="$vdFastTrackDirectionsG6"/></fo:block></xsl:if>
+		<xsl:if test="string-length($vdFastTrackDirectionsG9) > 0"><fo:block space-after="0.4cm"><xsl:value-of select="$vdFastTrackDirectionsG9"/></fo:block></xsl:if>
+		<xsl:if test="string-length($vdFastTrackDirectionsG10) > 0"><fo:block space-after="0.4cm"><xsl:value-of select="$vdFastTrackDirectionsG10"/></fo:block></xsl:if>
+		<xsl:if test="string-length($vdFastTrackDirectionsH1) > 0"><fo:block space-after="0.4cm"><xsl:value-of select="$vdFastTrackDirectionsH1"/></fo:block></xsl:if>
+		<xsl:if test="string-length($vdFastTrackDirectionsH2) > 0"><fo:block space-after="0.4cm"><xsl:value-of select="$vdFastTrackDirectionsH2"/></fo:block></xsl:if>
+		<xsl:if test="string-length($vdFastTrackDirectionsI1) > 0"><fo:block space-after="0.4cm"><xsl:value-of select="$vdFastTrackDirectionsI1"/></fo:block></xsl:if>
+		<xsl:if test="string-length($vdFastTrackDirectionsI2) > 0"><fo:block space-after="0.4cm"><xsl:value-of select="$vdFastTrackDirectionsI2"/></fo:block></xsl:if>
+		<xsl:if test="string-length($vdFastTrackDirectionsI3) > 0"><fo:block space-after="0.4cm"><xsl:value-of select="$vdFastTrackDirectionsI3"/></fo:block></xsl:if>
+		<xsl:if test="string-length($vdFastTrackDirectionsI4) > 0"><fo:block space-after="0.4cm"><xsl:value-of select="$vdFastTrackDirectionsI4"/></fo:block></xsl:if>
+		<xsl:if test="string-length($vdFastTrackDirectionsI5) > 0"><fo:block space-after="0.4cm"><xsl:value-of select="$vdFastTrackDirectionsI5"/></fo:block></xsl:if>
+		<xsl:if test="string-length($vdFastTrackDirectionsI6) > 0"><fo:block space-after="0.4cm"><xsl:value-of select="$vdFastTrackDirectionsI6"/></fo:block></xsl:if>
+		<xsl:if test="string-length($vdFastTrackDirectionsI7) > 0"><fo:block space-after="0.4cm"><xsl:value-of select="$vdFastTrackDirectionsI7"/></fo:block></xsl:if>
+		<xsl:if test="string-length($vdFastTrackDirectionsI8) > 0"><fo:block space-after="0.4cm"><xsl:value-of select="$vdFastTrackDirectionsI8"/></fo:block></xsl:if>
+		<xsl:if test="string-length($vdFastTrackDirectionsI9) > 0"><fo:block space-after="0.4cm"><xsl:value-of select="$vdFastTrackDirectionsI9"/></fo:block></xsl:if>
+		<xsl:if test="string-length($vdFastTrackDirectionsI10) > 0"><fo:block space-after="0.4cm"><xsl:value-of select="$vdFastTrackDirectionsI10"/></fo:block></xsl:if>
+		<xsl:if test="string-length($vdFastTrackDirectionsI12) > 0"><fo:block space-after="0.4cm"><xsl:value-of select="$vdFastTrackDirectionsI12"/></fo:block></xsl:if>
+		<xsl:if test="string-length($vdFastTrackDirectionsI13) > 0"><fo:block space-after="0.4cm"><xsl:value-of select="$vdFastTrackDirectionsI13"/></fo:block></xsl:if>
+		<xsl:if test="string-length($vdFastTrackDirectionsI14) > 0"><fo:block space-after="0.4cm"><xsl:value-of select="$vdFastTrackDirectionsI14"/></fo:block></xsl:if>
+		<xsl:if test="string-length($vdFastTrackDirectionsI15) > 0"><fo:block space-after="0.4cm"><xsl:value-of select="$vdFastTrackDirectionsI15"/></fo:block></xsl:if>
+		<xsl:if test="string-length($vdFastTrackDirectionsI16) > 0"><fo:block space-after="0.4cm"><xsl:value-of select="$vdFastTrackDirectionsI16"/></fo:block></xsl:if>
+		<xsl:if test="string-length($vdFastTrackDirectionsJ1) > 0"><fo:block space-after="0.4cm"><xsl:value-of select="$vdFastTrackDirectionsJ1"/></fo:block></xsl:if>
+		<xsl:if test="string-length($vdFastTrackDirectionsJ2) > 0"><fo:block space-after="0.4cm"><xsl:value-of select="$vdFastTrackDirectionsJ2"/></fo:block></xsl:if>
+		<xsl:if test="string-length($vdFastTrackDirectionsK1) > 0"><fo:block space-after="0.4cm"><xsl:value-of select="$vdFastTrackDirectionsK1"/></fo:block></xsl:if>
+		<xsl:if test="string-length($vdFastTrackDirectionsK2) > 0"><fo:block space-after="0.4cm"><xsl:value-of select="$vdFastTrackDirectionsK2"/></fo:block></xsl:if>
+		<xsl:if test="string-length($vdFastTrackDirectionsL1) > 0"><fo:block space-after="0.4cm"><xsl:value-of select="$vdFastTrackDirectionsL1"/></fo:block></xsl:if>
+		<xsl:if test="string-length($vdFastTrackDirectionsM1) > 0"><fo:block space-after="0.4cm"><xsl:value-of select="$vdFastTrackDirectionsM1"/></fo:block></xsl:if>
+		</editable>
+	</body>
+	<defaultFooter id="CJR060"/>
+</root>

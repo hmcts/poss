@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: Co
+	Method:  getCoTypeList()
+	File:    map_get_co_type_list.xml
+	Author:  Phil Haferer (EDS)
+	Created: 01 September 2005
+	Description: 
+		Retrieve the list of Consolidated Order Types.
+-->
+<DBMapDef>
+	<DataSource id="java:OracleDS"/>
+	<Tables>
+		<Table alias="REF"  name="CCBC_REF_CODES"/>		
+	</Tables>
+	<Mapping>
+		<COTypes>
+			<Type>
+				<Value>${REF.RV_LOW_VALUE}</Value>
+			</Type>
+		</COTypes>
+	</Mapping>
+</DBMapDef>

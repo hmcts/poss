@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: Co
+	Method:  getAddressHistory()
+	File:    query_def_get_address_history.xml
+	Author:  Phil Haferer (EDS)
+	Created: 08 September 2005
+	Description: 
+		Retrieve the Historical Addresses for a particular CO Party.
+-->
+<QueryDef>
+  <DBMapDef location="uk/gov/dca/caseman/co_service/map_get_address_history.xml"/>
+  <Query pivotNode="/ds/AddressHistory/Address" tables="GA">
+	<Join>
+		NOT GA.VALID_TO IS NULL
+	</Join>
+	<OrderBy>GA.ADDRESS_ID</OrderBy>
+	<Alias name="EXISTING_VALUE" select="'EXISTING'"/>
+  </Query>
+</QueryDef>

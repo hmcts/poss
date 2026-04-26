@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>9153</Id>
+	<Label>Select from the following</Label>
+	<ObjectName>OrderProcess</ObjectName>
+	<Html>
+		<select id="OrderProcess">
+			<option value=""></option>
+			<option value="1">Listed for hearing on</option>
+			<option value="2">Date of service is</option>
+			<option value="3">Been passed to the bailiff(no hearing)</option>
+			<option value="4">Enclosed for claimant service</option>
+		</select>
+	</Html>			
+	<Javascript>
+		<XPath>/ds/EnterVariableData/orderProcess</XPath>
+		<HintText>Select from the following</HintText>
+		<isEnabled>return true</isEnabled>
+		<isMandatory>return true;</isMandatory>
+		<mandatoryOn>OrderProcess.dataBinding</mandatoryOn>
+	</Javascript>
+</Question>  

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>859</Id>
+	<Label></Label>
+	<ObjectName>CourtAdLine4</ObjectName>
+	<Html>
+		<input id="CourtAdLine4" type="text" size="50"></input>
+	</Html>
+	
+	<Context screenId="CJR080"><isVisible>false</isVisible></Context>
+	<Context screenId="CJR091"><isVisible>false</isVisible></Context>
+	<Context screenId="CJR093"><isVisible>false</isVisible></Context>
+	<Context screenId="CJR094"><isVisible>false</isVisible></Context>
+	<Context screenId="FE45"><isVisible>false</isVisible></Context>	
+
+	<Javascript>
+		<XPath>/ds/EnterVariableData/Court/Address/Line[4]</XPath>
+		<componentName>Hearing Address Line 4</componentName>
+		<HintText>Enter the fourth line of the hearing address</HintText>		
+		<isReadOnly>return true;</isReadOnly>	
+		<isMandatory>return false;</isMandatory>	
+		<mandatoryOn>CourtAdLine4.dataBinding</mandatoryOn>
+		<Notes>Auto populated from RefId 382</Notes>	
+	</Javascript>
+</Question>			

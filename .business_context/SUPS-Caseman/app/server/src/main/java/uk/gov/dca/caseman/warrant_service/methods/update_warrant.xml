@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: Warrant
+	Method:  updateWarrant()
+	File:    update_warrant.xml
+	Author:  Tim Connor (EDS)
+	Created: 06 April 2005
+	Description: Calls custom processor which transfers Warrant if execution court has changed,
+				 updates Warrant Fee in FeesPaid table, and updates the Warrant record.
+-->
+<service-method>
+	<pipeline>
+		<Java>
+			<Source class="uk.gov.dca.caseman.warrant_service.java.TransferUpdatedWarrantCustomProcessor"/>
+		</Java>
+		<Java>
+			<Source class="uk.gov.dca.caseman.warrant_service.java.UpdateWarrantFeeCustomProcessor"/>
+		</Java>
+		<Update>
+			<QueryDef location="uk/gov/dca/caseman/warrant_service/query_def_update.xml"/>
+			<DataSource xpath="/params/param[@name='warrantDetails']"/>
+		</Update>
+	</pipeline>
+	<Dependencies>
+		<Dependency serviceName="Court"/>		
+		<Dependency serviceName="WarrantReturns"/>						
+		<Dependency serviceName="WarrantAmounts"/>								
+	</Dependencies>		
+	<Security roles="medium high wcSuper scSuper bmsSuper aeSuper dmSuper cpSuper ccbcMan ccbcUser ccbcSGB2"/>		
+</service-method>

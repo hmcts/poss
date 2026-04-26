@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ -
+ - DISC SUPS
+ - Copyright Logica UK Ltd. 2008
+ -
+ - $Revision: 644 $
+ - $Author: mullangisa $
+ - $Date: 2008-09-24 13:20:46 +0100 (Wed, 24 Sep 2008) $
+ - $Id: query_def_get_user_admin.xml 644 2008-09-24 12:20:46Z mullangisa $
+ -
+ -->
+<!--
+	15/09/2008 - Nilesh Mistry, removed 'admin' entry so that it does not appear in LOV
+ 				in Maintain Users screen as part of RFC 521 (TRAC ticket #10) 
+-->
+<Roles>
+	<Role>
+		<Id>viewOnly</Id>
+		<Description>View Only</Description>
+		<CCBCRole>false</CCBCRole>
+	</Role>
+	<Role>
+		<Id>medium</Id>
+		<Description>Medium</Description>
+		<CCBCRole>false</CCBCRole>
+	</Role>
+	<Role>
+		<Id>high</Id>
+		<Description>High</Description>
+		<CCBCRole>false</CCBCRole>
+	</Role>
+	<Role>
+		<Id>wcSuper</Id>
+		<Description>Warrant Control Supervisor</Description>
+		<CCBCRole>false</CCBCRole>
+	</Role>
+	<Role>
+		<Id>scSuper</Id>
+		<Description>Suitors Cash Supervisor</Description>
+		<CCBCRole>false</CCBCRole>
+	</Role>
+	<Role>
+		<Id>bmsSuper</Id>
+		<Description>BMS Supervisor</Description>
+		<CCBCRole>false</CCBCRole>
+	</Role>	
+	<Role>
+		<Id>aeSuper</Id>
+		<Description>Attachment of Earnings Supervisor</Description>
+		<CCBCRole>false</CCBCRole>
+	</Role>	
+	<Role>
+		<Id>dmSuper</Id>
+		<Description>Diary Manager Supervisor</Description>
+		<CCBCRole>false</CCBCRole>
+	</Role>	
+	<Role>
+		<Id>edsAdmin</Id>
+		<Description>EDS Administrator</Description>
+		<CCBCRole>false</CCBCRole>
+	</Role>	
+	<Role>
+		<Id>cpSuper</Id>
+		<Description>Coded Party Supervisor</Description>
+		<CCBCRole>false</CCBCRole>
+	</Role>
+	<Role>
+		<Id>ccbcMan</Id>
+		<Description>CCBC Manager</Description>
+		<CCBCRole>true</CCBCRole>
+	</Role>
+	<Role>
+		<Id>ccbcUser</Id>
+		<Description>CCBC User</Description>
+		<CCBCRole>true</CCBCRole>
+	</Role>
+	<Role>
+		<Id>ccbcSGB2</Id>
+		<Description>CCBC SGB II</Description>
+		<CCBCRole>true</CCBCRole>
+	</Role>
+	<Role>
+		<Id>ccbcTape</Id>
+		<Description>CCBC Tape Logger</Description>
+		<CCBCRole>true</CCBCRole>
+	</Role>
+</Roles>

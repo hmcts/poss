@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Change History:
+	12-Dec-2011 - Chris Vincent.  Added context for output O_9_2 for Trac 4621.
+-->
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>643</Id>
+	<Label>Is there a Fund Number?</Label>
+	<ObjectName>IsFundNumber</ObjectName>
+	<Html>	
+		<input type="checkbox" id="IsFundNumber"></input>
+	</Html>		
+	
+	<Context screenId="O_9_2"><isVisible>false</isVisible></Context>
+	
+	<Javascript>
+		<XPath>/ds/EnterVariableData/InvestmentSchedule/isFundNumber</XPath>
+		<componentName>##label##</componentName>
+		<maxLength>50</maxLength>
+		<modelValue>checked: "Y", unchecked: "N"</modelValue>
+		<HintText>Check box if there is a Fund Number</HintText>
+	</Javascript>
+</Question>

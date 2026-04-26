@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: CaseEvent
+	Method:  getStandardEvent()
+	File:    get_standard_event.xml
+	Author:  Chris Hutt (EDS)
+	Created: 22 September 2005
+	Description: 
+		Get details of specified standard event
+-->
+<service-method>
+	<pipeline>
+		<SQLLite format-output="true"
+				 resultset-element="ds"
+				 row-element="StandardEvent"
+				 field-name-as="element" >
+			<DataSource id="java:OracleDS"/>
+			<Param name="param.eventId" xpath="/params/param[@name = 'eventId']"/>
+			<SQL>
+				SELECT SE.EVENT_ID      	AS "StandardEventId"
+				,      SE.DESCRIPTION 		AS "EventDescription"
+				,      SE.CATEGORY 		AS "Category"
+				,      SE.EDIT_DETAILS 		As "EditDetails"
+				FROM   STANDARD_EVENTS SE
+				WHERE  SE.EVENT_ID		= ${param.eventId}
+			</SQL>
+		</SQLLite>
+	</pipeline>
+	<Security roles="viewOnly medium high wcSuper scSuper bmsSuper aeSuper dmSuper cpSuper"/>					
+</service-method>

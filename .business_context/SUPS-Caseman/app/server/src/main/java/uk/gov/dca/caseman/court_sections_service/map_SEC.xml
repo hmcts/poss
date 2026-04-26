@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<DBMapDef>
+	<DataSource id="java:OracleDS"/>
+	<Tables>
+		<Table alias="CR" name="COURTS"/>
+		<Table alias="SE" name="SECTIONS"/>
+	</Tables>
+	<Mapping>
+		<ds>
+			<CourtDetails>
+			  <CourtName>${CR.NAME}</CourtName>
+			  <CourtCode>${CR.CODE}</CourtCode>
+			  <Sections>
+			  	<Section>
+                  <SectionName>${SE.SECTION_NAME}</SectionName>
+                  <AdminCrtCode>${SE.ADMIN_COURT_CODE}</AdminCrtCode>
+                </Section>
+              </Sections>  				
+			</CourtDetails>
+		</ds>
+	</Mapping>
+</DBMapDef>
+

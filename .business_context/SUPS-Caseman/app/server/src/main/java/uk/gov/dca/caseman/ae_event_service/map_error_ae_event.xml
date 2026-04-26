@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<DBMapDef>
+  <DataSource id="java:OracleDS"/>
+  <Tables>
+    <Table alias="AE" name="AE_EVENTS"/>
+  </Tables>  
+  <Mapping>
+  	<ds>
+	  <ManageAEEvents>
+	  	<CaseNumber></CaseNumber>
+		<OwningCourtCode></OwningCourtCode>
+		<PartyAgainst>
+			<PartyRoleCode></PartyRoleCode>
+			<CasePartyNumber></CasePartyNumber>
+		</PartyAgainst>
+		<AEEvents>
+<AEEvent>
+	<AEEventSeq>${AE.AE_EVENT_SEQ}</AEEventSeq>
+	<AENumber>${AE.AE_NUMBER}</AENumber>
+	<StandardEventId>${AE.STD_EVENT_ID}</StandardEventId>
+	<StandardEventDescription></StandardEventDescription>
+	<EventDetails>${AE.DETAILS}</EventDetails>
+	<EventDate>${AE.EVENT_DATE}</EventDate>
+	<UserName>${AE.USERNAME}</UserName>
+	<ReceiptDate>${AE.DATE_ENTERED}</ReceiptDate>
+	<Stage>${AE.ISSUE_STAGE}</Stage>
+	<Service>${AE.SERVICE_STATUS}</Service>
+	<BailiffId>${AE.BAILIFF_IDENTIFIER}</BailiffId>
+	<ServiceDate>${AE.SERVICE_DATE}</ServiceDate>
+</AEEvent>
+		</AEEvents>
+	  </ManageAEEvents>
+	</ds>
+  </Mapping>
+</DBMapDef>

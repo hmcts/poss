@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: User
+	Method:  deactivateUser()
+	File:    delete_user_court.xml
+	Author:  Ian Stainer
+	Created: 19-Apr-2006
+	Description:
+		Part of the deactivation of a user is removing the user court record
+		because if a user is reactivated in another court the court will be different 
+-->
+<service-method>
+	<pipeline>
+		<SQLLite output="input">
+			<DataSource id="java:OracleDS"/>
+			<Param name="param.userId" xpath="/params/param[@name='userIdToDelete']"/>
+			<Param name="param.courtCode" xpath="/params/param[@name='courtCode']"/>			
+			<SQL type="update" tables="UC">
+				DELETE FROM USER_COURT UC
+				WHERE  UC.USER_ID = ${param.userId}
+				AND    UC.COURT_CODE = ${param.courtCode}				
+			</SQL>
+		</SQLLite>
+	</pipeline>
+	<Security roles="admin"/>
+</service-method>

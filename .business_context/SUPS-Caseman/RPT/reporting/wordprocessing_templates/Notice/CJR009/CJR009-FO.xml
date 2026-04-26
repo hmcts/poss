@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- ====================================================================== -->
+<!--  -->
+<!-- FILENAME: $Source: C:/CVSRepository/serveroas/src/uk/gov/dca/caseman/wordprocessing_templates/Notice/CJR009/CJR009-FO.xml,v $ -->
+<!--  -->
+<!-- AUTHOR: $Author: jay $-->
+<!--  -->
+<!-- DATE: $Date: 2006/04/18 10:34:01 $ -->
+<!--  -->
+<!-- Version: $Revision: 1.5 $ -->
+<!--  -->
+<!-- DESCRIPTION: This stylesheet is used to create an XSL:FO document that -->
+<!-- can be processed into a PDF version.  Business logic -->
+<!-- is embedded to generate the correct document text for the order -->
+<!-- required. -->
+<!--  -->
+<!-- INPUTS: XML document containing: the answers to questions asked of the -->
+<!-- user; case data retrieved from the database; HTML representing the  -->
+<!-- body of the document content (already edited by the user). -->
+<!--  -->
+<!-- OUTPUTS: XML document with FO tags containing instructions for the -->
+<!-- creation of a PDF document. -->
+<!--  -->
+<!-- ====================================================================== -->
+<root xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:fo="http://www.w3.org/1999/XSL/Format" xmlns="http://eds.com/supsfo">
+	<variables>@word.processing.url.xsl@supsfo.xsl</variables>
+	<!-- <layout>general</layout> -->
+	<addressee>
+		<blank/>
+		<claimants/>
+		<defendants/>
+		<part20claimants/>
+		<part20defendants/>
+	</addressee>
+	<header>
+		<fo:block font-size="16pt" font-weight="bold">Certificate of Service</fo:block>
+	</header>
+	<courtcase>
+		<court>
+			<xsl:copy-of select="$vdCourtHeaderBlock"/>
+		</court>
+		<caseparameters>
+			<parameter>
+				<name>
+					<fo:block font-weight="bold">Claim Number</fo:block>
+				</name>
+				<value>
+					<fo:block>
+						<xsl:value-of select="$vdClaimNumber"/>
+					</fo:block>
+				</value>
+			</parameter>
+			<parameter>
+				<name>
+					<fo:block font-weight="bold">Claimant</fo:block>
+					<fo:block font-size="9pt">(including ref.)</fo:block>
+				</name>
+				<value>
+					<fo:block hyphenate="true">
+						<xsl:value-of select="$vdClaimantName"/>
+					</fo:block>
+					<fo:block hyphenate="true" font-size="9pt">
+						<xsl:value-of select="$vdClaimantReference"/>
+					</fo:block>
+				</value>
+			</parameter>
+			<parameter>
+				<name>
+					<fo:block font-weight="bold">Defendant(s)</fo:block>
+				</name>
+				<value>
+					<fo:block hyphenate="true">
+						<xsl:value-of select="$vdDefendantName"/>
+					</fo:block>
+				</value>
+			</parameter>
+		</caseparameters>
+	</courtcase>
+
+	<body font-size="12pt">
+		<fo:block space-after="2.0cm"/>
+		<fo:block>
+			On the <xsl:value-of select="$vdDateServed"/> the <xsl:copy-of select="normalize-space($vdDocumentServed)"/>, a copy of which is attached to this notice, was 
+			served on <xsl:call-template name="convertcase"><xsl:with-param name="toconvert">
+			<xsl:value-of select="normalize-space($vdServedPerson)"/>
+			</xsl:with-param><xsl:with-param name="conversion">proper</xsl:with-param></xsl:call-template>
+			&#xa0;<xsl:call-template name="convertcase"><xsl:with-param name="toconvert"><xsl:value-of select="normalize-space($vdPosition)"/>
+			</xsl:with-param><xsl:with-param name="conversion">proper</xsl:with-param></xsl:call-template><xsl:if test="string-length($vdPosition) >0">&#xa0;</xsl:if><xsl:value-of select="normalize-space($vdServiceMethod)"/>&#xa0;
+			<xsl:value-of select="normalize-space($vdServiceMethodDetails)"/><xsl:if test="string-length($vdServiceMethodDetails) >0">&#xa0;</xsl:if><xsl:value-of select="normalize-space($vdServiceAddress2)"/><xsl:if test="string-length($vdServiceAddress2) >0">&#xa0;
+			</xsl:if>being the party's <xsl:value-of select="$vdAddressType"/>.
+		</fo:block>
+
+	</body>	
+	<footnote noteextent="3.5">
+		<fo:block space-after="0.2cm" font-family="Times" text-align="justify">
+			<fo:table table-layout="fixed" width="100%">
+				<fo:table-column column-width="19.27cm"/>
+				<fo:table-body>
+					<fo:table-row>
+						<fo:table-cell border-top-style="solid" border-right-style="solid" border-left-style="solid" border-bottom-style="solid"
+							border-top-width="0.02cm" border-right-width="0.02cm" border-left-width="0.02cm" border-bottom-width="0.02cm"
+							padding-right="0.2cm" padding-left="0.2cm" padding-bottom="0.2cm" padding-top="0.2cm" >
+							<fo:block space-after="0.8cm">
+								I confirm that at the time of signing this Certificate the document has not been returned to me as undelivered.
+							</fo:block>
+							<fo:block>
+								Signed........................................................................................
+							</fo:block>
+							<fo:block space-after="0.4cm" font-size="8pt" start-indent="2.5cm">
+								(proper officer/bailiff)
+							</fo:block>
+							<fo:block space-after="0.4cm"/>
+							<fo:block>
+								Dated.........................................................................................
+							</fo:block>
+						</fo:table-cell>
+					</fo:table-row>
+				</fo:table-body>
+			</fo:table>
+		</fo:block>
+	</footnote>
+	<defaultFooter id="CJR009"/>
+</root>

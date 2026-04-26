@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<QueryDef>
+  <DBMapDef location="uk/gov/dca/caseman/co_event_service/map_valid_co_status_list.xml"/>
+  <Query pivotNode="/ValidCOStatuses/ValidCOStatus" tables="CCBC">
+	<Join>
+		CCBC.RV_DOMAIN = 'VALID_CO_STATUS'
+	</Join>
+	<Modify notModifiable="true"/>
+  </Query>
+</QueryDef>

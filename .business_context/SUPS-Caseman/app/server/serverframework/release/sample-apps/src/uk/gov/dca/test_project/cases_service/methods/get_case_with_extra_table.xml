@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<service-method>
+	<pipeline>
+		<Query>
+			<QueryDef location="uk/gov/dca/test_project/cases_service/query_def.xml"/>
+			<Table alias="CPR" name="CASE_PARTY_ROLES"/>
+			<QueryExtension pivotNode="/Case" tables="cpr">
+				<Param name="param.caseNumber" xpath="/params/param[@name='caseNumber']"/>
+				<Constraint>c.case_number = ${param.caseNumber}</Constraint>
+				<Join>CPR.CASE_NUMBER = C.CASE_NUMBER AND CPR.CASE_PARTY_NO = 2394</Join>
+			</QueryExtension>
+		</Query>
+	</pipeline>
+	<Security roles="user"/>
+</service-method>

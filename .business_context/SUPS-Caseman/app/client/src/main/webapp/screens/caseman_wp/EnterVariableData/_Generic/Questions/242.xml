@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>242</Id>
+	<Label>Latest date for meeting</Label>
+	<ObjectName>LatestMeetingDate</ObjectName>
+	<Html>	
+		<script type="text/javascript">
+			WP_DatePickerRenderer.createInline("LatestMeetingDate");
+		</script>
+	</Html>
+	<Javascript>
+		<XPath>/ds/EnterVariableData/FastTrack/latestMeetingDate</XPath>
+		<HintText>Enter latest date for meeting in the format DD-MON-YYYY</HintText>
+		<mandatoryOn>LatestMeetingDate.dataBinding</mandatoryOn>
+		<isMandatory>return true;</isMandatory>	
+		<enableOn>WithoutPrejDisc.dataBinding</enableOn>
+		<isEnabled>return('Y' == Services.getValue(WithoutPrejDisc.dataBinding));</isEnabled>
+		<logicOn>WithoutPrejDisc.dataBinding</logicOn>
+		<logic>
+			if('Y' != Services.getValue(WithoutPrejDisc.dataBinding))
+			{	Services.setValue(LatestMeetingDate.dataBinding, "");
+			}
+		</logic>
+		<validateOn>LatestMeetingDate.dataBinding</validateOn>
+		<validate>
+			//cannot be in past : working day only
+			
+			var checkDate = Services.getValue(LatestMeetingDate.dataBinding); 
+			var err = null;
+			
+			if( false == isFutureDate(checkDate))
+			{ 	err = ErrorCode.getErrorCode("CaseMan_dateCannotBeInThePast_Msg");
+			}
+			else if( isNonWorkingDate(checkDate))
+		    {   err = ErrorCode.getErrorCode("CaseMan_dateNonWorkingDay_Msg"); 
+		    }
+			
+			return err;
+		</validate>	
+		<!--initialise>		  	
+		  	loadNonWorkingDays();
+		</initialise-->
+		<miscCode>
+		    LatestMeetingDate.weekends = false;
+		</miscCode>	
+	</Javascript>
+</Question>
+
+
+     
+     
+     

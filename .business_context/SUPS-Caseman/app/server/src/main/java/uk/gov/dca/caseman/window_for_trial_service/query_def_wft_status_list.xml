@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<QueryDef>
+	<DBMapDef location="uk/gov/dca/caseman/window_for_trial_service/map_wft_status_list.xml"/>
+	<Query pivotNode="/WFTStatuses/Status" tables="CCBC">
+	   <Join>
+	       <!-- CCBC.RV_LOW_VALUE != 'IN ERROR' -->
+	   </Join>
+	   <Modify notModifiable="true"/>
+	</Query>
+
+</QueryDef>
+
+

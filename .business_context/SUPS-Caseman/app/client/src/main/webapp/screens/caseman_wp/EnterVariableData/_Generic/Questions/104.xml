@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>104</Id>
+	<Label>Other means of service</Label>
+	<ObjectName>OtherMeans</ObjectName>
+	<Html>		
+		<input type="text" id="OtherMeans"></input>
+	</Html>
+	<Javascript>
+		<XPath>/ds/EnterVariableData/Service/otherMeans</XPath>
+		<HintText>Enter the service of other means</HintText>
+		<enableOn>ServiceMethod.dataBinding</enableOn>
+		<isEnabled>return( 'OTH' == Services.getValue(ServiceMethod.dataBinding));</isEnabled>
+		<isMandatory>return true;</isMandatory>
+		<logicOn>ServiceMethod.dataBinding</logicOn>
+		<logic>
+			if( 'OTH' != Services.getValue(ServiceMethod.dataBinding))
+			{
+				Services.setValue(OtherMeans.dataBinding, "");
+			}
+		</logic>
+	</Javascript>
+</Question>

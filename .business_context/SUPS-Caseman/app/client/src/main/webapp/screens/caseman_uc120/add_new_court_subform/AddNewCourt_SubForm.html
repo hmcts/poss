@@ -1,0 +1,176 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3c.org/TR/html4/strict.dtd">
+<!-- 
+    @Changes: Feb 10, 2010 Chris Vincent - Added Welsh Court Name fields (Trac 2629) 
+	05/09/2012 - Chris Vincent: Added DR Telephone, DR Opening Hours and By Appointment Flag.  Trac 4718
+-->
+<html>
+
+	<head>
+		<title>AddNewCourt_SubForm</title>
+		<link href="AddNewCourt_SubForm.css" type="text/css" rel="stylesheet">
+		<script type="text/javascript" src="../../../Framework.js"></script>
+    	<script type="text/javascript" src="../../../ConcatCommon.js"></script>
+		<script type="text/javascript" src="../MaintainCourtDataConstants.js"></script>
+		<script type="text/javascript" src="../MaintainCourtDataHelperFunctions.js"></script>
+		<script type="text/javascript" src="AddNewCourt_SubForm.js"></script>
+  	</head>
+
+	<body>
+	
+    	<form id="addNewCourtSubform" class="subform">
+
+			<div class="panel">
+				<table class="content">
+					<tr>
+						<td>
+							<table style="margin-top: 5px; margin-bottom:5px;">
+								
+								<tr>											
+									<td class="courtFieldLabel"><label for='AddNewCourt_CourtCode'>Court Code</label></td>
+									<td colspan=2><input id="AddNewCourt_CourtCode" type="text" size=5></td>
+
+									<td class="courtFieldLabel"><label for='AddNewCourt_CourtName'>Court Name</label></td>
+									<td><input id="AddNewCourt_CourtName" type="text" size=30></td>
+								</tr>
+								
+								<tr>											
+									<td class="courtFieldLabel"><label for='AddNewCourt_Welsh_HighCourt_Name'>Welsh High Court Name</label></td>
+									<td><input id="AddNewCourt_Welsh_HighCourt_Name" type="text" size=50></td>
+									<td style="width:25px;">&nbsp;</td>
+
+									<td class="courtFieldLabel"><label for='AddNewCourt_Welsh_CountyCourt_Name'>Welsh County Court Name</label></td>
+									<td><input id="AddNewCourt_Welsh_CountyCourt_Name" type="text" size=50></td>
+								</tr>
+										
+								<tr>											
+									<td class="courtFieldLabel"><label for='AddNewCourt_CourtId'>ID</label></td>
+									<td colspan=2><input id="AddNewCourt_CourtId" type="text" size=3></td>
+
+									<td class="courtFieldLabel"><label for='AddNewCourt_DistrictRegistry'>District Registry</label></td>
+									<td><input type="checkbox" id="AddNewCourt_DistrictRegistry"/></td>
+								</tr>
+								
+								<tr>											
+									<td class="courtFieldLabel"><label for='AddNewCourt_InService'>In Service</label></td>
+									<td colspan=2><input type="checkbox" id="AddNewCourt_InService"/></td>
+
+									<td class="courtFieldLabel"><label for='AddNewCourt_GroupingCourtCode'>Grouping Court</label></td>
+									<td>
+										<table style="margin:0px;">
+											<tr>
+												<td><input id="AddNewCourt_GroupingCourtCode" type="text" size=3></td>
+												<td>
+													<script type="text/javascript">
+														AutoCompletionRenderer.createInline("AddNewCourt_GroupingCourtName");
+													</script>
+												</td>
+												<td>&nbsp;<input id="AddNewCourt_GroupingCourtLOVButton" type="button" value="LOV"></td>
+											</tr>
+										</table>
+									</td>
+								</tr>
+												
+								<tr>											
+									<td class="courtFieldLabel"><label for='AddNewCourt_DX'>DX Number</label></td>
+									<td colspan=2><input id="AddNewCourt_DX" type="text" size=24></td>
+									
+									<td class="courtFieldLabel"><label for='AddNewCourt_TelephoneNumber'>Telephone Number</label></td>
+									<td><input id="AddNewCourt_TelephoneNumber" type="text" size=24></td>
+								</tr>
+												
+								<tr>											
+									<td class="courtFieldLabel"><label for='AddNewCourt_FaxNumber'>Fax Number</label></td>
+									<td colspan=2><input id="AddNewCourt_FaxNumber" type="text" size=24></td>
+									
+									<td class="courtFieldLabel"><label for='AddNewCourt_DR_TelephoneNumber'>DR Telephone Number</label></td>
+									<td><input id="AddNewCourt_DR_TelephoneNumber" type="text" size=24></td>	
+								</tr>
+								
+							</table>							
+						</td>			
+					</tr>
+				</table>
+			</div>
+				
+			<div class="panel">
+				<table class="content">
+					<tr>
+						<td>
+							<table style="margin-top: 5px; margin-bottom:5px;">
+											
+								<tr>											
+									<td class="courtFieldLabel"><label for='AddNewCourt_Court_OpenFrom'>Open From</label></td>
+									<td colspan=2><input id="AddNewCourt_Court_OpenFrom" type="text" size=10></td>										
+
+									<td class="courtFieldLabel"><label for='AddNewCourt_Court_OpenTo'>Open To</label></td>
+									<td><input id="AddNewCourt_Court_OpenTo" type="text" size=10></td>
+								</tr>
+												
+								<tr>											
+									<td class="courtFieldLabel"><label for='AddNewCourt_Court_AccountType'>Account Type</label></td>
+									<td colspan=2>
+										<select id="AddNewCourt_Court_AccountType" style="margin-right:5px;">
+										</select>
+									</td>
+
+									<td class="courtFieldLabel"><label for='AddNewCourt_Court_AccountingCode'>Accounting Code</label></td>
+									<td><input id="AddNewCourt_Court_AccountingCode" type="text" size=10></td>
+								</tr>
+												
+								<tr>											
+									<td class="courtFieldLabel"><label for='AddNewCourt_Bailiff_OpenFrom'>Bailiff Opening</label></td>
+									<td colspan=2><input id="AddNewCourt_Bailiff_OpenFrom" type="text" size=10></td>										
+
+									<td class="courtFieldLabel"><label for='AddNewCourt_Bailiff_OpenTo'>Bailiff Closing</label></td>
+									<td><input id="AddNewCourt_Bailiff_OpenTo" type="text" size=10></td>										
+								</tr>
+												
+								<tr>											
+									<td class="courtFieldLabel"><label for='AddNewCourt_Bailiff_TelephoneNumber'>Bailiff Telephone</label></td>
+									<td><input id="AddNewCourt_Bailiff_TelephoneNumber" type="text" size=24></td>
+									<td style="width:155px;">&nbsp;</td>
+
+									<td class="courtFieldLabel"><label for='AddNewCourt_Bailiff_FaxNumber'>Bailiff Fax</label></td>
+									<td><input id="AddNewCourt_Bailiff_FaxNumber" type="text" size=24></td>										
+								</tr>
+								
+								<tr>											
+									<td class="courtFieldLabel"><label for='AddNewCourt_CourtDR_OpenFrom'>DR Open From</label></td>
+									<td colspan=2><input id="AddNewCourt_CourtDR_OpenFrom" type="text" size=10></td>										
+
+									<td class="courtFieldLabel"><label for='AddNewCourt_CourtDR_OpenTo'>DR Open To</label></td>
+									<td><input id="AddNewCourt_CourtDR_OpenTo" type="text" size=10></td>
+								</tr>
+								
+								<tr>											
+									<td class="courtFieldLabel"><label for='AddNewCourt_ByAppointment'>Open By Appointment</label></td>
+									<td colspan=2><input type="checkbox" id="AddNewCourt_ByAppointment"/></td>
+
+									<td colspan=2>&nbsp;</td>
+								</tr>
+
+							</table>							
+						</td>			
+					</tr>
+				</table>
+			</div>
+			
+			<!-- Subform action bar -->
+			<script type="text/javascript">
+				ActionBarRenderer.createInline(
+					"addNewCourt_statusbar",
+					[
+						{id: "AddNewCourt_OkButton", label: "Ok"},	
+						{id: "AddNewCourt_CancelButton", label: "Cancel"}
+					]
+				);
+			</script>
+
+			<!-- LOV Popups -->
+			<script type="text/javascript">LOVPopupRenderer.createInline( "AddNewCourt_GroupingCourtLOVGrid", "Select Court", ["Code", "Name"], 10, 1, true );</script>
+
+		</form>
+    
+    </body>
+    
+</html>

@@ -1,0 +1,79 @@
+<Group id="9016">
+	<ServicesRequired>
+		<mapping name="updateCoEvents" serviceName="updateCoEvents"/>
+		<service name="updateCoEvents" cache="none" url="CoEvent" method="updateCoEvents">
+		</service>
+	</ServicesRequired>
+	<Protocols>
+		<OnSave>
+			<function>updateCOEventDetails</function>
+			<functionCallback>updateCOEventDetailsCallback</functionCallback>
+		</OnSave>
+	</Protocols>
+	<JavaScript>	
+		
+function updateCOEventDetails() {  	  	  	
+	
+				
+	var eventSequence = WPU.getCOEventSequence();
+	var eventNode = WPU.getCOEventNode(eventSequence);
+	var coNumb = WPU.getValue(WPU.NODE_XPATHS['CONumber']);
+	
+	var eventDetails = Services.getValue("/ds/EnterVariableData/Warrant/WarrantNumber");
+
+	if (null == eventDetails) {
+		eventDetails = "No WarrantId in Event"; }	
+
+	var eventDetailsNode = eventNode.selectSingleNode("EventDetails");
+	var origEventDetails = WPU.getValue( "EventDetails", eventNode);
+		
+	XML.replaceNodeTextContent(eventNode.selectSingleNode("./Status"), "1");
+	
+
+	if( null != origEventDetails  &amp;&amp; origEventDetails.length > 1)
+	{	eventDetails += ": "+origEventDetails;
+	}
+
+	
+	
+	XML.replaceNodeTextContent(eventNode.selectSingleNode("./EventDetails"), eventDetails);
+
+	// defect 3465; added warrantid to update warrant_id on CO Event
+	var warrantID = Services.getValue("/ds/EnterVariableData/Warrant/WarrantID");
+	XML.replaceNodeTextContent(eventNode.selectSingleNode("./WarrantId"), warrantID);
+		
+	var params = new ServiceParams();
+	var service = "updateCoEvents";	
+	var dom = XML.createDOM();	
+		
+	
+	dom.loadXML( "&lt;ManageCOEvents>&lt;CONumber>"+coNumb+"&lt;/CONumber>&lt;COEvents>&lt;/COEvents>&lt;/ManageCOEvents>");
+	dom.selectSingleNode("*/COEvents").appendChild(eventNode);
+	params.addDOMParameter("coEvent", dom );	
+	
+	
+	Services.callService(service, params, updateCOEventDetailsCallback, true);
+}
+
+function updateCOEventDetailsCallback() { }
+
+updateCOEventDetailsCallback.onSuccess = function(dom) {
+	if (null != dom)  {
+		Save_All();  }
+	else {
+		alert(Messages.NO_RESULTS_MESSAGE); } }
+
+updateCOEventDetailsCallback.onBusinessException = function(exception)  
+{
+
+	alert(Messages.FAILEDSAVE_MESSAGE); 
+}
+
+updateCOEventDetailsCallback.onSystemException = function(exception) 
+{
+
+	alert(Messages.FAILEDSAVE_MESSAGE); 
+}
+	</JavaScript>
+</Group>
+

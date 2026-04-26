@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: CaseEvent
+	Method:  updateCaseEventRegisterJudgment
+	File:    map_update_case_event_register_judgment.xml
+	Author:  Chris Hutt (EDS)
+	Created: 05 may 2006
+	Description: 
+        Enables case event to be updated with decision as to whether judgment
+        to be updated.
+		Introduced as part of RFC1473
+
+	Change History:
+	01/06/2006	Chris Hutt Judgment sequence added (part ot rfc1473 work)
+
+-->
+<DBMapDef>
+  <DataSource id="java:OracleDS"/>
+  <Tables>
+    <Table alias="CE" name="CASE_EVENTS"/>
+  </Tables>  
+  <Mapping>
+	<CaseEvent>
+		<CaseEventSeq>${CE.EVENT_SEQ}</CaseEventSeq>
+		<EventDetails>${CE.REGISTER_JUDGMENT}</EventDetails>
+		<JudgmentSeq>${CE.JUDG_SEQ}</JudgmentSeq>
+	</CaseEvent>
+  </Mapping>
+</DBMapDef>

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: Co
+	Method:  getFeeRateList()
+	File:    map_get_fee_rate_list.xml
+	Author:  Phil Haferer (EDS)
+	Created: 31 August 2005
+	Description: 
+		The 'Mapping' for retrieving Fee Rates for Consolidated Orders.
+-->
+<DBMapDef>
+	<DataSource id="java:OracleDS"/>
+	<Tables>
+		<Table alias="REF"  name="CCBC_REF_CODES"/>		
+	</Tables>
+	<Mapping>
+		<FeeRates>
+			<Fee>
+				<Value>${REF.RV_LOW_VALUE}</Value>
+			</Fee>
+		</FeeRates>
+	</Mapping>
+</DBMapDef>

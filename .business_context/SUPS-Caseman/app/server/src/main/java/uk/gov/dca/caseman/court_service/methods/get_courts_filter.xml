@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: Court
+	Method:  getCourtsFilter()
+	File:    get_courts_filter.xml
+	Author:  Troy Baines
+	Created: 10 November 2004
+	Description: 
+        Retrieves List of Courts matching specified input parameters
+-->
+
+<service-method>
+	<pipeline>
+		<NewQuery>
+			<QueryDef location="uk/gov/dca/caseman/court_service/query_def_long.xml"/>
+			<QueryExtension pivotNode="/Courts/Court">
+				<Param name="param.code" xpath="/params/param[@name = 'code']"/>
+				<Param name="param.id" xpath="/params/param[@name = 'id']"/>
+				<Param name="param.courtName" xpath="/params/param[@name = 'courtName']"/>
+				<Param name="param.districtregistry" xpath="/params/param[@name = 'districtregistry']"/>
+				<Constraint>
+						(
+							(
+								${param.code} IS NULL OR CT.CODE LIKE UPPER(${param.code}) 
+							) 
+							AND																									
+							(
+								${param.id} IS NULL OR CT.ID LIKE UPPER(${param.id})
+							) 
+							AND
+							(
+								${param.districtregistry} IS NULL OR CT.DISTRICT_REGISTRY LIKE UPPER(${param.districtregistry})
+							) 
+							AND
+							(
+								${param.courtName} IS NULL OR CT.NAME LIKE UPPER(${param.courtName})
+							) 							
+						)
+				</Constraint>
+				<OrderBy>CT.CODE</OrderBy>
+			</QueryExtension>
+		</NewQuery>
+	</pipeline>
+	<Security roles="viewOnly medium high wcSuper scSuper bmsSuper aeSuper dmSuper cpSuper ccbcMan ccbcUser ccbcSGB2"/>
+</service-method>

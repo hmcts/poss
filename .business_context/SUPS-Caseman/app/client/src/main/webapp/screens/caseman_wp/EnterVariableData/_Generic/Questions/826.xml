@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>826</Id>
+	<Label>Review period</Label>
+	<ObjectName>ReviewPeriod</ObjectName>
+	<Html>
+		<input id = "ReviewPeriod" type = "checkbox"></input>
+	</Html>
+	<Javascript>
+		<XPath>/ds/EnterVariableData/ReviewPeriod</XPath>
+		<componentName>##label##</componentName>
+		<HintText>Check box if there is a review period</HintText>
+		<modelValue>checked: "Y", unchecked: "N"</modelValue>
+		<isMandatory>return true;</isMandatory>
+		<mandatoryOn>ReviewPeriod.dataBinding</mandatoryOn>
+	</Javascript>
+</Question>

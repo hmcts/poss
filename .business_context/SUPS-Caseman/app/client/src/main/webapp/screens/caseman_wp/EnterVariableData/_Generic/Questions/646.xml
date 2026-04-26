@@ -1,0 +1,38 @@
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>646</Id>
+	<Label>Current funds in court</Label>
+	<ObjectName>CourtFunds</ObjectName>
+	<Html>
+		<input type="text" id="DefaultCurrency646" size="1"></input>
+		<input type="text" id="CourtFunds" size="11" maxlength="11"></input>
+	</Html>		
+	
+	<Javascript>
+		<XPath>/ds/EnterVariableData/InvestmentSchedule/courtFunds</XPath>
+		<componentName>##label##</componentName>
+		<isMandatory>return true;</isMandatory>
+		<HintText>Enter the current funds in court - max 999999.99</HintText>
+		<maxLength>11</maxLength>
+		<validateOn>CourtFunds.dataBinding</validateOn>
+		<validate>
+			var val = Services.getValue(CourtFunds.dataBinding);
+			var err = validateCurrencyValue(val, 99999999.99);
+			if( null == err )
+			{	Services.setValue(CourtFunds.dataBinding, WPU.formatToTwoDP(val));
+			}
+			return err;
+		</validate>
+		<miscCode>
+			function DefaultCurrency646() {}
+			DefaultCurrency646.dataBinding = "/ds/EnterVariableData/curr1";
+			DefaultCurrency646.tabIndex = -1;
+			DefaultCurrency646.maxLength = 1;
+			DefaultCurrency646.isReadOnly = function(){return true;}
+			DefaultCurrency646.isTemporary = function(){return true;}
+			DefaultCurrency646.transformToDisplay = function(value){
+				return WPS.__CaseManUtils().transformCurrencySymbolToDisplay(value,null,null); }
+			DefaultCurrency646.transformToModel = function(value){
+				return WPS.__CaseManUtils().transformCurrencySymbolToModel(value,null,null); }
+		</miscCode>	
+	</Javascript>
+</Question>

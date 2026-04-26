@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<QueryDef>
+	<DBMapDef location="uk/gov/dca/caseman/service_status_service/map_service_status_list.xml"/>
+	<Query pivotNode="/ServiceList/Service" tables="CCBC">
+		<Join/>
+		<OrderBy>CCBC.RV_LOW_VALUE</OrderBy>
+		<Modify notModifiable="true"/>
+	</Query>
+</QueryDef>

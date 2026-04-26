@@ -1,0 +1,22 @@
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>559</Id>
+	<Label>Any further bail conditions</Label>
+	<ObjectName>HasFurtherBailConditions</ObjectName>
+	<Html>	
+		<input type="checkbox" id="HasFurtherBailConditions"></input>
+	</Html>			
+	<Javascript>
+		<XPath>/ds/EnterVariableData/Remand/hasFurtherBailConditions</XPath>
+		<componentName>##label##</componentName>
+		<modelValue>checked: "Y", unchecked: "N"</modelValue>
+		<HintText>Check box if further bail conditions have been set - list available</HintText>
+		<enableOn>BailConditionsSet.dataBinding</enableOn>
+		<isEnabled>return( 'Y' == Services.getValue(BailConditionsSet.dataBinding));</isEnabled>
+		<logicOn>BailConditionsSet.dataBinding</logicOn>
+		<logic>
+			if( 'Y' != Services.getValue(BailConditionsSet.dataBinding))
+			{	Services.setValue(HasFurtherBailConditions.dataBinding, "");
+			}
+		</logic>					
+	</Javascript>
+</Question>

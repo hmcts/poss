@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration xmlns="http://java.sun.com/xml/ns/jax-rpc/ri/config">
+	<service name="${service.name}" 
+		targetNamespace="${project.base-url}/${service.name}/${service.name}ServiceServicePort" 
+		typeNamespace="${project.base-url}/types" 
+		packageName="${service.package}"> 
+    	<interface name="${service.package}.${service.name}ServiceService" servantName="${service.package}.${service.name}Bean"/> 
+	</service>  
+</configuration> 

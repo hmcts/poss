@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<QueryDef>
+	<DBMapDef location="uk/gov/dca/caseman/warrant_returns_service/map_code.xml"/>
+	<Query pivotNode="/ds/WarrantCodes/WarrantCode" tables="RC">
+		<SQL type="select">
+			SELECT RC.RETURN_CODE AS "RC.RETURN_CODE",
+			RC.RETURN_TYPE AS "RC.RETURN_TYPE",
+			RC.RETURN_CATEGORY AS "RC.RETURN_CATEGORY",
+			RC.RETURN_CODE_SUMMARY AS "RC.RETURN_CODE_SUMMARY",
+			RC.ADMIN_COURT_CODE AS "RC.ADMIN_COURT_CODE"
+			FROM RETURN_CODES RC
+			WHERE RC.CURRENT_RETURN = 'Y'
+			AND RC.USER_LIST = 'Y'
+			AND RC.ADMIN_COURT_CODE IN ('0', ${param.courtCode})
+		</SQL>
+		<Modify notModifiable="true"/>
+	</Query>
+</QueryDef>

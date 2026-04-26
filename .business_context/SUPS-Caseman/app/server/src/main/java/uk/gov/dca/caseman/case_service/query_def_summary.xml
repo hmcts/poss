@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<QueryDef>
+  <DBMapDef location="uk/gov/dca/caseman/case_service/map_summary.xml"/>
+  <Query pivotNode="/Case" tables="C CT">
+	<SQL type="select">
+		SELECT C.CASE_NUMBER AS "C.CASE_NUMBER",
+			C.CASE_TYPE AS "C.CASE_TYPE",
+			C.STATUS AS "C.STATUS",
+			C.ADMIN_CRT_CODE AS "C.ADMIN_CRT_CODE",
+			CT.NAME AS "CT.NAME",
+			C.RECEIPT_DATE AS "C.RECEIPT_DATE",
+			C.AMOUNT_CLAIMED_CURRENCY AS "C.AMOUNT_CLAIMED_CURRENCY",		
+			C.AMOUNT_CLAIMED AS "C.AMOUNT_CLAIMED",
+			C.COURT_FEE_CURRENCY AS "C.COURT_FEE_CURRENCY",
+			C.COURT_FEE AS "C.COURT_FEE",
+			C.SOLICITORS_COSTS_CURRENCY AS "C.SOLICITORS_COSTS_CURRENCY",			
+			C.SOLICITORS_COSTS AS "C.SOLICITORS_COSTS",
+			C.TOTAL_CURRENCY AS "C.TOTAL_CURRENCY",					
+			C.TOTAL AS "C.TOTAL",
+			C.DATE_OF_ISSUE AS "C.DATE_OF_ISSUE",
+			( SELECT COUNT(*) FROM OBLIGATIONS
+              	WHERE CASE_NUMBER = C.CASE_NUMBER ) AS "C.OBLIGS_COUNT", 
+    	    ( SELECT COUNT(*) FROM WINDOW_FOR_TRIAL
+              	WHERE WFT_CASE_NUMBER = C.CASE_NUMBER ) AS "C.WFT_COUNT"
+		FROM CASES C, COURTS CT
+		WHERE CT.CODE = C.ADMIN_CRT_CODE
+		AND C.CASE_NUMBER = ${param.caseNumber}
+	</SQL>
+	    <Modify notModifiable="true"/>
+  </Query> 
+  <Query pivotNode="/Case/Parties/Party" tables="CPR P PR">
+	<Join>
+		CPR.CASE_NUMBER = ${C.CASE_NUMBER} AND 
+		CPR.PARTY_ROLE_CODE != 'SOLICITOR' AND 
+		P.PARTY_ID = CPR.PARTY_ID AND
+		PR.PARTY_ROLE_CODE (+)= CPR.PARTY_ROLE_CODE 
+      </Join>
+      <Modify notModifiable="true"/>
+  </Query>  
+		
+		
+</QueryDef>

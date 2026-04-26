@@ -1,0 +1,67 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: AeEvent
+	Method:  getAeEvent()
+	File:    map_get_ae_event.xml
+	Author:  Phil Haferer (EDS)
+	Created: 31-Jul-2006 
+	Description: 
+        Retrieve a single AE Event.
+        Derived from get_ae_events.xml.
+        Created in repsonse to TD 4018: Performance: Pagination required when displaying list of Case Events.
+		
+    Change History:
+-->
+<DBMapDef>
+  <DataSource id="java:OracleDS"/>
+  <Tables>
+    <Table alias="AE"  name="AE_EVENTS"/>
+    <Table alias="AEA" name="AE_APPLICATIONS"/>
+    <Table alias="REF" name="CCBC_REF_CODES"/>
+    <Table alias="REF2" name="CCBC_REF_CODES"/>
+    <Table alias="SE"  name="STANDARD_EVENTS"/>
+	<Table alias="WO" name="WP_OUTPUT"/>
+	<Table alias="RO" name="REPORT_OUTPUT"/>
+	<Table alias="RQ" name="REPORT_QUEUE"/>
+	<Table alias="API" name="AE_PER_ITEMS"/>
+  </Tables>  
+  <Mapping>
+<ManageAEEvents>	
+	<AENumber>${AEA.AE_NUMBER}</AENumber>
+<AEEvents>
+<AEEvent>
+	<AEEventSeq>${AE.AE_EVENT_SEQ}</AEEventSeq>
+	<CaseEventSeq>${AE.CASE_EVENT_SEQ}</CaseEventSeq>
+	<CaseNumber>${AEA.CASE_NUMBER}</CaseNumber>
+	<AENumber>${AE.AE_NUMBER}</AENumber>
+	<StandardEventId>${AE.STD_EVENT_ID}</StandardEventId>
+	<StandardEventDescription>${SE.DESCRIPTION}</StandardEventDescription>
+	<EditDetails>${SE.EDIT_DETAILS}</EditDetails>
+	<StandardEventCategory>${SE.CATEGORY}</StandardEventCategory>
+	<EventDetails>${AE.DETAILS}</EventDetails>
+	<EventDate>${AE.EVENT_DATE}</EventDate>
+	<UserName>${AE.USERNAME}</UserName>
+	<ReceiptDate>${AE.DATE_ENTERED}</ReceiptDate>
+	<Stage>${AE.ISSUE_STAGE}</Stage>
+	<Service>${AE.SERVICE_STATUS}</Service>
+	<BailiffId>${AE.BAILIFF_IDENTIFIER}</BailiffId>
+	<ServiceDate>${AE.SERVICE_DATE}</ServiceDate>
+	<ProcessDate>${AE.PROCESS_DATE}</ProcessDate>
+	<CourtCode>${AEA.ISSUING_CRT_CODE}</CourtCode>
+	<ErrorInd>${AE.ERROR_INDICATOR}</ErrorInd>
+	<Obsolete>${REF2.OBSOLETE}</Obsolete>
+	<Status>${STATUS}</Status>
+	<Outputs>
+			<Output>
+						<Type>${OUTPUT.TYPE}</Type>
+						<Final>${OUTPUT.FINAL_IND}</Final>
+						<OutputId>${OUTPUT.OUTPUT_ID}</OutputId>
+						<Description>${OUTPUT.DESCRIPTION}</Description>
+						<DocumentId>${OUTPUT.DOCUMENT_ID}</DocumentId>
+			</Output>
+	</Outputs>
+</AEEvent>
+</AEEvents>
+</ManageAEEvents>
+  </Mapping>
+</DBMapDef>

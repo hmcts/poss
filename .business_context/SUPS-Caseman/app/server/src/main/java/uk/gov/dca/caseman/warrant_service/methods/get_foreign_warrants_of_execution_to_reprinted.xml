@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: Warrant
+	Method:  getForeignWarrantsOfExecutionToReprinted
+	Author:  Chris Vincent (EDS) 
+	Created: 19 Apr 2007
+	Description: 
+		Determine whether or not there are Foreogn Warrants that have not already been reprinted
+        in the given Local Warrant Number range.
+	Change History:
+		16/07/2007 - Chris Vincent, fixed CaseMan Defect 6367.  Service is not court specific.
+		04/07/2013 - Chris Vincent (Trac 4908). Added further constraints to ensure the warrant has been printed,
+					 has a particular warrant type, has not been transferred and is not reissued. This matches the
+					 Oracle report criteria.
+		11/12/2013 - Chris Vincent, added CONTROL warrants to the list of warrant types.  Trac 5025
+-->
+<service-method>
+	<pipeline>
+		<SQLLite format-output="true"
+				 resultset-element="ds"
+				 row-element="Warrant"
+				 field-name-as="element" >
+			<DataSource id="java:OracleDS"/>
+			<Param name="param.warrantNumber" xpath="/params/param[@name='warrantNumber']"/>
+			<Param name="param.courtId"   xpath="/params/param[@name='courtId']"/>
+			<SQL>
+				SELECT DECODE(COUNT(*),0,'false','true') as "Reprint"
+				FROM   WARRANTS W
+				WHERE  W.LOCAL_WARRANT_NUMBER = ${param.warrantNumber}
+				AND    W.CURRENTLY_OWNED_BY = ${param.courtId}
+				AND    W.DATE_PRINTED IS NOT NULL
+				AND    W.DATE_REPRINTED IS NULL
+				AND    W.WARRANT_TYPE IN ('EXECUTION', 'EXONPLFF', 'EXONEMP', 'AO', 'CONTROL')
+				AND    W.TO_TRANSFER = '0'
+				AND    W.ORIGINAL_WARRANT_NUMBER IS NULL
+			</SQL>
+		</SQLLite>
+  	</pipeline>
+	<Security roles="wcSuper"/>
+</service-method>

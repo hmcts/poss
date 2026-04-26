@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>9079</Id>
+	<Label>Date of discharge</Label>
+	<ObjectName>DischargeDate</ObjectName>
+	<Html>
+		<script type="text/javascript">WP_DatePickerRenderer.createInline("DischargeDate", false);</script>
+	</Html>
+	
+ 	<Context screenId="O_10_15"><isVisible>false</isVisible></Context>
+	
+	<Javascript>
+    <XPath>/ds/EnterVariableData/DischargeDate</XPath>
+		<HintText>Enter the date of discharge</HintText>
+        <!-- // Removed validation defect UCT_CASEMAN 393 //-->
+        <!-- // not stated but should not be date in the past, please confirm in use case  //-->
+        <validate>
+        	return isInPast(Services.getValue(DischargeDate.dataBinding),"false");
+        </validate> 
+        <mandatoryOn>DischargeDate.dataBinding</mandatoryOn>
+		<isMandatory>return true;</isMandatory>	
+        <isEnabled>return true;</isEnabled>
+        <initialise>Services.setValue(DischargeDate.dataBinding, WPU.getEventReceiptDate());</initialise>        	
+	</Javascript>
+</Question>

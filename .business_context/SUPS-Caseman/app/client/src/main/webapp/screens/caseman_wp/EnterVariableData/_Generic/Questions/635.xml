@@ -1,0 +1,49 @@
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>635</Id>
+	<Label>Enter Part 20 Issue Fee</Label>
+	<ObjectName>Part20IssueFee</ObjectName>
+	<Html>	
+		<input type="text" id="DefaultCurrency635" size="1"></input>
+		<input type="text" id="Part20IssueFee" size="11" maxlength="11"></input>
+	</Html>		
+	
+	<Javascript>
+		<XPath>/ds/EnterVariableData/Part20/part20IssueFee</XPath>
+		<componentName>##label##</componentName>
+		<isMandatory>return false;</isMandatory>
+		<HintText>Enter the issue fee</HintText>
+		<maxLength>11</maxLength>	
+		<validateOn>Part20IssueFee.dataBinding</validateOn>
+		<validate>
+			var val = Services.getValue(Part20IssueFee.dataBinding);
+			var err = validateCurrencyValue(val, 999999.99);
+			if( null == err )
+			{	Services.setValue(Part20IssueFee.dataBinding, WPU.formatToTwoDP(val));
+			}
+			return err;
+		</validate>	
+		<miscCode>
+			function DefaultCurrency635() {}
+			DefaultCurrency635.dataBinding = "/ds/EnterVariableData/curr1";
+			DefaultCurrency635.tabIndex = -1;
+			DefaultCurrency635.maxLength = 1;
+			DefaultCurrency635.isReadOnly = function(){return true;}
+			DefaultCurrency635.isTemporary = function(){return true;}
+			DefaultCurrency635.transformToDisplay = function(value){
+				return WPS.__CaseManUtils().transformCurrencySymbolToDisplay(value,null,null); }
+			DefaultCurrency635.transformToModel = function(value){
+				return WPS.__CaseManUtils().transformCurrencySymbolToModel(value,null,null); }
+		</miscCode>
+		
+		<Context ScreenId="CJR186A">	
+			<validate>
+			var val = Services.getValue(Part20IssueFee.dataBinding);
+			var err = validateCurrencyValue(val, 99999999.99);
+			if( null == err )
+			{	Services.setValue(Part20IssueFee.dataBinding, WPU.formatToTwoDP(val));
+			}
+			return err;
+		</validate>	
+		</Context>
+	</Javascript>
+</Question>

@@ -1,0 +1,19 @@
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>590</Id>
+	<Label>Conduct money to be offered?</Label>
+	<ObjectName>OfferConductMoney</ObjectName>
+	<Html>	
+		<select id="OfferConductMoney">
+			<option value=""></option>
+			<option value="ATT">Attached</option>
+			<option value="NOT">No conduct money</option>
+			<option value="OFF">To be offered</option>
+		</select>
+	</Html>			
+	<Javascript>
+		<XPath>/ds/EnterVariableData/ExamDeponent/offerConductMoney</XPath>
+		<componentName>##label##</componentName>
+		<isMandatory>return true;</isMandatory>
+		<HintText>Select if conduct money for travel/loss of time is offered</HintText>			
+	</Javascript>
+</Question>

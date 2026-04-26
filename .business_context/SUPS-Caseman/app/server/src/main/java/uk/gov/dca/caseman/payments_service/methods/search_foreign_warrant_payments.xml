@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: Payments
+	Method: searchForeignWarrantPayments()
+	File: search_foreign_warrant_payments.xml
+	Author: Chris Vincent
+	Description:
+		Returns any payments linked to a home warrant based on the local warrant number
+		and currently owned by court code.
+-->
+<service-method>
+	<pipeline>
+		<Query>
+			<QueryDef location="uk/gov/dca/caseman/payments_service/query_def_search_payments.xml" />
+			<QueryExtension pivotNode="/SearchResults/Payment">
+				<Param name="param.enforcementNumber" xpath="/params/param[@name = 'enforcementNumber']" />
+				<Param name="param.currentlyOwnedBy" xpath="/params/param[@name = 'currentlyOwnedBy']" />
+				<Constraint>
+					P.SUBJECT_NO = ${param.enforcementNumber} AND
+					P.PAYMENT_FOR = 'FOREIGN WARRANT' AND
+					P.ENFORCEMENT_COURT_CODE = ${param.currentlyOwnedBy}
+				</Constraint>
+			</QueryExtension>
+		</Query>
+	</pipeline>
+	<Security roles="viewOnly medium high wcSuper scSuper bmsSuper aeSuper dmSuper cpSuper ccbcMan ccbcUser ccbcSGB2"/>
+</service-method>

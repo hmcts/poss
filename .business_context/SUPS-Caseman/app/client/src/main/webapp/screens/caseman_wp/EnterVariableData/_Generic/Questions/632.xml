@@ -1,0 +1,25 @@
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>632</Id>
+	<Label>Are response forms included?</Label>
+	<ObjectName>ResFormsIncl</ObjectName>
+	<Html>	
+		<input type="checkbox" id="ResFormsIncl"></input>
+	</Html>		
+	
+	<Javascript>
+		<XPath>/ds/EnterVariableData/Part20/resFormsIncl</XPath>
+		<componentName>##label##</componentName>
+		<modelValue>checked: "Y", unchecked: "N"</modelValue>
+		<HintText>Check box if response forms are included</HintText>
+		<enableOn>PartyServingClaim.dataBinding</enableOn>
+		<isEnabled>return('CLM' == Services.getValue(PartyServingClaim.dataBinding));</isEnabled>
+		<logicOn>PartyServingClaim.dataBinding</logicOn>		
+		<logic>
+			if('CLM' != Services.getValue(PartyServingClaim.dataBinding))
+			{	Services.setValue(ResFormsIncl.dataBinding, "N");
+			}
+		</logic>
+
+		
+	</Javascript>
+</Question>

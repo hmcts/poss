@@ -1,0 +1,56 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: SystemData
+	Method:  getSequenceAndIncrementWithCommit()
+	File:    get_sequence_and_increment_with_commit.xml
+	Author:  Phil Haferer (EDS)
+	Created: 19-Jun-2006
+	Description: 
+		Retrieve the value of a particular System Data row that is used as a Sequence Number,
+		and increment it - in a separate transaction which is committed immediately.
+		This behaviour is appropriate for the sequences used by following system entities :-
+		    CO              Consolidated Orders
+		    AE              Attachment of Earnings 
+		    TRANSACTION NO  Payment Transaction Numbers
+		    HOME            Home Warrants
+		    FOREIGN         Foriegn Warrants
+		    REISSUE         Re-issued Warrants
+        It is considered acceptible for these entities to have gaps in sequence, which will occur 
+        when the calling transaction is rolled back.
+-->
+<service-method>
+	<pipeline>
+        <!-- Note that the UPDATE is done before the SELECT, because the UPDATE step does not alter 
+             the XML Document (as output="input"), and so the parameters are still available for the  
+             SELECT step. -->
+		<SQLLite output="input">
+			<DataSource id="java:OracleDS"/>
+			<Param name="param.adminCourtCode" xpath="/params/param[@name='adminCourtCode']"/>
+			<Param name="param.item"           xpath="/params/param[@name='item']"/>
+			<SQL type="update" tables="SD">
+				UPDATE SYSTEM_DATA SD
+				SET    SD.ITEM_VALUE = DECODE(SD.ITEM_VALUE, NULL, 0, SD.ITEM_VALUE) + 1
+				WHERE  SD.ADMIN_COURT_CODE = ${param.adminCourtCode}
+				AND    SD.ITEM             = ${param.item}
+			</SQL>
+		</SQLLite>
+		<!-- Note that this SELECT can safely retrieve a unique sequence number from ITEM_VALUE,
+		     because the previous UPDATE statement will have locked the row. -->
+		<SQLLite format-output="true"
+				 resultset-element="ds"
+				 row-element="SystemData"
+				 field-name-as="element" >
+			<DataSource id="java:OracleDS"/>
+			<Param name="param.adminCourtCode" xpath="/params/param[@name='adminCourtCode']"/>
+			<Param name="param.item"           xpath="/params/param[@name='item']"/>
+			<SQL>
+				SELECT (SD.ITEM_VALUE - 1) AS "ItemValue"
+				FROM   SYSTEM_DATA SD
+				WHERE  SD.ADMIN_COURT_CODE = ${param.adminCourtCode}
+				AND    SD.ITEM             = ${param.item}
+			</SQL>
+		</SQLLite>
+	</pipeline>
+	<Security roles="viewOnly medium high wcSuper scSuper bmsSuper aeSuper dmSuper"/>
+	<Transaction type="RequiresNew"/>
+</service-method>

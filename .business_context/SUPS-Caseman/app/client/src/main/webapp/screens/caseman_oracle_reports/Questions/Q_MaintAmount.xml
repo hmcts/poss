@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--Question xmlns="http://eds.com/questionxhtml" xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd"-->
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>Q_MaintAmount</Id>
+	<Label>Maintenance Amount</Label>
+	<ObjectName>MaintenanceAmount</ObjectName>
+	<Html>
+		<input id="DefaultCurrency" type="text" size="1"></input>
+		<input id="MaintenanceAmount" type="text" size="5"></input>
+	</Html>
+	<Javascript>
+		<XPath>/ds/var/page/OracleReportForm/MaintenanceAmount</XPath>
+		<ReportVariableName>REPORT_VALUE_11</ReportVariableName>
+		<ReportVariableValue>Services.getValue(MaintenanceAmount.dataBinding)</ReportVariableValue>
+		<ReportVariableCode>9362</ReportVariableCode>
+		<HintText>Enter the maintenance amount (max value 999999.99)</HintText>
+		<mandatoryOn></mandatoryOn>
+		<isMandatory>return true;</isMandatory>
+		<enableOn>IsMaintenancePayment.dataBinding</enableOn>
+		<isEnabled>
+			var blnEnableField = Services.getValue(IsMaintenancePayment.dataBinding);
+			if (blnEnableField == "Y")
+			{
+				return true;
+			}
+			else
+			{
+				Services.setValue(MaintenanceAmount.dataBinding, "");
+				return false;
+			}	
+		</isEnabled>
+		<setDefault></setDefault>
+		<validateOn></validateOn>
+		<validate>
+			// defect UCT 600 re currency validation 
+			var value = Services.getValue(MaintenanceAmount.dataBinding);
+			var errCode = null;
+			if(!CaseManUtils.isBlank(value)) {
+				if(!CaseManValidationHelper.validateFloatNumber(value)){
+					errCode = ErrorCode.getErrorCode("CaseMan_Reports_Enter_Number");
+				}
+				else{
+					// defect UCT 600 re currency validation - NB multi returns in method here
+					// originaly so kept them.
+					errCode =  CaseManValidationHelper.validatePattern(value, CaseManValidationHelper.CURRENCY_PATTERN, "CaseMan_invalidAmountFormat_Msg");
+					if(errCode == null){
+						if(value &lt;= 0){
+							errCode = ErrorCode.getErrorCode("CaseMan_Reports_Enter_Number");
+						}
+					}
+				}				
+				//return CaseManValidationHelper.validatePattern(value, CaseManValidationHelper.NUMERIC_PATTERN, "CaseMan_Reports_Enter_Number");
+			}			
+			return errCode;
+		</validate>
+		<readOnlyOn></readOnlyOn>
+		<isReadOnly></isReadOnly>
+		<maxLength></maxLength>
+		<transformToDisplay>
+			//return (null != value) ? value.toUpperCase() : null;
+			return CaseManUtils.transformCurrency(value);
+		</transformToDisplay>
+		<transformToModel>
+			return (null != value) ? value.toUpperCase() : null;
+			//return CaseManUtils.transformCurrency(value);
+		</transformToModel>
+		<initialise></initialise>
+		<logicOn></logicOn>
+		<logic></logic>
+		<miscCode></miscCode>
+		<IsQuestion></IsQuestion>
+	</Javascript>
+</Question>

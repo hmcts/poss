@@ -1,0 +1,263 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3c.org/TR/html4/strict.dtd">
+
+<html>
+
+	<head>
+		<title>WindowForTrial</title>
+		<link href="WindowForTrial.css" type="text/css" rel="stylesheet">
+		<script type="text/javascript" src="../../Framework.js"></script>
+		<script type="text/javascript" src="../../ConcatCommon.js"></script>
+		<script type="text/javascript" src="../caseman_wp/WordProcessing.js"></script>
+		<script type="text/javascript" src="WindowForTrialConstants.js"></script>
+		<script type="text/javascript" src="WindowForTrial.js"></script>
+	</head>
+	
+	<body>
+		<form name="WindowForTrial" id="windowForTrial">
+			
+			<!-- Framework Navigation Menu -->
+			<script type="text/javascript">MenuBarRenderer.createInline();</script>
+	
+			<table class="layout">
+	
+				<!-- Header Panel -->
+				<tr>
+					<td>
+						
+						<div class="panel">
+							<table class="content">
+								<tr>
+									<td>
+										<table>
+											<tr>									
+												<td class="defaultLabel"><label for='Header_CaseNumber'>Case Number</label></td>
+												<td><input id="Header_CaseNumber" type="text" size=15></td>
+		
+												<td class="defaultLabel"><label for='Header_OwningCourtCode'>Owning Court</label></td>
+												<td>
+													<input id="Header_OwningCourtCode" type="text" size=5>
+													<input id="Header_OwningCourtName" type="text" size=25>
+												</td>
+											</tr>
+		
+											<tr>
+												<td colspan=2>
+													<!-- Claimant/Defendant Grid Read only -->
+													<script type="text/javascript">Grid.createInline("Header_PartyTypeListGrid", ["Party Type", "Number", "Name"], 3, 1);</script>
+												</td>
+											</tr>
+											
+										</table>
+									</td>			
+								</tr>
+		
+							</table>
+						</div>
+	
+					</td>
+				</tr>
+				<!-- End Header Panel -->
+	
+				<tr>
+					<td>
+	
+						<div class="panel">
+							<table class="content">
+		
+								<tr>
+		
+									<td>
+		
+										<table style="height:451px;">
+		
+											<tr>
+												<td valign="top">
+													<script type="text/javascript">Grid.createInline("Master_WindowForTrialGrid", ["Start Date", "End Date", "Status", "CMC"], 24, 1);</script>
+												</td>
+											</tr>
+		
+											<tr>
+												<td valign="bottom" align="right">
+		
+													<table>
+		
+														<tr>
+															<td><input id="Master_AddWindowForTrialButton" type="Button" value="Add"></td>
+														</tr>
+		
+													</table>
+		
+												</td>
+											</tr>
+		
+										</table>
+		
+									</td>
+		
+									<td class="spacer">&nbsp;</td>
+									
+									<td valign="top">
+										
+										<table style="margin-top: 5px;">
+		
+											<tr>
+												<td><label for='WindowForTrial_Track'>Track</label></td>
+												<td colspan="2">
+													<select id="WindowForTrial_Track"></select>
+												</td>
+											</tr>
+											<tr>
+												<td><label for='WindowForTrial_StartDate'>Start Date</label></td>
+												<td colspan="2">
+													<script type="text/javascript">DatePickerRenderer.createInline("WindowForTrial_StartDate", true);</script>
+												</td>
+											</tr>
+											<tr>
+												<td><label for='WindowForTrial_EndDate'>End Date</label></td>
+												<td colspan="2">
+													<script type="text/javascript">DatePickerRenderer.createInline("WindowForTrial_EndDate", true);</script>
+												</td>
+											</tr>
+											<tr>
+												<td><label for='WindowForTrial_Days'>Estimated Time</label></td>
+												<td colspan="2">
+													Days &nbsp;<input id="WindowForTrial_Days" type="text" size=3>&nbsp;
+													Hours &nbsp;<input id="WindowForTrial_Hours" type="text" size=1>&nbsp;
+													Mins &nbsp;<input id="WindowForTrial_Mins" type="text" size=2>
+												</td>
+											</tr>
+											<tr>
+												<td><label for='WindowForTrial_Status'>Status</label></td>
+												<td colspan="2">
+													<input id="WindowForTrial_Status" type="text" size=45>
+													&nbsp;<input id="WindowForTrial_StatusLOVButton" type="Button" value="LOV">
+												</td>
+											</tr>
+											<tr>
+												<td><label for='WindowForTrial_StatusDate'>Status Date</label></td>
+												<td colspan="2">
+													<script type="text/javascript">DatePickerRenderer.createInline("WindowForTrial_StatusDate", true);</script>
+												</td>
+											</tr>
+											<tr>
+												<td><label for='WindowForTrial_Judge'>Judge's Name</label></td>
+												<td colspan="2"><input id="WindowForTrial_Judge" type="text" size=30></td>
+											</tr>
+											<tr>
+												<td><label for='WindowForTrial_ReasonForAdjournment'>Reason for Adjournment</label></td>
+												<td>
+													<script type="text/javascript">
+														AutoCompletionRenderer.createInline("WindowForTrial_ReasonForAdjournment");
+													</script>
+												</td>
+												<td align="left">
+													<input id="WindowForTrial_ReasonForAdjournmentLOVButton" type="Button" value="LOV">
+												</td>
+											</tr>
+											<tr>
+												<td><label for='WindowForTrial_CaseManagementConferenceDate'>Case Management Conference Date</label></td>
+												<td colspan="2">
+													<script type="text/javascript">DatePickerRenderer.createInline("WindowForTrial_CaseManagementConferenceDate", true);</script>
+												</td>
+											</tr>
+											<tr>
+												<td><label for='WindowForTrial_CaseManagementConferenceFlag'>Case Management Conference</label></td>
+												<td colspan="2"><input id="WindowForTrial_CaseManagementConferenceFlag" type="checkbox"></td>
+											</tr>
+											<tr>
+												<td><label for='WindowForTrial_Notes'>Notes</label></td>
+												<td colspan="2"><input id="WindowForTrial_Notes" type="text" size=50></td>
+											</tr>
+											<tr>
+												<td>&nbsp;</td>
+												<td colspan="2">
+													<table>
+													
+														<tr>
+															<td>
+																<script type="text/javascript">Grid.createInline("WindowForTrial_ExcludedDatesGrid", ["Excluded Dates", "", "", ""], 7, 1);</script>
+															</td>
+														</tr>
+														<tr>
+															<td align="right">
+																<input id="WindowForTrial_ExcludedDateAddButton" type="Button" value="Add">
+																&nbsp;<input id="WindowForTrial_ExcludedDateRemoveButton" type="Button" value="Remove">
+															</td>
+														</tr>
+														
+													</table>
+												</td>
+											</tr>
+										
+										</table>
+		
+									</td>
+		
+								</tr>
+		
+							</table>
+						</div>
+	
+					</td>
+				</tr>
+	
+			</table>
+			
+			<!-- Status Bar Panel -->
+			<script type="text/javascript">
+				ActionBarRenderer.createInline(
+					"status_bar",
+					[
+						{id: "Status_SaveButton", label: "Save"},
+						{id: "Status_CloseButton", label: "Close"}
+					]
+				);
+			</script>
+			   <!-- End Status Bar Panel -->
+			
+			<!--  Form Extension Popups -->
+								
+			<!-- Excluded Dates popup -->
+			<div class="popup" id="ExcludedDates_Popup">
+			
+				<div class="popupTitle">Allowed Exclusion Dates</div>
+					
+				<div class="panel">
+					<script type="text/javascript">Grid.createInline("ExludedDatesPopup_ExcludedDatesGrid", ["", "", "", ""], 10, 1);</script>
+				</div>
+				
+				<!-- Popup action bar -->
+				<script type="text/javascript">
+					ActionBarRenderer.createInlineNoStatusBar(
+						"excluded_dates_statusbar",
+						[
+							{id: "ExludedDatesPopup_OkButton", label: "Ok"},
+							{id: "ExludedDatesPopup_CancelButton", label: "Cancel"}
+						]
+					);
+				</script>
+				
+			</div>
+			<!-- End Excluded Dates popup -->
+			
+			<!-- LOV POPUPs -->
+			<script type="text/javascript">LOVSubformRenderer.createInline( "WindowForTrial_StatusLOVGrid", "Window for Trial Status List", ["Value", "Description"], 10, 1, true );</script>
+			<script type="text/javascript">LOVSubformRenderer.createInline( "WindowForTrial_ReasonForAdjournmentLOVGrid", "Reason For Adjournment List", ["Value"], 10, 1, true );</script>
+			
+			<!-- Non-visual data change listeners -->
+			   <div class="logic" id="updateDetailsLogic"></div>
+			   
+			<!-- AUDIT PANELS -->
+			<div class="auditPanel" id="currentlySelectedWFTPanel"></div>
+			   
+			<!-- AUDIT SELECTOR ADAPTOR -->
+			<script type="text/javascript">AuditSelectorRenderer.createInline( "Audit_PanelSelector" );</script>
+			
+			<!-- SUBFORMS -->
+			<div class="popup popupsubform" id="audit_subform"></div>
+			<div class="popup popupsubform" id="addNewWFT_subform"></div>
+			<div class="popup popupsubform" id="ProgressBar_SubForm"></div>
+			
+		</form>
+	</body>
+</html>

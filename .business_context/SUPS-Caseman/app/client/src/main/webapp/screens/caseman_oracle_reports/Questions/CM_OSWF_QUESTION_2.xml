@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- 
+	14/08/2006 - MGG - defect 4215 - Default value not being set correctly. 
+	Moved from the setDefault method - as setDefault needs a setDefaultOn and use an initialise tag
+-->
+<!--Question xmlns="http://eds.com/questionxhtml" xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd"-->
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>CM_OSWF_QUESTION_2</Id>
+	<Label>Minimum Warrant Amount</Label>
+	<ObjectName>WarrantAmount</ObjectName>
+	<Html>
+		<input id="DefaultCurrency" type="text" size="1"></input>
+		<input id="WarrantAmount" type="text" size="8"></input>
+	</Html>
+	<Javascript>
+		<XPath>/ds/var/page/OracleReportForm/WarrantAmount</XPath>
+		<ReportVariableName>P_WARRANT_AMOUNT</ReportVariableName>
+		<ReportVariableValue>Services.getValue(WarrantAmount.dataBinding)</ReportVariableValue>
+		<HintText>Enter minimum amount for inclusion in report, 0 for all amounts</HintText>
+		<isMandatory>return true;</isMandatory>
+		<maxLength>8</maxLength>
+		<validate>
+			var value = Services.getValue(this.dataBinding);
+			var errCode = null;
+			if (!CaseManUtils.isBlank(value)) {
+				errCode = CaseManValidationHelper.validatePattern(value, CaseManValidationHelper.CURRENCY_PATTERN, "CaseMan_invalidAmountFormat_Msg");
+			}
+			return errCode;
+		</validate>
+		<initialise>
+			Services.setValue(WarrantAmount.dataBinding, "0");
+		</initialise>
+		<miscCode>				
+		</miscCode>
+	</Javascript>
+</Question>

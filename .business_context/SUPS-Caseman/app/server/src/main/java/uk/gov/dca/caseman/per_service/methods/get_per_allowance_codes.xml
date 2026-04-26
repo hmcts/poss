@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: Per
+	Method:  getPerAllowanceCodes()
+	File:    get_per_allowance_codes.xml
+	Author:  Phil Haferer (EDS), Ian Stainer (Valtech)
+	Created: 01 June 2005
+	Description: 
+		Retrieves the 'Standard Allowance' reference data for Calculating the Protected Earnings Rate.
+-->
+<service-method>
+	<pipeline>
+		<Query>
+			<QueryDef location="uk/gov/dca/caseman/per_service/query_def_get_per_allowance_codes.xml"/>
+		</Query>
+		<Transform>
+			<Template location="uk/gov/dca/caseman/per_service/transforms/get_per_allowance_codes.xsl"/>
+		</Transform>
+	</pipeline>
+	<Security roles="viewOnly medium high wcSuper scSuper bmsSuper aeSuper dmSuper cpSuper"/>			
+</service-method>

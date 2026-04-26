@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>378</Id>
+	<Label>Is new set of N39's required?</Label>
+	<ObjectName>IsN39Reqd</ObjectName>
+	<Html>	
+		<input type="checkbox" id="IsN39Reqd"></input>
+	</Html>			
+	<Javascript>
+		<XPath>/ds/EnterVariableData/AttendForQuestion/isN39Reqd</XPath>
+		<componentName>##label##</componentName>
+		<modelValue>checked: "Y", unchecked: "N"</modelValue>
+		<HintText>Check box if  you wish to produce a new set of the N39 documents</HintText>	
+		<initialise>
+			var eventNode = WP.GetScreenProcess().getRequest().getContext().selectSingleNode("WordProcessing/Event/StandardEventId");
+			eventid = (null != eventNode) ? XML.getNodeTextContent(eventNode) : "";
+			if (450 == eventid) {
+				Services.setValue(IsN39Reqd.dataBinding, "Y"); }
+			else {
+				Services.setValue(IsN39Reqd.dataBinding, "N"); }			
+		</initialise>
+		<miscCode>
+			var eventid = null;
+		</miscCode>
+		<enableOn>IsN39Reqd.dataBinding</enableOn>
+		<isEnabled>
+			if( 450 == eventid ) return false;
+			return true;
+		</isEnabled>
+	</Javascript>
+</Question>

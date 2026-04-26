@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<QueryDef>
+  <DBMapDef location="uk/gov/dca/caseman/noticeofissue_service/map_output_document_flow.xml"/>
+ <Query pivotNode="/Outputs/Output" tables="WPO">
+	<Join/>
+	<Modify notModifiable="true"/>	
+	<!--OrderBy>WPO.DATE_CREATED</OrderBy-->
+ </Query>
+  
+</QueryDef>

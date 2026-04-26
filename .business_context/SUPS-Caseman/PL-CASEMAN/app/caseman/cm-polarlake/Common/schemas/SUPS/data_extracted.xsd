@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified">
+	<xsd:element name="data_extracted">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element name="record" type="record" minOccurs="0" maxOccurs="unbounded"/>
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+	<xsd:simpleType name="record.court_code">
+		<xsd:restriction base="xsd:string">
+			<xsd:length value="3" fixed="true"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="record.case_number">
+		<xsd:restriction base="xsd:string">
+			<xsd:length value="8" fixed="true"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="record.total">
+		<xsd:restriction base="xsd:string">
+			<xsd:length value="11" fixed="true"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="record.judgment_date">
+		<xsd:restriction base="xsd:string">
+			<xsd:length value="8" fixed="true"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="record.judgment_status">
+		<xsd:restriction base="xsd:string">
+			<xsd:length value="1" fixed="true"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="record.cancellation_date_or_date_of_final_payment">
+		<xsd:restriction base="xsd:string">
+			<xsd:length value="1" fixed="true"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="record.person_requested_name">
+		<xsd:restriction base="xsd:string">
+			<xsd:length value="70" fixed="true"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="record.def_address_line_1">
+		<xsd:restriction base="xsd:string">
+			<xsd:length value="35" fixed="true"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="record.def_address_line_2">
+		<xsd:restriction base="xsd:string">
+			<xsd:length value="35" fixed="true"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="record.def_address_line_3">
+		<xsd:restriction base="xsd:string">
+			<xsd:length value="35" fixed="true"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="record.def_address_line_4">
+		<xsd:restriction base="xsd:string">
+			<xsd:length value="35" fixed="true"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="record.def_address_line_5">
+		<xsd:restriction base="xsd:string">
+			<xsd:length value="35" fixed="true"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="record.def_post_code">
+		<xsd:restriction base="xsd:string">
+			<xsd:length value="8" fixed="true"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="record.def_date_of_birth">
+		<xsd:restriction base="xsd:string">
+			<xsd:length value="8" fixed="true"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="record.judg_seq">
+		<xsd:restriction base="xsd:string">
+			<xsd:length value="12" fixed="true"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:complexType name="record">
+		<xsd:sequence>
+			<xsd:element name="court_code" type="record.court_code"/>
+			<xsd:element name="case_number" type="record.case_number"/>
+			<xsd:element name="total" type="record.total"/>
+			<xsd:element name="judgment_date" type="record.judgment_date"/>
+			<xsd:element name="judgment_status" type="record.judgment_status"/>
+			<xsd:element name="cancellation_date_or_date_of_final_payment" type="record.cancellation_date_or_date_of_final_payment"/>
+			<xsd:element name="person_requested_name" type="record.person_requested_name"/>
+			<xsd:element name="def_address_line_1" type="record.def_address_line_1"/>
+			<xsd:element name="def_address_line_2" type="record.def_address_line_2"/>
+			<xsd:element name="def_address_line_3" type="record.def_address_line_3"/>
+			<xsd:element name="def_address_line_4" type="record.def_address_line_4"/>
+			<xsd:element name="def_address_line_5" type="record.def_address_line_5"/>
+			<xsd:element name="def_post_code" type="record.def_post_code"/>
+			<xsd:element name="def_date_of_birth" type="record.def_date_of_birth"/>
+			<xsd:element name="judg_seq" type="record.judg_seq"/>
+		</xsd:sequence>
+	</xsd:complexType>
+</xsd:schema>

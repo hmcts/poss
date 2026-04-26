@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ -
+ - DISC SUPS
+ - Copyright Logica UK Ltd. 2008
+ -
+ - $Revision: 652 $
+ - $Author: mullangisa $
+ - $Date: 2008-09-25 14:12:07 +0100 (Thu, 25 Sep 2008) $
+ - $Id: map_get_user_admin.xml 652 2008-09-25 13:12:07Z mullangisa $
+ -
+ -->
+<!--
+	Service: User
+	Method:  getUserAdmin()
+	Author:  Nilesh msitry
+	Created: 09 Sep 2008
+	Description: The 'Mapping' for getting Admin role
+    Change History:
+-->
+<DBMapDef>
+  <DataSource id="java:OracleDS"/>
+  <Tables>
+	<Table alias="UR" name="USER_ROLE"/>
+  </Tables>
+  <Mapping>
+	<AdminRole>${UR.ROLE_ID}</AdminRole>
+  </Mapping>
+</DBMapDef>

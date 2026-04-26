@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>178</Id>
+	<Label>Is further information ordered</Label>
+	<ObjectName>FurtherInformation</ObjectName>
+	<Html>	
+		<input type="checkbox" id="FurtherInformation"></input>
+	</Html>
+	<Javascript>
+		<XPath>/ds/EnterVariableData/FastTrack/furtherInformation</XPath>
+		<HintText>Check box if further information ordered</HintText>	
+		<modelValue>checked: "Y", unchecked: "N"</modelValue>
+		<Context ScreenId="CJR020">
+			<enableOn>TrialDateFixed.dataBinding</enableOn>
+			<isEnabled>return(TrialDateFixed.isEnabled());</isEnabled>
+			<logicOn>TrialDateFixed.dataBinding</logicOn>
+			<logic>
+				if(!TrialDateFixed.isEnabled())
+				{	Services.setValue(FurtherInformation.dataBinding, "N");
+				}
+			</logic>
+		</Context>
+	</Javascript>
+</Question>

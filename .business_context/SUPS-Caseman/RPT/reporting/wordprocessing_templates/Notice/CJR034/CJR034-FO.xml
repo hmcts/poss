@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- ====================================================================== -->
+<!--  -->
+<!-- FILENAME: $Source: C:/CVSRepository/serveroas/src/uk/gov/dca/caseman/wordprocessing_templates/Notice/CJR034/CJR034-FO.xml,v $ -->
+<!--  -->
+<!-- AUTHOR: $Author: vincentcp $-->
+<!--  -->
+<!-- DATE: $Date: 2013-12-05 20:33:36 +0000 (Thu, 05 Dec 2013) $ -->
+<!--  -->
+<!-- Version: $Revision: 10105 $ -->
+<!--  -->
+<!-- DESCRIPTION: This stylesheet is used to create an XSL:FO document that -->
+<!-- can be processed into a PDF version.  Business logic -->
+<!-- is embedded to generate the correct document text for the order -->
+<!-- required. -->
+<!--  -->
+<!-- INPUTS: XML document containing: the answers to questions asked of the -->
+<!-- user; case data retrieved from the database; HTML representing the  -->
+<!-- body of the document content (already edited by the user). -->
+<!--  -->
+<!-- OUTPUTS: XML document with FO tags containing instructions for the -->
+<!-- creation of a PDF document. -->
+<!--  -->
+<!-- ====================================================================== -->
+<root xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:fo="http://www.w3.org/1999/XSL/Format" xmlns="http://eds.com/supsfo">
+	<variables>@word.processing.url.xsl@supsfo.xsl</variables>
+	<addressee>
+		<blank/>
+		<subject/>
+		<instigators/>
+	</addressee>
+	<header>
+		<fo:block font-size="16pt" font-weight="bold">Provisional Assessment Hearing Notice</fo:block>
+	</header>
+	<courtcase>
+		<court>
+			<xsl:copy-of select="$vdCourtHeaderBlock"/>
+		</court>
+		<caseparameters>
+			<parameter>
+				<name>
+					<fo:block font-weight="bold">Claim Number</fo:block>
+				</name>
+				<value>
+					<fo:block>
+						<xsl:value-of select="$vdClaimNumber"/>
+					</fo:block>
+				</value>
+			</parameter>
+			<parameter>
+				<name>
+					<fo:block font-weight="bold">Applicant</fo:block>
+					<fo:block font-size="9pt">(including ref.)</fo:block>
+				</name>
+				<value>
+					<fo:block hyphenate="true">
+						<xsl:value-of select="$vdSubjectName"/>
+					</fo:block>
+					<fo:block font-size="9pt" hyphenate="true">
+						<xsl:value-of select="$vdSubjectReference"/>
+					</fo:block>
+				</value>
+			</parameter>
+			<parameter>
+				<name>
+					<fo:block font-weight="bold">Respondent</fo:block>
+					<fo:block font-size="9pt">(including ref.)</fo:block>
+				</name>
+				<value>
+					<fo:block hyphenate="true">
+						<xsl:value-of select="$vdInstigatorNameHeader"/>
+					</fo:block>
+					<fo:block font-size="9pt" hyphenate="true">
+						<xsl:value-of select="$vdInstigatorReference"/>
+					</fo:block>
+				</value>
+			</parameter>
+			<parameter>
+				<name>
+					<fo:block font-weight="bold">Date</fo:block>
+				</name>
+				<value>
+					<fo:block><xsl:value-of select="$vdEventDate"/>
+					</fo:block>
+				</value>
+			</parameter>
+		</caseparameters>
+	</courtcase>
+
+	<body>
+		<fo:block space-after="1.0cm">
+			&#xA0;
+		</fo:block>
+		<fo:block space-after="0.4cm" font-weight="bold">	
+			Take notice that
+		</fo:block>
+		<fo:block space-after="0.4cm">
+			<xsl:value-of select="$vdJudge"/> will provisionally assess the bill on paper on 
+		</fo:block>
+		<fo:block space-after="0.4cm">
+			<xsl:value-of select="$vdHearingDate"/> at <xsl:call-template name="format-time"><xsl:with-param name="theTime"><xsl:value-of select="$vdHearingTime"/></xsl:with-param></xsl:call-template>
+		</fo:block>
+		<fo:block space-after="0.4cm">			
+			at <xsl:value-of select="$vdHearingCourtNameDescription"/>,  <xsl:value-of select="$vdHearingCourtAddress"/>.
+		</fo:block>
+		<fo:block space-after="0.4cm" font-weight="bold">	
+			Parties are instructed NOT to attend.
+		</fo:block>
+	</body>
+	<defaultFooter id="CJR034"/>
+</root>

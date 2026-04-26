@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>9147</Id>
+	<Label>Type of reply</Label>
+	<ObjectName>ReplyType</ObjectName>
+	<Html>
+		<select id="ReplyType">
+            <option value=""></option>		
+			<option value="1">Defence</option>
+			<option value="2">Admission</option>
+			<option value="3">N11B</option>
+			<option value="4">L &amp; T Exc Order</option>
+			<option value="5">Other</option>
+		</select>
+	</Html>			
+	<Javascript>
+		<XPath>/ds/EnterVariableData/replyType</XPath>
+		<HintText>Select type of reply</HintText>
+		<isEnabled>return true</isEnabled>
+		<mandatoryOn>ReplyType.dataBinding</mandatoryOn>
+		<isMandatory>return true;</isMandatory>
+	</Javascript>
+</Question>  

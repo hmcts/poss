@@ -1,0 +1,19 @@
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>667</Id>
+	<Label>Are costs</Label>
+	<ObjectName>CostsAre</ObjectName>
+	<Html>	
+		<select id="CostsAre">
+			<option value=""></option>
+			<option value="A">To be assessed</option>
+			<option value="G">Given</option>
+		</select>
+	</Html>		
+
+	<Javascript>
+		<XPath>/ds/EnterVariableData/DeliveryOfGoods/costsAre</XPath>
+		<componentName>##label##</componentName>
+		<isMandatory>return true;</isMandatory>
+		<HintText>Are costs - list available</HintText>		
+	</Javascript>
+</Question>

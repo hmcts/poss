@@ -1,0 +1,16 @@
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>539</Id>
+	<Label>Hospital postcode</Label>
+	<ObjectName>HospitalPostcode</ObjectName>
+	<Html>	
+		<input type="text" id="HospitalPostcode" size="8"></input>
+	</Html>			
+	<Javascript>
+		<XPath>/ds/EnterVariableData/Hospital/Address/PostCode</XPath>
+		<componentName>##label##</componentName>
+		<isMandatory>return false;</isMandatory>
+		<HintText>Enter the hospital postcode</HintText>			
+		<validateOn>HospitalPostcode.dataBinding</validateOn>
+		<validate>return WPU.validatePostcode(Services.getValue(HospitalPostcode.dataBinding));</validate>
+	</Javascript>
+</Question>

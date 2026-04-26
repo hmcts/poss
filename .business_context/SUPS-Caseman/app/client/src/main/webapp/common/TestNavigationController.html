@@ -1,0 +1,120 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!--
+
+	Tests for the Navigation Controller class.
+
+-->
+
+<html>
+  <head>
+    <title>Unit tests for Navigation Controller</title>
+    <link rel="stylesheet" type="text/css" href="../../jsunit/css/jsUnitStyle.css">
+
+	<script type="text/javascript" src='./jsunit/app/jsUnitCore.js'></script>       
+   	<script type="text/javascript" src='./Framework.js'></script>	 	   	
+	<script type="text/javascript" src='./CaseManUtils.js'></script>
+	<script type="text/javascript" src='./NavigationController.js'></script> 
+	<script type="text/javascript" src='./MockFormController.js'></script> 	
+  </head>
+  
+  <body>
+  
+	<form name="theForm" id="theForm" action="#" method="POST"></form>
+    
+    <script type="text/javascript">
+	
+	FormController.initialise(document.forms.theForm);	
+	function theForm() {}
+		
+	function setUp()
+	{
+	}
+      
+	function tearDown()
+	{
+	}
+	  
+	function exposeTestFunctionNames()
+	{
+		var functionNames = [
+							'testCallStackExists',
+							'testCreateCallStack'					
+							];
+		    
+		return functionNames;
+	}
+
+	/*
+	 * Tests the NavigationController.callStackExists method
+	 */
+	function testCallStackExists()
+	{
+	debugger;
+		// Should return false as call stack does not yet exist
+		assertFalse( NavigationController.callStackExists() );
+		
+		// Create a call stack
+		var navArray = new Array(NavigationController.CASES_FORM, NavigationController.EVENTS_FORM);
+		NavigationController.createCallStack(navArray);
+		
+		// Should now return true as call stack now exists
+		assertTrue( NavigationController.callStackExists() );
+
+		// Reset the call stack
+		NavigationController.resetCallStack();
+		
+		// Should return false as call stack does not yet exist again
+		assertFalse( NavigationController.callStackExists() );
+	}
+	
+	/*
+	 * Tests the NavigationController.createCallStack method
+	 */
+	function testCreateCallStack()
+	{
+		// Create a call stack from scratch
+		var navArray = new Array(NavigationController.CASES_FORM, NavigationController.EVENTS_FORM);
+		NavigationController.createCallStack(navArray);
+		
+		// Test the call stack has 2 screens, the current index is 0, the next screen is CASES_FORM
+		// and the last screen is EVENTS_FORM
+		assertEquals( "", 2, NavigationController._getStackSize() );
+		assertEquals( "", "0", NavigationController._getCurrentIndex() );
+		assertEquals( "", NavigationController.CASES_FORM, NavigationController.getNextScreen() );
+		assertEquals( "", NavigationController.EVENTS_FORM, NavigationController.getCallingScreen() );
+		
+		// Skip screen to get to the middle of the stack
+		NavigationController.skipScreen();
+		
+		// Create another stack in the middle of the current one
+		var navArray = new Array(NavigationController.JUDGMENT_FORM, NavigationController.BARJUDGMENT_FORM);
+		NavigationController.createCallStack(navArray);
+		
+		// Test the call stack has 4 screens, the current index is 1, the next screen is JUDGMENT_FORM
+		// and the last screen is EVENTS_FORM
+		assertEquals( "", 4, NavigationController._getStackSize() );
+		assertEquals( "", "1", NavigationController._getCurrentIndex() );
+		assertEquals( "", NavigationController.JUDGMENT_FORM, NavigationController.getNextScreen() );
+		assertEquals( "", NavigationController.EVENTS_FORM, NavigationController.getCallingScreen() );
+		
+		// Skip screen again to get further into the stack
+		NavigationController.skipScreen();
+		
+		// Create another stack whilst in the middle of this one but set the clean flag to true
+		var navArray = new Array(NavigationController.TRANSFER_CASE_FORM, NavigationController.MANAGE_AE_FORM, NavigationController.CO_EVENTS_FORM);
+		NavigationController.createCallStack(navArray, true);
+		
+		// Test the call stack has 3 screens, the current index is 0, the next screen is TRANSFER_CASE_FORM
+		// and the last screen is CO_EVENTS_FORM
+		assertEquals( "", 3, NavigationController._getStackSize() );
+		assertEquals( "", "0", NavigationController._getCurrentIndex() );
+		assertEquals( "", NavigationController.TRANSFER_CASE_FORM, NavigationController.getNextScreen() );
+		assertEquals( "", NavigationController.CO_EVENTS_FORM, NavigationController.getCallingScreen() );
+		
+		// Reset the call stack
+		NavigationController.resetCallStack();
+	}
+
+    </script>
+  </body>
+</html>

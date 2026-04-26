@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	19/12/2006 - CV - Added F6 keybinding to LOV via WhoIsTheDocumentToBeServedOnLOVGrid.raise configuration.
+	Temp_Caseman defects 299/334.
+-->
+<!--Question xmlns="http://eds.com/questionxhtml" xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd"-->
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>Q_WhoIsTheDocumentToBeServedOn</Id>
+	<Label>Who Is The Document To Be Served On</Label>
+	<ObjectName>WhoIsTheDocumentToBeServedOn</ObjectName>
+	<Html> 
+		<input id="WhoIsTheDocumentToBeServedOn" type="text" size="15" > </input>
+		<input id="WhoIsTheDocumentToBeServedOnLOVButton" type="Button" value="LOV"></input>
+        <script type="text/javascript">
+			LOVPopupRenderer.createInline( "WhoIsTheDocumentToBeServedOnLOVGrid", "Who Is The Document To Be Served On", ["Value", "Description"], 10, 1, true );
+        </script>
+	</Html>
+	<Javascript>
+		<XPath>/ds/var/page/OracleReportForm/WhoIsTheDocumentToBeServedOn</XPath>
+		<ReportVariableName>SECOND_PARTY</ReportVariableName>
+		<ReportVariableValue>Services.getValue(WhoIsTheDocumentToBeServedOn.dataBinding)</ReportVariableValue>
+		<ReportVariableCode>2780</ReportVariableCode>
+		<HintText></HintText>
+		<isMandatory>return true;</isMandatory>
+		<initialise>
+		</initialise>
+		<setDefault>
+		</setDefault>
+		<validateOn>
+		</validateOn>
+		<validate>
+			var description = Services.getValue(REF_DATA_XPATH + "/PartyMakingTheApplicationList/PartyMakingTheApplication[./Value = " + WhoIsTheDocumentToBeServedOn.dataBinding + "]/Description");
+			var valueTest = Services.getValue( REF_DATA_XPATH + "/PartyMakingTheApplicationList/PartyMakingTheApplication[./Description = " + WhoIsTheDocumentToBeServedOn.dataBinding + "]/Value" );
+			if (description == null &amp;&amp; valueTest == null)
+			{
+				// This is not a valid value - see list of Values
+				return ErrorCode.getErrorCode("CaseMan_Reports_Invalid_LOV_Msg");
+			}
+			else
+			{
+				return null;
+			}
+		</validate>
+		<transformToDisplay>
+			var description = Services.getValue( REF_DATA_XPATH + "/PartyMakingTheApplicationList/PartyMakingTheApplication[./Value = " + WhoIsTheDocumentToBeServedOn.dataBinding + "]/Description" );
+			if (description != null)
+			{
+				return description;
+			}
+			else
+			{
+				return value;
+			}
+	    </transformToDisplay>
+        <transformToModel>
+			return (null != value) ? value.toUpperCase() : null;
+        </transformToModel>
+		<miscCode>
+				  	
+		  	WhoIsTheDocumentToBeServedOn.srcData 	  = REF_DATA_XPATH + "/PartyMakingTheApplicationList";
+			WhoIsTheDocumentToBeServedOn.rowXPath 	  = "PartyMakingTheApplication";
+			WhoIsTheDocumentToBeServedOn.keyXPath 	  = "Value";
+			
+			function WhoIsTheDocumentToBeServedOnLOVButton() {}
+			
+			WhoIsTheDocumentToBeServedOnLOVButton.tabIndex = __tabIdx++;
+			
+			function WhoIsTheDocumentToBeServedOnLOVGrid() {};
+			WhoIsTheDocumentToBeServedOnLOVGrid.dataBinding = WhoIsTheDocumentToBeServedOn.dataBinding;
+			WhoIsTheDocumentToBeServedOnLOVGrid.srcData 	= REF_DATA_XPATH + "/PartyMakingTheApplicationList";
+			WhoIsTheDocumentToBeServedOnLOVGrid.rowXPath    = "PartyMakingTheApplication";
+			WhoIsTheDocumentToBeServedOnLOVGrid.keyXPath    = "Value";
+			WhoIsTheDocumentToBeServedOnLOVGrid.columns     = [
+				{xpath: "Value"},
+				{xpath: "Description"}
+			];
+			WhoIsTheDocumentToBeServedOnLOVGrid.raise = {
+				eventBinding: {
+					singleClicks: [ {element: "WhoIsTheDocumentToBeServedOnLOVButton"} ],
+					keys: [ { key: Key.F6, element: "WhoIsTheDocumentToBeServedOn" } ]
+				}
+			};
+		   
+   
+		</miscCode>
+	</Javascript>
+</Question>

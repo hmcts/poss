@@ -1,0 +1,29 @@
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>618</Id>
+	<Label>Date application to be filed on or before</Label>
+	<ObjectName>AppFiledBeforeDate</ObjectName>
+
+	<Html>	
+		<script type="text/javascript">
+			WP_DatePickerRenderer.createInline("AppFiledBeforeDate");
+		</script>
+	</Html>			
+	<Javascript>
+		<XPath>/ds/EnterVariableData/Settlement/appFiledBeforeDate</XPath>
+		<componentName>##label##</componentName>
+		<isMandatory>return true;</isMandatory>
+		<HintText>Enter date application to be filed on or before in format DD-MMM-YYYY</HintText>	
+		<validateOn>AppFiledBeforeDate.dataBinding</validateOn>
+		<validate>return isWorkingDayInFuture(Services.getValue(AppFiledBeforeDate.dataBinding));</validate>		
+		<miscCode>AppFiledBeforeDate.weekends = false;</miscCode>
+		<enableOn>AppForReceiver.dataBinding</enableOn>
+		<isEnabled>return('Y' == Services.getValue(AppForReceiver.dataBinding));</isEnabled>
+		<logicOn>AppForReceiver.dataBinding</logicOn>
+		<logic>
+			if('Y' != Services.getValue(AppForReceiver.dataBinding))
+			{	Services.setValue(AppFiledBeforeDate.dataBinding, "");
+			}
+		</logic>	
+		
+	</Javascript>
+</Question>

@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<DBMapDef>
+	<DataSource id="java:OracleDS"/>
+	<Tables>
+		<Table alias="CCE" name="CO_CASE_EVENTS"/>
+	</Tables>
+	<Mapping>
+		<CaseEvent>
+			<CaseEventSeq/>
+			<CaseNumber>${CCE.CASE_NUMBER}</CaseNumber>
+			<StandardEventId>${CCE.STD_EVENT_ID}</StandardEventId>
+			<SubjectCasePartyNumber/>
+			<SubjectPartyRoleCode/>
+			<Applicant/>
+			<EventDetails>${CCE.EVENT_DETAILS}</EventDetails>
+			<EventDate>${CCE.EVENT_DATE}</EventDate>
+			<Result/>
+			<WarrantId/>
+			<JudgmentSeq/>
+			<VarySeq/>
+			<HrgSeq/>
+			<DeletedFlag>${CCE.DELETED_FLAG}</DeletedFlag>
+			<UserName>${CCE.USERNAME}</UserName>
+			<ReceiptDate/>
+			<BMSTask/>
+			<StatsModule/>
+			<CourtCode>${CCE.ADMIN_COURT_CODE}</CourtCode>
+			<AgeCategory/>
+			<ResultDate/>
+			<DateToRtl/>
+			<CaseFlag/>
+		</CaseEvent>		
+	</Mapping>
+</DBMapDef>

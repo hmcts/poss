@@ -1,0 +1,31 @@
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>628</Id>
+	<Label>Date filed</Label>
+	<ObjectName>FiledDate</ObjectName>
+	<Html>	
+		<script type="text/javascript">
+			WP_DatePickerRenderer.createInline("FiledDate");
+		</script>
+	</Html>		
+	
+	<Javascript>
+		<XPath>/ds/EnterVariableData/PayFee/filedDate</XPath>
+		<componentName>##label##</componentName>
+		<isMandatory>return true;</isMandatory>
+		<HintText>Enter the date filed in the format DD-MON-YYYY</HintText>			
+		<validateOn>FiledDate.dataBinding</validateOn>
+		<validate>return( isInPast(Services.getValue(FiledDate.dataBinding)));</validate>
+		<enableOn>FeeFor.dataBinding</enableOn>
+		<isEnabled>
+			var feeCode =  Services.getValue(FeeFor.dataBinding) ;
+			return( 'AQ' == feeCode ||  'LQ' == feeCode || 'DQ' == feeCode );
+		</isEnabled>
+		<logicOn>FeeFor.dataBinding</logicOn>		
+		<logic>
+			if( !FiledDate.isEnabled() )
+			{	Services.setValue(FiledDate.dataBinding, "");
+			}
+		</logic>
+		
+	</Javascript>
+</Question>

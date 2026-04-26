@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: Ae
+	Method:  isPerAndNdr
+	Author:  Chris Hutt (EDS) 
+	Created: 23 June 2005
+	Description: 
+		Use SQLLite to determine whether an AE Application
+		has PER and NDR periods
+-->
+<service-method>
+	<pipeline>
+		<SQLLite format-output="true"
+				 resultset-element="ds"
+				 row-element="Ae"
+				 field-name-as="element" >
+			<DataSource id="java:OracleDS"/>
+			<Param name="param.aeNumber" xpath="/params/param[@name='aeNumber']"/>
+			<SQL>
+				SELECT  
+					DECODE(COUNT(*),0,'false','true') AS "PerAndNdrPeriodsExist"
+				FROM 	AE_APPLICATIONS AEA 
+				WHERE	AEA.AE_NUMBER = ${param.aeNumber}
+				AND 	AEA.PROTECTED_EARNINGS_PERIOD IS NOT NULL
+				AND 	AEA.NORMAL_DEDUCTION_PERIOD  IS NOT NULL
+			</SQL>
+		</SQLLite>
+  	</pipeline>
+	<Security roles="user"/>
+</service-method>

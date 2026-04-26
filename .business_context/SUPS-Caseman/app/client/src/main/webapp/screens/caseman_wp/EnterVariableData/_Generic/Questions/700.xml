@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>700</Id>
+	<Label>Deceased estate name</Label>
+	<ObjectName>DeceasedEstateName</ObjectName>
+	<Html>
+		<input id="DeceasedEstateName" size="40"/> 
+	</Html>
+	<Javascript>
+		<XPath>/ds/EnterVariableData/DeceasedEstateName</XPath>
+		<componentName>##label##</componentName>
+		<HintText>Enter the deceased estate name</HintText>
+		<isMandatory>return true;</isMandatory>
+		<mandatoryOn>DeceasedEstateName.dataBinding</mandatoryOn>
+	</Javascript>
+</Question>

@@ -1,0 +1,313 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3c.org/TR/html4/strict.dtd">
+<html>
+
+	<head>
+		<title>MaintainNationalCodedParty_SubForm</title>
+		<link href="MaintainNationalCodedParty_SubForm.css" type="text/css" rel="stylesheet">
+		<script type="text/javascript" src="../../../Framework.js"></script>
+    	<script type="text/javascript" src="../../../ConcatCommon.js"></script>
+		<script type="text/javascript" src="../MaintainNationalCodedParties_Constants.js"></script>
+		<script type="text/javascript" src="../MaintainNationalCodedParties_HelperFunctions.js"></script>
+		<script type="text/javascript" src="MaintainNationalCodedParty_SubForm.js"></script>
+  	</head>
+
+	<body>
+	
+    	<form id="maintainNationalCodedPartySubform" class="subform">
+
+			<div class="panel">
+				<table class="content">
+					<tr>
+						<td>
+							<div class="tabbedArea" id="myTabbedArea" >
+							
+								<script type="text/javascript">
+									TabSelector.createInline("myTabSelector",[ {tabLabel: "Party Details", pageId: "CodedParty_Details_Page"},
+																			   {tabLabel: "Payee Details", pageId: "Payee_Details_Page"},
+																			   {tabLabel: "Bank Details", pageId: "Payee_BankDetails_Page"},
+																			   {tabLabel: "CCBC Details", pageId: "CCBCDetails_Page"},
+																			   {tabLabel: "Default Claimant", pageId: "Default_Claimant_Page"}] 
+															);
+								</script>
+	
+								<div class="pagedArea" id="myPagedArea">
+	
+									<!-- CODED PARTY DETAILS -->
+									<div class="page" id="CodedParty_Details_Page">
+							
+										<table>
+											<tr>
+												<td class="defaultLabel"><label for="MaintainCodedParty_Code">Code</label></td>
+												<td><input type="text" id="MaintainCodedParty_Code" size="5"></td>
+											</tr>
+											<tr>
+												<td class="defaultLabel"><label for="MaintainCodedParty_Name">Name</label></td>
+												<td><input type="text" id="MaintainCodedParty_Name" size="40"></td>
+											</tr>
+											<tr>
+												<td class="defaultLabel"><label for="MaintainCodedParty_AddressLine1">Address</label></td>
+												<td><input type="text" id="MaintainCodedParty_AddressLine1" size="50"></td>
+											</tr>
+											<tr>
+												<td>&nbsp;</td>
+												<td><input type="text" id="MaintainCodedParty_AddressLine2" size="50"></td>
+											</tr>
+											<tr>
+												<td>&nbsp;</td>
+												<td><input type="text" id="MaintainCodedParty_AddressLine3" size="50"></td>
+											</tr>
+											<tr>
+												<td>&nbsp;</td>
+												<td><input type="text" id="MaintainCodedParty_AddressLine4" size="50"></td>
+											</tr>
+											<tr>
+												<td>&nbsp;</td>
+												<td><input type="text" id="MaintainCodedParty_AddressLine5" size="50"></td>
+											</tr>
+											<tr>
+												<td class="defaultLabel"><label for="MaintainCodedParty_PostCode">Postcode</label></td>
+												<td><input type="text" id="MaintainCodedParty_PostCode" size="15"></td>
+											</tr>
+											<tr>
+												<td class="defaultLabel"><label for="MaintainCodedParty_DXNumber">DX Number</label></td>
+												<td><input type="text" id="MaintainCodedParty_DXNumber" size="50"></td>
+											</tr>
+											<tr>
+												<td class="defaultLabel"><label for="MaintainCodedParty_Telephone">Telephone Number</label></td>
+												<td><input type="text" id="MaintainCodedParty_Telephone" size="30"></td>
+											</tr>
+											<tr>
+												<td class="defaultLabel"><label for="MaintainCodedParty_FaxNumber">Fax Number</label></td>
+												<td><input type="text" id="MaintainCodedParty_FaxNumber" size="30"></td>
+											</tr>
+											<tr>
+												<td class="defaultLabel"><label for="MaintainCodedParty_Email">Email Address</label></td>
+												<td><input type="text" id="MaintainCodedParty_Email" size="50"></td>
+											</tr>
+										</table>
+							
+									</div>
+									
+									<!-- PAYEE DETAILS -->
+									<div class="page" id="Payee_Details_Page">
+							
+										<table>
+											<tr>
+												<td class="defaultLabel"><label for="PayeeDetails_Name">Payee Name</label></td>
+												<td><input type="text" id="PayeeDetails_Name" size="40"></td>
+											</tr>
+											<tr>
+												<td class="defaultLabel"><label for="PayeeDetails_ContactDetails_Address_Line1">Address</label></td>
+												<td><input type="text" id="PayeeDetails_ContactDetails_Address_Line1" size="50"></td>
+											</tr>
+											<tr>
+												<td>&nbsp;</td>
+												<td><input type="text" id="PayeeDetails_ContactDetails_Address_Line2" size="50"></td>
+											</tr>
+											<tr>
+												<td>&nbsp;</td>
+												<td><input type="text" id="PayeeDetails_ContactDetails_Address_Line3" size="50"></td>
+											</tr>
+											<tr>
+												<td>&nbsp;</td>
+												<td><input type="text" id="PayeeDetails_ContactDetails_Address_Line4" size="50"></td>
+											</tr>
+											<tr>
+												<td>&nbsp;</td>
+												<td><input type="text" id="PayeeDetails_ContactDetails_Address_Line5" size="50"></td>
+											</tr>
+											<tr>
+												<td class="defaultLabel"><label for="PayeeDetails_ContactDetails_Address_PostCode">Postcode</label></td>
+												<td><input type="text" id="PayeeDetails_ContactDetails_Address_PostCode" size="15"></td>
+											</tr>
+											<tr>
+												<td class="defaultLabel"><label for="PayeeDetails_ContactDetails_DXNumber">DX Number</label></td>
+												<td><input type="text" id="PayeeDetails_ContactDetails_DXNumber" size="50"></td>
+											</tr>
+											<tr>
+												<td class="defaultLabel"><label for="PayeeDetails_ContactDetails_TelephoneNumber">Telephone Number</label></td>
+												<td><input type="text" id="PayeeDetails_ContactDetails_TelephoneNumber" size="30"></td>
+											</tr>
+											<tr>
+												<td class="defaultLabel"><label for="PayeeDetails_ContactDetails_FaxNumber">Fax Number</label></td>
+												<td><input type="text" id="PayeeDetails_ContactDetails_FaxNumber" size="30"></td>
+											</tr>
+											<tr>
+												<td class="defaultLabel"><label for="PayeeDetails_ContactDetails_Email">Email Address</label></td>
+												<td><input type="text" id="PayeeDetails_ContactDetails_Email" size="50"></td>
+											</tr>
+											<tr>
+												<td class="defaultLabel"><label for="PayeeDetails_Reference">Reference</label></td>
+												<td><input type="text" id="PayeeDetails_Reference" size="50"></td>
+											</tr>
+	
+										</table>
+							
+									</div>
+									
+									<!-- PAYEE BANK DETAILS -->
+									<div class="page" id="Payee_BankDetails_Page">
+							
+										<table>
+											<tr>
+												<td class="payeeBankLabel"><label for="PayeeDetails_BankName">Bank Name</label></td>
+												<td><input type="text" id="PayeeDetails_BankName" size="40"></td>
+											</tr>
+											<tr>
+												<td class="payeeBankLabel"><label for="PayeeDetails_AccNumber">Account Number</label></td>
+												<td><input type="text" id="PayeeDetails_AccNumber" size="20"></td>
+											</tr>
+											<tr>
+												<td class="payeeBankLabel"><label for="PayeeDetails_SortCode">Sort Code</label></td>
+												<td><input type="text" id="PayeeDetails_SortCode" size="15"></td>
+											</tr>
+											<tr>
+												<td class="payeeBankLabel"><label for="PayeeDetails_AccountHolder">Account Holder</label></td>
+												<td><input type="text" id="PayeeDetails_AccountHolder" size="40"></td>
+											</tr>
+											<tr>
+												<td class="payeeBankLabel"><label for="PayeeDetails_BankInformation1">Bank Information 1</label></td>
+												<td><input type="text" id="PayeeDetails_BankInformation1" size="50"></td>
+											</tr>
+											<tr>
+												<td class="payeeBankLabel"><label for="PayeeDetails_BankInformation2">Bank Information 2</label></td>
+												<td><input type="text" id="PayeeDetails_BankInformation2" size="50"></td>
+											</tr>
+											<tr>
+												<td class="payeeBankLabel"><label for="PayeeDetails_GiroAccountNumber">Giro Account Number</label></td>
+												<td><input type="text" id="PayeeDetails_GiroAccountNumber" size="20"></td>
+											</tr>
+											<tr>
+												<td class="payeeBankLabel"><label for="PayeeDetails_GiroTransactionCode1">Giro Transaction Code 1</label></td>
+												<td><input type="text" id="PayeeDetails_GiroTransactionCode1" size="20"></td>
+											</tr>
+											<tr>
+												<td class="payeeBankLabel"><label for="PayeeDetails_GiroTransactionCode2">Giro Transaction Code 2</label></td>
+												<td><input type="text" id="PayeeDetails_GiroTransactionCode2" size="20"></td>
+											</tr>
+											<tr>
+												<td class="payeeBankLabel"><label for="PayeeDetails_APACSTransactionCode">APACS Transaction Code</label></td>
+												<td><input type="text" id="PayeeDetails_APACSTransactionCode" size="20"></td>
+											</tr>
+										</table>
+							
+									</div>
+							
+									<!-- WARRANT NUMBER RANGE DETAILS -->
+									<div class="page" id="CCBCDetails_Page">
+							
+										<table>
+											<tr>
+												<td colspan=2><label>Warrant Range</label></td>
+											</tr>
+											<tr>
+												<td class="defaultLabel"><label for="CCBCDetails_WarrantRange_FromNumber">From</label></td>
+												<td><input type="text" id="CCBCDetails_WarrantRange_FromNumber" size="20"></td>
+											</tr>
+											<tr>
+												<td class="defaultLabel"><label for="CCBCDetails_WarrantRange_ToNumber">To</label></td>
+												<td><input type="text" id="CCBCDetails_WarrantRange_ToNumber" size="20"></td>
+											</tr>
+											<tr><td colspan="2"><hr/></td></tr>
+											<tr>
+												<td class="defaultLabel"><label for="CCBCDetails_PrintJudgment">Print Judgment</label></td>
+												<td><input type="checkbox" id="CCBCDetails_PrintJudgment"></td>
+											</tr>
+											<tr>
+												<td class="defaultLabel"><label for="CCBCDetails_Duplex">Duplex</label></td>
+												<td><input type="checkbox" id="CCBCDetails_Duplex"></td>
+											</tr>
+											<tr><td colspan="2"><hr/></td></tr>
+											<tr>
+												<td colspan="2"><label>Paper Types</label></td>
+											</tr>
+											<tr>
+												<td class="defaultLabel"><label for="CCBCDetails_PaperTypes_N30Default">N30 (Default)</label></td>
+												<td><select id="CCBCDetails_PaperTypes_N30Default"/></td>
+											</tr>
+											<tr>
+												<td class="defaultLabel"><label for="CCBCDetails_PaperTypes_N30Admission">N30(1) (Admission)</label></td>
+												<td><select id="CCBCDetails_PaperTypes_N30Admission"/></td>
+											</tr>
+										</table>
+							
+									</div>
+									
+									<!-- DEFAULT CLAIMANT DETAILS -->
+									<div class="page" id="Default_Claimant_Page">
+							
+										<table>
+											<tr>
+												<td class="defaultLabel"><label for="DefaultClaimant_Name">Name</label></td>
+												<td><input type="text" id="DefaultClaimant_Name" size="40"></td>
+											</tr>
+											<tr>
+												<td class="defaultLabel"><label for="DefaultClaimant_ContactDetails_Address_Line1">Address</label></td>
+												<td><input type="text" id="DefaultClaimant_ContactDetails_Address_Line1" size="50"></td>
+											</tr>
+											<tr>
+												<td>&nbsp;</td>
+												<td><input type="text" id="DefaultClaimant_ContactDetails_Address_Line2" size="50"></td>
+											</tr>
+											<tr>
+												<td>&nbsp;</td>
+												<td><input type="text" id="DefaultClaimant_ContactDetails_Address_Line3" size="50"></td>
+											</tr>
+											<tr>
+												<td>&nbsp;</td>
+												<td><input type="text" id="DefaultClaimant_ContactDetails_Address_Line4" size="50"></td>
+											</tr>
+											<tr>
+												<td>&nbsp;</td>
+												<td><input type="text" id="DefaultClaimant_ContactDetails_Address_Line5" size="50"></td>
+											</tr>
+											<tr>
+												<td class="defaultLabel"><label for="DefaultClaimant_ContactDetails_Address_PostCode">Postcode</label></td>
+												<td><input type="text" id="DefaultClaimant_ContactDetails_Address_PostCode" size="15"></td>
+											</tr>
+											<tr>
+												<td class="defaultLabel"><label for="DefaultClaimant_ContactDetails_DXNumber">DX Number</label></td>
+												<td><input type="text" id="DefaultClaimant_ContactDetails_DXNumber" size="50"></td>
+											</tr>
+											<tr>
+												<td class="defaultLabel"><label for="DefaultClaimant_ContactDetails_TelephoneNumber">Telephone Number</label></td>
+												<td><input type="text" id="DefaultClaimant_ContactDetails_TelephoneNumber" size="30"></td>
+											</tr>
+											<tr>
+												<td class="defaultLabel"><label for="DefaultClaimant_ContactDetails_FaxNumber">Fax Number</label></td>
+												<td><input type="text" id="DefaultClaimant_ContactDetails_FaxNumber" size="30"></td>
+											</tr>
+											<tr>
+												<td class="defaultLabel"><label for="DefaultClaimant_ContactDetails_Email">Email Address</label></td>
+												<td><input type="text" id="DefaultClaimant_ContactDetails_Email" size="50"></td>
+											</tr>
+	
+										</table>
+							
+									</div>
+													
+								</div>
+								
+							</div>
+						
+						</td>
+					</tr>
+				</table>
+			</div>
+			
+			<!-- Subform action bar -->
+			<script type="text/javascript">
+				ActionBarRenderer.createInline(
+					"maintainNationalCodedParty_statusbar",
+					[
+						{id: "MaintainNationalCodedPartySubform_SaveButton", label: "Save"},	
+						{id: "MaintainNationalCodedPartySubform_CancelButton", label: "Cancel"}
+					]
+				);
+			</script>
+
+		</form>
+    
+    </body>
+    
+</html>

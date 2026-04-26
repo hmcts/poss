@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<QueryDef>
+	<DBMapDef location="uk/gov/dca/caseman/utilities_service/customers_map.xml"/>
+	<Query pivotNode="/Customers/Customer" tables="NCP CP P">	
+		<Join>
+			CP.PARTY_ID = P.PARTY_ID AND
+			NCP.CODE = CP.CODE
+  	    </Join>
+		
+  		<Modify notModifiable="true">
+		</Modify>
+		
+		<OrderBy>NCP.CODE</OrderBy>
+	</Query>
+</QueryDef>
+

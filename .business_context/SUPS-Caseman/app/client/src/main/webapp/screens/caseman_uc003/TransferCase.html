@@ -1,0 +1,184 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3c.org/TR/html4/strict.dtd">
+
+<html>
+
+	<head>
+		<title>TransferCase</title>
+		<link href="TransferCase.css" type="text/css" rel="stylesheet">
+		<script type="text/javascript" src="../../Framework.js"></script>
+		<script type="text/javascript" src="../../ConcatCommon.js"></script>
+		<script type="text/javascript" src="../caseman_wp/WordProcessing.js"></script>
+		<script type="text/javascript" src="TransferCase.js"></script>
+	</head>
+	
+	<body>
+		<form name="TransferCase" id="transferCase">
+	
+			<!-- Framework Navigation Menu -->
+			<script type="text/javascript">MenuBarRenderer.createInline();</script>
+	
+			<table class="layout">
+	
+				<!-- Header Panel -->
+				<tr>
+					<td>
+						<div class="panel">
+							<table class="content">
+								<tr>
+									<td>
+										<table style="margin-top:5px;">
+											<tr>
+												<td class="defaultLabel"><label for='Header_CaseNumber'>Case Number</label></td>
+												<td><input id="Header_CaseNumber" type="text" size=15></td>
+												
+												<td style="width:150px;">&nbsp;</td>
+												
+												<td class="defaultLabel"><label for='Header_OwningCourtCode'>Owning Court</label></td>
+												<td>
+													<input id="Header_OwningCourtCode" type="text" size=5>
+													<input id="Header_OwningCourtName" type="text" size=25>
+												</td>
+											</tr>
+
+											<tr>
+												<td class="defaultLabel"><label for='Header_CaseType'>Case Type</label></td>
+												<td><input id="Header_CaseType" type="text" size=30></td>
+
+												<td>&nbsp;</td>
+
+												<td class="defaultLabel"><label for='Header_CaseStatus'>Case Status</label></td>
+												<td><input id="Header_CaseStatus" type="text" size=30></td>
+											</tr>
+
+											<tr>
+												<td colspan=2>
+													<!-- Claimant/Defendant Grid Read only -->
+													<script type="text/javascript">Grid.createInline("Header_PartyTypeListGrid", ["Party Type", "Number", "Name"], 3, 1);</script>
+												</td>
+												<td>&nbsp;</td>
+												<td colspan=2>&nbsp;</td>
+											</tr>
+
+										</table>
+									</td>			
+								</tr>
+
+							</table>
+						</div>
+
+					</td>
+				</tr>
+				<!-- End Header Panel -->
+	
+				<tr>
+					<td>
+					
+						<div class="panel">
+							<table class="content">
+		
+								<tr>
+									<td>
+		
+										<table style="height:423px; width:100%;">
+	
+											<tr>
+												<td align="center">
+													
+													<table style="width:630px;">
+													
+														<tr>
+															<td align="left" class="TransferCaseLabel"><label for='TransferCase_TransferCourtCode'>Transfer To</label></td>
+															<td align="left"><input id="TransferCase_TransferCourtCode" type="text" size=5/></td>
+															<td align="left">
+																<script type="text/javascript">AutoCompletionRenderer.createInline("TransferCase_TransferCourtName");</script>
+															</td>
+															<td align="left"><div style="width:150px;"><input id="TransferCase_TransferCourtLOVButton" type="Button" value="LOV"/></div></td>
+															<td>&nbsp;</td>
+														</tr>
+														
+														<tr>
+															<td align="left" class="TransferCaseLabel"><label for='TransferCase_TransferReason'>Transfer Reason</label></td>
+															<td align="left" colspan=3>
+																<script type="text/javascript">
+																	AutoCompletionRenderer.createInline("TransferCase_TransferReason");
+																</script>
+															</td>
+															<td align="left"><input id="TransferCase_TransferReasonLOVButton" type="Button" value="LOV"></td>
+														</tr>
+														
+														<tr>
+															<td align="left" class="TransferCaseLabel"><label for='TransferCase_TransferRequestDate'>Transfer Request Date</label></td>
+															<td align="left" colspan=3>
+																<script type="text/javascript">DatePickerRenderer.createInline("TransferCase_TransferRequestDate", true);</script>
+															</td>
+															<td>&nbsp;</td>
+														</tr>
+				
+														<tr>
+															<td align="left" class="TransferCaseLabel"><label for='TransferCase_TransferStatus'>Transfer Status</label></td>
+															<td align="left" colspan=3>
+																<input id="TransferCase_TransferStatus" type="text" size=35/>
+															</td>
+															<td>&nbsp;</td>
+														</tr>
+														
+														<tr>
+															<td align="left" class="TransferCaseLabel"><label for='TransferCase_NewCaseType'>New Case Type</label></td>
+															<td align="left" colspan=2>
+																<script type="text/javascript">
+																	AutoCompletionRenderer.createInline("TransferCase_NewCaseType");
+																</script>
+															</td>
+															<td align="left"><input id="TransferCase_NewCaseTypeLOVButton" type="Button" value="LOV"></td>
+															<td>&nbsp;</td>
+														</tr>
+														
+														<tr>
+															<td align="left" class="TransferCaseLabel"><label for='TransferCase_ProduceNotice'>Transfer Notice Required</label></td>
+															<td align="left" colspan=3>
+																<input id="TransferCase_ProduceNotice" type="checkbox" />
+															</td>
+															<td>&nbsp;</td>
+														</tr>
+					
+													</table>
+												
+												</td>
+											</tr>
+											
+										</table>
+		
+									</td>
+								</tr>
+		
+							</table>
+						</div>
+	
+					</td>
+				</tr>
+	
+			</table>
+	
+			<!-- Status Bar Panel -->
+			<script type="text/javascript">
+				ActionBarRenderer.createInline(
+					"status_bar",
+					[
+						{id: "Status_SaveButton", label: "Save"},
+						{id: "Status_CloseButton", label: "Close"}
+					]
+				);
+			</script>
+			   <!-- End Status Bar Panel -->
+			
+			<!-- LOV POPUPs -->
+			<script type="text/javascript">LOVSubformRenderer.createInline( "TransferCase_TransferCourtLOVGrid", "Courts", ["Code", "Name"], 10, 1, true );</script>
+			<script type="text/javascript">LOVSubformRenderer.createInline( "TransferCase_TransferReasonLOVGrid", "Transfer Reason", ["Value", "Description"], 10, 1, true );</script>
+			<script type="text/javascript">LOVSubformRenderer.createInline( "TransferCase_NewCaseTypeLOVGrid", "Case Type", ["Value", "Description"], 10, 1, true );</script>
+			
+			<!-- Subforms -->
+			<div class="popup popupsubform" id="ProgressBar_SubForm"></div>
+			
+		</form>
+	</body>
+</html>

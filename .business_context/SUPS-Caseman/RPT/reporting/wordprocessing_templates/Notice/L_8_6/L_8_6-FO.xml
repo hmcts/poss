@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- ====================================================================== -->
+<!--  -->
+<!-- FILENAME: $Source: C:/CVSRepository/serveroas/src/uk/gov/dca/caseman/wordprocessing_templates/Notice/L_8_6/L_8_6-FO.xml,v $ -->
+<!--  -->
+<!-- AUTHOR: $Author: kevin $-->
+<!--  -->
+<!-- DATE: $Date: 2006/06/07 11:32:18 $ -->
+<!--  -->
+<!-- Version: $Revision: 1.17 $ -->
+<!--  -->
+<!-- DESCRIPTION: This stylesheet is used to create an XSL:FO document that -->
+<!-- can be processed into a PDF version.  Business logic -->
+<!-- is embedded to generate the correct document text for the order -->
+<!-- required. -->
+<!--  -->
+<!-- INPUTS: XML document containing: the answers to questions asked of the -->
+<!-- user; case data retrieved from the database; HTML representing the  -->
+<!-- body of the document content (already edited by the user). -->
+<!--  -->
+<!-- OUTPUTS: XML document with FO tags containing instructions for the -->
+<!-- creation of a PDF document. -->
+<!--  -->
+<!-- ====================================================================== -->
+<root xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:fo="http://www.w3.org/1999/XSL/Format" xmlns="http://eds.com/supsfo">
+	<variables>@word.processing.url.xsl@supsfo.xsl</variables>
+	<layout yourRefaejudgmentcreditor="true">letter</layout>
+	<logo/>
+	<addressee>
+		<aejudgmentcreditor/>
+	</addressee>	
+	<body>
+		<editable>
+		<fo:block space-after="0.4cm">Dear <xsl:value-of select="$vdGreeting"/></fo:block>
+		<fo:block space-after="0.4cm" font-size="12pt" font-weight="bold" text-align="center">Re: Case Number: <xsl:value-of select="$vdClaimNumber"/>&#xa0;<xsl:value-of select="$vdAEJudgmentCreditorName"/> v <xsl:value-of select="$vdJudgmentDebtorName"/>
+		</fo:block>		
+		<fo:block space-after="0.4cm" font-weight="bold">
+			Attachment of Earnings Number: <xsl:value-of select="$vdAENumber"/>
+		</fo:block>		
+		<fo:block space-after="0.4cm">
+			The Bailiff has been unable to serve the N63 listed for hearing on <xsl:value-of select="$vdDisobedienceHearingDate"/>
+			but he has confirmed that the defendant <fo:inline font-weight="bold">does</fo:inline> reside at the address given.
+		</fo:block>
+		<fo:block space-after="0.4cm">
+			The papers have been placed before the District Judge requesting an order for substituted service.
+		</fo:block>
+		<fo:block space-after="0.8cm">
+			We will inform you of the new hearing date in due course.
+		</fo:block>
+		<fo:block  space-after="1.5cm"><xsl:value-of select="$vdLetterEnding"/></fo:block>
+		<fo:block><xsl:value-of select="$vdName"/></fo:block>
+		<fo:block><xsl:value-of select="$vdSection"/> Section</fo:block>
+		<fo:block>Ext <xsl:value-of select="$vdExtension"/></fo:block>
+		</editable>
+	</body>
+	<letterfooter id="L_8_6"/>
+</root>

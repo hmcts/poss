@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: WarrantReturns
+	Method:  getWarrantReturns()
+	File:    query_def_WarrantReturns.xml
+	Author:  Tun Shwe
+	Created: 
+	Description: 
+		Retrieves a list of warrant returns recorded on a warrant record specified.
+		
+	Change History:
+		9-oct-2006:	ChrisHutt	Output detail returned (SCR0206 implmented)
+		22-Mar-2007 Chris Vincent: Revamped the /WarrantEvent node so could include
+			the user alias.  CaseMan Defect 6000.
+		02-Sep-2010 Chris Vincent: Change to /ds/WarrantReturns/WarrantEvents/WarrantEvent/Outputs/Output
+			so query joins on WarrantId constraint.  Trac 3326.
+		14-Oct-2016 Chris Vincent - returns an indication of whether a party on the case has requested confidentiality.  Trac 5880
+-->
+<QueryDef>
+  <DBMapDef location="uk/gov/dca/caseman/warrant_returns_service/map_WarrantReturns.xml"/>
+  <Query pivotNode="/ds/WarrantReturns/WarrantEvents/WarrantEvent" tables="WR RC W CE COE">
+	<LinkedSQL type="root" key="WR.WARRANT_RETURNS_ID">
+		<SQL>
+            SELECT WR.WARRANT_ID            AS "WR.WARRANT_ID"              
+            ,      WR.WARRANT_RETURNS_ID     AS "WR.WARRANT_RETURNS_ID"                    
+            ,      RC.RETURN_TYPE            AS "RC.RETURN_TYPE"                
+            ,      WR.WARRANT_RETURN_DATE    AS "WR.WARRANT_RETURN_DATE"               
+            ,      WR.RETURN_CODE            AS "WR.RETURN_CODE"             
+            ,      WR.RETURN_CODE_COURT_CODE AS "WR.RETURN_CODE_COURT_CODE"                     
+            ,      RC.RETURN_CODE_SUMMARY    AS "RC.RETURN_CODE_SUMMARY"                 
+            ,      WR.ADDITIONAL_INFORMATION AS "WR.ADDITIONAL_INFORMATION"                      
+            ,      WR.NOTICE_REQUIRED        AS "WR.NOTICE_REQUIRED"                   
+            ,      WR.DEFENDANT_ID           AS "WR.DEFENDANT_ID" 
+            ,	   WR.VERIFICATION_DATE      AS "WR.VERIFICATION_DATE"                   
+            ,      WR.ERROR_INDICATOR        AS "WR.ERROR_INDICATOR"              
+            ,      WR.APPOINTMENT_DATE       AS "WR.APPOINTMENT_DATE"                 
+            ,      WR.APPOINTMENT_TIME       AS "WR.APPOINTMENT_TIME"                    
+            ,      WR.CREATED_BY             AS "WR.CREATED_BY"  
+			,      ( SELECT NVL(DU.USER_SHORT_NAME, '')
+					   FROM DCA_USER DU
+					   WHERE DU.USER_ID = WR.CREATED_BY
+				   ) AS "WR.USERALIAS"                        
+            ,      WR.ADMIN_COURT_CODE       AS "WR.ADMIN_COURT_CODE"                 
+            ,      WR.RECEIPT_DATE           AS "WR.RECEIPT_DATE"                 
+            ,      WR.TO_TRANSFER            AS "WR.TO_TRANSFER"
+            ,      W.CASE_NUMBER             AS "W.CASE_NUMBER"                       
+            ,      CE.EVENT_SEQ              AS "CE.EVENT_SEQ"                  
+            ,      COE.CO_EVENT_SEQ          AS "COE.CO_EVENT_SEQ"                 
+            ,      WR.ORA_ROWSCN             AS "WR_ORA_ROWSCN"
+            ,      RC.ORA_ROWSCN             AS "RC_ORA_ROWSCN"
+            ,      W.ORA_ROWSCN              AS "W_ORA_ROWSCN"
+            ,      CE.ORA_ROWSCN             AS "CE_ORA_ROWSCN"
+            ,      COE.ORA_ROWSCN            AS "COE_ORA_ROWSCN"
+            FROM WARRANT_RETURNS WR,
+				 WARRANTS W,
+				 RETURN_CODES RC,
+				 CASE_EVENTS CE,
+				 CO_EVENTS COE
+            WHERE WR.WARRANT_ID = ${param.warrantID} AND
+				  WR.RETURN_CODE = RC.RETURN_CODE AND
+	              WR.RETURN_CODE_COURT_CODE = RC.ADMIN_COURT_CODE AND
+	              W.WARRANT_ID = WR.WARRANT_ID AND
+	              CE.EVENT_SEQ (+)= WR.EVENT_SEQ AND
+	              COE.CO_EVENT_SEQ (+)= WR.CO_EVENT_SEQ
+			ORDER BY WR.ERROR_INDICATOR, WR.WARRANT_RETURN_DATE DESC
+		</SQL>
+	</LinkedSQL>
+  </Query>
+  <Query pivotNode="/ds/WarrantReturns/WarrantEvents/WarrantEvent/Outputs/Output" tables="WO">
+  	<LinkedSQL type="query" key="OUTPUT.OUTPUT_ID">
+    	<Parent key="WR.WARRANT_RETURNS_ID" tables="WR"/>
+    	<SQL>
+		SELECT 
+				WR.WARRANT_RETURNS_ID			AS "WR.WARRANT_RETURNS_ID" 
+			,	'WP'							AS "OUTPUT.TYPE"
+			,   WO.FINAL_IND					AS "OUTPUT.FINAL_IND"
+			,	TO_CHAR(WO.OUTPUT_ID)			AS "OUTPUT.OUTPUT_ID"
+			,   'Word Processing Output' 		AS "OUTPUT.DESCRIPTION"
+            , 	TO_CHAR(WO.XMLSOURCE)			AS "OUTPUT.DOCUMENT_ID"
+		FROM 
+			WP_OUTPUT WO, WARRANT_RETURNS WR
+		WHERE
+			WR.WARRANT_ID = ${param.warrantID}
+			AND WO.WARRANT_RETURNS_ID 	= WR.WARRANT_RETURNS_ID
+			AND WO.OUTPUT_ID = (SELECT MAX(WO2.OUTPUT_ID) FROM WP_OUTPUT WO2 WHERE WO2.WARRANT_RETURNS_ID = WR.WARRANT_RETURNS_ID AND WO2.FINAL_IND = WO.FINAL_IND) 
+		</SQL>
+    </LinkedSQL>
+	<Modify notModifiable="true"/>
+  </Query>
+  <Query pivotNode="/ds/PaymentDetails/HomeWarrantPaymentsExist" tables="W PY">
+    <SQL type="select">
+		SELECT DECODE(COUNT(*),0,'false','true') AS "PY.HW_PAYMENTS_EXIST"
+		FROM   PAYMENTS PY
+		,      WARRANTS W
+		WHERE  W.WARRANT_ID = ${param.warrantID}
+		AND    W.LOCAL_WARRANT_NUMBER IS NULL
+		AND    PY.SUBJECT_NO = W.WARRANT_NUMBER 
+		AND    PY.PAYMENT_FOR = 'HOME WARRANT'
+		AND    PY.ENFORCEMENT_COURT_CODE = W.ISSUED_BY
+    </SQL>
+	<Modify notModifiable="true"/>
+  </Query>
+  <Query pivotNode="/ds/PaymentDetails/ForeignWarrantPaymentsExist" tables="W PY">
+    <SQL type="select">
+		SELECT DECODE(COUNT(*),0,'false','true') AS "PY.FW_PAYMENTS_EXIST"
+		FROM   PAYMENTS PY
+		,      WARRANTS W
+		WHERE  W.WARRANT_ID = ${param.warrantID}
+		AND    W.LOCAL_WARRANT_NUMBER IS NOT NULL
+		AND    PY.SUBJECT_NO = W.LOCAL_WARRANT_NUMBER
+		AND    PY.PAYMENT_FOR = 'FOREIGN WARRANT'
+		AND    PY.ENFORCEMENT_COURT_CODE = W.CURRENTLY_OWNED_BY
+    </SQL>
+	<Modify notModifiable="true"/>
+  </Query>
+  <Query pivotNode="/ds/AdditionalInfo/WelshParties" tables="W">
+    <SQL type="select">
+		SELECT 	DECODE(COUNT(*),0,'N','Y') AS "W.WELSH_PARTIES"
+		FROM   	WARRANTS W
+		, 		CASE_PARTY_ROLES CPR
+		WHERE  	W.WARRANT_ID = ${param.warrantID}
+		AND		W.CASE_NUMBER IS NOT NULL
+		AND		CPR.CASE_NUMBER = W.CASE_NUMBER
+		AND     NVL(CPR.WELSH_INDICATOR,'N') = 'Y'
+    </SQL>
+	<Modify notModifiable="true"/>
+  </Query>
+  <Query pivotNode="/ds/AdditionalInfo/FlagConfidentiality" tables="W">
+    <SQL type="select">
+		SELECT 	DECODE(COUNT(*),0,'false','true') AS "C.CONFIDENTIAL"
+		FROM   	WARRANTS W
+		, 		CASE_PARTY_ROLES CPR
+		WHERE  	W.WARRANT_ID = ${param.warrantID}
+		AND		W.CASE_NUMBER IS NOT NULL
+		AND		CPR.CASE_NUMBER = W.CASE_NUMBER
+		AND     NVL(CPR.CONFIDENTIAL,'N') = 'Y'
+    </SQL>
+	<Modify notModifiable="true"/>
+  </Query>
+</QueryDef>

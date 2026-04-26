@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Question>
+	<Id>9243</Id>
+	<Label>Receiving Court</Label>
+	<ObjectName>ReceivingCourtCode</ObjectName>
+	<Html>	
+		<table>
+			<tr>
+				<td><input id="ReceivingCourtCode" type="text" size="5"></input></td>
+				<td><script type="text/javascript">AutoCompletionRenderer.createInline("ReceivingCourtName");</script></td>
+				<td><input id="ReceivingCourtLOVButton" type="button" value="LOV"></input></td>
+			</tr>
+		</table>	
+		<script type="text/javascript">
+			LOVPopupRenderer.createInline( "ReceivingCourtLOVGrid", "Courts", ["Code", "Court"], 12, 1, true );
+		</script>
+	</Html>
+	<Javascript>
+		<XPath>/ds/EnterVariableData/cfotransfer/receivingcourt/code</XPath>
+		<HintText>Select the Receiving court</HintText>
+		<maxLength>3</maxLength>
+		<isMandatory>return true;</isMandatory>
+		<validateOn>OriginatingCourtCode.dataBinding</validateOn>
+		<validate>
+			var ec = null;
+			var courtCode = Services.getValue(ReceivingCourtCode.dataBinding);
+			if( null != courtCode &amp;&amp; "" != courtCode)
+			{
+				var origCourt = Services.getValue(OriginatingCourtCode.dataBinding);
+				var xpathName = REF_DATA_XPATH + "/Courts/Court[./Code = " + ReceivingCourtCode.dataBinding + "]/Name";	 
+				var courtName = Services.getValue(xpathName);
+				if( null == courtName || "" == courtName)
+				{
+					ec = ErrorCode.getErrorCode('CaseMan_invalidCourtCode_Msg');
+				}
+				else if ( origCourt == courtCode )
+				{
+					ec = ErrorCode.getErrorCode('CaseMan_invalidReceivingCourt_Msg');
+				}
+			}
+			return ec;
+		</validate>
+		<logicOn>ReceivingCourtCode.dataBinding</logicOn>
+		<logic>
+			var courtCode = Services.getValue(ReceivingCourtCode.dataBinding);
+			if( null != courtCode &amp;&amp; "" != courtCode)
+			{
+				var xpathName = REF_DATA_XPATH + "/Courts/Court[./Code = " + ReceivingCourtCode.dataBinding + "]/Name";	 
+				var courtName = Services.getValue(xpathName);
+				Services.setValue(ReceivingCourtName.dataBinding, courtName);
+			}
+			else
+			{
+				Services.setValue(ReceivingCourtName.dataBinding, "");
+			}
+		</logic>
+		<miscCode>		
+			function ReceivingCourtName(){}
+			ReceivingCourtName.strictValidation = true;
+			ReceivingCourtName.dataBinding = "/ds/EnterVariableData/cfotransfer/receivingcourt/name";
+			ReceivingCourtName.tabIndex = __tabIdx++;
+			ReceivingCourtName.helpText = "Receiving court name";
+			ReceivingCourtName.isMandatory = function() { return true; }
+			ReceivingCourtName.srcData = REF_DATA_XPATH + "/Courts";
+			ReceivingCourtName.rowXPath = "Court";
+			ReceivingCourtName.keyXPath = "Name";
+			ReceivingCourtName.displayXPath = "Name";
+
+			ReceivingCourtName.logicOn = [ReceivingCourtName.dataBinding];
+			ReceivingCourtName.logic = function() {   
+				var name = Services.getValue(ReceivingCourtName.dataBinding);		     		
+				if( null != name &amp;&amp; "" != name)
+				{
+					var xpathCode = REF_DATA_XPATH + "/Courts/Court[./Name = " + ReceivingCourtName.dataBinding + "]/Code";	 
+					var courtCode = Services.getValue(xpathCode);
+					Services.setValue(ReceivingCourtCode.dataBinding, courtCode);
+				}
+				else
+				{
+					Services.setValue(ReceivingCourtCode.dataBinding, "");
+				}
+			}
+
+			function ReceivingCourtLOVButton() {}
+			ReceivingCourtLOVButton.tabIndex = __tabIdx++;
+
+			function ReceivingCourtLOVGrid() {};
+			ReceivingCourtLOVGrid.dataBinding = "/ds/var/page/SelectedLOVRow/ReceivingCourt";
+			ReceivingCourtLOVGrid.srcData = REF_DATA_XPATH + "/Courts";
+			ReceivingCourtLOVGrid.rowXPath = "Court";
+			ReceivingCourtLOVGrid.keyXPath = "Code";
+			ReceivingCourtLOVGrid.columns = [	{xpath: "Code"}, {xpath: "Name"} ];
+			ReceivingCourtLOVGrid.logicOn = [ReceivingCourtLOVGrid.dataBinding];
+			ReceivingCourtLOVGrid.logic = function() 
+			{
+				var id = Services.getValue(ReceivingCourtLOVGrid.dataBinding);
+				Services.setValue(ReceivingCourtCode.dataBinding, id);
+			} 
+
+			ReceivingCourtLOVGrid.raise = {
+				eventBinding: {
+					singleClicks: [ {element: "ReceivingCourtLOVButton"} ],
+					keys: [ { key: Key.F6, element: "ReceivingCourtCode" }, { key: Key.F6, element: "ReceivingCourtName" } ]
+				}
+			};
+		</miscCode>
+	</Javascript>
+</Question>

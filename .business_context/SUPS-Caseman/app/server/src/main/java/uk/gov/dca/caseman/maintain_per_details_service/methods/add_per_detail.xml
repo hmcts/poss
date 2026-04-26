@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: MaintainPerDetails
+	Method:  addPerDetail()
+	File:    add_per_detail.xml
+	Author:  pz9j2w
+	Created: 05 Sep 2005
+	Description:
+		Inserts a record in system_data and another into per_details
+-->
+<service-method>
+	<pipeline>
+		<Add>
+			<QueryDef location="uk/gov/dca/caseman/maintain_per_details_service/query_def_add.xml"/>
+			<DataSource xpath="/params/param[@name='perDetails']"/>
+			<QueryExtension pivotNode="/PerDetail">
+				<Field name="PD.ORDER_NUMBER" sequenceTable="ORDER_NO_SEQ"/>
+				<CheckExists table="PD" fields="ORDER_NUMBER" onNotExist="add" onExist="fail"/>						
+			</QueryExtension>
+			<QueryExtension pivotNode="/PerDetail/SystemDataList/SystemDataItem">
+				<CheckExists table="SD" fields="ITEM ADMIN_COURT_CODE" onNotExist="add" onExist="fail"/>					
+			</QueryExtension>
+		</Add>
+	</pipeline>
+	<Security roles="edsAdmin"/>
+</service-method>

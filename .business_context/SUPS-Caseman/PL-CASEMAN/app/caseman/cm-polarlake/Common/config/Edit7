@@ -1,0 +1,14 @@
+Select dc.PERSON_REQUESTED_NAME from PARTIES dc, WINDOW_FOR_TRIAL wc, CASE_PARTY_ROLES cpc, COURTS coc
+where wc.WFT_EXTRACTED_FOR_DM is null
+and   wc.WFT_CASE_NUMBER	= '6BI07147'
+and   dc.PARTY_ID		= cpc.PARTY_ID
+and   cpc.PARTY_ROLE_CODE	= 'CLAIMANT'
+and   cpc.CASE_PARTY_NO		= 1
+and   wc.WFT_CURRENT_COURT       = coc.CODE
+and   wc.WFT_CURRENT_COURT	= 282
+and   (wc.WFT_ID, wc.WFT_CASE_NUMBER) in
+(select w.WFT_ID, w.WFT_CASE_NUMBER
+from  WINDOW_FOR_TRIAL w, COURTS co
+where w.WFT_EXTRACTED_FOR_DM is null
+and   w.WFT_CURRENT_COURT       = co.CODE
+and   w.WFT_CURRENT_COURT	= 282)

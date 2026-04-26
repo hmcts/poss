@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: Ae
+	Method:  updateCaseAeAddEvent()
+	File:    update_case_ae_add_event.xml
+	Author:  Paul Robinson (EDS)
+	Created: 11 January 2005
+	Description: Calls custom processor which inserts AE and AE event if the AE is new
+-->
+<service-method>
+	<pipeline>
+		<Java callStyle="new">	
+			<Source class="uk.gov.dca.caseman.ae_service.java.CreateAeInsertAeEventsCustomProcessor"/>
+		</Java>
+	</pipeline>
+	<Dependencies>
+		<Dependency serviceName="AeEvent"/>	
+		<Dependency serviceName="CaseEvent"/>
+		<Dependency serviceName="Obligation"/>	
+		<Dependency serviceName="Case"/>	
+		<Dependency serviceName="UserCourt"/>			
+	</Dependencies>
+    <Security roles="medium high wcSuper scSuper bmsSuper aeSuper dmSuper cpSuper"/>   		
+</service-method>

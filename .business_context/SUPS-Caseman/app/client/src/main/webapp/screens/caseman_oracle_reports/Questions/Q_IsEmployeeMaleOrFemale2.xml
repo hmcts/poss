@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--Question xmlns="http://eds.com/questionxhtml" xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd"-->
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>Q_IsEmployeeMaleOrFemale2</Id>
+	<Label>Is Employee Male or Female</Label>
+	<ObjectName>IsEmployeeMaleOrFemale</ObjectName>
+	<Html>
+		<select id="IsEmployeeMaleOrFemale">
+			<option value=""></option>
+			<option value="M">MALE</option>
+			<option value="F">FEMALE</option>
+		</select>
+	</Html>
+	<Javascript>
+		<XPath>/ds/var/page/OracleReportForm/IsEmployeeMaleOrFemale</XPath>
+		<ReportVariableName>HIS_HER</ReportVariableName>
+		<ReportVariableValue>Services.getValue(IsEmployeeMaleOrFemale.dataBinding)</ReportVariableValue>
+		<ReportVariableCode>12245</ReportVariableCode>
+		<HintText>Enter M if the employee is male, otherwise F for a female employee</HintText>
+		<mandatoryOn></mandatoryOn>
+		<isMandatory>return true;</isMandatory>
+		<setDefault></setDefault>
+		<validateOn></validateOn>
+		<validate></validate>
+		<readOnlyOn></readOnlyOn>
+		<isReadOnly></isReadOnly>
+		<maxLength></maxLength>
+		<transformToDisplay></transformToDisplay>
+		<transformToModel></transformToModel>
+		<initialise></initialise>
+		<logicOn></logicOn>
+		<logic></logic>
+		<miscCode></miscCode>
+		<IsQuestion></IsQuestion>
+	</Javascript>
+</Question>

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: Reports
+	Method:  printUnallocatedWarrantReport()
+	File:    print_unallocated_warrant_report.xml
+	Author:  Anoop Sehdev (Valtech)
+	Created: 06 Februaury 2006
+	Description: 
+		Call PrintUnallocatedWarrantReportCustomProcessor custom processor to submit 
+		Unallocated Warrant List Reports (CM_UNWAR and CM_UNWARH) to SUPSReporting.
+-->
+<service-method>
+	<pipeline> 
+		<Java callStyle="new">
+			<Source class="uk.gov.dca.caseman.reports_service.classes.PrintUnallocatedWarrantReportCustomProcessor"/>
+		</Java>
+	</pipeline>	
+	<Security roles="viewOnly medium high wcSuper scSuper bmsSuper aeSuper dmSuper edsAdmin cpSuper"/>		
+</service-method>

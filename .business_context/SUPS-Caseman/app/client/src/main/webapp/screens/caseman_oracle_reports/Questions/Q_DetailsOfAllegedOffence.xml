@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	19/12/2006 - CV - Added F6 keybinding to LOV via DetailsOfAllegedOffenceLOVGrid.raise configuration.
+	Temp_Caseman defects 299/334.
+	29/01/2007 - CV: Updated zoom field logic function to clear LOV value.  Temp_Caseman defect 428.
+-->
+<!--Question xmlns="http://eds.com/questionxhtml" xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd"-->
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>Q_DetailsOfAllegedOffence</Id>
+	<Label>Details of alleged offence</Label>
+	<ObjectName>DetailsOfAllegedOffence</ObjectName>
+	<Html>
+	
+		<table>
+			<tr>
+				<td>
+					<script type="text/javascript">
+						ZoomFieldRenderer.createInline("DetailsOfAllegedOffence", 10, 70);
+					</script>				
+				</td>
+				<td>
+					<input id="DetailsOfAllegedOffenceLOVButton" type="Button" value="LOV"/>
+				</td>
+			</tr>
+		</table>		
+		<script type="text/javascript">
+			LOVPopupRenderer.createInline( "DetailsOfAllegedOffenceLOVGrid", "Details of Alleged Offence", ["Description"], 10, 1, true );
+        </script> 
+	</Html>
+	<Javascript>
+		<XPath>/ds/var/page/OracleReportForm/DetailsOfAllegedOffence</XPath>
+		<ReportVariableName>REPORT_VALUE_3</ReportVariableName>
+		<ReportVariableValue>Services.getValue(DetailsOfAllegedOffence.dataBinding)</ReportVariableValue>
+		<HintText></HintText>
+		<isMandatory>return false;</isMandatory>
+		<transformToDisplay>
+			var description = Services.getValue( REF_DATA_XPATH + "/DetailsOfAllegedOffenceList/DetailsOfAllegedOffence[./Value = " + DetailsOfAllegedOffence.dataBinding + "]/Description" );
+			if (description != null)
+			{
+				return description;
+			}
+			else
+			{
+				return value;
+			}
+		</transformToDisplay>
+		<initialise>
+			dom = getList("../LOV/DetailsOfAllegedOffenceList.xml"); 
+			Services.addNode(dom, REF_DATA_XPATH);
+		</initialise>
+		<logicOn>
+			"/ds/var/page/OracleReportForm/Dummy"
+		</logicOn>
+		<logic>
+			var lovValue = Services.getValue(DetailsOfAllegedOffenceLOVGrid.dataBinding);
+			if ( !CaseManUtils.isBlank(lovValue) )
+			{
+				Services.setValue(DetailsOfAllegedOffence.dataBinding, lovValue);
+				FormController.getInstance().processEvents();
+				Services.getAdaptorById("DetailsOfAllegedOffence")._raisePopup();
+				Services.setValue(DetailsOfAllegedOffenceLOVGrid.dataBinding, "");
+			}
+		</logic>
+		<miscCode>
+			DetailsOfAllegedOffence.componentName 	=		"Details Of Alleged Offence";
+			DetailsOfAllegedOffence.srcData 		= 		REF_DATA_XPATH + "/DetailsOfAllegedOffenceList";
+			DetailsOfAllegedOffence.rowXPath 		= 		"DetailsOfAllegedOffence";
+			DetailsOfAllegedOffence.keyXPath 		=		"Description";
+			
+			function DetailsOfAllegedOffenceLOVButton() {};
+			DetailsOfAllegedOffenceLOVButton.tabIndex = __tabIdx++;
+			
+			function DetailsOfAllegedOffenceLOVGrid() {};
+			DetailsOfAllegedOffenceLOVGrid.dataBinding = "/ds/var/page/OracleReportForm/Dummy";
+			DetailsOfAllegedOffenceLOVGrid.srcData = REF_DATA_XPATH + "/DetailsOfAllegedOffenceList";
+			DetailsOfAllegedOffenceLOVGrid.rowXPath = "DetailsOfAllegedOffence";
+			DetailsOfAllegedOffenceLOVGrid.keyXPath = "Description";
+			DetailsOfAllegedOffenceLOVGrid.columns = [
+				{xpath: "Description"}
+			];
+			
+			DetailsOfAllegedOffenceLOVGrid.raise = {
+				eventBinding: {
+					singleClicks: [ {element: "DetailsOfAllegedOffenceLOVButton"} ],
+					keys: [ { key: Key.F6, element: "DetailsOfAllegedOffence" } ]
+				}
+			};
+
+		</miscCode>
+	</Javascript>
+</Question>

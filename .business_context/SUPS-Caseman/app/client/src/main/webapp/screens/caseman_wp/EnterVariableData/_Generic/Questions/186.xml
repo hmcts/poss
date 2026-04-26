@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>186</Id>
+	<Label>Who is document to be served on</Label>
+	<ObjectName>DocServedOn3</ObjectName>
+	<Html>	
+		<select id="DocServedOn3">
+			<option value=""></option>
+			<option value="ALL">All parties</option>
+			<option value="CLM">The claimant</option>
+			<option value="DEF">The defendant</option>
+			<option value="OTH">Other</option>
+		</select>
+	</Html>
+	<Javascript>
+		<XPath>/ds/EnterVariableData/FastTrack/docServedOn3</XPath>
+		<HintText>Enter party document to be served on</HintText>
+		<isMandatory>return true;</isMandatory>
+		<enableOn>ByServiceCopies.dataBinding</enableOn>
+		<isEnabled>return('Y' == Services.getValue(ByServiceCopies.dataBinding));</isEnabled>
+		<logicOn>ByServiceCopies.dataBinding</logicOn>
+		<logic>
+			if('Y' != Services.getValue(ByServiceCopies.dataBinding))
+			{	Services.setValue(DocServedOn3.dataBinding, "");
+			}
+		</logic>	
+		
+		<Context ScreenId="CJR060">
+			<HintText>Select the party document to be served on</HintText>
+		</Context>
+	</Javascript>
+</Question>
+
+    
+    
+    

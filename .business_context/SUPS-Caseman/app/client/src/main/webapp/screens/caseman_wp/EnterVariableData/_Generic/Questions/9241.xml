@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>9241</Id>
+	<Label>Description of Security</Label>
+	<ObjectName>SecurityDescription</ObjectName>
+	<Html>
+		<script type="text/javascript">ZoomFieldRenderer.createInline("SecurityDescription", 10, 70);</script>
+	</Html>	
+	<Javascript>
+		<XPath>/ds/EnterVariableData/securities/description</XPath>
+		<HintText>Securities description</HintText>
+		<isMandatory>return true;</isMandatory>
+		<mandatoryOn>SecurityDescription.dataBinding</mandatoryOn>		
+		<enableOn>SecurityCurrentHolding.dataBinding</enableOn>			
+		<isEnabled>
+			var holdings = Services.getValue(SecurityCurrentHolding.dataBinding);
+			var blnEnabled = false;
+			if ( null != holdings &amp;&amp; holdings.length > 0 )
+			{
+				blnEnabled = true;
+			}
+			return blnEnabled;
+		</isEnabled>
+	</Javascript>
+</Question>  

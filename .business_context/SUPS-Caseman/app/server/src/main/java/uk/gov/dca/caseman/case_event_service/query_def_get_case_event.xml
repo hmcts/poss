@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<QueryDef>
+  <DBMapDef location="uk/gov/dca/caseman/case_event_service/map_case_event.xml"/>
+  <Query pivotNode="/CaseEvent" tables="CE C">
+	<Join>
+		C.CASE_NUMBER = CE.CASE_NUMBER
+	</Join>
+  </Query>
+  <Query pivotNode="/CaseEvent/InstigatorList/Instigator" tables="CEI">
+	<Join>
+		CEI.EVENT_SEQ = ${CE.EVENT_SEQ}
+		AND CEI.DELETE_FLAG = 'N'
+	</Join>
+  </Query>
+</QueryDef>

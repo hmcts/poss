@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<QueryDef>
+  <DBMapDef location="uk/gov/dca/caseman/warrant_returns_service/map_UpdateWarrantReturns.xml"/>
+  <Query pivotNode="/ds/WarrantReturns/WarrantEvents/WarrantEvent" tables="WR">
+	<Join/>
+    <Modify>
+      <Field name="WR.WARRANT_RETURNS_ID" sequenceTable="WARRANT_RETURNS_SEQUENCE"/>
+	  <Field name="WR.NOTICE_REQUIRED" xpath="Notice"/>
+	  <Field name="WR.VERIFICATION_DATE" xpath="Verified"/>
+	  <Field name="WR.ERROR_INDICATOR" xpath="Error"/>
+	  <Field name="WR.APPOINTMENT_DATE" xpath="AppointmentDate"/>
+	  <Field name="WR.APPOINTMENT_TIME" xpath="AppointmentTime"/>
+	</Modify>
+  </Query> 
+</QueryDef>

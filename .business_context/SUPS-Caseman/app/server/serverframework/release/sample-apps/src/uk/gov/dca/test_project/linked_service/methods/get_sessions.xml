@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<service-method>
+	<pipeline>
+		<LinkedQuery>
+			<QueryDef location="uk/gov/dca/test_project/linked_service/session_query_def.xml"/>
+			 
+			<QueryExtension pivotNode="/Sessions/Session/Policy">
+				<LinkedSQL key="P.ID" type="query">
+					<Parent key="C.ID" tables="C"/>
+					<SQL type="select">
+						SELECT c.id AS "C.ID",
+						       h.id AS "H.ID",
+						       h.NAME AS "H.NAME",
+						       p.id AS "P.ID",
+						       p.max_hearings AS "P.MAX_HEARINGS",
+						       hp.ora_rowscn AS "HP_ORA_ROWSCN",
+						       h.ora_rowscn AS "H_ORA_ROWSCN",
+						       c.ora_rowscn AS "C_ORA_ROWSCN",
+						       p.ora_rowscn AS "P_ORA_ROWSCN"
+						FROM   hearingtype_policy hp,
+						       hearingtype h,
+						       courtsession c,
+						       policy p
+						WHERE  (p.id = c.policy_id)
+						       AND (hp.hearingtype_id = h.id
+						            AND hp.policy_id = p.id)					
+					</SQL>
+				</LinkedSQL>
+			</QueryExtension>
+			<!--
+			<QueryExtension pivotNode="/Sessions/Session/Policy/HearingTypes/HearingType">
+			</QueryExtension>
+			
+			 -->
+		</LinkedQuery>
+	</pipeline>
+	<Security roles="user"/>
+</service-method>

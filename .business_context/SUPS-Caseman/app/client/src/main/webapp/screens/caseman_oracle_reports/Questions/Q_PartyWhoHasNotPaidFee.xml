@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	19/12/2006 - CV - Added F6 keybinding to LOV via PartyWhoHasNotPaidFeeLOVGrid.raise configuration.
+	Temp_Caseman defects 299/334.
+-->
+<!--Question xmlns="http://eds.com/questionxhtml" xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd"-->
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>Q_PartyWhoHasNotPaidFee</Id>
+	<Label>Party who has not paid fee</Label>
+	<ObjectName>PartyWhoHasNotPaidFee</ObjectName>
+	<Html> 
+		<input id="PartyWhoHasNotPaidFee" type="text" size="15" > </input>
+		<input id="PartyWhoHasNotPaidFeeLOVButton" type="Button" value="LOV"></input>
+        <script type="text/javascript">
+		 LOVPopupRenderer.createInline( "PartyWhoHasNotPaidFeeLOVGrid", "Party", ["Value", "Description"], 10, 1, true );
+        </script>
+	</Html>
+	<Javascript>
+		<XPath>/ds/var/page/OracleReportForm/PartyWhoHasNotPaidFee</XPath>
+		<ReportVariableName>AQ_FEE_NOT_PAID_NAME</ReportVariableName>
+		<ReportVariableValue>Services.getValue(PartyWhoHasNotPaidFee.dataBinding)</ReportVariableValue>
+		<ReportVariableCode>2880</ReportVariableCode>
+		<HintText>Enter party who has not paid fee - list available</HintText>		
+		<initialise>
+		</initialise>
+		<setDefault>
+		</setDefault>
+		<validateOn>
+		</validateOn>
+		<enableOn>AllocationQuestionnaireFeePaid.dataBinding</enableOn>
+		<isEnabled>
+			var allocationQuestionnaireFeePaid = Services.getValue(AllocationQuestionnaireFeePaid.dataBinding);
+			if (allocationQuestionnaireFeePaid == "Y")
+			{
+				Services.setValue(PartyWhoHasNotPaidFee.dataBinding, "");
+				return false;
+			}
+			else
+			{
+				return true;
+			}	
+		</isEnabled>			
+		<validate>
+			var description = Services.getValue(REF_DATA_XPATH + "/PartyList/Party[./Value = " + PartyWhoHasNotPaidFee.dataBinding + "]/Description");
+			var valueTest = Services.getValue( REF_DATA_XPATH + "/PartyList/Party[./Description = " + PartyWhoHasNotPaidFee.dataBinding + "]/Value" );
+			if (description == null &amp;&amp; valueTest == null)
+			{
+				// This is not a valid value - see list of Values
+				return ErrorCode.getErrorCode("CaseMan_Reports_Invalid_LOV_Msg");
+			}
+			else
+			{
+				return null;
+			}
+		</validate>
+		<transformToDisplay>
+			var description = Services.getValue( REF_DATA_XPATH + "/PartyList/Party[./Value = " + PartyWhoHasNotPaidFee.dataBinding + "]/Description" );
+			if (description != null)
+			{
+				return description;
+			}
+			else
+			{
+				return value;
+			}
+	    </transformToDisplay>
+        <transformToModel>
+             return (null != value) ? value.toUpperCase() : null;
+        </transformToModel>
+		<miscCode>
+		  
+		  	PartyWhoHasNotPaidFee.componentName = "Party"
+		  	PartyWhoHasNotPaidFee.srcData 		= REF_DATA_XPATH + "/PartyList";
+			PartyWhoHasNotPaidFee.rowXPath 	  	= "Party";
+			PartyWhoHasNotPaidFee.keyXPath 	  	= "Value";
+			
+			function PartyWhoHasNotPaidFeeLOVButton() {}
+			PartyWhoHasNotPaidFeeLOVButton.tabIndex = __tabIdx++;
+			
+			PartyWhoHasNotPaidFeeLOVButton.enableOn = [AllocationQuestionnaireFeePaid.dataBinding];
+			PartyWhoHasNotPaidFeeLOVButton.isEnabled = function()
+			{
+				return PartyWhoHasNotPaidFee.isEnabled();
+			}
+			
+			function PartyWhoHasNotPaidFeeLOVGrid() {};
+			PartyWhoHasNotPaidFeeLOVGrid.dataBinding = PartyWhoHasNotPaidFee.dataBinding;
+			PartyWhoHasNotPaidFeeLOVGrid.srcData 	 = REF_DATA_XPATH + "/PartyList";
+			PartyWhoHasNotPaidFeeLOVGrid.rowXPath    = "Party";
+			PartyWhoHasNotPaidFeeLOVGrid.keyXPath    = "Value";
+			PartyWhoHasNotPaidFeeLOVGrid.columns     = [
+				{xpath: "Value"},
+				{xpath: "Description"}
+			];
+			PartyWhoHasNotPaidFeeLOVGrid.raise = {
+				eventBinding: {
+					singleClicks: [ {element: "PartyWhoHasNotPaidFeeLOVButton"} ],
+					keys: [ { key: Key.F6, element: "PartyWhoHasNotPaidFee" } ]
+				}
+			};
+
+		</miscCode>
+	</Javascript>
+</Question>

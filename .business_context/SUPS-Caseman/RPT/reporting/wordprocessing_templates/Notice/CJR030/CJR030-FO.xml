@@ -1,0 +1,207 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- ====================================================================== -->
+<!--  -->
+<!-- FILENAME: $Source: C:/CVSRepository/serveroas/src/uk/gov/dca/caseman/wordprocessing_templates/Notice/CJR030/CJR030-FO.xml,v $ -->
+<!--  -->
+<!-- AUTHOR: $Author: conganer $-->
+<!--  -->
+<!-- DATE: $Date: 2006/06/05 14:14:02 $ -->
+<!--  -->
+<!-- Version: $Revision: 1.7 $ -->
+<!--  -->
+<!-- DESCRIPTION: This stylesheet is used to create an XSL:FO document that -->
+<!-- can be processed into a PDF version.  Business logic -->
+<!-- is embedded to generate the correct document text for the order -->
+<!-- required. -->
+<!--  -->
+<!-- INPUTS: XML document containing: the answers to questions asked of the -->
+<!-- user; case data retrieved from the database; HTML representing the  -->
+<!-- body of the document content (already edited by the user). -->
+<!--  -->
+<!-- OUTPUTS: XML document with FO tags containing instructions for the -->
+<!-- creation of a PDF document. -->
+<!--  -->
+<!-- ====================================================================== -->
+<root xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:fo="http://www.w3.org/1999/XSL/Format" xmlns="http://eds.com/supsfo">
+	<variables>@word.processing.url.xsl@supsfo.xsl</variables>
+	<layout>order</layout>
+	<duplex/>
+	<addressee>
+		<witness/>
+	</addressee>
+	<header>
+		<fo:block font-size="16pt" font-weight="bold">Witness Summons</fo:block>
+	</header>
+	<courtcase>
+		<court>
+			<xsl:copy-of select="$vdCourtHeaderBlock"/>
+		</court>
+		<caseparameters>
+			<parameter>
+				<name>
+					<fo:block font-weight="bold">Claim Number</fo:block>
+				</name>
+				<value>
+					<fo:block>
+						<xsl:value-of select="$vdClaimNumber"/>
+					</fo:block>
+				</value>
+			</parameter>
+			<parameter>
+				<name>
+					<fo:block font-weight="bold">Date</fo:block>
+				</name>
+				<value>
+					<fo:block>
+						<xsl:value-of select="$vdEventDate"/>
+					</fo:block>
+				</value>
+			</parameter>
+		</caseparameters>
+	</courtcase>
+
+	<body>
+		<fo:block space-after="2.0cm"/>
+		<fo:block>
+			<fo:inline font-weight="bold">You are summoned to attend at </fo:inline><xsl:value-of select="$vdHearingAtCourtNameDescription"/>, <xsl:value-of select="$vdHearingAtCourtAddress"/>
+		</fo:block>
+		<fo:block space-after="0.8cm"/>
+		<fo:block>
+			at <xsl:value-of select="$vdHearingAtCourtTime"/> on <xsl:value-of select="$vdHearingAtCourtDate"/>
+		</fo:block>
+		<fo:block space-after="0.8cm"/>
+		<fo:block>
+			<xsl:if test="string-length($vdHearingWording) > 0">
+				<xsl:value-of select="$vdHearingWording"/>
+				<fo:block space-after="0.8cm"/>
+			</xsl:if>
+		</fo:block>
+		<fo:block space-after="0.8cm">
+			<list type="bullet">
+				<list-item>
+					<fo:block>
+					to give evidence in respect of the above claim
+					</fo:block>
+				</list-item>
+			</list>
+		</fo:block>
+		<xsl:if test="$vdDocumentExists = 'Y'">
+			<fo:block space-after="0.8cm">
+				<list type="bullet">
+					<list-item>
+						<fo:block>
+						 to produce the following document(s)  <xsl:copy-of select="$vdDocumentToProduce"/>
+						</fo:block>
+					</list-item>
+				</list>
+			</fo:block>
+		</xsl:if>
+		<fo:block>
+			The sum of 
+			&#163;<xsl:call-template name="correctCalculation">
+				<xsl:with-param name="value"><xsl:value-of select="$vdExpenseAmount"/></xsl:with-param>
+			</xsl:call-template>
+			is paid or offered to you with this summons. This is to cover your travelling 
+			expenses to and from court and includes an amount by way of compensation for loss of time.
+		</fo:block>
+		<fo:block space-after="0.8cm"/>
+		<fo:block>
+			This summons was issued on the application of the <xsl:value-of select="$vdPartyType"/> whose name, address and reference number is: 
+			<xsl:value-of select="$vdPartyName"/>,&#xa0;<xsl:value-of select="$vdPartyAddress"/>,&#xa0;<xsl:value-of select="$vdPartyReference"/>
+		</fo:block>
+		<fo:block space-after="0.8cm"/>
+
+		<fo:block break-before="page"/>
+		
+		<fo:block space-after="0.6cm">
+			<fo:table table-layout="fixed">
+				<fo:table-column column-width="5cm"></fo:table-column>
+				<fo:table-column column-width="5cm"></fo:table-column>
+				<fo:table-column column-width="9.27cm"></fo:table-column>
+				<fo:table-body>
+					<fo:table-row>
+						<fo:table-cell>
+							<fo:block font-size="12pt" font-weight="bold">
+								Certificate of Service
+							</fo:block>
+						</fo:table-cell>
+						<fo:table-cell>
+							<fo:block>&#xA0;</fo:block>
+						</fo:table-cell>
+						<fo:table-cell border-top-style="solid" border-right-style="solid" border-left-style="solid" border-bottom-style="solid"
+							border-top-width="0.02cm" border-right-width="0.02cm" border-left-width="0.02cm" border-bottom-width="0.02cm"
+							padding-right="0.2cm" padding-left="0.2cm" padding-bottom="0.2cm" padding-top="0.2cm" >
+							<fo:block font-size="10pt">
+								Claim Number   <xsl:value-of select="$vdClaimNumber"/>
+							</fo:block>
+						</fo:table-cell>
+					</fo:table-row>
+				</fo:table-body>
+			</fo:table>
+		</fo:block>
+		<fo:block font-size="10pt">
+			I certify that the order of which this is a true copy, was served by posting to <xsl:value-of select="$vdWitnessName"/> (the witness)
+			on ________________ at the address stated on the summons in accordance with the request of the applicant
+			or this solicitor.
+		</fo:block>
+		<fo:block space-after="0.8cm"/>
+		<fo:block>
+			I enclosed a P.O. for			
+			&#163;<xsl:call-template name="correctCalculation">
+				<xsl:with-param name="value"><xsl:value-of select="$vdExpenseAmount"/></xsl:with-param>
+			</xsl:call-template>
+			for the deponent's expenses and compensation for loss of time.
+		</fo:block>
+		<fo:block space-after="0.8cm"/>
+		<fo:block>
+			Signed   ___________________________________
+		</fo:block>
+		<fo:block>
+			Officer of the Court
+		</fo:block>
+	</body>
+
+
+	<footnote noteextent="5">
+		<fo:block space-after="0.2cm">
+				<fo:table table-layout="fixed" width="100%" font-size="10pt" font-family="Times">
+				<fo:table-column column-width="19.26cm"/>
+				<fo:table-body>
+					<fo:table-row>
+						<fo:table-cell border-top-style="solid" border-left-style="solid" border-right-style="solid" border-bottom-style="solid"
+							border-top-width="0.02cm" border-left-width="0.02cm" border-right-width="0.02cm" border-bottom-width="0.02cm"
+							padding-right="0.1cm" padding-left="0.1cm" padding-bottom="0.1cm" padding-top="0.1cm" >
+							<fo:block font-size="10pt" font-weight="bold" space-after="0.1cm">﻿Do not ignore this summons</fo:block>
+							<fo:block font-size="9pt" space-after="0.4cm">﻿If you were offered money for travel expenses and compensation for loss of time, at the time it was served on you, and you</fo:block>
+							<fo:block>
+								<list type="bullet">
+									<list-item>
+										<fo:block font-size="9pt" space-after="0.4cm">
+											fail to attend or produce documents as required by the summons; or
+										</fo:block>
+									</list-item>
+									<list-item>
+										<fo:block font-size="9pt" space-after="0.4cm">
+											refuse to take an oath or affirm for the purpose of answering questions about your evidence or the documents you have been asked to produce
+										</fo:block>
+									</list-item>
+								</list>
+							</fo:block>
+							<fo:block font-size="9pt" space-after="0.4cm">
+								In the High Court, disobedience of a Witness Summons is a contempt of court and you may be fined or committed for contempt. In the County Court,
+								a witness who neglects or refuses to give evidence is liable to a fine. Additionally, a witness who neglects or refuses to give evidence may be
+								liable to pay wasted costs.
+							</fo:block>
+							<fo:block font-size="9pt" space-after="0.4cm">
+								<fo:inline font-weight="bold">If you wish to set aside this witness summons</fo:inline> an application should be made to a District Judge or,
+								if the case is in the High Court, to a Master.
+							</fo:block>
+						</fo:table-cell>
+					</fo:table-row>
+				</fo:table-body>
+			</fo:table>
+				
+		</fo:block>
+	</footnote>
+	<defaultFooter id="CJR030"/>
+</root>

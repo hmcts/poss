@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>5</Id>
+	<Label>Defendant's intention (other)</Label>
+	<ObjectName>DefendantsIntentionOther</ObjectName>	
+	<Html>							
+		<input type="text" id="DefendantsIntentionOther"/>
+	</Html>
+	<Javascript>
+		<XPath>/ds/EnterVariableData/defendantintentionother</XPath>
+		<HintText>Enter the defendant's intention</HintText>	
+		<mandatoryOn>DefendantsIntention.dataBinding</mandatoryOn>			
+		<isMandatory>
+		  return('OTH' == Services.getValue(DefendantsIntention.dataBinding));
+		 </isMandatory>
+		<enableOn>DefendantsIntention.dataBinding</enableOn>	
+		<isEnabled>
+			return ( 'OTH' == Services.getValue(DefendantsIntention.dataBinding));		
+		</isEnabled>
+		<logicOn>DefendantsIntention.dataBinding</logicOn>
+		<logic>			
+			if( 'OTH' != Services.getValue(DefendantsIntention.dataBinding))
+			{	Services.setValue(DefendantsIntentionOther.dataBinding, "");
+			}
+		</logic>
+	</Javascript>
+</Question>

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>429</Id>
+	<Label>'Unless Order' on other items?</Label>
+	<ObjectName>UOOtherItems</ObjectName>
+	<Html>
+		<input type="checkbox" id="UOOtherItems"></input>
+	</Html>
+	
+	<Javascript>
+		<XPath>/ds/EnterVariableData/SmallTrack/uOOtherItems</XPath>
+		<HintText>Check box if 'Unless Order' is  attached to this part of the directions</HintText>
+		<modelValue>checked: "Y", unchecked: "N"</modelValue>
+		<enableOn>BroughtToHearing.dataBinding</enableOn>
+		<isEnabled>return('Y' == Services.getValue(BroughtToHearing.dataBinding));</isEnabled>
+		<logicOn>BroughtToHearing.dataBinding</logicOn>
+		<logic>
+			if('Y' != Services.getValue(BroughtToHearing.dataBinding))
+			{	Services.setValue(UOOtherItems.dataBinding, "N");
+			}
+		</logic>
+	</Javascript>
+</Question>

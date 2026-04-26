@@ -1,0 +1,45 @@
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>513</Id>
+	<Label>Asset details address line 4</Label>
+	<ObjectName>AssetAdd4</ObjectName>
+	<Html>		
+		<input type="text" id="AssetAdd4" size="50"></input>
+	</Html>			
+	<Javascript>
+		<XPath>/ds/EnterVariableData/InterimCharge/Asset/Address/Line[4]</XPath>
+		<componentName>##label##</componentName>
+		<isMandatory>return false;</isMandatory>
+		<HintText>Fourth line of asset details/address of land to be charged</HintText>	
+		<enableOn>IsAssetChargedLand.dataBinding, IsChargedLandDebtorsAdd.dataBinding</enableOn>
+		<isReadOnly>
+			var a = Services.getValue(IsAssetChargedLand.dataBinding);
+			var b = Services.getValue(IsChargedLandDebtorsAdd.dataBinding);
+			return(a == 'Y' &amp;&amp; b == 'Y');
+		</isReadOnly>
+		<isEnabled>return ( 'Y' == Services.getValue(IsAssetChargedLand.dataBinding));</isEnabled>
+			<logicOn>IsAssetChargedLand.dataBinding, IsChargedLandDebtorsAdd.dataBinding</logicOn>
+			<logic>
+				var aDom = WPU.getCurrentCaseData(); 
+				var partyDom = WPU.getSubjectPartyNode(aDom, true);   	
+	   			var partyId = XML.getNodeTextContent(partyDom.selectSingleNode("./PartyId"));
+	   			var upDom = aDom.selectSingleNode("//Parties/LitigiousParty[./PartyId = '"+partyId+"']");
+	   			var subjAddLn4 = XML.getNodeTextContent( upDom.selectSingleNode("ContactDetails/Address/Line[4]"));	
+   			
+				if('Y' == Services.getValue(IsAssetChargedLand.dataBinding))
+				{
+					if('Y' != Services.getValue(IsChargedLandDebtorsAdd.dataBinding))
+					{
+						Services.setValue(AssetAdd4.dataBinding, "");
+					}
+					else if('Y' == Services.getValue(IsChargedLandDebtorsAdd.dataBinding))
+					{
+						Services.setValue(AssetAdd4.dataBinding,subjAddLn4);
+					}
+				}
+				else
+				{
+					Services.setValue(AssetAdd4.dataBinding, "");
+				}
+			</logic>
+	</Javascript>
+</Question>

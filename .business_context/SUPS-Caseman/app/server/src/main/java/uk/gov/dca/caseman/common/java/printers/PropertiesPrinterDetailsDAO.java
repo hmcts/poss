@@ -1,0 +1,121 @@
+/* Copyrights and Licenses
+ * 
+ * Copyright (c) 2016 by the Ministry of Justice. All rights reserved.
+ * Redistribution and use in source and binary forms, with or without modification, are permitted
+ * provided that the following conditions are met:
+ * - Redistributions of source code must retain the above copyright notice, this list of conditions
+ * and the following disclaimer.
+ * - Redistributions in binary form must reproduce the above copyright notice, this list of
+ * conditions and the following disclaimer in the documentation and/or other materials
+ * provided with the distribution.
+ * - All advertising materials mentioning features or use of this software must display the
+ * following acknowledgment: "This product includes CaseMan (County Court management system)."
+ * - Products derived from this software may not be called "CaseMan" nor may
+ * "CaseMan" appear in their names without prior written permission of the
+ * Ministry of Justice.
+ * - Redistributions of any form whatsoever must retain the following acknowledgment: "This
+ * product includes CaseMan."
+ * This software is provided "as is" and any expressed or implied warranties, including, but
+ * not limited to, the implied warranties of merchantability and fitness for a particular purpose are
+ * disclaimed. In no event shall the Ministry of Justice or its contributors be liable for any
+ * direct, indirect, incidental, special, exemplary, or consequential damages (including, but
+ * not limited to, procurement of substitute goods or services; loss of use, data, or profits;
+ * or business interruption). However caused any on any theory of liability, whether in contract,
+ * strict liability, or tort (including negligence or otherwise) arising in any way out of the use of this
+ * software, even if advised of the possibility of such damage.
+ * 
+ * TODO Id: $
+ * TODO LastChangedRevision: $
+ * TODO LastChangedDate: $
+ * TODO LastChangedBy: $ 
+ */
+package uk.gov.dca.caseman.common.java.printers;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.Hashtable;
+import java.util.List;
+import java.util.Properties;
+
+import org.jdom.Document;
+
+import uk.gov.dca.db.exception.SystemException;
+import uk.gov.dca.db.impl.Util;
+import uk.gov.dca.db.security.printers.PrinterDetails;
+import uk.gov.dca.db.security.printers.PrinterDetailsDAO;
+
+/**
+ * Simple stubbed printer list using properties file to configure the printers.
+ * 
+ * @author Michael Barker
+ *
+ */
+public class PropertiesPrinterDetailsDAO implements PrinterDetailsDAO
+{
+
+    /** The Constant PROPERTIES_FILE. */
+    private static final String PROPERTIES_FILE = "printer_details.properties";
+
+    /**
+     * {@inheritDoc}
+     */
+    public void setEnvironment (final Hashtable env)
+    {
+    }
+
+    /**
+     * (non-Javadoc).
+     *
+     * @param parameters the parameters
+     * @return the printer details
+     * @throws SystemException the system exception
+     * @see uk.gov.dca.db.security.printers.PrinterDetailsDAO#getPrinterDetails(org.jdom.Document)
+     */
+    public List<PrinterDetails> getPrinterDetails (final Document parameters) throws SystemException
+    {
+
+        final List<PrinterDetails> printers = new ArrayList<>();
+
+        final Properties props = new Properties ();
+        final InputStream in = Util.getInputStream (PROPERTIES_FILE, this);
+        try
+        {
+            props.load (in);
+            final String printerNames = props.getProperty ("printers");
+            if (printerNames != null)
+            {
+                final String[] printerNameList = printerNames.split (",");
+                for (int i = 0; i < printerNameList.length; i++)
+                {
+                    final String printerName = printerNameList[i];
+                    final PrinterDetails printer = new PrinterDetails ();
+                    printer.setServerName (props.getProperty (printerName + ".serverName"));
+                    printer.setPrinterName (props.getProperty (printerName + ".printerName"));
+                    printer.setDescription (props.getProperty (printerName + ".description"));
+                    printer.setDriverName (props.getProperty (printerName + ".driverName"));
+                    printer.setLocation (props.getProperty (printerName + ".location"));
+                    printer.setPrintMediaReady (props.getProperty (printerName + ".printMediaReady"));
+                    printer.setPrintMediaSupported (props.getProperty (printerName + ".printMediaSupported"));
+                    printer.setShortServerName (props.getProperty (printerName + ".shortServerName"));
+                    printer.setUNCName (props.getProperty (printerName + ".uNCName"));
+                    printer.setPrintShareName (props.getProperty (printerName + ".printShareName"));
+
+                    printers.add (printer);
+                }
+            }
+            else
+            {
+                throw new SystemException ("No printers specified");
+            }
+
+        }
+        catch (final IOException e)
+        {
+            throw new SystemException (e);
+        }
+
+        return printers;
+    }
+
+}

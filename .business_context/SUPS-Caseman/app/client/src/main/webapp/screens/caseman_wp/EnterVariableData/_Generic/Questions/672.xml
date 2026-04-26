@@ -1,0 +1,58 @@
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>672</Id>
+	<Label>Monthly instalment amount</Label>
+	<ObjectName>MonthlyInstallment</ObjectName>
+	<Context screenId="FE45">		
+		<isVisible>true</isVisible>
+		<Label>Amount payable under order</Label>
+	</Context>
+	<Html>	
+		<input type="text" id="DefaultCurrency672" size="1"></input>
+		<input type="text" id="MonthlyInstallment" size="11"></input>
+	</Html>		
+	
+	<Javascript>
+		<XPath>/ds/EnterVariableData/DeliveryOfGoods/monthlyInstallment</XPath>
+		<componentName>##label##</componentName>
+		<isMandatory>return true;</isMandatory>
+		<HintText>Enter the monthly installment amount</HintText>	
+		<enableOn>CostToBePaid.dataBinding</enableOn>
+		<isEnabled>return('MTH' == Services.getValue(CostToBePaid.dataBinding));</isEnabled>
+		<logicOn>CostToBePaid.dataBinding</logicOn>		
+		<logic>
+			if('MTH' != Services.getValue(CostToBePaid.dataBinding))
+			{	Services.setValue(MonthlyInstallment.dataBinding, "");
+			}
+		</logic>	
+		<validateOn>MonthlyInstallment.dataBinding</validateOn>
+		<validate>
+			var val = Services.getValue(MonthlyInstallment.dataBinding);
+			var err = validateCurrencyValue(val, 999999.99 );
+			if( null == err)
+			{	Services.setValue(MonthlyInstallment.dataBinding, WPU.formatToTwoDP(val));
+			}
+			return err;
+		</validate>
+		<miscCode>
+			function DefaultCurrency672() {}
+			DefaultCurrency672.dataBinding = "/ds/EnterVariableData/curr1";
+			DefaultCurrency672.tabIndex = -1;
+			DefaultCurrency672.maxLength = 1;
+			DefaultCurrency672.isReadOnly = function(){return true;}
+			DefaultCurrency672.isTemporary = function(){return true;}
+			DefaultCurrency672.transformToDisplay = function(value){
+				return WPS.__CaseManUtils().transformCurrencySymbolToDisplay(value,null,null); }
+			DefaultCurrency672.transformToModel = function(value){
+				return WPS.__CaseManUtils().transformCurrencySymbolToModel(value,null,null); }
+		</miscCode>
+		
+		<Context ScreenId="FE45">
+		  <enableOn>MonthlyInstallment.dataBinding</enableOn>
+		  <isEnabled>return true;</isEnabled>
+		  <logicOn>MonthlyInstallment.dataBinding</logicOn>
+		  <logic></logic>
+		  <HintText>Enter the amount payable under order</HintText>	
+		</Context>
+		
+	</Javascript>
+</Question>

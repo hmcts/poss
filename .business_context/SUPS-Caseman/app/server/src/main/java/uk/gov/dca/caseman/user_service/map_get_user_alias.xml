@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<DBMapDef>
+  <DataSource id="java:OracleDS"/>
+  <Tables>
+    <Table alias="DU" name="DCA_USER"/>
+	<Table alias="UR" name="USER_ROLE"/>
+	<Table alias="C" name="COURTS"/>
+  </Tables>
+  <Mapping>
+	<UserData>
+		<UserAlias>${DU.USER_SHORT_NAME}</UserAlias>
+		<UserRoleCode>${UR.ROLE_ID}</UserRoleCode>
+		<CourtId>${C.ID}</CourtId>
+		<UserPrinter>${DU.USER_DEFAULT_PRINTER}</UserPrinter>
+		<CourtFapServer>${C.FAP_ID}</CourtFapServer>
+		<CourtPrinter>${C.DEFAULT_PRINTER}</CourtPrinter>
+	</UserData>
+  </Mapping>
+</DBMapDef>

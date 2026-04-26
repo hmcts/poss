@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>252</Id>
+	<Label>Oral evidence considered on listing?</Label>
+	<ObjectName>OralEvidenceConsidered</ObjectName>
+	<Html>	
+		<input type="checkbox" id="OralEvidenceConsidered"></input>
+	</Html>
+	<Javascript>
+		<XPath>/ds/EnterVariableData/FastTrack/oralEvidenceConsidered</XPath>
+		<HintText>Check box if oral evidence considered on listing </HintText>
+		<isMandatory>return true;</isMandatory>	
+		<modelValue>checked: "Y", unchecked: "N"</modelValue>
+		<enableOn>IsExpertReport.dataBinding</enableOn>
+		<isEnabled>return('Y' == Services.getValue(IsExpertReport.dataBinding));</isEnabled>
+		<logicOn>IsExpertReport.dataBinding</logicOn>
+		<logic>
+			if('Y' != Services.getValue(IsExpertReport.dataBinding))
+			{	Services.setValue(OralEvidenceConsidered.dataBinding, "N");
+			}
+		</logic>
+	</Javascript>
+</Question>

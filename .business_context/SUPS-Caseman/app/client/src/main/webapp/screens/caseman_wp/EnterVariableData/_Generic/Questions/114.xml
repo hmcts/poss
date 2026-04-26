@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>114</Id>
+	<Label>Email Address</Label>
+	<ObjectName>EmailAddress</ObjectName>
+	<Html>		
+		<input type="text" id="EmailAddress"></input>
+	</Html>
+	<Javascript>
+		<XPath>/ds/EnterVariableData/Service/emailAddress</XPath>
+		<HintText>Enter email address</HintText>
+		<isMandatory>return true;</isMandatory>
+		<enableOn>ServiceMethod.dataBinding</enableOn>
+		<isEnabled>
+			return('EMAIL' == Services.getValue(ServiceMethod.dataBinding));
+		</isEnabled>
+		<validateOn>EmailAddress.dataBinding</validateOn>
+		<validate>
+			return WPU.validateEmailAddress(Services.getValue(EmailAddress.dataBinding));
+		</validate>
+		<logicOn>ServiceMethod.dataBinding</logicOn>
+		<logic>
+			if(('EMAIL' != Services.getValue(ServiceMethod.dataBinding)))
+			{	Services.setValue(EmailAddress.dataBinding, "");
+			}
+		</logic>
+	</Javascript>
+</Question>

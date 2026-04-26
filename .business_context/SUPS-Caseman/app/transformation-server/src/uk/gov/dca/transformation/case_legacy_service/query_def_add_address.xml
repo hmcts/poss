@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<QueryDef>
+	<DBMapDef location="uk/gov/dca/transformation/case_legacy_service/map_add_address.xml"/>
+	<Query pivotNode="/Addresses/Address" tables="A">
+		<Join/>
+		<Modify>
+			<CheckExists table="A" fields="ADDR_SEQ" onNotExist="add" onExist="skip"/>
+			<Field name="A.ADDR_SEQ" sequenceTable="ADDR_SEQUENCE"/>
+		</Modify>
+	</Query>
+</QueryDef>

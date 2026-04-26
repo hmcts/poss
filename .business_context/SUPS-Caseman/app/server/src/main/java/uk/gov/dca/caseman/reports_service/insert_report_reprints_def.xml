@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<QueryDef>
+	<DBMapDef location="uk/gov/dca/caseman/reports_service/insert_report_reprints_map.xml"/>
+	
+	<Query pivotNode="/insert_report_reprints" tables="RP">
+		<Modify>
+			<CheckExists table="RP" fields="USERNAME REPORT_ID" useOptimisticLock="false" onExist="skip" onNotExist="add"/>	
+		</Modify>
+	</Query>
+	
+</QueryDef>

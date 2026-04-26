@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>9114</Id>
+	<Label>Costs assessed</Label>
+	<ObjectName>AssessedCosts</ObjectName>
+	<Html>	
+		<input type="checkbox" id="AssessedCosts"></input>
+	</Html>		
+	<Javascript>
+    <XPath>/ds/EnterVariableData/AssessedCosts</XPath>
+		<HintText>Check box if costs already been assessed</HintText>
+        <isEnabled>return true;</isEnabled> 	
+        <modelValue>checked: "Y", unchecked: "N"</modelValue>	
+        
+         <Context ScreenId="O_7_8">
+             <initialise>Services.setValue(AssessedCosts.dataBinding,"N")</initialise>
+         </Context>
+	</Javascript>
+</Question>  

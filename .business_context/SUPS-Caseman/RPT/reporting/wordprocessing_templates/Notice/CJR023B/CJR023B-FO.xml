@@ -1,0 +1,233 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- ====================================================================== -->
+<!--  -->
+<!-- FILENAME: $Source: C:/CVSRepository/serveroas/src/uk/gov/dca/caseman/wordprocessing_templates/Notice/CJR023B/CJR023B-FO.xml,v $ -->
+<!--  -->
+<!-- AUTHOR: $Author: f_vdd $-->
+<!--  -->
+<!-- DATE: $Date: 2006/03/21 14:01:19 $ -->
+<!--  -->
+<!-- Version: $Revision: 1.8 $ -->
+<!--  -->
+<!-- DESCRIPTION: This stylesheet is used to create an XSL:FO document that -->
+<!-- can be processed into a PDF version.  Business logic -->
+<!-- is embedded to generate the correct document text for the order -->
+<!-- required. -->
+<!--  -->
+<!-- INPUTS: XML document containing: the answers to questions asked of the -->
+<!-- user; case data retrieved from the database; HTML representing the  -->
+<!-- body of the document content (already edited by the user). -->
+<!--  -->
+<!-- OUTPUTS: XML document with FO tags containing instructions for the -->
+<!-- creation of a PDF document. -->
+<!--  -->
+<!-- CHANGE HISTORY -->
+<!-- 28/01/2013 - Chris Vincent, removed word allocation from content.  Trac 4763. -->
+<!-- ====================================================================== -->
+<root xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:fo="http://www.w3.org/1999/XSL/Format" xmlns="http://eds.com/supsfo">
+	<variables>@word.processing.url.xsl@supsfo.xsl</variables>
+	<duplex/>
+	<layout>order</layout>
+	<addressee>
+		<blank/>
+		<claimants/>
+		<defendants/>
+		<part20claimants/>
+		<part20defendants/>
+	</addressee>
+	<header>
+		<fo:block font-size="16pt" font-weight="bold">Notice of Allocation to the</fo:block>
+		<fo:block font-size="16pt" font-weight="bold">Small Claims Track</fo:block>
+		<fo:block font-size="12pt">(no hearing)</fo:block>
+	</header>
+	<courtcase>
+		<court>
+			<xsl:copy-of select="$vdCourtHeaderBlock"/>
+		</court>
+		<caseparameters>
+			<parameter>
+				<name>
+					<fo:block font-weight="bold">Claim Number</fo:block>
+				</name>
+				<value>
+					<fo:block>
+						<xsl:value-of select="$vdClaimNumber"/>
+					</fo:block>
+				</value>
+			</parameter>
+			<parameter>
+				<name>
+					<fo:block font-weight="bold">Date</fo:block>
+				</name>
+				<value>
+					<fo:block>
+						<xsl:value-of select="$vdEventDate"/>
+					</fo:block>
+				</value>
+			</parameter>
+		</caseparameters>
+	</courtcase>
+	<bodyintroright><fo:block space-before="0.4cm"><fo:inline text-align="center"><seal/></fo:inline></fo:block></bodyintroright>
+	
+	<body>
+	<editable useid="N10095">
+		<fo:block space-after="0.4cm">
+			<xsl:value-of select="$vdJudge"/> has considered the statements of case and questionnaires filed and allocated the <xsl:value-of select="$vdAllocation"/> 
+			to the <fo:inline font-weight="bold">small claims track.</fo:inline>
+		</fo:block>
+		<fo:block space-after="0.4cm">
+			The judge proposes to deal with the <xsl:value-of select="$vdAllocation"/> without a hearing, that is, on papers alone but can only do this if all parties agree.
+		</fo:block>
+		<fo:block space-after="0.4cm">
+		Please tell the court whether or not you agree to your case being dealt with in this way by completing the lower half of this form and returning a copy to the court on or 
+		before <xsl:value-of select="$vdFormCompleteDate"/>. You must at the same time send a copy of it to all other parties.
+		</fo:block>	
+	</editable>			
+		<fo:block space-after="0.2cm">
+		<fo:table table-layout="fixed">
+			<fo:table-column column-width="1.5cm"></fo:table-column>
+			<fo:table-column column-width="16.28cm"></fo:table-column>
+			<fo:table-body>
+				<fo:table-row>
+					<fo:table-cell></fo:table-cell>
+					<fo:table-cell border-top-style="solid" border-right-style="solid" border-left-style="solid"  border-bottom-style="solid" padding-left="0.2cm" padding-right="0.2cm"
+									border-top-width="0.03cm" border-right-width="0.03cm" border-left-width="0.03cm" border-bottom-width="0.03cm">
+						<fo:block>Leaflets explaining more about what you should do and what happens when your case is allocated
+						to the Small Claims Track are available from the court office, <fo:inline font-weight="bold">or online at</fo:inline> www.hmcourts-service.gov.uk/cms/infoabout.htm.</fo:block>
+					</fo:table-cell>
+				</fo:table-row>
+			</fo:table-body>
+		</fo:table>
+		</fo:block>	
+		<getFooter></getFooter>
+		<leader/>
+		<fo:table table-layout="fixed">
+			<fo:table-column column-width="10cm"></fo:table-column>
+			<fo:table-column column-width="9.28cm"></fo:table-column>
+			<fo:table-body>
+				<fo:table-row>
+					<fo:table-cell>													
+						<fo:block>
+							<fo:table table-layout="fixed">
+								<fo:table-column column-width="10cm"/>
+								<fo:table-body>
+									<fo:table-row >
+										<fo:table-cell>
+											<fo:block text-align="left" space-before="0.2cm">
+												<fo:inline font-weight="bold" font-size="12pt">Reply to the Court</fo:inline>
+											</fo:block>
+											<fo:block space-after="0.3cm">Tick A or B and C</fo:block>
+										</fo:table-cell>
+									</fo:table-row>
+									<fo:table-row>
+										<fo:table-cell>
+											<list type="checkBoxWithLabel">
+												<list-item>
+													<bulletText>A</bulletText>
+													<fo:block font-size="9.5pt" >I agree that the <xsl:value-of select="$vdAllocation"/> should be dealt with on the papers alone.</fo:block>
+												</list-item>
+											</list>	
+										</fo:table-cell>
+									</fo:table-row>
+									<fo:table-row>
+										<fo:table-cell>
+											<fo:block space-before="0.3cm" space-after="0.3cm" font-size="10pt">or</fo:block>
+										</fo:table-cell>
+									</fo:table-row>									
+									<fo:table-row>
+										<fo:table-cell>
+											<list type="checkBoxWithLabel">
+												<list-item>
+													<bulletText>B</bulletText>
+													<fo:block font-size="9.5pt" >I do not agree that the <xsl:value-of select="$vdAllocation"/> should be dealt with on the papers alone.</fo:block>
+												</list-item>
+											</list>											
+										</fo:table-cell>
+									</fo:table-row>
+									<fo:table-row>
+										<fo:table-cell>
+											<fo:block space-before="0.3cm" space-after="0.3cm" font-size="10pt">and</fo:block>
+										</fo:table-cell>
+									</fo:table-row>									
+									<fo:table-row>
+										<fo:table-cell>
+											<list type="checkBoxWithLabel">
+												<list-item>
+													<bulletText>C</bulletText>
+													<fo:block font-size="9.5pt" >I have sent a copy of this completed form to the other party.</fo:block>
+												</list-item>
+											</list>											
+										</fo:table-cell>
+									</fo:table-row>
+								</fo:table-body>									
+							</fo:table>
+						</fo:block>							
+					</fo:table-cell>
+					<fo:table-cell padding-left="0.4cm" padding-right="0.1cm">
+						<fo:block space-after="0.3cm"/>
+						<courtcase>
+						<court>
+							<xsl:copy-of select="$vdCourtHeaderBlock"/>
+						</court>
+						<caseparameters>
+							<parameter>
+								<name>
+									<fo:block font-weight="bold">Claim Number</fo:block>
+								</name>
+								<value>
+									<fo:block>
+										<xsl:value-of select="$vdClaimNumber"/>
+									</fo:block>
+								</value>
+							</parameter>
+							<parameter>
+								<name>
+									<fo:block font-weight="bold">Claimant</fo:block>
+									<fo:block font-size="9pt">(including ref.)</fo:block>
+								</name>
+								<value>
+									<fo:block hyphenate="true">
+										<xsl:value-of select="$vdClaimantName"/>
+									</fo:block>
+									<fo:block font-size="9pt" hyphenate="true">
+										<xsl:value-of select="$vdClaimantReference"/>
+									</fo:block>
+								</value>
+							</parameter>
+							<parameter>
+								<name>
+									<fo:block font-weight="bold">Defendant</fo:block>
+									<fo:block font-size="9pt">(including ref.)</fo:block>
+								</name>
+								<value>
+									<fo:block hyphenate="true">
+										<xsl:value-of select="$vdDefendantName"/>
+									</fo:block>
+									<fo:block font-size="9pt" hyphenate="true">
+										<xsl:value-of select="$vdDefendantReference"/>
+									</fo:block>
+								</value>
+							</parameter>
+							<parameter>
+								<name>
+									<fo:block font-weight="bold">Date</fo:block>
+								</name>
+								<value>
+									<fo:block>
+										<xsl:value-of select="$vdEventDate"/>
+									</fo:block>
+								</value>
+							</parameter>
+						</caseparameters>
+					</courtcase>						
+						
+					</fo:table-cell>
+				</fo:table-row>
+			</fo:table-body>
+		</fo:table>
+		<fo:block space-before="0.6cm">
+			<signature signaturetype="date"/>
+		</fo:block>	
+	</body>
+	<defaultFooter id="CJR023B" suppress="true"/>
+</root>

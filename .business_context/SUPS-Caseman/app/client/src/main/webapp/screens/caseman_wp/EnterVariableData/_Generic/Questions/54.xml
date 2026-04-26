@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>54</Id>
+	<Label>Party making the application</Label>
+	<ObjectName>ApplicationParty</ObjectName>
+	<Html>
+		<script type="text/javascript">Grid.createInline("ApplicationParty", ["Party Type", "Number"] , 2, 1);</script>
+	</Html>
+	<Javascript>
+		<XPath>/ds/EnterVariableData/Application/party</XPath>
+		<isMandatory>return true;</isMandatory>	
+		<mandatoryOn>ApplicationParty.dataBinding</mandatoryOn>
+		<HintText>Select the party making the application</HintText>
+		<initialise>
+			WPU.addOtherLitigiousParty("Other", "OTHER");						
+		</initialise>
+		<miscCode>		 
+			ApplicationParty.srcData = DATA_XPATH + "/Parties";
+			ApplicationParty.rowXPath = "LitigiousParty[./TypeCode = '" + CMC.PartyTypeCodesEnum.CLAIMANT + "' or ./TypeCode = '" + CMC.PartyTypeCodesEnum.DEFENDANT + "']";
+			ApplicationParty.keyXPath = "PartyId";
+			ApplicationParty.columns = [
+				{xpath: "Type"},
+				{xpath: "Number", sort: "numerical", defaultSort:"true", defaultSortOrder:"ascending"}			
+			];
+			ApplicationParty.multipleSelection = false;			
+		</miscCode>
+
+	</Javascript>
+	
+	
+
+</Question>

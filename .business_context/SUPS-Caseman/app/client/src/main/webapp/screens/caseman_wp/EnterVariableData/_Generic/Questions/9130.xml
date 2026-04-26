@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>9130</Id>
+	<Label>Reason judgment set aside</Label>
+	<ObjectName>ReasonSetAside</ObjectName>
+	<Html>
+		<select id="ReasonSetAside">
+			<option value=""></option>
+			<option value="J">Judge's Order</option>
+			<option value="D">Defence filed</option>
+			<option value="N">Non-service of claim</option>
+			<option value="P">Proper Officer</option>
+		</select>
+	</Html>			
+	<Javascript>
+
+        <XPath>/ds/EnterVariableData/ReasonSetAside</XPath>
+
+		<HintText>Select Reason judgment set aside</HintText>
+		<isMandatory>return true;</isMandatory>
+        <mandatoryOn>ReasonSetAside.dataBinding</mandatoryOn> 
+        <isEnabled>return true;</isEnabled> 
+	</Javascript>
+</Question>  

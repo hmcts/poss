@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<service-method>
+	<pipeline>
+		<SQLLite format-output="true"
+				resultset-element="Cases"
+				row-element="Case"
+				field-name-as="element">
+			<DataSource id="java:SupsDS"/>
+			<Param name="params.caseNumber" xpath="/params/param[@name='caseNumber']"/>
+			<SQL type="select" generator="uk.gov.dca.test_project.cases_service.classes.D1102SQLGenerator">
+				<Config>irrelevant</Config>
+			</SQL>
+		</SQLLite>
+	</pipeline>
+	<Security roles="user"/>
+</service-method>

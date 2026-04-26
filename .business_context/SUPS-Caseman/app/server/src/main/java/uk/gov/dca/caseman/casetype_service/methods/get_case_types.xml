@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: Casetype
+	Method:  getCaseTypes()
+	File:    get_case_types.xml
+	Author:  Chris Hutt (EDS)
+	Created: 5 Nov 04
+	Description: 
+		Each Standard Event Description may have had a different value in the past.
+		The previous descriptions are stored in the CHANGED_EVENTS table, together with a date range.
+		When the Events relating to a Case are displayed on the client, the current Standard Event 
+		description may need to be substituted for the description which was in place at the time 
+		that Co Event was created.
+		This service retrieves those rows which will be needed in order perform this substitution.
+
+	Change History:
+	
+	v1.1 Ian Stainer	12 Sept 05
+						Security roles added
+
+	v1.1 Chris Hutt 	4 May 06
+						defect 3049
+						Opportunity taken to re-write as SQLLite whilst addressing code review defect
+-->
+<service-method>
+	<pipeline>
+		<SQLLite format-output="true"
+				 resultset-element="CaseTypes"
+				 row-element="CaseType"
+				 field-name-as="element" >
+			<DataSource id="java:OracleDS"/>
+			<SQL>
+				SELECT CRC.RV_LOW_VALUE	AS "Type"
+				,      CRC.RV_MEANING	AS "Description"
+				FROM   CCBC_REF_CODES CRC
+				WHERE  CRC.RV_DOMAIN = 'CURRENT_CASE_TYPE'
+				AND  	NOT CRC.RV_LOW_VALUE = 'MAGS ORDER'
+			</SQL>
+		</SQLLite>
+	</pipeline>
+	<Security roles="viewOnly medium high wcSuper scSuper bmsSuper aeSuper dmSuper cpSuper ccbcMan ccbcUser ccbcSGB2"/>	
+</service-method>

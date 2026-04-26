@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: Payments
+	Method: logDcsRecord()
+	File: log_dcs_record.xml
+	Author: Steve Blair
+	Description:
+		Creates a new DCS record if doesn't exist else amalgamates data with current existing record.
+-->
+<service-method>
+	<pipeline>
+		<SQLLite output="input">
+			<DataSource id="java:OracleDS" />
+			<Param name="param.reportId" xpath="/params/param[@name='dcsData']/DCSData/ReportId" />
+			<Param name="param.itemDate" xpath="/params/param[@name='dcsData']/DCSData/ItemDate" />
+			<Param name="param.ordinary" xpath="/params/param[@name='dcsData']/DCSData/Ordinary" />
+			<Param name="param.cheque" xpath="/params/param[@name='dcsData']/DCSData/Cheque" />
+			<Param name="param.aoCaeo" xpath="/params/param[@name='dcsData']/DCSData/AOCAEO" />
+			<Param name="param.jgmt1000" xpath="/params/param[@name='dcsData']/DCSData/JGMT1000" />
+			<Param name="param.miscellaneous" xpath="/params/param[@name='dcsData']/DCSData/Miscellaneous" />
+			<Param name="param.ordinaryCurrency" xpath="/params/param[@name='dcsData']/DCSData/OrdinaryCurrency" />
+			<Param name="param.chequeCurrency" xpath="/params/param[@name='dcsData']/DCSData/ChequeCurrency" />
+			<Param name="param.aoCaeoCurrency" xpath="/params/param[@name='dcsData']/DCSData/AOCAEOCurrency" />
+			<Param name="param.jgmt1000Currency" xpath="/params/param[@name='dcsData']/DCSData/JGMT1000Currency" />
+			<Param name="param.miscellaneousCurrency" xpath="/params/param[@name='dcsData']/DCSData/MiscellaneousCurrency" />
+			<Param name="param.courtCode" xpath="/params/param[@name='dcsData']/DCSData/CourtCode" />
+			<SQL type="update" tables="DCS">
+				UPDATE	/*+ INDEX(DCS,XIF1DCS) */ DCS DCS
+				SET		DCS.ITEM_DATE = TO_DATE(${param.itemDate}, 'YYYY-MM-DD'),
+							DCS.TRANSACTION = DCS.TRANSACTION + 1,
+							DCS.ORDINARY = COALESCE(DCS.ORDINARY, 0) + COALESCE(${param.ordinary}, '0'),
+							DCS.CHEQUE = COALESCE(DCS.CHEQUE, 0) + COALESCE(${param.cheque}, '0'),
+							DCS.AO_CAEO = COALESCE(DCS.AO_CAEO, 0) + COALESCE(${param.aoCaeo}, '0'),
+							DCS.JGMT1000 = COALESCE(DCS.JGMT1000, 0) + COALESCE(${param.jgmt1000}, '0'),
+							DCS.MISCELLANEOUS = COALESCE(DCS.MISCELLANEOUS, 0) + COALESCE(${param.miscellaneous}, '0'),
+							DCS.ORDINARY_CURRENCY = DECODE(DCS.ORDINARY_CURRENCY, NULL, DECODE(${param.ordinaryCurrency}, NULL, NULL, ${param.ordinaryCurrency}), DCS.ORDINARY_CURRENCY),
+							DCS.CHEQUE_CURRENCY = DECODE(DCS.CHEQUE_CURRENCY, NULL, DECODE(${param.chequeCurrency}, NULL, NULL, ${param.chequeCurrency}), DCS.CHEQUE_CURRENCY),
+							DCS.AO_CAEO_CURRENCY = DECODE(DCS.AO_CAEO_CURRENCY, NULL, DECODE(${param.aoCaeoCurrency}, NULL, NULL, ${param.aoCaeoCurrency}), DCS.AO_CAEO_CURRENCY),
+							DCS.JGMT1000_CURRENCY = DECODE(DCS.JGMT1000_CURRENCY, NULL, DECODE(${param.jgmt1000Currency}, NULL, NULL, ${param.jgmt1000Currency}), DCS.JGMT1000_CURRENCY),
+							DCS.MISCELLANEOUS_CURRENCY = DECODE(DCS.MISCELLANEOUS_CURRENCY, NULL, DECODE(${param.miscellaneousCurrency}, NULL, NULL, ${param.miscellaneousCurrency}), DCS.MISCELLANEOUS_CURRENCY)
+				WHERE	DCS.REPORT_ID = ${param.reportId} AND
+							DCS.ADMIN_COURT_CODE = ${param.courtCode}
+			</SQL>
+		</SQLLite>
+		<SQLLite output="input">
+			<DataSource id="java:OracleDS" />
+			<Param name="param.reportId" xpath="/params/param[@name='dcsData']/DCSData/ReportId" />
+			<Param name="param.courtCode" xpath="/params/param[@name='dcsData']/DCSData/CourtCode" />
+			<SQL type="update" tables="DCS">
+				UPDATE	/*+ INDEX(DCS,XIF1DCS) */ DCS DCS
+				SET		DCS.ORDINARY = DECODE(DCS.ORDINARY, 0, NULL, DCS.ORDINARY),
+							DCS.CHEQUE = DECODE(DCS.CHEQUE, 0, NULL, DCS.CHEQUE),
+							DCS.AO_CAEO = DECODE(DCS.AO_CAEO, 0, NULL, DCS.AO_CAEO),
+							DCS.JGMT1000 = DECODE(DCS.JGMT1000, 0, NULL, DCS.JGMT1000),
+							DCS.MISCELLANEOUS = DECODE(DCS.MISCELLANEOUS, 0, NULL, DCS.MISCELLANEOUS),
+							DCS.ORDINARY_CURRENCY = DECODE(DCS.ORDINARY, 0, NULL, NULL, NULL, DCS.ORDINARY_CURRENCY),
+							DCS.CHEQUE_CURRENCY = DECODE(DCS.CHEQUE, 0, NULL, NULL, NULL, DCS.CHEQUE_CURRENCY),
+							DCS.AO_CAEO_CURRENCY = DECODE(DCS.AO_CAEO, 0, NULL, NULL, NULL, DCS.AO_CAEO_CURRENCY),
+							DCS.JGMT1000_CURRENCY = DECODE(DCS.JGMT1000, 0, NULL, NULL, NULL, DCS.JGMT1000_CURRENCY),
+							DCS.MISCELLANEOUS_CURRENCY = DECODE(DCS.MISCELLANEOUS, 0, NULL, NULL, NULL, DCS.MISCELLANEOUS_CURRENCY)
+				WHERE	DCS.REPORT_ID = ${param.reportId} AND
+							DCS.ADMIN_COURT_CODE = ${param.courtCode}
+			</SQL>
+		</SQLLite>
+		<Add>
+			<QueryDef location="uk/gov/dca/caseman/payments_service/query_def_create_dcs_record.xml" />
+			<DataSource xpath="/params/param[@name='dcsData']" />
+			<QueryExtension pivotNode="/DCSData">
+				<CheckExists table="DCS" fields="REPORT_ID ADMIN_COURT_CODE" onNotExist="add" onExist="skip" />
+			</QueryExtension>
+		</Add>
+	</pipeline>
+	<Security roles="medium high wcSuper scSuper bmsSuper aeSuper dmSuper" />
+</service-method>

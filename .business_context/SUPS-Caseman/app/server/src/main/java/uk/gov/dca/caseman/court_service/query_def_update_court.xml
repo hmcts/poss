@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: Court
+	Method:  updateCourt
+	File:    query_def_update_court.xml
+	Author:  Chris Vincent (EDS)
+	Created: 24 November 2005
+	Description: Updates the details of a particular court, possibly adding new addresses.
+-->
+<QueryDef>
+  <DBMapDef location="uk/gov/dca/caseman/court_service/map_update_court.xml"/>
+
+    <Query pivotNode="/Court" tables="CT P">
+		<Join/>
+		<Modify/>
+    </Query>
+
+    <Query pivotNode="/Court/ContactDetails/Addresses/Address" tables="GA">
+		<Join/>
+        <Modify/>
+    </Query>
+
+</QueryDef>

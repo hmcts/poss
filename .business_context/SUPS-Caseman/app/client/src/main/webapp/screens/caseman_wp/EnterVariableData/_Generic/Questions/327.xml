@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>327</Id>
+	<Label>Sum to be paid</Label>
+	<ObjectName>SumToPay</ObjectName>
+	<Html>
+		<input type="text" size="1" id="DefaultCurrency327"></input>
+		<input type="text" id="SumToPay"></input>
+	</Html>
+	<Javascript>
+		<XPath>/ds/EnterVariableData/InterimCosts/sumToPay</XPath>
+		<componentName>##label##</componentName>
+		<HintText>Enter the sum to be paid</HintText>
+		<isMandatory>return true;</isMandatory>
+		<validateOn>SumToPay.dataBinding</validateOn>
+		<validate>
+			var val = Services.getValue(SumToPay.dataBinding);
+			var err = WPU.validateCurrency(val);
+			if( null == err )
+			{ 	var fVal = WPU.formatToTwoDP(val);
+				Services.setValue(SumToPay.dataBinding, fVal);
+			}
+			return err;
+		</validate>
+		<miscCode>
+			function DefaultCurrency327() {}
+			DefaultCurrency327.dataBinding = "/ds/EnterVariableData/curr1";
+			DefaultCurrency327.tabIndex = -1;
+			DefaultCurrency327.maxLength = 1;
+			DefaultCurrency327.isReadOnly = function(){return true;}
+			DefaultCurrency327.isTemporary = function(){return true;}
+			DefaultCurrency327.transformToDisplay = function(value){
+				return WPS.__CaseManUtils().transformCurrencySymbolToDisplay(value,null,null); }
+			DefaultCurrency327.transformToModel = function(value){
+				return WPS.__CaseManUtils().transformCurrencySymbolToModel(value,null,null); }
+        </miscCode>
+	</Javascript>
+</Question>

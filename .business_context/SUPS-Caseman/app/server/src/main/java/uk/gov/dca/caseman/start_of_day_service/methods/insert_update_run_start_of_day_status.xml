@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: StartOfDay
+	Method:  insertUpdateRunStartOfDayStatus()
+	File:    insert_update_run_start_of_day_status.xml
+	Author:  Kevin Gichohi (EDS)
+	Created: 31 October 2005
+	Description: 
+		Inserts a record to indicate that the start of day reports have been run.
+		This will be executed if the start of day reports have never ever been run for that court
+		If they have, then the update service will be used instead.
+-->
+<service-method>
+	<pipeline>
+		<Update>
+			<QueryDef location="uk/gov/dca/caseman/start_of_day_service/insert_update_run_start_of_day_status_def.xml"/>
+			<DataSource xpath="/params/param[@name='systemDataDbUpdate']"/>
+		</Update>
+	</pipeline>
+	<Security roles="viewOnly medium high wcSuper scSuper bmsSuper aeSuper dmSuper edsAdmin cpSuper"/>
+	<Transaction type="RequiresNew" />
+</service-method>

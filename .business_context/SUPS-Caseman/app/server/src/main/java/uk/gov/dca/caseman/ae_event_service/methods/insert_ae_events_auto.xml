@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<service-method>
+	<pipeline>  
+		<Java>
+			<Source class="uk.gov.dca.caseman.ae_event_service.java.InsertAeEventsBMSCustomProcessor"/>
+		</Java>         
+		<Java>
+			<Source class="uk.gov.dca.caseman.ae_event_service.java.InsertAutoAeEventsCustomProcessor"/>
+		</Java>
+	</pipeline>
+	<Dependencies>
+		<Dependency serviceName="Bms"/>
+		<Dependency serviceName="AeEvent"/>	
+		<Dependency serviceName="CaseEvent"/>
+		<Dependency serviceName="Case"/>
+		<Dependency serviceName="Ae"/>	
+		<Dependency serviceName="SystemDate"/>							
+		<Dependency serviceName="NonWorkingDay"/>			
+	</Dependencies>			
+	<Security roles="medium high wcSuper scSuper bmsSuper aeSuper dmSuper"/> 	
+</service-method>

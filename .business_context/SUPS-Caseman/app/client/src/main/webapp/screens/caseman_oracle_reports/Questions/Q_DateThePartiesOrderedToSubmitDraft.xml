@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--Question xmlns="http://eds.com/questionxhtml" xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd"-->
+<Question xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://eds.com/questionxhtml ..\Question.xsd">
+	<Id>Q_DateThePartiesOrderedToSubmitDraft</Id>
+	<Label>Date the Parties Ordered to Submit Draft</Label>
+	<ObjectName>DateThePartiesOrderedToSubmitDraft</ObjectName>
+	<Html>
+		<script type="text/javascript">
+			DatePickerRenderer.createInline("DateThePartiesOrderedToSubmitDraft", false);
+		</script>
+	</Html>
+	<Javascript>
+		<XPath>/ds/var/page/OracleReportForm/DateThePartiesOrderedToSubmitDraft</XPath>
+		<ReportVariableName>SUBMIT_DATE</ReportVariableName>
+		<ReportVariableValue>CaseManUtils.convertDateToDisplay(Services.getValue(DateThePartiesOrderedToSubmitDraft.dataBinding))</ReportVariableValue>
+		<ReportVariableCode>2060</ReportVariableCode>
+		<HintText></HintText>
+		<isMandatory>return true;</isMandatory>
+		<initialise></initialise>
+		<setDefault>
+		</setDefault>		
+		<validateOn>DateThePartiesOrderedToSubmitDraft.dataBinding</validateOn>
+		<validate>
+			// defect 3736 - MGG 27/06/06.  Date cannot be in the future
+			var dateOrderedToSubmit = Services.getValue(DateThePartiesOrderedToSubmitDraft.dataBinding);
+			var dateOrderedToSubmitObj = CaseManUtils.isBlank(dateOrderedToSubmit) ? null : CaseManUtils.createDate(dateOrderedToSubmit);
+			var todayDateObj = CaseManUtils.createDate(getTodaysDate());
+			var errCode = null;
+			if(dateOrderedToSubmitObj != null){
+				var comparison = CaseManUtils.compareDates(dateOrderedToSubmitObj, todayDateObj);
+				if(comparison == -1){
+					errCode = ErrorCode.getErrorCode("CaseMan_dateCannotBeInTheFuture_Msg");
+				}     
+			}
+			return errCode;	
+		</validate>
+		<validate>
+		</validate>
+		<miscCode>
+		</miscCode>
+	</Javascript>
+</Question>

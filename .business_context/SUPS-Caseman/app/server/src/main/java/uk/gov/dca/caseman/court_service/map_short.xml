@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<DBMapDef>
+  <DataSource id="java:OracleDS"/>
+  <Tables>
+    <Table alias="CT" name="COURTS"/>
+  </Tables>
+  <Mapping>
+    <Courts>
+    	<Court>
+    		<Code>${CT.CODE}</Code>
+    		<Name>${CT.NAME}</Name>			
+			<CourtIsDR>${CT.DISTRICT_REGISTRY}</CourtIsDR>
+			<SUPSCourt>${CT.SUPS_CENTRALISED_FLAG}</SUPSCourt>
+    	</Court>
+    </Courts>	
+  </Mapping>
+</DBMapDef>

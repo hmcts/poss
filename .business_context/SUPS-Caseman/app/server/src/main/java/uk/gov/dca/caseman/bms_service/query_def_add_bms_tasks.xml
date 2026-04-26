@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: Bms
+	Method:  addBmsTasks()
+	File:    query_def_add_bms_tasks.xml
+	Author:  Amjad Khan
+	
+	Version History:
+	v1.0 23/5/05	Amjad Khan
+
+	v1.1 9/3/06		Chris Hutt
+					Creating Court/Section introduced
+
+	v1.2 9/5/06		Chris Hutt
+					defect 3219	Select from TASK_COUNTS for update did not include creating court/section 
+
+-->
+<QueryDef>
+	<DBMapDef location="uk/gov/dca/caseman/bms_service/map_add_bms_tasks.xml"/>
+	<Query pivotNode="/ds/Task" tables="TC">
+		<Modify>
+			<SQL type="existenceCheck" tables="TC">
+					SELECT 'EXISTS' FROM TASK_COUNTS TC
+				  	WHERE TC.TASK_NUMBER  = ${TC.TASK_NUMBER}
+				   	AND TC.TASK_DATE  = TO_DATE(${TC.TASK_DATE}, 'DD-MM-RR')
+				   	AND TC.AGE_CATEGORY  = ${TC.AGE_CATEGORY} 
+				   	AND TC.ADMIN_COURT_CODE  = ${TC.ADMIN_COURT_CODE}
+				   	AND	TC.CREATING_COURT = ${TC.CREATING_COURT}
+                   	AND TC.CREATING_SECTION = ${TC.CREATING_SECTION}
+			</SQL>
+		
+			<!-- <CheckExists table="TC" fields="TASK_NUMBER TASK_DATE AGE_CATEGORY ADMIN_COURT_CODE" onExist="skip" onNotExist="fail" useOptimisticLock="false"/> -->
+			<SQL type="insert" tables="TC">
+				 INSERT INTO TASK_COUNTS TC 
+				 		(TC.TASK_NUMBER, 
+				 		TC.TASK_DATE, 
+				 		TC.AGE_CATEGORY, 
+				 		TC.TASK_COUNT, 
+				 		TC.ADMIN_COURT_CODE,
+						TC.CREATING_COURT,
+						TC.CREATING_SECTION) 
+				 VALUES (${TC.TASK_NUMBER}, 
+				 			TO_DATE(${TC.TASK_DATE}, 'DD-MM-RR'), 
+				 			${TC.AGE_CATEGORY}, 
+				 			${TC.TASK_COUNT}, 
+				 			${TC.ADMIN_COURT_CODE},
+							${TC.CREATING_COURT},
+					 		${TC.CREATING_SECTION} ) 
+			</SQL>
+			<SQL type="update" tables="TC">
+				 UPDATE 	TASK_COUNTS TC 
+				 SET TC.TASK_COUNT  =
+				 	 (SELECT TC.TASK_COUNT+${TC.TASK_COUNT} 
+				 	  FROM	TASK_COUNTS TC  WHERE  
+				  			TC.TASK_NUMBER  = ${TC.TASK_NUMBER}
+				  			AND TC.TASK_DATE  = TO_DATE(${TC.TASK_DATE}, 'DD-MM-RR') 
+				  			AND TC.AGE_CATEGORY  = ${TC.AGE_CATEGORY}
+				  			AND TC.ADMIN_COURT_CODE  = ${TC.ADMIN_COURT_CODE}
+				   			AND	TC.CREATING_COURT = ${TC.CREATING_COURT}
+                   			AND TC.CREATING_SECTION = ${TC.CREATING_SECTION})  
+				  WHERE  	TC.TASK_NUMBER  = ${TC.TASK_NUMBER}
+				   AND 		TC.TASK_DATE  = TO_DATE(${TC.TASK_DATE}, 'DD-MM-RR')
+				   AND 		TC.AGE_CATEGORY  = ${TC.AGE_CATEGORY} 
+				   AND 		TC.ADMIN_COURT_CODE  = ${TC.ADMIN_COURT_CODE}
+				   AND		TC.CREATING_COURT = ${TC.CREATING_COURT}
+                   AND 		TC.CREATING_SECTION = ${TC.CREATING_SECTION}
+				   AND 		TC.TASK_COUNT+${TC.TASK_COUNT}  &gt;= 0
+			</SQL>
+		</Modify>
+	</Query>
+</QueryDef>

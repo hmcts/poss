@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<service-method>
+	<pipeline>
+		<Query>
+			<QueryDef location="uk/gov/dca/framework_services/permissions_service/query_def.xml"/>
+			<QueryExtension pivotNode="/Permissions/Permission">
+				<Param name="param.userID" xpath="/params/param[@name='SUPS.userID']"/>
+				<Constraint>P.USER_ID = ${param.userID}</Constraint>
+			</QueryExtension>
+		</Query>
+	</pipeline>
+	<Security roles="user"/>
+</service-method>

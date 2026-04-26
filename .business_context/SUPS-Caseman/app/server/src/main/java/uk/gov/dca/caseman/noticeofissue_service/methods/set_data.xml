@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Service: NoticeOfIssue
+	Method:  setData()
+	File:    set_data.xml
+	Author:  Frederik Vandendriessche (EDS)
+	Created: 02 September 2005
+	Description: 
+		Store CaseMan Word Processing Output Data
+-->
+<service-method>
+	<pipeline>
+		<Java>
+			<Source class="uk.gov.dca.caseman.noticeofissue_service.classes.DataProcessorStore"/>
+		</Java>
+	</pipeline>
+	<Dependencies/>	
+	<Security roles="user viewOnly medium high wcSuper scSuper bmsSuper aeSuper dmSuper cpSuper ccbcMan ccbcUser ccbcSGB2"/>
+</service-method>
