@@ -33,8 +33,8 @@ export default function AccessPage() {
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-[#0f172a]">
       <div className="w-full max-w-sm">
         <div className="mb-8 text-center">
-          <h1 className="text-2xl font-semibold text-white">HMCTS Possessions</h1>
-          <p className="mt-2 text-sm text-slate-400">Internal prototype — access restricted</p>
+          <h1 className="text-2xl font-semibold text-white">Statesmith</h1>
+          <p className="mt-2 text-sm text-slate-400">Access restricted</p>
         </div>
         <form onSubmit={handleSubmit} className="bg-slate-800 rounded-lg p-6 space-y-4">
           <div>

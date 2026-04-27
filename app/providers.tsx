@@ -1,18 +1,10 @@
 'use client';
 
 import { useContext, useState, useCallback, useEffect, type ReactNode } from 'react';
-import type { State, Transition } from '../src/data-model/schemas';
 import type { ReferenceDataBlob } from '../src/ref-data/schema';
 import { blobToEvents, blobToTransitions } from '../src/ref-data/adapter';
-import { CLAIM_TYPES } from '../src/app-shell/index';
+import { getModelIdsFromBlob } from '../src/data-loading/index';
 import { getDefaultTheme, toggleTheme as toggle, getThemeClass } from '../src/app-shell/index';
-import MAIN_CLAIM_ENGLAND_DATA from '../src/data-ingestion/states/MAIN_CLAIM_ENGLAND.json';
-import ACCELERATED_CLAIM_WALES_DATA from '../src/data-ingestion/states/ACCELERATED_CLAIM_WALES.json';
-import COUNTER_CLAIM_JSON from '../src/data-ingestion/states/COUNTER_CLAIM.json';
-import COUNTER_CLAIM_MAIN_CLAIM_CLOSED_DATA from '../src/data-ingestion/states/COUNTER_CLAIM_MAIN_CLAIM_CLOSED.json';
-import ENFORCEMENT_DATA from '../src/data-ingestion/states/ENFORCEMENT.json';
-import APPEALS_DATA from '../src/data-ingestion/states/APPEALS.json';
-import GENERAL_APPLICATIONS_DATA from '../src/data-ingestion/states/GENERAL_APPLICATIONS.json';
 import { AppContext, type ModelData } from './context';
 
 export { AppContext } from './context';
@@ -23,24 +15,12 @@ export function useApp() {
   return ctx;
 }
 
-// ── Ingested model map ───────────────────────────────────────────────
-
-const INGESTED_MODEL: Record<string, { states: State[]; transitions: Transition[] }> = {
-  MAIN_CLAIM_ENGLAND: MAIN_CLAIM_ENGLAND_DATA as { states: State[]; transitions: Transition[] },
-  ACCELERATED_CLAIM_WALES: ACCELERATED_CLAIM_WALES_DATA as { states: State[]; transitions: Transition[] },
-  COUNTER_CLAIM: COUNTER_CLAIM_JSON as { states: State[]; transitions: Transition[] },
-  COUNTER_CLAIM_MAIN_CLAIM_CLOSED: COUNTER_CLAIM_MAIN_CLAIM_CLOSED_DATA as { states: State[]; transitions: Transition[] },
-  ENFORCEMENT: ENFORCEMENT_DATA as { states: State[]; transitions: Transition[] },
-  APPEALS: APPEALS_DATA as { states: State[]; transitions: Transition[] },
-  GENERAL_APPLICATIONS: GENERAL_APPLICATIONS_DATA as { states: State[]; transitions: Transition[] },
-};
-
-// ── Provider ────────────────────────────────────────────────────────
+const EMPTY_MODEL: ModelData = { states: [], transitions: [], events: [] };
 
 export function AppProvider({ children }: { children: ReactNode }) {
-  const [activeClaimType, setActiveClaimType] = useState<string>(CLAIM_TYPES[0].id);
+  const [activeClaimType, setActiveClaimType] = useState<string>('');
   const [theme, setTheme] = useState(getDefaultTheme);
-  const [modelData, setModelData] = useState<ModelData>(() => ({ ...INGESTED_MODEL[CLAIM_TYPES[0].id] ?? INGESTED_MODEL['MAIN_CLAIM_ENGLAND'], events: [] }));
+  const [modelData, setModelData] = useState<ModelData>(EMPTY_MODEL);
   const [refData, setRefData] = useState<ReferenceDataBlob | null>(null);
   const [refDataLoading, setRefDataLoading] = useState(false);
   const [refDataError, setRefDataError] = useState<string | null>(null);
@@ -52,11 +32,10 @@ export function AppProvider({ children }: { children: ReactNode }) {
 
   const handleSetClaimType = useCallback((id: string) => {
     setActiveClaimType(id);
-    const ingested = INGESTED_MODEL[id] ?? INGESTED_MODEL['MAIN_CLAIM_ENGLAND'];
     setModelData({
-      ...ingested,
+      states: refData?.states.filter((s) => s.claimType === id) ?? [],
+      transitions: blobToTransitions(refData, []),
       events: blobToEvents(refData, id),
-      transitions: blobToTransitions(refData, ingested.transitions),
     });
   }, [refData]);
 
@@ -85,15 +64,21 @@ export function AppProvider({ children }: { children: ReactNode }) {
     return () => { cancelled = true; };
   }, [refetchTrigger]);
 
-  // Re-derive events and transitions whenever refData or activeClaimType changes
+  // When refData loads, pick the first available model if none selected
   useEffect(() => {
-    const ingested = INGESTED_MODEL[activeClaimType] ?? INGESTED_MODEL['MAIN_CLAIM_ENGLAND'];
-    setModelData((prev) => ({
-      ...prev,
-      events: blobToEvents(refData, activeClaimType),
-      transitions: blobToTransitions(refData, ingested.transitions),
-    }));
-  }, [refData, activeClaimType]);
+    if (!refData) {
+      setModelData(EMPTY_MODEL);
+      return;
+    }
+    const models = getModelIdsFromBlob(refData);
+    const active = models.includes(activeClaimType) ? activeClaimType : (models[0] ?? '');
+    if (active !== activeClaimType) setActiveClaimType(active);
+    setModelData({
+      states: refData.states.filter((s) => s.claimType === active),
+      transitions: blobToTransitions(refData, []),
+      events: blobToEvents(refData, active),
+    });
+  }, [refData]); // eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
     document.documentElement.className = getThemeClass(theme);
