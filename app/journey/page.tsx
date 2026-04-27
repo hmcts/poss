@@ -1,10 +1,8 @@
 'use client';
 
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useEffect } from 'react';
 import { useApp } from '../providers';
-import catalogueData from '../../data/product-catalogue.json';
-import waTasksData from '../../data/wa-tasks.json';
-import waMappingsData from '../../data/wa-mappings.json';
+import { blobToWaTasks, blobToWaMappings } from '../../src/ref-data/adapter';
 import {
   matchByEventTrigger, matchByDomainAndFeature, filterByReleaseScope,
 } from '../../src/catalogue-coverage-map/index.js';
@@ -16,11 +14,10 @@ import {
   getWaTasksAtState, getGapStyle, buildPathSummaries,
 } from '../../src/journey-explorer/index.js';
 
-const waTasks = waTasksData as any[];
-const waMappings = waMappingsData as any[];
-
 export default function JourneyPage() {
-  const { modelData } = useApp();
+  const { modelData, refData } = useApp();
+  const waTasksData = useMemo(() => blobToWaTasks(refData), [refData]);
+  const waMappingsData = useMemo(() => blobToWaMappings(refData), [refData]);
   const [selectedPersona, setSelectedPersona] = useState<string | null>(null);
   const [showAllPaths, setShowAllPaths] = useState(false);
   const [pickedPath, setPickedPath] = useState<string[]>([]);
@@ -28,8 +25,15 @@ export default function JourneyPage() {
   const [expandedFeatureStateId, setExpandedFeatureStateId] = useState<string | null>(null);
   const [selectedFeature, setSelectedFeature] = useState<any>(null);
   const [selectedPathIdx, setSelectedPathIdx] = useState<number | null>(null);
+  const [catalogueData, setCatalogueData] = useState<any[]>([]);
 
-  const personas = useMemo(() => getDistinctPersonas(catalogueData as any[]), []);
+  useEffect(() => {
+    fetch('/api/product-catalog')
+      .then((r) => r.json())
+      .then((res) => setCatalogueData(Array.isArray(res.products) ? res.products : []));
+  }, []);
+
+  const personas = useMemo(() => getDistinctPersonas(catalogueData), [catalogueData]);
   const roleMapping = useMemo(
     () => selectedPersona ? getPersonaRoleMapping(selectedPersona) : null,
     [selectedPersona]
@@ -37,12 +41,12 @@ export default function JourneyPage() {
 
   // Catalogue mappings
   const allMappings = useMemo(() => {
-    const items = filterByReleaseScope(catalogueData as any[], 'r1+tbc') as any[];
+    const items = filterByReleaseScope(catalogueData, 'r1+tbc') as any[];
     const exact = items.flatMap((i: any) => matchByEventTrigger(i, modelData.events));
     const inferred = items.flatMap((i: any) => matchByDomainAndFeature(i, modelData.states, modelData.events))
       .filter((inf: any) => !exact.some((ex: any) => ex.eventId === inf.eventId && ex.catalogueRef === inf.catalogueRef));
     return [...exact, ...inferred];
-  }, [modelData]);
+  }, [catalogueData, modelData]);
 
   // Initial state = first non-terminal state
   const startState = useMemo(
@@ -147,7 +151,9 @@ export default function JourneyPage() {
             selectedFeature={selectedFeature}
             setSelectedFeature={setSelectedFeature}
             onPickNext={pickNext}
-            catalogueItems={filterByReleaseScope(catalogueData as any[], 'r1+tbc') as any[]}
+            catalogueItems={filterByReleaseScope(catalogueData, 'r1+tbc') as any[]}
+            waTasks={waTasksData}
+            waMappings={waMappingsData}
           />
       }
     </div>
@@ -200,7 +206,8 @@ function AllPathsView({ summaries, states, onSelect }: any) {
 
 function PathBuilderView({ activePath, states, events, mappings, roleMapping, nextOptions,
   isComplete, expandedStateId, setExpandedStateId, expandedFeatureStateId,
-  setExpandedFeatureStateId, selectedFeature, setSelectedFeature, onPickNext, catalogueItems }: any) {
+  setExpandedFeatureStateId, selectedFeature, setSelectedFeature, onPickNext, catalogueItems,
+  waTasks, waMappings }: any) {
 
   const stateMap = Object.fromEntries(states.map((s: any) => [s.id, s]));
 
@@ -218,6 +225,8 @@ function PathBuilderView({ activePath, states, events, mappings, roleMapping, ne
             mappings={mappings}
             roleMapping={roleMapping}
             catalogueItems={catalogueItems}
+            waTasks={waTasks}
+            waMappings={waMappings}
             expanded={expandedStateId === stateId}
             onToggle={() => setExpandedStateId((p: any) => p === stateId ? null : stateId)}
             featuresExpanded={expandedFeatureStateId === stateId}
@@ -258,13 +267,14 @@ function PathBuilderView({ activePath, states, events, mappings, roleMapping, ne
 // ── StepCard ─────────────────────────────────────────────────────────────────
 
 function StepCard({ state, isFirst, isLast, events, mappings, roleMapping, catalogueItems,
-  expanded, onToggle, featuresExpanded, onToggleFeatures, selectedFeature, setSelectedFeature }: any) {
+  expanded, onToggle, featuresExpanded, onToggleFeatures, selectedFeature, setSelectedFeature,
+  waTasks, waMappings }: any) {
 
   const personaEvents = getPersonaEventsAtState(state.id, events, roleMapping);
   const eventsWithCoverage = getEventCoverageFlags(state.id, personaEvents, mappings);
   const gapStatus = getStateGapStatus(state.id, personaEvents, mappings);
   const features = getFeaturesAtState(state.id, mappings, catalogueItems);
-  const waTasks = getWaTasksAtState(state.id, events, waTasksData as any[], waMappingsData as any[]);
+  const waTasksAtState = getWaTasksAtState(state.id, events, waTasks, waMappings);
   const { color, label } = getGapStyle(gapStatus);
 
   return (
@@ -329,11 +339,11 @@ function StepCard({ state, isFirst, isLast, events, mappings, roleMapping, catal
             </div>
 
             {/* WA Tasks */}
-            {waTasks.length > 0 && (
+            {waTasksAtState.length > 0 && (
               <div>
                 <h4 className="text-[11px] font-semibold text-slate-500 uppercase tracking-wider mb-2">WA Tasks</h4>
                 <ul className="space-y-1.5">
-                  {waTasks.map((t: any, i: number) => (
+                  {waTasksAtState.map((t: any, i: number) => (
                     <li key={i} className="flex items-start gap-2">
                       <span className="mt-0.5 text-[9px] px-1.5 py-0.5 rounded font-medium shrink-0"
                         style={{ backgroundColor: t.alignment === 'aligned' ? '#14532d' : '#451a03', color: t.alignment === 'aligned' ? '#86efac' : '#fcd34d' }}>
